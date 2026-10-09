@@ -3,41 +3,524 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#08070d">
+  <meta name="description" content="Limitless — a domain of tools, creations, and endless possibilities.">
+
+  <title>Limitless — Hail the Lord</title>
+
   <style>
+    :root {
+      --gold: #e8cb8b;
+      --gold-bright: #f9e6b5;
+      --text: #f5f0e8;
+      --muted: #c5bdc5;
+      --panel: rgba(12, 10, 19, 0.72);
+      --border: rgba(232, 203, 139, 0.23);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      max-width: 760px;
-      margin: 70px auto;
-      padding: 20px;
-      background: #f4f6fa;
-      color: #202124;
+      margin: 0;
+      min-height: 100vh;
+      background: #08070d;
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      overflow-x: hidden;
     }
-    main {
-      background: white;
-      padding: 32px;
-      border-radius: 16px;
+
+    /* Celestial background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+
+      background-image: url("Celestial%20Cathedral%20of%20Limitless%20Praise.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      transform: scale(1.02);
     }
+
+    /* Readability overlay */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(5, 4, 10, 0.62) 0%,
+          rgba(5, 4, 10, 0.22) 35%,
+          rgba(5, 4, 10, 0.56) 70%,
+          rgba(5, 4, 10, 0.96) 100%
+        );
+    }
+
     a {
-      display: inline-block;
-      padding: 12px 18px;
-      margin-top: 12px;
-      background: #202124;
-      color: white;
+      color: inherit;
       text-decoration: none;
-      border-radius: 8px;
+    }
+
+    .navbar {
+      width: 100%;
+      min-height: 76px;
+      padding: 18px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(7, 6, 12, 0.30);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand {
+      color: var(--gold-bright);
+      font-size: 23px;
+      font-weight: bold;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #e0d9e3;
+    }
+
+    .nav-links a {
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-bright);
+    }
+
+    .hero {
+      min-height: calc(100svh - 76px);
+      padding: 100px 22px 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-content {
+      width: 100%;
+      max-width: 850px;
+      animation: appear 1.2s ease both;
+    }
+
+    .eyebrow {
+      margin-bottom: 27px;
+      color: var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 6px;
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+
+    .ornament {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      margin: 0 auto 24px;
+      color: var(--gold);
+      font-size: 17px;
+    }
+
+    .ornament::before,
+    .ornament::after {
+      content: "";
+      width: 55px;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--gold)
+      );
+    }
+
+    .ornament::after {
+      transform: rotate(180deg);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--gold-bright);
+      font-size: clamp(48px, 9vw, 94px);
+      font-weight: normal;
+      line-height: 1.12;
+      letter-spacing: 2px;
+
+      text-shadow:
+        0 0 35px rgba(232, 203, 139, 0.15),
+        0 5px 25px rgba(0, 0, 0, 0.8);
+    }
+
+    .subtitle {
+      margin: 22px 0 0;
+      color: #f2e8d8;
+      font-size: clamp(16px, 2.5vw, 21px);
+      font-style: italic;
+      letter-spacing: 1.5px;
+      line-height: 1.7;
+    }
+
+    .description {
+      max-width: 550px;
+      margin: 22px auto 0;
+      color: #d4cbd6;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 38px;
+    }
+
+    .button {
+      min-width: 175px;
+      padding: 15px 24px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+
+      border: 1px solid var(--border);
+      border-radius: 3px;
+
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+
+      transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      border-color: var(--gold);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, #e8cb8b, #c3a05d);
+      color: #171018;
+      border-color: transparent;
+    }
+
+    .button-primary:hover {
+      background: #f9e6b5;
+    }
+
+    .button-secondary {
+      background: rgba(10, 8, 17, 0.48);
+      color: var(--gold-bright);
+    }
+
+    .section {
+      padding: 90px 7%;
+      scroll-margin-top: 25px;
+    }
+
+    .section-inner {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      margin: 0;
+      color: var(--gold-bright);
+      font-size: clamp(30px, 5vw, 43px);
+      font-weight: normal;
+      text-align: center;
+    }
+
+    .section-description {
+      max-width: 550px;
+      margin: 16px auto 40px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      padding: 30px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      transition:
+        border-color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(232, 203, 139, 0.55);
+      transform: translateY(-4px);
+    }
+
+    .card-symbol {
+      margin-bottom: 18px;
+      color: var(--gold);
+      font-size: 27px;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      color: var(--gold-bright);
+      font-size: 23px;
+      font-weight: normal;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 22px;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    footer {
+      padding: 27px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(5, 4, 10, 0.75);
+      color: #a69baa;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    footer span {
+      color: var(--gold);
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        min-height: 66px;
+        padding: 17px 20px;
+      }
+
+      .brand {
+        font-size: 19px;
+        letter-spacing: 3px;
+      }
+
+      .nav-links {
+        gap: 14px;
+        font-size: 11px;
+      }
+
+      .hero {
+        min-height: calc(100svh - 66px);
+        padding: 75px 20px 85px;
+      }
+
+      .eyebrow {
+        font-size: 9px;
+        letter-spacing: 3px;
+      }
+
+      .description {
+        font-size: 13px;
+      }
+
+      .actions {
+        gap: 12px;
+      }
+
+      .button {
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .section {
+        padding: 65px 20px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 25px;
+      }
+
+      body::before {
+        background-position: center center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
+
 <body>
+
+  <header class="navbar">
+    <a class="brand" href="#home">Limitless</a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#tools">Web Tools</a>
+      <a href="#application">Application</a>
+    </nav>
+  </header>
+
   <main>
-    <h1>My Website</h1>
-    <p>Welcome! Explore the tools and applications available here.</p>
-    <h2>Web tools</h2>
-    <p>Interactive tools will be added here.</p>
-    <h2>Windows application</h2>
-    <p>The application download will be available here soon.</p>
+    <section class="hero" id="home">
+      <div class="hero-content">
+
+        <div class="eyebrow">
+          Beyond the boundaries of the ordinary
+        </div>
+
+        <div class="ornament" aria-hidden="true">✧</div>
+
+        <h1>Lord Limitless</h1>
+
+        <p class="subtitle">
+          Hail the Lord. Beyond all limits.
+        </p>
+
+        <p class="description">
+          Enter a domain of creation, knowledge, and possibility.
+          A place for tools to be forged, ideas to take form,
+          and new horizons to be explored.
+        </p>
+
+        <div class="actions">
+          <a class="button button-primary" href="#tools">
+            Explore the Domain
+          </a>
+
+          <a class="button button-secondary" href="#application">
+            Discover More
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="section-inner">
+
+        <h2 class="section-heading">The Domain</h2>
+
+        <p class="section-description">
+          A growing collection of utilities and creations.
+          More features will be unveiled as the domain expands.
+        </p>
+
+        <div class="cards">
+
+          <article class="card">
+            <div class="card-symbol" aria-hidden="true">✧</div>
+
+            <h3>Web Tools</h3>
+
+            <p>
+              A space for useful online utilities, interactive
+              experiences, and tools designed to make work easier.
+            </p>
+
+            <span class="status">Coming Soon</span>
+          </article>
+
+          <article class="card" id="application">
+            <div class="card-symbol" aria-hidden="true">◇</div>
+
+            <h3>Windows Application</h3>
+
+            <p>
+              A dedicated desktop application is planned.
+              Download information will appear here when it is ready.
+            </p>
+
+            <span class="status">In Development</span>
+          </article>
+
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <span>✧</span>
+    &nbsp; LIMITLESS &nbsp; · &nbsp; HAIL THE LORD &nbsp;
+    <span>✧</span>
+  </footer>
+
 </body>
 </html>
