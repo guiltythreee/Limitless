@@ -608,6 +608,7 @@
       }
     }
     run.q = q;
+    $('answer').setAttribute('inputmode', (q.answer.n < 0 || q.tag === 'Fraction or decimal' || /\//.test(q.answerText) || (q.tol && q.tol.center < 0)) ? 'text' : 'decimal');
     if (q.tier) run.topTierIndex = Math.max(run.topTierIndex, E.TIER_BY_ID[q.tier].index);
     run.qStart = performance.now();
     run.qLimit = run.factor ? E.strictLimit(q, run.factor) : 0;
@@ -1155,7 +1156,29 @@
   $('btn-tricks-back').addEventListener('click', function () { show('screen-menu'); renderMenu(); });
 
   var answerBox = $('answer');
+  /* the answer box only accepts the characters an answer can contain:
+     digits, one decimal point, one slash (fractions like 5/36) and a leading minus */
+  function cleanAnswer(v) {
+    var out = '', dot = false, slash = false, i, c;
+    for (i = 0; i < v.length; i++) {
+      c = v.charAt(i);
+      if (c >= '0' && c <= '9') out += c;
+      else if (c === '-' && out === '') out += c;
+      else if (c === '.' && !dot && !slash) { dot = true; out += c; }
+      else if (c === '/' && !slash && /\d$/.test(out)) { slash = true; out += c; }
+    }
+    return out.slice(0, 14);
+  }
+  answerBox.addEventListener('beforeinput', function (e) {
+    if (e.inputType && e.inputType.indexOf('insert') === 0 && e.data && e.data.length === 1 && !/^[0-9.\/-]$/.test(e.data)) e.preventDefault();   /* pastes are cleaned afterwards */
+  });
   answerBox.addEventListener('input', function () {
+    var cleaned = cleanAnswer(answerBox.value);      /* also catches paste and autofill */
+    if (cleaned !== answerBox.value) {
+      var pos = answerBox.selectionStart, removed = answerBox.value.length - cleaned.length;
+      answerBox.value = cleaned;
+      try { answerBox.setSelectionRange(Math.max(0, pos - removed), Math.max(0, pos - removed)); } catch (er) {}
+    }
     if (!run || run.ended || run.busy) return;
     var res = E.checkAnswer(run.q, answerBox.value, false);
     if (res.status === 'correct') resolve('correct', answerBox.value.trim());
