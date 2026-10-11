@@ -46,7 +46,7 @@ const TOOLS = [
     desc: "Something new is being forged here.", href: "", status: "soon" },
   { group: "next", symbol: "✧", name: "Hidden Chamber IV",
     desc: "Something new is being forged here.", href: "", status: "soon" },
-  { group: "next", symbol: "✧", name: "Hidden Chamber V",
+  { group: "next", symbol: "✧", name: "Probability",
     desc: "Something new is being forged here.", href: "", status: "soon" },
 
   // ---- Miscellaneous ----
