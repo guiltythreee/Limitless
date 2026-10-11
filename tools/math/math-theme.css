@@ -9,8 +9,8 @@
   --hair: rgba(232,203,139,.1); --axis: rgba(232,203,139,.25);
   --bad: #ff9c8f; --on-gold: #171018;
   --bar-ok: #e8cb8b; --bar-bad: #d9695f; --bar-skip: #8a8396;
-  --shadow-title: 0 2px 6px rgba(5,4,10,.95), 0 0 30px rgba(5,4,10,.9);
-  --shadow-sub: 0 1px 4px rgba(5,4,10,1), 0 0 18px rgba(5,4,10,.95);
+  --shadow-title: none;
+  --shadow-sub: none;
   --bg-land: url("themes/dark/landscape.webp");
   --bg-port: url("themes/dark/portrait.webp");
   --glyph: #f9e6b5; --glyph-glow: rgba(232,203,139,.55);
@@ -26,7 +26,7 @@ html[data-theme="light"] {
   --hair: rgba(122,88,32,.16); --axis: rgba(122,88,32,.3);
   --bad: #b3392b; --on-gold: #fff8e6;
   --bar-ok: #b8832a; --bar-bad: #c0443a; --bar-skip: #8d8a96;
-  --shadow-title: 0 1px 0 rgba(255,255,255,.6); --shadow-sub: none;
+  --shadow-title: none; --shadow-sub: none;
   --bg-land: url("themes/light/landscape.webp");
   --bg-port: url("themes/light/portrait.webp");
   --glyph: #3b3350; --glyph-glow: rgba(255,255,255,.7);
