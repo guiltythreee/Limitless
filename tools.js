@@ -1,20 +1,18 @@
-// ------------------------------------------------------------------
-// THE TOOL LIST — this is the only place you edit to add or change a card.
-//
-// status: "soon" = Coming Soon (card is not clickable)
-//         "dev"  = In Development (card is not clickable)
-//         "beta" = Beta  (card opens its page)
-//         "live" = Live  (card opens its page)
-//
-// To launch a tool: build its page (for example tools/math/index.html),
-// then change its status from "soon" to "beta" or "live".
-// To fill a reserved slot: change its name, symbol, desc and href, then
-// set the status.
-// ------------------------------------------------------------------
+
+ // ------------------------------------------------------------------
+ // THE TOOL LIST — this is the only place you edit to add or change a card.
+ //
+ // status: "soon" = Coming Soon (card is not clickable)
+ //         "dev"  = In Development (card is not clickable)
+ //         "beta" = Beta (card opens its page)
+ //         "live" = Live (card opens its page)
+ // ------------------------------------------------------------------
 
 const GROUPS = [
   { id: "trainers", title: "Trainers",
     note: "Practice tools to sharpen your mind and your hands." },
+  { id: "studies", title: "Studies & Disciplines",
+    note: "Explore the subjects you are studying and mastering." },
   { id: "next", title: "Coming Next",
     note: "Five chambers are reserved for future creations." },
   { id: "misc", title: "Miscellaneous",
@@ -37,6 +35,11 @@ const TOOLS = [
     desc: "Type through your own books and PDFs, track your weak keys, and level up.",
     href: "tools/typing/", status: "soon" },
 
+  // ---- Studies & Disciplines ----
+  { group: "studies", symbol: "◇", name: "Probability",
+    desc: "Study probability theory, practise problems, and track your progress.",
+    href: "probability/", status: "beta" },
+
   // ---- Reserved slots for future tools ----
   { group: "next", symbol: "✧", name: "Hidden Chamber I",
     desc: "Something new is being forged here.", href: "", status: "soon" },
@@ -46,9 +49,7 @@ const TOOLS = [
     desc: "Something new is being forged here.", href: "", status: "soon" },
   { group: "next", symbol: "✧", name: "Hidden Chamber IV",
     desc: "Something new is being forged here.", href: "", status: "soon" },
-  { group: "next", symbol: "✧", name: "Probability",
-    desc: "Something new is being forged here.", href: "", status: "soon" },
-
+  
   // ---- Miscellaneous ----
   { group: "misc", symbol: "◇", name: "Windows Application",
     desc: "A desktop companion is in development. A download will appear here when it is ready.",
