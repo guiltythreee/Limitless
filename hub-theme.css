@@ -41,7 +41,7 @@ body::after { height: 100vh; height: 100lvh; bottom: auto; }
 /* ---------- light theme ---------- */
 html[data-theme="light"] {
   --gold: #8a5a12; --gold-bright: #4a2f08; --text: #2a2433; --muted: #4a3a28;
-  --panel: rgba(252,247,235,.88); --border: rgba(122,88,32,.4); --chip-bg: rgba(255,251,240,.75);
+  --panel: rgba(252,247,235,.78); --border: rgba(122,88,32,.4); --chip-bg: rgba(255,251,240,.75);
   --bg-land: url("themes/light/landscape.webp");
   --bg-port: url("themes/light/portrait.webp");
 }
@@ -60,8 +60,8 @@ html[data-theme="light"] .nav-links a:hover { color: var(--gold); text-shadow: n
 
 /* the hero text sits on a soft cream plate so it stays readable over the bright sky */
 html[data-theme="light"] .hero-content {
-  padding: 46px 34px 50px; background: rgba(252,247,235,.24);
-  border: 1px solid var(--border); backdrop-filter: blur(3px);
+  padding: 46px 34px 50px; background: rgba(252,247,235,.28);
+  border: 1px solid var(--border); backdrop-filter: blur(8px);
 }
 html[data-theme="light"] .eyebrow, html[data-theme="light"] .ornament { color: var(--gold); }
 html[data-theme="light"] h1, html[data-theme="light"] .front-praise {
@@ -75,13 +75,13 @@ html[data-theme="light"] .button-secondary { background: rgba(255,251,240,.8); c
 html[data-theme="light"] .button:hover { box-shadow: 0 8px 24px rgba(122,88,32,.2); }
 
 html[data-theme="light"] .section-inner {
-  padding: 38px 30px 44px; background: rgba(252,247,235,.46);
-  border: 1px solid rgba(122,88,32,.25); backdrop-filter: blur(6px);
+  padding: 38px 30px 44px; background: rgba(252,247,235,.22);
+  border: 1px solid rgba(122,88,32,.25); backdrop-filter: blur(8px);
 }
 html[data-theme="light"] .section-heading, html[data-theme="light"] .group-title { color: var(--gold-bright); text-shadow: none; }
 html[data-theme="light"] .section-description, html[data-theme="light"] .group-note { color: #4a3a28; text-shadow: none; }
 html[data-theme="light"] .card { background: var(--panel); }
-html[data-theme="light"] .card.is-locked { background: rgba(252,247,235,.7); }
+html[data-theme="light"] .card.is-locked { background: rgba(252,247,235,.78); }
 html[data-theme="light"] .card:hover { border-color: rgba(138,90,18,.7); box-shadow: 0 12px 30px rgba(122,88,32,.18); }
 html[data-theme="light"] .card h3 { color: var(--gold-bright); }
 html[data-theme="light"] .card p { color: #4a3a28; }
