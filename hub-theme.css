@@ -60,8 +60,8 @@ html[data-theme="light"] .nav-links a:hover { color: var(--gold); text-shadow: n
 
 /* the hero text sits on a soft cream plate so it stays readable over the bright sky */
 html[data-theme="light"] .hero-content {
-  padding: 46px 34px 50px; background: rgba(252,247,235,.35);
-  border: 1px solid var(--border); backdrop-filter: blur(3px);
+  padding: 46px 34px 50px; background: rgba(252,247,235,.55);
+  border: 1px solid var(--border); backdrop-filter: blur(6px);
 }
 html[data-theme="light"] .eyebrow, html[data-theme="light"] .ornament { color: var(--gold); }
 html[data-theme="light"] h1, html[data-theme="light"] .front-praise {
@@ -75,8 +75,8 @@ html[data-theme="light"] .button-secondary { background: rgba(255,251,240,.8); c
 html[data-theme="light"] .button:hover { box-shadow: 0 8px 24px rgba(122,88,32,.2); }
 
 html[data-theme="light"] .section-inner {
-  padding: 38px 30px 44px; background: rgba(252,247,235,.30);
-  border: 1px solid rgba(122,88,32,.25); backdrop-filter: blur(3px);
+  padding: 38px 30px 44px; background: rgba(252,247,235,.46);
+  border: 1px solid rgba(122,88,32,.25); backdrop-filter: blur(6px);
 }
 html[data-theme="light"] .section-heading, html[data-theme="light"] .group-title { color: var(--gold-bright); text-shadow: none; }
 html[data-theme="light"] .section-description, html[data-theme="light"] .group-note { color: #4a3a28; text-shadow: none; }
