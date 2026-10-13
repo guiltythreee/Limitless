@@ -60,8 +60,8 @@ html[data-theme="light"] .nav-links a:hover { color: var(--gold); text-shadow: n
 
 /* the hero text sits on a soft cream plate so it stays readable over the bright sky */
 html[data-theme="light"] .hero-content {
-  padding: 46px 34px 50px; background: rgba(252,247,235,.55);
-  border: 1px solid var(--border); backdrop-filter: blur(6px);
+  padding: 46px 34px 50px; background: rgba(252,247,235,.24);
+  border: 1px solid var(--border); backdrop-filter: blur(3px);
 }
 html[data-theme="light"] .eyebrow, html[data-theme="light"] .ornament { color: var(--gold); }
 html[data-theme="light"] h1, html[data-theme="light"] .front-praise {
