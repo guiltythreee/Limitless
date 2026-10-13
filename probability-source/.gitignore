@@ -1,10 +1,11 @@
 node_modules/
 .next/
 out/
+dist/
 .env
 .env.*
 !.env.example
-.vercel/
 *.log
-.DS_Store
-Thumbs.db
+audit-report.json
+
+*.before-upgrade
