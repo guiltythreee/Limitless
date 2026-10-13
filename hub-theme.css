@@ -75,8 +75,10 @@ html[data-theme="light"] .button-secondary { background: rgba(255,251,240,.8); c
 html[data-theme="light"] .button:hover { box-shadow: 0 8px 24px rgba(122,88,32,.2); }
 
 html[data-theme="light"] .section-inner {
-  padding: 38px 30px 44px; background: rgba(252,247,235,.22);
-  border: 1px solid rgba(122,88,32,.25); backdrop-filter: blur(8px);
+  padding: 38px 30px 44px;
+  background: transparent;
+  border: none;
+  backdrop-filter: none;
 }
 html[data-theme="light"] .section-heading, html[data-theme="light"] .group-title { color: var(--gold-bright); text-shadow: none; }
 html[data-theme="light"] .section-description, html[data-theme="light"] .group-note { color: #4a3a28; text-shadow: none; }
