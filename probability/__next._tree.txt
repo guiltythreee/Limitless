@@ -1,0 +1,3 @@
+:HL["/probability/_next/static/chunks/17x-gr7_lv19t.css","style"]
+1:[["children",{"s":"__PAGE__","h":160}]]
+0:{"b":"ixVbnNiKvgoJ09Hg7zEQD","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
