@@ -1,3 +1,4 @@
+
 /* Main page themes. Dark = the cathedral. Light = the sky city.
    Add a theme: a block here, an entry in hub-theme.js, and a folder in themes/. */
 
@@ -6,104 +7,290 @@
   --bg-port: url("themes/dark/portrait.webp");
   --chip-bg: rgba(10,8,17,.5);
 }
-html { background: #08070d; }
-body { background: transparent; }   /* a solid body would paint over the picture layer */
 
-/* ---------- background ----------
-   A fixed layer sized to the LARGE viewport (lvh), so it does not resize when a phone's
-   address bar slides away while you scroll. That resizing was the "zooming" on phones. */
+html { background: #08070d; }
+body { background: transparent; }
+
+/* ---------- background ---------- */
+
 .theme-bg {
-  position: fixed; top: 0; left: 0; width: 100%;
-  height: 100vh; height: 100lvh;
-  z-index: -3; pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  z-index: -3;
+  pointer-events: none;
   background: var(--bg-land) center center / cover no-repeat;
   transition: opacity .25s ease;
 }
-@media (max-aspect-ratio: 4/5) { .theme-bg { background-image: var(--bg-port); } }
-.theme-bg.is-swapping { opacity: 0; }
-.theme-bg { animation: background-breathe 25s ease-in-out infinite alternate; will-change: transform; }
-@media (max-width: 900px), (hover: none) {
-  .theme-bg { animation: none; will-change: auto; transform: none; }   /* no zoom animation on phones and tablets */
+
+@media (max-aspect-ratio: 4/5) {
+  .theme-bg { background-image: var(--bg-port); }
 }
-body::after { height: 100vh; height: 100lvh; bottom: auto; }
+
+.theme-bg.is-swapping { opacity: 0; }
+
+.theme-bg {
+  animation: background-breathe 25s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@media (max-width: 900px), (hover: none) {
+  .theme-bg {
+    animation: none;
+    will-change: auto;
+    transform: none;
+  }
+}
+
+body::after {
+  height: 100vh;
+  height: 100lvh;
+  bottom: auto;
+}
 
 /* ---------- theme toggle ---------- */
+
 .theme-toggle {
-  font-family: Arial, sans-serif; font-size: 12px; letter-spacing: 1px; cursor: pointer;
-  padding: 8px 14px; color: var(--gold-bright); background: var(--chip-bg);
-  border: 1px solid var(--border); border-radius: 3px; white-space: nowrap;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 8px 14px;
+  color: var(--gold-bright);
+  background: var(--chip-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  white-space: nowrap;
   transition: border-color .2s ease, transform .2s ease;
 }
-.theme-toggle:hover { border-color: var(--gold); transform: translateY(-2px); }
-.theme-toggle:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
-@media (max-width: 600px) { .theme-toggle { padding: 6px 9px; font-size: 11px; letter-spacing: .5px; } }
+
+.theme-toggle:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .theme-toggle {
+    padding: 6px 9px;
+    font-size: 11px;
+    letter-spacing: .5px;
+  }
+}
 
 /* ---------- light theme ---------- */
+
 html[data-theme="light"] {
-  --gold: #8a5a12; --gold-bright: #4a2f08; --text: #2a2433; --muted: #4a3a28;
-  --panel: rgba(252,247,235,.78); --border: rgba(122,88,32,.4); --chip-bg: rgba(255,251,240,.75);
+  --gold: #8a5a12;
+  --gold-bright: #4a2f08;
+  --text: #2a2433;
+  --muted: #4a3a28;
+  --panel: rgba(252,247,235,.78);
+  --border: rgba(122,88,32,.4);
+  --chip-bg: rgba(255,251,240,.75);
   --bg-land: url("themes/light/landscape.webp");
   --bg-port: url("themes/light/portrait.webp");
 }
+
 html[data-theme="light"] { background: #dfe6ee; }
-html[data-theme="light"] body { background: transparent; color: var(--text); }
+
+html[data-theme="light"] body {
+  background: transparent;
+  color: var(--text);
+}
+
 html[data-theme="light"] body::after {
-  background: linear-gradient(180deg, rgba(255,250,235,.10) 0%, rgba(255,250,235,0) 40%, rgba(40,30,60,.16) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255,250,235,.10) 0%,
+    rgba(255,250,235,0) 40%,
+    rgba(40,30,60,.16) 100%
+  );
 }
-html[data-theme="light"] .particle { background: #fff; box-shadow: 0 0 8px 2px rgba(255,255,255,.7); }
 
-html[data-theme="light"] .navbar { background: rgba(252,247,235,.66); border-bottom-color: rgba(122,88,32,.25); }
+html[data-theme="light"] .particle {
+  background: #fff;
+  box-shadow: 0 0 8px 2px rgba(255,255,255,.7);
+}
+
+html[data-theme="light"] .navbar {
+  background: rgba(252,247,235,.66);
+  border-bottom-color: rgba(122,88,32,.25);
+}
+
 html[data-theme="light"] .brand { color: var(--gold-bright); }
-html[data-theme="light"] .brand:hover { text-shadow: 0 0 14px rgba(201,154,60,.5); }
+
+html[data-theme="light"] .brand:hover {
+  text-shadow: 0 0 14px rgba(201,154,60,.5);
+}
+
 html[data-theme="light"] .nav-links { color: #4a3a22; }
-html[data-theme="light"] .nav-links a:hover { color: var(--gold); text-shadow: none; }
 
-/* the hero text sits on a soft cream plate so it stays readable over the bright sky */
+html[data-theme="light"] .nav-links a:hover {
+  color: var(--gold);
+  text-shadow: none;
+}
+
+/* ---------- light-mode hero panel ---------- */
+
 html[data-theme="light"] .hero-content {
-  padding: 46px 34px 50px; background: rgba(252,247,235,.28);
-  border: 1px solid var(--border); backdrop-filter: blur(8px);
+  padding: 46px 34px 50px;
+  background: transparent;
+  border: none;
+  backdrop-filter: none;
 }
-html[data-theme="light"] .eyebrow, html[data-theme="light"] .ornament { color: var(--gold); }
-html[data-theme="light"] h1, html[data-theme="light"] .front-praise {
-  color: #6e4a0f; animation: none; text-shadow: none;
-}
-html[data-theme="light"] .subtitle { color: #3a2e22; }
-html[data-theme="light"] .description { color: #4a3a28; }
-html[data-theme="light"] .button-primary { background: linear-gradient(135deg, #cfa045, #a67a22); color: #fff8e6; }
-html[data-theme="light"] .button-primary:hover { background: #b98a2c; box-shadow: 0 0 22px rgba(166,122,34,.3); }
-html[data-theme="light"] .button-secondary { background: rgba(255,251,240,.8); color: var(--gold-bright); }
-html[data-theme="light"] .button:hover { box-shadow: 0 8px 24px rgba(122,88,32,.2); }
 
+html[data-theme="light"] .eyebrow,
+html[data-theme="light"] .ornament {
+  color: var(--gold);
+}
+
+html[data-theme="light"] h1,
+html[data-theme="light"] .front-praise {
+  color: #6e4a0f;
+  animation: none;
+  text-shadow: 0 1px 3px rgba(255,250,235,.75);
+}
+
+html[data-theme="light"] .subtitle {
+  color: #3a2e22;
+  text-shadow: 0 1px 3px rgba(255,250,235,.8);
+}
+
+html[data-theme="light"] .description {
+  color: #4a3a28;
+  text-shadow: 0 1px 3px rgba(255,250,235,.85);
+}
+
+html[data-theme="light"] .button-primary {
+  background: linear-gradient(135deg, #cfa045, #a67a22);
+  color: #fff8e6;
+}
+
+html[data-theme="light"] .button-primary:hover {
+  background: #b98a2c;
+  box-shadow: 0 0 22px rgba(166,122,34,.3);
+}
+
+html[data-theme="light"] .button-secondary {
+  background: rgba(255,251,240,.8);
+  color: var(--gold-bright);
+}
+
+html[data-theme="light"] .button:hover {
+  box-shadow: 0 8px 24px rgba(122,88,32,.2);
+}
+
+/* ---------- light-mode section panels ---------- */
+
+/* Transparent outer panel: show the sky-city artwork. */
 html[data-theme="light"] .section-inner {
   padding: 38px 30px 44px;
   background: transparent;
   border: none;
   backdrop-filter: none;
 }
-html[data-theme="light"] .section-heading, html[data-theme="light"] .group-title { color: var(--gold-bright); text-shadow: none; }
-html[data-theme="light"] .section-description, html[data-theme="light"] .group-note { color: #4a3a28; text-shadow: none; }
-html[data-theme="light"] .card { background: var(--panel); }
-html[data-theme="light"] .card.is-locked { background: rgba(252,247,235,.78); }
-html[data-theme="light"] .card:hover { border-color: rgba(138,90,18,.7); box-shadow: 0 12px 30px rgba(122,88,32,.18); }
+
+/* Improve heading readability without adding a large panel. */
+html[data-theme="light"] .section-heading,
+html[data-theme="light"] .group-title {
+  color: #50330c;
+  text-shadow: 0 1px 4px rgba(255,250,235,.95);
+}
+
+html[data-theme="light"] .section-description,
+html[data-theme="light"] .group-note {
+  color: #302719;
+  text-shadow: 0 1px 4px rgba(255,250,235,.95);
+}
+
+/* A subtle gradient behind the text itself. */
+html[data-theme="light"] .section-heading,
+html[data-theme="light"] .section-description,
+html[data-theme="light"] .group-title,
+html[data-theme="light"] .group-note {
+  background: linear-gradient(
+    90deg,
+    rgba(252,247,235,.48),
+    rgba(252,247,235,.18),
+    transparent
+  );
+}
+
+/* ---------- individual cards ---------- */
+
+html[data-theme="light"] .card {
+  background: rgba(252,247,235,.78);
+  backdrop-filter: blur(5px);
+}
+
+html[data-theme="light"] .card.is-locked {
+  background: rgba(252,247,235,.78);
+}
+
+html[data-theme="light"] .card:hover {
+  border-color: rgba(138,90,18,.7);
+  box-shadow: 0 12px 30px rgba(122,88,32,.18);
+}
+
 html[data-theme="light"] .card h3 { color: var(--gold-bright); }
 html[data-theme="light"] .card p { color: #4a3a28; }
 html[data-theme="light"] .status { color: var(--gold); }
-html[data-theme="light"] .status-live { color: #fff8e6; background: var(--gold); }
-html[data-theme="light"] .status-beta { color: var(--gold-bright); border-color: var(--gold); }
-html[data-theme="light"] .card-cta { color: var(--gold); }
-html[data-theme="light"] footer { background: rgba(252,247,235,.8); color: #5a4a36; border-top-color: rgba(122,88,32,.25); }
-html[data-theme="light"] footer span { color: var(--gold); }
-@media (max-width: 600px) {
-  html[data-theme="light"] .hero-content { padding: 34px 20px 38px; }
-  html[data-theme="light"] .section-inner { padding: 28px 16px 34px; }
+
+html[data-theme="light"] .status-live {
+  color: #fff8e6;
+  background: var(--gold);
 }
 
-/* dark theme on phones: the portrait art is bright in the middle, so text gets a dark plate */
+html[data-theme="light"] .status-beta {
+  color: var(--gold-bright);
+  border-color: var(--gold);
+}
+
+html[data-theme="light"] .card-cta { color: var(--gold); }
+
+html[data-theme="light"] footer {
+  background: rgba(252,247,235,.8);
+  color: #5a4a36;
+  border-top-color: rgba(122,88,32,.25);
+}
+
+html[data-theme="light"] footer span { color: var(--gold); }
+
+/* ---------- responsive light theme ---------- */
+
+@media (max-width: 600px) {
+  html[data-theme="light"] .hero-content {
+    padding: 34px 20px 38px;
+  }
+
+  html[data-theme="light"] .section-inner {
+    padding: 28px 16px 34px;
+  }
+}
+
+/* ---------- dark theme on phones ---------- */
+
 @media (max-width: 700px) {
   html:not([data-theme="light"]) .hero-content,
   html:not([data-theme="light"]) .section-inner {
-    background: rgba(8,7,13,.7); border: 1px solid var(--border); backdrop-filter: blur(8px);
+    background: rgba(8,7,13,.7);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
   }
-  html:not([data-theme="light"]) .hero-content { padding: 34px 20px 38px; }
-  html:not([data-theme="light"]) .section-inner { padding: 28px 16px 34px; }
+
+  html:not([data-theme="light"]) .hero-content {
+    padding: 34px 20px 38px;
+  }
+
+  html:not([data-theme="light"]) .section-inner {
+    padding: 28px 16px 34px;
+  }
 }
