@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { lessons, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND } from "./content";
 import { Illustration, Theory } from "./components/Sections";
 import Practice from "./components/Practice";
@@ -103,7 +103,7 @@ export default function Home() {
       <header className="sticky top-0 z-30 border-b border-gold/15 bg-ink/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-5 py-4 lg:px-10">
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Home" title="Back to the top of Probability" className="flex items-center gap-3 text-left">
-            <div aria-hidden="true" className="h-11 w-11 flex-none border border-gold/50 bg-chip bg-cover bg-center" style={{ backgroundImage: `url(${BASE}/brand-icon.webp)` }} />
+            <div aria-hidden="true" className="brand-icon h-12 w-12 flex-none" style={{ "--brand-dark": `url(${BASE}/brand-icon-dark.webp)`, "--brand-light": `url(${BASE}/brand-icon-light.webp)` } as CSSProperties} />
             <div>
               <div className="serif text-lg leading-tight tracking-wide text-parchment">Home</div>
               <div className="eyebrow mt-1 text-[8px]! tracking-[.2em]!">The Probability Archive</div>
