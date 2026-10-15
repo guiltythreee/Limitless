@@ -16,7 +16,7 @@
   var MODES = {
     test80: { name: '80 in 8', desc: '80 questions in 8 minutes. The test-style run.', count: 80, seconds: 480, usesTier: true, minSample: 60 },
     blitz: { name: 'Tier Blitz', desc: '2 minutes. Answer as many as you can.', seconds: 120, usesTier: true, minSample: 25 },
-    limitless: { name: 'Limitless', desc: 'Endless. 3 lives. The tier climbs as you score.', usesTier: false, forcePenalty: 'sudden' },
+    limitless: { name: 'Limitless', desc: 'Endless. Lose all your lives and it ends. The tier climbs as you score.', usesTier: false, forcePenalty: 'sudden' },
     drill: { name: 'Weak-Spot Drill', desc: '40 questions aimed at your weak skills, or any skill you pick.', count: 40, usesTier: true }
   };
   var TRICK_MODE = { name: 'Trick Chamber', usesTier: false };
@@ -30,7 +30,7 @@
     fair: { name: 'Fair', desc: 'Wrong: −5 points. Guessing is a bad bet.', wrong: function () { return 5; } },
     strict: { name: 'Strict', desc: 'Wrong: −10 points, as much as a correct answer earns.', wrong: function () { return 10; } },
     escalating: { name: 'Escalating', desc: 'Wrong in a row: −5, −10, then −20 each.', wrong: function (row) { return [5, 10, 20][Math.min(row, 3) - 1]; } },
-    sudden: { name: 'Sudden Death', desc: 'Wrong: −25 points and lose 1 of 3 lives.', wrong: function () { return 25; }, lives: 3 }
+    sudden: { name: 'Sudden Death', desc: 'Wrong: −25 points and lose 1 life (3 lives by default).', wrong: function () { return 25; }, lives: 3 }
   };
   var PENALTY_NOTES = {
     practice: 'Best for learning a new tier: no fear, just reps.',
@@ -67,6 +67,26 @@
   var PENALTY_XP = { practice: 0.5, fair: 1, strict: 1.25, escalating: 1.25, sudden: 1.5 };
   var FIRST_CLEAR_XP = [60, 90, 140, 220, 350, 550];       /* one-time bonus the first time you clear each tier */
   var REPEAT_CLEAR_SHARE = 0.15;                           /* later clears pay this share of that, times FADE */
+
+  /* ---------- difficulty: three rule sets layered on top of mode, tier and penalty ----------
+     target:   multiplies every question's target time (pace score, clears, strict timer)
+     penalty:  multiplies the points lost for a wrong answer
+     accuracy: added to the accuracy a tier clear needs
+     xp:       multiplies the XP (and clear bonuses) a run pays
+     lives:    added to Sudden Death lives          climb: speed of the Limitless tier climb */
+  var DIFFS = {
+    easy: { name: 'Wayfarer', desc: 'More time, gentler penalties, extra lives. XP ×0.75.',
+      note: 'Wayfarer: you get 25% more time per question, wrong answers cost half, clears need 3% less accuracy, Sudden Death gives 5 lives and Limitless climbs more slowly. XP is ×0.75.',
+      target: 1.25, penalty: 0.5, accuracy: -0.03, xp: 0.75, lives: 2, climb: 0.8, skipCosts: false, forceTimer: false, noPractice: false },
+    normal: { name: 'Ascendant', desc: 'The standard rules. XP ×1.',
+      note: 'Ascendant: the standard rules.',
+      target: 1, penalty: 1, accuracy: 0, xp: 1, lives: 0, climb: 1, skipCosts: false, forceTimer: false, noPractice: false },
+    hard: { name: 'Apotheosis', desc: 'The timer never stops, penalties bite, skips cost. XP ×1.5.',
+      note: 'Apotheosis: the strict timer is always on with targets 15% tighter, wrong answers and skips cost 1.5×, the Practice penalty is not allowed, clears need 3% more accuracy, Sudden Death gives 2 lives and Limitless climbs faster. XP is ×1.5, and each tier has a ★ for clearing it here.',
+      target: 0.85, penalty: 1.5, accuracy: 0.03, xp: 1.5, lives: -1, climb: 1.25, skipCosts: true, forceTimer: true, noPractice: true }
+  };
+  function needAcc(tier, diffId) { return Math.min(0.99, Math.max(0.5, tier.accuracy + (DIFFS[diffId] || DIFFS.normal).accuracy)); }
+  function effTarget(r, a) { return a.target * (DIFFS[r.diff] || DIFFS.normal).target; }
 
   var KEY_RUNS = 'limitless.math.v1.runs';
   var KEY_ATT = 'limitless.math.v1.attempts';
@@ -132,11 +152,12 @@
   /* ==================================================================
      PREFERENCES, XP, RANKS, STREAK, TRICK RECORDS  (the "meta" record)
      ================================================================== */
-  var prefs = Object.assign({ mode: 'test80', tier: 'adept', penalty: 'fair', timer: 'off', drillFocus: 'auto' }, load(KEY_PREFS, {}));
+  var prefs = Object.assign({ mode: 'test80', tier: 'adept', penalty: 'fair', timer: 'off', drillFocus: 'auto', diff: 'normal' }, load(KEY_PREFS, {}));
   if (!MODES[prefs.mode]) prefs.mode = 'test80';
   if (!E.TIER_BY_ID[prefs.tier]) prefs.tier = 'adept';
   if (!PENALTIES[prefs.penalty]) prefs.penalty = 'fair';
   if (!TIMERS[prefs.timer]) prefs.timer = 'off';
+  if (!DIFFS[prefs.diff]) prefs.diff = 'normal';
   if (prefs.drillFocus !== 'auto' && E.SKILLS.indexOf(prefs.drillFocus) < 0) prefs.drillFocus = 'auto';
 
   var meta = (function () {
@@ -191,14 +212,16 @@
     var tierId = E.TIERS[tierIdx].id;
     var base = Math.max(0, r.points) / 10;
     var tierMult = TIER_XP[tierIdx], penMult = PENALTY_XP[r.penalty] || 1, fade = fadeFor(tierIdx, rankIdx);
-    var core = base * tierMult * penMult * fade;
+    var diffMult = (DIFFS[r.diff] || DIFFS.normal).xp;
+    var core = base * tierMult * penMult * diffMult * fade;
+    var bonusKey = tierId + (r.diff && r.diff !== 'normal' ? ':' + r.diff : '');   /* one first-clear bonus per tier AND difficulty */
     var clearBonus = 0, firstClear = false;
     if (s.cleared) {
-      if (!meta.tierBonus[tierId]) { clearBonus = FIRST_CLEAR_XP[tierIdx]; firstClear = true; }
-      else clearBonus = FIRST_CLEAR_XP[tierIdx] * REPEAT_CLEAR_SHARE * fade;
+      if (!meta.tierBonus[bonusKey]) { clearBonus = FIRST_CLEAR_XP[tierIdx] * diffMult; firstClear = true; }
+      else clearBonus = FIRST_CLEAR_XP[tierIdx] * REPEAT_CLEAR_SHARE * fade * diffMult;
     }
     var drillBonus = (r.mode === 'drill' && s.attempted >= 10) ? 10 * fade : 0;
-    return { tierIdx: tierIdx, tierId: tierId, base: base, tierMult: tierMult, penMult: penMult, fade: fade,
+    return { tierIdx: tierIdx, tierId: tierId, base: base, tierMult: tierMult, penMult: penMult, diffMult: diffMult, bonusKey: bonusKey, fade: fade,
       core: core, clearBonus: clearBonus, firstClear: firstClear, drillBonus: drillBonus,
       total: Math.max(0, Math.round(core + clearBonus + drillBonus)) };
   }
@@ -430,7 +453,9 @@
       E.TIERS.forEach(function (t) { if (tiers[t.id] && tiers[t.id].cleared === true) meta.tierClears[t.id] = true; });
     }
     if (m && m.tierBonus && typeof m.tierBonus === 'object') {
-      E.TIERS.forEach(function (t) { if (m.tierBonus[t.id] === true) meta.tierBonus[t.id] = true; });
+      E.TIERS.forEach(function (t) {
+        ['', ':easy', ':hard'].forEach(function (sfx) { if (m.tierBonus[t.id + sfx] === true) meta.tierBonus[t.id + sfx] = true; });
+      });
     }
     saveMeta();
   }
@@ -509,10 +534,18 @@
     setMood();
     var mode = MODES[prefs.mode];
     var forcedPenalty = mode.forcePenalty || null;
-    var activePenalty = forcedPenalty || prefs.penalty;
+    var dfc = DIFFS[prefs.diff];
+    var activePenalty = forcedPenalty || ((dfc.noPractice && prefs.penalty === 'practice') ? 'fair' : prefs.penalty);
 
     renderProfile();
     renderCoach();
+
+    var diffBox = $('diff-chips'); clear(diffBox);
+    Object.keys(DIFFS).forEach(function (id) {
+      diffBox.appendChild(makeChip('diff', id, DIFFS[id].name, DIFFS[id].desc, id === prefs.diff, false,
+        function (v) { prefs.diff = v; save(KEY_PREFS, prefs); renderMenu(); refocus('diff'); }));
+    });
+    $('diff-note').textContent = DIFFS[prefs.diff].note;
 
     var modeBox = $('mode-chips'); clear(modeBox);
     Object.keys(MODES).forEach(function (id) {
@@ -535,7 +568,7 @@
       label.appendChild(h('div', 'tier-label', t.label));
       label.appendChild(h('div', 'tier-blurb', t.blurb));
       label.appendChild(h('div', 'tier-badge' + (st.isCleared ? ' is-cleared' : ''),
-        st.isCleared ? '✓ Cleared' : (st.runs ? st.cleared + '/' + st.runs + ' clears' : 'Not tried')));
+        st.isCleared ? '✓ Cleared' + (meta.tierBonus[t.id + ':hard'] ? ' ★' : '') : (st.runs ? st.cleared + '/' + st.runs + ' clears' : 'Not tried')));
       var fd = fadeFor(t.index, rankFor(meta.xp).idx);
       if (mode.usesTier && fd < 1) label.appendChild(h('div', 'tier-xp', 'XP ' + pct(fd)));
       tierBox.appendChild(label);
@@ -545,15 +578,16 @@
     var penBox = $('penalty-chips'); clear(penBox);
     Object.keys(PENALTIES).forEach(function (id) {
       penBox.appendChild(makeChip('penalty', id, PENALTIES[id].name, PENALTIES[id].desc, id === activePenalty,
-        !!forcedPenalty, function (v) { prefs.penalty = v; save(KEY_PREFS, prefs); renderMenu(); refocus('penalty'); }));
+        !!forcedPenalty || (dfc.noPractice && id === 'practice'), function (v) { prefs.penalty = v; save(KEY_PREFS, prefs); renderMenu(); refocus('penalty'); }));
     });
     $('penalty-note').textContent = forcedPenalty
       ? 'Limitless always uses Sudden Death.'
+      : (dfc.noPractice && prefs.penalty === 'practice') ? dfc.name + ' does not allow the Practice penalty, so Fair is used.'
       : PENALTY_NOTES[activePenalty];
 
     var timerBox = $('timer-chips'); clear(timerBox);
     Object.keys(TIMERS).forEach(function (id) {
-      timerBox.appendChild(makeChip('timer', id, TIMERS[id].name, TIMERS[id].desc, id === prefs.timer, false,
+      timerBox.appendChild(makeChip('timer', id, TIMERS[id].name, TIMERS[id].desc, dfc.forceTimer ? id === 'strict' : id === prefs.timer, !!dfc.forceTimer,
         function (v) { prefs.timer = v; save(KEY_PREFS, prefs); renderMenu(); refocus('timer'); }));
     });
 
@@ -562,8 +596,9 @@
     if (mode.seconds) line.push(fmtClock(mode.seconds));
     if (mode.usesTier) line.push(E.TIER_BY_ID[prefs.tier].name); else line.push('starts at Adept');
     line.push(PENALTIES[activePenalty].name);
+    line.push(dfc.name);
     if (mode.usesTier) { var fr = fadeFor(E.TIER_BY_ID[prefs.tier].index, rankFor(meta.xp).idx); line.push(fr >= 1 ? 'full XP' : 'XP at ' + pct(fr)); }
-    if (prefs.timer === 'strict') line.push('strict timer');
+    if (prefs.timer === 'strict' || dfc.forceTimer) line.push('strict timer');
     $('start-note').textContent = line.join(' · ');
 
     renderTrickSummary();
@@ -582,7 +617,7 @@
       var tr = h('tr');
       var d = new Date(r.ts);
       [d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) + ' ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }),
-        (MODES[r.mode] ? MODES[r.mode].name : r.mode),
+        (MODES[r.mode] ? MODES[r.mode].name : r.mode) + (r.diff && r.diff !== 'normal' && DIFFS[r.diff] ? ' · ' + DIFFS[r.diff].name : ''),
         r.mode === 'limitless' ? ('to ' + (E.TIER_BY_ID[r.topTier] ? E.TIER_BY_ID[r.topTier].name : '')) : (E.TIER_BY_ID[r.tier] ? E.TIER_BY_ID[r.tier].name : r.tier),
         r.correct + ' / ' + r.wrong + ' / ' + r.skipped,
         r.attempted ? pct(r.accuracy) : '–', r.attempted ? fmtSec(r.medianTime) : '–', String(r.points),
@@ -607,12 +642,18 @@
     var modeId = trick ? 'trick' : (cfg.mode || prefs.mode);
     var mode = trick ? TRICK_MODE : MODES[modeId];
     var drill = (modeId === 'drill') ? (cfg.drill || buildDrillCfg(false)) : null;
+    var diffId = trick ? 'normal' : prefs.diff;
+    var diff = DIFFS[diffId];
     var penaltyId = trick ? 'practice' : (mode.forcePenalty || (drill && drill.kind === 'accuracy' ? 'strict' : prefs.penalty));
+    if (diff.noPractice && penaltyId === 'practice') penaltyId = 'fair';
     var pen = PENALTIES[penaltyId];
+    var maxLives = pen.lives ? Math.max(1, pen.lives + diff.lives) : 0;
     var factor = 0;
     if (!trick) {
       if (drill && drill.kind === 'speed') factor = 1.25;
       else if (prefs.timer === 'strict') factor = 1.6;
+      if (diff.forceTimer && !factor) factor = 1.6;
+      if (factor) factor = factor * diff.target;
     }
     var rng = E.makeRng((Math.random() * 4294967296) >>> 0);
     var tierId = mode.usesTier ? (cfg.tier || prefs.tier) : null;
@@ -625,10 +666,10 @@
       deck: (modeId === 'test80') ? E.buildDeck(tierId, mode.count, rng) : null,
       retry: [], timeouts: 0,
       attempts: [], points: 0, streak: 0, bestStreak: 0, wrongRow: 0,
-      lives: pen.lives || 0, correct: 0, wrong: 0, skipped: 0, topTierIndex: 0,
+      lives: maxLives, maxLives: maxLives, diff: diffId, correct: 0, wrong: 0, skipped: 0, topTierIndex: 0,
       q: null, qStart: 0, qLimit: 0, t0: performance.now(), ended: false, busy: false
     };
-    $('hud-lives-wrap').hidden = !pen.lives;
+    $('hud-lives-wrap').hidden = !maxLives;
     $('hud-clock-label').textContent = mode.seconds ? 'Time left' : 'Time';
     $('feedback').textContent = ' '; $('feedback').className = 'feedback';
     show('screen-play');
@@ -641,7 +682,7 @@
   }
 
   function currentTierId() {
-    if (run.mode === 'limitless') return E.limitlessTier(run.correct);
+    if (run.mode === 'limitless') return E.limitlessTier(Math.floor(run.correct * DIFFS[run.diff].climb));
     return run.tier;
   }
 
@@ -706,9 +747,9 @@
     $('hud-progress').textContent = run.count ? (Math.min(run.attempts.length + 1, run.count) + ' / ' + run.count) : String(run.attempts.length + 1);
     $('hud-points').textContent = String(run.points);
     $('hud-combo').textContent = String(run.streak);
-    if (PENALTIES[run.penalty].lives) {
+    if (run.maxLives) {
       var hearts = '';
-      for (var i = 0; i < PENALTIES[run.penalty].lives; i++) hearts += i < run.lives ? '♥' : '♡';
+      for (var i = 0; i < run.maxLives; i++) hearts += i < run.lives ? '♥' : '♡';
       $('hud-lives').textContent = hearts;
     }
   }
@@ -732,9 +773,9 @@
     } else if (result === 'wrong' || result === 'timeout') {
       run.wrong++; run.streak = 0; run.wrongRow++;
       if (result === 'timeout') run.timeouts++;
-      var cost = pen.wrong(run.wrongRow);
+      var cost = Math.round(pen.wrong(run.wrongRow) * DIFFS[run.diff].penalty);
       run.points -= cost;
-      if (pen.lives) run.lives--;
+      if (run.maxLives) run.lives--;
       var lead = result === 'timeout' ? '⏱ Too slow · ' : '✗ ';
       msg = lead + (showHint ? q.hint : E.withCommas(q.answerText)) + (cost ? '  (' + MINUS + cost + ')' : '');
       cls += ' is-bad';
@@ -752,8 +793,8 @@
       tier: q.tier
     });
 
-    var done = (run.count && run.attempts.length >= run.count) || (pen.lives && run.lives <= 0);
-    if (done) { updateHud(); finishRun(pen.lives && run.lives <= 0 ? 'Out of lives' : 'Run complete'); return; }
+    var done = (run.count && run.attempts.length >= run.count) || (run.maxLives && run.lives <= 0);
+    if (done) { updateHud(); finishRun(run.maxLives && run.lives <= 0 ? 'Out of lives' : 'Run complete'); return; }
     nextQuestion();
     updateHud();
     run.busy = false;
@@ -781,16 +822,16 @@
     var attempted = r.correct + r.wrong;
     var accuracy = attempted ? r.correct / attempted : 0;
     var times = answered.map(function (a) { return a.time; });
-    var ratios = answered.map(function (a) { return a.time / a.target; });
-    var speed = rights.length ? mean(rights.map(function (a) { return Math.min(1, a.target / Math.max(a.time, 0.2)); })) * 100 : 0;
+    var ratios = answered.map(function (a) { return a.time / effTarget(r, a); });
+    var speed = rights.length ? mean(rights.map(function (a) { return Math.min(1, effTarget(r, a) / Math.max(a.time, 0.2)); })) * 100 : 0;
     var mode = MODES[r.mode];
     var tier = r.tier ? E.TIER_BY_ID[r.tier] : null;
     var qualifying = !!(mode.minSample && attempted >= mode.minSample);
     var medianRatio = median(ratios);
-    var cleared = !!(qualifying && tier && accuracy >= tier.accuracy && medianRatio <= 1);
+    var cleared = !!(qualifying && tier && accuracy >= needAcc(tier, r.diff) && medianRatio <= 1);
     return {
       reason: reason, attempted: attempted, accuracy: accuracy,
-      medianTime: median(times), medianTarget: median(answered.map(function (a) { return a.target; })),
+      medianTime: median(times), medianTarget: median(answered.map(function (a) { return effTarget(r, a); })),
       medianRatio: medianRatio, speed: Math.round(speed), qualifying: qualifying, cleared: cleared,
       duration: elapsed()
     };
@@ -799,13 +840,13 @@
   function persist(r, s) {
     /* XP first, so the saved run knows what it earned */
     var info = xpBreakdown(r, s, rankFor(meta.xp).idx);
-    if (info.firstClear) meta.tierBonus[info.tierId] = true;
+    if (info.firstClear) meta.tierBonus[info.bonusKey] = true;
     var award = awardXp(info.total);
     s.xp = award.gained; s.rankUp = award.rankUp; s.xpInfo = info;
 
     var runs = load(KEY_RUNS, []);
     runs.push({
-      id: r.id, ts: r.ts, mode: r.mode, tier: r.tier, penalty: r.penalty,
+      id: r.id, ts: r.ts, mode: r.mode, tier: r.tier, penalty: r.penalty, diff: r.diff,
       topTier: E.TIERS[r.topTierIndex].id,
       correct: r.correct, wrong: r.wrong, skipped: r.skipped, timeouts: r.timeouts, attempted: s.attempted,
       accuracy: s.accuracy, medianTime: s.medianTime, medianRatio: s.medianRatio,
@@ -836,7 +877,7 @@
   function renderResults(r, s) {
     var mode = MODES[r.mode];
     $('res-title').textContent = mode.name + ' — ' + (r.tier ? E.TIER_BY_ID[r.tier].name : 'reached ' + E.TIERS[r.topTierIndex].name);
-    $('res-sub').textContent = s.reason + ' · ' + PENALTIES[r.penalty].name + ' · ' + fmtClock(s.duration);
+    $('res-sub').textContent = s.reason + ' · ' + PENALTIES[r.penalty].name + ' · ' + DIFFS[r.diff].name + ' · ' + fmtClock(s.duration);
 
     var tiles = $('res-tiles'); clear(tiles);
     tiles.appendChild(tile('Accuracy', s.attempted ? pct(s.accuracy) : '–', r.correct + ' right, ' + r.wrong + ' wrong' + (r.skipped ? ', ' + r.skipped + ' skipped' : '') + (r.timeouts ? ' (' + r.timeouts + ' too slow)' : '')));
@@ -854,11 +895,11 @@
         'Accuracy ' + pct(s.accuracy) + ', median ' + fmtSec(s.medianTime) + ' against a target of ' + fmtSec(s.medianTarget) + '.';
     } else if (tier && s.qualifying) {
       if (s.cleared) {
-        v.textContent = '✓ Tier run cleared: accuracy ' + pct(s.accuracy) + ' (needed ' + pct(tier.accuracy) + ') and median time within target. Clear 2 of your last 3 runs to ascend.';
-      } else if (s.accuracy >= tier.accuracy) {
+        v.textContent = '✓ Tier run cleared: accuracy ' + pct(s.accuracy) + ' (needed ' + pct(needAcc(tier, r.diff)) + ') and median time within target. Clear 2 of your last 3 runs to ascend.';
+      } else if (s.accuracy >= needAcc(tier, r.diff)) {
         v.textContent = 'Accurate but slow: your median time was above the target. Next run, trust your first method and move faster.';
       } else if (s.medianRatio <= 1) {
-        v.textContent = 'Fast but sloppy: you were quick but accuracy was ' + pct(s.accuracy) + ' (needed ' + pct(tier.accuracy) + '). Slow down slightly and check carry digits.';
+        v.textContent = 'Fast but sloppy: you were quick but accuracy was ' + pct(s.accuracy) + ' (needed ' + pct(needAcc(tier, r.diff)) + '). Slow down slightly and check carry digits.';
       } else {
         v.textContent = 'Not cleared yet: both accuracy and speed need work. Review the mistakes below, then try again.';
       }
@@ -874,7 +915,7 @@
     var xi = s.xpInfo;
     if (xi) {
       var f2 = function (x) { return String(Math.round(x * 100) / 100); };
-      lines.push('XP: ' + Math.round(xi.base) + ' base × tier ' + f2(xi.tierMult) + ' × penalty ' + f2(xi.penMult) + ' × rank fade ' + f2(xi.fade) +
+      lines.push('XP: ' + Math.round(xi.base) + ' base × tier ' + f2(xi.tierMult) + ' × penalty ' + f2(xi.penMult) + (xi.diffMult !== 1 ? ' × difficulty ' + f2(xi.diffMult) : '') + ' × rank fade ' + f2(xi.fade) +
         (xi.clearBonus ? ' + ' + Math.round(xi.clearBonus) + (xi.firstClear ? ' first-clear bonus' : ' clear bonus') : '') +
         (xi.drillBonus ? ' + ' + Math.round(xi.drillBonus) + ' drill bonus' : '') + ' = +' + xi.total);
       if (xi.fade < 1) lines.push('This tier is below your rank, so it pays ' + pct(xi.fade) + ' of full XP. A higher tier pays full value.');
@@ -942,7 +983,7 @@
       var title = svgEl('title', {}); title.textContent = 'Q' + a.i + ': ' + a.time.toFixed(1) + ' s · ' + a.result + ' · ' + a.text;
       rect.appendChild(title); svg.appendChild(rect);
     });
-    var avgTarget = mean(r.attempts.map(function (a) { return a.target; }));
+    var avgTarget = mean(r.attempts.map(function (a) { return effTarget(r, a); }));
     var ty = H - B - (Math.min(avgTarget, cap) / cap) * plotH;
     svg.appendChild(svgEl('line', { x1: L, y1: ty, x2: W - 6, y2: ty, class: 'target' }));
     var lab = svgEl('text', { x: W - 8, y: ty - 5, 'text-anchor': 'end' }); lab.textContent = 'avg target ' + avgTarget.toFixed(1) + 's';
@@ -1276,7 +1317,7 @@
       else { answerBox.classList.remove('is-shake'); void answerBox.offsetWidth; answerBox.classList.add('is-shake'); }
     } else if (e.key === 'Tab') {
       e.preventDefault();
-      resolve('skip', '');
+      resolve(DIFFS[run.diff].skipCosts ? 'wrong' : 'skip', '');
     } else if (e.key === 'Escape') {
       e.preventDefault();
       finishRun('Run ended early');
@@ -1288,7 +1329,7 @@
   window.MathGame = {
     state: function () { return run; }, prefs: prefs, MODES: MODES, meta: meta,
     analyse: analyse, prescription: prescription, buildProfile: buildProfile, rankFor: rankFor,
-    xpBreakdown: xpBreakdown, fadeFor: fadeFor,
+    xpBreakdown: xpBreakdown, fadeFor: fadeFor, DIFFS: DIFFS,
     startRun: startRun, KEYS: { runs: KEY_RUNS, att: KEY_ATT, meta: KEY_META, profile: KEY_PROFILE }
   };
 
