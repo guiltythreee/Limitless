@@ -150,7 +150,13 @@ button { cursor: pointer; }
 }
 :root[data-theme="light"] .bg-layer { background-image: var(--bg-light); }
 @media (max-width: 767px) {
-  .bg-layer, :root[data-theme="light"] .bg-layer { background-image: var(--bg-phone); }
+  .bg-layer {
+    background-image: var(--bg-phone);
+  }
+
+  :root[data-theme="light"] .bg-layer {
+    background-image: var(--bg-phone-light, var(--bg-light));
+  }
 }
 .bg-layer::after { content: ""; position: absolute; inset: 0; background: var(--veil); }
 @keyframes bgfade { from { opacity: 0; } to { opacity: 1; } }
