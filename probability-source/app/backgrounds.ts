@@ -12,6 +12,9 @@ import type { CSSProperties } from "react";
 
 export const BG_EXT = "webp";
 
+// The site is served from /probability/ when published, so image addresses need that prefix.
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export const lessonsWithBackground = new Set<string>([
   "sample-space",
   "events-operations",
@@ -25,7 +28,7 @@ export const lessonsWithBackground = new Set<string>([
   "properties",
   "equally-likely",
   "probability-counting",
-  "geometric-probability",
+  // "geometric-probability" has no image in public/backgrounds/ yet; add its ID back here once it does.
   "de-morgan",
   "continuity",
   "borel-cantelli",
@@ -60,18 +63,18 @@ export function backgroundStyle(
 ): CSSProperties | undefined {
   if (!lessonsWithBackground.has(id)) return undefined;
 
-  const darkDesktop = `url(/backgrounds/${id}.${BG_EXT})`;
+  const darkDesktop = `url(${BASE}/backgrounds/${id}.${BG_EXT})`;
 
   const darkPhone = lessonsWithPhoneBackground.has(id)
-    ? `url(/backgrounds/${id}-phone.${BG_EXT})`
+    ? `url(${BASE}/backgrounds/${id}-phone.${BG_EXT})`
     : darkDesktop;
 
   const lightDesktop = lessonsWithLightBackground.has(id)
-    ? `url(/backgrounds/${id}-light.${BG_EXT})`
+    ? `url(${BASE}/backgrounds/${id}-light.${BG_EXT})`
     : darkDesktop;
 
   const lightPhone = lessonsWithLightPhoneBackground.has(id)
-    ? `url(/backgrounds/${id}-light-phone.${BG_EXT})`
+    ? `url(${BASE}/backgrounds/${id}-light-phone.${BG_EXT})`
     : lightDesktop;
 
   const style: Record<string, string> = {
