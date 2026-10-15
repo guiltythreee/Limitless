@@ -1,26 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { lessons, ranks, unitOf, pad2 } from "../content";
 
-const KEY = "hc3-open-chapters";
+// Remembered for this browser tab only, so every fresh visit starts with all chapters collapsed.
+const KEY = "hc3-open-chapters-session";
 
 /** Chapters (sequences) that can be folded. Used by the side list and by the phone topic picker. */
 export default function TopicTree({ activeId, completed, onChoose }: { activeId: string; completed: string[]; onChoose: (id: string) => void }) {
   const activeRank = lessons.find((l) => l.id === activeId)?.rank ?? 9;
-  const [open, setOpen] = useState<number[]>([activeRank]);
+  // Every chapter starts collapsed.
+  const [open, setOpen] = useState<number[]>([]);
 
-  // Remember which chapters were open.
+  // Within one tab session, remember which chapters were open (e.g. when switching tabs and coming back).
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(KEY) ?? "null");
-      if (Array.isArray(saved)) setOpen(saved.includes(activeRank) ? saved : [...saved, activeRank]);
+      const saved = JSON.parse(sessionStorage.getItem(KEY) ?? "null");
+      if (Array.isArray(saved)) setOpen(saved);
     } catch { /* ignore */ }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const save = (next: number[]) => { setOpen(next); try { localStorage.setItem(KEY, JSON.stringify(next)); } catch { /* ignore */ } };
-  // Opening a topic always shows its chapter.
-  useEffect(() => { if (!open.includes(activeRank)) save([...open, activeRank]); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [activeRank]);
+  const save = (next: number[]) => { setOpen(next); try { sessionStorage.setItem(KEY, JSON.stringify(next)); } catch { /* ignore */ } };
+  // Choosing a different topic shows its chapter. Not on first load, so nothing is forced open.
+  const shownId = useRef(activeId);
+  useEffect(() => {
+    if (shownId.current === activeId) return;
+    shownId.current = activeId;
+    if (!open.includes(activeRank)) save([...open, activeRank]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId]);
 
   const withLessons = ranks.filter((r) => lessons.some((l) => l.rank === r.num));
   const allOpen = withLessons.every((r) => open.includes(r.num));
