@@ -68,24 +68,22 @@
   var FIRST_CLEAR_XP = [60, 90, 140, 220, 350, 550];       /* one-time bonus the first time you clear each tier */
   var REPEAT_CLEAR_SHARE = 0.15;                           /* later clears pay this share of that, times FADE */
 
-  /* ---------- difficulty: three rule sets layered on top of mode, tier and penalty ----------
-     target:   multiplies every question's target time (pace score, clears, strict timer)
+  /* ---------- drill difficulty: three rule sets, used only by Weak-Spot Drill ----------
+     target:   multiplies every question's target time (pace score and the strict timer)
      penalty:  multiplies the points lost for a wrong answer
-     accuracy: added to the accuracy a tier clear needs
-     xp:       multiplies the XP (and clear bonuses) a run pays
-     lives:    added to Sudden Death lives          climb: speed of the Limitless tier climb */
+     xp:       multiplies the XP the run pays
+     lives:    added to Sudden Death lives */
   var DIFFS = {
     easy: { name: 'Wayfarer', desc: 'More time, gentler penalties, extra lives. XP ×0.75.',
-      note: 'Wayfarer: you get 25% more time per question, wrong answers cost half, clears need 3% less accuracy, Sudden Death gives 5 lives and Limitless climbs more slowly. XP is ×0.75.',
-      target: 1.25, penalty: 0.5, accuracy: -0.03, xp: 0.75, lives: 2, climb: 0.8, skipCosts: false, forceTimer: false, noPractice: false },
-    normal: { name: 'Ascendant', desc: 'The standard rules. XP ×1.',
-      note: 'Ascendant: the standard rules.',
-      target: 1, penalty: 1, accuracy: 0, xp: 1, lives: 0, climb: 1, skipCosts: false, forceTimer: false, noPractice: false },
+      note: 'Wayfarer: 25% more time per question, wrong answers cost half, and Sudden Death gives 5 lives. XP is ×0.75.',
+      target: 1.25, penalty: 0.5, xp: 0.75, lives: 2, skipCosts: false, forceTimer: false, noPractice: false },
+    normal: { name: 'Ascendant', desc: 'The standard drill. XP ×1.',
+      note: 'Ascendant: the standard drill rules.',
+      target: 1, penalty: 1, xp: 1, lives: 0, skipCosts: false, forceTimer: false, noPractice: false },
     hard: { name: 'Apotheosis', desc: 'The timer never stops, penalties bite, skips cost. XP ×1.5.',
-      note: 'Apotheosis: the strict timer is always on with targets 15% tighter, wrong answers and skips cost 1.5×, the Practice penalty is not allowed, clears need 3% more accuracy, Sudden Death gives 2 lives and Limitless climbs faster. XP is ×1.5, and each tier has a ★ for clearing it here.',
-      target: 0.85, penalty: 1.5, accuracy: 0.03, xp: 1.5, lives: -1, climb: 1.25, skipCosts: true, forceTimer: true, noPractice: true }
+      note: 'Apotheosis: the strict timer is always on with targets 15% tighter, wrong answers and skips cost 1.5×, the Practice penalty is not allowed, and Sudden Death gives 2 lives. XP is ×1.5.',
+      target: 0.85, penalty: 1.5, xp: 1.5, lives: -1, skipCosts: true, forceTimer: true, noPractice: true }
   };
-  function needAcc(tier, diffId) { return Math.min(0.99, Math.max(0.5, tier.accuracy + (DIFFS[diffId] || DIFFS.normal).accuracy)); }
   function effTarget(r, a) { return a.target * (DIFFS[r.diff] || DIFFS.normal).target; }
 
   var KEY_RUNS = 'limitless.math.v1.runs';
@@ -214,14 +212,13 @@
     var tierMult = TIER_XP[tierIdx], penMult = PENALTY_XP[r.penalty] || 1, fade = fadeFor(tierIdx, rankIdx);
     var diffMult = (DIFFS[r.diff] || DIFFS.normal).xp;
     var core = base * tierMult * penMult * diffMult * fade;
-    var bonusKey = tierId + (r.diff && r.diff !== 'normal' ? ':' + r.diff : '');   /* one first-clear bonus per tier AND difficulty */
     var clearBonus = 0, firstClear = false;
     if (s.cleared) {
-      if (!meta.tierBonus[bonusKey]) { clearBonus = FIRST_CLEAR_XP[tierIdx] * diffMult; firstClear = true; }
-      else clearBonus = FIRST_CLEAR_XP[tierIdx] * REPEAT_CLEAR_SHARE * fade * diffMult;
+      if (!meta.tierBonus[tierId]) { clearBonus = FIRST_CLEAR_XP[tierIdx]; firstClear = true; }
+      else clearBonus = FIRST_CLEAR_XP[tierIdx] * REPEAT_CLEAR_SHARE * fade;
     }
     var drillBonus = (r.mode === 'drill' && s.attempted >= 10) ? 10 * fade : 0;
-    return { tierIdx: tierIdx, tierId: tierId, base: base, tierMult: tierMult, penMult: penMult, diffMult: diffMult, bonusKey: bonusKey, fade: fade,
+    return { tierIdx: tierIdx, tierId: tierId, base: base, tierMult: tierMult, penMult: penMult, diffMult: diffMult, fade: fade,
       core: core, clearBonus: clearBonus, firstClear: firstClear, drillBonus: drillBonus,
       total: Math.max(0, Math.round(core + clearBonus + drillBonus)) };
   }
@@ -453,9 +450,7 @@
       E.TIERS.forEach(function (t) { if (tiers[t.id] && tiers[t.id].cleared === true) meta.tierClears[t.id] = true; });
     }
     if (m && m.tierBonus && typeof m.tierBonus === 'object') {
-      E.TIERS.forEach(function (t) {
-        ['', ':easy', ':hard'].forEach(function (sfx) { if (m.tierBonus[t.id + sfx] === true) meta.tierBonus[t.id + sfx] = true; });
-      });
+      E.TIERS.forEach(function (t) { if (m.tierBonus[t.id] === true) meta.tierBonus[t.id] = true; });
     }
     saveMeta();
   }
@@ -534,7 +529,7 @@
     setMood();
     var mode = MODES[prefs.mode];
     var forcedPenalty = mode.forcePenalty || null;
-    var dfc = DIFFS[prefs.diff];
+    var dfc = DIFFS[prefs.mode === 'drill' ? prefs.diff : 'normal'];
     var activePenalty = forcedPenalty || ((dfc.noPractice && prefs.penalty === 'practice') ? 'fair' : prefs.penalty);
 
     renderProfile();
@@ -552,6 +547,7 @@
       modeBox.appendChild(makeChip('mode', id, MODES[id].name, MODES[id].desc, id === prefs.mode, false, function (v) { prefs.mode = v; save(KEY_PREFS, prefs); renderMenu(); refocus('mode'); }));
     });
     $('drill-panel').hidden = prefs.mode !== 'drill';
+    $('diff-panel').hidden = prefs.mode !== 'drill';
     if (prefs.mode === 'drill') renderDrillFocus();
 
     var tierBox = $('tier-chips'); clear(tierBox);
@@ -568,7 +564,7 @@
       label.appendChild(h('div', 'tier-label', t.label));
       label.appendChild(h('div', 'tier-blurb', t.blurb));
       label.appendChild(h('div', 'tier-badge' + (st.isCleared ? ' is-cleared' : ''),
-        st.isCleared ? '✓ Cleared' + (meta.tierBonus[t.id + ':hard'] ? ' ★' : '') : (st.runs ? st.cleared + '/' + st.runs + ' clears' : 'Not tried')));
+        st.isCleared ? '✓ Cleared' : (st.runs ? st.cleared + '/' + st.runs + ' clears' : 'Not tried')));
       var fd = fadeFor(t.index, rankFor(meta.xp).idx);
       if (mode.usesTier && fd < 1) label.appendChild(h('div', 'tier-xp', 'XP ' + pct(fd)));
       tierBox.appendChild(label);
@@ -596,7 +592,7 @@
     if (mode.seconds) line.push(fmtClock(mode.seconds));
     if (mode.usesTier) line.push(E.TIER_BY_ID[prefs.tier].name); else line.push('starts at Adept');
     line.push(PENALTIES[activePenalty].name);
-    line.push(dfc.name);
+    if (dfc !== DIFFS.normal) line.push(dfc.name);
     if (mode.usesTier) { var fr = fadeFor(E.TIER_BY_ID[prefs.tier].index, rankFor(meta.xp).idx); line.push(fr >= 1 ? 'full XP' : 'XP at ' + pct(fr)); }
     if (prefs.timer === 'strict' || dfc.forceTimer) line.push('strict timer');
     $('start-note').textContent = line.join(' · ');
@@ -642,7 +638,7 @@
     var modeId = trick ? 'trick' : (cfg.mode || prefs.mode);
     var mode = trick ? TRICK_MODE : MODES[modeId];
     var drill = (modeId === 'drill') ? (cfg.drill || buildDrillCfg(false)) : null;
-    var diffId = trick ? 'normal' : prefs.diff;
+    var diffId = (!trick && modeId === 'drill') ? prefs.diff : 'normal';
     var diff = DIFFS[diffId];
     var penaltyId = trick ? 'practice' : (mode.forcePenalty || (drill && drill.kind === 'accuracy' ? 'strict' : prefs.penalty));
     if (diff.noPractice && penaltyId === 'practice') penaltyId = 'fair';
@@ -682,7 +678,7 @@
   }
 
   function currentTierId() {
-    if (run.mode === 'limitless') return E.limitlessTier(Math.floor(run.correct * DIFFS[run.diff].climb));
+    if (run.mode === 'limitless') return E.limitlessTier(run.correct);
     return run.tier;
   }
 
@@ -828,7 +824,7 @@
     var tier = r.tier ? E.TIER_BY_ID[r.tier] : null;
     var qualifying = !!(mode.minSample && attempted >= mode.minSample);
     var medianRatio = median(ratios);
-    var cleared = !!(qualifying && tier && accuracy >= needAcc(tier, r.diff) && medianRatio <= 1);
+    var cleared = !!(qualifying && tier && accuracy >= tier.accuracy && medianRatio <= 1);
     return {
       reason: reason, attempted: attempted, accuracy: accuracy,
       medianTime: median(times), medianTarget: median(answered.map(function (a) { return effTarget(r, a); })),
@@ -840,7 +836,7 @@
   function persist(r, s) {
     /* XP first, so the saved run knows what it earned */
     var info = xpBreakdown(r, s, rankFor(meta.xp).idx);
-    if (info.firstClear) meta.tierBonus[info.bonusKey] = true;
+    if (info.firstClear) meta.tierBonus[info.tierId] = true;
     var award = awardXp(info.total);
     s.xp = award.gained; s.rankUp = award.rankUp; s.xpInfo = info;
 
@@ -877,7 +873,7 @@
   function renderResults(r, s) {
     var mode = MODES[r.mode];
     $('res-title').textContent = mode.name + ' — ' + (r.tier ? E.TIER_BY_ID[r.tier].name : 'reached ' + E.TIERS[r.topTierIndex].name);
-    $('res-sub').textContent = s.reason + ' · ' + PENALTIES[r.penalty].name + ' · ' + DIFFS[r.diff].name + ' · ' + fmtClock(s.duration);
+    $('res-sub').textContent = s.reason + ' · ' + PENALTIES[r.penalty].name + (r.diff !== 'normal' ? ' · ' + DIFFS[r.diff].name : '') + ' · ' + fmtClock(s.duration);
 
     var tiles = $('res-tiles'); clear(tiles);
     tiles.appendChild(tile('Accuracy', s.attempted ? pct(s.accuracy) : '–', r.correct + ' right, ' + r.wrong + ' wrong' + (r.skipped ? ', ' + r.skipped + ' skipped' : '') + (r.timeouts ? ' (' + r.timeouts + ' too slow)' : '')));
@@ -895,11 +891,11 @@
         'Accuracy ' + pct(s.accuracy) + ', median ' + fmtSec(s.medianTime) + ' against a target of ' + fmtSec(s.medianTarget) + '.';
     } else if (tier && s.qualifying) {
       if (s.cleared) {
-        v.textContent = '✓ Tier run cleared: accuracy ' + pct(s.accuracy) + ' (needed ' + pct(needAcc(tier, r.diff)) + ') and median time within target. Clear 2 of your last 3 runs to ascend.';
-      } else if (s.accuracy >= needAcc(tier, r.diff)) {
+        v.textContent = '✓ Tier run cleared: accuracy ' + pct(s.accuracy) + ' (needed ' + pct(tier.accuracy) + ') and median time within target. Clear 2 of your last 3 runs to ascend.';
+      } else if (s.accuracy >= tier.accuracy) {
         v.textContent = 'Accurate but slow: your median time was above the target. Next run, trust your first method and move faster.';
       } else if (s.medianRatio <= 1) {
-        v.textContent = 'Fast but sloppy: you were quick but accuracy was ' + pct(s.accuracy) + ' (needed ' + pct(needAcc(tier, r.diff)) + '). Slow down slightly and check carry digits.';
+        v.textContent = 'Fast but sloppy: you were quick but accuracy was ' + pct(s.accuracy) + ' (needed ' + pct(tier.accuracy) + '). Slow down slightly and check carry digits.';
       } else {
         v.textContent = 'Not cleared yet: both accuracy and speed need work. Review the mistakes below, then try again.';
       }

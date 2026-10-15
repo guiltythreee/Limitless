@@ -60,12 +60,6 @@
         <p class="note">Nothing is saved on the website itself. Download your weak-spot analysis after training, and upload it next time to start drilling straight away.</p>
       </div>
 
-      <div class="panel" id="diff-panel">
-        <h2 class="step-title"><span>&#9670;</span> Choose a difficulty</h2>
-        <div class="chips" id="diff-chips" role="radiogroup" aria-label="Difficulty"></div>
-        <p class="note" id="diff-note"></p>
-      </div>
-
       <div class="panel">
         <h2 class="step-title"><span>1</span> Choose a mode</h2>
         <div class="chips" id="mode-chips" role="radiogroup" aria-label="Mode"></div>
@@ -76,6 +70,12 @@
         <label class="note" for="drill-focus" style="display:block;margin:0 0 10px">What should the drill practise?</label>
         <select id="drill-focus" class="select" aria-label="Drill focus"></select>
         <p class="note" id="drill-note"></p>
+      </div>
+
+      <div class="panel" id="diff-panel" hidden>
+        <h2 class="step-title"><span>+</span> Drill difficulty</h2>
+        <div class="chips" id="diff-chips" role="radiogroup" aria-label="Drill difficulty"></div>
+        <p class="note" id="diff-note"></p>
       </div>
 
       <div class="panel" id="tier-panel">
