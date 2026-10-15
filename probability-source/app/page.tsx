@@ -115,6 +115,7 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-2">
             <button onClick={toggleTheme} aria-label="Switch between dark and light theme" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">{theme === "dark" ? "☀ Light" : "☾ Dark"}</button>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Probability home" title="Back to the top of Probability" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">⌂ <span className="hidden sm:inline">Probability </span>Home</button>
             <a href="/" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">↖ Limitless</a>
           </div>
         </div>
