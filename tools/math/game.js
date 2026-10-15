@@ -1170,12 +1170,10 @@
   $('btn-tricks').addEventListener('click', function () { trickBanner = ''; renderTricks(); show('screen-tricks'); });
   $('btn-tricks-back').addEventListener('click', function () { show('screen-menu'); renderMenu(); });
 
-  /* navbar: Math Trainer home / back to the open topic (asks first if a run is in progress) */
+  /* navbar: Math Trainer home / back to the open topic.
+     Leaves at once, exactly like "Back to Limitless": an unfinished run is dropped, not saved. */
   function navigate(target) {
-    if (document.body.getAttribute('data-screen') === 'play' && run && !run.ended) {
-      if (!window.confirm('Leave this run? It will end now.')) return;
-      finishRun('Run ended early');
-    }
+    if (run && !run.ended) { run.ended = true; clearInterval(tickTimer); run = null; }
     if (target === 'topic' && openTrickId) {
       trickBanner = ''; renderTricks(); show('screen-tricks');
       $('trick-detail').scrollIntoView({ block: 'start' });
