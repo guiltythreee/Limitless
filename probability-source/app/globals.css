@@ -70,7 +70,7 @@
   --panel-shadow: 0 18px 55px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.025);
   --grid: rgba(223,194,123,.035);
   --selection: rgba(223,194,123,.3);
-  --veil: linear-gradient(180deg, rgba(16,14,20,.58) 0%, rgba(16,14,20,.84) 100%);
+  --veil: linear-gradient(180deg, rgba(16,14,20,.14) 0%, rgba(16,14,20,.30) 100%);
 }
 
 /* ---------- Light theme ---------- */
@@ -103,7 +103,7 @@
   --panel-shadow: 0 18px 55px rgba(80,60,20,.12), inset 0 1px rgba(255,255,255,.6);
   --grid: rgba(138,100,20,.07);
   --selection: rgba(138,100,20,.25);
-  --veil: linear-gradient(180deg, rgba(246,239,220,.66) 0%, rgba(246,239,220,.90) 100%);
+  --veil: linear-gradient(180deg, rgba(246,239,220,.22) 0%, rgba(246,239,220,.38) 100%);
 }
 
 * { box-sizing: border-box; }
@@ -159,6 +159,12 @@ button { cursor: pointer; }
   }
 }
 .bg-layer::after { content: ""; position: absolute; inset: 0; background: var(--veil); }
+/*
+  Loose text that sits directly on the artwork (not inside a .panel). A soft halo in the page colour
+  keeps it readable without dimming the picture. Buttons keep their own colours, so no halo on them.
+*/
+.art-text { text-shadow: 0 0 3px var(--ink), 0 0 10px var(--ink), 0 0 22px var(--ink); }
+.art-text button, .art-text a { text-shadow: none; }
 @keyframes bgfade { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .bg-layer { animation: none; } }
 

@@ -126,13 +126,13 @@ export default function Home() {
         <div className="pointer-events-none absolute -right-24 -top-32 h-[420px] w-[420px] rounded-full border border-gold/10" />
         <div className="pointer-events-none absolute -right-12 -top-20 h-[320px] w-[320px] rounded-full border border-gold/10" />
         <div className="relative mx-auto grid max-w-[1440px] gap-10 px-5 py-14 md:grid-cols-[1.3fr_.7fr] md:items-center md:px-10 md:py-20">
-          <div>
+          <div className="art-text">
             <div className="eyebrow mb-5">A chamber beyond certainty</div>
             <h1 className="serif max-w-3xl text-4xl leading-[1.1] text-parchment sm:text-5xl md:text-7xl">Learn the laws<br/><span className="italic text-gold">of the uncertain.</span></h1>
             <p className="mt-6 max-w-xl text-sm leading-7 text-dim md:text-base">Enter the archive of probability. Begin with outcomes and counting, advance through Bayes and random variables, then approach the deeper machinery of limit theorems and stochastic processes.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button onClick={() => { chooseLesson(lessons.find(l => !completed.includes(l.id))?.id ?? lessons[0].id); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/70 bg-gold px-5 py-3 text-xs font-bold uppercase tracking-[.15em] text-ongold transition hover:bg-goldhi">Continue the path <span className="ml-2">→</span></button>
-              <button onClick={() => { setTab("experiment"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/25 px-5 py-3 text-xs uppercase tracking-[.15em] text-gold transition hover:bg-gold/10">Open experiment chamber</button>
+              <button onClick={() => { setTab("experiment"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/25 bg-ink/55 px-5 py-3 text-xs uppercase tracking-[.15em] text-gold transition hover:bg-gold/10">Open experiment chamber</button>
             </div>
           </div>
           <div className="panel relative mx-auto w-full max-w-md p-6 md:p-8">
@@ -155,8 +155,8 @@ export default function Home() {
 
       <section id="study" className="mx-auto max-w-[1440px] px-5 py-12 md:px-10 md:py-16">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div><div className="eyebrow mb-3">Choose your next revelation</div><h2 className="serif text-3xl md:text-4xl">The Archive</h2></div>
-          <div className="flex max-w-full flex-wrap border border-gold/20 p-1">
+          <div className="art-text"><div className="eyebrow mb-3">Choose your next revelation</div><h2 className="serif text-3xl md:text-4xl">The Archive</h2></div>
+          <div className="flex max-w-full flex-wrap border border-gold/20 bg-ink/70 p-1">
             <button onClick={() => setTab("archive")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "archive" ? "bg-gold text-ongold" : "text-dim"}`}>Lessons</button>
             <button onClick={() => setTab("analysis")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "analysis" ? "bg-gold text-ongold" : "text-dim"}`}>Analysis</button>
             <button onClick={() => setTab("experiment")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "experiment" ? "bg-gold text-ongold" : "text-dim"}`}>Experiments</button>
@@ -224,16 +224,16 @@ export default function Home() {
         )}
       </section>
 
-      <section id="path" className="border-y border-gold/10 bg-black/10">
+      <section id="path" className="border-y border-gold/10">
         <div className="mx-auto max-w-[1440px] px-5 py-12 md:px-10 md:py-16">
-          <div className="eyebrow mb-3">The ascent</div>
-          <h2 className="serif text-3xl md:text-4xl">A path through uncertainty</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-dim">Master each layer before advancing. The sequences run from 09 down to 00. Sealed sequences open as their lessons are written.</p>
+          <div className="eyebrow art-text mb-3">The ascent</div>
+          <h2 className="serif art-text text-3xl md:text-4xl">A path through uncertainty</h2>
+          <p className="art-text mt-3 max-w-2xl text-sm leading-6 text-dim">Master each layer before advancing. The sequences run from 09 down to 00. Sealed sequences open as their lessons are written.</p>
           <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">{ranks.map((rank) => { const inRank = lessons.filter((lesson) => lesson.rank === rank.num); const done = inRank.filter((lesson) => completed.includes(lesson.id)).length; const sealed = inRank.length === 0; return <div key={rank.num} className={`panel p-5 ${sealed ? "opacity-60" : ""}`}><div className="flex items-center justify-between"><span className="serif text-2xl text-gold">{pad2(rank.num)}</span><span className="text-[9px] uppercase tracking-[.15em] text-faint">{sealed ? "Sealed" : `${done} / ${inRank.length} lessons`}</span></div><h3 className="serif mt-5 text-xl">{rank.name}</h3><p className="mt-2 text-xs leading-5 text-dim">{rank.detail}</p><div className="mt-5 h-px bg-gold/15"/></div>; })}</div>
         </div>
       </section>
 
-      <footer className="mx-auto flex max-w-[1440px] flex-col justify-between gap-3 px-5 py-8 text-xs text-faint md:flex-row md:px-10"><span className="serif text-sm tracking-wide text-mutedgold">HIDDEN CHAMBER III · THE PROBABILITY ARCHIVE</span><span>Knowledge is the only lantern in the unknown.</span></footer>
+      <footer className="art-text mx-auto flex max-w-[1440px] flex-col justify-between gap-3 px-5 py-8 text-xs text-faint md:flex-row md:px-10"><span className="serif text-sm tracking-wide text-mutedgold">HIDDEN CHAMBER III · THE PROBABILITY ARCHIVE</span><span>Knowledge is the only lantern in the unknown.</span></footer>
     </main>
   );
 }
