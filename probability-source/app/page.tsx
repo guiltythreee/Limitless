@@ -20,7 +20,7 @@ function TopicPicker({ activeId, completed, onChoose, title, unit }: { activeId:
   return (
     <div className="md:hidden">
       <button onClick={() => setShown(!shown)} aria-expanded={shown} className="panel flex w-full items-center gap-3 px-4 py-3 text-left">
-        <span className="min-w-0 flex-1"><span className="eyebrow block text-[9px]!">Topic</span><span className="mt-1 block truncate text-sm text-parchment">{unit} · {title}</span></span>
+        <span className="min-w-0 flex-1"><span className="eyebrow block text-[9px]!">Topic</span><span className="mt-1 block truncate text-sm text-parchment">{unit ? `${unit} · ` : ""}{title}</span></span>
         <span className={`text-gold transition-transform ${shown ? "rotate-180" : ""}`}>▾</span>
       </button>
       {shown && <div className="panel mt-2 max-h-[65vh] overflow-y-auto p-3"><TopicTree activeId={activeId} completed={completed} onChoose={(id) => { onChoose(id); setShown(false); }} /></div>}
@@ -34,6 +34,8 @@ export default function Home() {
   const store = useStore();
   const hydrated = useHydrated();
   const [activeId, setActiveId] = useState(lessons[0].id);
+  // No topic is shown until the reader picks one. (activeId still needs a lesson so the page always has data to work with.)
+  const [opened, setOpened] = useState(false);
   const [section, setSection] = useState<Section>("theory");
   const [rolls, setRolls] = useState<number[]>([]);
   const [rollCount, setRollCount] = useState(100);
@@ -80,6 +82,7 @@ export default function Home() {
   // Opening another topic starts at its Theory, unless the caller (e.g. Topic-wise practice) wants to stay in the same section.
   function chooseLesson(id: string, keepSection = false) {
     setActiveId(id);
+    setOpened(true);
     setTab("archive");
     if (!keepSection) setSection("theory");
   }
@@ -168,12 +171,21 @@ export default function Home() {
           <Analysis />
         ) : tab === "archive" ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-[270px_minmax(0,1fr)] lg:grid-cols-[300px_minmax(0,1fr)]">
-            <TopicPicker activeId={activeId} completed={completed} onChoose={chooseLesson} title={activeLesson.title} unit={unitOf[activeLesson.id]} />
+            <TopicPicker activeId={opened ? activeId : ""} completed={completed} onChoose={chooseLesson} title={opened ? activeLesson.title : "Choose a topic"} unit={opened ? unitOf[activeLesson.id] : ""} />
             <aside className="panel hidden min-w-0 p-4 md:sticky md:top-24 md:block md:max-h-[calc(100vh-7rem)] md:self-start md:overflow-y-auto">
-              <TopicTree activeId={activeId} completed={completed} onChoose={(id) => chooseLesson(id)} />
+              <TopicTree activeId={opened ? activeId : ""} completed={completed} onChoose={(id) => chooseLesson(id)} />
               <button onClick={resetProgress} className="mt-5 w-full border-t border-gold/15 pt-4 text-left text-[10px] uppercase tracking-[.14em] text-faint hover:text-gold">Reset saved progress</button>
             </aside>
 
+            {!opened ? (
+              <article ref={articleRef} className="panel flex min-h-[320px] min-w-0 scroll-mt-24 items-center justify-center p-8 text-center">
+                <div>
+                  <div className="eyebrow mb-3">The Archive</div>
+                  <h3 className="serif text-2xl md:text-3xl">Choose a chapter to begin</h3>
+                  <p className="mt-3 text-sm leading-6 text-dim">Open a sequence in the chapters list, then pick a topic.</p>
+                </div>
+              </article>
+            ) : (
             <article ref={articleRef} className="panel min-w-0 scroll-mt-24 p-5 sm:p-8 md:p-10">
               <div className="flex flex-wrap items-center gap-2"><span className="eyebrow">Chapter {unitOf[activeLesson.id]}</span><span className="text-faint">·</span><span className="text-xs text-dim">Sequence {pad2(activeLesson.rank)} · {rankName(activeLesson.rank)}</span><span className="ml-auto text-xs text-dim">{activeLesson.minutes} minute read</span></div>
               <h3 className="serif mt-4 text-3xl leading-tight md:text-4xl">{activeLesson.title}</h3>
@@ -203,6 +215,7 @@ export default function Home() {
                 <button onClick={() => chooseLesson(lessons[Math.min(lessons.length - 1, activeIndex + 1)].id)} disabled={activeIndex === lessons.length - 1} className="text-xs uppercase tracking-[.12em] text-gold hover:text-parchment disabled:opacity-25">Next chapter →</button>
               </div>
             </article>
+            )}
           </div>
         ) : (
           <div className="grid gap-6 lg:grid-cols-[.8fr_1.2fr]">
