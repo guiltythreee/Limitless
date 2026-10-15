@@ -1,4 +1,4 @@
 :HL["/probability/_next/static/chunks/35o9jewy5zyca.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
-0:{"b":"uqJbdYYQLVA-dpTbCZqm8","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"QabE3hGbIo0xMb3zLn6nU","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
