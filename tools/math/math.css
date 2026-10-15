@@ -61,6 +61,7 @@
   font-family: Arial, sans-serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted);
 }
 .tier-badge.is-cleared { color: var(--on-gold); background: var(--gold); border-color: transparent; }
+.tier-xp { margin-top: 6px; color: var(--muted); font-family: Arial, sans-serif; font-size: 11px; letter-spacing: .03em; }
 
 .start-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 4px 0 28px; justify-content: center; }
 .start-row .button { cursor: pointer; font-size: 13px; }

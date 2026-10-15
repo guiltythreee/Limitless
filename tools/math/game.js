@@ -49,9 +49,24 @@
     standard: { name: 'Mixed drill', text: 'a balanced mix of your weak skills and general questions', next: 'Mixed drill' }
   };
   var RANKS = [
-    [0, 'Novice'], [250, 'Student'], [800, 'Calculator'], [2000, 'Savant'],
-    [4500, 'Sage'], [8500, 'Oracle'], [15000, 'Archmage'], [25000, 'Limitless']
+    [0, 'Novice'], [450, 'Student'], [1500, 'Calculator'], [3500, 'Savant'],
+    [7500, 'Sage'], [14000, 'Oracle'], [24000, 'Archmage'], [38000, 'Limitless']
   ];
+
+  /* ---------- the XP economy ----------
+     XP for a run = points/10 x TIER x PENALTY x FADE, plus bonuses.
+     TIER:    harder tiers pay more per point.
+     PENALTY: riskier penalty rules pay more (Practice pays half).
+     FADE:    each tier has a "comfort rank". Up to that rank it pays full XP.
+              Every rank above it, the tier pays less (FADE list), never below FADE_FLOOR.
+              So easy tiers stop being worth it as you rank up, and you have to climb. */
+  var TIER_XP = [1.0, 1.25, 1.6, 2.1, 2.8, 3.8];          /* acolyte … abyss */
+  var TIER_COMFORT = [0, 1, 2, 3, 5, 7];                   /* rank index where each tier stops paying full XP */
+  var FADE = [1, 0.6, 0.35, 0.18, 0.08];                   /* 0, 1, 2, 3, 4 ranks above comfort */
+  var FADE_FLOOR = 0.05;                                   /* 5 ranks or more above: a trickle, never zero */
+  var PENALTY_XP = { practice: 0.5, fair: 1, strict: 1.25, escalating: 1.25, sudden: 1.5 };
+  var FIRST_CLEAR_XP = [60, 90, 140, 220, 350, 550];       /* one-time bonus the first time you clear each tier */
+  var REPEAT_CLEAR_SHARE = 0.15;                           /* later clears pay this share of that, times FADE */
 
   var KEY_RUNS = 'limitless.math.v1.runs';
   var KEY_ATT = 'limitless.math.v1.attempts';
@@ -130,7 +145,8 @@
       xp: num(m.xp, 0, 1e7, 0),
       streak: { day: (m.streak && typeof m.streak.day === 'string') ? m.streak.day : '', count: num(m.streak && m.streak.count, 0, 100000, 0), best: num(m.streak && m.streak.best, 0, 100000, 0) },
       tricks: (m.tricks && typeof m.tricks === 'object') ? m.tricks : {},
-      tierClears: (m.tierClears && typeof m.tierClears === 'object') ? m.tierClears : {}
+      tierClears: (m.tierClears && typeof m.tierClears === 'object') ? m.tierClears : {},
+      tierBonus: (m.tierBonus && typeof m.tierBonus === 'object') ? m.tierBonus : {}
     };
   })();
   function saveMeta() { save(KEY_META, meta); }
@@ -162,6 +178,29 @@
     var after = rankFor(meta.xp);
     saveMeta();
     return { gained: n, rankUp: after.idx > before ? after.name : null };
+  }
+
+  /* how much of a tier's XP you keep at your current rank (1 = full) */
+  function fadeFor(tierIdx, rankIdx) {
+    var gap = Math.max(0, rankIdx - TIER_COMFORT[tierIdx]);
+    return gap < FADE.length ? FADE[gap] : FADE_FLOOR;
+  }
+  /* pure: works out the XP for a finished run and shows every step (nothing is saved here) */
+  function xpBreakdown(r, s, rankIdx) {
+    var tierIdx = r.tier ? E.TIER_BY_ID[r.tier].index : r.topTierIndex;
+    var tierId = E.TIERS[tierIdx].id;
+    var base = Math.max(0, r.points) / 10;
+    var tierMult = TIER_XP[tierIdx], penMult = PENALTY_XP[r.penalty] || 1, fade = fadeFor(tierIdx, rankIdx);
+    var core = base * tierMult * penMult * fade;
+    var clearBonus = 0, firstClear = false;
+    if (s.cleared) {
+      if (!meta.tierBonus[tierId]) { clearBonus = FIRST_CLEAR_XP[tierIdx]; firstClear = true; }
+      else clearBonus = FIRST_CLEAR_XP[tierIdx] * REPEAT_CLEAR_SHARE * fade;
+    }
+    var drillBonus = (r.mode === 'drill' && s.attempted >= 10) ? 10 * fade : 0;
+    return { tierIdx: tierIdx, tierId: tierId, base: base, tierMult: tierMult, penMult: penMult, fade: fade,
+      core: core, clearBonus: clearBonus, firstClear: firstClear, drillBonus: drillBonus,
+      total: Math.max(0, Math.round(core + clearBonus + drillBonus)) };
   }
 
   function renderProfile() {
@@ -344,7 +383,7 @@
       app: 'limitless-math-profile', version: 1, exportedAt: new Date().toISOString(),
       skills: skills, weak: rx ? rx.skills : [],
       prescription: rx ? { kind: rx.kind, skills: rx.skills } : null,
-      tiers: tiers, meta: { xp: meta.xp, streak: meta.streak, tricks: meta.tricks }, recent: recent
+      tiers: tiers, meta: { xp: meta.xp, streak: meta.streak, tricks: meta.tricks, tierBonus: meta.tierBonus }, recent: recent
     };
   }
   function downloadJson(obj, filename) {
@@ -389,6 +428,9 @@
     }
     if (tiers && typeof tiers === 'object') {
       E.TIERS.forEach(function (t) { if (tiers[t.id] && tiers[t.id].cleared === true) meta.tierClears[t.id] = true; });
+    }
+    if (m && m.tierBonus && typeof m.tierBonus === 'object') {
+      E.TIERS.forEach(function (t) { if (m.tierBonus[t.id] === true) meta.tierBonus[t.id] = true; });
     }
     saveMeta();
   }
@@ -494,6 +536,8 @@
       label.appendChild(h('div', 'tier-blurb', t.blurb));
       label.appendChild(h('div', 'tier-badge' + (st.isCleared ? ' is-cleared' : ''),
         st.isCleared ? '✓ Cleared' : (st.runs ? st.cleared + '/' + st.runs + ' clears' : 'Not tried')));
+      var fd = fadeFor(t.index, rankFor(meta.xp).idx);
+      if (mode.usesTier && fd < 1) label.appendChild(h('div', 'tier-xp', 'XP ' + pct(fd)));
       tierBox.appendChild(label);
     });
     $('tier-panel').style.opacity = mode.usesTier ? '1' : '.55';
@@ -518,6 +562,7 @@
     if (mode.seconds) line.push(fmtClock(mode.seconds));
     if (mode.usesTier) line.push(E.TIER_BY_ID[prefs.tier].name); else line.push('starts at Adept');
     line.push(PENALTIES[activePenalty].name);
+    if (mode.usesTier) { var fr = fadeFor(E.TIER_BY_ID[prefs.tier].index, rankFor(meta.xp).idx); line.push(fr >= 1 ? 'full XP' : 'XP at ' + pct(fr)); }
     if (prefs.timer === 'strict') line.push('strict timer');
     $('start-note').textContent = line.join(' · ');
 
@@ -753,10 +798,10 @@
 
   function persist(r, s) {
     /* XP first, so the saved run knows what it earned */
-    var tierIdx = r.tier ? E.TIER_BY_ID[r.tier].index : r.topTierIndex;
-    var xp = Math.max(0, Math.round(r.points / 10 * (1 + 0.25 * tierIdx))) + (s.cleared ? 40 : 0) + (r.mode === 'drill' && s.attempted >= 10 ? 10 : 0);
-    var award = awardXp(xp);
-    s.xp = award.gained; s.rankUp = award.rankUp;
+    var info = xpBreakdown(r, s, rankFor(meta.xp).idx);
+    if (info.firstClear) meta.tierBonus[info.tierId] = true;
+    var award = awardXp(info.total);
+    s.xp = award.gained; s.rankUp = award.rankUp; s.xpInfo = info;
 
     var runs = load(KEY_RUNS, []);
     runs.push({
@@ -826,6 +871,14 @@
     /* drills: did the targeted skills improve compared with before? */
     var extra = $('res-extra'); clear(extra);
     var lines = [];
+    var xi = s.xpInfo;
+    if (xi) {
+      var f2 = function (x) { return String(Math.round(x * 100) / 100); };
+      lines.push('XP: ' + Math.round(xi.base) + ' base × tier ' + f2(xi.tierMult) + ' × penalty ' + f2(xi.penMult) + ' × rank fade ' + f2(xi.fade) +
+        (xi.clearBonus ? ' + ' + Math.round(xi.clearBonus) + (xi.firstClear ? ' first-clear bonus' : ' clear bonus') : '') +
+        (xi.drillBonus ? ' + ' + Math.round(xi.drillBonus) + ' drill bonus' : '') + ' = +' + xi.total);
+      if (xi.fade < 1) lines.push('This tier is below your rank, so it pays ' + pct(xi.fade) + ' of full XP. A higher tier pays full value.');
+    }
     if (r.drill && r.drill.skills.length) {
       r.drill.skills.forEach(function (skill) {
         var list = r.attempts.filter(function (a) { return a.skill === skill && a.result !== 'skip'; });
@@ -1079,11 +1132,12 @@
         ratio: median(answered.map(function (a) { return a.time / a.target; })), ts: Date.now() };
       var rec = tk(id);
       rec.lastTs = Date.now();
-      var xp = 0;
-      if (phase === 'baseline') { rec.base = stat; xp = 15; trickBanner = 'Baseline recorded: ' + pct(stat.acc) + ' right, ' + fmtSec(stat.med) + ' median. The lesson is unlocked below.'; }
-      else if (phase === 'practice') { rec.practice = (rec.practice || 0) + 1; xp = 10; trickBanner = 'Practice done: ' + pct(stat.acc) + ' right. Take the post-test when the steps feel automatic.'; }
+      var xp = 0, wasMastered = isMastered(rec);
+      if (phase === 'baseline') { xp = rec.base ? 2 : 15; rec.base = stat; trickBanner = 'Baseline recorded: ' + pct(stat.acc) + ' right, ' + fmtSec(stat.med) + ' median. The lesson is unlocked below.'; }
+      else if (phase === 'practice') { xp = Math.max(2, 10 - 2 * (rec.practice || 0)); rec.practice = (rec.practice || 0) + 1; trickBanner = 'Practice done: ' + pct(stat.acc) + ' right. Take the post-test when the steps feel automatic.'; }
       else {
-        rec.post = stat; xp = 25;
+        xp = rec.post ? 3 : 25; rec.post = stat;
+        if (isMastered(rec) && !wasMastered) xp += 30;
         trickBanner = 'Post-test recorded: ' + pct(stat.acc) + ' right, ' + fmtSec(stat.med) + ' median.' + (rec.base ? ' Baseline was ' + fmtSec(rec.base.med) + '.' : '') + (isMastered(rec) ? ' ' + tr.name + ' mastered!' : '');
       }
       touchStreak();
@@ -1234,6 +1288,7 @@
   window.MathGame = {
     state: function () { return run; }, prefs: prefs, MODES: MODES, meta: meta,
     analyse: analyse, prescription: prescription, buildProfile: buildProfile, rankFor: rankFor,
+    xpBreakdown: xpBreakdown, fadeFor: fadeFor,
     startRun: startRun, KEYS: { runs: KEY_RUNS, att: KEY_ATT, meta: KEY_META, profile: KEY_PROFILE }
   };
 
