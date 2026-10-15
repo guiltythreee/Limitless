@@ -11,6 +11,8 @@ import { allQuestions } from "./lib/questions";
 import { latestByQuestion, markComplete, resetAll, useHydrated, useStore } from "./lib/store";
 import { goalInfo } from "./lib/stats";
 
+// The site is served from /probability/ when published, so image addresses need that prefix (same as backgrounds).
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const rankName = (num: number) => ranks.find((r) => r.num === num)?.name ?? "";
 // Phones and narrow windows: one button that opens the same foldable chapter list.
 function TopicPicker({ activeId, completed, onChoose, title, unit }: { activeId: string; completed: string[]; onChoose: (id: string) => void; title: string; unit: string }) {
@@ -100,13 +102,13 @@ export default function Home() {
       {bgStyle && <div key={bgId} className="bg-layer" style={bgStyle} aria-hidden="true" />}
       <header className="sticky top-0 z-30 border-b border-gold/15 bg-ink/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-5 py-4 lg:px-10">
-          <a href="#" className="flex items-center gap-3 no-underline">
-            <div className="flex h-10 w-10 items-center justify-center border border-gold/50 bg-chip text-2xl text-gold">✧</div>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Home" title="Back to the top of Probability" className="flex items-center gap-3 text-left">
+            <div aria-hidden="true" className="h-11 w-11 flex-none border border-gold/50 bg-chip bg-cover bg-center" style={{ backgroundImage: `url(${BASE}/brand-icon.webp)` }} />
             <div>
-              <div className="serif text-lg leading-tight tracking-wide text-parchment">HIDDEN CHAMBER III</div>
+              <div className="serif text-lg leading-tight tracking-wide text-parchment">Home</div>
               <div className="eyebrow mt-1 text-[8px]! tracking-[.2em]!">The Probability Archive</div>
             </div>
-          </a>
+          </button>
           <nav className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
             <button onClick={() => setTab("archive")} className={tab === "archive" ? "text-gold" : "hover:text-parchment"}>The Archive</button>
             <button onClick={() => setTab("analysis")} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Analysis</button>
@@ -115,7 +117,6 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-2">
             <button onClick={toggleTheme} aria-label="Switch between dark and light theme" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">{theme === "dark" ? "☀ Light" : "☾ Dark"}</button>
-            <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Probability home" title="Back to the top of Probability" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">⌂ <span className="hidden sm:inline">Probability </span>Home</button>
             <a href="/" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">↖ Limitless</a>
           </div>
         </div>
