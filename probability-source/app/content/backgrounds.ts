@@ -53,8 +53,12 @@ export const lessonsWithPhoneBackground = new Set<string>([
   "de-morgan",
 ]);
 
-// Add a lesson ID here when its light-mode desktop image is available.
-export const lessonsWithLightBackground = new Set<string>([]);
+   export const lessonsWithLightBackground = new Set<string>([
+     "sample-space", "events-operations", "set-theory", "mutually-exclusive",
+     "exhaustive-partitions", "counting", "combinations", "multinomials",
+     "axioms", "properties", "equally-likely", "probability-counting",
+     "de-morgan", "continuity", "borel-cantelli",
+   ]);
 
 // Add a lesson ID here when its light-mode phone image is available.
 export const lessonsWithLightPhoneBackground = new Set<string>([]);
