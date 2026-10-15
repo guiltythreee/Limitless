@@ -81,7 +81,15 @@
     SCREENS.forEach(function (s) { $(s).hidden = (s !== id); });
     document.body.setAttribute('data-screen', id.replace('screen-', ''));
     setMood();
+    updateNav();
     window.scrollTo(0, 0);
+  }
+  /* "back to current topic" shows only while a Trick Chamber topic is open and you are somewhere else */
+  function updateNav() {
+    var btn = $('nav-topic'); if (!btn) return;
+    var tr = openTrickId && E.TRICK_BY_ID[openTrickId];
+    btn.hidden = !tr || document.body.getAttribute('data-screen') === 'tricks';
+    if (tr) { $('nav-topic-name').textContent = tr.name; btn.title = 'Back to ' + tr.name; }
   }
   /* tells the theme layer which tier mood to paint (see math-theme.css) */
   function setMood() {
@@ -937,6 +945,13 @@
      TRICK CHAMBER
      ================================================================== */
   var openTrickId = null, trickBanner = '';
+  var KEY_TOPIC = 'limitless.math.v1.topic';   /* sessionStorage: remembered for this tab only */
+  try { var savedTopic = sessionStorage.getItem(KEY_TOPIC); if (savedTopic && E.TRICK_BY_ID[savedTopic]) openTrickId = savedTopic; } catch (e) {}
+  function setOpenTrick(id) {
+    openTrickId = id;
+    try { sessionStorage.setItem(KEY_TOPIC, id || ''); } catch (e) {}
+    updateNav();
+  }
 
   function isMastered(t) {
     if (!t || !t.post) return false;
@@ -959,7 +974,7 @@
       card.appendChild(h('div', 't-name', tr.name));
       card.appendChild(h('div', 't-blurb', tr.blurb));
       card.appendChild(h('span', 't-status' + (isMastered(rec) ? ' is-mastered' : ''), trickStatus(rec)));
-      card.addEventListener('click', function () { openTrickId = tr.id; trickBanner = ''; renderTricks(); $('trick-detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      card.addEventListener('click', function () { setOpenTrick(tr.id); trickBanner = ''; renderTricks(); $('trick-detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
       box.appendChild(card);
     });
   }
@@ -1076,7 +1091,7 @@
       trickBanner += ' +' + award.gained + ' XP' + (award.rankUp ? ' · new rank: ' + award.rankUp + '!' : '') + '.';
       saveMeta();
     }
-    openTrickId = id;
+    setOpenTrick(id);
     run = null;
     renderTricks();
     show('screen-tricks');
@@ -1154,6 +1169,20 @@
   $('drill-focus').addEventListener('change', function (e) { prefs.drillFocus = e.target.value; save(KEY_PREFS, prefs); renderDrillFocus(); });
   $('btn-tricks').addEventListener('click', function () { trickBanner = ''; renderTricks(); show('screen-tricks'); });
   $('btn-tricks-back').addEventListener('click', function () { show('screen-menu'); renderMenu(); });
+
+  /* navbar: Math Trainer home / back to the open topic (asks first if a run is in progress) */
+  function navigate(target) {
+    if (document.body.getAttribute('data-screen') === 'play' && run && !run.ended) {
+      if (!window.confirm('Leave this run? It will end now.')) return;
+      finishRun('Run ended early');
+    }
+    if (target === 'topic' && openTrickId) {
+      trickBanner = ''; renderTricks(); show('screen-tricks');
+      $('trick-detail').scrollIntoView({ block: 'start' });
+    } else { show('screen-menu'); renderMenu(); }
+  }
+  $('nav-home').addEventListener('click', function () { navigate('home'); });
+  $('nav-topic').addEventListener('click', function () { navigate('topic'); });
 
   var answerBox = $('answer');
   /* the answer box only accepts the characters an answer can contain:

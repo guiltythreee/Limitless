@@ -96,3 +96,19 @@ html[data-theme="light"][data-mood="abyss"] .theme-bg, html[data-theme="light"][
 .theme-toggle:hover { border-color: var(--gold); transform: translateY(-2px); }
 .theme-toggle:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
 .nav-links { gap: 18px; }
+
+/* ---------- nav buttons: "Math Trainer home" and "back to current topic" ---------- */
+.nav-links { flex-wrap: wrap; justify-content: flex-end; }
+.nav-btn {
+  font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer;
+  transition: color .2s ease, text-shadow .2s ease;
+}
+.nav-btn:hover { color: var(--gold-bright); text-shadow: 0 0 12px rgba(249,230,181,.4); }
+html[data-theme="light"] .nav-btn:hover { color: var(--gold); text-shadow: none; }
+.nav-btn:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; }
+#nav-topic { max-width: 210px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body[data-screen="menu"] #nav-home { display: none; }   /* already home */
+@media (max-width: 640px) {
+  .navbar { flex-wrap: wrap; row-gap: 10px; }
+  .nav-links { width: 100%; justify-content: flex-start; }
+}
