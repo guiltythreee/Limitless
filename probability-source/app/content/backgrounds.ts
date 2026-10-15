@@ -1,10 +1,17 @@
+
 import type { CSSProperties } from "react";
 
-// Background art. Files live in public/backgrounds/ and are named <lesson-id>.webp (and optionally <lesson-id>-phone.webp).
-// To give a lesson a background, drop the two files in that folder and add its id to this list.
+// Background art lives in public/backgrounds/.
+//
+// Dark desktop:       <lesson-id>.webp
+// Dark phone:         <lesson-id>-phone.webp
+// Light desktop:      <lesson-id>-light.webp
+// Light phone:        <lesson-id>-light-phone.webp
+//
+// Light images are optional. Until they are added, the dark image is used
+// as the fallback in light mode. Phone images are also optional.
+
 export const BG_EXT = "webp";
-// The site is served from /probability/ when published, so picture addresses need that prefix.
-const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const lessonsWithBackground = new Set<string>([
   "sample-space",
@@ -12,34 +19,70 @@ export const lessonsWithBackground = new Set<string>([
   "set-theory",
   "mutually-exclusive",
   "exhaustive-partitions",
+  "counting",
+  "combinations",
+  "multinomials",
   "axioms",
   "properties",
   "equally-likely",
   "probability-counting",
+  "geometric-probability",
   "de-morgan",
   "continuity",
+  "borel-cantelli",
 ]);
 
-// The experiment tab has no lesson of its own, so it borrows this one (the dice picture).
+// Lessons with a dedicated dark-mode phone image.
+// Lessons not listed here use their desktop image on phones.
+export const lessonsWithPhoneBackground = new Set<string>([
+  "sample-space",
+  "events-operations",
+  "set-theory",
+  "mutually-exclusive",
+  "exhaustive-partitions",
+  "counting",
+  "combinations",
+  "multinomials",
+  "axioms",
+  "equally-likely",
+  "probability-counting",
+  "de-morgan",
+]);
+
+// Add a lesson ID here when its light-mode desktop image is available.
+export const lessonsWithLightBackground = new Set<string>([]);
+
+// Add a lesson ID here when its light-mode phone image is available.
+export const lessonsWithLightPhoneBackground = new Set<string>([]);
+
+// The experiment tab has no lesson of its own, so it borrows the sample-space background.
 export const EXPERIMENT_BACKGROUND = "sample-space";
 
-// Topics that also have a phone-sized picture (<id>-phone.webp). The others use the normal picture on phones too.
-const hasPhone = new Set<string>([
-  "sample-space", "events-operations", "set-theory", "mutually-exclusive", "exhaustive-partitions",
-  "axioms", "equally-likely", "probability-counting", "de-morgan",
-]);
-
-// Topics that have separate <id>-light.webp and <id>-dark.webp pictures. Add an id here once you have made both.
-const hasThemed = new Set<string>([]);
-
-// Returns the CSS variables the .bg-layer class reads, or undefined when there is no picture.
-export function backgroundStyle(id: string): CSSProperties | undefined {
+export function backgroundStyle(
+  id: string,
+): CSSProperties | undefined {
   if (!lessonsWithBackground.has(id)) return undefined;
-  const dark = hasThemed.has(id) ? `${id}-dark` : id;
-  const light = hasThemed.has(id) ? `${id}-light` : id;
-  return {
-    "--bg-dark": `url(${BASE}/backgrounds/${dark}.${BG_EXT})`,
-    "--bg-light": `url(${BASE}/backgrounds/${light}.${BG_EXT})`,
-    "--bg-phone": `url(${BASE}/backgrounds/${hasPhone.has(id) ? `${id}-phone` : id}.${BG_EXT})`,
-  } as CSSProperties;
+
+  const darkDesktop = `url(/backgrounds/${id}.${BG_EXT})`;
+  const darkPhone = lessonsWithPhoneBackground.has(id)
+    ? `url(/backgrounds/${id}-phone.${BG_EXT})`
+    : darkDesktop;
+
+  // Until light artwork exists, light mode falls back to dark artwork.
+  const lightDesktop = lessonsWithLightBackground.has(id)
+    ? `url(/backgrounds/${id}-light.${BG_EXT})`
+    : darkDesktop;
+
+  const lightPhone = lessonsWithLightPhoneBackground.has(id)
+    ? `url(/backgrounds/${id}-light-phone.${BG_EXT})`
+    : lightDesktop;
+
+  const style: Record<string, string> = {
+    "--bg-dark": darkDesktop,
+    "--bg-light": lightDesktop,
+    "--bg-phone": darkPhone,
+    "--bg-phone-light": lightPhone,
+  };
+
+  return style as CSSProperties;
 }
