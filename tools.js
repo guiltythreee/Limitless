@@ -31,9 +31,9 @@ const TOOLS = [
   { group: "trainers", symbol: "∑", name: "Math Trainer",
     desc: "Mental arithmetic from Acolyte to Abyss, with an 80-in-8 test mode, penalties and pace analysis.",
       href: "tools/math-refactored/index.html", status: "beta" },
-  { group: "trainers", symbol: "✎", name: "Typing Trainer",
-    desc: "Type through your own books and PDFs, track your weak keys, and level up.",
-    href: "tools/typing/", status: "soon" },
+ { group: "trainers", symbol: "✎", name: "Typing Trainer",
+  desc: "Type through your own books and PDFs, track your weak keys, and level up.",
+  href: "tools/typing/", status: "beta" },
 
   // ---- Studies & Disciplines ----
   { group: "studies", symbol: "◇", name: "Probability",
