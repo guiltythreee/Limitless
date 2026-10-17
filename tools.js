@@ -39,6 +39,9 @@ const TOOLS = [
   { group: "studies", symbol: "◇", name: "Probability",
     desc: "Study probability theory, practise problems, and track your progress.",
     href: "probability/", status: "beta" },
+  { group: "studies", symbol: "⚗", name: "Metallurgical and Materials Engineering",
+    desc: "MT202 Physical Metallurgy: lessons, 387 chapter-wise MCQs with detailed solutions, exam simulator and metallurgy calculators.",
+    href: "metallurgy/", status: "beta" },
 
   // ---- Reserved slots for future tools ----
   { group: "next", symbol: "✧", name: "Hidden Chamber I",

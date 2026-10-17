@@ -1,0 +1,4 @@
+:HL["/metallurgy/_next/static/chunks/0c0_s5gy6fb1r.css","style"]
+2:[["children",{"s":"__PAGE__","h":160}]]
+1:[["children",{"s":"mt202","h":96,"c":"$Q2"}]]
+0:{"b":"fbJuT5OIN9L7enj8pdt9X","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
