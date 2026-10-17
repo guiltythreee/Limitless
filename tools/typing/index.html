@@ -1,1 +1,94 @@
-bookkeys
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08070d">
+  <meta name="description" content="Limitless Typing Trainer — Bookkeys, a local-first typing practice app for your own books.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; frame-src 'self'; script-src 'unsafe-inline' 'self'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src data:; worker-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Typing Trainer &mdash; Limitless</title>
+  <link rel="stylesheet" href="../../theme.css">
+  <script>
+    /* set the shell theme before first paint so there is no flash (same pattern as Math Trainer) */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('limitless.typing.v1.theme'); } catch (e) {}
+      if (t !== 'dark' && t !== 'light') {
+        t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    /* The shell is only a frame: Bookkeys itself runs unchanged inside the iframe below. */
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .navbar { flex: 0 0 auto; }
+    .shell-main { flex: 1 1 auto; min-height: 0; display: flex; }
+    .shell-main iframe { flex: 1 1 auto; width: 100%; height: 100%; border: 0; display: block; background: #08070d; }
+
+    /* Theme toggle, mirroring hub-theme.css (that file is hub-wide and not loaded here). */
+    .theme-toggle {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      padding: 8px 14px;
+      color: var(--gold-bright);
+      background: rgba(232, 203, 139, 0.08);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      white-space: nowrap;
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    .theme-toggle:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .theme-toggle:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
+
+    /* Light shell chrome (mirrors the navbar overrides in hub-theme.css). */
+    html[data-theme="light"] body { background: #dfe6ee; }
+    html[data-theme="light"] .navbar { background: rgba(255, 255, 255, 0.55); border-bottom-color: rgba(120, 95, 40, 0.25); }
+    html[data-theme="light"] .nav-links { color: #4a3a22; }
+    html[data-theme="light"] .nav-links a { color: #4a3a22; }
+    html[data-theme="light"] .theme-toggle { color: #4a3a22; background: rgba(120, 95, 40, 0.08); border-color: rgba(120, 95, 40, 0.35); }
+
+    @media (max-width: 600px) {
+      .theme-toggle { padding: 6px 9px; font-size: 11px; letter-spacing: .5px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <a class="brand" href="../../">Limitless</a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme"></button>
+      <a href="../../">&larr; Back to Limitless</a>
+    </nav>
+  </header>
+
+  <main class="shell-main">
+    <!-- The full Bookkeys application, running as its own document (identical to the standalone file). -->
+    <iframe src="bookkeys.html" title="Bookkeys — Typing Trainer" loading="eager"></iframe>
+  </main>
+
+  <script>
+    (function () {
+      var root = document.documentElement, btn = document.getElementById('theme-toggle');
+      var meta = document.querySelector('meta[name="theme-color"]');
+      function current() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
+      function paint() {
+        var other = current() === 'light' ? 'dark' : 'light';
+        btn.textContent = other === 'light' ? 'Light mode' : 'Dark mode';
+        btn.setAttribute('aria-label', 'Switch to ' + other + ' mode');
+        if (meta) meta.setAttribute('content', current() === 'light' ? '#dfe6ee' : '#08070d');
+      }
+      btn.addEventListener('click', function () {
+        var next = current() === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('limitless.typing.v1.theme', next); } catch (e) {}
+        paint();
+      });
+      paint();
+    })();
+  </script>
+</body>
+</html>
