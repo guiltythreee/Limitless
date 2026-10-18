@@ -41,7 +41,7 @@ function parseOptions(region) {
   const options = [];
   for (let i = 0; i < marks.length; i++) {
     const stop = i + 1 < marks.length ? marks[i + 1].at : region.length;
-    options.push({ label: marks[i].label, text: clean(region.slice(marks[i].end, stop)) });
+    options.push({ label: marks[i].label, text: clean(region.slice(marks[i].end, stop)).replace(/\n\s*/g, " ") });
   }
   return options;
 }

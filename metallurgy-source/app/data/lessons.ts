@@ -80,7 +80,7 @@ export const LESSONS: Record<string, Lesson> = {
       },
       {
         h: "Void sites",
-        p: "FCC has 6 octahedral voids per cell (r_void/r_atom = 0.414) and 8 tetrahedral voids (0.225). BCC has only *distorted octahedral* sites (0.155) — small enough that carbon's presence there strains the lattice hard, which is why BCC α-iron dissolves almost no carbon (0.02 wt%) while FCC γ-iron dissolves 2.11 wt%.",
+        p: "FCC has 4 octahedral voids per cell (r_void/r_atom = 0.414) and 8 tetrahedral voids (0.225). BCC has only *distorted octahedral* sites (0.155) — small enough that carbon's presence there strains the lattice hard, which is why BCC α-iron dissolves almost no carbon (0.02 wt%) while FCC γ-iron dissolves 2.11 wt%.",
       },
     ],
     formulas: [
@@ -135,9 +135,9 @@ export const LESSONS: Record<string, Lesson> = {
     memorise: [
       "Latent heat of fusion = bonding (potential) energy released. [P3, appears every quiz]",
       "Cooling-curve plateau = heat release balancing heat loss; temperature stays at Tm.",
-      "r* = 2γ/ΔG_v; more supercooling → smaller critical nucleus → more nuclei → finer grains.",
+      "r* = 2γ/|ΔG_v| (signed: −2γ/ΔG_v, ΔG_v < 0 below Tm); more supercooling → smaller critical nucleus → more nuclei → finer grains.",
       "Zones: chill → columnar → equiaxed; columnar grows along the temperature gradient.",
-      "Dendrite arm spacing ∝ cooling rate (faster → finer).",
+      "Dendrite arm spacing decreases with cooling rate: faster cooling → finer arms → shorter homogenisation time.",
     ],
   },
 
@@ -222,7 +222,7 @@ export const LESSONS: Record<string, Lesson> = {
     sections: [
       {
         h: "Slip systems",
-        p: "Plastic deformation = dislocation glide along **slip planes** (densest planes) in **slip directions** (densest directions).\n- **FCC** — {111}⟨110⟩: 4 planes × 3 directions = **12 systems**; ductile (Cu, Al, austenite).\n- **BCC** — {110}⟨111⟩: **48 systems** in total; many systems active but slip is thermally sensitive → brittle at low temperature (α-Fe below DBTT).\n- **HCP** — (0001)⟨11-20⟩: essentially **1 basal system**, fewest independent systems → poor ductility (Zn, Mg, Ti).\nThe more independent slip systems, the more ways a constrained grain can accommodate its neighbours → more ductile.",
+        p: "Plastic deformation = dislocation glide along **slip planes** (densest planes) in **slip directions** (densest directions).\n- **FCC** — {111}⟨110⟩: 4 planes × 3 directions = **12 systems**; ductile (Cu, Al, austenite).\n- **BCC** — {110}⟨111⟩: **12 primary systems**, rising to ~**48** as {112} and {123} planes activate at high temperature; slip is thermally sensitive → brittle at low temperature (α-Fe below DBTT).\n- **HCP** — (0001)⟨11-20⟩: only **3 basal systems** (one basal plane × three ⟨11-20⟩ directions), fewest independent systems → poor ductility (Zn, Mg, Ti).\nThe more independent slip systems, the more ways a constrained grain can accommodate its neighbours → more ductile.",
       },
       {
         h: "Resolved shear stress — Schmid's law",
@@ -248,7 +248,7 @@ export const LESSONS: Record<string, Lesson> = {
       { name: "von Mises", expr: "\\ge 5\\,\\text{independent slip systems}", note: "required for homogeneous deformation of a polycrystal" },
     ],
     memorise: [
-      "FCC 12 systems {111}⟨110⟩ · BCC 48 {110}⟨111⟩ · HCP 1 basal (0001)⟨11-20⟩.",
+      "FCC 12 systems {111}⟨110⟩ · BCC 12 primary {110}⟨111⟩ (up to ~48) · HCP 3 basal (0001)⟨11-20⟩.",
       "τ_R = σ cosφ cosλ; max Schmid factor 0.5 at φ = λ = 45°.",
       "τ_crss is a material constant — orientation only changes the σ needed to reach it.",
       "Twinning: mirror image, fraction-of-spacing shear, dominates in HCP and at low T/high rate.",
