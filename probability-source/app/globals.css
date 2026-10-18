@@ -103,7 +103,10 @@
   --panel-shadow: 0 18px 55px rgba(80,60,20,.12), inset 0 1px rgba(255,255,255,.6);
   --grid: rgba(138,100,20,.07);
   --selection: rgba(138,100,20,.25);
-  --veil: linear-gradient(180deg, rgba(246,239,220,.22) 0%, rgba(246,239,220,.38) 100%);
+  /* Readability veil laid over the background art (.bg-layer::after). Kept deliberately
+     faint: light-mode art carries the page identity, loose display text already has the
+     .art-text halo for local contrast, and study content sits on 90%-opaque panels. */
+  --veil: linear-gradient(180deg, rgba(246,239,220,.08) 0%, rgba(246,239,220,.16) 100%);
 }
 
 * { box-sizing: border-box; }
