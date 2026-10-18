@@ -64,12 +64,12 @@ body::after {
   border: 1px solid var(--border);
   border-radius: 3px;
   white-space: nowrap;
-  transition: border-color .2s ease, transform .2s ease;
+  transition: border-color .2s ease, box-shadow .2s ease;
 }
 
 .theme-toggle:hover {
   border-color: var(--gold);
-  transform: translateY(-2px);
+  box-shadow: 0 0 10px rgba(232, 203, 139, 0.35);
 }
 
 .theme-toggle:focus-visible {

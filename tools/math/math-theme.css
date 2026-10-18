@@ -91,9 +91,9 @@ html[data-theme="light"][data-mood="abyss"] .theme-bg, html[data-theme="light"][
   font-family: Arial, sans-serif; font-size: 12px; letter-spacing: 1px; cursor: pointer;
   padding: 8px 14px; color: var(--gold-bright); background: var(--chip-bg);
   border: 1px solid var(--border); border-radius: 3px; white-space: nowrap;
-  transition: border-color .2s ease, transform .2s ease;
+  transition: border-color .2s ease, box-shadow .2s ease;
 }
-.theme-toggle:hover { border-color: var(--gold); transform: translateY(-2px); }
+.theme-toggle:hover { border-color: var(--gold); box-shadow: 0 0 10px rgba(232, 203, 139, 0.35); }
 .theme-toggle:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
 .nav-links { gap: 18px; }
 

@@ -25,10 +25,7 @@
   }
   if (btn) btn.addEventListener('click', function () {
     var next = current() === 'dark' ? 'light' : 'dark';
-    if (bg && !reduce) {
-      bg.classList.add('is-swapping');
-      setTimeout(function () { apply(next, true); bg.classList.remove('is-swapping'); }, 260);
-    } else apply(next, true);
+    apply(next, true);   // instant: label and theme change together, so rapid clicks cannot flip it back
   });
   var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)');
   if (mq && mq.addEventListener) mq.addEventListener('change', function (e) {

@@ -34,10 +34,7 @@
 
   if (btn) btn.addEventListener('click', function () {
     var next = current() === 'dark' ? 'light' : 'dark';
-    if (bg && !reduce) {                       // quick fade so the swap is not a hard cut
-      bg.classList.add('is-swapping');
-      setTimeout(function () { apply(next, true); bg.classList.remove('is-swapping'); }, 260);
-    } else apply(next, true);
+    apply(next, true);   // instant: label and theme change together, so rapid clicks cannot flip it back
   });
 
   // follow the device setting until the visitor picks one manually
