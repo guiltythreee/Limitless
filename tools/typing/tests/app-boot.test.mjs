@@ -252,3 +252,162 @@ test("a minimal PDF still imports through the same file input (PDF regression)",
   await new Promise((r) => w.setTimeout(r, 50));
   assert.match($("resultText").textContent, /\+\d[\d,]* XP/, "typing a PDF page still pays XP");
 });
+
+// ---------------------------------------------------------------------------
+// Required chapters and optional sections, end to end: the defaults a book gets,
+// finishing with the optional sections left untouched, the choice coming back with
+// the book, and a book that has no required section at all.
+// ---------------------------------------------------------------------------
+
+const lsKeys = () => {
+  const out = [];
+  for (let i = 0; i < w.localStorage.length; i++) out.push(w.localStorage.key(i));
+  return out;
+};
+const bookKeysNow = () => Object.keys((game() && game().book) || {});
+
+// A small EPUB: front matter, then two real chapters. Each file is short, so each becomes one
+// section, and the table of contents gives each its title. `seed` changes the text (and so the
+// book's content hash) so tests can make genuinely different books.
+function sectionsEpub(withCover = true, seed = 3) {
+  const doc = (title, body) => `<?xml version="1.0" encoding="UTF-8"?>` +
+    `<html xmlns="http://www.w3.org/1999/xhtml"><head><title>${title}</title></head>` +
+    `<body><h1>${title}</h1><p>${body}</p></body></html>`;
+  const chapters = [];
+  if (withCover) chapters.push({ file: "cover.xhtml", label: "Contents", body: doc("Contents", "The table of contents and other front matter.") });
+  chapters.push({ file: "ch1.xhtml", label: "Chapter One", body: doc("Chapter One", longPara(320, seed) + ".") });
+  chapters.push({ file: "ch2.xhtml", label: "Chapter Two", body: doc("Chapter Two", longPara(320, seed + 1) + ".") });
+  return buildEpub({ title: "Sections Book", chapters });
+}
+
+async function importEpub(bytes, name) {
+  const file = new w.File([new w.Uint8Array(bytes).buffer], name, { type: "application/epub+zip" });
+  const input = $("pdfInput");
+  Object.defineProperty(input, "files", { value: [file], configurable: true });
+  input.dispatchEvent(new w.Event("change", { bubbles: true }));
+  let err = "";
+  await wait(() => {
+    const el = $("ldStatus");
+    if (el && el.className.indexOf("err") >= 0 && el.textContent) { err = el.textContent; return true; }
+    return $("bookName").textContent === name.replace(/\.epub$/, "") &&
+      w.document.querySelectorAll("#bookText span.c").length > 5;
+  }, "the EPUB " + name + " to import");
+  assert.equal(err, "", "the import of " + name + " should succeed: " + err);
+}
+
+const chapterRows = () => [...w.document.querySelectorAll("#chList .ch")].map((row) => ({
+  title: row.querySelector("input").value,
+  req: row.querySelector(".reqbtn").textContent,
+  optional: row.classList.contains("opt"),
+}));
+
+async function openChapters() {
+  $("chapBtn").click();
+  await wait(() => w.document.querySelectorAll("#chList .ch").length > 0, "the chapters list");
+}
+async function closeChapters() {
+  $("chClose").click();
+  await wait(() => $("chapters").hidden, "the chapters panel to close");
+}
+
+test("front matter is optional by default and never blocks finishing the book", async () => {
+  const bytes = sectionsEpub(true);
+  const before = new Set(bookKeysNow());
+  await importEpub(bytes, "sections-book.epub");
+  assert.equal($("pageWord").textContent, "Section", "an EPUB page is called a Section");
+  assert.equal($("pageNum").value, "1", "the book opens at its first section");
+  assert.match($("chapLabel").textContent, /Contents \(optional\)/, "the current section is optional: " + $("chapLabel").textContent);
+  assert.match($("chapLabel").textContent, /0\/2 required/, "two required chapters: " + $("chapLabel").textContent);
+
+  await openChapters();
+  const rows = chapterRows();
+  assert.equal(rows.length, 3, "three sections were found: " + JSON.stringify(rows));
+  assert.deepEqual(rows.map((r) => r.req), ["Optional", "Required", "Required"], "defaults follow the headings");
+  assert.equal(rows[0].optional, true, "the optional row is set apart");
+  assert.match($("chProg").textContent, /0\/2 required chapters completed/, "progress line: " + $("chProg").textContent);
+  assert.match($("chProg").textContent, /1 optional section/, "optional count: " + $("chProg").textContent);
+  await closeChapters();
+
+  // Type only the two required chapters, never the front matter.
+  $("next").click();
+  await wait(() => $("pageNum").value === "2" && targetOf().startsWith("Chapter One"), "the first chapter");
+  typeInto(targetOf());
+  await wait(() => $("result").hidden === false, "the first chapter to finish");
+  $("resultNext").click();
+  await wait(() => $("pageNum").value === "3" && targetOf().startsWith("Chapter Two"), "the second chapter");
+  typeInto(targetOf());
+  await wait(() => $("result").hidden === false, "the second chapter to finish");
+
+  const gkey = bookKeysNow().find((k) => !before.has(k));
+  assert.ok(gkey, "the book got its own progress record");
+  await wait(() => { const b = game().book[gkey]; return b && b.done === 1; }, "the book to complete");
+  const gb = game().book[gkey];
+  assert.equal(gb.p.includes(0), false, "the optional front matter was never typed");
+  assert.ok(gb.p.includes(1) && gb.p.includes(2), "both required chapters were typed: " + JSON.stringify(gb.p));
+  assert.ok((game().books || 0) >= 1, "the book counter moved");
+  assert.match($("chapLabel").textContent, /2\/2 required/, "progress reached the required total");
+});
+
+test("a changed Required/Optional choice is saved, restored, and pays nothing again", async () => {
+  const bytes = sectionsEpub(true);
+  await openChapters();
+  w.document.querySelectorAll("#chList .ch")[0].querySelector(".reqbtn").click();   // Optional -> Required
+  assert.equal(chapterRows()[0].req, "Required", "the toggle took effect");
+  assert.match($("chProg").textContent, /\/3 required chapters completed/, "front matter now counts: " + $("chProg").textContent);
+  assert.doesNotMatch($("chProg").textContent, /optional/, "no optional sections remain");
+  await closeChapters();
+
+  const saved = lsKeys().filter((k) => k.indexOf("bookkeys:chap:") === 0)
+    .map((k) => { try { return JSON.parse(w.localStorage.getItem(k)); } catch (e) { return null; } })
+    .filter((r) => r && Array.isArray(r.list) && r.list.length === 3);
+  assert.ok(saved.some((r) => r.v === 3 && r.list[0].req === true),
+    "the choice is stored with the book: " + JSON.stringify(saved));
+
+  const xpBefore = game().xp;
+  await importEpub(sectionsEpub(false), "other-book.epub");     // switch away first...
+  await importEpub(bytes, "sections-book.epub");                // ...then reopen the book we edited
+  await openChapters();
+  assert.deepEqual(chapterRows().map((r) => r.req), ["Required", "Required", "Required"], "the choice came back with the book");
+  await closeChapters();
+  await new Promise((r) => w.setTimeout(r, 120));
+  assert.equal(game().xp, xpBefore, "reopening a finished book awards nothing again");
+  assert.ok(Object.values(game().book).some((b) => b && b.done === 1 && b.p.includes(1)), "the finished book is still marked finished");
+});
+
+test("a book whose sections are all optional is handled explicitly and pays no book bonus", async () => {
+  const before = new Set(bookKeysNow());
+  const beforeBooks = game().books || 0;
+  await importEpub(sectionsEpub(false, 20), "all-optional.epub");
+  await openChapters();
+  $("chAllOpt").click();
+  assert.ok(chapterRows().every((r) => r.req === "Optional"), "every section is optional");
+  assert.match($("chProg").textContent, /Every section is optional/, "said plainly, not shown as 0\/0: " + $("chProg").textContent);
+  await closeChapters();
+
+  typeInto(targetOf());
+  await wait(() => $("result").hidden === false, "the first section to finish");
+  assert.match($("resultText").textContent, /\+\d[\d,]* XP/, "an optional section still earns page XP");
+  await new Promise((r) => w.setTimeout(r, 120));   // let the section's follow-up check land before reading the total
+
+  const gkey = bookKeysNow().find((k) => !before.has(k));
+  assert.ok(gkey, "the book got its own progress record");
+
+  const xpOnce = game().xp;
+  $("resultAgain").click();
+  await wait(() => $("result").hidden, "the page to reset");
+  typeInto(targetOf());
+  await wait(() => $("result").hidden === false, "the second result line");
+  assert.match($("resultText").textContent, /No XP, you finished this page before/, "an optional section pays its page XP once");
+  assert.equal(game().xp, xpOnce, "the total did not move on the repeat");
+
+  $("resultNext").click();
+  await wait(() => $("pageNum").value === "2", "the second section");
+  typeInto(targetOf());
+  await wait(() => $("result").hidden === false, "the second section to finish");
+  await new Promise((r) => w.setTimeout(r, 120));
+
+  const gb = game().book[gkey];
+  assert.ok(gb, "the book has a record");
+  assert.ok(!gb.done, "an all-optional book never reports itself complete: " + JSON.stringify(gb));
+  assert.equal(game().books || 0, beforeBooks, "no book bonus was paid");
+});
