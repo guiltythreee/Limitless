@@ -1,0 +1,12 @@
+{
+  "name": "bookkeys-tests",
+  "private": true,
+  "description": "Tests for Bookkeys (tools/typing/bookkeys.html): the pure BLOCKS and EPUB helper regions, the epub.js integration against synthetic EPUB fixtures, and a full app boot check in jsdom.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0"
+  }
+}
