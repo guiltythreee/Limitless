@@ -112,7 +112,8 @@ body {
   margin: 0;
   background-color: var(--ink);
   color: var(--paper);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", "Noto Sans", Arial, sans-serif;
   background-image: var(--page-bg);
   background-attachment: fixed;
 }
@@ -190,11 +191,13 @@ button { cursor: pointer; }
 /* ---------- typeset maths ---------- */
 .math { font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", "Times New Roman", Georgia, serif; font-size: 1.04em; white-space: normal; }
 .math i { font-style: italic; }
-.math-display { font-size: 1.1em; }
+/* A formula on its own line: centred, and scrollable in place if it is
+   genuinely too wide for a phone — the page itself never scrolls sideways. */
+.math-display { display: block; font-size: 1.12em; max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: .15rem 0 .35rem; }
 .msup, .msub { font-size: .72em; line-height: 0; }
-.mfrac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 .12em; font-size: .92em; line-height: 1.15; white-space: nowrap; }
-.mfrac > .mnum { border-bottom: 1px solid currentColor; padding: 0 .18em .04em; }
-.mfrac > .mden { padding: .04em .18em 0; }
+.mfrac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 .18em; font-size: .92em; line-height: 1.15; white-space: nowrap; }
+.mfrac > .mnum { border-bottom: 1px solid currentColor; padding: 0 .2em .04em; }
+.mfrac > .mden { padding: .04em .2em 0; }
 .mfrac-b { margin: 0 .05em; }
 .mfrac-b > .mnum { border-bottom: 0; }
 .mbinom { display: inline-flex; align-items: center; vertical-align: middle; margin: 0 .1em; }
@@ -203,10 +206,14 @@ button { cursor: pointer; }
 .mradicand { border-top: 1px solid currentColor; padding: 0 .12em; margin-left: .04em; }
 
 /* ---------- theory text ---------- */
-.theory .para { line-height: 1.85; font-size: .94rem; color: var(--body); }
-.para-box { border: 1px solid var(--panel-line); border-left: 3px solid var(--gold); background: color-mix(in srgb, var(--gold) 6%, transparent); padding: 1rem 1.2rem; }
-.para-proof { padding-left: 1rem; border-left: 1px dashed var(--panel-line); color: var(--dim); }
-.para-note { padding-left: 0; }
+/* Comfortable textbook measure for reading passages; the lesson column in the
+   archive grid is much wider than 75 characters on a desktop. */
+.measure { max-width: 74ch; margin-left: auto; margin-right: auto; }
+.theory .para { line-height: 1.8; font-size: 1rem; color: var(--body); }
+.para-box { border: 1px solid var(--panel-line); border-left: 3px solid var(--gold); background: color-mix(in srgb, var(--gold) 6%, transparent); padding: 1rem 1.2rem; margin: 1.1rem 0; }
+.para-box p, .para-proof p, .para-note p { line-height: 1.8; }
+.para-proof { padding-left: 1rem; border-left: 1px dashed var(--panel-line); color: var(--dim); margin: 1.1rem 0; }
+.para-note { padding-left: 0; margin: 1.1rem 0; }
 .lead { color: var(--gold); font-weight: 700; letter-spacing: .01em; }
 .para-proof .lead { font-style: italic; font-weight: 600; }
 .para-note .lead { text-transform: none; }
