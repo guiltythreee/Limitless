@@ -171,6 +171,11 @@ test("importing an EPUB and typing its first section pays XP into the saved game
   assert.ok(G.xp > 0, "XP was recorded");
   const gb = Object.values(G.book || {}).find((b) => b && Array.isArray(b.p) && b.p.includes(0));
   assert.ok(gb, "this book's record marks section 0 as typed");
+  // Finishing the only section of a one-chapter book must also run the shared completion
+  // machinery: the chapter list came from the TOC, and the chapter and book bonuses were paid.
+  assert.ok(Array.isArray(gb.c) && gb.c.includes(0), "the chapter-complete bonus was paid: " + JSON.stringify(gb));
+  assert.equal(gb.done, 1, "the book-complete bonus was paid");
+  assert.ok(G.chapters >= 1 && G.books >= 1, "the chapter and book counters moved");
 });
 
 test("finishing a section that was already finished pays nothing again", async () => {

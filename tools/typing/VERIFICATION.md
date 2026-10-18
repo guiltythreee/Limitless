@@ -100,6 +100,11 @@ tests); those were fixed on the test side to match the app's documented semantic
   type, reload, check resume and the chapter panel.
 - **The iframe shell in a live browser** was not booted; see §1 for why the case
   reduces to the verified standalone one.
+- **The IndexedDB library path** (`addFiles`/`openLibBook` for EPUBs: validate, store
+  as `fmt:"epub"`, dedupe by content hash, cover thumbnail) cannot run under jsdom
+  (no IndexedDB, and `epubCoverOf` needs a real image decode). It was reviewed by
+  inspection — the EPUB branch mirrors the existing PDF branch, and its failure paths
+  only ever skip a file with a friendly reason — but it was not executed here.
 - **Real-store EPUB variety.** Fixtures are synthetic (NCX, nav, anchors, subfolders,
   broken files). DRM-protected or exotic books were not tested; epub.js 0.3.93 is the
   same parser many readers use, but real-world coverage is a manual step.
