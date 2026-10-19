@@ -2,11 +2,16 @@
 
 // Exam simulator — timed, no feedback until you submit. Defaults to the
 // Ch09 Revision Mix (HARD); can also draw a random mix from all chapters.
+//
+// PHASE 4a: questions come from the course registry adapter (canonical model)
+// and chapter ids/titles from the manifest. Answer recording still writes the
+// same progress keys (`ch01-q12`) to mm-mt202-v1, so saved progress is
+// untouched.
 
 import { useEffect, useRef, useState } from "react";
 import { Progress, recordAnswer } from "../lib/progress";
-import { loadChapter } from "./types";
-import type { Chapter, Question } from "./types";
+import { MT202_ENTRY } from "../courses/entries/mt202";
+import type { Question } from "../courses/types";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 
 type PoolQ = Question & { chId: string; chTitle: string };
@@ -17,9 +22,11 @@ const fmt = (s: number) =>
 export default function Exam({
   progress,
   onProgress,
+  topics,
 }: {
   progress: Progress;
   onProgress: (p: Progress) => void;
+  topics: { id: string; title: string }[];
 }) {
   const [source, setSource] = useState<"ch09" | "all">("ch09");
   const [count, setCount] = useState(50);
@@ -50,10 +57,11 @@ export default function Exam({
   }, [running, submitted]);
 
   const start = async () => {
-    const ids = source === "ch09" ? ["ch09"] : ["ch01", "ch02", "ch03", "ch04", "ch05", "ch06", "ch07", "ch08", "ch09"];
-    const chs: Chapter[] = await Promise.all(ids.map(loadChapter));
-    const all: PoolQ[] = chs.flatMap((c) =>
-      c.questions.map((q) => ({ ...q, chId: c.id, chTitle: c.title }))
+    const ids = source === "ch09" ? ["ch09"] : topics.map((t) => t.id);
+    const titleOf = (id: string) => topics.find((t) => t.id === id)?.title ?? id;
+    const contents = await Promise.all(ids.map((id) => MT202_ENTRY.adapter.loadTopic(id)));
+    const all: PoolQ[] = contents.flatMap((c) =>
+      c.questions.map((q) => ({ ...q, chId: c.topicId, chTitle: titleOf(c.topicId) }))
     );
     const shuffled = [...all].sort(() => Math.random() - 0.5);
     setPool(shuffled.slice(0, Math.min(count, shuffled.length)));

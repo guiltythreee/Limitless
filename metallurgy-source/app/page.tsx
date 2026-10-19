@@ -17,7 +17,7 @@ const COURSES = [
   {
     symbol: "⚗",
     name: "MT202 — Physical Metallurgy",
-    desc: "387 chapter-wise MCQs with concise and detailed solutions, condensed lessons, exam simulator and metallurgy calculators.",
+    desc: "397 chapter-wise MCQs with concise and detailed solutions, condensed lessons, exam simulator and metallurgy calculators.",
     href: "/mt202/",
     status: "live" as const,
   },

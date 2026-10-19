@@ -1,19 +1,39 @@
 "use client";
 
 // MT202 — Physical Metallurgy archive: lessons, chapter quizzes, exam
-// simulator and calculators. Chapter question data is fetched on demand
-// from /data/mt202/*.json; theory lives in app/data/lessons.ts.
+// simulator and calculators.
+//
+// PHASE 4a: the outline (titles, counts, total), the theory and all question
+// content now come from the shared course registry entry
+// (app/courses/entries/mt202). Chapter JSON is still fetched on demand from
+// /data/mt202/*.json through the registry adapter, ids are unchanged
+// (`ch01-q12`), the theory is the same app/data/lessons.ts source mapped
+// through the shared canonical Lesson, the four calculators are rendered from
+// the manifest's tools capability, and the storage key mm-mt202-v1 is
+// untouched — so saved progress loads exactly as before.
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { LESSONS } from "../data/lessons";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { mdInline, mdToHtml } from "../lib/md";
 import Tex from "../lib/tex";
 import { loadProgress, loadTheme, Progress, resetProgress, saveTheme } from "../lib/progress";
-import Calculators from "./calculators";
 import Exam from "./exam";
 import Quiz from "./quiz";
-import { CHAPTER_IDS, Chapter, LESSON_IDS, loadChapter } from "./types";
+import { MT202_ENTRY, MT202_LESSONS } from "../courses/entries/mt202";
+import type { TopicContent } from "../courses/types";
+
+const MANIFEST = MT202_ENTRY.manifest;
+const TOPICS = MANIFEST.topics;
+// The sidebar lists only the chambers that carry theory (ch01..ch08); ch09 is
+// the revision mix, reached through the exam simulator and its own entry point.
+const LESSON_TOPICS = TOPICS.filter((t) => t.hasLesson);
+const TOTAL = TOPICS.reduce((sum, t) => sum + t.count, 0);
+const countOf = (id: string) => TOPICS.find((t) => t.id === id)?.count ?? 0;
+
+// Subject tools come from the manifest's tools capability and load lazily,
+// exactly as the descriptor declares.
+const calculatorTool = MANIFEST.tools.find((t) => t.id === "calculators");
+const Calculators = calculatorTool ? lazy(calculatorTool.load) : null;
 
 type View =
   | { kind: "study"; ch: string; tab: "lesson" | "quiz" }
@@ -23,25 +43,13 @@ type View =
 export default function Mt202() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [progress, setProgress] = useState<Progress | null>(null);
-  const [counts, setCounts] = useState<Record<string, number>>({});
-  const [total, setTotal] = useState(0);
   const [view, setView] = useState<View>({ kind: "study", ch: "ch01", tab: "lesson" });
-  const [chapter, setChapter] = useState<Chapter | null>(null);
+  const [chapter, setChapter] = useState<TopicContent | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
     setTheme(loadTheme());
     setProgress(loadProgress());
-    const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
-    fetch(`${base}/data/mt202/index.json`)
-      .then((r) => r.json())
-      .then((idx: { total: number; chapters: { id: string; count: number }[] }) => {
-        const map: Record<string, number> = {};
-        for (const c of idx.chapters) map[c.id] = c.count;
-        setCounts(map);
-        setTotal(idx.total);
-      })
-      .catch(() => setCounts({}));
   }, []);
 
   const toggleTheme = () => {
@@ -51,13 +59,15 @@ export default function Mt202() {
     document.documentElement.setAttribute("data-theme", next);
   };
 
-  // load chapter data on demand
+  // load chapter content on demand through the registry adapter (fetch + cache
+  // live in app/mt202/types.ts, unchanged)
   useEffect(() => {
     if (view.kind !== "study") return;
     let live = true;
     setChapter(null);
     setError("");
-    loadChapter(view.ch)
+    MT202_ENTRY.adapter
+      .loadTopic(view.ch)
       .then((c) => live && setChapter(c))
       .catch(() => live && setError("The chamber could not be opened — the data files are missing."));
     return () => {
@@ -68,7 +78,8 @@ export default function Mt202() {
   const onAnswer = useCallback((p: Progress) => setProgress(p), []);
 
   const chStats = (id: string) => {
-    if (!progress) return { done: 0, right: 0, total: counts[id] ?? 0 };
+    const total = countOf(id);
+    if (!progress) return { done: 0, right: 0, total };
     const prefix = `${id}-q`;
     let done = 0,
       right = 0;
@@ -78,11 +89,12 @@ export default function Mt202() {
         if (v.correct) right++;
       }
     }
-    return { done, right, total: counts[id] ?? 0 };
+    return { done, right, total };
   };
 
   const activeCh = view.kind === "study" ? view.ch : null;
-  const lesson = activeCh && activeCh !== "ch09" ? LESSONS[activeCh] : null;
+  const hasLesson = activeCh ? TOPICS.find((t) => t.id === activeCh)?.hasLesson ?? false : false;
+  const lesson = activeCh && hasLesson ? MT202_LESSONS[activeCh] : null;
   const st = activeCh ? chStats(activeCh) : null;
 
   return (
@@ -91,6 +103,7 @@ export default function Mt202() {
         <Link className="brand" href="/">M&amp;M Archive</Link>
         <nav className="nav-links" aria-label="Main navigation">
           <Link href="/">Disciplines</Link>
+          <Link href="/mt201/">MT201</Link>
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Switch theme">
             {theme === "dark" ? "◐" : "◑"}
           </button>
@@ -101,23 +114,23 @@ export default function Mt202() {
         {/* ---------------- sidebar ---------------- */}
         <aside className="panel side">
           <div className="side-head">
-            <div className="t1">MT202 · Physical Metallurgy</div>
-            <div className="t2">{total || "…"} questions · {CHAPTER_IDS.length} chambers</div>
+            <div className="t1">{MANIFEST.code} · {MANIFEST.title}</div>
+            <div className="t2">{TOTAL} questions · {TOPICS.length} chambers</div>
           </div>
 
           <div className="ch-list">
-            {LESSON_IDS.map((id) => {
-              const s = chStats(id);
+            {LESSON_TOPICS.map((t) => {
+              const s = chStats(t.id);
               const pct = s.total ? Math.round((s.done / s.total) * 100) : 0;
               return (
                 <button
-                  key={id}
-                  className={`ch-item ${activeCh === id ? "active" : ""}`}
-                  onClick={() => setView({ kind: "study", ch: id, tab: view.kind === "study" ? view.tab : "lesson" })}
+                  key={t.id}
+                  className={`ch-item ${activeCh === t.id ? "active" : ""}`}
+                  onClick={() => setView({ kind: "study", ch: t.id, tab: view.kind === "study" ? view.tab : "lesson" })}
                 >
-                  <span className="ch-num">{id.replace("ch", "")}</span>
+                  <span className="ch-num">{t.id.replace("ch", "")}</span>
                   <span>
-                    <span className="ch-title">{LESSONS[id].title}</span>
+                    <span className="ch-title">{t.title}</span>
                     <span className="ch-meta">
                       <span className="ch-bar"><i style={{ width: `${pct}%` }} /></span>
                       <span className="ch-pct">{pct}%</span>
@@ -140,15 +153,17 @@ export default function Mt202() {
               </span>
             </button>
 
-            <button
-              className={`ch-item ${view.kind === "calc" ? "active" : ""}`}
-              onClick={() => setView({ kind: "calc" })}
-            >
-              <span className="ch-num">ƒx</span>
-              <span>
-                <span className="ch-title">Instruments — lever · Schmid · Hall–Petch · √(Dt)</span>
-              </span>
-            </button>
+            {MANIFEST.capabilities.tools && Calculators && (
+              <button
+                className={`ch-item ${view.kind === "calc" ? "active" : ""}`}
+                onClick={() => setView({ kind: "calc" })}
+              >
+                <span className="ch-num">ƒx</span>
+                <span>
+                  <span className="ch-title">Instruments — lever · Schmid · Hall–Petch · √(Dt)</span>
+                </span>
+              </button>
+            )}
           </div>
 
           {progress && (
@@ -182,11 +197,15 @@ export default function Mt202() {
                   <span className="chip chip-gold">closed-book · timed</span>
                 </div>
               </div>
-              <Exam progress={progress} onProgress={onAnswer} />
+              <Exam
+                progress={progress}
+                onProgress={onAnswer}
+                topics={TOPICS.map((t) => ({ id: t.id, title: t.title }))}
+              />
             </>
           )}
 
-          {view.kind === "calc" && (
+          {view.kind === "calc" && MANIFEST.capabilities.tools && Calculators && (
             <>
               <div className="panel topbar">
                 <div>
@@ -194,7 +213,9 @@ export default function Mt202() {
                   <div className="sub">Solvers for the numericals in the question bank</div>
                 </div>
               </div>
-              <Calculators />
+              <Suspense fallback={<div className="panel prose"><p>Loading instruments…</p></div>}>
+                <Calculators />
+              </Suspense>
             </>
           )}
 
@@ -205,8 +226,8 @@ export default function Mt202() {
                   <h2>{lesson ? lesson.title : "Revision Mix (HARD)"}</h2>
                   <div className="sub">
                     {lesson
-                      ? `${counts[view.ch] ?? chapter?.questions.length ?? "…"} questions · lesson + quiz`
-                      : `${counts.ch09 ?? "…"} questions · final exam training`}
+                      ? `${countOf(view.ch) || chapter?.questions.length || "…"} questions · lesson + quiz`
+                      : `${countOf("ch09") || "…"} questions · final exam training`}
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: "0.7rem", alignItems: "center", flexWrap: "wrap" }}>
@@ -251,9 +272,9 @@ export default function Mt202() {
                 <article className="panel prose">
                   <p className="aim">{lesson.aim}</p>
                   {lesson.sections.map((s) => (
-                    <section key={s.h}>
-                      <h3>{s.h}</h3>
-                      <div dangerouslySetInnerHTML={{ __html: mdToHtml(s.p) }} />
+                    <section key={s.heading}>
+                      <h3>{s.heading}</h3>
+                      <div dangerouslySetInnerHTML={{ __html: mdToHtml(s.body) }} />
                     </section>
                   ))}
 
@@ -295,7 +316,12 @@ export default function Mt202() {
               )}
 
               {view.tab === "quiz" && chapter && progress && (
-                <Quiz ch={chapter} progress={progress} onProgress={setProgress} />
+                <Quiz
+                  topicId={view.ch}
+                  questions={chapter.questions}
+                  progress={progress}
+                  onProgress={setProgress}
+                />
               )}
 
               {view.tab === "quiz" && !chapter && !error && (

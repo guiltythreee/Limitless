@@ -2,18 +2,24 @@
 
 // Chapter quiz player — answer, reveal concise + detailed solution, navigate.
 // Progress is recorded per question in localStorage (mm-mt202-v1).
+//
+// PHASE 4a: consumes canonical questions from the course registry adapter and
+// renders them through the shared qview wrapper. Progress keys are unchanged
+// (`ch01-q12`), so existing saved progress keeps working exactly as before.
 
 import { useMemo, useState } from "react";
 import { Progress, qid, recordAnswer } from "../lib/progress";
-import { Chapter } from "./types";
+import type { Question } from "../courses/types";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 
 export default function Quiz({
-  ch,
+  topicId,
+  questions,
   progress,
   onProgress,
 }: {
-  ch: Chapter;
+  topicId: string;
+  questions: Question[];
   progress: Progress;
   onProgress: (p: Progress) => void;
 }) {
@@ -21,10 +27,10 @@ export default function Quiz({
   const [peeked, setPeeked] = useState<Record<number, boolean>>({});
   const [done, setDone] = useState(false);
 
-  const qs = ch.questions;
+  const qs = questions;
   const q = qs[Math.min(idx, qs.length - 1)];
 
-  const stateFor = (n: number) => progress.answered[qid(ch.id, n)];
+  const stateFor = (n: number) => progress.answered[qid(topicId, n)];
 
   const attempted = qs.filter((x) => stateFor(x.n)).length;
   const correct = qs.filter((x) => stateFor(x.n)?.correct).length;
@@ -32,7 +38,7 @@ export default function Quiz({
   const pick = (label: string) => {
     const rec = stateFor(q.n);
     if (rec) return; // already recorded — locked
-    onProgress(recordAnswer(progress, qid(ch.id, q.n), label, label === q.answer));
+    onProgress(recordAnswer(progress, qid(topicId, q.n), label, label === q.answer));
   };
 
   const dots = useMemo(
@@ -57,7 +63,7 @@ export default function Quiz({
         </div>
         <p style={{ color: "var(--dim)" }}>
           {attempted
-            ? `${Math.round((correct / attempted) * 100)}% of your recorded answers in ${ch.id.toUpperCase()} are correct.`
+            ? `${Math.round((correct / attempted) * 100)}% of your recorded answers in ${topicId.toUpperCase()} are correct.`
             : "No answers were recorded in this chapter."}
         </p>
         <button className="btn" onClick={() => { setDone(false); setIdx(0); }}>

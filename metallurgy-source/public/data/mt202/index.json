@@ -1,17 +1,17 @@
 {
   "course": "MT202 — Physical Metallurgy",
-  "generated": "2026-10-18",
-  "total": 387,
+  "generated": "2026-10-19",
+  "total": 397,
   "chapters": [
     {
       "id": "ch01",
       "title": "Atomic Structure and Interatomic Bonding",
-      "count": 30
+      "count": 35
     },
     {
       "id": "ch02",
       "title": "Structure of Metals",
-      "count": 48
+      "count": 53
     },
     {
       "id": "ch03",

@@ -1,74 +1,45 @@
 "use client";
 
-// Shared rendering for a question: body (statements / match table /
-// assertion–reason), option buttons and the solution reveal panel.
+// app/mt202/qview.tsx — compatibility wrapper.
+//
+// Public API and rendering are unchanged from the original MT202 renderer.
+// All markup now lives in the shared renderer (app/platform/qview.tsx); this
+// file only selects the MT202 variant. Since PHASE 4a the MT202 page feeds
+// canonical questions (app/courses/types.ts) from the course registry, and a
+// canonical Question already satisfies the shared QuestionView, so no mapping
+// is needed.
 
-import { mdInline, mdToHtml } from "../lib/md";
-import { Question, TYPE_NAMES } from "./types";
+import { TYPE_NAMES } from "./types";
+import {
+  OptionList as BaseOptionList,
+  QuestionBody as BaseQuestionBody,
+  QuestionMeta as BaseQuestionMeta,
+  SolutionPanel as BaseSolutionPanel,
+  type QuestionView,
+  type QViewVariant,
+} from "../platform/qview";
+import type { Question } from "../courses/types";
 
-const h = (s: string) => ({ __html: mdInline(s) });
+const VARIANT: QViewVariant = {
+  metaStyle: "stars",
+  typeChip: "code-and-name",
+  typeNames: TYPE_NAMES,
+  unknownTypeName: "question",
+  tableClassName: "mdtable",
+  markPickedUnlocked: false,
+  buttonType: "button",
+  solutionStyle: "concise",
+};
+
+// A canonical Question is structurally a QuestionView.
+const view = (q: Question): QuestionView => q;
 
 export function QuestionMeta({ q }: { q: Question }) {
-  return (
-    <div className="qhead">
-      <span className="qnum">Q{q.n}</span>
-      {q.stars > 0 && <span className="chip chip-gold">{"★".repeat(q.stars)}</span>}
-      {q.type && <span className="chip">{q.type} · {TYPE_NAMES[q.type] ?? "question"}</span>}
-      {q.traps.map((t) => (
-        <span key={t} className="chip chip-trap">[{t}]</span>
-      ))}
-    </div>
-  );
+  return <BaseQuestionMeta q={view(q)} variant={VARIANT} />;
 }
 
 export function QuestionBody({ q }: { q: Question }) {
-  return (
-    <div>
-      {q.text && <p className="qtext" dangerouslySetInnerHTML={h(q.text)} />}
-
-      {q.statements.length > 0 && (
-        <ul className="statements">
-          {q.statements.map((s) => (
-            <li key={s.num}>
-              <span className="st-n">{s.num}.</span>
-              <span dangerouslySetInnerHTML={h(s.text)} />
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {q.tableRows.length > 0 && (
-        <table className="mdtable">
-          <tbody>
-            {q.tableRows.map((row, i) => (
-              <tr key={i}>
-                {row.map((c, j) => (
-                  <td key={j} dangerouslySetInnerHTML={h(c)} />
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      {(q.assertion || q.reason) && (
-        <div className="ar-boxes">
-          {q.assertion && (
-            <div className="ar-box">
-              <b>ASSERTION (A)</b>
-              <div dangerouslySetInnerHTML={h(q.assertion)} />
-            </div>
-          )}
-          {q.reason && (
-            <div className="ar-box">
-              <b>REASON (R)</b>
-              <div dangerouslySetInnerHTML={h(q.reason)} />
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
+  return <BaseQuestionBody q={view(q)} variant={VARIANT} />;
 }
 
 export function OptionList({
@@ -83,42 +54,16 @@ export function OptionList({
   locked: boolean;
 }) {
   return (
-    <div className="opts">
-      {q.options.map((o) => {
-        let cls = "opt";
-        if (locked) {
-          if (o.label === q.answer) cls += " is-correct";
-          else if (o.label === picked) cls += " is-wrong";
-        }
-        return (
-          <button
-            key={o.label}
-            type="button"
-            className={cls}
-            disabled={locked}
-            onClick={() => onPick?.(o.label)}
-          >
-            <span className="tag">{o.label.toUpperCase()}</span>
-            <span dangerouslySetInnerHTML={h(o.text)} />
-          </button>
-        );
-      })}
-    </div>
+    <BaseOptionList
+      q={view(q)}
+      picked={picked}
+      onPick={onPick}
+      locked={locked}
+      variant={VARIANT}
+    />
   );
 }
 
 export function SolutionPanel({ q, showKey = true }: { q: Question; showKey?: boolean }) {
-  return (
-    <div className="reveal">
-      {q.concise && (
-        <div className="concise" dangerouslySetInnerHTML={{ __html: `<b>Concise —</b> ${mdInline(q.concise)}` }} />
-      )}
-      {q.detailed && (
-        <div className="detailed" dangerouslySetInnerHTML={{ __html: mdToHtml(q.detailed) }} />
-      )}
-      {showKey && q.keyExplanation && (
-        <div className="keyexp" dangerouslySetInnerHTML={{ __html: mdInline(q.keyExplanation) }} />
-      )}
-    </div>
-  );
+  return <BaseSolutionPanel q={view(q)} showKey={showKey} variant={VARIANT} />;
 }
