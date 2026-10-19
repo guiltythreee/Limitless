@@ -216,6 +216,14 @@ li { margin: 0.22rem 0; }
   padding: 2.4rem 1rem 2rem;
 }
 
+/* Light theme: the page ground is pale parchment, so --faint (#7a6f66, tuned for
+   the dark theme's artwork) only reaches ~3.7:1 here. Use the hub main page's own
+   light footer ink instead (hub-theme.css: footer colour #5a4a36 on the cream
+   veil) — its cream background is already in place, so only the ink changes. */
+[data-theme="light"] .site-footer {
+  color: #5a4a36;
+}
+
 /* ---------------- shared bits ---------------- */
 
 .panel {

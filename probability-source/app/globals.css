@@ -172,6 +172,27 @@ button { cursor: pointer; }
 .art-text { text-shadow: 0 0 3px var(--ink), 0 0 10px var(--ink), 0 0 22px var(--ink); }
 .art-text button, .art-text a { text-shadow: none; }
 
+/* Light-theme footer colophon. The artwork's ground is dark exactly where the
+   footer sits, and the light-theme text colours are dark too, so the halo alone
+   cannot carry them (measured 1.2–2.0:1). Give the footer box a soft parchment
+   scrim — the hub main page's footer pattern (pale cream veil + dark ink text) —
+   fading in at the top edge so the illustration keeps showing through above it.
+   Both footer inks are the hub's own dark light-theme colours; #4a3a28 is also
+   the warm dark already used by this file's veil. Dark theme is untouched:
+   every rule is light-scoped. */
+:root[data-theme="light"] footer.art-text {
+  background: linear-gradient(
+    180deg,
+    rgba(246, 239, 220, 0) 0%,
+    rgba(246, 239, 220, .8) 34%,
+    rgba(246, 239, 220, .86) 100%
+  );
+  color: #4a3a28;
+}
+:root[data-theme="light"] footer.art-text .serif {
+  color: #5d4a20;
+}
+
 /*
   Header icon. The page sets --brand-dark and --brand-light; CSS picks the one for the current theme.
   Each picture's background is colour-matched to the header, and the soft mask fades its edges
