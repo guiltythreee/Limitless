@@ -28,7 +28,8 @@ export function scriptById(id) {
 }
 
 // The /*START*//*END*/-marked regions of the app script (BLOCKS: pure game/text helpers,
-// EPUB: the EPUB-to-sections helpers). Both run without any app state, so Node can test them.
+// EPUB: the EPUB-to-sections helpers, NAV: the swipe/navigation helpers). They all run without
+// any app state, so Node can test them.
 export function helperSource() {
   const html = pageSource();
   function region(start, end) {
@@ -37,7 +38,8 @@ export function helperSource() {
     return html.slice(i, j + end.length);
   }
   return region("/*BLOCKS-START*/", "/*BLOCKS-END*/") + "\n" +
-         region("/*EPUB-START*/", "/*EPUB-END*/") + "\n";
+         region("/*EPUB-START*/", "/*EPUB-END*/") + "\n" +
+         region("/*NAV-START*/", "/*NAV-END*/") + "\n";
 }
 
 // Evaluate the helper regions in a function scope and hand back the named helpers.

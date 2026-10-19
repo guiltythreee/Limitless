@@ -423,6 +423,11 @@ html:is([data-deco="gothic"], [data-deco="garden"]) #home::before { content: "";
 .bk, .ch { display: flex; align-items: center; gap: 8px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; }
 .bk .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bk small, .ch small { color: var(--dim); white-space: nowrap; }
+.ch.opt { border-style: dashed; }
+.ch input { flex: 1; min-width: 90px; }
+.reqbtn { flex: 0 0 auto; border: 1px solid var(--line); background: var(--panel); color: var(--dim); border-radius: 6px; padding: 5px 9px; font-size: 12px; }
+.reqbtn.on { color: var(--ink); border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+.reqbtn.opt { opacity: .75; }
 .bk select, .dialog input[type="text"], .ch input { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 5px 7px; color: var(--ink); font: inherit; }
 .dialog .row.start { justify-content: flex-start; }
 .dialog .row.start input { flex: 1; min-width: 120px; }
@@ -581,6 +586,7 @@ label.btn input { display: none; }
   <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="chTitle" style="width:min(640px,100%)">
     <h2 id="chTitle">Chapters</h2>
     <div class="note" id="chSrc"></div>
+    <div class="note" id="chProg" aria-live="polite"></div>
     <div class="list" id="chList"></div>
     <div class="status" id="chStatus"></div>
     <div class="row start">
@@ -588,6 +594,11 @@ label.btn input { display: none; }
       <button id="chEven" type="button">Split in even sections</button>
       <button id="chRedo" type="button">Detect again</button>
       <button id="chStop" type="button" hidden>Stop looking</button>
+    </div>
+    <div class="row start" aria-label="Set required or optional for every section">
+      <button id="chAllReq" type="button" title="Every section must be typed to finish the book">All required</button>
+      <button id="chAllOpt" type="button" title="No section blocks finishing the book">All optional</button>
+      <button id="chDefaults" type="button" title="Chapters required, front and back matter optional">Use defaults</button>
     </div>
     <div class="row"><button id="chClose" class="primary" type="button">Close</button></div>
   </div>
@@ -857,7 +868,7 @@ function tidyChapters(entries, n) {
     .sort(function (a, b) { return a.p - b.p || a.i - b.i; })
     .forEach(function (e) { if (!seen[e.p]) { seen[e.p] = 1; out.push({ p: e.p, title: e.title }); } });
   if (out.length && out[0].p > 0) out.unshift({ p: 0, title: "Beginning" });
-  return out;
+  return withRequirements(out);
 }
 
 // pageHeads[p] = chapterHeadsOnPage(...) for page p. Returns [] when it does not look like a real chapter list.
@@ -882,9 +893,54 @@ function pickChapters(pageHeads, n) {
 // Fallback: even sections of about 20 pages. An empty title means "show the page range".
 function evenChapters(n) {
   var count = Math.max(1, Math.round(n / 20)), per = Math.ceil(n / count), out = [], p;
-  for (p = 0; p < n; p += per) out.push({ p: p, title: "" });
+  for (p = 0; p < n; p += per) out.push({ p: p, title: "", req: true });
   return out;
 }
+
+// ----- required chapters and optional sections -----
+// A section is "required" when it is an actual narrative chapter, and "optional" when it is front
+// or back matter (contents, copyright, dedication, preface, appendix ...). These are sensible
+// defaults the reader can change for any section, never rules. A leading numbering is understood,
+// so both "12. Kalidasa" and "I. The Palace" are chapters, while "12. Notes" is still back matter.
+var SECTION_OPTIONAL = [
+  "cover", "title page", "half title", "frontispiece", "copyright", "publication",
+  "contents", "table of contents", "list of illustrations", "list of figures", "list of plates",
+  "list of maps", "list of tables", "epigraph", "dedication", "foreword", "preface",
+  "acknowledgements", "acknowledgments", "introduction", "prologue", "epilogue", "afterword",
+  "appendix", "appendices", "glossary", "bibliography", "references", "sources", "endnotes",
+  "notes", "footnotes", "index", "author's note", "authors note", "about the author",
+  "about the authors", "about the editors", "about the contributors", "also by", "colophon",
+  "errata", "abbreviations", "chronology", "timeline", "cast of characters", "dramatis personae",
+  "translator's note", "translator's preface", "editor's note", "editor's preface",
+  "publisher's note", "a note on the text", "a note on the translation", "how to use this book"
+];
+// A heading with a leading "Chapter 3" / "12." / "IV" marker taken off, so what is matched against
+// the list above is the name of the section itself.
+function sectionBody(title) {
+  var t = normalize(String(title || "")).toLowerCase();
+  var m = t.match(/^(?:(?:chapter|part|book|volume|vol|section|act|scene|canto|letter)\s+)?(?:[0-9]{1,4}|[ivxlcdm]{1,7})(?=\s|$|[.):,\-])[\s.):,\-]*/);
+  return m ? t.slice(m[0].length) : t;
+}
+// Does a heading name an actual chapter (required by default) or front/back matter (optional)?
+function sectionRequired(title) {
+  var t = normalize(String(title || "")).toLowerCase(), body, forms, i, w;
+  if (!t) return true;                                                        // an untitled section (an even split) is required
+  if (/^[0-9]{1,4}$/.test(t) || /^[ivxlcdm]{1,7}$/.test(t)) return true;      // "12" or "IV" on its own is a chapter
+  body = sectionBody(t) || t;
+  forms = [body, body.replace(/^(?:the|a|an)\s+/, "")];
+  for (i = 0; i < SECTION_OPTIONAL.length; i++) {
+    w = SECTION_OPTIONAL[i];
+    if (forms.some(function (f) { return f === w || f.indexOf(w + " ") === 0 || f.indexOf(w + ":") === 0 || f.indexOf(w + ",") === 0; })) return false;
+  }
+  return true;
+}
+// The default for one entry: the pages before a book's first chapter are front matter.
+function defaultReq(c) { return (c.p === 0 && c.title === "Beginning") ? false : sectionRequired(c.title); }
+// Give a chapter list its required/optional defaults, keeping any choice already made.
+function withRequirements(list) {
+  return list.map(function (c) { return { p: c.p, title: c.title || "", req: typeof c.req === "boolean" ? c.req : defaultReq(c) }; });
+}
+
 // ----- game: pure helpers -----
 function xpToReach(L) { return L <= 1 ? 0 : 400 * (L - 1) + 50 * (L - 1) * (L - 2); }
 function levelForXp(xp) { var L = 1; while (xpToReach(L + 1) <= xp) L++; return L; }
@@ -2542,7 +2598,7 @@ SCENES.mist = {
     usePages(pages, "Pasted text", LEGEND, "");
   });
   // ----- chapters: bookmarks, then headings, then even sections; your edits are saved per book -----
-  var CH = { list: [], src: "", busy: "" }, chapTok = 0, CHAP_VER = 2, lastKeyAt = -1e9;
+  var CH = { list: [], src: "", busy: "" }, chapTok = 0, CHAP_VER = 3, lastKeyAt = -1e9;
   function chapKey() { return "bookkeys:chap:" + S.key; }
   function chapEnd(i) { return i + 1 < CH.list.length ? CH.list[i + 1].p : S.total; }
   function unitName(one) { return S.isEpub ? (one ? "section" : "sections") : (one ? "page" : "pages"); }
@@ -2551,14 +2607,27 @@ SCENES.mist = {
   function chapAt(pi) { var k = 0, i; for (i = 0; i < CH.list.length; i++) if (CH.list[i].p <= pi) k = i; return k; }
   function chapSave() { if (S.key && CH.list.length && !CH.busy) store(chapKey(), JSON.stringify({ v: CHAP_VER, src: CH.src, list: CH.list })); }
   function chapLabelUpdate() {
-    var k;
+    var k, r;
     $("chapBtn").hidden = !S.isBook;
     $("chapCancel").hidden = !(S.isBook && CH.busy);
     if (!S.isBook) { $("chapLabel").textContent = ""; return; }
     if (CH.busy) { $("chapLabel").textContent = CH.busy; return; }
     if (!CH.list.length) { $("chapLabel").textContent = ""; return; }
     k = chapAt(S.idx);
-    $("chapLabel").textContent = "Chapter " + (k + 1) + " of " + CH.list.length + " \u00B7 " + chapName(k);
+    r = reqProgress();
+    $("chapLabel").textContent = "Chapter " + (k + 1) + " of " + CH.list.length + " \u00B7 " + chapName(k) +
+      (CH.list[k].req === false ? " (optional)" : "") + (r.total ? " \u00B7 " + r.done + "/" + r.total + " required" : "");
+  }
+  // The progress line inside the chapters panel: "12/45 required chapters completed".
+  function chapProgUpdate() {
+    var box = $("chProg"), r, opt;
+    if (!box) return;
+    if (!S.isBook || !CH.list.length || CH.busy) { box.textContent = ""; return; }
+    r = reqProgress();
+    if (!r.total) { box.textContent = "Every section is optional, so nothing is required to finish this book. XP still counts for every page you type."; return; }
+    opt = CH.list.length - r.total;
+    box.textContent = r.done + "/" + r.total + " required " + (r.total === 1 ? "chapter" : "chapters") + " completed" +
+      (opt ? " \u00B7 " + opt + " optional " + (opt === 1 ? "section" : "sections") : "");
   }
   function chapReset() { chapTok++; CH.list = []; CH.src = ""; CH.busy = ""; chapLabelUpdate(); }
   function chMsg(t, bad) { var x = $("chStatus"); x.className = "status" + (bad ? " err" : ""); x.textContent = t; }
@@ -2638,9 +2707,9 @@ SCENES.mist = {
     var tok = ++chapTok, saved = null;
     CH.list = []; CH.src = ""; CH.busy = "";
     try { saved = JSON.parse(load(chapKey()) || "null"); } catch (e) { saved = null; }
-    if (saved && saved.list && saved.list.length && saved.list[0].p === 0 && (saved.src === "edited" || saved.v === CHAP_VER) && saved.list.every(function (c, i) {
+    if (saved && saved.list && saved.list.length && saved.list[0].p === 0 && (saved.src === "edited" || saved.v === 2 || saved.v === CHAP_VER) && saved.list.every(function (c, i) {
       return c && c.p >= 0 && c.p < S.total && (i === 0 || c.p > saved.list[i - 1].p);
-    })) { CH.list = saved.list; CH.src = saved.src || "edited"; chapLabelUpdate(); return Promise.resolve(); }
+    })) { CH.list = withRequirements(saved.list); CH.src = saved.src || "edited"; chapSave(); chapLabelUpdate(); return Promise.resolve(); }
     if (S.isEpub) return chapFromToc();   // an EPUB's chapters come from its own table of contents
     return chapDetect(tok).catch(function () {});
   }
@@ -2664,25 +2733,33 @@ SCENES.mist = {
     box.innerHTML = "";
     chapSrcText();
     CH.list.forEach(function (c, i) {
-      var row = el("div", "ch"), t = document.createElement("input"), len = chapEnd(i) - c.p,
+      var row = el("div", c.req === false ? "ch opt" : "ch"), t = document.createElement("input"), len = chapEnd(i) - c.p,
         info = el("small", "", S.isEpub ? ("Section " + (c.p + 1) + " \u00B7 " + len + (len === 1 ? " section" : " sections")) : ("p. " + (c.p + 1) + " \u00B7 " + len + (len === 1 ? " page" : " pages"))),
+        req = el("button", "reqbtn " + (c.req === false ? "opt" : "on"), c.req === false ? "Optional" : "Required"),
         go = el("button", "primary", "Go"), rm = el("button", "", "Remove");
       t.type = "text"; t.maxLength = 80; t.value = chapName(i); t.disabled = !!CH.busy;
       t.setAttribute("aria-label", "Chapter " + (i + 1) + " title");
       go.type = "button"; rm.type = "button"; rm.hidden = i === 0; rm.disabled = !!CH.busy;
+      req.type = "button"; req.disabled = !!CH.busy; req.setAttribute("aria-pressed", String(c.req !== false));
+      req.title = c.req === false ? "Optional: this section does not have to be typed to finish the book" : "Required: this section has to be typed to finish the book";
       if (i === cur) row.setAttribute("aria-current", "true");
       t.addEventListener("change", function () {
         var v = t.value.trim().slice(0, 80);
         c.title = (v === "" || v === chapAuto(i)) ? "" : v;
         CH.src = "edited"; chapSave(); chapLabelUpdate(); chapSrcText(); t.value = chapName(i);
       });
+      req.addEventListener("click", function () {
+        c.req = !(c.req !== false); CH.src = "edited"; chapSave(); chapLabelUpdate(); chapRender();
+        chMsg(c.req === false ? "Optional: this section does not block finishing the book." : "Required: this section now counts towards finishing the book.");
+      });
       go.addEventListener("click", function () { dlgClose("chapters"); showPage(c.p, 1); });
       rm.addEventListener("click", function () {
         CH.list.splice(i, 1); CH.src = "edited"; chapSave(); chapLabelUpdate(); chapRender();
       });
-      [t, info, go, rm].forEach(function (n) { row.appendChild(n); });
+      [t, info, req, go, rm].forEach(function (n) { row.appendChild(n); });
       box.appendChild(row);
     });
+    chapProgUpdate();
   }
   function chapCancel() {
     if (!CH.busy) return;
@@ -2702,7 +2779,7 @@ SCENES.mist = {
     if (!S.isBook) return;
     if (CH.busy) { chMsg("Still looking for chapters. Try again in a moment.", true); return; }
     for (i = 0; i < CH.list.length; i++) if (CH.list[i].p === p) { chMsg("A chapter already starts on " + unitName(true) + " " + (p + 1) + ".", true); return; }
-    CH.list.push({ p: p, title: "New chapter" });
+    CH.list.push({ p: p, title: "New chapter", req: true });
     CH.list.sort(function (a, b) { return a.p - b.p; });
     CH.src = "edited"; chapSave(); chapLabelUpdate(); chapRender();
     chMsg("Chapter added at " + unitName(true) + " " + (p + 1) + ". Rename it if you like.");
@@ -2728,6 +2805,23 @@ SCENES.mist = {
     p = S.isEpub ? chapFromToc() : chapDetect(++chapTok).catch(function () {});
     p.then(function () { if (!$("chapters").hidden) chapRender(); });
   });
+  // Required/optional for many sections at once, for a book with a long list.
+  function chapBulk(src) { CH.src = src || "edited"; chapSave(); chapLabelUpdate(); chapRender(); }
+  $("chAllReq").addEventListener("click", function () {
+    if (CH.busy) { chMsg("Still looking for chapters. Try again in a moment.", true); return; }
+    CH.list.forEach(function (c) { c.req = true; });
+    chapBulk(); chMsg("Every section is required.");
+  });
+  $("chAllOpt").addEventListener("click", function () {
+    if (CH.busy) { chMsg("Still looking for chapters. Try again in a moment.", true); return; }
+    CH.list.forEach(function (c) { c.req = false; });
+    chapBulk(); chMsg("Every section is optional. Nothing is required to finish this book.");
+  });
+  $("chDefaults").addEventListener("click", function () {
+    if (CH.busy) { chMsg("Still looking for chapters. Try again in a moment.", true); return; }
+    CH.list = withRequirements(CH.list.map(function (c) { return { p: c.p, title: c.title }; }));
+    chapBulk(); chMsg("Required and optional are back to the defaults for these headings.");
+  });
 
   // ----- game: XP, levels, achievements, Hall of Fame (progress is kept in this browser) -----
   var G = loadGame();
@@ -2751,6 +2845,27 @@ SCENES.mist = {
     var b = G.book[S.gkey];
     if (!b) b = G.book[S.gkey] = { p: [], e: [], c: [], done: 0 };
     return b;
+  }
+  // The page ranges the book is judged by: those inside required chapters. Before a chapter list
+  // exists the whole book counts, exactly as it did before sections could be optional.
+  function requiredRanges() {
+    var r = [], i;
+    if (!CH.list.length) return [[0, S.total]];
+    for (i = 0; i < CH.list.length; i++) if (CH.list[i].req !== false) r.push([CH.list[i].p, chapEnd(i)]);
+    return r;
+  }
+  // How many required chapters are finished, for the progress line. A chapter counts when every
+  // page in it is typed or known empty; a page that has not been visited yet does not count yet.
+  function reqProgress() {
+    var gb = (typeof G !== "undefined" && G && S.gkey) ? G.book[S.gkey] : null,
+        done = {}, empty = {}, ranges = requiredRanges(), got = 0, i, p, ok;
+    if (gb) { (gb.p || []).forEach(function (x) { done[x] = 1; }); (gb.e || []).forEach(function (x) { empty[x] = 1; }); }
+    for (i = 0; i < ranges.length; i++) {
+      ok = true;
+      for (p = ranges[i][0]; p < ranges[i][1]; p++) if (!done[p] && !empty[p]) { ok = false; break; }
+      if (ok) got++;
+    }
+    return { done: got, total: ranges.length };
   }
   function effStreak() {
     var now = new Date(), y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
@@ -2851,14 +2966,16 @@ SCENES.mist = {
     }
     return p.then(function () {
       if (!same() || gb.done || G.paid[rewardId("b", key)] !== undefined) return;
-      return allDone(gb, 0, S.total).then(function (yes) {
-        var x = bookXp(typedIn(gb, 0, S.total));
-        if (!yes || !same()) return;
+      var ranges = requiredRanges();
+      if (!ranges.length) return;   // every section is optional: nothing is required, so the book cannot complete and pays no bonus
+      return Promise.all(ranges.map(function (rg) { return allDone(gb, rg[0], rg[1]); })).then(function (rs) {
+        var x = bookXp(typedIn(gb, 0, S.total));   // the amount keeps its old rule: it follows every page typed
+        if (!rs.every(Boolean) || !same()) return;
         if (payOnce(rewardId("b", key), x, !!gb.done, function () { gb.done = 1; G.books++; if (S.total >= 100) G.bigBook = 1; })) note("Book complete", S.gname + " \u00B7 +" + fmtN(x) + " XP");
       });
     }).then(function () {
       if (G.check && G.check.key === key && G.check.page === pg) G.check = null;   // the follow-up check is finished
-      gameAch(); commit(); hudUpdate();
+      gameAch(); commit(); hudUpdate(); chapLabelUpdate();
     });
   }
   var HALL_NAMES = {
@@ -4270,11 +4387,11 @@ SCENES.mist = {
     if (!loc || !Array.isArray(loc.list) || !loc.list.length) { store(k, s); if (k === chapKey()) dataChapDirty = true; return 1; }
     seen = {}; list = [];
     loc.list.concat(imp.list).forEach(function (c) {
-      if (c && typeof c.p === "number" && c.p >= 0 && !seen[c.p]) { seen[c.p] = 1; list.push({ p: c.p, title: typeof c.title === "string" ? c.title : "" }); }
+      if (c && typeof c.p === "number" && c.p >= 0 && !seen[c.p]) { seen[c.p] = 1; list.push({ p: c.p, title: typeof c.title === "string" ? c.title : "", req: typeof c.req === "boolean" ? c.req : undefined }); }
     });
     if (list.length === loc.list.length) return 0;
     list.sort(function (a, b) { return a.p - b.p; });
-    store(k, JSON.stringify({ v: CHAP_VER, src: "edited", list: list }));
+    store(k, JSON.stringify({ v: CHAP_VER, src: "edited", list: withRequirements(list) }));
     if (k === chapKey()) dataChapDirty = true;
     return 1;
   }
@@ -4375,6 +4492,24 @@ SCENES.mist = {
   showHome();
   // ----- back and forward: the browser buttons, Alt+Left / Alt+Right, a mouse side button and a two-finger swipe all walk
   // through the places you have been (Home, and the book you were reading). If a panel is open, going back closes it first. -----
+  /*NAV-START*/
+  // A two-finger swipe: how far sideways counts, and what a drag means. Pure, so it can be tested.
+  var SWIPE_MIN = 110;       // pixels of sideways travel before a two-finger drag counts as a swipe
+  var SWIPE_MAX_MS = 1400;   // a swipe is a quick flick, not a slow drag
+  function swipeIntent(dx, dy, i, max) {
+    if (Math.abs(dx) < Math.abs(dy) * 1.5) return "";   // mostly vertical: a scroll, not a swipe
+    if (Math.abs(dx) < SWIPE_MIN) return "";            // too short to mean anything yet
+    if (dx > 0) return "back";                          // left to right: back
+    return i < max ? "forward" : "";                    // right to left: forward only when there is somewhere to go
+  }
+  // Where "back to the Limitless homepage" points, or "" when there is no site around this page.
+  // Inside Limitless the page is framed by a shell whose own "Back to Limitless" link is the homepage;
+  // a standalone copy served from the site's own tools/typing folder uses the site root.
+  function homeHref(parentHref, path) {
+    if (parentHref) return parentHref;
+    return /\/tools\/typing\/[^/]*$/.test(path || "") ? "../../" : "";
+  }
+  /*NAV-END*/
   function navTo(v) {
     if (!NAV.ready || NAV.v === v) return;
     NAV.v = v; NAV.i++; NAV.max = NAV.i;
@@ -4390,6 +4525,26 @@ SCENES.mist = {
   });
   function navBack() { if (NAV.i > 0) history.back(); }
   function navForward() { if (NAV.i < NAV.max) history.forward(); }
+  // Leave Bookkeys for the Limitless homepage. Reads the shell's own "Back to Limitless" link when the
+  // page is framed; in a bare copy with no site to return to it does nothing at all.
+  function leaveForHome() {
+    var parentHref = "", a = null, url;
+    try {
+      if (window.parent && window.parent !== window) {
+        a = window.parent.document.querySelector(".nav-links a, a.brand, a[href]");
+        if (a) parentHref = a.href || "";
+      }
+    } catch (e) {}   // a parent from another origin cannot be read, and that is fine
+    url = homeHref(parentHref, location.pathname);
+    if (!url) return false;
+    try { (window.top || window).location.href = url; return true; } catch (e2) { return false; }
+  }
+  // A swipe back: walk back through the places you have been, then close a panel, then leave Bookkeys.
+  function navBackOrLeave() {
+    if (NAV.i > 0) { navBack(); return; }
+    if (anyDialogOpen()) { closeTopDialog(); return; }
+    leaveForHome();
+  }
   var wheelAcc = 0, wheelT = 0, wheelDone = false;
   window.addEventListener("wheel", function (e) {
     var now;
@@ -4399,8 +4554,37 @@ SCENES.mist = {
     wheelT = now; e.preventDefault();   // stops the browser's own swipe navigation, so it cannot fire as well
     if (wheelDone) return;
     wheelAcc += e.deltaX;
-    if (wheelAcc <= -90) { wheelDone = true; navBack(); } else if (wheelAcc >= 90) { wheelDone = true; navForward(); }
+    if (wheelAcc <= -90) { wheelDone = true; navBackOrLeave(); } else if (wheelAcc >= 90) { wheelDone = true; navForward(); }
   }, { passive: false });
+  // A two-finger swipe on a touchscreen: the same walk through places as the trackpad swipe above, and
+  // the way out to the Limitless homepage once there is nowhere left to go back to. Two fingers only,
+  // mostly sideways only, so typing, one-finger scrolling, pinch and text selection stay untouched.
+  var tt = null;
+  function ttEnd() { tt = null; }
+  function inTyping(t) {
+    for (; t && t.nodeType === 1; t = t.parentNode) {
+      var n = t.tagName;
+      if (n === "INPUT" || n === "TEXTAREA" || n === "SELECT" || t.isContentEditable) return true;
+    }
+    return false;
+  }
+  window.addEventListener("touchstart", function (e) {
+    if (e.touches.length !== 2 || inTyping(e.target)) { tt = null; return; }
+    tt = { x: (e.touches[0].clientX + e.touches[1].clientX) / 2, y: (e.touches[0].clientY + e.touches[1].clientY) / 2, t: performance.now(), done: false };
+  }, { passive: true });
+  window.addEventListener("touchmove", function (e) {
+    var x, y, what;
+    if (!tt || tt.done || e.touches.length !== 2) return;
+    x = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    y = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    what = swipeIntent(x - tt.x, y - tt.y, NAV.i, NAV.max);
+    if (!what || performance.now() - tt.t > SWIPE_MAX_MS) return;
+    tt.done = true;
+    if (what === "back") navBackOrLeave(); else navForward();
+    if (e.cancelable) e.preventDefault();   // keep the browser from also acting on this drag
+  }, { passive: false });
+  window.addEventListener("touchend", ttEnd, { passive: true });
+  window.addEventListener("touchcancel", ttEnd, { passive: true });
   document.addEventListener("keydown", function (e) {
     if (e.altKey && e.key === "ArrowLeft") { e.preventDefault(); navBack(); } else if (e.altKey && e.key === "ArrowRight") { e.preventDefault(); navForward(); }
   });
