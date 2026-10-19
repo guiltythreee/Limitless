@@ -95,7 +95,9 @@ button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent)
 button:disabled { opacity: .4; cursor: default; }
 
 .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
-.brand { font-family: var(--font-text); font-size: 22px; font-weight: 500; letter-spacing: -.01em; margin-right: 6px; }
+.iconbtn { padding: 6px 9px; display: inline-flex; align-items: center; justify-content: center; }
+.iconbtn svg { display: block; }
+.bar-end { margin-left: auto; display: flex; align-items: center; gap: 6px; }
 .book { color: var(--dim); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1 1 140px; }
 .group { display: flex; align-items: center; gap: 4px; }
 .seg button { border-radius: 0; }
@@ -245,7 +247,7 @@ html[data-calm="on"] :is(.scrim, .scrim .dialog, .scrim-bg, .drawer, #picBg) { a
 .askbox { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-3); padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, .35); font-family: var(--font-ui); font-size: var(--fs-xs); }
 .askbox b { font-size: var(--fs-sm); }
 .askbox .row { display: flex; flex-wrap: wrap; gap: 8px; }
-.modebtn { margin-left: auto; padding: 6px 9px; display: inline-flex; align-items: center; justify-content: center; }
+.modebtn { padding: 6px 9px; display: inline-flex; align-items: center; justify-content: center; }
 .modebtn svg g { display: none; }
 .modebtn[data-mode="pic-night"] .i-night, .modebtn[data-mode="pic-morning"] .i-morning, .modebtn[data-mode="pic-evening"] .i-evening { display: inline; }
 #picBg.swap { animation: fadeIn .45s ease-out; }
@@ -295,7 +297,7 @@ html:is([data-deco="gothic"], [data-deco="garden"]) #home::before { content: "";
 .artmsg { color: var(--dim); font-size: var(--fs-xs); }
 .legacy { margin: 6px 14px; padding: 8px 12px; border: 1px solid var(--accent); border-radius: var(--r-3); font-family: var(--font-ui); font-size: var(--fs-xs); }
 .legacy[hidden] { display: none; }
-@media (max-width: 720px) { .chapLabel, #note, .stats .progress { display: none; } #app { padding-inline: 10px; } .bar .brand { font-size: 18px; } }
+@media (max-width: 720px) { .chapLabel, #note, .stats .progress { display: none; } #app { padding-inline: 10px; } }
 #saveWarn { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 21; display: flex; align-items: center; gap: 10px; background: var(--panel); color: var(--ink); border: 1px solid #D8333B; border-radius: 8px; padding: 8px 12px; font-family: var(--font-ui); font-size: 13px; max-width: min(560px, 92vw); }
 #saveWarn[hidden] { display: none; }
 .rs { margin-right: 6px; white-space: nowrap; }
@@ -305,7 +307,7 @@ html:is([data-deco="gothic"], [data-deco="garden"]) #home::before { content: "";
 #home { display: none; }
 #app.home-on > #home { display: block; flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--dim) transparent; }
 #app.home-on > .stats, #app.home-on > .legacy, #app.home-on > .note, #app.home-on > main, #app.home-on > .result, #app.home-on > footer { display: none !important; }
-#app.home-on .bar .group, #app.home-on .bar .book, #app.home-on #openLibrary { display: none; }
+#app.home-on .bar .group, #app.home-on .bar .book { display: none; }
 .home-in { max-width: 1240px; margin: 0 auto; padding: 18px 8px 40px; }
 .home-top { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 56px; align-items: start; }
 .hero { background: color-mix(in srgb, var(--panel) 88%, transparent); border-radius: var(--r-2); padding: 22px 26px 24px; font-family: var(--font-ui); }
@@ -437,17 +439,17 @@ label.btn input { display: none; }
 
 <div id="app">
   <div class="bar">
-    <span class="brand">Bookkeys</span>
+    <button id="openLibrary" class="iconbtn" type="button" aria-label="Bookkeys home" title="Bookkeys home"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.6 12 4l8 6.6"/><path d="M6.2 9.6V20h11.6V9.6"/><path d="M10 20v-5h4v5"/></svg></button>
     <span class="book" id="bookName"></span>
     <div class="group" role="group" aria-label="Text size">
       <button id="sizeDown" type="button" aria-label="Smaller text">A-</button>
       <button id="sizeUp" type="button" aria-label="Larger text">A+</button>
     </div>
-    <button id="openSettings" type="button" aria-haspopup="dialog" aria-expanded="false">Settings</button>
-    <button id="openLibrary" type="button">Home</button>
     <button id="openHall" type="button" title="Level, XP and achievements"><span id="hallName">Archive</span> · Lv <b id="hudLv">1</b><span class="xpmini"><i id="hudBar"></i></span></button>
-    <button id="openLoader" class="primary" type="button">Load your book</button>
-    <button id="modeBtn" type="button" class="modebtn" data-mode="pic-morning" aria-label="Switch mode"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="i-night"><path d="M20 14.2A8.5 8.5 0 0 1 9.8 4 8.5 8.5 0 1 0 20 14.2z"/></g><g class="i-morning"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g><g class="i-evening"><path d="M6 17a6 6 0 0 1 12 0"/><path d="M2.5 17h19M12 6.5v2.2M4.6 9.6l1.6 1.6M19.4 9.6l-1.6 1.6M7 21h10"/></g></svg></button>
+    <div class="bar-end">
+      <button id="openSettings" class="iconbtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+      <button id="modeBtn" type="button" class="modebtn" data-mode="pic-morning" aria-label="Switch mode"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="i-night"><path d="M20 14.2A8.5 8.5 0 0 1 9.8 4 8.5 8.5 0 1 0 20 14.2z"/></g><g class="i-morning"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g><g class="i-evening"><path d="M6 17a6 6 0 0 1 12 0"/><path d="M2.5 17h19M12 6.5v2.2M4.6 9.6l1.6 1.6M19.4 9.6l-1.6 1.6M7 21h10"/></g></svg></button>
+    </div>
   </div>
 
   <section id="home" aria-label="Home">
@@ -461,6 +463,7 @@ label.btn input { display: none; }
             <li>Earn XP, level up and unlock achievements as you read</li>
           </ul>
           <div class="hero-actions">
+            <button id="openLoader" class="primary" type="button">Open book</button>
             <button id="homeContinue" class="primary" type="button" hidden></button>
             <button id="homeSample" type="button">Try the sample text</button>
           </div>
@@ -551,7 +554,7 @@ label.btn input { display: none; }
 
 <div class="scrim" id="loader" hidden>
   <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="ldTitle">
-    <h2 id="ldTitle">Load your book</h2>
+    <h2 id="ldTitle">Open a book</h2>
     <label class="drop" id="drop" for="pdfInput">
       Drop a PDF or EPUB here, or click to choose one
       <input id="pdfInput" type="file" accept="application/pdf,.pdf,application/epub+zip,.epub">
@@ -2239,6 +2242,22 @@ SCENES.mist = {
   }
   sink.addEventListener("focus", function () { document.querySelectorAll(".wrap").forEach(function (w) { w.classList.remove("blurred"); }); });
   sink.addEventListener("blur", function () { document.querySelectorAll(".wrap").forEach(function (w) { w.classList.add("blurred"); }); });
+  // Text must be typed. A paste or a dropped block of text larger than one character is
+  // refused before it can reach the keystroke counters; a single character still goes
+  // through, so a letter this keyboard cannot produce (a curly quote, an accented letter)
+  // can be entered by hand. The page's own speed check stays as the second line of defence.
+  sink.addEventListener("paste", function (e) {
+    var t = "";
+    try { t = e.clipboardData && e.clipboardData.getData ? String(e.clipboardData.getData("text") || "") : ""; } catch (err) { t = ""; }
+    if (t.length > 1) { e.preventDefault(); toast("Pasted text does not count", "Type the page a character at a time."); }
+  });
+  sink.addEventListener("dragover", function (e) { e.preventDefault(); });
+  sink.addEventListener("drop", function (e) {
+    e.preventDefault();
+    var t = "";
+    try { t = e.dataTransfer && e.dataTransfer.getData ? String(e.dataTransfer.getData("text") || "") : ""; } catch (err) { t = ""; }
+    if (t.length > 1) toast("Dropped text does not count", "Type the page a character at a time.");
+  });
   document.querySelectorAll(".pane").forEach(function (p) {
     p.addEventListener("click", function () { sink.focus(); });
   });
@@ -2277,7 +2296,7 @@ SCENES.mist = {
     try {
       localStorage.setItem(key, JSON.stringify({ v: 1, page: S.idx, sig: textSig(S.target), typed: S.typed, ok: S.keyOk, all: S.keyAll, spent: Date.now() - S.start, t: Date.now() }));
       draftPrune();
-    } catch (e) {}
+    } catch (e) { showSaveWarn(); }   // a draft that cannot be written must say so, like every other failed save
   }
   // Unfinished pages must never pile up against the browser's storage limit: keep this book's eight most recent drafts.
   function draftPrune() {
@@ -2356,7 +2375,7 @@ SCENES.mist = {
     function step(j) {
       if (j < 0 || j >= S.total || tries > 60) return Promise.resolve(null);
       tries++;
-      return getBlocks(j).then(function (b) { if (!b.length) gameEmpty(j); return b.length ? { i: j, b: b } : step(j + dir); });
+      return getBlocks(j).catch(function () { return []; }).then(function (b) { if (!b.length) gameEmpty(j); return b.length ? { i: j, b: b } : step(j + dir); });   // a read that fails outright is a page with no text: recorded, and stepped past
     }
     return step(i).then(function (hit) {
       if (!hit) {
@@ -2422,7 +2441,7 @@ SCENES.mist = {
     return showPage(startAt, 1);
   }
   function useSample() {
-    return usePages(SAMPLE_PAGES, SAMPLE_TITLE, LEGEND + " This is sample text. Use \"Load your book\" for your own PDF or EPUB.", "");
+    return usePages(SAMPLE_PAGES, SAMPLE_TITLE, LEGEND + " This is sample text. Use \"Open book\" for your own PDF or EPUB.", "");
   }
 
   function sampleBodySize(pdf) {
@@ -2495,7 +2514,7 @@ SCENES.mist = {
     }
     return true;
   }
-  // Shared by "Load your book" (a file you pick) and the Library (a book stored in the app).
+  // Shared by "Open book" (a file you pick) and the Library (a book stored in the app).
   function startPdf(bufP, name, key, st) {
     draftSave(true);   // keep the old book's unfinished page before switching books
     st.className = "status"; st.textContent = "Reading PDF...";
@@ -2568,7 +2587,7 @@ SCENES.mist = {
       st.textContent = epubErr(e) || "Could not read that file. Is it a valid EPUB?";
     });
   }
-  // Shared by "Load your book" and drag-and-drop: route the file by its format.
+  // Shared by "Open book" and drag-and-drop: route the file by its format.
   function isEpubFile(f) { return /\.epub$/i.test(f.name) || f.type === "application/epub+zip"; }
   function openFile(file) {
     if (file.size > MAX_PDF) { $("ldStatus").className = "status err"; $("ldStatus").textContent = "That file is larger than 300 MB, which is too big to read here."; return; }
@@ -2941,7 +2960,7 @@ SCENES.mist = {
     for (p = a; p < b; p++) if (!done[p] && !empty[p]) { miss.push(p); if (miss.length > 12) return Promise.resolve(false); }
     if (!miss.length) return Promise.resolve(true);
     return Promise.all(miss.map(function (q) {
-      return getBlocks(q).then(function (bl) { if (bl.length) return false; if (gb.e.indexOf(q) < 0) gb.e.push(q); return true; }).catch(function () { return false; });
+      return getBlocks(q).then(function (bl) { if (bl.length) return false; if (gb.e.indexOf(q) < 0) gb.e.push(q); return true; }).catch(function () { if (gb.e.indexOf(q) < 0) gb.e.push(q); return true; });   // a failed read counts as a page with no text, never as a page still owed
     })).then(function (r) { return r.every(Boolean); });
   }
   function allExact(gb, a, b) { var x = gb.x || []; return gb.p.every(function (p) { return p < a || p >= b || x.indexOf(p) >= 0; }); }
@@ -3016,7 +3035,7 @@ SCENES.mist = {
     $("hallHow").textContent = "You earn 1 XP for every word of a page you finish for the first time, with an accuracy bonus (98% or better x1.25, 95% x1.1, below 85% x0.8). " +
       "Finishing every page of a chapter pays a chapter bonus of 40 XP plus 25 per page typed, and finishing a book pays 300 XP plus 40 per page typed, so longer chapters and bigger books pay more. " +
       "Only PDF and EPUB books earn XP. Sample and pasted text do not, retyping a page you have already finished earns nothing, and pages with no text do not have to be typed. " +
-      "A page typed faster than 400 wpm is treated as a paste and does not count. " +
+      "A page typed faster than 400 wpm is treated as a paste and does not count, and pasting or dropping a block of text into the typing area is refused outright. " +
       "Achievement notes: your baseline speed is the average of your first 5 pages of 200 letters or more, and a session ends after 30 minutes without finishing a page. " +
       "Accuracy is correct keystrokes divided by all keystrokes, as a whole percent that rounds half up, and that shown percent picks the bonus (98 to 100: x1.25, 95 to 97: x1.1, 85 to 94: x1, below 85: x0.8). " +
       "Words are the correct letters left on the page divided by 5, rounded, and then the bonus is applied and rounded half up. A page can be finished with mistakes left in it, but only its correct letters earn XP. " +
@@ -3342,7 +3361,7 @@ SCENES.mist = {
     e.preventDefault(); curShelf = tabs[j].dataset.id; renderLib();
     $("shelfTabs").querySelector('[aria-selected="true"]').focus();
   });
-  $("openLibrary").addEventListener("click", function () { showHome(); });
+  $("openLibrary").addEventListener("click", function () { draftSave(true); showHome(); });
   $("homeSample").addEventListener("click", function () { useSample(); });
   $("homeContinue").addEventListener("click", function () { var m = lastOpened(); if (m) openLibBook(m); });
   $("libInput").addEventListener("change", function (e) { var f = e.target.files; addFiles(f); setTimeout(function () { e.target.value = ""; }, 0); });
@@ -4277,11 +4296,11 @@ SCENES.mist = {
       else if (k === "bookkeys:settings") { var c = backupMergeSettings(v); if (c) { n++; setCount += c; } else ignored++; }
       else if (k === "bookkeys:shelves") { if (backupMergeShelves(v)) { n++; shelvesDirty = true; } else ignored++; }
       else if (k.indexOf("bookkeys:chap:") === 0) { if (backupMergeChap(k, v)) n++; else ignored++; }
-      else if (load(k) == null) { store(k, v); n++; }   // anything else is only added when this browser has no copy of it yet
+      else if (load(k) == null) { if (store(k, v)) n++; else ignored++; }   // anything else is only added when this browser has no copy of it yet, and a failed write is never counted as brought in
       else ignored++;
     }
     if (gameDirty) { saveGame(); hudUpdate(); if (isOpen("hall")) hallRender(); }
-    if (setCount) { applyLook(); applyBg(); if (settingsOpen) syncControls(); if (S.target) { update(); placeCaret(true); } }
+    if (setCount) { commitST(); SNAP = JSON.stringify(ST); applyLook(); applyBg(); if (settingsOpen) syncControls(); if (S.target) { update(); placeCaret(true); } }
     if (shelvesDirty) saveShelves();
     if (dataChapDirty && S.key) {
       dataChapDirty = false;
@@ -4333,7 +4352,7 @@ SCENES.mist = {
         if (!b.book[k] || typeof b.book[k] !== "object") continue;
         if (!G.book[k] || typeof G.book[k] !== "object") { G.book[k] = normBook(b.book[k]); continue; }
         (function (gb2, ib2) {
-          ["p", "e", "c"].forEach(function (m) {
+          ["p", "e", "c", "x"].forEach(function (m) {
             var seen = {}, out = [];
             (Array.isArray(gb2[m]) ? gb2[m] : []).concat(Array.isArray(ib2[m]) ? ib2[m] : []).forEach(function (x) {
               if (typeof x === "number" && isFinite(x) && !seen[x]) { seen[x] = 1; out.push(x); }
@@ -4349,8 +4368,8 @@ SCENES.mist = {
     return 1;
   }
   function normBook(o) {
-    var r = { p: [], e: [], c: [], done: +o.done || 0 };
-    ["p", "e", "c"].forEach(function (m) {
+    var r = { p: [], e: [], c: [], x: [], done: +o.done || 0 };
+    ["p", "e", "c", "x"].forEach(function (m) {
       var seen = {};
       r[m] = (Array.isArray(o[m]) ? o[m] : []).filter(function (x) {
         if (typeof x === "number" && isFinite(x) && !seen[x]) { seen[x] = 1; return true; }
@@ -4363,7 +4382,10 @@ SCENES.mist = {
     var o = null, k, n = 0;
     try { o = JSON.parse(s) || null; } catch (e) { return 0; }
     if (!o || typeof o !== "object") return 0;
-    for (k in DEF) if (Object.prototype.hasOwnProperty.call(o, k)) { ST[k] = o[k]; n++; }
+    // Only a value of the same kind as this app's own setting is taken: a backup from a
+    // damaged file must not be able to put a string where a number belongs, and vice versa.
+    for (k in DEF) if (Object.prototype.hasOwnProperty.call(o, k) && typeof o[k] === typeof DEF[k] &&
+      (typeof o[k] !== "number" || isFinite(o[k]))) { ST[k] = o[k]; n++; }
     return n;
   }
   function backupMergeShelves(s) {
@@ -4384,14 +4406,14 @@ SCENES.mist = {
     try { imp = JSON.parse(s) || null; } catch (e) { return 0; }
     if (!imp || !Array.isArray(imp.list) || !imp.list.length) return 0;
     try { loc = JSON.parse(load(k) || "null"); } catch (e2) { loc = null; }
-    if (!loc || !Array.isArray(loc.list) || !loc.list.length) { store(k, s); if (k === chapKey()) dataChapDirty = true; return 1; }
+    if (!loc || !Array.isArray(loc.list) || !loc.list.length) { if (!store(k, s)) return 0; if (k === chapKey()) dataChapDirty = true; return 1; }
     seen = {}; list = [];
     loc.list.concat(imp.list).forEach(function (c) {
       if (c && typeof c.p === "number" && c.p >= 0 && !seen[c.p]) { seen[c.p] = 1; list.push({ p: c.p, title: typeof c.title === "string" ? c.title : "", req: typeof c.req === "boolean" ? c.req : undefined }); }
     });
     if (list.length === loc.list.length) return 0;
     list.sort(function (a, b) { return a.p - b.p; });
-    store(k, JSON.stringify({ v: CHAP_VER, src: "edited", list: withRequirements(list) }));
+    if (!store(k, JSON.stringify({ v: CHAP_VER, src: "edited", list: withRequirements(list) }))) return 0;
     if (k === chapKey()) dataChapDirty = true;
     return 1;
   }
