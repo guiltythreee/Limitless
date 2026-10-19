@@ -8,6 +8,13 @@ import { loadTheme, saveTheme } from "./lib/progress";
 // Every course gets one card; add a course by extending the list below.
 const COURSES = [
   {
+    symbol: "♨",
+    name: "MT201 — Metallurgical Thermodynamics",
+    desc: "289 chapter-wise MCQs across fourteen chambers — laws, potentials, entropy, solutions, Ellingham diagrams and information theory, with worked solutions and a timed exam simulator.",
+    href: "/mt201/",
+    status: "live" as const,
+  },
+  {
     symbol: "⚗",
     name: "MT202 — Physical Metallurgy",
     desc: "387 chapter-wise MCQs with concise and detailed solutions, condensed lessons, exam simulator and metallurgy calculators.",

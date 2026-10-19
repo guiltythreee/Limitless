@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "sync": "node scripts/sync.mjs",
+    "sync201": "node scripts/sync-mt201.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

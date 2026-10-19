@@ -1,0 +1,77 @@
+{
+  "course": "MT201 — Metallurgical Thermodynamics",
+  "generated": "2026-10-18",
+  "total": 289,
+  "chapters": [
+    {
+      "id": "ch01",
+      "title": "Foundations & System Concepts",
+      "count": 15
+    },
+    {
+      "id": "ch02",
+      "title": "Zeroth Law & Temperature",
+      "count": 8
+    },
+    {
+      "id": "ch03",
+      "title": "First Law, Work & Internal Energy",
+      "count": 20
+    },
+    {
+      "id": "ch04",
+      "title": "Enthalpy & Heat Capacity",
+      "count": 20
+    },
+    {
+      "id": "ch05",
+      "title": "Thermochemistry & Hess's Law",
+      "count": 26
+    },
+    {
+      "id": "ch06",
+      "title": "Second Law & Entropy",
+      "count": 26
+    },
+    {
+      "id": "ch07",
+      "title": "Third Law & Absolute Entropy",
+      "count": 14
+    },
+    {
+      "id": "ch08",
+      "title": "Free Energy, Maxwell & Gibbs-Helmholtz",
+      "count": 28
+    },
+    {
+      "id": "ch09",
+      "title": "Chemical Potential, Gibbs-Duhem, Activity & Fugacity",
+      "count": 27
+    },
+    {
+      "id": "ch10",
+      "title": "Solutions, Regular/Sub-regular & Spinodal",
+      "count": 27
+    },
+    {
+      "id": "ch11",
+      "title": "Ellingham Diagrams & Reduction",
+      "count": 28
+    },
+    {
+      "id": "ch12",
+      "title": "Phase Equilibria & Clausius-Clapeyron",
+      "count": 22
+    },
+    {
+      "id": "ch13",
+      "title": "Gases in Metals (Sieverts) & Equilibrium",
+      "count": 12
+    },
+    {
+      "id": "ch14",
+      "title": "Entropy, Information & Landauer",
+      "count": 16
+    }
+  ]
+}

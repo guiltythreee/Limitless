@@ -701,3 +701,27 @@ li { margin: 0.22rem 0; }
 .result .rline { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.93rem; padding: 0.14rem 0; }
 .result .rval { color: var(--goldhi); font-family: ui-monospace, Menlo, monospace; }
 .steps { margin-top: 0.7rem; color: var(--soft); font-size: 0.84rem; border-top: 1px dashed var(--line); padding-top: 0.6rem; }
+
+/* ---------------- MT201 · thermodynamics chamber ----------------
+   The thermodynamics bank is denser than MT202's: longer worked
+   solutions threaded with inline KaTeX. These scoped tweaks give the
+   maths room to breathe — MT202's chambers are untouched. */
+
+.mt201 .qtext {
+  line-height: 1.68;
+  text-wrap: pretty;
+}
+.mt201 .statements li {
+  font-size: 0.95rem;
+  line-height: 1.62;
+}
+.mt201 .ar-box div { line-height: 1.6; }
+.mt201 .opt { line-height: 1.55; }
+.mt201 .reveal .detailed {
+  font-size: 0.95rem;
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+.mt201 .reveal .detailed p { margin: 0.62rem 0; }
+.mt201 .reveal .detailed p:first-child { margin-top: 0.15rem; }
+
