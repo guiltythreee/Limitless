@@ -17,8 +17,15 @@ const COURSES = [
   {
     symbol: "⚗",
     name: "MT202 — Physical Metallurgy",
-    desc: "397 chapter-wise MCQs with concise and detailed solutions, condensed lessons, exam simulator and metallurgy calculators.",
+    desc: "522 chapter-wise MCQs with concise and detailed solutions, condensed lessons, exam simulator and metallurgy calculators.",
     href: "/mt202/",
+    status: "live" as const,
+  },
+  {
+    symbol: "⛓",
+    name: "MT203 — Polymer Science and Technology",
+    desc: "286 questions across 11 topics — fundamentals, polymerization, molecular weight, crystallinity, Tg/Tm, industrial polymers, blends, properties and processing, with spaced revision, weak-area training, mastery tracking and a timed exam.",
+    href: "/mt203/",
     status: "live" as const,
   },
 ];

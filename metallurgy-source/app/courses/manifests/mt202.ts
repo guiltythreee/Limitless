@@ -8,11 +8,12 @@
 // Capabilities reflect the live MT202 app: theory reader (ch01..ch08),
 // quiz player, timed exam, and the four metallurgy calculators. NO XP,
 // mastery, goals, or module grouping. Verified here by
-// scripts/validate-courses.mjs (9 topics, 397 questions).
+// scripts/validate-courses.mjs (9 topics, 522 questions).
 //
 // NOTE: ch09 is the "Revision Mix (HARD)" exam pool and has no lesson.
-// NOTE: the landing page advertised "387" questions; Phase 4a corrected it to
-// 397 (the real source total). The manifest always followed the source.
+// NOTE: the landing page once advertised "387" questions; Phase 4a corrected
+// it to the real source total, which grew to 522 when the Interview & GATE
+// extra-practice batches were added. The manifest always follows the source.
 
 import type { CourseManifest } from "../types";
 import { capabilities } from "../capabilities";
@@ -23,7 +24,7 @@ export const MT202_MANIFEST: CourseManifest = {
   title: "Physical Metallurgy",
   subtitle: "Structure, defects, deformation, strengthening & diffusion",
   description:
-    "397 chapter-wise MCQs with concise and detailed solutions, condensed lessons for chapters 1–8, an exam simulator and four metallurgy calculators.",
+    "522 chapter-wise MCQs with concise and detailed solutions, condensed lessons for chapters 1–8, an exam simulator and four metallurgy calculators.",
   symbol: "⚗",
   status: "live",
   route: "mt202",
@@ -43,13 +44,13 @@ export const MT202_MANIFEST: CourseManifest = {
   topics: [
     { id: "ch01", num: 1, title: "Atomic Structure and Interatomic Bonding", count: 35, hasLesson: true },
     { id: "ch02", num: 2, title: "Structure of Metals", count: 53, hasLesson: true },
-    { id: "ch03", num: 3, title: "Solidification of Metals", count: 53, hasLesson: true },
-    { id: "ch04", num: 4, title: "Constitution of Alloys and Alloy Solidification", count: 42, hasLesson: true },
-    { id: "ch05", num: 5, title: "Crystal Defects", count: 50, hasLesson: true },
-    { id: "ch06", num: 6, title: "Plastic Deformation", count: 38, hasLesson: true },
-    { id: "ch07", num: 7, title: "Strengthening Mechanisms", count: 40, hasLesson: true },
-    { id: "ch08", num: 8, title: "Diffusion", count: 36, hasLesson: true },
-    { id: "ch09", num: 9, title: "Revision Mix (HARD)", count: 50, hasLesson: false },
+    { id: "ch03", num: 3, title: "Solidification of Metals", count: 73, hasLesson: true },
+    { id: "ch04", num: 4, title: "Constitution of Alloys and Alloy Solidification", count: 47, hasLesson: true },
+    { id: "ch05", num: 5, title: "Crystal Defects", count: 70, hasLesson: true },
+    { id: "ch06", num: 6, title: "Plastic Deformation", count: 58, hasLesson: true },
+    { id: "ch07", num: 7, title: "Strengthening Mechanisms", count: 60, hasLesson: true },
+    { id: "ch08", num: 8, title: "Diffusion", count: 56, hasLesson: true },
+    { id: "ch09", num: 9, title: "Revision Mix (HARD)", count: 70, hasLesson: false },
   ],
   taxonomy: {
     types: [

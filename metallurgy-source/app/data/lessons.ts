@@ -1,5 +1,5 @@
 // Condensed lesson theory for MT202, one entry per chapter. Kept in the
-// bundle (small); the 387 quiz questions live in public/data and load on
+// bundle (small); the 522 quiz questions live in public/data and load on
 // demand. Content is derived from the MT202 modules / condensed notes.
 
 export type Section = { h: string; p: string };

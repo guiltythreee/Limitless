@@ -1,7 +1,7 @@
 {
   "course": "MT202 — Physical Metallurgy",
   "generated": "2026-10-19",
-  "total": 397,
+  "total": 522,
   "chapters": [
     {
       "id": "ch01",
@@ -16,37 +16,37 @@
     {
       "id": "ch03",
       "title": "Solidification of Metals",
-      "count": 53
+      "count": 73
     },
     {
       "id": "ch04",
       "title": "Constitution of Alloys and Alloy Solidification",
-      "count": 42
+      "count": 47
     },
     {
       "id": "ch05",
       "title": "Crystal Defects",
-      "count": 50
+      "count": 70
     },
     {
       "id": "ch06",
       "title": "Plastic Deformation",
-      "count": 38
+      "count": 58
     },
     {
       "id": "ch07",
       "title": "Strengthening Mechanisms",
-      "count": 40
+      "count": 60
     },
     {
       "id": "ch08",
       "title": "Diffusion",
-      "count": 36
+      "count": 56
     },
     {
       "id": "ch09",
       "title": "Revision Mix (HARD)",
-      "count": 50
+      "count": 70
     }
   ]
 }
