@@ -1026,9 +1026,11 @@
 
   /* weak-spot drill: ~75% from the chosen skills (nearest to the chosen tier), the rest general.
      skills: array of skill names; weights: optional { skill: number } */
-  function drillQuestion(skills, weights, tierId, r, ctx) {
+  function drillQuestion(skills, weights, tierId, r, ctx, options) {
     var ti = TIER_BY_ID[tierId].index;
-    if (!skills || !skills.length || r() > 0.75) return nextQuestion(tierId, r, ctx);
+    options = options || {};
+    var generalRate = options.generalRate === undefined ? 0.25 : clamp(options.generalRate, 0, 1);
+    if (!skills || !skills.length || r() < generalRate) return nextQuestion(tierId, r, ctx);
     var total = 0, i;
     for (i = 0; i < skills.length; i++) total += (weights && weights[skills[i]]) || 1;
     var x = r() * total, skill = skills[skills.length - 1];
