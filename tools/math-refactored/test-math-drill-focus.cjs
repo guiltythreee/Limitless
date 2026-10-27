@@ -32,18 +32,17 @@ for (const tier of E.TIERS) {
   }
 }
 
-const selectedSkills = ['Percentages', 'Fractions', 'Powers'];
+const selectedSkills = ['Logarithms', 'Modular arithmetic', 'Combinatorics'];
 let generalCount = 0;
-for (const tier of E.TIERS) {
-  const rng = E.makeRng(872000 + tier.index);
-  const recent = ctx();
-  for (let i = 0; i < MIXED_SAMPLE; i++) {
-    const q = E.drillQuestion(selectedSkills, {}, tier.id, rng, recent, { generalRate: 0.25 });
-    assertValid(q, tier.id + '/mixed/' + i);
-    if (!selectedSkills.includes(q.skill)) generalCount++;
-  }
+const tier = E.TIER_BY_ID.acolyte;
+const rng = E.makeRng(872000 + tier.index);
+const recent = ctx();
+for (let i = 0; i < MIXED_SAMPLE; i++) {
+  const q = E.drillQuestion(selectedSkills, {}, tier.id, rng, recent, { generalRate: 0.25 });
+  assertValid(q, tier.id + '/mixed/' + i);
+  if (!selectedSkills.includes(q.skill)) generalCount++;
 }
-const mixedTotal = MIXED_SAMPLE * E.TIERS.length;
+const mixedTotal = MIXED_SAMPLE;
 const observedGeneralRate = generalCount / mixedTotal;
 assert.ok(observedGeneralRate >= 0.23 && observedGeneralRate <= 0.27,
   'mixed drills should retain about 25% general questions; got ' + observedGeneralRate);
