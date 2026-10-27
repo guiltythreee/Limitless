@@ -659,7 +659,7 @@
     var atts = load(KEY_ATT, []);
     r.attempts.forEach(function (a) {
       atts.push({ run: r.id, i: a.i, t: a.tier, g: a.gen, s: a.skill, q: a.text, a: a.answerText,
-        x: a.given, r: a.result, time: a.time, target: a.target, d: a.diff, ts: r.ts });
+        x: a.given, r: a.result, time: a.time, target: a.target, effectiveTarget: effTarget(r, a), d: a.diff, ts: r.ts });
     });
     save(KEY_ATT, atts.slice(-MAX_ATTEMPTS));
   }
@@ -719,7 +719,7 @@
         var list = r.attempts.filter(function (a) { return a.skill === skill && a.result !== 'skip'; });
         if (list.length < 3) return;
         var acc = list.filter(function (a) { return a.result === 'correct'; }).length / list.length;
-        var ratio = median(list.map(function (a) { return a.time / a.target; }));
+        var ratio = median(list.map(function (a) { return a.time / effTarget(r, a); }));
         var b = r.drill.before[skill];
         lines.push(skill + ': accuracy ' + (b ? U.pct(b.acc) + ' → ' : '') + U.pct(acc) + ', pace ' + (b ? b.ratio.toFixed(1) + '× → ' : '') + ratio.toFixed(1) + '× target (' + list.length + ' questions)');
       });
@@ -794,7 +794,7 @@
       var answered = list.filter(function (a) { return a.result !== 'skip'; });
       var right = answered.filter(function (a) { return a.result === 'correct'; }).length;
       var acc = answered.length ? right / answered.length : 0;
-      var ratio = median(answered.map(function (a) { return a.time / a.target; }));
+      var ratio = median(answered.map(function (a) { return a.time / effTarget(r, a); }));
       var dg = C.diagnose(acc, ratio, answered.length);
       var tr = U.h('tr');
       tr.appendChild(U.h('td', '', skill));
