@@ -434,18 +434,25 @@
     var a = r.int(3, p.amax || 12), b = r.int(3, p.amax || 12);
     if (a === b) b += 1;
     var k = r.int(2, 9);
-    return Q('Ratios', a + ' : ' + b + ' = ' + (a * k) + ' : ?', (a * k) + '/' + a + '*' + b, rat(b * k),
-      3 + 0.5 * digits(a * k));
+    var diff = 3 + 0.5 * digits(a * k) +
+      0.25 * Math.max(0, digits(a) - 1) + 0.25 * Math.max(0, digits(b) - 1);
+    return Q('Ratios', a + ' : ' + b + ' = ' + (a * k) + ' : ?', (a * k) + '/' + a + '*' + b, rat(b * k), diff);
   };
 
   G.mean = function (r, p) {
     for (var i = 0; i < 300; i++) {
-      var n = r.pick([4, 5]), m = r.int(p.lo, p.hi), offs = [], s = 0;
+      var n = r.int(p.nlo == null ? 4 : p.nlo, p.nhi == null ? 5 : p.nhi),
+        m = r.int(p.lo, p.hi), offs = [], s = 0;
       for (var j = 0; j < n - 1; j++) { var o = r.int(-p.spread, p.spread); offs.push(o); s += o; }
       offs.push(-s);
       var vals = offs.map(function (o) { return m + o; });
       if (vals.some(function (v) { return v < 1; }) || Math.abs(offs[n - 1]) > p.spread * 2) continue;
-      return Q('Averages', 'Mean of ' + vals.join(', '), '(' + vals.join('+') + ')/' + n, rat(m), 3 + 0.5 * n);
+      var maxValue = Math.max.apply(null, vals), totalValue = vals.reduce(function (sum, value) { return sum + value; }, 0);
+      var diff = 3 + 0.5 * n +
+        0.35 * Math.max(0, digits(maxValue) - 2) +
+        0.2 * Math.max(0, digits(totalValue) - 3) +
+        0.015 * Math.max(0, p.spread - 12);
+      return Q('Averages', 'Mean of ' + vals.join(', '), '(' + vals.join('+') + ')/' + n, rat(m), diff);
     }
     throw new Error('mean: could not generate');
   };
@@ -819,7 +826,8 @@
         ['add', 2, { da: 3, db: 2 }], ['sub', 2, { da: 3, db: 2 }], ['add', 1, { da: 3, db: 3 }],
         ['mul', 3, { da: 2, db: 1, shortcut: 'any' }], ['div', 2, { dq: 2, dd: 1 }],
         ['decAdd', 2, { ia: 1, ib: 1, dpa: 1, dpb: 1 }], ['decMul', 1, { da: 1, dpa: 1, db: 1, dpb: 0 }],
-        ['square', 1, { lo: 11, hi: 25 }], ['pctOf', 1, { set: EASY_PCT, lo: 40, hi: 400, dp: 0 }]
+        ['square', 1, { lo: 11, hi: 25 }], ['pctOf', 1, { set: EASY_PCT, lo: 40, hi: 400, dp: 0 }],
+        ['proportion', 1, { amax: 8 }], ['mean', 1, { nlo: 3, nhi: 3, lo: 3, hi: 20, spread: 4 }]
       ] },
     { id: 'adept', name: 'Adept', label: 'Medium', emblem: '❂', accuracy: 0.95,
       blurb: 'Two-digit products, negatives, percentages, decimals.',
@@ -849,7 +857,8 @@
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 12, hi: 60, zlo: 20, zhi: 199 }],
         ['fracToDec', 1, { dens: [32, 64, 80, 125, 128, 160] }],
         ['evGame', 1, { dens: [2, 4, 5, 10], wmax: 20, lmax: 9 }], ['comb', 1, { nlo: 5, nhi: 9, perm: 0.2 }],
-        ['probCoin', 1, { nlo: 3, nhi: 6 }]
+        ['probCoin', 1, { nlo: 3, nhi: 6 }],
+        ['proportion', 1, { amax: 25 }], ['mean', 1, { lo: 50, hi: 250, spread: 20 }]
       ] },
     { id: 'archon', name: 'Archon', label: 'Extreme', emblem: '⚜', accuracy: 0.90,
       blurb: 'Estimation, powers, awkward fractions, decimal chains.',
@@ -866,7 +875,8 @@
         ['square', 1, { lo: 55, hi: 125, five: true }], ['mul', 1, { near100: true }],
         ['decDiv', 1, { dq: 2, dpq: 1, dd: 2, dpd: 1 }],
         ['probDice', 1, { cond: true }], ['evDie', 1, { mult: true }], ['log', 1, { kinds: ['int', 'neg', 'sum'], bases: [2, 3, 5, 10], klo: 5, khi: 6 }],
-        ['mod', 1, { kinds: ['rem', 'mul'], alo: 100, ahi: 999, mlo: 7, mhi: 17 }]
+        ['mod', 1, { kinds: ['rem', 'mul'], alo: 100, ahi: 999, mlo: 7, mhi: 17 }],
+        ['proportion', 1, { amax: 99 }], ['mean', 1, { lo: 100, hi: 999, spread: 35 }]
       ] },
     { id: 'abyss', name: 'Abyss', label: 'Hell', emblem: '☠', accuracy: 0.85,
       blurb: 'Brutal products, double products, hard estimation.',
@@ -884,7 +894,8 @@
         ['decDiv', 1, { dq: 3, dpq: 1, dd: 2, dpd: 1 }],
         ['probBag', 1, { lo: 4, hi: 10 }], ['ev2d6', 1, {}], ['comb', 1, { nlo: 10, nhi: 16, perm: 0.25 }],
         ['log', 1, { kinds: ['frac', 'sum', 'neg'], bases: [2, 3, 5], klo: 2, khi: 6 }],
-        ['mod', 1, { kinds: ['mul', 'pow'], alo: 100, ahi: 999, mlo: 7, mhi: 23, bmax: 9, emax: 9 }]
+        ['mod', 1, { kinds: ['mul', 'pow'], alo: 100, ahi: 999, mlo: 7, mhi: 23, bmax: 9, emax: 9 }],
+        ['proportion', 1, { amax: 999 }], ['mean', 1, { lo: 500, hi: 1999, spread: 80 }]
       ] }
   ];
 
