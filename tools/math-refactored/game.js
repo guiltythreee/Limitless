@@ -947,8 +947,7 @@
     if (!meta.tricks[id]) meta.tricks[id] = { base: null, post: null, practice: 0, skipBase: false, masteryRewarded: false, lastTs: 0 };
     var rec = meta.tricks[id];
     /* Migrate previously mastered records so the one-time bonus cannot be farmed. */
-    if (isMastered(rec)) rec.masteryRewarded = true;
-    return rec;
+    return window.MathTrickProgression.migrateMasteryReward(rec);
   }
 
   function renderTricks() { renderTrickList(); renderTrickDetail(); }
@@ -958,7 +957,9 @@
     var id = s.trick.id, phase = s.trick.phase, tr = E.TRICK_BY_ID[id];
     var answered = s.attempts.filter(function (a) { return a.result !== 'skip'; });
     if (!trickAssessmentValid(phase, s.count, s.attempts)) {
-      trickBanner = 'That ' + TRICK_PHASES[phase].name.toLowerCase() + ' ended early, so it was not recorded.';
+      trickBanner = (phase === 'baseline' || phase === 'post')
+        ? 'This ' + TRICK_PHASES[phase].name.toLowerCase() + ' needs all ' + s.count + ' questions answered without skips, so it was not recorded.'
+        : 'That practice run ended too early to record.';
     } else {
       var right = answered.filter(function (a) { return a.result === 'correct'; }).length;
       var stat = { n: answered.length, acc: right / answered.length, med: median(answered.map(function (a) { return a.time; })),
@@ -967,11 +968,11 @@
       rec.lastTs = Date.now();
       var xp = 0, wasMastered = isMastered(rec);
       if (wasMastered) rec.masteryRewarded = true;
-      if (phase === 'baseline') { xp = rec.base ? 2 : 15; rec.base = stat; rec.post = null; trickBanner = 'Baseline recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median. The previous post-test has been cleared; take a new post-test after practising.'; }
+      if (phase === 'baseline') { xp = window.MathTrickProgression.replaceBaseline(rec, stat) ? 2 : 15; trickBanner = 'Baseline recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median. The previous post-test has been cleared; take a new post-test after practising.'; }
       else if (phase === 'practice') { xp = Math.max(2, 10 - 2 * (rec.practice || 0)); rec.practice = (rec.practice || 0) + 1; trickBanner = 'Practice done: ' + U.pct(stat.acc) + ' right. Take the post-test when the steps feel automatic.'; }
       else {
         xp = rec.post ? 3 : 25; rec.post = stat;
-        if (isMastered(rec) && !rec.masteryRewarded) { xp += 30; rec.masteryRewarded = true; }
+        if (window.MathTrickProgression.awardFirstMastery(rec)) xp += 30;
         trickBanner = 'Post-test recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median.' + (rec.base ? ' Baseline was ' + U.fmtSec(rec.base.med) + '.' : '') + (isMastered(rec) ? ' ' + tr.name + ' mastered!' : '');
       }
       MathXP.touchStreak();
