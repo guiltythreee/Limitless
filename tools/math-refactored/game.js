@@ -334,7 +334,7 @@
     var rx = C.prescription(C.analyse());
     $('drill-note').textContent = prefs.drillFocus === 'auto'
       ? (rx ? 'Will drill ' + U.sentenceList(rx.skills) + ' as a ' + DRILL_KINDS[rx.kind].name.toLowerCase() + '.' : 'No weak spots yet, so you will get a general drill at your chosen tier.')
-      : 'Will drill ' + prefs.drillFocus + ' at about your chosen tier’s level.';
+      : 'Will drill ' + prefs.drillFocus + ' using the closest available question level for that skill.';
   }
 
   function renderTrickSummary() {
