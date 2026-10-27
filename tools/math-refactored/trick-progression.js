@@ -24,7 +24,31 @@
     return false;
   }
 
-  var api = { isMastered: isMastered, assessmentValid: assessmentValid };
+  function replaceBaseline(record, stat) {
+    var hadBaseline = !!record.base;
+    record.base = stat;
+    record.post = null;
+    return hadBaseline;
+  }
+
+  function awardFirstMastery(record) {
+    if (!isMastered(record) || record.masteryRewarded === true) return false;
+    record.masteryRewarded = true;
+    return true;
+  }
+
+  function migrateMasteryReward(record) {
+    if (isMastered(record)) record.masteryRewarded = true;
+    return record;
+  }
+
+  var api = {
+    isMastered: isMastered,
+    assessmentValid: assessmentValid,
+    replaceBaseline: replaceBaseline,
+    awardFirstMastery: awardFirstMastery,
+    migrateMasteryReward: migrateMasteryReward
+  };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.MathTrickProgression = api;
 })(typeof window !== 'undefined' ? window : globalThis);
