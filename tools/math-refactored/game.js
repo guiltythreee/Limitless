@@ -74,7 +74,7 @@
       note: 'Ascendant: the standard drill rules.',
       target: 1, penalty: 1, xp: 1, lives: 0, skipCosts: false, forceTimer: false, noPractice: false },
     hard: { name: 'Apotheosis', desc: 'The timer never stops, penalties bite, skips cost. XP ×1.5.',
-      note: 'Apotheosis: the strict timer is always on with targets 15% tighter, wrong answers and skips cost 1.5×, the Practice penalty is not allowed, and Sudden Death gives 2 lives. XP is ×1.5.',
+      note: 'Apotheosis: the strict timer is always on with a target multiplier of 0.85; the 3-second minimum can soften that reduction on easy questions. Wrong answers and skips cost 1.5×, the Practice penalty is not allowed, and Sudden Death gives 2 lives. XP is ×1.5.',
       target: 0.85, penalty: 1.5, xp: 1.5, lives: -1, skipCosts: true, forceTimer: true, noPractice: true }
   };
   function effTarget(r, a) { return a.target * (DIFFS[r.diff] || DIFFS.normal).target; }
