@@ -253,7 +253,7 @@
       if (!s || typeof s !== 'object') return null;
       return { n: num(s.n, 0, 100, 0), acc: num(s.acc, 0, 1, 0), med: num(s.med, 0, 300, 0), ratio: num(s.ratio, 0, 20, 0), ts: num(s.ts, 0, 4e12, 0) };
     }
-    return { base: stat(t.base), post: stat(t.post), practice: num(t.practice, 0, 10000, 0), skipBase: t.skipBase === true, lastTs: num(t.lastTs, 0, 4e12, 0) };
+    return { base: stat(t.base), post: stat(t.post), practice: num(t.practice, 0, 10000, 0), skipBase: t.skipBase === true, masteryRewarded: t.masteryRewarded === true, lastTs: num(t.lastTs, 0, 4e12, 0) };
   }
   /* bring in xp / streak / tricks / tier clears from another file, never lowering what is already here */
   function mergeMeta(m, tiers) {
@@ -836,9 +836,9 @@
     updateNav();
   }
 
-  function isMastered(t) {
-    if (!t || !t.post) return false;
-    return t.post.acc >= 0.9 && (t.post.ratio <= 1 || (t.base && t.post.med <= t.base.med * 0.8));
+  function isMastered(t) { return window.MathTrickProgression.isMastered(t); }
+  function trickAssessmentValid(phase, count, attempts) {
+    return window.MathTrickProgression.assessmentValid(phase, count, attempts);
   }
   function trickStatus(t) {
     if (isMastered(t)) return 'Mastered';
@@ -944,8 +944,10 @@
   }
 
   function tk(id) {
-    if (!meta.tricks[id]) meta.tricks[id] = { base: null, post: null, practice: 0, skipBase: false, lastTs: 0 };
-    return meta.tricks[id];
+    if (!meta.tricks[id]) meta.tricks[id] = { base: null, post: null, practice: 0, skipBase: false, masteryRewarded: false, lastTs: 0 };
+    var rec = meta.tricks[id];
+    /* Migrate previously mastered records so the one-time bonus cannot be farmed. */
+    return window.MathTrickProgression.migrateMasteryReward(rec);
   }
 
   function renderTricks() { renderTrickList(); renderTrickDetail(); }
@@ -954,8 +956,10 @@
     var s = MathRunState.state();
     var id = s.trick.id, phase = s.trick.phase, tr = E.TRICK_BY_ID[id];
     var answered = s.attempts.filter(function (a) { return a.result !== 'skip'; });
-    if (answered.length < Math.ceil(s.count / 2)) {
-      trickBanner = 'That ' + TRICK_PHASES[phase].name.toLowerCase() + ' ended early, so it was not recorded.';
+    if (!trickAssessmentValid(phase, s.count, s.attempts)) {
+      trickBanner = (phase === 'baseline' || phase === 'post')
+        ? 'This ' + TRICK_PHASES[phase].name.toLowerCase() + ' needs all ' + s.count + ' questions answered without skips, so it was not recorded.'
+        : 'That practice run ended too early to record.';
     } else {
       var right = answered.filter(function (a) { return a.result === 'correct'; }).length;
       var stat = { n: answered.length, acc: right / answered.length, med: median(answered.map(function (a) { return a.time; })),
@@ -963,11 +967,12 @@
       var rec = tk(id);
       rec.lastTs = Date.now();
       var xp = 0, wasMastered = isMastered(rec);
-      if (phase === 'baseline') { xp = rec.base ? 2 : 15; rec.base = stat; trickBanner = 'Baseline recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median. The lesson is unlocked below.'; }
+      if (wasMastered) rec.masteryRewarded = true;
+      if (phase === 'baseline') { xp = window.MathTrickProgression.replaceBaseline(rec, stat) ? 2 : 15; trickBanner = 'Baseline recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median. The previous post-test has been cleared; take a new post-test after practising.'; }
       else if (phase === 'practice') { xp = Math.max(2, 10 - 2 * (rec.practice || 0)); rec.practice = (rec.practice || 0) + 1; trickBanner = 'Practice done: ' + U.pct(stat.acc) + ' right. Take the post-test when the steps feel automatic.'; }
       else {
         xp = rec.post ? 3 : 25; rec.post = stat;
-        if (isMastered(rec) && !wasMastered) xp += 30;
+        if (window.MathTrickProgression.awardFirstMastery(rec)) xp += 30;
         trickBanner = 'Post-test recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median.' + (rec.base ? ' Baseline was ' + U.fmtSec(rec.base.med) + '.' : '') + (isMastered(rec) ? ' ' + tr.name + ' mastered!' : '');
       }
       MathXP.touchStreak();
@@ -1121,7 +1126,7 @@
   window.MathGame = {
     state: function () { return MathRunState.state(); }, prefs: prefs, MODES: MODES, meta: meta,
     analyse: C.analyse, prescription: C.prescription, buildProfile: buildProfile, DIFFS: DIFFS,
-    startRun: startRun, KEYS: S.KEYS
+    startRun: startRun, KEYS: S.KEYS, isMastered: isMastered, trickAssessmentValid: trickAssessmentValid
   };
 
   renderMenu();
