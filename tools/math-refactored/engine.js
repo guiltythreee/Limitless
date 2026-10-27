@@ -431,7 +431,8 @@
   };
 
   G.proportion = function (r, p) {
-    var a = r.int(3, p.amax || 12), b = r.int(3, p.amax || 12);
+    var lo = p.amin || 3, hi = p.amax || 12;
+    var a = r.int(lo, hi), b = r.int(lo, hi);
     if (a === b) b += 1;
     var k = r.int(2, 9);
     var diff = 3 + 0.5 * digits(a * k) +
@@ -858,7 +859,7 @@
         ['fracToDec', 1, { dens: [32, 64, 80, 125, 128, 160] }],
         ['evGame', 1, { dens: [2, 4, 5, 10], wmax: 20, lmax: 9 }], ['comb', 1, { nlo: 5, nhi: 9, perm: 0.2 }],
         ['probCoin', 1, { nlo: 3, nhi: 6 }],
-        ['proportion', 1, { amax: 25 }], ['mean', 1, { lo: 50, hi: 250, spread: 20 }]
+        ['proportion', 1, { amin: 15, amax: 25 }], ['mean', 1, { lo: 50, hi: 250, spread: 20 }]
       ] },
     { id: 'archon', name: 'Archon', label: 'Extreme', emblem: '⚜', accuracy: 0.90,
       blurb: 'Estimation, powers, awkward fractions, decimal chains.',
@@ -876,7 +877,7 @@
         ['decDiv', 1, { dq: 2, dpq: 1, dd: 2, dpd: 1 }],
         ['probDice', 1, { cond: true }], ['evDie', 1, { mult: true }], ['log', 1, { kinds: ['int', 'neg', 'sum'], bases: [2, 3, 5, 10], klo: 5, khi: 6 }],
         ['mod', 1, { kinds: ['rem', 'mul'], alo: 100, ahi: 999, mlo: 7, mhi: 17 }],
-        ['proportion', 1, { amax: 99 }], ['mean', 1, { lo: 100, hi: 999, spread: 35 }]
+        ['proportion', 1, { amin: 10, amax: 99 }], ['mean', 1, { lo: 100, hi: 999, spread: 35 }]
       ] },
     { id: 'abyss', name: 'Abyss', label: 'Hell', emblem: '☠', accuracy: 0.85,
       blurb: 'Brutal products, double products, hard estimation.',
@@ -895,7 +896,7 @@
         ['probBag', 1, { lo: 4, hi: 10 }], ['ev2d6', 1, {}], ['comb', 1, { nlo: 10, nhi: 16, perm: 0.25 }],
         ['log', 1, { kinds: ['frac', 'sum', 'neg'], bases: [2, 3, 5], klo: 2, khi: 6 }],
         ['mod', 1, { kinds: ['mul', 'pow'], alo: 100, ahi: 999, mlo: 7, mhi: 23, bmax: 9, emax: 9 }],
-        ['proportion', 1, { amax: 999 }], ['mean', 1, { lo: 500, hi: 1999, spread: 80 }]
+        ['proportion', 1, { amin: 100, amax: 999 }], ['mean', 1, { lo: 500, hi: 1999, spread: 80 }]
       ] }
   ];
 
@@ -905,7 +906,7 @@
   /* Observed generator envelopes, checked by the difficulty-progression test.
      These bound heuristic q.diff scores; they are not psychometric guarantees. */
   var BANDS = {
-    acolyte: [1, 2.5], scribe: [1, 3.5], adept: [1.5, 10.5],
+    acolyte: [1, 2.5], scribe: [1, 4.5], adept: [1.5, 10.5],
     magister: [2.5, 11.5], archon: [2.5, 13], abyss: [4.5, 16]
   };
 

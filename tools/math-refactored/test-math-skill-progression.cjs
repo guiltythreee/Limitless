@@ -54,6 +54,7 @@ for (const skill of SKILLS_UNDER_TEST) {
       actualTier: expectedTier.id,
       targetedSamples: targetedDiffs.length,
       medianDifficulty: median(targetedDiffs),
+      meanDifficulty: targetedDiffs.reduce((sum, d) => sum + d, 0) / targetedDiffs.length,
       minDifficulty: Math.min(...targetedDiffs),
       maxDifficulty: Math.max(...targetedDiffs)
     });
@@ -64,8 +65,9 @@ for (const skill of SKILLS_UNDER_TEST) {
       skill + ': median difficulty decreased from ' + byTier[i - 1].requestedTier +
       ' to ' + byTier[i].requestedTier);
     if (i >= 2) {
-      assert.ok(byTier[i].medianDifficulty > byTier[i - 1].medianDifficulty,
-        skill + ': advanced-tier median did not increase from ' + byTier[i - 1].requestedTier +
+      /* Compare means: medians of these discrete scores sit on a step and flip with the seed. */
+      assert.ok(byTier[i].meanDifficulty > byTier[i - 1].meanDifficulty,
+        skill + ': advanced-tier mean difficulty did not increase from ' + byTier[i - 1].requestedTier +
         ' to ' + byTier[i].requestedTier);
     }
   }
