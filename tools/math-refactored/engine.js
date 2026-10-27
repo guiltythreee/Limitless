@@ -288,7 +288,8 @@
       if (hi < lo) continue;
       var N = step * r.int(lo, hi);
       var easy = [5, 10, 20, 25, 50].indexOf(pct) >= 0;
-      var diff = 1.6 + (p10 % 10 !== 0 ? 0.9 : 0) + 0.45 * digits(N) + 0.5 * dp - (easy ? 0.9 : 0);
+      /* Non-friendly percentages need more mental work; decimal percentages add a further step. */
+      var diff = 1.6 + (p10 % 10 !== 0 ? 0.9 : 0) + 0.45 * digits(N) + 0.5 * dp + (!easy ? 1.0 : 0) + (dp > 0 ? 1.5 : 0) - (easy ? 0.9 : 0);
       return Q('Percentages', pct + '% of ' + N, pct + '/100*' + N, rat(N * p10, 1000), diff);
     }
     throw new Error('pctOf: could not generate');
@@ -318,7 +319,7 @@
       if (hi < lo) continue;
       var B = step * r.int(lo, hi), A = B * p10 / 1000;
       if (A === B || A < 1) continue;
-      var diff = 3.2 + (p10 % 10 !== 0 ? 0.8 : 0) + 0.4 * digits(B);
+      var diff = 4.5 + (p10 % 10 !== 0 ? 0.8 : 0) + 0.4 * digits(B);
       return Q('Percentages', A + ' is what % of ' + B + '?', A + '/' + B + '*100', rat(p10, 10), diff);
     }
     throw new Error('pctWhat: could not generate');
@@ -844,9 +845,9 @@
         ['fracAdd', 2, { dens: [3, 4, 5, 6, 8, 9, 10, 12] }],
         ['pctChange', 2, { set: [10, 15, 20, 25, 30, 35, 40, 12.5], lo: 40, hi: 800, decrease: true }],
         ['pctWhat', 1, { set: [15, 35, 45, 62.5, 12.5, 85, 24, 36], lo: 40, hi: 800 }],
-        ['cube', 1, { lo: 3, hi: 15 }], ['sqrtPerfect', 1, { lo: 15, hi: 45 }], ['cbrtPerfect', 1, { lo: 3, hi: 15 }],
+        ['cube', 1, { lo: 8, hi: 20 }], ['sqrtPerfect', 1, { lo: 25, hi: 55 }], ['cbrtPerfect', 1, { lo: 8, hi: 20 }],
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 12, hi: 60, zlo: 20, zhi: 199 }],
-        ['fracToDec', 1, { dens: [8, 16, 25, 32, 40, 50] }],
+        ['fracToDec', 1, { dens: [32, 64, 80, 125, 128, 160] }],
         ['evGame', 1, { dens: [2, 4, 5, 10], wmax: 20, lmax: 9 }], ['comb', 1, { nlo: 5, nhi: 9, perm: 0.2 }],
         ['probCoin', 1, { nlo: 3, nhi: 6 }]
       ] },
@@ -862,7 +863,7 @@
         ['pctChange', 2, { set: [12.5, 17.5, 22.5, 27.5, 32.5, 7.5, 37.5], lo: 80, hi: 1600, decrease: true }],
         ['pctOf', 1, { set: HARD_PCT, lo: 200, hi: 4000, dp: 1 }],
         ['sqrtApprox', 1, { lo: 20, hi: 500 }],
-        ['square', 1, { lo: 35, hi: 95, five: true }], ['mul', 1, { near100: true }],
+        ['square', 1, { lo: 55, hi: 125, five: true }], ['mul', 1, { near100: true }],
         ['decDiv', 1, { dq: 2, dpq: 1, dd: 2, dpd: 1 }],
         ['probDice', 1, { cond: true }], ['evDie', 1, {}], ['log', 1, { kinds: ['int', 'neg', 'sum'], bases: [2, 3, 5, 10], klo: 2, khi: 6 }],
         ['mod', 1, { kinds: ['rem', 'mul'], alo: 100, ahi: 999, mlo: 7, mhi: 17 }]
