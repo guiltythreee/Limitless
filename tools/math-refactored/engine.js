@@ -920,13 +920,24 @@
     var tier = TIER_BY_ID[tierId];
     var recent = ctx.recent || (ctx.recent = []);
     for (var attempt = 0; attempt < 25; attempt++) {
-      var rec = weightedPick(r, tier.recipes, ctx.recipeBoost);
+      var eligible = tier.recipes;
+      /* A mixed practice stream should not stay on one skill for three questions. */
+      if (ctx.baseSkillStreak >= 2 && ctx.baseLastSkill) {
+        var alternatives = tier.recipes.filter(function (entry) {
+          return RECIPE_SKILL[entry[0]] !== ctx.baseLastSkill;
+        });
+        if (alternatives.length) eligible = alternatives;
+      }
+      var rec = weightedPick(r, eligible, ctx.recipeBoost);
       var q = G[rec[0]](r, rec[2]);
       if (!q || recent.indexOf(q.text) >= 0) continue;
       q.id = rec[0];
       q.tier = tier.id;
       q.settings = rec[2];
       q.target = targetFor(q.diff);
+      var skill = q.skill || RECIPE_SKILL[rec[0]];
+      if (skill === ctx.baseLastSkill) ctx.baseSkillStreak++;
+      else { ctx.baseLastSkill = skill; ctx.baseSkillStreak = 1; }
       recent.push(q.text);
       if (recent.length > 20) recent.shift();
       return q;
@@ -1059,20 +1070,44 @@
     }
     add(t, count - nBelow);
     if (below) add(below, nBelow);
-    var i, j;
-    for (i = slots.length - 1; i > 0; i--) {                 /* shuffle */
-      j = Math.floor(r() * (i + 1));
-      var tmp = slots[i]; slots[i] = slots[j]; slots[j] = tmp;
-    }
-    for (i = 1; i < slots.length; i++) {                      /* break up repeats of the same recipe */
-      if (slots[i].rec[0] !== slots[i - 1].rec[0]) continue;
-      for (j = i + 1; j < slots.length; j++) {
-        if (slots[j].rec[0] !== slots[i - 1].rec[0] && (i + 1 >= slots.length || slots[j].rec[0] !== slots[i + 1].rec[0])) {
-          var t2 = slots[i]; slots[i] = slots[j]; slots[j] = t2; break;
+    function slotSkill(slot) { return RECIPE_SKILL[slot.rec[0]] || slot.rec[0]; }
+    var remaining = slots.slice(), ordered = [];
+    /* Randomized constrained shuffle: preserve every allocated recipe slot, while
+       avoiding adjacent identical recipes and runs of three questions from one skill. */
+    while (remaining.length) {
+      var eligible = [];
+      for (var k = 0; k < remaining.length; k++) {
+        var candidate = remaining[k];
+        if (ordered.length && candidate.rec[0] === ordered[ordered.length - 1].rec[0]) continue;
+        if (ordered.length > 1 && slotSkill(candidate) === slotSkill(ordered[ordered.length - 1]) &&
+            slotSkill(candidate) === slotSkill(ordered[ordered.length - 2])) continue;
+        eligible.push(k);
+      }
+      /* If both constraints cannot be met, preserve the no-adjacent-recipe rule first. */
+      if (!eligible.length) {
+        for (var f = 0; f < remaining.length; f++) {
+          if (!ordered.length || remaining[f].rec[0] !== ordered[ordered.length - 1].rec[0]) eligible.push(f);
         }
       }
+      if (!eligible.length) eligible = remaining.map(function (_, index) { return index; });
+      var counts = {};
+      remaining.forEach(function (slot) {
+        var skill = slotSkill(slot);
+        counts[skill] = (counts[skill] || 0) + 1;
+      });
+      var maxCount = 0;
+      eligible.forEach(function (index) {
+        maxCount = Math.max(maxCount, counts[slotSkill(remaining[index])]);
+      });
+      /* Spread the most abundant remaining skills first to avoid a late-session dead end. */
+      var preferred = eligible.filter(function (index) {
+        return counts[slotSkill(remaining[index])] === maxCount;
+      });
+      var chosenIndex = preferred[Math.floor(r() * preferred.length)];
+      ordered.push(remaining[chosenIndex]);
+      remaining.splice(chosenIndex, 1);
     }
-    return slots;
+    return ordered;
   }
   function deckQuestion(slot, r, ctx) { return entryQuestion(slot.rec, slot.tier, r, ctx); }
 
