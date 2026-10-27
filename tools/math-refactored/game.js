@@ -836,19 +836,9 @@
     updateNav();
   }
 
-  function isMastered(t) {
-    /* Mastery must demonstrate improvement against a real baseline. A skipped
-       baseline can unlock the lesson, but cannot establish measured mastery. */
-    if (!t || !t.base || !t.post) return false;
-    return t.post.acc >= 0.9 && t.base.med > 0 && t.post.med <= t.base.med * 0.8;
-  }
-
+  function isMastered(t) { return window.MathTrickProgression.isMastered(t); }
   function trickAssessmentValid(phase, count, attempts) {
-    if (phase === 'baseline' || phase === 'post') {
-      /* These are paired six-question measurements: skips or early exits invalidate them. */
-      return attempts.length === count && attempts.every(function (a) { return a.result !== 'skip'; });
-    }
-    return attempts.filter(function (a) { return a.result !== 'skip'; }).length >= Math.ceil(count / 2);
+    return window.MathTrickProgression.assessmentValid(phase, count, attempts);
   }
   function trickStatus(t) {
     if (isMastered(t)) return 'Mastered';
