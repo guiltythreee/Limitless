@@ -99,7 +99,9 @@
         if (q) q.tag = 'Retry';
       }
       if (!q) {
-        if (s.mode === 'drill') q = E.drillQuestion(s.drill.skills, s.drill.weights, s.tier, s.rng, s.ctx);
+        if (s.mode === 'drill') q = E.drillQuestion(s.drill.skills, s.drill.weights, s.tier, s.rng, s.ctx, {
+          generalRate: s.drill.kind === 'standard' ? 0.25 : 0
+        });
         else if (s.mode === 'test80') q = E.deckQuestion(s.deck[Math.min(s.attempts.length, s.deck.length - 1)], s.rng, s.ctx);
         else q = E.nextQuestion(currentTierId(s), s.rng, s.ctx);
       }
