@@ -43,7 +43,7 @@
       var list = by[skill];
       var right = list.filter(function (a) { return a.r === 'correct'; }).length;
       out[skill] = { n: list.length, acc: right / list.length,
-        ratio: U.median(list.map(function (a) { return a.time / a.target; })),
+        ratio: U.median(list.map(function (a) { return a.time / (a.effectiveTarget > 0 ? a.effectiveTarget : a.target); })),
         medTime: U.median(list.map(function (a) { return a.time; })) };
     });
     return out;
