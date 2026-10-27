@@ -857,7 +857,7 @@
         ['fracToDec', 1, { dens: [8, 16, 25, 32, 40, 50] }],
         ['evGame', 1, { dens: [2, 4, 5, 10], wmax: 20, lmax: 9 }], ['comb', 1, { nlo: 5, nhi: 9, perm: 0.2 }],
         ['probCoin', 1, { nlo: 3, nhi: 6 }],
-        ['proportion', 1, { amax: 20 }], ['mean', 1, { lo: 50, hi: 250, spread: 20 }]
+        ['proportion', 1, { amax: 25 }], ['mean', 1, { lo: 50, hi: 250, spread: 20 }]
       ] },
     { id: 'archon', name: 'Archon', label: 'Extreme', emblem: '⚜', accuracy: 0.90,
       blurb: 'Estimation, powers, awkward fractions, decimal chains.',
