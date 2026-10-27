@@ -676,7 +676,7 @@
         { verify: { kind: 'log', base: b, argN: arg, argD: 1, p: k, q: 1 } });
     }
     if (kind === 'neg') {
-      b = r.pick(p.bases); k = r.int(1, p.khi);
+      b = r.pick(p.bases); k = r.int(p.klo || 1, p.khi);
       var den = ipow(b, k);
       var shown = b === 10 ? fmtScaled(1, k) : '1/' + den;
       return Q('Logarithms', 'log' + sub(b) + ' ' + (b === 10 ? shown : '(' + shown + ')'), '', rat(-k), 4.5 + 0.3 * k,
@@ -865,7 +865,7 @@
         ['sqrtApprox', 1, { lo: 20, hi: 500 }],
         ['square', 1, { lo: 55, hi: 125, five: true }], ['mul', 1, { near100: true }],
         ['decDiv', 1, { dq: 2, dpq: 1, dd: 2, dpd: 1 }],
-        ['probDice', 1, { cond: true }], ['evDie', 1, {}], ['log', 1, { kinds: ['int', 'neg', 'sum'], bases: [2, 3, 5, 10], klo: 2, khi: 6 }],
+        ['probDice', 1, { cond: true }], ['evDie', 1, { mult: true }], ['log', 1, { kinds: ['int', 'neg', 'sum'], bases: [2, 3, 5, 10], klo: 5, khi: 6 }],
         ['mod', 1, { kinds: ['rem', 'mul'], alo: 100, ahi: 999, mlo: 7, mhi: 17 }]
       ] },
     { id: 'abyss', name: 'Abyss', label: 'Hell', emblem: '☠', accuracy: 0.85,
@@ -891,10 +891,11 @@
   var TIER_BY_ID = {};
   TIERS.forEach(function (t, i) { t.index = i; TIER_BY_ID[t.id] = t; });
 
-  /* difficulty bands, measured by tests/measure (see test script) */
+  /* Observed generator envelopes, checked by the difficulty-progression test.
+     These bound heuristic q.diff scores; they are not psychometric guarantees. */
   var BANDS = {
-    acolyte: [1, 4], scribe: [1, 6], adept: [2, 9],
-    magister: [4, 13], archon: [4.5, 17], abyss: [7, 24]
+    acolyte: [1, 2.5], scribe: [1, 3.5], adept: [1.5, 10.5],
+    magister: [2.5, 11.5], archon: [2.5, 13], abyss: [4.5, 16]
   };
 
   function targetFor(diff) { return round1(clamp(1.3 + 0.75 * diff, 1.5, 30)); }
