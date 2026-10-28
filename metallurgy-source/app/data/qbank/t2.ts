@@ -19,24 +19,42 @@ const T2: TopicSource = {
     { id: "T2.6", title: "Ring-opening polymerization" },
   ],
   questions: [
-    {
-      id: "t2-01",
-      type: "compare",
-      diff: 2,
-      text: "The single most important kinetic difference between chain-growth and step-growth polymerization is:",
-      options: [
-        { label: "a", text: "Chain-growth builds high MW instantly; step-growth reaches high MW only near complete conversion." },
-        { label: "b", text: "Chain-growth is slower overall." },
-        { label: "c", text: "Step-growth always releases HCl." },
-        { label: "d", text: "Chain-growth requires two monomers." },
+        {
+      "id": "t2-01",
+      "type": "compare",
+      "diff": 2,
+      "text": "Why can a chain-growth polymerisation reach high molecular mass at relatively low monomer conversion, while a conventional step-growth polymerisation usually requires conversion close to unity?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Step growth builds high-mass chains at its first reaction step, while chain growth adds one unit per active centre."
+        },
+        {
+          "label": "b",
+          "text": "An active chain-growth centre can add many units before termination; step growth needs near-complete functional-group conversion for high mass."
+        },
+        {
+          "label": "c",
+          "text": "Chain growth has no termination under any conditions, while step growth terminates only by releasing a small molecule."
+        },
+        {
+          "label": "d",
+          "text": "The difference is mainly solvent choice; at identical solvent and temperature both mechanisms show the same mass-versus-conversion profile."
+        }
       ],
-      answer: "a",
-      why: "In **chain-growth**, monomer is consumed by active chain ends → high-MW polymer appears at once. In **step-growth**, oligomer–oligomer reactions dominate late, so high MW demands $p \\to 1$.",
-      distractors: {
-        c: "Step-growth condensates vary (H₂O, HCl, MeOH…); some eliminate nothing at all.",
+      "answer": "b",
+      "why": "An active chain-growth centre can add many monomer units before that chain terminates. In step growth, monomers, dimers and longer species can react with one another, so high molecular mass requires almost complete consumption of functional groups.",
+      "distractors": {
+        "a": "This reverses the normal conversion dependence: step growth does not make high-mass chains at its first reaction step.",
+        "c": "Chain growth can terminate, and step growth need not release a small molecule; those features do not define the mass-versus-conversion contrast.",
+        "d": "The mechanistic distinction remains even when solvent and temperature are matched; it is not only a process-condition effect."
       },
-      concept: "MW vs conversion profile — the exam's favourite distinction",
-      tags: ["confused"],
+      "concept": "molecular-mass development in chain-growth versus step-growth polymerisation",
+      "tags": [
+        "revision",
+        "mechanism",
+        "reviewed"
+      ]
     },
     {
       id: "t2-02",
@@ -282,21 +300,40 @@ const T2: TopicSource = {
       concept: "$DP_{max} = (1+r)/(1-r)$",
       tags: ["numeric", "formula"],
     },
-    {
-      id: "t2-15",
-      type: "concept",
-      diff: 2,
-      text: "What is the Trommsdorff (gel) effect and when does it appear?",
-      options: [
-        { label: "a", text: "Rate collapse at high conversion due to monomer depletion." },
-        { label: "b", text: "Autoacceleration in (bulk) polymerization: rising viscosity starves bimolecular termination while small monomers still diffuse to active ends → [M•] spikes, rate and MW surge, heat can run away." },
-        { label: "c", text: "Cross-linking by gamma radiation." },
-        { label: "d", text: "A catalyst poisoning phenomenon in emulsion systems." },
+        {
+      "id": "t2-15",
+      "type": "concept",
+      "diff": 3,
+      "text": "During bulk free-radical polymerisation, the rate rises sharply at high conversion as the mixture becomes very viscous. Which mechanism best explains the Trommsdorff (gel) effect?",
+      "options": [
+        {
+          "label": "a",
+          "text": "A permanent cross-linked gel forms at a fixed conversion and catalyses further chain growth."
+        },
+        {
+          "label": "b",
+          "text": "Higher viscosity makes radical collisions more frequent, increasing termination before propagation."
+        },
+        {
+          "label": "c",
+          "text": "Initiator efficiency rises with conversion, increasing radical generation regardless of diffusion."
+        },
+        {
+          "label": "d",
+          "text": "Termination becomes diffusion-limited before propagation is suppressed as much, so radicals accumulate and the rate accelerates."
+        }
       ],
-      answer: "b",
-      why: "Termination needs **two long chains to find each other**; in the viscous gel they cannot. Propagation continues (monomer diffuses freely) → radical concentration rises → **autoacceleration**.",
-      concept: "viscosity-limited termination = gel effect",
-      tags: ["confused"],
+      "answer": "d",
+      "why": "As viscosity rises, termination becomes diffusion-limited before propagation is suppressed to the same extent. Radicals accumulate, causing autoacceleration and potentially a dangerous exotherm.",
+      "distractors": {
+        "a": "A macroscopic cross-linked network and a fixed gel point are not required for the Trommsdorff autoacceleration.",
+        "b": "Rising viscosity tends to restrict diffusion-controlled termination rather than making radical collisions more frequent.",
+        "c": "The defining feedback is a change in termination/propagation mobility, not a universal increase in initiator efficiency."
+      },
+      "concept": "diffusion-limited termination and Trommsdorff autoacceleration",
+      "tags": [
+        "reviewed"
+      ]
     },
     {
       id: "t2-16",
@@ -593,21 +630,40 @@ const T2: TopicSource = {
       why: "**Redox initiation** (e.g. peroxide + Fe²⁺) generates radicals at low temperature — essential for emulsion polymerization at moderate temperatures.",
       tags: ["revision"],
     },
-    {
-      id: "t2-32",
-      type: "apply",
-      diff: 3,
-      text: "During emulsion polymerization, both the polymerization rate *and* the MW increase together with surfactant above the CMC. This is possible because:",
-      options: [
-        { label: "a", text: "Micelles increase the number of reaction loci (particles) — more particles raise rate, while the radical flux *per particle* stays low, letting each chain grow longer before termination." },
-        { label: "b", text: "Surfactant acts as a chain-transfer agent." },
-        { label: "c", text: "Emulsion is really a bulk process." },
-        { label: "d", text: "Surfactant raises the initiator efficiency." },
+        {
+      "id": "t2-32",
+      "type": "apply",
+      "diff": 3,
+      "text": "In an emulsion polymerisation, adding surfactant above the critical micelle concentration increases the number of polymer particles and raises the overall rate. Which conclusion is most defensible?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Surfactant always acts as a chain-transfer agent, so both rate and molecular mass must fall."
+        },
+        {
+          "label": "b",
+          "text": "Micelles act only as heat sinks; when temperature is controlled, their number cannot affect the rate."
+        },
+        {
+          "label": "c",
+          "text": "More particles create more reaction loci, while compartmentalisation can limit intraparticle termination; molecular mass need not rise monotonically."
+        },
+        {
+          "label": "d",
+          "text": "Every particle holds many radicals throughout the reaction, guaranteeing faster termination and shorter chains."
+        }
       ],
-      answer: "a",
-      why: "The compartmentalization effect: more particles → more simultaneous loci → higher rate; but with ~one radical per particle, bimolecular termination within a particle is rare → **longer chains at higher rate** — impossible in bulk systems.",
-      concept: "emulsion compartmentalization: rate ↑ and MW ↑ together",
-      tags: ["confused"],
+      "answer": "c",
+      "why": "Emulsion polymerisation can combine high rate with relatively high molecular mass because many particles react concurrently and compartmentalisation limits intraparticle termination. Particle number, radical entry and surfactant level make the molecular-mass trend condition-dependent.",
+      "distractors": {
+        "a": "Surfactant can change particle nucleation and stabilisation; it is not necessarily a chain-transfer agent.",
+        "b": "Micelles and particle number alter where reactions occur and therefore can affect the polymerisation rate.",
+        "d": "Compartmentalisation tends to limit the simultaneous presence of radicals in each particle; many radicals per particle would promote termination."
+      },
+      "concept": "particle compartmentalisation and emulsion kinetics",
+      "tags": [
+        "reviewed"
+      ]
     },
     {
       id: "t2-33",
