@@ -9,6 +9,7 @@ const requiredFiles = [
   "app/content/legacy.ts",
   "app/content/chapter1-theory.ts",
   "app/content/pathway-lessons.ts",
+  "app/content/pathway-lessons-advanced.ts",
   "app/content/pathways.ts",
   "app/content/coverage.ts",
 ];
@@ -16,7 +17,7 @@ for (const file of requiredFiles) {
   if (!fs.existsSync(path.join(root, file))) throw new Error("Required curriculum file missing: " + file);
 }
 
-const sourcePaths = requiredFiles.slice(0, 5);
+const sourcePaths = ["app/content/rank09.ts", "app/content/rank09-extra.ts", "app/content/legacy.ts", "app/content/chapter1-theory.ts", "app/content/pathway-lessons.ts", "app/content/pathway-lessons-advanced.ts"];
 const lessonSources = sourcePaths.map(read);
 const lessonIds = new Set();
 const idLocations = new Map();
@@ -51,9 +52,9 @@ for (let i = 0; i < routeBlocks.length; i++) {
   }
 }
 
-const authored = read("app/content/pathway-lessons.ts");
+const authored = read("app/content/pathway-lessons.ts") + "\n" + read("app/content/pathway-lessons-advanced.ts");
 const starts = [...authored.matchAll(/\n  \{\n    id: "([^"]+)", rank: \d+/g)];
-if (starts.length !== 17) throw new Error("Expected 17 authored expansion lessons; found " + starts.length);
+if (starts.length !== 28) throw new Error("Expected 28 authored expansion lessons; found " + starts.length);
 let questionTotal = 0;
 
 for (let i = 0; i < starts.length; i++) {
