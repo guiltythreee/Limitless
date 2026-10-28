@@ -32,20 +32,40 @@ const T8: TopicSource = {
       why: "LDPE is made by **high-pressure (150–300 MPa) free-radical** polymerization; the harsh conditions produce long-chain branching. HDPE uses low-pressure coordination catalysts and comes out linear.",
       tags: ["revision"],
     },
-    {
-      id: "t8-02",
-      type: "concept",
-      diff: 2,
-      text: "Which property of polypropylene is exploited in 'living hinges' (integral hinges on containers)?",
-      options: [
-        { label: "a", text: "Its very high density" },
-        { label: "b", text: "Its exceptional flex-fatigue resistance in thin oriented sections" },
-        { label: "c", text: "Its solubility in water" },
-        { label: "d", text: "Its thermoset network" },
+        {
+      "id": "t8-02",
+      "type": "concept",
+      "diff": 2,
+      "text": "Polypropylene is frequently used for integral living hinges in moulded containers. Which feature most directly supports repeated flexing of a properly designed hinge?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Its glass-transition temperature is above service temperature, so the hinge remains glassy during flexing."
+        },
+        {
+          "label": "b",
+          "text": "Its high modulus prevents local strain from developing in the hinge region."
+        },
+        {
+          "label": "c",
+          "text": "Good flex-fatigue resistance, combined with a thin and suitably oriented hinge section, supports repeated bending."
+        },
+        {
+          "label": "d",
+          "text": "A permanent thermoset network suppresses molecular motion during each flex cycle."
+        }
       ],
-      answer: "b",
-      why: "Isotactic PP tolerates **millions of flex cycles** when the hinge is thin and oriented — the basis of one-piece polypropylene boxes and closures.",
-      tags: ["revision"],
+      "answer": "c",
+      "why": "A well-designed polypropylene hinge can survive repeated bending because the material has good flex-fatigue resistance and processing can orient chains across the hinge. Geometry and moulding conditions still matter.",
+      "distractors": {
+        "a": "PP’s glass-transition temperature is below typical use temperature; a glassy hinge would be less able to flex repeatedly.",
+        "b": "A hinge necessarily develops local bending strain, so modulus alone does not explain repeated-flexure life.",
+        "d": "Polypropylene is a thermoplastic; a permanent thermoset network does not explain its living-hinge performance."
+      },
+      "concept": "living hinges and flex fatigue",
+      "tags": [
+        "reviewed"
+      ]
     },
     {
       id: "t8-03",
@@ -78,20 +98,40 @@ const T8: TopicSource = {
       concept: "PS → HIPS → ABS = escalating toughness",
       tags: ["revision"],
     },
-    {
-      id: "t8-05",
-      type: "concept",
-      diff: 2,
-      text: "The three monomers that make up ABS are:",
-      options: [
-        { label: "a", text: "Acrylonitrile, butadiene, styrene" },
-        { label: "b", text: "Acetone, benzene, sulfur" },
-        { label: "c", text: "Acrylic acid, boron, silicon" },
-        { label: "d", text: "Ammonia, butanol, sodium" },
+        {
+      "id": "t8-05",
+      "type": "concept",
+      "diff": 2,
+      "text": "Which three monomers form ABS (acrylonitrile–butadiene–styrene) terpolymer?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Acrylonitrile, butadiene and ethylene"
+        },
+        {
+          "label": "b",
+          "text": "Acrylamide, butadiene and styrene"
+        },
+        {
+          "label": "c",
+          "text": "Acrylonitrile, styrene and methyl methacrylate"
+        },
+        {
+          "label": "d",
+          "text": "Acrylonitrile, butadiene and styrene"
+        }
       ],
-      answer: "a",
-      why: "**A**crylonitrile (chemical/heat resistance) + **B**utadiene (rubber toughening) + **S**tyrene (rigidity, processability) — the name is the composition.",
-      tags: ["revision"],
+      "answer": "d",
+      "why": "ABS is named from its three monomer components: acrylonitrile, butadiene and styrene. Acrylonitrile contributes chemical resistance, butadiene provides rubber toughening, and styrene supports processability and rigidity.",
+      "distractors": {
+        "a": "Ethylene replaces styrene and does not give the ABS terpolymer composition.",
+        "b": "Acrylamide replaces acrylonitrile; it is not the monomer trio represented by ABS.",
+        "c": "Methyl methacrylate belongs to acrylic polymer chemistry, not the butadiene-containing ABS monomer set."
+      },
+      "concept": "ABS composition and component roles",
+      "tags": [
+        "reviewed"
+      ]
     },
     {
       id: "t8-06",
@@ -236,21 +276,40 @@ const T8: TopicSource = {
       why: "**PAN** fibres are stabilized (oxidative) then carbonized at high temperature; the oriented ladder structure converts to strong graphitic carbon fibre. Pitch is the secondary precursor.",
       tags: ["revision"],
     },
-    {
-      id: "t8-14",
-      type: "apply",
-      diff: 4,
-      text: "An automotive fuel line must resist swelling by petrol. Which polymer family is preferred, and why?",
-      options: [
-        { label: "a", text: "Polyolefin — cheap and flexible" },
-        { label: "b", text: "Polyamide (nylon 11/12) — polar amide groups give a high solubility parameter mismatch with non-polar hydrocarbons, so fuel permeation and swelling are low" },
-        { label: "c", text: "Natural rubber" },
-        { label: "d", text: "Plasticized PVC" },
+        {
+      "id": "t8-14",
+      "type": "apply",
+      "diff": 4,
+      "text": "Among the listed candidates, which is the most defensible choice for a semi-rigid automotive fuel line that must limit swelling and hydrocarbon permeation from petrol?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Plasticised PVC, because flexibility alone ensures low petrol swelling and low fuel permeation throughout service."
+        },
+        {
+          "label": "b",
+          "text": "Natural rubber, because its unsaturated hydrocarbon backbone is resistant to prolonged petrol exposure."
+        },
+        {
+          "label": "c",
+          "text": "A qualified fuel-line grade of polyamide 11 or 12, selected for the specific fuel blend and service conditions."
+        },
+        {
+          "label": "d",
+          "text": "Unmodified LDPE, because low density reliably predicts hydrocarbon sorption and barrier performance."
+        }
       ],
-      answer: "b",
-      why: "'Like dissolves like': non-polar petrol has a low solubility parameter, so the **polar polyamide** resists it. PE swells/permeates and rubber swells badly — hence multilayer and polyamide-based fuel lines.",
-      concept: "solubility-parameter matching predicts solvent resistance",
-      tags: ["confused"],
+      "answer": "c",
+      "why": "Fuel-line grades of PA11/PA12 are used where hydrocarbon resistance and low permeation are needed, but the final choice must be validated for the fuel blend, temperature, pressure and applicable specification.",
+      "distractors": {
+        "a": "Plasticiser can be extracted by some fuels, and flexibility alone does not guarantee low hydrocarbon permeation.",
+        "b": "Natural rubber can swell in hydrocarbon fuels; non-polarity alone does not ensure fuel resistance.",
+        "d": "Density alone is not a reliable predictor of sorption and permeation for the finished fuel-line grade."
+      },
+      "concept": "fuel-line material selection",
+      "tags": [
+        "reviewed"
+      ]
     },
     {
       id: "t8-15",
@@ -283,21 +342,41 @@ const T8: TopicSource = {
       why: "**S**tyrene–**B**utadiene **R**ubber, made by emulsion copolymerization, largely replaced natural rubber in tyre treads because its properties can be tuned.",
       tags: ["revision"],
     },
-    {
-      id: "t8-17",
-      type: "concept",
-      diff: 3,
-      text: "Why is EPDM (ethylene-propylene-diene monomer) rubber far more weather-resistant than natural rubber?",
-      options: [
-        { label: "a", text: "It contains chlorine." },
-        { label: "b", text: "Its saturated backbone has no C=C in the main chain for ozone/UV to attack — the residual double bond is pendant and used only for vulcanization." },
-        { label: "c", text: "It is a thermoplastic." },
-        { label: "d", text: "It is cross-linked with peroxides only." },
+        {
+      "id": "t8-17",
+      "type": "concept",
+      "diff": 3,
+      "text": "Why is EPDM rubber usually more resistant to ozone cracking and outdoor weathering than natural rubber?",
+      "options": [
+        {
+          "label": "a",
+          "text": "EPDM has more carbon–carbon double bonds in its main chain, so ozone attack is distributed over more sites."
+        },
+        {
+          "label": "b",
+          "text": "EPDM has a largely saturated main chain; the diene unsaturation is mainly pendant and is used for curing, leaving fewer main-chain sites vulnerable to ozone attack."
+        },
+        {
+          "label": "c",
+          "text": "Its weather resistance comes only from sulphur crosslinks; the backbone chemistry is irrelevant."
+        },
+        {
+          "label": "d",
+          "text": "EPDM contains chlorine atoms that form a protective barrier against ultraviolet radiation."
+        }
       ],
-      answer: "b",
-      why: "Ozone and UV attack **main-chain double bonds**. EPDM's backbone is fully **saturated** (like EPR) and only the diene's pendant unsaturation is left for sulfur cure — giving outstanding ageing and ozone resistance.",
-      concept: "saturated backbone ⇒ weather resistance",
-      tags: ["confused"],
+      "answer": "b",
+      "why": "EPDM’s backbone is largely saturated, unlike natural rubber’s unsaturated polyisoprene backbone. Its residual diene unsaturation is mainly used for crosslinking, so the main chain has fewer sites for ozone attack.",
+      "distractors": {
+        "a": "Natural rubber has unsaturation in its backbone; EPDM was designed so the main chain is largely saturated.",
+        "c": "Cure chemistry affects network structure, but it does not replace the key backbone-unsaturation explanation.",
+        "d": "EPDM is not a chlorinated polymer; this is not the source of its weathering resistance."
+      },
+      "concept": "backbone chemistry and ozone resistance",
+      "tags": [
+        "reviewed",
+        "revision"
+      ]
     },
     {
       id: "t8-18",
@@ -320,20 +399,41 @@ const T8: TopicSource = {
       why: "VC → PVC; propylene → PP; MMA → PMMA; terephthalic acid + ethylene glycol → PET (a step-growth polyester).",
       tags: ["revision"],
     },
-    {
-      id: "t8-19",
-      type: "apply",
-      diff: 3,
-      text: "A high-temperature electrical connector insulator is required (continuous 200 °C). The best choice is:",
-      options: [
-        { label: "a", text: "Plasticized PVC" },
-        { label: "b", text: "PTFE (or another fluoropolymer)" },
-        { label: "c", text: "Polyethylene" },
-        { label: "d", text: "GPPS" },
+        {
+      "id": "t8-19",
+      "type": "apply",
+      "diff": 3,
+      "text": "A connector needs continuous 200 °C electrical insulation, excellent dielectric performance and chemical inertness. The sleeve carries little sustained mechanical load, and a fluoropolymer is acceptable. Which material is the most defensible choice among these options?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Polypropylene, because its low density alone guarantees stable dielectric behaviour at 200 °C."
+        },
+        {
+          "label": "b",
+          "text": "PTFE, whose high service-temperature capability, dielectric properties and chemical resistance suit the specified lightly loaded sleeve."
+        },
+        {
+          "label": "c",
+          "text": "General-purpose polystyrene, because its glassy state prevents deformation at elevated temperature."
+        },
+        {
+          "label": "d",
+          "text": "Plasticised PVC, because plasticiser addition raises its continuous-use temperature above 200 °C."
+        }
       ],
-      answer: "b",
-      why: "**PTFE** combines a very high service temperature (up to ~260 °C), excellent dielectric properties and chemical inertness — the standard for high-temperature electrical insulation. PVC/PE/PS all soften far below 200 °C.",
-      tags: ["revision"],
+      "answer": "b",
+      "why": "PTFE is a strong candidate for a lightly loaded high-temperature electrical sleeve because it combines useful high-temperature service capability, dielectric properties and chemical inertness. Grade and design limits must still be checked.",
+      "distractors": {
+        "a": "Low density does not guarantee 200 °C dimensional or dielectric performance; PP is not the right continuous-temperature choice here.",
+        "c": "General-purpose PS cannot retain the required performance at 200 °C.",
+        "d": "Plasticiser does not raise PVC’s continuous-use temperature to the specified level; it often lowers stiffness and heat resistance."
+      },
+      "concept": "high-temperature electrical insulation",
+      "tags": [
+        "reviewed",
+        "revision"
+      ]
     },
     {
       id: "t8-20",
@@ -437,20 +537,40 @@ const T8: TopicSource = {
       concept: "processability is governed by melt viscosity, not just Tm",
       tags: ["confused"],
     },
-    {
-      id: "t8-26",
-      type: "recall",
-      diff: 1,
-      text: "Polyacetals such as POM are especially valued for:",
-      options: [
-        { label: "a", text: "optical clarity" },
-        { label: "b", text: "high stiffness and fatigue strength in precision, low-friction parts (gears, bearings)" },
-        { label: "c", text: "high gas permeability" },
-        { label: "d", text: "water solubility" },
+        {
+      "id": "t8-26",
+      "type": "recall",
+      "diff": 1,
+      "text": "Which property combination makes polyoxymethylene (POM, acetal) especially useful for precision gears and bearings?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Optical clarity and low birefringence for precision transparent lenses."
+        },
+        {
+          "label": "b",
+          "text": "High gas permeability in selective membranes where molecular diffusion is the design goal."
+        },
+        {
+          "label": "c",
+          "text": "Very low modulus and weak wear performance for soft shock-absorbing components."
+        },
+        {
+          "label": "d",
+          "text": "Stiffness, dimensional stability, low friction and useful fatigue/wear performance in moving parts."
+        }
       ],
-      answer: "b",
-      why: "High crystallinity gives POM its **stiffness, hardness, fatigue resistance and low friction** — a standard material for small precision gears and conveyor parts.",
-      tags: ["revision"],
+      "answer": "d",
+      "why": "POM is widely used in precision mechanical components because it combines stiffness, dimensional stability, low friction and wear/fatigue performance. Actual performance still depends on grade, load, temperature and lubrication.",
+      "distractors": {
+        "a": "Optical clarity is not the primary reason POM is selected for gears and bearings.",
+        "b": "High gas permeability is unrelated to the common low-friction precision-part use of POM.",
+        "c": "POM is a relatively stiff engineering thermoplastic, not a soft elastomer selected for low-modulus shock absorption."
+      },
+      "concept": "engineering applications of POM",
+      "tags": [
+        "reviewed"
+      ]
     },
     {
       id: "t8-27",
@@ -489,36 +609,76 @@ const T8: TopicSource = {
       why: "1–3 describe the commodity/engineering/high-performance tiers; item 4 is obviously false — selection exists precisely because properties differ enormously.",
       tags: ["revision"],
     },
-    {
-      id: "t8-29",
-      type: "apply",
-      diff: 3,
-      text: "A clear, rigid, sterilizable (steam at 121 °C) container for medical use is required. The best single choice is:",
-      options: [
-        { label: "a", text: "LDPE" },
-        { label: "b", text: "Polypropylene (high-clarity/random-copolymer grade) or polycarbonate" },
-        { label: "c", text: "Plasticized PVC" },
-        { label: "d", text: "GPPS" },
+        {
+      "id": "t8-29",
+      "type": "apply",
+      "diff": 3,
+      "text": "A reusable transparent labware container must tolerate repeated steam sterilisation at 121 °C and maintain useful impact resistance. Which candidate is the most defensible first choice, provided the exact grade is rated for repeated autoclave cycles?",
+      "options": [
+        {
+          "label": "a",
+          "text": "General-purpose polystyrene, because its transparency ensures resistance to steam-induced distortion."
+        },
+        {
+          "label": "b",
+          "text": "A high-clarity, autoclave-rated polypropylene grade, selected for repeated 121 °C steam exposure."
+        },
+        {
+          "label": "c",
+          "text": "Plasticised PVC, because plasticiser makes the polymer more resistant to steam and heat."
+        },
+        {
+          "label": "d",
+          "text": "PETG, because ease of thermoforming guarantees suitability for repeated autoclave cycles."
+        }
       ],
-      answer: "b",
-      why: "**PP** survives steam sterilization (high Tm) and clear random-copolymer grades exist (also used for autoclavable labware); **PC** gives clarity + toughness + heat resistance. LDPE is soft, PVC contains plasticizer, GPPS softens below sterilization temperature and is brittle.",
-      tags: ["revision"],
+      "answer": "b",
+      "why": "Autoclave-rated polypropylene grades are commonly used for reusable labware because PP can tolerate 121 °C steam when the grade and design are appropriate. The explicit grade qualification matters; not every PP formulation is suitable for repeated cycles.",
+      "distractors": {
+        "a": "Optical clarity does not ensure steam resistance, and general-purpose PS is brittle and unsuitable for repeated autoclaving.",
+        "c": "Plasticisers do not make PVC the default choice for repeated 121 °C steam cycles.",
+        "d": "Thermoformability and clarity do not establish hydrothermal stability during repeated autoclaving."
+      },
+      "concept": "grade-qualified polymer selection for autoclave service",
+      "tags": [
+        "reviewed",
+        "revision"
+      ]
     },
-    {
-      id: "t8-30",
-      type: "higher",
-      diff: 4,
-      text: "A design brief: high gloss, transparency, good chemical resistance and low cost for a disposable cup lid that contacts hot liquid. The most defensible selection among the options is:",
-      options: [
-        { label: "a", text: "Oriented PS (or PP) — clear, cheap, adequate to ~90 °C; PET or PP if higher heat is needed" },
-        { label: "b", text: "Unreacted epoxy — cheapest" },
-        { label: "c", text: "Natural rubber" },
-        { label: "d", text: "Cellulose" },
+        {
+      "id": "t8-30",
+      "type": "higher",
+      "diff": 4,
+      "text": "A disposable lid for a hot takeaway beverage needs low cost, stiffness and enough heat resistance for brief contact near 90–95 °C. Clarity is desirable but secondary. Which option is the most defensible commodity choice?",
+      "options": [
+        {
+          "label": "a",
+          "text": "General-purpose PS: clear and cheap, but relatively brittle and prone to distortion in hot service."
+        },
+        {
+          "label": "b",
+          "text": "LDPE: flexible and economical, but its low stiffness makes hot-lid dimensional control difficult."
+        },
+        {
+          "label": "c",
+          "text": "A suitable food-contact PP grade: low cost, useful stiffness and resistance to brief contact near 90–95 °C."
+        },
+        {
+          "label": "d",
+          "text": "PETG: clear and formable, although clarity alone does not ensure heat performance or lowest cost."
+        }
       ],
-      answer: "a",
-      why: "Disposable lids are typically **oriented PS or PP**: clarity, low cost, easy high-speed moulding and acceptable hot-fill performance; **PET/PP** handles higher temperatures. Epoxy (thermoset) and rubber are wrong on form and process; cellulose is not a thermoplastic.",
-      concept: "cost + clarity + service temperature drive commodity selection",
-      tags: ["confused"],
+      "answer": "c",
+      "why": "A suitable polypropylene grade is a common low-cost choice for hot beverage lids because it can retain useful stiffness and heat resistance around this service range. The grade, wall geometry, loading and food-contact requirements still need validation.",
+      "distractors": {
+        "a": "General-purpose polystyrene is clear and economical but comparatively brittle and vulnerable to deformation in hot service.",
+        "b": "Low-density polyethylene is flexible and relatively soft, so it is less suitable when lid stiffness and hot dimensional control matter.",
+        "d": "PETG clarity does not by itself establish adequate hot-contact performance, and it is not typically the lowest-cost commodity choice."
+      },
+      "concept": "thermoplastic selection for hot beverage packaging",
+      "tags": [
+        "reviewed"
+      ]
     },
   ],
 };
