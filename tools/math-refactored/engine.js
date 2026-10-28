@@ -413,8 +413,18 @@
   G.est = function (r, p) {
     var truth, text, expr, diff;
     if (p.kind === 'div') {
-      var N = r.int(p.nlo, p.nhi), D = r.int(p.dlo, p.dhi);
-      truth = rat(N, D); text = N + ' ' + DIVIDE + ' ' + D + ' ≈ ?'; expr = N + '/' + D;
+      var N, D, attempt, candidate, candidateTruth;
+      /* The canonical whole-number answer must itself satisfy the stated 1% rule.
+         Otherwise the exact-answer shortcut would accept an answer the tolerance rejects. */
+      for (attempt = 0; attempt < 500; attempt++) {
+        N = r.int(p.nlo, p.nhi); D = r.int(p.dlo, p.dhi);
+        truth = rat(N, D);
+        candidateTruth = truth.n / truth.d;
+        candidate = Math.floor(candidateTruth + 0.5);
+        if (Math.abs(candidate - candidateTruth) <= Math.abs(candidateTruth) * 0.01 + 1e-9) break;
+      }
+      if (attempt === 500) throw new Error('est: could not generate a division estimate whose rounded answer meets 1% tolerance');
+      text = N + ' ' + DIVIDE + ' ' + D + ' ≈ ?'; expr = N + '/' + D;
       diff = 7 + 0.7 * digits(N) + 0.7 * digits(D);
     } else {
       var A = r.int(p.alo, p.ahi), B = r.int(p.blo, p.bhi);
