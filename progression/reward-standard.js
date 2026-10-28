@@ -27,6 +27,14 @@
   var MAX_QUALITY_BONUS = 0.2;
   var FULL_REPEATS_PER_DAY = 3;
   var HALF_REPEATS_PER_DAY = 3;
+  // Universal cosmetic/title unlocks; module mastery never gates global rewards.
+  var REWARD_UNLOCKS = [
+    { level: 2, id: 'first-light', name: 'First Light', kind: 'title', description: 'Your first global level-up.' },
+    { level: 5, id: 'scholars-mark', name: "Scholar's Mark", kind: 'emblem', description: 'A mark earned through steady cross-discipline learning.' },
+    { level: 10, id: 'polymath', name: 'Polymath', kind: 'title', description: 'Progress across disciplines has reached double-digit level.' },
+    { level: 20, id: 'keeper-of-knowledge', name: 'Keeper of Knowledge', kind: 'title', description: 'A long-term commitment to learning across fields.' },
+    { level: 30, id: 'limitless-sigil', name: 'Limitless Sigil', kind: 'emblem', description: 'A rare mark for sustained global progression.' }
+  ];
 
   function finiteNumber(value, fallback) {
     return typeof value === 'number' && isFinite(value) ? value : fallback;
@@ -85,6 +93,18 @@
       nextLevelAt: xp + (cost - remaining),
       progress: cost > 0 ? clamp(remaining / cost, 0, 1) : 1
     };
+  }
+
+  function unlocksForLevel(value) {
+    var level = Math.max(1, Math.floor(finiteNumber(value, 1)));
+    return REWARD_UNLOCKS.filter(function (reward) { return reward.level <= level; }).map(function (reward) {
+      return { level: reward.level, id: reward.id, name: reward.name, kind: reward.kind, description: reward.description };
+    });
+  }
+  function nextUnlockForLevel(value) {
+    var level = Math.max(1, Math.floor(finiteNumber(value, 1)));
+    var reward = REWARD_UNLOCKS.find(function (item) { return item.level > level; });
+    return reward ? { level: reward.level, id: reward.id, name: reward.name, kind: reward.kind, description: reward.description } : null;
   }
 
   function calculate(input, context) {
@@ -147,13 +167,15 @@
           nextLevelAt: level.nextLevelAt,
           progress: level.progress,
           awardCount: ledger.awards.length,
-          countsByModule: counts
+          countsByModule: counts,
+          unlockedRewards: unlocksForLevel(level.level),
+          nextReward: nextUnlockForLevel(level.level)
         };
       } catch (error) {
         return {
           standard: VERSION, xp: 0, level: 1, xpIntoLevel: 0,
           xpForNextLevel: 100, nextLevelAt: 100, progress: 0,
-          awardCount: 0, countsByModule: {}, available: false
+          awardCount: 0, countsByModule: {}, unlockedRewards: [], nextReward: nextUnlockForLevel(1), available: false
         };
       }
     }
@@ -301,6 +323,9 @@
     BASE_EXP: BASE_EXP,
     DIFFICULTY: DIFFICULTY,
     FIRST_PASS_EXP: FIRST_PASS_EXP,
+    REWARD_UNLOCKS: REWARD_UNLOCKS.map(function (reward) { return Object.assign({}, reward); }),
+    unlocksForLevel: unlocksForLevel,
+    nextUnlockForLevel: nextUnlockForLevel,
     calculateAward: function (input) { return calculate(input, {}); },
     levelForXp: levelForXp,
     createLedger: createLedger,
