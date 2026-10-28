@@ -1,0 +1,53 @@
+name: Maths Trainer Regression Tests
+
+on:
+  pull_request:
+    paths:
+      - "tools/math-refactored/**"
+      - ".github/workflows/test-math-trainer.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "tools/math-refactored/**"
+      - ".github/workflows/test-math-trainer.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maths-trainer-regression-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    name: Node.js regression suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run all maths trainer regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          test_files=(tools/math-refactored/test-*.cjs tools/math-refactored/test-*.mjs)
+          if (( ${#test_files[@]} == 0 )); then
+            echo "No maths trainer regression tests were found."
+            exit 1
+          fi
+          printf 'Found %s maths trainer regression test files.\n' "${#test_files[@]}"
+          for test_file in "${test_files[@]}"; do
+            echo "::group::${test_file}"
+            node "${test_file}"
+            echo "::endgroup::"
+          done
