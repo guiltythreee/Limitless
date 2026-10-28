@@ -95,7 +95,7 @@ export default function TopicTree({
                 aria-expanded={isOpen}
                 className="flex w-full items-center gap-2 border border-gold/10 px-3 py-2.5 text-left transition hover:bg-gold/5"
               >
-                <span className={\`text-[10px] text-mutedgold transition-transform \${isOpen ? "rotate-90" : ""}\`}>▶</span>
+                <span className={`text-[10px] text-mutedgold transition-transform ${isOpen ? "rotate-90" : ""}`}>▶</span>
                 <span className="min-w-0 flex-1 text-[10px] font-bold uppercase tracking-[.16em] text-mutedgold">
                   Sequence {pad2(rank.num)} · {rank.name}
                 </span>
@@ -107,13 +107,13 @@ export default function TopicTree({
                     <button
                       key={lesson.id}
                       onClick={() => onChoose(lesson.id)}
-                      className={\`flex w-full items-start gap-3 border px-3 py-3 text-left transition \${activeId === lesson.id ? "border-gold/45 bg-gold/[.07]" : "border-transparent hover:border-gold/15 hover:bg-gold/5"}\`}
+                      className={`flex w-full items-start gap-3 border px-3 py-3 text-left transition ${activeId === lesson.id ? "border-gold/45 bg-gold/[.07]" : "border-transparent hover:border-gold/15 hover:bg-gold/5"}`}
                     >
-                      <span className={\`serif mt-0.5 text-sm \${completed.includes(lesson.id) ? "text-gold" : "text-faint"}\`}>
+                      <span className={`serif mt-0.5 text-sm ${completed.includes(lesson.id) ? "text-gold" : "text-faint"}`}>
                         {completed.includes(lesson.id) ? "✓" : unitOf[lesson.id]}
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className={\`block text-sm \${activeId === lesson.id ? "text-parchment" : "text-soft"}\`}>{lesson.title}</span>
+                        <span className={`block text-sm ${activeId === lesson.id ? "text-parchment" : "text-soft"}`}>{lesson.title}</span>
                         <span className="mt-1 block text-[10px] uppercase tracking-widest text-faint">{lesson.minutes} min</span>
                       </span>
                     </button>
