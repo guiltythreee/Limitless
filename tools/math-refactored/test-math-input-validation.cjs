@@ -8,6 +8,10 @@ const E = require('./engine.js');
 
 // Exercise the actual UI cleaner before asking the engine parser to validate input.
 const gameSource = fs.readFileSync(path.join(__dirname, 'game.js'), 'utf8');
+const htmlSource = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+assert.match(htmlSource, /<input[^>]*id="answer"[^>]*>/, 'answer input should be present');
+const answerInput = htmlSource.match(/<input[^>]*id="answer"[^>]*>/)[0];
+assert.doesNotMatch(answerInput, /\bmaxlength\s*=/, 'browser must not truncate pasted answers before parser validation');
 const cleanerMatch = gameSource.match(/function cleanAnswer\(v\) \{([\s\S]*?)\n  \}/);
 assert.ok(cleanerMatch, 'UI cleanAnswer function should be present');
 const cleanAnswer = new Function('v', cleanerMatch[1]);
