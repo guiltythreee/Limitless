@@ -72,7 +72,7 @@ test('a successful assessment receives the 15 EXP first-pass bonus once per pass
   const first = ledger.record({ ...common, eventId: 'test-1' });
   assert.equal(first.xp, 46); // round(25 * 1.25 + 5) + 15
   const second = ledger.record({ ...common, eventId: 'test-2' });
-  assert.equal(second.xp, 31); // repeat is half; no second pass bonus
+  assert.equal(second.xp, 31); // still within the first-three-repeat window; no second pass bonus
   assert.equal(ledger.summary().xp, 77);
 });
 
@@ -84,6 +84,14 @@ test('milestone one-time keys prevent a reward from being paid under a different
   assert.equal(duplicateMilestone.xp, 0);
   assert.equal(duplicateMilestone.oneTimeAlreadyAwarded, true);
   assert.equal(ledger.summary().xp, 50);
+});
+
+test('milestone classes require a stable one-time key', () => {
+  const { ledger } = setup();
+  const result = ledger.record({ module: 'bookkeys', eventId: 'bad-milestone', contentKey: 'book-abc', activityClass: 'milestone' });
+  assert.equal(result.ok, false);
+  assert.equal(result.error, 'missing-one-time-key');
+  assert.equal(ledger.summary().xp, 0);
 });
 
 test('the level curve begins at 100 EXP and each next level costs 25 more', () => {
