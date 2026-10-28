@@ -118,7 +118,7 @@ function appendAndReturn(
 }
 
 /** One real answer = one `practice` activity, plus the usual `answered` entry. */
-export function recordAnswer(p: Progress, key: string, choice: string, correct: boolean): Progress {
+export function recordAnswer(p: Progress, key: string, choice: string, correct: boolean, ms = 0): Progress {
   const now = Date.now();
   const next: Progress = {
     ...p,
@@ -137,7 +137,7 @@ export function recordAnswer(p: Progress, key: string, choice: string, correct: 
   // answer is logged exactly once and never duplicated as a legacy twin.
   // `load()` only reads — nothing is written or backfilled here.
   return appendAndReturn({ ...next, activities: logFor(p).load() }, [
-    { q: key, topicId, picked: choice, correct, mode: "practice", ts: now },
+    { q: key, topicId, picked: choice, correct, mode: "practice", ms, ts: now },
   ]);
 }
 
