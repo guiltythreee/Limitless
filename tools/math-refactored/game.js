@@ -1073,8 +1073,8 @@
   $('nav-topic').addEventListener('click', function () { navigate('topic'); });
 
   var answerBox = $('answer');
-  /* the answer box only accepts the characters an answer can contain:
-     digits, one decimal point, one slash (fractions like 5/36) and a leading minus */
+  /* Preserve numeric punctuation for the engine parser to validate instead of
+     silently rewriting malformed answers. Normalize Unicode minus for negatives. */
   function cleanAnswer(v) {
     var out = '', i, c;
     for (i = 0; i < v.length; i++) {
