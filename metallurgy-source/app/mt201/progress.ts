@@ -110,6 +110,22 @@ function logFor(root: Progress): ActivityLog {
 }
 
 /** Append through the shared log and hand back the root it persisted. */
+/**
+ * Read-only, storage-bound view for the history UI. Like MT202's exported log,
+ * it derives legacy rows without writing them into old payloads.
+ */
+export const activityLog: ActivityLog = createActivityLog<Progress>({
+  courseId: COURSE_ID,
+  storageKey: KEY,
+  read: loadProgress,
+  write: saveProgress,
+  getStored: (root) => root.activities,
+  setStored: (root, activities) => ({ ...root, activities: [...activities] }),
+  deriveLegacy: (root) =>
+    deriveLegacyActivities(root.answered, { courseId: COURSE_ID, topicOf }),
+  cap: MAX_ACTIVITIES,
+});
+
 function appendAndReturn(
   root: Progress,
   incoming: readonly NewActivity[]
