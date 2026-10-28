@@ -16,6 +16,11 @@ import { awardAnswer, Mode, Progress, recordAnswer, toggleBookmark } from "../li
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 import { Question } from "../courses/types";
 
+const fmtElapsed = (ms: number) => {
+  const seconds = Math.floor(Math.max(0, ms) / 1000);
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+};
+
 export default function Player({
   questions,
   mode,
@@ -44,6 +49,8 @@ export default function Player({
   const [done, setDone] = useState(false);
   const [gain, setGain] = useState(0);
   const [toast, setToast] = useState<number | null>(null);
+  const [elapsedMs, setElapsedMs] = useState(0);
+  const openedAt = useRef<number>(Date.now());
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Reset whenever a different question set is supplied.
@@ -66,6 +73,21 @@ export default function Player({
   }, []);
 
   const theQ = questions[order[idx]];
+  const isRevealed = theQ ? !!revealed[theQ.id] : false;
+
+  useEffect(() => {
+    if (!theQ || isRevealed) {
+      setElapsedMs(0);
+      return;
+    }
+    const started = Date.now();
+    openedAt.current = started;
+    setElapsedMs(0);
+    const timer = window.setInterval(() => setElapsedMs(Date.now() - started), 250);
+    return () => window.clearInterval(timer);
+    // The question id and its revealed state define one stopwatch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theQ?.id, isRevealed]);
 
   const answered = order.filter((i) => revealed[questions[i].id]).length;
   const right = order.filter(
@@ -81,7 +103,8 @@ export default function Player({
   const pick = (lab: string) => {
     if (!theQ || revealed[theQ.id]) return;
     const ok = lab === theQ.answer;
-    let p = recordAnswer(progress, theQ.id, lab, ok, mode, 0);
+    const ms = Math.max(0, Date.now() - openedAt.current);
+    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms);
     const res = awardAnswer(p, theQ.id, theQ.difficulty, ok);
     p = res.progress;
     onProgress(p);
@@ -178,7 +201,12 @@ export default function Player({
   }
 
   const chosen = picked[theQ.id];
-  const isRevealed = !!revealed[theQ.id];
+  const lastTimedAttempt = isRevealed
+    ? [...progress.attempts].reverse().find((attempt) => attempt.q === theQ.id && attempt.ms > 0)
+    : undefined;
+  const timeLabel = isRevealed
+    ? lastTimedAttempt ? fmtElapsed(lastTimedAttempt.ms) : "—"
+    : fmtElapsed(elapsedMs);
 
   return (
     <div className="panel">
@@ -203,6 +231,7 @@ export default function Player({
           <span className="chip">
             {idx + 1} / {order.length} · {answered} answered · {right} correct
           </span>
+          <span className="chip" aria-label="Time on question">⏱ {timeLabel}</span>
           {topicTitles?.[theQ.topicId] && (
             <span className="chip chip-gold">{topicTitles[theQ.topicId]}</span>
           )}
