@@ -28,7 +28,13 @@
     var hadBaseline = !!record.base;
     record.base = stat;
     record.post = null;
+    record.practiceSinceBaseline = 0;
     return hadBaseline;
+  }
+
+  function canTakePostTest(record) {
+    if (!record || (!record.base && !record.skipBase)) return false;
+    return Number.isInteger(record.practiceSinceBaseline) && record.practiceSinceBaseline > 0;
   }
 
   function awardFirstMastery(record) {
@@ -46,6 +52,7 @@
     isMastered: isMastered,
     assessmentValid: assessmentValid,
     replaceBaseline: replaceBaseline,
+    canTakePostTest: canTakePostTest,
     awardFirstMastery: awardFirstMastery,
     migrateMasteryReward: migrateMasteryReward
   };
