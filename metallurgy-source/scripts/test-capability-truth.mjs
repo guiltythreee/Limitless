@@ -25,7 +25,6 @@ const check = (cond, msg) => {
 };
 
 const PHASE5 = [
-  "bookmarks",
   "mistakes",
   "timers",
   "drafts",
@@ -51,6 +50,7 @@ const SERVED = {
     "practiceScopes.topic": "app/mt201/page.tsx",
     exam: "app/mt201/exam.tsx",
     review: "app/mt201/quiz.tsx",
+    bookmarks: "app/mt201/quiz.tsx + app/courses/BookmarksPanel.tsx",
   },
   mt202: {
     theory: "app/mt202/page.tsx",
@@ -60,6 +60,7 @@ const SERVED = {
     exam: "app/mt202/exam.tsx",
     review: "app/mt202/quiz.tsx",
     tools: "app/mt202/page.tsx",
+    bookmarks: "app/mt202/quiz.tsx + app/courses/BookmarksPanel.tsx",
   },
   mt203: {
     theory: "app/mt203/player.tsx",
@@ -78,6 +79,7 @@ const SERVED = {
     mastery: "app/mt203/dashboard.tsx",
     goals: "app/mt203/dashboard.tsx",
     streaks: "app/mt203/dashboard.tsx",
+    bookmarks: "app/mt203/player.tsx + app/courses/BookmarksPanel.tsx",
   },
 };
 
@@ -111,6 +113,7 @@ const EXPECTED = {
     practiceScopes: { topic: true },
     exam: true,
     review: true,
+    bookmarks: true,
   }),
   mt202: capabilities({
     theory: true,
@@ -121,6 +124,7 @@ const EXPECTED = {
     exam: true,
     review: true,
     tools: true,
+    bookmarks: true,
   }),
   mt203: capabilities({
     theory: true,
@@ -138,6 +142,7 @@ const EXPECTED = {
     mastery: true,
     goals: true,
     streaks: true,
+    bookmarks: true,
   }),
 };
 
