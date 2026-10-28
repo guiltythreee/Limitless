@@ -18,8 +18,8 @@ import type {
 import type {
   Activity,
   ActivityFilter,
-  ActivitySoumary,
   ActivitySource,
+  ActivitySummary,
   AttemptMode,
   NewActivity,
   QuestionMeta,
@@ -364,4 +364,3 @@ export function summarise(list: readonly Activity[]): ActivitySummary {
     avgMs: timed > 0 ? totalMs / timed : 0,
   };
 }
-
