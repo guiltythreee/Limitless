@@ -347,7 +347,7 @@
       if (!plus && a * d < c * b) { var t = a; a = c; c = t; t = b; b = d; d = t; }
       var ans = plus ? rAdd(rat(a, b), rat(c, d)) : rSub(rat(a, b), rat(c, d));
       if (ans.n === 0) continue;
-      var diff = 3 + Math.log(lcm(b, d)) / Math.LN2;
+      var diff = 3 + Math.log(lcm(b, d)) / Math.LN2 + (p.bonus || 0);
       return Q('Fractions', a + '/' + b + ' ' + (plus ? '+' : MINUS) + ' ' + c + '/' + d,
         a + '/' + b + (plus ? '+' : '-') + c + '/' + d, ans, diff);
     }
@@ -865,6 +865,7 @@
         ['add', 2, { da: 3, db: 2 }], ['sub', 2, { da: 3, db: 2 }], ['add', 1, { da: 3, db: 3 }],
         ['mul', 3, { da: 2, db: 1, shortcut: 'any' }], ['div', 2, { dq: 2, dd: 1 }],
         ['divRem', 1, { alo: 10, ahi: 99, dlo: 2, dhi: 9, bonus: 0.8 }],
+        ['fracAdd', 1, { dens: [2, 3, 4, 5], bonus: -3 }],
         ['fracMul', 1, { dens: [2, 3, 4, 5, 8] }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 8] }],
         ['decAdd', 2, { ia: 1, ib: 1, dpa: 1, dpb: 1 }], ['decMul', 1, { da: 1, dpa: 1, db: 1, dpb: 0 }],
         ['square', 1, { lo: 11, hi: 25 }], ['pctOf', 1, { set: EASY_PCT, lo: 40, hi: 400, dp: 0 }],
@@ -881,6 +882,7 @@
         ['decMul', 2, { da: 2, dpa: 1, db: 2, dpb: 1 }],
         ['decAdd', 1, { ia: 2, ib: 1, dpa: 2, dpb: 1 }],
         ['div', 1, { dq: 2, dd: 2 }], ['divRem', 1, { alo: 100, ahi: 999, dlo: 10, dhi: 99, bonus: 1.8 }],
+        ['fracAdd', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: -1.5 }],
         ['fracMul', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }],
         ['square', 1, { lo: 16, hi: 30 }],
         ['fracToDec', 1, { dens: [4, 5, 8, 16, 20, 25] }],
