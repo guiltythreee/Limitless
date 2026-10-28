@@ -18,6 +18,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ALL_QUESTION_IDS, TOPIC_OF } from "../data/qbank/meta";
+import { toActivities } from "../platform/learning";
 import { mdInline, mdToHtml } from "../lib/md";
 import {
   loadProgress,
@@ -38,11 +39,14 @@ import Player from "./player";
 import Practice, { PracticeMode } from "./practice";
 import { settleModuleBonuses } from "./rewards";
 import BookmarksPanel from "../courses/BookmarksPanel";
+import ActivityHistoryPanel from "../courses/ActivityHistoryPanel";
 
 type View =
   | { kind: "dashboard" }
   | { kind: "study"; topic: string; tab: "lesson" | "quiz"; questionId?: string }
   | { kind: "bookmarks" }
+  | { kind: "history" }
+  | { kind: "mistakes" }
   | { kind: "practice"; mode: PracticeMode; scope: string; count: number }
   | { kind: "exam" };
 
@@ -139,6 +143,8 @@ export default function Mt203() {
     if (view.kind === "dashboard") return "Dashboard";
     if (view.kind === "exam") return "Exam Simulator";
     if (view.kind === "bookmarks") return "Bookmarked questions";
+    if (view.kind === "history") return "Attempt History";
+    if (view.kind === "mistakes") return "Latest Mistakes";
     if (view.kind === "practice")
       return view.mode === "mixed" ? "Mixed Practice" : view.mode === "weak" ? "Weak-area Training" : "Spaced Revision";
     return lesson?.title ?? view.topic;
@@ -182,6 +188,21 @@ export default function Mt203() {
               <span className="ch-title">Bookmarked questions</span>
               <span className="ch-meta"><span className="ch-pct">{progress?.bookmarks.length ?? 0} saved</span></span>
             </span>
+          </button>
+
+          <button
+            className={`ch-item ${view.kind === "history" ? "active" : ""}`}
+            onClick={() => setView({ kind: "history" })}
+          >
+            <span className="ch-num">↺</span>
+            <span className="ch-title">Attempt history</span>
+          </button>
+          <button
+            className={`ch-item ${view.kind === "mistakes" ? "active" : ""}`}
+            onClick={() => setView({ kind: "mistakes" })}
+          >
+            <span className="ch-num">!</span>
+            <span className="ch-title">Latest mistakes</span>
           </button>
 
           <div className="ch-list" style={{ marginTop: "0.5rem" }}>
@@ -277,6 +298,16 @@ export default function Mt203() {
 
         {/* ---------------- main ---------------- */}
         <main className="main mt203">
+          {progress && (view.kind === "history" || view.kind === "mistakes") && (
+            <ActivityHistoryPanel
+              activities={toActivities(progress.attempts, { courseId: "mt203", topicOf: (questionId) => TOPIC_OF[questionId] })}
+              topics={TOPICS}
+              resolveTopic={(questionId) => TOPIC_OF[questionId]}
+              onOpen={(questionId, topicId) => setView({ kind: "study", topic: topicId, tab: "quiz", questionId })}
+              view={view.kind}
+            />
+          )}
+
           {progress && view.kind === "bookmarks" && (
             <BookmarksPanel
               bookmarks={progress.bookmarks}
