@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - "tools/math-refactored/**"
+      - "progression/**"
       - ".github/workflows/test-math-trainer.yml"
   push:
     branches:
       - main
     paths:
       - "tools/math-refactored/**"
+      - "progression/**"
       - ".github/workflows/test-math-trainer.yml"
   workflow_dispatch:
 
@@ -34,6 +36,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Run shared global reward regression tests
+        run: node --test progression/reward-standard.test.cjs progression/bookkeys-bridge.test.cjs
 
       - name: Run all maths trainer regression tests
         shell: bash
