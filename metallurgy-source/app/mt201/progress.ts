@@ -14,8 +14,12 @@
 
 import {
   MAX_ACTIVITIES,
+  DEFAULT_DAILY_GOAL,
+  clampDailyGoal,
   createActivityLog,
+  dayKey,
   deriveLegacyActivities,
+  sanitiseGoalByDay,
 } from "../platform/learning";
 import type { Activity, ActivityLog, NewActivity } from "../platform/learning";
 import type { TopicId } from "../courses/types";
@@ -30,6 +34,10 @@ export type Progress = {
   activities?: Activity[];
   /** Additive saved-question list; absent on legacy payloads. */
   bookmarks?: string[];
+  /** Daily target; absent on legacy payloads. */
+  goal?: number;
+  /** Historical daily targets, local YYYY-MM-DD keys. */
+  goalByDay?: Record<string, number>;
 };
 
 const KEY = "mm-mt201-v1";
@@ -75,6 +83,8 @@ export function loadProgress(): Progress {
       answered: p.answered ?? {},
       examBest: p.examBest ?? null,
       bookmarks: Array.isArray(p.bookmarks) ? [...new Set(p.bookmarks.filter((q) => typeof q === "string" && q.length > 0))] : [],
+      goal: clampDailyGoal(p.goal ?? DEFAULT_DAILY_GOAL),
+      goalByDay: sanitiseGoalByDay(p.goalByDay),
     };
   } catch {
     return { answered: {}, examBest: null };
@@ -95,6 +105,24 @@ export function saveProgress(p: Progress) {
  * `write` is this file's own saveProgress, so the log can neither invent a
  * storage key nor replace a whole payload.
  */
+function withDailyGoalSnapshot(p: Progress, now = Date.now()): Progress {
+  const goal = clampDailyGoal(p.goal ?? DEFAULT_DAILY_GOAL);
+  const goalByDay = sanitiseGoalByDay(p.goalByDay);
+  const today = dayKey(now);
+  if (today && goalByDay[today] === undefined) goalByDay[today] = goal;
+  return { ...p, goal, goalByDay };
+}
+
+export function setDailyGoal(p: Progress, value: number): Progress {
+  const goal = clampDailyGoal(value);
+  const today = dayKey(Date.now());
+  const goalByDay = sanitiseGoalByDay(p.goalByDay);
+  if (today) goalByDay[today] = goal;
+  const next = { ...p, goal, goalByDay };
+  saveProgress(next);
+  return next;
+}
+
 function logFor(root: Progress): ActivityLog {
   return createActivityLog<Progress>({
     courseId: COURSE_ID,
@@ -152,7 +180,8 @@ export function recordAnswer(p: Progress, key: string, choice: string, correct: 
   // Snapshot the stored-or-derived history BEFORE this answer lands, so the
   // answer is logged exactly once and never duplicated as a legacy twin.
   // `load()` only reads — nothing is written or backfilled here.
-  return appendAndReturn({ ...next, activities: logFor(p).load() }, [
+  const goalSnapshot = withDailyGoalSnapshot(next, now);
+  return appendAndReturn({ ...goalSnapshot, activities: logFor(p).load() }, [
     { q: key, topicId, picked: choice, correct, mode: "practice", ms, ts: now },
   ]);
 }
@@ -212,12 +241,12 @@ export function recordExamAnswers(
   // The single write of the exam flow: the shared log appends the activity
   // batch onto THIS root, so answered + activities + examBest persist together.
   // Nothing may be saved after it.
-  const root: Progress = {
+  const root = withDailyGoalSnapshot({
     ...p,
     answered,
     examBest: best,
     activities: logFor(p).load(),
-  };
+  }, now);
 
   return appendAndReturn(
     root,
