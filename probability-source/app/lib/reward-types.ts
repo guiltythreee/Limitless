@@ -45,6 +45,7 @@ export type RewardSummary = {
 export type GlobalRewardApi = {
   STORAGE_KEY: string;
   record: (input: GlobalRewardInput) => GlobalRewardReceipt;
+  recordMany: (inputs: GlobalRewardInput[]) => GlobalRewardReceipt[];
   summary: () => RewardSummary;
 };
 
