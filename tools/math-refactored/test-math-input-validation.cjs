@@ -14,6 +14,7 @@ const cleanAnswer = new Function('v', cleanerMatch[1]);
 const beforeInputFilter = gameSource.match(/!\/(\^\[[^\]]+\]\$)\/\.test\(e\.data\)/);
 assert.ok(beforeInputFilter, 'single-character beforeinput filter should be present');
 assert.ok(beforeInputFilter[1].includes(','), 'single-character comma entry must not be blocked');
+assert.ok(beforeInputFilter[1].includes('−'), 'single-character Unicode minus entry must not be blocked');
 
 function expectValue(input, n, d, label) {
   const value = E.parseInput(input);
@@ -35,15 +36,21 @@ expectValue('1,000/2', 500, 1, 'grouped fraction numerator');
 expectValue('1/1,000', 1, 1000, 'grouped fraction denominator');
 expectValue('0', 0, 1, 'zero');
 
-for (const input of ['1,2', '12,34', '1234,567', '1,,000', ',123', '1,', '1,23,456', '1,000.2,3', '1/2,00', '1,000/2,00']) {
-  assert.equal(cleanAnswer(input), input, 'UI cleaning must preserve malformed comma grouping for validation: ' + input);
+for (const input of ['1,2', '12,34', '1234,567', '1,,000', ',123', '1,', '1,23,456', '1,000.2,3', '1/2,00', '1,000/2,00',
+  '1/2/3', '1.2.3', '1-2', '--3']) {
+  assert.equal(cleanAnswer(input), input, 'UI cleaning must preserve malformed numeric punctuation for validation: ' + input);
   expectInvalid(cleanAnswer(input));
 }
 for (const input of ['', '.', '-', '-.', '1/0', '1/2/3', '1e3']) expectInvalid(input);
 
-// Valid grouped input survives UI cleaning and is then accepted by the stricter engine parser.
+// Valid grouped input and Unicode minus survive UI cleaning and parse to exact values.
 for (const input of ['1,234', '-1,234.50', '1,000/2', '1/1,000']) {
   assert.equal(cleanAnswer(input), input, 'UI cleaning must preserve valid grouped input: ' + input);
   assert.ok(E.parseInput(cleanAnswer(input)), 'valid grouped input should parse after UI cleaning: ' + input);
 }
-console.log('Answer-input parsing and UI-to-parser checks passed (9 valid formats, 17 invalid inputs, UI grouping preserved).');
+assert.equal(cleanAnswer('−12.5'), '-12.5', 'Unicode minus must normalize to ASCII minus');
+expectValue(cleanAnswer('−12.5'), -25, 2, 'Unicode minus through UI cleaning');
+for (const input of ['1/2/3', '1.2.3', '1-2', '--3']) {
+  assert.equal(E.parseInput(cleanAnswer(input)), null, 'malformed punctuation should be rejected after UI cleaning: ' + input);
+}
+console.log('Answer-input parsing and UI-to-parser checks passed (9 valid formats, 21 invalid inputs, UI grouping and negative signs preserved).');
