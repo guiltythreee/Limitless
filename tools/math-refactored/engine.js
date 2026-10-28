@@ -109,8 +109,17 @@
     if (ratEq(v, q.answer)) return { status: 'correct', exact: true };
     if (submit && q.tol) {
       var x = v.n / v.d, c = q.tol.center;
-      var lim = q.tol.abs !== undefined ? q.tol.abs : Math.abs(c) * q.tol.rel;
-      if (Math.abs(x - c) <= lim + 1e-9) return { status: 'correct', exact: false };
+      /* Rounded-answer tolerances require the player's value to round to the
+         displayed precision. This is distinct from a relative-error estimate. */
+      if (q.tol.dp !== undefined) {
+        var scale = Math.pow(10, q.tol.dp);
+        if (Math.round(x * scale) === q.answer.n / q.answer.d * scale) {
+          return { status: 'correct', exact: false };
+        }
+      } else {
+        var lim = q.tol.abs !== undefined ? q.tol.abs : Math.abs(c) * q.tol.rel;
+        if (Math.abs(x - c) <= lim + 1e-9) return { status: 'correct', exact: false };
+      }
     }
     return { status: submit ? 'wrong' : 'pending' };
   }
@@ -393,7 +402,7 @@
       var f100 = s * 100 - Math.floor(s * 100);
       if (Math.abs(f100 - 0.5) < 0.1) continue;     /* avoid unclear rounding */
       return Q('Squares & roots', '√' + n + '  (2 d.p.)', String(n), rat(Math.round(s * 100), 100),
-        8 + 1.5 * digits(n), { tol: { abs: 0.01, center: s }, verify: { kind: 'sqrt2dp', radicand: n } });
+        8 + 1.5 * digits(n), { tol: { dp: 2, center: s }, verify: { kind: 'sqrt2dp', radicand: n } });
     }
     throw new Error('sqrtApprox: could not generate');
   };
