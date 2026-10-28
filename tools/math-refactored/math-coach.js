@@ -64,6 +64,36 @@
     });
     return out;
   }
+  /* Local-only breakdown so a strong easy-tier result cannot hide a hard-tier weakness. */
+  function localSkillTierStats() {
+    var atts = S.load(KEY_ATT, []), by = {}, out = [];
+    for (var i = atts.length - 1; i >= 0; i--) {
+      var a = atts[i];
+      if (!a || typeof a.s !== 'string' || typeof a.t !== 'string' || a.r === 'skip' || !(a.target > 0)) continue;
+      var key = a.s + '\\u0000' + a.t;
+      var list = by[key] || (by[key] = []);
+      if (list.length < SKILL_WINDOW) list.push(a);
+    }
+    Object.keys(by).forEach(function (key) {
+      var list = by[key], parts = key.split('\\u0000');
+      var right = list.filter(function (a) { return a.r === 'correct'; }).length;
+      out.push({ skill: parts[0], tier: parts[1], n: list.length, acc: right / list.length,
+        ratio: U.median(list.map(function (a) { return a.time / (a.effectiveTarget > 0 ? a.effectiveTarget : a.target); })),
+        medTime: U.median(list.map(function (a) { return a.time; })) });
+    });
+    return out;
+  }
+  function analyseByTier() {
+    var rows = localSkillTierStats().map(function (s) {
+      var dg = diagnose(s.acc, s.ratio, s.n);
+      return { skill: s.skill, tier: s.tier, n: s.n, acc: s.acc, ratio: s.ratio, medTime: s.medTime, diag: dg,
+        kind: kindFor(dg.text),
+        weakness: (1 - s.acc) * 3 + Math.max(0, Math.min(3, s.ratio) - 1) * 1.2 };
+    });
+    rows.sort(function (a, b) { return b.weakness - a.weakness; });
+    return rows;
+  }
+
   function analyse() {
     var st = skillStats(), rows = [];
     Object.keys(st).forEach(function (skill) {
@@ -105,8 +135,10 @@
     diagnose: diagnose,
     kindFor: kindFor,
     localSkillStats: localSkillStats,
+    localSkillTierStats: localSkillTierStats,
     skillStats: skillStats,
     analyse: analyse,
+    analyseByTier: analyseByTier,
     prescription: prescription,
     snapshotBefore: snapshotBefore,
     buildDrillCfg: buildDrillCfg
