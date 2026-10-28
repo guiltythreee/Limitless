@@ -253,7 +253,7 @@
       if (!s || typeof s !== 'object') return null;
       return { n: num(s.n, 0, 100, 0), acc: num(s.acc, 0, 1, 0), med: num(s.med, 0, 300, 0), ratio: num(s.ratio, 0, 20, 0), ts: num(s.ts, 0, 4e12, 0) };
     }
-    return { base: stat(t.base), post: stat(t.post), practice: num(t.practice, 0, 10000, 0), skipBase: t.skipBase === true, masteryRewarded: t.masteryRewarded === true, lastTs: num(t.lastTs, 0, 4e12, 0) };
+    return { base: stat(t.base), post: stat(t.post), practice: num(t.practice, 0, 10000, 0), practiceSinceBaseline: num(t.practiceSinceBaseline, 0, 10000, 0), skipBase: t.skipBase === true, masteryRewarded: t.masteryRewarded === true, lastTs: num(t.lastTs, 0, 4e12, 0) };
   }
   /* bring in xp / streak / tricks / tier clears from another file, never lowering what is already here */
   function mergeMeta(m, tiers) {
