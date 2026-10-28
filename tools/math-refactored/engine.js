@@ -113,7 +113,7 @@
          displayed precision. This is distinct from a relative-error estimate. */
       if (q.tol.dp !== undefined) {
         var scale = Math.pow(10, q.tol.dp);
-        if (Math.round(x * scale) === q.answer.n / q.answer.d * scale) {
+        if (Math.round(x * scale) === Math.round((q.answer.n / q.answer.d) * scale)) {
           return { status: 'correct', exact: false };
         }
       } else {
