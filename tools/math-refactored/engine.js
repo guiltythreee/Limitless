@@ -424,8 +424,18 @@
     var rel = p.rel == null ? 0.01 : p.rel;
     var baseDiff = p.baseDiff == null ? 7 : p.baseDiff;
     if (p.kind === 'div') {
-      var N = r.int(p.nlo, p.nhi), D = r.int(p.dlo, p.dhi);
-      truth = rat(N, D); text = N + ' ' + DIVIDE + ' ' + D + ' ≈ ?'; expr = N + '/' + D;
+      var N, D, attempt, candidate, candidateTruth;
+      /* The canonical whole-number answer must itself satisfy this preset's tolerance.
+         Otherwise the exact-answer shortcut could accept an answer outside the stated rule. */
+      for (attempt = 0; attempt < 500; attempt++) {
+        N = r.int(p.nlo, p.nhi); D = r.int(p.dlo, p.dhi);
+        truth = rat(N, D);
+        candidateTruth = truth.n / truth.d;
+        candidate = Math.floor(candidateTruth + 0.5);
+        if (Math.abs(candidate - candidateTruth) <= Math.abs(candidateTruth) * rel + 1e-9) break;
+      }
+      if (attempt === 500) throw new Error('est: could not generate a division estimate whose rounded answer meets the configured tolerance');
+      text = N + ' ' + DIVIDE + ' ' + D + ' ≈ ?'; expr = N + '/' + D;
       diff = baseDiff + 0.7 * digits(N) + 0.7 * digits(D);
     } else {
       var A = r.int(p.alo, p.ahi), B = r.int(p.blo, p.bhi);
