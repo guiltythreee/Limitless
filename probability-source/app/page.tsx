@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { lessons, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND } from "./content";
+import { lessons, pathways, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND } from "./content";
 import { Illustration, Theory } from "./components/Sections";
 import Practice from "./components/Practice";
 import Analysis from "./components/Analysis";
@@ -15,7 +15,7 @@ import { goalInfo } from "./lib/stats";
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const rankName = (num: number) => ranks.find((r) => r.num === num)?.name ?? "";
 // Phones and narrow windows: one button that opens the same foldable chapter list.
-function TopicPicker({ activeId, completed, onChoose, title, unit }: { activeId: string; completed: string[]; onChoose: (id: string) => void; title: string; unit: string }) {
+function TopicPicker({ activeId, completed, onChoose, title, unit, pathwayId, onPathwayChange }: { activeId: string; completed: string[]; onChoose: (id: string) => void; title: string; unit: string; pathwayId: string; onPathwayChange: (id: string) => void }) {
   const [shown, setShown] = useState(false);
   return (
     <div className="md:hidden">
@@ -23,7 +23,7 @@ function TopicPicker({ activeId, completed, onChoose, title, unit }: { activeId:
         <span className="min-w-0 flex-1"><span className="eyebrow block text-[9px]!">Topic</span><span className="mt-1 block truncate text-sm text-parchment">{unit ? `${unit} · ` : ""}{title}</span></span>
         <span className={`text-gold transition-transform ${shown ? "rotate-180" : ""}`}>▾</span>
       </button>
-      {shown && <div className="panel mt-2 max-h-[65vh] overflow-y-auto p-3"><TopicTree activeId={activeId} completed={completed} onChoose={(id) => { onChoose(id); setShown(false); }} /></div>}
+      {shown && <div className="panel mt-2 max-h-[65vh] overflow-y-auto p-3"><TopicTree activeId={activeId} completed={completed} onChoose={(id) => { onChoose(id); setShown(false); }} pathwayId={pathwayId} onPathwayChange={onPathwayChange} /></div>}
     </div>
   );
 }
@@ -40,6 +40,7 @@ export default function Home() {
   const [rolls, setRolls] = useState<number[]>([]);
   const [rollCount, setRollCount] = useState(100);
   const [tab, setTab] = useState<"archive" | "analysis" | "experiment">("archive");
+  const [pathwayId, setPathwayId] = useState<string>("all");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const articleRef = useRef<HTMLElement>(null);
   const firstRender = useRef(true);
@@ -55,8 +56,12 @@ export default function Home() {
   }, [activeId, section]);
 
   const completed = store.completed;
-  const activeIndex = Math.max(0, lessons.findIndex((lesson) => lesson.id === activeId));
-  const activeLesson = lessons[activeIndex];
+  const visibleLessons = useMemo(() => {
+    const selectedPathway = pathways.find((pathway) => pathway.id === pathwayId);
+    return selectedPathway ? selectedPathway.lessonIds.map((id) => lessons.find((lesson) => lesson.id === id)!) : lessons;
+  }, [pathwayId]);
+  const activeIndex = Math.max(0, visibleLessons.findIndex((lesson) => lesson.id === activeId));
+  const activeLesson = visibleLessons[activeIndex] ?? lessons[0];
   const completedCount = lessons.filter((lesson) => completed.includes(lesson.id)).length;
   const progress = Math.round((completedCount / lessons.length) * 100);
   const latest = useMemo(() => latestByQuestion(store.attempts), [store.attempts]);
@@ -85,6 +90,14 @@ export default function Home() {
     setOpened(true);
     setTab("archive");
     if (!keepSection) setSection("theory");
+  }
+  function changePathway(id: string) {
+    const route = pathways.find((pathway) => pathway.id === id);
+    const routeLessons = route ? route.lessonIds.map((lessonId) => lessons.find((lesson) => lesson.id === lessonId)!) : lessons;
+    setPathwayId(id);
+    if (opened && !routeLessons.some((lesson) => lesson.id === activeId)) {
+      chooseLesson(routeLessons.find((lesson) => !completed.includes(lesson.id))?.id ?? routeLessons[0]?.id ?? lessons[0].id);
+    }
   }
   function simulate() {
     const generated = Array.from({ length: rollCount }, () => Math.floor(Math.random() * 6) + 1);
@@ -135,7 +148,7 @@ export default function Home() {
             <h1 className="serif max-w-3xl text-4xl leading-[1.1] text-parchment sm:text-5xl md:text-7xl">Learn the laws<br/><span className="italic text-gold">of the uncertain.</span></h1>
             <p className="mt-6 max-w-xl text-sm leading-7 text-dim md:text-base">Enter the archive of probability. Begin with outcomes and counting, advance through Bayes and random variables, then approach the deeper machinery of limit theorems and stochastic processes.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <button onClick={() => { chooseLesson(lessons.find(l => !completed.includes(l.id))?.id ?? lessons[0].id); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/70 bg-gold px-5 py-3 text-xs font-bold uppercase tracking-[.15em] text-ongold transition hover:bg-goldhi">Continue the path <span className="ml-2">→</span></button>
+              <button onClick={() => { chooseLesson(visibleLessons.find((lesson) => !completed.includes(lesson.id))?.id ?? visibleLessons[0]?.id ?? lessons[0].id); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/70 bg-gold px-5 py-3 text-xs font-bold uppercase tracking-[.15em] text-ongold transition hover:bg-goldhi">Continue the path <span className="ml-2">→</span></button>
               <button onClick={() => { setTab("experiment"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/25 bg-ink/55 px-5 py-3 text-xs uppercase tracking-[.15em] text-gold transition hover:bg-gold/10">Open experiment chamber</button>
             </div>
           </div>
@@ -171,9 +184,9 @@ export default function Home() {
           <Analysis />
         ) : tab === "archive" ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-[270px_minmax(0,1fr)] lg:grid-cols-[300px_minmax(0,1fr)]">
-            <TopicPicker activeId={opened ? activeId : ""} completed={completed} onChoose={chooseLesson} title={opened ? activeLesson.title : "Choose a topic"} unit={opened ? unitOf[activeLesson.id] : ""} />
+            <TopicPicker activeId={opened ? activeId : ""} completed={completed} onChoose={chooseLesson} title={opened ? activeLesson.title : "Choose a topic"} unit={opened ? unitOf[activeLesson.id] : ""} pathwayId={pathwayId} onPathwayChange={changePathway} />
             <aside className="panel hidden min-w-0 p-4 md:sticky md:top-24 md:block md:max-h-[calc(100vh-7rem)] md:self-start md:overflow-y-auto">
-              <TopicTree activeId={opened ? activeId : ""} completed={completed} onChoose={(id) => chooseLesson(id)} />
+              <TopicTree activeId={opened ? activeId : ""} completed={completed} onChoose={(id) => chooseLesson(id)} pathwayId={pathwayId} onPathwayChange={changePathway} />
               <button onClick={resetProgress} className="mt-5 w-full border-t border-gold/15 pt-4 text-left text-[10px] uppercase tracking-[.14em] text-faint hover:text-gold">Reset saved progress</button>
             </aside>
 
@@ -202,7 +215,7 @@ export default function Home() {
               <div className="mt-7">
                 {section === "theory" && <Theory lesson={activeLesson} />}
                 {section === "practice" && (activeLesson.quiz.length ? <Practice key={activeLesson.id} lessonId={activeLesson.id} onSelectLesson={chooseLesson} /> : <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">No practice questions for this topic yet.</div>)}
-                <div hidden={section !== "test"}><Test currentLessonId={activeLesson.id} /></div>
+                <div hidden={section !== "test"}><Test currentLessonId={activeLesson.id} pathwayId={pathwayId} /></div>
                 {section === "illustration" && <Illustration lesson={activeLesson} />}
               </div>
 
@@ -211,8 +224,8 @@ export default function Home() {
               </div>
 
               <div className="mt-5 flex justify-between border-t border-gold/15 pt-5">
-                <button onClick={() => chooseLesson(lessons[Math.max(0, activeIndex - 1)].id)} disabled={activeIndex === 0} className="text-xs uppercase tracking-[.12em] text-mutedgold hover:text-gold disabled:opacity-25">← Previous</button>
-                <button onClick={() => chooseLesson(lessons[Math.min(lessons.length - 1, activeIndex + 1)].id)} disabled={activeIndex === lessons.length - 1} className="text-xs uppercase tracking-[.12em] text-gold hover:text-parchment disabled:opacity-25">Next chapter →</button>
+                <button onClick={() => chooseLesson(visibleLessons[Math.max(0, activeIndex - 1)].id)} disabled={activeIndex === 0} className="text-xs uppercase tracking-[.12em] text-mutedgold hover:text-gold disabled:opacity-25">← Previous</button>
+                <button onClick={() => chooseLesson(visibleLessons[Math.min(visibleLessons.length - 1, activeIndex + 1)].id)} disabled={activeIndex === visibleLessons.length - 1} className="text-xs uppercase tracking-[.12em] text-gold hover:text-parchment disabled:opacity-25">Next chapter →</button>
               </div>
             </article>
             )}
