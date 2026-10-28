@@ -25,11 +25,7 @@ const check = (cond, msg) => {
 };
 
 const PHASE5 = [
-  "mistakes",
   "drafts",
-  "attemptHistory",
-  "analyticsCharts",
-  "periodFilters",
 ];
 
 const STORAGE_KEYS = {
@@ -51,6 +47,10 @@ const SERVED = {
     review: "app/mt201/quiz.tsx",
     bookmarks: "app/mt201/quiz.tsx + app/courses/BookmarksPanel.tsx",
     timers: "app/mt201/quiz.tsx",
+    mistakes: "app/courses/ActivityHistoryPanel.tsx + app/mt201/page.tsx",
+    attemptHistory: "app/courses/ActivityHistoryPanel.tsx + app/mt201/page.tsx",
+    analyticsCharts: "app/courses/ActivityHistoryPanel.tsx",
+    periodFilters: "app/courses/ActivityHistoryPanel.tsx",
   },
   mt202: {
     theory: "app/mt202/page.tsx",
@@ -62,6 +62,10 @@ const SERVED = {
     tools: "app/mt202/page.tsx",
     bookmarks: "app/mt202/quiz.tsx + app/courses/BookmarksPanel.tsx",
     timers: "app/mt202/quiz.tsx",
+    mistakes: "app/courses/ActivityHistoryPanel.tsx + app/mt202/page.tsx",
+    attemptHistory: "app/courses/ActivityHistoryPanel.tsx + app/mt202/page.tsx",
+    analyticsCharts: "app/courses/ActivityHistoryPanel.tsx",
+    periodFilters: "app/courses/ActivityHistoryPanel.tsx",
   },
   mt203: {
     theory: "app/mt203/player.tsx",
@@ -82,6 +86,10 @@ const SERVED = {
     streaks: "app/mt203/dashboard.tsx",
     bookmarks: "app/mt203/player.tsx + app/courses/BookmarksPanel.tsx",
     timers: "app/mt203/player.tsx",
+    mistakes: "app/courses/ActivityHistoryPanel.tsx + app/mt203/page.tsx",
+    attemptHistory: "app/courses/ActivityHistoryPanel.tsx + app/mt203/page.tsx",
+    analyticsCharts: "app/courses/ActivityHistoryPanel.tsx",
+    periodFilters: "app/courses/ActivityHistoryPanel.tsx",
   },
 };
 
@@ -113,6 +121,10 @@ const EXPECTED = {
     review: true,
     bookmarks: true,
     timers: true,
+    mistakes: true,
+    attemptHistory: true,
+    analyticsCharts: true,
+    periodFilters: true,
   }),
   mt202: capabilities({
     theory: true,
@@ -125,6 +137,10 @@ const EXPECTED = {
     tools: true,
     bookmarks: true,
     timers: true,
+    mistakes: true,
+    attemptHistory: true,
+    analyticsCharts: true,
+    periodFilters: true,
   }),
   mt203: capabilities({
     theory: true,
@@ -144,6 +160,10 @@ const EXPECTED = {
     streaks: true,
     bookmarks: true,
     timers: true,
+    mistakes: true,
+    attemptHistory: true,
+    analyticsCharts: true,
+    periodFilters: true,
   }),
 };
 
