@@ -499,11 +499,13 @@
         return Q('Mixed operations', a + ' ' + TIMES + ' ' + b + ' ' + MINUS + ' ' + c + ' ' + TIMES + ' ' + d,
           a + '*' + b + '-' + c + '*' + d, rat(a * b - c * d), 13);
       case 'G':
-        a = r.int(2, 19); b = r.int(2, 19); c = r.int(2, 9); d = r.int(2, 20);
+        a = r.int(2, 19); b = r.int(2, 19); c = r.int(2, 9);
+        d = r.int(2, Math.min(20, (a + b) * c - 1));
         return Q('Mixed operations', '(' + a + ' + ' + b + ') ' + TIMES + ' ' + c + ' ' + MINUS + ' ' + d,
           '(' + a + '+' + b + ')*' + c + '-' + d, rat((a + b) * c - d), 4.8);
       case 'H':
-        a = r.int(12, 49); b = r.int(12, 49); c = r.int(2, 9); d = r.int(10, 99);
+        a = r.int(12, 49); b = r.int(12, 49); c = r.int(2, 9);
+        d = r.int(10, Math.min(99, (a + b) * c - 1));
         return Q('Mixed operations', '(' + a + ' + ' + b + ') ' + TIMES + ' ' + c + ' ' + MINUS + ' ' + d,
           '(' + a + '+' + b + ')*' + c + '-' + d, rat((a + b) * c - d), 6.5);
     }
