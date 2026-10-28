@@ -51,6 +51,8 @@ const SERVED = {
     attemptHistory: "app/courses/ActivityHistoryPanel.tsx + app/mt201/page.tsx",
     analyticsCharts: "app/courses/ActivityHistoryPanel.tsx",
     periodFilters: "app/courses/ActivityHistoryPanel.tsx",
+    goals: "app/courses/DailyGoalsPanel.tsx + app/mt201/page.tsx",
+    streaks: "app/courses/DailyGoalsPanel.tsx + app/mt201/page.tsx",
   },
   mt202: {
     theory: "app/mt202/page.tsx",
@@ -66,6 +68,8 @@ const SERVED = {
     attemptHistory: "app/courses/ActivityHistoryPanel.tsx + app/mt202/page.tsx",
     analyticsCharts: "app/courses/ActivityHistoryPanel.tsx",
     periodFilters: "app/courses/ActivityHistoryPanel.tsx",
+    goals: "app/courses/DailyGoalsPanel.tsx + app/mt202/page.tsx",
+    streaks: "app/courses/DailyGoalsPanel.tsx + app/mt202/page.tsx",
   },
   mt203: {
     theory: "app/mt203/player.tsx",
@@ -125,6 +129,8 @@ const EXPECTED = {
     attemptHistory: true,
     analyticsCharts: true,
     periodFilters: true,
+    goals: true,
+    streaks: true,
   }),
   mt202: capabilities({
     theory: true,
@@ -141,6 +147,8 @@ const EXPECTED = {
     attemptHistory: true,
     analyticsCharts: true,
     periodFilters: true,
+    goals: true,
+    streaks: true,
   }),
   mt203: capabilities({
     theory: true,
