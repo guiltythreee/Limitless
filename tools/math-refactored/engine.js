@@ -349,7 +349,7 @@
       var a = r.int(1, b - 1), c = r.int(1, d - 1);
       if (gcd(a, b) !== 1 || gcd(c, d) !== 1) continue;
       var ans = rat(a * c, b * d);
-      var diff = 3.2 + Math.log(b * d) / Math.LN2;
+      var diff = 1.5 + 0.5 * Math.log(b * d) / Math.LN2 + (p.bonus || 0);
       return Q('Fractions', a + '/' + b + ' ' + TIMES + ' ' + c + '/' + d,
         a + '/' + b + '*' + c + '/' + d, ans, diff);
     }
@@ -362,7 +362,7 @@
       var a = r.int(1, b - 1), c = r.int(1, d - 1);
       if (gcd(a, b) !== 1 || gcd(c, d) !== 1) continue;
       var ans = rat(a * d, b * c);
-      var diff = 3.5 + Math.log(b * d) / Math.LN2;
+      var diff = 1.5 + 0.5 * Math.log(b * d) / Math.LN2 + (p.bonus || 0);
       return Q('Fractions', a + '/' + b + ' ' + DIVIDE + ' ' + c + '/' + d,
         a + '/' + b + '/(' + c + '/' + d + ')', ans, diff);
     }
@@ -868,7 +868,7 @@
         ['decMul', 2, { da: 2, dpa: 1, db: 2, dpb: 1 }],
         ['decAdd', 1, { ia: 2, ib: 1, dpa: 2, dpb: 1 }],
         ['div', 1, { dq: 2, dd: 2 }],
-        ['fracMul', 1, { dens: [2, 3, 4, 5, 6, 8] }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 6, 8] }],
+        ['fracMul', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }],
         ['square', 1, { lo: 16, hi: 30 }],
         ['fracToDec', 1, { dens: [4, 5, 8, 16, 20, 25] }],
         ['proportion', 1, { amax: 12 }], ['mean', 1, { lo: 20, hi: 90, spread: 12 }],
@@ -883,7 +883,7 @@
         ['chain', 1, { kind: 'A' }], ['chain', 1, { kind: 'B' }], ['chain', 1, { kind: 'D' }],
         ['decMul', 2, { da: 3, dpa: 1, db: 2, dpb: 1 }], ['decDiv', 1, { dq: 2, dpq: 0, dd: 2, dpd: 1 }],
         ['fracAdd', 2, { dens: [3, 4, 5, 6, 8, 9, 10, 12] }],
-        ['fracMul', 1, { dens: [3, 4, 5, 6, 8, 10, 12] }], ['fracDiv', 1, { dens: [3, 4, 5, 6, 8, 10, 12] }],
+        ['fracMul', 1, { dens: [3, 4, 5, 6, 8, 10, 12], bonus: 2.5 }], ['fracDiv', 1, { dens: [3, 4, 5, 6, 8, 10, 12], bonus: 2.5 }],
         ['pctChange', 2, { set: [10, 15, 20, 25, 30, 35, 40, 12.5], lo: 40, hi: 800, decrease: true }],
         ['pctWhat', 1, { set: [15, 35, 45, 62.5, 12.5, 85, 24, 36], lo: 40, hi: 800 }],
         ['cube', 1, { lo: 8, hi: 20 }], ['sqrtPerfect', 1, { lo: 25, hi: 55 }], ['cbrtPerfect', 1, { lo: 8, hi: 20 }],
@@ -901,7 +901,7 @@
         ['decAdd', 1, { ia: 3, ib: 2, dpa: 2, dpb: 2, bonus: 2.5 }],
         ['chain', 2, { kind: 'C' }], ['chain', 1, { kind: 'E' }],
         ['fracAdd', 2, { dens: [7, 9, 11, 12, 14, 15, 18] }],
-        ['fracMul', 1, { dens: [7, 9, 11, 12, 14, 15, 18] }], ['fracDiv', 1, { dens: [7, 9, 11, 12, 14, 15, 18] }],
+        ['fracMul', 1, { dens: [7, 9, 11, 12, 14, 15, 18], bonus: 4 }], ['fracDiv', 1, { dens: [7, 9, 11, 12, 14, 15, 18], bonus: 4 }],
         ['pow', 1, { bases: [2], elo: 10, ehi: 16, klo: 1, khi: 9 }],
         ['est', 1, { kind: 'mul', alo: 31, ahi: 99, dpa: 1, blo: 201, bhi: 999, dpb: 1 }],
         ['est', 1, { kind: 'div', nlo: 2000, nhi: 99999, dlo: 13, dhi: 98 }],
@@ -925,7 +925,7 @@
         ['est', 2, { kind: 'mul', alo: 301, ahi: 999, dpa: 2, blo: 301, bhi: 999, dpb: 1 }],
         ['est', 1, { kind: 'div', nlo: 20000, nhi: 999999, dlo: 113, dhi: 987 }],
         ['fracAdd', 1, { dens: [11, 13, 14, 15, 16, 18, 21] }],
-        ['fracMul', 1, { dens: [11, 13, 14, 15, 16, 18, 21] }], ['fracDiv', 1, { dens: [11, 13, 14, 15, 16, 18, 21] }],
+        ['fracMul', 1, { dens: [11, 13, 14, 15, 16, 18, 21], bonus: 6 }], ['fracDiv', 1, { dens: [11, 13, 14, 15, 16, 18, 21], bonus: 6 }],
         ['pctChange', 1, { set: [17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5], lo: 400, hi: 8000, decrease: true }],
         ['sqrtApprox', 1, { lo: 500, hi: 9999 }],
         ['pow', 1, { bases: [3, 6, 7, 12], elo: 4, ehi: 8, klo: 3, khi: 9 }],
