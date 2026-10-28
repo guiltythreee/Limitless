@@ -207,20 +207,25 @@ export function recordTest(t: TestRecord) {
       ? "intermediate"
       : "foundational";
   const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
-  const enoughAnswers = t.total > 0 && t.answered >= Math.min(5, t.total);
-  const passed = enoughAnswers && quality >= 0.8;
-  const labelKey = t.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 100) || "mixed";
-  const passKey = `probability:assessment-pass:${labelKey}`;
-  recordGlobalReward({
-    module: "probability",
-    eventId: `probability:test:${t.id}`,
-    contentKey: `probability:assessment:${labelKey}`,
-    activityClass: "assessment",
-    difficulty,
-    quality,
-    passed,
-    passKey,
-  });
+  const meaningfulAssessment = t.total >= 5 && t.answered >= 5;
+  const passed = meaningfulAssessment && quality >= 0.8;
+  // Don't award an assessment for an empty or tiny test pool. Those questions
+  // already count through recordAttempt; only a meaningful sample earns the
+  // higher assessment award and one-time first-pass bonus.
+  if (meaningfulAssessment) {
+    const labelKey = t.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 100) || "mixed";
+    const passKey = `probability:assessment-pass:${labelKey}`;
+    recordGlobalReward({
+      module: "probability",
+      eventId: `probability:test:${t.id}`,
+      contentKey: `probability:assessment:${labelKey}`,
+      activityClass: "assessment",
+      difficulty,
+      quality,
+      passed,
+      passKey,
+    });
+  }
 }
 export function toggleBookmark(q: string) {
   commit({ ...state, bookmarks: state.bookmarks.includes(q) ? state.bookmarks.filter((k) => k !== q) : [...state.bookmarks, q] });
