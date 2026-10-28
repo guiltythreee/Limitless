@@ -262,7 +262,7 @@ export const geometricProbability: Lesson = {
 };
 
 export const borelCantelli: Lesson = {
-  id: "borel-cantelli", rank: 9, title: "Limsup, Liminf & Borel–Cantelli", minutes: 14,
+  id: "borel-cantelli", rank: 2, title: "Limsup, Liminf & Borel–Cantelli", minutes: 14,
   description: "Events that happen infinitely often, and when that has probability 0.",
   objective: "Read lim sup and lim inf as “infinitely often” and “eventually always”, and apply the first Borel–Cantelli lemma.",
   body: [
