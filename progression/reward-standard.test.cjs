@@ -124,6 +124,20 @@ test('the level curve begins at 100 EXP and each next level costs 25 more', () =
   assert.equal(Rewards.levelForXp(225).xpForNextLevel, 150);
 });
 
+test('universal reward unlocks are derived from the global level, not any discipline', () => {
+  assert.equal(Rewards.nextUnlockForLevel(1).name, 'First Light');
+  assert.deepEqual(Rewards.unlocksForLevel(1), []);
+  assert.deepEqual(Rewards.unlocksForLevel(5).map((reward) => reward.id), ['first-light', 'scholars-mark']);
+  assert.equal(Rewards.nextUnlockForLevel(5).name, 'Polymath');
+  assert.equal(Rewards.nextUnlockForLevel(30), null);
+  const { ledger } = setup();
+  ledger.recordMany(Array.from({ length: 20 }, (_, i) => ({
+    module: 'probability', eventId: `unlock-${i}`, contentKey: `question-${i}`, activityClass: 'standard-task'
+  })));
+  assert.equal(ledger.summary().level, 2);
+  assert.deepEqual(ledger.summary().unlockedRewards.map((reward) => reward.id), ['first-light']);
+});
+
 test('invalid events do not alter the ledger and storage errors fail closed', () => {
   const { ledger } = setup();
   assert.equal(ledger.record({ module: 'probability' }).ok, false);
