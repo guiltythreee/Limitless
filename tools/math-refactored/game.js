@@ -964,7 +964,7 @@
 
     /* step 4: post-test */
     var s4 = U.h('div', 'trick-step');
-    var t4 = U.h('div', 's-text'); t4.appendChild(U.h('b', '', '4. Post-test. ')); t4.appendChild(document.createTextNode(rec.post ? 'Latest: ' + U.statCell(rec.post) + '.' : '6 fresh questions with no help, compared with your baseline.'));
+    var t4 = U.h('div', 's-text'); t4.appendChild(U.h('b', '', '4. Post-test. ')); t4.appendChild(document.createTextNode((rec.post ? 'Latest: ' + U.statCell(rec.post) + '. ' : '6 fresh questions with no help, compared with your baseline. ') + (!window.MathTrickProgression.canTakePostTest(rec) ? 'Complete at least one practice run after the latest baseline (or after skipping it) to unlock the post-test.' : 'Ready when you are.')));
     s4.appendChild(t4);
     var b4 = U.h('button', 'button button-primary small', rec.post ? 'Retake post-test' : 'Take post-test'); b4.type = 'button'; b4.disabled = !unlocked || !window.MathTrickProgression.canTakePostTest(rec);
     b4.addEventListener('click', function () { startRun({ trick: { id: tr.id, phase: 'post' } }); });
