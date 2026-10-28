@@ -7,6 +7,7 @@
   var GAME_KEY = 'bookkeys:game';
   var SEEN_KEY = 'limitless.reward.bookkeys-seen.v1';
   var MODULE = 'bookkeys';
+  var MIN_PAGES_FOR_BOOK_MILESTONE = 3;
 
   function readJson(raw, fallback) {
     try { return raw ? JSON.parse(raw) : fallback; } catch (error) { return fallback; }
@@ -79,7 +80,8 @@
     var oldBooks = {};
     (previous.books || []).forEach(function (bookKey) { oldBooks[bookKey] = true; });
     (next.books || []).forEach(function (bookKey) {
-      if (!oldBooks[bookKey] && !awardBook(bookKey)) allRewardsSaved = false;
+      var completedPages = (next.pages[bookKey] || []).length;
+      if (!oldBooks[bookKey] && completedPages >= MIN_PAGES_FOR_BOOK_MILESTONE && !awardBook(bookKey)) allRewardsSaved = false;
     });
     // If localStorage rejects a reward write, keep the old baseline so a later
     // storage event or reload retries it. Successful event IDs are idempotent.
