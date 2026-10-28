@@ -5,6 +5,7 @@ on:
     paths:
       - "metallurgy-source/app/platform/learning/**"
       - "metallurgy-source/app/courses/BookmarksPanel.tsx"
+      - "metallurgy-source/app/courses/ActivityHistoryPanel.tsx"
       - "metallurgy-source/app/courses/manifests/mt201.ts"
       - "metallurgy-source/app/courses/manifests/mt202.ts"
       - "metallurgy-source/app/courses/manifests/mt203.ts"
@@ -35,6 +36,7 @@ on:
     paths:
       - "metallurgy-source/app/platform/learning/**"
       - "metallurgy-source/app/courses/BookmarksPanel.tsx"
+      - "metallurgy-source/app/courses/ActivityHistoryPanel.tsx"
       - "metallurgy-source/app/courses/manifests/mt201.ts"
       - "metallurgy-source/app/courses/manifests/mt202.ts"
       - "metallurgy-source/app/courses/manifests/mt203.ts"
