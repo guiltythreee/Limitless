@@ -23,7 +23,7 @@ const MANIFEST = MT201_ENTRY.manifest;
 const TOPICS = MANIFEST.topics;
 const TOTAL = TOPICS.reduce((sum, t) => sum + t.count, 0);
 const titleOf = (id: string) => TOPICS.find((t) => t.id === id)?.title ?? id;
-const topicOfBookmark = (id: string) => /^(ch\\d+)-q\\d+$/.exec(id)?.[1];
+const topicOfBookmark = (id: string) => /^(ch\d+)-q\d+$/.exec(id)?.[1];
 
 type View = { kind: "study"; ch: string; questionId?: string } | { kind: "exam" } | { kind: "bookmarks" };
 
