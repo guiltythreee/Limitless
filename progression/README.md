@@ -40,6 +40,20 @@ The final award is rounded to the nearest integer.
 
 The EXP cost from level L to L+1 is `100 + 25 × (L - 1)`. Thus Level 1 → 2 costs 100 EXP, Level 2 → 3 costs 125 EXP, and Level 3 → 4 costs 150 EXP.
 
+## Universal level rewards
+
+Unlocks are derived directly from the account-wide level, regardless of which discipline earned the EXP. LSR-1 initially defines:
+
+| Level | Reward | Type |
+| ---: | --- | --- |
+| 2 | First Light | Title |
+| 5 | Scholar's Mark | Emblem |
+| 10 | Polymath | Title |
+| 20 | Keeper of Knowledge | Title |
+| 30 | Limitless Sigil | Emblem |
+
+The dashboard shows unlocked rewards and the next milestone. This first pass defines and tracks the reward catalogue; equipping alternate titles or rendering the emblem as an in-module cosmetic is a separate UI enhancement.
+
 ## Initial adapters
 
 - **Bookkeys:** 10 EXP for each newly completed real book page; 50 EXP once when a book's required sections are complete and at least 3 pages have been typed. The bridge seeds a baseline on its first run so legacy pages are not retroactively rewarded. Short one-page PDFs cannot farm the completion milestone.
