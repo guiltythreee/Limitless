@@ -33,6 +33,17 @@
       mount.appendChild(element('p', 'global-progress-caption',
         summary.xpIntoLevel.toLocaleString() + ' / ' + summary.xpForNextLevel.toLocaleString() +
         ' EXP toward Level ' + (summary.level + 1)));
+      if (summary.nextReward) {
+        mount.appendChild(element('p', 'global-progress-caption',
+          'Next reward · ' + summary.nextReward.name + ' at Level ' + summary.nextReward.level));
+      } else {
+        mount.appendChild(element('p', 'global-progress-caption', 'All currently defined global rewards unlocked.'));
+      }
+      var unlocked = summary.unlockedRewards || [];
+      if (unlocked.length) {
+        mount.appendChild(element('p', 'global-progress-unlocked',
+          'Unlocked · ' + unlocked.map(function (reward) { return reward.name; }).join(' · ')));
+      }
     }
     render();
     window.addEventListener('limitless:rewards-updated', render);
