@@ -208,6 +208,17 @@
     }
   };
 
+  /* Remainders are tested separately so the answer format remains unambiguous. */
+  G.divRem = function (r, p) {
+    for (var i = 0; ; i++) {
+      var q = nd(r, p.qd), d = nd(r, p.dd);
+      if (i < 150 && (q < 3 || d < 3 || q % 10 === 0 || d % 10 === 0)) continue;
+      var rem = r.int(1, d - 1), dividend = q * d + rem;
+      var diff = 1.2 + 0.65 * p.qd * p.dd + 0.45 * (p.qd + p.dd);
+      return Q('Division', 'Remainder of ' + dividend + ' ' + DIVIDE + ' ' + d, dividend + '%' + d, rat(rem), diff);
+    }
+  };
+
   /* decimal add/subtract: ia/ib = digits of the whole numbers, dpa/dpb = decimal places */
   G.decAdd = function (r, p) {
     for (var i = 0; ; i++) {
@@ -876,7 +887,7 @@
       recipes: [
         ['mul', 3, { da: 3, db: 2, shortcut: 'any' }],
         ['add', 1, { da: 4, db: 4 }], ['sub', 1, { da: 4, db: 4 }],
-        ['div', 1, { dq: 3, dd: 3 }],
+        ['div', 1, { dq: 3, dd: 3 }], ['divRem', 1, { qd: 3, dd: 2 }],
         ['chain', 1, { kind: 'A' }], ['chain', 1, { kind: 'B' }], ['chain', 1, { kind: 'D' }],
         ['decAdd', 1, { ia: 3, ib: 3, dpa: 2, dpb: 1 }],
         ['decMul', 2, { da: 3, dpa: 1, db: 2, dpb: 1 }], ['decDiv', 1, { dq: 2, dpq: 0, dd: 2, dpd: 1 }],
@@ -896,7 +907,7 @@
       recipes: [
         ['mul', 2, { da: 3, db: 3, shortcut: 'any' }], ['mul', 1, { da: 4, db: 2, shortcut: 'any' }],
         ['add', 1, { da: 5, db: 4 }], ['sub', 1, { da: 5, db: 4 }],
-        ['div', 1, { dq: 4, dd: 3 }],
+        ['div', 1, { dq: 4, dd: 3 }], ['divRem', 1, { qd: 4, dd: 2 }],
         ['chain', 2, { kind: 'C' }], ['chain', 1, { kind: 'E' }],
         ['decAdd', 1, { ia: 4, ib: 3, dpa: 2, dpb: 2 }],
         ['fracAdd', 2, { dens: [7, 9, 11, 12, 14, 15, 18] }],
@@ -919,7 +930,7 @@
       recipes: [
         ['mul', 2, { da: 4, db: 3, shortcut: 'any' }], ['mul', 2, { da: 5, db: 2, shortcut: 'any' }],
         ['add', 1, { da: 9, db: 8 }], ['sub', 1, { da: 9, db: 8 }],
-        ['div', 1, { dq: 5, dd: 3 }],
+        ['div', 1, { dq: 5, dd: 3 }], ['divRem', 1, { qd: 5, dd: 3 }],
         ['chain', 2, { kind: 'E' }], ['chain', 2, { kind: 'F' }], ['chain', 1, { kind: 'C' }],
         ['decAdd', 1, { ia: 5, ib: 4, dpa: 2, dpb: 2 }],
         ['decMul', 2, { da: 3, dpa: 2, db: 3, dpb: 1 }],
@@ -1015,7 +1026,7 @@
      SKILLS, DRILLS, DECKS, TRICKS — what the trainer uses on top of tiers
      ================================================================== */
   var RECIPE_SKILL = {
-    add: 'Addition', sub: 'Subtraction', table: 'Multiplication', mul: 'Multiplication', div: 'Division',
+    add: 'Addition', sub: 'Subtraction', table: 'Multiplication', mul: 'Multiplication', div: 'Division', divRem: 'Division',
     decAdd: 'Decimals', decMul: 'Decimals', decDiv: 'Decimals', neg: 'Negatives',
     pctOf: 'Percentages', pctChange: 'Percentages', pctWhat: 'Percentages',
     fracAdd: 'Fractions', fracMul: 'Fractions', fracDiv: 'Fractions', fracOfInt: 'Fractions', fracToDec: 'Fractions',
