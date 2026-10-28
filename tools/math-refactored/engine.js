@@ -227,7 +227,7 @@
       if (ans.n === 0) continue;
       var s1 = fmtScaled(A, p.dpa), s2 = fmtScaled(B, p.dpb);
       return Q('Decimals', s1 + ' ' + (plus ? '+' : MINUS) + ' ' + s2, s1 + (plus ? '+' : '-') + s2, ans,
-        0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb));
+        0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb) + (p.bonus || 0));
     }
   };
 
