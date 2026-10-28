@@ -71,6 +71,29 @@
     return grouped;
   }
 
+  /* Merge local and uploaded skill-by-tier summaries, keeping local data more influential. */
+  function skillTierStats() {
+    var loc = localSkillTierStats(), prof = S.load(KEY_PROFILE, null), pri = (prof && prof.skillTiers) || {}, out = {};
+    var skills = {};
+    Object.keys(loc).forEach(function (k) { skills[k] = 1; });
+    Object.keys(pri).forEach(function (k) { skills[k] = 1; });
+    Object.keys(skills).forEach(function (skill) {
+      out[skill] = {};
+      var tiers = {};
+      Object.keys(loc[skill] || {}).forEach(function (k) { tiers[k] = 1; });
+      Object.keys(pri[skill] || {}).forEach(function (k) { tiers[k] = 1; });
+      Object.keys(tiers).forEach(function (tier) {
+        var l = loc[skill] && loc[skill][tier], p = pri[skill] && pri[skill][tier];
+        if (l && !p) { out[skill][tier] = { n: l.n, acc: l.acc, ratio: l.ratio, medTime: l.medTime, src: 'local' }; return; }
+        if (p && !l) { out[skill][tier] = { n: p.n, acc: p.acc, ratio: p.ratio, medTime: p.medTime, src: 'uploaded' }; return; }
+        var wl = l.n, wp = Math.min(p.n, SKILL_WINDOW) * 0.7, w = wl + wp;
+        out[skill][tier] = { n: l.n + Math.round(wp), acc: (l.acc * wl + p.acc * wp) / w,
+          ratio: (l.ratio * wl + p.ratio * wp) / w, medTime: (l.medTime * wl + p.medTime * wp) / w, src: 'mixed' };
+      });
+    });
+    return out;
+  }
+
   /* local attempts blended with an uploaded analysis (the uploaded one counts a little less) */
   function skillStats() {
     var loc = localSkillStats(), prof = S.load(KEY_PROFILE, null), pri = (prof && prof.skills) || {}, out = {};
@@ -129,6 +152,7 @@
     kindFor: kindFor,
     localSkillStats: localSkillStats,
     localSkillTierStats: localSkillTierStats,
+    skillTierStats: skillTierStats,
     skillStats: skillStats,
     analyse: analyse,
     prescription: prescription,
