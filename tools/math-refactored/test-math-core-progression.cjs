@@ -18,7 +18,7 @@ function assertNear(actual, expected, label) {
 function independentlyEvaluate(q) {
   let m;
   if (q.id === 'divRem') {
-    m = q.text.match(/^Remainder: (\\d+) ÷ (\\d+)$/);
+    m = q.text.match(/^Remainder: (\d+) ÷ (\d+)$/);
     assert.ok(m, 'Unexpected remainder prompt: ' + q.text);
     const dividend = Number(m[1]), divisor = Number(m[2]);
     assert.notEqual(dividend % divisor, 0, q.text + ': remainder questions should not be exact divisions');
