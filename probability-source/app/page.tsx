@@ -7,6 +7,7 @@ import Practice from "./components/Practice";
 import Analysis from "./components/Analysis";
 import Test from "./components/Test";
 import TopicTree from "./components/TopicTree";
+import Coverage from "./components/Coverage";
 import { allQuestions } from "./lib/questions";
 import { latestByQuestion, markComplete, resetAll, useHydrated, useStore } from "./lib/store";
 import { goalInfo } from "./lib/stats";
@@ -39,7 +40,7 @@ export default function Home() {
   const [section, setSection] = useState<Section>("theory");
   const [rolls, setRolls] = useState<number[]>([]);
   const [rollCount, setRollCount] = useState(100);
-  const [tab, setTab] = useState<"archive" | "analysis" | "experiment">("archive");
+  const [tab, setTab] = useState<"archive" | "analysis" | "experiment" | "coverage">("archive");
   const [pathwayId, setPathwayId] = useState<string>("all");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const articleRef = useRef<HTMLElement>(null);
@@ -129,6 +130,7 @@ export default function Home() {
             <button onClick={() => setTab("archive")} className={tab === "archive" ? "text-gold" : "hover:text-parchment"}>The Archive</button>
             <button onClick={() => setTab("analysis")} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Analysis</button>
             <button onClick={() => setTab("experiment")} className={tab === "experiment" ? "text-gold" : "hover:text-parchment"}>Experiment</button>
+            <button onClick={() => { setTab("coverage"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "coverage" ? "text-gold" : "hover:text-parchment"}>Coverage</button>
             <a href="#path" className="hover:text-parchment">Pathway</a>
           </nav>
           <div className="flex items-center gap-2">
@@ -177,11 +179,14 @@ export default function Home() {
             <button onClick={() => setTab("archive")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "archive" ? "bg-gold text-ongold" : "text-dim"}`}>Lessons</button>
             <button onClick={() => setTab("analysis")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "analysis" ? "bg-gold text-ongold" : "text-dim"}`}>Analysis</button>
             <button onClick={() => setTab("experiment")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "experiment" ? "bg-gold text-ongold" : "text-dim"}`}>Experiments</button>
+            <button onClick={() => setTab("coverage")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "coverage" ? "bg-gold text-ongold" : "text-dim"}`}>Coverage</button>
           </div>
         </div>
 
         {tab === "analysis" ? (
           <Analysis />
+        ) : tab === "coverage" ? (
+          <Coverage />
         ) : tab === "archive" ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-[270px_minmax(0,1fr)] lg:grid-cols-[300px_minmax(0,1fr)]">
             <TopicPicker activeId={opened ? activeId : ""} completed={completed} onChoose={chooseLesson} title={opened ? activeLesson.title : "Choose a topic"} unit={opened ? unitOf[activeLesson.id] : ""} pathwayId={pathwayId} onPathwayChange={changePathway} />
