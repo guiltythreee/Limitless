@@ -9,6 +9,10 @@ import { theoryAdditions, geometricProbability, borelCantelli } from "./chapter1
 import { problemsA } from "./chapter1-problems-a";
 import { problemsB } from "./chapter1-problems-b";
 import { problemsC } from "./chapter1-problems-c";
+import { pathwayLessons } from "./pathway-lessons";
+
+export { pathways } from "./pathways";
+export { coverageAreas } from "./coverage";
 
 export * from "./types";
 export * from "./backgrounds";
@@ -18,7 +22,7 @@ const rank09Order = [
   "sample-space", "events-operations", "set-theory", "mutually-exclusive", "exhaustive-partitions",
   "counting", "combinations", "multinomials",
   "axioms", "properties", "equally-likely", "probability-counting", "geometric-probability",
-  "de-morgan", "continuity", "borel-cantelli",
+  "de-morgan", "continuity",
 ];
 const position = (l: Lesson) => {
   if (l.rank !== 9) return 0;
@@ -52,7 +56,7 @@ const enrich = (l: Lesson): Lesson => {
 };
 
 // Lessons are listed from rank 09 down to rank 00, in teaching order.
-export const lessons: Lesson[] = [...rank09, ...rank09Extra, geometricProbability, borelCantelli, ...legacyLessons]
+export const lessons: Lesson[] = [...rank09, ...rank09Extra, geometricProbability, borelCantelli, ...legacyLessons, ...pathwayLessons]
   .map(enrich)
   .sort((a, b) => b.rank - a.rank || position(a) - position(b));
 
