@@ -16,9 +16,10 @@ import Link from "next/link";
 import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { mdInline, mdToHtml } from "../lib/md";
 import Tex from "../lib/tex";
-import { activityLog, loadProgress, loadTheme, Progress, resetProgress, saveTheme, toggleBookmark } from "../lib/progress";
+import { activityLog, loadProgress, loadTheme, Progress, resetProgress, saveTheme, setDailyGoal, toggleBookmark } from "../lib/progress";
 import BookmarksPanel from "../courses/BookmarksPanel";
 import ActivityHistoryPanel from "../courses/ActivityHistoryPanel";
+import DailyGoalsPanel from "../courses/DailyGoalsPanel";
 import Exam from "./exam";
 import Quiz from "./quiz";
 import { MT202_ENTRY, MT202_LESSONS } from "../courses/entries/mt202";
@@ -44,7 +45,8 @@ type View =
   | { kind: "calc" }
   | { kind: "bookmarks" }
   | { kind: "history" }
-  | { kind: "mistakes" };
+  | { kind: "mistakes" }
+  | { kind: "goals" };
 
 export default function Mt202() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -173,6 +175,14 @@ export default function Mt202() {
             </button>
 
             <button
+              className={`ch-item ${view.kind === "goals" ? "active" : ""}`}
+              onClick={() => setView({ kind: "goals" })}
+            >
+              <span className="ch-num">◎</span>
+              <span className="ch-title">Daily goal &amp; streak</span>
+            </button>
+
+            <button
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
               onClick={() => setView({ kind: "exam" })}
             >
@@ -225,6 +235,14 @@ export default function Mt202() {
               resolveTopic={topicOfBookmark}
               onOpen={(questionId, topicId) => setView({ kind: "study", ch: topicId, tab: "quiz", questionId })}
               onRemove={(questionId) => setProgress(toggleBookmark(progress, questionId))}
+            />
+          )}
+          {view.kind === "goals" && progress && (
+            <DailyGoalsPanel
+              activities={activityLog.load()}
+              goal={progress.goal}
+              goalByDay={progress.goalByDay}
+              onSetGoal={(goal) => setProgress(setDailyGoal(progress, goal))}
             />
           )}
           {view.kind === "history" && progress && (
