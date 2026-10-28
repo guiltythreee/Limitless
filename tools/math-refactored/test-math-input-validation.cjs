@@ -37,7 +37,7 @@ expectValue('1/1,000', 1, 1000, 'grouped fraction denominator');
 expectValue('0', 0, 1, 'zero');
 
 for (const input of ['1,2', '12,34', '1234,567', '1,,000', ',123', '1,', '1,23,456', '1,000.2,3', '1/2,00', '1,000/2,00',
-  '1/2/3', '1.2.3', '1-2', '--3']) {
+  '1/2/3', '1.2.3', '1-2', '--3', '1abc2', '12.3xyz', '1/2garbage']) {
   assert.equal(cleanAnswer(input), input, 'UI cleaning must preserve malformed numeric punctuation for validation: ' + input);
   expectInvalid(cleanAnswer(input));
 }
@@ -49,5 +49,9 @@ for (const input of ['1,234', '-1,234.50', '1,000/2', '1/1,000']) {
   assert.ok(E.parseInput(cleanAnswer(input)), 'valid grouped input should parse after UI cleaning: ' + input);
 }
 assert.equal(cleanAnswer('−12.5'), '-12.5', 'Unicode minus must normalize to ASCII minus');
+for (const input of ['1abc2', '12.3xyz', '1/2garbage', '12345678901234567890']) {
+  assert.equal(cleanAnswer(input), input, 'UI must not silently rewrite pasted content: ' + input);
+  expectInvalid(cleanAnswer(input));
+}
 expectValue(cleanAnswer('−12.5'), -25, 2, 'Unicode minus through UI cleaning');
 console.log('Answer-input parsing and UI-to-parser checks passed (9 valid formats, 20 invalid inputs, UI grouping and negative signs preserved).');
