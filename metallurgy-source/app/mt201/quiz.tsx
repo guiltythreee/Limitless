@@ -7,8 +7,8 @@
 // renders them through the shared qview wrapper. Progress keys are unchanged
 // (`ch01-q12`), so existing saved progress keeps working exactly as before.
 
-import { useMemo, useState } from "react";
-import { Progress, qid, recordAnswer } from "./progress";
+import { useEffect, useMemo, useState } from "react";
+import { Progress, qid, recordAnswer, toggleBookmark } from "./progress";
 import type { Question } from "../courses/types";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 
@@ -17,17 +17,24 @@ export default function Quiz({
   questions,
   progress,
   onProgress,
+  initialQuestionId,
 }: {
   topicId: string;
   questions: Question[];
   progress: Progress;
   onProgress: (p: Progress) => void;
+  initialQuestionId?: string;
 }) {
   const [idx, setIdx] = useState(0);
   const [peeked, setPeeked] = useState<Record<number, boolean>>({});
   const [done, setDone] = useState(false);
 
   const qs = questions;
+  useEffect(() => {
+    if (!initialQuestionId) return;
+    const target = qs.findIndex((item) => qid(topicId, item.n) === initialQuestionId);
+    if (target >= 0) { setIdx(target); setDone(false); }
+  }, [initialQuestionId, qs, topicId]);
   const q = qs[Math.min(idx, qs.length - 1)];
 
   const stateFor = (n: number) => progress.answered[qid(topicId, n)];
@@ -91,6 +98,15 @@ export default function Quiz({
       </div>
 
       <div className="qwrap">
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.4rem" }}>
+          <button
+            className="btn"
+            aria-pressed={(progress.bookmarks ?? []).includes(qid(topicId, q.n))}
+            onClick={() => onProgress(toggleBookmark(progress, qid(topicId, q.n)))}
+          >
+            {(progress.bookmarks ?? []).includes(qid(topicId, q.n)) ? "★ Bookmarked" : "☆ Bookmark"}
+          </button>
+        </div>
         <QuestionMeta q={q} />
         <QuestionBody q={q} />
         <OptionList q={q} picked={rec?.choice} onPick={pick} locked={Boolean(rec)} />
