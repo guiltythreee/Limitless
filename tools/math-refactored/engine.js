@@ -412,10 +412,12 @@
   /* estimation: exact match auto-advances, anything within 1% counts on Enter */
   G.est = function (r, p) {
     var truth, text, expr, diff;
+    var rel = p.rel == null ? 0.01 : p.rel;
+    var baseDiff = p.baseDiff == null ? 7 : p.baseDiff;
     if (p.kind === 'div') {
       var N = r.int(p.nlo, p.nhi), D = r.int(p.dlo, p.dhi);
       truth = rat(N, D); text = N + ' ' + DIVIDE + ' ' + D + ' ≈ ?'; expr = N + '/' + D;
-      diff = 7 + 0.7 * digits(N) + 0.7 * digits(D);
+      diff = baseDiff + 0.7 * digits(N) + 0.7 * digits(D);
     } else {
       var A = r.int(p.alo, p.ahi), B = r.int(p.blo, p.bhi);
       if (A % 10 === 0) A += 1;
@@ -423,11 +425,12 @@
       var sa = fmtScaled(A, p.dpa), sb = fmtScaled(B, p.dpb);
       truth = rat(A * B, Math.pow(10, p.dpa + p.dpb));
       text = sa + ' ' + TIMES + ' ' + sb + ' ≈ ?'; expr = sa + '*' + sb;
-      diff = 7 + 0.6 * digits(A) * digits(B) + 0.5 * (p.dpa + p.dpb);
+      diff = baseDiff + 0.6 * digits(A) * digits(B) + 0.5 * (p.dpa + p.dpb);
     }
     var tn = truth.n / truth.d;
-    return Q('Estimation', text + '  (within 1%)', expr, rat(Math.floor(tn + 0.5)), diff,
-      { tol: { rel: 0.01, center: tn }, verify: { kind: 'est' } });
+    var toleranceLabel = Math.round(rel * 100);
+    return Q('Estimation', text + '  (within ' + toleranceLabel + '%)', expr, rat(Math.floor(tn + 0.5)), diff,
+      { tol: { rel: rel, center: tn }, verify: { kind: 'est' } });
   };
 
   G.proportion = function (r, p) {
@@ -495,6 +498,16 @@
         } while (a * b <= c * d);
         return Q('Mixed operations', a + ' ' + TIMES + ' ' + b + ' ' + MINUS + ' ' + c + ' ' + TIMES + ' ' + d,
           a + '*' + b + '-' + c + '*' + d, rat(a * b - c * d), 13);
+      case 'G':
+        a = r.int(2, 19); b = r.int(2, 19); c = r.int(2, 9);
+        d = r.int(2, Math.min(20, (a + b) * c - 1));
+        return Q('Mixed operations', '(' + a + ' + ' + b + ') ' + TIMES + ' ' + c + ' ' + MINUS + ' ' + d,
+          '(' + a + '+' + b + ')*' + c + '-' + d, rat((a + b) * c - d), 4.8);
+      case 'H':
+        a = r.int(12, 49); b = r.int(12, 49); c = r.int(2, 9);
+        d = r.int(10, Math.min(99, (a + b) * c - 1));
+        return Q('Mixed operations', '(' + a + ' + ' + b + ') ' + TIMES + ' ' + c + ' ' + MINUS + ' ' + d,
+          '(' + a + '+' + b + ')*' + c + '-' + d, rat((a + b) * c - d), 6.5);
     }
     throw new Error('chain: unknown kind ' + p.kind);
   };
@@ -992,6 +1005,19 @@
   /* extra, easier/harder presets for the advanced skills so a drill can be set at any tier.
      [recipe, weight, settings, tierIndex] */
   var EXTRA = [
+    /* Fill skill-drill gaps without changing the normal tier recipe mix. */
+    ['neg', 1, { ops1: ['+', '-'], ops2: ['+', '-'], lo: 2, hi: 9, zlo: 2, zhi: 9 }, 1],
+    ['fracToDec', 1, { dens: [2, 4, 5, 8, 10] }, 1],
+    ['fracOfInt', 1, { dens: [2, 4, 5, 8], lo: 20, hi: 200 }, 1],
+    ['pow', 1, { bases: [2, 3], elo: 2, ehi: 4, klo: 1, khi: 1 }, 1],
+    ['pow', 1, { bases: [2, 3, 5], elo: 2, ehi: 5, klo: 1, khi: 4 }, 3],
+    ['est', 1, { kind: 'mul', alo: 10, ahi: 99, dpa: 0, blo: 10, bhi: 99, dpb: 0, rel: 0.05, baseDiff: 3.5 }, 1],
+    ['est', 1, { kind: 'mul', alo: 100, ahi: 999, dpa: 0, blo: 10, bhi: 99, dpb: 0, rel: 0.03, baseDiff: 5.5 }, 3],
+    ['chain', 1, { kind: 'G' }, 1],
+    ['chain', 1, { kind: 'H' }, 2],
+    ['add', 1, { da: 5, db: 5 }, 3], ['sub', 1, { da: 5, db: 5 }, 3], ['div', 1, { dq: 3, dd: 3 }, 3],
+    ['add', 1, { da: 7, db: 7 }, 4], ['sub', 1, { da: 7, db: 7 }, 4], ['div', 1, { dq: 4, dd: 3 }, 4],
+    ['add', 1, { da: 9, db: 9 }, 5], ['sub', 1, { da: 9, db: 9 }, 5], ['div', 1, { dq: 5, dd: 4 }, 5],
     ['probCoin', 1, { nlo: 3, nhi: 4 }, 1], ['probDice', 1, { cond: false }, 1],
     ['probCoin', 1, { nlo: 5, nhi: 7, atLeast: true }, 3], ['probDice', 1, { cond: true }, 3], ['probBag', 1, { lo: 2, hi: 6 }, 3],
     ['probCoin', 1, { nlo: 7, nhi: 9, atLeast: true }, 5], ['probBag', 1, { lo: 4, hi: 10 }, 5],
