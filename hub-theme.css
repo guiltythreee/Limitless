@@ -294,3 +294,60 @@ html[data-theme="light"] footer span { color: var(--gold); }
     padding: 28px 16px 34px;
   }
 }
+
+
+/* ---------- LSR-1 global progression ---------- */
+.global-progress-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .72fr);
+  align-items: center;
+  gap: 28px;
+}
+.global-progress-card {
+  width: 100%;
+  padding: 22px 24px;
+  border: 1px solid var(--border);
+  background: rgba(8,7,13,.66);
+  backdrop-filter: blur(8px);
+}
+.global-progress-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.global-progress-level {
+  color: var(--gold-bright);
+  font-size: 1.3rem;
+  font-family: Georgia, serif;
+}
+.global-progress-xp {
+  color: var(--gold);
+  font-size: .82rem;
+  letter-spacing: .04em;
+  text-align: right;
+}
+.global-progress-track {
+  height: 7px;
+  overflow: hidden;
+  background: rgba(180,160,125,.22);
+}
+.global-progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width .25s ease;
+}
+.global-progress-caption {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: .72rem;
+  line-height: 1.5;
+}
+html[data-theme="light"] .global-progress-card {
+  background: rgba(252,247,235,.82);
+}
+@media (max-width: 700px) {
+  .global-progress-section { grid-template-columns: minmax(0,1fr); gap: 18px; }
+  .global-progress-card { padding: 18px 16px; }
+}
