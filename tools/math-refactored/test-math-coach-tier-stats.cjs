@@ -58,6 +58,6 @@ assert.equal(analysed.find(row => row.skill === 'Multiplication' && row.tier ===
 
 const overall = coach.analyse().find(row => row.skill === 'Multiplication');
 assert.equal(overall.n, 10, 'Existing overall skill aggregation remains available');
-assert.ok(coach.prescription(coach.analyse()) !== undefined, 'Existing prescription API remains available');
+assert.ok(coach.prescription(coach.analyse()) !== null, 'Existing prescription API remains available');
 
 console.log('PASS: tier-aware coaching keeps easy- and hard-tier skill performance separate.');
