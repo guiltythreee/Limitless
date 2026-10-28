@@ -35,6 +35,10 @@ export default function Quiz({
   const [done, setDone] = useState(false);
   const [elapsedMs, setElapsedMs] = useState(0);
   const timerStartedAt = useRef<number | null>(null);
+  const elapsedBase = useRef(0);
+
+  const elapsedNow = () =>
+    elapsedBase.current + (timerStartedAt.current === null ? 0 : Date.now() - timerStartedAt.current);
 
   const qs = questions;
   useEffect(() => {
@@ -49,14 +53,37 @@ export default function Quiz({
   useEffect(() => {
     if (!q || stateFor(q.n)) {
       timerStartedAt.current = null;
+      elapsedBase.current = 0;
       setElapsedMs(0);
       return;
     }
-    const started = Date.now();
-    timerStartedAt.current = started;
+
+    elapsedBase.current = 0;
+    timerStartedAt.current = document.hidden ? null : Date.now();
     setElapsedMs(0);
-    const timer = window.setInterval(() => setElapsedMs(Date.now() - started), 250);
-    return () => window.clearInterval(timer);
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        if (timerStartedAt.current !== null) {
+          elapsedBase.current += Date.now() - timerStartedAt.current;
+          timerStartedAt.current = null;
+        }
+      } else if (timerStartedAt.current === null) {
+        timerStartedAt.current = Date.now();
+      }
+      setElapsedMs(Math.round(elapsedNow()));
+    };
+
+    const timer = window.setInterval(() => setElapsedMs(Math.round(elapsedNow())), 250);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      if (timerStartedAt.current !== null) {
+        elapsedBase.current += Date.now() - timerStartedAt.current;
+        timerStartedAt.current = null;
+      }
+    };
     // The selected question and current answer map define one stopwatch.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q?.n, progress.answered]);
@@ -67,8 +94,7 @@ export default function Quiz({
   const pick = (label: string) => {
     const rec = stateFor(q.n);
     if (rec) return; // already recorded — locked
-    const started = timerStartedAt.current;
-    const ms = Math.max(0, Date.now() - (started ?? Date.now()));
+    const ms = Math.max(0, Math.round(elapsedNow()));
     timerStartedAt.current = null;
     onProgress(recordAnswer(progress, qid(topicId, q.n), label, label === q.answer, ms));
   };
@@ -131,7 +157,21 @@ export default function Quiz({
 
       <div className="qwrap">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.6rem", flexWrap: "wrap", marginBottom: "0.4rem" }}>
-          <span className="chip" aria-label="Time on question">⏱ {timeLabel}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+            <span className="chip" aria-label="Time on question">⏱ {timeLabel}</span>
+            {!rec && (
+              <button
+                className="btn"
+                onClick={() => {
+                  elapsedBase.current = 0;
+                  timerStartedAt.current = document.hidden ? null : Date.now();
+                  setElapsedMs(0);
+                }}
+              >
+                Reset timer
+              </button>
+            )}
+          </div>
           <button
             className="btn"
             aria-pressed={(progress.bookmarks ?? []).includes(qid(topicId, q.n))}
