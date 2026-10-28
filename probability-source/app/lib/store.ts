@@ -1,5 +1,17 @@
 import { useSyncExternalStore } from "react";
 import { allQuestions, grade, questionByKey, type Status } from "./questions";
+import type { GlobalRewardInput, RewardDifficulty } from "./reward-types";
+
+function recordGlobalReward(input: GlobalRewardInput) {
+  if (typeof window === "undefined") return;
+  try { window.LimitlessRewards?.record(input); } catch { /* Existing learning progress remains usable if global rewards are unavailable. */ }
+}
+
+function rewardDifficulty(value: string | undefined): RewardDifficulty {
+  if (value === "hard") return "advanced";
+  if (value === "medium") return "intermediate";
+  return "foundational";
+}
 
 /*
   All saved data lives in one localStorage entry ("hc3-progress-v3"):
@@ -142,9 +154,9 @@ export function useHydrated(): boolean {
 
 // ---------- actions ----------
 export function recordAttempt(q: string, picked: number[], ms: number): Attempt | null {
-  const item = questionByKey[q]?.item;
-  if (!item) return null;
-  const g = grade(item, picked);
+  const question = questionByKey[q];
+  if (!question) return null;
+  const g = grade(question.item, picked);
   const ts = Date.now();
   const attempt: Attempt = { id: `${ts}-${Math.random().toString(36).slice(2, 7)}`, q, picked, score: g.score, status: g.status, ms: Math.max(0, Math.round(ms)), ts };
   const today = dayKey(ts);
@@ -155,6 +167,16 @@ export function recordAttempt(q: string, picked: number[], ms: number): Attempt 
     attempts: [...state.attempts, attempt],
     drafts,
     goalByDay: state.goalByDay[today] === undefined ? { ...state.goalByDay, [today]: state.goal } : state.goalByDay,
+  });
+  // One shared EXP event per submitted answer. The stable attempt ID prevents
+  // accidental double-awards if this same record is replayed.
+  recordGlobalReward({
+    module: "probability",
+    eventId: `probability:attempt:${attempt.id}`,
+    contentKey: `probability:question:${q}`,
+    activityClass: "micro-practice",
+    difficulty: rewardDifficulty(question.difficulty),
+    quality: g.score,
   });
   return attempt;
 }
@@ -171,6 +193,30 @@ export function clearDraft(q: string) {
 }
 export function recordTest(t: TestRecord) {
   commit({ ...state, tests: [...state.tests, t] });
+  const attemptedQuestions = t.results
+    .filter((result) => result.status !== "unattempted")
+    .map((result) => questionByKey[result.q])
+    .filter((question): question is NonNullable<typeof question> => Boolean(question));
+  const difficulty: RewardDifficulty = attemptedQuestions.some((question) => question.difficulty === "hard")
+    ? "advanced"
+    : attemptedQuestions.some((question) => question.difficulty === "medium")
+      ? "intermediate"
+      : "foundational";
+  const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
+  const enoughAnswers = t.total > 0 && t.answered >= Math.min(5, t.total);
+  const passed = enoughAnswers && quality >= 0.8;
+  const labelKey = t.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 100) || "mixed";
+  const passKey = `probability:assessment-pass:${labelKey}`;
+  recordGlobalReward({
+    module: "probability",
+    eventId: `probability:test:${t.id}`,
+    contentKey: `probability:assessment:${labelKey}`,
+    activityClass: "assessment",
+    difficulty,
+    quality,
+    passed,
+    passKey,
+  });
 }
 export function toggleBookmark(q: string) {
   commit({ ...state, bookmarks: state.bookmarks.includes(q) ? state.bookmarks.filter((k) => k !== q) : [...state.bookmarks, q] });
