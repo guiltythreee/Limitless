@@ -33,21 +33,22 @@ test('Bookkeys seeds legacy progress without retroactive rewards, then pays a ne
   const app = boot({ xp: 900, books: 3, book: { 'book-hash': { p: [0], c: [], done: 0 } } });
   assert.equal(app.awards.length, 0, 'existing work is baseline, not new global EXP');
 
-  app.setGame({ xp: 920, books: 3, book: { 'book-hash': { p: [0, 1], c: [], done: 0 } } });
-  app.storageEvent();
-  assert.equal(app.awards.length, 1);
-  assert.equal(app.awards[0].eventId, 'bookkeys:page:book-hash:1');
-  assert.equal(app.awards[0].activityClass, 'standard-task');
-
-  app.setGame({ xp: 990, books: 3, book: { 'book-hash': { p: [0, 1], c: [0], done: 1 } } });
+  app.setGame({ xp: 940, books: 3, book: { 'book-hash': { p: [0, 1, 2], c: [], done: 0 } } });
   app.storageEvent();
   assert.equal(app.awards.length, 2);
-  assert.equal(app.awards[1].eventId, 'bookkeys:book:book-hash');
-  assert.equal(app.awards[1].activityClass, 'milestone');
-  assert.equal(app.awards[1].oneTimeKey, 'bookkeys:book:book-hash');
+  assert.equal(app.awards[0].eventId, 'bookkeys:page:book-hash:1');
+  assert.equal(app.awards[1].eventId, 'bookkeys:page:book-hash:2');
+  assert.ok(app.awards.every((award) => award.activityClass === 'standard-task'));
+
+  app.setGame({ xp: 990, books: 3, book: { 'book-hash': { p: [0, 1, 2], c: [0], done: 1 } } });
+  app.storageEvent();
+  assert.equal(app.awards.length, 3);
+  assert.equal(app.awards[2].eventId, 'bookkeys:book:book-hash');
+  assert.equal(app.awards[2].activityClass, 'milestone');
+  assert.equal(app.awards[2].oneTimeKey, 'bookkeys:book:book-hash');
 
   app.storageEvent();
-  assert.equal(app.awards.length, 2, 'unchanged storage state cannot pay again');
+  assert.equal(app.awards.length, 3, 'unchanged storage state cannot pay again');
 });
 
 test('Bookkeys does not award sample-only or uncompleted-book activity', () => {
@@ -56,4 +57,12 @@ test('Bookkeys does not award sample-only or uncompleted-book activity', () => {
   app.setGame({ xp: 25, book: { sample: { p: [], c: [], done: 0 } } });
   app.storageEvent();
   assert.equal(app.awards.length, 0);
+});
+
+test('a one-page PDF can earn its page award but not the book-completion milestone', () => {
+  const app = boot(null);
+  app.setGame({ xp: 80, book: { shortPdf: { p: [0], c: [0], done: 1 } } });
+  app.storageEvent();
+  assert.equal(app.awards.length, 1);
+  assert.equal(app.awards[0].eventId, 'bookkeys:page:shortPdf:0');
 });
