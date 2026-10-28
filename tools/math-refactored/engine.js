@@ -289,7 +289,7 @@
       var N = step * r.int(lo, hi);
       var easy = [5, 10, 20, 25, 50].indexOf(pct) >= 0;
       /* Non-friendly percentages need more mental work; decimal percentages add a further step. */
-      var diff = 1.6 + (p10 % 10 !== 0 ? 0.9 : 0) + 0.45 * digits(N) + 0.5 * dp + (!easy ? 1.0 : 0) + (dp > 0 ? 1.5 : 0) - (easy ? 0.9 : 0);
+      var diff = 1.6 + (p10 % 10 !== 0 ? 0.9 : 0) + 0.45 * digits(N) + 0.5 * dp + (!easy ? 1.0 : 0) + (dp > 0 ? 1.5 : 0) - (easy ? 0.9 : 0) + (p.bonus || 0);
       return Q('Percentages', pct + '% of ' + N, pct + '/100*' + N, rat(N * p10, 1000), diff);
     }
     throw new Error('pctOf: could not generate');
@@ -304,7 +304,7 @@
       var lo = Math.ceil(p.lo / step), hi = Math.floor(p.hi / step);
       if (hi < lo) continue;
       var old = step * r.int(lo, hi), nw = old * factor / 1000;
-      var diff = 4.5 + (p10 % 10 !== 0 ? 1.2 : 0) + 0.7 * digits(old);
+      var diff = 4.5 + (p10 % 10 !== 0 ? 1.2 : 0) + 0.7 * digits(old) + (p.bonus || 0);
       return Q('Percentages', old + ' → ' + nw + '  (% change)', '(' + nw + '-' + old + ')/' + old + '*100',
         rat(up ? p10 : -p10, 10), diff);
     }
@@ -319,7 +319,7 @@
       if (hi < lo) continue;
       var B = step * r.int(lo, hi), A = B * p10 / 1000;
       if (A === B || A < 1) continue;
-      var diff = 4.5 + (p10 % 10 !== 0 ? 0.8 : 0) + 0.4 * digits(B);
+      var diff = 4.5 + (p10 % 10 !== 0 ? 0.8 : 0) + 0.4 * digits(B) + (p.bonus || 0);
       return Q('Percentages', A + ' is what % of ' + B + '?', A + '/' + B + '*100', rat(p10, 10), diff);
     }
     throw new Error('pctWhat: could not generate');
@@ -819,6 +819,7 @@
       recipes: [
         ['add', 3, { da: 2, db: 2 }], ['sub', 3, { da: 2, db: 2 }],
         ['table', 2, { lo: 3, hi: 12 }], ['div', 2, { dq: 1, dd: 1 }],
+        ['pctOf', 1, { set: EASY_PCT, lo: 20, hi: 100, dp: 0 }],
         ['square', 1, { lo: 2, hi: 15 }], ['mul', 1, { da: 2, db: 1, shortcut: 'any' }]
       ] },
     { id: 'scribe', name: 'Scribe', label: 'Easy+', emblem: '✶', accuracy: 0.95,
@@ -828,6 +829,8 @@
         ['mul', 3, { da: 2, db: 1, shortcut: 'any' }], ['div', 2, { dq: 2, dd: 1 }],
         ['decAdd', 2, { ia: 1, ib: 1, dpa: 1, dpb: 1 }], ['decMul', 1, { da: 1, dpa: 1, db: 1, dpb: 0 }],
         ['square', 1, { lo: 11, hi: 25 }], ['pctOf', 1, { set: EASY_PCT, lo: 40, hi: 400, dp: 0 }],
+        ['pctChange', 1, { set: [5, 10, 20, 25], lo: 20, hi: 200, decrease: true, bonus: -2.5 }],
+        ['pctWhat', 1, { set: [10, 20, 25, 50], lo: 20, hi: 200, bonus: -1.5 }],
         ['proportion', 1, { amax: 8 }], ['mean', 1, { nlo: 3, nhi: 3, lo: 3, hi: 20, spread: 4 }]
       ] },
     { id: 'adept', name: 'Adept', label: 'Medium', emblem: '❂', accuracy: 0.95,
@@ -838,6 +841,8 @@
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 6, hi: 25, zlo: 10, zhi: 99 }],
         ['neg', 1, { ops1: ['+', '-'], ops2: ['+', '-'], lo: 20, hi: 99, zlo: 20, zhi: 99 }],
         ['pctOf', 2, { set: MID_PCT, lo: 80, hi: 900, dp: 0 }],
+        ['pctChange', 1, { set: [5, 10, 20, 25], lo: 40, hi: 400, decrease: true, bonus: -1.5 }],
+        ['pctWhat', 1, { set: MID_PCT, lo: 80, hi: 900, bonus: 0.5 }],
         ['decMul', 2, { da: 2, dpa: 1, db: 2, dpb: 1 }],
         ['decAdd', 1, { ia: 2, ib: 1, dpa: 2, dpb: 1 }],
         ['div', 1, { dq: 2, dd: 2 }], ['square', 1, { lo: 16, hi: 30 }],
@@ -854,6 +859,7 @@
         ['fracAdd', 2, { dens: [3, 4, 5, 6, 8, 9, 10, 12] }],
         ['pctChange', 2, { set: [10, 15, 20, 25, 30, 35, 40, 12.5], lo: 40, hi: 800, decrease: true }],
         ['pctWhat', 1, { set: [15, 35, 45, 62.5, 12.5, 85, 24, 36], lo: 40, hi: 800 }],
+        ['pctOf', 1, { set: MID_PCT, lo: 100, hi: 1500, dp: 0, bonus: 2.5 }],
         ['cube', 1, { lo: 8, hi: 20 }], ['sqrtPerfect', 1, { lo: 25, hi: 55 }], ['cbrtPerfect', 1, { lo: 8, hi: 20 }],
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 12, hi: 60, zlo: 20, zhi: 199 }],
         ['fracToDec', 1, { dens: [32, 64, 80, 125, 128, 160] }],
@@ -872,6 +878,7 @@
         ['est', 1, { kind: 'div', nlo: 2000, nhi: 99999, dlo: 13, dhi: 98 }],
         ['pctChange', 2, { set: [12.5, 17.5, 22.5, 27.5, 32.5, 7.5, 37.5], lo: 80, hi: 1600, decrease: true }],
         ['pctOf', 1, { set: HARD_PCT, lo: 200, hi: 4000, dp: 1 }],
+        ['pctWhat', 1, { set: HARD_PCT, lo: 200, hi: 4000, bonus: 2.5 }],
         ['sqrtApprox', 1, { lo: 20, hi: 500 }],
         ['square', 1, { lo: 55, hi: 125, five: true }], ['mul', 1, { near100: true }],
         ['decDiv', 1, { dq: 2, dpq: 1, dd: 2, dpd: 1 }],
@@ -888,7 +895,9 @@
         ['est', 2, { kind: 'mul', alo: 301, ahi: 999, dpa: 2, blo: 301, bhi: 999, dpb: 1 }],
         ['est', 1, { kind: 'div', nlo: 20000, nhi: 999999, dlo: 113, dhi: 987 }],
         ['fracAdd', 1, { dens: [11, 13, 14, 15, 16, 18, 21] }],
-        ['pctChange', 1, { set: [17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5], lo: 400, hi: 8000, decrease: true }],
+        ['pctChange', 1, { set: [17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5], lo: 400, hi: 8000, decrease: true, bonus: 2 }],
+        ['pctOf', 1, { set: HARD_PCT, lo: 1000, hi: 9000, dp: 1, bonus: 3.5 }],
+        ['pctWhat', 1, { set: HARD_PCT, lo: 1000, hi: 9000, bonus: 4 }],
         ['sqrtApprox', 1, { lo: 500, hi: 9999 }],
         ['pow', 1, { bases: [3, 6, 7, 12], elo: 4, ehi: 8, klo: 3, khi: 9 }],
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 21, hi: 99, zlo: 100, zhi: 999 }],
