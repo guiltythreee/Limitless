@@ -114,5 +114,5 @@ const legacy = {
 }
 
 eq(KEY, "mm-mt202-v1", "MT202 storage key remains stable");
-eq(MT202_ENTRY.manifest.capabilities.attemptHistory, false, "attempt-history UI stays disabled");
+eq(MT202_ENTRY.manifest.capabilities.attemptHistory, true, "attempt-history UI is enabled with the history screen");
 console.log(`test-mt202-attempts: ${checks} assertions passed`);
