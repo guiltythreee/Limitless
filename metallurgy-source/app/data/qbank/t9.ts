@@ -228,21 +228,40 @@ const T9: TopicSource = {
       concept: "HALS = regenerative radical trap · UV absorber = dissipates light",
       tags: ["confused"],
     },
-    {
-      id: "t9-13",
-      type: "apply",
-      diff: 4,
-      text: "An outdoor PVC window profile must resist both UV yellowing and thermal degradation during processing and service. The most sensible stabilizer package is:",
-      options: [
-        { label: "a", text: "Only a plasticizer" },
-        { label: "b", text: "A thermal stabilizer (e.g. Ca/Zn or organotin) + a UV package (UV absorber and/or HALS) + process lubricants" },
-        { label: "c", text: "Only a filler such as CaCO₃" },
-        { label: "d", text: "A peroxide cross-linker" },
+        {
+      "id": "t9-13",
+      "type": "apply",
+      "diff": 4,
+      "text": "An outdoor rigid-PVC window profile must survive extrusion heat and years of sunlight. Which additive package best addresses both thermal degradation and UV exposure?",
+      "options": [
+        {
+          "label": "a",
+          "text": "A Ca/Zn heat stabilizer plus processing lubricant, but no absorber/HALS component for long-term exposure to sunlight."
+        },
+        {
+          "label": "b",
+          "text": "A UV absorber/HALS package and lubricant, but no heat stabilizer to reduce dehydrochlorination during hot extrusion."
+        },
+        {
+          "label": "c",
+          "text": "TiO₂ pigment, impact modifier and plasticizer, but no dedicated package for both thermal and UV degradation."
+        },
+        {
+          "label": "d",
+          "text": "A compatible thermal stabilizer, UV absorber/HALS package and processing lubricant selected for the PVC formulation."
+        }
       ],
-      answer: "b",
-      why: "Two threats need two defences: a **thermal stabilizer** for dehydrochlorination during extrusion and service, plus a **UV system** (absorber + HALS) for sunlight. Lubricants and fillers (TiO₂) support processing and opacity.",
-      concept: "stabilizer packages are threat-specific and additive",
-      tags: ["revision"],
+      "answer": "d",
+      "why": "The formulation faces two distinct threats: heat-induced PVC dehydrochlorination during processing and photo-oxidation under sunlight. A compatible thermal stabilizer and UV package address both; lubricants support processing.",
+      "distractors": {
+        "a": "This addresses processing heat but leaves the outdoor UV threat unaddressed.",
+        "b": "This addresses sunlight but leaves PVC vulnerable during hot processing.",
+        "c": "Pigment and impact modification can help other properties but do not replace both stabilizer systems."
+      },
+      "concept": "Build additive packages around the degradation mechanisms the product must resist.",
+      "tags": [
+        "revision"
+      ]
     },
     {
       id: "t9-14",
