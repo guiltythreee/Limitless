@@ -145,7 +145,7 @@ export interface ActivityLog {
   /** Sanitise; derive legacy only when the field is absent. Never writes. */
   load(): Activity[];
   /** Read root, append, persist once, return the new list. */
-  append(input: NewActivity | readonly NewActity[]): Activity[];
+  append(input: NewActivity | readonly NewActivity[]): Activity[];
 }
 
 /**
@@ -158,7 +158,7 @@ export interface ActivityLogConfig<TRoot> {
   storageKey: string;
   read: () => TRoot;
   write: (root: TRoot) => void;
-  /*** The raw value of root.activities (may be undefined on old payloads). */
+  /** The raw value of root.activities (may be undefined on old payloads). */
   getStored: (root: TRoot) => unknown;
   /** Must merge, e.g. (root, activities) => ({ ...root, activities }). */
   setStored: (root: TRoot, activities: readonly Activity[]) => TRoot;
@@ -169,4 +169,3 @@ export interface ActivityLogConfig<TRoot> {
   /** Injectable clock for deterministic tests. */
   now?: () => number;
 }
-
