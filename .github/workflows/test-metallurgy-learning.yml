@@ -16,6 +16,7 @@ on:
       - "metallurgy-source/app/mt203/player.tsx"
       - "metallurgy-source/app/lib/mt203-progress.ts"
       - "metallurgy-source/scripts/test-bookmarks.mjs"
+      - "metallurgy-source/scripts/test-question-timers.mjs"
       - "metallurgy-source/app/mt201/progress.ts"
       - "metallurgy-source/app/mt201/exam.tsx"
       - "metallurgy-source/app/lib/progress.ts"
@@ -45,6 +46,7 @@ on:
       - "metallurgy-source/app/mt203/player.tsx"
       - "metallurgy-source/app/lib/mt203-progress.ts"
       - "metallurgy-source/scripts/test-bookmarks.mjs"
+      - "metallurgy-source/scripts/test-question-timers.mjs"
       - "metallurgy-source/app/mt201/progress.ts"
       - "metallurgy-source/app/mt201/exam.tsx"
       - "metallurgy-source/app/lib/progress.ts"
@@ -97,6 +99,7 @@ jobs:
             scripts/test-mt202-attempts.mjs
             scripts/test-attempt-parity.mjs
             scripts/test-bookmarks.mjs
+            scripts/test-question-timers.mjs
           )
           for test_file in "${tests[@]}"; do
             echo "::group::${test_file}"
