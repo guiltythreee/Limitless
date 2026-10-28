@@ -39,6 +39,7 @@ export const MT202_MANIFEST: CourseManifest = {
     exam: true,
     review: true,
     tools: true,
+    bookmarks: true,
   }),
   units: [], // MT202 has no module grouping in its source
   topics: [
