@@ -12,8 +12,12 @@
 
 import {
   MAX_ACTIVITIES,
+  DEFAULT_DAILY_GOAL,
+  clampDailyGoal,
   createActivityLog,
+  dayKey,
   deriveLegacyActivities,
+  sanitiseGoalByDay,
 } from "../platform/learning";
 import type {
   Activity,
@@ -34,6 +38,10 @@ export type Progress = {
   activities?: Activity[];
   /** Additive saved-question list; absent on legacy payloads. */
   bookmarks?: string[];
+  /** Daily target; absent on legacy payloads. */
+  goal?: number;
+  /** Historical daily targets, local YYYY-MM-DD keys. */
+  goalByDay?: Record<string, number>;
 };
 
 const KEY = "mm-mt202-v1";
@@ -64,6 +72,8 @@ export function loadProgress(): Progress {
       answered: p.answered ?? {},
       examBest: p.examBest ?? null,
       bookmarks: Array.isArray(p.bookmarks) ? [...new Set(p.bookmarks.filter((q) => typeof q === "string" && q.length > 0))] : [],
+      goal: clampDailyGoal(p.goal ?? DEFAULT_DAILY_GOAL),
+      goalByDay: sanitiseGoalByDay(p.goalByDay),
     };
   } catch {
     return { answered: {}, examBest: null };
@@ -85,6 +95,24 @@ export function saveProgress(p: Progress) {
 // in-memory root via logFor(), so the core's single append is also the single
 // persistent write: it carries the in-progress `answered` (and the exam's
 // `examBest`) down together with the merged history, and no save may follow it.
+function withDailyGoalSnapshot(p: Progress, now = Date.now()): Progress {
+  const goal = clampDailyGoal(p.goal ?? DEFAULT_DAILY_GOAL);
+  const goalByDay = sanitiseGoalByDay(p.goalByDay);
+  const today = dayKey(now);
+  if (today && goalByDay[today] === undefined) goalByDay[today] = goal;
+  return { ...p, goal, goalByDay };
+}
+
+export function setDailyGoal(p: Progress, value: number): Progress {
+  const goal = clampDailyGoal(value);
+  const today = dayKey(Date.now());
+  const goalByDay = sanitiseGoalByDay(p.goalByDay);
+  if (today) goalByDay[today] = goal;
+  const next = { ...p, goal, goalByDay };
+  saveProgress(next);
+  return next;
+}
+
 function logConfig(read: () => Progress): ActivityLogConfig<Progress> {
   return {
     courseId: MT202_MANIFEST.id,
@@ -152,7 +180,8 @@ export function recordAnswer(
   // (legacy derives from the PRE-answer `answered`). `load()` only reads;
   // the append below is the ONE write of this answer — answered + history
   // (and every other root field, known or unknown) persist together.
-  return appendAndReturn({ ...next, activities: logFor(p).load() }, [
+  const goalSnapshot = withDailyGoalSnapshot(next, now);
+  return appendAndReturn({ ...goalSnapshot, activities: logFor(p).load() }, [
     { q: key, topicId, picked: choice, correct, mode, ms, ts: now },
   ]);
 }
@@ -212,12 +241,12 @@ export function recordExamAnswers(
   // The single write of the exam flow: the shared log appends the activity
   // batch onto THIS root, so answered + activities + examBest persist together.
   // Nothing may be saved after it.
-  const root: Progress = {
+  const root = withDailyGoalSnapshot({
     ...p,
     answered,
     examBest: best,
     activities: logFor(p).load(),
-  };
+  }, now);
 
   return appendAndReturn(
     root,
