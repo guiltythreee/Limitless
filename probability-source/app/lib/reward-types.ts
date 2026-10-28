@@ -29,6 +29,14 @@ export type GlobalRewardReceipt = {
   level?: number;
 };
 
+export type RewardUnlock = {
+  level: number;
+  id: string;
+  name: string;
+  kind: "title" | "emblem";
+  description: string;
+};
+
 export type RewardSummary = {
   standard: string;
   xp: number;
@@ -39,6 +47,8 @@ export type RewardSummary = {
   progress: number;
   awardCount: number;
   countsByModule?: Record<string, number>;
+  unlockedRewards?: RewardUnlock[];
+  nextReward?: RewardUnlock | null;
   available?: boolean;
 };
 
