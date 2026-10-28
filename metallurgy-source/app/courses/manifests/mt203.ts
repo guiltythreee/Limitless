@@ -48,6 +48,7 @@ export const MT203_MANIFEST: CourseManifest = {
     mastery: true,
     goals: true,
     streaks: true,
+    bookmarks: true,
   }),
   units: [
     {
