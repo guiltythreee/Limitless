@@ -7,10 +7,15 @@
 // renders them through the shared qview wrapper. Progress keys are unchanged
 // (`ch01-q12`), so existing saved progress keeps working exactly as before.
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Progress, qid, recordAnswer, toggleBookmark } from "../lib/progress";
 import type { Question } from "../courses/types";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
+
+const fmtElapsed = (ms: number) => {
+  const seconds = Math.floor(Math.max(0, ms) / 1000);
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+};
 
 export default function Quiz({
   topicId,
@@ -28,6 +33,8 @@ export default function Quiz({
   const [idx, setIdx] = useState(0);
   const [peeked, setPeeked] = useState<Record<number, boolean>>({});
   const [done, setDone] = useState(false);
+  const [elapsedMs, setElapsedMs] = useState(0);
+  const timerStartedAt = useRef<number | null>(null);
 
   const qs = questions;
   useEffect(() => {
@@ -39,13 +46,31 @@ export default function Quiz({
 
   const stateFor = (n: number) => progress.answered[qid(topicId, n)];
 
+  useEffect(() => {
+    if (!q || stateFor(q.n)) {
+      timerStartedAt.current = null;
+      setElapsedMs(0);
+      return;
+    }
+    const started = Date.now();
+    timerStartedAt.current = started;
+    setElapsedMs(0);
+    const timer = window.setInterval(() => setElapsedMs(Date.now() - started), 250);
+    return () => window.clearInterval(timer);
+    // The selected question and current answer map define one stopwatch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q?.n, progress.answered]);
+
   const attempted = qs.filter((x) => stateFor(x.n)).length;
   const correct = qs.filter((x) => stateFor(x.n)?.correct).length;
 
   const pick = (label: string) => {
     const rec = stateFor(q.n);
     if (rec) return; // already recorded — locked
-    onProgress(recordAnswer(progress, qid(topicId, q.n), label, label === q.answer));
+    const started = timerStartedAt.current;
+    const ms = Math.max(0, Date.now() - (started ?? Date.now()));
+    timerStartedAt.current = null;
+    onProgress(recordAnswer(progress, qid(topicId, q.n), label, label === q.answer, "practice", ms));
   };
 
   const dots = useMemo(
@@ -81,6 +106,13 @@ export default function Quiz({
   }
 
   const rec = stateFor(q.n);
+  const questionKey = qid(topicId, q.n);
+  const latestTimedActivity = rec
+    ? [...(progress.activities ?? [])].reverse().find((a) => a.q === questionKey && a.ms > 0)
+    : undefined;
+  const timeLabel = rec
+    ? latestTimedActivity ? fmtElapsed(latestTimedActivity.ms) : "—"
+    : fmtElapsed(elapsedMs);
   const revealed = Boolean(rec) || peeked[q.n];
 
   return (
@@ -98,7 +130,8 @@ export default function Quiz({
       </div>
 
       <div className="qwrap">
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.4rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.6rem", flexWrap: "wrap", marginBottom: "0.4rem" }}>
+          <span className="chip" aria-label="Time on question">⏱ {timeLabel}</span>
           <button
             className="btn"
             aria-pressed={(progress.bookmarks ?? []).includes(qid(topicId, q.n))}
