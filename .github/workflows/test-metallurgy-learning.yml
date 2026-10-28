@@ -4,6 +4,18 @@ on:
   pull_request:
     paths:
       - "metallurgy-source/app/platform/learning/**"
+      - "metallurgy-source/app/courses/BookmarksPanel.tsx"
+      - "metallurgy-source/app/courses/manifests/mt201.ts"
+      - "metallurgy-source/app/courses/manifests/mt202.ts"
+      - "metallurgy-source/app/courses/manifests/mt203.ts"
+      - "metallurgy-source/app/mt201/page.tsx"
+      - "metallurgy-source/app/mt201/quiz.tsx"
+      - "metallurgy-source/app/mt202/page.tsx"
+      - "metallurgy-source/app/mt202/quiz.tsx"
+      - "metallurgy-source/app/mt203/page.tsx"
+      - "metallurgy-source/app/mt203/player.tsx"
+      - "metallurgy-source/app/lib/mt203-progress.ts"
+      - "metallurgy-source/scripts/test-bookmarks.mjs"
       - "metallurgy-source/app/mt201/progress.ts"
       - "metallurgy-source/app/mt201/exam.tsx"
       - "metallurgy-source/app/lib/progress.ts"
@@ -21,6 +33,18 @@ on:
     branches: [main]
     paths:
       - "metallurgy-source/app/platform/learning/**"
+      - "metallurgy-source/app/courses/BookmarksPanel.tsx"
+      - "metallurgy-source/app/courses/manifests/mt201.ts"
+      - "metallurgy-source/app/courses/manifests/mt202.ts"
+      - "metallurgy-source/app/courses/manifests/mt203.ts"
+      - "metallurgy-source/app/mt201/page.tsx"
+      - "metallurgy-source/app/mt201/quiz.tsx"
+      - "metallurgy-source/app/mt202/page.tsx"
+      - "metallurgy-source/app/mt202/quiz.tsx"
+      - "metallurgy-source/app/mt203/page.tsx"
+      - "metallurgy-source/app/mt203/player.tsx"
+      - "metallurgy-source/app/lib/mt203-progress.ts"
+      - "metallurgy-source/scripts/test-bookmarks.mjs"
       - "metallurgy-source/app/mt201/progress.ts"
       - "metallurgy-source/app/mt201/exam.tsx"
       - "metallurgy-source/app/lib/progress.ts"
@@ -72,9 +96,11 @@ jobs:
             scripts/test-mt201-attempts.mjs
             scripts/test-mt202-attempts.mjs
             scripts/test-attempt-parity.mjs
+            scripts/test-bookmarks.mjs
           )
           for test_file in "${tests[@]}"; do
             echo "::group::${test_file}"
             node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs "${test_file}"
             echo "::endgroup::"
           done
+          npx tsc --noEmit --incremental false
