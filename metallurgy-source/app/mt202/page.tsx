@@ -16,8 +16,9 @@ import Link from "next/link";
 import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { mdInline, mdToHtml } from "../lib/md";
 import Tex from "../lib/tex";
-import { loadProgress, loadTheme, Progress, resetProgress, saveTheme, toggleBookmark } from "../lib/progress";
+import { activityLog, loadProgress, loadTheme, Progress, resetProgress, saveTheme, toggleBookmark } from "../lib/progress";
 import BookmarksPanel from "../courses/BookmarksPanel";
+import ActivityHistoryPanel from "../courses/ActivityHistoryPanel";
 import Exam from "./exam";
 import Quiz from "./quiz";
 import { MT202_ENTRY, MT202_LESSONS } from "../courses/entries/mt202";
@@ -41,7 +42,9 @@ type View =
   | { kind: "study"; ch: string; tab: "lesson" | "quiz"; questionId?: string }
   | { kind: "exam" }
   | { kind: "calc" }
-  | { kind: "bookmarks" };
+  | { kind: "bookmarks" }
+  | { kind: "history" }
+  | { kind: "mistakes" };
 
 export default function Mt202() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -155,6 +158,21 @@ export default function Mt202() {
             </button>
 
             <button
+              className={`ch-item ${view.kind === "history" ? "active" : ""}`}
+              onClick={() => setView({ kind: "history" })}
+            >
+              <span className="ch-num">↺</span>
+              <span className="ch-title">Attempt history</span>
+            </button>
+            <button
+              className={`ch-item ${view.kind === "mistakes" ? "active" : ""}`}
+              onClick={() => setView({ kind: "mistakes" })}
+            >
+              <span className="ch-num">!</span>
+              <span className="ch-title">Latest mistakes</span>
+            </button>
+
+            <button
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
               onClick={() => setView({ kind: "exam" })}
             >
@@ -207,6 +225,23 @@ export default function Mt202() {
               resolveTopic={topicOfBookmark}
               onOpen={(questionId, topicId) => setView({ kind: "study", ch: topicId, tab: "quiz", questionId })}
               onRemove={(questionId) => setProgress(toggleBookmark(progress, questionId))}
+            />
+          )}
+          {view.kind === "history" && progress && (
+            <ActivityHistoryPanel
+              activities={activityLog.load()}
+              topics={TOPICS}
+              resolveTopic={topicOfBookmark}
+              onOpen={(questionId, topicId) => setView({ kind: "study", ch: topicId, tab: "quiz", questionId })}
+            />
+          )}
+          {view.kind === "mistakes" && progress && (
+            <ActivityHistoryPanel
+              activities={activityLog.load()}
+              topics={TOPICS}
+              resolveTopic={topicOfBookmark}
+              onOpen={(questionId, topicId) => setView({ kind: "study", ch: topicId, tab: "quiz", questionId })}
+              view="mistakes"
             />
           )}
 
