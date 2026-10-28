@@ -7,6 +7,7 @@ import Practice from "./components/Practice";
 import Analysis from "./components/Analysis";
 import Test from "./components/Test";
 import TopicTree from "./components/TopicTree";
+import GlobalProgress from "./components/GlobalProgress";
 import { allQuestions } from "./lib/questions";
 import { latestByQuestion, markComplete, resetAll, useHydrated, useStore } from "./lib/store";
 import { goalInfo } from "./lib/stats";
@@ -124,6 +125,8 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      <GlobalProgress />
 
       <section className="relative overflow-hidden border-b border-gold/10">
         <div className="subtle-grid absolute inset-0 opacity-50" />
