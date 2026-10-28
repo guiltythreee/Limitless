@@ -158,7 +158,7 @@
     do {
       a = nd(r, p.da); b = nd(r, p.db); n++;
     } while (n < 100 && ((a % 10 === 0 && b % 10 === 0) || (p.da > 1 && a % 100 === 0) || (p.db > 1 && b % 100 === 0)));
-    var diff = 0.5 * Math.max(p.da, p.db) + 0.4 * countCarries(a, b) + 0.2 * Math.min(p.da, p.db);
+    var diff = 0.5 * Math.max(p.da, p.db) + 0.4 * countCarries(a, b) + 0.2 * Math.min(p.da, p.db) + (p.bonus || 0);
     return Q('Addition', a + ' + ' + b, a + '+' + b, rat(a + b), diff);
   };
 
@@ -168,7 +168,7 @@
       a = nd(r, p.da); b = nd(r, p.db); n++;
       if (a < b) { var t = a; a = b; b = t; }
     } while (n < 100 && (a === b || (a % 10 === 0 && b % 10 === 0)));
-    var diff = 0.55 * Math.max(p.da, p.db) + 0.4 * countBorrows(a, b) + 0.2 * Math.min(p.da, p.db);
+    var diff = 0.55 * Math.max(p.da, p.db) + 0.4 * countBorrows(a, b) + 0.2 * Math.min(p.da, p.db) + (p.bonus || 0);
     return Q('Subtraction', a + ' ' + MINUS + ' ' + b, a + '-' + b, rat(a - b), diff);
   };
 
@@ -886,7 +886,7 @@
       blurb: 'Three-digit products, brackets, fractions, percentage change.',
       recipes: [
         ['mul', 3, { da: 3, db: 2, shortcut: 'any' }],
-        ['add', 1, { da: 4, db: 4 }], ['sub', 1, { da: 4, db: 4 }],
+        ['add', 1, { da: 4, db: 4, bonus: 2.5 }], ['sub', 1, { da: 4, db: 4, bonus: 2.5 }],
         ['div', 1, { dq: 3, dd: 3 }], ['divRem', 1, { qd: 3, dd: 2 }],
         ['chain', 1, { kind: 'A' }], ['chain', 1, { kind: 'B' }], ['chain', 1, { kind: 'D' }],
         ['decAdd', 1, { ia: 3, ib: 3, dpa: 2, dpb: 1 }],
@@ -906,7 +906,7 @@
       blurb: 'Estimation, powers, awkward fractions, decimal chains.',
       recipes: [
         ['mul', 2, { da: 3, db: 3, shortcut: 'any' }], ['mul', 1, { da: 4, db: 2, shortcut: 'any' }],
-        ['add', 1, { da: 5, db: 4 }], ['sub', 1, { da: 5, db: 4 }],
+        ['add', 1, { da: 5, db: 4, bonus: 3.5 }], ['sub', 1, { da: 5, db: 4, bonus: 3.5 }],
         ['div', 1, { dq: 4, dd: 3 }], ['divRem', 1, { qd: 4, dd: 2 }],
         ['chain', 2, { kind: 'C' }], ['chain', 1, { kind: 'E' }],
         ['decAdd', 1, { ia: 4, ib: 3, dpa: 2, dpb: 2 }],
@@ -929,7 +929,7 @@
       blurb: 'Brutal products, double products, hard estimation.',
       recipes: [
         ['mul', 2, { da: 4, db: 3, shortcut: 'any' }], ['mul', 2, { da: 5, db: 2, shortcut: 'any' }],
-        ['add', 1, { da: 9, db: 8 }], ['sub', 1, { da: 9, db: 8 }],
+        ['add', 1, { da: 9, db: 8, bonus: 4 }], ['sub', 1, { da: 9, db: 8, bonus: 4 }],
         ['div', 1, { dq: 5, dd: 3 }], ['divRem', 1, { qd: 5, dd: 3 }],
         ['chain', 2, { kind: 'E' }], ['chain', 2, { kind: 'F' }], ['chain', 1, { kind: 'C' }],
         ['decAdd', 1, { ia: 5, ib: 4, dpa: 2, dpb: 2 }],
