@@ -1076,14 +1076,10 @@
   /* Preserve numeric punctuation for the engine parser to validate instead of
      silently rewriting malformed answers. Normalize Unicode minus for negatives. */
   function cleanAnswer(v) {
-    var out = '', i, c;
-    for (i = 0; i < v.length; i++) {
-      c = v.charAt(i);
-      if (c === '−') c = '-';  /* preserve the sign when pasting a Unicode minus */
-      if (c >= '0' && c <= '9') out += c;
-      else if (c === '-' || c === '.' || c === ',' || c === '/') out += c;
-    }
-    return out.slice(0, 14);
+    /* Normalize the alternate minus glyph, but do not delete other characters
+       or truncate pasted text: the parser must reject malformed input rather
+       than silently turning it into a different, potentially correct answer. */
+    return String(v).replace(/−/g, '-');
   }
   answerBox.addEventListener('beforeinput', function (e) {
     if (e.inputType && e.inputType.indexOf('insert') === 0 && e.data && e.data.length === 1 && !/^[0-9.,\/−-]$/.test(e.data)) e.preventDefault();   /* pastes are cleaned afterwards */
