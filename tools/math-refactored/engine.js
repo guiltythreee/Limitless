@@ -158,7 +158,7 @@
     do {
       a = nd(r, p.da); b = nd(r, p.db); n++;
     } while (n < 100 && ((a % 10 === 0 && b % 10 === 0) || (p.da > 1 && a % 100 === 0) || (p.db > 1 && b % 100 === 0)));
-    var diff = 0.5 * Math.max(p.da, p.db) + 0.4 * countCarries(a, b) + 0.2 * Math.min(p.da, p.db);
+    var diff = 0.5 * Math.max(p.da, p.db) + 0.4 * countCarries(a, b) + 0.2 * Math.min(p.da, p.db) + (p.bonus || 0);
     return Q('Addition', a + ' + ' + b, a + '+' + b, rat(a + b), diff);
   };
 
@@ -168,7 +168,7 @@
       a = nd(r, p.da); b = nd(r, p.db); n++;
       if (a < b) { var t = a; a = b; b = t; }
     } while (n < 100 && (a === b || (a % 10 === 0 && b % 10 === 0)));
-    var diff = 0.55 * Math.max(p.da, p.db) + 0.4 * countBorrows(a, b) + 0.2 * Math.min(p.da, p.db);
+    var diff = 0.55 * Math.max(p.da, p.db) + 0.4 * countBorrows(a, b) + 0.2 * Math.min(p.da, p.db) + (p.bonus || 0);
     return Q('Subtraction', a + ' ' + MINUS + ' ' + b, a + '-' + b, rat(a - b), diff);
   };
 
@@ -222,7 +222,7 @@
         a = rat(A, Math.pow(10, dpa)); b = rat(B, Math.pow(10, dpb));
         ans = rSub(a, b);
         var sa = fmtScaled(A, dpa), sb = fmtScaled(B, dpb);
-        return Q('Decimals', sa + ' ' + MINUS + ' ' + sb, sa + '-' + sb, ans, 0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb));
+        return Q('Decimals', sa + ' ' + MINUS + ' ' + sb, sa + '-' + sb, ans, 0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb) + (p.bonus || 0));
       }
       if (ans.n === 0) continue;
       var s1 = fmtScaled(A, p.dpa), s2 = fmtScaled(B, p.dpb);
@@ -878,8 +878,8 @@
       blurb: 'Three-digit products, brackets, fractions, percentage change.',
       recipes: [
         ['mul', 3, { da: 3, db: 2, shortcut: 'any' }],
-        ['add', 1, { da: 4, db: 3 }], ['sub', 1, { da: 4, db: 3 }], ['div', 1, { dq: 3, dd: 2 }],
-        ['decAdd', 1, { ia: 2, ib: 2, dpa: 2, dpb: 1 }],
+        ['add', 1, { da: 4, db: 3, bonus: 2.5 }], ['sub', 1, { da: 4, db: 3, bonus: 2.5 }], ['div', 1, { dq: 3, dd: 2 }],
+        ['decAdd', 1, { ia: 2, ib: 2, dpa: 2, dpb: 1, bonus: 1.5 }],
         ['chain', 1, { kind: 'A' }], ['chain', 1, { kind: 'B' }], ['chain', 1, { kind: 'D' }],
         ['decMul', 2, { da: 3, dpa: 1, db: 2, dpb: 1 }], ['decDiv', 1, { dq: 2, dpq: 0, dd: 2, dpd: 1 }],
         ['fracAdd', 2, { dens: [3, 4, 5, 6, 8, 9, 10, 12] }],
@@ -897,8 +897,8 @@
       blurb: 'Estimation, powers, awkward fractions, decimal chains.',
       recipes: [
         ['mul', 2, { da: 3, db: 3, shortcut: 'any' }], ['mul', 1, { da: 4, db: 2, shortcut: 'any' }],
-        ['add', 1, { da: 5, db: 4 }], ['sub', 1, { da: 5, db: 4 }], ['div', 1, { dq: 4, dd: 2 }],
-        ['decAdd', 1, { ia: 3, ib: 2, dpa: 2, dpb: 2 }],
+        ['add', 1, { da: 5, db: 4, bonus: 3.5 }], ['sub', 1, { da: 5, db: 4, bonus: 3.5 }], ['div', 1, { dq: 4, dd: 2 }],
+        ['decAdd', 1, { ia: 3, ib: 2, dpa: 2, dpb: 2, bonus: 2.5 }],
         ['chain', 2, { kind: 'C' }], ['chain', 1, { kind: 'E' }],
         ['fracAdd', 2, { dens: [7, 9, 11, 12, 14, 15, 18] }],
         ['fracMul', 1, { dens: [7, 9, 11, 12, 14, 15, 18] }], ['fracDiv', 1, { dens: [7, 9, 11, 12, 14, 15, 18] }],
@@ -918,8 +918,8 @@
       blurb: 'Brutal products, double products, hard estimation.',
       recipes: [
         ['mul', 2, { da: 4, db: 3, shortcut: 'any' }], ['mul', 2, { da: 5, db: 2, shortcut: 'any' }],
-        ['add', 1, { da: 6, db: 5 }], ['sub', 1, { da: 6, db: 5 }], ['div', 1, { dq: 5, dd: 3 }],
-        ['decAdd', 1, { ia: 4, ib: 3, dpa: 2, dpb: 2 }],
+        ['add', 1, { da: 6, db: 5, bonus: 5 }], ['sub', 1, { da: 6, db: 5, bonus: 5 }], ['div', 1, { dq: 5, dd: 3 }],
+        ['decAdd', 1, { ia: 4, ib: 3, dpa: 2, dpb: 2, bonus: 3.5 }],
         ['chain', 2, { kind: 'E' }], ['chain', 2, { kind: 'F' }], ['chain', 1, { kind: 'C' }],
         ['decMul', 2, { da: 3, dpa: 2, db: 3, dpb: 1 }],
         ['est', 2, { kind: 'mul', alo: 301, ahi: 999, dpa: 2, blo: 301, bhi: 999, dpb: 1 }],
