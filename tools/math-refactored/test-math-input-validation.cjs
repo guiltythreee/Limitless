@@ -53,9 +53,9 @@ for (const input of ['1,234', '-1,234.50', '1,000/2', '1/1,000']) {
   assert.ok(E.parseInput(cleanAnswer(input)), 'valid grouped input should parse after UI cleaning: ' + input);
 }
 assert.equal(cleanAnswer('−12.5'), '-12.5', 'Unicode minus must normalize to ASCII minus');
-for (const input of ['1abc2', '12.3xyz', '1/2garbage', '12345678901234567890']) {
+for (const input of ['1abc2', '12.3xyz', '1/2garbage', '1e3', '12345678901234567890']) {
   assert.equal(cleanAnswer(input), input, 'UI must not silently rewrite pasted content: ' + input);
   expectInvalid(cleanAnswer(input));
 }
 expectValue(cleanAnswer('−12.5'), -25, 2, 'Unicode minus through UI cleaning');
-console.log('Answer-input parsing and UI-to-parser checks passed (9 valid formats, 27 invalid-input assertions across 24 unique cases, UI grouping and negative signs preserved).');
+console.log('Answer-input parsing and UI-to-parser checks passed (9 valid formats, 28 invalid-input assertions across 24 unique cases, UI grouping and negative signs preserved).');
