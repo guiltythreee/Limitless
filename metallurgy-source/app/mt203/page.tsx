@@ -26,6 +26,7 @@ import {
   Progress,
   resetProgress,
   saveTheme,
+  toggleBookmark,
   topicAggregate,
 } from "../lib/mt203-progress";
 import Tex from "../lib/tex";
@@ -36,10 +37,12 @@ import Exam from "./exam";
 import Player from "./player";
 import Practice, { PracticeMode } from "./practice";
 import { settleModuleBonuses } from "./rewards";
+import BookmarksPanel from "../courses/BookmarksPanel";
 
 type View =
   | { kind: "dashboard" }
-  | { kind: "study"; topic: string; tab: "lesson" | "quiz" }
+  | { kind: "study"; topic: string; tab: "lesson" | "quiz"; questionId?: string }
+  | { kind: "bookmarks" }
   | { kind: "practice"; mode: PracticeMode; scope: string; count: number }
   | { kind: "exam" };
 
@@ -135,6 +138,7 @@ export default function Mt203() {
   const title = (() => {
     if (view.kind === "dashboard") return "Dashboard";
     if (view.kind === "exam") return "Exam Simulator";
+    if (view.kind === "bookmarks") return "Bookmarked questions";
     if (view.kind === "practice")
       return view.mode === "mixed" ? "Mixed Practice" : view.mode === "weak" ? "Weak-area Training" : "Spaced Revision";
     return lesson?.title ?? view.topic;
@@ -167,6 +171,17 @@ export default function Mt203() {
           >
             <span className="ch-num">◧</span>
             <span className="ch-title">Dashboard · progress &amp; mastery</span>
+          </button>
+
+          <button
+            className={`ch-item ${view.kind === "bookmarks" ? "active" : ""}`}
+            onClick={() => setView({ kind: "bookmarks" })}
+          >
+            <span className="ch-num">★</span>
+            <span>
+              <span className="ch-title">Bookmarked questions</span>
+              <span className="ch-meta"><span className="ch-pct">{progress?.bookmarks.length ?? 0} saved</span></span>
+            </span>
           </button>
 
           <div className="ch-list" style={{ marginTop: "0.5rem" }}>
@@ -262,6 +277,16 @@ export default function Mt203() {
 
         {/* ---------------- main ---------------- */}
         <main className="main mt203">
+          {progress && view.kind === "bookmarks" && (
+            <BookmarksPanel
+              bookmarks={progress.bookmarks}
+              topics={TOPICS}
+              resolveTopic={(questionId) => TOPIC_OF[questionId]}
+              onOpen={(questionId, topicId) => setView({ kind: "study", topic: topicId, tab: "quiz", questionId })}
+              onRemove={(questionId) => setProgress(toggleBookmark(progress, questionId))}
+            />
+          )}
+
           {progress && view.kind === "dashboard" && (
             <Dashboard progress={progress} onProgress={setProgress} nav={nav} lastTopic={lastTopic} />
           )}
@@ -393,6 +418,7 @@ export default function Mt203() {
                   label={TOPIC_BY_ID[view.topic]?.title ?? view.topic}
                   progress={progress}
                   onProgress={onAnswer}
+                  initialQuestionId={view.questionId}
                   onFinished={settle}
                   onExit={() => setView({ kind: "dashboard" })}
                 />
