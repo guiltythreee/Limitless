@@ -38,20 +38,21 @@
     try { localStorage.setItem(SEEN_KEY, JSON.stringify(snapshot)); } catch (error) { /* Keep Bookkeys usable if storage is blocked. */ }
   }
   function awardPage(bookKey, pageIndex) {
-    if (!window.LimitlessRewards) return;
+    if (!window.LimitlessRewards) return false;
     var target = 'bookkeys:page:' + bookKey + ':' + pageIndex;
-    window.LimitlessRewards.record({
+    var receipt = window.LimitlessRewards.record({
       module: MODULE,
       eventId: target,
       contentKey: target,
       activityClass: 'standard-task',
       difficulty: 'foundational'
     });
+    return !!(receipt && receipt.ok);
   }
   function awardBook(bookKey) {
-    if (!window.LimitlessRewards) return;
+    if (!window.LimitlessRewards) return false;
     var target = 'bookkeys:book:' + bookKey;
-    window.LimitlessRewards.record({
+    var receipt = window.LimitlessRewards.record({
       module: MODULE,
       eventId: target,
       contentKey: target,
@@ -59,8 +60,10 @@
       difficulty: 'foundational',
       oneTimeKey: target
     });
+    return !!(receipt && receipt.ok);
   }
   function process(game) {
+    if (!window.LimitlessRewards) return;
     var next = capture(game);
     var rawPrevious;
     try { rawPrevious = localStorage.getItem(SEEN_KEY); } catch (error) { return; }
@@ -69,15 +72,18 @@
     var previous = readJson(rawPrevious, { pages: {}, books: [] });
     var oldPages = pageSet(previous);
     var newPages = pageSet(next);
+    var allRewardsSaved = true;
     Object.keys(newPages).forEach(function (id) {
-      if (!oldPages[id]) awardPage(newPages[id].bookKey, newPages[id].pageIndex);
+      if (!oldPages[id] && !awardPage(newPages[id].bookKey, newPages[id].pageIndex)) allRewardsSaved = false;
     });
     var oldBooks = {};
     (previous.books || []).forEach(function (bookKey) { oldBooks[bookKey] = true; });
     (next.books || []).forEach(function (bookKey) {
-      if (!oldBooks[bookKey]) awardBook(bookKey);
+      if (!oldBooks[bookKey] && !awardBook(bookKey)) allRewardsSaved = false;
     });
-    saveSeen(next);
+    // If localStorage rejects a reward write, keep the old baseline so a later
+    // storage event or reload retries it. Successful event IDs are idempotent.
+    if (allRewardsSaved) saveSeen(next);
   }
   function currentGame() {
     try { return readJson(localStorage.getItem(GAME_KEY), null); } catch (error) { return null; }
