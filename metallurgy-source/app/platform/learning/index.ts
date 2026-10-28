@@ -39,3 +39,5 @@ export {
 } from "./activities";
 
 export { createActivityLog } from "./storage";
+
+export { clampDailyGoal, dailyGoalInfo, sanitiseGoalByDay, DEFAULT_DAILY_GOAL, MAX_DAILY_GOAL } from "./goals";
