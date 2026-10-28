@@ -270,21 +270,40 @@ const T7: TopicSource = {
       concept: "protein cross-linking → insolubility & hardness",
       tags: ["revision"],
     },
-    {
-      id: "t7-16",
-      type: "higher",
-      diff: 4,
-      text: "Collagen has a denaturation (melting) temperature ~ 40 °C and is stabilized by hydrogen-bonded water bridges plus a glycine-rich triple helix. In cold-water fish collagen this temperature drops to ~ 15 °C. The best material-engineering conclusion is:",
-      options: [
-        { label: "a", text: "Thermal stability is tuned by the extent of H-bonding/hydroxyproline content — fewer H-bonds give a lower melting triple helix, which is why tropical-species collagen is more heat-stable." },
-        { label: "b", text: "Collagen is always stable to 100 °C." },
-        { label: "c", text: "Fish collagen is chemically a different polymer family." },
-        { label: "d", text: "The melting temperature is set by molecular weight alone." },
+        {
+      "id": "t7-16",
+      "type": "higher",
+      "diff": 4,
+      "text": "Collagen from cold-water fish commonly has a lower denaturation temperature than collagen from warm-water species. Which material-chemistry explanation best fits this trend?",
+      "options": [
+        {
+          "label": "a",
+          "text": "A lower denaturation temperature reflects fewer peptide bonds, even when the triple-helix sequence is otherwise identical."
+        },
+        {
+          "label": "b",
+          "text": "Lower imino-acid/hydroxyproline content and less stabilising water-mediated interaction can reduce cold-adapted collagen stability."
+        },
+        {
+          "label": "c",
+          "text": "Hydroxyproline destabilises the triple helix, so removing it normally raises the denaturation temperature."
+        },
+        {
+          "label": "d",
+          "text": "Denaturation temperature is fixed by water’s boiling point; amino-acid composition and water bridges do not matter."
+        }
       ],
-      answer: "a",
-      why: "Triple-helix stability tracks the density of **H-bonds (notably involving hydroxyproline and water)**; warm-water species have more, cold-water species fewer → lower melting point. A clean example of composition→transition-temperature control in a natural polymer.",
-      concept: "H-bond density controls protein thermal stability",
-      tags: ["confused"],
+      "answer": "b",
+      "why": "Collagen stability depends on sequence and composition, including proline/hydroxyproline content and water-mediated interactions. Cold-adapted fish collagen commonly has less thermal stabilisation, so it can denature at a lower temperature.",
+      "distractors": {
+        "a": "A lower denaturation temperature does not imply missing peptide bonds; collagen’s primary linkage is still the peptide bond.",
+        "c": "Hydroxyproline generally contributes to collagen triple-helix stability rather than universally disrupting it.",
+        "d": "Protein denaturation temperature depends on molecular sequence and interactions, not simply the boiling point of the solvent."
+      },
+      "concept": "composition and thermal stability of protein materials",
+      "tags": [
+        "reviewed"
+      ]
     },
   ],
 };
