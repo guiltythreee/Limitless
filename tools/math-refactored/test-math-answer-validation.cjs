@@ -7,8 +7,8 @@
 const assert = require('node:assert/strict');
 const E = require('./engine.js');
 
-// sqrt(3) is displayed to two decimal places as 1.41.
-// Values that round to 1.41 should pass; values that round to 1.42 must not.
+// sqrt(3) is displayed to two decimal places as 1.73.
+// Values that round to 1.73 should pass; values that round to 1.74 must not.
 const q = E.GENERATORS.sqrtApprox(E.makeRng(0xA11CE), { lo: 3, hi: 3 });
 assert.equal(q.answerText, '1.73');
 assert.equal(E.checkAnswer(q, '1.73', true).status, 'correct');
