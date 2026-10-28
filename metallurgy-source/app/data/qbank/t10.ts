@@ -17,20 +17,39 @@ const T10: TopicSource = {
     { id: "T10.5", title: "TTS, WLF, permeability & solubility parameters" },
   ],
   questions: [
-    {
-      id: "t10-01",
-      type: "recall",
-      diff: 1,
-      text: "Young's modulus E is defined as:",
-      options: [
-        { label: "a", text: "strain / stress" },
-        { label: "b", text: "stress / strain, in the initial linear (elastic) region" },
-        { label: "c", text: "force × area" },
-        { label: "d", text: "the area under the stress–strain curve" },
+        {
+      "id": "t10-01",
+      "type": "recall",
+      "diff": 1,
+      "text": "For a polymer specimen in the initial linear-elastic region, Young's modulus is:",
+      "options": [
+        {
+          "label": "a",
+          "text": "The compliance, strain divided by stress, taken in the initial linear region and reported in reciprocal-pressure units."
+        },
+        {
+          "label": "b",
+          "text": "Engineering stress, force divided by original cross-sectional area, with no division by the measured strain."
+        },
+        {
+          "label": "c",
+          "text": "The slope of the initial linear-elastic stress–strain curve, given by stress change divided by strain change."
+        },
+        {
+          "label": "d",
+          "text": "The area under the stress–strain curve up to fracture, representing energy absorbed per unit volume."
+        }
       ],
-      answer: "b",
-      why: "**E = σ/ε** in the linear elastic region — the slope of the initial straight part of the stress–strain curve. The area under the whole curve is toughness, not modulus.",
-      tags: ["revision"],
+      "answer": "c",
+      "why": "Young's modulus is the initial elastic slope of stress against strain. Compliance is its reciprocal; engineering stress is not a modulus; the area under the curve measures energy absorption per unit volume.",
+      "distractors": {
+        "a": "This is compliance, the reciprocal of Young's modulus.",
+        "b": "This is engineering stress, not stress divided by strain.",
+        "d": "This is the energy absorbed to fracture per unit volume (toughness), not the elastic slope."
+      },
+      "tags": [
+        "revision"
+      ]
     },
     {
       id: "t10-02",
@@ -102,20 +121,39 @@ const T10: TopicSource = {
       concept: "drawing = orientation-induced strengthening",
       tags: ["revision"],
     },
-    {
-      id: "t10-06",
-      type: "recall",
-      diff: 1,
-      text: "Impact strength of plastics is most commonly measured by:",
-      options: [
-        { label: "a", text: "Tensile test" },
-        { label: "b", text: "Izod or Charpy pendulum test on a notched bar" },
-        { label: "c", text: "Differential scanning calorimetry" },
-        { label: "d", text: "Melt-flow index" },
+        {
+      "id": "t10-06",
+      "type": "recall",
+      "diff": 1,
+      "text": "Which test is designed to compare the impact energy absorbed by notched polymer specimens under a pendulum strike?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Use a notched Izod or Charpy pendulum to measure impact energy absorbed during fracture."
+        },
+        {
+          "label": "b",
+          "text": "A tensile test, using the area under the engineering stress–strain curve from a slow uniaxial pull."
+        },
+        {
+          "label": "c",
+          "text": "A flexural test, using the maximum bending stress measured during a three-point loading cycle."
+        },
+        {
+          "label": "d",
+          "text": "A fracture-toughness test, using a pre-cracked specimen to determine a critical stress-intensity factor."
+        }
       ],
-      answer: "b",
-      why: "**Izod/Charpy** tests measure energy absorbed when a pendulum breaks a notched bar. The **notch** is essential — it concentrates stress and reveals notch sensitivity.",
-      tags: ["revision"],
+      "answer": "a",
+      "why": "Izod and Charpy pendulum tests measure impact energy absorbed by breaking a notched specimen. Tensile and flexural tests use different loading modes; fracture-toughness tests measure a different fracture parameter under specified conditions.",
+      "distractors": {
+        "b": "The area under a tensile stress–strain curve is work per unit volume, but it is not the notched pendulum impact result.",
+        "c": "Flexural testing applies bending and reports a flexural response rather than pendulum impact energy.",
+        "d": "Fracture toughness uses a crack geometry and fracture-mechanics criterion, not the simple pendulum energy measure."
+      },
+      "tags": [
+        "revision"
+      ]
     },
     {
       id: "t10-07",
@@ -486,21 +524,40 @@ const T10: TopicSource = {
       concept: "creep design needs time-based data, not instantaneous modulus",
       tags: ["confused"],
     },
-    {
-      id: "t10-28",
-      type: "higher",
-      diff: 4,
-      text: "A tyre rubber is formulated for grip (high hysteresis) while a vibration isolator is designed for low heat build-up. The underlying viscoelastic quantity that differs in the two applications is:",
-      options: [
-        { label: "a", text: "The hysteresis loop area per cycle (energy dissipated) — high for grip, deliberately low for damping service to avoid self-heating and fatigue." },
-        { label: "b", text: "The glass-transition temperature only." },
-        { label: "c", text: "The molecular weight." },
-        { label: "d", text: "The colour." },
+        {
+      "id": "t10-28",
+      "type": "higher",
+      "diff": 4,
+      "text": "A tyre compound is tuned for high hysteretic grip, while a vibration isolator must limit heat build-up. Which measurement most directly quantifies energy dissipated per deformation cycle?",
+      "options": [
+        {
+          "label": "a",
+          "text": "The area enclosed by the cyclic stress–strain loop, representing dissipated work per unit volume for each cycle."
+        },
+        {
+          "label": "b",
+          "text": "The storage modulus $E'$, which measures the in-phase elastic component and energy stored during oscillation."
+        },
+        {
+          "label": "c",
+          "text": "The monotonic tensile strength, which is the maximum stress reached before the material fails in a tensile test."
+        },
+        {
+          "label": "d",
+          "text": "The long-time static compliance, relating creep strain to applied stress after a sustained load rather than cyclic loss."
+        }
       ],
-      answer: "a",
-      why: "Both use rubber, but the **tan δ (hysteresis) at service frequency/temperature** decides performance: grip exploits strong hysteresis (wet traction, rolling resistance trade-off) while isolators seek a low-loss behaviour to dissipate less and avoid heat build-up.",
-      concept: "tan δ: grip vs heat build-up trade-off",
-      tags: ["confused"],
+      "answer": "a",
+      "why": "The hysteresis-loop area is the work dissipated per unit volume in one loading–unloading cycle. Storage modulus describes the elastic component; tensile strength and static compliance do not directly measure cyclic energy loss.",
+      "distractors": {
+        "b": "Storage modulus describes energy stored elastically, not the loop's dissipated area.",
+        "c": "Tensile strength is a failure stress, not a measure of cyclic hysteresis.",
+        "d": "Static compliance describes time-dependent deformation under load, not energy dissipated per cycle."
+      },
+      "concept": "Hysteresis-loop area measures dissipated energy per cycle.",
+      "tags": [
+        "confused"
+      ]
     },
   ],
 };
