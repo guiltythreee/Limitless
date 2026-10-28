@@ -6,7 +6,7 @@ const E = require('./engine.js');
 
 const SEED = 20261028;
 const CORE = ['add', 'sub', 'div', 'divRem'];
-const EXTENDED = ['decAdd', 'fracMul', 'fracDiv'];
+const EXTENDED = ['decAdd', 'fracAdd', 'fracMul', 'fracDiv'];
 let generated = 0;
 
 function assertNear(actual, expected, label) {
@@ -48,11 +48,13 @@ function independentlyEvaluate(q) {
     return;
   }
 
-  if (q.id === 'fracMul' || q.id === 'fracDiv') {
-    m = q.text.match(/^(\d+)\/(\d+) ([×÷]) (\d+)\/(\d+)$/);
+  if (q.id === 'fracAdd' || q.id === 'fracMul' || q.id === 'fracDiv') {
+    m = q.text.match(/^(\d+)\/(\d+) ([×÷+−-]) (\d+)\/(\d+)$/);
     assert.ok(m, 'Unexpected fraction operation prompt: ' + q.text);
     const a = Number(m[1]), b = Number(m[2]), c = Number(m[4]), d = Number(m[5]);
-    const expected = q.id === 'fracMul' ? (a * c) / (b * d) : (a * d) / (b * c);
+    const expected = q.id === 'fracMul' ? (a * c) / (b * d)
+      : q.id === 'fracDiv' ? (a * d) / (b * c)
+      : m[3] === '+' ? a / b + c / d : a / b - c / d;
     assertNear(q.answer.n / q.answer.d, expected, q.text);
     return;
   }
