@@ -50,7 +50,11 @@ export default function Player({
   const [gain, setGain] = useState(0);
   const [toast, setToast] = useState<number | null>(null);
   const [elapsedMs, setElapsedMs] = useState(0);
-  const openedAt = useRef<number>(Date.now());
+  const openedAt = useRef<number | null>(null);
+  const elapsedBase = useRef(0);
+
+  const elapsedNow = () =>
+    elapsedBase.current + (openedAt.current === null ? 0 : Date.now() - openedAt.current);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Reset whenever a different question set is supplied.
@@ -77,14 +81,38 @@ export default function Player({
 
   useEffect(() => {
     if (!theQ || isRevealed) {
+      openedAt.current = null;
+      elapsedBase.current = 0;
       setElapsedMs(0);
       return;
     }
-    const started = Date.now();
-    openedAt.current = started;
+
+    elapsedBase.current = 0;
+    openedAt.current = document.hidden ? null : Date.now();
     setElapsedMs(0);
-    const timer = window.setInterval(() => setElapsedMs(Date.now() - started), 250);
-    return () => window.clearInterval(timer);
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        if (openedAt.current !== null) {
+          elapsedBase.current += Date.now() - openedAt.current;
+          openedAt.current = null;
+        }
+      } else if (openedAt.current === null) {
+        openedAt.current = Date.now();
+      }
+      setElapsedMs(Math.round(elapsedNow()));
+    };
+
+    const timer = window.setInterval(() => setElapsedMs(Math.round(elapsedNow())), 250);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      if (openedAt.current !== null) {
+        elapsedBase.current += Date.now() - openedAt.current;
+        openedAt.current = null;
+      }
+    };
     // The question id and its revealed state define one stopwatch.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theQ?.id, isRevealed]);
@@ -103,7 +131,8 @@ export default function Player({
   const pick = (lab: string) => {
     if (!theQ || revealed[theQ.id]) return;
     const ok = lab === theQ.answer;
-    const ms = Math.max(0, Date.now() - openedAt.current);
+    const ms = Math.max(0, Math.round(elapsedNow()));
+    openedAt.current = null;
     let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms);
     const res = awardAnswer(p, theQ.id, theQ.difficulty, ok);
     p = res.progress;
@@ -232,6 +261,18 @@ export default function Player({
             {idx + 1} / {order.length} · {answered} answered · {right} correct
           </span>
           <span className="chip" aria-label="Time on question">⏱ {timeLabel}</span>
+          {!isRevealed && (
+            <button
+              className="btn"
+              onClick={() => {
+                elapsedBase.current = 0;
+                openedAt.current = document.hidden ? null : Date.now();
+                setElapsedMs(0);
+              }}
+            >
+              Reset timer
+            </button>
+          )}
           {topicTitles?.[theQ.topicId] && (
             <span className="chip chip-gold">{topicTitles[theQ.topicId]}</span>
           )}
