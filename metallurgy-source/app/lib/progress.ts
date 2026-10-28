@@ -32,6 +32,8 @@ export type Progress = {
   examBest: { score: number; total: number; at: number } | null;
   /** Additive since P5.1; absent on legacy payloads. Written by the log only. */
   activities?: Activity[];
+  /** Additive saved-question list; absent on legacy payloads. */
+  bookmarks?: string[];
 };
 
 const KEY = "mm-mt202-v1";
@@ -57,7 +59,12 @@ export function loadProgress(): Progress {
     const p = JSON.parse(raw) as Progress;
     // `...p` preserves every unknown root field (activities, future additions).
     // Read-only: load never writes or backfills the activities field.
-    return { ...p, answered: p.answered ?? {}, examBest: p.examBest ?? null };
+    return {
+      ...p,
+      answered: p.answered ?? {},
+      examBest: p.examBest ?? null,
+      bookmarks: Array.isArray(p.bookmarks) ? [...new Set(p.bookmarks.filter((q) => typeof q === "string" && q.length > 0))] : [],
+    };
   } catch {
     return { answered: {}, examBest: null };
   }
@@ -222,6 +229,17 @@ export function recordExamAnswers(
       ts: now,
     }))
   );
+}
+
+export function toggleBookmark(p: Progress, questionId: string): Progress {
+  if (!questionId) return p;
+  const current = Array.isArray(p.bookmarks) ? p.bookmarks : [];
+  const bookmarks = current.includes(questionId)
+    ? current.filter((q) => q !== questionId)
+    : [...current, questionId];
+  const next = { ...p, bookmarks };
+  saveProgress(next);
+  return next;
 }
 
 export function resetProgress() {
