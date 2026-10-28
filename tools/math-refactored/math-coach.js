@@ -53,10 +53,10 @@
     var atts = S.load(KEY_ATT, []), grouped = {};
     for (var i = atts.length - 1; i >= 0; i--) {
       var a = atts[i];
-      if (!a || typeof a.s !== 'string' || typeof a.tier !== 'string' ||
+      if (!a || typeof a.s !== 'string' || typeof a.t !== 'string' ||
           a.r === 'skip' || !(a.target > 0)) continue;
       var byTier = grouped[a.s] || (grouped[a.s] = {});
-      var list = byTier[a.tier] || (byTier[a.tier] = []);
+      var list = byTier[a.t] || (byTier[a.t] = []);
       if (list.length < SKILL_WINDOW) list.push(a);
     }
     Object.keys(grouped).forEach(function (skill) {
