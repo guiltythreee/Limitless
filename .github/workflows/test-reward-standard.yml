@@ -1,0 +1,67 @@
+name: Limitless Reward Standard Regression
+
+on:
+  pull_request:
+    paths:
+      - "progression/**"
+      - "tools/typing/**"
+      - "tools/math-refactored/**"
+      - "probability-source/**"
+      - "index.html"
+      - "hub-theme.css"
+      - ".github/workflows/test-reward-standard.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "progression/**"
+      - "tools/typing/**"
+      - "tools/math-refactored/**"
+      - "probability-source/**"
+      - "index.html"
+      - "hub-theme.css"
+      - ".github/workflows/test-reward-standard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reward-standard-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            probability-source/package-lock.json
+            tools/typing/tests/package-lock.json
+
+      - name: Test shared reward engine and Bookkeys adapter
+        run: node --test progression/reward-standard.test.cjs progression/bookkeys-bridge.test.cjs
+
+      - name: Install Bookkeys test dependencies
+        working-directory: tools/typing/tests
+        run: npm ci
+
+      - name: Run Bookkeys regression suite
+        working-directory: tools/typing/tests
+        run: npm test
+
+      - name: Install Probability dependencies
+        working-directory: probability-source
+        run: npm ci
+
+      - name: Build Probability
+        working-directory: probability-source
+        run: npm run build
