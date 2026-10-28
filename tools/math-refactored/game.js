@@ -143,7 +143,9 @@
     var rk = MathXP.rankFor(meta.xp);
     var left = U.h('div');
     left.appendChild(U.h('div', 'rank-name', rk.name));
-    left.appendChild(U.h('div', 'rank-sub', meta.xp + ' XP' + (rk.next ? ' · ' + (rk.next - meta.xp) + ' to ' + rk.nextName : ' · highest rank')));
+    left.appendChild(U.h('div', 'rank-sub', meta.xp + ' Trainer XP' + (rk.next ? ' · ' + (rk.next - meta.xp) + ' to ' + rk.nextName : ' · highest rank')));
+    var globalSummary = window.LimitlessRewards ? window.LimitlessRewards.summary() : null;
+    if (globalSummary) left.appendChild(U.h('div', 'rank-sub', 'Global Level ' + globalSummary.level + ' · ' + globalSummary.xp.toLocaleString() + ' EXP'));
     box.appendChild(left);
     var mid = U.h('div', 'xp-wrap');
     var bar = U.h('div', 'bar'); bar.setAttribute('role', 'progressbar'); bar.setAttribute('aria-label', 'Progress to next rank');
@@ -645,6 +647,30 @@
     var award = MathXP.awardXp(info.total);
     s.xp = award.gained; s.rankUp = award.rankUp; s.xpInfo = info;
 
+    // Global EXP is additive: MathXP's local ranks, tier clears and trick records stay intact.
+    s.globalXp = 0;
+    s.globalLevel = 1;
+    s.globalTotalXp = 0;
+    if (window.LimitlessRewards && s.attempted >= 3) {
+      var rewardTierIndex = r.tier ? E.TIER_BY_ID[r.tier].index : r.topTierIndex;
+      var rewardTierId = r.tier || E.TIERS[r.topTierIndex].id;
+      var rewardDifficulty = rewardTierIndex >= 4 ? 'advanced' : (rewardTierIndex >= 2 ? 'intermediate' : 'foundational');
+      var globalReceipt = window.LimitlessRewards.record({
+        module: 'math-trainer',
+        eventId: 'math-run:' + (r.id || String(r.ts)),
+        contentKey: 'math:tier:' + rewardTierId,
+        activityClass: s.attempted >= 10 ? 'focused-practice' : 'standard-task',
+        difficulty: rewardDifficulty,
+        quality: s.accuracy,
+        passed: !!s.cleared,
+        passKey: s.cleared ? 'math:tier-clear:' + rewardTierId : ''
+      });
+      var globalSummary = window.LimitlessRewards.summary();
+      s.globalXp = globalReceipt && globalReceipt.ok ? globalReceipt.xp : 0;
+      s.globalLevel = globalSummary.level;
+      s.globalTotalXp = globalSummary.xp;
+    }
+
     var runs = load(KEY_RUNS, []);
     runs.push({
       id: r.id, ts: r.ts, mode: r.mode, tier: r.tier, penalty: r.penalty, diff: r.diff,
@@ -652,7 +678,8 @@
       correct: r.correct, wrong: r.wrong, skipped: r.skipped, timeouts: r.timeouts, attempted: s.attempted,
       accuracy: s.accuracy, medianTime: s.medianTime, medianRatio: s.medianRatio,
       points: r.points, speed: s.speed, bestStreak: r.bestStreak, duration: s.duration,
-      qualifying: s.qualifying, cleared: s.cleared, xp: s.xp
+      qualifying: s.qualifying, cleared: s.cleared, xp: s.xp,
+      globalXp: s.globalXp || 0, globalLevel: s.globalLevel || 1, globalTotalXp: s.globalTotalXp || 0
     });
     save(KEY_RUNS, runs.slice(-MAX_RUNS));
 
@@ -679,7 +706,8 @@
     tiles.appendChild(U.tile('Points', String(r.points), 'best combo ' + r.bestStreak));
     tiles.appendChild(U.tile('Median time', s.attempted ? U.fmtSec(s.medianTime) : '–', 'target ' + U.fmtSec(s.medianTarget)));
     var rk = MathXP.rankFor(meta.xp);
-    tiles.appendChild(U.tile('XP', '+' + s.xp, s.rankUp ? 'New rank: ' + s.rankUp + '!' : rk.name + ' · ' + meta.xp + ' XP'));
+    tiles.appendChild(U.tile('Trainer XP', '+' + s.xp, s.rankUp ? 'New rank: ' + s.rankUp + '!' : rk.name + ' · ' + meta.xp + ' Trainer XP'));
+    tiles.appendChild(U.tile('Global EXP', '+' + (s.globalXp || 0), 'Level ' + (s.globalLevel || 1) + ' · ' + (s.globalTotalXp || 0).toLocaleString() + ' total across Limitless'));
 
     var v = $('res-verdict');
     v.className = 'verdict' + (s.cleared ? ' is-cleared' : '');
