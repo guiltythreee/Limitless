@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { allQuestions, grade, questionByKey, type Status } from "./questions";
+import { allQuestions, grade, questionByKey, type Q, type Status } from "./questions";
 import type { GlobalRewardInput, RewardDifficulty } from "./reward-types";
 
 function recordGlobalReward(input: GlobalRewardInput) {
@@ -193,13 +193,17 @@ export function clearDraft(q: string) {
 }
 export function recordTest(t: TestRecord) {
   commit({ ...state, tests: [...state.tests, t] });
-  const attemptedQuestions = t.results
-    .filter((result) => result.status !== "unattempted")
+  // Use the whole test pool, not just answered questions, so answering only
+  // a hard item cannot inflate the difficulty multiplier for an easy test.
+  const testQuestions = t.results
     .map((result) => questionByKey[result.q])
-    .filter((question): question is NonNullable<typeof question> => Boolean(question));
-  const difficulty: RewardDifficulty = attemptedQuestions.some((question) => question.difficulty === "hard")
+    .filter((question): question is Q => Boolean(question));
+  const meanDifficulty = testQuestions.length
+    ? testQuestions.reduce((sum, question) => sum + (question.difficulty === "hard" ? 3 : question.difficulty === "medium" ? 2 : 1), 0) / testQuestions.length
+    : 1;
+  const difficulty: RewardDifficulty = meanDifficulty >= 2.5
     ? "advanced"
-    : attemptedQuestions.some((question) => question.difficulty === "medium")
+    : meanDifficulty >= 1.5
       ? "intermediate"
       : "foundational";
   const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
