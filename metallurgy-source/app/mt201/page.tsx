@@ -12,8 +12,9 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { loadProgress, loadTheme, Progress, resetProgress, saveTheme, toggleBookmark } from "./progress";
+import { activityLog, loadProgress, loadTheme, Progress, resetProgress, saveTheme, toggleBookmark } from "./progress";
 import BookmarksPanel from "../courses/BookmarksPanel";
+import ActivityHistoryPanel from "../courses/ActivityHistoryPanel";
 import Exam from "./exam";
 import Quiz from "./quiz";
 import { MT201_ENTRY } from "../courses/entries/mt201";
@@ -25,7 +26,7 @@ const TOTAL = TOPICS.reduce((sum, t) => sum + t.count, 0);
 const titleOf = (id: string) => TOPICS.find((t) => t.id === id)?.title ?? id;
 const topicOfBookmark = (id: string) => /^(ch\d+)-q\d+$/.exec(id)?.[1];
 
-type View = { kind: "study"; ch: string; questionId?: string } | { kind: "exam" } | { kind: "bookmarks" };
+type View = { kind: "study"; ch: string; questionId?: string } | { kind: "exam" } | { kind: "bookmarks" } | { kind: "history" } | { kind: "mistakes" };
 
 export default function Mt201() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -137,6 +138,21 @@ export default function Mt201() {
             </button>
 
             <button
+              className={`ch-item ${view.kind === "history" ? "active" : ""}`}
+              onClick={() => setView({ kind: "history" })}
+            >
+              <span className="ch-num">↺</span>
+              <span className="ch-title">Attempt history</span>
+            </button>
+            <button
+              className={`ch-item ${view.kind === "mistakes" ? "active" : ""}`}
+              onClick={() => setView({ kind: "mistakes" })}
+            >
+              <span className="ch-num">!</span>
+              <span className="ch-title">Latest mistakes</span>
+            </button>
+
+            <button
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
               onClick={() => setView({ kind: "exam" })}
             >
@@ -177,6 +193,23 @@ export default function Mt201() {
               resolveTopic={topicOfBookmark}
               onOpen={(questionId, topicId) => setView({ kind: "study", ch: topicId, questionId })}
               onRemove={(questionId) => setProgress(toggleBookmark(progress, questionId))}
+            />
+          )}
+          {view.kind === "history" && progress && (
+            <ActivityHistoryPanel
+              activities={activityLog.load()}
+              topics={TOPICS}
+              resolveTopic={topicOfBookmark}
+              onOpen={(questionId, topicId) => setView({ kind: "study", ch: topicId, questionId })}
+            />
+          )}
+          {view.kind === "mistakes" && progress && (
+            <ActivityHistoryPanel
+              activities={activityLog.load()}
+              topics={TOPICS}
+              resolveTopic={topicOfBookmark}
+              onOpen={(questionId, topicId) => setView({ kind: "study", ch: topicId, questionId })}
+              view="mistakes"
             />
           )}
 
