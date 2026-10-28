@@ -24,7 +24,7 @@ export const pathways: Pathway[] = [
     lessonIds: [
       "sample-space", "events-operations", "set-theory", "mutually-exclusive", "exhaustive-partitions",
       "counting", "combinations", "multinomials", "axioms", "properties", "equally-likely",
-      "probability-counting", "de-morgan", "advanced-counting", "occupancy-coupon",
+      "probability-counting", "de-morgan", "advanced-counting", "random-permutations", "occupancy-coupon",
       "conditional", "conditional-independence", "total-probability", "bayes", "geometric-probability"
     ]
   },
@@ -35,11 +35,11 @@ export const pathways: Pathway[] = [
     description: "Move from probability models to moments, joint distributions, asymptotics, and uncertainty estimates.",
     outcome: "Understand the probabilistic basis of estimation, sampling variation, and common statistical models.",
     lessonIds: [
-      "sample-space", "counting", "combinations", "axioms", "properties", "conditional",
-      "conditional-independence", "total-probability", "bayes", "random-variables",
-      "expectation-variance", "distributions", "discrete-distributions", "continuous-rv",
-      "joint-distributions", "conditional-expectation", "generating-functions",
-      "limit-theorems", "limit-theorems-deep", "concentration-inequalities",
+      "sample-space", "counting", "combinations", "random-permutations", "advanced-counting", "occupancy-coupon", "axioms", "properties", "conditional",
+      "conditional-independence", "total-probability", "bayes", "bayesian-inference", "random-variables",
+      "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
+      "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
+      "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
       "geometric-probability", "borel-cantelli"
     ]
   },
@@ -50,12 +50,12 @@ export const pathways: Pathway[] = [
     description: "Emphasize distributions, dependence, conditional expectations, tail bounds, stochastic models, and simulation.",
     outcome: "Build the probability toolkit needed before deeper work in stochastic calculus, derivatives pricing, risk, and quantitative research.",
     lessonIds: [
-      "sample-space", "counting", "combinations", "axioms", "properties", "conditional",
-      "conditional-independence", "total-probability", "bayes", "random-variables",
-      "expectation-variance", "distributions", "discrete-distributions", "continuous-rv",
-      "joint-distributions", "conditional-expectation", "generating-functions",
-      "limit-theorems", "limit-theorems-deep", "concentration-inequalities",
-      "markov", "markov-chain-analysis", "poisson-processes", "monte-carlo", "martingales", "mcmc"
+      "sample-space", "counting", "combinations", "random-permutations", "advanced-counting", "occupancy-coupon", "axioms", "properties", "conditional",
+      "conditional-independence", "total-probability", "bayes", "bayesian-inference", "random-variables",
+      "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
+      "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
+      "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
+      "markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "renewal-queueing", "reliability-hazards", "monte-carlo", "martingales", "mcmc"
     ]
   },
   {
@@ -65,11 +65,11 @@ export const pathways: Pathway[] = [
     description: "Follow random variables into evolving systems, Markov chains, Poisson arrivals, martingales, and MCMC.",
     outcome: "Read and reason about models whose random state changes over time.",
     lessonIds: [
-      "sample-space", "conditional", "conditional-independence", "total-probability",
-      "random-variables", "expectation-variance", "distributions", "discrete-distributions",
-      "continuous-rv", "joint-distributions", "conditional-expectation", "generating-functions",
-      "limit-theorems", "limit-theorems-deep", "markov", "markov-chain-analysis",
-      "poisson-processes", "martingales", "mcmc"
+      "sample-space", "conditional", "conditional-independence", "total-probability", "bayesian-inference",
+      "random-variables", "expectation-variance", "distributions", "discrete-distributions", "negative-binomial",
+      "continuous-rv", "normal-distribution", "gamma-beta-distributions", "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
+      "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "markov", "markov-chain-analysis", "random-walks", "branching-processes",
+      "poisson-processes", "renewal-queueing", "reliability-hazards", "martingales", "mcmc"
     ]
   },
   {
@@ -79,10 +79,10 @@ export const pathways: Pathway[] = [
     description: "Connect theoretical distributions to simulation, Monte Carlo error, dependence, and computational sampling.",
     outcome: "Design and interpret simulations with a clear target quantity and defensible error analysis.",
     lessonIds: [
-      "sample-space", "counting", "conditional", "bayes", "random-variables",
-      "expectation-variance", "distributions", "discrete-distributions", "continuous-rv",
-      "joint-distributions", "limit-theorems", "limit-theorems-deep",
-      "monte-carlo", "markov", "markov-chain-analysis", "mcmc"
+      "sample-space", "counting", "random-permutations", "conditional", "bayes", "bayesian-inference", "random-variables",
+      "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
+      "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
+      "monte-carlo", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "mcmc"
     ]
   }
 ];
