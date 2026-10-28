@@ -42,8 +42,8 @@ The EXP cost from level L to L+1 is `100 + 25 × (L - 1)`. Thus Level 1 → 2 co
 
 ## Initial adapters
 
-- **Bookkeys:** 10 EXP for each newly completed real book page; 50 EXP once when a book's required sections are complete. The bridge seeds a baseline on its first run so legacy pages are not retroactively rewarded.
-- **Zetamac / Math Trainer:** 10 EXP for a run with at least 3 attempted answers, or 20 EXP for a run with at least 10 attempted answers; difficulty comes from the selected tier and quality from accuracy. A cleared tier can earn the one-time first-pass bonus.
+- **Bookkeys:** 10 EXP for each newly completed real book page; 50 EXP once when a book's required sections are complete and at least 3 pages have been typed. The bridge seeds a baseline on its first run so legacy pages are not retroactively rewarded. Short one-page PDFs cannot farm the completion milestone.
+- **Zetamac / Math Trainer:** 5 EXP for each answered generated problem (correct answers receive the quality bonus), plus 10 EXP for a run with at least 3 attempted answers or 20 EXP for a run with at least 10 attempted answers. Difficulty comes from the selected tier and run quality from accuracy. A cleared tier can earn the one-time first-pass bonus.
 - **Probability:** 5 EXP for each submitted question attempt and 25 EXP for a meaningful test. Test quality determines the optional quality bonus; an 80%-or-better meaningful assessment earns the one-time first-pass bonus.
 
 ## Test
