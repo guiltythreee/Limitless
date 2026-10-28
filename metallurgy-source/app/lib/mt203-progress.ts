@@ -42,6 +42,8 @@ export type Progress = {
   /** daily goal met flags, keyed by YYYY-MM-DD — drives the streak */
   days: Record<string, number>;
   goal: number;
+  /** Additive saved-question list, kept separate from attempt/reward ledgers. */
+  bookmarks: string[];
 };
 
 const KEY = "mm-mt203-v1";
@@ -58,6 +60,7 @@ const EMPTY: Progress = {
   awarded: {},
   days: {},
   goal: DEFAULT_GOAL,
+  bookmarks: [],
 };
 
 const isNum = (v: unknown): v is number => typeof v === "number" && isFinite(v);
@@ -110,6 +113,9 @@ function sanitise(raw: unknown): Progress {
     awarded,
     days,
     goal: isNum(p.goal) && p.goal > 0 ? Math.min(200, Math.round(p.goal)) : DEFAULT_GOAL,
+    bookmarks: Array.isArray(p.bookmarks)
+      ? [...new Set(p.bookmarks.filter((q): q is string => typeof q === "string" && q.length > 0))]
+      : [],
   };
 }
 
@@ -130,6 +136,17 @@ export function saveProgress(p: Progress) {
   } catch {
     /* storage unavailable or full — progress just will not persist */
   }
+}
+
+export function toggleBookmark(p: Progress, questionId: string): Progress {
+  if (!questionId) return p;
+  const current = Array.isArray(p.bookmarks) ? p.bookmarks : [];
+  const bookmarks = current.includes(questionId)
+    ? current.filter((q) => q !== questionId)
+    : [...current, questionId];
+  const next = { ...p, bookmarks };
+  saveProgress(next);
+  return next;
 }
 
 export function resetProgress() {
