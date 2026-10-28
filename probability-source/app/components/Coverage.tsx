@@ -69,7 +69,7 @@ export default function Coverage() {
             <article key={area.area} className="panel p-5 sm:p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <h4 className="serif max-w-3xl text-xl text-parchment">{area.area}</h4>
-                <span className={\`border px-2 py-1 text-[9px] uppercase tracking-[.13em] \${meta.className}\`}>{meta.label}</span>
+                <span className={`border px-2 py-1 text-[9px] uppercase tracking-[.13em] ${meta.className}`}>{meta.label}</span>
               </div>
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <div>
