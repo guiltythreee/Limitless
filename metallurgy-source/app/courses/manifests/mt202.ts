@@ -45,6 +45,8 @@ export const MT202_MANIFEST: CourseManifest = {
     attemptHistory: true,
     analyticsCharts: true,
     periodFilters: true,
+    goals: true,
+    streaks: true,
   }),
   units: [], // MT202 has no module grouping in its source
   topics: [
