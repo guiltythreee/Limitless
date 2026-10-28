@@ -1,27 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-type RewardSummary = {
-  standard: string;
-  xp: number;
-  level: number;
-  xpIntoLevel: number;
-  xpForNextLevel: number;
-  nextLevelAt: number;
-  progress: number;
-  awardCount: number;
-  available?: boolean;
-};
-
-declare global {
-  interface Window {
-    LimitlessRewards?: {
-      STORAGE_KEY: string;
-      summary: () => RewardSummary;
-    };
-  }
-}
+import type { RewardSummary } from "../lib/reward-types";
 
 const EMPTY: RewardSummary = {
   standard: "LSR-1",
