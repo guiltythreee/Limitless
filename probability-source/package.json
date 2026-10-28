@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "validate:curriculum": "node scripts/validate-curriculum.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
