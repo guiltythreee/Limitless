@@ -1002,7 +1002,9 @@
     var s = MathRunState.state();
     var id = s.trick.id, phase = s.trick.phase, tr = E.TRICK_BY_ID[id];
     var answered = s.attempts.filter(function (a) { return a.result !== 'skip'; });
-    if (!trickAssessmentValid(phase, s.count, s.attempts)) {
+    if (phase === 'post' && !window.MathTrickProgression.canTakePostTest(meta.tricks[id])) {
+      trickBanner = 'Complete at least one practice run after the latest baseline before taking the post-test.';
+    } else if (!trickAssessmentValid(phase, s.count, s.attempts)) {
       trickBanner = (phase === 'baseline' || phase === 'post')
         ? 'This ' + TRICK_PHASES[phase].name.toLowerCase() + ' needs all ' + s.count + ' questions answered without skips, so it was not recorded.'
         : 'That practice run ended too early to record.';
