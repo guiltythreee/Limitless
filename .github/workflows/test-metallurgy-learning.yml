@@ -57,6 +57,10 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install project dependencies for the TypeScript test hook
+        working-directory: metallurgy-source
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
       - name: Run learning and persistence gates
         working-directory: metallurgy-source
         shell: bash
