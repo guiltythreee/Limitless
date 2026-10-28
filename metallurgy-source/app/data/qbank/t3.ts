@@ -384,20 +384,40 @@ const T3: TopicSource = {
       concept: "diagnose technique from initiator solubility + particle size",
       tags: ["confused"],
     },
-    {
-      id: "t3-21",
-      type: "recall",
-      diff: 2,
-      text: "In melt polycondensation, which unit operation gives water a short diffusion path so it can escape the viscous melt?",
-      options: [
-        { label: "a", text: "Ball milling" },
-        { label: "b", text: "Thin-film / wiped-film evaporators" },
-        { label: "c", text: "Rotary kilns" },
-        { label: "d", text: "Fluidized-bed quenching" },
+        {
+      "id": "t3-21",
+      "type": "recall",
+      "diff": 2,
+      "text": "In high-viscosity melt polycondensation, which equipment is particularly useful for creating a thin melt film and a short diffusion path for removing water or another condensate under vacuum?",
+      "options": [
+        {
+          "label": "a",
+          "text": "A wiped-film or thin-film evaporator"
+        },
+        {
+          "label": "b",
+          "text": "A pelletiser after the melt has already been solidified"
+        },
+        {
+          "label": "c",
+          "text": "A deep, completely filled stirred vessel with no exposed melt surface"
+        },
+        {
+          "label": "d",
+          "text": "A cooling conveyor operated at atmospheric pressure after the reaction is complete"
+        }
       ],
-      answer: "b",
-      why: "**Wiped-film/thin-film reactors** spread the melt into a thin layer so water diffuses out quickly — essential because melt viscosity rises enormously with conversion.",
-      tags: ["revision"],
+      "answer": "a",
+      "why": "A wiped-film or thin-film evaporator spreads the viscous melt over a large exposed area, shortening the path for condensate diffusion and improving removal under reduced pressure.",
+      "distractors": {
+        "b": "Pelletising shapes the polymer after reaction and does not create a short diffusion path for condensate in the melt.",
+        "c": "A deep, completely filled vessel has a lower melt surface-area-to-volume ratio and a longer removal path.",
+        "d": "Cooling after reaction cannot remove condensate from the viscous reacting melt to drive polycondensation forward."
+      },
+      "concept": "mass transfer in melt polycondensation",
+      "tags": [
+        "reviewed"
+      ]
     },
     {
       id: "t3-22",
