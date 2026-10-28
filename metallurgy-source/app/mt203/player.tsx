@@ -12,7 +12,7 @@
 // unchanged.
 
 import { useEffect, useRef, useState } from "react";
-import { awardAnswer, Mode, Progress, recordAnswer } from "../lib/mt203-progress";
+import { awardAnswer, Mode, Progress, recordAnswer, toggleBookmark } from "../lib/mt203-progress";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 import { Question } from "../courses/types";
 
@@ -25,6 +25,7 @@ export default function Player({
   topicTitles,
   onFinished,
   onExit,
+  initialQuestionId,
 }: {
   questions: Question[];
   mode: Mode;
@@ -34,6 +35,7 @@ export default function Player({
   topicTitles?: Record<string, string>;
   onFinished?: (p: Progress) => void;
   onExit?: () => void;
+  initialQuestionId?: string;
 }) {
   const [order, setOrder] = useState<number[]>(() => questions.map((_, i) => i));
   const [idx, setIdx] = useState(0);
@@ -46,14 +48,18 @@ export default function Player({
 
   // Reset whenever a different question set is supplied.
   useEffect(() => {
-    setOrder(questions.map((_, i) => i));
-    setIdx(0);
+    const nextOrder = questions.map((_, i) => i);
+    setOrder(nextOrder);
+    const target = initialQuestionId
+      ? questions.findIndex((question) => question.id === initialQuestionId)
+      : 0;
+    setIdx(target >= 0 ? target : 0);
     setPicked({});
     setRevealed({});
     setDone(false);
     setGain(0);
     setToast(null);
-  }, [questions]);
+  }, [questions, initialQuestionId]);
 
   useEffect(() => () => {
     if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -202,6 +208,15 @@ export default function Player({
           )}
         </div>
 
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.4rem" }}>
+          <button
+            className="btn"
+            aria-pressed={progress.bookmarks.includes(theQ.id)}
+            onClick={() => onProgress(toggleBookmark(progress, theQ.id))}
+          >
+            {progress.bookmarks.includes(theQ.id) ? "★ Bookmarked" : "☆ Bookmark"}
+          </button>
+        </div>
         <QuestionMeta q={theQ} />
         <QuestionBody q={theQ} />
         <OptionList q={theQ} picked={chosen} onPick={pick} locked={isRevealed} />
