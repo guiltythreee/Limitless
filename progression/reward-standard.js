@@ -168,6 +168,7 @@
       if (!eventId || !moduleId || !contentKey) return { ok: false, xp: 0, error: 'missing-event-module-or-content-key' };
       if (typeof BASE_EXP[activityClass] !== 'number') return { ok: false, xp: 0, error: 'unknown-activity-class' };
       if (typeof DIFFICULTY[difficulty] !== 'number') return { ok: false, xp: 0, error: 'unknown-difficulty' };
+      if (isOneTimeClass(activityClass) && !cleanString(args.oneTimeKey)) return { ok: false, xp: 0, error: 'missing-one-time-key' };
 
       try {
         var ledger = read();
