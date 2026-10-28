@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { lessons, ranks, pad2, type Difficulty } from "../content";
+import { lessons, pathways, ranks, pad2, type Difficulty } from "../content";
 import { Rich } from "../lib/rich";
 import { allQuestions, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
 import { recordAttempt, recordTest, useStore, type TestRecord } from "../lib/store";
@@ -11,14 +11,15 @@ import { Options } from "./Practice";
 const MARK: Record<Status, string> = { correct: "✓", incorrect: "×", partial: "◐", unattempted: "" };
 const MARKCLS: Record<Status, string> = { correct: "text-emerald-500", incorrect: "text-red-500", partial: "text-amber-500", unattempted: "" };
 
-// Chapters (sequences) that have questions, each with its topics.
-const chapters = ranks
-  .map((r) => ({ rank: r, topics: lessons.filter((l) => l.rank === r.num && l.quiz.length > 0) }))
-  .filter((c) => c.topics.length > 0);
 const countOf = (lessonId: string) => allQuestions.filter((q) => q.lessonId === lessonId).length;
 
-function Setup({ currentLessonId, onStart }: { currentLessonId: string; onStart: (p: Q[], label: string) => void }) {
+function Setup({ currentLessonId, pathwayId, onStart }: { currentLessonId: string; pathwayId: string; onStart: (p: Q[], label: string) => void }) {
   const store = useStore();
+  const currentPathway = pathways.find((pathway) => pathway.id === pathwayId);
+  const scopedLessons = useMemo(() => currentPathway ? currentPathway.lessonIds.map((id) => lessons.find((lesson) => lesson.id === id)!) : lessons, [pathwayId]);
+  const chapters = useMemo(() => ranks
+    .map((r) => ({ rank: r, topics: scopedLessons.filter((l) => l.rank === r.num && l.quiz.length > 0) }))
+    .filter((c) => c.topics.length > 0), [scopedLessons]);
   const [chosen, setChosen] = useState<Set<string>>(() => new Set([currentLessonId]));
   const [size, setSize] = useState(10);
   const [pick, setPick] = useState<"mixed" | "new">("mixed");
@@ -26,7 +27,7 @@ function Setup({ currentLessonId, onStart }: { currentLessonId: string; onStart:
   const [folded, setFolded] = useState<Set<number>>(new Set()); // chapters whose topic list is hidden
 
   // Following the open topic: when you move to another topic the selection starts from it again.
-  useEffect(() => { setChosen(new Set([currentLessonId])); }, [currentLessonId]);
+  useEffect(() => { setChosen(new Set([currentLessonId])); }, [currentLessonId, pathwayId]);
 
   const pool = useMemo(() => allQuestions.filter((q) => chosen.has(q.lessonId) && (diff === "all" || q.difficulty === diff)), [chosen, diff]);
   const allIds = chapters.flatMap((c) => c.topics.map((t) => t.id));
@@ -37,8 +38,8 @@ function Setup({ currentLessonId, onStart }: { currentLessonId: string; onStart:
     setChosen(next);
   };
   const sizes = [5, 10, 20, 30, 50].filter((n) => n < pool.length);
-  const label = chosen.size === allIds.length ? "All of probability"
-    : chosen.size === 1 ? lessons.find((l) => chosen.has(l.id))!.title
+  const label = chosen.size === allIds.length ? (currentPathway ? `All of ${currentPathway.shortLabel}` : "All of probability")
+    : chosen.size === 1 ? (lessons.find((l) => chosen.has(l.id))?.title ?? "One topic")
     : chapters.filter((c) => c.topics.every((t) => chosen.has(t.id))).length && chapters.every((c) => c.topics.every((t) => chosen.has(t.id)) || c.topics.every((t) => !chosen.has(t.id)))
       ? chapters.filter((c) => c.topics.every((t) => chosen.has(t.id))).map((c) => `Sequence ${pad2(c.rank.num)}`).join(" + ")
       : `${chosen.size} topics`;
@@ -53,10 +54,10 @@ function Setup({ currentLessonId, onStart }: { currentLessonId: string; onStart:
     <div className="space-y-5">
       <div className="card">
         <div className="serif text-xl">Take a test</div>
-        <p className="mt-1 text-sm text-dim">Choose what the test covers: a whole chapter, single topics, several chapters, or everything. Answers are marked when you finish, and every answer also counts in your analysis.</p>
+        <p className="mt-1 text-sm text-dim">Choose topics from the active pathway, or combine its chapters into a cumulative test. Answers are marked when you finish, and every answer also counts in your analysis.</p>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          <button className="chip" onClick={() => setChosen(new Set(allIds))}>Everything</button>
+          <button className="chip" onClick={() => setChosen(new Set(allIds))}>Everything in pathway</button>
           <button className="chip" onClick={() => setChosen(new Set([currentLessonId]))}>Only the open topic</button>
           <button className="chip" onClick={() => setChosen(new Set())}>Clear</button>
           <button className="chip" onClick={() => setFolded(folded.size ? new Set() : new Set(chapters.map((c) => c.rank.num)))}>{folded.size ? "Expand all" : "Collapse all"}</button>
@@ -199,9 +200,9 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
   );
 }
 
-export default function Test({ currentLessonId }: { currentLessonId: string }) {
+export default function Test({ currentLessonId, pathwayId = "all" }: { currentLessonId: string; pathwayId?: string }) {
   const [run, setRun] = useState<{ pool: Q[]; label: string } | null>(null);
   if (run) return <TestRun pool={run.pool} label={run.label} onExit={() => setRun(null)} />;
-  return <Setup currentLessonId={currentLessonId} onStart={(pool, label) => setRun({ pool, label })} />;
+  return <Setup currentLessonId={currentLessonId} pathwayId={pathwayId} onStart={(pool, label) => setRun({ pool, label })} />;
 }
 
