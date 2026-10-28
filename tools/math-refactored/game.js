@@ -204,6 +204,35 @@
     });
     var wrap = U.h('div', 'table-wrap'); wrap.appendChild(table); box.appendChild(wrap);
     if (rows.length > 8) box.appendChild(U.h('p', 'note', 'Showing the 8 weakest of ' + rows.length + ' skills.'));
+
+    var tierStats = C.skillTierStats(), tierRows = [];
+    Object.keys(tierStats).forEach(function (skill) {
+      Object.keys(tierStats[skill]).forEach(function (tierId) {
+        var st = tierStats[skill][tierId];
+        if (st.n < 3) return;
+        tierRows.push({ skill: skill, tier: tierId, n: st.n, acc: st.acc, ratio: st.ratio,
+          weakness: (1 - st.acc) * 3 + Math.max(0, Math.min(3, st.ratio) - 1) * 1.2 });
+      });
+    });
+    tierRows.sort(function (a, b) { return b.weakness - a.weakness; });
+    if (tierRows.length) {
+      box.appendChild(U.h('h3', '', 'Skill performance by tier'));
+      box.appendChild(U.h('p', 'note', 'Separates easier and harder variants so strong performance at one tier cannot hide a weakness at another. Includes local attempts and any uploaded tier-level analysis.'));
+      var tt = U.h('table', 'skill-table'), th = U.h('tr');
+      ['Skill', 'Tier', 'Questions', 'Accuracy', 'Pace vs target'].forEach(function (x) { th.appendChild(U.h('th', '', x)); });
+      tt.appendChild(th);
+      tierRows.slice(0, 8).forEach(function (r) {
+        var tr = U.h('tr');
+        tr.appendChild(U.h('td', '', r.skill));
+        tr.appendChild(U.h('td', '', E.TIER_BY_ID[r.tier] ? E.TIER_BY_ID[r.tier].name : r.tier));
+        tr.appendChild(U.h('td', '', String(r.n)));
+        tr.appendChild(U.h('td', '', U.pct(r.acc)));
+        tr.appendChild(U.h('td', '', r.ratio.toFixed(1) + '×'));
+        tt.appendChild(tr);
+      });
+      var tw = U.h('div', 'table-wrap'); tw.appendChild(tt); box.appendChild(tw);
+      if (tierRows.length > 8) box.appendChild(U.h('p', 'note', 'Showing the 8 weakest skill/tier combinations of ' + tierRows.length + '.'));
+    }
   }
 
   /* ---------- weak-spot analysis file: download / upload ---------- */
@@ -229,7 +258,7 @@
     });
     return {
       app: 'limitless-math-profile', version: 1, exportedAt: new Date().toISOString(),
-      skills: skills, weak: rx ? rx.skills : [],
+      skills: skills, skillTiers: C.skillTierStats(), weak: rx ? rx.skills : [],
       prescription: rx ? { kind: rx.kind, skills: rx.skills } : null,
       tiers: tiers, meta: { xp: meta.xp, streak: meta.streak, tricks: meta.tricks, tierBonus: meta.tierBonus }, recent: recent
     };
@@ -301,8 +330,25 @@
           skills[k].medTime = skills[k].medianTime;
           if (skills[k].n > 0) count++;
         });
+        var skillTiers = {};
+        if (data.skillTiers && typeof data.skillTiers === 'object') {
+          E.SKILLS.forEach(function (skill) {
+            var sourceByTier = data.skillTiers[skill];
+            if (!sourceByTier || typeof sourceByTier !== 'object') return;
+            E.TIERS.forEach(function (tier) {
+              var st = sourceByTier[tier.id];
+              if (!st || typeof st !== 'object') return;
+              var n = Math.round(num(st.n, 0, 1000, 0));
+              if (!n) return;
+              (skillTiers[skill] || (skillTiers[skill] = {}))[tier.id] = {
+                n: n, acc: num(st.acc, 0, 1, 0), ratio: num(st.ratio, 0, 10, 1),
+                medTime: num(st.medTime, 0, 300, 0)
+              };
+            });
+          });
+        }
         var exportedAt = (typeof data.exportedAt === 'string' && !isNaN(Date.parse(data.exportedAt))) ? data.exportedAt : new Date().toISOString();
-        save(KEY_PROFILE, { importedAt: new Date().toISOString(), exportedAt: exportedAt, skills: skills });
+        save(KEY_PROFILE, { importedAt: new Date().toISOString(), exportedAt: exportedAt, skills: skills, skillTiers: skillTiers });
         mergeMeta(data.meta, data.tiers);
         renderMenu();
         var rx = C.prescription(C.analyse());
