@@ -63,6 +63,16 @@ export default function GlobalProgress() {
         <span>{summary.xpIntoLevel.toLocaleString()} / {summary.xpForNextLevel.toLocaleString()} EXP</span>
         <span>Level {summary.level + 1} next</span>
       </div>
+      {summary.nextReward ? (
+        <p className="mt-3 text-xs text-dim">Next reward · <span className="text-gold">{summary.nextReward.name}</span> at Level {summary.nextReward.level}</p>
+      ) : (
+        <p className="mt-3 text-xs text-dim">All currently defined global rewards unlocked.</p>
+      )}
+      {(summary.unlockedRewards?.length ?? 0) > 0 && (
+        <p className="mt-2 text-xs leading-5 text-dim">
+          Unlocked · {summary.unlockedRewards?.map((reward) => reward.name).join(" · ")}
+        </p>
+      )}
     </section>
   );
 }
