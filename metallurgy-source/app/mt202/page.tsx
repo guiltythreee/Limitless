@@ -30,7 +30,7 @@ const TOPICS = MANIFEST.topics;
 const LESSON_TOPICS = TOPICS.filter((t) => t.hasLesson);
 const TOTAL = TOPICS.reduce((sum, t) => sum + t.count, 0);
 const countOf = (id: string) => TOPICS.find((t) => t.id === id)?.count ?? 0;
-const topicOfBookmark = (id: string) => /^(ch\\d+)-q\\d+$/.exec(id)?.[1];
+const topicOfBookmark = (id: string) => /^(ch\d+)-q\d+$/.exec(id)?.[1];
 
 // Subject tools come from the manifest's tools capability and load lazily,
 // exactly as the descriptor declares.
@@ -38,7 +38,7 @@ const calculatorTool = MANIFEST.tools.find((t) => t.id === "calculators");
 const Calculators = calculatorTool ? lazy(calculatorTool.load) : null;
 
 type View =
-  | { kind: "study"; ch: string; tab: "lesson" | "quiz" }
+  | { kind: "study"; ch: string; tab: "lesson" | "quiz"; questionId?: string }
   | { kind: "exam" }
   | { kind: "calc" }
   | { kind: "bookmarks" };
