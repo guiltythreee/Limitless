@@ -131,7 +131,8 @@ export function recordAnswer(
   key: string,
   choice: string,
   correct: boolean,
-  mode: AttemptMode = "practice"
+  mode: AttemptMode = "practice",
+  ms = 0
 ): Progress {
   const now = Date.now();
   const next: Progress = {
@@ -152,7 +153,7 @@ export function recordAnswer(
   // the append below is the ONE write of this answer — answered + history
   // (and every other root field, known or unknown) persist together.
   return appendAndReturn({ ...next, activities: logFor(p).load() }, [
-    { q: key, topicId, picked: choice, correct, mode, ts: now },
+    { q: key, topicId, picked: choice, correct, mode, ms, ts: now },
   ]);
 }
 
