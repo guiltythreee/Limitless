@@ -27,6 +27,10 @@ for (const skill of E.SKILLS) {
         selectedTier.id + '/' + skill + ': invalid timing target');
       assert.equal(E.checkAnswer(q, q.answerText, true).status, 'correct',
         selectedTier.id + '/' + skill + ': generated answer was not accepted');
+      if (q.id === 'chain' && q.settings && ['G', 'H'].includes(q.settings.kind)) {
+        assert.ok(q.answer.n > 0,
+          selectedTier.id + '/' + skill + ': introductory mixed-operation answer should be positive');
+      }
 
       const gap = Math.abs(TIER_INDEX[q.tier] - selectedTier.index);
       assert.ok(gap <= 1,
@@ -57,11 +61,11 @@ assert.ok(easyEstimation.text.includes('within 5%'));
 assert.equal(E.checkAnswer(easyEstimation, easyEstimation.answerText, true).status, 'correct');
 
 const standardEstimationRng = E.makeRng(55302);
-const standardEstimation = E.nextQuestion('archon', standardEstimationRng, { recent: [] });
-if (standardEstimation.id === 'est') {
-  assert.equal(standardEstimation.tol.rel, 0.01);
-  assert.ok(standardEstimation.text.includes('within 1%'));
-}
+const standardEstimation = E.GENERATORS.est(standardEstimationRng, {
+  kind: 'mul', alo: 10, ahi: 99, dpa: 0, blo: 10, bhi: 99, dpb: 0
+});
+assert.equal(standardEstimation.tol.rel, 0.01);
+assert.ok(standardEstimation.text.includes('within 1%'));
 
 console.log('Skill-specific drill tier coverage passed (' + total +
   ' focused questions across ' + summary.length + ' skill/tier pairs).');
