@@ -59,6 +59,9 @@ function validate(q, tierId, recipeId) {
     tierId + '/' + recipeId + ': displayed answer must be accepted');
   assert.ok(Number.isFinite(q.diff) && q.diff > 0, tierId + '/' + recipeId + ': difficulty must be positive');
   assert.ok(Number.isFinite(q.target) && q.target > 0, tierId + '/' + recipeId + ': target must be positive');
+  const band = E.BANDS[tierId];
+  assert.ok(q.diff >= band[0] && q.diff <= band[1],
+    tierId + '/' + recipeId + ': difficulty ' + q.diff + ' outside tier band [' + band.join(', ') + ']');
   independentlyEvaluate(q);
   generated++;
 }
