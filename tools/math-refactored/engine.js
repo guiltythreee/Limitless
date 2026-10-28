@@ -343,6 +343,32 @@
     throw new Error('fracAdd: could not generate');
   };
 
+  G.fracMul = function (r, p) {
+    for (var i = 0; i < 500; i++) {
+      var b = r.pick(p.dens), d = r.pick(p.dens);
+      var a = r.int(1, b - 1), c = r.int(1, d - 1);
+      if (gcd(a, b) !== 1 || gcd(c, d) !== 1) continue;
+      var ans = rat(a * c, b * d);
+      var diff = 3.2 + Math.log(b * d) / Math.LN2;
+      return Q('Fractions', a + '/' + b + ' ' + TIMES + ' ' + c + '/' + d,
+        a + '/' + b + '*' + c + '/' + d, ans, diff);
+    }
+    throw new Error('fracMul: could not generate');
+  };
+
+  G.fracDiv = function (r, p) {
+    for (var i = 0; i < 500; i++) {
+      var b = r.pick(p.dens), d = r.pick(p.dens);
+      var a = r.int(1, b - 1), c = r.int(1, d - 1);
+      if (gcd(a, b) !== 1 || gcd(c, d) !== 1) continue;
+      var ans = rat(a * d, b * c);
+      var diff = 3.5 + Math.log(b * d) / Math.LN2;
+      return Q('Fractions', a + '/' + b + ' ' + DIVIDE + ' ' + c + '/' + d,
+        a + '/' + b + '/(' + c + '/' + d + ')', ans, diff);
+    }
+    throw new Error('fracDiv: could not generate');
+  };
+
   G.fracOfInt = function (r, p) {
     for (var i = 0; i < 400; i++) {
       var b = r.pick(p.dens), a = r.int(1, b - 1);
@@ -826,6 +852,7 @@
       recipes: [
         ['add', 2, { da: 3, db: 2 }], ['sub', 2, { da: 3, db: 2 }], ['add', 1, { da: 3, db: 3 }],
         ['mul', 3, { da: 2, db: 1, shortcut: 'any' }], ['div', 2, { dq: 2, dd: 1 }],
+        ['fracMul', 1, { dens: [2, 3, 4, 5, 8] }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 8] }],
         ['decAdd', 2, { ia: 1, ib: 1, dpa: 1, dpb: 1 }], ['decMul', 1, { da: 1, dpa: 1, db: 1, dpb: 0 }],
         ['square', 1, { lo: 11, hi: 25 }], ['pctOf', 1, { set: EASY_PCT, lo: 40, hi: 400, dp: 0 }],
         ['proportion', 1, { amax: 8 }], ['mean', 1, { nlo: 3, nhi: 3, lo: 3, hi: 20, spread: 4 }]
@@ -840,7 +867,9 @@
         ['pctOf', 2, { set: MID_PCT, lo: 80, hi: 900, dp: 0 }],
         ['decMul', 2, { da: 2, dpa: 1, db: 2, dpb: 1 }],
         ['decAdd', 1, { ia: 2, ib: 1, dpa: 2, dpb: 1 }],
-        ['div', 1, { dq: 2, dd: 2 }], ['square', 1, { lo: 16, hi: 30 }],
+        ['div', 1, { dq: 2, dd: 2 }],
+        ['fracMul', 1, { dens: [2, 3, 4, 5, 6, 8] }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 6, 8] }],
+        ['square', 1, { lo: 16, hi: 30 }],
         ['fracToDec', 1, { dens: [4, 5, 8, 16, 20, 25] }],
         ['proportion', 1, { amax: 12 }], ['mean', 1, { lo: 20, hi: 90, spread: 12 }],
         ['fracOfInt', 1, { dens: [3, 4, 5, 6, 8, 12], lo: 60, hi: 960 }]
@@ -849,9 +878,12 @@
       blurb: 'Three-digit products, brackets, fractions, percentage change.',
       recipes: [
         ['mul', 3, { da: 3, db: 2, shortcut: 'any' }],
+        ['add', 1, { da: 4, db: 3 }], ['sub', 1, { da: 4, db: 3 }], ['div', 1, { dq: 3, dd: 2 }],
+        ['decAdd', 1, { ia: 2, ib: 2, dpa: 2, dpb: 1 }],
         ['chain', 1, { kind: 'A' }], ['chain', 1, { kind: 'B' }], ['chain', 1, { kind: 'D' }],
         ['decMul', 2, { da: 3, dpa: 1, db: 2, dpb: 1 }], ['decDiv', 1, { dq: 2, dpq: 0, dd: 2, dpd: 1 }],
         ['fracAdd', 2, { dens: [3, 4, 5, 6, 8, 9, 10, 12] }],
+        ['fracMul', 1, { dens: [3, 4, 5, 6, 8, 10, 12] }], ['fracDiv', 1, { dens: [3, 4, 5, 6, 8, 10, 12] }],
         ['pctChange', 2, { set: [10, 15, 20, 25, 30, 35, 40, 12.5], lo: 40, hi: 800, decrease: true }],
         ['pctWhat', 1, { set: [15, 35, 45, 62.5, 12.5, 85, 24, 36], lo: 40, hi: 800 }],
         ['cube', 1, { lo: 8, hi: 20 }], ['sqrtPerfect', 1, { lo: 25, hi: 55 }], ['cbrtPerfect', 1, { lo: 8, hi: 20 }],
@@ -865,8 +897,11 @@
       blurb: 'Estimation, powers, awkward fractions, decimal chains.',
       recipes: [
         ['mul', 2, { da: 3, db: 3, shortcut: 'any' }], ['mul', 1, { da: 4, db: 2, shortcut: 'any' }],
+        ['add', 1, { da: 5, db: 4 }], ['sub', 1, { da: 5, db: 4 }], ['div', 1, { dq: 4, dd: 2 }],
+        ['decAdd', 1, { ia: 3, ib: 2, dpa: 2, dpb: 2 }],
         ['chain', 2, { kind: 'C' }], ['chain', 1, { kind: 'E' }],
         ['fracAdd', 2, { dens: [7, 9, 11, 12, 14, 15, 18] }],
+        ['fracMul', 1, { dens: [7, 9, 11, 12, 14, 15, 18] }], ['fracDiv', 1, { dens: [7, 9, 11, 12, 14, 15, 18] }],
         ['pow', 1, { bases: [2], elo: 10, ehi: 16, klo: 1, khi: 9 }],
         ['est', 1, { kind: 'mul', alo: 31, ahi: 99, dpa: 1, blo: 201, bhi: 999, dpb: 1 }],
         ['est', 1, { kind: 'div', nlo: 2000, nhi: 99999, dlo: 13, dhi: 98 }],
@@ -883,11 +918,14 @@
       blurb: 'Brutal products, double products, hard estimation.',
       recipes: [
         ['mul', 2, { da: 4, db: 3, shortcut: 'any' }], ['mul', 2, { da: 5, db: 2, shortcut: 'any' }],
+        ['add', 1, { da: 6, db: 5 }], ['sub', 1, { da: 6, db: 5 }], ['div', 1, { dq: 5, dd: 3 }],
+        ['decAdd', 1, { ia: 4, ib: 3, dpa: 2, dpb: 2 }],
         ['chain', 2, { kind: 'E' }], ['chain', 2, { kind: 'F' }], ['chain', 1, { kind: 'C' }],
         ['decMul', 2, { da: 3, dpa: 2, db: 3, dpb: 1 }],
         ['est', 2, { kind: 'mul', alo: 301, ahi: 999, dpa: 2, blo: 301, bhi: 999, dpb: 1 }],
         ['est', 1, { kind: 'div', nlo: 20000, nhi: 999999, dlo: 113, dhi: 987 }],
         ['fracAdd', 1, { dens: [11, 13, 14, 15, 16, 18, 21] }],
+        ['fracMul', 1, { dens: [11, 13, 14, 15, 16, 18, 21] }], ['fracDiv', 1, { dens: [11, 13, 14, 15, 16, 18, 21] }],
         ['pctChange', 1, { set: [17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5], lo: 400, hi: 8000, decrease: true }],
         ['sqrtApprox', 1, { lo: 500, hi: 9999 }],
         ['pow', 1, { bases: [3, 6, 7, 12], elo: 4, ehi: 8, klo: 3, khi: 9 }],
@@ -978,7 +1016,7 @@
     add: 'Addition', sub: 'Subtraction', table: 'Multiplication', mul: 'Multiplication', div: 'Division',
     decAdd: 'Decimals', decMul: 'Decimals', decDiv: 'Decimals', neg: 'Negatives',
     pctOf: 'Percentages', pctChange: 'Percentages', pctWhat: 'Percentages',
-    fracAdd: 'Fractions', fracOfInt: 'Fractions', fracToDec: 'Fractions',
+    fracAdd: 'Fractions', fracMul: 'Fractions', fracDiv: 'Fractions', fracOfInt: 'Fractions', fracToDec: 'Fractions',
     square: 'Squares & roots', cube: 'Squares & roots', sqrtPerfect: 'Squares & roots', cbrtPerfect: 'Squares & roots', sqrtApprox: 'Squares & roots',
     pow: 'Powers', est: 'Estimation', proportion: 'Ratios', mean: 'Averages', chain: 'Mixed operations',
     probDice: 'Probability', probCoin: 'Probability', probBag: 'Probability',
