@@ -50,6 +50,10 @@ export const MT203_MANIFEST: CourseManifest = {
     streaks: true,
     bookmarks: true,
     timers: true,
+    mistakes: true,
+    attemptHistory: true,
+    analyticsCharts: true,
+    periodFilters: true,
   }),
   units: [
     {
