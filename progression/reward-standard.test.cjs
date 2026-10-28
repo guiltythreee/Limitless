@@ -5,10 +5,12 @@ const Rewards = require('./reward-standard.js');
 
 function memoryStorage() {
   const values = new Map();
+  let writes = 0;
   return {
     getItem(key) { return values.has(key) ? values.get(key) : null; },
-    setItem(key, value) { values.set(key, String(value)); },
-    raw(key) { return values.get(key); }
+    setItem(key, value) { writes++; values.set(key, String(value)); },
+    raw(key) { return values.get(key); },
+    writes() { return writes; }
   };
 }
 function setup(start = Date.UTC(2026, 9, 28, 9)) {
@@ -49,6 +51,25 @@ test('award event IDs are idempotent and do not increase total XP twice', () => 
   assert.equal(duplicate.xp, 5);
   assert.equal(ledger.summary().xp, 5);
   assert.equal(ledger.summary().awardCount, 1);
+});
+
+test('recordMany batches multiple awards into one persistent write', () => {
+  const { ledger, storage } = setup();
+  const before = storage.writes();
+  const receipts = ledger.recordMany([
+    { module: 'math-trainer', eventId: 'run:1:q1', contentKey: 'math:q1', activityClass: 'micro-practice' },
+    { module: 'math-trainer', eventId: 'run:1:q2', contentKey: 'math:q2', activityClass: 'micro-practice' },
+    { module: 'math-trainer', eventId: 'run:1', contentKey: 'math:tier:adept', activityClass: 'focused-practice' }
+  ]);
+  assert.deepEqual(receipts.map((receipt) => receipt.xp), [5, 5, 20]);
+  assert.equal(storage.writes() - before, 1);
+  assert.equal(ledger.summary().xp, 30);
+  const replay = ledger.recordMany([
+    { module: 'math-trainer', eventId: 'run:1:q1', contentKey: 'math:q1', activityClass: 'micro-practice' },
+    { module: 'math-trainer', eventId: 'run:1', contentKey: 'math:tier:adept', activityClass: 'focused-practice' }
+  ]);
+  assert.equal(replay.every((receipt) => receipt.duplicate), true);
+  assert.equal(ledger.summary().xp, 30);
 });
 
 test('the daily repeat rule gives three full awards, three half awards, then zero', () => {
