@@ -12,7 +12,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { loadProgress, loadTheme, Progress, resetProgress, saveTheme } from "./progress";
+import { loadProgress, loadTheme, Progress, resetProgress, saveTheme, toggleBookmark } from "./progress";
+import BookmarksPanel from "../courses/BookmarksPanel";
 import Exam from "./exam";
 import Quiz from "./quiz";
 import { MT201_ENTRY } from "../courses/entries/mt201";
@@ -22,8 +23,9 @@ const MANIFEST = MT201_ENTRY.manifest;
 const TOPICS = MANIFEST.topics;
 const TOTAL = TOPICS.reduce((sum, t) => sum + t.count, 0);
 const titleOf = (id: string) => TOPICS.find((t) => t.id === id)?.title ?? id;
+const topicOfBookmark = (id: string) => /^(ch\\d+)-q\\d+$/.exec(id)?.[1];
 
-type View = { kind: "study"; ch: string } | { kind: "exam" };
+type View = { kind: "study"; ch: string; questionId?: string } | { kind: "exam" } | { kind: "bookmarks" };
 
 export default function Mt201() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -124,6 +126,17 @@ export default function Mt201() {
             })}
 
             <button
+              className={`ch-item ${view.kind === "bookmarks" ? "active" : ""}`}
+              onClick={() => setView({ kind: "bookmarks" })}
+            >
+              <span className="ch-num">★</span>
+              <span>
+                <span className="ch-title">Bookmarked questions</span>
+                <span className="ch-meta"><span className="ch-pct">{progress?.bookmarks?.length ?? 0} saved</span></span>
+              </span>
+            </button>
+
+            <button
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
               onClick={() => setView({ kind: "exam" })}
             >
@@ -145,7 +158,7 @@ export default function Mt201() {
                 onClick={() => {
                   if (confirm("Erase all saved progress for MT201?")) {
                     resetProgress();
-                    setProgress({ answered: {}, examBest: null });
+                    setProgress({ answered: {}, examBest: null, bookmarks: [] });
                   }
                 }}
               >
@@ -157,6 +170,16 @@ export default function Mt201() {
 
         {/* ---------------- main ---------------- */}
         <main className="main">
+          {view.kind === "bookmarks" && progress && (
+            <BookmarksPanel
+              bookmarks={progress.bookmarks ?? []}
+              topics={TOPICS}
+              resolveTopic={topicOfBookmark}
+              onOpen={(questionId, topicId) => setView({ kind: "study", ch: topicId, questionId })}
+              onRemove={(questionId) => setProgress(toggleBookmark(progress, questionId))}
+            />
+          )}
+
           {view.kind === "exam" && progress && (
             <>
               <div className="panel topbar">
@@ -199,6 +222,7 @@ export default function Mt201() {
                   questions={chapter.questions}
                   progress={progress}
                   onProgress={setProgress}
+                  initialQuestionId={view.questionId}
                 />
               )}
 
