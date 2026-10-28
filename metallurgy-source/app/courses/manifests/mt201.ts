@@ -36,6 +36,8 @@ export const MT201_MANIFEST: CourseManifest = {
     attemptHistory: true,
     analyticsCharts: true,
     periodFilters: true,
+    goals: true,
+    streaks: true,
   }),
   units: [], // MT201 has no module grouping in its source
   topics: [
