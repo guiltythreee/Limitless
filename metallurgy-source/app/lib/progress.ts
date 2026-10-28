@@ -60,10 +60,10 @@ function topicOf(q: string): string | undefined {
 }
 
 export function loadProgress(): Progress {
-  if (typeof window === "undefined") return { answered: {}, examBest: null };
+  if (typeof window === "undefined") return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
   try {
     const raw = window.localStorage.getItem(KEY);
-    if (!raw) return { answered: {}, examBest: null };
+    if (!raw) return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
     const p = JSON.parse(raw) as Progress;
     // `...p` preserves every unknown root field (activities, future additions).
     // Read-only: load never writes or backfills the activities field.
@@ -76,7 +76,7 @@ export function loadProgress(): Progress {
       goalByDay: sanitiseGoalByDay(p.goalByDay),
     };
   } catch {
-    return { answered: {}, examBest: null };
+    return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
   }
 }
 
