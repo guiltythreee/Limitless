@@ -6,6 +6,7 @@ on:
       - "metallurgy-source/app/platform/learning/**"
       - "metallurgy-source/app/courses/BookmarksPanel.tsx"
       - "metallurgy-source/app/courses/ActivityHistoryPanel.tsx"
+      - "metallurgy-source/app/courses/DailyGoalsPanel.tsx"
       - "metallurgy-source/app/courses/manifests/mt201.ts"
       - "metallurgy-source/app/courses/manifests/mt202.ts"
       - "metallurgy-source/app/courses/manifests/mt203.ts"
@@ -18,6 +19,7 @@ on:
       - "metallurgy-source/app/lib/mt203-progress.ts"
       - "metallurgy-source/scripts/test-bookmarks.mjs"
       - "metallurgy-source/scripts/test-question-timers.mjs"
+      - "metallurgy-source/scripts/test-daily-goals.mjs"
       - "metallurgy-source/app/mt201/progress.ts"
       - "metallurgy-source/app/mt201/exam.tsx"
       - "metallurgy-source/app/lib/progress.ts"
@@ -37,6 +39,7 @@ on:
       - "metallurgy-source/app/platform/learning/**"
       - "metallurgy-source/app/courses/BookmarksPanel.tsx"
       - "metallurgy-source/app/courses/ActivityHistoryPanel.tsx"
+      - "metallurgy-source/app/courses/DailyGoalsPanel.tsx"
       - "metallurgy-source/app/courses/manifests/mt201.ts"
       - "metallurgy-source/app/courses/manifests/mt202.ts"
       - "metallurgy-source/app/courses/manifests/mt203.ts"
@@ -49,6 +52,7 @@ on:
       - "metallurgy-source/app/lib/mt203-progress.ts"
       - "metallurgy-source/scripts/test-bookmarks.mjs"
       - "metallurgy-source/scripts/test-question-timers.mjs"
+      - "metallurgy-source/scripts/test-daily-goals.mjs"
       - "metallurgy-source/app/mt201/progress.ts"
       - "metallurgy-source/app/mt201/exam.tsx"
       - "metallurgy-source/app/lib/progress.ts"
@@ -102,6 +106,7 @@ jobs:
             scripts/test-attempt-parity.mjs
             scripts/test-bookmarks.mjs
             scripts/test-question-timers.mjs
+            scripts/test-daily-goals.mjs
           )
           for test_file in "${tests[@]}"; do
             echo "::group::${test_file}"
