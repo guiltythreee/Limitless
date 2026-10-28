@@ -647,26 +647,48 @@
     var award = MathXP.awardXp(info.total);
     s.xp = award.gained; s.rankUp = award.rankUp; s.xpInfo = info;
 
-    // Global EXP is additive: MathXP's local ranks, tier clears and trick records stay intact.
+    // Each answered equation is micro-practice; finishing a substantive run adds
+    // a separate task reward. MathXP's local ranks and existing trainer rewards stay intact.
     s.globalXp = 0;
     s.globalLevel = 1;
     s.globalTotalXp = 0;
-    if (window.LimitlessRewards && s.attempted >= 3) {
+    if (window.LimitlessRewards) {
       var rewardTierIndex = r.tier ? E.TIER_BY_ID[r.tier].index : r.topTierIndex;
       var rewardTierId = r.tier || E.TIERS[r.topTierIndex].id;
       var rewardDifficulty = rewardTierIndex >= 4 ? 'advanced' : (rewardTierIndex >= 2 ? 'intermediate' : 'foundational');
-      var globalReceipt = window.LimitlessRewards.record({
-        module: 'math-trainer',
-        eventId: 'math-run:' + (r.id || String(r.ts)),
-        contentKey: 'math:tier:' + rewardTierId,
-        activityClass: s.attempted >= 10 ? 'focused-practice' : 'standard-task',
-        difficulty: rewardDifficulty,
-        quality: s.accuracy,
-        passed: !!s.cleared,
-        passKey: s.cleared ? 'math:tier-clear:' + rewardTierId : ''
+      var runId = r.id || String(r.ts);
+      var globalInputs = [];
+      (r.attempts || []).forEach(function (attempt) {
+        if (attempt.result !== 'correct' && attempt.result !== 'wrong') return;
+        var questionText = String(attempt.text || attempt.gen || attempt.i);
+        globalInputs.push({
+          module: 'math-trainer',
+          eventId: 'math-answer:' + runId + ':' + attempt.i,
+          contentKey: 'math:question:' + questionText,
+          activityClass: 'micro-practice',
+          difficulty: rewardDifficulty,
+          quality: attempt.result === 'correct' ? 1 : 0
+        });
       });
+      if (s.attempted >= 3) {
+        globalInputs.push({
+          module: 'math-trainer',
+          eventId: 'math-run:' + runId,
+          contentKey: 'math:tier:' + rewardTierId,
+          activityClass: s.attempted >= 10 ? 'focused-practice' : 'standard-task',
+          difficulty: rewardDifficulty,
+          quality: s.accuracy,
+          passed: !!s.cleared,
+          passKey: s.cleared ? 'math:tier-clear:' + rewardTierId : ''
+        });
+      }
+      var globalReceipts = typeof window.LimitlessRewards.recordMany === 'function'
+        ? window.LimitlessRewards.recordMany(globalInputs)
+        : globalInputs.map(function (input) { return window.LimitlessRewards.record(input); });
+      s.globalXp = globalReceipts.reduce(function (total, receipt) {
+        return total + (receipt && receipt.ok && !receipt.duplicate ? receipt.xp : 0);
+      }, 0);
       var globalSummary = window.LimitlessRewards.summary();
-      s.globalXp = globalReceipt && globalReceipt.ok ? globalReceipt.xp : 0;
       s.globalLevel = globalSummary.level;
       s.globalTotalXp = globalSummary.xp;
     }
