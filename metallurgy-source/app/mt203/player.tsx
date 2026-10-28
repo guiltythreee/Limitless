@@ -65,8 +65,11 @@ export default function Player({
       ? questions.findIndex((question) => question.id === initialQuestionId)
       : 0;
     setIdx(target >= 0 ? target : 0);
-    setPicked({});
-    setRevealed({});
+    const storedAttempt = initialQuestionId
+      ? [...progress.attempts].reverse().find((attempt) => attempt.q === initialQuestionId)
+      : undefined;
+    setPicked(storedAttempt && initialQuestionId ? { [initialQuestionId]: storedAttempt.picked } : {});
+    setRevealed(storedAttempt && initialQuestionId ? { [initialQuestionId]: true } : {});
     setDone(false);
     setGain(0);
     setToast(null);
