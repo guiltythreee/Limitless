@@ -22,8 +22,12 @@ import assert from "node:assert/strict";
 
 import {
   ATTEMPT_MODES,
+  DEFAULT_DAILY_GOAL,
   MAX_ACTIVITIES,
+  MAX_DAILY_GOAL,
   PERIODS,
+  clampDailyGoal,
+  dailyGoalInfo,
   activityKey,
   appendActivities,
   createActivityLog,
@@ -395,5 +399,48 @@ const emptyLog = createActivityLog({
 
 eq(emptyLog.load().length, 0, "empty activities field suppresses legacy derivation");
 eq(emptyWrites, 0, "empty load still does not write");
+
+// --------------------------------------------------------- daily goals
+eq(DEFAULT_DAILY_GOAL, 10, "shared daily-goal default");
+eq(MAX_DAILY_GOAL, 200, "shared daily-goal maximum");
+eq(clampDailyGoal(0), 1, "daily goal clamps to minimum");
+eq(clampDailyGoal(43.7), 44, "daily goal rounds to an integer");
+eq(clampDailyGoal(999), 200, "daily goal clamps to maximum");
+eq(clampDailyGoal(Number.NaN), 10, "invalid daily goal uses default");
+
+const goalNow = new Date(2026, 4, 20, 12, 0, 0).getTime(); // Wednesday
+const goalDay = (offset) => {
+  const d = new Date(goalNow);
+  d.setDate(d.getDate() + offset);
+  return d.getTime();
+};
+const goalDayKey = (offset) => dayKey(goalDay(offset));
+const goalEntries = [
+  A({ q: "ch01-q1", ts: goalDay(-2) }),
+  A({ q: "ch01-q2", ts: goalDay(-2) }),
+  A({ q: "ch01-q3", ts: goalDay(-1) }),
+  A({ q: "ch01-q4", ts: goalDay(-1) }),
+  A({ q: "ch01-q5", ts: goalDay(0) }),
+  A({ q: "ch01-q6", ts: goalDay(0) }),
+  A({ q: "ch01-q7", ts: goalDay(0) }),
+  A({ q: "ch01-q8", ts: 0 }),
+];
+const historicalGoals = {
+  [goalDayKey(-2)]: 2,
+  [goalDayKey(-1)]: 2,
+  [goalDayKey(0)]: 3,
+};
+const goalInfo = dailyGoalInfo(goalEntries, 3, historicalGoals, goalNow);
+eq(goalInfo.todayCount, 3, "goal counts submitted answers today");
+eq(goalInfo.goal, 3, "today uses its recorded goal, not a later default");
+eq(goalInfo.reached, true, "goal reached is computed for the current date");
+eq(goalInfo.streak, 3, "current streak uses day-specific goals");
+eq(goalInfo.bestStreak, 3, "best streak measures consecutive qualifying days");
+eq(goalInfo.week.length, 7, "weekly goal grid has seven days");
+eq(goalInfo.week.find((d) => d.today)?.count, 3, "weekly grid includes today's count");
+eq(goalInfo.week.find((d) => d.today)?.goal, 3, "weekly grid includes today's goal");
+eq(dailyGoalInfo(goalEntries, 3, {}, goalNow).goal, 3, "current goal is used without historical snapshots");
+eq(dailyGoalInfo(goalEntries.filter((a) => a.ts !== goalDay(-1)), 3, historicalGoals, goalNow).streak, 1, "missing day breaks current streak");
+eq(dailyGoalInfo([A({ ts: 0 })], 1, {}, goalNow).todayCount, 0, "unknown-date legacy entries do not count toward a goal");
 
 console.log(`test-learning-core: ${checks} checks passed`);
