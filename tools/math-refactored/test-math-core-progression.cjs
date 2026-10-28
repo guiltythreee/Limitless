@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const E = require('./engine.js');
 
 const SEED = 20261028;
-const CORE = ['add', 'sub', 'div'];
+const CORE = ['add', 'sub', 'div', 'divRem'];
 const EXTENDED = ['decAdd', 'fracMul', 'fracDiv'];
 let generated = 0;
 
@@ -17,6 +17,14 @@ function assertNear(actual, expected, label) {
 
 function independentlyEvaluate(q) {
   let m;
+  if (q.id === 'divRem') {
+    m = q.text.match(/^Remainder: (\\d+) ÷ (\\d+)$/);
+    assert.ok(m, 'Unexpected remainder prompt: ' + q.text);
+    const dividend = Number(m[1]), divisor = Number(m[2]);
+    assert.notEqual(dividend % divisor, 0, q.text + ': remainder questions should not be exact divisions');
+    assertNear(q.answer.n / q.answer.d, dividend % divisor, q.text);
+    return;
+  }
   if (q.id === 'add' || q.id === 'sub' || q.id === 'div') {
     if (q.id === 'div') {
       m = q.text.match(/^(\d+) ÷ (\d+)$/);
