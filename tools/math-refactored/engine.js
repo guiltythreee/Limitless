@@ -208,6 +208,17 @@
     }
   };
 
+  G.divRem = function (r, p) {
+    for (var i = 0; i < 500; i++) {
+      var a = r.int(p.alo, p.ahi), d = r.int(p.dlo, p.dhi);
+      var rem = a % d;
+      if (rem === 0) continue;
+      var diff = 0.5 * digits(a) + 0.2 * digits(d) + 0.4 + (p.bonus || 0);
+      return Q('Division', 'Remainder: ' + a + ' ' + DIVIDE + ' ' + d, a + '%' + d, rat(rem), diff);
+    }
+    throw new Error('divRem: could not generate');
+  };
+
   /* decimal add/subtract: ia/ib = digits of the whole numbers, dpa/dpb = decimal places */
   G.decAdd = function (r, p) {
     for (var i = 0; ; i++) {
@@ -845,6 +856,7 @@
       recipes: [
         ['add', 3, { da: 2, db: 2 }], ['sub', 3, { da: 2, db: 2 }],
         ['table', 2, { lo: 3, hi: 12 }], ['div', 2, { dq: 1, dd: 1 }],
+        ['divRem', 1, { alo: 10, ahi: 99, dlo: 2, dhi: 9, bonus: 0.4 }],
         ['square', 1, { lo: 2, hi: 15 }], ['mul', 1, { da: 2, db: 1, shortcut: 'any' }]
       ] },
     { id: 'scribe', name: 'Scribe', label: 'Easy+', emblem: '✶', accuracy: 0.95,
@@ -852,6 +864,7 @@
       recipes: [
         ['add', 2, { da: 3, db: 2 }], ['sub', 2, { da: 3, db: 2 }], ['add', 1, { da: 3, db: 3 }],
         ['mul', 3, { da: 2, db: 1, shortcut: 'any' }], ['div', 2, { dq: 2, dd: 1 }],
+        ['divRem', 1, { alo: 10, ahi: 99, dlo: 2, dhi: 9, bonus: 0.8 }],
         ['fracMul', 1, { dens: [2, 3, 4, 5, 8] }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 8] }],
         ['decAdd', 2, { ia: 1, ib: 1, dpa: 1, dpb: 1 }], ['decMul', 1, { da: 1, dpa: 1, db: 1, dpb: 0 }],
         ['square', 1, { lo: 11, hi: 25 }], ['pctOf', 1, { set: EASY_PCT, lo: 40, hi: 400, dp: 0 }],
@@ -867,7 +880,7 @@
         ['pctOf', 2, { set: MID_PCT, lo: 80, hi: 900, dp: 0 }],
         ['decMul', 2, { da: 2, dpa: 1, db: 2, dpb: 1 }],
         ['decAdd', 1, { ia: 2, ib: 1, dpa: 2, dpb: 1 }],
-        ['div', 1, { dq: 2, dd: 2 }],
+        ['div', 1, { dq: 2, dd: 2 }], ['divRem', 1, { alo: 100, ahi: 999, dlo: 10, dhi: 99, bonus: 1.8 }],
         ['fracMul', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }],
         ['square', 1, { lo: 16, hi: 30 }],
         ['fracToDec', 1, { dens: [4, 5, 8, 16, 20, 25] }],
@@ -878,7 +891,7 @@
       blurb: 'Three-digit products, brackets, fractions, percentage change.',
       recipes: [
         ['mul', 3, { da: 3, db: 2, shortcut: 'any' }],
-        ['add', 1, { da: 4, db: 3, bonus: 2.5 }], ['sub', 1, { da: 4, db: 3, bonus: 2.5 }], ['div', 1, { dq: 3, dd: 2 }],
+        ['add', 1, { da: 4, db: 3, bonus: 2.5 }], ['sub', 1, { da: 4, db: 3, bonus: 2.5 }], ['div', 1, { dq: 3, dd: 2 }], ['divRem', 1, { alo: 1000, ahi: 9999, dlo: 10, dhi: 99, bonus: 2.8 }],
         ['decAdd', 1, { ia: 2, ib: 2, dpa: 2, dpb: 1, bonus: 1.5 }],
         ['chain', 1, { kind: 'A' }], ['chain', 1, { kind: 'B' }], ['chain', 1, { kind: 'D' }],
         ['decMul', 2, { da: 3, dpa: 1, db: 2, dpb: 1 }], ['decDiv', 1, { dq: 2, dpq: 0, dd: 2, dpd: 1 }],
@@ -897,7 +910,7 @@
       blurb: 'Estimation, powers, awkward fractions, decimal chains.',
       recipes: [
         ['mul', 2, { da: 3, db: 3, shortcut: 'any' }], ['mul', 1, { da: 4, db: 2, shortcut: 'any' }],
-        ['add', 1, { da: 5, db: 4, bonus: 3.5 }], ['sub', 1, { da: 5, db: 4, bonus: 3.5 }], ['div', 1, { dq: 4, dd: 2 }],
+        ['add', 1, { da: 5, db: 4, bonus: 3.5 }], ['sub', 1, { da: 5, db: 4, bonus: 3.5 }], ['div', 1, { dq: 4, dd: 2 }], ['divRem', 1, { alo: 10000, ahi: 99999, dlo: 10, dhi: 99, bonus: 3.8 }],
         ['decAdd', 1, { ia: 3, ib: 2, dpa: 2, dpb: 2, bonus: 2.5 }],
         ['chain', 2, { kind: 'C' }], ['chain', 1, { kind: 'E' }],
         ['fracAdd', 2, { dens: [7, 9, 11, 12, 14, 15, 18] }],
@@ -918,7 +931,7 @@
       blurb: 'Brutal products, double products, hard estimation.',
       recipes: [
         ['mul', 2, { da: 4, db: 3, shortcut: 'any' }], ['mul', 2, { da: 5, db: 2, shortcut: 'any' }],
-        ['add', 1, { da: 6, db: 5, bonus: 5 }], ['sub', 1, { da: 6, db: 5, bonus: 5 }], ['div', 1, { dq: 5, dd: 3 }],
+        ['add', 1, { da: 6, db: 5, bonus: 5 }], ['sub', 1, { da: 6, db: 5, bonus: 5 }], ['div', 1, { dq: 5, dd: 3 }], ['divRem', 1, { alo: 100000, ahi: 999999, dlo: 100, dhi: 999, bonus: 5 }],
         ['decAdd', 1, { ia: 4, ib: 3, dpa: 2, dpb: 2, bonus: 3.5 }],
         ['chain', 2, { kind: 'E' }], ['chain', 2, { kind: 'F' }], ['chain', 1, { kind: 'C' }],
         ['decMul', 2, { da: 3, dpa: 2, db: 3, dpb: 1 }],
@@ -1013,7 +1026,7 @@
      SKILLS, DRILLS, DECKS, TRICKS — what the trainer uses on top of tiers
      ================================================================== */
   var RECIPE_SKILL = {
-    add: 'Addition', sub: 'Subtraction', table: 'Multiplication', mul: 'Multiplication', div: 'Division',
+    add: 'Addition', sub: 'Subtraction', table: 'Multiplication', mul: 'Multiplication', div: 'Division', divRem: 'Division',
     decAdd: 'Decimals', decMul: 'Decimals', decDiv: 'Decimals', neg: 'Negatives',
     pctOf: 'Percentages', pctChange: 'Percentages', pctWhat: 'Percentages',
     fracAdd: 'Fractions', fracMul: 'Fractions', fracDiv: 'Fractions', fracOfInt: 'Fractions', fracToDec: 'Fractions',
