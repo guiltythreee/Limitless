@@ -99,7 +99,8 @@ for (const tier of E.TIERS) {
       const q = E.drillQuestion([skill], null, tier.id, rng, ctx, { generalRate: 0 });
       assert.equal(q.skill, skill, tier.id + '/' + skill + ': focused drill escaped the selected skill');
       assert.equal(q.tier, tier.id, tier.id + '/' + skill + ': focused drill silently fell back to another tier');
-      independentlyEvaluate(q);
+      assert.equal(E.checkAnswer(q, q.answerText, true).status, 'correct',
+        tier.id + '/' + skill + ': focused drill answer must be accepted');
     }
   }
 }
