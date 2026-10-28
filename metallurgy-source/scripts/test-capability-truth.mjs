@@ -26,7 +26,6 @@ const check = (cond, msg) => {
 
 const PHASE5 = [
   "mistakes",
-  "timers",
   "drafts",
   "attemptHistory",
   "analyticsCharts",
@@ -51,6 +50,7 @@ const SERVED = {
     exam: "app/mt201/exam.tsx",
     review: "app/mt201/quiz.tsx",
     bookmarks: "app/mt201/quiz.tsx + app/courses/BookmarksPanel.tsx",
+    timers: "app/mt201/quiz.tsx",
   },
   mt202: {
     theory: "app/mt202/page.tsx",
@@ -61,6 +61,7 @@ const SERVED = {
     review: "app/mt202/quiz.tsx",
     tools: "app/mt202/page.tsx",
     bookmarks: "app/mt202/quiz.tsx + app/courses/BookmarksPanel.tsx",
+    timers: "app/mt202/quiz.tsx",
   },
   mt203: {
     theory: "app/mt203/player.tsx",
@@ -80,6 +81,7 @@ const SERVED = {
     goals: "app/mt203/dashboard.tsx",
     streaks: "app/mt203/dashboard.tsx",
     bookmarks: "app/mt203/player.tsx + app/courses/BookmarksPanel.tsx",
+    timers: "app/mt203/player.tsx",
   },
 };
 
@@ -100,11 +102,7 @@ const KNOWN_GAPS = {
 };
 
 /** Known under-claims. A false flag is allowed to describe a partial feature. */
-const KNOWN_UNDERCLAIMS = {
-  mt203: {
-    timers: "exam countdown exists; per-question timing does not",
-  },
-};
+const KNOWN_UNDERCLAIMS = {};
 
 const EXPECTED = {
   mt201: capabilities({
@@ -114,6 +112,7 @@ const EXPECTED = {
     exam: true,
     review: true,
     bookmarks: true,
+    timers: true,
   }),
   mt202: capabilities({
     theory: true,
@@ -125,6 +124,7 @@ const EXPECTED = {
     review: true,
     tools: true,
     bookmarks: true,
+    timers: true,
   }),
   mt203: capabilities({
     theory: true,
@@ -143,6 +143,7 @@ const EXPECTED = {
     goals: true,
     streaks: true,
     bookmarks: true,
+    timers: true,
   }),
 };
 
