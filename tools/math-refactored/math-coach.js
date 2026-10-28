@@ -48,6 +48,29 @@
     });
     return out;
   }
+  /* Local skill-by-tier statistics preserve difficulty distinctions that overall skill averages can hide. */
+  function localSkillTierStats() {
+    var atts = S.load(KEY_ATT, []), grouped = {};
+    for (var i = atts.length - 1; i >= 0; i--) {
+      var a = atts[i];
+      if (!a || typeof a.s !== 'string' || typeof a.tier !== 'string' ||
+          a.r === 'skip' || !(a.target > 0)) continue;
+      var byTier = grouped[a.s] || (grouped[a.s] = {});
+      var list = byTier[a.tier] || (byTier[a.tier] = []);
+      if (list.length < SKILL_WINDOW) list.push(a);
+    }
+    Object.keys(grouped).forEach(function (skill) {
+      Object.keys(grouped[skill]).forEach(function (tier) {
+        var list = grouped[skill][tier];
+        var right = list.filter(function (a) { return a.r === 'correct'; }).length;
+        grouped[skill][tier] = { n: list.length, acc: right / list.length,
+          ratio: U.median(list.map(function (a) { return a.time / (a.effectiveTarget > 0 ? a.effectiveTarget : a.target); })),
+          medTime: U.median(list.map(function (a) { return a.time; })) };
+      });
+    });
+    return grouped;
+  }
+
   /* local attempts blended with an uploaded analysis (the uploaded one counts a little less) */
   function skillStats() {
     var loc = localSkillStats(), prof = S.load(KEY_PROFILE, null), pri = (prof && prof.skills) || {}, out = {};
@@ -105,6 +128,7 @@
     diagnose: diagnose,
     kindFor: kindFor,
     localSkillStats: localSkillStats,
+    localSkillTierStats: localSkillTierStats,
     skillStats: skillStats,
     analyse: analyse,
     prescription: prescription,
