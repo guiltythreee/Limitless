@@ -240,11 +240,41 @@
       }
     }
 
+    function recordMany(inputs) {
+      if (!Array.isArray(inputs) || !inputs.length) return [];
+      var stagedLedger;
+      try { stagedLedger = read(); }
+      catch (error) { return inputs.map(function () { return { ok: false, xp: 0, error: 'storage-unavailable' }; }); }
+      var stagedStorage = {
+        getItem: function (key) { return key === STORAGE_KEY ? JSON.stringify(stagedLedger) : null; },
+        setItem: function (key, value) {
+          if (key === STORAGE_KEY) stagedLedger = sanitizeLedger(JSON.parse(value));
+        }
+      };
+      var staged = createLedger(stagedStorage, now, function () {});
+      var receipts = inputs.map(function (input) { return staged.record(input); });
+      var changed = receipts.some(function (receipt) { return receipt.ok && !receipt.duplicate; });
+      if (changed) {
+        if (!storage || typeof storage.setItem !== 'function') {
+          return receipts.map(function (receipt) { return receipt.ok && !receipt.duplicate ? { ok: false, xp: 0, error: 'storage-unavailable' } : receipt; });
+        }
+        try { storage.setItem(STORAGE_KEY, JSON.stringify(stagedLedger)); }
+        catch (error) {
+          return receipts.map(function (receipt) { return receipt.ok && !receipt.duplicate ? { ok: false, xp: 0, error: 'storage-unavailable' } : receipt; });
+        }
+        signal();
+      }
+      var finalLevel = levelForXp(stagedLedger.totalXp);
+      return receipts.map(function (receipt) {
+        return receipt.ok ? Object.assign({}, receipt, { totalXp: stagedLedger.totalXp, level: finalLevel.level }) : receipt;
+      });
+    }
+
     function exportLedger() {
       return read();
     }
 
-    return { record: record, summary: summary, read: exportLedger };
+    return { record: record, recordMany: recordMany, summary: summary, read: exportLedger };
   }
 
   var browserStorage = {
@@ -275,6 +305,7 @@
     levelForXp: levelForXp,
     createLedger: createLedger,
     record: defaultLedger.record,
+    recordMany: defaultLedger.recordMany,
     summary: defaultLedger.summary,
     read: defaultLedger.read
   };
