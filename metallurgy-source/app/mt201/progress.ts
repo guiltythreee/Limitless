@@ -65,14 +65,14 @@ export function topicOf(q: string): TopicId | undefined {
 }
 
 export function loadProgress(): Progress {
-  if (typeof window === "undefined") return { answered: {}, examBest: null };
+  if (typeof window === "undefined") return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
   try {
     const raw = window.localStorage.getItem(KEY);
-    if (!raw) return { answered: {}, examBest: null };
+    if (!raw) return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
     const parsed: unknown = JSON.parse(raw);
     // Non-object payloads keep the empty defaults, exactly as before.
     if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
-      return { answered: {}, examBest: null };
+      return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
     }
     const p = parsed as Progress;
     // `answered`/`examBest` keep their original defaults; every other field —
@@ -87,7 +87,7 @@ export function loadProgress(): Progress {
       goalByDay: sanitiseGoalByDay(p.goalByDay),
     };
   } catch {
-    return { answered: {}, examBest: null };
+    return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
   }
 }
 
