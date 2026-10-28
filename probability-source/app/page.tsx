@@ -92,7 +92,7 @@ export default function Home() {
     setRolls(generated);
   }
   function resetProgress() {
-    if (window.confirm("Erase all saved progress, attempts, timers, bookmarks and streaks on this browser?")) resetAll();
+    if (window.confirm("Erase all Probability course progress, attempts, timers, bookmarks and goals? Cross-discipline Global EXP will be kept.")) resetAll();
   }
   const SECTIONS: { id: Section; label: string; count?: number }[] = [
     { id: "theory", label: "Theory" },
