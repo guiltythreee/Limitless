@@ -221,24 +221,40 @@ const T1: TopicSource = {
       concept: "configuration ≠ conformation",
       tags: ["confused"],
     },
-    {
-      id: "t1-11",
-      type: "concept",
-      diff: 3,
-      text: "Which statement best explains why natural rubber (*cis*-1,4-polyisoprene) is elastic while gutta-percha (*trans*-1,4-polyisoprene) is rigid and crystalline?",
-      options: [
-        { label: "a", text: "Rubber has a higher molecular weight than gutta-percha." },
-        { label: "b", text: "The *cis* geometry keeps chains kinked and unable to pack; the *trans* geometry lets chains pack into crystallites." },
-        { label: "c", text: "Rubber contains cross-links; gutta-percha does not." },
-        { label: "d", text: "Gutta-percha is a protein, not a polyisoprene." },
+        {
+      "id": "t1-11",
+      "type": "concept",
+      "diff": 3,
+      "text": "Which structural explanation best accounts for natural rubber being flexible while gutta-percha is more rigid and crystalline, despite both being polyisoprene?",
+      "options": [
+        {
+          "label": "a",
+          "text": "The cis geometry lets the chain pack in a more regular arrangement, while trans geometry introduces kinks that inhibit crystallization."
+        },
+        {
+          "label": "b",
+          "text": "The cis geometry introduces kinks that hinder regular packing, whereas straighter trans chains can pack into crystallites."
+        },
+        {
+          "label": "c",
+          "text": "The cis and trans forms have different repeat-unit compositions and molar masses, which alone determine the crystallinity difference."
+        },
+        {
+          "label": "d",
+          "text": "Gutta-percha's rigidity is caused by a higher covalent cross-link density, while chain geometry has little effect on packing."
+        }
       ],
-      answer: "b",
-      why: "Both are polyisoprene — only the double-bond geometry differs. The **kinked cis** chain resists regular packing (amorphous, flexible); the straighter **trans** chain packs into a crystalline lattice (rigid).",
-      distractors: {
-        c: "Uncross-linked natural rubber is tacky; vulcanization is a separate step.",
+      "answer": "b",
+      "why": "Both are polyisoprene. The cis/trans geometry at the double bond changes chain shape and packing: cis chains are more kinked and pack less regularly; trans chains are straighter and more readily crystallize.",
+      "distractors": {
+        "a": "This reverses the effect of cis/trans geometry on chain packing.",
+        "c": "The polymers share the same repeat-unit chemistry; the stereogeometry differs.",
+        "d": "Crystallinity follows chain geometry and packing, not a higher cross-link density as stated."
       },
-      concept: "same polymer, different configuration → different state",
-      tags: ["confused"],
+      "concept": "Same repeat-unit chemistry, different cis/trans configuration and chain packing.",
+      "tags": [
+        "confused"
+      ]
     },
     {
       id: "t1-12",
@@ -536,23 +552,39 @@ const T1: TopicSource = {
       concept: "polymer-analogous reactions vs polymerization",
       tags: ["confused"],
     },
-    {
-      id: "t1-27",
-      type: "recall",
-      diff: 1,
-      text: "Semi-synthetic polymers are derived from:",
-      options: [
-        { label: "a", text: "Fully synthetic monomers only" },
-        { label: "b", text: "Natural polymers that have been chemically modified" },
-        { label: "c", text: "Mineral ores" },
-        { label: "d", text: " Proteins only" },
+        {
+      "id": "t1-27",
+      "type": "recall",
+      "diff": 1,
+      "text": "A polymer is classified as semi-synthetic when it is produced by:",
+      "options": [
+        {
+          "label": "a",
+          "text": "using a natural polymer without chemically changing its structure."
+        },
+        {
+          "label": "b",
+          "text": "polymerizing synthetic monomers without a natural-polymer precursor."
+        },
+        {
+          "label": "c",
+          "text": "chemically modifying a naturally occurring polymer backbone."
+        },
+        {
+          "label": "d",
+          "text": "physically blending natural and synthetic polymers without chemically modifying either."
+        }
       ],
-      answer: "b",
-      why: "**Semi-synthetic** = natural polymer backbone, chemically modified — e.g. cellulose acetate, cellulose nitrate (celluloid), nitrocellulose.",
-      distractors: {
-        a: "That describes fully synthetic polymers (PE, PVC, …).",
+      "answer": "c",
+      "why": "Semi-synthetic polymers are made by chemically modifying a natural polymer, as in cellulose acetate or cellulose nitrate. A physical blend does not make either component semi-synthetic.",
+      "distractors": {
+        "a": "That remains a natural polymer in its unmodified form.",
+        "b": "That describes a fully synthetic polymer.",
+        "d": "That describes a polymer blend rather than a chemically modified natural polymer."
       },
-      tags: ["revision"],
+      "tags": [
+        "revision"
+      ]
     },
     {
       id: "t1-28",
