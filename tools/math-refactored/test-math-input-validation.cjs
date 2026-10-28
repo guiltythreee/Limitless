@@ -58,4 +58,4 @@ for (const input of ['1abc2', '12.3xyz', '1/2garbage', '12345678901234567890']) 
   expectInvalid(cleanAnswer(input));
 }
 expectValue(cleanAnswer('−12.5'), -25, 2, 'Unicode minus through UI cleaning');
-console.log('Answer-input parsing and UI-to-parser checks passed (9 valid formats, 20 invalid inputs, UI grouping and negative signs preserved).');
+console.log('Answer-input parsing and UI-to-parser checks passed (9 valid formats, 27 invalid-input assertions across 24 unique cases, UI grouping and negative signs preserved).');
