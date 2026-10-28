@@ -87,9 +87,9 @@
     s = String(s).trim().replace(/−/g, '-');
     if (!s) return null;
     function validGrouping(part) {
-      return part.indexOf(',') < 0 || /^\\d{1,3}(,\\d{3})+$/.test(part);
+      return part.indexOf(',') < 0 || /^\d{1,3}(,\d{3})+$/.test(part);
     }
-    var m = s.match(/^(-?)([\\d,]+)\\/([\\d,]+)$/);
+    var m = s.match(/^(-?)([\d,]+)\/([\d,]+)$/);
     if (m) {
       if (!validGrouping(m[2]) || !validGrouping(m[3])) return null;
       var numerator = m[2].replace(/,/g, ''), denominator = m[3].replace(/,/g, '');
@@ -97,7 +97,7 @@
       if (!den || numerator.length > 9 || denominator.length > 9) return null;
       return rat((m[1] ? -1 : 1) * parseInt(numerator, 10), den);
     }
-    m = s.match(/^(-?)([\\d,]*)(?:\\.(\\d*))?$/);
+    m = s.match(/^(-?)([\d,]*)(?:\.(\d*))?$/);
     if (!m) return null;
     var rawIp = m[2] || '', fp = m[3] || '';
     if (!validGrouping(rawIp)) return null;
