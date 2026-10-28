@@ -9,8 +9,9 @@
 //   - `loadProgress` still never writes: legacy activities are derived on read
 //     only and are materialised by the first real append, never by a load
 //   - history is capped at MAX_ACTIVITIES (4,000) newest entries
-// No flag is flipped and no UI reads `activities` yet (attemptHistory stays
-// false), so visible behaviour is identical.
+// The shared history UI reads this additive field. Existing answer-state,
+// exam and reward behavior is preserved; new capabilities are enabled only
+// alongside their user-facing implementations.
 
 import {
   MAX_ACTIVITIES,
@@ -137,10 +138,9 @@ function logFor(root: Progress): ActivityLog {
   });
 }
 
-/** Append through the shared log and hand back the root it persisted. */
 /**
- * Read-only, storage-bound view for the history UI. Like MT202's exported log,
- * it derives legacy rows without writing them into old payloads.
+ * Read-only, storage-bound view for the history UI. It derives legacy rows
+ * without writing them into old payloads.
  */
 export const activityLog: ActivityLog = createActivityLog<Progress>({
   courseId: COURSE_ID,
@@ -154,6 +154,7 @@ export const activityLog: ActivityLog = createActivityLog<Progress>({
   cap: MAX_ACTIVITIES,
 });
 
+/** Append through the shared log and hand back the root it persisted. */
 function appendAndReturn(
   root: Progress,
   incoming: readonly NewActivity[]
