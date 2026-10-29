@@ -1,9 +1,11 @@
-/* Small, accessible acknowledgement for global level-ups across Limitless. */
+/* Small, accessible acknowledgement for every global level crossed. */
 (function () {
   'use strict';
   var STYLE_ID = 'limitless-reward-notice-style';
   var NOTICE_ID = 'limitless-reward-notice';
   var lastLevel = 1;
+  var queue = [];
+  var active = false;
   var clearHandle = null;
 
   function rewards() {
@@ -31,7 +33,16 @@
     if (text !== undefined) node.textContent = text;
     return node;
   }
-  function show(level, reward, moduleName) {
+  function finishNotice(box) {
+    if (clearHandle) window.clearTimeout(clearHandle);
+    clearHandle = null;
+    if (box) box.classList.remove('is-visible');
+    window.setTimeout(function () {
+      active = false;
+      drain();
+    }, 240);
+  }
+  function show(item) {
     ensureStyle();
     var box = document.getElementById(NOTICE_ID);
     if (!box) {
@@ -45,39 +56,47 @@
     var close = element('button', 'limitless-reward-notice__close', '×');
     close.type = 'button';
     close.setAttribute('aria-label', 'Dismiss level-up notice');
-    close.addEventListener('click', function () {
-      box.classList.remove('is-visible');
-      if (clearHandle) window.clearTimeout(clearHandle);
-    });
+    close.addEventListener('click', function () { finishNotice(box); });
     box.appendChild(close);
     box.appendChild(element('div', 'limitless-reward-notice__eyebrow', 'Global progression'));
-    box.appendChild(element('h2', 'limitless-reward-notice__title', 'Level ' + level + ' reached'));
-    var rewardKind = reward && reward.kind === 'title' ? ' title.' : reward && reward.kind === 'profile-effect' ? ' profile effect.' : ' emblem.';
-    var bodyText = reward
-      ? 'Unlocked: ' + reward.name + rewardKind
-      : 'Your verified learning across disciplines moved the shared EXP total forward.';
-    if (moduleName && moduleName !== 'multiple') bodyText += ' · ' + moduleName.replace(/-/g, ' ');
+    box.appendChild(element('h2', 'limitless-reward-notice__title', 'Level ' + item.level + ' reached'));
+
+    var rewardsAtLevel = item.rewards || [];
+    var descriptions = rewardsAtLevel.map(function (reward) {
+      var kind = reward.kind === 'title' ? 'title' : reward.kind === 'profile-effect' ? 'profile effect' : 'emblem';
+      return reward.name + ' ' + kind;
+    });
+    var bodyText = descriptions.length
+      ? 'Unlocked: ' + descriptions.join(' · ') + '.'
+      : 'Your verified learning across disciplines advanced the shared EXP total.';
+    if (item.module && item.module !== 'multiple') bodyText += ' · ' + item.module.replace(/-/g, ' ');
     box.appendChild(element('div', 'limitless-reward-notice__body', bodyText));
     window.requestAnimationFrame(function () { box.classList.add('is-visible'); });
     if (clearHandle) window.clearTimeout(clearHandle);
-    clearHandle = window.setTimeout(function () { box.classList.remove('is-visible'); }, 6500);
+    clearHandle = window.setTimeout(function () { finishNotice(box); }, 4500);
+  }
+  function drain() {
+    if (active || !queue.length) return;
+    active = true;
+    show(queue.shift());
   }
   function evaluate(detail) {
     var api = rewards();
     if (!api) return;
     var current = api.summary();
-    var newLevel = current.level;
-    var reportedLevel = detail && typeof detail.levelAfter === 'number' ? detail.levelAfter : newLevel;
-    var before = detail && typeof detail.levelBefore === 'number' ? detail.levelBefore : lastLevel;
-    if (reportedLevel > lastLevel && (detail && detail.levelUp || !detail)) {
-      var newlyUnlocked = (current.unlockedRewards || []).find(function (item) { return item.level === reportedLevel; }) || null;
-      show(reportedLevel, newlyUnlocked, detail && detail.module);
-    } else if (newLevel > lastLevel && (!detail || !detail.levelUp)) {
-      // Covers a level-up written by another same-origin tab.
-      var crossTabReward = (current.unlockedRewards || []).find(function (item) { return item.level === newLevel; }) || null;
-      show(newLevel, crossTabReward, '');
+    var reportedLevel = detail && typeof detail.levelAfter === 'number' ? detail.levelAfter : current.level;
+    var targetLevel = Math.max(current.level, reportedLevel);
+    if (targetLevel > lastLevel) {
+      for (var level = lastLevel + 1; level <= targetLevel; level++) {
+        queue.push({
+          level: level,
+          module: detail && detail.module ? detail.module : '',
+          rewards: (current.unlockedRewards || []).filter(function (reward) { return reward.level === level; })
+        });
+      }
+      lastLevel = targetLevel;
+      drain();
     }
-    lastLevel = Math.max(lastLevel, before, reportedLevel, newLevel);
   }
   function init() {
     var api = rewards();
