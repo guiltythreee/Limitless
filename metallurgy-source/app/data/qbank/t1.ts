@@ -418,10 +418,10 @@ const T1: TopicSource = {
       diff: 2,
       text: "Distinguish a *branched* polymer from a *cross-linked* polymer.",
       options: [
-        { label: "a", text: "Cross-linked polymers always contain branches but never chains." },
-        { label: "b", text: "Branches are weak forces; cross-links are covalent." },
-        { label: "c", text: "They are synonyms." },
-        { label: "d", text: "Branches are covalent side-chains off one backbone; cross-links are covalent bonds *between* different chains." }
+        { label: "a", text: "Branching and cross-linking are both side chains on one molecule; neither connects two separate polymer chains." },
+        { label: "b", text: "Branches are intermolecular attractions between chains, while cross-links are weak intramolecular side chains." },
+        { label: "c", text: "The terms describe the same architecture; both mean a polymer with more than one linear chain segment." },
+        { label: "d", text: "A branch extends from one backbone; a cross-link forms a covalent bridge between separate chains." }
       ],
       answer: "d",
       why: "**Branching** = a side-chain growing from one backbone (LDPE). **Cross-linking** = a covalent bridge joining two *separate* chains, forming a 3-D network (vulcanized rubber, thermosets).",
@@ -539,13 +539,13 @@ const T1: TopicSource = {
       diff: 4,
       text: "Poly(vinyl acetate) is saponified to PVA, which is then blended with starch for a biodegradable film. In the PAIR of operations, the chemistry of each step is:",
       options: [
-        { label: "a", text: "Addition polymerization, then hydrolysis (a step-growth-type reaction on the backbone)" },
-        { label: "b", text: "Both are addition reactions" },
-        { label: "c", text: "Both are condensation reactions" },
-        { label: "d", text: "Condensation polymerization, then addition" }
+        { label: "a", text: "Hydrolysis (saponification), then physical blending of PVA with starch." },
+        { label: "b", text: "Addition polymerization, then condensation polymerization with starch as a comonomer." },
+        { label: "c", text: "Condensation polymerization, then a second condensation reaction between PVA and starch." },
+        { label: "d", text: "Radical chain scission, then addition polymerization that grafts starch onto the PVA backbone." }
       ],
       answer: "a",
-      why: "VAc is an unsaturated monomer → **addition** polymerization gives PVAc. Converting acetate ester groups to –OH is **hydrolysis** (base-catalysed alcoholysis in practice) — a functional-group reaction on an existing chain, not a polymerization.",
+      why: "Saponifying PVAc converts its acetate ester groups to hydroxyl groups by hydrolysis; blending the resulting PVA with starch is a physical mixing step, not a second polymerization. The listed pair is therefore hydrolysis followed by physical blending.",
       distractors: {
         d: "PVAc formation eliminates nothing — it is addition, not condensation.",
       },
@@ -668,10 +668,10 @@ const T1: TopicSource = {
       diff: 4,
       text: "A resin cures irreversibly into an infusible network, then a second batch of the *same* formulation is kept below cure temperature and remoulded. The explanation is:",
       options: [
-        { label: "a", text: "The two batches must be different polymers." },
-        { label: "b", text: "Cure is reversible below 100 °C." },
-        { label: "c", text: "Both are thermosets; the second batch simply has lower MW." },
-        { label: "d", text: "The first batch is a thermoset; the second is still uncured prepolymer (thermoplastic-like) until the cure reaction runs." }
+        { label: "a", text: "The batches must be different polymers, because a single formulation cannot be processed both before and after it cures." },
+        { label: "b", text: "Cure is reversible below 100 °C, so the first batch can be remoulded once the cross-links cool and contract." },
+        { label: "c", text: "Both batches are fully cured thermosets; the second can be remoulded because its molecular weight is lower." },
+        { label: "d", text: "The first batch has cured into a network; the second remains an uncured, flowable prepolymer until its cure reaction proceeds." }
       ],
       answer: "d",
       why: "Thermoset systems are processed as **low-MW flowable prepolymers**; the irreversible cross-linking happens *during* cure. Before cure the material flows like a thermoplastic; after cure it never does again.",
