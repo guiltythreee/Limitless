@@ -132,7 +132,7 @@ test('universal reward unlocks are derived from the global level, not any discip
   assert.equal(Rewards.nextUnlockForLevel(5).name, 'Polymath');
   assert.equal(Rewards.nextUnlockForLevel(14).name, 'Wayfinder');
   assert.equal(Rewards.nextUnlockForLevel(24).name, 'Luminous Archive');
-  assert.deepEqual(Rewards.unlocksForLevel(25).map((reward) => reward.level), [2, 5, 10, 15, 20, 25]);
+  assert.deepEqual(Rewards.unlocksForLevel(25).map((reward) => reward.level), [2, 5, 10, 10, 15, 20, 20, 25]);
   assert.equal(Rewards.nextUnlockForLevel(30), null);
   const { ledger } = setup();
   ledger.recordMany(Array.from({ length: 20 }, (_, i) => ({
@@ -231,6 +231,18 @@ test('unlocked titles and emblems can be equipped without changing lifetime EXP'
   assert.equal(ledger.equipReward('', 'title').ok, true);
   assert.equal(ledger.summary().equippedTitle, null);
   assert.equal(ledger.summary().xp, before, 'equipment changes must never alter earned EXP');
+});
+
+test('Level 10 and later unlocks include equipable profile effects', () => {
+  const { ledger } = setup();
+  ledger.recordMany(Array.from({ length: 180 }, (_, i) => ({
+    module: 'probability', eventId: `profile-effect-${i}`, contentKey: `profile-effect-content-${i}`,
+    activityClass: 'standard-task', evidence: 'completed-session'
+  })));
+  assert.equal(ledger.summary().level, 10);
+  assert.equal(ledger.equipReward('polymath-glow', 'profile-effect').ok, true);
+  assert.equal(ledger.summary().equippedProfileEffect.id, 'polymath-glow');
+  assert.equal(ledger.equipReward('limitless-aura', 'profile-effect').error, 'reward-not-unlocked');
 });
 
 test('each level-up emits a durable acknowledgement event only after persistence', () => {
