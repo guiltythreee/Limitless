@@ -23,14 +23,14 @@ const T5: TopicSource = {
       text: "The essential structural requirement for a polymer to crystallize is:",
       options: [
         { label: "a", text: "High molecular weight only" },
-        { label: "b", text: "Regular, repeating chain structure — linear, stereoregular and free of random defects" },
-        { label: "c", text: "Cross-linking" },
-        { label: "d", text: "The presence of benzene rings" },
+        { label: "b", text: "Cross-linking" },
+        { label: "c", text: "Regular, repeating chain structure — linear, stereoregular and free of random defects" },
+        { label: "d", text: "The presence of benzene rings" }
       ],
-      answer: "b",
+      answer: "c",
       why: "Crystallization needs the chains to **pack into a repeating lattice** — possible only if the chain is linear (or lightly branched), stereoregular and not randomly copolymerized. MW only matters above a minimum.",
       distractors: {
-        c: "Cross-linking actually *hinders* crystallization by locking in disorder.",
+        b: "Cross-linking actually *hinders* crystallization by locking in disorder.",
       },
       tags: ["revision"],
     },
@@ -41,15 +41,15 @@ const T5: TopicSource = {
       text: "Amorphous PE has $\\rho_a = 0.855$ g/cm³ and fully crystalline PE $\\rho_c = 1.000$ g/cm³. A sample of density $\\rho = 0.930$ g/cm³ has a degree of crystallinity of:",
       options: [
         { label: "a", text: "31%" },
-        { label: "b", text: "43%" },
+        { label: "b", text: "70%" },
         { label: "c", text: "52%" },
-        { label: "d", text: "70%" },
+        { label: "d", text: "43%" }
       ],
       answer: "c",
       why: "$X = \\dfrac{\\rho - \\rho_a}{\\rho_c - \\rho_a} = \\dfrac{0.930-0.855}{1.000-0.855} = \\dfrac{0.075}{0.145} = \\mathbf{0.517} \\approx 52\\%$.",
       distractors: {
         a: "31% would need $\\rho = 0.900$.",
-        d: "70% would need $\\rho \\approx 0.957$ (HDPE territory).",
+        b: "70% would need $\\rho \\approx 0.957$ (HDPE territory).",
       },
       concept: "$X = (\\rho-\\rho_a)/(\\rho_c-\\rho_a)$",
       tags: ["numeric", "formula"],
@@ -60,15 +60,15 @@ const T5: TopicSource = {
       diff: 3,
       text: "A PET sample gives a DSC melting endotherm $\\Delta H_m = 42$ J/g. Taking $\\Delta H_m^\\circ = 140$ J/g for 100% crystalline PET, the crystallinity is:",
       options: [
-        { label: "a", text: "10%" },
-        { label: "b", text: "20%" },
+        { label: "a", text: "20%" },
+        { label: "b", text: "42%" },
         { label: "c", text: "30%" },
-        { label: "d", text: "42%" },
+        { label: "d", text: "10%" }
       ],
       answer: "c",
       why: "$X = \\Delta H_m/\\Delta H_m^\\circ = 42/140 = \\mathbf{0.30} = 30\\%$.",
       distractors: {
-        a: "10% would need $\\Delta H_m = 14$ J/g.",
+        d: "10% would need $\\Delta H_m = 14$ J/g.",
       },
       concept: "$X = \\Delta H_m / \\Delta H_m^\\circ$",
       tags: ["numeric", "formula"],
@@ -80,11 +80,11 @@ const T5: TopicSource = {
       text: "Why is atactic polystyrene completely amorphous?",
       options: [
         { label: "a", text: "It has too high a molecular weight." },
-        { label: "b", text: "Random phenyl placement prevents the chain from adopting the regular conformation needed for lattice packing." },
+        { label: "b", text: "It is cross-linked." },
         { label: "c", text: "It contains no double bonds." },
-        { label: "d", text: "It is cross-linked." },
+        { label: "d", text: "Random phenyl placement prevents the chain from adopting the regular conformation needed for lattice packing." }
       ],
-      answer: "b",
+      answer: "d",
       why: "The bulky phenyl groups are placed **randomly** (atactic) along the chain, so no repeating lattice can form — the polymer is transparent and amorphous. Isotactic PS, by contrast, is crystalline.",
       distractors: {
         a: "MW has no bearing on atacticity.",
@@ -98,12 +98,12 @@ const T5: TopicSource = {
       diff: 2,
       text: "Which set correctly contrasts HDPE with LDPE?",
       options: [
-        { label: "a", text: "HDPE: linear, ~70–80% crystalline, ρ ≈ 0.95, Tm ≈ 135 °C. LDPE: branched, ~40–50% crystalline, ρ ≈ 0.92, Tm ≈ 115 °C." },
+        { label: "a", text: "Both are amorphous." },
         { label: "b", text: "HDPE: branched, lower crystallinity; LDPE: linear, higher crystallinity." },
-        { label: "c", text: "Both are amorphous." },
-        { label: "d", text: "HDPE: thermoset; LDPE: thermoplastic." },
+        { label: "c", text: "HDPE: thermoset; LDPE: thermoplastic." },
+        { label: "d", text: "HDPE: linear, ~70–80% crystalline, ρ ≈ 0.95, Tm ≈ 135 °C. LDPE: branched, ~40–50% crystalline, ρ ≈ 0.92, Tm ≈ 115 °C." }
       ],
-      answer: "a",
+      answer: "d",
       why: "Linear HDPE packs efficiently → **higher crystallinity, density and Tm**. Branches in LDPE disrupt packing → lower on all three.",
       distractors: {
         b: "Reversed — branching lowers crystallinity, and HDPE is the linear one.",
@@ -123,15 +123,15 @@ const T5: TopicSource = {
         { num: 4, text: "A polymer is either 100% crystalline or 100% amorphous." },
       ],
       options: [
-        { label: "a", text: "1, 2 and 3 only" },
-        { label: "b", text: "1, 2, 3 and 4" },
-        { label: "c", text: "4 only" },
-        { label: "d", text: "2 and 4 only" },
+        { label: "a", text: "1, 2, 3 and 4" },
+        { label: "b", text: "4 only" },
+        { label: "c", text: "1, 2 and 3 only" },
+        { label: "d", text: "2 and 4 only" }
       ],
-      answer: "a",
+      answer: "c",
       why: "1–3 describe real morphology. Item 4 is false — **semi-crystalline** polymers always contain both phases: crystallites embedded in an amorphous matrix.",
       distractors: {
-        b: "Item 4 ignores the coexistence of phases, which is what makes 'semi-crystalline' the correct term.",
+        a: "Item 4 ignores the coexistence of phases, which is what makes 'semi-crystalline' the correct term.",
       },
       tags: ["confused"],
     },
@@ -141,12 +141,12 @@ const T5: TopicSource = {
       diff: 2,
       text: "Why does rapidly quenching a polymer melt give lower crystallinity than slow cooling?",
       options: [
-        { label: "a", text: "Quenching removes heat too fast for crystallites to nucleate and grow; chains are frozen in a disordered state below Tg." },
-        { label: "b", text: "Quenching raises the melting point." },
-        { label: "c", text: "Quenching destroys the polymer chains." },
-        { label: "d", text: "Quenching has no effect on crystallinity." },
+        { label: "a", text: "Quenching destroys the polymer chains." },
+        { label: "b", text: "Quenching removes heat too fast for crystallites to nucleate and grow; chains are frozen in a disordered state below Tg." },
+        { label: "c", text: "Quenching raises the melting point." },
+        { label: "d", text: "Quenching has no effect on crystallinity." }
       ],
-      answer: "a",
+      answer: "b",
       why: "Crystallization is **kinetically controlled**: it needs time as well as a temperature between Tg and Tm. Fast cooling traps the amorphous state; slow cooling lets lamellae grow.",
       concept: "crystallinity = kinetic (cooling rate) outcome",
       tags: ["confused"],
@@ -159,8 +159,8 @@ const T5: TopicSource = {
       options: [
         { label: "a", text: "Amorphous PET (rapidly quenched) or an amorphous polymer such as PS/PMMA — crystallites scatter light and reduce clarity." },
         { label: "b", text: "Slowly cooled HDPE — high crystallinity gives the best clarity." },
-        { label: "c", text: "Any polymer, since clarity is independent of crystallinity." },
-        { label: "d", text: "A cross-linked thermoset." },
+        { label: "c", text: "A cross-linked thermoset." },
+        { label: "d", text: "Any polymer, since clarity is independent of crystallinity." }
       ],
       answer: "a",
       why: "Crystallites are optically anisotropic and **scatter light** → opaque/translucent. Transparency therefore requires an amorphous state (quenched PET, PS, PMMA, PC).",
@@ -184,8 +184,8 @@ const T5: TopicSource = {
       options: [
         { label: "a", text: "1-i, 2-ii, 3-iii, 4-iv" },
         { label: "b", text: "1-ii, 2-i, 3-iv, 4-iii" },
-        { label: "c", text: "1-i, 2-ii, 3-iv, 4-iii" },
-        { label: "d", text: "1-iii, 2-iv, 3-i, 4-ii" },
+        { label: "c", text: "1-iii, 2-iv, 3-i, 4-ii" },
+        { label: "d", text: "1-i, 2-ii, 3-iv, 4-iii" }
       ],
       answer: "a",
       why: "Lamella = folded chain crystal sheet · spherulite = radiating aggregate · tie molecule = inter-lamellar connector · amorphous halo = broad XRD scattering from disordered chains.",
@@ -198,14 +198,14 @@ const T5: TopicSource = {
       text: "A DSC heating scan shows: (i) a small step change in heat capacity at 70 °C, (ii) a broad exotherm at 130 °C, (iii) a large endotherm at 255 °C. A quenched PET sample is being tested. The events are:",
       options: [
         { label: "a", text: "(i) Tg, (ii) cold crystallization, (iii) Tm" },
-        { label: "b", text: "(i) Tm, (ii) Tg, (iii) decomposition" },
-        { label: "c", text: "(i) cold crystallization, (ii) Tg, (iii) Tm" },
-        { label: "d", text: "(i) cross-linking, (ii) melting, (iii) Tg" },
+        { label: "b", text: "(i) cold crystallization, (ii) Tg, (iii) Tm" },
+        { label: "c", text: "(i) Tm, (ii) Tg, (iii) decomposition" },
+        { label: "d", text: "(i) cross-linking, (ii) melting, (iii) Tg" }
       ],
       answer: "a",
       why: "On heating a **quenched (amorphous)** PET: the step at ~70 °C is **Tg**; the exotherm above Tg is **cold crystallization** (chains gain mobility and crystallize); the ~255 °C endotherm is **Tm**.",
       distractors: {
-        b: "Tm never occurs below Tg — the ordering is physically fixed.",
+        c: "Tm never occurs below Tg — the ordering is physically fixed.",
       },
       concept: "DSC events: Tg (step) < cold-cryst (exo) < Tm (endo)",
       tags: ["confused"],
@@ -216,12 +216,12 @@ const T5: TopicSource = {
       diff: 3,
       text: "Why does copolymerizing ethylene with a small amount of 1-hexene (LLDPE) lower crystallinity relative to HDPE?",
       options: [
-        { label: "a", text: "The butyl branches are defects that interrupt the regular lattice and lower the lamellar perfection and thickness." },
-        { label: "b", text: "Copolymerization increases chain length." },
-        { label: "c", text: "1-Hexene is a plasticizer that evaporates." },
-        { label: "d", text: "It does not lower crystallinity." },
+        { label: "a", text: "1-Hexene is a plasticizer that evaporates." },
+        { label: "b", text: "The butyl branches are defects that interrupt the regular lattice and lower the lamellar perfection and thickness." },
+        { label: "c", text: "Copolymerization increases chain length." },
+        { label: "d", text: "It does not lower crystallinity." }
       ],
-      answer: "a",
+      answer: "b",
       why: "Comonomer units act as **lattice defects**: the regular chain sequence is interrupted, so thinner, less perfect lamellae form → lower crystallinity and Tm, but better toughness and clarity.",
       concept: "defects (branches/comonomers) ↓ crystallinity",
       tags: ["revision"],
@@ -232,12 +232,12 @@ const T5: TopicSource = {
       diff: 1,
       text: "In wide-angle X-ray diffraction, a semi-crystalline polymer shows:",
       options: [
-        { label: "a", text: "Only a broad halo" },
-        { label: "b", text: "Sharp crystalline peaks superimposed on a broad amorphous halo" },
-        { label: "c", text: "Only sharp peaks" },
-        { label: "d", text: "No scattering at all" },
+        { label: "a", text: "No scattering at all" },
+        { label: "b", text: "Only sharp peaks" },
+        { label: "c", text: "Only a broad halo" },
+        { label: "d", text: "Sharp crystalline peaks superimposed on a broad amorphous halo" }
       ],
-      answer: "b",
+      answer: "d",
       why: "Sharp **Bragg peaks** come from the periodic crystallites; the **broad halo** comes from disordered amorphous regions. Their relative areas estimate crystallinity.",
       tags: ["revision"],
     },
@@ -247,12 +247,12 @@ const T5: TopicSource = {
       diff: 3,
       text: "Crystallites raise a polymer's stiffness and strength up to the Tm but do not dissolve the material in solvent. This is because they act as:",
       options: [
-        { label: "a", text: "Chemical cross-links that cannot break" },
-        { label: "b", text: "Physical (thermoreversible) cross-links joining chains, which melt at Tm and give way to solvent" },
-        { label: "c", text: "Fillers" },
-        { label: "d", text: "Plasticizers" },
+        { label: "a", text: "Plasticizers" },
+        { label: "b", text: "Fillers" },
+        { label: "c", text: "Chemical cross-links that cannot break" },
+        { label: "d", text: "Physical (thermoreversible) cross-links joining chains, which melt at Tm and give way to solvent" }
       ],
-      answer: "b",
+      answer: "d",
       why: "Crystalline domains anchor the chains like **physical cross-links** — reversible with temperature (melt atTm), unlike covalent cross-links.",
       concept: "crystallites: thermoreversible physical cross-links",
       tags: ["confused"],
@@ -263,10 +263,10 @@ const T5: TopicSource = {
       diff: 4,
       text: "A moulder wants faster cycle times and a tougher (less brittle) semi-crystalline moulding. The best additive strategy is:",
       options: [
-        { label: "a", text: "Add a plasticizer to lower crystallinity." },
+        { label: "a", text: "Add a cross-linker." },
         { label: "b", text: "Add a nucleating agent: many nuclei form at once → many small spherulites → faster crystallization and better toughness." },
-        { label: "c", text: "Slow the cooling to grow large spherulites." },
-        { label: "d", text: "Add a cross-linker." },
+        { label: "c", text: "Add a plasticizer to lower crystallinity." },
+        { label: "d", text: "Slow the cooling to grow large spherulites." }
       ],
       answer: "b",
       why: "A **nucleating agent** multiplies nucleation sites → many fine spherulites → shorter cycle time, improved toughness and (often) clarity. Large spherulites, by contrast, are brittle.",
@@ -280,12 +280,12 @@ const T5: TopicSource = {
       assertion: "Increasing crystallinity raises a polymer's density.",
       reason: "Crystalline packing places chains closer together than the disordered amorphous arrangement.",
       options: [
-        { label: "a", text: "Both A and R are true, and R is the correct explanation of A" },
-        { label: "b", text: "Both A and R are true, but R is NOT the correct explanation of A" },
-        { label: "c", text: "A is true, R is false" },
-        { label: "d", text: "A is false, R is true" },
+        { label: "a", text: "A is true, R is false" },
+        { label: "b", text: "Both A and R are true, and R is the correct explanation of A" },
+        { label: "c", text: "Both A and R are true, but R is NOT the correct explanation of A" },
+        { label: "d", text: "A is false, R is true" }
       ],
-      answer: "a",
+      answer: "b",
       why: "Denser packing in crystallites (e.g. PE $\\rho_c = 1.00$ vs $\\rho_a = 0.855$) directly raises the sample density — the same physical fact behind the density method for measuring crystallinity.",
       concept: "$\\rho_c > \\rho_a$",
       tags: ["revision"],
@@ -303,9 +303,9 @@ const T5: TopicSource = {
       ],
       options: [
         { label: "a", text: "1, 2, 3 and 4" },
-        { label: "b", text: "1, 2 and 3 only" },
-        { label: "c", text: "4 only" },
-        { label: "d", text: "2 and 4 only" },
+        { label: "b", text: "4 only" },
+        { label: "c", text: "2 and 4 only" },
+        { label: "d", text: "1, 2 and 3 only" }
       ],
       answer: "a",
       why: "All four are true: the listed crystalline/amorphous pairs, the transparency correlation, and the fact that chain entanglements and defects always leave an amorphous fraction — no bulk polymer is 100% crystalline.",
@@ -317,12 +317,12 @@ const T5: TopicSource = {
       diff: 3,
       text: "PET drink bottles are transparent but PET fibres are strong and semi-crystalline. Why the difference?",
       options: [
-        { label: "a", text: "Bottles are rapidly quenched (amorphous, clear); fibres are drawn/stretched to orient and crystallize the chains (strong)." },
-        { label: "b", text: "Bottles and fibres are chemically different polymers." },
-        { label: "c", text: "Bottles are cross-linked." },
-        { label: "d", text: "Fibres contain no PET." },
+        { label: "a", text: "Bottles are cross-linked." },
+        { label: "b", text: "Bottles are rapidly quenched (amorphous, clear); fibres are drawn/stretched to orient and crystallize the chains (strong)." },
+        { label: "c", text: "Bottles and fibres are chemically different polymers." },
+        { label: "d", text: "Fibres contain no PET." }
       ],
-      answer: "a",
+      answer: "b",
       why: "**Same chemistry, different processing**: quench → amorphous (clarity, toughness for bottles); draw → oriented crystallites (high modulus/strength for fibres).",
       concept: "orientation-induced crystallization (draw ratio)",
       tags: ["confused"],
@@ -334,9 +334,9 @@ const T5: TopicSource = {
       text: "Order the crystallization process from melt, earliest first: (1) growth of chain-folded lamellae (2) primary nucleation (3) formation of spherulites (4) secondary crystallization / perfection",
       options: [
         { label: "a", text: "2 → 1 → 3 → 4" },
-        { label: "b", text: "1 → 2 → 3 → 4" },
-        { label: "c", text: "3 → 2 → 1 → 4" },
-        { label: "d", text: "2 → 3 → 1 → 4" },
+        { label: "b", text: "3 → 2 → 1 → 4" },
+        { label: "c", text: "1 → 2 → 3 → 4" },
+        { label: "d", text: "2 → 3 → 1 → 4" }
       ],
       answer: "a",
       why: "A stable **nucleus** must form first (**2**); lamellae then grow from it (**1**); radiating stacks create **spherulites** (**3**); further slow **secondary crystallization/perfection** continues after the main growth (**4**).",
@@ -348,12 +348,12 @@ const T5: TopicSource = {
       diff: 3,
       text: "The 'fringed micelle' vs 'chain-folded lamella' models differ in that:",
       options: [
-        { label: "a", text: "Fringed micelle: chains pass through several crystalline regions (older model). Chain-folded lamella: chains re-enter the same crystal face many times (modern picture from single crystals)." },
-        { label: "b", text: "They are identical." },
-        { label: "c", text: "Fringed micelle applies only to thermosets." },
-        { label: "d", text: "Chain folding requires side chains." },
+        { label: "a", text: "They are identical." },
+        { label: "b", text: "Fringed micelle applies only to thermosets." },
+        { label: "c", text: "Chain folding requires side chains." },
+        { label: "d", text: "Fringed micelle: chains pass through several crystalline regions (older model). Chain-folded lamella: chains re-enter the same crystal face many times (modern picture from single crystals)." }
       ],
-      answer: "a",
+      answer: "d",
       why: "The **fringed-micelle** model imagined one chain crossing many small crystallites; electron microscopy of single crystals proved **chain folding** — chains fold back and forth within a thin (~10 nm) lamella.",
       tags: ["confused"],
     },
@@ -364,11 +364,11 @@ const T5: TopicSource = {
       text: "Plotting tensile modulus vs %crystallinity for PE gives a steep rise up to ~60% then a plateau. The plateau is best explained by:",
       options: [
         { label: "a", text: "Measurement error." },
-        { label: "b", text: "Beyond a certain crystallinity the amorphous regions are already so constrained (by tie molecules) that adding more crystallites adds little stiffness." },
-        { label: "c", text: "PE stops crystallizing at 60%." },
-        { label: "d", text: "Crystallinity does not affect modulus." },
+        { label: "b", text: "Crystallinity does not affect modulus." },
+        { label: "c", text: "Beyond a certain crystallinity the amorphous regions are already so constrained (by tie molecules) that adding more crystallites adds little stiffness." },
+        { label: "d", text: "PE stops crystallizing at 60%." }
       ],
-      answer: "b",
+      answer: "c",
       why: "Stiffness depends on the **load-bearing crystalline network and the tie molecules bridging it**. Once the amorphous phase is highly constrained, extra crystallinity gives diminishing returns — the plateau.",
       concept: "tie molecules transmit load between lamellae",
       tags: ["confused"],
