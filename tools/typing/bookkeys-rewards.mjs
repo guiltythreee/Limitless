@@ -52,6 +52,15 @@ export function createBookkeysRewardAdapter(storage, options = {}) {
     const rule = ACTIVITY_RULES[input.completionEvidence];
     if (!rule || input.moduleId !== BOOKKEYS_REWARD_MODULE_ID) return null;
     if (!isString(input.itemId) || !input.itemId.startsWith(rule.prefix)) return null;
+    if (input.completionEvidence === "finished-book-page") {
+      const signature = isString(input.contentSignature) ? input.contentSignature : "";
+      const characters = isFiniteNumber(input.characterCount) ? Math.floor(input.characterCount) : 0;
+      if (!/^[a-f0-9]{16}$/.test(signature) || characters < 150) return null;
+      // The repeat-policy key is the page's normalized content signature, not
+      // its book/page index, so re-importing a passage under another file name
+      // cannot reset the daily reward cap.
+      if (input.itemId !== rule.prefix + signature) return null;
+    }
 
     const state = loadState();
     const existing = state.records.find((record) => record.eventId === input.eventId);
