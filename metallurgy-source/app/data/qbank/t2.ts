@@ -27,27 +27,27 @@ const T2: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "Step growth builds high-mass chains at its first reaction step, while chain growth adds one unit per active centre."
-        },
-        {
-          "label": "b",
           "text": "An active chain-growth centre can add many units before termination; step growth needs near-complete functional-group conversion for high mass."
         },
         {
-          "label": "c",
+          "label": "b",
           "text": "Chain growth has no termination under any conditions, while step growth terminates only by releasing a small molecule."
         },
         {
-          "label": "d",
+          "label": "c",
           "text": "The difference is mainly solvent choice; at identical solvent and temperature both mechanisms show the same mass-versus-conversion profile."
+        },
+        {
+          "label": "d",
+          "text": "Step growth builds high-mass chains at its first reaction step, while chain growth adds one unit per active centre."
         }
       ],
-      "answer": "b",
+      "answer": "a",
       "why": "An active chain-growth centre can add many monomer units before that chain terminates. In step growth, monomers, dimers and longer species can react with one another, so high molecular mass requires almost complete consumption of functional groups.",
       "distractors": {
-        "a": "This reverses the normal conversion dependence: step growth does not make high-mass chains at its first reaction step.",
-        "c": "Chain growth can terminate, and step growth need not release a small molecule; those features do not define the mass-versus-conversion contrast.",
-        "d": "The mechanistic distinction remains even when solvent and temperature are matched; it is not only a process-condition effect."
+        "d": "This reverses the normal conversion dependence: step growth does not make high-mass chains at its first reaction step.",
+        "b": "Chain growth can terminate, and step growth need not release a small molecule; those features do not define the mass-versus-conversion contrast.",
+        "c": "The mechanistic distinction remains even when solvent and temperature are matched; it is not only a process-condition effect."
       },
       "concept": "molecular-mass development in chain-growth versus step-growth polymerisation",
       "tags": [
@@ -62,12 +62,12 @@ const T2: TopicSource = {
       diff: 1,
       text: "In free-radical polymerization, the step that generates the first reactive species is:",
       options: [
-        { label: "a", text: "Propagation" },
-        { label: "b", text: "Initiation" },
-        { label: "c", text: "Termination" },
-        { label: "d", text: "Chain transfer" },
+        { label: "a", text: "Initiation" },
+        { label: "b", text: "Propagation" },
+        { label: "c", text: "Chain transfer" },
+        { label: "d", text: "Termination" }
       ],
-      answer: "b",
+      answer: "a",
       why: "**Initiation** = thermal/photolytic/redox decomposition of initiator (BPO, AIBN) into radicals, which then add to a monomer double bond.",
       tags: ["revision"],
     },
@@ -77,17 +77,17 @@ const T2: TopicSource = {
       diff: 3,
       text: "Free-radical polymerization has $k_p = 100$ L/(mol·s), $k_t = 10^{6}$ L/(mol·s), $f k_d[I] = 10^{-2}$ s⁻¹ and $[M] = 5$ mol/L. The steady-state rate $R_p$ is:",
       options: [
-        { label: "a", text: "0.005 mol/(L·s)" },
-        { label: "b", text: "0.05 mol/(L·s)" },
-        { label: "c", text: "0.5 mol/(L·s)" },
-        { label: "d", text: "5 mol/(L·s)" },
+        { label: "a", text: "0.05 mol/(L·s)" },
+        { label: "b", text: "0.005 mol/(L·s)" },
+        { label: "c", text: "5 mol/(L·s)" },
+        { label: "d", text: "0.5 mol/(L·s)" }
       ],
-      answer: "b",
+      answer: "a",
       why: "$R_p = k_p[M]\\sqrt{\\dfrac{f k_d [I]}{k_t}} = 100 \\times 5 \\times \\sqrt{\\dfrac{10^{-2}}{10^{6}}} = 500 \\times \\sqrt{10^{-8}} = 500 \\times 10^{-4} = \\mathbf{0.05}$ mol/(L·s).",
       distractors: {
-        a: "0.005 forgets the factor of 10 from $k_p[M] = 500$.",
-        c: "0.5 would need the initiator flux ten times higher.",
-        d: "5 ignores the square root on the initiator term entirely.",
+        b: "0.005 forgets the factor of 10 from $k_p[M] = 500$.",
+        d: "0.5 would need the initiator flux ten times higher.",
+        c: "5 ignores the square root on the initiator term entirely.",
       },
       concept: "$R_p = k_p[M](fk_d[I]/k_t)^{1/2}$",
       tags: ["numeric", "formula"],
@@ -98,15 +98,15 @@ const T2: TopicSource = {
       diff: 3,
       text: "Why does the observed rate depend on $[I]^{1/2}$ rather than $[I]$ in free-radical polymerization?",
       options: [
-        { label: "a", text: "Initiator decomposes in two steps." },
-        { label: "b", text: "Steady-state radical concentration scales as the square root of the initiation rate because termination is bimolecular." },
-        { label: "c", text: "Half the initiator is always wasted." },
-        { label: "d", text: "Termination is monomolecular." },
+        { label: "a", text: "Half the initiator is always wasted." },
+        { label: "b", text: "Initiator decomposes in two steps." },
+        { label: "c", text: "Steady-state radical concentration scales as the square root of the initiation rate because termination is bimolecular." },
+        { label: "d", text: "Termination is monomolecular." }
       ],
-      answer: "b",
+      answer: "c",
       why: "Steady state: $R_i = R_t = 2k_t[M^\\bullet]^2$ → $[M^\\bullet] = (R_i/2k_t)^{1/2} \\propto [I]^{1/2}$. The **½-power is the signature of bimolecular termination**.",
       distractors: {
-        c: "Efficiency $f$ enters linearly, not as a square root.",
+        a: "Efficiency $f$ enters linearly, not as a square root.",
       },
       concept: "$[M^\\bullet]_{ss} = (fk_d[I]/k_t)^{1/2}$",
       tags: ["confused"],
@@ -117,12 +117,12 @@ const T2: TopicSource = {
       diff: 2,
       text: "Chain transfer stops one growing chain but the overall rate of polymerization is barely affected. Why?",
       options: [
-        { label: "a", text: "Transfer destroys the radical." },
-        { label: "b", text: "The radical is *transferred* to another molecule — one chain ends but another starts, so the total radical count is unchanged." },
-        { label: "c", text: "Transfer only occurs after termination." },
-        { label: "d", text: "Transfer adds monomer more slowly." },
+        { label: "a", text: "Transfer adds monomer more slowly." },
+        { label: "b", text: "Transfer destroys the radical." },
+        { label: "c", text: "The radical is *transferred* to another molecule — one chain ends but another starts, so the total radical count is unchanged." },
+        { label: "d", text: "Transfer only occurs after termination." }
       ],
-      answer: "b",
+      answer: "c",
       why: "The active centre moves, it does not vanish: count of propagating radicals stays ~constant (rate unchanged) while **chain length — and hence MW — drops**.",
       concept: "transfer: lower MW, same rate",
       tags: ["confused"],
@@ -133,15 +133,15 @@ const T2: TopicSource = {
       diff: 2,
       text: "Termination by combination vs disproportionation — which pairing is correct?",
       options: [
-        { label: "a", text: "Combination: two radicals couple into one chain, DP̄ = 2ν. Disproportionation: H transfer gives one saturated + one unsaturated end, DP̄ = ν." },
-        { label: "b", text: "Combination gives DP̄ = ν; disproportionation gives DP̄ = 2ν." },
+        { label: "a", text: "Combination gives DP̄ = ν; disproportionation gives DP̄ = 2ν." },
+        { label: "b", text: "Combination: two radicals couple into one chain, DP̄ = 2ν. Disproportionation: H transfer gives one saturated + one unsaturated end, DP̄ = ν." },
         { label: "c", text: "Both give DP̄ = 2ν." },
-        { label: "d", text: "Both give DP̄ = ν." },
+        { label: "d", text: "Both give DP̄ = ν." }
       ],
-      answer: "a",
+      answer: "b",
       why: "**Combination** joins two kinetic chains end-to-end → each dead chain holds two kinetic-chain lengths ($\\overline{DP} = 2\\nu$). **Disproportionation** ends each chain separately ($\\overline{DP} = \\nu$).",
       distractors: {
-        b: "Exactly reversed.",
+        a: "Exactly reversed.",
       },
       concept: "$\\nu = R_p/R_t$; DP̄ = 2ν (combination) or ν (disproportionation)",
       tags: ["confused", "formula"],
@@ -152,15 +152,15 @@ const T2: TopicSource = {
       diff: 1,
       text: "Which monomer is classically polymerized by a **cationic** mechanism?",
       options: [
-        { label: "a", text: "Styrene" },
+        { label: "a", text: "Ethylene (Ziegler–Natta)" },
         { label: "b", text: "Isobutylene" },
         { label: "c", text: "Acrylonitrile" },
-        { label: "d", text: "Ethylene (Ziegler–Natta)" },
+        { label: "d", text: "Styrene" }
       ],
       answer: "b",
       why: "**Isobutylene** (and vinyl ethers) carry electron-donating groups that stabilize a carbocation → cationic polymerization with Lewis-acid co-catalysts.",
       distractors: {
-        d: "Ethylene with Ziegler–Natta is coordination polymerization.",
+        a: "Ethylene with Ziegler–Natta is coordination polymerization.",
       },
       tags: ["revision"],
     },
@@ -170,15 +170,15 @@ const T2: TopicSource = {
       diff: 3,
       text: "Why can anionic polymerization produce *living* polymers (no termination), enabling block copolymers like SBS?",
       options: [
-        { label: "a", text: "Carbanions terminate rapidly by combination." },
-        { label: "b", text: "There is no stable species for the carbanion to react with — no bimolecular termination route exists in pure monomer, so all chains keep growing until monomer is exhausted." },
-        { label: "c", text: "Anions are destroyed by trace water, which stops all growth." },
-        { label: "d", text: "Living behaviour requires coordination catalysts only." },
+        { label: "a", text: "Anions are destroyed by trace water, which stops all growth." },
+        { label: "b", text: "Living behaviour requires coordination catalysts only." },
+        { label: "c", text: "Carbanions terminate rapidly by combination." },
+        { label: "d", text: "There is no stable species for the carbanion to react with — no bimolecular termination route exists in pure monomer, so all chains keep growing until monomer is exhausted." }
       ],
-      answer: "b",
+      answer: "d",
       why: "The **carbanion has no termination partner** in rigorously purified systems: chains start together, all grow while monomer lasts, and stop only when monomer is gone. Adding a second monomer then extends every chain → **block** copolymers.",
       distractors: {
-        c: "Impurities *do* kill livingness — that is why anionic systems need ultra-pure reagents.",
+        a: "Impurities *do* kill livingness — that is why anionic systems need ultra-pure reagents.",
       },
       concept: "living = no termination + fast initiation",
       tags: ["confused"],
@@ -195,12 +195,12 @@ const T2: TopicSource = {
         ["4", "Coordination", "", "(iv) carbanion; styrene (living)"],
       ],
       options: [
-        { label: "a", text: "1-iii, 2-i, 3-iv, 4-ii" },
-        { label: "b", text: "1-i, 2-iii, 3-ii, 4-iv" },
-        { label: "c", text: "1-iii, 2-iv, 3-i, 4-ii" },
-        { label: "d", text: "1-iv, 2-iii, 3-i, 4-ii" },
+        { label: "a", text: "1-i, 2-iii, 3-ii, 4-iv" },
+        { label: "b", text: "1-iii, 2-i, 3-iv, 4-ii" },
+        { label: "c", text: "1-iv, 2-iii, 3-i, 4-ii" },
+        { label: "d", text: "1-iii, 2-iv, 3-i, 4-ii" }
       ],
-      answer: "a",
+      answer: "b",
       why: "Radical → vinyl acetate; cation → isobutylene; anion → styrene; coordination (Ziegler–Natta) → stereoregular polypropylene via a metal–carbon bond.",
       tags: ["revision"],
     },
@@ -210,16 +210,16 @@ const T2: TopicSource = {
       diff: 2,
       text: "Using Carothers' equation, the number-average degree of polymerization at 99% conversion ($p = 0.99$) in a stoichiometric step-growth system is:",
       options: [
-        { label: "a", text: "10" },
-        { label: "b", text: "50" },
-        { label: "c", text: "100" },
-        { label: "d", text: "1000" },
+        { label: "a", text: "100" },
+        { label: "b", text: "1000" },
+        { label: "c", text: "50" },
+        { label: "d", text: "10" }
       ],
-      answer: "c",
+      answer: "a",
       why: "$DP = \\dfrac{1}{1-p} = \\dfrac{1}{0.01} = \\mathbf{100}$.",
       distractors: {
-        b: "50 corresponds to $p = 0.98$.",
-        d: "1000 requires $p = 0.999$.",
+        c: "50 corresponds to $p = 0.98$.",
+        b: "1000 requires $p = 0.999$.",
       },
       concept: "$DP_n = 1/(1-p)$",
       tags: ["numeric", "formula"],
@@ -231,9 +231,9 @@ const T2: TopicSource = {
       text: "Why does step-growth polymerization require exact stoichiometric balance of functional groups to reach high MW?",
       options: [
         { label: "a", text: "Excess of one group caps every chain with unreactive ends, limiting DP." },
-        { label: "b", text: "Imbalance causes side reactions that destroy the polymer." },
-        { label: "c", text: "It does not — any stoichiometry reaches high MW." },
-        { label: "d", text: "Imbalance slows the reaction tenfold." },
+        { label: "b", text: "It does not — any stoichiometry reaches high MW." },
+        { label: "c", text: "Imbalance slows the reaction tenfold." },
+        { label: "d", text: "Imbalance causes side reactions that destroy the polymer." }
       ],
       answer: "a",
       why: "Chains can only grow while **both** end-group types are available. An excess of one kind converts all ends to that unreactive type and growth stops at $DP = (1+r)/(1-r)$ — the stoichiometric ratio $r$ caps MW.",
@@ -253,14 +253,14 @@ const T2: TopicSource = {
       ],
       options: [
         { label: "a", text: "1, 2 and 3 only" },
-        { label: "b", text: "1, 2, 3 and 4" },
+        { label: "b", text: "2 and 4 only" },
         { label: "c", text: "4 only" },
-        { label: "d", text: "2 and 4 only" },
+        { label: "d", text: "1, 2, 3 and 4" }
       ],
       answer: "a",
       why: "1–3 correct. Item 4 is false: polyurethane (–NCO + –OH, nothing eliminated = *addition*) proceeds **step-growth**; conversely some ring-opening additions are chain-growth. The two axes are independent.",
       distractors: {
-        b: "Item 4 collapses the two orthogonal classifications — exactly the trap.",
+        d: "Item 4 collapses the two orthogonal classifications — exactly the trap.",
       },
       concept: "two independent axes: chemistry × mechanism",
       tags: ["confused"],
@@ -272,9 +272,9 @@ const T2: TopicSource = {
       text: "Order the stages of free-radical polymerization: (1) propagation (2) initiator decomposition (3) termination (4) initiation (5) chain transfer (possible at any point)",
       options: [
         { label: "a", text: "2 → 4 → 1 → 5 → 3" },
-        { label: "b", text: "4 → 2 → 1 → 3 → 5" },
-        { label: "c", text: "1 → 2 → 4 → 3 → 5" },
-        { label: "d", text: "2 → 4 → 3 → 1 → 5" },
+        { label: "b", text: "1 → 2 → 4 → 3 → 5" },
+        { label: "c", text: "2 → 4 → 3 → 1 → 5" },
+        { label: "d", text: "4 → 2 → 1 → 3 → 5" }
       ],
       answer: "a",
       why: "Initiator first decomposes (**2**), the radical adds to monomer (**4** initiation), chains then propagate (**1**); transfer (**5**) may redirect the radical any time; chains end by termination (**3**).",
@@ -286,15 +286,15 @@ const T2: TopicSource = {
       diff: 3,
       text: "A step-growth polymerization uses a diacid and a diamine with a molar ratio $r = 0.995$ (less/more abundant group). The maximum $DP$ at full conversion of the limiting group is:",
       options: [
-        { label: "a", text: "100" },
-        { label: "b", text: "200" },
-        { label: "c", text: "399" },
-        { label: "d", text: "1000" },
+        { label: "a", text: "399" },
+        { label: "b", text: "100" },
+        { label: "c", text: "200" },
+        { label: "d", text: "1000" }
       ],
-      answer: "c",
+      answer: "a",
       why: "$DP_{max} = \\dfrac{1+r}{1-r} = \\dfrac{1.995}{0.005} = \\mathbf{399}$.",
       distractors: {
-        a: "100 is the $r = 1$ case of *nothing*… no — 100 is $1/(1-p)$ at $p = 0.99$; here the cap is stoichiometric.",
+        b: "100 is the $r = 1$ case of *nothing*… no — 100 is $1/(1-p)$ at $p = 0.99$; here the cap is stoichiometric.",
         d: "1000 would need $r \\approx 0.998$.",
       },
       concept: "$DP_{max} = (1+r)/(1-r)$",
@@ -308,7 +308,7 @@ const T2: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "A permanent cross-linked gel forms at a fixed conversion and catalyses further chain growth."
+          "text": "Termination becomes diffusion-limited before propagation is suppressed as much, so radicals accumulate and the rate accelerates."
         },
         {
           "label": "b",
@@ -316,19 +316,19 @@ const T2: TopicSource = {
         },
         {
           "label": "c",
-          "text": "Initiator efficiency rises with conversion, increasing radical generation regardless of diffusion."
+          "text": "A permanent cross-linked gel forms at a fixed conversion and catalyses further chain growth."
         },
         {
           "label": "d",
-          "text": "Termination becomes diffusion-limited before propagation is suppressed as much, so radicals accumulate and the rate accelerates."
+          "text": "Initiator efficiency rises with conversion, increasing radical generation regardless of diffusion."
         }
       ],
-      "answer": "d",
+      "answer": "a",
       "why": "As viscosity rises, termination becomes diffusion-limited before propagation is suppressed to the same extent. Radicals accumulate, causing autoacceleration and potentially a dangerous exotherm.",
       "distractors": {
-        "a": "A macroscopic cross-linked network and a fixed gel point are not required for the Trommsdorff autoacceleration.",
+        "c": "A macroscopic cross-linked network and a fixed gel point are not required for the Trommsdorff autoacceleration.",
         "b": "Rising viscosity tends to restrict diffusion-controlled termination rather than making radical collisions more frequent.",
-        "c": "The defining feedback is a change in termination/propagation mobility, not a universal increase in initiator efficiency."
+        "d": "The defining feedback is a change in termination/propagation mobility, not a universal increase in initiator efficiency."
       },
       "concept": "diffusion-limited termination and Trommsdorff autoacceleration",
       "tags": [
@@ -343,14 +343,14 @@ const T2: TopicSource = {
       options: [
         { label: "a", text: "4 times larger" },
         { label: "b", text: "2 times larger" },
-        { label: "c", text: "Unchanged" },
-        { label: "d", text: "Half as large" },
+        { label: "c", text: "Half as large" },
+        { label: "d", text: "Unchanged" }
       ],
       answer: "b",
       why: "$R_p \\propto [I]^{1/2}$ → $4^{1/2} = 2$. **Rate doubles** when initiator quadruples.",
       distractors: {
         a: "Linear dependence would hold only without bimolecular termination.",
-        d: "More initiator never slows the reaction (it lowers MW instead).",
+        c: "More initiator never slows the reaction (it lowers MW instead).",
       },
       concept: "$R_p \\propto [M][I]^{1/2}$",
       tags: ["numeric", "formula"],
@@ -361,12 +361,12 @@ const T2: TopicSource = {
       diff: 3,
       text: "Increasing initiator concentration makes the polymerization faster but yields *lower* molecular weight. Why?",
       options: [
-        { label: "a", text: "More radicals are produced, so each chain meets termination sooner — more chains share the same monomer." },
-        { label: "b", text: "Initiator fragments dilute the polymer." },
-        { label: "c", text: "Initiator slows propagation." },
-        { label: "d", text: "It does not lower MW." },
+        { label: "a", text: "Initiator fragments dilute the polymer." },
+        { label: "b", text: "It does not lower MW." },
+        { label: "c", text: "More radicals are produced, so each chain meets termination sooner — more chains share the same monomer." },
+        { label: "d", text: "Initiator slows propagation." }
       ],
-      answer: "a",
+      answer: "c",
       why: "$\\overline{DP}_n = k_p[M]/(fk_dk_t[I])^{1/2} \\propto [I]^{-1/2}$. More radicals → more chains started simultaneously → each consumes fewer monomers before terminating.",
       concept: "$\\overline{DP}_n \\propto [I]^{-1/2}$",
       tags: ["confused", "formula"],
@@ -377,12 +377,12 @@ const T2: TopicSource = {
       diff: 2,
       text: "Head-to-tail vs head-to-head addition in vinyl polymerization:",
       options: [
-        { label: "a", text: "Head-to-tail dominates because the radical stays on the more substituted, more stable carbon; head-to-head placements are destabilizing defects." },
-        { label: "b", text: "Head-to-head dominates because it is sterically easier." },
-        { label: "c", text: "Both occur with equal probability." },
-        { label: "d", text: "Head-to-tail only occurs in ionic systems." },
+        { label: "a", text: "Head-to-head dominates because it is sterically easier." },
+        { label: "b", text: "Head-to-tail dominates because the radical stays on the more substituted, more stable carbon; head-to-head placements are destabilizing defects." },
+        { label: "c", text: "Head-to-tail only occurs in ionic systems." },
+        { label: "d", text: "Both occur with equal probability." }
       ],
-      answer: "a",
+      answer: "b",
       why: "The propagating radical is most stable on the **substituted carbon**; adding the next monomer so the radical lands there gives the regular **head-to-tail** sequence.",
       tags: ["revision"],
     },
@@ -394,8 +394,8 @@ const T2: TopicSource = {
       options: [
         { label: "a", text: "CO₂" },
         { label: "b", text: "N₂" },
-        { label: "c", text: "H₂O" },
-        { label: "d", text: "O₂" },
+        { label: "c", text: "O₂" },
+        { label: "d", text: "H₂O" }
       ],
       answer: "b",
       why: "Azobisisobutyronitrile loses **N₂**, leaving two cyano-stabilized carbon radicals.",
@@ -413,12 +413,12 @@ const T2: TopicSource = {
         ["4", "Chain transfer agent", "", "(iv) deliberately added molecule that limits MW"],
       ],
       options: [
-        { label: "a", text: "1-ii, 2-i, 3-iii, 4-iv" },
-        { label: "b", text: "1-i, 2-ii, 3-iv, 4-iii" },
-        { label: "c", text: "1-ii, 2-iii, 3-i, 4-iv" },
-        { label: "d", text: "1-iv, 2-i, 3-ii, 4-iii" },
+        { label: "a", text: "1-iv, 2-i, 3-ii, 4-iii" },
+        { label: "b", text: "1-ii, 2-iii, 3-i, 4-iv" },
+        { label: "c", text: "1-ii, 2-i, 3-iii, 4-iv" },
+        { label: "d", text: "1-i, 2-ii, 3-iv, 4-iii" }
       ],
-      answer: "a",
+      answer: "c",
       why: "f = fraction of radicals that start chains; combination = coupling; disproportionation = H-transfer ending; transfer agent = MW control.",
       tags: ["revision"],
     },
@@ -429,12 +429,12 @@ const T2: TopicSource = {
       assertion: "In Ziegler–Natta polymerization of propylene, the polymer is isotactic.",
       reason: "The monomer coordinates at the metal centre of the catalyst in a fixed orientation before insertion into the metal–carbon bond.",
       options: [
-        { label: "a", text: "Both A and R are true, and R is the correct explanation of A" },
-        { label: "b", text: "Both A and R are true, but R is NOT the correct explanation of A" },
-        { label: "c", text: "A is true, R is false" },
-        { label: "d", text: "A is false, R is true" },
+        { label: "a", text: "Both A and R are true, but R is NOT the correct explanation of A" },
+        { label: "b", text: "Both A and R are true, and R is the correct explanation of A" },
+        { label: "c", text: "A is false, R is true" },
+        { label: "d", text: "A is true, R is false" }
       ],
-      answer: "a",
+      answer: "b",
       why: "**Site-controlled insertion** places every methyl group on the same side of the chain → **isotactic** polymer. Stereospecificity is a direct consequence of the coordination geometry.",
       concept: "stereospecific coordination insertion",
       tags: ["revision"],
@@ -445,16 +445,16 @@ const T2: TopicSource = {
       diff: 4,
       text: "Kinetic chain length $\\nu = 1000$. Termination is 60% by combination and 40% by disproportionation. The overall $\\overline{DP}_n$ is:",
       options: [
-        { label: "a", text: "1000" },
-        { label: "b", text: "1200" },
+        { label: "a", text: "1200" },
+        { label: "b", text: "1000" },
         { label: "c", text: "1400" },
-        { label: "d", text: "1600" },
+        { label: "d", text: "1600" }
       ],
       answer: "c",
       why: "Contribution-weighted average: $\\overline{DP} = 0.6(2\\nu) + 0.4(\\nu) = 1.2\\nu + 0.4\\nu = 1.6 \\times 1000 = \\mathbf{1400}$.",
       distractors: {
-        b: "1200 counts only the combination fraction's doubling.",
-        a: "1000 is the disproportionation-only result.",
+        a: "1200 counts only the combination fraction's doubling.",
+        b: "1000 is the disproportionation-only result.",
       },
       concept: "$\\overline{DP} = f_{comb}\\cdot 2\\nu + f_{dis}\\cdot \\nu$",
       tags: ["numeric", "formula"],
@@ -465,15 +465,15 @@ const T2: TopicSource = {
       diff: 2,
       text: "Why is free-radical polymerization the most widely used industrial mechanism?",
       options: [
-        { label: "a", text: "It gives the highest possible MW always." },
-        { label: "b", text: "It is tolerant of many functional groups and of water, and its monomers/initiators are cheap and easy to handle." },
-        { label: "c", text: "It is the only mechanism that gives stereoregular polymers." },
-        { label: "d", text: "It requires no initiator." },
+        { label: "a", text: "It requires no initiator." },
+        { label: "b", text: "It is the only mechanism that gives stereoregular polymers." },
+        { label: "c", text: "It gives the highest possible MW always." },
+        { label: "d", text: "It is tolerant of many functional groups and of water, and its monomers/initiators are cheap and easy to handle." }
       ],
-      answer: "b",
+      answer: "d",
       why: "Radicals are **chemically tolerant** (unlike ionic systems, they survive trace impurities and water) and can run in bulk, solution, suspension or emulsion — ideal for commodity production.",
       distractors: {
-        c: "Stereoregularity requires *coordination* catalysts — precisely what radical polymerization cannot do.",
+        b: "Stereoregularity requires *coordination* catalysts — precisely what radical polymerization cannot do.",
       },
       tags: ["revision"],
     },
@@ -483,15 +483,15 @@ const T2: TopicSource = {
       diff: 1,
       text: "Ring-opening polymerization of ε-caprolactam produces:",
       options: [
-        { label: "a", text: "Nylon 6,6" },
-        { label: "b", text: "Nylon 6" },
-        { label: "c", text: "PET" },
-        { label: "d", text: "Polystyrene" },
+        { label: "a", text: "Polystyrene" },
+        { label: "b", text: "PET" },
+        { label: "c", text: "Nylon 6" },
+        { label: "d", text: "Nylon 6,6" }
       ],
-      answer: "b",
+      answer: "c",
       why: "ε-Caprolactam (6 carbons, one monomer) opens to **nylon 6** — an *addition* reaction by chemistry (nothing eliminated), driven by relief of ring strain.",
       distractors: {
-        a: "Nylon 6,6 is a step-growth polycondensation of two different monomers.",
+        d: "Nylon 6,6 is a step-growth polycondensation of two different monomers.",
       },
       tags: ["revision"],
     },
@@ -506,15 +506,15 @@ const T2: TopicSource = {
         ["Curve B: DP", "~2000", "~2100", "~2200", "~2300"],
       ],
       options: [
-        { label: "a", text: "A = chain-growth, B = step-growth" },
-        { label: "b", text: "A = step-growth, B = chain-growth" },
+        { label: "a", text: "Both are chain-growth" },
+        { label: "b", text: "A = chain-growth, B = step-growth" },
         { label: "c", text: "Both are step-growth at different stoichiometries" },
-        { label: "d", text: "Both are chain-growth" },
+        { label: "d", text: "A = step-growth, B = chain-growth" }
       ],
-      answer: "b",
+      answer: "d",
       why: "Curve A follows Carothers exactly ($DP = 1/(1-p)$: 2, 10, 50, 1000) → **step-growth**. Curve B shows high MW from low conversion → **chain-growth**.",
       distractors: {
-        a: "Reversed — the 1/(1−p) signature belongs to step-growth.",
+        b: "Reversed — the 1/(1−p) signature belongs to step-growth.",
       },
       concept: "MW-vs-conversion profile diagnostic",
       tags: ["confused"],
@@ -531,12 +531,12 @@ const T2: TopicSource = {
         { num: 4, text: "Electron-withdrawing groups on the monomer favour anionic propagation." },
       ],
       options: [
-        { label: "a", text: "1, 2 and 4 only" },
+        { label: "a", text: "1 and 2 only" },
         { label: "b", text: "1, 2, 3 and 4" },
-        { label: "c", text: "3 and 4 only" },
-        { label: "d", text: "1 and 2 only" },
+        { label: "c", text: "1, 2 and 4 only" },
+        { label: "d", text: "3 and 4 only" }
       ],
-      answer: "a",
+      answer: "c",
       why: "1, 2, 4 correct. Item 3 false — ionic systems often **lack** bimolecular termination entirely (that is what makes living anionic polymerization possible).",
       distractors: {
         b: "Item 3 projects radical-kinetics intuition onto ionic systems — the classic error.",
@@ -550,11 +550,11 @@ const T2: TopicSource = {
       text: "A lab needs an A–B–A block copolymer with perfectly equal PS block lengths. Which route is required?",
       options: [
         { label: "a", text: "Free-radical copolymerization with matched reactivity ratios" },
-        { label: "b", text: "Living anionic polymerization: initiate with a difunctional initiator, polymerize butadiene, then add styrene" },
+        { label: "b", text: "Step-growth with stoichiometric balance" },
         { label: "c", text: "Cationic polymerization with BF₃" },
-        { label: "d", text: "Step-growth with stoichiometric balance" },
+        { label: "d", text: "Living anionic polymerization: initiate with a difunctional initiator, polymerize butadiene, then add styrene" }
       ],
-      answer: "b",
+      answer: "d",
       why: "**Living** chains (no termination) grow every block from the same start time with the same rate → equal-length blocks. A difunctional initiator grows the mid-block outward in both directions, then styrene caps the ends → **SBS**.",
       distractors: {
         a: "Radical chains start/terminate stochastically — block lengths would be broadly distributed.",
@@ -569,11 +569,11 @@ const T2: TopicSource = {
       text: "In a step-growth polymerization, what conversion is needed to reach $DP_n = 200$ (stoichiometric)?",
       options: [
         { label: "a", text: "90%" },
-        { label: "b", text: "95%" },
+        { label: "b", text: "99.5%" },
         { label: "c", text: "99%" },
-        { label: "d", text: "99.5%" },
+        { label: "d", text: "95%" }
       ],
-      answer: "d",
+      answer: "b",
       why: "$p = 1 - 1/DP = 1 - 1/200 = 1 - 0.005 = 0.995$ → **99.5%**.",
       distractors: {
         c: "99% gives DP = 100 only.",
@@ -587,12 +587,12 @@ const T2: TopicSource = {
       diff: 3,
       text: "Coordination (metallocene) catalysts differ from Ziegler–Natta catalysts chiefly in that:",
       options: [
-        { label: "a", text: "Metallocenes are single-site catalysts giving narrow MWD and precise comonomer incorporation; heterogeneous Ziegler–Natta has many site types." },
-        { label: "b", text: "Metallocenes cannot polymerize ethylene." },
-        { label: "c", text: "Ziegler–Natta catalysts are living." },
-        { label: "d", text: "Metallocenes work only anionically." },
+        { label: "a", text: "Ziegler–Natta catalysts are living." },
+        { label: "b", text: "Metallocenes are single-site catalysts giving narrow MWD and precise comonomer incorporation; heterogeneous Ziegler–Natta has many site types." },
+        { label: "c", text: "Metallocenes cannot polymerize ethylene." },
+        { label: "d", text: "Metallocenes work only anionically." }
       ],
-      answer: "a",
+      answer: "b",
       why: "One crystallographically uniform **single site** = uniform chains → **narrow MWD** (PDI ≈ 2) and controlled tacticity. Multi-site Ziegler–Natta gives broader distributions.",
       tags: ["revision"],
     },
@@ -602,15 +602,15 @@ const T2: TopicSource = {
       diff: 4,
       text: "A polycondensation reaches p = 0.995 with perfect stoichiometry. A competitor claims their batch reaches DP 400 at p = 0.99 using a slight stoichiometric imbalance. Both statements are:",
       options: [
-        { label: "a", text: "Both correct — the first gives DP 200 at perfect balance, the second needs r such that (1+r)/(1−2r+...)…, achievable only with r ≈ 0.995" },
-        { label: "b", text: "First is correct (DP = 200); the second is impossible — imbalance can only *lower* DP below the balanced value at the same p" },
-        { label: "c", text: "Both wrong" },
-        { label: "d", text: "First wrong, second correct" },
+        { label: "a", text: "Both wrong" },
+        { label: "b", text: "First wrong, second correct" },
+        { label: "c", text: "Both correct — the first gives DP 200 at perfect balance, the second needs r such that (1+r)/(1−2r+...)…, achievable only with r ≈ 0.995" },
+        { label: "d", text: "First is correct (DP = 200); the second is impossible — imbalance can only *lower* DP below the balanced value at the same p" }
       ],
-      answer: "b",
+      answer: "d",
       why: "Case 1: $DP = 1/(1-0.995) = 200$ ✓. Case 2: at $p = 0.99$ with balance, $DP = 100$; any imbalance ($r < 1$) reduces it further via $DP = (1+r)/(1+r-2rp)$. $DP = 400$ at $p = 0.99$ is **unattainable**.",
       distractors: {
-        a: "Stoichiometric imbalance can never increase DP — it is a cap, not a boost.",
+        c: "Stoichiometric imbalance can never increase DP — it is a cap, not a boost.",
       },
       concept: "$DP = (1+r)/(1+r-2rp)$; $r \\le 1$ always reduces DP",
       tags: ["numeric", "confused"],
@@ -621,10 +621,10 @@ const T2: TopicSource = {
       diff: 1,
       text: "Which initiator is activated by **redox** chemistry (low-temperature initiation)?",
       options: [
-        { label: "a", text: "AIBN at 60 °C" },
+        { label: "a", text: "Thermal azo decomposition alone" },
         { label: "b", text: "Benzoyl peroxide" },
         { label: "c", text: "A peroxide/Fe²⁺ redox pair" },
-        { label: "d", text: "Thermal azo decomposition alone" },
+        { label: "d", text: "AIBN at 60 °C" }
       ],
       answer: "c",
       why: "**Redox initiation** (e.g. peroxide + Fe²⁺) generates radicals at low temperature — essential for emulsion polymerization at moderate temperatures.",
@@ -646,19 +646,19 @@ const T2: TopicSource = {
         },
         {
           "label": "c",
-          "text": "More particles create more reaction loci, while compartmentalisation can limit intraparticle termination; molecular mass need not rise monotonically."
+          "text": "Every particle holds many radicals throughout the reaction, guaranteeing faster termination and shorter chains."
         },
         {
           "label": "d",
-          "text": "Every particle holds many radicals throughout the reaction, guaranteeing faster termination and shorter chains."
+          "text": "More particles create more reaction loci, while compartmentalisation can limit intraparticle termination; molecular mass need not rise monotonically."
         }
       ],
-      "answer": "c",
+      "answer": "d",
       "why": "Emulsion polymerisation can combine high rate with relatively high molecular mass because many particles react concurrently and compartmentalisation limits intraparticle termination. Particle number, radical entry and surfactant level make the molecular-mass trend condition-dependent.",
       "distractors": {
         "a": "Surfactant can change particle nucleation and stabilisation; it is not necessarily a chain-transfer agent.",
         "b": "Micelles and particle number alter where reactions occur and therefore can affect the polymerisation rate.",
-        "d": "Compartmentalisation tends to limit the simultaneous presence of radicals in each particle; many radicals per particle would promote termination."
+        "c": "Compartmentalisation tends to limit the simultaneous presence of radicals in each particle; many radicals per particle would promote termination."
       },
       "concept": "particle compartmentalisation and emulsion kinetics",
       "tags": [
@@ -671,12 +671,12 @@ const T2: TopicSource = {
       diff: 2,
       text: "Condensation (Carothers) vs addition polymerization — which statement is correct?",
       options: [
-        { label: "a", text: "Condensation releases a small molecule (H₂O, HCl…); addition does not." },
-        { label: "b", text: "Condensation requires an initiator; addition does not." },
-        { label: "c", text: "Addition always gives higher MW." },
-        { label: "d", text: "Condensation is always chain-growth." },
+        { label: "a", text: "Condensation requires an initiator; addition does not." },
+        { label: "b", text: "Addition always gives higher MW." },
+        { label: "c", text: "Condensation releases a small molecule (H₂O, HCl…); addition does not." },
+        { label: "d", text: "Condensation is always chain-growth." }
       ],
-      answer: "a",
+      answer: "c",
       why: "That is the definition of the **chemical** classification: loss of a small molecule (condensation) vs net addition across a double bond or ring (addition).",
       distractors: {
         d: "Most condensations are step-growth, but polyurethane addition is step-growth too — the axes differ.",
@@ -691,10 +691,10 @@ const T2: TopicSource = {
       options: [
         { label: "a", text: "1" },
         { label: "b", text: "2" },
-        { label: "c", text: "√2" },
-        { label: "d", text: "4" },
+        { label: "c", text: "4" },
+        { label: "d", text: "√2" }
       ],
-      answer: "c",
+      answer: "d",
       why: "$R_p \\propto [M][I]^{1/2}$ → $2 \\times (1/2)^{1/2} = 2/\\sqrt{2} = \\mathbf{\\sqrt{2}} \\approx 1.41$.",
       distractors: {
         b: "2 ignores the square-root dependence on initiator.",
@@ -709,12 +709,12 @@ const T2: TopicSource = {
       assertion: "Bulk polymerization of a viscous monomer may show dangerous runaway if not agitated and cooled.",
       reason: "The gel (Trommsdorff) effect causes autoacceleration as viscosity rises, and the reaction is exothermic.",
       options: [
-        { label: "a", text: "Both A and R are true, and R is the correct explanation of A" },
-        { label: "b", text: "Both A and R are true, but R is NOT the correct explanation of A" },
-        { label: "c", text: "A is true, R is false" },
-        { label: "d", text: "A is false, R is true" },
+        { label: "a", text: "Both A and R are true, but R is NOT the correct explanation of A" },
+        { label: "b", text: "A is true, R is false" },
+        { label: "c", text: "A is false, R is true" },
+        { label: "d", text: "Both A and R are true, and R is the correct explanation of A" }
       ],
-      answer: "a",
+      answer: "d",
       why: "Autoacceleration (viscosity-limited termination) plus the ~80–100 kJ/mol heat of polymerization with poor heat transfer in bulk = **thermal runaway risk**. Exactly why industrially sensitive monomers are suspension- or solution-polymerized.",
       tags: ["confused"],
     },
@@ -725,11 +725,11 @@ const T2: TopicSource = {
       text: "A polymer sample shows PDI = 2.0 with all chains having two hydroxyl end groups (confirmed by NMR). The most likely synthesis is:",
       options: [
         { label: "a", text: "Free-radical polymerization terminated by combination" },
-        { label: "b", text: "Step-growth (polyester/polyamide) at high conversion — the most-probable Flory distribution has limiting PDI = 2" },
+        { label: "b", text: "Ziegler–Natta coordination polymerization" },
         { label: "c", text: "Living anionic polymerization" },
-        { label: "d", text: "Ziegler–Natta coordination polymerization" },
+        { label: "d", text: "Step-growth (polyester/polyamide) at high conversion — the most-probable Flory distribution has limiting PDI = 2" }
       ],
-      answer: "b",
+      answer: "d",
       why: "The **most-probable (Flory) distribution** from equal-reactivity step-growth has $M_w/M_n = 2$ and, being built from A–A/B–B type monomers, carries two functional end groups per chain. Living systems give PDI ≈ 1.",
       concept: "Flory distribution: PDI → 2 for step-growth",
       tags: ["confused"],
