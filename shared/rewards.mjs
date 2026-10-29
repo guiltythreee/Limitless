@@ -27,9 +27,37 @@ export const REPEAT_POLICY = Object.freeze({
   laterRepeatExp: 0,
 });
 
-/** Provisional threshold; calibrate from real study sessions before treating it as permanent. */
+/** Provisional pass and quality thresholds; calibrate from measured study sessions. */
 export const CHECKPOINT_PASS_THRESHOLD = 0.7;
+export const QUALITY_BONUS_THRESHOLD = 0.8;
 export const QUALITY_BONUS_CAP = 0.2;
+
+/** Universal, non-spendable rewards. Unlocks follow the global level, never module XP. */
+export const UNIVERSAL_REWARD_UNLOCKS = Object.freeze([
+  { level: 2, id: "first-light", slot: "title", name: "First Light", description: "Your first global level-up." },
+  { level: 5, id: "scholars-mark", slot: "emblem", name: "Scholar's Mark", description: "A mark earned through steady cross-discipline learning." },
+  { level: 10, id: "polymath", slot: "title", name: "Polymath", description: "Progress across disciplines has reached double-digit level." },
+  { level: 10, id: "polymath-glow", slot: "effect", name: "Polymath Glow", description: "A luminous profile effect for sustained study." },
+  { level: 15, id: "wayfinder", slot: "emblem", name: "Wayfinder", description: "A sign of progress through multiple domains." },
+  { level: 20, id: "keeper-of-knowledge", slot: "title", name: "Keeper of Knowledge", description: "A long-term commitment to learning across fields." },
+  { level: 20, id: "radiant-archive", slot: "effect", name: "Radiant Archive", description: "A brighter archive appearance earned through continued work." },
+  { level: 25, id: "luminous-archive", slot: "emblem", name: "Luminous Archive", description: "A rare emblem for a long learning journey." },
+  { level: 30, id: "limitless-sigil", slot: "emblem", name: "Limitless Sigil", description: "An emblem for sustained global progression." },
+  { level: 30, id: "limitless-aura", slot: "effect", name: "Limitless Aura", description: "A distinctive profile effect for high global progression." },
+]);
+
+export function unlockedRewardsForLevel(value) {
+  const level = Math.max(1, Math.floor(isFiniteNumber(value) ? value : 1));
+  return UNIVERSAL_REWARD_UNLOCKS
+    .filter((reward) => reward.level <= level)
+    .map((reward) => ({ ...reward }));
+}
+
+export function nextRewardForLevel(value) {
+  const level = Math.max(1, Math.floor(isFiniteNumber(value) ? value : 1));
+  const next = UNIVERSAL_REWARD_UNLOCKS.find((reward) => reward.level > level);
+  return next ? { ...next } : null;
+}
 
 export const REWARD_SOURCE_REGISTRY = Object.freeze([
   {
@@ -66,6 +94,12 @@ export const REWARD_SOURCE_REGISTRY = Object.freeze([
     moduleId: "metallurgy-mt203",
     label: "MT203 · Polymer Science",
     storageKey: "mm-mt203-v1",
+    shape: "rewardLedger",
+  },
+  {
+    moduleId: "personal-projects",
+    label: "Personal projects",
+    storageKey: "limitless-personal-projects-lsr1-v1",
     shape: "rewardLedger",
   },
 ]);
@@ -197,7 +231,7 @@ export function calculateReward(input, priorRecords = []) {
     eligible = true;
     reason = "awarded";
     countsTowardRepeatCap = true;
-    qualityBonus = Math.round(baseExp * QUALITY_BONUS_CAP * clamp((quality - CHECKPOINT_PASS_THRESHOLD) / (1 - CHECKPOINT_PASS_THRESHOLD), 0, 1));
+    qualityBonus = Math.round(baseExp * QUALITY_BONUS_CAP * clamp((quality - QUALITY_BONUS_THRESHOLD) / (1 - QUALITY_BONUS_THRESHOLD), 0, 1));
     if (input?.passed === true && checkpointId) {
       const checkpointPreviouslyPassed = prior.some((r) => r.moduleId === moduleId && r.checkpointId === checkpointId && r.passBonus > 0);
       if (!checkpointPreviouslyPassed) passBonus = 15;
@@ -286,6 +320,8 @@ export function summariseRewards(records) {
     totalExp,
     awardCount: awarded.length,
     level: levelForExp(totalExp),
+    unlockedRewards: unlockedRewardsForLevel(levelForExp(totalExp).level),
+    nextReward: nextRewardForLevel(levelForExp(totalExp).level),
     byModule: [...byModule.values()].sort((a, b) => b.exp - a.exp),
     recentAwards: [...awarded].sort((a, b) => b.ts - a.ts).slice(0, 20),
     recordCount: valid.length,
