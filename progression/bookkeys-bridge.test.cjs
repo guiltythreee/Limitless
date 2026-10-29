@@ -61,16 +61,18 @@ test('Bookkeys does not award sample-only or uncompleted-book activity', () => {
   assert.equal(app.awards.length, 0);
 });
 
-test('a newly marked page without Bookkeys verified XP evidence earns no global EXP', () => {
+test('new canonical Bookkeys completed-page records earn global EXP even when local XP is unchanged', () => {
   const app = boot({ xp: 100, book: { book: { p: [], c: [], done: 0 } } });
   app.setGame({ xp: 100, book: { book: { p: [0], c: [], done: 0 } } });
   app.storageEvent();
-  assert.equal(app.awards.length, 0);
-
-  app.setGame({ xp: 110, book: { book: { p: [0, 1], c: [], done: 0 } } });
-  app.storageEvent();
   assert.equal(app.awards.length, 1);
-  assert.equal(app.awards[0].eventId, 'bookkeys:page:book:1');
+  assert.equal(app.awards[0].eventId, 'bookkeys:page:book:0');
+  assert.equal(app.awards[0].evidence, 'typed-page');
+
+  app.setGame({ xp: 100, book: { book: { p: [0, 1], c: [], done: 0 } } });
+  app.storageEvent();
+  assert.equal(app.awards.length, 2);
+  assert.equal(app.awards[1].eventId, 'bookkeys:page:book:1');
 });
 
 test('a one-page PDF can earn its page award but not the book-completion milestone', () => {
