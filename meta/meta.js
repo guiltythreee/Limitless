@@ -56,7 +56,7 @@ function render() {
   if (!summary.sources.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No registered module progress is saved yet. Complete a Probability problem or an eligible Math Trainer session to begin.";
+    empty.textContent = "No registered module progress is saved yet. Complete a Probability problem, an eligible Math Trainer session, or a Bookkeys page to begin.";
     modules.append(empty);
   } else {
     for (const source of summary.sources) {
@@ -69,7 +69,7 @@ function render() {
   if (!summary.recentAwards.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No EXP awards yet. Submit a Probability answer or finish an eligible Math Trainer session.";
+    empty.textContent = "No EXP awards yet. Submit a Probability answer, finish an eligible Math Trainer session, or type a Bookkeys page.";
     recent.append(empty);
   } else {
     for (const award of summary.recentAwards) {
@@ -85,6 +85,12 @@ function render() {
           : award.activityClass === "assessment"
             ? "Math Trainer assessment"
             : "Math Trainer session";
+      } else if (award.moduleId === "bookkeys") {
+        title = award.itemId.startsWith("bookkeys:page:")
+          ? "Bookkeys · typed page"
+          : award.itemId.startsWith("bookkeys:chapter:")
+            ? "Bookkeys · chapter complete"
+            : "Bookkeys · book complete";
       }
       recent.append(makeRow(title, detail, "+" + number(award.totalExp) + " EXP"));
     }
