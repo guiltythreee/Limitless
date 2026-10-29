@@ -144,10 +144,10 @@ const T1: TopicSource = {
       diff: 2,
       text: "Polyethylene chains have a number-average molecular weight $M_n = 56{,}000$ g/mol. Taking the repeat unit $\\text{–CH}_2\\text{–CH}_2\\text{–}$ ($M = 28$ g/mol), the number-average degree of polymerization is:",
       options: [
-        { label: "a", text: "200" },
-        { label: "b", text: "28{,}000" },
-        { label: "c", text: "2{,}000" },
-        { label: "d", text: "560" }
+        { label: "a", text: "2.0 × 10²" },
+        { label: "b", text: "2.8 × 10⁴" },
+        { label: "c", text: "2.0 × 10³" },
+        { label: "d", text: "5.6 × 10²" }
       ],
       answer: "c",
       why: "$DP_n = M_n / M_{repeat} = 56{,}000 / 28 = \\mathbf{2{,}000}$.",
