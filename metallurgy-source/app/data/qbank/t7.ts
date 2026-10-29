@@ -90,10 +90,10 @@ const T7: TopicSource = {
       diff: 2,
       text: "Collagen is a fibrous protein built as:",
       options: [
-        { label: "a", text: "A β-sheet stack" },
-        { label: "b", text: "A single α-helix" },
-        { label: "c", text: "A triple helix (tropocollagen) rich in glycine, proline and hydroxyproline" },
-        { label: "d", text: "A random coil" }
+        { label: "a", text: "A stacked β-sheet architecture in which extended strands create the characteristic load-bearing structure of collagen." },
+        { label: "b", text: "A single α-helix, like α-keratin, with intrachain hydrogen bonds stabilizing the whole collagen fibre." },
+        { label: "c", text: "A triple helix of three chains, stabilized by glycine-rich repeats and hydroxyproline." },
+        { label: "d", text: "A random-coil chain lacking an ordered secondary structure, held together mainly by nonspecific entanglement." }
       ],
       answer: "c",
       why: "Three left-handed helices wind into a **triple helix** whose tight packing needs the small residue **glycine** every third position; proline/hydroxyproline stiffen it. Hydrogen bonds (via water) stabilize the triple helix.",
@@ -260,10 +260,10 @@ const T7: TopicSource = {
       diff: 3,
       text: "To harden a water-soluble protein into a durable, insoluble plastic (as in early casein buttons), the correct treatment is:",
       options: [
-        { label: "a", text: "Cross-link it, e.g. with formaldehyde, converting the soluble chains into a 3-D network" },
-        { label: "b", text: "Add a plasticizer" },
-        { label: "c", text: "Dissolve it in water" },
-        { label: "d", text: "Cool it below Tg" }
+        { label: "a", text: "Cross-link protein chains, for example with formaldehyde, to form an insoluble three-dimensional network." },
+        { label: "b", text: "Add a low-molecular-weight plasticizer to loosen chain packing and soften the protein without creating a network." },
+        { label: "c", text: "Dissolve the protein in excess water so hydration permanently converts the soluble chains into an insoluble solid." },
+        { label: "d", text: "Cool it below its glass transition so the flexible protein chains become permanently insoluble without reaction." }
       ],
       answer: "a",
       why: "**Formaldehyde bridges amino groups** into methylene cross-links, turning soluble protein into a thermoset network insoluble in water — the chemistry of galalith and of leather tanning.",
