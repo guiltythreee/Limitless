@@ -143,7 +143,7 @@ export default function Mt201() {
                 className="btn"
                 style={{ width: "100%", fontSize: "0.78rem" }}
                 onClick={() => {
-                  if (confirm("Erase all saved progress for MT201?")) {
+                  if (confirm("Erase saved MT201 answers and exam best? Lifetime Meta EXP is kept.")) {
                     resetProgress();
                     setProgress(loadProgress());
                   }
