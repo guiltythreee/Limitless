@@ -26,8 +26,7 @@
       pages[bookKey] = pageIndexes;
       if (record.done === 1 || record.done === true) completedBooks.push(bookKey);
     });
-    var savedXp = game && typeof game.xp === 'number' && isFinite(game.xp) ? Math.max(0, game.xp) : 0;
-    return { pages: pages, books: completedBooks, xp: savedXp };
+    return { pages: pages, books: completedBooks };
   }
   function pageSet(snapshot) {
     var result = {};
@@ -80,19 +79,18 @@
     var previous = readJson(rawPrevious, { pages: {}, books: [] });
     var oldPages = pageSet(previous);
     var newPages = pageSet(next);
-    // The app commits typed-page records and local XP together. Only award
-    // newly seen pages if Bookkeys itself confirms a positive XP delta, which
-    // excludes sample text, rejected/pasted attempts, and incomplete pages.
-    var verifiedXpDelta = next.xp > (typeof previous.xp === 'number' ? previous.xp : 0);
+    // A new index in Bookkeys' canonical completed-page list is the completion
+    // evidence: the app only adds it after its own typing/accuracy checks pass.
+    // Do not depend on the trainer's separate XP counter, which may be capped.
     var allRewardsSaved = true;
     Object.keys(newPages).forEach(function (id) {
-      if (!oldPages[id] && verifiedXpDelta && !awardPage(newPages[id].bookKey, newPages[id].pageIndex)) allRewardsSaved = false;
+      if (!oldPages[id] && !awardPage(newPages[id].bookKey, newPages[id].pageIndex)) allRewardsSaved = false;
     });
     var oldBooks = {};
     (previous.books || []).forEach(function (bookKey) { oldBooks[bookKey] = true; });
     (next.books || []).forEach(function (bookKey) {
       var completedPages = (next.pages[bookKey] || []).length;
-      if (!oldBooks[bookKey] && verifiedXpDelta && completedPages >= MIN_PAGES_FOR_BOOK_MILESTONE && !awardBook(bookKey)) allRewardsSaved = false;
+      if (!oldBooks[bookKey] && completedPages >= MIN_PAGES_FOR_BOOK_MILESTONE && !awardBook(bookKey)) allRewardsSaved = false;
     });
     // If localStorage rejects a reward write, keep the old baseline so a later
     // storage event or reload retries it. Successful event IDs are idempotent.
