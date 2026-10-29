@@ -74,10 +74,10 @@ const T7: TopicSource = {
       diff: 2,
       text: "Which statement correctly contrasts the α-helix and the β-sheet?",
       options: [
-        { label: "a", text: "Both are held together by disulfide bonds." },
-        { label: "b", text: "β-sheets exist only in collagen." },
-        { label: "c", text: "α-helix: coiled, intra-chain H-bonds. β-sheet: extended chains side-by-side, inter-chain H-bonds." },
-        { label: "d", text: "α-helix: inter-chain H-bonds; β-sheet: intra-chain." }
+        { label: "a", text: "Both structures are stabilized mainly by disulfide cross-links between side chains, rather than backbone hydrogen bonding." },
+        { label: "b", text: "β-sheets occur only in collagen, while α-helices occur only in synthetic polymers and not in natural proteins." },
+        { label: "c", text: "An α-helix has a coiled backbone with intrachain H-bonds; β-sheets align extended strands with interstrand H-bonds." },
+        { label: "d", text: "An α-helix uses interchain hydrogen bonds exclusively, while a β-sheet uses only intrachain bonds along one strand." }
       ],
       answer: "c",
       why: "The helix coils with H-bonds *within* one chain; the sheet is a flat arrangement of *adjacent* chains H-bonded across. Silk fibroin is the classic β-sheet protein; keratin is largely α-helical.",
