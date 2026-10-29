@@ -7,17 +7,47 @@ export type RewardActivityClass =
   | "course-completion";
 
 export type RewardDifficulty = "foundational" | "intermediate" | "advanced";
+export type RewardEvidence =
+  | "submitted-answer"
+  | "completed-session"
+  | "typed-page"
+  | "scored-assessment"
+  | "topic-mastery"
+  | "unit-mastery"
+  | "milestone-complete"
+  | "pathway-complete";
 
 export type GlobalRewardInput = {
   module: string;
   eventId: string;
   contentKey: string;
   activityClass: RewardActivityClass;
+  evidence: RewardEvidence;
+  reason?: string;
   difficulty?: RewardDifficulty;
   quality?: number;
   passed?: boolean;
   passKey?: string;
   oneTimeKey?: string;
+};
+
+export type RewardAwardLine = {
+  id: string;
+  module: string;
+  contentKey: string;
+  activityClass: string;
+  evidence: string;
+  difficulty: RewardDifficulty;
+  baseExp: number;
+  difficultyMultiplier: number;
+  quality: number | null;
+  qualityBonus: number;
+  repeatMultiplier: number;
+  xp: number;
+  timestamp: number;
+  version: string;
+  reason?: string;
+  bonusType?: string | null;
 };
 
 export type GlobalRewardReceipt = {
@@ -47,6 +77,7 @@ export type RewardSummary = {
   progress: number;
   awardCount: number;
   countsByModule?: Record<string, number>;
+  recentAwards?: RewardAwardLine[];
   unlockedRewards?: RewardUnlock[];
   nextReward?: RewardUnlock | null;
   available?: boolean;
