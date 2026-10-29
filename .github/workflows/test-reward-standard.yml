@@ -68,6 +68,10 @@ jobs:
         working-directory: probability-source
         run: npm ci
 
+      - name: Verify Probability preserves unknown progress-root fields
+        working-directory: probability-source
+        run: node --test scripts/test-reward-progress-preservation.mjs
+
       - name: Build Probability
         working-directory: probability-source
         run: npm run build
