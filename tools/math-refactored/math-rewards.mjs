@@ -126,8 +126,15 @@ export function createMathRewardAdapter(storage, options = {}) {
     const skipped = finite(input.skipped) ? Math.floor(input.skipped) : 0;
     const questionCount = finite(input.questionCount) ? Math.floor(input.questionCount) : 0;
     const requiredCount = finite(input.requiredCount) ? Math.floor(input.requiredCount) : 0;
-    if (attempted <= 0 || skipped !== 0 || questionCount !== requiredCount || requiredCount <= 0) return null;
-    if ((input.phase === "baseline" || input.phase === "post") && attempted !== requiredCount) return null;
+    if (requiredCount <= 0 || questionCount <= 0 || questionCount > requiredCount ||
+        attempted <= 0 || skipped < 0 || attempted + skipped !== questionCount) return null;
+    if (input.phase === "baseline" || input.phase === "post") {
+      // Match the app's paired-assessment rule: every expected question, no skips.
+      if (questionCount !== requiredCount || attempted !== requiredCount || skipped !== 0) return null;
+    } else if (attempted < Math.ceil(requiredCount / 2)) {
+      // Match Trick Chamber practice's existing minimum: at least half answered.
+      return null;
+    }
 
     const firstMastery = input.phase === "post" && input.firstMastery === true;
     const checkpointId = firstMastery ? "math-trick-mastery:" + input.trickId : null;
