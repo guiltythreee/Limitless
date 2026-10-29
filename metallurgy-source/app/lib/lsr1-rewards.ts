@@ -1,5 +1,5 @@
 import {
-  calculateReward,
+  buildRewardRecords,
   dispatchRewardUpdate,
   sanitiseRewardRecords,
   type DifficultyTier,
@@ -22,9 +22,10 @@ export function appendLsrActivity<P extends LsrProgress>(
   input: RewardInput,
 ): { progress: P & { rewardLedger: RewardRecord[] }; record: RewardRecord } {
   const previous = sanitiseRewardRecords(progress.rewardLedger);
-  const record = calculateReward(input, previous);
+  const records = buildRewardRecords(input, previous);
+  const record = records[0];
   return {
-    progress: { ...progress, rewardLedger: [...previous, record] },
+    progress: { ...progress, rewardLedger: [...previous, ...records] },
     record,
   };
 }
