@@ -96,6 +96,7 @@ export type RewardUnlock = {
 export type RewardAchievement = {
   id: string;
   module: string;
+  projectId?: string;
   contentKey: string;
   activityClass: string;
   evidence: string;
