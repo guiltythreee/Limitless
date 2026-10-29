@@ -118,7 +118,7 @@ test("verified chapter and whole-book completion use shared milestone classes", 
     checkpointId: "bookkeys:book-completion:sample-book",
   });
   assert.equal(book.activityClass, "major-completion");
-  assert.equal(book.passBonus, 15);
+  assert.ok(adapter.getRecords().some((record) => record.eventId === "lsr1:pass-bonus:bookkeys:bookkeys:book-completion:sample-book" && record.totalExp === 15));
   assert.equal(book.eligible, true);
 });
 
@@ -182,11 +182,11 @@ test("the shell bridge awards fresh typing but does not convert imported legacy 
   };
   emit(pageAfter, milestoneAfter);
   const records = bridgeAdapter.getRecords();
-  assert.equal(records.length, 3);
+  assert.equal(records.length, 4, "the checkpoint bonus is stored as a separate idempotent ledger record");
   assert.ok(records.some((record) => record.itemId.startsWith("bookkeys:chapter:c:book-A:")));
   const wholeBook = records.find((record) => record.activityClass === "major-completion");
   assert.ok(wholeBook);
-  assert.equal(wholeBook.passBonus, 15);
+  assert.ok(records.some((record) => record.eventId === "lsr1:pass-bonus:bookkeys:bookkeys:book-completion:book-A" && record.totalExp === 15));
   assert.equal(wholeBook.checkpointId, "bookkeys:book-completion:book-A");
 
   dispose();
