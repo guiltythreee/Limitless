@@ -22,12 +22,12 @@ const T9: TopicSource = {
       diff: 1,
       text: "For two polymers to form a miscible (single-phase) blend, the Gibbs free energy of mixing must satisfy:",
       options: [
-        { label: "a", text: "$\\Delta G_{mix} > 0$" },
-        { label: "b", text: "$\\Delta G_{mix} < 0$ and $\\partial^2\\Delta G/\\partial\\phi^2 > 0$" },
-        { label: "c", text: "$\\Delta H_{mix} = 0$ only" },
-        { label: "d", text: "$\\Delta S_{mix} = 0$" },
+        { label: "a", text: "$\\Delta H_{mix} = 0$ only" },
+        { label: "b", text: "$\\Delta G_{mix} > 0$" },
+        { label: "c", text: "$\\Delta G_{mix} < 0$ and $\\partial^2\\Delta G/\\partial\\phi^2 > 0$" },
+        { label: "d", text: "$\\Delta S_{mix} = 0$" }
       ],
-      answer: "b",
+      answer: "c",
       why: "Mixing is spontaneous when **ΔG < 0**, and the mixture must also be stable against phase separation (second derivative positive — the curvature condition of the Flory–Huggins free-energy curve).",
       concept: "$\\Delta G = \\Delta H - T\\Delta S$ + curvature condition",
       tags: ["revision"],
@@ -38,12 +38,12 @@ const T9: TopicSource = {
       diff: 3,
       text: "Why are most pairs of polymers immiscible even when the corresponding small molecules would mix?",
       options: [
-        { label: "a", text: "The entropy of mixing is very small because each molecule is huge, so a slightly unfavourable ΔH is enough to cause phase separation." },
-        { label: "b", text: "Polymers are chemically inert." },
-        { label: "c", text: "They are always cross-linked." },
-        { label: "d", text: "They have identical solubility parameters." },
+        { label: "a", text: "They have identical solubility parameters." },
+        { label: "b", text: "They are always cross-linked." },
+        { label: "c", text: "Polymers are chemically inert." },
+        { label: "d", text: "The entropy of mixing is very small because each molecule is huge, so a slightly unfavourable ΔH is enough to cause phase separation." }
       ],
-      answer: "a",
+      answer: "d",
       why: "For polymer chains the combinatorial **entropy of mixing is tiny** (∝ 1/N per molecule). A very small positive ΔH therefore dominates, giving $\\Delta G > 0$ and immiscibility — which is why miscibility usually needs specific favourable interactions.",
       concept: "Flory–Huggins: χ must be very small for polymer miscibility",
       tags: ["confused"],
@@ -54,12 +54,12 @@ const T9: TopicSource = {
       diff: 3,
       text: "Which situation is most likely to give a *miscible* polymer blend?",
       options: [
-        { label: "a", text: "A non-polar polyolefin blended with a polar polyamide" },
-        { label: "b", text: "A H-bond-donating polymer blended with an H-bond-accepting polymer (e.g. PS with PPO, or a polymer with itself)" },
-        { label: "c", text: "Two polymers of very different solubility parameters" },
-        { label: "d", text: "Two highly cross-linked networks" },
+        { label: "a", text: "Two highly cross-linked networks" },
+        { label: "b", text: "Two polymers of very different solubility parameters" },
+        { label: "c", text: "A non-polar polyolefin blended with a polar polyamide" },
+        { label: "d", text: "A H-bond-donating polymer blended with an H-bond-accepting polymer (e.g. PS with PPO, or a polymer with itself)" }
       ],
-      answer: "b",
+      answer: "d",
       why: "**Specific interactions** (H-bonding, donor–acceptor, dipole) make ΔH negative or ~0, letting the small entropy term win. PS/PPO and PVC/PCL are classic miscible pairs; two networks cannot mix at all.",
       concept: "miscibility usually needs attractive specific interactions",
       tags: ["confused"],
@@ -70,15 +70,15 @@ const T9: TopicSource = {
       diff: 3,
       text: "A blend is 70 wt% PE ($\\rho = 0.92$ g/cm³) and 30 wt% PS ($\\rho = 1.05$ g/cm³). Using $1/\\rho = \\sum w_i/\\rho_i$, the blend density is:",
       options: [
-        { label: "a", text: "0.96 g/cm³" },
+        { label: "a", text: "1.02 g/cm³" },
         { label: "b", text: "0.99 g/cm³" },
-        { label: "c", text: "1.02 g/cm³" },
-        { label: "d", text: "0.90 g/cm³" },
+        { label: "c", text: "0.90 g/cm³" },
+        { label: "d", text: "0.96 g/cm³" }
       ],
-      answer: "a",
+      answer: "d",
       why: "$\\dfrac{1}{\\rho} = \\dfrac{0.70}{0.92} + \\dfrac{0.30}{1.05} = 0.7609 + 0.2857 = 1.0466$ → $\\rho = \\mathbf{0.956} \\approx 0.96$ g/cm³.",
       distractors: {
-        c: "1.02 is the arithmetic (volume-ignoring) mean — the density rule is reciprocal.",
+        a: "1.02 is the arithmetic (volume-ignoring) mean — the density rule is reciprocal.",
       },
       concept: "$1/\\rho_{blend} = \\sum w_i/\\rho_i$",
       tags: ["numeric", "formula"],
@@ -89,15 +89,15 @@ const T9: TopicSource = {
       diff: 3,
       text: "A compatibilized blend follows the parallel (Voigt) modulus rule $E = \\phi_1E_1 + \\phi_2E_2$. For 40 vol% glass fibre ($E_f = 70$ GPa) in nylon ($E_m = 3$ GPa), the composite modulus is:",
       options: [
-        { label: "a", text: "14.8 GPa" },
-        { label: "b", text: "29.8 GPa" },
-        { label: "c", text: "36.5 GPa" },
-        { label: "d", text: "70 GPa" },
+        { label: "a", text: "36.5 GPa" },
+        { label: "b", text: "14.8 GPa" },
+        { label: "c", text: "70 GPa" },
+        { label: "d", text: "29.8 GPa" }
       ],
-      answer: "b",
+      answer: "d",
       why: "$E = 0.4(70) + 0.6(3) = 28 + 1.8 = \\mathbf{29.8}$ GPa — the **upper (Voigt) bound** for continuous aligned reinforcement.",
       distractors: {
-        a: "14.8 GPa would need 20 vol% fibre.",
+        b: "14.8 GPa would need 20 vol% fibre.",
       },
       concept: "Voigt (parallel): $E = \\sum\\phi_iE_i$",
       tags: ["numeric", "formula"],
@@ -108,12 +108,12 @@ const T9: TopicSource = {
       diff: 3,
       text: "A block or graft copolymer added to an immiscible A/B blend improves mechanical properties because it:",
       options: [
-        { label: "a", text: "Dissolves completely in A." },
-        { label: "b", text: "Acts as a surfactant — one block is miscible with A and the other with B, anchoring the two phases and stabilizing the interface." },
-        { label: "c", text: "Cross-links the interface covalently in all cases." },
-        { label: "d", text: "Raises the melting point of both phases." },
+        { label: "a", text: "Acts as a surfactant — one block is miscible with A and the other with B, anchoring the two phases and stabilizing the interface." },
+        { label: "b", text: "Dissolves completely in A." },
+        { label: "c", text: "Raises the melting point of both phases." },
+        { label: "d", text: "Cross-links the interface covalently in all cases." }
       ],
-      answer: "b",
+      answer: "a",
       why: "A **compatibilizer** is an interfacial emulsifier: it reduces interfacial tension, stabilizes the morphology and transmits stress across the phase boundary, giving much tougher blends (e.g. maleic-anhydride-grafted PO in PA blends).",
       concept: "block/graft copolymer = polymeric surfactant",
       tags: ["confused"],
@@ -124,12 +124,12 @@ const T9: TopicSource = {
       diff: 2,
       text: "In HIPS (high-impact polystyrene), the polybutadiene rubber particles improve toughness mainly by:",
       options: [
-        { label: "a", text: "dissolving in the PS matrix" },
-        { label: "b", text: "initiating crazing and shear yielding that absorb impact energy" },
-        { label: "c", text: "raising the Tg of PS" },
-        { label: "d", text: "increasing the crystallinity of PS" },
+        { label: "a", text: "initiating crazing and shear yielding that absorb impact energy" },
+        { label: "b", text: "increasing the crystallinity of PS" },
+        { label: "c", text: "dissolving in the PS matrix" },
+        { label: "d", text: "raising the Tg of PS" }
       ],
-      answer: "b",
+      answer: "a",
       why: "Rubber particles act as **stress concentrators**: they initiate many small crazes and shear bands throughout the matrix, absorbing far more energy than a single catastrophic crack.",
       concept: "rubber toughening: multiple crazing/shear yielding",
       tags: ["revision"],
@@ -146,12 +146,12 @@ const T9: TopicSource = {
         ["4", "Mechanical", "", "(iv) repeated stressing/abrasion during processing"],
       ],
       options: [
-        { label: "a", text: "1-i, 2-ii, 3-iii, 4-iv" },
-        { label: "b", text: "1-ii, 2-i, 3-iv, 4-iii" },
-        { label: "c", text: "1-i, 2-ii, 3-iv, 4-iii" },
-        { label: "d", text: "1-iii, 2-iv, 3-i, 4-ii" },
+        { label: "a", text: "1-i, 2-ii, 3-iv, 4-iii" },
+        { label: "b", text: "1-i, 2-ii, 3-iii, 4-iv" },
+        { label: "c", text: "1-iii, 2-iv, 3-i, 4-ii" },
+        { label: "d", text: "1-ii, 2-i, 3-iv, 4-iii" }
       ],
-      answer: "a",
+      answer: "b",
       why: "Thermal → bond scission (PVC dehydrochlorination); photo-oxidative → UV + oxygen radicals; hydrolytic → ester/amide hydrolysis; mechanical → processing stresses.",
       tags: ["revision"],
     },
@@ -167,15 +167,15 @@ const T9: TopicSource = {
         { num: 4, text: "Saturated polyolefins are completely immune to UV attack." },
       ],
       options: [
-        { label: "a", text: "1, 2 and 3 only" },
-        { label: "b", text: "1, 2, 3 and 4" },
-        { label: "c", text: "4 only" },
-        { label: "d", text: "1 and 4 only" },
+        { label: "a", text: "1 and 4 only" },
+        { label: "b", text: "1, 2 and 3 only" },
+        { label: "c", text: "1, 2, 3 and 4" },
+        { label: "d", text: "4 only" }
       ],
-      answer: "a",
+      answer: "b",
       why: "1–3 correct. Item 4 is false: although PE has no intrinsic chromophore, trace **carbonyls or catalyst residues** absorb UV and initiate chain scission/cross-linking — hence outdoor polyolefins still need stabilizers.",
       distractors: {
-        b: "Item 4 ignores the trace chromophores that make polyolefins photo-degradable.",
+        c: "Item 4 ignores the trace chromophores that make polyolefins photo-degradable.",
       },
       concept: "chromophore (C=O) + O₂ → radical photo-oxidation",
       tags: ["confused"],
@@ -186,12 +186,12 @@ const T9: TopicSource = {
       diff: 3,
       text: "Primary vs secondary antioxidants: which pairing is correct?",
       options: [
-        { label: "a", text: "Primary (hindered phenols/amines) scavenge free radicals; secondary (phosphites/thioethers) decompose hydroperoxides non-radically." },
-        { label: "b", text: "Primary decompose hydroperoxides; secondary scavenge radicals." },
-        { label: "c", text: "Both are UV absorbers." },
-        { label: "d", text: "Neither is used in polymers." },
+        { label: "a", text: "Neither is used in polymers." },
+        { label: "b", text: "Both are UV absorbers." },
+        { label: "c", text: "Primary (hindered phenols/amines) scavenge free radicals; secondary (phosphites/thioethers) decompose hydroperoxides non-radically." },
+        { label: "d", text: "Primary decompose hydroperoxides; secondary scavenge radicals." }
       ],
-      answer: "a",
+      answer: "c",
       why: "**Primary antioxidants** trap peroxyl/radical species; **secondary antioxidants** convert hydroperoxides (ROOH) into non-radical alcohols, removing the source of new radicals. They are used together for synergy.",
       concept: "primary = radical trap · secondary = peroxide decomposer",
       tags: ["confused"],
@@ -202,12 +202,12 @@ const T9: TopicSource = {
       diff: 3,
       text: "Why is PVC especially prone to thermal degradation, and how is it stabilized?",
       options: [
-        { label: "a", text: "Allylic/tertiary C–Cl sites zip off as HCl (dehydrochlorination), the liberated HCl autocatalyzes further degradation, and polyene sequences discolour the polymer. Metal soaps (Ca/Zn) or organotins remove HCl and repair labile sites." },
+        { label: "a", text: "PVC depolymerizes at room temperature." },
         { label: "b", text: "PVC oxidizes only in water." },
-        { label: "c", text: "PVC depolymerizes at room temperature." },
-        { label: "d", text: "PVC needs no stabilizer." },
+        { label: "c", text: "PVC needs no stabilizer." },
+        { label: "d", text: "Allylic/tertiary C–Cl sites zip off as HCl (dehydrochlorination), the liberated HCl autocatalyzes further degradation, and polyene sequences discolour the polymer. Metal soaps (Ca/Zn) or organotins remove HCl and repair labile sites." }
       ],
-      answer: "a",
+      answer: "d",
       why: "**Dehydrochlorination** destroys a labile C–Cl bond, releasing HCl that catalyses the next loss — a self-accelerating 'unzipping' that forms coloured polyenes. **Thermal stabilizers** (organotin, mixed-metal soaps) substitute the labile chlorine and mop up HCl.",
       concept: "HCl autcatalysis ⇒ PVC needs thermal stabilizers",
       tags: ["confused"],
@@ -218,12 +218,12 @@ const T9: TopicSource = {
       diff: 1,
       text: "HALS (hindered amine light stabilizers) work mainly by:",
       options: [
-        { label: "a", text: "absorbing UV and releasing heat" },
-        { label: "b", text: "scavenging free radicals (via nitroxyl radicals) and regenerating themselves" },
-        { label: "c", text: "acting as a plasticizer" },
-        { label: "d", text: "cross-linking the surface" },
+        { label: "a", text: "acting as a plasticizer" },
+        { label: "b", text: "cross-linking the surface" },
+        { label: "c", text: "scavenging free radicals (via nitroxyl radicals) and regenerating themselves" },
+        { label: "d", text: "absorbing UV and releasing heat" }
       ],
-      answer: "b",
+      answer: "c",
       why: "**HALS** are radical scavengers: the amine oxidizes to a nitroxyl radical that traps alkyl radicals, and the cycle regenerates the active species — making HALS unusually efficient per molecule.",
       concept: "HALS = regenerative radical trap · UV absorber = dissipates light",
       tags: ["confused"],
@@ -236,27 +236,27 @@ const T9: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "A Ca/Zn heat stabilizer plus processing lubricant, but no absorber/HALS component for long-term exposure to sunlight."
-        },
-        {
-          "label": "b",
-          "text": "A UV absorber/HALS package and lubricant, but no heat stabilizer to reduce dehydrochlorination during hot extrusion."
-        },
-        {
-          "label": "c",
           "text": "TiO₂ pigment, impact modifier and plasticizer, but no dedicated package for both thermal and UV degradation."
         },
         {
-          "label": "d",
+          "label": "b",
+          "text": "A Ca/Zn heat stabilizer plus processing lubricant, but no absorber/HALS component for long-term exposure to sunlight."
+        },
+        {
+          "label": "c",
           "text": "A compatible thermal stabilizer, UV absorber/HALS package and processing lubricant selected for the PVC formulation."
+        },
+        {
+          "label": "d",
+          "text": "A UV absorber/HALS package and lubricant, but no heat stabilizer to reduce dehydrochlorination during hot extrusion."
         }
       ],
-      "answer": "d",
+      "answer": "c",
       "why": "The formulation faces two distinct threats: heat-induced PVC dehydrochlorination during processing and photo-oxidation under sunlight. A compatible thermal stabilizer and UV package address both; lubricants support processing.",
       "distractors": {
-        "a": "This addresses processing heat but leaves the outdoor UV threat unaddressed.",
-        "b": "This addresses sunlight but leaves PVC vulnerable during hot processing.",
-        "c": "Pigment and impact modification can help other properties but do not replace both stabilizer systems."
+        "b": "This addresses processing heat but leaves the outdoor UV threat unaddressed.",
+        "d": "This addresses sunlight but leaves PVC vulnerable during hot processing.",
+        "a": "Pigment and impact modification can help other properties but do not replace both stabilizer systems."
       },
       "concept": "Build additive packages around the degradation mechanisms the product must resist.",
       "tags": [
@@ -269,12 +269,12 @@ const T9: TopicSource = {
       diff: 2,
       text: "Which pair of polymers is most susceptible to hydrolytic degradation during long-term implant or marine exposure?",
       options: [
-        { label: "a", text: "PLA and PET (both contain ester bonds)" },
-        { label: "b", text: "PE and PP (only C–C bonds)" },
+        { label: "a", text: "PS and PMMA" },
+        { label: "b", text: "PLA and PET (both contain ester bonds)" },
         { label: "c", text: "PTFE" },
-        { label: "d", text: "PS and PMMA" },
+        { label: "d", text: "PE and PP (only C–C bonds)" }
       ],
-      answer: "a",
+      answer: "b",
       why: "**Ester bonds** hydrolyse (especially under acid/base or enzymatic catalysis), so polyesters — including biodegradable **PLA/PCL/PHB** and conventional **PET** — degrade hydrolytically. C–C backbone polymers (PE, PP, PS, PTFE) cannot be hydrolysed.",
       concept: "hydrolysable groups: ester, amide, carbonate, urethane",
       tags: ["revision"],
@@ -291,15 +291,15 @@ const T9: TopicSource = {
         { num: 4, text: "Fillers normally lower the modulus." },
       ],
       options: [
-        { label: "a", text: "1, 2 and 3 only" },
-        { label: "b", text: "1, 2, 3 and 4" },
-        { label: "c", text: "4 only" },
-        { label: "d", text: "1 and 4 only" },
+        { label: "a", text: "1, 2, 3 and 4" },
+        { label: "b", text: "4 only" },
+        { label: "c", text: "1, 2 and 3 only" },
+        { label: "d", text: "1 and 4 only" }
       ],
-      answer: "a",
+      answer: "c",
       why: "1–3 correct. Item 4 is false — rigid fillers/reinforcements **raise** modulus; they may reduce ductility and impact toughness, but not stiffness.",
       distractors: {
-        b: "Item 4 confuses modulus (stiffness) with toughness.",
+        a: "Item 4 confuses modulus (stiffness) with toughness.",
       },
       tags: ["confused"],
     },
@@ -309,15 +309,15 @@ const T9: TopicSource = {
       diff: 4,
       text: "A unidirectional carbon-fibre/epoxy ply: $E_f = 230$ GPa at $V_f = 0.60$; $E_m = 3.5$ GPa. The axial (Voigt) composite modulus is:",
       options: [
-        { label: "a", text: "139 GPa" },
-        { label: "b", text: "69 GPa" },
+        { label: "a", text: "69 GPa" },
+        { label: "b", text: "139 GPa" },
         { label: "c", text: "230 GPa" },
-        { label: "d", text: "8.6 GPa" },
+        { label: "d", text: "8.6 GPa" }
       ],
-      answer: "a",
+      answer: "b",
       why: "$E = 230(0.60) + 3.5(0.40) = 138 + 1.4 = \\mathbf{139.4}$ GPa — the fibre dominates axially, which is why aligned-fibre composites are so stiff along the fibre.",
       distractors: {
-        b: "69 GPa is the 50/50 arithmetic intuition, ignoring the volume fractions.",
+        a: "69 GPa is the 50/50 arithmetic intuition, ignoring the volume fractions.",
         d: "8.6 GPa resembles the transverse (Reuss) bound, where the soft matrix dominates.",
       },
       concept: "axial: Voigt bound · transverse: Reuss bound",
@@ -330,12 +330,12 @@ const T9: TopicSource = {
       assertion: "Adding 30% glass fibre to nylon increases its heat-deflection temperature.",
       reason: "Glass fibres are much stiffer than the matrix and bear a large share of the load, so the composite resists deflection to higher temperature.",
       options: [
-        { label: "a", text: "Both A and R are true, and R is the correct explanation of A" },
-        { label: "b", text: "Both A and R are true, but R is NOT the correct explanation of A" },
+        { label: "a", text: "Both A and R are true, but R is NOT the correct explanation of A" },
+        { label: "b", text: "Both A and R are true, and R is the correct explanation of A" },
         { label: "c", text: "A is true, R is false" },
-        { label: "d", text: "A is false, R is true" },
+        { label: "d", text: "A is false, R is true" }
       ],
-      answer: "a",
+      answer: "b",
       why: "HDT is a **stiffness-under-load** test. Stiff fibres raise the composite modulus (Voigt bound), so the bar deflects less at a given temperature — the direct mechanism behind the higher HDT.",
       concept: "HDT ∝ composite stiffness",
       tags: ["revision"],
@@ -346,12 +346,12 @@ const T9: TopicSource = {
       diff: 1,
       text: "Which of these polymers is *biodegradable* by design?",
       options: [
-        { label: "a", text: "Poly(lactic acid) (PLA)" },
-        { label: "b", text: "Polyethylene" },
-        { label: "c", text: "Polystyrene" },
-        { label: "d", text: "Poly(vinyl chloride)" },
+        { label: "a", text: "Polyethylene" },
+        { label: "b", text: "Poly(vinyl chloride)" },
+        { label: "c", text: "Poly(lactic acid) (PLA)" },
+        { label: "d", text: "Polystyrene" }
       ],
-      answer: "a",
+      answer: "c",
       why: "**PLA** (like PHB, PHBV, PCL and PBS) has a hydrolysable **ester backbone** that microorganisms/enzymes can ultimately break down. PE, PS and PVC have all-carbon backbones and persist for centuries.",
       tags: ["revision"],
     },
@@ -361,12 +361,12 @@ const T9: TopicSource = {
       diff: 3,
       text: "Order the stages of microbial biodegradation of a polymer: (1) bio-fragmentation into oligomers (2) biodeterioration at the surface (3) mineralization to CO₂/H₂O/biomass (4) assimilation into the microbial cell",
       options: [
-        { label: "a", text: "2 → 1 → 4 → 3" },
+        { label: "a", text: "4 → 1 → 2 → 3" },
         { label: "b", text: "1 → 2 → 3 → 4" },
-        { label: "c", text: "4 → 1 → 2 → 3" },
-        { label: "d", text: "2 → 4 → 1 → 3" },
+        { label: "c", text: "2 → 4 → 1 → 3" },
+        { label: "d", text: "2 → 1 → 4 → 3" }
       ],
-      answer: "a",
+      answer: "d",
       why: "**Biodeterioration** (surface colonization/attack) → **biofragmentation** (depolymerization to oligomers/monomers) → **assimilation** (uptake into cells) → **mineralization** (CO₂, H₂O, biomass).",
       tags: ["revision"],
     },
@@ -376,12 +376,12 @@ const T9: TopicSource = {
       diff: 3,
       text: "Why does blending a small amount of a *hydrophilic* polymer into a *hydrophobic* commodity plastic often accelerate its environmental degradation?",
       options: [
-        { label: "a", text: "The hydrophilic domains absorb water and swell, building internal stress and letting micro-organisms/enzymes access the interface, fragmenting the matrix." },
-        { label: "b", text: "The blend raises the melting point." },
+        { label: "a", text: "It has no effect." },
+        { label: "b", text: "The hydrophilic domains absorb water and swell, building internal stress and letting micro-organisms/enzymes access the interface, fragmenting the matrix." },
         { label: "c", text: "Hydrophilic polymers emit UV radiation." },
-        { label: "d", text: "It has no effect." },
+        { label: "d", text: "The blend raises the melting point." }
       ],
-      answer: "a",
+      answer: "b",
       why: "A water-loving phase creates **internal pathways and stresses** that fragment the hydrophobic matrix and expose surface area — the practical basis of 'pro-oxidant'/starch-blended degradable polyolefins (with the caveat that fragments may persist).",
       concept: "degradation design: create hydrolysable/internal-stress pathways",
       tags: ["confused"],
@@ -393,9 +393,9 @@ const T9: TopicSource = {
       text: "The Flory–Huggins interaction parameter χ determines miscibility. Which statement is correct?",
       options: [
         { label: "a", text: "Miscibility requires χ below a critical value that scales as 1/√N — so high-MW pairs are harder to mix than low-MW ones." },
-        { label: "b", text: "Miscibility requires χ > 10." },
-        { label: "c", text: "χ is independent of temperature." },
-        { label: "d", text: "χ is always zero." },
+        { label: "b", text: "χ is independent of temperature." },
+        { label: "c", text: "χ is always zero." },
+        { label: "d", text: "Miscibility requires χ > 10." }
       ],
       answer: "a",
       why: "The critical $\\chi_c \\approx 0.5(1/\\sqrt{N_1} + 1/\\sqrt{N_2})^2$ shrinks toward zero as chain lengths grow — the mathematical reason **high-MW polymer pairs almost never mix** unless χ is slightly negative (specific interactions).",
@@ -409,9 +409,9 @@ const T9: TopicSource = {
       text: "A rigid PVC pipe formulation must be opacified, toughened cheaply and protected from UV in a tropical climate. A plausible additive package is:",
       options: [
         { label: "a", text: "TiO₂ (opacity + UV screening) + impact modifier (e.g. CPE/ACR) + thermal stabilizer + antistatic" },
-        { label: "b", text: "Plasticizer only" },
+        { label: "b", text: "A peroxide only" },
         { label: "c", text: "Glass fibre only" },
-        { label: "d", text: "A peroxide only" },
+        { label: "d", text: "Plasticizer only" }
       ],
       answer: "a",
       why: "**TiO₂** provides opacity and screens UV; an **impact modifier** toughens rigid PVC; the **thermal stabilizer** guards PVC's weak point; antistatic aids handling. This is a realistic co-additive package.",
@@ -425,9 +425,9 @@ const T9: TopicSource = {
       text: "Chain scission vs cross-linking during degradation — which pairing is correct?",
       options: [
         { label: "a", text: "Scission shortens chains (MW and toughness fall); cross-linking builds a brittle network (hardening, reduced solubility). Both often occur together, one dominating." },
-        { label: "b", text: "Both increase solubility." },
-        { label: "c", text: "Scission builds networks; cross-linking shortens chains." },
-        { label: "d", text: "They are identical processes." },
+        { label: "b", text: "Scission builds networks; cross-linking shortens chains." },
+        { label: "c", text: "They are identical processes." },
+        { label: "d", text: "Both increase solubility." }
       ],
       answer: "a",
       why: "**Scission** lowers MW (embrittlement, tackiness); **cross-linking** raises network density (stiffening, insolubility). Which one dominates decides whether aged PE, for example, embrittles by scission or hardens by cross-linking.",
@@ -441,9 +441,9 @@ const T9: TopicSource = {
       text: "A bottle maker switches from monolayer PET to a PET/EVOH/PET multilayer structure. The functional reason is:",
       options: [
         { label: "a", text: "PET gives strength/clarity, while the thin EVOH layer provides a much better O₂ barrier to extend shelf life; PET protects the moisture-sensitive EVOH." },
-        { label: "b", text: "EVOH is cheaper than PET." },
-        { label: "c", text: "EVOH improves clarity." },
-        { label: "d", text: "PET alone cannot hold carbonation." },
+        { label: "b", text: "PET alone cannot hold carbonation." },
+        { label: "c", text: "EVOH is cheaper than PET." },
+        { label: "d", text: "EVOH improves clarity." }
       ],
       answer: "a",
       why: "Each layer contributes a property: **PET** = structure, clarity, moisture barrier; **EVOH** = excellent O₂ barrier (but moisture-sensitive); a tie layer or careful structure protects it. This is the standard multilayer barrier design logic.",
