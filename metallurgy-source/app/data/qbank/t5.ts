@@ -247,10 +247,10 @@ const T5: TopicSource = {
       diff: 3,
       text: "Crystallites raise a polymer's stiffness and strength up to the Tm but do not dissolve the material in solvent. This is because they act as:",
       options: [
-        { label: "a", text: "Plasticizers" },
-        { label: "b", text: "Fillers" },
-        { label: "c", text: "Chemical cross-links that cannot break" },
-        { label: "d", text: "Physical (thermoreversible) cross-links joining chains, which melt at Tm and give way to solvent" }
+        { label: "a", text: "Plasticizers increase chain mobility and lower stiffness, but they do not stop the base polymer dissolving in solvents." },
+        { label: "b", text: "Rigid fillers remain insoluble and load-bearing even above the polymer's melting point." },
+        { label: "c", text: "Permanent covalent cross-links cannot be broken by heating or ordinary solvents, unlike reversible crystalline domains." },
+        { label: "d", text: "Physical cross-links: crystalline domains anchor chains but melt reversibly at Tm." }
       ],
       answer: "d",
       why: "Crystalline domains anchor the chains like **physical cross-links** — reversible with temperature (melt atTm), unlike covalent cross-links.",
@@ -348,10 +348,10 @@ const T5: TopicSource = {
       diff: 3,
       text: "The 'fringed micelle' vs 'chain-folded lamella' models differ in that:",
       options: [
-        { label: "a", text: "They are identical." },
-        { label: "b", text: "Fringed micelle applies only to thermosets." },
-        { label: "c", text: "Chain folding requires side chains." },
-        { label: "d", text: "Fringed micelle: chains pass through several crystalline regions (older model). Chain-folded lamella: chains re-enter the same crystal face many times (modern picture from single crystals)." }
+        { label: "a", text: "The two models depict the same chain arrangement and differ only in terminology used by different researchers." },
+        { label: "b", text: "Fringed-micelle applies to thermosets, while chain-folded lamellae form only in cross-linked polymers." },
+        { label: "c", text: "Chain-folded lamellae need long side chains to tie adjacent crystals; linear chains cannot fold back on themselves." },
+        { label: "d", text: "Fringed-micelle chains span several crystallites; in lamellae, chains fold back repeatedly within thin crystals." }
       ],
       answer: "d",
       why: "The **fringed-micelle** model imagined one chain crossing many small crystallites; electron microscopy of single crystals proved **chain folding** — chains fold back and forth within a thin (~10 nm) lamella.",
@@ -363,10 +363,10 @@ const T5: TopicSource = {
       diff: 4,
       text: "Plotting tensile modulus vs %crystallinity for PE gives a steep rise up to ~60% then a plateau. The plateau is best explained by:",
       options: [
-        { label: "a", text: "Measurement error." },
-        { label: "b", text: "Crystallinity does not affect modulus." },
-        { label: "c", text: "Beyond a certain crystallinity the amorphous regions are already so constrained (by tie molecules) that adding more crystallites adds little stiffness." },
-        { label: "d", text: "PE stops crystallizing at 60%." }
+        { label: "a", text: "The plateau is a plotting artifact; modulus is unrelated to morphology and should not depend on crystallinity." },
+        { label: "b", text: "Crystallinity has no effect on modulus; the initial increase must instead come from changes in molecular weight." },
+        { label: "c", text: "Once tie molecules constrain the amorphous phase, adding crystallites yields diminishing stiffness gains." },
+        { label: "d", text: "Polyethylene cannot crystallize above about 60%, so the measured modulus has no physical route to increase further." }
       ],
       answer: "c",
       why: "Stiffness depends on the **load-bearing crystalline network and the tie molecules bridging it**. Once the amorphous phase is highly constrained, extra crystallinity gives diminishing returns — the plateau.",
