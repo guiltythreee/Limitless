@@ -161,7 +161,7 @@ const extension = { owner: "another-module", nested: { schema: 4, flags: ["keep"
   assert.ok(events.includes("limitless:rewards-updated"), "notifications fire after the canonical save");
 
   const beforeDuplicate = storage.writeCount();
-  assert.deepEqual(api.recordTestWithAttempts(record, submitted), []);
+  assert.equal(api.recordTestWithAttempts(record, submitted).length, 0, "duplicate test returns no new attempts");
   assert.equal(storage.writeCount(), beforeDuplicate, "duplicate assessment completion does not write or pay again");
   persisted = JSON.parse(storage.getItem("hc3-progress-v3"));
   assert.equal(persisted.tests.length, 1);
