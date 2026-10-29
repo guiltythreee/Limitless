@@ -9,7 +9,7 @@
 // untouched.
 
 import { useEffect, useRef, useState } from "react";
-import { Progress, recordAnswer } from "../lib/progress";
+import { Progress, recordAnswer, recordExamAssessment } from "../lib/progress";
 import { MT202_ENTRY } from "../courses/entries/mt202";
 import type { Question } from "../courses/types";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
@@ -81,13 +81,21 @@ export default function Exam({
     let p = progress;
     pool.forEach((q, i) => {
       const a = answers[i];
-      if (a) p = recordAnswer(p, `${q.chId}-q${q.n}`, a, a === q.answer);
+      if (a) p = recordAnswer(p, `${q.chId}-q${q.n}`, a, a === q.answer, "exam", q.difficulty);
     });
     const total = pool.length;
+    const completedAt = Date.now();
     const prevRatio = progress.examBest ? progress.examBest.score / progress.examBest.total : -1;
     if (total && sc / total >= prevRatio) {
-      p = { ...p, examBest: { score: sc, total, at: Date.now() } };
+      p = { ...p, examBest: { score: sc, total, at: completedAt } };
     }
+    p = recordExamAssessment(p, {
+      runId: `exam-${completedAt}-${Math.random().toString(36).slice(2, 8)}`,
+      ts: completedAt,
+      total,
+      answered: Object.keys(answers).length,
+      correct: sc,
+    });
     onProgress(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
