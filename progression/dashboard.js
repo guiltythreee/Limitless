@@ -13,6 +13,8 @@
     }
     function render() {
       var summary = window.LimitlessRewards.summary();
+      mount.classList.remove('global-effect-polymath-glow', 'global-effect-radiant-archive', 'global-effect-limitless-aura');
+      if (summary.equippedProfileEffect) mount.classList.add('global-effect-' + summary.equippedProfileEffect.id);
       mount.textContent = '';
       var top = element('div', 'global-progress-top');
       var level = element('div', 'global-progress-level', 'Level ' + summary.level);
@@ -76,6 +78,7 @@
       }
       addEquipmentSelector('title', 'Title', summary.equippedTitle);
       addEquipmentSelector('emblem', 'Emblem', summary.equippedEmblem);
+      addEquipmentSelector('profile-effect', 'Profile effect', summary.equippedProfileEffect);
       mount.appendChild(loadout);
 
       var moduleTotals = summary.xpByModule || {};
