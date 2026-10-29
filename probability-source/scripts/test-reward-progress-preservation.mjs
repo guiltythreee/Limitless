@@ -25,10 +25,18 @@ function boot(seed, questionList = []) {
     removeItem(key) { values.delete(key); },
     writeCount() { return writes; },
   };
+  const globalRewardInputs = [];
   const fakeWindow = {
     localStorage: storage,
     addEventListener() {},
     removeEventListener() {},
+    LimitlessRewards: {
+      read() { return { awards: [] }; },
+      recordMany(inputs) {
+        globalRewardInputs.push(...inputs);
+        return inputs.map((input) => ({ ok: true, xp: input.activityClass === "micro-practice" ? 5 : 25 }));
+      },
+    },
   };
   const fakeQuestions = {
     allQuestions: questionList,
@@ -54,7 +62,7 @@ function boot(seed, questionList = []) {
   });
   const api = module.exports;
   api.useStore();
-  return { api, storage };
+  return { api, storage, globalRewardInputs };
 }
 
 test("current Probability progress roots preserve unknown extension fields through later writes", () => {
@@ -146,5 +154,8 @@ test("Probability test answers and their assessment record use one canonical sto
   const persisted = JSON.parse(storage.getItem("hc3-progress-v3"));
   assert.equal(persisted.tests.length, 1);
   assert.equal(persisted.attempts.length, 2);
+  assert.ok(persisted.attempts.every((attempt) => attempt.source === "assessment"));
   assert.deepEqual(persisted.moduleOwnedExtension, { mustRemain: true });
+  assert.equal(globalRewardInputs.filter((input) => input.activityClass === "micro-practice").length, 0,
+    "assessment answers must not also receive standalone per-question EXP");
 });
