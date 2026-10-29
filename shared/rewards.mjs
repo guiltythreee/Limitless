@@ -38,6 +38,12 @@ export const REWARD_SOURCE_REGISTRY = Object.freeze([
     storageKey: "hc3-progress-v3",
     shape: "rewardLedger",
   },
+  {
+    moduleId: "math-trainer",
+    label: "Math Trainer",
+    storageKey: "limitless-math-lsr1-v1",
+    shape: "rewardLedger",
+  },
 ]);
 
 const ACTIVITY_CLASSES = new Set([...Object.keys(ACTIVITY_BASE_EXP), "bespoke-project"]);
