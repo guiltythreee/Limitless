@@ -56,7 +56,7 @@ function render() {
   if (!summary.sources.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No registered module progress is saved yet. Complete a Probability practice question or assessment to begin.";
+    empty.textContent = "No registered module progress is saved yet. Complete a Probability problem or an eligible Math Trainer session to begin.";
     modules.append(empty);
   } else {
     for (const source of summary.sources) {
@@ -69,14 +69,24 @@ function render() {
   if (!summary.recentAwards.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No EXP awards yet. In Probability, submit a non-empty practice answer or finish every question in a cumulative test.";
+    empty.textContent = "No EXP awards yet. Submit a Probability answer or finish an eligible Math Trainer session.";
     recent.append(empty);
   } else {
     for (const award of summary.recentAwards) {
       const date = new Date(award.ts).toLocaleString();
       const detail = (labels[award.activityClass] ?? award.activityClass) + " · " +
         award.difficulty + " · " + date + (award.passBonus ? " · first checkpoint pass bonus +" + award.passBonus : "");
-      recent.append(makeRow(award.completionEvidence === "submitted-answer" ? "Probability problem" : "Probability assessment", detail, "+" + number(award.totalExp) + " EXP"));
+      let title = "Learning activity";
+      if (award.moduleId === "probability") {
+        title = award.completionEvidence === "submitted-answer" ? "Probability problem" : "Probability assessment";
+      } else if (award.moduleId === "math-trainer") {
+        title = award.itemId.startsWith("math-trick:")
+          ? "Math Trainer · Trick Chamber"
+          : award.activityClass === "assessment"
+            ? "Math Trainer assessment"
+            : "Math Trainer session";
+      }
+      recent.append(makeRow(title, detail, "+" + number(award.totalExp) + " EXP"));
     }
   }
 }
