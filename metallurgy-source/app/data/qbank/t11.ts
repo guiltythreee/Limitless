@@ -25,8 +25,8 @@ const T11: TopicSource = {
       options: [
         { label: "a", text: "polymerizing the monomer" },
         { label: "b", text: "mixing the base polymer with additives (fillers, plasticizers, stabilizers, colorants) to make a usable formulation" },
-        { label: "c", text: "cross-linking the product" },
-        { label: "d", text: "recycling the polymer" },
+        { label: "c", text: "recycling the polymer" },
+        { label: "d", text: "cross-linking the product" }
       ],
       answer: "b",
       why: "**Compounding** turns a raw polymer into a processable, serviceable formulation by intimately mixing additives — usually in an extruder — before shaping.",
@@ -44,12 +44,12 @@ const T11: TopicSource = {
         ["4", "Coupling agent", "", "(iv) bonds filler to matrix (e.g. silane on glass)"],
       ],
       options: [
-        { label: "a", text: "1-i, 2-ii, 3-iii, 4-iv" },
-        { label: "b", text: "1-ii, 2-i, 3-iv, 4-iii" },
-        { label: "c", text: "1-i, 2-ii, 3-iv, 4-iii" },
-        { label: "d", text: "1-iv, 2-iii, 3-i, 4-ii" },
+        { label: "a", text: "1-ii, 2-i, 3-iv, 4-iii" },
+        { label: "b", text: "1-i, 2-ii, 3-iii, 4-iv" },
+        { label: "c", text: "1-iv, 2-iii, 3-i, 4-ii" },
+        { label: "d", text: "1-i, 2-ii, 3-iv, 4-iii" }
       ],
-      answer: "a",
+      answer: "b",
       why: "Plasticizer → flexibility; lubricant → processing/release; thermal stabilizer → degradation protection; coupling agent → filler–matrix adhesion.",
       tags: ["revision"],
     },
@@ -60,9 +60,9 @@ const T11: TopicSource = {
       text: "An *internal* lubricant differs from an *external* lubricant in that the internal lubricant:",
       options: [
         { label: "a", text: "is compatible with the melt and lowers its viscosity; the external lubricant is incompatible and migrates to the surface to aid release." },
-        { label: "b", text: "always increases viscosity" },
-        { label: "c", text: "is a solid at processing temperature" },
-        { label: "d", text: "is the same as a plasticizer in all respects" },
+        { label: "b", text: "is the same as a plasticizer in all respects" },
+        { label: "c", text: "always increases viscosity" },
+        { label: "d", text: "is a solid at processing temperature" }
       ],
       answer: "a",
       why: "**Internal** lubricants reduce inter-chain friction (lower melt viscosity); **external** ones exude to the metal interface, reducing sticking and aiding demoulding.",
@@ -75,12 +75,12 @@ const T11: TopicSource = {
       diff: 1,
       text: "A masterbatch is:",
       options: [
-        { label: "a", text: "a concentrated additive/pigment blend in a carrier resin, diluted into the base polymer during processing" },
-        { label: "b", text: "a type of cross-linker" },
-        { label: "c", text: "the first polymer ever made" },
-        { label: "d", text: "a moulding defect" },
+        { label: "a", text: "the first polymer ever made" },
+        { label: "b", text: "a concentrated additive/pigment blend in a carrier resin, diluted into the base polymer during processing" },
+        { label: "c", text: "a moulding defect" },
+        { label: "d", text: "a type of cross-linker" }
       ],
-      answer: "a",
+      answer: "b",
       why: "**Masterbatches** deliver colorants/additives uniformly at low dose: a concentrated dispersion is let down into the bulk resin at the machine, ensuring good dispersion and cleaner handling.",
       tags: ["revision"],
     },
@@ -90,12 +90,12 @@ const T11: TopicSource = {
       diff: 3,
       text: "Why must hygroscopic polymers such as PET, nylon, PC and POM be thoroughly dried before melt processing?",
       options: [
-        { label: "a", text: "Moisture causes hydrolytic chain scission at melt temperature — lowering MW and mechanical properties — and produces surface defects (splay/silver streaks)." },
+        { label: "a", text: "There is no need to dry them." },
         { label: "b", text: "Water acts as a cross-linker." },
         { label: "c", text: "Drying improves colour only." },
-        { label: "d", text: "There is no need to dry them." },
+        { label: "d", text: "Moisture causes hydrolytic chain scission at melt temperature — lowering MW and mechanical properties — and produces surface defects (splay/silver streaks)." }
       ],
-      answer: "a",
+      answer: "d",
       why: "At melt temperature, absorbed water **hydrolyses ester/amide/carbonate linkages**, dropping molecular weight (an intrinsic-viscosity loss for PET) and causing silver-streak **splay**. Hence dried hoppers and dryers are mandatory.",
       concept: "hygroscopic + hot + hydrolysable bond = MW loss",
       tags: ["confused"],
@@ -106,10 +106,10 @@ const T11: TopicSource = {
       diff: 1,
       text: "In the SPI resin-identification code, code 3 denotes:",
       options: [
-        { label: "a", text: "PET" },
+        { label: "a", text: "PS" },
         { label: "b", text: "PVC" },
         { label: "c", text: "PP" },
-        { label: "d", text: "PS" },
+        { label: "d", text: "PET" }
       ],
       answer: "b",
       why: "1 PET · 2 HDPE · 3 PVC · 4 LDPE · 5 PP · 6 PS · 7 other. The triangle code is for **sorting in recycling**. ",
@@ -123,27 +123,27 @@ const T11: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "PET floats while HDPE sinks, because the more crystalline PET fraction is assumed to have the lower density in the tank."
+          "text": "Both float because many common packaging polymers have densities below water, so the materials cannot be separated by this method."
         },
         {
           "label": "b",
-          "text": "PET sinks while HDPE floats; PET is about 1.33 g/cm³ and HDPE is typically around 0.95 g/cm³."
-        },
-        {
-          "label": "c",
           "text": "Both sink because PET and HDPE are assumed to have densities above water's 1.0 g/cm³ reference value."
         },
         {
+          "label": "c",
+          "text": "PET sinks while HDPE floats; PET is about 1.33 g/cm³ and HDPE is typically around 0.95 g/cm³."
+        },
+        {
           "label": "d",
-          "text": "Both float because many common packaging polymers have densities below water, so the materials cannot be separated by this method."
+          "text": "PET floats while HDPE sinks, because the more crystalline PET fraction is assumed to have the lower density in the tank."
         }
       ],
-      "answer": "b",
+      "answer": "c",
       "why": "Typical PET has density around 1.33–1.40 g/cm³ and sinks in water; typical HDPE is around 0.94–0.97 g/cm³ and floats. Actual recycled streams can contain additives or contaminants, so industrial sorting may combine sink–float with other methods.",
       "distractors": {
-        "a": "This reverses the typical densities of PET and HDPE.",
-        "c": "Typical HDPE has density below 1 g/cm³, so it floats in clean water.",
-        "d": "Some common plastics, including PET and PVC, are denser than water."
+        "d": "This reverses the typical densities of PET and HDPE.",
+        "b": "Typical HDPE has density below 1 g/cm³, so it floats in clean water.",
+        "a": "Some common plastics, including PET and PVC, are denser than water."
       },
       "concept": "Density-based sink–float separation; use measured polymer densities rather than a blanket rule about plastics.",
       "tags": [
@@ -158,11 +158,11 @@ const T11: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "1 → 2 → 5 → 3 → 4"
+          "text": "2 → 1 → 3 → 5 → 4"
         },
         {
           "label": "b",
-          "text": "2 → 1 → 3 → 5 → 4"
+          "text": "1 → 2 → 5 → 3 → 4"
         },
         {
           "label": "c",
@@ -176,8 +176,8 @@ const T11: TopicSource = {
       "answer": "d",
       "why": "The mould is clamped, the melt fills the cavity, packing/holding compensates for shrinkage, cooling solidifies the part while the next shot is prepared, and the part is then ejected.",
       "distractors": {
-        "a": "Injection cannot precede closing and clamping the mould.",
-        "b": "Packing/holding follows filling; it is not delayed until after the cooling/plastication stage in the simplified cycle shown.",
+        "b": "Injection cannot precede closing and clamping the mould.",
+        "a": "Packing/holding follows filling; it is not delayed until after the cooling/plastication stage in the simplified cycle shown.",
         "c": "The cavity must be filled before packing/holding pressure is applied."
       },
       "tags": [
@@ -190,12 +190,12 @@ const T11: TopicSource = {
       diff: 1,
       text: "A single-screw extruder has, in order along the barrel:",
       options: [
-        { label: "a", text: "feed → compression (melting) → metering (pumping) zones" },
-        { label: "b", text: "metering → feed → compression" },
-        { label: "c", text: "melting → ejection → cooling" },
-        { label: "d", text: "only a feed zone" },
+        { label: "a", text: "metering → feed → compression" },
+        { label: "b", text: "melting → ejection → cooling" },
+        { label: "c", text: "feed → compression (melting) → metering (pumping) zones" },
+        { label: "d", text: "only a feed zone" }
       ],
-      answer: "a",
+      answer: "c",
       why: "Polymer enters the **feed** zone, is compacted and melted in the **compression** zone (decreasing channel depth), then pumped uniformly by the **metering** zone into the die.",
       tags: ["revision"],
     },
@@ -207,8 +207,8 @@ const T11: TopicSource = {
       options: [
         { label: "a", text: "The bubble is drawn up (machine direction) and inflated (transverse direction), orienting chains in both directions and giving balanced stiffness, strength and toughness." },
         { label: "b", text: "It removes all crystallinity." },
-        { label: "c", text: "It is done to add colour." },
-        { label: "d", text: "It prevents the film from cooling." },
+        { label: "c", text: "It prevents the film from cooling." },
+        { label: "d", text: "It is done to add colour." }
       ],
       answer: "a",
       why: "**Biaxial drawing** (take-up + blow-up ratio) aligns chains in two directions, improving tensile strength, puncture resistance and optical properties — the standard reason grocery-bag films perform well in all directions.",
@@ -223,8 +223,8 @@ const T11: TopicSource = {
       options: [
         { label: "a", text: "A moulded preform is heated to just above Tg and simultaneously stretched axially and blown radially — a *strain-induced* crystallizing step that gives strength and clarity." },
         { label: "b", text: "PET is poured as a melt into a bottle-shaped mould." },
-        { label: "c", text: "PET is cross-linked chemically inside the mould." },
-        { label: "d", text: "The bottle is compression-moulded." },
+        { label: "c", text: "The bottle is compression-moulded." },
+        { label: "d", text: "PET is cross-linked chemically inside the mould." }
       ],
       answer: "a",
       why: "Two-stage **injection → stretch blow**: the amorphous preform is conditioned above Tg, then **stretch-blown**. The biaxial strain induces crystallites (strain-induced crystallization) that strengthen the wall while keeping it transparent.",
@@ -239,8 +239,8 @@ const T11: TopicSource = {
       options: [
         { label: "a", text: "Compression moulding → thermoset parts (e.g. SMC panels); Extrusion → pipes/profiles; Blow moulding → hollow bottles; Calendering → PVC sheet/film" },
         { label: "b", text: "Compression moulding → PET bottles; Extrusion → gears; Blow moulding → pipes" },
-        { label: "c", text: "Calendering → solid rods; Extrusion → hollow tanks" },
-        { label: "d", text: "Blow moulding → flat sheet only" },
+        { label: "c", text: "Blow moulding → flat sheet only" },
+        { label: "d", text: "Calendering → solid rods; Extrusion → hollow tanks" }
       ],
       answer: "a",
       why: "Each process matches its product form: **compression** for thermoset charge shapes, **extrusion** for continuous profiles/pipes, **blow** for hollow articles, **calendering** for sheet/film.",
@@ -262,19 +262,19 @@ const T11: TopicSource = {
         },
         {
           "label": "c",
-          "text": "A long pipe profile with a fixed cross-section produced continuously from a die."
+          "text": "A thin-walled hollow bottle formed rapidly from a hot parison inside a closed mould."
         },
         {
           "label": "d",
-          "text": "A thin-walled hollow bottle formed rapidly from a hot parison inside a closed mould."
+          "text": "A long pipe profile with a fixed cross-section produced continuously from a die."
         }
       ],
       "answer": "a",
       "why": "Rotational moulding distributes polymer powder over the inside of a heated rotating mould and is well suited to large hollow parts with relatively low tooling pressure and long cycle times.",
       "distractors": {
         "b": "This favours high-volume injection moulding, which supports tighter detail and faster cycles.",
-        "c": "This describes extrusion through a profile or pipe die.",
-        "d": "This describes blow moulding of a parison."
+        "d": "This describes extrusion through a profile or pipe die.",
+        "c": "This describes blow moulding of a parison."
       },
       "concept": "Rotational moulding: large hollow parts, low mould pressure and relatively long cycle times.",
       "tags": [
@@ -289,7 +289,7 @@ const T11: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "Short-fibre thermoplastic parts made by injection moulding, with fibre orientation changing through the part."
+          "text": "Continuous fibre-reinforced profiles by pultrusion and hollow, mandrel-wound structures by filament winding."
         },
         {
           "label": "b",
@@ -297,19 +297,19 @@ const T11: TopicSource = {
         },
         {
           "label": "c",
-          "text": "Continuous fibre-reinforced profiles by pultrusion and hollow, mandrel-wound structures by filament winding."
+          "text": "Unreinforced polymer sheets made by calendering and discrete hollow parts formed by blow moulding."
         },
         {
           "label": "d",
-          "text": "Unreinforced polymer sheets made by calendering and discrete hollow parts formed by blow moulding."
+          "text": "Short-fibre thermoplastic parts made by injection moulding, with fibre orientation changing through the part."
         }
       ],
-      "answer": "c",
+      "answer": "a",
       "why": "Pultrusion continuously pulls impregnated fibres through a die to make constant-section profiles; filament winding lays continuous resin-wet fibres around a mandrel for pipes, tanks and pressure vessels.",
       "distractors": {
-        "a": "Injection moulding usually uses dispersed or short fibres and produces finite parts.",
+        "d": "Injection moulding usually uses dispersed or short fibres and produces finite parts.",
         "b": "Prepreg lay-up makes laminates with finite panel geometry; it is not pultrusion or filament winding.",
-        "d": "Calendering and blow moulding are polymer-shaping processes, but not the two continuous-fibre composite routes described."
+        "c": "Calendering and blow moulding are polymer-shaping processes, but not the two continuous-fibre composite routes described."
       },
       "concept": "Pultrusion: constant-section profiles; filament winding: mandrel-wound hollow structures.",
       "tags": [
@@ -322,12 +322,12 @@ const T11: TopicSource = {
       diff: 3,
       text: "A polyethylene grade has $\\text{MFI} = 2$ g/10 min (190 °C, 2.16 kg). If another grade has MFI = 20 g/10 min, what can be said about the second grade?",
       options: [
-        { label: "a", text: "It has lower melt viscosity and lower molecular weight — it flows more easily but is likely less tough." },
-        { label: "b", text: "It has higher molecular weight and toughness." },
-        { label: "c", text: "It has identical properties." },
-        { label: "d", text: "Its density is necessarily higher." },
+        { label: "a", text: "It has identical properties." },
+        { label: "b", text: "It has lower melt viscosity and lower molecular weight — it flows more easily but is likely less tough." },
+        { label: "c", text: "It has higher molecular weight and toughness." },
+        { label: "d", text: "Its density is necessarily higher." }
       ],
-      answer: "a",
+      answer: "b",
       why: "**MFI measures melt flow**: higher MFI ⇔ lower melt viscosity ⇔ lower MW (and generally lower toughness but easier processing). It is a fast indirect processability/MW indicator.",
       concept: "MFI ↑ ⇔ MW ↓ · viscosity ↓",
       tags: ["confused"],
@@ -338,12 +338,12 @@ const T11: TopicSource = {
       diff: 3,
       text: "Why do semi-crystalline polymers generally shrink more on moulding than amorphous ones?",
       options: [
-        { label: "a", text: "Cooling from the melt crystallizes the chains into a denser packing, adding crystallization shrinkage on top of thermal contraction (typically 1.5–3% vs 0.4–0.8%)." },
-        { label: "b", text: "They contain more water." },
-        { label: "c", text: "They are always cross-linked." },
-        { label: "d", text: "They do not shrink at all." },
+        { label: "a", text: "They are always cross-linked." },
+        { label: "b", text: "They do not shrink at all." },
+        { label: "c", text: "They contain more water." },
+        { label: "d", text: "Cooling from the melt crystallizes the chains into a denser packing, adding crystallization shrinkage on top of thermal contraction (typically 1.5–3% vs 0.4–0.8%)." }
       ],
-      answer: "a",
+      answer: "d",
       why: "Two contributions: **thermal contraction** (all polymers) + **density increase on crystallization** (semi-crystalline only). Moulds must therefore be dimensioned with the resin's shrinkage in mind.",
       concept: "semi-crystalline: thermal + crystallization shrinkage",
       tags: ["confused"],
@@ -360,15 +360,15 @@ const T11: TopicSource = {
         { num: 4, text: "Short shot means more material was injected than needed." },
       ],
       options: [
-        { label: "a", text: "1, 2 and 3 only" },
-        { label: "b", text: "1, 2, 3 and 4" },
+        { label: "a", text: "1, 2, 3 and 4" },
+        { label: "b", text: "1, 2 and 3 only" },
         { label: "c", text: "4 only" },
-        { label: "d", text: "2 and 4 only" },
+        { label: "d", text: "2 and 4 only" }
       ],
-      answer: "a",
+      answer: "b",
       why: "1–3 are correct diagnostics. Item 4 is false — a **short shot** is *incomplete* filling (too little material / poor flow), not excess.",
       distractors: {
-        b: "Item 4 reverses the meaning of 'short'.",
+        a: "Item 4 reverses the meaning of 'short'.",
       },
       tags: ["confused"],
     },
@@ -379,12 +379,12 @@ const T11: TopicSource = {
       assertion: "PET preforms must be dried to below about 50 ppm moisture before stretch blow moulding.",
       reason: "Residual moisture hydrolyses the polyester at melt temperature, reducing intrinsic viscosity (molecular weight) and producing splay.",
       options: [
-        { label: "a", text: "Both A and R are true, and R is the correct explanation of A" },
-        { label: "b", text: "Both A and R are true, but R is NOT the correct explanation of A" },
-        { label: "c", text: "A is true, R is false" },
-        { label: "d", text: "A is false, R is true" },
+        { label: "a", text: "A is false, R is true" },
+        { label: "b", text: "A is true, R is false" },
+        { label: "c", text: "Both A and R are true, but R is NOT the correct explanation of A" },
+        { label: "d", text: "Both A and R are true, and R is the correct explanation of A" }
       ],
-      answer: "a",
+      answer: "d",
       why: "PET's **ester bonds hydrolyse** in the melt, so water is destructive: each water molecule cuts a chain, dropping IV and mechanical strength. Drying to ~50 ppm plus a dry hopper is standard practice, and explains the correlation in R.",
       concept: "hydrolysis is why hygroscopic polyesters must be dried",
       tags: ["revision"],
@@ -395,12 +395,12 @@ const T11: TopicSource = {
       diff: 4,
       text: "A plant must make 200,000 thin-walled yoghurt cups per day at minimum cost. The most appropriate process is:",
       options: [
-        { label: "a", text: "High-speed thin-wall injection moulding (multi-cavity, fast cycling) using PP or PS." },
-        { label: "b", text: "Hand lay-up of glass-reinforced polyester." },
-        { label: "c", text: "Compression moulding of thermosets." },
-        { label: "d", text: "Filament winding." },
+        { label: "a", text: "Compression moulding of thermosets." },
+        { label: "b", text: "Filament winding." },
+        { label: "c", text: "High-speed thin-wall injection moulding (multi-cavity, fast cycling) using PP or PS." },
+        { label: "d", text: "Hand lay-up of glass-reinforced polyester." }
       ],
-      answer: "a",
+      answer: "c",
       why: "**Thin-wall injection moulding** with high-cavitation tooling, fast cooling and PP/PS gives the required output at the lowest unit cost; the other processes are far too slow (or suited to other product forms entirely).",
       concept: "process choice = product form + volume + cost",
       tags: ["confused"],
@@ -411,12 +411,12 @@ const T11: TopicSource = {
       diff: 3,
       text: "To make a continuous pipe in a single long run, the process is:",
       options: [
-        { label: "a", text: "Extrusion with an annular/pipe die" },
+        { label: "a", text: "Blow moulding" },
         { label: "b", text: "Injection moulding" },
-        { label: "c", text: "Blow moulding" },
-        { label: "d", text: "Rotational moulding" },
+        { label: "c", text: "Extrusion with an annular/pipe die" },
+        { label: "d", text: "Rotational moulding" }
       ],
-      answer: "a",
+      answer: "c",
       why: "**Extrusion** is a continuous process ideally suited to constant-cross-section forms — pipe, profile, sheet, filament, cable coating. Injection moulding is cyclic (discrete parts).",
       tags: ["revision"],
     },
@@ -426,12 +426,12 @@ const T11: TopicSource = {
       diff: 2,
       text: "Injection moulding vs compression moulding — which pairing is correct?",
       options: [
-        { label: "a", text: "Injection: molten polymer forced into a closed mould (fast, thermoplastics; also RRIM/RIM for some thermosets). Compression: a measured charge is squeezed in a heated mould (classic thermosets, SMC/BMC)." },
-        { label: "b", text: "Injection is only for thermosets; compression only for thermoplastics." },
-        { label: "c", text: "Both require no pressure." },
-        { label: "d", text: "Compression moulding is a continuous process." },
+        { label: "a", text: "Both require no pressure." },
+        { label: "b", text: "Injection: molten polymer forced into a closed mould (fast, thermoplastics; also RRIM/RIM for some thermosets). Compression: a measured charge is squeezed in a heated mould (classic thermosets, SMC/BMC)." },
+        { label: "c", text: "Injection is only for thermosets; compression only for thermoplastics." },
+        { label: "d", text: "Compression moulding is a continuous process." }
       ],
-      answer: "a",
+      answer: "b",
       why: "**Injection** fills a closed cavity under high pressure (rapid, precise, thermoplastics). **Compression** places a charge in an open heated cavity and presses it shut (thermosets and composites, since curing is irreversible).",
       tags: ["revision"],
     },
@@ -441,12 +441,12 @@ const T11: TopicSource = {
       diff: 3,
       text: "Thermoforming (vacuum forming) is best described as:",
       options: [
-        { label: "a", text: "heating a thermoplastic sheet until soft, then drawing it against a mould with vacuum/pressure and trimming" },
-        { label: "b", text: "curing a thermoset in a mould" },
-        { label: "c", text: "spinning fibres from a melt" },
-        { label: "d", text: "compounding additives into a resin" },
+        { label: "a", text: "compounding additives into a resin" },
+        { label: "b", text: "spinning fibres from a melt" },
+        { label: "c", text: "curing a thermoset in a mould" },
+        { label: "d", text: "heating a thermoplastic sheet until soft, then drawing it against a mould with vacuum/pressure and trimming" }
       ],
-      answer: "a",
+      answer: "d",
       why: "**Thermoforming** shapes an already-extruded sheet by softening and vacuum/pressure drawing it onto a former — used for packaging trays, fridge liners and signage. It is a *secondary* forming process, not a polymerization or compounding one.",
       tags: ["revision"],
     },
@@ -462,12 +462,12 @@ const T11: TopicSource = {
         { num: 4, text: "Spinning produces only hollow tubes, never fibres." },
       ],
       options: [
-        { label: "a", text: "1, 2 and 3 only" },
-        { label: "b", text: "1, 2, 3 and 4" },
-        { label: "c", text: "4 only" },
-        { label: "d", text: "2 and 4 only" },
+        { label: "a", text: "1, 2, 3 and 4" },
+        { label: "b", text: "4 only" },
+        { label: "c", text: "2 and 4 only" },
+        { label: "d", text: "1, 2 and 3 only" }
       ],
-      answer: "a",
+      answer: "d",
       why: "1–3 are correct. Item 4 is wrong — spinning forms **filaments/fibres** through a spinneret; hollow fibres are a special case, not the general rule.",
       tags: ["revision"],
     },
@@ -479,27 +479,27 @@ const T11: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "Compression moulding, where the charge is placed directly in the cavity and compressed to fill it."
-        },
-        {
-          "label": "b",
-          "text": "Transfer moulding: force a preheated charge from a pot into a closed, heated cavity."
-        },
-        {
-          "label": "c",
           "text": "Thermoplastic injection moulding, where a melt is cooled and remelted on the next production cycle."
         },
         {
-          "label": "d",
+          "label": "b",
           "text": "Blow moulding, where a softened parison expands against the wall of a hollow mould."
+        },
+        {
+          "label": "c",
+          "text": "Compression moulding, where the charge is placed directly in the cavity and compressed to fill it."
+        },
+        {
+          "label": "d",
+          "text": "Transfer moulding: force a preheated charge from a pot into a closed, heated cavity."
         }
       ],
-      "answer": "b",
+      "answer": "d",
       "why": "Transfer moulding forces a preheated thermoset charge from a transfer pot into a closed heated cavity, supporting complex features and insert encapsulation. Compression moulding is a plausible alternative for simpler geometries, but the stated charge-transfer requirement identifies transfer moulding.",
       "distractors": {
-        "a": "Compression moulding places the charge directly in the cavity rather than transferring it from a pot through a sprue.",
-        "c": "A cured thermoset does not remelt like a thermoplastic during a later cycle.",
-        "d": "Blow moulding uses an expandable parison to form hollow parts, not a thermoset charge around a metal insert."
+        "c": "Compression moulding places the charge directly in the cavity rather than transferring it from a pot through a sprue.",
+        "a": "A cured thermoset does not remelt like a thermoplastic during a later cycle.",
+        "b": "Blow moulding uses an expandable parison to form hollow parts, not a thermoset charge around a metal insert."
       },
       "concept": "Transfer moulding is useful for complex thermoset parts with inserts and restricted flow paths.",
       "tags": [
@@ -512,12 +512,12 @@ const T11: TopicSource = {
       diff: 3,
       text: "Why does annealing a moulded semi-crystalline part often increase its crystallinity and reduce internal stress?",
       options: [
-        { label: "a", text: "Holding the part at a temperature between Tg and Tm allows molecular rearrangement (secondary crystallization) and relaxation of moulded-in orientation, relieving residual stress." },
+        { label: "a", text: "Annealing has no effect." },
         { label: "b", text: "Annealing adds cross-links." },
-        { label: "c", text: "Annealing converts it to a thermoset." },
-        { label: "d", text: "Annealing has no effect." },
+        { label: "c", text: "Holding the part at a temperature between Tg and Tm allows molecular rearrangement (secondary crystallization) and relaxation of moulded-in orientation, relieving residual stress." },
+        { label: "d", text: "Annealing converts it to a thermoset." }
       ],
-      answer: "a",
+      answer: "c",
       why: "Above Tg the chains are mobile: secondary crystallization increases crystallinity and perfection, while stress relaxation removes residual orientation from filling. Both improve dimensional stability (at the cost of cycle time).",
       concept: "annealing: crystallize further + relax internal stress",
       tags: ["confused"],
@@ -534,7 +534,7 @@ const T11: TopicSource = {
         },
         {
           "label": "b",
-          "text": "Resin-transfer moulding fills a fibre preform inside a closed mould with resin to produce a discrete composite component."
+          "text": "Compression moulding presses a fibre-bearing charge inside a closed cavity, producing a finite-length shaped component."
         },
         {
           "label": "c",
@@ -542,15 +542,15 @@ const T11: TopicSource = {
         },
         {
           "label": "d",
-          "text": "Compression moulding presses a fibre-bearing charge inside a closed cavity, producing a finite-length shaped component."
+          "text": "Resin-transfer moulding fills a fibre preform inside a closed mould with resin to produce a discrete composite component."
         }
       ],
       "answer": "c",
       "why": "Pultrusion continuously pulls aligned reinforcement through a heated die, making long profiles with a constant cross-section. The other processes can use continuous fibres but generally produce mandrel-wound or mould-defined discrete parts.",
       "distractors": {
         "a": "Filament winding is well suited to hollow or closed-section parts such as pressure vessels, not arbitrary constant-section profiles.",
-        "b": "Resin-transfer moulding uses a closed mould to produce a discrete component.",
-        "d": "Compression moulding produces finite mouldings rather than an uninterrupted profile of arbitrary length."
+        "d": "Resin-transfer moulding uses a closed mould to produce a discrete component.",
+        "b": "Compression moulding produces finite mouldings rather than an uninterrupted profile of arbitrary length."
       },
       "concept": "Pultrusion produces continuous aligned-fibre profiles with constant cross-section.",
       "tags": [
