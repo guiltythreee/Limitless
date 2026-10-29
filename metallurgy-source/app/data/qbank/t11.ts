@@ -237,10 +237,10 @@ const T11: TopicSource = {
       diff: 2,
       text: "Which process is correctly paired with its typical product?",
       options: [
-        { label: "a", text: "Compression moulding → thermoset parts (e.g. SMC panels); Extrusion → pipes/profiles; Blow moulding → hollow bottles; Calendering → PVC sheet/film" },
-        { label: "b", text: "Compression moulding → PET bottles; Extrusion → gears; Blow moulding → pipes" },
-        { label: "c", text: "Blow moulding → flat sheet only" },
-        { label: "d", text: "Calendering → solid rods; Extrusion → hollow tanks" }
+        { label: "a", text: "Compression makes many thermoset parts; extrusion makes continuous pipes/profiles; blow moulding makes hollow containers; calendering makes sheet." },
+        { label: "b", text: "Compression moulding makes PET beverage bottles; extrusion makes discrete gears; blow moulding makes continuous solid pipe." },
+        { label: "c", text: "Blow moulding makes only flat sheet; compression moulding makes continuous films; extrusion makes hollow bottles in a closed mould." },
+        { label: "d", text: "Calendering makes solid rods; extrusion makes closed hollow tanks directly; compression moulding is used mainly for long fibres." }
       ],
       answer: "a",
       why: "Each process matches its product form: **compression** for thermoset charge shapes, **extrusion** for continuous profiles/pipes, **blow** for hollow articles, **calendering** for sheet/film.",
@@ -322,10 +322,10 @@ const T11: TopicSource = {
       diff: 3,
       text: "A polyethylene grade has $\\text{MFI} = 2$ g/10 min (190 °C, 2.16 kg). If another grade has MFI = 20 g/10 min, what can be said about the second grade?",
       options: [
-        { label: "a", text: "It has identical properties." },
-        { label: "b", text: "It has lower melt viscosity and lower molecular weight — it flows more easily but is likely less tough." },
-        { label: "c", text: "It has higher molecular weight and toughness." },
-        { label: "d", text: "Its density is necessarily higher." }
+        { label: "a", text: "The higher-MFI grade must have identical viscosity and molecular weight; the index only reflects sample density." },
+        { label: "b", text: "At the same test conditions, higher MFI means easier melt flow and usually lower apparent viscosity and molecular weight." },
+        { label: "c", text: "The higher-MFI grade usually has higher molecular weight and melt strength because chains move less readily through the die." },
+        { label: "d", text: "The higher-MFI grade necessarily has greater density, since melt flow uniquely determines packing and crystallinity." }
       ],
       answer: "b",
       why: "**MFI measures melt flow**: higher MFI ⇔ lower melt viscosity ⇔ lower MW (and generally lower toughness but easier processing). It is a fast indirect processability/MW indicator.",
@@ -395,10 +395,10 @@ const T11: TopicSource = {
       diff: 4,
       text: "A plant must make 200,000 thin-walled yoghurt cups per day at minimum cost. The most appropriate process is:",
       options: [
-        { label: "a", text: "Compression moulding of thermosets." },
-        { label: "b", text: "Filament winding." },
-        { label: "c", text: "High-speed thin-wall injection moulding (multi-cavity, fast cycling) using PP or PS." },
-        { label: "d", text: "Hand lay-up of glass-reinforced polyester." }
+        { label: "a", text: "Compression moulding a thermoset charge, with long cure times and one shaped part produced per heated cavity." },
+        { label: "b", text: "Filament winding, laying continuous reinforcement around a rotating mandrel to make hollow composite structures." },
+        { label: "c", text: "High-speed multi-cavity thin-wall injection moulding of PP or PS, using short cycles to meet high daily output." },
+        { label: "d", text: "Manual hand lay-up of glass-reinforced polyester, laminating each cup individually before room-temperature curing." }
       ],
       answer: "c",
       why: "**Thin-wall injection moulding** with high-cavitation tooling, fast cooling and PP/PS gives the required output at the lowest unit cost; the other processes are far too slow (or suited to other product forms entirely).",
