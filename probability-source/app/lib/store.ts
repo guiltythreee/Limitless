@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { allQuestions, grade, questionByKey, type Status } from "./questions";
 import { pathways } from "../content";
-import { calculateReward, dispatchRewardUpdate, sanitiseRewardRecords, CHECKPOINT_PASS_THRESHOLD, type DifficultyTier, type RewardRecord } from "../../../shared/rewards.mjs";
+import { buildRewardRecords, dispatchRewardUpdate, sanitiseRewardRecords, CHECKPOINT_PASS_THRESHOLD, type DifficultyTier, type RewardRecord } from "../../../shared/rewards.mjs";
 
 /*
   All saved data lives in one localStorage entry ("hc3-progress-v3"):
@@ -160,7 +160,7 @@ export function recordAttempt(q: string, picked: number[], ms: number, rewardAct
   const today = dayKey(ts);
   const drafts = { ...state.drafts };
   delete drafts[q];
-  const reward = rewardActivity ? calculateReward({
+  const rewards = rewardActivity ? buildRewardRecords({
     eventId: `probability:attempt:${attempt.id}`,
     moduleId: "probability",
     itemId: `question:${q}`,
@@ -170,15 +170,15 @@ export function recordAttempt(q: string, picked: number[], ms: number, rewardAct
     completionEvidence: "submitted-answer",
     completed: picked.length > 0,
     quality: g.score,
-  }, state.rewardLedger) : null;
+  }, state.rewardLedger) : [];
   commit({
     ...state,
     attempts: [...state.attempts, attempt],
-    rewardLedger: reward ? [...state.rewardLedger, reward] : state.rewardLedger,
+    rewardLedger: rewards.length ? [...state.rewardLedger, ...rewards] : state.rewardLedger,
     drafts,
     goalByDay: state.goalByDay[today] === undefined ? { ...state.goalByDay, [today]: state.goal } : state.goalByDay,
   });
-  if (reward) dispatchRewardUpdate();
+  if (rewards.length) dispatchRewardUpdate();
   return attempt;
 }
 /** Saves a half-finished question. Does not re-render anything; it only protects against refreshes. */
@@ -215,7 +215,7 @@ export function recordTest(t: TestRecord) {
     : fullPathwayCheckpoint && fullPathway
       ? `probability:pathway:${fullPathway.id}`
       : null;
-  const reward = calculateReward({
+  const rewards = buildRewardRecords({
     eventId: `probability:assessment:${t.id}`,
     moduleId: "probability",
     itemId,
@@ -231,7 +231,7 @@ export function recordTest(t: TestRecord) {
   commit({
     ...state,
     tests: [...state.tests, t],
-    rewardLedger: [...state.rewardLedger, reward],
+    rewardLedger: [...state.rewardLedger, ...rewards],
   });
   dispatchRewardUpdate();
 }
