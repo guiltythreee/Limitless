@@ -63,6 +63,40 @@ test('every fixed activity class is covered for every difficulty tier', () => {
   }
 });
 
+test('only explicitly registered modules can post standard rewards', () => {
+  const { ledger } = setup();
+  const result = ledger.record({
+    module: 'future-module-not-registered',
+    eventId: 'unregistered-attempt',
+    contentKey: 'q1',
+    activityClass: 'micro-practice',
+    evidence: 'submitted-answer'
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.error, 'unregistered-module');
+  assert.equal(ledger.summary().xp, 0);
+  assert.deepEqual(Rewards.REGISTERED_MODULES.map((module) => module.id), [
+    'bookkeys', 'math-trainer', 'probability', 'metallurgy', 'personal-projects'
+  ]);
+  const personalTask = ledger.record({
+    module: 'personal-projects',
+    eventId: 'unregistered-project-task',
+    contentKey: 'arbitrary-task',
+    activityClass: 'standard-task',
+    evidence: 'completed-session'
+  });
+  assert.equal(personalTask.ok, false);
+  assert.equal(personalTask.error, 'module-only-supports-registered-projects');
+  const metallurgy = ledger.record({
+    module: 'metallurgy',
+    eventId: 'metallurgy-attempt',
+    contentKey: 'metallurgy:q1',
+    activityClass: 'micro-practice',
+    evidence: 'submitted-answer'
+  });
+  assert.equal(metallurgy.ok, true);
+});
+
 test('arbitrary multiplier values and unknown difficulty tiers are rejected', () => {
   const { ledger } = setup();
   const result = ledger.record({
