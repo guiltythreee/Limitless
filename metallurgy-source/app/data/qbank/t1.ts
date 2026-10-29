@@ -102,10 +102,10 @@ const T1: TopicSource = {
       diff: 1,
       text: "Nylon 6,6 gets its name because:",
       options: [
-        { label: "a", text: "It was discovered in 1966" },
-        { label: "b", text: "It has 6 repeat units joined in a chain" },
-        { label: "c", text: "It contains 6 and 6 carbon atoms in its two monomers" },
-        { label: "d", text: "Its melting point is 66 °C" }
+        { label: "a", text: "The material was first commercialized in 1966, so the two sixes record the year it entered industrial production." },
+        { label: "b", text: "Each nylon macromolecule contains exactly six repeat units, and the second six records the number of chains in a batch." },
+        { label: "c", text: "The diamine and diacid each contain six carbon atoms: hexamethylenediamine and adipic acid." },
+        { label: "d", text: "Its melting point is 66 °C, with the two digits repeated to distinguish the grade from other nylons." }
       ],
       answer: "c",
       why: "The two numbers give the **carbon counts of the two monomers**: hexamethylene**diamine** (6 C) + **adipic** acid (6 C). Nylon 6,10 = diamine of 6 C + diacid of 10 C.",
@@ -381,10 +381,10 @@ const T1: TopicSource = {
       diff: 3,
       text: "Why does raising the functionality of monomers above two lead to cross-linked (network) polymers in step-growth polymerization?",
       options: [
-        { label: "a", text: "Trifunctional monomers release more water, which causes cross-linking." },
-        { label: "b", text: "Each extra functional group is an additional branch point, so chains can connect in more than two directions." },
-        { label: "c", text: "Trifunctional monomers react faster than bifunctional ones." },
-        { label: "d", text: "Cross-linking only occurs in chain-growth systems." }
+        { label: "a", text: "Trifunctional monomers release more small molecules, and that by-product alone causes a polymer to become a cross-linked network." },
+        { label: "b", text: "Each extra reactive group can connect another chain segment, enabling branching and eventually a three-dimensional network." },
+        { label: "c", text: "Trifunctional monomers always react faster than bifunctional ones, so rate alone explains the gel and cross-link formation." },
+        { label: "d", text: "Covalent cross-linking occurs only in chain-growth systems; step-growth monomers with functionality above two remain linear." }
       ],
       answer: "b",
       why: "Functionality = number of reactive groups per monomer. With **f > 2**, some units are branch points; beyond the **gel point** the branches connect into one infinite network.",
@@ -461,10 +461,10 @@ const T1: TopicSource = {
         ["Tensile strength (MPa)", "5", "25", "45", "47"],
       ],
       options: [
-        { label: "a", text: "Crystallinity is complete at DP 400." },
-        { label: "b", text: "Measurement error dominates above DP 400." },
-        { label: "c", text: "The polymer has stopped polymerizing." },
-        { label: "d", text: "Properties become insensitive to DP once chains are long enough to entangle." }
+        { label: "a", text: "Crystallization becomes complete at DP ≈ 400, so all chains above that length must have identical structure and properties." },
+        { label: "b", text: "The apparent plateau is most likely an instrument artefact, because all mechanical properties keep rising linearly with DP." },
+        { label: "c", text: "Polymerization stops at DP 400 in every sample, leaving no possibility for the average chain length to rise further." },
+        { label: "d", text: "Once chains are sufficiently long and entangled, extra repeat units produce diminishing changes in bulk mechanical properties." }
       ],
       answer: "d",
       why: "Above a **critical chain length**, added units contribute negligibly to the entanglement network — strength, Tg and viscosity level off (the entanglement plateau).",
@@ -652,10 +652,10 @@ const T1: TopicSource = {
       diff: 2,
       text: "Why can the *same* base polymer be sold both as a rigid engineering plastic and as a soft elastomer?",
       options: [
-        { label: "a", text: "Property profile is tuned via MW, cross-linking, plasticization, blending and reinforcement of one chemistry." },
-        { label: "b", text: "Different suppliers use different definitions." },
-        { label: "c", text: "The two forms have completely different repeat units." },
-        { label: "d", text: "It is impossible — one chemistry gives one property set." }
+        { label: "a", text: "Formulation and morphology can be tuned with plasticizer, reinforcement, crystallinity and cross-linking to change stiffness and elasticity." },
+        { label: "b", text: "Suppliers use different test definitions for stiffness, so the apparent rigid-plastic and elastomer grades are mechanically identical." },
+        { label: "c", text: "The two products must have different repeat-unit chemistry, because one polymer backbone cannot be formulated across different properties." },
+        { label: "d", text: "A single polymer chemistry cannot be made rigid or elastomeric; its properties remain fixed after the monomer has been chosen." }
       ],
       answer: "a",
       why: "The **balance** of intermolecular forces, chain flexibility, crystallinity and cross-link density decides the end use. The same chemistry can be moved across the plastic–elastomer space by compounding and structure control.",
