@@ -241,10 +241,10 @@ const T3: TopicSource = {
       diff: 2,
       text: "Which combination correctly pairs a technique with its principal industrial product?",
       options: [
-        { label: "a", text: "Bulk → nylon; Suspension → epoxy; Emulsion → PTFE; Solution → PET" },
-        { label: "b", text: "All products are made by emulsion" },
-        { label: "c", text: "Bulk → PET; Suspension → LDPE; Emulsion → nylon fibres; Solution → PVC beads" },
-        { label: "d", text: "Bulk → LDPE film; Suspension → PS beads; Emulsion → SBR latex; Melt polycondensation → PET" }
+        { label: "a", text: "Bulk → nylon fibres; suspension → epoxy resin; emulsion → rigid PVC profiles as the main product of each technique." },
+        { label: "b", text: "Bulk, suspension and emulsion all produce identical polymer products; only the vessel size determines the commercial application." },
+        { label: "c", text: "Bulk → PET bottles; suspension → LDPE film; emulsion → large PVC pipe produced directly from the reaction vessel." },
+        { label: "d", text: "Bulk → LDPE film; suspension → PS beads; emulsion → a stable aqueous polymer latex for coating or adhesive use." }
       ],
       answer: "d",
       why: "LDPE is made by high-pressure **bulk/mass** polymerization; PS and PVC as **suspension** beads; SBR as an **emulsion** latex; PET by **melt polycondensation** — all correct.",
