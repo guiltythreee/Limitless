@@ -52,8 +52,9 @@
     box.appendChild(close);
     box.appendChild(element('div', 'limitless-reward-notice__eyebrow', 'Global progression'));
     box.appendChild(element('h2', 'limitless-reward-notice__title', 'Level ' + level + ' reached'));
+    var rewardKind = reward && reward.kind === 'title' ? ' title.' : reward && reward.kind === 'profile-effect' ? ' profile effect.' : ' emblem.';
     var bodyText = reward
-      ? 'Unlocked: ' + reward.name + (reward.kind === 'title' ? ' title.' : ' emblem.')
+      ? 'Unlocked: ' + reward.name + rewardKind
       : 'Your verified learning across disciplines moved the shared EXP total forward.';
     if (moduleName && moduleName !== 'multiple') bodyText += ' · ' + moduleName.replace(/-/g, ' ');
     box.appendChild(element('div', 'limitless-reward-notice__body', bodyText));
