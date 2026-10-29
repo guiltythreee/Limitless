@@ -159,10 +159,10 @@ const T8: TopicSource = {
       diff: 1,
       text: "Which polymer is famously used as a non-stick coating and is therefore processed by sintering or paste extrusion rather than melting?",
       options: [
-        { label: "a", text: "Polystyrene" },
-        { label: "b", text: "Nylon 6" },
-        { label: "c", text: "Polytetrafluoroethylene (PTFE)" },
-        { label: "d", text: "Polyethylene" }
+        { label: "a", text: "Polystyrene (PS), a styrenic thermoplastic shaped by ordinary melt extrusion and injection moulding." },
+        { label: "b", text: "Polyamide 6 (nylon 6), a hydrogen-bonded engineering thermoplastic processed from its molten state." },
+        { label: "c", text: "Polytetrafluoroethylene (PTFE), a fluoropolymer consolidated by sintering or shaped by paste extrusion." },
+        { label: "d", text: "Polyethylene (PE), a polyolefin readily processed by ordinary melt extrusion and injection moulding." }
       ],
       answer: "c",
       why: "**PTFE** has an extremely high melt viscosity (strong C–F bonds, rigid rod-like chains) so it does not flow even above its ~327 °C Tm. It is consolidated by **compression sintering**, or made into tape by **paste extrusion**.",
@@ -267,10 +267,10 @@ const T8: TopicSource = {
       diff: 1,
       text: "The precursor polymer for most carbon fibre is:",
       options: [
-        { label: "a", text: "Cellulose" },
-        { label: "b", text: "Polyethylene" },
-        { label: "c", text: "PTFE" },
-        { label: "d", text: "Polyacrylonitrile (PAN)" }
+        { label: "a", text: "Cellulose, a natural polysaccharide precursor typically converted into carbon fibre by direct melt spinning and graphitization." },
+        { label: "b", text: "Polyethylene (PE), a polyolefin precursor routinely stabilized and carbonized to produce most commercial carbon fibres." },
+        { label: "c", text: "Polytetrafluoroethylene (PTFE), a fluoropolymer whose fluorinated chains convert directly into high-strength carbon filaments." },
+        { label: "d", text: "Polyacrylonitrile (PAN), stabilized oxidatively and then carbonized to produce most commercial high-strength carbon fibre." }
       ],
       answer: "d",
       why: "**PAN** fibres are stabilized (oxidative) then carbonized at high temperature; the oriented ladder structure converts to strong graphitic carbon fibre. Pitch is the secondary precursor.",
@@ -317,10 +317,10 @@ const T8: TopicSource = {
       diff: 2,
       text: "Which pairing of polymer and gas-barrier behaviour is correct?",
       options: [
-        { label: "a", text: "All polymers have identical barrier properties" },
-        { label: "b", text: "PE: excellent O₂ barrier; EVOH: poor O₂ barrier" },
-        { label: "c", text: "PET: good O₂ barrier for bottles; EVOH: excellent O₂ barrier (used in multilayer films); PE: poor O₂ barrier but good moisture barrier" },
-        { label: "d", text: "Nylon: poor O₂ barrier" }
+        { label: "a", text: "PE is an excellent oxygen barrier, while EVOH allows oxygen through readily; PET is mainly a moisture barrier." },
+        { label: "b", text: "PE and PP are strong oxygen barriers because they are non-polar; EVOH is used mainly to block water vapour." },
+        { label: "c", text: "PET provides a useful oxygen barrier; EVOH is excellent against oxygen, while PE mainly blocks moisture." },
+        { label: "d", text: "Nylon is a poor oxygen barrier in dry conditions, whereas untreated PE gives the best barrier to both gases." }
       ],
       answer: "c",
       why: "**Polar, H-bonded polymers (EVOH, PET, nylon)** impede non-polar O₂; **non-polar polyolefins (PE, PP)** are good moisture barriers but poor O₂ barriers. Multilayer structures combine both.",
