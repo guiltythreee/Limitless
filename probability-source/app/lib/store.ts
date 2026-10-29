@@ -9,11 +9,12 @@ const QUESTIONS_BY_LESSON: Record<string, Q[]> = {};
 for (const question of allQuestions) (QUESTIONS_BY_LESSON[question.lessonId] ??= []).push(question);
 let rewardActivatedAt = 0;
 
-function recordGlobalReward(input: GlobalRewardInput): boolean {
+function recordGlobalRewards(inputs: GlobalRewardInput[]): boolean {
+  if (!inputs.length) return true;
   if (typeof window === "undefined" || !window.LimitlessRewards) return false;
   try {
-    const receipt = window.LimitlessRewards.record(input);
-    return !!receipt?.ok;
+    const receipts = window.LimitlessRewards.recordMany(inputs);
+    return receipts.length === inputs.length && receipts.every((receipt) => receipt.ok);
   } catch {
     return false;
   }
@@ -41,10 +42,10 @@ function stableHash(value: string): string {
   return (hash >>> 0).toString(36);
 }
 
-function rewardAttempt(attempt: Attempt): boolean {
+function rewardAttempt(attempt: Attempt): GlobalRewardInput | null {
   const question = questionByKey[attempt.q];
-  if (!question) return false;
-  return recordGlobalReward({
+  if (!question) return null;
+  return {
     module: "probability",
     eventId: `probability:attempt:${attempt.id}`,
     contentKey: `probability:question:${attempt.q}`,
@@ -53,20 +54,20 @@ function rewardAttempt(attempt: Attempt): boolean {
     difficulty: rewardDifficulty(question.difficulty),
     quality: attempt.score,
     reason: `Submitted answer for ${attempt.q}`,
-  });
+  };
 }
 
-function rewardAssessment(t: TestRecord): boolean {
+function rewardAssessment(t: TestRecord): GlobalRewardInput | null {
   const questions = t.results
     .map((result) => questionByKey[result.q])
     .filter((question): question is Q => Boolean(question));
   const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
   const meaningfulAssessment = t.total >= 5 && t.answered >= 5;
-  if (!meaningfulAssessment) return true;
+  if (!meaningfulAssessment) return null;
   const passed = quality >= 0.8;
   const poolKey = stableHash([...new Set(questions.map((question) => question.key))].sort().join("|"));
   const assessmentKey = `probability:assessment:${poolKey}`;
-  return recordGlobalReward({
+  return {
     module: "probability",
     eventId: `probability:test:${t.id}`,
     contentKey: assessmentKey,
@@ -77,52 +78,51 @@ function rewardAssessment(t: TestRecord): boolean {
     passed,
     passKey: `${assessmentKey}:first-pass`,
     reason: `Finished a scored test with ${t.answered} of ${t.total} questions answered`,
-  });
+  };
 }
 
-function rewardLessonMastery(lessonId: string, attempts: Attempt[]): boolean {
+function rewardLessonMastery(lessonId: string, attempts: Attempt[]): GlobalRewardInput | null {
   const questions = QUESTIONS_BY_LESSON[lessonId] ?? [];
-  if (!questions.length) return true;
+  if (!questions.length) return null;
   const latest = latestByQuestion(attempts);
   const scores = questions.map((question) => latest[question.key]?.score);
-  if (scores.some((score) => typeof score !== "number")) return true;
+  if (scores.some((score) => typeof score !== "number")) return null;
   const quality = (scores as number[]).reduce((sum, score) => sum + score, 0) / scores.length;
-  if (quality < 0.8) return true;
+  if (quality < 0.8) return null;
   const lesson = lessons.find((candidate) => candidate.id === lessonId);
-  if (!lesson) return true;
-  const lessonQuestions = questions;
+  if (!lesson) return null;
   const key = `probability:lesson-mastery:${lessonId}`;
-  return recordGlobalReward({
+  return {
     module: "probability",
     eventId: key,
     contentKey: key,
     activityClass: "milestone",
     evidence: "topic-mastery",
-    difficulty: difficultyForQuestions(lessonQuestions),
+    difficulty: difficultyForQuestions(questions),
     quality,
     oneTimeKey: key,
     reason: `Mastered ${lesson.title}: every question attempted, with at least 80% average latest score`,
-  });
+  };
 }
 
-function rewardPathwayMastery(attempts: Attempt[]): boolean {
-  if (!allQuestions.length) return true;
+function rewardPathwayMastery(attempts: Attempt[]): GlobalRewardInput | null {
+  if (!allQuestions.length) return null;
   const latest = latestByQuestion(attempts);
   const scores = allQuestions.map((question) => latest[question.key]?.score);
-  if (scores.some((score) => typeof score !== "number")) return true;
+  if (scores.some((score) => typeof score !== "number")) return null;
 
   // Completing the archive requires every topic to meet its own mastery bar;
   // a high score in easy chapters cannot hide an unmastered advanced topic.
   for (const lessonQuestions of Object.values(QUESTIONS_BY_LESSON)) {
     const lessonScores = lessonQuestions.map((question) => latest[question.key]?.score);
-    if (lessonScores.some((score) => typeof score !== "number")) return true;
+    if (lessonScores.some((score) => typeof score !== "number")) return null;
     const lessonQuality = (lessonScores as number[]).reduce((sum, score) => sum + score, 0) / lessonScores.length;
-    if (lessonQuality < 0.8) return true;
+    if (lessonQuality < 0.8) return null;
   }
 
   const quality = (scores as number[]).reduce((sum, score) => sum + score, 0) / scores.length;
   const key = `probability:pathway:${PATHWAY_VERSION}`;
-  return recordGlobalReward({
+  return {
     module: "probability",
     eventId: key,
     contentKey: key,
@@ -132,7 +132,7 @@ function rewardPathwayMastery(attempts: Attempt[]): boolean {
     quality,
     oneTimeKey: key,
     reason: `Mastered every question-bearing topic in the current Probability archive (${allQuestions.length} questions)`,
-  });
+  };
 }
 
 function setRewardActivationBaseline(): number {
