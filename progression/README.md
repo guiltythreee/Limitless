@@ -78,6 +78,15 @@ Allowed project namespaces are `personal-projects`, `probability`, `math-trainer
 
 The central ledger is separate from each module's existing local-first record. Adapters therefore persist the canonical learning record first, then submit a deterministic reward event. If a ledger write fails, the same event is retried on reload/focus or on the next Bookkeys storage update; replay is idempotent. Probability recovery only considers attempts/tests saved after the LSR-1 activation timestamp, preventing legacy attempts from being paid retroactively. Math Trainer seeds a seen-run cursor before new sessions and treats imported runs as historical.
 
-## Test
+## Calibration and regression
 
-Run `node --test progression/reward-standard.test.cjs progression/bookkeys-bridge.test.cjs`. The core tests cover the reference line, multipliers, caps, evidence validation, duplicate and batch writes, authoritative total reconciliation, separate first-pass award records, repeat limits, one-time milestones, level thresholds, module summaries, achievement summaries, cosmetic equipment and level-up notifications.
+Run:
+
+```sh
+node --test progression/reward-standard.test.cjs progression/bookkeys-bridge.test.cjs
+node progression/calibrate-week.cjs
+```
+
+The calibration script is a transparent synthetic five-day scenario, not measured user telemetry. It compares 13 Bookkeys pages plus one book milestone, three substantive Math Trainer sessions plus one tier clear/mastery, and 20 Probability question attempts plus one assessment. Its gate requires the largest weekly module total to remain within 1.25× of the smallest under those stated assumptions. Replace the scenario counts with real study-log observations before treating the balance as validated in actual use.
+
+The regression matrix covers all six fixed activity classes across foundational/intermediate/advanced difficulty, quality caps, evidence compatibility, duplicate and one-time events, repeat limits, ledger-authoritative totals, level boundaries, cosmetic equipment, project immutability, and level-up events. CI also runs Bookkeys' full app tests, checks that the Probability engine copy matches the root engine, verifies that Probability preserves unknown progress-root extension fields, and builds Probability.
