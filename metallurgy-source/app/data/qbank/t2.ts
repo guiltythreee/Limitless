@@ -133,10 +133,10 @@ const T2: TopicSource = {
       diff: 2,
       text: "Termination by combination vs disproportionation — which pairing is correct?",
       options: [
-        { label: "a", text: "Combination gives DP̄ = ν; disproportionation gives DP̄ = 2ν." },
-        { label: "b", text: "Combination: two radicals couple into one chain, DP̄ = 2ν. Disproportionation: H transfer gives one saturated + one unsaturated end, DP̄ = ν." },
-        { label: "c", text: "Both give DP̄ = 2ν." },
-        { label: "d", text: "Both give DP̄ = ν." }
+        { label: "a", text: "Combination gives DP̄ = ν, while disproportionation gives DP̄ = 2ν because each radical forms a separate chain." },
+        { label: "b", text: "Combination joins two radicals into one chain (DP̄ = 2ν); disproportionation ends chains separately (DP̄ = ν)." },
+        { label: "c", text: "Both termination pathways join two radical-bearing chains into one longer chain, giving the same average DP." },
+        { label: "d", text: "Both termination pathways leave two separate dead chains, so DP̄ equals the kinetic-chain length in each case." }
       ],
       answer: "b",
       why: "**Combination** joins two kinetic chains end-to-end → each dead chain holds two kinetic-chain lengths ($\\overline{DP} = 2\\nu$). **Disproportionation** ends each chain separately ($\\overline{DP} = \\nu$).",
