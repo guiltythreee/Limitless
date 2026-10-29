@@ -1,5 +1,6 @@
 import {
   buildRewardRecords,
+  CHECKPOINT_PASS_THRESHOLD,
   dispatchRewardUpdate,
   sanitiseRewardRecords,
   type DifficultyTier,
@@ -76,6 +77,8 @@ export function assessmentActivity(moduleId: LsrModuleId, input: AssessmentInput
     completionEvidence: "completed-metallurgy-assessment",
     completed: true,
     quality: correct / total,
+    passed: correct / total >= CHECKPOINT_PASS_THRESHOLD,
+    checkpointId: moduleId + ":assessment:first-pass",
   };
 }
 
