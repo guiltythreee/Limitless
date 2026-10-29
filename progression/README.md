@@ -50,12 +50,15 @@ Unlocks are derived directly from the account-wide level, regardless of which di
 | 2 | First Light | Title |
 | 5 | Scholar's Mark | Emblem |
 | 10 | Polymath | Title |
+| 10 | Polymath Glow | Profile effect |
 | 15 | Wayfinder | Emblem |
 | 20 | Keeper of Knowledge | Title |
+| 20 | Radiant Archive | Profile effect |
 | 25 | Luminous Archive | Emblem |
 | 30 | Limitless Sigil | Emblem |
+| 30 | Limitless Aura | Profile effect |
 
-The dashboard shows unlocked rewards and the next milestone. The catalogue provides a modest unlock every 5 levels and larger title/cosmetic rewards at multiples of 10. This first pass defines and displays the catalogue; equipping alternate titles or rendering actual emblem effects remains a separate UI enhancement.
+The dashboard shows unlocked rewards and the next milestone. Unlocked titles, emblems and profile effects can be equipped independently, and level-up notifications acknowledge every level crossing. The catalogue provides modest unlocks every 5 levels and profile effects at multiples of 10.
 
 ## Initial adapters
 
@@ -69,4 +72,4 @@ The central ledger is separate from each module's existing local-first record. A
 
 ## Test
 
-Run `node --test progression/reward-standard.test.cjs progression/bookkeys-bridge.test.cjs`. The core tests cover the reference line, multipliers, caps, evidence validation, duplicate and batch writes, authoritative total reconciliation, separate first-pass award records, repeat limits, one-time milestones, level thresholds and unlocks.
+Run `node --test progression/reward-standard.test.cjs progression/bookkeys-bridge.test.cjs`. The core tests cover the reference line, multipliers, caps, evidence validation, duplicate and batch writes, authoritative total reconciliation, separate first-pass award records, repeat limits, one-time milestones, level thresholds, module summaries, achievement summaries, cosmetic equipment and level-up notifications.
