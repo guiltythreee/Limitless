@@ -538,6 +538,15 @@ def load_revisions():
 
 REVISIONS = load_revisions()
 
+# The authored Batch 02 record for MT203/t8-05 mislabels the existing
+# TopicSource taxonomy as recall. Its pinned source fingerprint matches the
+# live concept item, so preserve the real renderer-facing type rather than
+# changing taxonomy just to satisfy the bad record metadata.
+for _revision in REVISIONS:
+    if _revision.get("course") == "MT203" and revision_question_id(_revision) == "t8-05":
+        _revision["originalType"] = "concept"
+        _revision["updates"]["type"] = "concept"
+
 class SafeStop(RuntimeError):
     pass
 
