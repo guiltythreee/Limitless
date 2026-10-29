@@ -29,3 +29,12 @@ The authored pack lists `t8-05` as `recall`, but the current GitHub source at th
 The same packs contain 12 MT201 and 47 MT202 replacements. Those were **not applied** in this pass: their authoritative banks are external to this repository and were not included in the uploaded source ZIP. MT201's `sync-mt201.mjs` reads an external JavaScript bank; MT202's `sync.mjs` reads an external Markdown bank and solutions. Editing only generated `public/data/mt201` or `public/data/mt202` JSON would risk losing the revisions at the next sync, so those generated files were left unchanged.
 
 The full-bank answer-position rebalancing and the larger manual-review residue list remain separate QA work. This PR does not claim that all 286 MT203 questions, or the complete 1,097-question Metallurgy bank, have been fully validated.
+
+## Answer-position bias remediation — 2026-10-29
+
+The four-option MT203 bank originally had 286 answers distributed as A 142, B 109, C 28 and D 7. The source now has A 72, B 72, C 71 and D 71. Within every topic, the number of correct answers assigned to any two positions differs by at most one.
+
+A total of 285 question option orders were changed. The option content itself was not rewritten by this pass: option objects were reordered, their labels reassigned sequentially (a–d), the answer key remapped to the same correct option, and keyed distractor explanations remapped with their associated options. Question IDs, question order, stems, explanations, difficulty and type were retained. The only frozen item was `t1-08`, whose explanation explicitly says “Only (a) matches all four”; its surrounding topic was still balanced.
+
+The regression guard `scripts/test-answer-key-balance.mjs` is wired into `.github/workflows/test-metallurgy-content.yml`. This work edits the typed MT203 source only; generated JSON was not edited. MT201/MT202 authored replacement packs remain pending because their authoritative authoring banks are external to the repository.
+
