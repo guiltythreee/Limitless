@@ -4,6 +4,11 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import vm from "node:vm";
 import ts from "typescript";
+import {
+  buildRewardRecords,
+  sanitiseRewardRecords,
+  CHECKPOINT_PASS_THRESHOLD,
+} from "../../shared/rewards.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const source = readFileSync(join(here, "../app/lib/store.ts"), "utf8");
@@ -60,6 +65,12 @@ function boot(seed, options = {}) {
     if (name === "react") return { useSyncExternalStore: (_subscribe, getSnapshot) => getSnapshot() };
     if (name === "./questions") return fakeQuestions;
     if (name === "../content") return { pathways };
+    if (name === "../../../shared/rewards.mjs") return {
+      buildRewardRecords,
+      sanitiseRewardRecords,
+      CHECKPOINT_PASS_THRESHOLD,
+      dispatchRewardUpdate() { fakeWindow.dispatchEvent({ type: "limitless:rewards-updated" }); },
+    };
     throw new Error("Unexpected import: " + name);
   };
   vm.runInNewContext(compiled, {
