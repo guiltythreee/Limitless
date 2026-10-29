@@ -192,7 +192,7 @@ assert.equal(global.totalExp, 11);
 assert.equal(global.sources.length, 1);
 assert.equal(global.sources[0].moduleId, "probability");
 assert.equal(global.sources.length, 1, "a registered module without a saved LSR-1 ledger contributes no EXP");
-assert.deepEqual(global.registeredModules.map((module) => module.moduleId), ["probability", "math-trainer"],
+assert.deepEqual(global.registeredModules.map((module) => module.moduleId), ["probability", "math-trainer", "bookkeys"],
   "the registry lists only modules actually integrated with LSR-1");
 
 console.log("LSR-1 reward standard tests passed.");
