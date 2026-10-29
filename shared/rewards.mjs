@@ -124,9 +124,13 @@ export function calculateReward(input, priorRecords = []) {
   const checkpointId = isString(input?.checkpointId) ? input.checkpointId : null;
   const quality = isFiniteNumber(input?.quality) ? clamp(input.quality, 0, 1) : 0;
 
-  const assignedProjectBase = isFiniteNumber(input?.assignedBaseExp)
-    ? clamp(Math.round(input.assignedBaseExp), 20, 100)
-    : null;
+  const assignedProjectBase =
+    isFiniteNumber(input?.assignedBaseExp) &&
+    Number.isInteger(input.assignedBaseExp) &&
+    input.assignedBaseExp >= 20 &&
+    input.assignedBaseExp <= 100
+      ? input.assignedBaseExp
+      : null;
   const isProject = activityClass === "bespoke-project";
   const baseExp = isProject ? (assignedProjectBase ?? 0) : (ACTIVITY_BASE_EXP[activityClass] ?? 0);
   const multiplier = DIFFICULTY_MULTIPLIER[difficulty] ?? 1;
