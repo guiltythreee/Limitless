@@ -8,6 +8,8 @@
   var SEEN_KEY = 'limitless.reward.bookkeys-seen.v1';
   var MODULE = 'bookkeys';
   var MIN_PAGES_FOR_BOOK_MILESTONE = 3;
+  // Bookkeys only counts its own XP when its page completion/anti-paste rules pass.
+  // The adapter requires this recorded XP delta as independent completion evidence.
 
   function readJson(raw, fallback) {
     try { return raw ? JSON.parse(raw) : fallback; } catch (error) { return fallback; }
@@ -24,7 +26,8 @@
       pages[bookKey] = pageIndexes;
       if (record.done === 1 || record.done === true) completedBooks.push(bookKey);
     });
-    return { pages: pages, books: completedBooks };
+    var savedXp = game && typeof game.xp === 'number' && isFinite(game.xp) ? Math.max(0, game.xp) : 0;
+    return { pages: pages, books: completedBooks, xp: savedXp };
   }
   function pageSet(snapshot) {
     var result = {};
@@ -46,6 +49,8 @@
       eventId: target,
       contentKey: target,
       activityClass: 'standard-task',
+      evidence: 'typed-page',
+      reason: 'Bookkeys recorded a newly completed page and its own XP increased',
       difficulty: 'foundational'
     });
     return !!(receipt && receipt.ok);
@@ -58,6 +63,8 @@
       eventId: target,
       contentKey: target,
       activityClass: 'milestone',
+      evidence: 'milestone-complete',
+      reason: 'Bookkeys verified the book as complete after at least three typed pages',
       difficulty: 'foundational',
       oneTimeKey: target
     });
@@ -73,15 +80,19 @@
     var previous = readJson(rawPrevious, { pages: {}, books: [] });
     var oldPages = pageSet(previous);
     var newPages = pageSet(next);
+    // The app commits typed-page records and local XP together. Only award
+    // newly seen pages if Bookkeys itself confirms a positive XP delta, which
+    // excludes sample text, rejected/pasted attempts, and incomplete pages.
+    var verifiedXpDelta = next.xp > (typeof previous.xp === 'number' ? previous.xp : 0);
     var allRewardsSaved = true;
     Object.keys(newPages).forEach(function (id) {
-      if (!oldPages[id] && !awardPage(newPages[id].bookKey, newPages[id].pageIndex)) allRewardsSaved = false;
+      if (!oldPages[id] && verifiedXpDelta && !awardPage(newPages[id].bookKey, newPages[id].pageIndex)) allRewardsSaved = false;
     });
     var oldBooks = {};
     (previous.books || []).forEach(function (bookKey) { oldBooks[bookKey] = true; });
     (next.books || []).forEach(function (bookKey) {
       var completedPages = (next.pages[bookKey] || []).length;
-      if (!oldBooks[bookKey] && completedPages >= MIN_PAGES_FOR_BOOK_MILESTONE && !awardBook(bookKey)) allRewardsSaved = false;
+      if (!oldBooks[bookKey] && verifiedXpDelta && completedPages >= MIN_PAGES_FOR_BOOK_MILESTONE && !awardBook(bookKey)) allRewardsSaved = false;
     });
     // If localStorage rejects a reward write, keep the old baseline so a later
     // storage event or reload retries it. Successful event IDs are idempotent.
