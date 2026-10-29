@@ -44,6 +44,12 @@ export const REWARD_SOURCE_REGISTRY = Object.freeze([
     storageKey: "limitless-math-lsr1-v1",
     shape: "rewardLedger",
   },
+  {
+    moduleId: "bookkeys",
+    label: "Bookkeys",
+    storageKey: "bookkeys-lsr1-v1",
+    shape: "rewardLedger",
+  },
 ]);
 
 const ACTIVITY_CLASSES = new Set([...Object.keys(ACTIVITY_BASE_EXP), "bespoke-project"]);
