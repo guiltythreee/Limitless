@@ -35,6 +35,7 @@ export function questionActivity(
   ts: number,
   correct: boolean,
   sequence = 0,
+  difficulty = 1,
 ): RewardInput {
   return {
     eventId: moduleId + ":answer:" + questionId + ":" + ts + ":" + sequence,
@@ -42,7 +43,7 @@ export function questionActivity(
     itemId: "question:" + questionId,
     ts,
     activityClass: "micro-practice",
-    difficulty: "foundational",
+    difficulty: difficultyTier(difficulty),
     completionEvidence: "submitted-metallurgy-answer",
     completed: true,
     quality: correct ? 1 : 0,
