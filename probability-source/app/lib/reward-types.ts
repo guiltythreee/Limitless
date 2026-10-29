@@ -58,6 +58,8 @@ export type RegisterProjectInput = {
 export type RewardAwardLine = {
   id: string;
   module: string;
+  projectId?: string;
+  projectTitle?: string;
   contentKey: string;
   activityClass: string;
   evidence: string;
@@ -126,6 +128,7 @@ export type RewardSummary = {
 
 export type GlobalRewardApi = {
   STORAGE_KEY: string;
+  PROJECT_EXP_RANGE: { min: number; max: number };
   REWARD_UNLOCKS: RewardUnlock[];
   record: (input: GlobalRewardInput) => GlobalRewardReceipt;
   recordMany: (inputs: GlobalRewardInput[]) => GlobalRewardReceipt[];
