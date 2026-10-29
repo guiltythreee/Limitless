@@ -272,21 +272,42 @@ function commit(next: State): boolean {
 function recoverGlobalRewards() {
   if (typeof window === "undefined" || !window.LimitlessRewards) return;
   if (!rewardActivatedAt) rewardActivatedAt = setRewardActivationBaseline();
-  // Re-read the canonical persisted root rather than the in-memory snapshot.
-  // An activity that failed to save must never earn EXP merely because the tab
-  // still has its unsaved copy in React/store memory.
+  // Re-read the canonical persisted root and the authoritative award ledger.
+  // A completed activity with a missing reward is retried; a saved award is
+  // skipped before batching, so focus events do not repeatedly rewrite it.
+  let awardedIds: Set<string>;
+  try {
+    awardedIds = new Set(window.LimitlessRewards.read().awards.map((award) => award.id));
+  } catch {
+    return;
+  }
   const persisted = read();
+  const pending: GlobalRewardInput[] = [];
+  const addIfMissing = (input: GlobalRewardInput | null) => {
+    if (input && !awardedIds.has(input.eventId)) {
+      pending.push(input);
+      awardedIds.add(input.eventId);
+    }
+  };
+
   const eligibleAttempts = persisted.attempts.filter((attempt) => attempt.ts >= rewardActivatedAt);
   const affectedLessons = new Set<string>();
   for (const attempt of eligibleAttempts) {
-    rewardAttempt(attempt);
+    addIfMissing(rewardAttempt(attempt));
     const lessonId = questionByKey[attempt.q]?.lessonId;
     if (lessonId) affectedLessons.add(lessonId);
   }
-  for (const lessonId of affectedLessons) rewardLessonMastery(lessonId, persisted.attempts);
+  for (const lessonId of affectedLessons) addIfMissing(rewardLessonMastery(lessonId, persisted.attempts));
   const eligibleTests = persisted.tests.filter((record) => record.ts >= rewardActivatedAt);
-  for (const record of eligibleTests) rewardAssessment(record);
-  rewardPathwayMastery(persisted.attempts);
+  for (const record of eligibleTests) addIfMissing(rewardAssessment(record));
+  addIfMissing(rewardPathwayMastery(persisted.attempts));
+
+  // Bound work and storage payloads on reloads after many study sessions.
+  // The reward ledger's stable IDs make every chunk safe to retry.
+  const BATCH_SIZE = 40;
+  for (let offset = 0; offset < pending.length; offset += BATCH_SIZE) {
+    recordGlobalRewards(pending.slice(offset, offset + BATCH_SIZE));
+  }
 }
 function ensureLoaded() {
   if (!loaded && typeof window !== "undefined") {
@@ -319,31 +340,48 @@ export function useHydrated(): boolean {
 }
 
 // ---------- actions ----------
-export function recordAttempt(q: string, picked: number[], ms: number): Attempt | null {
+export function recordAttemptsBatch(inputs: { q: string; picked: number[]; ms: number }[]): Attempt[] {
   ensureLoaded();
-  const question = questionByKey[q];
-  if (!question) return null;
-  const g = grade(question.item, picked);
-  const ts = Date.now();
-  const attempt: Attempt = { id: `${ts}-${Math.random().toString(36).slice(2, 7)}`, q, picked, score: g.score, status: g.status, ms: Math.max(0, Math.round(ms)), ts };
-  const today = dayKey(ts);
+  if (!Array.isArray(inputs) || !inputs.length) return [];
+  const attempts: Attempt[] = [];
   const drafts = { ...state.drafts };
-  delete drafts[q];
+  const goalByDay = { ...state.goalByDay };
+
+  for (const input of inputs) {
+    const question = questionByKey[input.q];
+    if (!question || !Array.isArray(input.picked) || input.picked.length === 0) continue;
+    const ts = Date.now();
+    const g = grade(question.item, input.picked);
+    const attempt: Attempt = {
+      id: `${ts}-${Math.random().toString(36).slice(2, 7)}`,
+      q: input.q,
+      picked: [...input.picked],
+      score: g.score,
+      status: g.status,
+      ms: Math.max(0, Math.round(input.ms)),
+      ts,
+    };
+    attempts.push(attempt);
+    delete drafts[input.q];
+    const today = dayKey(ts);
+    if (goalByDay[today] === undefined) goalByDay[today] = state.goal;
+  }
+  if (!attempts.length) return [];
+
+  // One canonical write for the entire submitted batch. The reward ledger is
+  // written in a single recordMany call and recovered by stable event ID.
   const saved = commit({
     ...state,
-    attempts: [...state.attempts, attempt],
+    attempts: [...state.attempts, ...attempts],
     drafts,
-    goalByDay: state.goalByDay[today] === undefined ? { ...state.goalByDay, [today]: state.goal } : state.goalByDay,
+    goalByDay,
   });
-  // Only reward an activity after its canonical learning record persisted.
-  // If the separate ledger write fails, reload/focus recovery retries it using
-  // the same event ID, so a saved attempt cannot permanently lose its reward.
-  if (saved) {
-    rewardAttempt(attempt);
-    rewardLessonMastery(question.lessonId, state.attempts);
-    rewardPathwayMastery(state.attempts);
-  }
-  return attempt;
+  if (saved) recoverGlobalRewards();
+  return attempts;
+}
+
+export function recordAttempt(q: string, picked: number[], ms: number): Attempt | null {
+  return recordAttemptsBatch([{ q, picked, ms }])[0] ?? null;
 }
 /** Saves a half-finished question. Does not re-render anything; it only protects against refreshes. */
 export function saveDraft(q: string, draft: Draft) {
@@ -359,7 +397,7 @@ export function clearDraft(q: string) {
 export function recordTest(t: TestRecord) {
   ensureLoaded();
   const saved = commit({ ...state, tests: [...state.tests, t] });
-  if (saved) rewardAssessment(t);
+  if (saved) recoverGlobalRewards();
 }
 export function toggleBookmark(q: string) {
   commit({ ...state, bookmarks: state.bookmarks.includes(q) ? state.bookmarks.filter((k) => k !== q) : [...state.bookmarks, q] });
