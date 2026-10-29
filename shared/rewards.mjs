@@ -50,6 +50,24 @@ export const REWARD_SOURCE_REGISTRY = Object.freeze([
     storageKey: "bookkeys-lsr1-v1",
     shape: "rewardLedger",
   },
+  {
+    moduleId: "metallurgy-mt201",
+    label: "MT201 · Metallurgical Thermodynamics",
+    storageKey: "mm-mt201-v1",
+    shape: "rewardLedger",
+  },
+  {
+    moduleId: "metallurgy-mt202",
+    label: "MT202 · Physical Metallurgy",
+    storageKey: "mm-mt202-v1",
+    shape: "rewardLedger",
+  },
+  {
+    moduleId: "metallurgy-mt203",
+    label: "MT203 · Polymer Science",
+    storageKey: "mm-mt203-v1",
+    shape: "rewardLedger",
+  },
 ]);
 
 const ACTIVITY_CLASSES = new Set([...Object.keys(ACTIVITY_BASE_EXP), "bespoke-project"]);
