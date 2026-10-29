@@ -41,10 +41,10 @@ const T6: TopicSource = {
       diff: 2,
       text: "Which statement correctly contrasts Tg and Tm?",
       options: [
-        { label: "a", text: "Tm is a true first-order transition (latent heat, crystallites melt); Tg is a kinetic, second-order-like transition of the amorphous phase (no latent heat)." },
-        { label: "b", text: "Both involve latent heat." },
-        { label: "c", text: "Tg is first-order; Tm is second-order." },
-        { label: "d", text: "Tg applies only to semi-crystalline polymers." }
+        { label: "a", text: "Tm is first-order with latent heat as crystals melt; Tg is a rate-dependent transition in amorphous regions." },
+        { label: "b", text: "Both Tg and Tm release latent heat because each marks a first-order change in the polymer's crystal structure." },
+        { label: "c", text: "Tg is first-order melting of amorphous regions, whereas Tm is a second-order change in chain mobility." },
+        { label: "d", text: "Tg occurs only in semicrystalline polymers because the crystalline fraction drives the glass transition." }
       ],
       answer: "a",
       why: "Melting is **thermodynamic** (sharp, latent heat $\\Delta H_m$, only in semi-crystalline polymers). Glass transition is **kinetic** (a step in Cp, depends on cooling/heating rate, exists in all amorphous material).",
@@ -60,10 +60,10 @@ const T6: TopicSource = {
       diff: 3,
       text: "Which change would raise a polymer's Tg?",
       options: [
-        { label: "a", text: "Introducing bulky side groups and stronger intermolecular interactions (e.g. H-bonding) that stiffen the chain" },
-        { label: "b", text: "Lowering the molecular weight" },
-        { label: "c", text: "Increasing free volume" },
-        { label: "d", text: "Adding a plasticizer" }
+        { label: "a", text: "Bulky side groups or stronger intermolecular attractions restrict segmental motion, raising Tg." },
+        { label: "b", text: "Lower molecular weight usually raises Tg because shorter chains have fewer ends and pack more efficiently." },
+        { label: "c", text: "Increasing free volume raises Tg by making each local segment require more thermal energy to move." },
+        { label: "d", text: "Adding a plasticizer raises Tg by shielding chain segments and reducing intermolecular separation." }
       ],
       answer: "a",
       why: "Anything that **restricts segmental motion** raises Tg: bulky/stiff backbones, polar groups, H-bonding, cross-linking and higher MW. Plasticizers and free volume *lower* Tg.",
