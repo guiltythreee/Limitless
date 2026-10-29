@@ -59,10 +59,10 @@ const T11: TopicSource = {
       diff: 2,
       text: "An *internal* lubricant differs from an *external* lubricant in that the internal lubricant:",
       options: [
-        { label: "a", text: "is compatible with the melt and lowers its viscosity; the external lubricant is incompatible and migrates to the surface to aid release." },
-        { label: "b", text: "is the same as a plasticizer in all respects" },
-        { label: "c", text: "always increases viscosity" },
-        { label: "d", text: "is a solid at processing temperature" }
+        { label: "a", text: "Internal lubricants mix more readily with the melt and reduce interchain friction; external lubricants reduce metal–polymer friction." },
+        { label: "b", text: "They are identical to plasticizers in every formulation, with the same compatibility, mobility and final-part effects." },
+        { label: "c", text: "Internal lubricants always raise melt viscosity, while external lubricants dissolve fully and improve chain mixing." },
+        { label: "d", text: "External lubricants are always gases at processing temperature, whereas internal lubricants are solid powders." }
       ],
       answer: "a",
       why: "**Internal** lubricants reduce inter-chain friction (lower melt viscosity); **external** ones exude to the metal interface, reducing sticking and aiding demoulding.",
@@ -221,10 +221,10 @@ const T11: TopicSource = {
       diff: 3,
       text: "A PET bottle is produced by *injection stretch blow moulding*. The critical processing features are:",
       options: [
-        { label: "a", text: "A moulded preform is heated to just above Tg and simultaneously stretched axially and blown radially — a *strain-induced* crystallizing step that gives strength and clarity." },
-        { label: "b", text: "PET is poured as a melt into a bottle-shaped mould." },
-        { label: "c", text: "The bottle is compression-moulded." },
-        { label: "d", text: "PET is cross-linked chemically inside the mould." }
+        { label: "a", text: "The preform is heated near/above Tg, then stretched axially and blown radially to induce biaxial orientation and crystallization." },
+        { label: "b", text: "PET is poured into a bottle-shaped mould and cooled, without making a preform or stretching the polymer." },
+        { label: "c", text: "The bottle is shaped by compressing a solid charge between mould halves, with no melt flow or orientation step." },
+        { label: "d", text: "A chemical cross-linker is added in the mould to convert PET into a thermoset during bottle shaping." }
       ],
       answer: "a",
       why: "Two-stage **injection → stretch blow**: the amorphous preform is conditioned above Tg, then **stretch-blown**. The biaxial strain induces crystallites (strain-induced crystallization) that strengthen the wall while keeping it transparent.",
@@ -426,10 +426,10 @@ const T11: TopicSource = {
       diff: 2,
       text: "Injection moulding vs compression moulding — which pairing is correct?",
       options: [
-        { label: "a", text: "Both require no pressure." },
-        { label: "b", text: "Injection: molten polymer forced into a closed mould (fast, thermoplastics; also RRIM/RIM for some thermosets). Compression: a measured charge is squeezed in a heated mould (classic thermosets, SMC/BMC)." },
-        { label: "c", text: "Injection is only for thermosets; compression only for thermoplastics." },
-        { label: "d", text: "Compression moulding is a continuous process." }
+        { label: "a", text: "Both processes operate without applied pressure because the polymer fills the cavity under its own weight." },
+        { label: "b", text: "Injection forces melt into a closed cavity; compression presses a measured charge in a heated mould, often for thermosets." },
+        { label: "c", text: "Injection is restricted to thermosets, while compression moulding is reserved for thermoplastics and uncured elastomers." },
+        { label: "d", text: "Compression moulding is continuous: resin flows through a die and cools downstream rather than curing in a mould." }
       ],
       answer: "b",
       why: "**Injection** fills a closed cavity under high pressure (rapid, precise, thermoplastics). **Compression** places a charge in an open heated cavity and presses it shut (thermosets and composites, since curing is irreversible).",
@@ -441,10 +441,10 @@ const T11: TopicSource = {
       diff: 3,
       text: "Thermoforming (vacuum forming) is best described as:",
       options: [
-        { label: "a", text: "compounding additives into a resin" },
-        { label: "b", text: "spinning fibres from a melt" },
-        { label: "c", text: "curing a thermoset in a mould" },
-        { label: "d", text: "heating a thermoplastic sheet until soft, then drawing it against a mould with vacuum/pressure and trimming" }
+        { label: "a", text: "Mixing fillers, pigments and stabilizers into a resin before it is shaped into the final article." },
+        { label: "b", text: "Forcing molten polymer through spinneret holes and drawing the emerging filaments into fibres." },
+        { label: "c", text: "Curing a thermoset inside a closed mould by maintaining pressure while a covalent network develops." },
+        { label: "d", text: "Heating a thermoplastic sheet until soft, then drawing it against a mould by vacuum or pressure." }
       ],
       answer: "d",
       why: "**Thermoforming** shapes an already-extruded sheet by softening and vacuum/pressure drawing it onto a former — used for packaging trays, fridge liners and signage. It is a *secondary* forming process, not a polymerization or compounding one.",
