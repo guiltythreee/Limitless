@@ -69,6 +69,11 @@ export default function GlobalProgress() {
           <p className="mt-1 text-xs leading-5 text-dim">
             {available ? "One EXP total shared by Bookkeys, Math Trainer, Probability and future disciplines." : "Global progress is temporarily unavailable because browser storage could not be read."}
           </p>
+          {(summary.equippedTitle || summary.equippedEmblem || summary.equippedProfileEffect) && (
+            <p className="mt-2 text-xs leading-5 text-gold">
+              {[summary.equippedTitle?.name, summary.equippedEmblem?.name, summary.equippedProfileEffect?.name].filter(Boolean).join(" · ")}
+            </p>
+          )}
         </div>
         <div className="text-right">
           <div className="serif text-2xl text-gold">Level {summary.level}</div>
