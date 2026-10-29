@@ -38,10 +38,10 @@ const T9: TopicSource = {
       diff: 3,
       text: "Why are most pairs of polymers immiscible even when the corresponding small molecules would mix?",
       options: [
-        { label: "a", text: "They have identical solubility parameters." },
-        { label: "b", text: "They are always cross-linked." },
-        { label: "c", text: "Polymers are chemically inert." },
-        { label: "d", text: "The entropy of mixing is very small because each molecule is huge, so a slightly unfavourable ΔH is enough to cause phase separation." }
+        { label: "a", text: "They have matching solubility parameters, so every pair with identical δ values is miscible at any molecular weight." },
+        { label: "b", text: "They are always covalently cross-linked, which stops solvent molecules from mixing with either polymer." },
+        { label: "c", text: "They are chemically inert, so the enthalpy of mixing is exactly zero for every pair of polymer chains." },
+        { label: "d", text: "Their mixing entropy is small at high chain length, so slight unfavorable enthalpy can drive phase separation." }
       ],
       answer: "d",
       why: "For polymer chains the combinatorial **entropy of mixing is tiny** (∝ 1/N per molecule). A very small positive ΔH therefore dominates, giving $\\Delta G > 0$ and immiscibility — which is why miscibility usually needs specific favourable interactions.",
@@ -424,10 +424,10 @@ const T9: TopicSource = {
       diff: 2,
       text: "Chain scission vs cross-linking during degradation — which pairing is correct?",
       options: [
-        { label: "a", text: "Scission shortens chains (MW and toughness fall); cross-linking builds a brittle network (hardening, reduced solubility). Both often occur together, one dominating." },
-        { label: "b", text: "Scission builds networks; cross-linking shortens chains." },
-        { label: "c", text: "They are identical processes." },
-        { label: "d", text: "Both increase solubility." }
+        { label: "a", text: "Scission shortens chains and lowers MW/toughness; cross-linking joins chains into a network and can reduce solubility." },
+        { label: "b", text: "Scission builds a permanent network, while cross-linking cleaves the backbone and rapidly lowers molecular weight." },
+        { label: "c", text: "They are two names for the same reaction, with no systematic difference in molecular weight or gel formation." },
+        { label: "d", text: "Both processes usually increase solubility because they remove constraints on motion between neighbouring chains." }
       ],
       answer: "a",
       why: "**Scission** lowers MW (embrittlement, tackiness); **cross-linking** raises network density (stiffening, insolubility). Which one dominates decides whether aged PE, for example, embrittles by scission or hardens by cross-linking.",
