@@ -18,7 +18,7 @@ export default function GlobalProgress() {
   const [summary, setSummary] = useState<RewardSummary>(EMPTY);
   const [available, setAvailable] = useState(true);
 
-  function equip(kind: "title" | "emblem", id: string) {
+  function equip(kind: "title" | "emblem" | "profile-effect", id: string) {
     const api = window.LimitlessRewards;
     if (!api) return;
     const result = api.equipReward(id, kind);
@@ -51,8 +51,17 @@ export default function GlobalProgress() {
     };
   }, []);
 
+  const effectId = summary.equippedProfileEffect?.id;
+  const effectStyle = effectId === "polymath-glow"
+    ? { borderColor: "rgba(232, 203, 139, .7)", boxShadow: "0 0 24px rgba(232, 203, 139, .12)" }
+    : effectId === "radiant-archive"
+      ? { borderColor: "rgba(170, 205, 255, .75)", boxShadow: "0 0 32px rgba(170, 205, 255, .16)" }
+      : effectId === "limitless-aura"
+        ? { borderColor: "rgba(210, 173, 255, .85)", boxShadow: "0 0 40px rgba(190, 135, 255, .2)" }
+        : undefined;
+
   return (
-    <section className="panel mx-auto mb-8 mt-5 max-w-[1440px] px-5 py-5 md:px-8">
+    <section className="panel mx-auto mb-8 mt-5 max-w-[1440px] px-5 py-5 transition-shadow md:px-8" style={effectStyle}>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <div className="eyebrow">Across every discipline</div>
@@ -97,6 +106,13 @@ export default function GlobalProgress() {
           <select className="w-full border border-gold/25 bg-ink px-3 py-2 text-xs text-body" value={summary.equippedEmblem?.id ?? ""} onChange={(event) => equip("emblem", event.target.value)}>
             <option value="">None equipped</option>
             {(summary.unlockedRewards ?? []).filter((reward) => reward.kind === "emblem").map((reward) => <option key={reward.id} value={reward.id}>{reward.name}</option>)}
+          </select>
+        </label>
+        <label className="block text-xs text-dim">
+          <span className="mb-1 block uppercase tracking-[.12em]">Profile effect</span>
+          <select className="w-full border border-gold/25 bg-ink px-3 py-2 text-xs text-body" value={summary.equippedProfileEffect?.id ?? ""} onChange={(event) => equip("profile-effect", event.target.value)}>
+            <option value="">None equipped</option>
+            {(summary.unlockedRewards ?? []).filter((reward) => reward.kind === "profile-effect").map((reward) => <option key={reward.id} value={reward.id}>{reward.name}</option>)}
           </select>
         </label>
       </div>
