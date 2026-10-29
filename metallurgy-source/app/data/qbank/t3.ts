@@ -81,10 +81,10 @@ const T3: TopicSource = {
       diff: 2,
       text: "Suspension vs emulsion polymerization — which statement is correct?",
       options: [
-        { label: "a", text: "Suspension requires surfactant above CMC; emulsion does not." },
-        { label: "b", text: "They are the same process under different names." },
-        { label: "c", text: "Suspension: droplets 30–300 µm, no micelles, monomer-soluble initiator. Emulsion: micelles present, particles 0.01–1 µm, water-soluble initiator, nucleation inside micelles." },
-        { label: "d", text: "Emulsion uses monomer-soluble initiator; suspension uses water-soluble." }
+        { label: "a", text: "Suspension uses micelles and a water-soluble initiator; emulsion uses larger droplets and a monomer-soluble initiator." },
+        { label: "b", text: "Both use the same droplet size and initiator location; only the reactor temperature distinguishes the two processes." },
+        { label: "c", text: "Suspension has larger monomer droplets and a monomer-soluble initiator; emulsion uses micelles and water-soluble initiator." },
+        { label: "d", text: "Emulsion forms large droplets without micelles, while suspension nucleates submicron particles inside surfactant micelles." }
       ],
       answer: "c",
       why: "Every listed difference is a genuine discriminator: **micelles** and **water-soluble initiator** (emulsion) vs **plain droplets** and **monomer-soluble initiator** (suspension).",
@@ -331,10 +331,10 @@ const T3: TopicSource = {
         ["Curve B: X", "8%", "18%", "35%", "58%", "80%"],
       ],
       options: [
-        { label: "a", text: "A = solution, B = bulk" },
-        { label: "b", text: "A = bulk, B = solution (or suspension with heat removal)" },
-        { label: "c", text: "Both are emulsion" },
-        { label: "d", text: "A = suspension, B = bulk" }
+        { label: "a", text: "A is solution polymerization with a large exotherm; B is bulk polymerization with no solvent to moderate heat release." },
+        { label: "b", text: "A is bulk polymerization with poor heat removal and a gel-effect spike; B is solution or suspension with better heat control." },
+        { label: "c", text: "Both are emulsion polymerization, with the temperature spike in A caused by an increase in surfactant concentration only." },
+        { label: "d", text: "A is suspension with excellent heat removal; B is bulk with the smoother profile expected from an uncooled viscous mass." }
       ],
       answer: "b",
       why: "Curve A's fast, exotherm-prone profile is the **bulk** signature (poor heat removal, gel-effect spike). Curve B's moderated, steady profile matches solvent/droplet heat control (solution or suspension).",
