@@ -131,10 +131,10 @@ const T4: TopicSource = {
       diff: 3,
       text: "Osmometry gives Mn = 40,000 and light scattering gives Mw = 160,000. The most defensible statement is:",
       options: [
-        { label: "a", text: "One measurement must be wrong — averages cannot differ by a factor of 4." },
-        { label: "b", text: "The distribution is broad (PDI = 4), consistent with a branched or multi-site-produced polymer." },
-        { label: "c", text: "The sample is contaminated with monomer." },
-        { label: "d", text: "The polymer is monodisperse." }
+        { label: "a", text: "The measurements cannot both be correct, because every molecular-weight average must have the same numerical value." },
+        { label: "b", text: "The distribution is broad: Mw/Mn = 4, consistent with a mixture of chains spanning a wide range of molecular weights." },
+        { label: "c", text: "The sample must be contaminated with monomer, because any trace impurity forces Mw to exceed Mn by exactly fourfold." },
+        { label: "d", text: "The polymer is monodisperse, since agreement of two analytical methods is enough to establish a single chain length." }
       ],
       answer: "b",
       why: "PDI $= 160000/40000 = 4$. Since $M_w$ always exceeds $M_n$ for any distribution, a factor-4 gap means a **broad MWD** — typical of high-conversion radical or branched polymers, not an error.",
@@ -151,10 +151,10 @@ const T4: TopicSource = {
       diff: 3,
       text: "Mn is far more sensitive than Mw to a trace of low-molecular-weight material. Why?",
       options: [
-        { label: "a", text: "Mn counts every molecule equally, so many small chains dominate the particle count." },
-        { label: "b", text: "Mw ignores small molecules by definition." },
-        { label: "c", text: "It is not true — both averages shift equally." },
-        { label: "d", text: "Low-MW species scatter more light." }
+        { label: "a", text: "Mn counts each molecule equally, so many small molecules can shift the number average even when they contribute little mass." },
+        { label: "b", text: "Mw ignores short chains completely by definition, so adding any low-mass material has no effect on the weight average." },
+        { label: "c", text: "Both averages respond identically to a small-molecule impurity because each uses the same weighting of chain number and mass." },
+        { label: "d", text: "Low-molecular-weight species scatter more light per gram, so they dominate light-scattering measurements of Mw." }
       ],
       answer: "a",
       why: "$M_n$ weights each *chain* equally: 1 wt% of M = 500 chains in an Mn = 50,000 polymer nearly **halves** Mn (→ ~25,000). $M_w$ weights by mass², so the same 1 wt% changes Mw by < 1% (50,000 → 49,505).",
@@ -426,10 +426,10 @@ const T4: TopicSource = {
       diff: 1,
       text: "In viscometry, reduced viscosity ηsp/c is extrapolated to zero concentration to obtain:",
       options: [
-        { label: "a", text: "Crystallinity" },
-        { label: "b", text: "Mn" },
-        { label: "c", text: "Intrinsic viscosity [η]" },
-        { label: "d", text: "The rate constant" }
+        { label: "a", text: "Crystallinity, estimated from the mass fraction of ordered domains in the polymer specimen after cooling." },
+        { label: "b", text: "Number-average molecular weight, obtained by counting chains rather than measuring their hydrodynamic volume." },
+        { label: "c", text: "Intrinsic viscosity [η], the limiting reduced viscosity as concentration approaches zero in a specified solvent and temperature." },
+        { label: "d", text: "A rate constant, inferred from the slope of viscosity against concentration during the dilute-solution measurement." }
       ],
       answer: "c",
       why: "$\\eta_{sp}/c$ vs $c$ → intercept at $c\\to0$ = **intrinsic viscosity** [η], then $[\\eta]=KM_v^a$ gives $M_v$.",
