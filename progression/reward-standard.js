@@ -27,12 +27,25 @@
   var MAX_QUALITY_BONUS = 0.2;
   var FULL_REPEATS_PER_DAY = 3;
   var HALF_REPEATS_PER_DAY = 3;
-  // Universal cosmetic/title unlocks; module mastery never gates global rewards.
+  var EVIDENCE_TYPES = {
+    'submitted-answer': true,
+    'completed-session': true,
+    'typed-page': true,
+    'scored-assessment': true,
+    'topic-mastery': true,
+    'unit-mastery': true,
+    'milestone-complete': true,
+    'pathway-complete': true,
+    'first-pass': true
+  };
+  // Level 5 unlocks are modest; each multiple of 10 is a larger universal reward.
   var REWARD_UNLOCKS = [
     { level: 2, id: 'first-light', name: 'First Light', kind: 'title', description: 'Your first global level-up.' },
     { level: 5, id: 'scholars-mark', name: "Scholar's Mark", kind: 'emblem', description: 'A mark earned through steady cross-discipline learning.' },
-    { level: 10, id: 'polymath', name: 'Polymath', kind: 'title', description: 'Progress across disciplines has reached double-digit level.' },
+    { level: 10, id: 'polymath', name: 'Polymath', kind: 'title', description: 'A profile title for learning across disciplines.' },
+    { level: 15, id: 'wayfinder', name: 'Wayfinder', kind: 'emblem', description: 'A milestone for continuing beyond the early levels.' },
     { level: 20, id: 'keeper-of-knowledge', name: 'Keeper of Knowledge', kind: 'title', description: 'A long-term commitment to learning across fields.' },
+    { level: 25, id: 'luminous-archive', name: 'Luminous Archive', kind: 'emblem', description: 'A rare emblem for sustained progression.' },
     { level: 30, id: 'limitless-sigil', name: 'Limitless Sigil', kind: 'emblem', description: 'A rare mark for sustained global progression.' }
   ];
 
@@ -67,11 +80,9 @@
           typeof award.x === 'number' && isFinite(award.x) && award.x >= 0;
       });
     }
-    var sum = result.awards.reduce(function (total, award) { return total + award.x; }, 0);
-    result.totalXp = Math.max(0, Math.round(finiteNumber(value.totalXp, sum)));
-    // An old or partially written record must never make the displayed total
-    // lower than the sum of its retained award records.
-    result.totalXp = Math.max(result.totalXp, sum);
+    // Award history is authoritative. Never trust a parallel cached running
+    // total: a torn/old write must not create EXP with no explainable award.
+    result.totalXp = result.awards.reduce(function (total, award) { return total + award.x; }, 0);
     return result;
   }
 
@@ -121,7 +132,10 @@
     var qualityBonus = quality === null ? 0 : base * MAX_QUALITY_BONUS * clamp((quality - QUALITY_THRESHOLD) / (1 - QUALITY_THRESHOLD), 0, 1);
     var repeatMultiplier = typeof prior.repeatMultiplier === 'number' ? prior.repeatMultiplier : 1;
     var firstPassBonus = prior.firstPassBonus ? FIRST_PASS_EXP : 0;
-    var rawXp = (base * multiplier + qualityBonus) * repeatMultiplier + firstPassBonus;
+    // The ordinary activity and its one-time pass bonus are persisted as two
+    // unique award records. Keeping the calculator's activity XP separate
+    // makes each line in the ledger independently explainable.
+    var rawXp = (base * multiplier + qualityBonus) * repeatMultiplier;
     return {
       ok: true,
       version: VERSION,
@@ -168,6 +182,20 @@
           progress: level.progress,
           awardCount: ledger.awards.length,
           countsByModule: counts,
+          recentAwards: ledger.awards.slice(-8).reverse().map(function (award) {
+            return {
+              id: award.id, module: award.m, contentKey: award.c,
+              activityClass: award.a, evidence: award.e,
+              difficulty: award.difficulty || 'foundational',
+              baseExp: finiteNumber(award.baseExp, 0),
+              difficultyMultiplier: finiteNumber(award.difficultyMultiplier, 1),
+              quality: typeof award.quality === 'number' ? award.quality : null,
+              qualityBonus: finiteNumber(award.qualityBonus, 0),
+              repeatMultiplier: finiteNumber(award.repeatMultiplier, 1),
+              xp: award.x, timestamp: finiteNumber(award.t, 0), version: award.v,
+              bonusType: award.bonusType || null
+            };
+          }),
           unlockedRewards: unlocksForLevel(level.level),
           nextReward: nextUnlockForLevel(level.level)
         };
@@ -175,7 +203,7 @@
         return {
           standard: VERSION, xp: 0, level: 1, xpIntoLevel: 0,
           xpForNextLevel: 100, nextLevelAt: 100, progress: 0,
-          awardCount: 0, countsByModule: {}, unlockedRewards: [], nextReward: nextUnlockForLevel(1), available: false
+          awardCount: 0, countsByModule: {}, recentAwards: [], unlockedRewards: [], nextReward: nextUnlockForLevel(1), available: false
         };
       }
     }
@@ -187,10 +215,16 @@
       var contentKey = cleanString(args.contentKey);
       var activityClass = cleanString(args.activityClass);
       var difficulty = cleanString(args.difficulty || 'foundational');
+      var evidence = cleanString(args.evidence);
+      var oneTimeKey = cleanString(args.oneTimeKey || '');
+      var passKey = cleanString(args.passKey || '');
       if (!eventId || !moduleId || !contentKey) return { ok: false, xp: 0, error: 'missing-event-module-or-content-key' };
+      if (eventId.length > 256 || moduleId.length > 64 || contentKey.length > 256) return { ok: false, xp: 0, error: 'identifier-too-long' };
+      if (!EVIDENCE_TYPES[evidence]) return { ok: false, xp: 0, error: 'missing-or-unknown-completion-evidence' };
       if (typeof BASE_EXP[activityClass] !== 'number') return { ok: false, xp: 0, error: 'unknown-activity-class' };
       if (typeof DIFFICULTY[difficulty] !== 'number') return { ok: false, xp: 0, error: 'unknown-difficulty' };
-      if (isOneTimeClass(activityClass) && !cleanString(args.oneTimeKey)) return { ok: false, xp: 0, error: 'missing-one-time-key' };
+      if (isOneTimeClass(activityClass) && !oneTimeKey) return { ok: false, xp: 0, error: 'missing-one-time-key' };
+      if (args.passed && (activityClass !== 'assessment' || !passKey)) return { ok: false, xp: 0, error: 'passed-assessment-needs-pass-key' };
 
       try {
         var ledger = read();
@@ -202,13 +236,11 @@
 
         var ts = Math.max(0, Math.floor(finiteNumber(now(), Date.now())));
         var day = asDayKey(ts);
-        var oneTimeKey = cleanString(args.oneTimeKey || '');
-        var passKey = cleanString(args.passKey || '');
-        var alreadyOneTime = isOneTimeClass(activityClass) && oneTimeKey && ledger.awards.some(function (award) {
+        var alreadyOneTime = isOneTimeClass(activityClass) && ledger.awards.some(function (award) {
           return award.o === oneTimeKey && award.x > 0;
         });
         var alreadyPassed = !!(args.passed && passKey && ledger.awards.some(function (award) {
-          return award.p === passKey;
+          return award.id === 'first-pass:' + passKey || award.p === passKey;
         }));
         var firstPass = !!(args.passed && passKey && !alreadyPassed);
         var repeatMultiplier = 1;
@@ -220,30 +252,62 @@
           else if (sameDayCount >= FULL_REPEATS_PER_DAY) repeatMultiplier = 0.5;
         }
 
-        var breakdown = calculate(args, {
-          repeatMultiplier: repeatMultiplier,
-          firstPassBonus: firstPass
-        });
+        var breakdown = calculate(args, { repeatMultiplier: repeatMultiplier, firstPassBonus: firstPass });
         if (!breakdown.ok) return breakdown;
         if (alreadyOneTime) {
           breakdown.xp = 0;
           breakdown.oneTimeAlreadyAwarded = true;
         }
-        var award = {
+        var activityAward = {
           id: eventId,
           m: moduleId,
           c: contentKey,
           a: activityClass,
+          e: evidence,
           d: day,
           t: ts,
           x: breakdown.xp,
           r: breakdown.repeatMultiplier,
-          v: VERSION
+          v: VERSION,
+          difficulty: difficulty,
+          baseExp: breakdown.baseExp,
+          difficultyMultiplier: breakdown.difficultyMultiplier,
+          quality: breakdown.quality,
+          qualityBonus: breakdown.qualityBonus,
+          repeatMultiplier: breakdown.repeatMultiplier,
+          reason: cleanString(args.reason || ''),
+          passed: !!args.passed
         };
-        if (oneTimeKey && breakdown.xp > 0 && isOneTimeClass(activityClass)) award.o = oneTimeKey;
-        if (firstPass && breakdown.xp > 0) award.p = passKey;
-        ledger.awards.push(award);
-        ledger.totalXp += breakdown.xp;
+        if (oneTimeKey && breakdown.xp > 0 && isOneTimeClass(activityClass)) activityAward.o = oneTimeKey;
+        ledger.awards.push(activityAward);
+
+        var passXp = 0;
+        if (firstPass && !alreadyOneTime) {
+          passXp = FIRST_PASS_EXP;
+          ledger.awards.push({
+            id: 'first-pass:' + passKey,
+            m: moduleId,
+            c: contentKey,
+            a: 'first-pass-bonus',
+            e: 'first-pass',
+            d: day,
+            t: ts,
+            x: passXp,
+            r: 1,
+            v: VERSION,
+            difficulty: difficulty,
+            baseExp: 0,
+            difficultyMultiplier: 1,
+            quality: null,
+            qualityBonus: 0,
+            repeatMultiplier: 1,
+            bonusType: 'first-pass',
+            p: passKey,
+            reason: 'First successful pass of ' + contentKey
+          });
+        }
+        breakdown.firstPassBonus = passXp;
+        ledger.totalXp = ledger.awards.reduce(function (total, award) { return total + award.x; }, 0);
         if (!storage || typeof storage.setItem !== 'function') return { ok: false, xp: 0, error: 'storage-unavailable' };
         storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
         signal();
@@ -251,7 +315,7 @@
         return {
           ok: true,
           duplicate: false,
-          xp: breakdown.xp,
+          xp: breakdown.xp + passXp,
           totalXp: fresh.xp,
           level: fresh.level,
           breakdown: breakdown,
@@ -322,6 +386,7 @@
     STORAGE_KEY: STORAGE_KEY,
     BASE_EXP: BASE_EXP,
     DIFFICULTY: DIFFICULTY,
+    EVIDENCE_TYPES: Object.keys(EVIDENCE_TYPES),
     FIRST_PASS_EXP: FIRST_PASS_EXP,
     REWARD_UNLOCKS: REWARD_UNLOCKS.map(function (reward) { return Object.assign({}, reward); }),
     unlocksForLevel: unlocksForLevel,
