@@ -454,3 +454,11 @@ html[data-theme="light"] .global-progress-card {
   border-color: rgba(210,173,255,.85);
   box-shadow: 0 0 38px rgba(190,135,255,.2);
 }
+
+.global-progress-identity {
+  margin-top: 7px;
+  color: var(--gold-bright);
+  font-size: .68rem;
+  letter-spacing: .04em;
+  line-height: 1.5;
+}
