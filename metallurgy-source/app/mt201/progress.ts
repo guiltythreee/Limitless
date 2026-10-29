@@ -7,7 +7,7 @@ import {
   questionActivity,
   type AssessmentInput,
   type LsrActivityMode,
-} from "./lsr1-rewards";
+} from "../lib/lsr1-rewards";
 
 // Browser-local progress for the MT201 archive. Same shape as the shared
 // MT202 store, but its own key so the two courses never tangle.
@@ -41,7 +41,7 @@ export function loadProgress(): Progress {
       rewardLedger: sanitiseRewardRecords(p.rewardLedger),
     };
   } catch {
-    return { answered: {}, examBest: null };
+    return { answered: {}, examBest: null, rewardLedger: [] };
   }
 }
 
