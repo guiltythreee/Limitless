@@ -67,7 +67,7 @@ export function unequipReward(storage, slot) {
   if (!EQUIPMENT_SLOTS.has(slot)) return { ok: false, error: "invalid-equipment-slot" };
   const payload = readPayload(storage);
   const slots = isRecord(payload.slots) ? payload.slots : {};
-  if (!slots[slot]) return { ok: true, duplicate: true, equipped: readEquippedRewards(storage, Infinity) };
+  if (!slots[slot]) return { ok: true, duplicate: true };
   try {
     storage.setItem(PROFILE_EQUIPMENT_STORAGE_KEY, JSON.stringify({
       ...payload,
