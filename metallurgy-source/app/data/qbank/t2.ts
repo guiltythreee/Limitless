@@ -587,10 +587,10 @@ const T2: TopicSource = {
       diff: 3,
       text: "Coordination (metallocene) catalysts differ from Ziegler–Natta catalysts chiefly in that:",
       options: [
-        { label: "a", text: "Ziegler–Natta catalysts are living." },
-        { label: "b", text: "Metallocenes are single-site catalysts giving narrow MWD and precise comonomer incorporation; heterogeneous Ziegler–Natta has many site types." },
-        { label: "c", text: "Metallocenes cannot polymerize ethylene." },
-        { label: "d", text: "Metallocenes work only anionically." }
+        { label: "a", text: "Ziegler–Natta catalysts are living systems that prevent every termination event and always produce monodisperse chains." },
+        { label: "b", text: "Metallocenes often act as single-site catalysts, giving more uniform active sites, narrower MWD and better comonomer control." },
+        { label: "c", text: "Metallocenes cannot polymerize ethylene because their active sites are too crowded for small olefin molecules." },
+        { label: "d", text: "Metallocenes work only by anionic initiation, unlike the coordination-insertion mechanism of Ziegler–Natta catalysts." }
       ],
       answer: "b",
       why: "One crystallographically uniform **single site** = uniform chains → **narrow MWD** (PDI ≈ 2) and controlled tacticity. Multi-site Ziegler–Natta gives broader distributions.",
