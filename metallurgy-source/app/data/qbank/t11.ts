@@ -23,10 +23,10 @@ const T11: TopicSource = {
       diff: 1,
       text: "Compounding is the process of:",
       options: [
-        { label: "a", text: "polymerizing the monomer" },
-        { label: "b", text: "mixing the base polymer with additives (fillers, plasticizers, stabilizers, colorants) to make a usable formulation" },
-        { label: "c", text: "recycling the polymer" },
-        { label: "d", text: "cross-linking the product" }
+        { label: "a", text: "Reacting small molecules in a polymerization reactor to create the base resin before any additives are introduced." },
+        { label: "b", text: "Mixing a base polymer with pigments, fillers or stabilizers to produce a formulation ready for shaping." },
+        { label: "c", text: "Reclaiming used polymer by sorting, washing, remelting and pelletizing it for a second use." },
+        { label: "d", text: "Curing a thermoset after shaping by creating a covalent network throughout the finished part." }
       ],
       answer: "b",
       why: "**Compounding** turns a raw polymer into a processable, serviceable formulation by intimately mixing additives — usually in an extruder — before shaping.",
@@ -75,10 +75,10 @@ const T11: TopicSource = {
       diff: 1,
       text: "A masterbatch is:",
       options: [
-        { label: "a", text: "the first polymer ever made" },
-        { label: "b", text: "a concentrated additive/pigment blend in a carrier resin, diluted into the base polymer during processing" },
-        { label: "c", text: "a moulding defect" },
-        { label: "d", text: "a type of cross-linker" }
+        { label: "a", text: "An early commercial polymer grade made before compounding and additive selection became standard practice." },
+        { label: "b", text: "A concentrated blend of pigment or additives in a carrier resin, fed into base polymer at a controlled let-down ratio." },
+        { label: "c", text: "A visible moulded-part defect caused by poor dispersion of pigments or fillers during processing." },
+        { label: "d", text: "A reactive chemical that initiates covalent cross-linking shortly before a thermoset cures." }
       ],
       answer: "b",
       why: "**Masterbatches** deliver colorants/additives uniformly at low dose: a concentrated dispersion is let down into the bulk resin at the machine, ensuring good dispersion and cleaner handling.",
@@ -90,10 +90,10 @@ const T11: TopicSource = {
       diff: 3,
       text: "Why must hygroscopic polymers such as PET, nylon, PC and POM be thoroughly dried before melt processing?",
       options: [
-        { label: "a", text: "There is no need to dry them." },
-        { label: "b", text: "Water acts as a cross-linker." },
-        { label: "c", text: "Drying improves colour only." },
-        { label: "d", text: "Moisture causes hydrolytic chain scission at melt temperature — lowering MW and mechanical properties — and produces surface defects (splay/silver streaks)." }
+        { label: "a", text: "Drying is unnecessary: absorbed water simply flashes off as steam and leaves molecular chains unchanged." },
+        { label: "b", text: "Water acts as a universal chain extender, increasing molecular weight and melt strength during processing." },
+        { label: "c", text: "Drying mainly controls colour; moisture cannot change molecular weight or cause surface defects in a melt." },
+        { label: "d", text: "Moisture can hydrolyse chains in the melt, lowering molecular weight and causing splay or silver streaks." }
       ],
       answer: "d",
       why: "At melt temperature, absorbed water **hydrolyses ester/amide/carbonate linkages**, dropping molecular weight (an intrinsic-viscosity loss for PET) and causing silver-streak **splay**. Hence dried hoppers and dryers are mandatory.",
@@ -205,10 +205,10 @@ const T11: TopicSource = {
       diff: 3,
       text: "In blown-film extrusion of LDPE, why is biaxial orientation important?",
       options: [
-        { label: "a", text: "The bubble is drawn up (machine direction) and inflated (transverse direction), orienting chains in both directions and giving balanced stiffness, strength and toughness." },
-        { label: "b", text: "It removes all crystallinity." },
-        { label: "c", text: "It prevents the film from cooling." },
-        { label: "d", text: "It is done to add colour." }
+        { label: "a", text: "Take-up stretches the bubble axially, while inflation stretches it circumferentially, aligning chains in both directions." },
+        { label: "b", text: "The bubble remains unstretched; biaxial orientation comes only from cooling the melt rapidly below Tg." },
+        { label: "c", text: "Only transverse stretching is applied; machine-direction drawing is avoided to prevent chain orientation." },
+        { label: "d", text: "Chemical cross-linking during extrusion aligns chains equally in both directions and replaces the need for stretching." }
       ],
       answer: "a",
       why: "**Biaxial drawing** (take-up + blow-up ratio) aligns chains in two directions, improving tensile strength, puncture resistance and optical properties — the standard reason grocery-bag films perform well in all directions.",
@@ -338,10 +338,10 @@ const T11: TopicSource = {
       diff: 3,
       text: "Why do semi-crystalline polymers generally shrink more on moulding than amorphous ones?",
       options: [
-        { label: "a", text: "They are always cross-linked." },
-        { label: "b", text: "They do not shrink at all." },
-        { label: "c", text: "They contain more water." },
-        { label: "d", text: "Cooling from the melt crystallizes the chains into a denser packing, adding crystallization shrinkage on top of thermal contraction (typically 1.5–3% vs 0.4–0.8%)." }
+        { label: "a", text: "Crystallization adds a density increase during cooling, on top of the ordinary thermal contraction of the melt." },
+        { label: "b", text: "Semicrystalline chains always form covalent cross-links as they cool, making every part shrink uniformly." },
+        { label: "c", text: "They absorb more water than amorphous polymers, and water loss during cooling causes most mould shrinkage." },
+        { label: "d", text: "Crystalline regions lock chains into denser packing, adding crystallization shrinkage to thermal contraction." }
       ],
       answer: "d",
       why: "Two contributions: **thermal contraction** (all polymers) + **density increase on crystallization** (semi-crystalline only). Moulds must therefore be dimensioned with the resin's shrinkage in mind.",
@@ -512,10 +512,10 @@ const T11: TopicSource = {
       diff: 3,
       text: "Why does annealing a moulded semi-crystalline part often increase its crystallinity and reduce internal stress?",
       options: [
-        { label: "a", text: "Annealing has no effect." },
-        { label: "b", text: "Annealing adds cross-links." },
-        { label: "c", text: "Holding the part at a temperature between Tg and Tm allows molecular rearrangement (secondary crystallization) and relaxation of moulded-in orientation, relieving residual stress." },
-        { label: "d", text: "Annealing converts it to a thermoset." }
+        { label: "a", text: "Annealing changes surface gloss only; below melting it cannot change polymer morphology or residual stress." },
+        { label: "b", text: "Annealing adds covalent cross-links that block crystallization and preserve the original moulded-in orientation." },
+        { label: "c", text: "Holding a semicrystalline part above Tg permits secondary crystallization and chain relaxation, reducing residual stress." },
+        { label: "d", text: "Annealing irreversibly cures the thermoplastic into a thermoset network, eliminating the need for later remelting." }
       ],
       answer: "c",
       why: "Above Tg the chains are mobile: secondary crystallization increases crystallinity and perfection, while stress relaxation removes residual orientation from filling. Both improve dimensional stability (at the cost of cycle time).",
