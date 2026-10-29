@@ -64,8 +64,9 @@ export function assessmentActivity(moduleId: LsrModuleId, input: AssessmentInput
   const total = Number.isFinite(input.total) ? Math.floor(input.total) : 0;
   const answered = Number.isFinite(input.answered) ? Math.floor(input.answered) : 0;
   const correct = Number.isFinite(input.correct) ? Math.floor(input.correct) : -1;
-  if (!input.runId || total <= 0 || answered < Math.ceil(total / 2) ||
-      answered > total || correct < 0 || correct > answered) return null;
+  // LSR-1 assessment EXP requires every question in the scored pool to be answered.
+  if (!input.runId || total <= 0 || answered !== total ||
+      correct < 0 || correct > answered) return null;
   return {
     eventId: moduleId + ":assessment:" + input.runId,
     moduleId,
