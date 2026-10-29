@@ -3,8 +3,11 @@ import {
   ACTIVITY_BASE_EXP,
   CHECKPOINT_PASS_THRESHOLD,
   REPEAT_POLICY,
+  buildRewardRecords,
   calculateReward,
   levelForExp,
+  nextRewardForLevel,
+  unlockedRewardsForLevel,
   readGlobalRewardSummary,
   sanitiseRewardRecords,
   summariseRewards,
@@ -137,6 +140,41 @@ const assessmentRetry = calculateReward(activity({
 assert.equal(assessmentRetry.passBonus, 0, "a checkpoint pass bonus is one-time");
 assert.equal(assessmentRetry.totalExp, 36);
 
+// Persistent adapters must store the first-pass bonus as a separate record.
+const firstPassRecords = buildRewardRecords(activity({
+  eventId: "assessment-split",
+  itemId: "assessment:split-checkpoint",
+  activityClass: "assessment",
+  difficulty: "intermediate",
+  completionEvidence: "fully-answered-assessment",
+  quality: 1,
+  passed: true,
+  checkpointId: "split-checkpoint",
+}), []);
+assert.equal(firstPassRecords.length, 2);
+assert.equal(firstPassRecords[0].eventId, "assessment-split");
+assert.equal(firstPassRecords[0].passBonus, 0);
+assert.equal(firstPassRecords[1].eventId, "lsr1:pass-bonus:probability:split-checkpoint");
+assert.equal(firstPassRecords[1].totalExp, 15);
+assert.equal(firstPassRecords[1].countsTowardRepeatCap, false);
+assert.equal(buildRewardRecords(activity({
+  eventId: "assessment-split-retry",
+  itemId: "assessment:split-checkpoint",
+  activityClass: "assessment",
+  difficulty: "intermediate",
+  completionEvidence: "fully-answered-assessment",
+  quality: 1,
+  passed: true,
+  checkpointId: "split-checkpoint",
+}), firstPassRecords).length, 1, "retries do not create a second checkpoint bonus");
+
+// Unlocks derive from the global level only, and have a clear next milestone.
+assert.equal(unlockedRewardsForLevel(1).length, 0);
+assert.ok(unlockedRewardsForLevel(2).some((reward) => reward.id === "first-light"));
+assert.ok(unlockedRewardsForLevel(10).some((reward) => reward.id === "polymath-glow"));
+assert.equal(nextRewardForLevel(9).id, "polymath");
+assert.equal(nextRewardForLevel(30), null);
+
 const badProject = calculateReward(activity({
   eventId: "bad-project", activityClass: "bespoke-project", assignedBaseExp: undefined,
 }), []);
@@ -194,7 +232,7 @@ assert.equal(global.sources[0].moduleId, "probability");
 assert.equal(global.sources.length, 1, "a registered module without a saved LSR-1 ledger contributes no EXP");
 assert.deepEqual(global.registeredModules.map((module) => module.moduleId), [
   "probability", "math-trainer", "bookkeys",
-  "metallurgy-mt201", "metallurgy-mt202", "metallurgy-mt203",
+  "metallurgy-mt201", "metallurgy-mt202", "metallurgy-mt203", "personal-projects",
 ], "the registry lists only modules actually integrated with LSR-1");
 
 console.log("LSR-1 reward standard tests passed.");
