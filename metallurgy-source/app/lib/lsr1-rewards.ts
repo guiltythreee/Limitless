@@ -67,7 +67,8 @@ export function assessmentActivity(moduleId: LsrModuleId, input: AssessmentInput
   return {
     eventId: moduleId + ":assessment:" + input.runId,
     moduleId,
-    itemId: "assessment:" + input.runId,
+    // Stable per-course item means repeated test launches cannot evade the daily repeat cap.
+    itemId: "assessment:" + moduleId,
     ts: Number.isFinite(input.ts) && input.ts > 0 ? Math.round(input.ts) : Date.now(),
     activityClass: "assessment",
     difficulty: total >= 25 ? "advanced" : "intermediate",
