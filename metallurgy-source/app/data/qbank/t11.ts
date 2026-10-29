@@ -411,10 +411,10 @@ const T11: TopicSource = {
       diff: 3,
       text: "To make a continuous pipe in a single long run, the process is:",
       options: [
-        { label: "a", text: "Blow moulding" },
-        { label: "b", text: "Injection moulding" },
-        { label: "c", text: "Extrusion with an annular/pipe die" },
-        { label: "d", text: "Rotational moulding" }
+        { label: "a", text: "Blow moulding inflates a hot parison inside a closed mould to make hollow containers rather than continuous pipe." },
+        { label: "b", text: "Injection moulding fills a closed cavity with a measured shot and produces discrete parts, not a continuous pipe." },
+        { label: "c", text: "Extrusion pushes melt continuously through an annular pipe die, sizing and cooling it downstream in a long run." },
+        { label: "d", text: "Rotational moulding heats powder in a rotating closed mould, making hollow parts one cycle at a time." }
       ],
       answer: "c",
       why: "**Extrusion** is a continuous process ideally suited to constant-cross-section forms — pipe, profile, sheet, filament, cable coating. Injection moulding is cyclic (discrete parts).",
