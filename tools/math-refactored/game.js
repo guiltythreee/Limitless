@@ -715,6 +715,24 @@
     return { xp: newXp, summary: window.LimitlessRewards.summary() };
   }
 
+  function refreshGlobalSeenMathRuns() {
+    var saved = load(KEY_GLOBAL_SEEN, null);
+    if (!Array.isArray(saved)) return;
+    globalSeenMathRuns = {};
+    saved.forEach(function (id) { globalSeenMathRuns[String(id)] = true; });
+  }
+
+  // Recovery handles the non-atomic boundary between the canonical run record
+  // and the separate global ledger. Event IDs make repeated retries harmless.
+  window.addEventListener('focus', function () {
+    refreshGlobalSeenMathRuns();
+    processPendingGlobalMathRewards('');
+  });
+  window.addEventListener('storage', function (event) {
+    if (event.key === KEY_GLOBAL_SEEN) refreshGlobalSeenMathRuns();
+    if (event.key === KEY_RUNS || event.key === KEY_GLOBAL_SEEN) processPendingGlobalMathRewards('');
+  });
+
   function persist(r, s) {
     // Keep the trainer's established XP/ranks separate from global EXP.
     var info = MathXP.xpBreakdown(r, s, MathXP.rankFor(meta.xp).idx, DIFFS[r.diff].xp);
