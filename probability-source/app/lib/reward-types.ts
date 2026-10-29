@@ -63,7 +63,7 @@ export type RewardUnlock = {
   level: number;
   id: string;
   name: string;
-  kind: "title" | "emblem";
+  kind: "title" | "emblem" | "profile-effect";
   description: string;
 };
 
@@ -95,6 +95,7 @@ export type RewardSummary = {
   nextReward?: RewardUnlock | null;
   equippedTitle?: RewardUnlock | null;
   equippedEmblem?: RewardUnlock | null;
+  equippedProfileEffect?: RewardUnlock | null;
   available?: boolean;
 };
 
@@ -103,7 +104,7 @@ export type GlobalRewardApi = {
   REWARD_UNLOCKS: RewardUnlock[];
   record: (input: GlobalRewardInput) => GlobalRewardReceipt;
   recordMany: (inputs: GlobalRewardInput[]) => GlobalRewardReceipt[];
-  equipReward: (rewardId: string, kind: "title" | "emblem") => { ok: boolean; error?: string; summary?: RewardSummary };
+  equipReward: (rewardId: string, kind: "title" | "emblem" | "profile-effect") => { ok: boolean; error?: string; summary?: RewardSummary };
   summary: () => RewardSummary;
 };
 
