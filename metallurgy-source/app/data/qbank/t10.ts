@@ -195,10 +195,10 @@ const T10: TopicSource = {
       diff: 2,
       text: "Creep vs stress relaxation: which pairing of conditions is correct?",
       options: [
-        { label: "a", text: "Creep: constant strain; relaxation: constant stress." },
-        { label: "b", text: "Creep: constant stress, strain increases. Stress relaxation: constant strain, stress decreases." },
-        { label: "c", text: "Both hold stress constant." },
-        { label: "d", text: "Both hold strain constant." }
+        { label: "a", text: "Creep holds strain fixed while stress decays; stress relaxation holds stress fixed while strain grows with time." },
+        { label: "b", text: "Creep holds stress fixed and tracks increasing strain; stress relaxation holds strain fixed and tracks decreasing stress." },
+        { label: "c", text: "Both tests hold stress fixed, but creep measures stress loss while relaxation measures accumulated strain under that load." },
+        { label: "d", text: "Both tests hold strain fixed, but creep measures the growing strain and relaxation measures only the initial modulus." }
       ],
       answer: "b",
       why: "Two faces of **viscoelasticity**: hold σ (creep → measure ε(t)) or hold ε (relaxation → measure σ(t)). Both reflect molecular rearrangement over time.",
@@ -371,10 +371,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "A polyolefin (δ ≈ 16 (J/cm³)^½) seal must be printed with solvent-based ink. Which solvent family is most compatible?",
       options: [
-        { label: "a", text: "Formamide (δ ≈ 39)" },
-        { label: "b", text: "An aliphatic hydrocarbon such as hexane/heptane (δ ≈ 15–16)" },
-        { label: "c", text: "Water (δ ≈ 48)" },
-        { label: "d", text: "Ethanol (δ ≈ 26)" }
+        { label: "a", text: "Formamide (δ ≈ 39), far more polar than the polyolefin and a poor match for its surface." },
+        { label: "b", text: "Hexane or heptane (δ ≈ 15–16), close to the polyolefin's solubility parameter and non-polar character." },
+        { label: "c", text: "Water (δ ≈ 48), whose strong hydrogen bonding is incompatible with the non-polar polyolefin surface." },
+        { label: "d", text: "Ethanol (δ ≈ 26), appreciably more polar than the polyolefin and a weaker solvent match." }
       ],
       answer: "b",
       why: "Matching δ is the rule: the **non-polar aliphatic hydrocarbon** matches the polyolefin. (In practice polyolefin surfaces are also corona/flame treated to add polar groups for adhesion.)",
@@ -514,10 +514,10 @@ const T10: TopicSource = {
       diff: 4,
       text: "A component must survive a 1000-hour static load at 50 °C without exceeding 2% strain. The most relevant test and reasoning are:",
       options: [
-        { label: "a", text: "Long-term creep (isochronous) testing and/or a TTS master curve, because viscoelastic strain grows with time and temperature and short tests underestimate long-term deformation." },
-        { label: "b", text: "Melt-flow index — it directly predicts creep." },
-        { label: "c", text: "Impact test — since creep is an impact phenomenon." },
-        { label: "d", text: "Short-term tensile modulus — because creep is proportional to modulus at all times." }
+        { label: "a", text: "Use long-term creep data or a validated time–temperature-superposition master curve to estimate strain at 1000 h." },
+        { label: "b", text: "Use melt-flow index alone, since a short high-temperature flow test directly predicts 1000-hour strain at 50 °C." },
+        { label: "c", text: "Use impact energy, because a single rapid fracture test reproduces the same time-dependent deformation as a static load." },
+        { label: "d", text: "Use short-term tensile modulus alone, since the initial elastic strain fixes the total strain at every later time." }
       ],
       answer: "a",
       why: "Viscoelastic strain **accumulates with time**; a short modulus test cannot capture it. Design therefore uses **long-term creep data** or a **TTS master curve** (validated by the WLF/Arrhenius shift) to extrapolate to 1000 h at 50 °C.",
