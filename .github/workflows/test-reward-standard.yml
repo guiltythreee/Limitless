@@ -53,6 +53,9 @@ jobs:
       - name: Run shared reward engine regression tests
         run: node --test progression/reward-standard.test.cjs
 
+      - name: Calibrate representative weekly EXP balance
+        run: node progression/calibrate-week.cjs
+
       - name: Run Bookkeys reward bridge regression tests
         run: node --test progression/bookkeys-bridge.test.cjs
 
