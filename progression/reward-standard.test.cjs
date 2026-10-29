@@ -16,8 +16,9 @@ function memoryStorage() {
 function setup(start = Date.UTC(2026, 9, 28, 9)) {
   const storage = memoryStorage();
   let now = start;
-  const ledger = Rewards.createLedger(storage, () => now, () => {});
-  return { storage, ledger, setNow: value => { now = value; } };
+  const events = [];
+  const ledger = Rewards.createLedger(storage, () => now, detail => events.push(detail));
+  return { storage, ledger, events, setNow: value => { now = value; } };
 }
 
 test('the activity reference line has one stable, explicit base value per class', () => {
@@ -188,6 +189,64 @@ test('completion evidence is required for any saved reward', () => {
   assert.equal(receipt.ok, false);
   assert.equal(receipt.error, 'missing-or-unknown-completion-evidence');
   assert.equal(ledger.summary().xp, 0);
+});
+
+test('the module summary reconciles EXP and exposes earned discipline milestones', () => {
+  const { ledger } = setup();
+  ledger.record({
+    module: 'bookkeys', eventId: 'book-page', contentKey: 'book:abc:page:1',
+    activityClass: 'standard-task', evidence: 'typed-page'
+  });
+  ledger.record({
+    module: 'bookkeys', eventId: 'book-mastery', contentKey: 'book:abc',
+    activityClass: 'milestone', evidence: 'milestone-complete', oneTimeKey: 'book:abc:complete'
+  });
+  ledger.record({
+    module: 'probability', eventId: 'probability-answer', contentKey: 'probability:q1',
+    activityClass: 'micro-practice', evidence: 'submitted-answer'
+  });
+  const summary = ledger.summary();
+  assert.equal(summary.xp, 65);
+  assert.equal(summary.xpByModule.bookkeys, 60);
+  assert.equal(summary.xpByModule.probability, 5);
+  assert.equal(Object.values(summary.xpByModule).reduce((sum, xp) => sum + xp, 0), summary.xp);
+  assert.equal(summary.disciplineAchievements.length, 1);
+  assert.equal(summary.disciplineAchievements[0].module, 'bookkeys');
+  assert.equal(summary.disciplineAchievements[0].contentKey, 'book:abc');
+});
+
+test('unlocked titles and emblems can be equipped without changing lifetime EXP', () => {
+  const { ledger } = setup();
+  const inputs = Array.from({ length: 12 }, (_, i) => ({
+    module: 'probability', eventId: `lesson-${i}`, contentKey: `lesson-${i}`,
+    activityClass: 'standard-task', evidence: 'completed-session'
+  }));
+  ledger.recordMany(inputs);
+  const before = ledger.summary().xp;
+  assert.equal(ledger.summary().level, 2);
+  assert.equal(ledger.equipReward('first-light', 'title').ok, true);
+  assert.equal(ledger.summary().equippedTitle.id, 'first-light');
+  assert.equal(ledger.equipReward('polymath', 'title').error, 'reward-not-unlocked');
+  assert.equal(ledger.equipReward('scholars-mark', 'emblem').error, 'reward-not-unlocked');
+  assert.equal(ledger.equipReward('', 'title').ok, true);
+  assert.equal(ledger.summary().equippedTitle, null);
+  assert.equal(ledger.summary().xp, before, 'equipment changes must never alter earned EXP');
+});
+
+test('each level-up emits a durable acknowledgement event only after persistence', () => {
+  const { ledger, events } = setup();
+  for (let i = 0; i < 10; i++) {
+    ledger.record({
+      module: 'probability', eventId: `level-up-${i}`, contentKey: `level-up-content-${i}`,
+      activityClass: 'standard-task', evidence: 'completed-session'
+    });
+  }
+  const levelEvent = events.find(event => event && event.levelUp);
+  assert.ok(levelEvent);
+  assert.equal(levelEvent.levelBefore, 1);
+  assert.equal(levelEvent.levelAfter, 2);
+  assert.ok(levelEvent.xpGained > 0);
+  assert.equal(ledger.summary().level, 2);
 });
 
 test('invalid events do not alter the ledger and storage errors fail closed', () => {
