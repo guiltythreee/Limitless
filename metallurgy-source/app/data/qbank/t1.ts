@@ -208,10 +208,10 @@ const T1: TopicSource = {
       diff: 1,
       text: "The configuration of a polymer chain can only be changed by:",
       options: [
-        { label: "a", text: "Dissolving the polymer" },
-        { label: "b", text: "Rotating about single bonds" },
-        { label: "c", text: "Breaking and reforming covalent bonds" },
-        { label: "d", text: "Changing the temperature" }
+        { label: "a", text: "Dissolving a polymer may change its shape or conformation, but does not change its chain configuration by itself." },
+        { label: "b", text: "Rotation about single bonds changes chain conformation, while the covalent configuration remains unchanged." },
+        { label: "c", text: "Breaking and reforming covalent bonds can alter stereochemical configuration or the arrangement around a double bond." },
+        { label: "d", text: "Changing temperature may alter conformation or phase, but does not change configuration unless a chemical reaction occurs." }
       ],
       answer: "c",
       why: "**Configuration** (tacticity, cis/trans geometry) is fixed by bonding — altering it needs bond breakage. Rotations about single bonds change **conformation** only.",
