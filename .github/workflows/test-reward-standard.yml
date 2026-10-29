@@ -50,6 +50,18 @@ jobs:
       - name: Verify Probability bundles the same shared reward engine
         run: cmp progression/reward-standard.js probability-source/public/progression/reward-standard.js
 
+      - name: Diagnose reward engine tests outside bespoke projects
+        run: node --test --test-name-pattern='^(?!bespoke projects)' progression/reward-standard.test.cjs
+        continue-on-error: true
+
+      - name: Diagnose bespoke project reward tests
+        run: node --test --test-name-pattern='bespoke projects' progression/reward-standard.test.cjs
+        continue-on-error: true
+
+      - name: Diagnose Bookkeys reward bridge tests
+        run: node --test progression/bookkeys-bridge.test.cjs
+        continue-on-error: true
+
       - name: Test shared reward engine and Bookkeys adapter
         run: node --test progression/reward-standard.test.cjs progression/bookkeys-bridge.test.cjs
 
