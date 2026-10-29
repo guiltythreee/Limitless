@@ -549,10 +549,10 @@ const T2: TopicSource = {
       diff: 4,
       text: "A lab needs an A–B–A block copolymer with perfectly equal PS block lengths. Which route is required?",
       options: [
-        { label: "a", text: "Free-radical copolymerization with matched reactivity ratios" },
-        { label: "b", text: "Step-growth with stoichiometric balance" },
-        { label: "c", text: "Cationic polymerization with BF₃" },
-        { label: "d", text: "Living anionic polymerization: initiate with a difunctional initiator, polymerize butadiene, then add styrene" }
+        { label: "a", text: "Use conventional free-radical polymerization with equal feed ratios; termination timing will equalize the two PS blocks." },
+        { label: "b", text: "Use step-growth polymerization with balanced functional groups; that automatically creates a linear A–B–A sequence." },
+        { label: "c", text: "Use cationic initiation with BF₃, which guarantees equal PS blocks by terminating both ends at the same time." },
+        { label: "d", text: "Use a living route and a difunctional initiator to grow the central B block from both ends, then add styrene to cap both ends." }
       ],
       answer: "d",
       why: "**Living** chains (no termination) grow every block from the same start time with the same rate → equal-length blocks. A difunctional initiator grows the mid-block outward in both directions, then styrene caps the ends → **SBS**.",
