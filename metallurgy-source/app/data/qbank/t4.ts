@@ -280,10 +280,10 @@ const T4: TopicSource = {
       diff: 2,
       text: "Why does viscosity-average molecular weight depend on solvent quality?",
       options: [
-        { label: "a", text: "It does not — Mv is solvent-independent." },
-        { label: "b", text: "Viscosity measurement is only approximate." },
-        { label: "c", text: "Solvent changes the polymer's true MW." },
-        { label: "d", text: "Solvent changes the chain conformation (expanded coil in good solvent), altering [η]; K and a are empirical constants for each polymer–solvent–T pair." }
+        { label: "a", text: "Viscosity-average molecular weight is solvent-independent; solvent quality affects only instrument calibration." },
+        { label: "b", text: "It is a noisy estimate, so solvent quality changes measurement scatter but never changes the value of Mv." },
+        { label: "c", text: "Good solvents cleave covalent bonds and reduce the true chain molecular weight during viscosity measurement." },
+        { label: "d", text: "Solvent quality changes coil expansion and intrinsic viscosity, so the Mark–Houwink estimate of Mv changes." }
       ],
       answer: "d",
       why: "In a **good solvent** chains swell → larger hydrodynamic volume → higher [η]. The Mark–Houwink K, a must be re-measured for every solvent and temperature; a ranges 0.5 (theta solvent) to 0.8 (good).",
@@ -410,10 +410,10 @@ const T4: TopicSource = {
       diff: 2,
       text: "What does a GPC/SEC instrument actually measure, and how is MW obtained?",
       options: [
-        { label: "a", text: "It counts particles electronically." },
-        { label: "b", text: "It measures MW directly with a balance." },
-        { label: "c", text: "It separates by hydrodynamic volume via column elution; MW is assigned by calibration against standards (often PS) — hence 'relative' MW." },
-        { label: "d", text: "It measures osmotic pressure." }
+        { label: "a", text: "It counts individual polymer particles electronically as they pass through a detector, giving a direct molecule count." },
+        { label: "b", text: "It weighs polymer as it exits the column, so no calibration or reference standards are needed to assign molecular weight." },
+        { label: "c", text: "SEC separates chains by hydrodynamic volume; calibration with standards then gives a relative molecular weight." },
+        { label: "d", text: "It measures osmotic pressure between a polymer solution and pure solvent, then calculates molecular weight from that." }
       ],
       answer: "c",
       why: "SEC separates on **coil size** (hydrodynamic volume), not mass. Calibration with narrow-PS standards gives PS-equivalent MW; absolute MW needs in-line light scattering or viscometry.",
