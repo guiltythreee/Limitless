@@ -282,6 +282,40 @@ export function calculateReward(input, priorRecords = []) {
   };
 }
 
+/**
+ * Persistence adapters store checkpoint bonuses as their own uniquely identified
+ * award record. calculateReward remains a pure one-activity breakdown; this helper
+ * splits a first-pass bonus before writing it to an authoritative ledger.
+ */
+export function buildRewardRecords(input, priorRecords = []) {
+  const calculated = calculateReward(input, priorRecords);
+  if (!calculated.passBonus || !calculated.checkpointId || !calculated.eligible) return [calculated];
+
+  const activityRecord = sanitiseRewardRecord({
+    ...calculated,
+    passBonus: 0,
+    totalExp: Math.max(0, calculated.totalExp - calculated.passBonus),
+  });
+  const bonusRecord = sanitiseRewardRecord({
+    ...calculated,
+    eventId: "lsr1:pass-bonus:" + calculated.moduleId + ":" + calculated.checkpointId,
+    itemId: "checkpoint-pass:" + calculated.checkpointId,
+    activityClass: "assessment",
+    completionEvidence: "first-checkpoint-pass-bonus",
+    completed: true,
+    eligible: true,
+    reason: "first-checkpoint-pass-bonus",
+    countsTowardRepeatCap: false,
+    repeatOrdinal: 0,
+    baseExp: 0,
+    difficultyMultiplier: 1,
+    qualityBonus: 0,
+    passBonus: calculated.passBonus,
+    totalExp: calculated.passBonus,
+  });
+  return [activityRecord, bonusRecord].filter(Boolean);
+}
+
 export function levelForExp(value) {
   const exp = Math.max(0, Math.floor(isFiniteNumber(value) ? value : 0));
   let level = 1;
