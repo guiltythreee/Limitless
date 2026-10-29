@@ -1,5 +1,10 @@
 import assert from "node:assert/strict";
 import {
+  completeProject,
+  listRegisteredProjects,
+  registerProject,
+} from "../../shared/projects.mjs";
+import {
   ACTIVITY_BASE_EXP,
   CHECKPOINT_PASS_THRESHOLD,
   REPEAT_POLICY,
@@ -234,6 +239,38 @@ assert.deepEqual(global.registeredModules.map((module) => module.moduleId), [
   "probability", "math-trainer", "bookkeys",
   "metallurgy-mt201", "metallurgy-mt202", "metallurgy-mt203", "personal-projects",
 ], "the registry lists only modules actually integrated with LSR-1");
+
+// Bespoke projects must be registered in advance with immutable criteria/value,
+// then completed once into the same authoritative module reward ledger.
+const projectValues = new Map();
+let projectWrites = 0;
+const projectStorage = {
+  getItem(key) { return projectValues.get(key) ?? null; },
+  setItem(key, value) { projectWrites++; projectValues.set(key, String(value)); },
+};
+const projectInput = {
+  projectId: "probability-flashcards",
+  moduleId: "personal-projects",
+  title: "Create probability flashcards",
+  scope: "Create a bounded deck covering core distributions and conditional probability.",
+  criteria: "Provide 30 checked cards with correct answers and one worked explanation per topic.",
+  baseExp: 50,
+  difficulty: "advanced",
+};
+const registered = registerProject(projectStorage, projectInput, () => ts);
+assert.equal(registered.ok, true);
+assert.equal(registerProject(projectStorage, projectInput, () => ts).error, "project-id-already-registered");
+assert.equal(completeProject(projectStorage, projectInput.projectId, { confirmed: false, now: ts }).error,
+  "acceptance-criteria-not-confirmed");
+const completedProject = completeProject(projectStorage, projectInput.projectId, { confirmed: true, now: ts });
+assert.equal(completedProject.ok, true);
+assert.equal(completedProject.record.totalExp, 75);
+assert.equal(completeProject(projectStorage, projectInput.projectId, { confirmed: true, now: ts }).duplicate, true);
+assert.equal(projectWrites, 2, "registration and the single completion each write once; repeat completion does not write");
+const listedProject = listRegisteredProjects(projectStorage)[0];
+assert.equal(listedProject.completed, true);
+assert.equal(listedProject.award.totalExp, 75);
+assert.equal(readGlobalRewardSummary(projectStorage).totalExp, 75);
 
 console.log("LSR-1 reward standard tests passed.");
 console.log("- 21 activity-class × difficulty combinations verified.");
