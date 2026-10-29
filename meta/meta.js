@@ -1,5 +1,6 @@
-import { readGlobalRewardSummary, DIFFICULTY_MULTIPLIER } from "../shared/rewards.mjs";
+import { readGlobalRewardSummary } from "../shared/rewards.mjs";
 import { completeProject, listRegisteredProjects, registerProject } from "../shared/projects.mjs";
+import { equipReward, readEquippedRewards, unequipReward } from "../shared/profile.mjs";
 
 const byId = (id) => document.getElementById(id);
 const number = (n) => Math.max(0, Math.floor(Number(n) || 0)).toLocaleString();
@@ -31,6 +32,33 @@ function makeRow(title, detail, exp) {
   return row;
 }
 
+function renderEquippedProfile(level) {
+  const host = byId("equipped-profile");
+  host.replaceChildren();
+  const equipped = readEquippedRewards(window.localStorage, level);
+  const slots = [
+    ["title", "Title"],
+    ["emblem", "Emblem"],
+    ["effect", "Profile effect"],
+  ];
+  let active = 0;
+  for (const [slot, label] of slots) {
+    const reward = equipped[slot];
+    if (!reward) continue;
+    active++;
+    host.append(makeRow(label, reward.name, ""));
+  }
+  if (!active) {
+    const empty = document.createElement("p");
+    empty.className = "meta-muted";
+    empty.textContent = "Nothing equipped yet. Choose any unlocked title, emblem, or effect below.";
+    host.append(empty);
+  }
+  if (equipped.effect) document.body.setAttribute("data-lsr1-effect", equipped.effect.id);
+  else document.body.removeAttribute("data-lsr1-effect");
+  return equipped;
+}
+
 function renderUnlocks(summary) {
   const host = byId("unlocked-rewards");
   const nextCopy = byId("next-reward-copy");
@@ -40,6 +68,7 @@ function renderUnlocks(summary) {
     ? `Next unlock: ${next.name} (${next.slot}) at Level ${next.level}. ${next.level - summary.level.level} level milestone(s) to go.`
     : "The current universal reward catalogue is fully unlocked. New rewards can be added in a later policy catalogue version.";
 
+  const equipped = renderEquippedProfile(summary.level.level);
   if (!summary.unlockedRewards.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
@@ -59,6 +88,24 @@ function renderUnlocks(summary) {
     description.className = "meta-muted";
     description.textContent = reward.description;
     card.append(name, meta, description);
+    const equippedItem = equipped[reward.slot];
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "meta-button";
+    action.style.marginTop = ".7rem";
+    action.textContent = equippedItem?.id === reward.id ? "Unequip" : `Equip as ${reward.slot}`;
+    action.addEventListener("click", () => {
+      const result = equippedItem?.id === reward.id
+        ? unequipReward(window.localStorage, reward.slot)
+        : equipReward(window.localStorage, reward.id, summary.level.level);
+      if (!result.ok) {
+        action.textContent = "Could not save equipment";
+        action.disabled = true;
+        return;
+      }
+      render();
+    });
+    card.append(action);
     host.append(card);
   }
 }
