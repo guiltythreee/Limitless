@@ -30,6 +30,8 @@ function boot(initialGame, initialPage = { index: 0, text: '' }) {
   const window = {
     LimitlessRewards: {
       record(input) {
+        const duplicate = awards.find((award) => award.eventId === input.eventId);
+        if (duplicate) return { ok: true, duplicate: true, xp: duplicate.x };
         const receipt = { ok: true, xp: input.activityClass === 'milestone' ? 50 : 10 };
         awards.push({ ...input, id: input.eventId, m: input.module, e: input.evidence, x: receipt.xp });
         return receipt;
@@ -79,7 +81,8 @@ test('Bookkeys seeds legacy history and pays eligible new pages plus a once-only
   assert.equal(app.awards.length, 1);
   assert.equal(app.awards[0].eventId, 'bookkeys:page:' + key + ':0');
   assert.equal(app.awards[0].activityClass, 'standard-task');
-  assert.equal(app.awards[0].contentKey, app.awards[0].contentKey);
+  assert.match(app.awards[0].contentKey, /^bookkeys:passage:/);
+  assert.notEqual(app.awards[0].contentKey, 'bookkeys:page:' + key + ':0');
 
   app.setPage(longB, 1);
   app.setGame({ xp: 900, paid: paidFor([key, 0, 400], [key, 1, 400]), book: { [key]: bookRecord([0, 1]) } });
