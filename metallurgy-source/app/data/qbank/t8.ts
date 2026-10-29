@@ -23,10 +23,10 @@ const T8: TopicSource = {
       diff: 1,
       text: "LDPE is industrially produced by:",
       options: [
-        { label: "a", text: "High-pressure free-radical polymerization giving branched chains" },
-        { label: "b", text: "Melt polycondensation" },
-        { label: "c", text: "Ziegler–Natta low-pressure polymerization" },
-        { label: "d", text: "Anionic living polymerization" }
+        { label: "a", text: "High-pressure free-radical polymerization, which creates significant branching and produces low-density polyethylene." },
+        { label: "b", text: "Melt polycondensation of ethylene and diols, which removes water and leaves a branched polyethylene backbone." },
+        { label: "c", text: "Low-pressure Ziegler–Natta coordination, which usually yields much more linear HDPE rather than conventional LDPE." },
+        { label: "d", text: "Living anionic polymerization, which is the standard industrial route for high-volume, branched polyethylene film grades." }
       ],
       answer: "a",
       why: "LDPE is made by **high-pressure (150–300 MPa) free-radical** polymerization; the harsh conditions produce long-chain branching. HDPE uses low-pressure coordination catalysts and comes out linear.",
@@ -139,10 +139,10 @@ const T8: TopicSource = {
       diff: 3,
       text: "A transparent, impact-resistant window for a machine guard is required. Best choice:",
       options: [
-        { label: "a", text: "HDPE" },
-        { label: "b", text: "Untreated PMMA" },
-        { label: "c", text: "Polycarbonate (PC)" },
-        { label: "d", text: "GPPS" }
+        { label: "a", text: "High-density polyethylene (HDPE): usually opaque, relatively soft, and not suitable for a clear impact window." },
+        { label: "b", text: "Unmodified PMMA (acrylic): excellent clarity and weathering, but less impact-tough than polycarbonate in a guard." },
+        { label: "c", text: "Polycarbonate (PC): high optical clarity and much greater impact resistance for a protective machine window." },
+        { label: "d", text: "General-purpose polystyrene (GPPS): clear and stiff, but brittle under the impact expected of a safety guard." }
       ],
       answer: "c",
       why: "**Polycarbonate** combines high optical clarity with outstanding impact strength (its notched Izod is ~600–900 J/m) — the standard for machine guards, safety goggles and helmet visors. PMMA is clearer but far more brittle.",
