@@ -67,6 +67,17 @@ export type RewardUnlock = {
   description: string;
 };
 
+export type RewardAchievement = {
+  id: string;
+  module: string;
+  contentKey: string;
+  activityClass: string;
+  evidence: string;
+  xp: number;
+  timestamp: number;
+  reason: string;
+};
+
 export type RewardSummary = {
   standard: string;
   xp: number;
@@ -77,16 +88,22 @@ export type RewardSummary = {
   progress: number;
   awardCount: number;
   countsByModule?: Record<string, number>;
+  xpByModule?: Record<string, number>;
+  disciplineAchievements?: RewardAchievement[];
   recentAwards?: RewardAwardLine[];
   unlockedRewards?: RewardUnlock[];
   nextReward?: RewardUnlock | null;
+  equippedTitle?: RewardUnlock | null;
+  equippedEmblem?: RewardUnlock | null;
   available?: boolean;
 };
 
 export type GlobalRewardApi = {
   STORAGE_KEY: string;
+  REWARD_UNLOCKS: RewardUnlock[];
   record: (input: GlobalRewardInput) => GlobalRewardReceipt;
   recordMany: (inputs: GlobalRewardInput[]) => GlobalRewardReceipt[];
+  equipReward: (rewardId: string, kind: "title" | "emblem") => { ok: boolean; error?: string; summary?: RewardSummary };
   summary: () => RewardSummary;
 };
 
