@@ -54,10 +54,10 @@ const T9: TopicSource = {
       diff: 3,
       text: "Which situation is most likely to give a *miscible* polymer blend?",
       options: [
-        { label: "a", text: "Two highly cross-linked networks" },
-        { label: "b", text: "Two polymers of very different solubility parameters" },
-        { label: "c", text: "A non-polar polyolefin blended with a polar polyamide" },
-        { label: "d", text: "A H-bond-donating polymer blended with an H-bond-accepting polymer (e.g. PS with PPO, or a polymer with itself)" }
+        { label: "a", text: "Two highly cross-linked networks, which cannot interdiffuse enough to form one homogeneous equilibrium phase." },
+        { label: "b", text: "Two polymers with widely different solubility parameters and no specific attractive interactions between their chains." },
+        { label: "c", text: "A non-polar polyolefin blended with a strongly polar polymer, without a compatibilizer or favourable interaction." },
+        { label: "d", text: "A hydrogen-bond donor polymer mixed with a complementary hydrogen-bond acceptor, giving favourable specific interactions." }
       ],
       answer: "d",
       why: "**Specific interactions** (H-bonding, donor–acceptor, dipole) make ΔH negative or ~0, letting the small entropy term win. PS/PPO and PVC/PCL are classic miscible pairs; two networks cannot mix at all.",
@@ -124,10 +124,10 @@ const T9: TopicSource = {
       diff: 2,
       text: "In HIPS (high-impact polystyrene), the polybutadiene rubber particles improve toughness mainly by:",
       options: [
-        { label: "a", text: "initiating crazing and shear yielding that absorb impact energy" },
-        { label: "b", text: "increasing the crystallinity of PS" },
-        { label: "c", text: "dissolving in the PS matrix" },
-        { label: "d", text: "raising the Tg of PS" }
+        { label: "a", text: "Rubber particles initiate crazes and promote shear yielding, allowing the polystyrene matrix to absorb impact energy." },
+        { label: "b", text: "Rubber particles increase the PS matrix crystallinity so crystals deflect cracks and raise the melting point." },
+        { label: "c", text: "The rubber particles dissolve completely into a molecular solution, eliminating the dispersed phase before impact." },
+        { label: "d", text: "Rubber particles raise the glass-transition temperature of the PS matrix, making it stiffer and more impact resistant." }
       ],
       answer: "a",
       why: "Rubber particles act as **stress concentrators**: they initiate many small crazes and shear bands throughout the matrix, absorbing far more energy than a single catastrophic crack.",
