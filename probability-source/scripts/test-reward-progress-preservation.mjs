@@ -37,6 +37,7 @@ function boot(seed) {
   const require = (name) => {
     if (name === "react") return { useSyncExternalStore: (_subscribe, getSnapshot) => getSnapshot() };
     if (name === "./questions") return fakeQuestions;
+    if (name === "../content") return { lessons: [] };
     throw new Error("Unexpected import: " + name);
   };
   vm.runInNewContext(compiled, {
