@@ -86,6 +86,7 @@
   var KEY_META = KEYS.meta;
   var KEY_PROFILE = KEYS.profile;
   var MAX_ATTEMPTS = S.LIMITS.MAX_ATTEMPTS, MAX_RUNS = S.LIMITS.MAX_RUNS, SKILL_WINDOW = S.LIMITS.SKILL_WINDOW;
+  var KEY_GLOBAL_SEEN = 'limitless.reward.math-seen.v1';
 
   /* ---------- saving (never lets a storage problem break the page) ---------- */
   function load(key, fallback) { return S.load(key, fallback); }
@@ -137,6 +138,17 @@
 
   var meta = MathXP.getMeta();
 
+  // Seed existing local sessions as historical baseline on first install. This
+  // prevents importing/keeping old runs from generating retroactive global EXP.
+  function seedGlobalRunBaseline() {
+    var saved = load(KEY_GLOBAL_SEEN, null);
+    var ids = Array.isArray(saved) ? saved : load(KEY_RUNS, []).map(function (run) { return String(run.id || run.ts); });
+    var out = {};
+    ids.forEach(function (id) { out[String(id)] = true; });
+    if (!Array.isArray(saved)) save(KEY_GLOBAL_SEEN, ids.slice(-MAX_RUNS));
+    return out;
+  }
+  var globalSeenMathRuns = seedGlobalRunBaseline();
 
   function renderProfile() {
     var box = $('profile-strip'); U.clear(box);
@@ -640,70 +652,87 @@
     };
   }
 
+  function globalInputsForMathRun(run) {
+    var attempted = Math.max(0, Number(run.attempted) || 0);
+    if (attempted < 3) return [];
+    var tierId = run.tier || run.topTier;
+    var tier = E.TIER_BY_ID[tierId];
+    var tierIndex = tier ? tier.index : 0;
+    var difficulty = tierIndex >= 4 ? 'advanced' : (tierIndex >= 2 ? 'intermediate' : 'foundational');
+    var runId = String(run.id || run.ts);
+    var sessionClass = attempted >= 10 ? 'focused-practice' : 'standard-task';
+    var inputs = [{
+      module: 'math-trainer',
+      eventId: 'math-run:' + runId,
+      contentKey: 'math:session:' + String(run.mode || 'unknown') + ':' + String(tierId || 'unknown'),
+      activityClass: sessionClass,
+      evidence: 'completed-session',
+      difficulty: difficulty,
+      quality: Math.max(0, Math.min(1, Number(run.accuracy) || 0)),
+      reason: 'Completed a Math Trainer session with ' + attempted + ' answered questions'
+    }];
+    // A cleared tier is an assessment event in its own right. Its one-time pass
+    // bonus is distinct from the session reward and keyed by the tier, not mode.
+    if (run.cleared) {
+      inputs.push({
+        module: 'math-trainer',
+        eventId: 'math-tier-assessment:' + runId,
+        contentKey: 'math:tier-pass:' + String(tierId || 'unknown'),
+        activityClass: 'assessment',
+        evidence: 'scored-assessment',
+        difficulty: difficulty,
+        quality: Math.max(0, Math.min(1, Number(run.accuracy) || 0)),
+        passed: true,
+        passKey: 'math:tier-clear:' + String(tierId || 'unknown'),
+        reason: 'Cleared the ' + String(tierId || 'selected') + ' tier under its accuracy and pace requirements'
+      });
+    }
+    return inputs;
+  }
+
+  function processPendingGlobalMathRewards(targetRunId) {
+    var runs = load(KEY_RUNS, []);
+    var newXp = 0;
+    if (!window.LimitlessRewards) return { xp: 0, summary: null };
+    runs.forEach(function (run) {
+      var runId = String(run.id || run.ts);
+      if (globalSeenMathRuns[runId]) return;
+      var inputs = globalInputsForMathRun(run);
+      if (!inputs.length) {
+        globalSeenMathRuns[runId] = true;
+        return;
+      }
+      var receipts = typeof window.LimitlessRewards.recordMany === 'function'
+        ? window.LimitlessRewards.recordMany(inputs)
+        : inputs.map(function (input) { return window.LimitlessRewards.record(input); });
+      if (!receipts.length || receipts.some(function (receipt) { return !receipt || !receipt.ok; })) return;
+      globalSeenMathRuns[runId] = true;
+      if (runId === String(targetRunId)) {
+        newXp += receipts.reduce(function (sum, receipt) { return sum + (!receipt.duplicate ? receipt.xp : 0); }, 0);
+      }
+    });
+    save(KEY_GLOBAL_SEEN, Object.keys(globalSeenMathRuns).slice(-MAX_RUNS));
+    return { xp: newXp, summary: window.LimitlessRewards.summary() };
+  }
+
   function persist(r, s) {
-    /* XP first, so the saved run knows what it earned */
+    // Keep the trainer's established XP/ranks separate from global EXP.
     var info = MathXP.xpBreakdown(r, s, MathXP.rankFor(meta.xp).idx, DIFFS[r.diff].xp);
     if (info.firstClear) meta.tierBonus[info.tierId] = true;
     var award = MathXP.awardXp(info.total);
     s.xp = award.gained; s.rankUp = award.rankUp; s.xpInfo = info;
 
-    // Each answered equation is micro-practice; finishing a substantive run adds
-    // a separate task reward. MathXP's local ranks and existing trainer rewards stay intact.
-    s.globalXp = 0;
-    s.globalLevel = 1;
-    s.globalTotalXp = 0;
-    if (window.LimitlessRewards) {
-      var rewardTierIndex = r.tier ? E.TIER_BY_ID[r.tier].index : r.topTierIndex;
-      var rewardTierId = r.tier || E.TIERS[r.topTierIndex].id;
-      var rewardDifficulty = rewardTierIndex >= 4 ? 'advanced' : (rewardTierIndex >= 2 ? 'intermediate' : 'foundational');
-      var runId = r.id || String(r.ts);
-      var globalInputs = [];
-      (r.attempts || []).forEach(function (attempt) {
-        if (attempt.result !== 'correct' && attempt.result !== 'wrong') return;
-        var questionText = String(attempt.text || attempt.gen || attempt.i);
-        globalInputs.push({
-          module: 'math-trainer',
-          eventId: 'math-answer:' + runId + ':' + attempt.i,
-          contentKey: 'math:question:' + questionText,
-          activityClass: 'micro-practice',
-          difficulty: rewardDifficulty,
-          quality: attempt.result === 'correct' ? 1 : 0
-        });
-      });
-      if (s.attempted >= 3) {
-        globalInputs.push({
-          module: 'math-trainer',
-          eventId: 'math-run:' + runId,
-          contentKey: 'math:tier:' + rewardTierId,
-          activityClass: s.attempted >= 10 ? 'focused-practice' : 'standard-task',
-          difficulty: rewardDifficulty,
-          quality: s.accuracy,
-          passed: !!s.cleared,
-          passKey: s.cleared ? 'math:tier-clear:' + rewardTierId : ''
-        });
-      }
-      var globalReceipts = typeof window.LimitlessRewards.recordMany === 'function'
-        ? window.LimitlessRewards.recordMany(globalInputs)
-        : globalInputs.map(function (input) { return window.LimitlessRewards.record(input); });
-      s.globalXp = globalReceipts.reduce(function (total, receipt) {
-        return total + (receipt && receipt.ok && !receipt.duplicate ? receipt.xp : 0);
-      }, 0);
-      var globalSummary = window.LimitlessRewards.summary();
-      s.globalLevel = globalSummary.level;
-      s.globalTotalXp = globalSummary.xp;
-    }
-
     var runs = load(KEY_RUNS, []);
-    runs.push({
+    var savedRun = {
       id: r.id, ts: r.ts, mode: r.mode, tier: r.tier, penalty: r.penalty, diff: r.diff,
       topTier: E.TIERS[r.topTierIndex].id,
       correct: r.correct, wrong: r.wrong, skipped: r.skipped, timeouts: r.timeouts, attempted: s.attempted,
       accuracy: s.accuracy, medianTime: s.medianTime, medianRatio: s.medianRatio,
       points: r.points, speed: s.speed, bestStreak: r.bestStreak, duration: s.duration,
-      qualifying: s.qualifying, cleared: s.cleared, xp: s.xp,
-      globalXp: s.globalXp || 0, globalLevel: s.globalLevel || 1, globalTotalXp: s.globalTotalXp || 0
-    });
-    save(KEY_RUNS, runs.slice(-MAX_RUNS));
+      qualifying: s.qualifying, cleared: s.cleared, xp: s.xp
+    };
+    runs.push(savedRun);
+    var savedRunOk = save(KEY_RUNS, runs.slice(-MAX_RUNS));
 
     var atts = load(KEY_ATT, []);
     r.attempts.forEach(function (a) {
@@ -711,6 +740,20 @@
         x: a.given, r: a.result, time: a.time, target: a.target, effectiveTarget: effTarget(r, a), d: a.diff, ts: r.ts });
     });
     save(KEY_ATT, atts.slice(-MAX_ATTEMPTS));
+
+    // The canonical session is written before the separate ledger. If the
+    // reward write fails, focus/reload retries the same deterministic event ID.
+    s.globalXp = 0;
+    s.globalLevel = window.LimitlessRewards ? window.LimitlessRewards.summary().level : 1;
+    s.globalTotalXp = window.LimitlessRewards ? window.LimitlessRewards.summary().xp : 0;
+    if (savedRunOk && window.LimitlessRewards) {
+      var result = processPendingGlobalMathRewards(r.id);
+      s.globalXp = result.xp;
+      if (result.summary) {
+        s.globalLevel = result.summary.level;
+        s.globalTotalXp = result.summary.xp;
+      }
+    }
   }
 
   /* ==================================================================
