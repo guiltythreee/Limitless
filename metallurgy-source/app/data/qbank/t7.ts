@@ -58,10 +58,10 @@ const T7: TopicSource = {
       diff: 2,
       text: "In the α-helix, the structure is stabilized by:",
       options: [
-        { label: "a", text: "Covalent cross-links along the helix" },
-        { label: "b", text: "Hydrogen bonds between the C=O of one residue and the N–H of a residue about four positions ahead" },
-        { label: "c", text: "Disulfide bonds only" },
-        { label: "d", text: "Van der Waals forces only" }
+        { label: "a", text: "Covalent cross-links between side chains at each turn, which make the helical backbone rigid under load." },
+        { label: "b", text: "Intrachain hydrogen bonds join a residue's C=O group to the N–H group four residues ahead along the chain." },
+        { label: "c", text: "Disulfide bridges between cysteine side chains connect the helix into a fixed covalent structure." },
+        { label: "d", text: "Van der Waals attractions alone stabilize it, without directional hydrogen bonds between backbone groups." }
       ],
       answer: "b",
       why: "The helix repeats every **3.6 residues**, held by intra-chain H-bonds from the backbone $\\text{C}{=}\\text{O}$ to the $\\text{N–H}$ four residues along — H-bonds, not covalent links.",
@@ -121,10 +121,10 @@ const T7: TopicSource = {
       diff: 3,
       text: "Explain chemically what happens during a 'permanent wave'.",
       options: [
-        { label: "a", text: "Heat alone melts the hair." },
-        { label: "b", text: "Peptide bonds are broken and rebuilt." },
-        { label: "c", text: "A reducing agent cleaves disulfide bonds to thiols, the fibre is set in a new shape and an oxidizing agent reforms new disulfide cross-links." },
-        { label: "d", text: "Water adds across the disulfide bond." }
+        { label: "a", text: "Heat alone melts the keratin fibre and reforms disulfide bridges without a reducing or oxidizing step." },
+        { label: "b", text: "Peptide bonds in the protein backbone are broken and rebuilt, changing primary structure during the perming process." },
+        { label: "c", text: "Reduction cleaves disulfide bonds to thiols; after reshaping, oxidation forms new disulfide cross-links." },
+        { label: "d", text: "Water adds across disulfide bonds, while evaporation removes oxygen and locks in the new coil geometry." }
       ],
       answer: "c",
       why: "Reduce (–S–S– → 2 –SH) → shape → oxidize (2 –SH → new –S–S–). Because the **primary structure (peptide bonds) is untouched**, the change is permanent but reversible by the same chemistry.",
@@ -168,10 +168,10 @@ const T7: TopicSource = {
       diff: 3,
       text: "Gelatin is produced from collagen by:",
       options: [
-        { label: "a", text: "Oxidation of disulfide bonds" },
-        { label: "b", text: "Addition polymerization" },
-        { label: "c", text: "Complete hydrolysis to free amino acids" },
-        { label: "d", text: "Partial hydrolysis/denaturation that unwinds the triple helix into soluble chains, which re-form a thermoreversible gel on cooling" }
+        { label: "a", text: "Heat alone melts the hair fibre and permanently reforms disulfide bridges without a chemical redox step." },
+        { label: "b", text: "Peptide bonds in the protein backbone are severed and rebuilt during perming, changing its primary structure." },
+        { label: "c", text: "Disulfide bonds are oxidized first; a reducing agent then locks the reshaped fibre into its new conformation." },
+        { label: "d", text: "Reduction cleaves disulfides to thiols; after the fibre is reshaped, oxidation forms new disulfide cross-links." }
       ],
       answer: "d",
       why: "**Partial** breakdown of collagen gives soluble gelatin chains. On cooling they associate into junction zones → a **thermoreversible physical gel** (melts on re-heating) — the basis of jellies and photographic coatings.",
