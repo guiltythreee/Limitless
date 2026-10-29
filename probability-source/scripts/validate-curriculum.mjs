@@ -54,7 +54,7 @@ for (let i = 0; i < routeBlocks.length; i++) {
 
 const authored = read("app/content/pathway-lessons.ts") + "\n" + read("app/content/pathway-lessons-advanced.ts");
 const starts = [...authored.matchAll(/\n  \{\n    id: "([^"]+)", rank: \d+/g)];
-if (starts.length !== 28) throw new Error("Expected 28 authored expansion lessons; found " + starts.length);
+if (starts.length !== 30) throw new Error("Expected 30 authored expansion lessons; found " + starts.length);
 let questionTotal = 0;
 
 for (let i = 0; i < starts.length; i++) {
