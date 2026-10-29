@@ -60,7 +60,7 @@ test('Math Trainer global repeat identity distinguishes difficulty settings', ()
 test('short or empty Math Trainer runs do not earn a global session award', () => {
   for (const attempted of [0, 1, 2]) {
     const inputs = globalInputsForMathRun({ id: 'short-' + attempted, attempted, mode: 'practice', tier: 'adept', diff: 'normal' });
-    assert.deepEqual(inputs, []);
+    assert.equal(inputs.length, 0);
   }
 });
 
@@ -70,7 +70,7 @@ test('a cleared tier produces an assessment and one-time mastery event using sta
     diff: 'hard', attempted: 12, accuracy: 0.95, cleared: true,
   });
   assert.equal(inputs.length, 3);
-  assert.deepEqual(inputs.map((input) => input.evidence), ['completed-session', 'scored-assessment', 'unit-mastery']);
+  assert.deepEqual(Array.from(inputs, (input) => input.evidence), ['completed-session', 'scored-assessment', 'unit-mastery']);
   assert.equal(inputs[1].passed, true);
   assert.equal(inputs[1].passKey, 'math:tier-clear:adept');
   assert.equal(inputs[2].oneTimeKey, 'math:tier-mastery:adept');
