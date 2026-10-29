@@ -77,10 +77,20 @@ function checkLedgerOnly(actual, expected, label) {
   assert.equal(exam.rewardLedger[1].activityClass, "assessment");
   assert.equal(JSON.parse(store.getItem("mm-mt201-v1")).examBest.score, 4);
 
+  const passedExam = MT201.recordExamAssessment(exam, {
+    runId: "mt201-exam-passed", ts: 1700000005000, total: 10, answered: 10, correct: 8,
+  });
+  checkLedgerOnly(passedExam.rewardLedger, 4, "first passed MT201 assessment adds one separate +15 EXP record");
+  assert.ok(passedExam.rewardLedger.some((record) =>
+    record.eventId === "lsr1:pass-bonus:metallurgy-mt201:metallurgy-mt201:assessment:first-pass" &&
+    record.totalExp === 15
+  ));
+  assert.equal(passedExam.rewardLedger.filter((record) => record.eventId.includes("pass-bonus")).length, 1);
+
   MT201.resetProgress();
   const reset = MT201.loadProgress();
   assert.deepEqual(reset.answered, {});
-  checkLedgerOnly(reset.rewardLedger, 2, "MT201 reset preserves lifetime Meta EXP");
+  checkLedgerOnly(reset.rewardLedger, 4, "MT201 reset preserves lifetime Meta EXP");
 }
 {
   const before = store.getItem("mm-mt202-v1");
