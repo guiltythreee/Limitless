@@ -277,6 +277,9 @@
         return {
           standard: VERSION,
           xp: ledger.totalXp,
+          registeredProjects: ledger.projects.map(function (project) {
+            return { id: project.id, module: project.m, baseExp: project.baseExp, title: project.title, scope: project.scope, criteria: project.criteria, registeredAt: project.registeredAt, version: project.v };
+          }),
           level: level.level,
           xpIntoLevel: level.xpIntoLevel,
           xpForNextLevel: level.xpForNextLevel,
@@ -311,7 +314,7 @@
         return {
           standard: VERSION, xp: 0, level: 1, xpIntoLevel: 0,
           xpForNextLevel: 100, nextLevelAt: 100, progress: 0,
-          awardCount: 0, countsByModule: {}, xpByModule: {}, disciplineAchievements: [], equippedTitle: null, equippedEmblem: null, equippedProfileEffect: null, recentAwards: [], unlockedRewards: [], nextReward: nextUnlockForLevel(1), available: false
+          awardCount: 0, countsByModule: {}, xpByModule: {}, disciplineAchievements: [], registeredProjects: [], equippedTitle: null, equippedEmblem: null, equippedProfileEffect: null, recentAwards: [], unlockedRewards: [], nextReward: nextUnlockForLevel(1), available: false
         };
       }
     }
