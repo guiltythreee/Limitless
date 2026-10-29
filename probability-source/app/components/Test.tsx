@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { lessons, pathways, ranks, pad2, type Difficulty } from "../content";
 import { Rich } from "../lib/rich";
 import { allQuestions, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
-import { recordAttempt, recordTest, useStore, type TestRecord } from "../lib/store";
+import { recordTestWithAttempts, useStore, type TestRecord } from "../lib/store";
 import { fmtTime } from "../lib/stats";
 import { Options } from "./Practice";
 
@@ -138,18 +138,22 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
     bank();
     let correct = 0, score = 0, answered = 0;
     const results: TestRecord["results"] = [];
+    const submitted: { q: string; picked: number[]; ms: number }[] = [];
     for (const x of pool) {
       const p = picks[x.key];
       const ms = times.current[x.key] ?? 0;
       if (p && p.length) {
-        recordAttempt(x.key, p, ms, false);
         const g = grade(x.item, p);
+        submitted.push({ q: x.key, picked: p, ms });
         answered++; score += g.score; if (g.status === "correct") correct++;
         results.push({ q: x.key, status: g.status, ms });
       } else results.push({ q: x.key, status: "unattempted", ms });
     }
     const rec: TestRecord = { id: `t${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, ts: Date.now(), label, total: pool.length, answered, correct, score, ms: Date.now() - startedAt.current, results };
-    recordTest(rec);
+    // The saved answer attempts, assessment record and LSR-1 rewards share one
+    // progress-root write. Test answers count toward analysis, not a second
+    // independent-practice reward.
+    recordTestWithAttempts(rec, submitted);
     setDone(rec);
   }
 
