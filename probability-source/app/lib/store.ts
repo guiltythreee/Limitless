@@ -446,7 +446,10 @@ export function setGoal(n: number) {
   commit({ ...state, goal, goalByDay: { ...state.goalByDay, [dayKey(Date.now())]: goal } });
 }
 export function resetAll() {
-  commit({ ...EMPTY, drafts: {}, goalByDay: {} });
+  // The reset clears Probability-owned fields but keeps unknown extension
+  // fields that may belong to another module or a newer compatible schema.
+  const extensions = unknownRootFields(state);
+  commit({ ...extensions, ...EMPTY, drafts: {}, goalByDay: {} });
 }
 
 // ---------- derived data ----------
