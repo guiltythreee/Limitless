@@ -179,7 +179,8 @@ export function recordAnswer(
   picked: string,
   correct: boolean,
   mode: Mode = "practice",
-  ms = 0
+  ms = 0,
+  difficulty = 1,
 ): Progress {
   const now = Date.now();
   const day = dayKey(now);
@@ -189,7 +190,7 @@ export function recordAnswer(
     days: { ...p.days, [day]: (p.days[day] ?? 0) + 1 },
   };
   if (mode !== "exam") {
-    const input = questionActivity("metallurgy-mt203", qid, now, correct, p.attempts.length);
+    const input = questionActivity("metallurgy-mt203", qid, now, correct, p.attempts.length, difficulty);
     next = appendLsrActivity(next, input).progress;
     saveProgress(next, true);
   } else {
