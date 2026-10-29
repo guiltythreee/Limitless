@@ -96,12 +96,6 @@ export const REWARD_SOURCE_REGISTRY = Object.freeze([
     storageKey: "mm-mt203-v1",
     shape: "rewardLedger",
   },
-  {
-    moduleId: "personal-projects",
-    label: "Personal projects",
-    storageKey: "limitless-personal-projects-lsr1-v1",
-    shape: "rewardLedger",
-  },
 ]);
 
 const ACTIVITY_CLASSES = new Set([...Object.keys(ACTIVITY_BASE_EXP), "bespoke-project"]);
