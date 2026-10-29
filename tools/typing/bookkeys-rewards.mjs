@@ -20,7 +20,7 @@ const isFiniteNumber = (value) => typeof value === "number" && Number.isFinite(v
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 const ACTIVITY_RULES = Object.freeze({
-  "finished-book-page": { activityClass: "micro-practice", difficulty: "foundational", prefix: "bookkeys:page:" },
+  "finished-book-page": { activityClass: "standard-task", difficulty: "foundational", prefix: "bookkeys:page:" },
   "completed-book-chapter": { activityClass: "unit-milestone", difficulty: "intermediate", prefix: "bookkeys:chapter:" },
   "completed-required-book-sections": { activityClass: "major-completion", difficulty: "advanced", prefix: "bookkeys:book:" },
 });
