@@ -252,11 +252,12 @@
         ledger.awards.forEach(function (award) {
           var moduleId = award.m || 'unknown';
           xpByModule[moduleId] = (xpByModule[moduleId] || 0) + award.x;
-          if (award.x > 0 && typeof BASE_EXP[award.a] === 'number') counts[moduleId] = (counts[moduleId] || 0) + 1;
-          if (award.x > 0 && (award.a === 'milestone' || award.a === 'course-completion')) {
+          if (award.x > 0 && isCountableActivityAward(award)) counts[moduleId] = (counts[moduleId] || 0) + 1;
+          if (award.x > 0 && (award.a === 'milestone' || award.a === 'course-completion' || award.a === 'bespoke-project')) {
             achievements.push({
               id: award.o || award.id,
               module: moduleId,
+              projectId: award.projectId || undefined,
               contentKey: award.c,
               activityClass: award.a,
               evidence: award.e || 'legacy-record',
@@ -295,6 +296,8 @@
           recentAwards: ledger.awards.slice(-8).reverse().map(function (award) {
             return {
               id: award.id, module: award.m, contentKey: award.c,
+              projectId: award.projectId || undefined,
+              projectTitle: award.projectTitle || undefined,
               activityClass: award.a, evidence: award.e,
               difficulty: award.difficulty || 'foundational',
               baseExp: finiteNumber(award.baseExp, 0),
@@ -373,7 +376,7 @@
       var passKey = cleanString(args.passKey || '');
       if (!eventId || !moduleId || !contentKey) return { ok: false, xp: 0, error: 'missing-event-module-or-content-key' };
       if (eventId.length > 256 || moduleId.length > 64 || contentKey.length > 256) return { ok: false, xp: 0, error: 'identifier-too-long' };
-      if (typeof BASE_EXP[activityClass] !== 'number') return { ok: false, xp: 0, error: 'unknown-activity-class' };
+      if (!isKnownActivityClass(activityClass)) return { ok: false, xp: 0, error: 'unknown-activity-class' };
       if (typeof DIFFICULTY[difficulty] !== 'number') return { ok: false, xp: 0, error: 'unknown-difficulty' };
       if (!EVIDENCE_TYPES[evidence]) return { ok: false, xp: 0, error: 'missing-or-unknown-completion-evidence' };
       if (!evidenceFitsActivity(activityClass, evidence)) return { ok: false, xp: 0, error: 'completion-evidence-does-not-fit-activity' };
@@ -382,6 +385,22 @@
 
       try {
         var ledger = read();
+        var registeredProject = null;
+        if (activityClass === 'bespoke-project') {
+          var projectId = cleanString(args.projectId);
+          registeredProject = ledger.projects.find(function (project) {
+            return project.m === moduleId && project.id === projectId;
+          });
+          if (!registeredProject) return { ok: false, xp: 0, error: 'unregistered-project' };
+          var canonicalProjectKey = moduleId + ':' + registeredProject.id;
+          if (eventId !== 'project-completion:' + canonicalProjectKey ||
+              contentKey !== 'project:' + canonicalProjectKey ||
+              oneTimeKey !== 'project-completion:' + canonicalProjectKey) {
+            return { ok: false, xp: 0, error: 'invalid-project-event-key' };
+          }
+          args.projectBaseExp = registeredProject.baseExp;
+          args.reason = 'Completed registered project: ' + registeredProject.title + ' · ' + registeredProject.criteria;
+        }
         var existing = ledger.awards.find(function (award) { return award.id === eventId; });
         if (existing) {
           var existingSummary = summary();
