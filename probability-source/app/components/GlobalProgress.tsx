@@ -73,6 +73,31 @@ export default function GlobalProgress() {
           Unlocked · {summary.unlockedRewards?.map((reward) => reward.name).join(" · ")}
         </p>
       )}
+      {(summary.recentAwards?.length ?? 0) > 0 && (
+        <div className="mt-5 border-t border-gold/15 pt-4">
+          <div className="eyebrow mb-2">Recent global EXP awards</div>
+          <div className="space-y-3">
+            {summary.recentAwards?.slice(0, 5).map((award) => (
+              <div key={award.id} className="border-b border-gold/10 pb-3">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <span className="text-xs font-semibold capitalize text-body">
+                    {award.module.replace(/-/g, " ")} · {award.activityClass.replace(/-/g, " ")}
+                  </span>
+                  <span className="text-xs font-bold text-gold">+{award.xp} EXP</span>
+                </div>
+                <p className="mt-1 text-[10px] leading-4 text-dim">
+                  Evidence: {award.evidence || "recorded activity"} · {award.difficulty}
+                  {award.difficultyMultiplier !== 1 ? ` ×${award.difficultyMultiplier}` : ""}
+                  {award.quality !== null ? ` · ${Math.round(award.quality * 100)}% quality` : ""}
+                  {award.repeatMultiplier < 1 ? ` · repeat ×${award.repeatMultiplier}` : ""}
+                </p>
+                {award.reason && <p className="mt-1 text-[10px] leading-4 text-faint">{award.reason}</p>}
+                <p className="mt-1 text-[9px] text-faint">{award.version} · {new Date(award.timestamp).toLocaleString()}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
