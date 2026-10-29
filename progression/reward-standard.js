@@ -35,8 +35,7 @@
     'topic-mastery': true,
     'unit-mastery': true,
     'milestone-complete': true,
-    'pathway-complete': true,
-    'first-pass': true
+    'pathway-complete': true
   };
   // Level 5 unlocks are modest; each multiple of 10 is a larger universal reward.
   var REWARD_UNLOCKS = [
@@ -108,7 +107,10 @@
         normalized.e = cleanString(award.e || '') || 'legacy-record';
         normalized.v = cleanString(award.v || '') || VERSION;
         normalized.t = Math.max(0, Math.floor(finiteNumber(award.t, 0)));
-        normalized.reason = cleanString(award.reason || '') || (normalized.e === 'legacy-record' ? 'Legacy award retained from an earlier LSR-1 build' : '');
+        normalized.x = Math.max(0, Math.round(award.x));
+        normalized.reason = cleanString(award.reason || '') || (normalized.e === 'legacy-record'
+          ? 'Legacy award retained from an earlier LSR-1 build; the original completion-evidence breakdown is unavailable'
+          : '');
         return normalized;
       });
     }
