@@ -12,6 +12,7 @@ LSR-1 is the shared global progression contract. Module-specific skill/rank XP r
 | Assessment | 25 | A scored assessment is finished with a meaningful sample |
 | Milestone | 50 | A one-time, objectively verified module milestone |
 | Course completion | 100 | A verified course/pathway completion |
+| Bespoke project | 20–100 | An immutable project definition registered before work starts; one canonical completion event |
 
 ## Difficulty and quality
 
@@ -32,6 +33,7 @@ A qualifying first pass is a separate, idempotent 15 EXP award record. Each acti
 - The first 3 eligible completions of the same content key per local calendar day receive full activity EXP; the next 3 receive half (rounded with the final result); further repeats receive no activity EXP.
 - Event IDs are idempotent. Replaying the same event ID never increases global EXP again.
 - Milestone/course-completion events need a stable one-time key and cannot pay twice.
+- Bespoke projects must be registered under an approved module namespace before completion. Their integer base reward is fixed from 20 to 100 EXP, and title, scope, and acceptance criteria are immutable after registration. Completion uses a canonical event ID, so changing the ID cannot rerun the payout.
 - Opening a lesson, typing sample text, clicking a manual “complete” button, speed by itself, or idle time does not qualify.
 - The ledger is local-first in `localStorage` under `limitless.reward-ledger.v1`. The lifetime total is recomputed from award history, not trusted from a parallel counter. If storage is unavailable, the reward call fails closed rather than claiming an award was saved.
 - Each award stores the LSR version, completion evidence, activity class, content key, difficulty, quality and repeat multipliers, credited EXP, and a human-readable reason. The global dashboard exposes recent award breakdowns.
@@ -59,6 +61,12 @@ Unlocks are derived directly from the account-wide level, regardless of which di
 | 30 | Limitless Aura | Profile effect |
 
 The dashboard shows unlocked rewards and the next milestone. Unlocked titles, emblems and profile effects can be equipped independently, and level-up notifications acknowledge every level crossing. The catalogue provides modest unlocks every 5 levels and profile effects at multiples of 10.
+
+## Bespoke project workflow
+
+The Limitless home dashboard has a self-service project form. Register the module, stable project ID, title, scope, acceptance criteria, and the 20–100 EXP base value before starting. Project definitions are stored in the shared ledger and cannot be edited later. When the project is finished, the user confirms the written criteria and the ledger grants one reward from the registered value with the selected difficulty multiplier. The same project completion cannot be claimed twice.
+
+Allowed project namespaces are `personal-projects`, `probability`, `math-trainer`, `bookkeys`, and `metallurgy`. Work not yet represented by a module can use `personal-projects` and explain its discipline in the scope.
 
 ## Initial adapters
 
