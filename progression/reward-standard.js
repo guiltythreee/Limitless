@@ -460,6 +460,13 @@
       if (kind !== 'title' && kind !== 'emblem') return { ok: false, error: 'unknown-reward-kind' };
       try {
         var ledger = read();
+        if (!id) {
+          if (kind === 'title') ledger.equippedTitleId = '';
+          else ledger.equippedEmblemId = '';
+          storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
+          signal({ type: 'equipment-changed', rewardId: '', kind: kind });
+          return { ok: true, summary: summary() };
+        }
         var level = levelForXp(ledger.totalXp).level;
         var reward = REWARD_UNLOCKS.find(function (item) {
           return item.id === id && item.kind === kind && item.level <= level;
