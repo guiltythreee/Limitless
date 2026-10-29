@@ -18,6 +18,16 @@ export default function GlobalProgress() {
   const [summary, setSummary] = useState<RewardSummary>(EMPTY);
   const [available, setAvailable] = useState(true);
 
+  function equip(kind: "title" | "emblem", id: string) {
+    const api = window.LimitlessRewards;
+    if (!api) return;
+    const result = api.equipReward(id, kind);
+    if (result.ok && result.summary) {
+      setSummary(result.summary);
+      setAvailable(result.summary.available !== false);
+    }
+  }
+
   useEffect(() => {
     const refresh = () => {
       const rewards = window.LimitlessRewards;
@@ -73,6 +83,55 @@ export default function GlobalProgress() {
           Unlocked · {summary.unlockedRewards?.map((reward) => reward.name).join(" · ")}
         </p>
       )}
+
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <label className="block text-xs text-dim">
+          <span className="mb-1 block uppercase tracking-[.12em]">Equipped title</span>
+          <select className="w-full border border-gold/25 bg-ink px-3 py-2 text-xs text-body" value={summary.equippedTitle?.id ?? ""} onChange={(event) => equip("title", event.target.value)}>
+            <option value="">None equipped</option>
+            {(summary.unlockedRewards ?? []).filter((reward) => reward.kind === "title").map((reward) => <option key={reward.id} value={reward.id}>{reward.name}</option>)}
+          </select>
+        </label>
+        <label className="block text-xs text-dim">
+          <span className="mb-1 block uppercase tracking-[.12em]">Equipped emblem</span>
+          <select className="w-full border border-gold/25 bg-ink px-3 py-2 text-xs text-body" value={summary.equippedEmblem?.id ?? ""} onChange={(event) => equip("emblem", event.target.value)}>
+            <option value="">None equipped</option>
+            {(summary.unlockedRewards ?? []).filter((reward) => reward.kind === "emblem").map((reward) => <option key={reward.id} value={reward.id}>{reward.name}</option>)}
+          </select>
+        </label>
+      </div>
+
+      {Object.keys(summary.xpByModule ?? {}).length > 0 && (
+        <div className="mt-5 border-t border-gold/15 pt-4">
+          <div className="eyebrow mb-2">EXP by discipline</div>
+          <div className="space-y-2">
+            {Object.entries(summary.xpByModule ?? {}).sort((a, b) => b[1] - a[1]).map(([module, xp]) => (
+              <div key={module} className="flex items-center justify-between gap-3 text-xs">
+                <span className="capitalize text-dim">{module.replace(/-/g, " ")}</span>
+                <strong className="text-body">{xp.toLocaleString()} EXP</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {(summary.disciplineAchievements?.length ?? 0) > 0 && (
+        <div className="mt-5 border-t border-gold/15 pt-4">
+          <div className="eyebrow mb-2">Discipline achievements</div>
+          <div className="space-y-3">
+            {summary.disciplineAchievements?.slice(0, 5).map((achievement) => (
+              <div key={achievement.id} className="border-b border-gold/10 pb-3">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <span className="text-xs font-semibold capitalize text-body">{achievement.module.replace(/-/g, " ")} · {achievement.activityClass.replace(/-/g, " ")}</span>
+                  <span className="text-xs font-bold text-gold">+{achievement.xp} EXP</span>
+                </div>
+                <p className="mt-1 text-[10px] leading-4 text-dim">{achievement.reason || achievement.contentKey}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {(summary.recentAwards?.length ?? 0) > 0 && (
         <div className="mt-5 border-t border-gold/15 pt-4">
           <div className="eyebrow mb-2">Recent global EXP awards</div>
