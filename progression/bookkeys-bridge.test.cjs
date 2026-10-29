@@ -39,12 +39,14 @@ test('Bookkeys seeds legacy progress without retroactive rewards, then pays a ne
   assert.equal(app.awards[0].eventId, 'bookkeys:page:book-hash:1');
   assert.equal(app.awards[1].eventId, 'bookkeys:page:book-hash:2');
   assert.ok(app.awards.every((award) => award.activityClass === 'standard-task'));
+  assert.ok(app.awards.every((award) => award.evidence === 'typed-page'));
 
   app.setGame({ xp: 990, books: 3, book: { 'book-hash': { p: [0, 1, 2], c: [0], done: 1 } } });
   app.storageEvent();
   assert.equal(app.awards.length, 3);
   assert.equal(app.awards[2].eventId, 'bookkeys:book:book-hash');
   assert.equal(app.awards[2].activityClass, 'milestone');
+  assert.equal(app.awards[2].evidence, 'milestone-complete');
   assert.equal(app.awards[2].oneTimeKey, 'bookkeys:book:book-hash');
 
   app.storageEvent();
@@ -57,6 +59,18 @@ test('Bookkeys does not award sample-only or uncompleted-book activity', () => {
   app.setGame({ xp: 25, book: { sample: { p: [], c: [], done: 0 } } });
   app.storageEvent();
   assert.equal(app.awards.length, 0);
+});
+
+test('a newly marked page without Bookkeys verified XP evidence earns no global EXP', () => {
+  const app = boot({ xp: 100, book: { book: { p: [], c: [], done: 0 } } });
+  app.setGame({ xp: 100, book: { book: { p: [0], c: [], done: 0 } } });
+  app.storageEvent();
+  assert.equal(app.awards.length, 0);
+
+  app.setGame({ xp: 110, book: { book: { p: [0, 1], c: [], done: 0 } } });
+  app.storageEvent();
+  assert.equal(app.awards.length, 1);
+  assert.equal(app.awards[0].eventId, 'bookkeys:page:book:1');
 });
 
 test('a one-page PDF can earn its page award but not the book-completion milestone', () => {
