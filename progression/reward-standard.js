@@ -90,7 +90,7 @@
   function sanitizeLedger(value) {
     var result = emptyLedger();
     if (!value || typeof value !== 'object') return result;
-    var seenIds = {};
+    var seenIds = Object.create(null);
     if (Array.isArray(value.awards)) {
       result.awards = value.awards.filter(function (award) {
         if (!award || typeof award !== 'object' || typeof award.id !== 'string' ||
@@ -388,6 +388,8 @@
         storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
         var fresh = summary();
         var awardedXp = breakdown.xp + passXp;
+        var levelsCrossed = [];
+        for (var nextLevel = levelBefore + 1; nextLevel <= fresh.level; nextLevel++) levelsCrossed.push(nextLevel);
         signal({
           type: 'award',
           module: moduleId,
@@ -395,6 +397,7 @@
           levelBefore: levelBefore,
           levelAfter: fresh.level,
           levelUp: fresh.level > levelBefore,
+          levelsCrossed: levelsCrossed,
           eventId: eventId,
           reason: cleanString(args.reason || ''),
           awardsCreated: 1 + (passXp > 0 ? 1 : 0)
@@ -441,6 +444,8 @@
           return sum + (receipt && receipt.ok && !receipt.duplicate ? receipt.xp : 0);
         }, 0);
         var finalSummary = summary();
+        var levelsCrossed = [];
+        for (var nextLevel = levelBefore + 1; nextLevel <= finalSummary.level; nextLevel++) levelsCrossed.push(nextLevel);
         signal({
           type: 'award',
           module: inputs.length === 1 ? cleanString(inputs[0] && inputs[0].module) : 'multiple',
@@ -448,6 +453,7 @@
           levelBefore: levelBefore,
           levelAfter: finalSummary.level,
           levelUp: finalSummary.level > levelBefore,
+          levelsCrossed: levelsCrossed,
           awardsCreated: receipts.filter(function (receipt) { return receipt && receipt.ok && !receipt.duplicate; }).length
         });
       }
