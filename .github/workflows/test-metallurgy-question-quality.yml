@@ -1,30 +1,21 @@
-name: Metallurgy question-quality branch test
+name: Metallurgy question-quality test
 
 on:
-  push:
-    branches:
-      - work/metallurgy-question-quality-2026-10-29
-    paths:
-      - metallurgy-source/scripts/apply-authored-revisions.py
-  pull_request:
-    branches:
-      - main
-    paths:
-      - metallurgy-source/scripts/apply-authored-revisions.py
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: metallurgy-question-quality-${{ github.ref }}
+  group: metallurgy-question-quality-manual-test
   cancel-in-progress: false
 
 jobs:
-  apply-test-build:
+  test-and-build:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - name: Checkout test branch
+      - name: Checkout the tested branch
         uses: actions/checkout@v4
         with:
           ref: work/metallurgy-question-quality-2026-10-29
@@ -34,6 +25,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Check revision runner syntax
+        run: python -m py_compile metallurgy-source/scripts/apply-authored-revisions.py
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -45,75 +39,24 @@ jobs:
       - name: Install metallurgy dependencies
         run: npm ci --prefix metallurgy-source
 
-      - name: Apply authored revisions, rebalance safe answer positions, test and build
-        run: >-
-          python metallurgy-source/scripts/apply-authored-revisions.py
-          --repo "$GITHUB_WORKSPACE"
-          --apply
-          --balance-answers
-          --run-tests
-          --build
+      - name: Validate committed revision overlays and generated mirrors
+        run: python metallurgy-source/scripts/validate-question-quality-overlays.py --repo "$GITHUB_WORKSPACE"
 
-      - name: Capture generated patch and audit reports
-        if: always()
-        shell: bash
+      - name: Run MT201 regression checks
+        working-directory: metallurgy-source
+        run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt201.mjs
+
+      - name: Run MT202 regression checks
+        working-directory: metallurgy-source
+        run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt202.mjs
+
+      - name: Run MT203 tests and migration checks
+        working-directory: metallurgy-source
         run: |
-          git diff --binary > "$RUNNER_TEMP/metallurgy-question-quality.patch"
-          {
-            echo "## Metallurgy question-quality run"
-            echo
-            echo "- Branch: $GITHUB_REF_NAME"
-            echo "- Trigger: ${{ github.event_name }}"
-            echo "- Python runner exit status is shown in the preceding step."
-            echo
-            echo "### Working-tree status"
-            git status --short
-          } > "$RUNNER_TEMP/metallurgy-question-quality-summary.md"
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/test-mt203.mjs
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203-migration.mjs
+          node scripts/validate-mt203.mjs
 
-      - name: Upload audit report and patch for review
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: metallurgy-question-quality-test-output
-          if-no-files-found: warn
-          path: |
-            ${{ runner.temp }}/metallurgy-question-quality.patch
-            ${{ runner.temp }}/metallurgy-question-quality-summary.md
-            metallurgy-source/reports/metallurgy-question-bank-quality-audit-2026-10-28.md
-            metallurgy-source/reports/metallurgy-question-bank-follow-up-queue-2026-10-28.csv
-
-      - name: Stage only explicitly listed metallurgy outputs
-        if: success()
-        run: |
-          git add \
-            metallurgy-source/public/data/mt201/ch*.json \
-            metallurgy-source/public/data/mt202/ch*.json \
-            metallurgy/data/mt201/ch*.json \
-            metallurgy/data/mt202/ch*.json \
-            metallurgy-source/app/data/qbank/t1.ts \
-            metallurgy-source/app/data/qbank/t2.ts \
-            metallurgy-source/app/data/qbank/t3.ts \
-            metallurgy-source/app/data/qbank/t7.ts \
-            metallurgy-source/app/data/qbank/t8.ts \
-            metallurgy-source/app/data/qbank/t9.ts \
-            metallurgy-source/app/data/qbank/t10.ts \
-            metallurgy-source/app/data/qbank/t11.ts \
-            metallurgy-source/scripts/sync.mjs \
-            metallurgy-source/scripts/sync-mt201.mjs \
-            metallurgy-source/README.md \
-            metallurgy-source/content-revisions/mt201.json \
-            metallurgy-source/content-revisions/mt202.json \
-            metallurgy-source/reports/metallurgy-question-bank-quality-audit-2026-10-28.md \
-            metallurgy-source/reports/metallurgy-question-bank-follow-up-queue-2026-10-28.csv
-
-      - name: Commit tested metallurgy outputs to the test branch
-        if: success()
-        run: |
-          if git diff --cached --quiet; then
-            echo "No generated question-bank changes to commit."
-            exit 1
-          fi
-          git -c user.name="github-actions[bot]" \
-              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -m "Apply authored metallurgy question quality revisions [skip ci]"
-          git push origin HEAD:work/metallurgy-question-quality-2026-10-29
+      - name: Production build
+        working-directory: metallurgy-source
+        run: npm run build
