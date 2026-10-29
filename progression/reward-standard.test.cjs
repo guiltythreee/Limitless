@@ -129,6 +129,9 @@ test('universal reward unlocks are derived from the global level, not any discip
   assert.deepEqual(Rewards.unlocksForLevel(1), []);
   assert.deepEqual(Rewards.unlocksForLevel(5).map((reward) => reward.id), ['first-light', 'scholars-mark']);
   assert.equal(Rewards.nextUnlockForLevel(5).name, 'Polymath');
+  assert.equal(Rewards.nextUnlockForLevel(14).name, 'Wayfinder');
+  assert.equal(Rewards.nextUnlockForLevel(24).name, 'Luminous Archive');
+  assert.deepEqual(Rewards.unlocksForLevel(25).map((reward) => reward.level), [2, 5, 10, 15, 20, 25]);
   assert.equal(Rewards.nextUnlockForLevel(30), null);
   const { ledger } = setup();
   ledger.recordMany(Array.from({ length: 20 }, (_, i) => ({
