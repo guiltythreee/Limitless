@@ -19,10 +19,11 @@ const isString = (value) => typeof value === "string" && value.trim().length > 0
 const finite = (value) => typeof value === "number" && Number.isFinite(value);
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
-function tierDifficulty(index) {
-  if (finite(index) && index >= 4) return "advanced";
-  if (finite(index) && index >= 2) return "intermediate";
-  return "foundational";
+function tierDifficulty(index, selectedDifficulty) {
+  const base = finite(index) && index >= 4 ? 2 : finite(index) && index >= 2 ? 1 : 0;
+  const selected = selectedDifficulty === "hard" ? 1 : selectedDifficulty === "easy" ? -1 : 0;
+  const resolved = clamp(base + selected, 0, 2);
+  return ["foundational", "intermediate", "advanced"][resolved];
 }
 
 /**
@@ -85,7 +86,7 @@ export function createMathRewardAdapter(storage, options = {}) {
     }
 
     const tierId = isString(input.tier) ? input.tier : (isString(input.topTier) ? input.topTier : "open-ended");
-    const difficulty = tierDifficulty(input.tierIndex);
+    const difficulty = tierDifficulty(input.tierIndex, input.diff);
     const activityClass = input.mode === "test80"
       ? "assessment"
       : input.mode === "drill"
