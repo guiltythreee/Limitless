@@ -177,10 +177,10 @@ const T10: TopicSource = {
       diff: 2,
       text: "Creep is:",
       options: [
-        { label: "a", text: "reversible elastic recovery" },
-        { label: "b", text: "gradual stress decrease under constant strain" },
-        { label: "c", text: "the area of the hysteresis loop" },
-        { label: "d", text: "gradual strain increase under constant applied load" }
+        { label: "a", text: "Elastic recovery: the reversible strain that disappears promptly when the applied load is removed from a specimen." },
+        { label: "b", text: "Stress relaxation: the gradual decrease in stress while a specimen is held at a fixed strain over time." },
+        { label: "c", text: "Hysteresis loss: the energy dissipated per cycle, represented by the area enclosed by loading and unloading curves." },
+        { label: "d", text: "Creep: the time-dependent increase in strain while a constant stress or load is maintained on the specimen." }
       ],
       answer: "d",
       why: "**Creep** = time-dependent deformation at constant stress (strain grows, possibly to rupture). **Stress relaxation** is the constant-strain counterpart (stress decays).",
