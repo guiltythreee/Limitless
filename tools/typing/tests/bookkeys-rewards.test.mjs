@@ -60,11 +60,11 @@ test("does not create EXP for incomplete or unrecognized Bookkeys events", () =>
 test("a freshly finished real-book page uses shared LSR-1 policy and preserves root fields", () => {
   const record = adapter.award(page("bookkeys:page:sample-book:7:run-1"));
   assert.equal(record.moduleId, "bookkeys");
-  assert.equal(record.activityClass, "micro-practice");
+  assert.equal(record.activityClass, "standard-task");
   assert.equal(record.difficulty, "foundational");
-  assert.equal(record.baseExp, 5);
-  assert.equal(record.qualityBonus, 1);
-  assert.equal(record.totalExp, 6);
+  assert.equal(record.baseExp, 10);
+  assert.equal(record.qualityBonus, 2);
+  assert.equal(record.totalExp, 12);
   assert.equal(record.eligible, true);
   assert.equal(storage.writes, 1);
   assert.equal(JSON.parse(storage.getItem(BOOKKEYS_REWARD_STORAGE_KEY)).retained, "keep this field");
@@ -84,9 +84,9 @@ test("a same-item daily repeat cap applies and begins a new window the next day"
   const two = adapter.award(page("repeat-2", { itemId }));
   const three = adapter.award(page("repeat-3", { itemId }));
   const four = adapter.award(page("repeat-4", { itemId }));
-  assert.equal(one.totalExp, 6);
-  assert.equal(two.totalExp, 6);
-  assert.equal(three.totalExp, 6);
+  assert.equal(one.totalExp, 12);
+  assert.equal(two.totalExp, 12);
+  assert.equal(three.totalExp, 12);
   assert.equal(four.eligible, false);
   assert.equal(four.reason, "daily-repeat-cap");
   assert.equal(four.totalExp, 0);
