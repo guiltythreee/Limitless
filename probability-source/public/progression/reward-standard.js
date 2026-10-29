@@ -43,10 +43,13 @@
     { level: 2, id: 'first-light', name: 'First Light', kind: 'title', description: 'Your first global level-up.' },
     { level: 5, id: 'scholars-mark', name: "Scholar's Mark", kind: 'emblem', description: 'A mark earned through steady cross-discipline learning.' },
     { level: 10, id: 'polymath', name: 'Polymath', kind: 'title', description: 'A profile title for learning across disciplines.' },
+    { level: 10, id: 'polymath-glow', name: 'Polymath Glow', kind: 'profile-effect', description: 'A luminous profile treatment for broad learning.' },
     { level: 15, id: 'wayfinder', name: 'Wayfinder', kind: 'emblem', description: 'A milestone for continuing beyond the early levels.' },
     { level: 20, id: 'keeper-of-knowledge', name: 'Keeper of Knowledge', kind: 'title', description: 'A long-term commitment to learning across fields.' },
+    { level: 20, id: 'radiant-archive', name: 'Radiant Archive', kind: 'profile-effect', description: 'A stronger light effect for sustained study.' },
     { level: 25, id: 'luminous-archive', name: 'Luminous Archive', kind: 'emblem', description: 'A rare emblem for sustained progression.' },
-    { level: 30, id: 'limitless-sigil', name: 'Limitless Sigil', kind: 'emblem', description: 'A rare mark for sustained global progression.' }
+    { level: 30, id: 'limitless-sigil', name: 'Limitless Sigil', kind: 'emblem', description: 'A rare mark for sustained global progression.' },
+    { level: 30, id: 'limitless-aura', name: 'Limitless Aura', kind: 'profile-effect', description: 'The highest currently defined global profile effect.' }
   ];
 
   function finiteNumber(value, fallback) {
@@ -79,21 +82,42 @@
     return !!(allowed[activityClass] && allowed[activityClass][evidence]);
   }
   function emptyLedger() {
-    return { version: 1, standard: VERSION, totalXp: 0, awards: [] };
+    return {
+      version: 1, standard: VERSION, totalXp: 0, awards: [],
+      equippedTitleId: '', equippedEmblemId: '', equippedProfileEffectId: ''
+    };
   }
   function sanitizeLedger(value) {
     var result = emptyLedger();
     if (!value || typeof value !== 'object') return result;
+    var seenIds = Object.create(null);
     if (Array.isArray(value.awards)) {
       result.awards = value.awards.filter(function (award) {
-        return award && typeof award === 'object' && typeof award.id === 'string' &&
-          typeof award.c === 'string' && typeof award.d === 'string' &&
-          typeof award.x === 'number' && isFinite(award.x) && award.x >= 0;
+        if (!award || typeof award !== 'object' || typeof award.id !== 'string' ||
+            typeof award.c !== 'string' || typeof award.d !== 'string' ||
+            typeof award.x !== 'number' || !isFinite(award.x) || award.x < 0 ||
+            seenIds[award.id]) return false;
+        seenIds[award.id] = true;
+        return true;
+      }).map(function (award) {
+        // Keep pre-revision LSR-1 records visible and explain them explicitly,
+        // rather than dropping historical EXP whose new evidence fields are absent.
+        var normalized = Object.assign({}, award);
+        normalized.m = cleanString(award.m || '') || 'unknown';
+        normalized.a = cleanString(award.a || '') || 'legacy-record';
+        normalized.e = cleanString(award.e || '') || 'legacy-record';
+        normalized.v = cleanString(award.v || '') || VERSION;
+        normalized.t = Math.max(0, Math.floor(finiteNumber(award.t, 0)));
+        normalized.reason = cleanString(award.reason || '') || (normalized.e === 'legacy-record' ? 'Legacy award retained from an earlier LSR-1 build' : '');
+        return normalized;
       });
     }
     // Award history is authoritative. Never trust a parallel cached running
     // total: a torn/old write must not create EXP with no explainable award.
     result.totalXp = result.awards.reduce(function (total, award) { return total + award.x; }, 0);
+    result.equippedTitleId = cleanString(value.equippedTitleId || '');
+    result.equippedEmblemId = cleanString(value.equippedEmblemId || '');
+    result.equippedProfileEffectId = cleanString(value.equippedProfileEffectId || '');
     return result;
   }
 
@@ -180,8 +204,32 @@
         var ledger = read();
         var level = levelForXp(ledger.totalXp);
         var counts = {};
+        var xpByModule = {};
+        var achievements = [];
         ledger.awards.forEach(function (award) {
-          if (award.x > 0 && typeof BASE_EXP[award.a] === 'number') counts[award.m || 'unknown'] = (counts[award.m || 'unknown'] || 0) + 1;
+          var moduleId = award.m || 'unknown';
+          xpByModule[moduleId] = (xpByModule[moduleId] || 0) + award.x;
+          if (award.x > 0 && typeof BASE_EXP[award.a] === 'number') counts[moduleId] = (counts[moduleId] || 0) + 1;
+          if (award.x > 0 && (award.a === 'milestone' || award.a === 'course-completion')) {
+            achievements.push({
+              id: award.o || award.id,
+              module: moduleId,
+              contentKey: award.c,
+              activityClass: award.a,
+              evidence: award.e || 'legacy-record',
+              xp: award.x,
+              timestamp: award.t || 0,
+              reason: cleanString(award.reason || '')
+            });
+          }
+        });
+        achievements.reverse();
+        var equippedTitle = null, equippedEmblem = null, equippedProfileEffect = null;
+        var earnedUnlocks = unlocksForLevel(level.level);
+        earnedUnlocks.forEach(function (reward) {
+          if (reward.kind === 'title' && reward.id === ledger.equippedTitleId) equippedTitle = reward;
+          if (reward.kind === 'emblem' && reward.id === ledger.equippedEmblemId) equippedEmblem = reward;
+          if (reward.kind === 'profile-effect' && reward.id === ledger.equippedProfileEffectId) equippedProfileEffect = reward;
         });
         return {
           standard: VERSION,
@@ -193,6 +241,11 @@
           progress: level.progress,
           awardCount: ledger.awards.length,
           countsByModule: counts,
+          xpByModule: xpByModule,
+          disciplineAchievements: achievements,
+          equippedTitle: equippedTitle,
+          equippedEmblem: equippedEmblem,
+          equippedProfileEffect: equippedProfileEffect,
           recentAwards: ledger.awards.slice(-8).reverse().map(function (award) {
             return {
               id: award.id, module: award.m, contentKey: award.c,
@@ -215,7 +268,7 @@
         return {
           standard: VERSION, xp: 0, level: 1, xpIntoLevel: 0,
           xpForNextLevel: 100, nextLevelAt: 100, progress: 0,
-          awardCount: 0, countsByModule: {}, recentAwards: [], unlockedRewards: [], nextReward: nextUnlockForLevel(1), available: false
+          awardCount: 0, countsByModule: {}, xpByModule: {}, disciplineAchievements: [], equippedTitle: null, equippedEmblem: null, equippedProfileEffect: null, recentAwards: [], unlockedRewards: [], nextReward: nextUnlockForLevel(1), available: false
         };
       }
     }
@@ -254,6 +307,8 @@
           };
         }
 
+        var totalBefore = ledger.totalXp;
+        var levelBefore = levelForXp(totalBefore).level;
         var ts = Math.max(0, Math.floor(finiteNumber(now(), Date.now())));
         var day = asDayKey(ts);
         var alreadyOneTime = isOneTimeClass(activityClass) && ledger.awards.some(function (award) {
@@ -331,12 +386,26 @@
         ledger.totalXp = ledger.awards.reduce(function (total, award) { return total + award.x; }, 0);
         if (!storage || typeof storage.setItem !== 'function') return { ok: false, xp: 0, error: 'storage-unavailable' };
         storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
-        signal();
         var fresh = summary();
+        var awardedXp = breakdown.xp + passXp;
+        var levelsCrossed = [];
+        for (var nextLevel = levelBefore + 1; nextLevel <= fresh.level; nextLevel++) levelsCrossed.push(nextLevel);
+        signal({
+          type: 'award',
+          module: moduleId,
+          xpGained: awardedXp,
+          levelBefore: levelBefore,
+          levelAfter: fresh.level,
+          levelUp: fresh.level > levelBefore,
+          levelsCrossed: levelsCrossed,
+          eventId: eventId,
+          reason: cleanString(args.reason || ''),
+          awardsCreated: 1 + (passXp > 0 ? 1 : 0)
+        });
         return {
           ok: true,
           duplicate: false,
-          xp: breakdown.xp + passXp,
+          xp: awardedXp,
           totalXp: fresh.xp,
           level: fresh.level,
           breakdown: breakdown,
@@ -352,6 +421,8 @@
       var stagedLedger;
       try { stagedLedger = read(); }
       catch (error) { return inputs.map(function () { return { ok: false, xp: 0, error: 'storage-unavailable' }; }); }
+      var totalBefore = stagedLedger.totalXp;
+      var levelBefore = levelForXp(totalBefore).level;
       var stagedStorage = {
         getItem: function (key) { return key === STORAGE_KEY ? JSON.stringify(stagedLedger) : null; },
         setItem: function (key, value) {
@@ -369,7 +440,22 @@
         catch (error) {
           return receipts.map(function (receipt) { return receipt.ok && !receipt.duplicate ? { ok: false, xp: 0, error: 'storage-unavailable' } : receipt; });
         }
-        signal();
+        var xpGained = receipts.reduce(function (sum, receipt) {
+          return sum + (receipt && receipt.ok && !receipt.duplicate ? receipt.xp : 0);
+        }, 0);
+        var finalSummary = summary();
+        var levelsCrossed = [];
+        for (var nextLevel = levelBefore + 1; nextLevel <= finalSummary.level; nextLevel++) levelsCrossed.push(nextLevel);
+        signal({
+          type: 'award',
+          module: inputs.length === 1 ? cleanString(inputs[0] && inputs[0].module) : 'multiple',
+          xpGained: xpGained,
+          levelBefore: levelBefore,
+          levelAfter: finalSummary.level,
+          levelUp: finalSummary.level > levelBefore,
+          levelsCrossed: levelsCrossed,
+          awardsCreated: receipts.filter(function (receipt) { return receipt && receipt.ok && !receipt.duplicate; }).length
+        });
       }
       var finalLevel = levelForXp(stagedLedger.totalXp);
       return receipts.map(function (receipt) {
@@ -381,7 +467,36 @@
       return read();
     }
 
-    return { record: record, recordMany: recordMany, summary: summary, read: exportLedger };
+    function equipReward(rewardId, kind) {
+      var id = cleanString(rewardId);
+      if (kind !== 'title' && kind !== 'emblem' && kind !== 'profile-effect') return { ok: false, error: 'unknown-reward-kind' };
+      try {
+        var ledger = read();
+        if (!id) {
+          if (kind === 'title') ledger.equippedTitleId = '';
+          else if (kind === 'emblem') ledger.equippedEmblemId = '';
+          else ledger.equippedProfileEffectId = '';
+          storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
+          signal({ type: 'equipment-changed', rewardId: '', kind: kind });
+          return { ok: true, summary: summary() };
+        }
+        var level = levelForXp(ledger.totalXp).level;
+        var reward = REWARD_UNLOCKS.find(function (item) {
+          return item.id === id && item.kind === kind && item.level <= level;
+        });
+        if (!reward) return { ok: false, error: 'reward-not-unlocked' };
+        if (kind === 'title') ledger.equippedTitleId = id;
+        else if (kind === 'emblem') ledger.equippedEmblemId = id;
+        else ledger.equippedProfileEffectId = id;
+        storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
+        signal({ type: 'equipment-changed', rewardId: id, kind: kind });
+        return { ok: true, summary: summary() };
+      } catch (error) {
+        return { ok: false, error: 'storage-unavailable' };
+      }
+    }
+
+    return { record: record, recordMany: recordMany, summary: summary, read: exportLedger, equipReward: equipReward };
   }
 
   var browserStorage = {
@@ -394,10 +509,10 @@
       window.localStorage.setItem(key, value);
     }
   };
-  var defaultLedger = createLedger(browserStorage, Date.now, function () {
+  var defaultLedger = createLedger(browserStorage, Date.now, function (detail) {
     try {
       if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof window.CustomEvent === 'function') {
-        window.dispatchEvent(new window.CustomEvent('limitless:rewards-updated'));
+        window.dispatchEvent(new window.CustomEvent('limitless:rewards-updated', { detail: detail || {} }));
       }
     } catch (error) { /* The ledger is already saved; UI notification is optional. */ }
   });
@@ -417,6 +532,7 @@
     createLedger: createLedger,
     record: defaultLedger.record,
     recordMany: defaultLedger.recordMany,
+    equipReward: defaultLedger.equipReward,
     summary: defaultLedger.summary,
     read: defaultLedger.read
   };
