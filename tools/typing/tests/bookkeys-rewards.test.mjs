@@ -28,10 +28,16 @@ const storage = createStorage({
 const adapter = createBookkeysRewardAdapter(storage, { now: () => day1 });
 
 function page(eventId, overrides = {}) {
+  const contentSignature = overrides.contentSignature ??
+    (typeof overrides.itemId === "string" && overrides.itemId.startsWith("bookkeys:page:")
+      ? overrides.itemId.slice("bookkeys:page:".length)
+      : "0123456789abcdef");
   return {
     eventId,
     moduleId: BOOKKEYS_REWARD_MODULE_ID,
-    itemId: "bookkeys:page:sample-book:7",
+    itemId: "bookkeys:page:" + contentSignature,
+    contentSignature,
+    characterCount: 200,
     ts: day1,
     activityClass: "micro-practice",
     difficulty: "foundational",
@@ -45,6 +51,7 @@ function page(eventId, overrides = {}) {
 test("does not create EXP for incomplete or unrecognized Bookkeys events", () => {
   assert.equal(adapter.award(page("incomplete", { completed: false })), null);
   assert.equal(adapter.award(page("pasted", { completionEvidence: "pasted-page" })), null);
+  assert.equal(adapter.award(page("short-page", { characterCount: 80 })), null);
   assert.equal(adapter.award(page("wrong-module", { moduleId: "probability" })), null);
   assert.equal(adapter.award(page("wrong-item", { itemId: "bookkeys:book:sample-book" })), null);
   assert.equal(storage.writes, 0);
@@ -147,7 +154,10 @@ test("the shell bridge awards fresh typing but does not convert imported legacy 
   });
   const bridgeAdapter = createBookkeysRewardAdapter(bridgeStorage, { now: () => now });
   const target = new FakeTarget();
-  const dispose = installBookkeysRewardBridge(target, bridgeAdapter, { now: () => now });
+  const dispose = installBookkeysRewardBridge(target, bridgeAdapter, {
+    now: () => now,
+    getPageEvidence: () => ({ contentSignature: "fedcba9876543210", characterCount: 260 }),
+  });
   const emit = (previous, next) => target.emit("storage", {
     key: "bookkeys:game",
     oldValue: JSON.stringify(previous),
