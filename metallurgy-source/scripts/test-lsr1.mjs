@@ -92,7 +92,8 @@ function checkLedgerOnly(actual, expected, label) {
   const practiced = MT202.recordAnswer(p, "ch02-q3", "D", false, "practice", 2);
   checkLedgerOnly(practiced.rewardLedger, 1, "MT202 practice logs a submitted answer");
   assert.equal(practiced.rewardLedger[0].moduleId, "metallurgy-mt202");
-  assert.equal(practiced.rewardLedger[0].totalExp, 10, "wrong answers earn base micro-practice EXP without quality bonus");
+  assert.equal(practiced.rewardLedger[0].baseExp, 5, "wrong answers use the shared micro-practice base");
+  assert.equal(practiced.rewardLedger[0].qualityBonus, 0, "wrong answers get no quality bonus");
   assert.equal(practiced.answered["ch01-q1"].correct, false);
   assert.equal(JSON.parse(store.getItem("mm-mt202-v1")).legacyExtension, "keep");
 
