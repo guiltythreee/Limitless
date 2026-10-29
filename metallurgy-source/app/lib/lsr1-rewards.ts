@@ -8,7 +8,7 @@ import {
 } from "../../../shared/rewards.mjs";
 
 export type LsrModuleId = "metallurgy-mt201" | "metallurgy-mt202" | "metallurgy-mt203";
-export type LsrProgress = { rewardLedger?: unknown; [key: string]: unknown };
+export type LsrProgress = { rewardLedger?: unknown };
 export type LsrActivityMode = "practice" | "exam";
 
 export function difficultyTier(raw: number | undefined): DifficultyTier {
