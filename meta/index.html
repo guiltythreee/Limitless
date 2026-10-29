@@ -48,6 +48,8 @@
     .meta-button:hover { background: rgba(211,178,103,.18); }
     .meta-button:focus-visible, .meta-field input:focus-visible, .meta-field select:focus-visible, .meta-field textarea:focus-visible { outline: 2px solid var(--gold, #d3b267); outline-offset: 2px; }
     .meta-project-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin-top: .7rem; }
+    .meta-level-notice { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .8rem; padding: .9rem 0; border-bottom: 1px solid rgba(211,178,103,.14); }
+    .meta-level-notice strong { color: var(--gold, #d3b267); }
     @media (max-width: 540px) { .meta-form { grid-template-columns: 1fr; } .meta-field-full { grid-column: auto; } }
     @media (max-width: 720px) {
       .meta-grid { grid-template-columns: 1fr; }
@@ -98,6 +100,12 @@
     <section class="meta-section">
       <h2>Registered Modules</h2>
       <div id="module-breakdown" class="meta-list"><p class="meta-muted">Loading module totals…</p></div>
+    </section>
+
+    <section class="meta-section" aria-labelledby="level-notices-heading">
+      <h2 id="level-notices-heading">Level-up Acknowledgements</h2>
+      <p class="meta-muted">Every newly observed global level-up is saved here until acknowledged. The notice is generated from the persisted global award total.</p>
+      <div id="level-up-notices" class="meta-list" aria-live="polite"><p class="meta-muted">Checking saved level-up notices…</p></div>
     </section>
 
     <section class="meta-section" aria-labelledby="universal-rewards-heading">
