@@ -145,7 +145,7 @@ export default function Mt201() {
                 onClick={() => {
                   if (confirm("Erase all saved progress for MT201?")) {
                     resetProgress();
-                    setProgress({ answered: {}, examBest: null });
+                    setProgress(loadProgress());
                   }
                 }}
               >
