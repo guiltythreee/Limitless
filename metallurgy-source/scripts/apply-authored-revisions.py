@@ -997,7 +997,8 @@ def main():
             check_original_type(mq,r,f"{course}/{ch} Q{n} (mirror)")
             for k in ("text","options","answer"):
                 if pq.get(k)!=mq.get(k): raise SafeStop(f"Public/mirror mismatch for {course}/{ch} Q{n} field {k}; refusing broad overwrite")
-            prior_override=overlay[course].get((ch,n),{})            source_text_before=pq.get("text","")
+            prior_override=overlay[course].get((ch,n),{})
+            source_text_before=pq.get("text","")
             source_fingerprint=prior_override.get("sourceFingerprint") if isinstance(prior_override.get("sourceFingerprint"),str) else question_fingerprint(pq,course)
             if source_fingerprint!=r.get("expectedFingerprint"):
                 raise SafeStop(f"{course}/{ch} Q{n} source fingerprint differs from the exact GitHub-main question snapshot used to author this revision (expected {r.get('expectedFingerprint')}, found {source_fingerprint}); nothing has been written")
