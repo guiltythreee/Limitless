@@ -81,10 +81,9 @@ function rewardAssessment(t: TestRecord): GlobalRewardInput | null {
   };
 }
 
-function rewardLessonMastery(lessonId: string, attempts: Attempt[]): GlobalRewardInput | null {
+function rewardLessonMastery(lessonId: string, latest: Record<string, Attempt>): GlobalRewardInput | null {
   const questions = QUESTIONS_BY_LESSON[lessonId] ?? [];
   if (!questions.length) return null;
-  const latest = latestByQuestion(attempts);
   const scores = questions.map((question) => latest[question.key]?.score);
   if (scores.some((score) => typeof score !== "number")) return null;
   const quality = (scores as number[]).reduce((sum, score) => sum + score, 0) / scores.length;
@@ -105,9 +104,8 @@ function rewardLessonMastery(lessonId: string, attempts: Attempt[]): GlobalRewar
   };
 }
 
-function rewardPathwayMastery(attempts: Attempt[]): GlobalRewardInput | null {
+function rewardPathwayMastery(latest: Record<string, Attempt>): GlobalRewardInput | null {
   if (!allQuestions.length) return null;
-  const latest = latestByQuestion(attempts);
   const scores = allQuestions.map((question) => latest[question.key]?.score);
   if (scores.some((score) => typeof score !== "number")) return null;
 
@@ -291,16 +289,20 @@ function recoverGlobalRewards() {
   };
 
   const eligibleAttempts = persisted.attempts.filter((attempt) => attempt.ts >= rewardActivatedAt);
+  const latestEligible = latestByQuestion(eligibleAttempts);
   const affectedLessons = new Set<string>();
   for (const attempt of eligibleAttempts) {
     addIfMissing(rewardAttempt(attempt));
     const lessonId = questionByKey[attempt.q]?.lessonId;
     if (lessonId) affectedLessons.add(lessonId);
   }
-  for (const lessonId of affectedLessons) addIfMissing(rewardLessonMastery(lessonId, persisted.attempts));
+  // Mastery is computed only from attempts created under this reward policy;
+  // legacy answers can be retained for learning analytics but cannot complete
+  // a newly rewardable topic/pathway on the strength of old work.
+  for (const lessonId of affectedLessons) addIfMissing(rewardLessonMastery(lessonId, latestEligible));
   const eligibleTests = persisted.tests.filter((record) => record.ts >= rewardActivatedAt);
   for (const record of eligibleTests) addIfMissing(rewardAssessment(record));
-  addIfMissing(rewardPathwayMastery(persisted.attempts));
+  addIfMissing(rewardPathwayMastery(latestEligible));
 
   // Bound work and storage payloads on reloads after many study sessions.
   // The reward ledger's stable IDs make every chunk safe to retry.
