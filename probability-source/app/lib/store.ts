@@ -197,6 +197,20 @@ export const dayKey = (ts: number) => {
 
 const UNCHANGED_V1 = ["conditional", "bayes", "random-variables", "distributions", "limit-theorems", "markov"];
 
+// Preserve extension fields owned by other modules or future schema versions.
+// Known fields are normalized below; unknown fields are copied through intact.
+const PROGRESS_ROOT_FIELDS = new Set([
+  "completed", "tests", "attempts", "bookmarks", "drafts", "goal", "goalByDay", "answered",
+]);
+function unknownRootFields(value: unknown): Record<string, unknown> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  const extras: Record<string, unknown> = {};
+  for (const [key, field] of Object.entries(value as Record<string, unknown>)) {
+    if (!PROGRESS_ROOT_FIELDS.has(key)) extras[key] = field;
+  }
+  return extras;
+}
+
 function legacyAttempt(q: string, pick: number, n: number): Attempt | null {
   const item = questionByKey[q]?.item;
   if (!item || typeof pick !== "number") return null;
@@ -206,16 +220,19 @@ function legacyAttempt(q: string, pick: number, n: number): Attempt | null {
 
 function migrate(): State {
   const s: State = { ...EMPTY, drafts: {}, goalByDay: {} };
+  let extras: Record<string, unknown> = {};
   try {
     const v2 = localStorage.getItem("hc3-progress-v2");
     const v1 = localStorage.getItem("hc3-progress-v1");
     let answered: Record<string, number> = {};
     if (v2) {
       const p = JSON.parse(v2);
+      extras = unknownRootFields(p);
       if (Array.isArray(p.completed)) s.completed = p.completed;
       if (p.answered && typeof p.answered === "object") answered = p.answered;
     } else if (v1) {
       const p = JSON.parse(v1);
+      extras = unknownRootFields(p);
       if (Array.isArray(p.completed)) s.completed = p.completed;
       if (p.answered && typeof p.answered === "object") {
         for (const id of UNCHANGED_V1) if (p.answered[id] !== undefined) answered[`${id}:0`] = p.answered[id];
@@ -227,7 +244,7 @@ function migrate(): State {
       if (a) s.attempts.push(a);
     }
   } catch { /* old data unreadable: start fresh */ }
-  return s;
+  return { ...extras, ...s };
 }
 
 function read(): State {
@@ -236,6 +253,7 @@ function read(): State {
     if (raw) {
       const p = JSON.parse(raw);
       return {
+        ...p,
         completed: Array.isArray(p.completed) ? p.completed : [],
         tests: Array.isArray(p.tests) ? p.tests : [],
         attempts: Array.isArray(p.attempts) ? p.attempts : [],
