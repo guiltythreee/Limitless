@@ -74,7 +74,7 @@ test('Bookkeys seeds legacy history and pays eligible new pages plus a once-only
   const app = boot({ xp: 900, paid: {}, book: { [key]: bookRecord([]) } }, { index: 0, text: longA });
   assert.equal(app.awards.length, 0, 'existing work is baseline, not new global EXP');
 
-  app.setGame({ xp: 900, paid: paidFor([key, 0, 188]), book: { [key]: bookRecord([0]) } });
+  app.setGame({ xp: 900, paid: paidFor([key, 0, 400]), book: { [key]: bookRecord([0]) } });
   app.storageEvent();
   assert.equal(app.awards.length, 1);
   assert.equal(app.awards[0].eventId, 'bookkeys:page:' + key + ':0');
@@ -82,17 +82,17 @@ test('Bookkeys seeds legacy history and pays eligible new pages plus a once-only
   assert.equal(app.awards[0].contentKey, app.awards[0].contentKey);
 
   app.setPage(longB, 1);
-  app.setGame({ xp: 900, paid: paidFor([key, 0, 188], [key, 1, 220]), book: { [key]: bookRecord([0, 1]) } });
+  app.setGame({ xp: 900, paid: paidFor([key, 0, 400], [key, 1, 400]), book: { [key]: bookRecord([0, 1]) } });
   app.storageEvent();
   assert.equal(app.awards.length, 2);
   assert.equal(app.awards[1].eventId, 'bookkeys:page:' + key + ':1');
 
   app.setPage('A third distinct page describes a model and its assumptions. '.repeat(4), 2);
-  app.setGame({ xp: 900, paid: paidFor([key, 0, 188], [key, 1, 220], [key, 2, 200]), book: { [key]: bookRecord([0, 1, 2]) } });
+  app.setGame({ xp: 900, paid: paidFor([key, 0, 400], [key, 1, 400], [key, 2, 200]), book: { [key]: bookRecord([0, 1, 2]) } });
   app.storageEvent();
   assert.equal(app.awards.length, 3);
 
-  app.setGame({ xp: 900, paid: paidFor([key, 0, 188], [key, 1, 220], [key, 2, 200]), book: { [key]: bookRecord([0, 1, 2], { chapters: [0], done: true }) } });
+  app.setGame({ xp: 900, paid: paidFor([key, 0, 400], [key, 1, 400], [key, 2, 200]), book: { [key]: bookRecord([0, 1, 2], { chapters: [0], done: true }) } });
   app.storageEvent();
   assert.equal(app.awards.length, 4);
   assert.equal(app.awards[3].eventId, 'bookkeys:book:' + key);
@@ -122,7 +122,7 @@ test('a completed-page record alone is insufficient without a substantial page a
 test('eligible page rewards do not depend on the cumulative local XP total increasing', () => {
   const key = 'long-pdf';
   const app = boot({ xp: 100, paid: {}, book: { [key]: bookRecord([]) } }, { index: 0, text: longA });
-  app.setGame({ xp: 100, paid: paidFor([key, 0, 188]), book: { [key]: bookRecord([0]) } });
+  app.setGame({ xp: 100, paid: paidFor([key, 0, 400]), book: { [key]: bookRecord([0]) } });
   app.storageEvent();
   assert.equal(app.awards.length, 1);
   assert.equal(app.awards[0].eventId, 'bookkeys:page:' + key + ':0');
@@ -131,14 +131,14 @@ test('eligible page rewards do not depend on the cumulative local XP total incre
 
 test('the same normalized passage in a differently packaged file uses the same repeat-policy content key', () => {
   const first = boot({ xp: 0, paid: {}, book: { 'file-a': bookRecord([]) } }, { index: 0, text: longA });
-  first.setGame({ xp: 0, paid: paidFor(['file-a', 0, 188]), book: { 'file-a': bookRecord([0]) } });
+  first.setGame({ xp: 0, paid: paidFor(['file-a', 0, 400]), book: { 'file-a': bookRecord([0]) } });
   first.storageEvent();
 
   // Different file identity and formatting, same normalized passage.
   first.setPage(longA.toLowerCase().replace(/\s+/g, '  '), 0);
   first.setGame({
     xp: 0,
-    paid: paidFor(['file-a', 0, 188], ['file-b', 0, 188]),
+    paid: paidFor(['file-a', 0, 400], ['file-b', 0, 400]),
     book: { 'file-a': bookRecord([0]), 'file-b': bookRecord([0]) }
   });
   first.storageEvent();
@@ -158,15 +158,15 @@ test('low local accuracy evidence does not award a global page reward', () => {
 test('book milestone needs three globally credited eligible pages, not merely three page indexes', () => {
   const key = 'mixed-book';
   const app = boot({ xp: 0, paid: {}, book: { [key]: bookRecord([]) } }, { index: 0, text: longA });
-  app.setGame({ xp: 0, paid: paidFor([key, 0, 188]), book: { [key]: bookRecord([0]) } });
+  app.setGame({ xp: 0, paid: paidFor([key, 0, 400]), book: { [key]: bookRecord([0]) } });
   app.storageEvent();
 
   app.setPage('Short.', 1);
-  app.setGame({ xp: 0, paid: paidFor([key, 0, 188], [key, 1, 5]), book: { [key]: bookRecord([0, 1]) } });
+  app.setGame({ xp: 0, paid: paidFor([key, 0, 400], [key, 1, 5]), book: { [key]: bookRecord([0, 1]) } });
   app.storageEvent();
 
   app.setPage(longB, 2);
-  app.setGame({ xp: 0, paid: paidFor([key, 0, 188], [key, 1, 5], [key, 2, 220]), book: { [key]: bookRecord([0, 1, 2], { chapters: [0], done: true }) } });
+  app.setGame({ xp: 0, paid: paidFor([key, 0, 400], [key, 1, 5], [key, 2, 400]), book: { [key]: bookRecord([0, 1, 2], { chapters: [0], done: true }) } });
   app.storageEvent();
   assert.equal(app.awards.filter(award => award.activityClass === 'milestone').length, 0);
 });
