@@ -130,7 +130,7 @@ test("Probability test answers and their assessment record use one canonical sto
     completed: [], tests: [], attempts: [], bookmarks: [], drafts: {}, goal: 10, goalByDay: {},
     moduleOwnedExtension: { mustRemain: true },
   };
-  const { api, storage } = boot({ "hc3-progress-v3": JSON.stringify(seed) }, questionList);
+  const { api, storage, globalRewardInputs } = boot({ "hc3-progress-v3": JSON.stringify(seed) }, questionList);
   const before = storage.writeCount();
   const testRecord = {
     id: "test-one-write",
