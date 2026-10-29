@@ -44,6 +44,25 @@
         mount.appendChild(element('p', 'global-progress-unlocked',
           'Unlocked · ' + unlocked.map(function (reward) { return reward.name; }).join(' · ')));
       }
+      var recent = summary.recentAwards || [];
+      if (recent.length) {
+        var history = element('div', 'global-progress-history');
+        history.appendChild(element('div', 'global-progress-history-heading', 'Recent EXP awards'));
+        recent.slice(0, 5).forEach(function (award) {
+          var row = element('div', 'global-progress-history-row');
+          var label = (award.module || 'Limitless') + ' · ' + String(award.activityClass || 'activity').replace(/-/g, ' ');
+          row.appendChild(element('div', 'global-progress-history-title', label));
+          row.appendChild(element('div', 'global-progress-history-value', '+' + award.xp + ' EXP'));
+          var details = [award.evidence || 'recorded reward', award.difficulty || 'foundational'];
+          if (award.difficultyMultiplier && award.difficultyMultiplier !== 1) details.push('×' + award.difficultyMultiplier);
+          if (award.quality !== null && typeof award.quality === 'number') details.push(Math.round(award.quality * 100) + '% quality');
+          if (award.repeatMultiplier < 1) details.push('repeat ×' + award.repeatMultiplier);
+          row.appendChild(element('div', 'global-progress-history-detail', details.join(' · ')));
+          if (award.reason) row.appendChild(element('div', 'global-progress-history-reason', award.reason));
+          history.appendChild(row);
+        });
+        mount.appendChild(history);
+      }
     }
     render();
     window.addEventListener('limitless:rewards-updated', render);
