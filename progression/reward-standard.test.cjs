@@ -301,6 +301,7 @@ test('bespoke projects require a pre-registered immutable 20–100 EXP definitio
     activityClass: 'bespoke-project',
     evidence: 'project-complete',
     difficulty: 'advanced',
+    projectId: 'mini-study',
     oneTimeKey: 'project-completion:probability:mini-study'
   };
   assert.equal(ledger.record(completion).error, 'unregistered-project');
