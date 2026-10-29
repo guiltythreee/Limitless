@@ -275,10 +275,10 @@ const T3: TopicSource = {
       diff: 2,
       text: "Why is melt polycondensation described as 'the fifth technique' rather than a separate mechanism?",
       options: [
-        { label: "a", text: "It is a *process environment* for step-growth chemistry — the reaction mechanism is ordinary polycondensation; only the medium (the melt itself) is distinctive." },
-        { label: "b", text: "It is a type of ring-opening polymerization." },
-        { label: "c", text: "It combines all four classical techniques." },
-        { label: "d", text: "It uses a unique catalyst." }
+        { label: "a", text: "Melt polycondensation is step-growth chemistry run without solvent; the melt is the medium, not a new mechanism." },
+        { label: "b", text: "It is a ring-opening mechanism because cyclic monomers open, regardless of whether the process uses a melt." },
+        { label: "c", text: "It combines all four classical techniques in one reactor, so each monomer passes through every process environment." },
+        { label: "d", text: "It relies on a unique catalyst mechanism not used in other step-growth polymerization processes." }
       ],
       answer: "a",
       why: "Bulk/solution/suspension/emulsion/melt are **techniques** — how the reaction is run. The chemistry (step-growth polycondensation here) is chosen separately. Melt = no solvent, condensate removed by heat and vacuum.",
@@ -425,10 +425,10 @@ const T3: TopicSource = {
       diff: 3,
       text: "Chain transfer agent vs initiator: their roles in a radical process are:",
       options: [
-        { label: "a", text: "Both terminate the reaction completely." },
-        { label: "b", text: "Initiator creates radicals (starts chains); a chain-transfer agent moves the radical to another molecule, limiting MW without stopping the overall reaction." },
-        { label: "c", text: "Both start chains." },
-        { label: "d", text: "Transfer agents start chains; initiators limit MW." }
+        { label: "a", text: "Both generate radicals that stop the process completely once they react with a growing chain." },
+        { label: "b", text: "Initiators create radicals; transfer agents move a radical to another molecule and limit chain length." },
+        { label: "c", text: "Both mainly start new chains, so increasing either one raises rate and molecular weight together." },
+        { label: "d", text: "Transfer agents initiate chains, while initiators primarily transfer the active site to control molecular weight." }
       ],
       answer: "b",
       why: "Two distinct knobs: **initiator** controls how many chains start (rate + MW); **transfer agent** controls how long each chain lives (MW only, ~unchanged rate). Industrial MW control often uses both.",
