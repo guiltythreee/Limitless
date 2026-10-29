@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - work/metallurgy-question-quality-2026-10-29
-  workflow_dispatch:
+    paths:
+      - metallurgy-source/scripts/apply-authored-revisions.py
 
 permissions:
   contents: write
