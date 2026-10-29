@@ -197,8 +197,13 @@
     var activityClass = cleanString(args.activityClass);
     var difficulty = cleanString(args.difficulty || 'foundational');
     var base = BASE_EXP[activityClass];
+    if (activityClass === 'bespoke-project') {
+      base = args.projectBaseExp;
+      if (!projectBaseIsValid(base)) return { ok: false, error: 'invalid-project-base-exp', xp: 0 };
+    }
     var multiplier = DIFFICULTY[difficulty];
-    if (typeof base !== 'number') return { ok: false, error: 'unknown-activity-class', xp: 0 };
+    if (!isKnownActivityClass(activityClass)) return { ok: false, error: 'unknown-activity-class', xp: 0 };
+    if (typeof base !== 'number') return { ok: false, error: 'invalid-project-base-exp', xp: 0 };
     if (typeof multiplier !== 'number') return { ok: false, error: 'unknown-difficulty', xp: 0 };
 
     var quality = typeof args.quality === 'number' && isFinite(args.quality) ? clamp(args.quality, 0, 1) : null;
