@@ -29,8 +29,17 @@
   var HALF_REPEATS_PER_DAY = 3;
   var PROJECT_EXP_MIN = 20;
   var PROJECT_EXP_MAX = 100;
-  // Fixed module namespaces keep the self-service project form from minting
-  // duplicate projects under arbitrary module names.
+  // Explicit registry: every adapter must use a known module namespace.
+  // Future disciplines are added here with their adapter and regression tests.
+  var REGISTERED_MODULES = {
+    'bookkeys': { name: 'Bookkeys', projectOnly: false },
+    'math-trainer': { name: 'Math Trainer', projectOnly: false },
+    'probability': { name: 'Probability', projectOnly: false },
+    'metallurgy': { name: 'Metallurgy', projectOnly: false },
+    'personal-projects': { name: 'Personal projects', projectOnly: true }
+  };
+  // Projects may be associated with any registered discipline, plus the
+  // personal-projects namespace for work that does not yet have a module.
   var PROJECT_MODULES = {
     'bookkeys': true,
     'math-trainer': true,
@@ -287,6 +296,9 @@
         return {
           standard: VERSION,
           xp: ledger.totalXp,
+          registeredModules: Object.keys(REGISTERED_MODULES).map(function (id) {
+            return { id: id, name: REGISTERED_MODULES[id].name, projectOnly: REGISTERED_MODULES[id].projectOnly };
+          }),
           registeredProjects: ledger.projects.map(function (project) {
             return { id: project.id, module: project.m, baseExp: project.baseExp, title: project.title, scope: project.scope, criteria: project.criteria, registeredAt: project.registeredAt, version: project.v };
           }),
@@ -400,6 +412,8 @@
       var passKey = cleanString(args.passKey || '');
       if (!eventId || !moduleId || !contentKey) return { ok: false, xp: 0, error: 'missing-event-module-or-content-key' };
       if (eventId.length > 256 || moduleId.length > 64 || contentKey.length > 256) return { ok: false, xp: 0, error: 'identifier-too-long' };
+      if (!REGISTERED_MODULES[moduleId]) return { ok: false, xp: 0, error: 'unregistered-module' };
+      if (REGISTERED_MODULES[moduleId].projectOnly && activityClass !== 'bespoke-project') return { ok: false, xp: 0, error: 'module-only-supports-registered-projects' };
       if (!isKnownActivityClass(activityClass)) return { ok: false, xp: 0, error: 'unknown-activity-class' };
       if (typeof DIFFICULTY[difficulty] !== 'number') return { ok: false, xp: 0, error: 'unknown-difficulty' };
       if (!EVIDENCE_TYPES[evidence]) return { ok: false, xp: 0, error: 'missing-or-unknown-completion-evidence' };
@@ -661,6 +675,9 @@
     VERSION: VERSION,
     STORAGE_KEY: STORAGE_KEY,
     BASE_EXP: BASE_EXP,
+    REGISTERED_MODULES: Object.keys(REGISTERED_MODULES).map(function (id) {
+      return { id: id, name: REGISTERED_MODULES[id].name, projectOnly: REGISTERED_MODULES[id].projectOnly };
+    }),
     PROJECT_EXP_RANGE: { min: PROJECT_EXP_MIN, max: PROJECT_EXP_MAX },
     DIFFICULTY: DIFFICULTY,
     EVIDENCE_TYPES: Object.keys(EVIDENCE_TYPES),
