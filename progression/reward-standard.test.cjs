@@ -141,6 +141,17 @@ test('universal reward unlocks are derived from the global level, not any discip
   assert.deepEqual(ledger.summary().unlockedRewards.map((reward) => reward.id), ['first-light']);
 });
 
+test('completion evidence must match the normalized activity class', () => {
+  const { ledger } = setup();
+  const result = ledger.record({
+    module: 'probability', eventId: 'wrong-evidence', contentKey: 'q1',
+    activityClass: 'micro-practice', evidence: 'completed-session'
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.error, 'completion-evidence-does-not-fit-activity');
+  assert.equal(ledger.summary().xp, 0);
+});
+
 test('stored totalXp is only a cache; authoritative award history controls the total', () => {
   const { ledger, storage } = setup();
   storage.setItem(Rewards.STORAGE_KEY, JSON.stringify({
