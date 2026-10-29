@@ -43,6 +43,10 @@ function stableHash(value: string): string {
 }
 
 function rewardAttempt(attempt: Attempt): GlobalRewardInput | null {
+  // A scored test earns one assessment reward, not the same micro-practice
+  // reward repeated for every answer within that test. The attempts remain in
+  // canonical history and still contribute to lesson/pathway mastery.
+  if (attempt.source === "assessment") return null;
   const question = questionByKey[attempt.q];
   if (!question) return null;
   return {
@@ -164,6 +168,7 @@ export type Attempt = {
   status: Exclude<Status, "unattempted">;
   ms: number; // time spent on this attempt
   ts: number; // when it was submitted (0 = carried over from an older version, date unknown)
+  source?: "practice" | "assessment"; // distinguishes standalone practice from test answers
 };
 export type Draft = { ms: number; picked: number[] };
 export type TestRecord = {
@@ -360,7 +365,7 @@ export function useHydrated(): boolean {
 }
 
 // ---------- actions ----------
-type AttemptInput = { q: string; picked: number[]; ms: number };
+type AttemptInput = { q: string; picked: number[]; ms: number; source?: "practice" | "assessment" };
 
 function prepareAttempts(inputs: AttemptInput[]) {
   const attempts: Attempt[] = [];
@@ -379,6 +384,7 @@ function prepareAttempts(inputs: AttemptInput[]) {
       status: g.status,
       ms: Math.max(0, Math.round(input.ms)),
       ts,
+      source: input.source ?? "practice",
     };
     attempts.push(attempt);
     delete drafts[input.q];
@@ -410,7 +416,10 @@ export function recordAttempt(q: string, picked: number[], ms: number): Attempt 
 /** Persist test answers and the test record together in one canonical write. */
 export function recordTestWithAttempts(t: TestRecord, inputs: AttemptInput[]): Attempt[] {
   ensureLoaded();
-  const prepared = prepareAttempts(Array.isArray(inputs) ? inputs : []);
+  const assessmentInputs = Array.isArray(inputs)
+    ? inputs.map((input) => ({ ...input, source: "assessment" as const }))
+    : [];
+  const prepared = prepareAttempts(assessmentInputs);
   const saved = commit({
     ...state,
     attempts: [...state.attempts, ...prepared.attempts],
