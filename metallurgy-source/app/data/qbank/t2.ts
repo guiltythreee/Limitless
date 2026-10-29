@@ -230,10 +230,10 @@ const T2: TopicSource = {
       diff: 2,
       text: "Why does step-growth polymerization require exact stoichiometric balance of functional groups to reach high MW?",
       options: [
-        { label: "a", text: "Excess of one group caps every chain with unreactive ends, limiting DP." },
-        { label: "b", text: "It does not — any stoichiometry reaches high MW." },
-        { label: "c", text: "Imbalance slows the reaction tenfold." },
-        { label: "d", text: "Imbalance causes side reactions that destroy the polymer." }
+        { label: "a", text: "An imbalance leaves excess end groups and limits the attainable degree of polymerization, even as conversion approaches unity." },
+        { label: "b", text: "Any functional-group ratio reaches the same high molecular weight; only the reaction temperature determines the chain length." },
+        { label: "c", text: "An imbalance simply slows the reaction tenfold, without changing the limiting chain length at a given conversion." },
+        { label: "d", text: "Stoichiometric imbalance prevents every functional group from reacting, so side reactions destroy all chains before growth occurs." }
       ],
       answer: "a",
       why: "Chains can only grow while **both** end-group types are available. An excess of one kind converts all ends to that unreactive type and growth stops at $DP = (1+r)/(1-r)$ — the stoichiometric ratio $r$ caps MW.",
@@ -568,10 +568,10 @@ const T2: TopicSource = {
       diff: 3,
       text: "In a step-growth polymerization, what conversion is needed to reach $DP_n = 200$ (stoichiometric)?",
       options: [
-        { label: "a", text: "90%" },
+        { label: "a", text: "90.0%" },
         { label: "b", text: "99.5%" },
-        { label: "c", text: "99%" },
-        { label: "d", text: "95%" }
+        { label: "c", text: "99.0%" },
+        { label: "d", text: "95.0%" }
       ],
       answer: "b",
       why: "$p = 1 - 1/DP = 1 - 1/200 = 1 - 0.005 = 0.995$ → **99.5%**.",
@@ -638,19 +638,19 @@ const T2: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "Surfactant always acts as a chain-transfer agent, so both rate and molecular mass must fall."
+          "text": "Surfactant above the critical micelle concentration always acts as a chain-transfer agent, shortening every chain and raising rate."
         },
         {
           "label": "b",
-          "text": "Micelles act only as heat sinks; when temperature is controlled, their number cannot affect the rate."
+          "text": "Micelles serve only as heat sinks; particle count does not affect the reaction rate or the frequency of termination events."
         },
         {
           "label": "c",
-          "text": "Every particle holds many radicals throughout the reaction, guaranteeing faster termination and shorter chains."
+          "text": "Each particle holds many radicals continuously, so bimolecular termination rises with particle number and molecular weight always falls."
         },
         {
           "label": "d",
-          "text": "More particles create more reaction loci, while compartmentalisation can limit intraparticle termination; molecular mass need not rise monotonically."
+          "text": "More particles create more reaction loci; radical compartmentalization raises rate while limiting termination within each particle."
         }
       ],
       "answer": "d",
