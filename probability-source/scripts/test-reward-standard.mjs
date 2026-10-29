@@ -11,6 +11,11 @@ import {
   unequipReward,
 } from "../../shared/profile.mjs";
 import {
+  acknowledgeLevelNotification,
+  LEVEL_NOTIFICATION_STORAGE_KEY,
+  syncLevelNotifications,
+} from "../../shared/level-notifications.mjs";
+import {
   ACTIVITY_BASE_EXP,
   CHECKPOINT_PASS_THRESHOLD,
   REPEAT_POLICY,
@@ -307,6 +312,26 @@ assert.equal(equipped.title, null);
 const equipmentPayload = JSON.parse(equipmentStorage.getItem(PROFILE_EQUIPMENT_STORAGE_KEY));
 assert.deepEqual(equipmentPayload.extensionOwnedByAnotherFeature, { retained: true });
 assert.equal(readGlobalRewardSummary(projectStorage).totalExp, 75, "equipping cosmetics does not spend or alter EXP");
+
+// Every observed global level crossing gets a durable acknowledgement record.
+// Initializing the feature does not manufacture retroactive notifications.
+const noticeValues = new Map();
+let noticeWrites = 0;
+const noticeStorage = {
+  getItem(key) { return noticeValues.get(key) ?? null; },
+  setItem(key, value) { noticeWrites++; noticeValues.set(key, String(value)); },
+};
+assert.equal(syncLevelNotifications(noticeStorage, 1, () => ts).notifications.length, 0);
+const created = syncLevelNotifications(noticeStorage, 3, () => ts + 1000);
+assert.deepEqual(created.notifications.map((notice) => notice.level), [2, 3]);
+const noticeWriteCount = noticeWrites;
+assert.deepEqual(syncLevelNotifications(noticeStorage, 3, () => ts + 2000).notifications.map((notice) => notice.level), [2, 3]);
+assert.equal(noticeWrites, noticeWriteCount, "a refresh must not create duplicate level-up notices");
+assert.equal(acknowledgeLevelNotification(noticeStorage, 2, () => ts + 3000), true);
+assert.equal(acknowledgeLevelNotification(noticeStorage, 2, () => ts + 4000), false);
+const savedNotices = JSON.parse(noticeStorage.getItem(LEVEL_NOTIFICATION_STORAGE_KEY));
+assert.equal(savedNotices.notifications.find((notice) => notice.level === 2).acknowledgedAt, ts + 3000);
+assert.equal(savedNotices.notifications.find((notice) => notice.level === 3).acknowledgedAt, null);
 
 console.log("LSR-1 reward standard tests passed.");
 console.log("- 21 activity-class × difficulty combinations verified.");
