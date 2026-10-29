@@ -27,6 +27,8 @@
   var MAX_QUALITY_BONUS = 0.2;
   var FULL_REPEATS_PER_DAY = 3;
   var HALF_REPEATS_PER_DAY = 3;
+  var PROJECT_EXP_MIN = 20;
+  var PROJECT_EXP_MAX = 100;
   var EVIDENCE_TYPES = {
     'submitted-answer': true,
     'completed-session': true,
@@ -35,7 +37,8 @@
     'topic-mastery': true,
     'unit-mastery': true,
     'milestone-complete': true,
-    'pathway-complete': true
+    'pathway-complete': true,
+    'project-complete': true
   };
   // Level 5 unlocks are modest; each multiple of 10 is a larger universal reward.
   var REWARD_UNLOCKS = [
@@ -66,8 +69,20 @@
   function cleanString(value) {
     return typeof value === 'string' ? value.trim() : '';
   }
+  function isKnownActivityClass(activityClass) {
+    return typeof BASE_EXP[activityClass] === 'number' || activityClass === 'bespoke-project';
+  }
   function isOneTimeClass(activityClass) {
-    return activityClass === 'milestone' || activityClass === 'course-completion';
+    return activityClass === 'milestone' || activityClass === 'course-completion' || activityClass === 'bespoke-project';
+  }
+  function isCountableActivityAward(award) {
+    return !!(award && (typeof BASE_EXP[award.a] === 'number' ||
+      (award.a === 'bespoke-project' && typeof award.baseExp === 'number' &&
+       award.baseExp >= PROJECT_EXP_MIN && award.baseExp <= PROJECT_EXP_MAX)));
+  }
+  function projectBaseIsValid(value) {
+    return typeof value === 'number' && isFinite(value) && Math.floor(value) === value &&
+      value >= PROJECT_EXP_MIN && value <= PROJECT_EXP_MAX;
   }
   function evidenceFitsActivity(activityClass, evidence) {
     var allowed = {
@@ -76,13 +91,14 @@
       'focused-practice': { 'completed-session': true },
       assessment: { 'scored-assessment': true },
       milestone: { 'topic-mastery': true, 'unit-mastery': true, 'milestone-complete': true },
-      'course-completion': { 'pathway-complete': true }
+      'course-completion': { 'pathway-complete': true },
+      'bespoke-project': { 'project-complete': true }
     };
     return !!(allowed[activityClass] && allowed[activityClass][evidence]);
   }
   function emptyLedger() {
     return {
-      version: 1, standard: VERSION, totalXp: 0, awards: [],
+      version: 1, standard: VERSION, totalXp: 0, awards: [], projects: [],
       equippedTitleId: '', equippedEmblemId: '', equippedProfileEffectId: ''
     };
   }
@@ -117,6 +133,26 @@
     // Award history is authoritative. Never trust a parallel cached running
     // total: a torn/old write must not create EXP with no explainable award.
     result.totalXp = result.awards.reduce(function (total, award) { return total + award.x; }, 0);
+    var seenProjects = Object.create(null);
+    if (Array.isArray(value.projects)) {
+      result.projects = value.projects.filter(function (project) {
+        if (!project || typeof project !== 'object' || !cleanString(project.id) || !cleanString(project.m) ||
+            !projectBaseIsValid(project.baseExp) || !cleanString(project.title) ||
+            !cleanString(project.scope) || !cleanString(project.criteria)) return false;
+        var key = project.m + ':' + project.id;
+        if (seenProjects[key]) return false;
+        seenProjects[key] = true;
+        return true;
+      }).map(function (project) {
+        return {
+          id: cleanString(project.id), m: cleanString(project.m),
+          baseExp: project.baseExp, title: cleanString(project.title),
+          scope: cleanString(project.scope), criteria: cleanString(project.criteria),
+          registeredAt: Math.max(0, Math.floor(finiteNumber(project.registeredAt, 0))),
+          v: cleanString(project.v || '') || VERSION
+        };
+      });
+    }
     result.equippedTitleId = cleanString(value.equippedTitleId || '');
     result.equippedEmblemId = cleanString(value.equippedEmblemId || '');
     result.equippedProfileEffectId = cleanString(value.equippedProfileEffectId || '');
