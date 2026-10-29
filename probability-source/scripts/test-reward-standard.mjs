@@ -35,6 +35,38 @@ assert.deepEqual(ACTIVITY_BASE_EXP, {
 assert.equal(CHECKPOINT_PASS_THRESHOLD, 0.7);
 assert.equal(REPEAT_POLICY.fullAwardsPerItemPerDay, 3);
 
+// Exhaustively test each activity class against every difficulty tier without bonuses.
+const classCases = [
+  ["micro-practice", 5],
+  ["standard-task", 10],
+  ["focused-practice", 20],
+  ["assessment", 25],
+  ["unit-milestone", 50],
+  ["major-completion", 100],
+  ["bespoke-project", 20],
+];
+const tiers = [
+  ["foundational", 1],
+  ["intermediate", 1.25],
+  ["advanced", 1.5],
+];
+for (const [activityClass, baseExp] of classCases) {
+  for (const [difficulty, multiplier] of tiers) {
+    const result = calculateReward(activity({
+      eventId: "matrix-" + activityClass + "-" + difficulty,
+      itemId: "matrix-item-" + activityClass + "-" + difficulty,
+      activityClass,
+      difficulty,
+      assignedBaseExp: activityClass === "bespoke-project" ? baseExp : undefined,
+      quality: 0,
+    }), []);
+    assert.equal(result.eligible, true, activityClass + " / " + difficulty + " should be eligible");
+    assert.equal(result.baseExp, baseExp);
+    assert.equal(result.difficultyMultiplier, multiplier);
+    assert.equal(result.totalExp, Math.round(baseExp * multiplier), activityClass + " / " + difficulty + " award");
+  }
+}
+
 const wrong = calculateReward(activity(), []);
 assert.equal(wrong.totalExp, 5, "a completed but incorrect practice attempt earns base EXP");
 assert.equal(wrong.qualityBonus, 0);
@@ -143,6 +175,6 @@ assert.equal(global.sources[0].moduleId, "probability");
 assert.equal(global.registeredModules.length, 1, "unmigrated module-local XP is not presented as global LSR-1 EXP");
 
 console.log("LSR-1 reward standard tests passed.");
-console.log("- All activity classes and difficulty tiers are covered by calculator checks.");
+console.log("- 21 activity-class × difficulty combinations verified.");
 console.log("- Repeat cap, duplicate event protection and one-time pass bonus verified.");
 console.log("- Level boundaries, persisted summary and legacy-XP exclusion verified.");
