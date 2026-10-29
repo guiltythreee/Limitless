@@ -190,6 +190,14 @@ function setRewardActivationBaseline(): number {
 
 type QuestionRecord = (typeof allQuestions)[number];
 
+// Index the canonical question bank by stable lesson ID for mastery checks.
+const QUESTIONS_BY_LESSON: Record<string, QuestionRecord[]> = {};
+for (const question of allQuestions) {
+  const group = QUESTIONS_BY_LESSON[question.lessonId] ?? [];
+  group.push(question);
+  QUESTIONS_BY_LESSON[question.lessonId] = group;
+}
+
 function difficultyForQuestions(questions: QuestionRecord[]): DifficultyTier {
   const mean = questions.length
     ? questions.reduce((sum, question) => sum + (question.difficulty === "hard" ? 3 : question.difficulty === "medium" ? 2 : 1), 0) / questions.length
