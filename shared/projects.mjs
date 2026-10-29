@@ -102,7 +102,8 @@ export function registerProject(storage, input, now = Date.now) {
     return { ok: false, error: "duplicate-project-definition" };
   }
 
-  const ts = Math.max(1, Math.round(isFiniteNumber(now()) ? now() : Date.now()));
+  const clockValue = now();
+  const ts = Math.max(1, Math.round(isFiniteNumber(clockValue) ? clockValue : Date.now()));
   const project = {
     ...validated.project,
     registeredAt: ts,
