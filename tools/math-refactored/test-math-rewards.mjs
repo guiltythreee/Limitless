@@ -58,8 +58,8 @@ assert.equal(first.activityClass, "focused-practice");
 assert.equal(first.difficulty, "intermediate");
 assert.equal(first.baseExp, 20);
 assert.equal(first.difficultyMultiplier, 1.25);
-assert.equal(first.qualityBonus, 3);
-assert.equal(first.totalExp, 28);
+assert.equal(first.qualityBonus, 2, "0.9 quality earns half of the 20% cap above the 0.8 threshold");
+assert.equal(first.totalExp, 27);
 assert.equal(first.eligible, true);
 assert.equal(storage.writes, 1);
 
