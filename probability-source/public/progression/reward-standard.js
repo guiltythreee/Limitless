@@ -35,7 +35,7 @@
     'bookkeys': { name: 'Bookkeys', projectOnly: false },
     'math-trainer': { name: 'Math Trainer', projectOnly: false },
     'probability': { name: 'Probability', projectOnly: false },
-    'metallurgy': { name: 'Metallurgy', projectOnly: false },
+    'metallurgy': { name: 'Metallurgy', projectOnly: true },
     'personal-projects': { name: 'Personal projects', projectOnly: true }
   };
   // Projects may be associated with any registered discipline, plus the
