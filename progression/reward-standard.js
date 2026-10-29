@@ -204,6 +204,7 @@
               qualityBonus: finiteNumber(award.qualityBonus, 0),
               repeatMultiplier: finiteNumber(award.repeatMultiplier, 1),
               xp: award.x, timestamp: finiteNumber(award.t, 0), version: award.v,
+              reason: cleanString(award.reason || ''),
               bonusType: award.bonusType || null
             };
           }),
