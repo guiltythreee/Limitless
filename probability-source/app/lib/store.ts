@@ -1,16 +1,139 @@
 import { useSyncExternalStore } from "react";
+import { lessons } from "../content";
 import { allQuestions, grade, questionByKey, type Q, type Status } from "./questions";
 import type { GlobalRewardInput, RewardDifficulty } from "./reward-types";
 
-function recordGlobalReward(input: GlobalRewardInput) {
-  if (typeof window === "undefined") return;
-  try { window.LimitlessRewards?.record(input); } catch { /* Existing learning progress remains usable if global rewards are unavailable. */ }
+const REWARD_ACTIVATED_AT_KEY = "limitless.reward.probability-activated-at.v1";
+const PATHWAY_VERSION = "probability-current-archive-v1";
+let rewardActivatedAt = 0;
+
+function recordGlobalReward(input: GlobalRewardInput): boolean {
+  if (typeof window === "undefined" || !window.LimitlessRewards) return false;
+  try {
+    const receipt = window.LimitlessRewards.record(input);
+    return !!receipt?.ok;
+  } catch {
+    return false;
+  }
 }
 
 function rewardDifficulty(value: string | undefined): RewardDifficulty {
   if (value === "hard") return "advanced";
   if (value === "medium") return "intermediate";
   return "foundational";
+}
+
+function difficultyForQuestions(questions: Q[]): RewardDifficulty {
+  const mean = questions.length
+    ? questions.reduce((sum, question) => sum + (question.difficulty === "hard" ? 3 : question.difficulty === "medium" ? 2 : 1), 0) / questions.length
+    : 1;
+  return mean >= 2.5 ? "advanced" : mean >= 1.5 ? "intermediate" : "foundational";
+}
+
+function stableHash(value: string): string {
+  let hash = 2166136261;
+  for (let i = 0; i < value.length; i++) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(36);
+}
+
+function rewardAttempt(attempt: Attempt): boolean {
+  const question = questionByKey[attempt.q];
+  if (!question) return false;
+  return recordGlobalReward({
+    module: "probability",
+    eventId: `probability:attempt:${attempt.id}`,
+    contentKey: `probability:question:${attempt.q}`,
+    activityClass: "micro-practice",
+    evidence: "submitted-answer",
+    difficulty: rewardDifficulty(question.difficulty),
+    quality: attempt.score,
+    reason: `Submitted answer for ${attempt.q}`,
+  });
+}
+
+function rewardAssessment(t: TestRecord): boolean {
+  const questions = t.results
+    .map((result) => questionByKey[result.q])
+    .filter((question): question is Q => Boolean(question));
+  const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
+  const meaningfulAssessment = t.total >= 5 && t.answered >= 5;
+  if (!meaningfulAssessment) return true;
+  const passed = quality >= 0.8;
+  const poolKey = stableHash([...new Set(questions.map((question) => question.key))].sort().join("|"));
+  const assessmentKey = `probability:assessment:${poolKey}`;
+  return recordGlobalReward({
+    module: "probability",
+    eventId: `probability:test:${t.id}`,
+    contentKey: assessmentKey,
+    activityClass: "assessment",
+    evidence: "scored-assessment",
+    difficulty: difficultyForQuestions(questions),
+    quality,
+    passed,
+    passKey: `${assessmentKey}:first-pass`,
+    reason: `Finished a scored test with ${t.answered} of ${t.total} questions answered`,
+  });
+}
+
+function rewardLessonMastery(lessonId: string, attempts: Attempt[]): boolean {
+  const questions = allQuestions.filter((question) => question.lessonId === lessonId);
+  if (!questions.length) return true;
+  const latest = latestByQuestion(attempts);
+  const scores = questions.map((question) => latest[question.key]?.score);
+  if (scores.some((score) => typeof score !== "number")) return true;
+  const quality = (scores as number[]).reduce((sum, score) => sum + score, 0) / scores.length;
+  if (quality < 0.8) return true;
+  const lesson = lessons.find((candidate) => candidate.id === lessonId);
+  if (!lesson) return true;
+  const lessonQuestions = questions;
+  const key = `probability:lesson-mastery:${lessonId}`;
+  return recordGlobalReward({
+    module: "probability",
+    eventId: key,
+    contentKey: key,
+    activityClass: "milestone",
+    evidence: "topic-mastery",
+    difficulty: difficultyForQuestions(lessonQuestions),
+    quality,
+    oneTimeKey: key,
+    reason: `Mastered ${lesson.title}: every question attempted, with at least 80% average latest score`,
+  });
+}
+
+function rewardPathwayMastery(attempts: Attempt[]): boolean {
+  if (!allQuestions.length) return true;
+  const latest = latestByQuestion(attempts);
+  const scores = allQuestions.map((question) => latest[question.key]?.score);
+  if (scores.some((score) => typeof score !== "number")) return true;
+  const quality = (scores as number[]).reduce((sum, score) => sum + score, 0) / scores.length;
+  if (quality < 0.8) return true;
+  const key = `probability:pathway:${PATHWAY_VERSION}`;
+  return recordGlobalReward({
+    module: "probability",
+    eventId: key,
+    contentKey: key,
+    activityClass: "course-completion",
+    evidence: "pathway-complete",
+    difficulty: "advanced",
+    quality,
+    oneTimeKey: key,
+    reason: `Mastered all ${allQuestions.length} questions in the current Probability archive`,
+  });
+}
+
+function setRewardActivationBaseline(): number {
+  try {
+    const raw = localStorage.getItem(REWARD_ACTIVATED_AT_KEY);
+    if (raw !== null && Number.isFinite(Number(raw))) return Number(raw);
+    const activatedAt = Date.now();
+    localStorage.setItem(REWARD_ACTIVATED_AT_KEY, String(activatedAt));
+    return activatedAt;
+  } catch {
+    return Date.now();
+  }
 }
 
 /*
@@ -121,21 +244,46 @@ let state: State = EMPTY;
 let loaded = false;
 const listeners = new Set<() => void>();
 
-function persist() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { /* storage full or blocked */ }
+function persist(): boolean {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
+  } catch {
+    return false;
+  }
 }
-function commit(next: State) {
+function commit(next: State): boolean {
   state = next;
-  persist();
+  const saved = persist();
   listeners.forEach((l) => l());
+  return saved;
+}
+function recoverGlobalRewards() {
+  if (typeof window === "undefined" || !window.LimitlessRewards) return;
+  if (!rewardActivatedAt) rewardActivatedAt = setRewardActivationBaseline();
+  const eligibleAttempts = state.attempts.filter((attempt) => attempt.ts >= rewardActivatedAt);
+  for (const attempt of eligibleAttempts) {
+    rewardAttempt(attempt);
+    rewardLessonMastery(questionByKey[attempt.q]?.lessonId ?? "", state.attempts);
+  }
+  const eligibleTests = state.tests.filter((record) => record.ts >= rewardActivatedAt);
+  for (const record of eligibleTests) rewardAssessment(record);
+  rewardPathwayMastery(state.attempts);
 }
 function ensureLoaded() {
   if (!loaded && typeof window !== "undefined") {
     loaded = true;
     state = read();
     persist();
+    rewardActivatedAt = setRewardActivationBaseline();
+    recoverGlobalRewards();
+    window.addEventListener("focus", recoverGlobalRewards);
     window.addEventListener("storage", (e) => {
-      if (e.key === STORAGE_KEY) { state = read(); listeners.forEach((l) => l()); }
+      if (e.key === STORAGE_KEY) {
+        state = read();
+        recoverGlobalRewards();
+        listeners.forEach((l) => l());
+      }
     });
   }
 }
@@ -154,6 +302,7 @@ export function useHydrated(): boolean {
 
 // ---------- actions ----------
 export function recordAttempt(q: string, picked: number[], ms: number): Attempt | null {
+  ensureLoaded();
   const question = questionByKey[q];
   if (!question) return null;
   const g = grade(question.item, picked);
@@ -162,22 +311,20 @@ export function recordAttempt(q: string, picked: number[], ms: number): Attempt 
   const today = dayKey(ts);
   const drafts = { ...state.drafts };
   delete drafts[q];
-  commit({
+  const saved = commit({
     ...state,
     attempts: [...state.attempts, attempt],
     drafts,
     goalByDay: state.goalByDay[today] === undefined ? { ...state.goalByDay, [today]: state.goal } : state.goalByDay,
   });
-  // One shared EXP event per submitted answer. The stable attempt ID prevents
-  // accidental double-awards if this same record is replayed.
-  recordGlobalReward({
-    module: "probability",
-    eventId: `probability:attempt:${attempt.id}`,
-    contentKey: `probability:question:${q}`,
-    activityClass: "micro-practice",
-    difficulty: rewardDifficulty(question.difficulty),
-    quality: g.score,
-  });
+  // Only reward an activity after its canonical learning record persisted.
+  // If the separate ledger write fails, reload/focus recovery retries it using
+  // the same event ID, so a saved attempt cannot permanently lose its reward.
+  if (saved) {
+    rewardAttempt(attempt);
+    rewardLessonMastery(question.lessonId, state.attempts);
+    rewardPathwayMastery(state.attempts);
+  }
   return attempt;
 }
 /** Saves a half-finished question. Does not re-render anything; it only protects against refreshes. */
@@ -192,40 +339,8 @@ export function clearDraft(q: string) {
   commit({ ...state, drafts });
 }
 export function recordTest(t: TestRecord) {
-  commit({ ...state, tests: [...state.tests, t] });
-  // Use the whole test pool, not just answered questions, so answering only
-  // a hard item cannot inflate the difficulty multiplier for an easy test.
-  const testQuestions = t.results
-    .map((result) => questionByKey[result.q])
-    .filter((question): question is Q => Boolean(question));
-  const meanDifficulty = testQuestions.length
-    ? testQuestions.reduce((sum, question) => sum + (question.difficulty === "hard" ? 3 : question.difficulty === "medium" ? 2 : 1), 0) / testQuestions.length
-    : 1;
-  const difficulty: RewardDifficulty = meanDifficulty >= 2.5
-    ? "advanced"
-    : meanDifficulty >= 1.5
-      ? "intermediate"
-      : "foundational";
-  const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
-  const meaningfulAssessment = t.total >= 5 && t.answered >= 5;
-  const passed = meaningfulAssessment && quality >= 0.8;
-  // Don't award an assessment for an empty or tiny test pool. Those questions
-  // already count through recordAttempt; only a meaningful sample earns the
-  // higher assessment award and one-time first-pass bonus.
-  if (meaningfulAssessment) {
-    const labelKey = t.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 100) || "mixed";
-    const passKey = `probability:assessment-pass:${labelKey}`;
-    recordGlobalReward({
-      module: "probability",
-      eventId: `probability:test:${t.id}`,
-      contentKey: `probability:assessment:${labelKey}`,
-      activityClass: "assessment",
-      difficulty,
-      quality,
-      passed,
-      passKey,
-    });
-  }
+  const saved = commit({ ...state, tests: [...state.tests, t] });
+  if (saved) rewardAssessment(t);
 }
 export function toggleBookmark(q: string) {
   commit({ ...state, bookmarks: state.bookmarks.includes(q) ? state.bookmarks.filter((k) => k !== q) : [...state.bookmarks, q] });
