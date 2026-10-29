@@ -131,6 +131,7 @@ export default function Home() {
             <button onClick={() => setTab("analysis")} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Analysis</button>
             <button onClick={() => setTab("experiment")} className={tab === "experiment" ? "text-gold" : "hover:text-parchment"}>Experiment</button>
             <button onClick={() => { setTab("coverage"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "coverage" ? "text-gold" : "hover:text-parchment"}>Coverage</button>
+            <a href="/meta/" className="hover:text-parchment">Meta</a>
             <a href="#path" className="hover:text-parchment">Pathway</a>
           </nav>
           <div className="flex items-center gap-2">
