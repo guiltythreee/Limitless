@@ -121,6 +121,18 @@ assert.equal(trick.activityClass, "assessment");
 assert.equal(trick.checkpointId, "math-trick-mastery:doubling");
 assert.equal(trick.passBonus, 15);
 assert.equal(adapter.awardTrickPhase({
+  runId: "trick-practice-short", trickId: "doubling", phase: "practice", completed: true,
+  verified: true, attempted: 4, questionCount: 5, requiredCount: 10, skipped: 1,
+  accuracy: 1, firstMastery: false, completedAt: day2,
+}), null, "a practice phase below the existing half-answered threshold is ineligible");
+const practice = adapter.awardTrickPhase({
+  runId: "trick-practice-valid", trickId: "doubling", phase: "practice", completed: true,
+  verified: true, attempted: 5, questionCount: 6, requiredCount: 10, skipped: 1,
+  accuracy: 0.8, firstMastery: false, completedAt: day2,
+});
+assert.equal(practice.activityClass, "focused-practice");
+assert.equal(practice.eligible, true, "valid Trick Chamber practice may finish after half the questions");
+assert.equal(adapter.awardTrickPhase({
   runId: "trick-skip", trickId: "multiplication", phase: "post", completed: true,
   verified: true, attempted: 5, questionCount: 6, requiredCount: 6, skipped: 1,
   accuracy: 1, firstMastery: true, completedAt: day2,
