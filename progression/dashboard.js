@@ -22,6 +22,11 @@
       top.appendChild(level);
       top.appendChild(xp);
       mount.appendChild(top);
+      var identity = [];
+      if (summary.equippedTitle) identity.push('Title · ' + summary.equippedTitle.name);
+      if (summary.equippedEmblem) identity.push('Emblem · ' + summary.equippedEmblem.name);
+      if (summary.equippedProfileEffect) identity.push('Effect · ' + summary.equippedProfileEffect.name);
+      if (identity.length) mount.appendChild(element('p', 'global-progress-identity', identity.join(' · ')));
       var bar = element('div', 'global-progress-track');
       bar.setAttribute('role', 'progressbar');
       bar.setAttribute('aria-label', 'Progress to next global level');
