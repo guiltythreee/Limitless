@@ -79,7 +79,7 @@ test("duplicate activity IDs are idempotent and do not write twice", () => {
 });
 
 test("a same-item daily repeat cap applies and begins a new window the next day", () => {
-  const itemId = "bookkeys:page:0123456789abcdef";
+  const itemId = "bookkeys:page:a1b2c3d4e5f60718";
   const one = adapter.award(page("repeat-1", { itemId }));
   const two = adapter.award(page("repeat-2", { itemId }));
   const three = adapter.award(page("repeat-3", { itemId }));
