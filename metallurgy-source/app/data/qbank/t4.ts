@@ -491,13 +491,13 @@ const T4: TopicSource = {
       diff: 3,
       text: "A cumulative weight-fraction curve rises steeply then plateaus; the 50% point is called:",
       options: [
-        { label: "a", text: "Mz" },
-        { label: "b", text: "Mn" },
-        { label: "c", text: "The most-probable MW (Mp)" },
-        { label: "d", text: "Mw" }
+        { label: "a", text: "M_n — number-average molecular weight, based on the number of chains." },
+        { label: "b", text: "M_w — weight-average molecular weight, weighted by each chain's mass." },
+        { label: "c", text: "M_50 — weight-median molecular weight; half the mass lies on either side." },
+        { label: "d", text: "M_p — most-probable molecular weight at the peak of the distribution." }
       ],
       answer: "c",
-      why: "On a cumulative MWD curve the midpoint (50% of weight above and below) is the **peak MW, M_p** — the mode. Mn and Mw are moments of the distribution, not its midpoint.",
+      why: "The 50% point on a cumulative weight-fraction curve is the weight-median molecular weight, M_50: half the sample mass lies below it and half above it. M_p is the mode of the differential distribution, while M_n and M_w are different averages.",
       tags: ["confused"],
     },
     {
