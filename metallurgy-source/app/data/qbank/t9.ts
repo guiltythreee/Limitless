@@ -202,10 +202,10 @@ const T9: TopicSource = {
       diff: 3,
       text: "Why is PVC especially prone to thermal degradation, and how is it stabilized?",
       options: [
-        { label: "a", text: "PVC depolymerizes at room temperature." },
-        { label: "b", text: "PVC oxidizes only in water." },
-        { label: "c", text: "PVC needs no stabilizer." },
-        { label: "d", text: "Allylic/tertiary C–Cl sites zip off as HCl (dehydrochlorination), the liberated HCl autocatalyzes further degradation, and polyene sequences discolour the polymer. Metal soaps (Ca/Zn) or organotins remove HCl and repair labile sites." }
+        { label: "a", text: "PVC depolymerizes rapidly toward vinyl chloride at room temperature, so refrigeration is needed to keep it stable." },
+        { label: "b", text: "PVC's main thermal failure is oxidation by water alone, so excluding moisture removes the need for heat stabilizers." },
+        { label: "c", text: "PVC can be melt-processed without stabilizers because its backbone has no thermally labile bonds." },
+        { label: "d", text: "Labile sites release autocatalytic HCl; calcium/zinc soaps or organotins suppress dehydrochlorination." }
       ],
       answer: "d",
       why: "**Dehydrochlorination** destroys a labile C–Cl bond, releasing HCl that catalyses the next loss — a self-accelerating 'unzipping' that forms coloured polyenes. **Thermal stabilizers** (organotin, mixed-metal soaps) substitute the labile chlorine and mop up HCl.",
@@ -376,10 +376,10 @@ const T9: TopicSource = {
       diff: 3,
       text: "Why does blending a small amount of a *hydrophilic* polymer into a *hydrophobic* commodity plastic often accelerate its environmental degradation?",
       options: [
-        { label: "a", text: "It has no effect." },
-        { label: "b", text: "The hydrophilic domains absorb water and swell, building internal stress and letting micro-organisms/enzymes access the interface, fragmenting the matrix." },
-        { label: "c", text: "Hydrophilic polymers emit UV radiation." },
-        { label: "d", text: "The blend raises the melting point." }
+        { label: "a", text: "A dispersed hydrophilic phase cannot change transport or stress in the hydrophobic matrix, so degradation stays unchanged." },
+        { label: "b", text: "Hydrophilic domains absorb water, swell and create stress/pathways that promote fragmentation at interfaces." },
+        { label: "c", text: "The additive catalyses cleavage of the hydrophobic backbone even without water, oxygen, light or biological activity." },
+        { label: "d", text: "The blend becomes one dense, fully miscible phase with less exposed surface, accelerating complete mineralization." }
       ],
       answer: "b",
       why: "A water-loving phase creates **internal pathways and stresses** that fragment the hydrophobic matrix and expose surface area — the practical basis of 'pro-oxidant'/starch-blended degradable polyolefins (with the caveat that fragments may persist).",
@@ -392,10 +392,10 @@ const T9: TopicSource = {
       diff: 2,
       text: "The Flory–Huggins interaction parameter χ determines miscibility. Which statement is correct?",
       options: [
-        { label: "a", text: "Miscibility requires χ below a critical value that scales as 1/√N — so high-MW pairs are harder to mix than low-MW ones." },
-        { label: "b", text: "χ is independent of temperature." },
-        { label: "c", text: "χ is always zero." },
-        { label: "d", text: "Miscibility requires χ > 10." }
+        { label: "a", text: "As chain length rises, the critical χ approaches zero, so slight unfavorable enthalpy can cause phase separation." },
+        { label: "b", text: "χ is purely entropic and remains constant with temperature, regardless of solvent quality or composition." },
+        { label: "c", text: "Every polymer pair is miscible only when χ equals exactly zero, irrespective of chain length or structure." },
+        { label: "d", text: "Large positive χ values favour mixing because they lower the free-energy penalty for keeping two polymers together." }
       ],
       answer: "a",
       why: "The critical $\\chi_c \\approx 0.5(1/\\sqrt{N_1} + 1/\\sqrt{N_2})^2$ shrinks toward zero as chain lengths grow — the mathematical reason **high-MW polymer pairs almost never mix** unless χ is slightly negative (specific interactions).",
@@ -408,10 +408,10 @@ const T9: TopicSource = {
       diff: 3,
       text: "A rigid PVC pipe formulation must be opacified, toughened cheaply and protected from UV in a tropical climate. A plausible additive package is:",
       options: [
-        { label: "a", text: "TiO₂ (opacity + UV screening) + impact modifier (e.g. CPE/ACR) + thermal stabilizer + antistatic" },
-        { label: "b", text: "A peroxide only" },
-        { label: "c", text: "Glass fibre only" },
-        { label: "d", text: "Plasticizer only" }
+        { label: "a", text: "Rutile TiO₂ supplies opacity and UV screening, an impact modifier adds toughness, and a heat stabilizer protects processing." },
+        { label: "b", text: "A peroxide alone provides white colour and stabilizes the PVC backbone against sunlight and processing heat." },
+        { label: "c", text: "Glass fibre alone gives opacity and low-cost impact toughness while preventing UV-driven discoloration outdoors." },
+        { label: "d", text: "A plasticizer alone toughens rigid PVC and acts as a UV barrier, so a separate heat stabilizer is unnecessary." }
       ],
       answer: "a",
       why: "**TiO₂** provides opacity and screens UV; an **impact modifier** toughens rigid PVC; the **thermal stabilizer** guards PVC's weak point; antistatic aids handling. This is a realistic co-additive package.",
@@ -440,10 +440,10 @@ const T9: TopicSource = {
       diff: 4,
       text: "A bottle maker switches from monolayer PET to a PET/EVOH/PET multilayer structure. The functional reason is:",
       options: [
-        { label: "a", text: "PET gives strength/clarity, while the thin EVOH layer provides a much better O₂ barrier to extend shelf life; PET protects the moisture-sensitive EVOH." },
-        { label: "b", text: "PET alone cannot hold carbonation." },
-        { label: "c", text: "EVOH is cheaper than PET." },
-        { label: "d", text: "EVOH improves clarity." }
+        { label: "a", text: "PET provides structure and clarity; the EVOH core supplies a strong oxygen barrier protected by PET outer layers." },
+        { label: "b", text: "PET alone cannot retain carbonation at normal packaging pressures, so EVOH is added mainly as a carbon-dioxide barrier." },
+        { label: "c", text: "EVOH is chosen because it is cheaper than PET and can replace the structural layer without losing stiffness." },
+        { label: "d", text: "EVOH forms the scratch-resistant outer surface and provides clarity, while PET supplies the main oxygen barrier." }
       ],
       answer: "a",
       why: "Each layer contributes a property: **PET** = structure, clarity, moisture barrier; **EVOH** = excellent O₂ barrier (but moisture-sensitive); a tie layer or careful structure protects it. This is the standard multilayer barrier design logic.",
