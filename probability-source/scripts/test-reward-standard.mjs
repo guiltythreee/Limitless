@@ -5,6 +5,12 @@ import {
   registerProject,
 } from "../../shared/projects.mjs";
 import {
+  equipReward,
+  PROFILE_EQUIPMENT_STORAGE_KEY,
+  readEquippedRewards,
+  unequipReward,
+} from "../../shared/profile.mjs";
+import {
   ACTIVITY_BASE_EXP,
   CHECKPOINT_PASS_THRESHOLD,
   REPEAT_POLICY,
@@ -271,6 +277,36 @@ const listedProject = listRegisteredProjects(projectStorage)[0];
 assert.equal(listedProject.completed, true);
 assert.equal(listedProject.award.totalExp, 75);
 assert.equal(readGlobalRewardSummary(projectStorage).totalExp, 75);
+
+// Universal reward equipment is a separate, non-spendable profile preference.
+// It cannot equip locked items and never changes the global EXP total.
+const equipmentValues = new Map([[PROFILE_EQUIPMENT_STORAGE_KEY, JSON.stringify({
+  extensionOwnedByAnotherFeature: { retained: true },
+  slots: {},
+})]]);
+let equipmentWrites = 0;
+const equipmentStorage = {
+  getItem(key) { return equipmentValues.get(key) ?? null; },
+  setItem(key, value) { equipmentWrites++; equipmentValues.set(key, String(value)); },
+};
+assert.equal(equipReward(equipmentStorage, "scholars-mark", 2).error, "reward-not-unlocked");
+assert.equal(equipReward(equipmentStorage, "first-light", 2).ok, true);
+const writesAfterFirstEquip = equipmentWrites;
+assert.equal(equipReward(equipmentStorage, "first-light", 2).duplicate, true);
+assert.equal(equipmentWrites, writesAfterFirstEquip);
+assert.equal(equipReward(equipmentStorage, "scholars-mark", 5).ok, true);
+assert.equal(equipReward(equipmentStorage, "polymath-glow", 10).ok, true);
+let equipped = readEquippedRewards(equipmentStorage, 10);
+assert.equal(equipped.title.id, "first-light");
+assert.equal(equipped.emblem.id, "scholars-mark");
+assert.equal(equipped.effect.id, "polymath-glow");
+assert.equal(readEquippedRewards(equipmentStorage, 1).title, null, "locked equipment is hidden if not unlocked at current level");
+assert.equal(unequipReward(equipmentStorage, "title").ok, true);
+equipped = readEquippedRewards(equipmentStorage, 10);
+assert.equal(equipped.title, null);
+const equipmentPayload = JSON.parse(equipmentStorage.getItem(PROFILE_EQUIPMENT_STORAGE_KEY));
+assert.deepEqual(equipmentPayload.extensionOwnedByAnotherFeature, { retained: true });
+assert.equal(readGlobalRewardSummary(projectStorage).totalExp, 75, "equipping cosmetics does not spend or alter EXP");
 
 console.log("LSR-1 reward standard tests passed.");
 console.log("- 21 activity-class × difficulty combinations verified.");
