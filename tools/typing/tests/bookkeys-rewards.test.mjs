@@ -6,6 +6,7 @@ import {
   createBookkeysRewardAdapter,
 } from "../bookkeys-rewards.mjs";
 import { readGlobalRewardSummary } from "../../../shared/rewards.mjs";
+import { installBookkeysRewardBridge } from "../bookkeys-reward-bridge.mjs";
 
 function createStorage(initial = {}) {
   const values = new Map(Object.entries(initial));
@@ -129,4 +130,65 @@ test("Meta includes the isolated ledger only and excludes legacy Bookkeys XP", (
     .reduce((sum, record) => sum + record.totalExp, 0);
   assert.equal(before.sources.find((source) => source.moduleId === "bookkeys").exp, expected);
   assert.ok(before.totalExp < 987654, "old bookkeys:game XP must not leak into global Meta EXP");
+});
+
+
+test("the shell bridge awards fresh typing but does not convert imported legacy pages", () => {
+  class FakeTarget {
+    handlers = new Map();
+    addEventListener(name, fn) { this.handlers.set(name, fn); }
+    removeEventListener(name) { this.handlers.delete(name); }
+    emit(name, event) { this.handlers.get(name)?.(event); }
+  }
+  let now = day1;
+  const bridgeStorage = createStorage({
+    "bookkeys:game": JSON.stringify({ xp: 987654 }),
+    [BOOKKEYS_REWARD_STORAGE_KEY]: JSON.stringify({ rewardLedger: [] }),
+  });
+  const bridgeAdapter = createBookkeysRewardAdapter(bridgeStorage, { now: () => now });
+  const target = new FakeTarget();
+  const dispose = installBookkeysRewardBridge(target, bridgeAdapter, { now: () => now });
+  const emit = (previous, next) => target.emit("storage", {
+    key: "bookkeys:game",
+    oldValue: JSON.stringify(previous),
+    newValue: JSON.stringify(next),
+  });
+
+  // An old/backup-imported page has no fresh completion marker and earns nothing.
+  const importedBefore = { book: { "book-A": { p: [], x: [], e: [], c: [], done: 0 } }, paid: {}, check: null };
+  const importedAfter = { book: { "book-A": { p: [0], x: [0], e: [], c: [], done: 0 } }, paid: {}, check: null };
+  emit(importedBefore, importedAfter);
+  assert.equal(bridgeAdapter.getRecords().length, 0);
+
+  // Actual Bookkeys finish() saves the just-typed page together with G.check.
+  now += 1000;
+  const pageBefore = importedBefore;
+  const pageAfter = {
+    book: { "book-A": { p: [0], x: [0], e: [], c: [], done: 0 } },
+    paid: {},
+    check: { key: "book-A", page: 0 },
+  };
+  emit(pageBefore, pageAfter);
+  assert.equal(bridgeAdapter.getRecords().length, 1);
+  assert.equal(bridgeAdapter.getRecords()[0].eventId, "bookkeys:page:book-A:0");
+
+  // gameProgress later clears the same check while writing its new one-time
+  // chapter/book paid IDs. Only those milestones are emitted for that live page.
+  now += 500;
+  const milestoneAfter = {
+    book: { "book-A": { p: [0], x: [0], e: [], c: [0], done: 1 } },
+    paid: { "c:book-A:0": 40, "b:book-A": 300 },
+    check: null,
+  };
+  emit(pageAfter, milestoneAfter);
+  const records = bridgeAdapter.getRecords();
+  assert.equal(records.length, 3);
+  assert.ok(records.some((record) => record.itemId.startsWith("bookkeys:chapter:c:book-A:")));
+  const wholeBook = records.find((record) => record.activityClass === "major-completion");
+  assert.ok(wholeBook);
+  assert.equal(wholeBook.passBonus, 15);
+  assert.equal(wholeBook.checkpointId, "bookkeys:book-completion:book-A");
+
+  dispose();
+  assert.equal(target.handlers.has("storage"), false);
 });
