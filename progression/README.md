@@ -21,11 +21,11 @@ LSR-1 is the shared global progression contract. Module-specific skill/rank XP r
 - Optional quality bonus: from 0 EXP at 80% quality to at most 20% of the activity's base EXP at 100% quality.
 - A successful first pass is persisted as a separate 15 EXP award record with its own deterministic ID, once per pass key.
 
-The pre-rounding formula is:
+The activity-award formula is:
 
-`(base EXP × difficulty multiplier + quality bonus) × repeat multiplier + first-pass bonus`
+`round((base EXP × difficulty multiplier + quality bonus) × repeat multiplier)`
 
-The final award is rounded to the nearest integer.
+A qualifying first pass is a separate, idempotent 15 EXP award record. Each activity and bonus record is stored independently so the ledger shows why every point was granted.
 
 ## Anti-farming and persistence
 
