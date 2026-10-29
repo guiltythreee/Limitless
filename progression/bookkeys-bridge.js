@@ -107,6 +107,9 @@
     window.addEventListener('storage', function (event) {
       if (event.key === GAME_KEY) process(currentGame());
     });
+    window.addEventListener('focus', function () {
+      process(currentGame());
+    });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
