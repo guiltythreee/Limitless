@@ -157,7 +157,11 @@
     left.appendChild(U.h('div', 'rank-name', rk.name));
     left.appendChild(U.h('div', 'rank-sub', meta.xp + ' Trainer XP' + (rk.next ? ' · ' + (rk.next - meta.xp) + ' to ' + rk.nextName : ' · highest rank')));
     var globalSummary = window.LimitlessRewards ? window.LimitlessRewards.summary() : null;
-    if (globalSummary) left.appendChild(U.h('div', 'rank-sub', 'Global Level ' + globalSummary.level + ' · ' + globalSummary.xp.toLocaleString() + ' EXP'));
+    if (globalSummary) {
+      left.appendChild(U.h('div', 'rank-sub', 'Global Level ' + globalSummary.level + ' · ' + globalSummary.xp.toLocaleString() + ' EXP'));
+      var globalIdentity = [globalSummary.equippedTitle && globalSummary.equippedTitle.name, globalSummary.equippedEmblem && globalSummary.equippedEmblem.name, globalSummary.equippedProfileEffect && globalSummary.equippedProfileEffect.name].filter(Boolean);
+      if (globalIdentity.length) left.appendChild(U.h('div', 'rank-sub', globalIdentity.join(' · ')));
+    }
     box.appendChild(left);
     var mid = U.h('div', 'xp-wrap');
     var bar = U.h('div', 'bar'); bar.setAttribute('role', 'progressbar'); bar.setAttribute('aria-label', 'Progress to next rank');
