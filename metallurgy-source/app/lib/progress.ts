@@ -40,7 +40,7 @@ export function loadProgress(): Progress {
       rewardLedger: sanitiseRewardRecords(p.rewardLedger),
     };
   } catch {
-    return { answered: {}, examBest: null };
+    return { answered: {}, examBest: null, rewardLedger: [] };
   }
 }
 
