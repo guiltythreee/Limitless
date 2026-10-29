@@ -133,7 +133,7 @@ def validate_course(repo: Path, sub: str) -> dict:
     # Confirm the sync script guards are active, so a later external-bank drift stops instead of silently applying by locator.
     sync_name = "sync-mt201.mjs" if sub == "mt201" else "sync.mjs"
     sync_text = (root / "scripts" / sync_name).read_text(encoding="utf-8")
-    if f'content-revisions/{sub}.json' not in sync_text or "revision.sourceFingerprint" not in sync_text:
+    if "content-revisions" not in sync_text or f'"{sub}.json"' not in sync_text or "revision.sourceFingerprint" not in sync_text:
         raise ValidationError(f"Durable fingerprint guard missing from scripts/{sync_name}")
     return {"course": sub.upper(), "questions": count, "chapters": len(chapters), "overlayRecords": len(records), "fingerprintsVerified": len(records), "sourceCommit": source_commit}
 
