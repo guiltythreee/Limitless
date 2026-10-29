@@ -111,10 +111,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "What is 'cold drawing' in a semi-crystalline polymer?",
       options: [
-        { label: "a", text: "Thermal softening above Tm" },
-        { label: "b", text: "The polymer melts and recrystallizes." },
-        { label: "c", text: "Chemical cross-linking under stress" },
-        { label: "d", text: "A neck forms and propagates as chains slide and orient along the draw direction; the crystallites align, raising strength in that direction." }
+        { label: "a", text: "Thermal softening above Tm melts the sample uniformly before chains begin to align in the draw direction." },
+        { label: "b", text: "The polymer melts and recrystallizes under zero stress, producing a sample with no molecular orientation." },
+        { label: "c", text: "Chemical cross-linking under tensile stress locks chains into a network, reducing strain while preserving thermoplastic flow." },
+        { label: "d", text: "A neck forms and propagates as chains slide and align along the draw direction, strengthening the oriented material." }
       ],
       answer: "d",
       why: "Beyond yield, a **neck** forms and extends: chains become **oriented** along the stress axis, stiffening and strengthening the drawn region. The same mechanism produces strong fibres and biaxially oriented films.",
@@ -161,10 +161,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "Why does impact strength usually fall as test temperature decreases?",
       options: [
-        { label: "a", text: "The notch becomes sharper." },
-        { label: "b", text: "The polymer becomes more crystalline on cooling." },
-        { label: "c", text: "Impact energy is temperature-independent." },
-        { label: "d", text: "Below Tg the amorphous phase has little segmental mobility, so energy-absorbing mechanisms (crazing/shear yielding) cannot operate and the material behaves brittlely." }
+        { label: "a", text: "The notch becomes sharper on cooling, concentrating stress and causing fracture at a lower energy input." },
+        { label: "b", text: "Crystallinity always rises on cooling, making every polymer brittle regardless of its glass-transition temperature." },
+        { label: "c", text: "Impact energy is temperature-independent because cracks propagate only through covalent bond rupture." },
+        { label: "d", text: "Below Tg, low segmental mobility suppresses crazing and shear yielding, so the polymer dissipates less impact energy." }
       ],
       answer: "d",
       why: "Toughness depends on **dissipative mechanisms needing chain mobility**. Cooling toward and below Tg freezes that mobility → brittle behaviour and low impact energy (the classic ductile–brittle transition).",
@@ -267,10 +267,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "In a Voigt (Kelvin) element under constant stress, the strain is:",
       options: [
-        { label: "a", text: "exponentially decaying" },
-        { label: "b", text: "time-dependent and retarded: $\\varepsilon(t) = \\dfrac{\\sigma}{E}(1 - e^{-t/\\tau})$" },
-        { label: "c", text: "instantaneous and constant" },
-        { label: "d", text: "always zero" }
+        { label: "a", text: "Strain decays exponentially to zero under constant stress, as it would for a Maxwell element in stress relaxation." },
+        { label: "b", text: "Strain rises toward σ/E as ε(t) = (σ/E)(1 − e^(−t/τ)), with the retardation time τ = η/E." },
+        { label: "c", text: "Strain jumps instantly to σ/E and stays constant because the spring carries the full load at once." },
+        { label: "d", text: "Strain stays zero because a dashpot in parallel prevents the spring from extending under sustained stress." }
       ],
       answer: "b",
       why: "Because the dashpot is in **parallel** with the spring, strain cannot be instantaneous: it approaches the equilibrium value $\\sigma/E$ exponentially with time constant $\\tau = \\eta/E$ — ideal for describing creep (retardation), not relaxation.",
@@ -283,10 +283,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "The Deborah number $De = \\tau_{relaxation}/\\tau_{observation}$ tells us that:",
       options: [
-        { label: "a", text: "It is a fixed material property." },
-        { label: "b", text: "It equals the glass-transition temperature." },
-        { label: "c", text: "It measures crystallinity." },
-        { label: "d", text: "The same material behaves glassy ($De \\gg 1$), rubbery or viscous ($De \\ll 1$) depending on the timescale of observation." }
+        { label: "a", text: "It is a fixed material constant that stays the same regardless of the test duration or measurement conditions." },
+        { label: "b", text: "It equals the glass-transition temperature expressed as a dimensionless ratio of two relaxation properties." },
+        { label: "c", text: "It directly measures crystallinity, so larger values always mean a more crystalline polymer structure." },
+        { label: "d", text: "It compares relaxation time with observation time: De ≫ 1 looks glassy, De ≈ 1 viscoelastic, and De ≪ 1 relaxed/flowing." }
       ],
       answer: "d",
       why: "**Time–temperature equivalence in one number**: if the material relaxes much slower than the experiment ($De \\gg 1$) it looks solid/glassy; if much faster ($De \\ll 1$) it flows like a liquid — 'the mountains flow' (long observation time).",
@@ -299,10 +299,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "Time–temperature superposition shifts creep or relaxation data measured at different temperatures onto a single master curve because:",
       options: [
-        { label: "a", text: "Temperature does not change molecular motion in polymers." },
-        { label: "b", text: "All polymers have identical Tg." },
-        { label: "c", text: "Raising the temperature speeds up molecular relaxation rates — so a high-temperature short-time test is equivalent to a low-temperature long-time test." },
-        { label: "d", text: "It only works for metals." }
+        { label: "a", text: "Temperature does not change molecular motion in polymers, so a test at one temperature predicts all others directly." },
+        { label: "b", text: "All polymers have nearly identical Tg values, so the same master curve applies without horizontal shifting." },
+        { label: "c", text: "Higher temperature speeds molecular relaxation, making short-time hot data equivalent to longer-time cool data." },
+        { label: "d", text: "Time–temperature superposition applies only to metals because polymers have no activated molecular relaxation." }
       ],
       answer: "c",
       why: "**TTS** exploits the equivalence of temperature and time: a shift factor $a_T$ (WLF above Tg, Arrhenius below) moves each isotherm horizontally. It is how a 20-year creep life is predicted from short lab tests.",
@@ -339,10 +339,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "A plot of tensile creep strain vs time is drawn at three temperatures: 20 °C (flat after a short rise), 60 °C (slow continuing rise), 90 °C (strain still rising steeply). The most defensible reading is:",
       options: [
-        { label: "a", text: "The polymer's Tm is 20 °C." },
-        { label: "b", text: "Temperature does not affect creep." },
-        { label: "c", text: "The polymer's Tg lies near/below 60–90 °C; at 20 °C it is glassy (little creep) while at 90 °C it creeps strongly." },
-        { label: "d", text: "The material is a metal." }
+        { label: "a", text: "The polymer's Tm is around 20 °C, so the flat response at that temperature is a melting plateau." },
+        { label: "b", text: "Temperature has no effect on creep, so all three curves should have the same slope after the initial rise." },
+        { label: "c", text: "The rising strain suggests approaching Tg: little creep at 20 °C, but much greater mobility and creep at 90 °C." },
+        { label: "d", text: "The specimen is metallic; polymer viscoelasticity cannot produce a continuing increase in strain under load." }
       ],
       answer: "c",
       why: "Increasing creep rate with temperature is the **signature of approaching/above Tg**: below Tg segments are frozen (little creep); above, they rearrange and the material creeps. These curves are the basis of the deformation-mechanism map for viscoelastic polymers.",
@@ -387,10 +387,10 @@ const T10: TopicSource = {
       diff: 2,
       text: "Elastomer elasticity is described as *entropic* because:",
       options: [
-        { label: "a", text: "Stretching aligns chains into fewer conformations (lower entropy); on release, the drive back to maximum entropy restores the original shape." },
-        { label: "b", text: "The enthalpy dominates." },
-        { label: "c", text: "Bond lengths change on stretching." },
-        { label: "d", text: "It is identical to metal elasticity." }
+        { label: "a", text: "Stretching restricts chain conformations and lowers entropy; recoil is favoured as chains return toward a coil state." },
+        { label: "b", text: "The restoring force comes mainly from bond enthalpy, with chains returning to the shape of minimum bond length." },
+        { label: "c", text: "Large changes in covalent bond lengths supply nearly all the strain, while conformational entropy stays constant." },
+        { label: "d", text: "Rubber elasticity resembles metal elasticity: dislocations move back after unloading, independent of chain entropy." }
       ],
       answer: "a",
       why: "**Entropy elasticity**: rubber resists deformation because stretching reduces the number of possible chain conformations; the restoring force is $\\propto T$ (unlike metals, where bond stretching is enthalpy-dominated).",
@@ -439,10 +439,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "Driving the glass transition with changing frequency in DMA shows that, at higher frequency, the tan-δ peak:",
       options: [
-        { label: "a", text: "moves to higher temperature (the polymer has less time to relax, so a higher temperature is needed)" },
-        { label: "b", text: "disappears" },
-        { label: "c", text: "stays at exactly the same temperature" },
-        { label: "d", text: "moves to absolute zero" }
+        { label: "a", text: "At higher frequency, segments have less time to relax, so the tan-δ peak shifts to a higher temperature." },
+        { label: "b", text: "The peak disappears because segmental motion stops completely before the sample reaches its glass transition." },
+        { label: "c", text: "Peak temperature stays fixed because Tg is a thermodynamic transition independent of test time and frequency." },
+        { label: "d", text: "The peak moves toward absolute zero because faster loading lowers the amount of energy stored in the polymer." }
       ],
       answer: "a",
       why: "The glass transition is **frequency-dependent**: at high frequency the segments cannot keep up (short observation time), so Tg shifts **upward** — the same physics as the rate-dependence of DSC Tg.",
