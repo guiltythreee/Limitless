@@ -22,10 +22,10 @@ const T9: TopicSource = {
       diff: 1,
       text: "For two polymers to form a miscible (single-phase) blend, the Gibbs free energy of mixing must satisfy:",
       options: [
-        { label: "a", text: "$\\Delta H_{mix} = 0$ only" },
-        { label: "b", text: "$\\Delta G_{mix} > 0$" },
-        { label: "c", text: "$\\Delta G_{mix} < 0$ and $\\partial^2\\Delta G/\\partial\\phi^2 > 0$" },
-        { label: "d", text: "$\\Delta S_{mix} = 0$" }
+        { label: "a", text: "The enthalpy of mixing must equal zero, regardless of entropy, composition or the molecular weight of each component." },
+        { label: "b", text: "The free energy of mixing must be positive, because a stable blend separates into two equilibrium phases." },
+        { label: "c", text: "The free energy is below the separated state and has positive curvature at the composition for local stability." },
+        { label: "d", text: "The entropy of mixing must equal zero, because chains cannot mix unless all conformational freedom is removed." }
       ],
       answer: "c",
       why: "Mixing is spontaneous when **ΔG < 0**, and the mixture must also be stable against phase separation (second derivative positive — the curvature condition of the Flory–Huggins free-energy curve).",
@@ -108,10 +108,10 @@ const T9: TopicSource = {
       diff: 3,
       text: "A block or graft copolymer added to an immiscible A/B blend improves mechanical properties because it:",
       options: [
-        { label: "a", text: "Acts as a surfactant — one block is miscible with A and the other with B, anchoring the two phases and stabilizing the interface." },
-        { label: "b", text: "Dissolves completely in A." },
-        { label: "c", text: "Raises the melting point of both phases." },
-        { label: "d", text: "Cross-links the interface covalently in all cases." }
+        { label: "a", text: "It places segments compatible with A and B at the interface, reducing interfacial tension and stabilizing morphology." },
+        { label: "b", text: "It dissolves entirely in phase A, lowering A's viscosity so droplets of phase B disappear without an interface." },
+        { label: "c", text: "It raises the melting point of both components, allowing their chains to co-crystallize into a single phase." },
+        { label: "d", text: "It covalently cross-links every interface in all blends, irrespective of the copolymer chemistry or phase polarity." }
       ],
       answer: "a",
       why: "A **compatibilizer** is an interfacial emulsifier: it reduces interfacial tension, stabilizes the morphology and transmits stress across the phase boundary, giving much tougher blends (e.g. maleic-anhydride-grafted PO in PA blends).",
@@ -186,10 +186,10 @@ const T9: TopicSource = {
       diff: 3,
       text: "Primary vs secondary antioxidants: which pairing is correct?",
       options: [
-        { label: "a", text: "Neither is used in polymers." },
-        { label: "b", text: "Both are UV absorbers." },
-        { label: "c", text: "Primary (hindered phenols/amines) scavenge free radicals; secondary (phosphites/thioethers) decompose hydroperoxides non-radically." },
-        { label: "d", text: "Primary decompose hydroperoxides; secondary scavenge radicals." }
+        { label: "a", text: "Primary and secondary antioxidants are not used in polymers; UV absorbers alone stop oxidative chain scission." },
+        { label: "b", text: "Both classes mainly absorb UV radiation, converting it to heat before it can initiate oxidation in the polymer." },
+        { label: "c", text: "Primary antioxidants trap radical species; secondary antioxidants decompose hydroperoxides by non-radical pathways." },
+        { label: "d", text: "Primary antioxidants decompose hydroperoxides; secondary antioxidants mainly trap peroxyl radicals in the melt." }
       ],
       answer: "c",
       why: "**Primary antioxidants** trap peroxyl/radical species; **secondary antioxidants** convert hydroperoxides (ROOH) into non-radical alcohols, removing the source of new radicals. They are used together for synergy.",
@@ -218,10 +218,10 @@ const T9: TopicSource = {
       diff: 1,
       text: "HALS (hindered amine light stabilizers) work mainly by:",
       options: [
-        { label: "a", text: "acting as a plasticizer" },
-        { label: "b", text: "cross-linking the surface" },
-        { label: "c", text: "scavenging free radicals (via nitroxyl radicals) and regenerating themselves" },
-        { label: "d", text: "absorbing UV and releasing heat" }
+        { label: "a", text: "They mainly plasticize the polymer, increasing free volume so absorbed ultraviolet energy escapes through chain motion." },
+        { label: "b", text: "They form a continuous covalent skin that prevents oxygen from contacting the polymer during outdoor service." },
+        { label: "c", text: "They trap radicals through a regenerative nitroxyl-radical cycle, interrupting photo-oxidative degradation." },
+        { label: "d", text: "They absorb ultraviolet photons and release the energy only as heat, without interacting with radical chemistry." }
       ],
       answer: "c",
       why: "**HALS** are radical scavengers: the amine oxidizes to a nitroxyl radical that traps alkyl radicals, and the cycle regenerates the active species — making HALS unusually efficient per molecule.",
@@ -269,10 +269,10 @@ const T9: TopicSource = {
       diff: 2,
       text: "Which pair of polymers is most susceptible to hydrolytic degradation during long-term implant or marine exposure?",
       options: [
-        { label: "a", text: "PS and PMMA" },
-        { label: "b", text: "PLA and PET (both contain ester bonds)" },
-        { label: "c", text: "PTFE" },
-        { label: "d", text: "PE and PP (only C–C bonds)" }
+        { label: "a", text: "Polystyrene and PMMA, whose carbon–carbon backbones are readily cleaved by water at neutral pH." },
+        { label: "b", text: "PLA and PET, both polyesters whose backbone ester linkages can undergo hydrolysis under suitable conditions." },
+        { label: "c", text: "PTFE and polyethylene, whose principal backbones consist of bonds that water rapidly hydrolyses in marine exposure." },
+        { label: "d", text: "Polyethylene and polypropylene, whose saturated C–C backbones are especially susceptible to hydrolysis in vivo." }
       ],
       answer: "b",
       why: "**Ester bonds** hydrolyse (especially under acid/base or enzymatic catalysis), so polyesters — including biodegradable **PLA/PCL/PHB** and conventional **PET** — degrade hydrolytically. C–C backbone polymers (PE, PP, PS, PTFE) cannot be hydrolysed.",
