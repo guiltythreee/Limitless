@@ -247,7 +247,7 @@ export default function Mt203() {
                 className="btn"
                 style={{ width: "100%", fontSize: "0.78rem" }}
                 onClick={() => {
-                  if (confirm("Erase all saved MT203 progress (XP, attempts, exams)?")) {
+                  if (confirm("Erase MT203 legacy XP, attempts, and exams? Lifetime Meta EXP is kept.")) {
                     resetProgress();
                     setProgress(loadProgress());
                     setView({ kind: "dashboard" });
