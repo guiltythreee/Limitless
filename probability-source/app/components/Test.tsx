@@ -142,13 +142,13 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
       const p = picks[x.key];
       const ms = times.current[x.key] ?? 0;
       if (p && p.length) {
-        recordAttempt(x.key, p, ms);
+        recordAttempt(x.key, p, ms, false);
         const g = grade(x.item, p);
         answered++; score += g.score; if (g.status === "correct") correct++;
         results.push({ q: x.key, status: g.status, ms });
       } else results.push({ q: x.key, status: "unattempted", ms });
     }
-    const rec: TestRecord = { id: `t${Date.now()}`, ts: Date.now(), label, total: pool.length, answered, correct, score, ms: Date.now() - startedAt.current, results };
+    const rec: TestRecord = { id: `t${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, ts: Date.now(), label, total: pool.length, answered, correct, score, ms: Date.now() - startedAt.current, results };
     recordTest(rec);
     setDone(rec);
   }
