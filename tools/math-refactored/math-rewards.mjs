@@ -6,7 +6,7 @@
  * completed activity only; historic local XP is never imported or converted.
  */
 import {
-  calculateReward,
+  buildRewardRecords,
   sanitiseRewardRecords,
   dispatchRewardUpdate,
 } from "../../shared/rewards.mjs";
@@ -55,11 +55,12 @@ export function createMathRewardAdapter(storage, options = {}) {
     const existing = prior.find((record) => record.eventId === activity.eventId);
     if (existing) return existing;
 
-    const record = calculateReward(activity, prior);
+    const records = buildRewardRecords(activity, prior);
+    const record = records[0];
     try {
       storage.setItem(MATH_REWARD_STORAGE_KEY, JSON.stringify({
         ...state.payload,
-        rewardLedger: [...prior, record],
+        rewardLedger: [...prior, ...records],
       }));
     } catch {
       // Keep the Math Trainer playable if localStorage is unavailable or full.
