@@ -95,10 +95,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "Three stress–strain curves: A — steep, linear, breaks at 2% strain; B — yields at ~8% then draws to 400% strain; C — low modulus, huge recoverable strain to 700%. Identify them.",
       options: [
-        { label: "a", text: "All three are elastomers" },
-        { label: "b", text: "A = elastomer, B = brittle, C = ductile" },
-        { label: "c", text: "A = brittle (e.g. PS), B = ductile (e.g. nylon), C = elastomer (e.g. rubber)" },
-        { label: "d", text: "A = ductile, B = elastomer, C = brittle" }
+        { label: "a", text: "A is a rubbery elastomer with large reversible strain; B is also elastomeric, and C fractures with little extension." },
+        { label: "b", text: "A yields and draws plastically; B is a brittle glass with almost no elongation; C stretches reversibly like a rubber." },
+        { label: "c", text: "A is brittle and breaks at small strain; B yields and deforms ductilely; C shows large, reversible elastomeric extension." },
+        { label: "d", text: "A is a ductile thermoplastic with necking; B extends elastically like rubber; C snaps with the low strain of a brittle glass." }
       ],
       answer: "c",
       why: "**Brittle** = high modulus, tiny strain, no yielding (A); **ductile** = yields then cold-draws to large strain (B); **elastomer** = low modulus, very large *recoverable* strain via entropy elasticity (C).",
