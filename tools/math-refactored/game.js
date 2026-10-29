@@ -686,6 +686,17 @@
         passKey: 'math:tier-clear:' + String(tierId || 'unknown'),
         reason: 'Cleared the ' + String(tierId || 'selected') + ' tier under its accuracy and pace requirements'
       });
+      inputs.push({
+        module: 'math-trainer',
+        eventId: 'math-tier-mastery:' + String(tierId || 'unknown'),
+        contentKey: 'math:tier-mastery:' + String(tierId || 'unknown'),
+        activityClass: 'milestone',
+        evidence: 'unit-mastery',
+        difficulty: difficulty,
+        quality: Math.max(0, Math.min(1, Number(run.accuracy) || 0)),
+        oneTimeKey: 'math:tier-mastery:' + String(tierId || 'unknown'),
+        reason: 'First verified clear of the ' + String(tierId || 'selected') + ' mental-arithmetic tier'
+      });
     }
     return inputs;
   }
