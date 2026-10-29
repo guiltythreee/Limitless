@@ -44,6 +44,72 @@
         mount.appendChild(element('p', 'global-progress-unlocked',
           'Unlocked · ' + unlocked.map(function (reward) { return reward.name; }).join(' · ')));
       }
+
+      var loadout = element('div', 'global-progress-loadout');
+      loadout.appendChild(element('div', 'global-progress-history-heading', 'Equip your global rewards'));
+      function addEquipmentSelector(kind, label, active) {
+        var choices = unlocked.filter(function (reward) { return reward.kind === kind; });
+        var row = element('label', 'global-progress-equipment');
+        row.appendChild(element('span', 'global-progress-equipment-label', label));
+        var select = element('select', 'global-progress-select');
+        select.setAttribute('aria-label', label);
+        var none = element('option', '', 'None equipped');
+        none.value = '';
+        select.appendChild(none);
+        choices.forEach(function (reward) {
+          var option = element('option', '', reward.name + ' · Level ' + reward.level);
+          option.value = reward.id;
+          select.appendChild(option);
+        });
+        select.value = active ? active.id : '';
+        select.disabled = choices.length === 0;
+        select.addEventListener('change', function () {
+          var receipt = window.LimitlessRewards.equipReward(select.value, kind);
+          if (!receipt || !receipt.ok) {
+            select.value = active ? active.id : '';
+            return;
+          }
+          render();
+        });
+        row.appendChild(select);
+        loadout.appendChild(row);
+      }
+      addEquipmentSelector('title', 'Title', summary.equippedTitle);
+      addEquipmentSelector('emblem', 'Emblem', summary.equippedEmblem);
+      mount.appendChild(loadout);
+
+      var moduleTotals = summary.xpByModule || {};
+      var moduleEntries = Object.keys(moduleTotals).map(function (module) {
+        return { module: module, xp: moduleTotals[module] };
+      }).sort(function (a, b) { return b.xp - a.xp; });
+      if (moduleEntries.length) {
+        var breakdown = element('div', 'global-progress-breakdown');
+        breakdown.appendChild(element('div', 'global-progress-history-heading', 'EXP by discipline'));
+        moduleEntries.forEach(function (entry) {
+          var row = element('div', 'global-progress-module-row');
+          row.appendChild(element('span', 'global-progress-module-name', entry.module.replace(/-/g, ' ')));
+          row.appendChild(element('strong', 'global-progress-module-xp', entry.xp.toLocaleString() + ' EXP'));
+          breakdown.appendChild(row);
+        });
+        mount.appendChild(breakdown);
+      }
+
+      var achievements = summary.disciplineAchievements || [];
+      if (achievements.length) {
+        var achievementBox = element('div', 'global-progress-achievements');
+        achievementBox.appendChild(element('div', 'global-progress-history-heading', 'Discipline achievements'));
+        achievements.slice(0, 5).forEach(function (achievement) {
+          var row = element('div', 'global-progress-achievement-row');
+          row.appendChild(element('div', 'global-progress-history-title',
+            achievement.module.replace(/-/g, ' ') + ' · ' + String(achievement.activityClass).replace(/-/g, ' ')));
+          row.appendChild(element('div', 'global-progress-history-value', '+' + achievement.xp + ' EXP'));
+          row.appendChild(element('div', 'global-progress-history-reason',
+            achievement.reason || achievement.contentKey || achievement.evidence));
+          achievementBox.appendChild(row);
+        });
+        mount.appendChild(achievementBox);
+      }
+
       var recent = summary.recentAwards || [];
       if (recent.length) {
         var history = element('div', 'global-progress-history');
