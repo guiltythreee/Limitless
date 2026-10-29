@@ -530,10 +530,10 @@ const T4: TopicSource = {
       diff: 4,
       text: "Gel-permeation chromatography of a branched PE sample gives a lower MW than light scattering. The best explanation:",
       options: [
-        { label: "a", text: "Light scattering always overestimates." },
-        { label: "b", text: "Branching lowers the true MW." },
-        { label: "c", text: "Branched chains are more compact than linear chains of the same MW, so they elute earlier; linear PE calibration then underestimates MW." },
-        { label: "d", text: "The instrument failed." }
+        { label: "a", text: "Light scattering overestimates every branched polymer because the optical detector responds to branch points, not mass." },
+        { label: "b", text: "Branching lowers the actual molecular weight because each branch removes repeat units from the polymer backbone." },
+        { label: "c", text: "Branched coils are more compact; a linear-chain calibration therefore assigns them an artificially low apparent MW." },
+        { label: "d", text: "A lower SEC result proves the light-scattering detector failed and that the branching structure is irrelevant." }
       ],
       answer: "c",
       why: "SEC separates by **hydrodynamic volume**. A branched coil is compact for its mass → it elutes at a volume the calibration assigns to a *lower* MW linear chain → SEC (relative) under-reports. Absolute LS sees the true mass and disagrees — the diagnostic signature of branching.",
