@@ -105,7 +105,7 @@ export default function Home() {
     setRolls(generated);
   }
   function resetProgress() {
-    if (window.confirm("Erase all saved progress, attempts, timers, bookmarks and streaks on this browser?")) resetAll();
+    if (window.confirm("Erase study progress, attempts, timers, bookmarks and streaks on this browser? Lifetime Meta EXP is kept.")) resetAll();
   }
   const SECTIONS: { id: Section; label: string; count?: number }[] = [
     { id: "theory", label: "Theory" },
