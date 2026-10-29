@@ -29,6 +29,15 @@
   var HALF_REPEATS_PER_DAY = 3;
   var PROJECT_EXP_MIN = 20;
   var PROJECT_EXP_MAX = 100;
+  // Fixed module namespaces keep the self-service project form from minting
+  // duplicate projects under arbitrary module names.
+  var PROJECT_MODULES = {
+    'bookkeys': true,
+    'math-trainer': true,
+    'probability': true,
+    'metallurgy': true,
+    'personal-projects': true
+  };
   var EVIDENCE_TYPES = {
     'submitted-answer': true,
     'completed-session': true,
@@ -331,6 +340,8 @@
       var criteria = cleanString(args.criteria);
       var baseExp = args.baseExp;
       if (!moduleId || !projectId || !title || !scope || !criteria) return { ok: false, error: 'missing-project-definition-field' };
+      if (!PROJECT_MODULES[moduleId]) return { ok: false, error: 'unsupported-project-module' };
+      if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,127}$/.test(projectId)) return { ok: false, error: 'invalid-project-id' };
       if (moduleId.length > 64 || projectId.length > 128 || title.length > 160 || scope.length > 500 || criteria.length > 1000) {
         return { ok: false, error: 'project-definition-field-too-long' };
       }
@@ -410,6 +421,9 @@
               contentKey !== 'project:' + canonicalProjectKey ||
               oneTimeKey !== 'project-completion:' + canonicalProjectKey) {
             return { ok: false, xp: 0, error: 'invalid-project-event-key' };
+          }
+          if (Math.max(0, Math.floor(finiteNumber(now(), Date.now()))) < registeredProject.registeredAt) {
+            return { ok: false, xp: 0, error: 'project-completion-predates-registration' };
           }
           args.projectBaseExp = registeredProject.baseExp;
           args.reason = 'Completed registered project: ' + registeredProject.title + ' · ' + registeredProject.criteria;
