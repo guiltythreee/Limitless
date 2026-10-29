@@ -106,10 +106,10 @@ const T7: TopicSource = {
       diff: 1,
       text: "The chemical bond responsible for setting and permanent waving of hair (keratin) is the:",
       options: [
-        { label: "a", text: "hydrogen bond" },
-        { label: "b", text: "peptide bond" },
-        { label: "c", text: "disulfide (–S–S–) bond" },
-        { label: "d", text: "ionic bond" }
+        { label: "a", text: "Hydrogen bonds between peptide groups, which stabilize secondary structure but do not permanently set the hair shape." },
+        { label: "b", text: "Peptide bonds joining amino acids in the backbone, which are not the bonds rearranged during a permanent wave." },
+        { label: "c", text: "Disulfide (–S–S–) cross-links between cysteine residues, which can be reduced and re-formed after reshaping." },
+        { label: "d", text: "Ionic salt bridges between charged side chains, which are disrupted by pH but are not the principal perm-setting bonds." }
       ],
       answer: "c",
       why: "**Disulfide bridges** between cysteine residues (→ cystine) cross-link keratin. Waving reduces S–S to –SH, reshapes, then re-oxidizes into new S–S pairs.",
@@ -137,10 +137,10 @@ const T7: TopicSource = {
       diff: 1,
       text: "Silk fibroin's outstanding tensile strength comes from its:",
       options: [
-        { label: "a", text: "antiparallel β-sheet structure" },
-        { label: "b", text: "disulfide cross-links" },
-        { label: "c", text: "random-coil conformation" },
-        { label: "d", text: "triple helix" }
+        { label: "a", text: "Antiparallel β-sheet crystallites pack fibroin chains closely and provide strong intermolecular hydrogen bonding." },
+        { label: "b", text: "Disulfide cross-links form a dense covalent network throughout fibroin, as they do in many keratin-rich fibres." },
+        { label: "c", text: "Random-coil segments dominate the load-bearing structure, allowing the chains to stretch without ordered packing." },
+        { label: "d", text: "A collagen-like triple helix aligns three chains into a rope, which is the defining structure of silk fibroin." }
       ],
       answer: "a",
       why: "Fibroin's chains lie in **antiparallel β-sheets** with dense inter-chain H-bonding, giving high axial strength with limited elasticity (contrast the α-helical, extensible wool).",
