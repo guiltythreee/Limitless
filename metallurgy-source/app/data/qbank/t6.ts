@@ -227,10 +227,10 @@ const T6: TopicSource = {
       diff: 3,
       text: "A part must remain dimensionally stable under load at 90 °C. Which is the safest choice?",
       options: [
-        { label: "a", text: "Glass-fibre-reinforced semi-crystalline polymer such as PA66-GF (Tm ~ 265 °C, reinforced)" },
-        { label: "b", text: "Atactic polystyrene (Tg ≈ 100 °C but brittle)" },
-        { label: "c", text: "Unplasticized PVC (Tg ≈ 80 °C)" },
-        { label: "d", text: "Plasticized PVC" }
+        { label: "a", text: "Choose a glass-fibre-reinforced semicrystalline grade with an HDT comfortably above 90 °C and low creep." },
+        { label: "b", text: "Use atactic polystyrene because its Tg near 100 °C guarantees toughness and dimensional stability under load." },
+        { label: "c", text: "Use unplasticized PVC because a Tg near 80 °C means it remains stiff and stable at a 90 °C service temperature." },
+        { label: "d", text: "Use plasticized PVC because plasticizer raises Tg and increases stiffness when the part is loaded above room temperature." }
       ],
       answer: "a",
       why: "Service temperature must sit well below the relevant transition. A **reinforced semi-crystalline** polymer retains modulus up to near its high Tm; its crystallites plus fibres bear load. Unplasticized PVC (Tg 80 °C) is above its glass transition at 90 °C → softens.",
@@ -293,10 +293,10 @@ const T6: TopicSource = {
       diff: 3,
       text: "A semi-crystalline polymer such as polypropylene can be used far above its Tg (−10 °C) up to near its Tm (~165 °C). Why?",
       options: [
-        { label: "a", text: "It contains no amorphous phase." },
-        { label: "b", text: "Its Tg is actually 165 °C." },
-        { label: "c", text: "Polypropylene is a thermoset." },
-        { label: "d", text: "Its crystallites remain rigid and act as physical cross-links, holding the material together above Tg." }
+        { label: "a", text: "It has no amorphous phase, so segmental motion is impossible at all temperatures and the material never softens." },
+        { label: "b", text: "Its Tg is actually close to 165 °C, so service above −10 °C remains below the glass transition." },
+        { label: "c", text: "Polypropylene is a thermoset, and its permanent covalent network prevents melting or creep during service." },
+        { label: "d", text: "Crystallites act as physical cross-links that hold shape above Tg until the crystalline phase approaches Tm." }
       ],
       answer: "d",
       why: "Above Tg only the **amorphous** fraction softens; the surrounding crystallites stay intact until Tm, so the material keeps its shape and much of its modulus — the basis of engineering use of PE, PP and nylons above their Tg.",
