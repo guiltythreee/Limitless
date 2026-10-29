@@ -34,13 +34,13 @@ npm run build
 - `app/components/Test.tsx`: cumulative tests restricted to the selected route unless the full archive is active.
 - `app/lib/store.ts`: browser-local progress, attempts, and an additive `rewardLedger` persisted with the same write as each rewarded action.
 - `../shared/rewards.mjs`: canonical LSR-1 award policy, pure calculator, repeat cap, level curve, registry and global summary.
-- `../meta/index.html` + `../meta/meta.js`: static global EXP/level dashboard. It currently counts only registered LSR-1 sources; legacy module-specific XP is deliberately excluded until migrated.
+- `../meta/index.html` + `../meta/meta.js`: static global EXP/level dashboard. It counts registered LSR-1 ledgers only; Math Trainer is now registered with a separate new ledger, while its historical module-local XP remains deliberately excluded.
 
 ## LSR-1 reward pilot
 
-The shared `LSR-1` policy standardizes activity classes, difficulty multipliers, a capped quality bonus, a one-time checkpoint pass bonus, duplicate-event protection, and a configurable daily repeat cap. Probability is the first registered pilot. Practice awards and assessment awards are stored in the Probability progress root with the related attempt/test record; assessment answers do not also pay per-question EXP. Resetting ordinary Probability progress preserves the lifetime reward ledger.
+The shared `LSR-1` policy standardizes activity classes, difficulty multipliers, a capped quality bonus, a one-time checkpoint pass bonus, duplicate-event protection, and a configurable daily repeat cap. Probability was the first registered pilot; Math Trainer is the second. Probability practice/assessment awards remain in its progress root with the related attempt/test record, and resetting ordinary Probability progress preserves its lifetime reward ledger. Math Trainer writes new eligible session and verified Trick Chamber awards to the separate `limitless-math-lsr1-v1` ledger. Its existing `limitless.math.v1.*` run, attempt, preference, profile and meta records — including legacy rank XP — are not migrated or rewritten.
 
-The standard and starting values are provisional and require calibration from representative use. Global EXP is derived from saved LSR-1 award records rather than a separately incremented counter. Existing MT203 XP and other module-local rewards are not counted as global EXP until migrated to the common policy.
+The standard and starting values are provisional and require calibration from representative use. Global EXP is derived from saved LSR-1 award records rather than a separately incremented counter. Bookkeys and metallurgy modules (including legacy MT203 XP) remain outside the registry until they receive their own verified adapters.
 
 ## Pathway design
 
