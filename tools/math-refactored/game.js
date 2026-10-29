@@ -1130,6 +1130,12 @@
           if (x && typeof x.run === 'string' && !seen[x.run + ':' + x.i]) { atts.push(x); seen[x.run + ':' + x.i] = true; }
         });
         save(KEY_RUNS, runs.slice(-MAX_RUNS)); save(KEY_ATT, atts.slice(-MAX_ATTEMPTS));
+        // Imported sessions are historical data, not newly completed activity.
+        // Seed their IDs before any focus/recovery handler can inspect them.
+        data.runs.forEach(function (x) {
+          if (x && typeof x.id === 'string') globalSeenMathRuns[String(x.id)] = true;
+        });
+        save(KEY_GLOBAL_SEEN, Object.keys(globalSeenMathRuns).slice(-MAX_RUNS));
         if (data.meta) mergeMeta(data.meta, null);
         $('io-note').textContent = 'Imported ' + added + ' new runs.';
         renderMenu();
