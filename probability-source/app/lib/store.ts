@@ -3,6 +3,10 @@ import { allQuestions, grade, questionByKey, type Status } from "./questions";
 import { pathways } from "../content";
 import { buildRewardRecords, dispatchRewardUpdate, sanitiseRewardRecords, CHECKPOINT_PASS_THRESHOLD, type DifficultyTier, type RewardRecord } from "../../../shared/rewards.mjs";
 
+const REWARD_ACTIVATED_AT_KEY = "limitless.reward.probability-activated-at.v1";
+const PATHWAY_VERSION = "probability-lsr1-pathways-v1";
+let rewardActivatedAt = 0;
+
 /*
   All saved data lives in one localStorage entry ("hc3-progress-v3"):
     completed  - lessons marked complete
@@ -144,6 +148,7 @@ function commit(next: State): boolean {
 function ensureLoaded() {
   if (!loaded && typeof window !== "undefined") {
     loaded = true;
+    rewardActivatedAt = setRewardActivationBaseline();
     state = read();
     persist();
     window.addEventListener("storage", (e) => {
@@ -169,6 +174,105 @@ function rewardTier(difficulty: string | undefined): DifficultyTier {
   if (difficulty === "hard") return "advanced";
   if (difficulty === "medium") return "intermediate";
   return "foundational";
+}
+
+function setRewardActivationBaseline(): number {
+  try {
+    const raw = localStorage.getItem(REWARD_ACTIVATED_AT_KEY);
+    if (raw !== null && Number.isFinite(Number(raw)) && Number(raw) > 0) return Number(raw);
+    const activatedAt = Date.now();
+    localStorage.setItem(REWARD_ACTIVATED_AT_KEY, String(activatedAt));
+    return activatedAt;
+  } catch {
+    return Date.now();
+  }
+}
+
+type QuestionRecord = (typeof allQuestions)[number];
+
+function difficultyForQuestions(questions: QuestionRecord[]): DifficultyTier {
+  const mean = questions.length
+    ? questions.reduce((sum, question) => sum + (question.difficulty === "hard" ? 3 : question.difficulty === "medium" ? 2 : 1), 0) / questions.length
+    : 1;
+  return mean >= 2.5 ? "advanced" : mean >= 1.5 ? "intermediate" : "foundational";
+}
+
+function verifiedMasteryRewards(attempts: Attempt[], priorRecords: RewardRecord[]): RewardRecord[] {
+  const eligible = attempts.filter((attempt) => attempt.ts > 0 && attempt.ts >= rewardActivatedAt);
+  if (!eligible.length) return [];
+  const latest = latestByQuestion(eligible);
+  const records: RewardRecord[] = [];
+  const existingIds = new Set(priorRecords.map((record) => record.eventId));
+  const currentLatest = (questions: QuestionRecord[]) => questions.map((question) => latest[question.key]?.score);
+  const hasMastery = (questions: QuestionRecord[]) => {
+    const scores = currentLatest(questions);
+    return questions.length > 0 && scores.every((score) => typeof score === "number") &&
+      scores.reduce((sum, score) => sum + (score ?? 0), 0) / scores.length >= 0.8;
+  };
+  const add = (input: Parameters<typeof buildRewardRecords>[0]) => {
+    if (existingIds.has(input.eventId) || records.some((record) => record.eventId === input.eventId)) return;
+    const next = buildRewardRecords(input, [...priorRecords, ...records]);
+    records.push(...next);
+    for (const record of next) existingIds.add(record.eventId);
+  };
+  const timestampFor = (questions: QuestionRecord[]) =>
+    Math.max(rewardActivatedAt, ...questions.map((question) => latest[question.key]?.ts ?? 0));
+  const qualityFor = (questions: QuestionRecord[]) => {
+    const scores = currentLatest(questions);
+    return scores.length ? scores.reduce((sum, score) => sum + (score ?? 0), 0) / scores.length : 0;
+  };
+
+  for (const [lessonId, questions] of Object.entries(QUESTIONS_BY_LESSON)) {
+    if (!hasMastery(questions)) continue;
+    const eventId = `probability:lesson-mastery:${PATHWAY_VERSION}:${lessonId}`;
+    add({
+      eventId,
+      moduleId: "probability",
+      itemId: eventId,
+      ts: timestampFor(questions),
+      activityClass: "unit-milestone",
+      difficulty: difficultyForQuestions(questions),
+      completionEvidence: "topic-mastery",
+      completed: true,
+      quality: qualityFor(questions),
+    });
+  }
+
+  for (const pathway of pathways) {
+    const lessonQuestions = pathway.lessonIds.map((lessonId) => QUESTIONS_BY_LESSON[lessonId] ?? []);
+    if (!lessonQuestions.length || lessonQuestions.some((questions) => !hasMastery(questions))) continue;
+    const questions = lessonQuestions.flat();
+    const eventId = `probability:pathway-mastery:${PATHWAY_VERSION}:${pathway.id}`;
+    add({
+      eventId,
+      moduleId: "probability",
+      itemId: eventId,
+      ts: timestampFor(questions),
+      activityClass: "major-completion",
+      difficulty: difficultyForQuestions(questions),
+      completionEvidence: "pathway-complete",
+      completed: true,
+      quality: qualityFor(questions),
+    });
+  }
+
+  const allLessonIds = Object.keys(QUESTIONS_BY_LESSON);
+  const allLessonQuestions = allLessonIds.flatMap((lessonId) => QUESTIONS_BY_LESSON[lessonId]);
+  if (allLessonQuestions.length && allLessonIds.every((lessonId) => hasMastery(QUESTIONS_BY_LESSON[lessonId]))) {
+    const eventId = `probability:course-completion:${PATHWAY_VERSION}`;
+    add({
+      eventId,
+      moduleId: "probability",
+      itemId: eventId,
+      ts: timestampFor(allLessonQuestions),
+      activityClass: "major-completion",
+      difficulty: "advanced",
+      completionEvidence: "pathway-complete",
+      completed: true,
+      quality: qualityFor(allLessonQuestions),
+    });
+  }
+  return records;
 }
 
 type AttemptInput = { q: string; picked: number[]; ms: number };
@@ -260,6 +364,9 @@ export function recordAttemptsBatch(inputs: AttemptInput[], rewardActivity = tru
       rewards.push(...next);
     }
   }
+  // A topic/pathway milestone is credited only from post-activation submitted
+  // answers and only when every question in scope has a latest >=80% result.
+  rewards.push(...verifiedMasteryRewards([...state.attempts, ...prepared.attempts], [...state.rewardLedger, ...rewards]));
   const nextState = {
     ...state,
     attempts: [...state.attempts, ...prepared.attempts],
@@ -281,6 +388,10 @@ export function recordTestWithAttempts(t: TestRecord, inputs: AttemptInput[]): A
   ensureLoaded();
   const prepared = prepareAttempts(Array.isArray(inputs) ? inputs : []);
   const rewards = rewardAssessment(t, [...state.rewardLedger]);
+  rewards.push(...verifiedMasteryRewards(
+    [...state.attempts, ...prepared.attempts],
+    [...state.rewardLedger, ...rewards],
+  ));
   const nextState = {
     ...state,
     tests: [...state.tests, t],
