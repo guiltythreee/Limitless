@@ -58,6 +58,7 @@ export function localDayKey(timestamp: number): string;
 export function sanitiseRewardRecord(value: unknown): RewardRecord | null;
 export function sanitiseRewardRecords(raw: unknown): RewardRecord[];
 export function calculateReward(input: RewardInput, priorRecords?: readonly RewardRecord[]): RewardRecord;
+export function buildRewardRecords(input: RewardInput, priorRecords?: readonly RewardRecord[]): RewardRecord[];
 export function levelForExp(value: number): { level: number; currentLevelStart: number; nextLevelAt: number; xpIntoLevel: number; xpForNextLevel: number; xpToNextLevel: number; progressPct: number };
 export function summariseRewards(records: readonly RewardRecord[]): { totalExp: number; awardCount: number; recordCount: number; level: ReturnType<typeof levelForExp>; unlockedRewards: RewardUnlock[]; nextReward: RewardUnlock | null; byModule: { moduleId: string; exp: number; awards: number }[]; recentAwards: RewardRecord[] };
 export function readGlobalRewardSummary(storage: { getItem(key: string): string | null }): ReturnType<typeof summariseRewards> & { sources: { moduleId: string; label: string; exp: number; awards: number }[]; registeredModules: { moduleId: string; label: string }[] };
