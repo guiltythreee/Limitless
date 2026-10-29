@@ -346,10 +346,10 @@ const T9: TopicSource = {
       diff: 1,
       text: "Which of these polymers is *biodegradable* by design?",
       options: [
-        { label: "a", text: "Polyethylene" },
-        { label: "b", text: "Poly(vinyl chloride)" },
-        { label: "c", text: "Poly(lactic acid) (PLA)" },
-        { label: "d", text: "Polystyrene" }
+        { label: "a", text: "Polyethylene (PE), a conventional polyolefin whose saturated carbon backbone resists hydrolysis and biodegradation." },
+        { label: "b", text: "Poly(vinyl chloride) (PVC), a chlorine-containing commodity thermoplastic not designed for ready biodegradation." },
+        { label: "c", text: "Poly(lactic acid) (PLA), an aliphatic polyester whose ester links permit hydrolysis and support industrial composting." },
+        { label: "d", text: "Polystyrene (PS), a styrenic thermoplastic whose aromatic carbon backbone generally persists in the environment." }
       ],
       answer: "c",
       why: "**PLA** (like PHB, PHBV, PCL and PBS) has a hydrolysable **ester backbone** that microorganisms/enzymes can ultimately break down. PE, PS and PVC have all-carbon backbones and persist for centuries.",
