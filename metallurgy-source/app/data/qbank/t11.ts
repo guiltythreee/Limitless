@@ -190,10 +190,10 @@ const T11: TopicSource = {
       diff: 1,
       text: "A single-screw extruder has, in order along the barrel:",
       options: [
-        { label: "a", text: "metering → feed → compression" },
-        { label: "b", text: "melting → ejection → cooling" },
-        { label: "c", text: "feed → compression (melting) → metering (pumping) zones" },
-        { label: "d", text: "only a feed zone" }
+        { label: "a", text: "Metering → feed → compression: pellets are pumped first, then introduced, and finally compacted for melting." },
+        { label: "b", text: "Melting → ejection → cooling: the screw melts pellets after the die and cools the polymer inside the barrel." },
+        { label: "c", text: "Feed → compression (melting) → metering (pumping): solids convey, melt and compact, then the melt is pressurized." },
+        { label: "d", text: "Feed only: a single-screw extruder has no compression or metering zones along the barrel." }
       ],
       answer: "c",
       why: "Polymer enters the **feed** zone, is compacted and melted in the **compression** zone (decreasing channel depth), then pumped uniformly by the **metering** zone into the die.",
