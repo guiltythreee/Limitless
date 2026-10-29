@@ -88,11 +88,11 @@ test('Bookkeys seeds legacy history and pays eligible new pages plus a once-only
   assert.equal(app.awards[1].eventId, 'bookkeys:page:' + key + ':1');
 
   app.setPage('A third distinct page describes a model and its assumptions. '.repeat(4), 2);
-  app.setGame({ xp: 900, paid: paidFor([key, 0, 400], [key, 1, 400], [key, 2, 200]), book: { [key]: bookRecord([0, 1, 2]) } });
+  app.setGame({ xp: 900, paid: paidFor([key, 0, 400], [key, 1, 400], [key, 2, 400]), book: { [key]: bookRecord([0, 1, 2]) } });
   app.storageEvent();
   assert.equal(app.awards.length, 3);
 
-  app.setGame({ xp: 900, paid: paidFor([key, 0, 400], [key, 1, 400], [key, 2, 200]), book: { [key]: bookRecord([0, 1, 2], { chapters: [0], done: true }) } });
+  app.setGame({ xp: 900, paid: paidFor([key, 0, 400], [key, 1, 400], [key, 2, 400]), book: { [key]: bookRecord([0, 1, 2], { chapters: [0], done: true }) } });
   app.storageEvent();
   assert.equal(app.awards.length, 4);
   assert.equal(app.awards[3].eventId, 'bookkeys:book:' + key);
