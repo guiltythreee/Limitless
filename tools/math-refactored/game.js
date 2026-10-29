@@ -662,18 +662,26 @@
     var tierId = run.tier || run.topTier;
     var tier = E.TIER_BY_ID[tierId];
     var tierIndex = tier ? tier.index : 0;
-    var difficulty = tierIndex >= 4 ? 'advanced' : (tierIndex >= 2 ? 'intermediate' : 'foundational');
+    var tierDifficultyIndex = tierIndex >= 4 ? 2 : (tierIndex >= 2 ? 1 : 0);
+    var selectedDiff = run.diff === 'easy' || run.diff === 'hard' ? run.diff : 'normal';
+    // Easy softens the selected tier by one standardized level; Hard raises it
+    // by one. Speed is never used as a reward multiplier.
+    var difficultyAdjustment = selectedDiff === 'hard' ? 1 : (selectedDiff === 'easy' ? -1 : 0);
+    var difficultyIndex = Math.max(0, Math.min(2, tierDifficultyIndex + difficultyAdjustment));
+    var difficulty = ['foundational', 'intermediate', 'advanced'][difficultyIndex];
     var runId = String(run.id || run.ts);
     var sessionClass = attempted >= 10 ? 'focused-practice' : 'standard-task';
+    var sessionContentKey = 'math:session:' + String(run.mode || 'unknown') + ':' +
+      String(tierId || 'unknown') + ':' + selectedDiff;
     var inputs = [{
       module: 'math-trainer',
       eventId: 'math-run:' + runId,
-      contentKey: 'math:session:' + String(run.mode || 'unknown') + ':' + String(tierId || 'unknown'),
+      contentKey: sessionContentKey,
       activityClass: sessionClass,
       evidence: 'completed-session',
       difficulty: difficulty,
       quality: Math.max(0, Math.min(1, Number(run.accuracy) || 0)),
-      reason: 'Completed a Math Trainer session with ' + attempted + ' answered questions'
+      reason: 'Completed a Math Trainer session with ' + attempted + ' answered questions at ' + selectedDiff + ' difficulty'
     }];
     // A cleared tier is an assessment event in its own right. Its one-time pass
     // bonus is distinct from the session reward and keyed by the tier, not mode.
