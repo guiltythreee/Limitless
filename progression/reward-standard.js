@@ -319,8 +319,50 @@
       }
     }
 
-    function record(input) {
+    function registerProject(input) {
       var args = input || {};
+      var moduleId = cleanString(args.module);
+      var projectId = cleanString(args.projectId);
+      var title = cleanString(args.title);
+      var scope = cleanString(args.scope);
+      var criteria = cleanString(args.criteria);
+      var baseExp = args.baseExp;
+      if (!moduleId || !projectId || !title || !scope || !criteria) return { ok: false, error: 'missing-project-definition-field' };
+      if (moduleId.length > 64 || projectId.length > 128 || title.length > 160 || scope.length > 500 || criteria.length > 1000) {
+        return { ok: false, error: 'project-definition-field-too-long' };
+      }
+      if (!projectBaseIsValid(baseExp)) return { ok: false, error: 'invalid-project-base-exp' };
+      try {
+        var ledger = read();
+        var existing = ledger.projects.find(function (project) {
+          return project.m === moduleId && project.id === projectId;
+        });
+        if (existing) {
+          var sameDefinition = existing.baseExp === baseExp && existing.title === title &&
+            existing.scope === scope && existing.criteria === criteria;
+          return sameDefinition
+            ? { ok: true, duplicate: true, project: existing }
+            : { ok: false, error: 'project-definition-immutable', project: existing };
+        }
+        var project = {
+          id: projectId, m: moduleId, baseExp: baseExp,
+          title: title, scope: scope, criteria: criteria,
+          registeredAt: Math.max(0, Math.floor(finiteNumber(now(), Date.now()))),
+          v: VERSION
+        };
+        ledger.projects.push(project);
+        ledger.totalXp = ledger.awards.reduce(function (total, award) { return total + award.x; }, 0);
+        if (!storage || typeof storage.setItem !== 'function') return { ok: false, error: 'storage-unavailable' };
+        storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
+        signal({ type: 'project-registered', module: moduleId, projectId: projectId });
+        return { ok: true, duplicate: false, project: project };
+      } catch (error) {
+        return { ok: false, error: 'storage-unavailable' };
+      }
+    }
+
+    function record(input) {
+      var args = Object.assign({}, input || {});
       var eventId = cleanString(args.eventId);
       var moduleId = cleanString(args.module);
       var contentKey = cleanString(args.contentKey);
