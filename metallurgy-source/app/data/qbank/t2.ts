@@ -98,10 +98,10 @@ const T2: TopicSource = {
       diff: 3,
       text: "Why does the observed rate depend on $[I]^{1/2}$ rather than $[I]$ in free-radical polymerization?",
       options: [
-        { label: "a", text: "Half the initiator is always wasted." },
-        { label: "b", text: "Initiator decomposes in two steps." },
-        { label: "c", text: "Steady-state radical concentration scales as the square root of the initiation rate because termination is bimolecular." },
-        { label: "d", text: "Termination is monomolecular." }
+        { label: "a", text: "Half of the initiator is wasted in every run, so the measured rate becomes proportional to its square root." },
+        { label: "b", text: "Initiator decomposes through exactly two sequential reactions, mathematically forcing a square-root dependence." },
+        { label: "c", text: "Bimolecular termination gives a steady-state radical concentration proportional to √[I], so Rp scales as √[I]." },
+        { label: "d", text: "Termination is monomolecular, so radical concentration and polymerization rate become independent of initiator." }
       ],
       answer: "c",
       why: "Steady state: $R_i = R_t = 2k_t[M^\\bullet]^2$ → $[M^\\bullet] = (R_i/2k_t)^{1/2} \\propto [I]^{1/2}$. The **½-power is the signature of bimolecular termination**.",
@@ -117,10 +117,10 @@ const T2: TopicSource = {
       diff: 2,
       text: "Chain transfer stops one growing chain but the overall rate of polymerization is barely affected. Why?",
       options: [
-        { label: "a", text: "Transfer adds monomer more slowly." },
-        { label: "b", text: "Transfer destroys the radical." },
-        { label: "c", text: "The radical is *transferred* to another molecule — one chain ends but another starts, so the total radical count is unchanged." },
-        { label: "d", text: "Transfer only occurs after termination." }
+        { label: "a", text: "Transfer slows monomer addition at the radical, so each propagation step adds less mass to the chain." },
+        { label: "b", text: "Transfer destroys all radicals irreversibly, so polymerization stops as soon as the first transfer event occurs." },
+        { label: "c", text: "The radical moves to another molecule; one chain stops, but a new radical can continue propagation with little rate change." },
+        { label: "d", text: "Transfer occurs only after termination has already removed every active chain from the reaction mixture." }
       ],
       answer: "c",
       why: "The active centre moves, it does not vanish: count of propagating radicals stays ~constant (rate unchanged) while **chain length — and hence MW — drops**.",
@@ -170,10 +170,10 @@ const T2: TopicSource = {
       diff: 3,
       text: "Why can anionic polymerization produce *living* polymers (no termination), enabling block copolymers like SBS?",
       options: [
-        { label: "a", text: "Anions are destroyed by trace water, which stops all growth." },
-        { label: "b", text: "Living behaviour requires coordination catalysts only." },
-        { label: "c", text: "Carbanions terminate rapidly by combination." },
-        { label: "d", text: "There is no stable species for the carbanion to react with — no bimolecular termination route exists in pure monomer, so all chains keep growing until monomer is exhausted." }
+        { label: "a", text: "Trace water destroys the anion, so a living chain can survive only if the reactor is deliberately kept wet." },
+        { label: "b", text: "Living behaviour requires coordination catalysts, because ionic chains always terminate by radical combination." },
+        { label: "c", text: "Carbanions terminate rapidly by combination under normal conditions, so block copolymers require a new initiator at each stage." },
+        { label: "d", text: "With impurities and termination suppressed, the carbanion remains active and can resume growth when more monomer is added." }
       ],
       answer: "d",
       why: "The **carbanion has no termination partner** in rigorously purified systems: chains start together, all grow while monomer lasts, and stop only when monomer is gone. Adding a second monomer then extends every chain → **block** copolymers.",
@@ -361,10 +361,10 @@ const T2: TopicSource = {
       diff: 3,
       text: "Increasing initiator concentration makes the polymerization faster but yields *lower* molecular weight. Why?",
       options: [
-        { label: "a", text: "Initiator fragments dilute the polymer." },
-        { label: "b", text: "It does not lower MW." },
-        { label: "c", text: "More radicals are produced, so each chain meets termination sooner — more chains share the same monomer." },
-        { label: "d", text: "Initiator slows propagation." }
+        { label: "a", text: "Initiator fragments dilute the polymer chains, lowering their measured molecular weight without changing chain count." },
+        { label: "b", text: "Initiator concentration does not affect molecular weight because propagation alone fixes the final chain length." },
+        { label: "c", text: "More initiator creates more radicals and growing chains, so monomer is shared among more chains and average MW falls." },
+        { label: "d", text: "Initiator slows propagation by consuming monomer before chains can form, reducing rate as molecular weight falls." }
       ],
       answer: "c",
       why: "$\\overline{DP}_n = k_p[M]/(fk_dk_t[I])^{1/2} \\propto [I]^{-1/2}$. More radicals → more chains started simultaneously → each consumes fewer monomers before terminating.",
@@ -377,10 +377,10 @@ const T2: TopicSource = {
       diff: 2,
       text: "Head-to-tail vs head-to-head addition in vinyl polymerization:",
       options: [
-        { label: "a", text: "Head-to-head dominates because it is sterically easier." },
-        { label: "b", text: "Head-to-tail dominates because the radical stays on the more substituted, more stable carbon; head-to-head placements are destabilizing defects." },
-        { label: "c", text: "Head-to-tail only occurs in ionic systems." },
-        { label: "d", text: "Both occur with equal probability." }
+        { label: "a", text: "Head-to-head dominates because placing substituents next to each other reduces steric repulsion during addition." },
+        { label: "b", text: "Head-to-tail dominates because addition leaves the radical on the more substituted carbon, stabilizing the growing chain end." },
+        { label: "c", text: "Head-to-tail addition occurs only in ionic polymerization; radical chains cannot add vinyl monomers in that arrangement." },
+        { label: "d", text: "Both arrangements occur equally often because the two carbon atoms of a substituted vinyl monomer are equivalent." }
       ],
       answer: "b",
       why: "The propagating radical is most stable on the **substituted carbon**; adding the next monomer so the radical lands there gives the regular **head-to-tail** sequence.",
@@ -465,10 +465,10 @@ const T2: TopicSource = {
       diff: 2,
       text: "Why is free-radical polymerization the most widely used industrial mechanism?",
       options: [
-        { label: "a", text: "It requires no initiator." },
-        { label: "b", text: "It is the only mechanism that gives stereoregular polymers." },
-        { label: "c", text: "It gives the highest possible MW always." },
-        { label: "d", text: "It is tolerant of many functional groups and of water, and its monomers/initiators are cheap and easy to handle." }
+        { label: "a", text: "It requires no initiator or thermal control, so all monomers can be polymerized in an ordinary open vessel." },
+        { label: "b", text: "It is the only mechanism that produces stereoregular polymers and guarantees the highest molecular weight for any monomer." },
+        { label: "c", text: "It is more sensitive than ionic polymerization to water and polar functional groups, making it easy to purify and control." },
+        { label: "d", text: "It accepts many monomers and functional groups, uses practical initiators, and tolerates more process variation than ionic routes." }
       ],
       answer: "d",
       why: "Radicals are **chemically tolerant** (unlike ionic systems, they survive trace impurities and water) and can run in bulk, solution, suspension or emulsion — ideal for commodity production.",
@@ -724,10 +724,10 @@ const T2: TopicSource = {
       diff: 4,
       text: "A polymer sample shows PDI = 2.0 with all chains having two hydroxyl end groups (confirmed by NMR). The most likely synthesis is:",
       options: [
-        { label: "a", text: "Free-radical polymerization terminated by combination" },
-        { label: "b", text: "Ziegler–Natta coordination polymerization" },
-        { label: "c", text: "Living anionic polymerization" },
-        { label: "d", text: "Step-growth (polyester/polyamide) at high conversion — the most-probable Flory distribution has limiting PDI = 2" }
+        { label: "a", text: "Free-radical termination by combination is the most likely route because it creates two hydroxyl ends on every chain." },
+        { label: "b", text: "Ziegler–Natta coordination usually produces hydroxyl-terminated chains in a perfectly uniform distribution." },
+        { label: "c", text: "Living anionic polymerization typically leaves two hydroxyl end groups on every chain without a separate termination step." },
+        { label: "d", text: "High-conversion step-growth polyester/polyamide synthesis commonly gives PDI near 2 and two functional end groups per chain." }
       ],
       answer: "d",
       why: "The **most-probable (Flory) distribution** from equal-reactivity step-growth has $M_w/M_n = 2$ and, being built from A–A/B–B type monomers, carries two functional end groups per chain. Living systems give PDI ≈ 1.",
