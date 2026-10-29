@@ -101,10 +101,10 @@ const T3: TopicSource = {
       diff: 3,
       text: "Why can emulsion polymerization achieve high rate *and* high molecular weight simultaneously, unlike bulk polymerization?",
       options: [
-        { label: "a", text: "Surfactant increases the activation energy." },
-        { label: "b", text: "Water cools the reaction, allowing higher initiator." },
-        { label: "c", text: "Particles compartmentalize radicals: many particles react concurrently (high rate) while each particle holds ~1 radical, so bimolecular termination is rare inside it (long chains)." },
-        { label: "d", text: "Emulsion is simply a diluted bulk process." }
+        { label: "a", text: "Surfactant increases activation energy, slowing propagation while making each individual polymer chain much longer." },
+        { label: "b", text: "Water removes reaction heat and permits more initiator, which alone explains both high rate and high molecular weight." },
+        { label: "c", text: "Particles compartmentalize radicals: many particles react simultaneously, while limited termination lets chains grow long." },
+        { label: "d", text: "Emulsion is simply bulk polymerization diluted with water, so rate and molecular weight follow the same trade-off." }
       ],
       answer: "c",
       why: "**Compartmentalization** decouples rate from MW: rate scales with the number of particles, while the isolated-radical condition inside each particle suppresses termination → both rate and MW rise together. In bulk, anything that raises rate also raises termination.",
@@ -225,10 +225,10 @@ const T3: TopicSource = {
       diff: 2,
       text: "What is solid-state polymerization (SSP) and why is it used for PET bottle grade?",
       options: [
-        { label: "a", text: "Grinding polymer to increase surface area for sale." },
-        { label: "b", text: "Polymerizing PET in a solid catalyst lattice." },
-        { label: "c", text: "A purification wash step." },
-        { label: "d", text: "Heating dry PET chips below Tm under vacuum/inert gas: end groups continue reacting in the solid state, raising MW without handling extremely viscous melt." }
+        { label: "a", text: "Grinding finished polymer increases its surface area for sale but leaves chain length and end-group chemistry unchanged." },
+        { label: "b", text: "PET is polymerized inside a solid catalyst lattice that supplies repeating sites for each new chain segment." },
+        { label: "c", text: "A purification wash removes residual monomer and ends all condensation reactions before the pellets are dried." },
+        { label: "d", text: "Dry PET chips are heated below Tm under vacuum or inert gas so end groups keep reacting and volatiles are removed." }
       ],
       answer: "d",
       why: "Above $T_g$, below $T_m$, chain ends still diffuse and react. SSP raises intrinsic viscosity to bottle grade while avoiding the melt's extreme viscosity and degradation at > 280 °C.",
