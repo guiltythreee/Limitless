@@ -272,17 +272,21 @@ function commit(next: State): boolean {
 function recoverGlobalRewards() {
   if (typeof window === "undefined" || !window.LimitlessRewards) return;
   if (!rewardActivatedAt) rewardActivatedAt = setRewardActivationBaseline();
-  const eligibleAttempts = state.attempts.filter((attempt) => attempt.ts >= rewardActivatedAt);
+  // Re-read the canonical persisted root rather than the in-memory snapshot.
+  // An activity that failed to save must never earn EXP merely because the tab
+  // still has its unsaved copy in React/store memory.
+  const persisted = read();
+  const eligibleAttempts = persisted.attempts.filter((attempt) => attempt.ts >= rewardActivatedAt);
   const affectedLessons = new Set<string>();
   for (const attempt of eligibleAttempts) {
     rewardAttempt(attempt);
     const lessonId = questionByKey[attempt.q]?.lessonId;
     if (lessonId) affectedLessons.add(lessonId);
   }
-  for (const lessonId of affectedLessons) rewardLessonMastery(lessonId, state.attempts);
-  const eligibleTests = state.tests.filter((record) => record.ts >= rewardActivatedAt);
+  for (const lessonId of affectedLessons) rewardLessonMastery(lessonId, persisted.attempts);
+  const eligibleTests = persisted.tests.filter((record) => record.ts >= rewardActivatedAt);
   for (const record of eligibleTests) rewardAssessment(record);
-  rewardPathwayMastery(state.attempts);
+  rewardPathwayMastery(persisted.attempts);
 }
 function ensureLoaded() {
   if (!loaded && typeof window !== "undefined") {
