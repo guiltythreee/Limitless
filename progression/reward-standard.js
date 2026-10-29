@@ -67,6 +67,17 @@
   function isOneTimeClass(activityClass) {
     return activityClass === 'milestone' || activityClass === 'course-completion';
   }
+  function evidenceFitsActivity(activityClass, evidence) {
+    var allowed = {
+      'micro-practice': { 'submitted-answer': true },
+      'standard-task': { 'typed-page': true, 'completed-session': true, 'submitted-answer': true },
+      'focused-practice': { 'completed-session': true },
+      assessment: { 'scored-assessment': true },
+      milestone: { 'topic-mastery': true, 'unit-mastery': true, 'milestone-complete': true },
+      'course-completion': { 'pathway-complete': true }
+    };
+    return !!(allowed[activityClass] && allowed[activityClass][evidence]);
+  }
   function emptyLedger() {
     return { version: 1, standard: VERSION, totalXp: 0, awards: [] };
   }
@@ -220,9 +231,10 @@
       var passKey = cleanString(args.passKey || '');
       if (!eventId || !moduleId || !contentKey) return { ok: false, xp: 0, error: 'missing-event-module-or-content-key' };
       if (eventId.length > 256 || moduleId.length > 64 || contentKey.length > 256) return { ok: false, xp: 0, error: 'identifier-too-long' };
-      if (!EVIDENCE_TYPES[evidence]) return { ok: false, xp: 0, error: 'missing-or-unknown-completion-evidence' };
       if (typeof BASE_EXP[activityClass] !== 'number') return { ok: false, xp: 0, error: 'unknown-activity-class' };
       if (typeof DIFFICULTY[difficulty] !== 'number') return { ok: false, xp: 0, error: 'unknown-difficulty' };
+      if (!EVIDENCE_TYPES[evidence]) return { ok: false, xp: 0, error: 'missing-or-unknown-completion-evidence' };
+      if (!evidenceFitsActivity(activityClass, evidence)) return { ok: false, xp: 0, error: 'completion-evidence-does-not-fit-activity' };
       if (isOneTimeClass(activityClass) && !oneTimeKey) return { ok: false, xp: 0, error: 'missing-one-time-key' };
       if (args.passed && (activityClass !== 'assessment' || !passKey)) return { ok: false, xp: 0, error: 'passed-assessment-needs-pass-key' };
 
