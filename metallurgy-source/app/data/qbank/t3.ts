@@ -41,10 +41,10 @@ const T3: TopicSource = {
       diff: 2,
       text: "Why does solution polymerization typically give lower molecular weight than bulk polymerization of the same monomer?",
       options: [
-        { label: "a", text: "Chain transfer to solvent stops chains early, and the dilution reduces propagation rate." },
-        { label: "b", text: "Solvent lowers the monomer concentration." },
-        { label: "c", text: "Solvent prevents initiation entirely." },
-        { label: "d", text: "It does not — solution always gives higher MW." }
+        { label: "a", text: "Chain transfer to solvent can terminate a growing chain and start another, lowering average chain length in a suitable solvent." },
+        { label: "b", text: "The solvent only dilutes monomer; dilution by itself fixes molecular weight regardless of transfer chemistry or termination." },
+        { label: "c", text: "Solvent prevents all initiation in the liquid phase, so the few chains that start can grow without limit." },
+        { label: "d", text: "Solution polymerization always gives higher molecular weight because dissolved chains cannot undergo any termination reaction." }
       ],
       answer: "a",
       why: "Two effects: (i) **chain transfer to solvent** — the radical is quenched by solvent, capping chains early; (ii) dilution lowers $[M]$, reducing $R_p$ and the time chains live before termination relative to transfer events.",
@@ -132,10 +132,10 @@ const T3: TopicSource = {
       diff: 3,
       text: "Why is high vacuum (< 1 mbar) essential in the late stages of melt polycondensation?",
       options: [
-        { label: "a", text: "Vacuum prevents oxidation of the initiator." },
-        { label: "b", text: "Vacuum lowers the melting point of the polymer." },
-        { label: "c", text: "Removing the condensate (water) shifts the step-growth equilibrium forward toward high MW." },
-        { label: "d", text: "Vacuum increases the monomer concentration." }
+        { label: "a", text: "Vacuum mainly prevents initiator oxidation, which is the rate-limiting step in late-stage polyesterification under inert gas." },
+        { label: "b", text: "Vacuum lowers the polymer's melting point so chain ends can approach one another without needing additional reaction time." },
+        { label: "c", text: "Removing water and other condensates shifts the equilibrium toward further condensation and allows higher molecular weight." },
+        { label: "d", text: "Vacuum raises the monomer concentration by drawing extra monomer into the reactor, accelerating the final condensation stage." }
       ],
       answer: "c",
       why: "Condensation is an equilibrium: leftover water drives the reverse (hydrolysis) reaction. Vacuum **pulls the condensate out**, shifting equilibrium toward high-DP polymer — the entire art of reaching $p > 99.5\\%$.",
@@ -306,10 +306,10 @@ const T3: TopicSource = {
       diff: 4,
       text: "A process must produce a polymer with the narrowest possible MWD and no solvent residues, at modest scale. Best choice?",
       options: [
-        { label: "a", text: "Bulk free-radical with high initiator" },
-        { label: "b", text: "Emulsion with surfactant" },
-        { label: "c", text: "Living anionic polymerization in bulk (no termination → uniform chains)" },
-        { label: "d", text: "Solution with chain-transfer agent" }
+        { label: "a", text: "Bulk free-radical polymerization with high initiator loading; many chains start, and termination broadens the distribution." },
+        { label: "b", text: "Emulsion polymerization with surfactant; compartmentalization raises rate but does not by itself guarantee the narrowest MWD." },
+        { label: "c", text: "Living anionic polymerization with impurities and termination suppressed, allowing chains to grow at similar rates without solvent residue." },
+        { label: "d", text: "Solution polymerization with chain-transfer agent; transfer limits chain length but usually broadens the molecular-weight distribution." }
       ],
       answer: "c",
       why: "**Living anionic** polymerization (fast initiation, no termination) produces nearly all chains at the same rate → the narrowest MWD attainable (PDI ≈ 1.05–1.2), and running it in bulk avoids solvent residues.",
@@ -372,12 +372,12 @@ const T3: TopicSource = {
       id: "t3-20",
       type: "higher",
       diff: 4,
-      text: "A reactor produces polystyrene as 0.5 mm aqueous dispersion particles using potassium persulfate initiator and sodium lauryl sulfate surfactant. The process is:",
+      text: "A reactor produces polystyrene as 0.5 μm aqueous dispersion particles using potassium persulfate initiator and sodium lauryl sulfate surfactant. The process is:",
       options: [
-        { label: "a", text: "Dispersion polymerization — identical to suspension" },
-        { label: "b", text: "Precipitation polymerization in bulk" },
-        { label: "c", text: "Suspension polymerization (persulfate is monomer-soluble)" },
-        { label: "d", text: "Emulsion polymerization (water-soluble persulfate initiator, surfactant micelles, sub-micron particles)" }
+        { label: "a", text: "Dispersion polymerization: soluble polymer precipitates in an alcohol-rich medium to form particles without an aqueous micellar locus." },
+        { label: "b", text: "Precipitation polymerization in bulk: the polymer forms as solid particles without water, surfactant or a water-soluble initiator." },
+        { label: "c", text: "Suspension polymerization: monomer droplets are stabilized mechanically and polymerized mainly with an oil-soluble initiator in each droplet." },
+        { label: "d", text: "Emulsion polymerization: aqueous radicals enter surfactant-stabilized micelles or particles, producing submicrometre polymer particles." }
       ],
       answer: "d",
       why: "Three signatures: **persulfate** (water-soluble) initiator, **surfactant** present, and particles **below 1 µm** — all hallmarks of emulsion polymerization. Suspensions have larger droplets (30–300 µm), no micelles, and monomer-soluble initiators.",
