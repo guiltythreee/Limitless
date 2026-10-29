@@ -157,10 +157,10 @@ const T5: TopicSource = {
       diff: 3,
       text: "A clear, transparent container is required. Which material choice and processing logic is best?",
       options: [
-        { label: "a", text: "Amorphous PET (rapidly quenched) or an amorphous polymer such as PS/PMMA — crystallites scatter light and reduce clarity." },
-        { label: "b", text: "Slowly cooled HDPE — high crystallinity gives the best clarity." },
-        { label: "c", text: "A cross-linked thermoset." },
-        { label: "d", text: "Any polymer, since clarity is independent of crystallinity." }
+        { label: "a", text: "Use amorphous PET, PS or PMMA and avoid processing that promotes large light-scattering crystallites." },
+        { label: "b", text: "Use slowly cooled HDPE and maximize crystallinity, because ordered crystalline domains improve optical clarity." },
+        { label: "c", text: "Use any highly cross-linked thermoset, because permanent network formation guarantees a clear, transparent article." },
+        { label: "d", text: "Choose any polymer grade without regard to morphology, since crystallinity has no effect on light transmission or haze." }
       ],
       answer: "a",
       why: "Crystallites are optically anisotropic and **scatter light** → opaque/translucent. Transparency therefore requires an amorphous state (quenched PET, PS, PMMA, PC).",
