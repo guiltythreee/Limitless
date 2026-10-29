@@ -68,6 +68,12 @@ const afterFirstWrite = storage.writes;
 assert.deepEqual(adapter.awardRun(run({ accuracy: 0 })), first);
 assert.equal(storage.writes, afterFirstWrite);
 
+// The selected user difficulty affects only the standardized difficulty tier,
+// while run completeness and the common policy still control the award.
+assert.equal(adapter.awardRun(run({ runId: "easy-run", mode: "blitz", diff: "easy" })).difficulty, "foundational");
+assert.equal(adapter.awardRun(run({ runId: "normal-run", mode: "blitz", diff: "normal" })).difficulty, "intermediate");
+assert.equal(adapter.awardRun(run({ runId: "hard-run", mode: "blitz", diff: "hard" })).difficulty, "advanced");
+
 // Four same-item assessments on one local day: only the first three get full EXP,
 // and the recognized tier checkpoint pass bonus can be granted only once.
 function assessment(runId, ts, overrides = {}) {
