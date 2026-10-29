@@ -22,10 +22,10 @@ const T5: TopicSource = {
       diff: 1,
       text: "The essential structural requirement for a polymer to crystallize is:",
       options: [
-        { label: "a", text: "High molecular weight only" },
-        { label: "b", text: "Cross-linking" },
-        { label: "c", text: "Regular, repeating chain structure — linear, stereoregular and free of random defects" },
-        { label: "d", text: "The presence of benzene rings" }
+        { label: "a", text: "High molecular weight alone guarantees crystallinity, even if the chain conformation is random and irregular." },
+        { label: "b", text: "Covalent cross-linking is required so chains stay fixed in position and form a stable crystalline lattice." },
+        { label: "c", text: "Regular, repeatable chain geometry lets neighbouring chains pack into an ordered lattice with long-range structure." },
+        { label: "d", text: "Aromatic rings are essential because every crystalline polymer contains benzene-based repeat units." }
       ],
       answer: "c",
       why: "Crystallization needs the chains to **pack into a repeating lattice** — possible only if the chain is linear (or lightly branched), stereoregular and not randomly copolymerized. MW only matters above a minimum.",
@@ -98,10 +98,10 @@ const T5: TopicSource = {
       diff: 2,
       text: "Which set correctly contrasts HDPE with LDPE?",
       options: [
-        { label: "a", text: "Both are amorphous." },
-        { label: "b", text: "HDPE: branched, lower crystallinity; LDPE: linear, higher crystallinity." },
-        { label: "c", text: "HDPE: thermoset; LDPE: thermoplastic." },
-        { label: "d", text: "HDPE: linear, ~70–80% crystalline, ρ ≈ 0.95, Tm ≈ 135 °C. LDPE: branched, ~40–50% crystalline, ρ ≈ 0.92, Tm ≈ 115 °C." }
+        { label: "a", text: "Both grades are mainly amorphous, so density and crystallinity differ little and melting behaviour is nearly identical." },
+        { label: "b", text: "HDPE is highly branched and less crystalline; LDPE is nearly linear and packs densely with a higher melting point." },
+        { label: "c", text: "HDPE is a thermoset that cannot be remelted, whereas LDPE is a thermoplastic used only in flexible film." },
+        { label: "d", text: "HDPE is more linear and crystalline with higher density/Tm; LDPE has more branching and lower crystallinity." }
       ],
       answer: "d",
       why: "Linear HDPE packs efficiently → **higher crystallinity, density and Tm**. Branches in LDPE disrupt packing → lower on all three.",
@@ -141,10 +141,10 @@ const T5: TopicSource = {
       diff: 2,
       text: "Why does rapidly quenching a polymer melt give lower crystallinity than slow cooling?",
       options: [
-        { label: "a", text: "Quenching destroys the polymer chains." },
-        { label: "b", text: "Quenching removes heat too fast for crystallites to nucleate and grow; chains are frozen in a disordered state below Tg." },
-        { label: "c", text: "Quenching raises the melting point." },
-        { label: "d", text: "Quenching has no effect on crystallinity." }
+        { label: "a", text: "Quenching chemically breaks polymer chains, so crystallites cannot form even if the sample is later annealed." },
+        { label: "b", text: "Rapid cooling leaves too little time for chains to organize into crystals, whereas slower cooling permits growth." },
+        { label: "c", text: "Quenching raises the equilibrium melting point, making crystallization thermodynamically impossible at all temperatures." },
+        { label: "d", text: "Cooling rate has no effect on crystal formation; crystallinity is determined only by the polymer's molecular weight." }
       ],
       answer: "b",
       why: "Crystallization is **kinetically controlled**: it needs time as well as a temperature between Tg and Tm. Fast cooling traps the amorphous state; slow cooling lets lamellae grow.",
@@ -216,10 +216,10 @@ const T5: TopicSource = {
       diff: 3,
       text: "Why does copolymerizing ethylene with a small amount of 1-hexene (LLDPE) lower crystallinity relative to HDPE?",
       options: [
-        { label: "a", text: "1-Hexene is a plasticizer that evaporates." },
-        { label: "b", text: "The butyl branches are defects that interrupt the regular lattice and lower the lamellar perfection and thickness." },
-        { label: "c", text: "Copolymerization increases chain length." },
-        { label: "d", text: "It does not lower crystallinity." }
+        { label: "a", text: "The 1-hexene branches evaporate during processing and act as a temporary plasticizer rather than altering chain packing." },
+        { label: "b", text: "Short butyl branches interrupt regular polyethylene packing, reducing crystallinity and density relative to HDPE." },
+        { label: "c", text: "Adding 1-hexene increases chain length without introducing side branches, so crystallinity rises as chains become longer." },
+        { label: "d", text: "LLDPE retains the same chain regularity as HDPE, so the small comonomer fraction does not change crystallinity." }
       ],
       answer: "b",
       why: "Comonomer units act as **lattice defects**: the regular chain sequence is interrupted, so thinner, less perfect lamellae form → lower crystallinity and Tm, but better toughness and clarity.",
@@ -232,10 +232,10 @@ const T5: TopicSource = {
       diff: 1,
       text: "In wide-angle X-ray diffraction, a semi-crystalline polymer shows:",
       options: [
-        { label: "a", text: "No scattering at all" },
-        { label: "b", text: "Only sharp peaks" },
-        { label: "c", text: "Only a broad halo" },
-        { label: "d", text: "Sharp crystalline peaks superimposed on a broad amorphous halo" }
+        { label: "a", text: "No scattering appears because the amorphous phase absorbs X-rays before they reach the detector." },
+        { label: "b", text: "Only sharp Bragg peaks are observed, because every semicrystalline polymer is fully crystalline at room temperature." },
+        { label: "c", text: "Only a broad amorphous halo appears, since crystalline regions do not diffract X-rays in polymer specimens." },
+        { label: "d", text: "Sharp crystalline diffraction peaks sit on a broad amorphous halo, showing that ordered and disordered regions coexist." }
       ],
       answer: "d",
       why: "Sharp **Bragg peaks** come from the periodic crystallites; the **broad halo** comes from disordered amorphous regions. Their relative areas estimate crystallinity.",
@@ -263,10 +263,10 @@ const T5: TopicSource = {
       diff: 4,
       text: "A moulder wants faster cycle times and a tougher (less brittle) semi-crystalline moulding. The best additive strategy is:",
       options: [
-        { label: "a", text: "Add a cross-linker." },
-        { label: "b", text: "Add a nucleating agent: many nuclei form at once → many small spherulites → faster crystallization and better toughness." },
-        { label: "c", text: "Add a plasticizer to lower crystallinity." },
-        { label: "d", text: "Slow the cooling to grow large spherulites." }
+        { label: "a", text: "Add a cross-linker so irreversible covalent bonds replace crystal growth and shorten the thermoplastic moulding cycle." },
+        { label: "b", text: "Add a nucleating agent to speed crystallization and produce finer spherulites, often shortening the cycle and improving toughness." },
+        { label: "c", text: "Add a plasticizer to reduce crystallinity in every grade, which guarantees both faster cooling and greater impact strength." },
+        { label: "d", text: "Slow the cooling so large spherulites grow; this always gives the shortest cycle and the least brittle moulded part." }
       ],
       answer: "b",
       why: "A **nucleating agent** multiplies nucleation sites → many fine spherulites → shorter cycle time, improved toughness and (often) clarity. Large spherulites, by contrast, are brittle.",
