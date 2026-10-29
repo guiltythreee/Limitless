@@ -6,6 +6,11 @@ on:
       - work/metallurgy-question-quality-2026-10-29
     paths:
       - metallurgy-source/scripts/apply-authored-revisions.py
+  pull_request:
+    branches:
+      - main
+    paths:
+      - metallurgy-source/scripts/apply-authored-revisions.py
 
 permissions:
   contents: write
