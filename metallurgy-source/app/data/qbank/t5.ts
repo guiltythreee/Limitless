@@ -79,10 +79,10 @@ const T5: TopicSource = {
       diff: 2,
       text: "Why is atactic polystyrene completely amorphous?",
       options: [
-        { label: "a", text: "It has too high a molecular weight." },
-        { label: "b", text: "It is cross-linked." },
-        { label: "c", text: "It contains no double bonds." },
-        { label: "d", text: "Random phenyl placement prevents the chain from adopting the regular conformation needed for lattice packing." }
+        { label: "a", text: "High molecular weight prevents all chain rearrangement, even when the chain stereochemistry is regular." },
+        { label: "b", text: "Ordinary styrene polymerization forms permanent covalent cross-links that prevent phenyl groups from packing." },
+        { label: "c", text: "It lacks the aromatic double bonds required for any polymer chain to form a crystalline lattice." },
+        { label: "d", text: "Random phenyl placement disrupts regular chain packing, preventing the long-range order needed for crystallization." }
       ],
       answer: "d",
       why: "The bulky phenyl groups are placed **randomly** (atactic) along the chain, so no repeating lattice can form — the polymer is transparent and amorphous. Isotactic PS, by contrast, is crystalline.",
@@ -317,10 +317,10 @@ const T5: TopicSource = {
       diff: 3,
       text: "PET drink bottles are transparent but PET fibres are strong and semi-crystalline. Why the difference?",
       options: [
-        { label: "a", text: "Bottles are cross-linked." },
-        { label: "b", text: "Bottles are rapidly quenched (amorphous, clear); fibres are drawn/stretched to orient and crystallize the chains (strong)." },
-        { label: "c", text: "Bottles and fibres are chemically different polymers." },
-        { label: "d", text: "Fibres contain no PET." }
+        { label: "a", text: "Bottles are cross-linked during moulding, while fibres are made from a chemically different grade of PET." },
+        { label: "b", text: "Rapid quenching leaves bottles largely amorphous and clear; drawing fibres aligns chains and promotes crystallinity." },
+        { label: "c", text: "Bottles and fibres are made from distinct polymers, one amorphous and one inherently crystalline." },
+        { label: "d", text: "Fibres contain no PET; they use a different polyester selected only for its lower density." }
       ],
       answer: "b",
       why: "**Same chemistry, different processing**: quench → amorphous (clarity, toughness for bottles); draw → oriented crystallites (high modulus/strength for fibres).",
