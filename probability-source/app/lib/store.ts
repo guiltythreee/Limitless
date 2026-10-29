@@ -238,9 +238,15 @@ function verifiedMasteryRewards(attempts: Attempt[], priorRecords: RewardRecord[
     });
   }
 
+  const allLessonIds = Object.keys(QUESTIONS_BY_LESSON);
   for (const pathway of pathways) {
     const lessonQuestions = pathway.lessonIds.map((lessonId) => QUESTIONS_BY_LESSON[lessonId] ?? []);
     if (!lessonQuestions.length || lessonQuestions.some((questions) => !hasMastery(questions))) continue;
+    // A pathway that is exactly the whole archive is represented by the single
+    // course-completion milestone below, not two rewards for identical scope.
+    const isWholeArchive = pathway.lessonIds.length === allLessonIds.length &&
+      allLessonIds.every((lessonId) => pathway.lessonIds.includes(lessonId));
+    if (isWholeArchive) continue;
     const questions = lessonQuestions.flat();
     const eventId = `probability:pathway-mastery:${PATHWAY_VERSION}:${pathway.id}`;
     add({
@@ -256,7 +262,6 @@ function verifiedMasteryRewards(attempts: Attempt[], priorRecords: RewardRecord[
     });
   }
 
-  const allLessonIds = Object.keys(QUESTIONS_BY_LESSON);
   const allLessonQuestions = allLessonIds.flatMap((lessonId) => QUESTIONS_BY_LESSON[lessonId]);
   if (allLessonQuestions.length && allLessonIds.every((lessonId) => hasMastery(QUESTIONS_BY_LESSON[lessonId]))) {
     const eventId = `probability:course-completion:${PATHWAY_VERSION}`;
@@ -313,7 +318,8 @@ function rewardAssessment(t: TestRecord, prior: RewardRecord[]) {
     ? numericDifficulties.reduce((sum, value) => sum + value, 0) / numericDifficulties.length
     : 1;
   const difficulty: DifficultyTier = averageDifficulty >= 2.5 ? "advanced" : averageDifficulty >= 1.5 ? "intermediate" : "foundational";
-  const completed = t.total > 0 && t.answered === t.total;
+  const meaningful = t.total >= 5 && t.answered >= 5;
+  const completed = meaningful && t.total > 0 && t.answered === t.total;
   const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
   const fullArchiveCheckpoint = t.label === "All of probability" && t.total === allQuestions.length;
   const fullPathway = pathways.find((pathway) => `All of ${pathway.shortLabel}` === t.label);
