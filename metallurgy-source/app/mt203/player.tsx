@@ -75,7 +75,7 @@ export default function Player({
   const pick = (lab: string) => {
     if (!theQ || revealed[theQ.id]) return;
     const ok = lab === theQ.answer;
-    let p = recordAnswer(progress, theQ.id, lab, ok, mode, 0);
+    let p = recordAnswer(progress, theQ.id, lab, ok, mode, 0, theQ.difficulty);
     const res = awardAnswer(p, theQ.id, theQ.difficulty, ok);
     p = res.progress;
     onProgress(p);
