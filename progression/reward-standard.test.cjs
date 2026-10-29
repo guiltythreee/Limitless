@@ -282,6 +282,59 @@ test('each level-up emits a durable acknowledgement event only after persistence
   assert.equal(ledger.summary().level, 2);
 });
 
+test('bespoke projects require a pre-registered immutable 20–100 EXP definition', () => {
+  const { ledger } = setup();
+  assert.deepEqual(Rewards.PROJECT_EXP_RANGE, { min: 20, max: 100 });
+  assert.equal(ledger.registerProject({
+    module: 'probability', projectId: 'mini-study', baseExp: 19,
+    title: 'Mini study', scope: 'One lesson', criteria: 'Deliver a valid result'
+  }).error, 'invalid-project-base-exp');
+  assert.equal(ledger.registerProject({
+    module: 'probability', projectId: 'oversized-study', baseExp: 101,
+    title: 'Oversized study', scope: 'One lesson', criteria: 'Deliver a valid result'
+  }).error, 'invalid-project-base-exp');
+
+  const completion = {
+    module: 'probability',
+    eventId: 'project-completion:probability:mini-study',
+    contentKey: 'project:probability:mini-study',
+    activityClass: 'bespoke-project',
+    evidence: 'project-complete',
+    difficulty: 'advanced',
+    oneTimeKey: 'project-completion:probability:mini-study'
+  };
+  assert.equal(ledger.record(completion).error, 'unregistered-project');
+
+  const definition = {
+    module: 'probability',
+    projectId: 'mini-study',
+    baseExp: 60,
+    title: 'Probability mini-study',
+    scope: 'Develop and explain a small probability model',
+    criteria: 'Include a verified result, a worked argument, and a limitations note'
+  };
+  const registered = ledger.registerProject(definition);
+  assert.equal(registered.ok, true);
+  assert.equal(registered.project.baseExp, 60);
+  assert.equal(ledger.registerProject(definition).duplicate, true);
+  assert.equal(ledger.registerProject({ ...definition, baseExp: 80 }).error, 'project-definition-immutable');
+  assert.equal(ledger.registerProject({ ...definition, criteria: 'Changed after starting' }).error, 'project-definition-immutable');
+
+  assert.equal(ledger.record({ ...completion, eventId: 'project-completion:probability:mini-study:retry' }).error, 'invalid-project-event-key');
+  const receipt = ledger.record(completion);
+  assert.equal(receipt.ok, true);
+  assert.equal(receipt.xp, 90);
+  assert.equal(receipt.breakdown.baseExp, 60);
+  assert.equal(receipt.breakdown.difficultyMultiplier, 1.5);
+  assert.equal(ledger.record(completion).duplicate, true);
+  assert.equal(ledger.summary().xp, 90);
+  assert.equal(ledger.summary().xpByModule.probability, 90);
+  assert.equal(ledger.summary().disciplineAchievements.length, 1);
+  assert.equal(ledger.summary().disciplineAchievements[0].activityClass, 'bespoke-project');
+  assert.equal(ledger.summary().recentAwards[0].projectTitle, 'Probability mini-study');
+  assert.equal(ledger.read().projects.length, 1);
+});
+
 test('invalid events do not alter the ledger and storage errors fail closed', () => {
   const { ledger } = setup();
   assert.equal(ledger.record({ module: 'probability' }).ok, false);
