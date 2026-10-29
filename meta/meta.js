@@ -1,4 +1,5 @@
-import { readGlobalRewardSummary } from "../shared/rewards.mjs";
+import { readGlobalRewardSummary, DIFFICULTY_MULTIPLIER } from "../shared/rewards.mjs";
+import { completeProject, listRegisteredProjects, registerProject } from "../shared/projects.mjs";
 
 const byId = (id) => document.getElementById(id);
 const number = (n) => Math.max(0, Math.floor(Number(n) || 0)).toLocaleString();
@@ -9,6 +10,7 @@ const labels = {
   assessment: "Assessment",
   "unit-milestone": "Unit milestone",
   "major-completion": "Major completion",
+  "unit-milestone": "Unit milestone",
   "bespoke-project": "Bespoke project",
 };
 
@@ -27,6 +29,141 @@ function makeRow(title, detail, exp) {
   value.textContent = exp;
   row.append(left, value);
   return row;
+}
+
+function renderUnlocks(summary) {
+  const host = byId("unlocked-rewards");
+  const nextCopy = byId("next-reward-copy");
+  host.replaceChildren();
+  const next = summary.nextReward;
+  nextCopy.textContent = next
+    ? `Next unlock: ${next.name} (${next.slot}) at Level ${next.level}. ${next.level - summary.level.level} level milestone(s) to go.`
+    : "The current universal reward catalogue is fully unlocked. New rewards can be added in a later policy catalogue version.";
+
+  if (!summary.unlockedRewards.length) {
+    const empty = document.createElement("p");
+    empty.className = "meta-muted";
+    empty.textContent = "No universal rewards unlocked yet. Reach Level 2 for First Light.";
+    host.append(empty);
+    return;
+  }
+  for (const reward of summary.unlockedRewards) {
+    const card = document.createElement("article");
+    card.className = "meta-unlock";
+    const name = document.createElement("strong");
+    name.textContent = reward.name;
+    const meta = document.createElement("p");
+    meta.className = "meta-muted";
+    meta.textContent = `Level ${reward.level} · ${reward.slot}`;
+    const description = document.createElement("p");
+    description.className = "meta-muted";
+    description.textContent = reward.description;
+    card.append(name, meta, description);
+    host.append(card);
+  }
+}
+
+function renderProjects() {
+  const host = byId("registered-projects");
+  host.replaceChildren();
+  let projects;
+  try {
+    projects = listRegisteredProjects(window.localStorage);
+  } catch {
+    const error = document.createElement("p");
+    error.className = "meta-error";
+    error.textContent = "Registered projects could not be read from browser storage.";
+    host.append(error);
+    return;
+  }
+  if (!projects.length) {
+    const empty = document.createElement("p");
+    empty.className = "meta-muted";
+    empty.textContent = "No bespoke projects registered yet.";
+    host.append(empty);
+    return;
+  }
+  for (const project of projects) {
+    const card = document.createElement("article");
+    card.className = "meta-panel";
+    card.style.marginTop = ".8rem";
+    const heading = document.createElement("h3");
+    heading.textContent = project.title;
+    const meta = document.createElement("p");
+    meta.className = "meta-muted";
+    meta.textContent = `${project.moduleId} · ${project.baseExp} base EXP · ${project.difficulty} · registered ${new Date(project.registeredAt).toLocaleDateString()}`;
+    const scope = document.createElement("p");
+    scope.className = "meta-muted";
+    scope.style.marginTop = ".7rem";
+    scope.textContent = "Scope: " + project.scope;
+    const criteria = document.createElement("p");
+    criteria.className = "meta-muted";
+    criteria.style.marginTop = ".5rem";
+    criteria.textContent = "Acceptance criteria: " + project.criteria;
+    card.append(heading, meta, scope, criteria);
+
+    const actions = document.createElement("div");
+    actions.className = "meta-project-actions";
+    const status = document.createElement("span");
+    status.className = project.completed ? "meta-muted" : "meta-exp";
+    status.textContent = project.completed
+      ? `Completed · +${number(project.award?.totalExp ?? 0)} EXP recorded`
+      : "Not completed";
+    actions.append(status);
+    if (!project.completed) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "meta-button";
+      button.textContent = "Confirm acceptance criteria and complete";
+      button.addEventListener("click", () => {
+        const accepted = window.confirm(
+          `Confirm this project meets every acceptance criterion?\n\n${project.title}\n\n${project.criteria}\n\nThis action grants one immutable reward and cannot be repeated.`
+        );
+        if (!accepted) return;
+        const result = completeProject(window.localStorage, project.projectId, { confirmed: true });
+        status.textContent = result.ok
+          ? result.duplicate ? "This project was already rewarded." : `Completed · +${number(result.record?.totalExp ?? 0)} EXP recorded`
+          : "Completion failed: " + result.error;
+        status.className = result.ok ? "meta-muted" : "meta-error";
+        renderProjects();
+        render();
+      });
+      actions.append(button);
+    }
+    card.append(actions);
+    host.append(card);
+  }
+}
+
+function installProjectForm() {
+  const form = byId("project-form");
+  if (!form) return;
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const status = byId("project-form-status");
+    const input = {
+      projectId: byId("project-id").value,
+      moduleId: byId("project-module").value,
+      title: byId("project-title").value,
+      scope: byId("project-scope").value,
+      criteria: byId("project-criteria").value,
+      baseExp: Number(byId("project-base-exp").value),
+      difficulty: byId("project-difficulty").value,
+    };
+    const result = registerProject(window.localStorage, input);
+    if (!result.ok) {
+      status.textContent = "Could not register project: " + result.error;
+      status.className = "meta-error";
+      return;
+    }
+    status.textContent = "Project registered. Its criteria, difficulty, and EXP value are now immutable.";
+    status.className = "meta-muted";
+    form.reset();
+    byId("project-base-exp").value = "50";
+    byId("project-module").value = "personal-projects";
+    byId("project-difficulty").value = "intermediate";
+    renderProjects();
+  });
 }
 
 function render() {
@@ -50,6 +187,9 @@ function render() {
   byId("next-level-copy").textContent =
     number(summary.level.xpToNextLevel) + " EXP to level " + (summary.level.level + 1) +
     " (threshold " + number(summary.level.nextLevelAt) + ").";
+
+  renderUnlocks(summary);
+  renderProjects();
 
   const modules = byId("module-breakdown");
   modules.replaceChildren();
@@ -97,6 +237,7 @@ function render() {
   }
 }
 
+installProjectForm();
 render();
 window.addEventListener("storage", render);
 window.addEventListener("limitless:rewards-updated", render);
