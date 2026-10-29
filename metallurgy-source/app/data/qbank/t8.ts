@@ -495,10 +495,10 @@ const T8: TopicSource = {
       diff: 2,
       text: "Why is PMMA preferred over PS for outdoor signage?",
       options: [
-        { label: "a", text: "PMMA is a thermoset." },
-        { label: "b", text: "PMMA has much better UV and weather resistance, resisting yellowing and embrittlement." },
-        { label: "c", text: "PS is transparent; PMMA is opaque." },
-        { label: "d", text: "PMMA is cheaper." }
+        { label: "a", text: "PMMA is a thermoset that cannot deform outdoors, while polystyrene softens under load in sunlight." },
+        { label: "b", text: "PMMA resists ultraviolet weathering better than PS, so it yellows less and retains clarity outdoors." },
+        { label: "c", text: "PS is opaque outdoors, whereas PMMA is fully transparent only when kept away from ultraviolet light." },
+        { label: "d", text: "PMMA is universally cheaper than PS, and material cost alone explains its use for outdoor signs." }
       ],
       answer: "b",
       why: "**PMMA's C–C backbone has no UV-absorbing aromatic groups or residual unsaturation** to trigger photodegradation, so it stays clear for years; PS yellows and crazes outdoors.",
@@ -511,10 +511,10 @@ const T8: TopicSource = {
       diff: 4,
       text: "A housing must be flame-retardant, dimensionally stable and mouldable at high precision. The best matrix choice is:",
       options: [
-        { label: "a", text: "Natural rubber" },
-        { label: "b", text: "Glass-filled PBT or PA with a flame-retardant package" },
-        { label: "c", text: "Unfilled LDPE" },
-        { label: "d", text: "Plasticized PVC" }
+        { label: "a", text: "Unfilled natural rubber, because it combines flame retardancy, dimensional precision and low creep at high temperature." },
+        { label: "b", text: "Flame-retardant glass-filled PBT or PA, providing stiffness, dimensional stability and precise moulding." },
+        { label: "c", text: "Unfilled LDPE, because its low modulus reduces dimensional change and its backbone is inherently flame-resistant." },
+        { label: "d", text: "Plasticized PVC, because a high plasticizer content makes it dimensionally stable in precision thin-wall parts." }
       ],
       answer: "b",
       why: "Semi-crystalline engineering polyesters/polyamides give **precision moulding, stiffness and heat resistance**; glass fibre raises modulus/HDT and FR additives (or inherently FR chemistry) meet flammability specs.",
