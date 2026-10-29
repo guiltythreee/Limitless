@@ -73,10 +73,10 @@ const T8: TopicSource = {
       diff: 1,
       text: "The largest single application of PVC is in:",
       options: [
-        { label: "a", text: "rigid pipes, profiles and window frames, plus plasticized cable insulation" },
-        { label: "b", text: "textile fibres" },
-        { label: "c", text: "food packaging film" },
-        { label: "d", text: "tyres" }
+        { label: "a", text: "Rigid pipes and profiles, including drainage pipe and window frames, account for PVC's largest application." },
+        { label: "b", text: "High-tenacity apparel fibres and reinforcement yarns account for most PVC use worldwide." },
+        { label: "c", text: "Food-packaging films and stretch-wrap consume more PVC resin than pipe and building profiles." },
+        { label: "d", text: "Tyre treads and heavy-duty elastomeric compounds are the principal market for PVC resin." }
       ],
       answer: "a",
       why: "**Rigid, unplasticized PVC** dominates pipes, profiles and window frames; with plasticizer it becomes flexible **cable insulation**, hoses and flooring. PVC's chlorine content also gives it inherent flame resistance.",
@@ -175,10 +175,10 @@ const T8: TopicSource = {
       diff: 3,
       text: "Nylon 6,6 is strong because of H-bonding between chains, yet it absorbs water. Why is moisture a design problem?",
       options: [
-        { label: "a", text: "Water increases crystallinity." },
-        { label: "b", text: "It does not affect properties." },
-        { label: "c", text: "Water hydrolyses the amide bonds immediately." },
-        { label: "d", text: "Water hydrogen-bonds to the amide groups, acting as a plasticizer — lowering Tg and stiffness and changing dimensions (moisture conditioning is required)." }
+        { label: "a", text: "Water raises nylon crystallinity, so moisture always increases stiffness and prevents dimensional changes in service." },
+        { label: "b", text: "Absorbed water does not alter nylon's mechanics, dimensions, glass transition or processing stability." },
+        { label: "c", text: "Water hydrolyses all amide bonds immediately at room temperature, so nylon loses strength before processing." },
+        { label: "d", text: "Water hydrogen-bonds to amide groups and plasticizes nylon, lowering Tg/stiffness and changing dimensions." }
       ],
       answer: "d",
       why: "Absorbed water competes for the **amide H-bonds** and plasticizes the amorphous phase: Tg drops below room temperature, parts swell and stiffness falls. Nylons must be dried before processing and conditioned in service.",
@@ -212,10 +212,10 @@ const T8: TopicSource = {
       diff: 2,
       text: "How do two-part epoxy adhesives cure?",
       options: [
-        { label: "a", text: "By cooling from the melt" },
-        { label: "b", text: "By oxidation in air" },
-        { label: "c", text: "By evaporation of a solvent" },
-        { label: "d", text: "By a room-temperature addition reaction between the epoxy resin and a hardener (amine/anhydride), forming a cross-linked network" }
+        { label: "a", text: "Cooling a molten epoxy solidifies it physically without reaction, leaving a reversible thermoplastic adhesive." },
+        { label: "b", text: "Oxygen from air initiates surface oxidation that cross-links the entire bulk of a two-part epoxy adhesive." },
+        { label: "c", text: "Solvent evaporates from the mixture, leaving epoxy chains packed together without any chemical hardener." },
+        { label: "d", text: "An amine or anhydride opens epoxy rings and forms a covalently cross-linked thermoset network." }
       ],
       answer: "d",
       why: "Epoxide rings open and react with **amine hydrogens** (or anhydrides at high T) to build a 3-D thermoset network. No volatiles are released, giving low shrinkage and excellent adhesion.",
@@ -227,10 +227,10 @@ const T8: TopicSource = {
       diff: 3,
       text: "Phenol–formaldehyde resins: novolac vs resol. Which statement is correct?",
       options: [
-        { label: "a", text: "Both are thermoplastics." },
-        { label: "b", text: "They contain no cross-links ever." },
-        { label: "c", text: "Novolac is self-curing; resol needs a hardener." },
-        { label: "d", text: "Novolac is made with acid catalyst and excess phenol; it is thermoplastic until cross-linked with hexamethylenetetramine. Resol is made with base and excess formaldehyde and is self-curing." }
+        { label: "a", text: "Both novolac and resol are already fully cured thermosets, so neither requires a hardener or heating." },
+        { label: "b", text: "Both remain linear thermoplastics after heating because phenol–formaldehyde chemistry cannot form networks." },
+        { label: "c", text: "Novolac self-cures because it is formaldehyde-rich; resol needs hexamine because it is phenol-rich." },
+        { label: "d", text: "Novolac is phenol-rich and needs hexamine; formaldehyde-rich resol self-cures on heating." }
       ],
       answer: "d",
       why: "**Novolac** (acid catalyst, phenol-rich) is a stable thermoplastic prepolymer needing added **hexamine** to cure; **resol** (base, formaldehyde-rich) carries reactive methylol groups and cures on heating without a separate hardener.",
@@ -441,10 +441,10 @@ const T8: TopicSource = {
       diff: 2,
       text: "Why is polycarbonate widely used for transparent structural parts although PMMA is slightly clearer?",
       options: [
-        { label: "a", text: "PC is cheaper in all respects." },
-        { label: "b", text: "PC combines good clarity with very high toughness and a high Tg (~150 °C), giving transparency plus impact and heat resistance." },
-        { label: "c", text: "PC is more scratch-resistant than PMMA." },
-        { label: "d", text: "PC is a thermoset." }
+        { label: "a", text: "PC is cheaper than PMMA in every grade and process, so cost alone explains its use for transparent windows." },
+        { label: "b", text: "PC retains clarity while offering greater impact toughness and a higher glass-transition temperature than PMMA." },
+        { label: "c", text: "PC resists scratching and UV exposure better than PMMA without coatings, making it the clearer optical choice." },
+        { label: "d", text: "PC is a permanently cross-linked thermoset, which prevents it from yielding during impact loading." }
       ],
       answer: "b",
       why: "The **balance** is the point: PC's clarity is close to PMMA's, but its impact strength is many times higher and its Tg (~150 °C) allows hot/structural use. (PMMA wins on UV stability and scratch resistance — hence PC is often hard-coated.)",
@@ -527,10 +527,10 @@ const T8: TopicSource = {
       diff: 3,
       text: "Why does PTFE's melting behaviour make it fundamentally harder to process than polyethylene?",
       options: [
-        { label: "a", text: "PTFE has an extremely high melt viscosity (rigid, strongly bonded chains resist flow), so it does not form a true melt — hence sintering/paste extrusion instead of melt processing." },
-        { label: "b", text: "PTFE is a thermoset." },
-        { label: "c", text: "PTFE has a lower Tm than PE." },
-        { label: "d", text: "PE is processed only by sintering." }
+        { label: "a", text: "PTFE's melt is too viscous for ordinary flow, so processing generally uses sintering or paste extrusion." },
+        { label: "b", text: "PTFE is a covalently cross-linked thermoset, so its chains cannot soften or be shaped when heated." },
+        { label: "c", text: "PTFE melts below polyethylene, but decomposes before its melting point can be reached in processing." },
+        { label: "d", text: "Polyethylene has a rigid, high-viscosity melt and is normally shaped by sintering instead of extrusion." }
       ],
       answer: "a",
       why: "Strong C–F bonds and a very high chain stiffness give PTFE a melt viscosity ~10¹⁰ Pa·s, many orders above normal polymers; the 'melt' does not flow → **compression sintering** or **paste extrusion**.",
@@ -578,10 +578,10 @@ const T8: TopicSource = {
       diff: 4,
       text: "ABS outperforms HIPS primarily because adding acrylonitrile to the rubber-grafted styrene system:",
       options: [
-        { label: "a", text: "increases chemical resistance, heat resistance and stiffness (higher Tg) while retaining rubber toughening, so ABS resists both impact and aggressive service conditions." },
-        { label: "b", text: "lowers its Tg below room temperature." },
-        { label: "c", text: "removes the rubber phase." },
-        { label: "d", text: "makes it transparent." }
+        { label: "a", text: "Acrylonitrile raises polarity, chemical/heat resistance and stiffness while the rubber phase still toughens ABS." },
+        { label: "b", text: "Acrylonitrile lowers the matrix Tg below room temperature, making ABS more flexible than HIPS in service." },
+        { label: "c", text: "Acrylonitrile removes the polybutadiene rubber phase, leaving a homogeneous rigid styrene copolymer." },
+        { label: "d", text: "Acrylonitrile makes ABS transparent by matching the refractive indices of the rubber and styrenic phases." }
       ],
       answer: "a",
       why: "The **nitrile groups are polar**, raising cohesive energy, modulus, chemical and heat resistance; the polybutadiene phase still provides toughening. The combination is what makes ABS the dominant engineering thermoplastic (appliance and automotive trim, toys).",
