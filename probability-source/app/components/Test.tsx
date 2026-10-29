@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { lessons, ranks, pad2, type Difficulty } from "../content";
 import { Rich } from "../lib/rich";
 import { allQuestions, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
-import { recordAttemptsBatch, recordTest, useStore, type TestRecord } from "../lib/store";
+import { recordTestWithAttempts, useStore, type TestRecord } from "../lib/store";
 import { fmtTime } from "../lib/stats";
 import { Options } from "./Practice";
 
@@ -148,11 +148,10 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
         results.push({ q: x.key, status: g.status, ms });
       } else results.push({ q: x.key, status: "unattempted", ms });
     }
-    // Persist all submitted answers in one source-record write; the shared
-    // reward adapter batches their EXP and any newly earned mastery milestones.
-    recordAttemptsBatch(submitted);
     const rec: TestRecord = { id: `t${Date.now()}`, ts: Date.now(), label, total: pool.length, answered, correct, score, ms: Date.now() - startedAt.current, results };
-    recordTest(rec);
+    // Save all answer attempts and the assessment record with a single canonical
+    // progress-root write. The shared ledger is then recoverable from that record.
+    recordTestWithAttempts(rec, submitted);
     setDone(rec);
   }
 
