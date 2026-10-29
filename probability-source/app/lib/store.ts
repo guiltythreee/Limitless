@@ -5,6 +5,8 @@ import type { GlobalRewardInput, RewardDifficulty } from "./reward-types";
 
 const REWARD_ACTIVATED_AT_KEY = "limitless.reward.probability-activated-at.v1";
 const PATHWAY_VERSION = "probability-current-archive-v1";
+const QUESTIONS_BY_LESSON: Record<string, Q[]> = {};
+for (const question of allQuestions) (QUESTIONS_BY_LESSON[question.lessonId] ??= []).push(question);
 let rewardActivatedAt = 0;
 
 function recordGlobalReward(input: GlobalRewardInput): boolean {
@@ -79,7 +81,7 @@ function rewardAssessment(t: TestRecord): boolean {
 }
 
 function rewardLessonMastery(lessonId: string, attempts: Attempt[]): boolean {
-  const questions = allQuestions.filter((question) => question.lessonId === lessonId);
+  const questions = QUESTIONS_BY_LESSON[lessonId] ?? [];
   if (!questions.length) return true;
   const latest = latestByQuestion(attempts);
   const scores = questions.map((question) => latest[question.key]?.score);
@@ -108,8 +110,17 @@ function rewardPathwayMastery(attempts: Attempt[]): boolean {
   const latest = latestByQuestion(attempts);
   const scores = allQuestions.map((question) => latest[question.key]?.score);
   if (scores.some((score) => typeof score !== "number")) return true;
+
+  // Completing the archive requires every topic to meet its own mastery bar;
+  // a high score in easy chapters cannot hide an unmastered advanced topic.
+  for (const lessonQuestions of Object.values(QUESTIONS_BY_LESSON)) {
+    const lessonScores = lessonQuestions.map((question) => latest[question.key]?.score);
+    if (lessonScores.some((score) => typeof score !== "number")) return true;
+    const lessonQuality = (lessonScores as number[]).reduce((sum, score) => sum + score, 0) / lessonScores.length;
+    if (lessonQuality < 0.8) return true;
+  }
+
   const quality = (scores as number[]).reduce((sum, score) => sum + score, 0) / scores.length;
-  if (quality < 0.8) return true;
   const key = `probability:pathway:${PATHWAY_VERSION}`;
   return recordGlobalReward({
     module: "probability",
@@ -120,7 +131,7 @@ function rewardPathwayMastery(attempts: Attempt[]): boolean {
     difficulty: "advanced",
     quality,
     oneTimeKey: key,
-    reason: `Mastered all ${allQuestions.length} questions in the current Probability archive`,
+    reason: `Mastered every question-bearing topic in the current Probability archive (${allQuestions.length} questions)`,
   });
 }
 
@@ -262,10 +273,13 @@ function recoverGlobalRewards() {
   if (typeof window === "undefined" || !window.LimitlessRewards) return;
   if (!rewardActivatedAt) rewardActivatedAt = setRewardActivationBaseline();
   const eligibleAttempts = state.attempts.filter((attempt) => attempt.ts >= rewardActivatedAt);
+  const affectedLessons = new Set<string>();
   for (const attempt of eligibleAttempts) {
     rewardAttempt(attempt);
-    rewardLessonMastery(questionByKey[attempt.q]?.lessonId ?? "", state.attempts);
+    const lessonId = questionByKey[attempt.q]?.lessonId;
+    if (lessonId) affectedLessons.add(lessonId);
   }
+  for (const lessonId of affectedLessons) rewardLessonMastery(lessonId, state.attempts);
   const eligibleTests = state.tests.filter((record) => record.ts >= rewardActivatedAt);
   for (const record of eligibleTests) rewardAssessment(record);
   rewardPathwayMastery(state.attempts);
@@ -339,6 +353,7 @@ export function clearDraft(q: string) {
   commit({ ...state, drafts });
 }
 export function recordTest(t: TestRecord) {
+  ensureLoaded();
   const saved = commit({ ...state, tests: [...state.tests, t] });
   if (saved) rewardAssessment(t);
 }
