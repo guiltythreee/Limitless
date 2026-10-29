@@ -91,9 +91,13 @@ const a2 = adapter.awardRun(assessment("assessment-2", day1 + 1000));
 const a3 = adapter.awardRun(assessment("assessment-3", day1 + 2000));
 const a4 = adapter.awardRun(assessment("assessment-4", day1 + 3000));
 assert.equal(a1.activityClass, "assessment");
-assert.equal(a1.passBonus, 15);
+assert.equal(a1.passBonus, 0, "the assessment record excludes the separately persisted first-pass bonus");
 assert.equal(a1.checkpointId, "math-tier-clear:adept");
 assert.equal(a2.passBonus, 0);
+assert.equal(adapter.getRecords().filter((record) =>
+  record.eventId === "lsr1:pass-bonus:math-trainer:math-tier-clear:adept" && record.totalExp === 15
+).length, 1, "one distinct, stable +15 first-pass record is persisted");
+
 assert.equal(a3.eligible, true);
 assert.equal(a4.eligible, false);
 assert.equal(a4.reason, "daily-repeat-cap");
@@ -119,7 +123,10 @@ const trick = adapter.awardTrickPhase({
 assert.equal(trick.itemId, "math-trick:doubling:post");
 assert.equal(trick.activityClass, "assessment");
 assert.equal(trick.checkpointId, "math-trick-mastery:doubling");
-assert.equal(trick.passBonus, 15);
+assert.equal(trick.passBonus, 0, "the phase result excludes its separate first-mastery bonus");
+assert.ok(adapter.getRecords().some((record) =>
+  record.eventId === "lsr1:pass-bonus:math-trainer:math-trick-mastery:doubling" && record.totalExp === 15
+), "first trick mastery has its own award record");
 assert.equal(adapter.awardTrickPhase({
   runId: "trick-practice-short", trickId: "doubling", phase: "practice", completed: true,
   verified: true, attempted: 4, questionCount: 5, requiredCount: 10, skipped: 1,
