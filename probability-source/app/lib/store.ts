@@ -360,13 +360,12 @@ export function useHydrated(): boolean {
 }
 
 // ---------- actions ----------
-export function recordAttemptsBatch(inputs: { q: string; picked: number[]; ms: number }[]): Attempt[] {
-  ensureLoaded();
-  if (!Array.isArray(inputs) || !inputs.length) return [];
+type AttemptInput = { q: string; picked: number[]; ms: number };
+
+function prepareAttempts(inputs: AttemptInput[]) {
   const attempts: Attempt[] = [];
   const drafts = { ...state.drafts };
   const goalByDay = { ...state.goalByDay };
-
   for (const input of inputs) {
     const question = questionByKey[input.q];
     if (!question || !Array.isArray(input.picked) || input.picked.length === 0) continue;
@@ -386,22 +385,41 @@ export function recordAttemptsBatch(inputs: { q: string; picked: number[]; ms: n
     const today = dayKey(ts);
     if (goalByDay[today] === undefined) goalByDay[today] = state.goal;
   }
-  if (!attempts.length) return [];
+  return { attempts, drafts, goalByDay };
+}
 
-  // One canonical write for the entire submitted batch. The reward ledger is
-  // written in a single recordMany call and recovered by stable event ID.
+export function recordAttemptsBatch(inputs: AttemptInput[]): Attempt[] {
+  ensureLoaded();
+  if (!Array.isArray(inputs) || !inputs.length) return [];
+  const prepared = prepareAttempts(inputs);
+  if (!prepared.attempts.length) return [];
   const saved = commit({
     ...state,
-    attempts: [...state.attempts, ...attempts],
-    drafts,
-    goalByDay,
+    attempts: [...state.attempts, ...prepared.attempts],
+    drafts: prepared.drafts,
+    goalByDay: prepared.goalByDay,
   });
   if (saved) recoverGlobalRewards();
-  return attempts;
+  return prepared.attempts;
 }
 
 export function recordAttempt(q: string, picked: number[], ms: number): Attempt | null {
   return recordAttemptsBatch([{ q, picked, ms }])[0] ?? null;
+}
+
+/** Persist test answers and the test record together in one canonical write. */
+export function recordTestWithAttempts(t: TestRecord, inputs: AttemptInput[]): Attempt[] {
+  ensureLoaded();
+  const prepared = prepareAttempts(Array.isArray(inputs) ? inputs : []);
+  const saved = commit({
+    ...state,
+    attempts: [...state.attempts, ...prepared.attempts],
+    tests: [...state.tests, t],
+    drafts: prepared.drafts,
+    goalByDay: prepared.goalByDay,
+  });
+  if (saved) recoverGlobalRewards();
+  return prepared.attempts;
 }
 /** Saves a half-finished question. Does not re-render anything; it only protects against refreshes. */
 export function saveDraft(q: string, draft: Draft) {
@@ -415,9 +433,7 @@ export function clearDraft(q: string) {
   commit({ ...state, drafts });
 }
 export function recordTest(t: TestRecord) {
-  ensureLoaded();
-  const saved = commit({ ...state, tests: [...state.tests, t] });
-  if (saved) recoverGlobalRewards();
+  recordTestWithAttempts(t, []);
 }
 export function toggleBookmark(q: string) {
   commit({ ...state, bookmarks: state.bookmarks.includes(q) ? state.bookmarks.filter((k) => k !== q) : [...state.bookmarks, q] });
