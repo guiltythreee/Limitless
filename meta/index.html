@@ -31,6 +31,20 @@
     .meta-exp { white-space: nowrap; color: var(--gold, #d3b267); }
     .meta-notice { margin-top: 1.35rem; border-left: 2px solid rgba(211,178,103,.6); padding: .9rem 1rem; background: rgba(211,178,103,.045); font-size: .85rem; line-height: 1.7; }
     .meta-error { color: #e7a7a7; }
+    .meta-unlocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .85rem; }
+    .meta-unlock { padding: 1rem; border: 1px solid rgba(211,178,103,.18); background: rgba(12,10,16,.45); }
+    .meta-unlock strong { display: block; margin-bottom: .35rem; }
+    .meta-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+    .meta-field { display: grid; gap: .35rem; min-width: 0; }
+    .meta-field-full { grid-column: 1 / -1; }
+    .meta-field label { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; opacity: .75; }
+    .meta-field input, .meta-field select, .meta-field textarea { width: 100%; min-width: 0; border: 1px solid rgba(211,178,103,.3); border-radius: 2px; background: rgba(5,5,8,.8); color: inherit; padding: .7rem .75rem; font: inherit; }
+    .meta-field textarea { min-height: 95px; resize: vertical; }
+    .meta-button { border: 1px solid rgba(211,178,103,.5); background: rgba(211,178,103,.1); color: inherit; padding: .65rem .9rem; cursor: pointer; font: inherit; }
+    .meta-button:hover { background: rgba(211,178,103,.18); }
+    .meta-button:focus-visible, .meta-field input:focus-visible, .meta-field select:focus-visible, .meta-field textarea:focus-visible { outline: 2px solid var(--gold, #d3b267); outline-offset: 2px; }
+    .meta-project-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin-top: .7rem; }
+    @media (max-width: 540px) { .meta-form { grid-template-columns: 1fr; } .meta-field-full { grid-column: auto; } }
     @media (max-width: 720px) {
       .meta-grid { grid-template-columns: 1fr; }
       .meta-panel { padding: 1.1rem; }
@@ -82,6 +96,67 @@
       <div id="module-breakdown" class="meta-list"><p class="meta-muted">Loading module totals…</p></div>
     </section>
 
+    <section class="meta-section" aria-labelledby="universal-rewards-heading">
+      <h2 id="universal-rewards-heading">Universal Rewards</h2>
+      <p class="meta-muted">Titles, emblems, and profile effects unlock from the global level—not from any single discipline. They never spend or reduce EXP.</p>
+      <p id="next-reward-copy" class="meta-notice" aria-live="polite">Loading next reward…</p>
+      <div id="unlocked-rewards" class="meta-unlocks"><p class="meta-muted">Loading unlocked rewards…</p></div>
+    </section>
+
+    <section class="meta-section" aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Bespoke Learning Projects</h2>
+      <p class="meta-muted">Register the scope, acceptance criteria, difficulty, and fixed EXP value before you start. A registered definition cannot be edited; completion pays once and does not create a spendable currency.</p>
+      <div class="meta-panel" style="margin-top:1rem">
+        <form id="project-form" class="meta-form">
+          <div class="meta-field">
+            <label for="project-id">Stable project ID</label>
+            <input id="project-id" name="projectId" required minlength="3" maxlength="64" pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="e.g. probability-flashcards" autocomplete="off">
+          </div>
+          <div class="meta-field">
+            <label for="project-module">Discipline / module</label>
+            <select id="project-module" name="moduleId" required>
+              <option value="personal-projects">Personal project / other discipline</option>
+              <option value="probability">Probability</option>
+              <option value="math-trainer">Math Trainer</option>
+              <option value="bookkeys">Bookkeys</option>
+              <option value="metallurgy-mt201">MT201 · Metallurgical Thermodynamics</option>
+              <option value="metallurgy-mt202">MT202 · Physical Metallurgy</option>
+              <option value="metallurgy-mt203">MT203 · Polymer Science</option>
+            </select>
+          </div>
+          <div class="meta-field meta-field-full">
+            <label for="project-title">Project title</label>
+            <input id="project-title" name="title" required minlength="5" maxlength="120" placeholder="What will be completed?">
+          </div>
+          <div class="meta-field meta-field-full">
+            <label for="project-scope">Scope / expected work</label>
+            <textarea id="project-scope" name="scope" required minlength="20" maxlength="2000" placeholder="Define the bounded work and expected effort."></textarea>
+          </div>
+          <div class="meta-field meta-field-full">
+            <label for="project-criteria">Acceptance criteria</label>
+            <textarea id="project-criteria" name="criteria" required minlength="20" maxlength="2000" placeholder="Specify observable evidence that will count as done."></textarea>
+          </div>
+          <div class="meta-field">
+            <label for="project-base-exp">Base EXP (20–100)</label>
+            <input id="project-base-exp" name="baseExp" type="number" required min="20" max="100" step="1" value="50">
+          </div>
+          <div class="meta-field">
+            <label for="project-difficulty">Difficulty (set before starting)</label>
+            <select id="project-difficulty" name="difficulty" required>
+              <option value="foundational">Foundational · ×1.00</option>
+              <option value="intermediate" selected>Intermediate · ×1.25</option>
+              <option value="advanced">Advanced · ×1.50</option>
+            </select>
+          </div>
+          <div class="meta-field meta-field-full">
+            <button class="meta-button" type="submit">Register immutable project</button>
+            <p id="project-form-status" class="meta-muted" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+      <div id="registered-projects" class="meta-list" style="margin-top:1rem"><p class="meta-muted">Loading registered projects…</p></div>
+    </section>
+
     <section class="meta-section">
       <h2>Recent EXP Awards</h2>
       <div id="recent-awards" class="meta-list"><p class="meta-muted">Loading award history…</p></div>
@@ -106,7 +181,7 @@
       <div class="meta-panel" style="margin-top:1rem">
         <h2>Modifiers and repeat rules</h2>
         <p style="margin-top:.9rem;line-height:1.8">Difficulty multipliers: Foundational ×1.00 · Intermediate ×1.25 · Advanced ×1.50.</p>
-        <p class="meta-muted">Quality bonus: up to 20% of base EXP based on scored evidence. A fully completed assessment passing the provisional 70% threshold can grant +15 EXP once per checkpoint. The first three completed repetitions of the same item in a local day can earn EXP; later repetitions still count as practice but earn 0 EXP. Speed alone never adds EXP.</p>
+        <p class="meta-muted">Quality bonus: from 0 at 80% quality to a maximum 20% of base EXP at 100%. A fully completed assessment passing the provisional 70% threshold can grant a separate +15 EXP ledger record once per checkpoint. The first three completed repetitions of the same item in a local day can earn EXP; later repetitions still count as practice but earn 0 EXP. Speed alone never adds EXP.</p>
         <p class="meta-muted" style="margin-top:.8rem">Level curve: 100 EXP to reach level 2, then each next level costs 25 more EXP than the previous level-up. These calibration values are versioned and intentionally provisional.</p>
       </div>
     </section>
