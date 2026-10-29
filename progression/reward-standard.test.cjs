@@ -153,7 +153,20 @@ test('completion evidence must match the normalized activity class', () => {
   assert.equal(ledger.summary().xp, 0);
 });
 
-test('stored totalXp is only a cache; authoritative award history controls the total', () => {test('legacy awards remain in the ledger with explicit fallback evidence and duplicate IDs counted once', () => {
+test('stored totalXp is only a cache; authoritative award history controls the total', () => {
+  const { ledger, storage } = setup();
+  storage.setItem(Rewards.STORAGE_KEY, JSON.stringify({
+    standard: 'LSR-1', totalXp: 9999,
+    awards: [{ id: 'real-award', m: 'probability', c: 'q1', a: 'micro-practice', e: 'submitted-answer', d: '2026-10-28', t: 1, x: 5, v: 'LSR-1' }]
+  }));
+  assert.equal(ledger.summary().xp, 5);
+  assert.equal(ledger.record({ module: 'probability', eventId: 'second-award', contentKey: 'q2', activityClass: 'micro-practice', evidence: 'submitted-answer' }).xp, 5);
+  const persisted = JSON.parse(storage.raw(Rewards.STORAGE_KEY));
+  assert.equal(persisted.totalXp, 10);
+  assert.equal(persisted.awards.reduce((sum, award) => sum + award.x, 0), 10);
+});
+
+test('legacy awards remain in the ledger with explicit fallback evidence and duplicate IDs counted once', () => {
   const { ledger, storage } = setup();
   storage.setItem(Rewards.STORAGE_KEY, JSON.stringify({
     standard: 'LSR-1',
@@ -169,19 +182,6 @@ test('stored totalXp is only a cache; authoritative award history controls the t
   assert.equal(summary.recentAwards[0].evidence, 'legacy-record');
   assert.match(summary.recentAwards[0].reason, /Legacy award retained/);
   assert.equal(JSON.parse(storage.raw(Rewards.STORAGE_KEY)).totalXp, 999, 'summary is read-only until the next successful write');
-});
-
-
-  const { ledger, storage } = setup();
-  storage.setItem(Rewards.STORAGE_KEY, JSON.stringify({
-    standard: 'LSR-1', totalXp: 9999,
-    awards: [{ id: 'real-award', m: 'probability', c: 'q1', a: 'micro-practice', e: 'submitted-answer', d: '2026-10-28', t: 1, x: 5, v: 'LSR-1' }]
-  }));
-  assert.equal(ledger.summary().xp, 5);
-  assert.equal(ledger.record({ module: 'probability', eventId: 'second-award', contentKey: 'q2', activityClass: 'micro-practice', evidence: 'submitted-answer' }).xp, 5);
-  const persisted = JSON.parse(storage.raw(Rewards.STORAGE_KEY));
-  assert.equal(persisted.totalXp, 10);
-  assert.equal(persisted.awards.reduce((sum, award) => sum + award.x, 0), 10);
 });
 
 test('pass bonus is a separate, idempotent, explainable award record', () => {
