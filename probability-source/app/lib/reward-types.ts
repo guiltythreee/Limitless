@@ -105,6 +105,7 @@ export type GlobalRewardApi = {
   record: (input: GlobalRewardInput) => GlobalRewardReceipt;
   recordMany: (inputs: GlobalRewardInput[]) => GlobalRewardReceipt[];
   equipReward: (rewardId: string, kind: "title" | "emblem" | "profile-effect") => { ok: boolean; error?: string; summary?: RewardSummary };
+  read: () => { totalXp: number; awards: Array<{ id: string; x: number; m?: string; c?: string; a?: string; e?: string }> };
   summary: () => RewardSummary;
 };
 
