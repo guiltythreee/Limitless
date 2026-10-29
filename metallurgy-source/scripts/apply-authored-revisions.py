@@ -1062,6 +1062,7 @@ def main():
 
     # Optional answer-position rebalance, restricted to plain four-option MCQs with no label-dependent explanations.
     shuffle_overrides={"MT201":{},"MT202":{}}
+    shuffle_source_fingerprints={"MT201":{},"MT202":{}}
     ts_shuffled_ids=set()
     if args.balance_answers:
         for course in ("MT201","MT202"):
@@ -1073,6 +1074,8 @@ def main():
                 # choose_balanced_targets returns a deterministic target list; bind one label per candidate.
                 for q,target in zip(cand,targets):
                     if q.get("answer")!=target:
+                        # Capture the unswizzled source fingerprint before modifying option order/key.
+                        shuffle_source_fingerprints[course][(ch,q["n"])] = question_fingerprint(q,course)
                         set_options_answer(q,target,course)
                         shuffle_overrides[course][(ch,q["n"]) ]={"options":q["options"],"answer":q["answer"]}
                 # Mirror exactly the safe option/key changes from the public output.
@@ -1113,7 +1116,7 @@ def main():
                     overlay[course][key]["updates"].update(upd)
                 else:
                     q=find_json_question(canonical[course][ch],n,course,ch)
-                    overlay[course][key]={"chapter":ch,"n":n,"originalType":q["type"],"sourceText":q.get("text", ""),"updates":dict(upd)}
+                    overlay[course][key]={"chapter":ch,"n":n,"originalType":q["type"],"sourceText":q.get("text", ""),"sourceFingerprint":shuffle_source_fingerprints[course][key],"updates":dict(upd)}
 
     # Make data output and sync-overlay writes. Canonical and mirror are changed only in target question objects.
     for course in ("MT201","MT202"):
