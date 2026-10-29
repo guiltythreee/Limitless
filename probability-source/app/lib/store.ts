@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { allQuestions, grade, questionByKey, type Status } from "./questions";
+import { calculateReward, dispatchRewardUpdate, sanitiseRewardRecords, CHECKPOINT_PASS_THRESHOLD, type DifficultyTier, type RewardRecord } from "../../../shared/rewards.mjs";
 
 /*
   All saved data lives in one localStorage entry ("hc3-progress-v3"):
@@ -37,6 +38,7 @@ export type State = {
   completed: string[];
   tests: TestRecord[];
   attempts: Attempt[];
+  rewardLedger: RewardRecord[];
   bookmarks: string[];
   drafts: Record<string, Draft>;
   goal: number;
@@ -44,7 +46,7 @@ export type State = {
 };
 
 export const DEFAULT_GOAL = 10;
-const EMPTY: State = { completed: [], tests: [], attempts: [], bookmarks: [], drafts: {}, goal: DEFAULT_GOAL, goalByDay: {} };
+const EMPTY: State = { completed: [], tests: [], attempts: [], rewardLedger: [], bookmarks: [], drafts: {}, goal: DEFAULT_GOAL, goalByDay: {} };
 
 export const dayKey = (ts: number) => {
   const d = new Date(ts);
@@ -95,6 +97,7 @@ function read(): State {
         completed: Array.isArray(p.completed) ? p.completed : [],
         tests: Array.isArray(p.tests) ? p.tests : [],
         attempts: Array.isArray(p.attempts) ? p.attempts : [],
+        rewardLedger: sanitiseRewardRecords(p.rewardLedger),
         bookmarks: Array.isArray(p.bookmarks) ? p.bookmarks : [],
         drafts: p.drafts && typeof p.drafts === "object" ? p.drafts : {},
         goal: typeof p.goal === "number" && p.goal > 0 ? p.goal : DEFAULT_GOAL,
@@ -141,7 +144,13 @@ export function useHydrated(): boolean {
 }
 
 // ---------- actions ----------
-export function recordAttempt(q: string, picked: number[], ms: number): Attempt | null {
+function rewardTier(difficulty: string | undefined): DifficultyTier {
+  if (difficulty === "hard") return "advanced";
+  if (difficulty === "medium") return "intermediate";
+  return "foundational";
+}
+
+export function recordAttempt(q: string, picked: number[], ms: number, rewardActivity = true): Attempt | null {
   const item = questionByKey[q]?.item;
   if (!item) return null;
   const g = grade(item, picked);
@@ -150,12 +159,25 @@ export function recordAttempt(q: string, picked: number[], ms: number): Attempt 
   const today = dayKey(ts);
   const drafts = { ...state.drafts };
   delete drafts[q];
+  const reward = rewardActivity ? calculateReward({
+    eventId: `probability:attempt:${attempt.id}`,
+    moduleId: "probability",
+    itemId: `question:${q}`,
+    ts,
+    activityClass: "micro-practice",
+    difficulty: rewardTier(questionByKey[q]?.difficulty),
+    completionEvidence: "submitted-answer",
+    completed: picked.length > 0,
+    quality: g.score,
+  }, state.rewardLedger) : null;
   commit({
     ...state,
     attempts: [...state.attempts, attempt],
+    rewardLedger: reward ? [...state.rewardLedger, reward] : state.rewardLedger,
     drafts,
     goalByDay: state.goalByDay[today] === undefined ? { ...state.goalByDay, [today]: state.goal } : state.goalByDay,
   });
+  if (reward) dispatchRewardUpdate();
   return attempt;
 }
 /** Saves a half-finished question. Does not re-render anything; it only protects against refreshes. */
@@ -170,7 +192,36 @@ export function clearDraft(q: string) {
   commit({ ...state, drafts });
 }
 export function recordTest(t: TestRecord) {
-  commit({ ...state, tests: [...state.tests, t] });
+  const questionKeys = [...new Set(t.results.map((result) => result.q))].sort();
+  const itemId = `assessment:${questionKeys.join("|") || "empty"}`;
+  const numericDifficulties = questionKeys
+    .map((key) => questionByKey[key]?.difficulty ?? "easy")
+    .map((difficulty) => difficulty === "hard" ? 3 : difficulty === "medium" ? 2 : 1);
+  const averageDifficulty = numericDifficulties.length
+    ? numericDifficulties.reduce((sum, value) => sum + value, 0) / numericDifficulties.length
+    : 1;
+  const difficulty: DifficultyTier = averageDifficulty >= 2.5 ? "advanced" : averageDifficulty >= 1.5 ? "intermediate" : "foundational";
+  const completed = t.total > 0 && t.answered === t.total;
+  const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
+  const reward = calculateReward({
+    eventId: `probability:assessment:${t.id}`,
+    moduleId: "probability",
+    itemId,
+    ts: t.ts,
+    activityClass: "assessment",
+    difficulty,
+    completionEvidence: completed ? "fully-answered-assessment" : "incomplete-assessment",
+    completed,
+    quality,
+    passed: completed && quality >= CHECKPOINT_PASS_THRESHOLD,
+    checkpointId: itemId,
+  }, state.rewardLedger);
+  commit({
+    ...state,
+    tests: [...state.tests, t],
+    rewardLedger: [...state.rewardLedger, reward],
+  });
+  dispatchRewardUpdate();
 }
 export function toggleBookmark(q: string) {
   commit({ ...state, bookmarks: state.bookmarks.includes(q) ? state.bookmarks.filter((k) => k !== q) : [...state.bookmarks, q] });
@@ -183,7 +234,8 @@ export function setGoal(n: number) {
   commit({ ...state, goal, goalByDay: { ...state.goalByDay, [dayKey(Date.now())]: goal } });
 }
 export function resetAll() {
-  commit({ ...EMPTY, drafts: {}, goalByDay: {} });
+  // Lifetime LSR-1 awards are progression history, not ordinary study data; keep them on reset.
+  commit({ ...EMPTY, rewardLedger: state.rewardLedger, drafts: {}, goalByDay: {} });
 }
 
 // ---------- derived data ----------
