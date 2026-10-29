@@ -37,8 +37,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Run shared global reward regression tests
-        run: node --test progression/reward-standard.test.cjs progression/bookkeys-bridge.test.cjs
+      - name: Run shared reward engine regression tests
+        run: node --test progression/reward-standard.test.cjs
+
+      - name: Run Bookkeys reward bridge regression tests
+        run: node --test progression/bookkeys-bridge.test.cjs
 
       - name: Run all maths trainer regression tests
         shell: bash
