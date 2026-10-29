@@ -28,7 +28,7 @@ npm run build
 - \`app/content/index.ts\`: canonical shared lesson catalogue and stable lesson IDs.
 - \`app/content/pathways.ts\`: overlapping, ordered routes over the same lessons; the full archive remains available.
 - \`app/content/coverage.ts\`: topic-by-topic coverage ledger using Blitzstein–Hwang and Sheldon Ross as scope references.
-- \`app/content/pathway-lessons.ts\`: 17 original expanded lessons with 34 worked examples and 51 graded questions at easy, medium, and hard levels.
+- \`app/content/pathway-lessons.ts\`: 30 original expanded lessons with 60 worked examples and 90 graded questions at easy, medium, and hard levels.
 - \`app/components/TopicTree.tsx\`: pathway selector and route-specific chapter navigation.
 - \`app/components/Test.tsx\`: cumulative tests restricted to the selected route unless the full archive is active.
 - \`app/lib/store.ts\`: browser-local progress and attempts. Existing lesson IDs are retained to preserve saved records.
