@@ -36,6 +36,7 @@ export function loadProgress(): Progress {
     if (!raw) return { answered: {}, examBest: null, rewardLedger: [] };
     const p = JSON.parse(raw) as Progress;
     return {
+      ...p,
       answered: p.answered ?? {},
       examBest: p.examBest ?? null,
       rewardLedger: sanitiseRewardRecords(p.rewardLedger),
