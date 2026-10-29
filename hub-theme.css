@@ -351,3 +351,44 @@ html[data-theme="light"] .global-progress-card {
   .global-progress-section { grid-template-columns: minmax(0,1fr); gap: 18px; }
   .global-progress-card { padding: 18px 16px; }
 }
+
+
+.global-progress-history {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.global-progress-history-heading {
+  margin-bottom: 8px;
+  color: var(--gold-bright);
+  font-size: .68rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.global-progress-history-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(180,160,125,.14);
+}
+.global-progress-history-title {
+  color: var(--text);
+  font-size: .76rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.global-progress-history-value {
+  color: var(--gold-bright);
+  font-size: .78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.global-progress-history-detail,
+.global-progress-history-reason {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: .67rem;
+  line-height: 1.45;
+}
+.global-progress-history-reason { opacity: .9; }
