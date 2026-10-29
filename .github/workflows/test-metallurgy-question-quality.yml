@@ -1,6 +1,11 @@
 name: Metallurgy question-quality test
 
 on:
+  push:
+    branches:
+      - work/metallurgy-question-quality-2026-10-29
+    paths:
+      - metallurgy-source/scripts/validate-question-quality-overlays.py
   workflow_dispatch:
 
 permissions:
