@@ -633,6 +633,7 @@
       accuracy: summary.accuracy,
       qualifying: summary.qualifying,
       cleared: summary.cleared,
+      diff: r.diff,
       drillSkills: r.drill && Array.isArray(r.drill.skills) ? r.drill.skills.slice() : []
     });
   }
