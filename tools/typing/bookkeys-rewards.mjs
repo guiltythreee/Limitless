@@ -6,7 +6,7 @@
  * converted; the LSR-1 ledger is a separate localStorage root.
  */
 import {
-  calculateReward,
+  buildRewardRecords,
   sanitiseRewardRecords,
   dispatchRewardUpdate,
 } from "../../shared/rewards.mjs";
@@ -66,11 +66,12 @@ export function createBookkeysRewardAdapter(storage, options = {}) {
       quality: isFiniteNumber(input.quality) ? clamp(input.quality, 0, 1) : 0,
       completed: true,
     };
-    const record = calculateReward(activity, state.records);
+    const records = buildRewardRecords(activity, state.records);
+    const record = records[0];
     try {
       storage.setItem(BOOKKEYS_REWARD_STORAGE_KEY, JSON.stringify({
         ...state.payload,
-        rewardLedger: [...state.records, record],
+        rewardLedger: [...state.records, ...records],
       }));
     } catch {
       return null;
