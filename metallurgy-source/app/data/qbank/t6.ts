@@ -278,10 +278,10 @@ const T6: TopicSource = {
       diff: 2,
       text: "Which statement contrasts HDT and Vicat softening temperature correctly?",
       options: [
-        { label: "a", text: "HDT requires melting of the sample." },
-        { label: "b", text: "Vicat is always lower than Tg." },
-        { label: "c", text: "They are measured identically." },
-        { label: "d", text: "HDT is measured in bending under a fixed load; Vicat is the temperature at which a rounded needle penetrates a set depth under a fixed load." }
+        { label: "a", text: "HDT is the temperature at which a sample melts under bending load, while Vicat measures Tg by indentation." },
+        { label: "b", text: "Vicat is always below Tg because its needle penetrates as soon as the amorphous phase starts to move." },
+        { label: "c", text: "They use the same geometry and loading, with only specimen dimensions differing between the two tests." },
+        { label: "d", text: "HDT tests bending under a fixed load; Vicat records when a rounded needle reaches a set penetration depth." }
       ],
       answer: "d",
       why: "Both are **empirical load-deflection tests** at their own standard conditions: HDT (heat deflection) in three-point bending; Vicat in needle penetration. Neither is a fundamental transition.",
@@ -368,10 +368,10 @@ const T6: TopicSource = {
       diff: 4,
       text: "An engineer must raise the HDT of a polypropylene housing from 90 °C to > 140 °C without changing the polymer. The most effective route is:",
       options: [
-        { label: "a", text: "Lower the molecular weight." },
-        { label: "b", text: "Add a plasticizer." },
-        { label: "c", text: "Quench the moulding faster." },
-        { label: "d", text: "Add 30% glass fibre: the stiff fibres bear load and raise the deflection temperature, also raising crystallinity via nucleation." }
+        { label: "a", text: "Lower molecular weight so the shorter chains crystallize more easily and deflect less under a sustained hot load." },
+        { label: "b", text: "Add a plasticizer to increase chain mobility, improving dimensional stability above the matrix's glass transition." },
+        { label: "c", text: "Quench the moulding faster to make it more amorphous and raise high-temperature stiffness without reinforcement." },
+        { label: "d", text: "Glass-fibre reinforcement raises the modulus under load, which can substantially increase HDT." }
       ],
       answer: "d",
       why: "**HDT is a stiffness test**: glass fibres (and other reinforcements/fillers) raise the modulus and carry load at high temperature — the standard way to lift HDT dramatically. Nucleation from the filler also helps.",
@@ -404,10 +404,10 @@ const T6: TopicSource = {
       diff: 4,
       text: "A clear PET bottle (Tg 69 °C, Tm 265 °C) must not distort in a 60 °C hot-fill process; a competitor uses hot-fill PET with higher crystallinity. The reasoning is:",
       options: [
-        { label: "a", text: "PET's Tg is 265 °C." },
-        { label: "b", text: "Crystallinity lowers the HDT." },
-        { label: "c", text: "The bottle walls are cross-linked during filling." },
-        { label: "d", text: "Amorphous PET softens just above Tg (~69 °C) so 60 °C is marginal; crystallizing the bottle (heat-setting) raises the effective stiffness and HDT, letting it survive hot fill." }
+        { label: "a", text: "PET's glass transition is about 265 °C and its melting point is 69 °C, so the bottle is safely below Tg at 60 °C." },
+        { label: "b", text: "Higher crystallinity lowers heat-deflection temperature because crystal domains disrupt load transfer and soften the wall." },
+        { label: "c", text: "Hot filling chemically cross-links the PET wall, converting the bottle into a permanent thermoset." },
+        { label: "d", text: "Amorphous PET is close to Tg at 60 °C; heat-setting crystallizes the wall and raises stiffness/HDT." }
       ],
       answer: "d",
       why: "Because Tg (69 °C) is close to the fill temperature, an **amorphous** bottle is dimensionally marginal. **Heat-setting** the preform develops crystallites that act as physical cross-links and raise the HDT, while keeping the bottle transparent (small crystallites).",
