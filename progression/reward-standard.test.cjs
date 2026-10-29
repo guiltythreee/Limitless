@@ -43,6 +43,41 @@ test('quality bonus starts at 80% and is capped at 20% of base EXP', () => {
   assert.equal(Rewards.calculateAward({ activityClass: 'standard-task', difficulty: 'foundational', quality: 99 }).xp, 12);
 });
 
+test('every fixed activity class is covered for every difficulty tier', () => {
+  const matrix = {
+    'micro-practice': [5, 6, 8],
+    'standard-task': [10, 13, 15],
+    'focused-practice': [20, 25, 30],
+    assessment: [25, 31, 38],
+    milestone: [50, 63, 75],
+    'course-completion': [100, 125, 150],
+  };
+  const tiers = ['foundational', 'intermediate', 'advanced'];
+  for (const [activityClass, expected] of Object.entries(matrix)) {
+    for (let i = 0; i < tiers.length; i++) {
+      const result = Rewards.calculateAward({ activityClass, difficulty: tiers[i] });
+      assert.equal(result.ok, true, activityClass + ' / ' + tiers[i]);
+      assert.equal(result.xp, expected[i], activityClass + ' / ' + tiers[i]);
+      assert.equal(result.version, 'LSR-1');
+    }
+  }
+});
+
+test('arbitrary multiplier values and unknown difficulty tiers are rejected', () => {
+  const { ledger } = setup();
+  const result = ledger.record({
+    module: 'probability',
+    eventId: 'arbitrary-multiplier',
+    contentKey: 'q',
+    activityClass: 'standard-task',
+    evidence: 'completed-session',
+    difficulty: 'x100',
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.error, 'unknown-difficulty');
+  assert.equal(ledger.summary().xp, 0);
+});
+
 test('award event IDs are idempotent and do not increase total XP twice', () => {
   const { ledger } = setup();
   const input = { module: 'probability', eventId: 'attempt-1', contentKey: 'q-1', activityClass: 'micro-practice', difficulty: 'foundational', evidence: 'submitted-answer' };
