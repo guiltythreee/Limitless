@@ -428,7 +428,7 @@
         var repeatMultiplier = 1;
         if (!isOneTimeClass(activityClass)) {
           var sameDayCount = ledger.awards.filter(function (award) {
-            return award.c === contentKey && award.d === day && typeof BASE_EXP[award.a] === 'number';
+            return award.c === contentKey && award.d === day && isCountableActivityAward(award);
           }).length;
           if (sameDayCount >= FULL_REPEATS_PER_DAY + HALF_REPEATS_PER_DAY) repeatMultiplier = 0;
           else if (sameDayCount >= FULL_REPEATS_PER_DAY) repeatMultiplier = 0.5;
@@ -460,6 +460,12 @@
           reason: cleanString(args.reason || ''),
           passed: !!args.passed
         };
+        if (registeredProject) {
+          activityAward.projectId = registeredProject.id;
+          activityAward.projectTitle = registeredProject.title;
+          activityAward.projectScope = registeredProject.scope;
+          activityAward.projectCriteria = registeredProject.criteria;
+        }
         if (oneTimeKey && breakdown.xp > 0 && isOneTimeClass(activityClass)) activityAward.o = oneTimeKey;
         if (args.passed && passKey) activityAward.passKey = passKey;
         ledger.awards.push(activityAward);
@@ -603,7 +609,7 @@
       }
     }
 
-    return { record: record, recordMany: recordMany, summary: summary, read: exportLedger, equipReward: equipReward };
+    return { registerProject: registerProject, record: record, recordMany: recordMany, summary: summary, read: exportLedger, equipReward: equipReward };
   }
 
   var browserStorage = {
@@ -628,6 +634,7 @@
     VERSION: VERSION,
     STORAGE_KEY: STORAGE_KEY,
     BASE_EXP: BASE_EXP,
+    PROJECT_EXP_RANGE: { min: PROJECT_EXP_MIN, max: PROJECT_EXP_MAX },
     DIFFICULTY: DIFFICULTY,
     EVIDENCE_TYPES: Object.keys(EVIDENCE_TYPES),
     FIRST_PASS_EXP: FIRST_PASS_EXP,
