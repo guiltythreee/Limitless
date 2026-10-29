@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { allQuestions, grade, questionByKey, type Status } from "./questions";
+import { pathways } from "../content";
 import { calculateReward, dispatchRewardUpdate, sanitiseRewardRecords, CHECKPOINT_PASS_THRESHOLD, type DifficultyTier, type RewardRecord } from "../../../shared/rewards.mjs";
 
 /*
@@ -203,6 +204,17 @@ export function recordTest(t: TestRecord) {
   const difficulty: DifficultyTier = averageDifficulty >= 2.5 ? "advanced" : averageDifficulty >= 1.5 ? "intermediate" : "foundational";
   const completed = t.total > 0 && t.answered === t.total;
   const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
+  const fullArchiveCheckpoint = t.label === "All of probability" && t.total === allQuestions.length;
+  const fullPathway = pathways.find((pathway) => `All of ${pathway.shortLabel}` === t.label);
+  const fullPathwayQuestionCount = fullPathway
+    ? allQuestions.filter((question) => fullPathway.lessonIds.includes(question.lessonId)).length
+    : 0;
+  const fullPathwayCheckpoint = !!fullPathway && t.total === fullPathwayQuestionCount;
+  const checkpointId = fullArchiveCheckpoint
+    ? "probability:full-archive"
+    : fullPathwayCheckpoint && fullPathway
+      ? `probability:pathway:${fullPathway.id}`
+      : null;
   const reward = calculateReward({
     eventId: `probability:assessment:${t.id}`,
     moduleId: "probability",
@@ -213,8 +225,8 @@ export function recordTest(t: TestRecord) {
     completionEvidence: completed ? "fully-answered-assessment" : "incomplete-assessment",
     completed,
     quality,
-    passed: completed && quality >= CHECKPOINT_PASS_THRESHOLD,
-    checkpointId: itemId,
+    passed: !!checkpointId && completed && quality >= CHECKPOINT_PASS_THRESHOLD,
+    checkpointId,
   }, state.rewardLedger);
   commit({
     ...state,
