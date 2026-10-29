@@ -305,6 +305,24 @@ test('bespoke projects require a pre-registered immutable 20–100 EXP definitio
   };
   assert.equal(ledger.record(completion).error, 'unregistered-project');
 
+  const boundaryLedger = setup().ledger;
+  assert.equal(boundaryLedger.registerProject({
+    module: 'personal-projects', projectId: 'minimum-reward', baseExp: 20,
+    title: 'Minimum project', scope: 'Small scope', criteria: 'Meet the exact minimum project criteria'
+  }).ok, true);
+  assert.equal(boundaryLedger.registerProject({
+    module: 'personal-projects', projectId: 'maximum-reward', baseExp: 100,
+    title: 'Maximum project', scope: 'Large scope', criteria: 'Meet the exact maximum project criteria'
+  }).ok, true);
+  assert.equal(ledger.registerProject({
+    module: 'arbitrary-module', projectId: 'bad-namespace', baseExp: 50,
+    title: 'Invalid namespace', scope: 'Scope', criteria: 'Criteria'
+  }).error, 'unsupported-project-module');
+  assert.equal(ledger.registerProject({
+    module: 'probability', projectId: 'invalid:id', baseExp: 50,
+    title: 'Invalid ID', scope: 'Scope', criteria: 'Criteria'
+  }).error, 'invalid-project-id');
+
   const definition = {
     module: 'probability',
     projectId: 'mini-study',
