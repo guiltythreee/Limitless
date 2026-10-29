@@ -23,10 +23,10 @@ const T6: TopicSource = {
       diff: 1,
       text: "The glass-transition temperature Tg is the temperature at which:",
       options: [
-        { label: "a", text: "Cross-links form" },
-        { label: "b", text: "Amorphous regions change from a glassy, brittle state to a rubbery, leathery state" },
-        { label: "c", text: "The polymer decomposes" },
-        { label: "d", text: "Crystalline regions melt" }
+        { label: "a", text: "Covalent cross-links first form in amorphous regions, making the polymer brittle before the glass transition." },
+        { label: "b", text: "Amorphous regions change from glassy and brittle to rubbery or leathery as segmental motion becomes possible." },
+        { label: "c", text: "The backbone decomposes and releases volatile fragments, creating the mechanical change that defines Tg." },
+        { label: "d", text: "Crystalline regions melt and lose long-range order at the temperature that defines the glass transition." }
       ],
       answer: "b",
       why: "**Tg** marks the onset of large-scale segmental motion in the amorphous phase: below Tg the chain segments are frozen (glass), above Tg they move (rubber). It involves no latent heat — a second-order-like transition.",
@@ -130,10 +130,10 @@ const T6: TopicSource = {
       diff: 2,
       text: "How does a plasticizer lower a polymer's Tg?",
       options: [
-        { label: "a", text: "By raising the melting point." },
-        { label: "b", text: "By forming cross-links." },
-        { label: "c", text: "By increasing free volume — small molecules sit between chains, spacing them apart and easing segmental motion." },
-        { label: "d", text: "By increasing crystallinity." }
+        { label: "a", text: "It raises the melting point, which prevents segmental motion but leaves the material flexible at room temperature." },
+        { label: "b", text: "It adds covalent cross-links between chains, increasing mobility and lowering the glass-transition temperature." },
+        { label: "c", text: "Small molecules separate chains and add free volume, allowing segmental motion to occur at a lower temperature." },
+        { label: "d", text: "It increases crystallinity, which loosens chain packing and reduces intermolecular constraints in the amorphous phase." }
       ],
       answer: "c",
       why: "Plasticizer molecules **shield inter-chain attractions and add free volume**, so segments move at lower temperature → Tg and HDT fall and flexibility rises (the PVC ↔ plasticized-PVC contrast).",
@@ -247,10 +247,10 @@ const T6: TopicSource = {
       diff: 3,
       text: "Why is the experimentally measured Tg of a polymer dependent on the cooling rate?",
       options: [
-        { label: "a", text: "Because Tg is a kinetic phenomenon — segments need time to rearrange, so a faster quench freezes them at a higher temperature." },
-        { label: "b", text: "Because the polymer degrades on cooling." },
-        { label: "c", text: "It is actually rate-independent." },
-        { label: "d", text: "Because Tm also changes." }
+        { label: "a", text: "Faster cooling leaves less time for segmental relaxation, so the measured glass-transition temperature typically shifts upward." },
+        { label: "b", text: "The polymer degrades as it cools, producing shorter chains that raise Tg regardless of the cooling rate." },
+        { label: "c", text: "Tg is rate-independent; apparent shifts arise solely from instrument calibration or specimen geometry." },
+        { label: "d", text: "The cooling rate shifts the melting point, which directly determines the measured glass-transition temperature." }
       ],
       answer: "a",
       why: "Unlike melting, the glass transition is **relaxation-limited**: at a faster cooling/heating rate the system is further from equilibrium, so Tg appears higher. DSC values are therefore quoted at a standard rate (e.g. 10 K/min).",
