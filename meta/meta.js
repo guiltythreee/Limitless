@@ -1,6 +1,7 @@
 import { readGlobalRewardSummary } from "../shared/rewards.mjs";
 import { completeProject, listRegisteredProjects, registerProject } from "../shared/projects.mjs";
 import { equipReward, readEquippedRewards, unequipReward } from "../shared/profile.mjs";
+import { acknowledgeLevelNotification, syncLevelNotifications } from "../shared/level-notifications.mjs";
 
 const byId = (id) => document.getElementById(id);
 const number = (n) => Math.max(0, Math.floor(Number(n) || 0)).toLocaleString();
@@ -30,6 +31,49 @@ function makeRow(title, detail, exp) {
   value.textContent = exp;
   row.append(left, value);
   return row;
+}
+
+function renderLevelNotifications(level) {
+  const host = byId("level-up-notices");
+  host.replaceChildren();
+  const result = syncLevelNotifications(window.localStorage, level);
+  if (!result.ok) {
+    const error = document.createElement("p");
+    error.className = "meta-error";
+    error.textContent = "Level-up notices could not be saved in browser storage.";
+    host.append(error);
+    return;
+  }
+  const pending = result.notifications
+    .filter((notice) => notice && notice.acknowledgedAt == null)
+    .sort((a, b) => a.level - b.level);
+  if (!pending.length) {
+    const empty = document.createElement("p");
+    empty.className = "meta-muted";
+    empty.textContent = "No unacknowledged level-ups.";
+    host.append(empty);
+    return;
+  }
+  for (const notice of pending) {
+    const row = document.createElement("div");
+    row.className = "meta-level-notice";
+    const label = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = `Global Level ${notice.level} reached`;
+    const detail = document.createElement("p");
+    detail.className = "meta-muted";
+    detail.textContent = "Verified global EXP crossed the level threshold.";
+    label.append(title, detail);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "meta-button";
+    button.textContent = "Acknowledge";
+    button.addEventListener("click", () => {
+      if (acknowledgeLevelNotification(window.localStorage, notice.level)) render();
+    });
+    row.append(label, button);
+    host.append(row);
+  }
 }
 
 function renderEquippedProfile(level) {
@@ -235,6 +279,7 @@ function render() {
     number(summary.level.xpToNextLevel) + " EXP to level " + (summary.level.level + 1) +
     " (threshold " + number(summary.level.nextLevelAt) + ").";
 
+  renderLevelNotifications(summary.level.level);
   renderUnlocks(summary);
   renderProjects();
 
