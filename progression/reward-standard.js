@@ -43,10 +43,13 @@
     { level: 2, id: 'first-light', name: 'First Light', kind: 'title', description: 'Your first global level-up.' },
     { level: 5, id: 'scholars-mark', name: "Scholar's Mark", kind: 'emblem', description: 'A mark earned through steady cross-discipline learning.' },
     { level: 10, id: 'polymath', name: 'Polymath', kind: 'title', description: 'A profile title for learning across disciplines.' },
+    { level: 10, id: 'polymath-glow', name: 'Polymath Glow', kind: 'profile-effect', description: 'A luminous profile treatment for broad learning.' },
     { level: 15, id: 'wayfinder', name: 'Wayfinder', kind: 'emblem', description: 'A milestone for continuing beyond the early levels.' },
     { level: 20, id: 'keeper-of-knowledge', name: 'Keeper of Knowledge', kind: 'title', description: 'A long-term commitment to learning across fields.' },
+    { level: 20, id: 'radiant-archive', name: 'Radiant Archive', kind: 'profile-effect', description: 'A stronger light effect for sustained study.' },
     { level: 25, id: 'luminous-archive', name: 'Luminous Archive', kind: 'emblem', description: 'A rare emblem for sustained progression.' },
-    { level: 30, id: 'limitless-sigil', name: 'Limitless Sigil', kind: 'emblem', description: 'A rare mark for sustained global progression.' }
+    { level: 30, id: 'limitless-sigil', name: 'Limitless Sigil', kind: 'emblem', description: 'A rare mark for sustained global progression.' },
+    { level: 30, id: 'limitless-aura', name: 'Limitless Aura', kind: 'profile-effect', description: 'The highest currently defined global profile effect.' }
   ];
 
   function finiteNumber(value, fallback) {
@@ -81,7 +84,7 @@
   function emptyLedger() {
     return {
       version: 1, standard: VERSION, totalXp: 0, awards: [],
-      equippedTitleId: '', equippedEmblemId: ''
+      equippedTitleId: '', equippedEmblemId: '', equippedProfileEffectId: ''
     };
   }
   function sanitizeLedger(value) {
@@ -114,6 +117,7 @@
     result.totalXp = result.awards.reduce(function (total, award) { return total + award.x; }, 0);
     result.equippedTitleId = cleanString(value.equippedTitleId || '');
     result.equippedEmblemId = cleanString(value.equippedEmblemId || '');
+    result.equippedProfileEffectId = cleanString(value.equippedProfileEffectId || '');
     return result;
   }
 
@@ -220,11 +224,12 @@
           }
         });
         achievements.reverse();
-        var equippedTitle = null, equippedEmblem = null;
+        var equippedTitle = null, equippedEmblem = null, equippedProfileEffect = null;
         var earnedUnlocks = unlocksForLevel(level.level);
         earnedUnlocks.forEach(function (reward) {
           if (reward.kind === 'title' && reward.id === ledger.equippedTitleId) equippedTitle = reward;
           if (reward.kind === 'emblem' && reward.id === ledger.equippedEmblemId) equippedEmblem = reward;
+          if (reward.kind === 'profile-effect' && reward.id === ledger.equippedProfileEffectId) equippedProfileEffect = reward;
         });
         return {
           standard: VERSION,
@@ -240,6 +245,7 @@
           disciplineAchievements: achievements,
           equippedTitle: equippedTitle,
           equippedEmblem: equippedEmblem,
+          equippedProfileEffect: equippedProfileEffect,
           recentAwards: ledger.awards.slice(-8).reverse().map(function (award) {
             return {
               id: award.id, module: award.m, contentKey: award.c,
@@ -262,7 +268,7 @@
         return {
           standard: VERSION, xp: 0, level: 1, xpIntoLevel: 0,
           xpForNextLevel: 100, nextLevelAt: 100, progress: 0,
-          awardCount: 0, countsByModule: {}, xpByModule: {}, disciplineAchievements: [], equippedTitle: null, equippedEmblem: null, recentAwards: [], unlockedRewards: [], nextReward: nextUnlockForLevel(1), available: false
+          awardCount: 0, countsByModule: {}, xpByModule: {}, disciplineAchievements: [], equippedTitle: null, equippedEmblem: null, equippedProfileEffect: null, recentAwards: [], unlockedRewards: [], nextReward: nextUnlockForLevel(1), available: false
         };
       }
     }
@@ -457,12 +463,13 @@
 
     function equipReward(rewardId, kind) {
       var id = cleanString(rewardId);
-      if (kind !== 'title' && kind !== 'emblem') return { ok: false, error: 'unknown-reward-kind' };
+      if (kind !== 'title' && kind !== 'emblem' && kind !== 'profile-effect') return { ok: false, error: 'unknown-reward-kind' };
       try {
         var ledger = read();
         if (!id) {
           if (kind === 'title') ledger.equippedTitleId = '';
-          else ledger.equippedEmblemId = '';
+          else if (kind === 'emblem') ledger.equippedEmblemId = '';
+          else ledger.equippedProfileEffectId = '';
           storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
           signal({ type: 'equipment-changed', rewardId: '', kind: kind });
           return { ok: true, summary: summary() };
@@ -473,7 +480,8 @@
         });
         if (!reward) return { ok: false, error: 'reward-not-unlocked' };
         if (kind === 'title') ledger.equippedTitleId = id;
-        else ledger.equippedEmblemId = id;
+        else if (kind === 'emblem') ledger.equippedEmblemId = id;
+        else ledger.equippedProfileEffectId = id;
         storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
         signal({ type: 'equipment-changed', rewardId: id, kind: kind });
         return { ok: true, summary: summary() };
