@@ -308,49 +308,6 @@ export function clearDraft(q: string) {
   delete drafts[q];
   commit({ ...state, drafts });
 }
-export function recordTest(t: TestRecord) {
-  const questionKeys = [...new Set(t.results.map((result) => result.q))].sort();
-  const itemId = `assessment:${questionKeys.join("|") || "empty"}`;
-  const numericDifficulties = questionKeys
-    .map((key) => questionByKey[key]?.difficulty ?? "easy")
-    .map((difficulty) => difficulty === "hard" ? 3 : difficulty === "medium" ? 2 : 1);
-  const averageDifficulty = numericDifficulties.length
-    ? numericDifficulties.reduce((sum, value) => sum + value, 0) / numericDifficulties.length
-    : 1;
-  const difficulty: DifficultyTier = averageDifficulty >= 2.5 ? "advanced" : averageDifficulty >= 1.5 ? "intermediate" : "foundational";
-  const completed = t.total > 0 && t.answered === t.total;
-  const quality = t.total > 0 ? Math.max(0, Math.min(1, t.score / t.total)) : 0;
-  const fullArchiveCheckpoint = t.label === "All of probability" && t.total === allQuestions.length;
-  const fullPathway = pathways.find((pathway) => `All of ${pathway.shortLabel}` === t.label);
-  const fullPathwayQuestionCount = fullPathway
-    ? allQuestions.filter((question) => fullPathway.lessonIds.includes(question.lessonId)).length
-    : 0;
-  const fullPathwayCheckpoint = !!fullPathway && t.total === fullPathwayQuestionCount;
-  const checkpointId = fullArchiveCheckpoint
-    ? "probability:full-archive"
-    : fullPathwayCheckpoint && fullPathway
-      ? `probability:pathway:${fullPathway.id}`
-      : null;
-  const rewards = buildRewardRecords({
-    eventId: `probability:assessment:${t.id}`,
-    moduleId: "probability",
-    itemId,
-    ts: t.ts,
-    activityClass: "assessment",
-    difficulty,
-    completionEvidence: completed ? "fully-answered-assessment" : "incomplete-assessment",
-    completed,
-    quality,
-    passed: !!checkpointId && completed && quality >= CHECKPOINT_PASS_THRESHOLD,
-    checkpointId,
-  }, state.rewardLedger);
-  commit({
-    ...state,
-    tests: [...state.tests, t],
-    rewardLedger: [...state.rewardLedger, ...rewards],
-  });
-  dispatchRewardUpdate();
-}
 export function toggleBookmark(q: string) {
   commit({ ...state, bookmarks: state.bookmarks.includes(q) ? state.bookmarks.filter((k) => k !== q) : [...state.bookmarks, q] });
 }
