@@ -28,7 +28,7 @@ The authored pack lists `t8-05` as `recall`, but the current GitHub source at th
 
 The same packs contain 12 MT201 and 47 MT202 replacements. Those were **not applied** in this pass: their authoritative banks are external to this repository and were not included in the uploaded source ZIP. MT201's `sync-mt201.mjs` reads an external JavaScript bank; MT202's `sync.mjs` reads an external Markdown bank and solutions. Editing only generated `public/data/mt201` or `public/data/mt202` JSON would risk losing the revisions at the next sync, so those generated files were left unchanged.
 
-The answer-position balancing for MT203 is now complete and has a passing automated regression test. The larger manual-review residue list remains separate QA work. This PR does not claim that every scientific claim, distractor, explanation or wording cue in all 286 MT203 questions—or the complete 1,097-question Metallurgy bank—has been fully validated.
+The answer-position balancing for MT203 is complete and has a passing automated regression test. A separate, targeted wording and distractor pass has also been applied, but full manual verification of every scientific claim across all 286 MT203 questions—and the complete 1,097-question Metallurgy bank—remains separate QA work. The screening metrics below are string-length heuristics, not a claim that every distractor is now ideal.
 
 ## Answer-position bias remediation — 2026-10-29
 
@@ -38,3 +38,37 @@ A total of 285 question option orders were changed. The option content itself wa
 
 The regression guard `scripts/test-answer-key-balance.mjs` is wired into `.github/workflows/test-metallurgy-content.yml`. This work edits the typed MT203 source only; generated JSON was not edited. MT201/MT202 authored replacement packs remain pending because their authoritative authoring banks are external to the repository.
 
+
+
+## Targeted factual and answer-cue review — 2026-10-29
+
+A further targeted pass revised option wording in **124 question records** to reduce conspicuously long correct options and replace obviously unrelated distractors with topic-relevant misconceptions. These are textual content changes; stable question IDs, question order, option labels and correct-answer labels were retained. Some of these records also appear in the 25-record authored revision-pack list above.
+
+The basic length-cue screen (four-option records only) changed as follows:
+
+| Heuristic | Before this wording pass | Current source |
+|---|---:|---:|
+| Correct option is uniquely longest | 179 / 286 | 90 / 286 |
+| Correct option is at least 1.5× the average length of the three distractors | 157 / 286 | 15 / 286 |
+| Correct option is at least 2× the shortest option | 174 / 286 | 37 / 286 |
+
+These counts are diagnostic flags, not automatic defect counts: short numerical answers, terminology questions and standardized assertion–reason options can legitimately trip a length-only test. Distractor quality still requires subject-matter judgement.
+
+Three specific content corrections were made during this pass:
+
+- `t4-27`: the 50% point on a cumulative weight-fraction curve is the weight-median molecular weight (`M_50`), not the mode (`M_p`).
+- `t1-26`: saponifying PVAc to PVA is hydrolysis; blending PVA with starch is physical mixing, not a second polymerization.
+- `t3-20`: changed a stated particle size from `0.5 mm` to `0.5 μm` so the measurement matches the stated submicrometre emulsion-polymerization process.
+
+## Final automated regression
+
+The latest completed GitHub Actions run for this branch passed:
+- MT203 validation: 286 questions across 11 topics.
+- Course registry validation.
+- MT203 tests: 47 passed, 0 failed.
+- MT203 migration tests: 123 assertions passed, 0 failed.
+- Shared question-renderer tests: 90 assertions passed, 0 failed.
+- Answer-key-balance regression: A=72, B=72, C=71, D=71; maximum per-topic spread 1.
+- TypeScript `npx tsc --noEmit --incremental false`.
+
+The Vercel status remains a separate build-rate-limit/upgrade failure. No deployment was performed.
