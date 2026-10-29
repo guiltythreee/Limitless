@@ -23,10 +23,10 @@ const T4: TopicSource = {
       diff: 2,
       text: "Why is there no single 'molecular weight' of a polymer sample?",
       options: [
-        { label: "a", text: "Chains start and stop stochastically, so any sample is a distribution of chain lengths — MW is reported as several different averages." },
-        { label: "b", text: "Purification is incomplete." },
-        { label: "c", text: "Measurement error prevents a single value." },
-        { label: "d", text: "Polymer molecules all have the same MW but different shapes." }
+        { label: "a", text: "Chains grow and terminate stochastically, producing a distribution of molecular weights rather than one value for the sample." },
+        { label: "b", text: "Purification is always incomplete, so a sample can never be assigned a molecular weight even with an ideal method." },
+        { label: "c", text: "Measurement error is the only reason for different values; a perfectly measured polymer would contain identical chain lengths." },
+        { label: "d", text: "All polymer molecules have the same molecular weight, but different instruments report different values because of calibration." }
       ],
       answer: "a",
       why: "Random initiation/termination (radical) or random coupling (step-growth) gives a **distribution** of chain lengths. Different physical properties respond to different averages, so Mn, Mw, Mz and Mv are all reported.",
@@ -241,10 +241,10 @@ const T4: TopicSource = {
       diff: 2,
       text: "Which statement correctly contrasts Mv with Mn and Mw?",
       options: [
-        { label: "a", text: "Mv is a viscosity-weighted average that lies between Mn and Mw, usually closer to Mw." },
-        { label: "b", text: "Mv always equals Mn." },
-        { label: "c", text: "Mv is measured only for cross-linked polymers." },
-        { label: "d", text: "Mv is always higher than Mw." }
+        { label: "a", text: "Mv is a viscosity-weighted average, commonly between Mn and Mw for a typical molecular-weight distribution." },
+        { label: "b", text: "Mv always equals Mn because both averages count each polymer molecule once, independent of its hydrodynamic volume." },
+        { label: "c", text: "Mv is defined only for cross-linked polymers, where individual chains cannot be separated for molecular-weight analysis." },
+        { label: "d", text: "Mv must exceed Mw for every polymer because viscosity is more sensitive to short chains than to long chains." }
       ],
       answer: "a",
       why: "$M_v$ arises from $[\\eta] = KM^a$ with $0.5\\le a\\le 0.8$; the exponent pulls it **between Mn and Mw, closer to Mw** for typical a ≈ 0.7.",
@@ -354,10 +354,10 @@ const T4: TopicSource = {
       diff: 3,
       text: "A fibre must have maximum tensile strength and minimal brittleness. Which MW strategy?",
       options: [
-        { label: "a", text: "Aim for very high Mw (long, entangled chains) while keeping Mn above the chain-entanglement threshold." },
-        { label: "b", text: "MW is irrelevant to fibre strength." },
-        { label: "c", text: "Minimize Mn to make chains mobile." },
-        { label: "d", text: "Produce monodisperse low-MW oligomers." }
+        { label: "a", text: "Use very high Mw for entanglement and tie chains, while controlling orientation and defects to limit brittleness." },
+        { label: "b", text: "Ignore molecular weight because fibre strength depends only on drawing speed and is unaffected by chain entanglement." },
+        { label: "c", text: "Minimize Mn to make chains mobile, since short oligomers carry more tensile load than long entangled chains." },
+        { label: "d", text: "Use low-MW monodisperse oligomers so chains can slide freely, eliminating brittle fracture under tensile load." }
       ],
       answer: "a",
       why: "Tensile strength rises with chain length (more entanglements transfer load) until a plateau — but very low Mn fractions act as defects. Industrial fibres target high Mw with controlled, narrow-enough MWD.",
@@ -441,10 +441,10 @@ const T4: TopicSource = {
       diff: 4,
       text: "A rubber is made by cross-linking chains of Mn = 200,000. Before cross-linking, which average best predicts the number of chain ends per gram (relevant for end-group analyses and cross-link density)?",
       options: [
-        { label: "a", text: "None — ends are independent of MW." },
-        { label: "b", text: "Mz." },
-        { label: "c", text: "Mw — heavy chains dominate the mass." },
-        { label: "d", text: "Mn — chain ends scale as 1/M per chain, so the number-average sets ends per gram." }
+        { label: "a", text: "No average is relevant; the number of chain ends per gram is independent of the length of the polymer chains." },
+        { label: "b", text: "Mz, the z-average, is best because its weighting emphasizes the largest chains and therefore counts their ends most accurately." },
+        { label: "c", text: "Mw is best because weighting by chain mass determines the number of chain ends present in a fixed mass of sample." },
+        { label: "d", text: "Mn is best because chain count per gram scales with 1/Mn; for linear chains, each molecule has two ends." }
       ],
       answer: "d",
       why: "End groups per gram $= 2\\rho/M_n$ (2 per linear chain). Since each chain contributes exactly 2 ends regardless of length, counting chains = the **number-average**. Short chains contribute disproportionately many ends — exactly what Mn captures.",
@@ -457,10 +457,10 @@ const T4: TopicSource = {
       diff: 2,
       text: "GPC vs osmometry for routine MW determination — which pairing is correct?",
       options: [
-        { label: "a", text: "GPC measures Mz only." },
-        { label: "b", text: "Osmometry gives the full distribution; GPC gives one average." },
-        { label: "c", text: "GPC: fast, gives full MWD + all averages, but relative. Osmometry: absolute Mn, but one value only and membrane limitations." },
-        { label: "d", text: "Both give absolute MW directly." }
+        { label: "a", text: "GPC measures only Mz, while osmometry provides the complete molecular-weight distribution and every average." },
+        { label: "b", text: "Osmometry gives the entire molecular-weight distribution; GPC measures a single absolute molecular weight directly." },
+        { label: "c", text: "GPC rapidly gives a calibrated relative distribution and its averages; osmometry mainly gives the number-average MW." },
+        { label: "d", text: "Both methods measure absolute molecular weight directly without calibration, standards or assumptions about solution behaviour." }
       ],
       answer: "c",
       why: "SEC's advantage is the **full chromatogram** (all averages, PDI, bimodality) in one run; its limitation is calibration-relative MW. Osmometry is **absolute** for Mn but single-point and limited by membrane solute retention.",
