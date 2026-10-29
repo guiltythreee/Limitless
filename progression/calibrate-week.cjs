@@ -33,7 +33,7 @@ for (let page = 0; page < 13; page++) {
   bookkeysXp += award({
     module: 'bookkeys',
     eventId: 'bookkeys:calibration-book:page:' + page,
-    contentKey: 'bookkeys:calibration-book:page:' + page,
+    contentKey: 'bookkeys:passage:calibration-page-' + page,
     activityClass: 'standard-task',
     evidence: 'typed-page',
     difficulty: 'foundational',
@@ -62,7 +62,7 @@ for (let i = 0; i < qualities.length; i++) {
   mathXp += award({
     module: 'math-trainer',
     eventId: 'math:calibration:run:' + i,
-    contentKey: 'math:session:practice:adept',
+    contentKey: 'math:session:practice:adept:normal',
     activityClass: 'focused-practice',
     evidence: 'completed-session',
     difficulty: 'intermediate',
@@ -95,16 +95,16 @@ mathXp += award({
   reason: 'Calibration: first verified tier mastery'
 });
 
-// Probability: four independent submitted answers on each of five days (20
-// questions total), followed by one meaningful 20-question scored assessment.
-// Scores are reported as quality evidence, not as a direct EXP amount.
+// Probability: twelve practice questions that complete one topic's mastery
+// threshold, plus one meaningful 12-question assessment. The test's own answer
+// attempts are NOT paid a second time as standalone micro-practice.
 let probabilityXp = 0;
-for (let question = 0; question < 20; question++) {
-  day(Math.floor(question / 4));
+for (let question = 0; question < 12; question++) {
+  day(Math.floor(question / 3));
   probabilityXp += award({
     module: 'probability',
-    eventId: 'probability:calibration:attempt:' + question,
-    contentKey: 'probability:question:calibration-' + question,
+    eventId: 'probability:calibration:practice-attempt:' + question,
+    contentKey: 'probability:question:calibration-lesson-' + question,
     activityClass: 'micro-practice',
     evidence: 'submitted-answer',
     difficulty: 'intermediate',
@@ -124,6 +124,17 @@ probabilityXp += award({
   passed: true,
   passKey: 'probability:assessment-pass:calibration-set',
   reason: 'Calibration: meaningful scored assessment completed'
+});
+probabilityXp += award({
+  module: 'probability',
+  eventId: 'probability:calibration:topic-mastery',
+  contentKey: 'probability:lesson-mastery:calibration-lesson',
+  activityClass: 'milestone',
+  evidence: 'topic-mastery',
+  difficulty: 'intermediate',
+  quality: 0.9,
+  oneTimeKey: 'probability:lesson-mastery:calibration-lesson',
+  reason: 'Calibration: all questions in one topic mastered'
 });
 
 const summary = ledger.summary();
@@ -146,7 +157,7 @@ const report = {
   assumptions: {
     bookkeys: '13 newly typed pages and one completed-book milestone',
     mathTrainer: '3 substantive sessions, one tier clear, and one first tier-mastery milestone',
-    probability: '20 submitted question attempts and one 20-question passed assessment',
+    probability: '12 practice question attempts, one passed 12-question assessment (assessment answers excluded from per-question awards), and one topic-mastery milestone',
     policy: 'Shared LSR-1 class values, difficulty multipliers, quality rules, and one-time keys'
   },
   expByModule: totals,
