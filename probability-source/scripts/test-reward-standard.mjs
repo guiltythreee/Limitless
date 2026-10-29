@@ -141,6 +141,25 @@ const badProject = calculateReward(activity({
   eventId: "bad-project", activityClass: "bespoke-project", assignedBaseExp: undefined,
 }), []);
 assert.equal(badProject.totalExp, 0, "bespoke projects require a preassigned base");
+assert.equal(badProject.reason, "invalid-activity");
+const belowRangeProject = calculateReward(activity({
+  eventId: "project-below-range", activityClass: "bespoke-project", assignedBaseExp: 10,
+}), []);
+assert.equal(belowRangeProject.totalExp, 0, "project base must be at least 20 EXP");
+const aboveRangeProject = calculateReward(activity({
+  eventId: "project-above-range", activityClass: "bespoke-project", assignedBaseExp: 101,
+}), []);
+assert.equal(aboveRangeProject.totalExp, 0, "project base cannot exceed 100 EXP");
+const unclassifiedActivity = calculateReward(activity({
+  eventId: "unclassified", activityClass: "page-open",
+}), []);
+assert.equal(unclassifiedActivity.totalExp, 0);
+assert.equal(unclassifiedActivity.reason, "invalid-activity");
+const invalidDifficulty = calculateReward(activity({
+  eventId: "invalid-difficulty", difficulty: "impossible",
+}), []);
+assert.equal(invalidDifficulty.totalExp, 0);
+assert.equal(invalidDifficulty.reason, "invalid-activity");
 const validProject = calculateReward(activity({
   eventId: "valid-project", activityClass: "bespoke-project", assignedBaseExp: 50,
   difficulty: "advanced", quality: 0,
