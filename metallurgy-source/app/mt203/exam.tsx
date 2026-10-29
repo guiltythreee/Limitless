@@ -135,6 +135,7 @@ export default function Exam({
       label: scope === "all" ? "Whole course" : UNITS.find((u) => u.id === scope)?.title ?? scope,
       total: pool.length,
       correct: sc,
+      answered: Object.keys(answers).length,
       ms: 0,
       breakdown,
     });
