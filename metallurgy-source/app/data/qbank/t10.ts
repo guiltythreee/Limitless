@@ -210,10 +210,10 @@ const T10: TopicSource = {
       diff: 3,
       text: "In dynamic loading, hysteresis is observed because:",
       options: [
-        { label: "a", text: "Energy is created in the cycle." },
-        { label: "b", text: "The stress response lags the strain (viscoelastic damping), so the loading and unloading curves form a loop whose area is the energy dissipated as heat per cycle." },
-        { label: "c", text: "The loading and unloading curves coincide." },
-        { label: "d", text: "The sample melts." }
+        { label: "a", text: "The cycle creates energy as chains stretch, so the energy returned during unloading exceeds the work supplied on loading." },
+        { label: "b", text: "Viscoelastic lag creates a loading–unloading loop; the loop area is the energy dissipated as heat per cycle." },
+        { label: "c", text: "The sample recovers exactly along the loading path, so both curves coincide and no energy is lost per cycle." },
+        { label: "d", text: "Cyclic stress melts the specimen during every cycle, and latent heat creates the enclosed area in the curve." }
       ],
       answer: "b",
       why: "The **phase lag** between stress and strain produces a hysteresis loop; its **area = energy dissipated per cycle** — valuable for vibration damping, but a source of self-heating and fatigue in tyres.",
@@ -355,10 +355,10 @@ const T10: TopicSource = {
       diff: 1,
       text: "The solubility parameter δ is used to:",
       options: [
-        { label: "a", text: "find the density" },
-        { label: "b", text: "predict whether a polymer dissolves in (or swells in) a given solvent, and whether blends are compatible" },
-        { label: "c", text: "calculate the melting point" },
-        { label: "d", text: "measure molecular weight" }
+        { label: "a", text: "Use repeat-unit volume and mass to estimate density and infer packing, rather than solvent compatibility." },
+        { label: "b", text: "Compare cohesive-energy-density parameters: closer δ values usually suggest better solubility or blend compatibility." },
+        { label: "c", text: "Use chain length alone to determine solubility, because δ is a direct measure of molecular weight." },
+        { label: "d", text: "Use molecular weight and heat of fusion to estimate melting point, independent of polymer–solvent interactions." }
       ],
       answer: "b",
       why: "**δ = (cohesive energy density)^½**. 'Like dissolves like': the closer the δ values, the better the solubility/compatibility — the fastest rule of thumb in polymer formulation.",
@@ -474,10 +474,10 @@ const T10: TopicSource = {
       diff: 2,
       text: "Why does barrier performance improve as a polymer becomes more crystalline and oriented?",
       options: [
-        { label: "a", text: "Orientation destroys the polymer." },
-        { label: "b", text: "Crystallites absorb the permeant." },
-        { label: "c", text: "Crystallinity increases free volume." },
-        { label: "d", text: "Crystallites and aligned chains are dense, low-mobility regions, so the tortuous path for a diffusing molecule becomes much longer and permeation drops." }
+        { label: "a", text: "Chain orientation increases free volume and opens straight channels, so penetrants move through the film more easily." },
+        { label: "b", text: "Crystalline domains absorb the permeant into their ordered lattices, trapping molecules before they cross the film." },
+        { label: "c", text: "Crystallinity increases interchain spacing, giving diffusing molecules more vacant sites to move through the polymer." },
+        { label: "d", text: "Crystals and aligned chains are dense, low-mobility regions that lengthen diffusion paths and reduce permeation." }
       ],
       answer: "d",
       why: "Diffusion needs **free volume**. Crystallites exclude the permeant and force a **tortuous path**, while orientation tightens the chain packing — hence oriented PET/PP films and HDPE give much better barriers than their amorphous forms.",
