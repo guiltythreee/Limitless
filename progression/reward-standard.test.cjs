@@ -87,14 +87,24 @@ test('only explicitly registered modules can post standard rewards', () => {
   });
   assert.equal(personalTask.ok, false);
   assert.equal(personalTask.error, 'module-only-supports-registered-projects');
-  const metallurgy = ledger.record({
+  const metallurgyAttempt = ledger.record({
     module: 'metallurgy',
     eventId: 'metallurgy-attempt',
     contentKey: 'metallurgy:q1',
     activityClass: 'micro-practice',
     evidence: 'submitted-answer'
   });
-  assert.equal(metallurgy.ok, true);
+  assert.equal(metallurgyAttempt.ok, false);
+  assert.equal(metallurgyAttempt.error, 'module-only-supports-registered-projects');
+  const metallurgyProject = ledger.registerProject({
+    module: 'metallurgy',
+    projectId: 'course-design-review',
+    baseExp: 50,
+    title: 'Course design review',
+    scope: 'Review an existing metallurgy learning unit',
+    criteria: 'Write a documented review with evidence and actionable corrections'
+  });
+  assert.equal(metallurgyProject.ok, true, 'bespoke project rewards remain available in Metallurgy');
 });
 
 test('arbitrary multiplier values and unknown difficulty tiers are rejected', () => {
