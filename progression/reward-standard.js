@@ -170,7 +170,7 @@
         var level = levelForXp(ledger.totalXp);
         var counts = {};
         ledger.awards.forEach(function (award) {
-          if (award.x > 0) counts[award.m || 'unknown'] = (counts[award.m || 'unknown'] || 0) + 1;
+          if (award.x > 0 && typeof BASE_EXP[award.a] === 'number') counts[award.m || 'unknown'] = (counts[award.m || 'unknown'] || 0) + 1;
         });
         return {
           standard: VERSION,
@@ -231,7 +231,14 @@
         var existing = ledger.awards.find(function (award) { return award.id === eventId; });
         if (existing) {
           var existingSummary = summary();
-          return { ok: true, duplicate: true, xp: existing.x, totalXp: existingSummary.xp, level: existingSummary.level };
+          var priorPassBonus = existing.passKey ? ledger.awards.find(function (award) {
+            return award.id === 'first-pass:' + existing.passKey;
+          }) : null;
+          return {
+            ok: true, duplicate: true,
+            xp: existing.x + (priorPassBonus ? priorPassBonus.x : 0),
+            totalXp: existingSummary.xp, level: existingSummary.level
+          };
         }
 
         var ts = Math.max(0, Math.floor(finiteNumber(now(), Date.now())));
@@ -246,7 +253,7 @@
         var repeatMultiplier = 1;
         if (!isOneTimeClass(activityClass)) {
           var sameDayCount = ledger.awards.filter(function (award) {
-            return award.c === contentKey && award.d === day && !isOneTimeClass(award.a);
+            return award.c === contentKey && award.d === day && typeof BASE_EXP[award.a] === 'number';
           }).length;
           if (sameDayCount >= FULL_REPEATS_PER_DAY + HALF_REPEATS_PER_DAY) repeatMultiplier = 0;
           else if (sameDayCount >= FULL_REPEATS_PER_DAY) repeatMultiplier = 0.5;
@@ -279,6 +286,7 @@
           passed: !!args.passed
         };
         if (oneTimeKey && breakdown.xp > 0 && isOneTimeClass(activityClass)) activityAward.o = oneTimeKey;
+        if (args.passed && passKey) activityAward.passKey = passKey;
         ledger.awards.push(activityAward);
 
         var passXp = 0;
