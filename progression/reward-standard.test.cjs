@@ -112,6 +112,45 @@ test('arbitrary multiplier values and unknown difficulty tiers are rejected', ()
   assert.equal(ledger.summary().xp, 0);
 });
 
+test('a fresh ledger instance reloads the saved total and recovers duplicates safely', () => {
+  const { ledger, storage } = setup();
+  const input = {
+    module: 'probability',
+    eventId: 'reload-safe:attempt:1',
+    contentKey: 'probability:question:reload-safe',
+    activityClass: 'micro-practice',
+    evidence: 'submitted-answer',
+    difficulty: 'foundational',
+  };
+  const first = ledger.record(input);
+  assert.equal(first.xp, 5);
+  const reloaded = Rewards.createLedger(storage, () => Date.UTC(2026, 9, 28, 9), () => {});
+  assert.equal(reloaded.summary().xp, 5);
+  const duplicate = reloaded.record(input);
+  assert.equal(duplicate.ok, true);
+  assert.equal(duplicate.duplicate, true);
+  assert.equal(reloaded.summary().xp, 5);
+  assert.equal(reloaded.read().awards.length, 1);
+});
+
+test('callers cannot inject arbitrary XP into a fixed activity award', () => {
+  const { ledger } = setup();
+  const receipt = ledger.record({
+    module: 'probability',
+    eventId: 'ignored-xp-field',
+    contentKey: 'probability:question:fixed-base',
+    activityClass: 'standard-task',
+    evidence: 'completed-session',
+    difficulty: 'foundational',
+    xp: 1000000,
+    baseExp: 999999,
+    multiplier: 99,
+  });
+  assert.equal(receipt.ok, true);
+  assert.equal(receipt.xp, 10);
+  assert.equal(ledger.summary().xp, 10);
+});
+
 test('award event IDs are idempotent and do not increase total XP twice', () => {
   const { ledger } = setup();
   const input = { module: 'probability', eventId: 'attempt-1', contentKey: 'q-1', activityClass: 'micro-practice', difficulty: 'foundational', evidence: 'submitted-answer' };
