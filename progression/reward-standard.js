@@ -343,9 +343,14 @@
         if (existing) {
           var sameDefinition = existing.baseExp === baseExp && existing.title === title &&
             existing.scope === scope && existing.criteria === criteria;
+          var existingView = {
+            id: existing.id, module: existing.m, baseExp: existing.baseExp,
+            title: existing.title, scope: existing.scope, criteria: existing.criteria,
+            registeredAt: existing.registeredAt, version: existing.v
+          };
           return sameDefinition
-            ? { ok: true, duplicate: true, project: existing }
-            : { ok: false, error: 'project-definition-immutable', project: existing };
+            ? { ok: true, duplicate: true, project: existingView }
+            : { ok: false, error: 'project-definition-immutable', project: existingView };
         }
         var project = {
           id: projectId, m: moduleId, baseExp: baseExp,
@@ -358,7 +363,15 @@
         if (!storage || typeof storage.setItem !== 'function') return { ok: false, error: 'storage-unavailable' };
         storage.setItem(STORAGE_KEY, JSON.stringify(ledger));
         signal({ type: 'project-registered', module: moduleId, projectId: projectId });
-        return { ok: true, duplicate: false, project: project };
+        return {
+          ok: true,
+          duplicate: false,
+          project: {
+            id: project.id, module: project.m, baseExp: project.baseExp,
+            title: project.title, scope: project.scope, criteria: project.criteria,
+            registeredAt: project.registeredAt, version: project.v
+          }
+        };
       } catch (error) {
         return { ok: false, error: 'storage-unavailable' };
       }
