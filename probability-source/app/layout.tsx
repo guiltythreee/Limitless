@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 // Keep the existing theme key so saved dark/light preferences continue working.
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const themeInit = `try{var t=localStorage.getItem("hc3-theme");if(t!=="light"&&t!=="dark"){t="dark"}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}`;
 
 export default function RootLayout({
@@ -19,7 +20,8 @@ export default function RootLayout({
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
-        <Script src="/progression/reward-standard.js" strategy="beforeInteractive" />
+        <Script src={`${BASE}/progression/reward-standard.js`} strategy="beforeInteractive" />
+        <Script src={`${BASE}/progression/notifications.js`} strategy="beforeInteractive" />
       </head>
       <body>{children}</body>
     </html>
