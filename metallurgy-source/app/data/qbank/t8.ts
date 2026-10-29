@@ -350,19 +350,19 @@ const T8: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "EPDM has more carbon–carbon double bonds in its main chain, so ozone attack is distributed over more sites."
+          "text": "EPDM contains many backbone double bonds, so ozone attacks the chain readily unless a heavy aromatic antioxidant is added."
         },
         {
           "label": "b",
-          "text": "Its weather resistance comes only from sulphur crosslinks; the backbone chemistry is irrelevant."
+          "text": "EPDM resists weathering only because sulfur cross-links block ozone diffusion, regardless of the polymer backbone structure."
         },
         {
           "label": "c",
-          "text": "EPDM has a largely saturated main chain; the diene unsaturation is mainly pendant and is used for curing, leaving fewer main-chain sites vulnerable to ozone attack."
+          "text": "EPDM has a largely saturated backbone; its limited diene unsaturation is used for curing, leaving far fewer ozone-sensitive sites."
         },
         {
           "label": "d",
-          "text": "EPDM contains chlorine atoms that form a protective barrier against ultraviolet radiation."
+          "text": "EPDM contains chlorine in its backbone, which reacts with ozone to create a protective film against surface cracking."
         }
       ],
       "answer": "c",
@@ -456,10 +456,10 @@ const T8: TopicSource = {
       diff: 1,
       text: "Which polymer is a semi-synthetic material derived from a natural polymer?",
       options: [
-        { label: "a", text: "Nylon 6,6" },
-        { label: "b", text: "Cellulose acetate" },
-        { label: "c", text: "Polystyrene" },
-        { label: "d", text: "Polyethylene" }
+        { label: "a", text: "Nylon 6,6, a synthetic polyamide formed by step-growth reaction of a diamine with a diacid." },
+        { label: "b", text: "Cellulose acetate, a semi-synthetic material produced by chemically acetylating hydroxyl groups in natural cellulose." },
+        { label: "c", text: "Polystyrene, a synthetic vinyl polymer made by chain-growth polymerization of styrene monomer." },
+        { label: "d", text: "Polyethylene, a synthetic polyolefin formed by addition polymerization of ethylene under suitable catalytic or radical conditions." }
       ],
       answer: "b",
       why: "**Cellulose acetate** is made by acetylating natural cellulose — a natural backbone with a chemical modification, hence *semi-synthetic*. (Cellophane is regenerated cellulose; rayon is regenerated cellulose fibre.)",
