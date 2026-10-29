@@ -4,7 +4,8 @@ export type RewardActivityClass =
   | "focused-practice"
   | "assessment"
   | "milestone"
-  | "course-completion";
+  | "course-completion"
+  | "bespoke-project";
 
 export type RewardDifficulty = "foundational" | "intermediate" | "advanced";
 export type RewardEvidence =
@@ -15,7 +16,8 @@ export type RewardEvidence =
   | "topic-mastery"
   | "unit-mastery"
   | "milestone-complete"
-  | "pathway-complete";
+  | "pathway-complete"
+  | "project-complete";
 
 export type GlobalRewardInput = {
   module: string;
@@ -29,6 +31,28 @@ export type GlobalRewardInput = {
   passed?: boolean;
   passKey?: string;
   oneTimeKey?: string;
+  projectId?: string;
+  projectBaseExp?: number;
+};
+
+export type RegisteredProject = {
+  id: string;
+  module: string;
+  baseExp: number;
+  title: string;
+  scope: string;
+  criteria: string;
+  registeredAt: number;
+  version: string;
+};
+
+export type RegisterProjectInput = {
+  module: string;
+  projectId: string;
+  baseExp: number;
+  title: string;
+  scope: string;
+  criteria: string;
 };
 
 export type RewardAwardLine = {
@@ -89,6 +113,7 @@ export type RewardSummary = {
   awardCount: number;
   countsByModule?: Record<string, number>;
   xpByModule?: Record<string, number>;
+  registeredProjects?: RegisteredProject[];
   disciplineAchievements?: RewardAchievement[];
   recentAwards?: RewardAwardLine[];
   unlockedRewards?: RewardUnlock[];
@@ -104,6 +129,7 @@ export type GlobalRewardApi = {
   REWARD_UNLOCKS: RewardUnlock[];
   record: (input: GlobalRewardInput) => GlobalRewardReceipt;
   recordMany: (inputs: GlobalRewardInput[]) => GlobalRewardReceipt[];
+  registerProject: (input: RegisterProjectInput) => { ok: boolean; duplicate?: boolean; error?: string; project?: RegisteredProject };
   equipReward: (rewardId: string, kind: "title" | "emblem" | "profile-effect") => { ok: boolean; error?: string; summary?: RewardSummary };
   read: () => { totalXp: number; awards: Array<{ id: string; x: number; m?: string; c?: string; a?: string; e?: string }> };
   summary: () => RewardSummary;
