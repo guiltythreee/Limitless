@@ -689,13 +689,13 @@ const T2: TopicSource = {
       diff: 4,
       text: "A reactor runs free-radical polymerization. Doubling $[M]$ and halving $[I]$ changes $R_p$ by the factor:",
       options: [
-        { label: "a", text: "1" },
-        { label: "b", text: "2" },
-        { label: "c", text: "4" },
-        { label: "d", text: "√2" }
+        { label: "a", text: "1.00" },
+        { label: "b", text: "2.00" },
+        { label: "c", text: "4.00" },
+        { label: "d", text: "1.41" }
       ],
       answer: "d",
-      why: "$R_p \\propto [M][I]^{1/2}$ → $2 \\times (1/2)^{1/2} = 2/\\sqrt{2} = \\mathbf{\\sqrt{2}} \\approx 1.41$.",
+      why: "$R_p \\propto [M][I]^{1/2}$, so the factor is $2\\times(1/2)^{1/2}=\\sqrt{2}\\approx 1.41$.",
       distractors: {
         b: "2 ignores the square-root dependence on initiator.",
       },
