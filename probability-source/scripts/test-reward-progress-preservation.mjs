@@ -16,12 +16,12 @@ const compiled = ts.transpileModule(source, {
   },
 }).outputText;
 
-function boot(seed: Record<string, string>) {
+function boot(seed) {
   const values = new Map(Object.entries(seed));
   const storage = {
-    getItem(key: string) { return values.get(key) ?? null; },
-    setItem(key: string, value: string) { values.set(key, String(value)); },
-    removeItem(key: string) { values.delete(key); },
+    getItem(key) { return values.get(key) ?? null; },
+    setItem(key, value) { values.set(key, String(value)); },
+    removeItem(key) { values.delete(key); },
   };
   const fakeWindow = {
     localStorage: storage,
@@ -33,9 +33,9 @@ function boot(seed: Record<string, string>) {
     questionByKey: {},
     grade: () => ({ score: 1, status: "correct" }),
   };
-  const module = { exports: {} as Record<string, unknown> };
-  const require = (name: string) => {
-    if (name === "react") return { useSyncExternalStore: (_subscribe: unknown, getSnapshot: () => unknown) => getSnapshot() };
+  const module = { exports: {} };
+  const require = (name) => {
+    if (name === "react") return { useSyncExternalStore: (_subscribe, getSnapshot) => getSnapshot() };
     if (name === "./questions") return fakeQuestions;
     throw new Error("Unexpected import: " + name);
   };
@@ -49,10 +49,7 @@ function boot(seed: Record<string, string>) {
     setTimeout,
     clearTimeout,
   });
-  const api = module.exports as {
-    useStore: () => unknown;
-    setGoal: (value: number) => void;
-  };
+  const api = module.exports;
   api.useStore();
   return { api, storage };
 }
@@ -72,7 +69,7 @@ test("current Probability progress roots preserve unknown extension fields throu
   };
   const { api, storage } = boot({ "hc3-progress-v3": JSON.stringify(seed) });
   api.setGoal(17);
-  const persisted = JSON.parse(storage.getItem("hc3-progress-v3")!);
+  const persisted = JSON.parse(storage.getItem("hc3-progress-v3"));
   assert.deepEqual(persisted.moduleOwnedExtension, extension);
   assert.deepEqual(persisted.futureSchemaValue, { untouched: true });
   assert.deepEqual(persisted.completed, ["sample-space"]);
@@ -89,7 +86,7 @@ test("legacy Probability migrations also preserve unknown root extensions", () =
   };
   const { api, storage } = boot({ "hc3-progress-v2": JSON.stringify(legacy) });
   api.setGoal(13);
-  const persisted = JSON.parse(storage.getItem("hc3-progress-v3")!);
+  const persisted = JSON.parse(storage.getItem("hc3-progress-v3"));
   assert.deepEqual(persisted.moduleOwnedExtension, extension);
   assert.equal(persisted.futureSchemaValue, 42);
   assert.deepEqual(persisted.completed, ["conditional"]);
