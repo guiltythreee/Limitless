@@ -263,10 +263,10 @@ const T6: TopicSource = {
       diff: 2,
       text: "The heat-deflection temperature (HDT) of a plastic is:",
       options: [
-        { label: "a", text: "The temperature at which it melts completely" },
-        { label: "b", text: "The temperature of 5% weight loss" },
-        { label: "c", text: "The glass-transition temperature" },
-        { label: "d", text: "The temperature at which a standard bar deflects a fixed amount under a specified bending load" }
+        { label: "a", text: "The melting temperature at which all crystalline regions disappear, regardless of load or specimen geometry." },
+        { label: "b", text: "The onset temperature of a specified percentage of mass loss during thermogravimetric analysis in inert gas." },
+        { label: "c", text: "The glass-transition temperature measured from the heat-capacity step of an amorphous polymer." },
+        { label: "d", text: "The temperature at which a standard specimen reaches a specified deflection under a stated bending load." }
       ],
       answer: "d",
       why: "**HDT** is a *stiffness* (mechanical) measure under load, not a thermodynamic transition — hence reinforcing or crystallizing a polymer raises HDT even if Tg is unchanged.",
@@ -388,10 +388,10 @@ const T6: TopicSource = {
       diff: 2,
       text: "A random copolymer has a single Tg intermediate between those of its two homopolymers because:",
       options: [
-        { label: "a", text: "Tg is always the arithmetic mean." },
-        { label: "b", text: "Copolymerization raises crystallinity." },
-        { label: "c", text: "Two Tgs always merge into a sum." },
-        { label: "d", text: "The chains are chemically bonded into one molecule, giving a single averaged amorphous phase." }
+        { label: "a", text: "The copolymer Tg is always the arithmetic mean of the two homopolymer Tgs, independent of composition or interactions." },
+        { label: "b", text: "Random incorporation of unlike repeat units necessarily raises crystallinity, which merges the two glass transitions." },
+        { label: "c", text: "The two homopolymer Tgs are added together to create one transition whose temperature depends only on chain length." },
+        { label: "d", text: "Randomly linked units share one amorphous phase, giving one Tg typically between the two homopolymer values." }
       ],
       answer: "d",
       why: "In a **random** copolymer the two units share one chain, so there is one amorphous environment → **one Tg** between the homopolymer values. (A *block* or *immiscible blend* instead shows two Tgs — a key miscibility test.)",
