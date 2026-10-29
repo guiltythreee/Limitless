@@ -602,10 +602,10 @@ const T2: TopicSource = {
       diff: 4,
       text: "A polycondensation reaches p = 0.995 with perfect stoichiometry. A competitor claims their batch reaches DP 400 at p = 0.99 using a slight stoichiometric imbalance. Both statements are:",
       options: [
-        { label: "a", text: "Both wrong" },
-        { label: "b", text: "First wrong, second correct" },
-        { label: "c", text: "Both correct — the first gives DP 200 at perfect balance, the second needs r such that (1+r)/(1−2r+...)…, achievable only with r ≈ 0.995" },
-        { label: "d", text: "First is correct (DP = 200); the second is impossible — imbalance can only *lower* DP below the balanced value at the same p" }
+        { label: "a", text: "Both claims are wrong: p = 0.995 gives a lower DP than p = 0.99, even with exact stoichiometry." },
+        { label: "b", text: "The first claim is wrong, but a slight stoichiometric imbalance lets the second batch reach the larger DP at lower conversion." },
+        { label: "c", text: "Both claims are correct: the stoichiometric batch reaches DP 200, and imbalance permits DP 400 at p = 0.99." },
+        { label: "d", text: "The first claim is correct: ideal stoichiometric DP is 200 at p = 0.995; imbalance lowers the attainable DP, so the second claim fails." }
       ],
       answer: "d",
       why: "Case 1: $DP = 1/(1-0.995) = 200$ ✓. Case 2: at $p = 0.99$ with balance, $DP = 100$; any imbalance ($r < 1$) reduces it further via $DP = (1+r)/(1+r-2rp)$. $DP = 400$ at $p = 0.99$ is **unattainable**.",
@@ -671,10 +671,10 @@ const T2: TopicSource = {
       diff: 2,
       text: "Condensation (Carothers) vs addition polymerization — which statement is correct?",
       options: [
-        { label: "a", text: "Condensation requires an initiator; addition does not." },
-        { label: "b", text: "Addition always gives higher MW." },
-        { label: "c", text: "Condensation releases a small molecule (H₂O, HCl…); addition does not." },
-        { label: "d", text: "Condensation is always chain-growth." }
+        { label: "a", text: "Condensation polymerization always requires a radical initiator, while addition polymerization proceeds without reactive chain ends." },
+        { label: "b", text: "Addition polymerization always reaches a higher molecular weight than any step-growth process at the same conversion." },
+        { label: "c", text: "Typical condensation reactions eliminate a small molecule such as water; addition polymerization adds unsaturated monomer without that by-product." },
+        { label: "d", text: "Condensation polymerization is always chain-growth, whereas addition polymerization is always step-growth and follows Carothers' equation." }
       ],
       answer: "c",
       why: "That is the definition of the **chemical** classification: loss of a small molecule (condensation) vs net addition across a double bond or ring (addition).",
