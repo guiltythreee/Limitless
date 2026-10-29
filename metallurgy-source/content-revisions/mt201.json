@@ -28,7 +28,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "c09512a7"
     },
     {
       "chapter": "ch01",
@@ -55,7 +56,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "df4f8d6b"
     },
     {
       "chapter": "ch01",
@@ -82,7 +84,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "36e64bb2"
     },
     {
       "chapter": "ch01",
@@ -109,7 +112,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "fe9ed1bb"
     },
     {
       "chapter": "ch01",
@@ -136,7 +140,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "d553ea5e"
     },
     {
       "chapter": "ch01",
@@ -163,7 +168,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "2c6517d5"
     },
     {
       "chapter": "ch01",
@@ -190,7 +196,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "e6cda0d6"
     },
     {
       "chapter": "ch01",
@@ -217,7 +224,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "715e4ae2"
     },
     {
       "chapter": "ch01",
@@ -281,7 +289,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "367969ec"
     },
     {
       "chapter": "ch01",
@@ -308,7 +317,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "5fe5b470"
     },
     {
       "chapter": "ch01",
@@ -335,7 +345,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "291ce38e"
     },
     {
       "chapter": "ch02",
@@ -362,7 +373,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "6e0e8288"
     },
     {
       "chapter": "ch02",
@@ -389,7 +401,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "8128d064"
     },
     {
       "chapter": "ch02",
@@ -416,7 +429,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "340746f3"
     },
     {
       "chapter": "ch02",
@@ -443,7 +457,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "663d189f"
     },
     {
       "chapter": "ch02",
@@ -470,7 +485,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "ccc26d89"
     },
     {
       "chapter": "ch02",
@@ -497,7 +513,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "eae7306a"
     },
     {
       "chapter": "ch02",
@@ -524,7 +541,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "90cdbd1f"
     },
     {
       "chapter": "ch03",
@@ -551,7 +569,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "7ca31b8c"
     },
     {
       "chapter": "ch03",
@@ -578,7 +597,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "a240deb0"
     },
     {
       "chapter": "ch03",
@@ -605,7 +625,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "50bbf456"
     },
     {
       "chapter": "ch03",
@@ -632,7 +653,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "d0d52a0f"
     },
     {
       "chapter": "ch03",
@@ -659,7 +681,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "2c02b211"
     },
     {
       "chapter": "ch03",
@@ -686,7 +709,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "b74ae117"
     },
     {
       "chapter": "ch03",
@@ -713,7 +737,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "465df598"
     },
     {
       "chapter": "ch03",
@@ -740,7 +765,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "f1656e15"
     },
     {
       "chapter": "ch03",
@@ -767,7 +793,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "419b5913"
     },
     {
       "chapter": "ch03",
@@ -794,7 +821,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "8b32a319"
     },
     {
       "chapter": "ch03",
@@ -821,7 +849,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "a143a0b2"
     },
     {
       "chapter": "ch03",
@@ -848,7 +877,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "0ebb0d3e"
     },
     {
       "chapter": "ch03",
@@ -875,7 +905,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "db50179b"
     },
     {
       "chapter": "ch03",
@@ -902,7 +933,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "07c6c9ab"
     },
     {
       "chapter": "ch03",
@@ -929,7 +961,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "8a8dc67f"
     },
     {
       "chapter": "ch03",
@@ -956,7 +989,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "66056739"
     },
     {
       "chapter": "ch03",
@@ -983,7 +1017,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "cddd7e46"
     },
     {
       "chapter": "ch04",
@@ -1010,7 +1045,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "f8fac28e"
     },
     {
       "chapter": "ch04",
@@ -1037,7 +1073,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "ef947f92"
     },
     {
       "chapter": "ch04",
@@ -1064,7 +1101,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "c527cc19"
     },
     {
       "chapter": "ch04",
@@ -1091,7 +1129,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "a8f7c072"
     },
     {
       "chapter": "ch04",
@@ -1118,7 +1157,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "0db705d0"
     },
     {
       "chapter": "ch04",
@@ -1145,7 +1185,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "030470db"
     },
     {
       "chapter": "ch04",
@@ -1172,7 +1213,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "45895c24"
     },
     {
       "chapter": "ch04",
@@ -1199,7 +1241,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "c16a7934"
     },
     {
       "chapter": "ch04",
@@ -1226,7 +1269,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "8a303f9d"
     },
     {
       "chapter": "ch04",
@@ -1253,7 +1297,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "81590e35"
     },
     {
       "chapter": "ch04",
@@ -1280,7 +1325,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "b415fff9"
     },
     {
       "chapter": "ch04",
@@ -1307,7 +1353,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "3cc9635d"
     },
     {
       "chapter": "ch05",
@@ -1334,7 +1381,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "f04a3ba0"
     },
     {
       "chapter": "ch05",
@@ -1361,7 +1409,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "f2031aaa"
     },
     {
       "chapter": "ch05",
@@ -1388,7 +1437,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "7c23fc05"
     },
     {
       "chapter": "ch05",
@@ -1415,7 +1465,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "cd200582"
     },
     {
       "chapter": "ch05",
@@ -1442,7 +1493,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "f1a4a272"
     },
     {
       "chapter": "ch05",
@@ -1469,7 +1521,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "910c3857"
     },
     {
       "chapter": "ch05",
@@ -1496,7 +1549,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "a693af02"
     },
     {
       "chapter": "ch05",
@@ -1523,7 +1577,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "dc81c427"
     },
     {
       "chapter": "ch05",
@@ -1550,7 +1605,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "4d4df3b6"
     },
     {
       "chapter": "ch05",
@@ -1577,7 +1633,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "1af9c29c"
     },
     {
       "chapter": "ch05",
@@ -1604,7 +1661,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "5bc492ae"
     },
     {
       "chapter": "ch05",
@@ -1631,7 +1689,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "7a914a4e"
     },
     {
       "chapter": "ch05",
@@ -1658,7 +1717,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "3940fc3e"
     },
     {
       "chapter": "ch05",
@@ -1685,7 +1745,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "246cb9c0"
     },
     {
       "chapter": "ch05",
@@ -1712,7 +1773,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "0e41767e"
     },
     {
       "chapter": "ch05",
@@ -1739,7 +1801,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "9ae6937d"
     },
     {
       "chapter": "ch06",
@@ -1766,7 +1829,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "7b90f641"
     },
     {
       "chapter": "ch06",
@@ -1793,7 +1857,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "a597d297"
     },
     {
       "chapter": "ch06",
@@ -1820,7 +1885,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "6b04bb38"
     },
     {
       "chapter": "ch06",
@@ -1847,7 +1913,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "1604983d"
     },
     {
       "chapter": "ch06",
@@ -1874,7 +1941,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "4db4b2b9"
     },
     {
       "chapter": "ch06",
@@ -1901,7 +1969,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "d346ba56"
     },
     {
       "chapter": "ch06",
@@ -1928,7 +1997,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "e69bd9f5"
     },
     {
       "chapter": "ch06",
@@ -1955,7 +2025,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "f4fc0572"
     },
     {
       "chapter": "ch06",
@@ -1982,7 +2053,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "46e85248"
     },
     {
       "chapter": "ch06",
@@ -2009,7 +2081,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "47c8a2f4"
     },
     {
       "chapter": "ch06",
@@ -2036,7 +2109,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "0787dfae"
     },
     {
       "chapter": "ch06",
@@ -2063,7 +2137,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "aff74568"
     },
     {
       "chapter": "ch06",
@@ -2090,7 +2165,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "0a36ddcf"
     },
     {
       "chapter": "ch06",
@@ -2117,7 +2193,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "31f4a749"
     },
     {
       "chapter": "ch06",
@@ -2144,7 +2221,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "1669a5a9"
     },
     {
       "chapter": "ch06",
@@ -2171,7 +2249,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "0c319be6"
     },
     {
       "chapter": "ch06",
@@ -2198,7 +2277,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "baab0a32"
     },
     {
       "chapter": "ch06",
@@ -2225,7 +2305,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "6522d04d"
     },
     {
       "chapter": "ch06",
@@ -2252,7 +2333,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "62904500"
     },
     {
       "chapter": "ch06",
@@ -2279,7 +2361,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "b97f3d3e"
     },
     {
       "chapter": "ch06",
@@ -2306,7 +2389,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "1c9325b2"
     },
     {
       "chapter": "ch07",
@@ -2333,7 +2417,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "eca0a54e"
     },
     {
       "chapter": "ch07",
@@ -2360,7 +2445,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "10fdd95c"
     },
     {
       "chapter": "ch07",
@@ -2387,7 +2473,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "8d21c759"
     },
     {
       "chapter": "ch07",
@@ -2414,7 +2501,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "13671e2b"
     },
     {
       "chapter": "ch07",
@@ -2441,7 +2529,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "be833458"
     },
     {
       "chapter": "ch07",
@@ -2468,7 +2557,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "b6887a79"
     },
     {
       "chapter": "ch07",
@@ -2495,7 +2585,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "a640e621"
     },
     {
       "chapter": "ch07",
@@ -2522,7 +2613,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "ec19f4b5"
     },
     {
       "chapter": "ch07",
@@ -2549,7 +2641,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "2bd41807"
     },
     {
       "chapter": "ch08",
@@ -2576,7 +2669,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "0934a85c"
     },
     {
       "chapter": "ch08",
@@ -2603,7 +2697,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "b41e0022"
     },
     {
       "chapter": "ch08",
@@ -2630,7 +2725,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "1a1e53dd"
     },
     {
       "chapter": "ch08",
@@ -2657,7 +2753,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "4004a4f8"
     },
     {
       "chapter": "ch08",
@@ -2684,7 +2781,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "00408edb"
     },
     {
       "chapter": "ch08",
@@ -2711,7 +2809,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "2dbcdadc"
     },
     {
       "chapter": "ch08",
@@ -2738,7 +2837,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "13347f19"
     },
     {
       "chapter": "ch08",
@@ -2765,7 +2865,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "ae01d768"
     },
     {
       "chapter": "ch08",
@@ -2792,7 +2893,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "ab572903"
     },
     {
       "chapter": "ch08",
@@ -2819,7 +2921,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "58992cf6"
     },
     {
       "chapter": "ch08",
@@ -2846,7 +2949,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "153ebd35"
     },
     {
       "chapter": "ch08",
@@ -2873,7 +2977,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "f4f5104d"
     },
     {
       "chapter": "ch08",
@@ -2900,7 +3005,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "a7df1123"
     },
     {
       "chapter": "ch08",
@@ -2927,7 +3033,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "e731cd44"
     },
     {
       "chapter": "ch08",
@@ -2954,7 +3061,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "cfc0458a"
     },
     {
       "chapter": "ch08",
@@ -2981,7 +3089,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "95998901"
     },
     {
       "chapter": "ch08",
@@ -3008,7 +3117,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "c1509d1b"
     },
     {
       "chapter": "ch08",
@@ -3035,7 +3145,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "1b6988d4"
     },
     {
       "chapter": "ch08",
@@ -3062,7 +3173,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "60103bc3"
     },
     {
       "chapter": "ch08",
@@ -3089,7 +3201,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "1f3b02f8"
     },
     {
       "chapter": "ch09",
@@ -3116,7 +3229,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "6b4c2283"
     },
     {
       "chapter": "ch09",
@@ -3180,7 +3294,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "7691a67b"
     },
     {
       "chapter": "ch09",
@@ -3207,7 +3322,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "333ec81f"
     },
     {
       "chapter": "ch09",
@@ -3234,7 +3350,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "f650e481"
     },
     {
       "chapter": "ch09",
@@ -3261,7 +3378,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "9a76de0e"
     },
     {
       "chapter": "ch09",
@@ -3288,7 +3406,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "e63d4a9e"
     },
     {
       "chapter": "ch09",
@@ -3315,7 +3434,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "9d610ee7"
     },
     {
       "chapter": "ch09",
@@ -3342,7 +3462,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "b4c33246"
     },
     {
       "chapter": "ch09",
@@ -3369,7 +3490,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "0deef7cb"
     },
     {
       "chapter": "ch09",
@@ -3396,7 +3518,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "67e83d95"
     },
     {
       "chapter": "ch09",
@@ -3423,7 +3546,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "b323e72f"
     },
     {
       "chapter": "ch09",
@@ -3524,7 +3648,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "3386320a"
     },
     {
       "chapter": "ch09",
@@ -3551,7 +3676,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "5394923c"
     },
     {
       "chapter": "ch09",
@@ -3578,7 +3704,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "8f175041"
     },
     {
       "chapter": "ch09",
@@ -3605,7 +3732,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "eec86de4"
     },
     {
       "chapter": "ch09",
@@ -3632,7 +3760,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "190382b3"
     },
     {
       "chapter": "ch10",
@@ -3659,7 +3788,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "e859b4b4"
     },
     {
       "chapter": "ch10",
@@ -3686,7 +3816,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "489b2312"
     },
     {
       "chapter": "ch10",
@@ -3713,7 +3844,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "dae204c0"
     },
     {
       "chapter": "ch10",
@@ -3740,7 +3872,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "13fa8b24"
     },
     {
       "chapter": "ch10",
@@ -3767,7 +3900,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "fce330f5"
     },
     {
       "chapter": "ch10",
@@ -3794,7 +3928,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "10340e98"
     },
     {
       "chapter": "ch10",
@@ -3821,7 +3956,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "2a69616c"
     },
     {
       "chapter": "ch10",
@@ -3848,7 +3984,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "166cf73d"
     },
     {
       "chapter": "ch10",
@@ -3875,7 +4012,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "7fe085f6"
     },
     {
       "chapter": "ch10",
@@ -3902,7 +4040,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "7ee901f6"
     },
     {
       "chapter": "ch10",
@@ -3929,7 +4068,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "b2409015"
     },
     {
       "chapter": "ch10",
@@ -3956,7 +4096,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "55c763a6"
     },
     {
       "chapter": "ch10",
@@ -3983,7 +4124,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "e19f98c4"
     },
     {
       "chapter": "ch10",
@@ -4010,7 +4152,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "9c38cd25"
     },
     {
       "chapter": "ch10",
@@ -4037,7 +4180,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "46589522"
     },
     {
       "chapter": "ch10",
@@ -4064,7 +4208,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "47d6ad49"
     },
     {
       "chapter": "ch10",
@@ -4091,7 +4236,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "431c0587"
     },
     {
       "chapter": "ch10",
@@ -4118,7 +4264,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "b7222a0d"
     },
     {
       "chapter": "ch10",
@@ -4145,7 +4292,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "21b32144"
     },
     {
       "chapter": "ch11",
@@ -4172,7 +4320,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "3ecec917"
     },
     {
       "chapter": "ch11",
@@ -4199,7 +4348,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "24868966"
     },
     {
       "chapter": "ch11",
@@ -4263,7 +4413,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "38332b16"
     },
     {
       "chapter": "ch11",
@@ -4290,7 +4441,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "6ca9f7bc"
     },
     {
       "chapter": "ch11",
@@ -4354,7 +4506,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "71a47b02"
     },
     {
       "chapter": "ch11",
@@ -4418,7 +4571,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "33ef6f83"
     },
     {
       "chapter": "ch11",
@@ -4445,7 +4599,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "fdb21969"
     },
     {
       "chapter": "ch11",
@@ -4509,7 +4664,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "09565627"
     },
     {
       "chapter": "ch11",
@@ -4536,7 +4692,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "922fa2a5"
     },
     {
       "chapter": "ch11",
@@ -4563,7 +4720,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "d5082e7d"
     },
     {
       "chapter": "ch11",
@@ -4590,7 +4748,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "db96382c"
     },
     {
       "chapter": "ch11",
@@ -4617,7 +4776,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "66af7968"
     },
     {
       "chapter": "ch11",
@@ -4644,7 +4804,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "7c4db276"
     },
     {
       "chapter": "ch11",
@@ -4671,7 +4832,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "0578d552"
     },
     {
       "chapter": "ch11",
@@ -4698,7 +4860,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "0b2b975b"
     },
     {
       "chapter": "ch12",
@@ -4725,7 +4888,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "27768d95"
     },
     {
       "chapter": "ch12",
@@ -4752,7 +4916,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "337a14fd"
     },
     {
       "chapter": "ch12",
@@ -4779,7 +4944,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "a4c50900"
     },
     {
       "chapter": "ch12",
@@ -4806,7 +4972,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "1dc020f7"
     },
     {
       "chapter": "ch12",
@@ -4833,7 +5000,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "904199ee"
     },
     {
       "chapter": "ch12",
@@ -4860,7 +5028,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "c80310ff"
     },
     {
       "chapter": "ch12",
@@ -4887,7 +5056,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "d0b0443f"
     },
     {
       "chapter": "ch12",
@@ -4914,7 +5084,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "3d4efcf4"
     },
     {
       "chapter": "ch12",
@@ -4941,7 +5112,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "c169e78c"
     },
     {
       "chapter": "ch12",
@@ -4968,7 +5140,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "bd45f9c5"
     },
     {
       "chapter": "ch12",
@@ -4995,7 +5168,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "e1ce0ba7"
     },
     {
       "chapter": "ch12",
@@ -5022,7 +5196,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "6a312640"
     },
     {
       "chapter": "ch12",
@@ -5049,7 +5224,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "30d9b4d4"
     },
     {
       "chapter": "ch12",
@@ -5076,7 +5252,8 @@
           }
         ],
         "answer": "a"
-      }
+      },
+      "sourceFingerprint": "72bd44ad"
     },
     {
       "chapter": "ch12",
@@ -5103,7 +5280,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "bd397dae"
     },
     {
       "chapter": "ch12",
@@ -5130,7 +5308,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "7ea764a9"
     },
     {
       "chapter": "ch12",
@@ -5157,7 +5336,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "1cfe92e5"
     },
     {
       "chapter": "ch13",
@@ -5184,7 +5364,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "f35512a6"
     },
     {
       "chapter": "ch13",
@@ -5211,7 +5392,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "3b275c71"
     },
     {
       "chapter": "ch13",
@@ -5238,7 +5420,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "8141be82"
     },
     {
       "chapter": "ch13",
@@ -5265,7 +5448,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "4461aaff"
     },
     {
       "chapter": "ch13",
@@ -5292,7 +5476,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "516271c1"
     },
     {
       "chapter": "ch13",
@@ -5319,7 +5504,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "c421a7ca"
     },
     {
       "chapter": "ch13",
@@ -5346,7 +5532,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "174bb47f"
     },
     {
       "chapter": "ch13",
@@ -5373,7 +5560,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "2a126ab3"
     },
     {
       "chapter": "ch14",
@@ -5437,7 +5625,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "9d3c3319"
     },
     {
       "chapter": "ch14",
@@ -5464,7 +5653,8 @@
           }
         ],
         "answer": "d"
-      }
+      },
+      "sourceFingerprint": "613ed1c5"
     },
     {
       "chapter": "ch14",
@@ -5491,7 +5681,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "5d0f49a0"
     },
     {
       "chapter": "ch14",
@@ -5555,7 +5746,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "5dc35bde"
     },
     {
       "chapter": "ch14",
@@ -5582,7 +5774,8 @@
           }
         ],
         "answer": "b"
-      }
+      },
+      "sourceFingerprint": "7898d0ee"
     },
     {
       "chapter": "ch14",
@@ -5683,7 +5876,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "0ee7898c"
     },
     {
       "chapter": "ch14",
@@ -5710,7 +5904,8 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "d63e0e89"
     },
     {
       "chapter": "ch14",
@@ -5737,7 +5932,9 @@
           }
         ],
         "answer": "c"
-      }
+      },
+      "sourceFingerprint": "87ad2738"
     }
-  ]
+  ],
+  "sourceCommit": "b7359a6113a5888d3cf3c88cb5ce25cc716d89e4"
 }
