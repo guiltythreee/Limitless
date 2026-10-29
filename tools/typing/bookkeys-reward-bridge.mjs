@@ -31,6 +31,35 @@ function pageSet(book, field) {
   return new Set(Array.isArray(book?.[field]) ? book[field].filter(Number.isInteger) : []);
 }
 
+function renderedPageEvidence(target, check, override) {
+  try {
+    if (typeof override === "function") return override(check);
+    const frame = target?.document?.querySelector?.(".shell-main iframe");
+    const frameDocument = frame?.contentDocument;
+    if (!frameDocument) return null;
+    const pageInput = frameDocument.getElementById("pageNum");
+    const displayedPage = pageInput ? Number.parseInt(pageInput.value, 10) - 1 : NaN;
+    if (!Number.isFinite(displayedPage) || displayedPage !== check.page) return null;
+    const characters = frameDocument.querySelectorAll("#bookText span.c");
+    if (!characters || !characters.length) return null;
+    let raw = "";
+    for (const character of characters) raw += character.textContent || "";
+    const normalized = raw.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
+    if (normalized.length < 150) return null;
+    // Store only a stable content signature, never the user's book text.
+    let h1 = 2166136261, h2 = 5381;
+    for (let i = 0; i < normalized.length; i++) {
+      const code = normalized.charCodeAt(i);
+      h1 = Math.imul(h1 ^ code, 16777619) >>> 0;
+      h2 = (Math.imul(h2, 33) ^ code) >>> 0;
+    }
+    const hex = (value) => ("00000000" + value.toString(16)).slice(-8);
+    return { contentSignature: hex(h1) + hex(h2), characterCount: normalized.length };
+  } catch {
+    return null;
+  }
+}
+
 export function installBookkeysRewardBridge(target, adapter, options = {}) {
   if (!target || typeof target.addEventListener !== "function" ||
       typeof target.removeEventListener !== "function" ||
@@ -66,19 +95,25 @@ export function installBookkeysRewardBridge(target, adapter, options = {}) {
     const previousBook = isRecord(previous.book) ? previous.book[check.key] : null;
     if (!pageSet(nextBook, "p").has(check.page) || pageSet(previousBook, "p").has(check.page)) return;
 
+    const evidence = renderedPageEvidence(target, check, options.getPageEvidence);
+    // No visible page or a short passage is not enough evidence for a global
+    // reward. Bookkeys' own progress remains untouched.
+    if (!evidence) return;
     const checkKey = JSON.stringify([check.key, check.page]);
     verifiedChecks.set(checkKey, { bookKey: check.key, page: check.page, expiresAt: ts + 60_000 });
     const exact = pageSet(nextBook, "x").has(check.page);
     submit({
       eventId: "bookkeys:page:" + check.key + ":" + check.page,
       moduleId: "bookkeys",
-      itemId: "bookkeys:page:" + check.key + ":" + check.page,
+      itemId: "bookkeys:page:" + evidence.contentSignature,
       ts,
       activityClass: "micro-practice",
       difficulty: "foundational",
       completionEvidence: "finished-book-page",
       completed: true,
       quality: exact ? 1 : 0.7,
+      contentSignature: evidence.contentSignature,
+      characterCount: evidence.characterCount,
     });
   }
   function awardNewMilestones(previous, next, ts) {
