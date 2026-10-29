@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { lessons, ranks, pad2, type Difficulty } from "../content";
 import { Rich } from "../lib/rich";
 import { allQuestions, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
-import { recordAttempt, recordTest, useStore, type TestRecord } from "../lib/store";
+import { recordAttemptsBatch, recordTest, useStore, type TestRecord } from "../lib/store";
 import { fmtTime } from "../lib/stats";
 import { Options } from "./Practice";
 
@@ -137,16 +137,20 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
     bank();
     let correct = 0, score = 0, answered = 0;
     const results: TestRecord["results"] = [];
+    const submitted: { q: string; picked: number[]; ms: number }[] = [];
     for (const x of pool) {
       const p = picks[x.key];
       const ms = times.current[x.key] ?? 0;
       if (p && p.length) {
-        recordAttempt(x.key, p, ms);
         const g = grade(x.item, p);
+        submitted.push({ q: x.key, picked: p, ms });
         answered++; score += g.score; if (g.status === "correct") correct++;
         results.push({ q: x.key, status: g.status, ms });
       } else results.push({ q: x.key, status: "unattempted", ms });
     }
+    // Persist all submitted answers in one source-record write; the shared
+    // reward adapter batches their EXP and any newly earned mastery milestones.
+    recordAttemptsBatch(submitted);
     const rec: TestRecord = { id: `t${Date.now()}`, ts: Date.now(), label, total: pool.length, answered, correct, score, ms: Date.now() - startedAt.current, results };
     recordTest(rec);
     setDone(rec);
