@@ -81,16 +81,28 @@ const T3: TopicSource = {
       diff: 2,
       text: "Suspension vs emulsion polymerization — which statement is correct?",
       options: [
-        { label: "a", text: "Suspension: droplets 30–300 µm, no micelles, monomer-soluble initiator. Emulsion: micelles present, particles 0.01–1 µm, water-soluble initiator, nucleation inside micelles." },
-        { label: "b", text: "They are the same process under different names." },
-        { label: "c", text: "Emulsion uses monomer-soluble initiator; suspension uses water-soluble." },
-        { label: "d", text: "Suspension requires surfactant above CMC; emulsion does not." },
+        {
+          label: "a",
+          text: "They are the same process under different names.",
+        },
+        {
+          label: "b",
+          text: "Emulsion uses monomer-soluble initiator; suspension uses water-soluble.",
+        },
+        {
+          label: "c",
+          text: "Suspension requires surfactant above CMC; emulsion does not.",
+        },
+        {
+          label: "d",
+          text: "Suspension: droplets 30–300 µm, no micelles, monomer-soluble initiator. Emulsion: micelles present, particles 0.01–1 µm, water-soluble initiator, nucleation inside micelles.",
+        }
       ],
-      answer: "a",
+      answer: "d",
       why: "Every listed difference is a genuine discriminator: **micelles** and **water-soluble initiator** (emulsion) vs **plain droplets** and **monomer-soluble initiator** (suspension).",
       distractors: {
-        c: "Exactly reversed.",
-        d: "Emulsion needs surfactant above CMC to form micelles; suspension uses a suspending agent, not micelle-forming surfactant.",
+        b: "Exactly reversed.",
+        c: "Emulsion needs surfactant above CMC to form micelles; suspension uses a suspending agent, not micelle-forming surfactant.",
       },
       concept: "the suspension/emulsion contrast is heavily examined",
       tags: ["confused"],
@@ -101,12 +113,24 @@ const T3: TopicSource = {
       diff: 3,
       text: "Why can emulsion polymerization achieve high rate *and* high molecular weight simultaneously, unlike bulk polymerization?",
       options: [
-        { label: "a", text: "Surfactant increases the activation energy." },
-        { label: "b", text: "Particles compartmentalize radicals: many particles react concurrently (high rate) while each particle holds ~1 radical, so bimolecular termination is rare inside it (long chains)." },
-        { label: "c", text: "Water cools the reaction, allowing higher initiator." },
-        { label: "d", text: "Emulsion is simply a diluted bulk process." },
+        {
+          label: "a",
+          text: "Surfactant increases the activation energy.",
+        },
+        {
+          label: "b",
+          text: "Water cools the reaction, allowing higher initiator.",
+        },
+        {
+          label: "c",
+          text: "Emulsion is simply a diluted bulk process.",
+        },
+        {
+          label: "d",
+          text: "Particles compartmentalize radicals: many particles react concurrently (high rate) while each particle holds ~1 radical, so bimolecular termination is rare inside it (long chains).",
+        }
       ],
-      answer: "b",
+      answer: "d",
       why: "**Compartmentalization** decouples rate from MW: rate scales with the number of particles, while the isolated-radical condition inside each particle suppresses termination → both rate and MW rise together. In bulk, anything that raises rate also raises termination.",
       concept: "compartmentalization effect",
       tags: ["confused"],
@@ -132,12 +156,24 @@ const T3: TopicSource = {
       diff: 3,
       text: "Why is high vacuum (< 1 mbar) essential in the late stages of melt polycondensation?",
       options: [
-        { label: "a", text: "Vacuum lowers the melting point of the polymer." },
-        { label: "b", text: "Removing the condensate (water) shifts the step-growth equilibrium forward toward high MW." },
-        { label: "c", text: "Vacuum prevents oxidation of the initiator." },
-        { label: "d", text: "Vacuum increases the monomer concentration." },
+        {
+          label: "a",
+          text: "Vacuum lowers the melting point of the polymer.",
+        },
+        {
+          label: "b",
+          text: "Vacuum prevents oxidation of the initiator.",
+        },
+        {
+          label: "c",
+          text: "Removing the condensate (water) shifts the step-growth equilibrium forward toward high MW.",
+        },
+        {
+          label: "d",
+          text: "Vacuum increases the monomer concentration.",
+        }
       ],
-      answer: "b",
+      answer: "c",
       why: "Condensation is an equilibrium: leftover water drives the reverse (hydrolysis) reaction. Vacuum **pulls the condensate out**, shifting equilibrium toward high-DP polymer — the entire art of reaching $p > 99.5\\%$.",
       concept: "Le Chatelier: remove condensate → high conversion",
       tags: ["confused"],
@@ -191,12 +227,24 @@ const T3: TopicSource = {
       diff: 1,
       text: "In emulsion polymerization, particle nucleation occurs:",
       options: [
-        { label: "a", text: "Inside surfactant micelles" },
-        { label: "b", text: "In the aqueous phase only" },
-        { label: "c", text: "On the reactor wall" },
-        { label: "d", text: "In monomer droplets, as in suspension" },
+        {
+          label: "a",
+          text: "In the aqueous phase only",
+        },
+        {
+          label: "b",
+          text: "On the reactor wall",
+        },
+        {
+          label: "c",
+          text: "In monomer droplets, as in suspension",
+        },
+        {
+          label: "d",
+          text: "Inside surfactant micelles",
+        }
       ],
-      answer: "a",
+      answer: "d",
       why: "Below the CMC surfactant forms micelles; above it, monomer-swollen **micelles** become the loci of nucleation and particle growth — the classical micellar nucleation model.",
       tags: ["revision"],
     },
@@ -241,15 +289,27 @@ const T3: TopicSource = {
       diff: 2,
       text: "Which combination correctly pairs a technique with its principal industrial product?",
       options: [
-        { label: "a", text: "Bulk → LDPE film; Suspension → PS beads; Emulsion → SBR latex; Melt polycondensation → PET" },
-        { label: "b", text: "Bulk → PET; Suspension → LDPE; Emulsion → nylon fibres; Solution → PVC beads" },
-        { label: "c", text: "All products are made by emulsion" },
-        { label: "d", text: "Bulk → nylon; Suspension → epoxy; Emulsion → PTFE; Solution → PET" },
+        {
+          label: "a",
+          text: "Bulk → PET; Suspension → LDPE; Emulsion → nylon fibres; Solution → PVC beads",
+        },
+        {
+          label: "b",
+          text: "All products are made by emulsion",
+        },
+        {
+          label: "c",
+          text: "Bulk → LDPE film; Suspension → PS beads; Emulsion → SBR latex; Melt polycondensation → PET",
+        },
+        {
+          label: "d",
+          text: "Bulk → nylon; Suspension → epoxy; Emulsion → PTFE; Solution → PET",
+        }
       ],
-      answer: "a",
+      answer: "c",
       why: "LDPE is made by high-pressure **bulk/mass** polymerization; PS and PVC as **suspension** beads; SBR as an **emulsion** latex; PET by **melt polycondensation** — all correct.",
       distractors: {
-        b: "PET is not bulk-polymerized; nylon fibres are not emulsion products.",
+        a: "PET is not bulk-polymerized; nylon fibres are not emulsion products.",
       },
       tags: ["revision"],
     },
@@ -306,16 +366,28 @@ const T3: TopicSource = {
       diff: 4,
       text: "A process must produce a polymer with the narrowest possible MWD and no solvent residues, at modest scale. Best choice?",
       options: [
-        { label: "a", text: "Bulk free-radical with high initiator" },
-        { label: "b", text: "Living anionic polymerization in bulk (no termination → uniform chains)" },
-        { label: "c", text: "Emulsion with surfactant" },
-        { label: "d", text: "Solution with chain-transfer agent" },
+        {
+          label: "a",
+          text: "Bulk free-radical with high initiator",
+        },
+        {
+          label: "b",
+          text: "Emulsion with surfactant",
+        },
+        {
+          label: "c",
+          text: "Solution with chain-transfer agent",
+        },
+        {
+          label: "d",
+          text: "Living anionic polymerization in bulk (no termination → uniform chains)",
+        }
       ],
-      answer: "b",
+      answer: "d",
       why: "**Living anionic** polymerization (fast initiation, no termination) produces nearly all chains at the same rate → the narrowest MWD attainable (PDI ≈ 1.05–1.2), and running it in bulk avoids solvent residues.",
       distractors: {
-        c: "Emulsion adds surfactant residues and broadens particle/chain distributions.",
-        d: "A chain-transfer agent deliberately *broadens* and lowers MW.",
+        b: "Emulsion adds surfactant residues and broadens particle/chain distributions.",
+        c: "A chain-transfer agent deliberately *broadens* and lowers MW.",
       },
       concept: "living polymerization = narrowest distribution",
       tags: ["revision"],
@@ -374,12 +446,24 @@ const T3: TopicSource = {
       diff: 4,
       text: "A reactor produces polystyrene as 0.5 mm aqueous dispersion particles using potassium persulfate initiator and sodium lauryl sulfate surfactant. The process is:",
       options: [
-        { label: "a", text: "Suspension polymerization (persulfate is monomer-soluble)" },
-        { label: "b", text: "Emulsion polymerization (water-soluble persulfate initiator, surfactant micelles, sub-micron particles)" },
-        { label: "c", text: "Dispersion polymerization — identical to suspension" },
-        { label: "d", text: "Precipitation polymerization in bulk" },
+        {
+          label: "a",
+          text: "Suspension polymerization (persulfate is monomer-soluble)",
+        },
+        {
+          label: "b",
+          text: "Dispersion polymerization — identical to suspension",
+        },
+        {
+          label: "c",
+          text: "Precipitation polymerization in bulk",
+        },
+        {
+          label: "d",
+          text: "Emulsion polymerization (water-soluble persulfate initiator, surfactant micelles, sub-micron particles)",
+        }
       ],
-      answer: "b",
+      answer: "d",
       why: "Three signatures: **persulfate** (water-soluble) initiator, **surfactant** present, and particles **below 1 µm** — all hallmarks of emulsion polymerization. Suspensions have larger droplets (30–300 µm), no micelles, and monomer-soluble initiators.",
       concept: "diagnose technique from initiator solubility + particle size",
       tags: ["confused"],
@@ -388,16 +472,36 @@ const T3: TopicSource = {
       id: "t3-21",
       type: "recall",
       diff: 2,
-      text: "In melt polycondensation, which unit operation gives water a short diffusion path so it can escape the viscous melt?",
+      text: "In high-viscosity melt polycondensation, which equipment is particularly useful for creating a thin melt film and a short diffusion path for removing water or another condensate under vacuum?",
       options: [
-        { label: "a", text: "Ball milling" },
-        { label: "b", text: "Thin-film / wiped-film evaporators" },
-        { label: "c", text: "Rotary kilns" },
-        { label: "d", text: "Fluidized-bed quenching" },
+        {
+          label: "a",
+          text: "A pelletiser after the melt has already been solidified",
+        },
+        {
+          label: "b",
+          text: "A deep, completely filled stirred vessel with no exposed melt surface",
+        },
+        {
+          label: "c",
+          text: "A cooling conveyor operated at atmospheric pressure after the reaction is complete",
+        },
+        {
+          label: "d",
+          text: "A wiped-film or thin-film evaporator",
+        }
       ],
-      answer: "b",
-      why: "**Wiped-film/thin-film reactors** spread the melt into a thin layer so water diffuses out quickly — essential because melt viscosity rises enormously with conversion.",
-      tags: ["revision"],
+      answer: "d",
+      why: "A wiped-film or thin-film evaporator spreads the viscous melt over a large exposed area, shortening the path for condensate diffusion and improving removal under reduced pressure.",
+      tags: [
+        "reviewed"
+      ],
+      distractors: {
+        a: "Pelletising shapes the polymer after reaction and does not create a short diffusion path for condensate in the melt.",
+        b: "A deep, completely filled vessel has a lower melt surface-area-to-volume ratio and a longer removal path.",
+        c: "Cooling after reaction cannot remove condensate from the viscous reacting melt to drive polycondensation forward.",
+      },
+      concept: "mass transfer in melt polycondensation",
     },
     {
       id: "t3-22",
@@ -405,12 +509,24 @@ const T3: TopicSource = {
       diff: 3,
       text: "Chain transfer agent vs initiator: their roles in a radical process are:",
       options: [
-        { label: "a", text: "Initiator creates radicals (starts chains); a chain-transfer agent moves the radical to another molecule, limiting MW without stopping the overall reaction." },
-        { label: "b", text: "Both start chains." },
-        { label: "c", text: "Transfer agents start chains; initiators limit MW." },
-        { label: "d", text: "Both terminate the reaction completely." },
+        {
+          label: "a",
+          text: "Both start chains.",
+        },
+        {
+          label: "b",
+          text: "Transfer agents start chains; initiators limit MW.",
+        },
+        {
+          label: "c",
+          text: "Initiator creates radicals (starts chains); a chain-transfer agent moves the radical to another molecule, limiting MW without stopping the overall reaction.",
+        },
+        {
+          label: "d",
+          text: "Both terminate the reaction completely.",
+        }
       ],
-      answer: "a",
+      answer: "c",
       why: "Two distinct knobs: **initiator** controls how many chains start (rate + MW); **transfer agent** controls how long each chain lives (MW only, ~unchanged rate). Industrial MW control often uses both.",
       tags: ["revision"],
     },

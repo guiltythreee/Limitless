@@ -1,0 +1,5743 @@
+{
+  "title": "Limitless MT201 durable question overrides",
+  "generatedFrom": "Authored Metallurgy Revision Pack v1 + optional deterministic answer-position balancing",
+  "course": "MT201",
+  "replacements": [
+    {
+      "chapter": "ch01",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "Which of the following is **not** a state function?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Internal energy, $U$"
+          },
+          {
+            "label": "b",
+            "text": "Heat, $q$"
+          },
+          {
+            "label": "c",
+            "text": "Enthalpy, $H$"
+          },
+          {
+            "label": "d",
+            "text": "Entropy, $S$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 3,
+      "originalType": "A",
+      "sourceText": "Which of the following is an intensive property?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Volume, $V$"
+          },
+          {
+            "label": "b",
+            "text": "Temperature, $T$"
+          },
+          {
+            "label": "c",
+            "text": "Mass, $m$"
+          },
+          {
+            "label": "d",
+            "text": "Enthalpy, $H$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 4,
+      "originalType": "B",
+      "sourceText": "Consider the following statements about thermodynamic variables:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "II and III only"
+          },
+          {
+            "label": "b",
+            "text": "I and III only"
+          },
+          {
+            "label": "c",
+            "text": "I and II only"
+          },
+          {
+            "label": "d",
+            "text": "I, II and III"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 5,
+      "originalType": "A",
+      "sourceText": "Classical thermodynamics models matter as a continuum chiefly because:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Tracking $\\sim10^{23}$ individual atoms is neither feasible nor useful — averaged bulk properties suffice"
+          },
+          {
+            "label": "b",
+            "text": "Atoms do not obey physical laws"
+          },
+          {
+            "label": "c",
+            "text": "Continuum mathematics is easier than quantum mechanics"
+          },
+          {
+            "label": "d",
+            "text": "Real gases are always ideal"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 6,
+      "originalType": "C",
+      "sourceText": "Mark the correct choice:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Both A and R are true, but R is not the correct explanation of A"
+          },
+          {
+            "label": "b",
+            "text": "Both A and R are true, and R is the correct explanation of A"
+          },
+          {
+            "label": "c",
+            "text": "A is true but R is false"
+          },
+          {
+            "label": "d",
+            "text": "A is false but R is true"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 7,
+      "originalType": "A",
+      "sourceText": "The *standard state* of a pure solid or liquid is defined as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Its gaseous form at 1 atm"
+          },
+          {
+            "label": "b",
+            "text": "Its form at 0 K"
+          },
+          {
+            "label": "c",
+            "text": "A 1 molal aqueous solution"
+          },
+          {
+            "label": "d",
+            "text": "Its most stable form at 1 atm and a specified temperature (usually 298 K)"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 8,
+      "originalType": "B",
+      "sourceText": "Which of the following are extensive properties?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I, II and III"
+          },
+          {
+            "label": "b",
+            "text": "II and IV only"
+          },
+          {
+            "label": "c",
+            "text": "I and III only"
+          },
+          {
+            "label": "d",
+            "text": "I only"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 9,
+      "originalType": "A",
+      "sourceText": "The reaction $\\mathrm{AB + C \\rightarrow A + BC}$ best classifies the system as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Reacting (chemical transformation occurs)"
+          },
+          {
+            "label": "b",
+            "text": "Non-reacting, homogeneous"
+          },
+          {
+            "label": "c",
+            "text": "Isolated"
+          },
+          {
+            "label": "d",
+            "text": "Unary"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "Which statement about equilibrium is correct?",
+      "sourceFingerprint": "6c0b58ee",
+      "updates": {
+        "type": "A",
+        "text": "Which statement correctly describes a chemical reaction at equilibrium?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "The forward and reverse reaction rates both fall to zero, so no molecular reaction continues in either direction."
+          },
+          {
+            "label": "b",
+            "text": "The standard reaction Gibbs energy must equal zero at equilibrium, irrespective of the equilibrium constant and mixture composition."
+          },
+          {
+            "label": "c",
+            "text": "The forward and reverse rates are equal; reactions continue, but the macroscopic composition remains constant over time."
+          },
+          {
+            "label": "d",
+            "text": "Reactants and products must have equal concentrations at equilibrium, independently of the reaction stoichiometry."
+          }
+        ],
+        "answer": "c",
+        "keyExplanation": "Chemical equilibrium is dynamic: forward and reverse rates are equal, producing no net macroscopic change. The equilibrium reaction Gibbs energy is zero for the actual mixture, but $\\Delta_rG^\\circ$ need not be zero.",
+        "concise": "At equilibrium, forward and reverse rates match; concentrations are constant macroscopically, not necessarily equal.",
+        "detailed": "At equilibrium, the chemical potentials satisfy the condition that the actual reaction Gibbs energy $\\Delta_rG$ is zero. The forward and reverse reaction rates are equal and may both be nonzero. This does not require equal concentrations, and it does not require the standard reaction Gibbs energy $\\Delta_rG^\\circ$ to vanish."
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 11,
+      "originalType": "A",
+      "sourceText": "Heat and work are best described as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Properties stored inside the system"
+          },
+          {
+            "label": "b",
+            "text": "Intensive state variables"
+          },
+          {
+            "label": "c",
+            "text": "Forms of entropy"
+          },
+          {
+            "label": "d",
+            "text": "Energy transfers across the system boundary that depend on the path"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 14,
+      "originalType": "E",
+      "sourceText": "A closed system absorbs $50\\ \\mathrm{J}$ of heat and does $20\\ \\mathrm{J}$ of work on the surroundings. Its change in internal energy $\\Delta U$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$+30\\ \\mathrm{J}$"
+          },
+          {
+            "label": "b",
+            "text": "$+70\\ \\mathrm{J}$"
+          },
+          {
+            "label": "c",
+            "text": "$-30\\ \\mathrm{J}$"
+          },
+          {
+            "label": "d",
+            "text": "$-70\\ \\mathrm{J}$"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 15,
+      "originalType": "A",
+      "sourceText": "Which one of the following is an example of a complex system in the thermodynamic sense?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Ideal gas in a piston with only $PV$ work"
+          },
+          {
+            "label": "b",
+            "text": "A single-phase non-reacting mixture"
+          },
+          {
+            "label": "c",
+            "text": "Pure water at its triple point"
+          },
+          {
+            "label": "d",
+            "text": "Molten slag + metal + gas with chemical reactions, surface and electrical effects"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "The Zeroth Law of thermodynamics primarily justifies the existence of:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Temperature as a measurable property"
+          },
+          {
+            "label": "b",
+            "text": "Entropy as a state function"
+          },
+          {
+            "label": "c",
+            "text": "The absolute zero of temperature"
+          },
+          {
+            "label": "d",
+            "text": "The conservation of energy"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 2,
+      "originalType": "B",
+      "sourceText": "Consider these statements about the Zeroth Law:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I, II and III"
+          },
+          {
+            "label": "b",
+            "text": "II and III only"
+          },
+          {
+            "label": "c",
+            "text": "I and II only"
+          },
+          {
+            "label": "d",
+            "text": "I only"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 3,
+      "originalType": "C",
+      "sourceText": "Choose the correct option:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Both A and R are true, but R is not the correct explanation of A"
+          },
+          {
+            "label": "b",
+            "text": "A is true but R is false"
+          },
+          {
+            "label": "c",
+            "text": "Both A and R are true, and R is the correct explanation of A"
+          },
+          {
+            "label": "d",
+            "text": "A is false but R is true"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 4,
+      "originalType": "A",
+      "sourceText": "Two bodies are in thermal equilibrium. Which quantity must be equal for them?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Internal energy"
+          },
+          {
+            "label": "b",
+            "text": "Temperature"
+          },
+          {
+            "label": "c",
+            "text": "Pressure"
+          },
+          {
+            "label": "d",
+            "text": "Volume"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 6,
+      "originalType": "A",
+      "sourceText": "The Zeroth Law, when applied to a set of bodies, allows them to be arranged on:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Two independent energy scales"
+          },
+          {
+            "label": "b",
+            "text": "A single ordered scale (a temperature scale)"
+          },
+          {
+            "label": "c",
+            "text": "A pressure–volume diagram"
+          },
+          {
+            "label": "d",
+            "text": "An entropy–enthalpy diagram"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 7,
+      "originalType": "A",
+      "sourceText": "Which of the following is required for two systems to be in thermodynamic (not merely thermal) equilibrium?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Equality of temperature, pressure and chemical potential ($\\mu$)"
+          },
+          {
+            "label": "b",
+            "text": "Only equality of temperature"
+          },
+          {
+            "label": "c",
+            "text": "Equality of volumes only"
+          },
+          {
+            "label": "d",
+            "text": "Equality of internal energies"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 8,
+      "originalType": "E",
+      "sourceText": "Body X is in thermal equilibrium with body Z; body Y is also in thermal equilibrium with Z. If $T_Y = 350\\ \\mathrm{K}$, what is $T_X$?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$175\\ \\mathrm{K}$"
+          },
+          {
+            "label": "b",
+            "text": "$700\\ \\mathrm{K}$"
+          },
+          {
+            "label": "c",
+            "text": "Cannot be determined"
+          },
+          {
+            "label": "d",
+            "text": "$350\\ \\mathrm{K}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "In this course's sign convention, work $w$ is taken as positive when:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Work is done *by* the system on the surroundings"
+          },
+          {
+            "label": "b",
+            "text": "Work is done *on* the system by the surroundings"
+          },
+          {
+            "label": "c",
+            "text": "The system is adiabatic"
+          },
+          {
+            "label": "d",
+            "text": "Heat is absorbed"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 3,
+      "originalType": "E",
+      "sourceText": "A gas absorbs $120\\ \\mathrm{J}$ of heat and does $45\\ \\mathrm{J}$ of work. The change in its internal energy is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$+165\\ \\mathrm{J}$"
+          },
+          {
+            "label": "b",
+            "text": "$-75\\ \\mathrm{J}$"
+          },
+          {
+            "label": "c",
+            "text": "$-165\\ \\mathrm{J}$"
+          },
+          {
+            "label": "d",
+            "text": "$+75\\ \\mathrm{J}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 4,
+      "originalType": "E",
+      "sourceText": "$500\\ \\mathrm{J}$ of work is done *on* a gas while it releases $200\\ \\mathrm{J}$ of heat. The change in internal energy is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$+300\\ \\mathrm{J}$"
+          },
+          {
+            "label": "b",
+            "text": "$-300\\ \\mathrm{J}$"
+          },
+          {
+            "label": "c",
+            "text": "$+700\\ \\mathrm{J}$"
+          },
+          {
+            "label": "d",
+            "text": "$-700\\ \\mathrm{J}$"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 5,
+      "originalType": "A",
+      "sourceText": "The reversible work of isothermal expansion of $n$ moles of an ideal gas from $V_1$ to $V_2$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$w = -nRT\\ln(V_2/V_1)$"
+          },
+          {
+            "label": "b",
+            "text": "$w = P(V_2-V_1)$"
+          },
+          {
+            "label": "c",
+            "text": "$w = 0$"
+          },
+          {
+            "label": "d",
+            "text": "$w = nRT\\ln(V_2/V_1)$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 7,
+      "originalType": "B",
+      "sourceText": "Regarding expansion work, which statements are correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I and II only"
+          },
+          {
+            "label": "b",
+            "text": "II and III only"
+          },
+          {
+            "label": "c",
+            "text": "I, II and III"
+          },
+          {
+            "label": "d",
+            "text": "I only"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 8,
+      "originalType": "A",
+      "sourceText": "For a process at constant volume with no work other than $PV$ work:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$q = \\Delta U$"
+          },
+          {
+            "label": "b",
+            "text": "$q = \\Delta H$"
+          },
+          {
+            "label": "c",
+            "text": "$q = \\Delta G$"
+          },
+          {
+            "label": "d",
+            "text": "$q = 0$ always"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 9,
+      "originalType": "A",
+      "sourceText": "An adiabatic process is one in which:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Temperature is constant"
+          },
+          {
+            "label": "b",
+            "text": "Volume is constant"
+          },
+          {
+            "label": "c",
+            "text": "Entropy is constant"
+          },
+          {
+            "label": "d",
+            "text": "No heat crosses the boundary ($q=0$)"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "For a reversible adiabatic (isentropic) process on an ideal gas, the relation $PV^\\gamma=\\text{constant}$ holds, where $\\gamma = C_P/C_V$. This implies:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The gas cools on expansion and heats on compression"
+          },
+          {
+            "label": "b",
+            "text": "Temperature stays constant"
+          },
+          {
+            "label": "c",
+            "text": "No work is done"
+          },
+          {
+            "label": "d",
+            "text": "Entropy increases"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 11,
+      "originalType": "E",
+      "sourceText": "$2$ mol of an ideal gas expands isothermally and reversibly, doubling its volume, at $300\\ \\mathrm{K}$. The work done by the gas is (use $R=8.314\\ \\mathrm{J\\,mol^{-1}K^{-1}}$):",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-3.46\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "b",
+            "text": "$+1.73\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "c",
+            "text": "$+3.46\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "d",
+            "text": "$0$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 12,
+      "originalType": "E",
+      "sourceText": "A gas expands from $1\\ \\mathrm{L}$ to $5\\ \\mathrm{L}$ against a constant external pressure of $1\\ \\mathrm{atm}$ ($101325\\ \\mathrm{Pa}$). The work done by the gas is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx 4.05\\ \\mathrm{J}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx 405\\ \\mathrm{J}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx 405\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "d",
+            "text": "$0$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 13,
+      "originalType": "C",
+      "sourceText": "Choose the correct option:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Both A and R are true, but R is not the correct explanation of A"
+          },
+          {
+            "label": "b",
+            "text": "A is true but R is false"
+          },
+          {
+            "label": "c",
+            "text": "Both A and R are true, and R is the correct explanation of A"
+          },
+          {
+            "label": "d",
+            "text": "A is false but R is true"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 14,
+      "originalType": "A",
+      "sourceText": "For any complete cyclic process, which quantity is necessarily zero?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Heat $q$"
+          },
+          {
+            "label": "b",
+            "text": "Change in internal energy $\\Delta U$"
+          },
+          {
+            "label": "c",
+            "text": "Work $w$"
+          },
+          {
+            "label": "d",
+            "text": "Entropy change of the surroundings"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 15,
+      "originalType": "E",
+      "sourceText": "$1$ mol of an ideal gas with $C_V=\\tfrac32 R$ is heated from $300\\ \\mathrm{K}$ to $400\\ \\mathrm{K}$ at constant volume. The heat supplied is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx 2078\\ \\mathrm{J}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx 831\\ \\mathrm{J}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx 1247\\ \\mathrm{J}$"
+          },
+          {
+            "label": "d",
+            "text": "$0$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 16,
+      "originalType": "A",
+      "sourceText": "Why is the work of a reversible expansion greater than that of an irreversible expansion between the same two states?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Because reversible work is defined that way by convention"
+          },
+          {
+            "label": "b",
+            "text": "Because heat is larger in reversible processes"
+          },
+          {
+            "label": "c",
+            "text": "Because $\\Delta U$ differs on the two paths"
+          },
+          {
+            "label": "d",
+            "text": "Because the system does work against the maximum possible opposing pressure throughout the reversible path"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 17,
+      "originalType": "E",
+      "sourceText": "$5$ mol of an ideal gas is compressed isothermally and reversibly from $10\\ \\mathrm{L}$ to $2\\ \\mathrm{L}$ at $298\\ \\mathrm{K}$. The work done by the gas is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx +19.9\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx -19.9\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx -4.0\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\approx +4.0\\ \\mathrm{kJ}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 18,
+      "originalType": "B",
+      "sourceText": "Which of the following are true for an ideal gas?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I, II and III"
+          },
+          {
+            "label": "b",
+            "text": "I only"
+          },
+          {
+            "label": "c",
+            "text": "I and II only"
+          },
+          {
+            "label": "d",
+            "text": "II and III only"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 19,
+      "originalType": "A",
+      "sourceText": "Isothermal compression of an ideal gas requires:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "No energy exchange at all"
+          },
+          {
+            "label": "b",
+            "text": "Heat absorption with no work"
+          },
+          {
+            "label": "c",
+            "text": "A decrease in internal energy"
+          },
+          {
+            "label": "d",
+            "text": "Work input, with an equal quantity of heat rejected to keep $T$ constant"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "Enthalpy is defined as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$H = U - TS$"
+          },
+          {
+            "label": "b",
+            "text": "$H = U + TS$"
+          },
+          {
+            "label": "c",
+            "text": "$H = U + PV$"
+          },
+          {
+            "label": "d",
+            "text": "$H = PV - TS$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "The heat measured at constant pressure with only $PV$ work equals:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta U$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta G$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta S$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta H$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 3,
+      "originalType": "A",
+      "sourceText": "An exothermic reaction has:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta H > 0$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta H = 0$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta S < 0$ always"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta H < 0$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 4,
+      "originalType": "A",
+      "sourceText": "For an ideal gas, $C_P - C_V$ is equal to:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$R$ (per mole)"
+          },
+          {
+            "label": "b",
+            "text": "$0$"
+          },
+          {
+            "label": "c",
+            "text": "$2R$ (per mole)"
+          },
+          {
+            "label": "d",
+            "text": "$P V$"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 6,
+      "originalType": "A",
+      "sourceText": "Kirchhoff's equation expresses:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The pressure dependence of $G$"
+          },
+          {
+            "label": "b",
+            "text": "The relation between $C_P$ and $C_V$"
+          },
+          {
+            "label": "c",
+            "text": "The entropy of a phase transition"
+          },
+          {
+            "label": "d",
+            "text": "How reaction enthalpy varies with temperature: $d(\\Delta H)/dT = \\Delta C_P$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 7,
+      "originalType": "E",
+      "sourceText": "The molar heat capacity of a substance is constant at $25\\ \\mathrm{J\\,mol^{-1}K^{-1}}$. The enthalpy change on heating $2$ mol from $300\\ \\mathrm{K}$ to $350\\ \\mathrm{K}$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$1250\\ \\mathrm{J}$"
+          },
+          {
+            "label": "b",
+            "text": "$2500\\ \\mathrm{J}$"
+          },
+          {
+            "label": "c",
+            "text": "$5000\\ \\mathrm{J}$"
+          },
+          {
+            "label": "d",
+            "text": "$250\\ \\mathrm{J}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 8,
+      "originalType": "A",
+      "sourceText": "The standard enthalpy of formation of a compound is the enthalpy change when:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "One mole of it is burnt completely in oxygen"
+          },
+          {
+            "label": "b",
+            "text": "One mole of it is dissolved in water"
+          },
+          {
+            "label": "c",
+            "text": "One mole of it is formed from its constituent elements in their standard states"
+          },
+          {
+            "label": "d",
+            "text": "It decomposes into its elements"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 11,
+      "originalType": "A",
+      "sourceText": "For a monatomic ideal gas, the values of $C_V$, $C_P$ and $\\gamma=C_P/C_V$ are:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\tfrac52 R,\\ \\tfrac32 R,\\ \\tfrac53$"
+          },
+          {
+            "label": "b",
+            "text": "$\\tfrac32 R,\\ \\tfrac52 R,\\ \\tfrac53$"
+          },
+          {
+            "label": "c",
+            "text": "$\\tfrac32 R,\\ \\tfrac52 R,\\ \\tfrac35$"
+          },
+          {
+            "label": "d",
+            "text": "$R,\\ 2R,\\ 2$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 14,
+      "originalType": "A",
+      "sourceText": "When a phase change (melting/boiling) occurs between $T_1$ and $T_2$, Kirchhoff's integration must be modified by:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Ignoring the phase change"
+          },
+          {
+            "label": "b",
+            "text": "Doubling $\\Delta C_P$"
+          },
+          {
+            "label": "c",
+            "text": "Adding the latent heat at the transition temperature and switching to the new phase's $C_P$"
+          },
+          {
+            "label": "d",
+            "text": "Using $\\Delta U$ instead of $\\Delta H$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 15,
+      "originalType": "C",
+      "sourceText": "Choose the correct option:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Both A and R are true, but R is not the correct explanation of A"
+          },
+          {
+            "label": "b",
+            "text": "A is true but R is false"
+          },
+          {
+            "label": "c",
+            "text": "A is false but R is true"
+          },
+          {
+            "label": "d",
+            "text": "Both A and R are true, and R is the correct explanation of A"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 17,
+      "originalType": "A",
+      "sourceText": "The Joule–Thomson coefficient $\\mu_{JT}=(\\partial T/\\partial P)_H$ equals zero for:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "An ideal gas"
+          },
+          {
+            "label": "b",
+            "text": "Any real gas"
+          },
+          {
+            "label": "c",
+            "text": "A van der Waals gas at all conditions"
+          },
+          {
+            "label": "d",
+            "text": "Only solids"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 19,
+      "originalType": "E",
+      "sourceText": "If $C_P - C_V = 8.314\\ \\mathrm{J\\,mol^{-1}K^{-1}}$ for a gas, the gas is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Definitely non-ideal"
+          },
+          {
+            "label": "b",
+            "text": "A solid at its melting point"
+          },
+          {
+            "label": "c",
+            "text": "Assumed ideal (this is exactly $R$)"
+          },
+          {
+            "label": "d",
+            "text": "Incompressible"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 3,
+      "originalType": "E",
+      "sourceText": "For $\\mathrm{N_2+3H_2\\rightarrow 2NH_3}$ with $\\Delta H_f^\\circ(\\mathrm{NH_3})=-46.1\\ \\mathrm{kJ\\,mol^{-1}}$, the standard enthalpy of the reaction as written is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-46.1\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "b",
+            "text": "$-138.3\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "c",
+            "text": "$-92.2\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "d",
+            "text": "$+92.2\\ \\mathrm{kJ}$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 5,
+      "originalType": "E",
+      "sourceText": "If $\\mathrm{A\\rightarrow B}$ has $\\Delta H=-50\\ \\mathrm{kJ}$, then $\\mathrm{B\\rightarrow A}$ has $\\Delta H$ equal to:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$+50\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "b",
+            "text": "$-50\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "c",
+            "text": "$0$"
+          },
+          {
+            "label": "d",
+            "text": "$+100\\ \\mathrm{kJ}$"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 6,
+      "originalType": "E",
+      "sourceText": "If a reaction is multiplied throughout by $2$, its $\\Delta H$:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Is multiplied by $2$"
+          },
+          {
+            "label": "b",
+            "text": "Stays the same"
+          },
+          {
+            "label": "c",
+            "text": "Is divided by $2$"
+          },
+          {
+            "label": "d",
+            "text": "Changes sign"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 7,
+      "originalType": "E",
+      "sourceText": "Given: (1) $\\mathrm{W+O_2\\rightarrow WO_2}$, $\\Delta H=-134.0$; (2) $\\mathrm{3WO_2+O_2\\rightarrow W_3O_8}$, $\\Delta H=-131.5$; (3) $\\mathrm{W_3O_8+\\tfrac12O_2\\rightarrow 3WO_3}$, $\\Delta H=-66.5\\ \\mathrm{kcal}$. The standard heat of formation of $\\mathrm{WO_3}$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-332.0\\ \\mathrm{kcal\\,mol^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$-110.7\\ \\mathrm{kcal\\,mol^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$-600.0\\ \\mathrm{kcal\\,mol^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$-200.0\\ \\mathrm{kcal\\,mol^{-1}}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 8,
+      "originalType": "E",
+      "sourceText": "For the aluminothermic reaction $\\mathrm{3FeO+2Al\\rightarrow Al_2O_3+3Fe}$, given $\\Delta H_f^\\circ(\\mathrm{FeO})=-63.3$ and $\\Delta H_f^\\circ(\\mathrm{Al_2O_3})=-400.0\\ \\mathrm{kcal}$. The heat evolved *per mole of $\\mathrm{Al_2O_3}$* formed is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-70.03\\ \\mathrm{kcal}$"
+          },
+          {
+            "label": "b",
+            "text": "$-210.1\\ \\mathrm{kcal}$"
+          },
+          {
+            "label": "c",
+            "text": "$-105.05\\ \\mathrm{kcal}$"
+          },
+          {
+            "label": "d",
+            "text": "$-400.0\\ \\mathrm{kcal}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 9,
+      "originalType": "E",
+      "sourceText": "Using the same reaction as above (overall $\\Delta H=-210.1\\ \\mathrm{kcal}$), the heat released *per mole of Fe* produced is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-210.1\\ \\mathrm{kcal}$"
+          },
+          {
+            "label": "b",
+            "text": "$-105.05\\ \\mathrm{kcal}$"
+          },
+          {
+            "label": "c",
+            "text": "$-35.02\\ \\mathrm{kcal}$"
+          },
+          {
+            "label": "d",
+            "text": "$-70.03\\ \\mathrm{kcal}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 10,
+      "originalType": "E",
+      "sourceText": "The standard heat of combustion of butane is $-3151\\ \\mathrm{kJ\\,mol^{-1}}$ and its molar mass is $58.1\\ \\mathrm{g\\,mol^{-1}}$. The heat released per gram is about:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-3151\\ \\mathrm{kJ\\,g^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$-25.4\\ \\mathrm{kJ\\,g^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$-54.2\\ \\mathrm{kJ\\,g^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$-108\\ \\mathrm{kJ\\,g^{-1}}$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 11,
+      "originalType": "A",
+      "sourceText": "Adiabatic flame temperature is the temperature attained when:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Combustion proceeds with no heat loss to the surroundings (all heat goes into heating the products)"
+          },
+          {
+            "label": "b",
+            "text": "Excess air is supplied"
+          },
+          {
+            "label": "c",
+            "text": "The flame is cooled by water"
+          },
+          {
+            "label": "d",
+            "text": "The reaction is isothermal"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 13,
+      "originalType": "A",
+      "sourceText": "A simple sensible-heat calculation often *overestimates* the real flame temperature mainly because:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "It ignores the enthalpy of the fuel"
+          },
+          {
+            "label": "b",
+            "text": "It assumes infinite air"
+          },
+          {
+            "label": "c",
+            "text": "It uses $\\Delta U$ instead of $\\Delta H$"
+          },
+          {
+            "label": "d",
+            "text": "It neglects dissociation of product species (e.g. $\\mathrm{CO_2\\rightleftharpoons CO+\\tfrac12O_2}$) which absorbs energy"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 14,
+      "originalType": "A",
+      "sourceText": "The energy balance used to find adiabatic flame temperature is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta H_{\\text{rxn}}=0$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta S_{\\text{rxn}}=0$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta G_{\\text{rxn}}=0$"
+          },
+          {
+            "label": "d",
+            "text": "$-\\Delta H_{\\text{rxn}}(298)=\\displaystyle\\int_{298}^{T_{ad}}\\sum n_iC_{P,i}\\,dT$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 16,
+      "originalType": "E",
+      "sourceText": "$2\\mathrm{C(s)+O_2(g)\\rightarrow 2CO(g)}$ with $\\Delta H_f^\\circ(\\mathrm{CO})=-110.5\\ \\mathrm{kJ\\,mol^{-1}}$. The $\\Delta H$ for the reaction as written is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-110.5\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "b",
+            "text": "$-221.0\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "c",
+            "text": "$-55.25\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "d",
+            "text": "$-393.5\\ \\mathrm{kJ}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 17,
+      "originalType": "C",
+      "sourceText": "Choose the correct option:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Both A and R are true, but R is not the correct explanation of A"
+          },
+          {
+            "label": "b",
+            "text": "A is true but R is false"
+          },
+          {
+            "label": "c",
+            "text": "Both A and R are true, and R is the correct explanation of A"
+          },
+          {
+            "label": "d",
+            "text": "A is false but R is true"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 18,
+      "originalType": "E",
+      "sourceText": "For the reaction $\\mathrm{C(s)+\\tfrac12O_2(g)\\rightarrow CO(g)}$ where $\\Delta n_{\\text{gas}}=1-\\tfrac12=\\tfrac12$, the relation between $\\Delta H$ and $\\Delta U$ at temperature $T$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta H=\\Delta U-\\tfrac12 RT$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta H=\\Delta U$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta H=\\Delta U+\\tfrac12 RT$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta H=\\Delta U+RT$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 22,
+      "originalType": "E",
+      "sourceText": "For $\\mathrm{C_2H_2+2.5O_2\\rightarrow 2CO_2+H_2O(g)}$ with $\\Delta H_f^\\circ(\\mathrm{C_2H_2})=+226.7$, $\\Delta H_f^\\circ(\\mathrm{CO_2})=-393.5$, $\\Delta H_f^\\circ(\\mathrm{H_2O,g})=-241.8\\ \\mathrm{kJ\\,mol^{-1}}$, $\\Delta H_{\\text{rxn}}$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-1028.8\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "b",
+            "text": "$-1482.2\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "c",
+            "text": "$+1255.5\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "d",
+            "text": "$-1255.5\\ \\mathrm{kJ}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 23,
+      "originalType": "E",
+      "sourceText": "If $-\\Delta H_{\\text{rxn}}=1{,}000\\ \\mathrm{kJ}$ and the product stream has $\\Sigma n_iC_{P,i}=250\\ \\mathrm{J\\,K^{-1}}$, the adiabatic flame temperature rise above 298 K (neglecting $C_P$ variation) is roughly:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$400\\ \\mathrm{K}$"
+          },
+          {
+            "label": "b",
+            "text": "$250\\ \\mathrm{K}$"
+          },
+          {
+            "label": "c",
+            "text": "$4000\\ \\mathrm{K}$"
+          },
+          {
+            "label": "d",
+            "text": "$1000\\ \\mathrm{K}$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch05",
+      "n": 26,
+      "originalType": "A",
+      "sourceText": "The magnitude of $\\Delta H$ for a reaction is independent of:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The temperature at which it is evaluated"
+          },
+          {
+            "label": "b",
+            "text": "The physical state (allotrope/phase) of the reactants"
+          },
+          {
+            "label": "c",
+            "text": "The stoichiometric coefficients"
+          },
+          {
+            "label": "d",
+            "text": "The presence of a catalyst"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "The Kelvin–Planck statement of the Second Law asserts that:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Heat cannot flow from hot to cold"
+          },
+          {
+            "label": "b",
+            "text": "Entropy always decreases"
+          },
+          {
+            "label": "c",
+            "text": "Energy is conserved"
+          },
+          {
+            "label": "d",
+            "text": "No cyclic device can convert all the heat it absorbs into work"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "The Clausius statement of the Second Law states that:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Work can be fully converted to heat and back"
+          },
+          {
+            "label": "b",
+            "text": "Entropy is a path function"
+          },
+          {
+            "label": "c",
+            "text": "All adiabatic processes are reversible"
+          },
+          {
+            "label": "d",
+            "text": "Heat cannot spontaneously flow from a cold body to a hot body"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 3,
+      "originalType": "A",
+      "sourceText": "Entropy is defined for a reversible path as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$dS=\\delta q_{\\text{irr}}/T$"
+          },
+          {
+            "label": "b",
+            "text": "$dS=\\delta w/T$"
+          },
+          {
+            "label": "c",
+            "text": "$dS=\\delta q_{\\text{rev}}/T$"
+          },
+          {
+            "label": "d",
+            "text": "$dS=dU/T$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 4,
+      "originalType": "A",
+      "sourceText": "The Clausius inequality is written as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$dS \\ge \\delta q/T$"
+          },
+          {
+            "label": "b",
+            "text": "$dS < \\delta q/T$"
+          },
+          {
+            "label": "c",
+            "text": "$dS = \\delta q_{\\text{rev}}/T$ only"
+          },
+          {
+            "label": "d",
+            "text": "$dS \\le 0$"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 5,
+      "originalType": "A",
+      "sourceText": "For a spontaneous process in an isolated system:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta S_{\\text{total}} < 0$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta S_{\\text{total}} > 0$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta S_{\\text{total}} = 0$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta S$ cannot be defined"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 6,
+      "originalType": "E",
+      "sourceText": "$600\\ \\mathrm{J}$ of heat is absorbed reversibly at a constant $300\\ \\mathrm{K}$. The entropy change of the system is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-2\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$+180{,}000\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$+2\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$+0.5\\ \\mathrm{J\\,K^{-1}}$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 7,
+      "originalType": "E",
+      "sourceText": "$1$ mol of an ideal gas expands isothermally and reversibly to double its volume. Its entropy change is (…, $R=8.314$):",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-5.76\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$+5.76\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$+11.5\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$0$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 9,
+      "originalType": "A",
+      "sourceText": "The entropy change when a substance is heated from $T_1$ to $T_2$ at constant pressure is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\int_{T_1}^{T_2} (C_P/T)\\,dT$"
+          },
+          {
+            "label": "b",
+            "text": "$\\int_{T_1}^{T_2} C_P\\,dT$"
+          },
+          {
+            "label": "c",
+            "text": "$C_P(T_2-T_1)$"
+          },
+          {
+            "label": "d",
+            "text": "$\\int_{T_1}^{T_2} T\\,dT$"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 10,
+      "originalType": "E",
+      "sourceText": "$1000\\ \\mathrm{J}$ of heat flows spontaneously from a reservoir at $500\\ \\mathrm{K}$ to one at $300\\ \\mathrm{K}$. The total entropy change is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx -1.33\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx +5.33\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx +1.33\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$0$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 12,
+      "originalType": "E",
+      "sourceText": "A Carnot engine absorbs $1000\\ \\mathrm{J}$ from a $600\\ \\mathrm{K}$ source and rejects heat at $300\\ \\mathrm{K}$. The work output is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$600\\ \\mathrm{J}$"
+          },
+          {
+            "label": "b",
+            "text": "$500\\ \\mathrm{J}$"
+          },
+          {
+            "label": "c",
+            "text": "$300\\ \\mathrm{J}$"
+          },
+          {
+            "label": "d",
+            "text": "$1000\\ \\mathrm{J}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 13,
+      "originalType": "A",
+      "sourceText": "Why can heat not be converted completely into work in a cyclic process?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Because of friction"
+          },
+          {
+            "label": "b",
+            "text": "Because heat is a state function"
+          },
+          {
+            "label": "c",
+            "text": "Because the Second Law requires some heat to be rejected to a colder reservoir, so that total entropy does not decrease"
+          },
+          {
+            "label": "d",
+            "text": "Because work is conserved"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 14,
+      "originalType": "E",
+      "sourceText": "For a reversible process, $\\Delta S_{\\text{system}}+\\Delta S_{\\text{surroundings}}$ equals:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Always positive"
+          },
+          {
+            "label": "b",
+            "text": "Always negative"
+          },
+          {
+            "label": "c",
+            "text": "Undefined"
+          },
+          {
+            "label": "d",
+            "text": "Zero"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 16,
+      "originalType": "E",
+      "sourceText": "An ideal gas undergoes free expansion into vacuum (adiabatic, $q=0$). Its entropy change is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$0$, since $q=0$"
+          },
+          {
+            "label": "b",
+            "text": "$-nR\\ln(V_2/V_1)$"
+          },
+          {
+            "label": "c",
+            "text": "$+nR\\ln(V_2/V_1)$"
+          },
+          {
+            "label": "d",
+            "text": "Infinite"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 17,
+      "originalType": "B",
+      "sourceText": "Which statements are correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I, II and III"
+          },
+          {
+            "label": "b",
+            "text": "I and III only"
+          },
+          {
+            "label": "c",
+            "text": "II and III only"
+          },
+          {
+            "label": "d",
+            "text": "I and II only"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 18,
+      "originalType": "E",
+      "sourceText": "$1$ mol of liquid water ($C_P=75.3\\ \\mathrm{J\\,mol^{-1}K^{-1}}$, assumed constant) is heated from $298\\ \\mathrm{K}$ to $373\\ \\mathrm{K}$. Its entropy change is about:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$+5648\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$-16.9\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$+75.3\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$+16.9\\ \\mathrm{J\\,K^{-1}}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 19,
+      "originalType": "A",
+      "sourceText": "Which of the following processes increases the entropy of the system?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Freezing liquid water"
+          },
+          {
+            "label": "b",
+            "text": "Subliming iodine crystals"
+          },
+          {
+            "label": "c",
+            "text": "Condensing steam"
+          },
+          {
+            "label": "d",
+            "text": "Ordering a random alloy"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 20,
+      "originalType": "A",
+      "sourceText": "The Second Law tells us the *direction* of spontaneous change, whereas the First Law:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Also fixes the direction"
+          },
+          {
+            "label": "b",
+            "text": "Is a special case of the Second Law"
+          },
+          {
+            "label": "c",
+            "text": "Determines the equilibrium constant"
+          },
+          {
+            "label": "d",
+            "text": "Only accounts for energy conservation (a bookkeeping law) and says nothing about direction"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 21,
+      "originalType": "E",
+      "sourceText": "A block at $400\\ \\mathrm{K}$ and a block at $300\\ \\mathrm{K}$ are placed in contact with the same heat capacity. $300\\ \\mathrm{J}$ flows from hot to cold. The total entropy change is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx -0.25\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx +0.25\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx +1.75\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$0$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 22,
+      "originalType": "A",
+      "sourceText": "For a spontaneous reaction at constant $T$ and $P$, the criterion in terms of entropy is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta S_{\\text{sys}}>0$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta S_{\\text{surr}}>0$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta S_{\\text{sys}}=0$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta S_{\\text{sys}}+\\Delta S_{\\text{surr}}>0$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 25,
+      "originalType": "A",
+      "sourceText": "Which best describes the physical meaning of entropy?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The total energy of the system"
+          },
+          {
+            "label": "b",
+            "text": "The heat capacity at constant volume"
+          },
+          {
+            "label": "c",
+            "text": "A measure of energy dispersal / the number of accessible microscopic states"
+          },
+          {
+            "label": "d",
+            "text": "The useful work obtainable"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch06",
+      "n": 26,
+      "originalType": "A",
+      "sourceText": "Spontaneity at constant $T$ and $V$ is governed by the Helmholtz free energy $A=U-TS$. Which condition means spontaneous?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta A<0$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta A>0$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta A=0$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta S_{\\text{sys}}<0$"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "The Planck statement of the Third Law says that:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Absolute zero can be reached in one step"
+          },
+          {
+            "label": "b",
+            "text": "Entropy is independent of temperature"
+          },
+          {
+            "label": "c",
+            "text": "Heat capacity becomes infinite at 0 K"
+          },
+          {
+            "label": "d",
+            "text": "The entropy of a perfect crystalline substance approaches zero as $T\\rightarrow0\\ \\mathrm{K}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 4,
+      "originalType": "E",
+      "sourceText": "Given $S^\\circ_{300}(\\mathrm{Cu})=8.0\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$ and $C_P(\\mathrm{Cu})=5.41+1.50\\times10^{-3}T$, the standard entropy of solid copper at $1346\\ \\mathrm{K}$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$8.00\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$25.0\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$17.69\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$9.57\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 5,
+      "originalType": "E",
+      "sourceText": "Zinc melts at $693\\ \\mathrm{K}$ with $\\Delta H_{\\text{fus}}=1740\\ \\mathrm{cal\\,mol^{-1}}$. Given $S^\\circ_{298}=9.95$, $C_P(\\text{solid})=5.35+2.40\\times10^{-3}T$ and $C_P(\\text{liquid})=7.50\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$, $S^\\circ$ of liquid Zn at $1023\\ \\mathrm{K}$ is about:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$9.95\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$20.85\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$12.46\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$17.69\\ \\mathrm{cal\\,deg^{-1}mol^{-1}}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 6,
+      "originalType": "A",
+      "sourceText": "Which of the following would retain non-zero entropy at 0 K?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "A perfect crystal of CO with frozen, randomly oriented molecules"
+          },
+          {
+            "label": "b",
+            "text": "A perfect single crystal of a pure metal"
+          },
+          {
+            "label": "c",
+            "text": "A perfect crystal of NaCl"
+          },
+          {
+            "label": "d",
+            "text": "A pure diamond lattice"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 8,
+      "originalType": "B",
+      "sourceText": "Which statements are correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I, II and III"
+          },
+          {
+            "label": "b",
+            "text": "I and II only"
+          },
+          {
+            "label": "c",
+            "text": "II and III only"
+          },
+          {
+            "label": "d",
+            "text": "I only"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 11,
+      "originalType": "E",
+      "sourceText": "A reaction has $\\Delta S^\\circ=[2(50)+3(200)]-[80+3(5)]\\ \\mathrm{J\\,K^{-1}}$. Its value is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$+780\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$-685\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$+700\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$+685\\ \\mathrm{J\\,K^{-1}}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 12,
+      "originalType": "A",
+      "sourceText": "The Nernst heat theorem is closely associated with which law?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Zeroth Law"
+          },
+          {
+            "label": "b",
+            "text": "First Law"
+          },
+          {
+            "label": "c",
+            "text": "Third Law"
+          },
+          {
+            "label": "d",
+            "text": "Second Law"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 13,
+      "originalType": "A",
+      "sourceText": "As temperature approaches absolute zero, the heat capacity $C_P$ of a solid:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Becomes very large"
+          },
+          {
+            "label": "b",
+            "text": "Stays constant"
+          },
+          {
+            "label": "c",
+            "text": "Approaches zero"
+          },
+          {
+            "label": "d",
+            "text": "Becomes negative"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 14,
+      "originalType": "E",
+      "sourceText": "Using absolute entropies, $\\Delta S^\\circ_{298}$ for $\\mathrm{Cr_2O_3+3C\\rightarrow 2Cr+3CO}$ with $S^\\circ(\\mathrm{Cr_2O_3})=81.17$, $S^\\circ(\\mathrm{C})=5.69$, $S^\\circ(\\mathrm{Cr})=23.76$, $S^\\circ(\\mathrm{CO})=197.90\\ \\mathrm{J\\,K^{-1}mol^{-1}}$ is about:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx -543\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx +200\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx 0\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\approx +543\\ \\mathrm{J\\,K^{-1}}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "At constant temperature and pressure, a process is spontaneous when:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta G>0$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta G=0$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta G<0$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta H>0$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 3,
+      "originalType": "A",
+      "sourceText": "The fundamental differential of the Gibbs free energy is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$dG=-P\\,dV-S\\,dT$"
+          },
+          {
+            "label": "b",
+            "text": "$dG=V\\,dP+S\\,dT$"
+          },
+          {
+            "label": "c",
+            "text": "$dG=V\\,dP-S\\,dT$"
+          },
+          {
+            "label": "d",
+            "text": "$dG=P\\,dV-T\\,dS$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 4,
+      "originalType": "A",
+      "sourceText": "Which Maxwell relation follows from $dG = V\\,dP - S\\,dT$?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$(\\partial S/\\partial V)_T = (\\partial P/\\partial T)_V$"
+          },
+          {
+            "label": "b",
+            "text": "$(\\partial T/\\partial P)_S = (\\partial V/\\partial S)_P$"
+          },
+          {
+            "label": "c",
+            "text": "$(\\partial P/\\partial T)_V = (\\partial S/\\partial V)_T$"
+          },
+          {
+            "label": "d",
+            "text": "$(\\partial S/\\partial P)_T = -(\\partial V/\\partial T)_P$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 5,
+      "originalType": "A",
+      "sourceText": "The Maxwell relation obtained from $dA=-P\\,dV-S\\,dT$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$(\\partial S/\\partial P)_T=-(\\partial V/\\partial T)_P$"
+          },
+          {
+            "label": "b",
+            "text": "$(\\partial S/\\partial V)_T=(\\partial P/\\partial T)_V$"
+          },
+          {
+            "label": "c",
+            "text": "$(\\partial T/\\partial V)_S=-(\\partial P/\\partial S)_V$"
+          },
+          {
+            "label": "d",
+            "text": "$(\\partial S/\\partial T)_V=(\\partial P/\\partial V)_T$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 6,
+      "originalType": "A",
+      "sourceText": "The Gibbs–Helmholtz equation in its commonly used form is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta G=\\Delta H-T\\Delta S$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta G=\\Delta H-T(\\partial\\Delta G/\\partial T)_P$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta H=\\Delta G+T\\Delta S$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta G=\\Delta H+T(\\partial\\Delta G/\\partial T)_P$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 7,
+      "originalType": "E",
+      "sourceText": "For a reaction with $\\Delta H=-100\\ \\mathrm{kJ}$ and $\\Delta S=-200\\ \\mathrm{J\\,K^{-1}}$ at $300\\ \\mathrm{K}$, $\\Delta G$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-160\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "b",
+            "text": "$-40\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "c",
+            "text": "$+40\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "d",
+            "text": "$-100\\ \\mathrm{kJ}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 9,
+      "originalType": "E",
+      "sourceText": "At the equilibrium temperature of a phase transition, $\\Delta G$ equals:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$0$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta H$"
+          },
+          {
+            "label": "c",
+            "text": "$T\\Delta S$"
+          },
+          {
+            "label": "d",
+            "text": "$-\\Delta S$"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "For an ideal-gas phase, the variation of molar Gibbs energy with pressure at constant $T$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$G=G^\\circ+RT(P-P^\\circ)$"
+          },
+          {
+            "label": "b",
+            "text": "$G=G^\\circ$"
+          },
+          {
+            "label": "c",
+            "text": "$G=G^\\circ-RT\\ln(P/P^\\circ)$"
+          },
+          {
+            "label": "d",
+            "text": "$G=G^\\circ+RT\\ln(P/P^\\circ)$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 11,
+      "originalType": "A",
+      "sourceText": "Which partial derivative gives the entropy directly from the Gibbs energy?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$(\\partial G/\\partial P)_T=V$"
+          },
+          {
+            "label": "b",
+            "text": "$(\\partial G/\\partial T)_V=-S$"
+          },
+          {
+            "label": "c",
+            "text": "$(\\partial G/\\partial T)_P=-S$"
+          },
+          {
+            "label": "d",
+            "text": "$(\\partial G/\\partial P)_V=S$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 13,
+      "originalType": "E",
+      "sourceText": "$1$ mol of an ideal gas is compressed isothermally at $300\\ \\mathrm{K}$ from $1$ atm to $10$ atm. The change in Gibbs energy is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-5.74\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "b",
+            "text": "$+2.87\\ \\mathrm{kJ}$"
+          },
+          {
+            "label": "c",
+            "text": "$0$"
+          },
+          {
+            "label": "d",
+            "text": "$+5.74\\ \\mathrm{kJ}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 14,
+      "originalType": "A",
+      "sourceText": "The four thermodynamic potentials $U,H,A,G$ are related by Legendre transforms. Which gives $A$ from $U$?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$A=U+PV$"
+          },
+          {
+            "label": "b",
+            "text": "$A=U-PV$"
+          },
+          {
+            "label": "c",
+            "text": "$A=U+TS$"
+          },
+          {
+            "label": "d",
+            "text": "$A=U-TS$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 15,
+      "originalType": "B",
+      "sourceText": "Regarding the sign of $\\Delta G=\\Delta H-T\\Delta S$, which are correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I and II only"
+          },
+          {
+            "label": "b",
+            "text": "II and III only"
+          },
+          {
+            "label": "c",
+            "text": "I, II and III"
+          },
+          {
+            "label": "d",
+            "text": "I only"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 17,
+      "originalType": "E",
+      "sourceText": "Given $\\Delta G^\\circ=-20\\ \\mathrm{kJ\\,mol^{-1}}$ at $298\\ \\mathrm{K}$, the equilibrium constant $K$ is about ($R=8.314$):",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx 8.1$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx 10^{3.5}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx 1$"
+          },
+          {
+            "label": "d",
+            "text": "$\\approx 3.2\\times10^{3}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 18,
+      "originalType": "A",
+      "sourceText": "The relation between $\\Delta G$ and $\\Delta A$ for a process is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta G=\\Delta A-\\Delta(PV)$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta G=\\Delta A+\\Delta(PV)$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta G=\\Delta A$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta G=\\Delta A+T\\Delta S$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 19,
+      "originalType": "A",
+      "sourceText": "The condition for equilibrium at constant $T$ and $P$ in terms of the Gibbs energy is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta G$ is maximum"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta G=\\Delta H$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta G$ is minimum ($dG=0$)"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta G=T\\Delta S$ only at 0 K"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 20,
+      "originalType": "E",
+      "sourceText": "For a solid that melts, $\\Delta S_{\\text{fus}}=+30\\ \\mathrm{J\\,mol^{-1}K^{-1}}$ and $\\Delta H_{\\text{fus}}=+8{,}000\\ \\mathrm{J\\,mol^{-1}}$. The melting temperature is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx 500\\ \\mathrm{K}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx 267\\ \\mathrm{K}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx 240\\ \\mathrm{K}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\approx 800\\ \\mathrm{K}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 21,
+      "originalType": "A",
+      "sourceText": "Which statement about the Gibbs energy is correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "It is an intensive property"
+          },
+          {
+            "label": "b",
+            "text": "It is an extensive state function, and $\\Delta G$ is path-independent"
+          },
+          {
+            "label": "c",
+            "text": "Its value is independent of pressure"
+          },
+          {
+            "label": "d",
+            "text": "It always equals $\\Delta H$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 23,
+      "originalType": "A",
+      "sourceText": "For an isothermal expansion of an ideal gas into a larger volume, $\\Delta G$:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Is positive"
+          },
+          {
+            "label": "b",
+            "text": "Is zero"
+          },
+          {
+            "label": "c",
+            "text": "Is negative"
+          },
+          {
+            "label": "d",
+            "text": "Equals $\\Delta U$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 25,
+      "originalType": "E",
+      "sourceText": "Using the Gibbs–Helmholtz equation, if $\\Delta G$ at two nearby temperatures changes by $\\Delta(\\Delta G)$ over $\\Delta T$, the reaction enthalpy is best estimated from:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta H\\approx -T(\\partial\\Delta G/\\partial T)_P$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta H\\approx \\Delta G/T$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta H\\approx \\Delta S$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta H\\approx \\Delta G-T(\\partial\\Delta G/\\partial T)_P$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 28,
+      "originalType": "A",
+      "sourceText": "Which of these Maxwell relations is correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$(\\partial T/\\partial V)_S=(\\partial P/\\partial S)_V$"
+          },
+          {
+            "label": "b",
+            "text": "$(\\partial T/\\partial P)_S=(\\partial V/\\partial S)_P$"
+          },
+          {
+            "label": "c",
+            "text": "$(\\partial T/\\partial V)_S=-(\\partial P/\\partial S)_V$"
+          },
+          {
+            "label": "d",
+            "text": "$(\\partial S/\\partial T)_P=-(\\partial V/\\partial P)_T$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "The chemical potential of component $i$ is defined as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\mu_i=(\\partial U/\\partial n_i)_{S,V,n_{j}}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\mu_i=(\\partial G/\\partial n_i)_{T,P,n_{j\\neq i}}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\mu_i=(\\partial H/\\partial T)_{P}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\mu_i=RT\\ln n_i$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "For a multi-phase system at equilibrium, the chemical potential of each component:",
+      "sourceFingerprint": "05e5cfe0",
+      "updates": {
+        "type": "A",
+        "text": "For a multicomponent system with several phases at thermodynamic equilibrium, what condition applies to a component present in more than one phase?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "Its chemical potential is equal in every coexisting phase in which the component is present."
+          },
+          {
+            "label": "b",
+            "text": "Its chemical potential is zero in every phase, regardless of composition."
+          },
+          {
+            "label": "c",
+            "text": "Its chemical potential is equal across the coexisting phases only when their compositions are identical."
+          },
+          {
+            "label": "d",
+            "text": "Its chemical potential is highest in whichever phase has the greatest density."
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "At equilibrium, the chemical potential of each component is equal between all phases in which that component can exchange. The phases need not have the same composition.",
+        "concise": "Phase equilibrium requires equality of each component's chemical potential across coexisting phases.",
+        "detailed": "For each component i, equilibrium requires $\\mu_i^\\alpha=\\mu_i^\\beta$ across phases that can exchange that component. The condition is equality of chemical potential, not zero chemical potential, identical phase composition or a rule based on density."
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 3,
+      "originalType": "A",
+      "sourceText": "The Gibbs–Duhem equation at constant $T$ and $P$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\sum_i n_i\\,d\\mu_i=RT$"
+          },
+          {
+            "label": "b",
+            "text": "$\\sum_i n_i\\,d\\mu_i=0$"
+          },
+          {
+            "label": "c",
+            "text": "$\\sum_i x_i\\,\\mu_i=0$"
+          },
+          {
+            "label": "d",
+            "text": "$\\sum_i n_i\\,dP_i=0$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 6,
+      "originalType": "C",
+      "sourceText": "Choose the correct option:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Both A and R are true, but R is not the correct explanation of A"
+          },
+          {
+            "label": "b",
+            "text": "A is true but R is false"
+          },
+          {
+            "label": "c",
+            "text": "Both A and R are true, and R is the correct explanation of A"
+          },
+          {
+            "label": "d",
+            "text": "A is false but R is true"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 7,
+      "originalType": "A",
+      "sourceText": "The activity of a component is defined (Raoultian reference) as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$a_i=x_i$ always"
+          },
+          {
+            "label": "b",
+            "text": "$a_i=p_i^\\circ/p_i$"
+          },
+          {
+            "label": "c",
+            "text": "$a_i=p_i/p_i^\\circ$"
+          },
+          {
+            "label": "d",
+            "text": "$a_i=RT\\ln p_i$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 8,
+      "originalType": "A",
+      "sourceText": "The activity coefficient $\\gamma_i$ is defined by the relation:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$a_i=\\gamma_i/x_i$"
+          },
+          {
+            "label": "b",
+            "text": "$\\gamma_i=a_i+x_i$"
+          },
+          {
+            "label": "c",
+            "text": "$\\gamma_i=RT\\ln a_i$"
+          },
+          {
+            "label": "d",
+            "text": "$a_i=\\gamma_i x_i$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 9,
+      "originalType": "E",
+      "sourceText": "At $x_A=0.40$, the vapour pressure of A over a solution is $30\\ \\mathrm{mmHg}$. If $P_A^\\circ=100\\ \\mathrm{mmHg}$, the activity and activity coefficient of A are:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$a_A=0.40,\\ \\gamma_A=1.0$"
+          },
+          {
+            "label": "b",
+            "text": "$a_A=0.75,\\ \\gamma_A=0.30$"
+          },
+          {
+            "label": "c",
+            "text": "$a_A=0.30,\\ \\gamma_A=0.40$"
+          },
+          {
+            "label": "d",
+            "text": "$a_A=0.30,\\ \\gamma_A=0.75$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "Fugacity is introduced because:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "It replaces temperature"
+          },
+          {
+            "label": "b",
+            "text": "Real gases do not follow $p$ as their effective escaping tendency"
+          },
+          {
+            "label": "c",
+            "text": "It equals pressure always"
+          },
+          {
+            "label": "d",
+            "text": "It is a measure of entropy"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 11,
+      "originalType": "A",
+      "sourceText": "For an ideal gas, the fugacity coefficient $\\phi=f/P$ equals:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$0$"
+          },
+          {
+            "label": "b",
+            "text": "$P$"
+          },
+          {
+            "label": "c",
+            "text": "$RT/P$"
+          },
+          {
+            "label": "d",
+            "text": "$1$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 12,
+      "originalType": "A",
+      "sourceText": "The chemical potential of an ideal gas at pressure $P$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\mu=\\mu^\\circ+RT(P-P^\\circ)$"
+          },
+          {
+            "label": "b",
+            "text": "$\\mu=\\mu^\\circ$"
+          },
+          {
+            "label": "c",
+            "text": "$\\mu=\\mu^\\circ+RT\\ln(P/P^\\circ)$"
+          },
+          {
+            "label": "d",
+            "text": "$\\mu=\\mu^\\circ+RT\\ln T$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 14,
+      "originalType": "E",
+      "sourceText": "For component $i$ with activity $a_i=0.10$ at $500\\ \\mathrm{K}$, the relative partial molar Gibbs energy $\\mu_i-\\mu_i^\\circ=RT\\ln a_i$ is about:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx +9.6\\ \\mathrm{kJ\\,mol^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx -0.96\\ \\mathrm{kJ\\,mol^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx -9.6\\ \\mathrm{kJ\\,mol^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$0$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 16,
+      "originalType": "A",
+      "sourceText": "The tangent-intercept method applied to a plot of molar Gibbs energy $G_m$ versus $x_B$ gives:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The temperature"
+          },
+          {
+            "label": "b",
+            "text": "The total pressure"
+          },
+          {
+            "label": "c",
+            "text": "The degree of freedom"
+          },
+          {
+            "label": "d",
+            "text": "The partial molar Gibbs energies $\\mu_A$ and $\\mu_B$ as the intercepts"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 19,
+      "originalType": "A",
+      "sourceText": "Which of the following best distinguishes a Raoultian from a Henryan standard state?",
+      "sourceFingerprint": "6721acd3",
+      "updates": {
+        "type": "A",
+        "text": "Which statement correctly distinguishes Raoultian and Henryan standard states for a component in a solution?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "The Raoultian reference is the infinitely dilute limit; the Henryan reference is the pure-component state."
+          },
+          {
+            "label": "b",
+            "text": "Raoultian uses the pure-component reference as $x_i\\to1$; Henryan uses the dilute-limit reference extrapolated from $x_i\\to0$."
+          },
+          {
+            "label": "c",
+            "text": "The two standards use the same reference composition; they differ only in the numerical value of the activity coefficient."
+          },
+          {
+            "label": "d",
+            "text": "Raoultian standard states are defined only for liquids, while Henryan standard states are defined only for gases."
+          }
+        ],
+        "answer": "b",
+        "keyExplanation": "The distinction is the reference composition: the pure-component limit for Raoultian activity and the hypothetical dilute-limit reference for Henryan activity.",
+        "concise": "Raoultian references the pure component; Henryan references the infinitely dilute limit.",
+        "detailed": "In a Raoultian standard state, the activity approaches the mole fraction and the pure-component reference is recovered as $x_i\\to1$. In a Henryan standard state, the dilute-solution behaviour is extrapolated to define a hypothetical reference as $x_i\\to0$. The difference is not simply a gas-versus-solid distinction."
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 20,
+      "originalType": "E",
+      "sourceText": "In a binary solution, the solute's relative chemical potential is $RT\\ln a_B$ with $a_B=0.5$ at $1000\\ \\mathrm{K}$. If the solvent obeys Raoult's law while the solute obeys Henry's law, which statement is consistent?",
+      "sourceFingerprint": "9b87a4ee",
+      "updates": {
+        "type": "E",
+        "text": "For a binary solution, suppose the solute activity is known as a function of composition. Which statement best describes what the Gibbs–Duhem relation permits you to infer about the solvent activity?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "The solvent activity is always $1-a_B$, at every composition, whether or not the solution is ideal."
+          },
+          {
+            "label": "b",
+            "text": "The two activities are independent because the solvent and solute use different standard states."
+          },
+          {
+            "label": "c",
+            "text": "At fixed temperature and pressure, Gibbs–Duhem couples the differential changes of the two activities."
+          },
+          {
+            "label": "d",
+            "text": "The activities must be equal whenever the solute obeys Henry's law and the solvent obeys Raoult's law."
+          }
+        ],
+        "answer": "c",
+        "keyExplanation": "For a binary solution at fixed temperature and pressure, $x_A d\\ln a_A+x_B d\\ln a_B=0$. The relation constrains activity changes across composition; it does not imply $a_A+a_B=1$ or equal activities.",
+        "concise": "Gibbs–Duhem links the differential changes in the two activities across composition.",
+        "detailed": "For a binary solution at fixed temperature and pressure, the Gibbs–Duhem relation is $x_A d\\ln a_A+x_B d\\ln a_B=0$. If one activity function is known over a composition range, this differential relation and an appropriate reference condition constrain the other. A single activity value at one composition is not enough by itself to determine an entire solvent-activity curve; neither the sum nor the values of the two activities must be equal."
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 23,
+      "originalType": "A",
+      "sourceText": "Which of the following is *not* a partial molar quantity?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Partial molar volume $\\bar V_i$"
+          },
+          {
+            "label": "b",
+            "text": "Total pressure $P$"
+          },
+          {
+            "label": "c",
+            "text": "Partial molar enthalpy $\\bar H_i$"
+          },
+          {
+            "label": "d",
+            "text": "Chemical potential $\\mu_i$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 24,
+      "originalType": "E",
+      "sourceText": "For an ideal solution with $x_A=0.25$ and pure vapour pressure $P_A^\\circ=200\\ \\mathrm{mmHg}$, the partial pressure of A and the total pressure (if B is non-volatile) are:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$p_A=200\\ \\mathrm{mmHg},\\ P_{\\text{total}}=200\\ \\mathrm{mmHg}$"
+          },
+          {
+            "label": "b",
+            "text": "$p_A=25\\ \\mathrm{mmHg},\\ P_{\\text{total}}=25\\ \\mathrm{mmHg}$"
+          },
+          {
+            "label": "c",
+            "text": "$p_A=150\\ \\mathrm{mmHg},\\ P_{\\text{total}}=150\\ \\mathrm{mmHg}$"
+          },
+          {
+            "label": "d",
+            "text": "$p_A=50\\ \\mathrm{mmHg},\\ P_{\\text{total}}=50\\ \\mathrm{mmHg}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 25,
+      "originalType": "A",
+      "sourceText": "The integral property $G=\\sum n_i\\mu_i$ is obtained from the partial molar quantities by:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Averaging the pure-component values"
+          },
+          {
+            "label": "b",
+            "text": "Summing partial molar contributions weighted by mole numbers"
+          },
+          {
+            "label": "c",
+            "text": "Integrating over temperature"
+          },
+          {
+            "label": "d",
+            "text": "Multiplying by $RT$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 26,
+      "originalType": "A",
+      "sourceText": "Positive deviation from Raoult's law ($\\gamma_i>1$) usually indicates:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "A–B interactions stronger than average"
+          },
+          {
+            "label": "b",
+            "text": "Ideal behaviour"
+          },
+          {
+            "label": "c",
+            "text": "A–B interactions weaker than A–A and B–B interactions"
+          },
+          {
+            "label": "d",
+            "text": "Compound formation"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 27,
+      "originalType": "E",
+      "sourceText": "If $\\bar G_B=RT\\ln a_B$ relative to the standard state and $RT=8314\\ \\mathrm{J\\,mol^{-1}}$ at $1000\\ \\mathrm{K}$ with $a_B=0.01$, then $\\mu_B-\\mu_B^\\circ$ is about:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$+38.3\\ \\mathrm{kJ\\,mol^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$-3.83\\ \\mathrm{kJ\\,mol^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$-83.1\\ \\mathrm{kJ\\,mol^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$-38.3\\ \\mathrm{kJ\\,mol^{-1}}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "For the formation of a solution, the total free-energy change is given by:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta G_{\\text{mix}}=\\Delta H_{\\text{mix}}+T\\Delta S_{\\text{mix}}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta G_{\\text{mix}}=\\Delta H_{\\text{mix}}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta G_{\\text{mix}}=T\\Delta S_{\\text{mix}}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta G_{\\text{mix}}=\\Delta H_{\\text{mix}}-T\\Delta S_{\\text{mix}}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 4,
+      "originalType": "A",
+      "sourceText": "The ideal free energy of mixing as a function of composition is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta G_{\\text{mix}}=-RT\\sum_i x_i\\ln x_i$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta G_{\\text{mix}}=RT(x_A+x_B)$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta G_{\\text{mix}}=RT\\sum_i x_i\\ln x_i$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta G_{\\text{mix}}=0$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 6,
+      "originalType": "A",
+      "sourceText": "A positive interaction parameter $\\Omega>0$ in the regular model implies:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Strong compound formation"
+          },
+          {
+            "label": "b",
+            "text": "A–B bonds are weaker than the average of A–A and B–B, so the system tends to unmix"
+          },
+          {
+            "label": "c",
+            "text": "Ideal behaviour"
+          },
+          {
+            "label": "d",
+            "text": "Zero enthalpy of mixing"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 7,
+      "originalType": "E",
+      "sourceText": "For a symmetric regular solution, the critical value of $\\Omega$ above which a miscibility gap appears is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Omega_c=RT/2$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Omega_c=RT$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Omega_c=0$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Omega_c=2RT$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 9,
+      "originalType": "A",
+      "sourceText": "The excess Gibbs energy of a regular solution is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$G^{E}=0$ always"
+          },
+          {
+            "label": "b",
+            "text": "$G^{E}=-T\\Delta S_{\\text{mix}}$"
+          },
+          {
+            "label": "c",
+            "text": "$G^{E}=\\Delta H_{\\text{mix}}=\\Omega x_A x_B$ (since $S^{E}=0$)"
+          },
+          {
+            "label": "d",
+            "text": "$G^{E}=RT$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "For a regular solution, the activity coefficient of component A is related to $\\Omega$ by:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$RT\\ln\\gamma_A=\\Omega\\,x_A$"
+          },
+          {
+            "label": "b",
+            "text": "$RT\\ln\\gamma_A=\\Omega\\,x_B^2$"
+          },
+          {
+            "label": "c",
+            "text": "$\\ln\\gamma_A=\\Omega/T$"
+          },
+          {
+            "label": "d",
+            "text": "$\\gamma_A=1$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 11,
+      "originalType": "A",
+      "sourceText": "The *binodal* (coexistence) curve on a free-energy diagram is found by:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Locating where $\\partial^2 G/\\partial x^2=0$"
+          },
+          {
+            "label": "b",
+            "text": "Finding where $G$ is maximum"
+          },
+          {
+            "label": "c",
+            "text": "Setting $x=0.5$"
+          },
+          {
+            "label": "d",
+            "text": "Drawing the common tangent to the two free-energy minima and reading its points of contact"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 12,
+      "originalType": "A",
+      "sourceText": "The *spinodal* curve is defined by the condition:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\dfrac{\\partial G}{\\partial x}=0$"
+          },
+          {
+            "label": "b",
+            "text": "$G=0$"
+          },
+          {
+            "label": "c",
+            "text": "$\\dfrac{\\partial^2 G}{\\partial x^2}=0$"
+          },
+          {
+            "label": "d",
+            "text": "$\\dfrac{\\partial^3 G}{\\partial x^3}=0$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 13,
+      "originalType": "A",
+      "sourceText": "Which statement about the spinodal and binodal is correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The spinodal lies outside the binodal"
+          },
+          {
+            "label": "b",
+            "text": "They are always coincident"
+          },
+          {
+            "label": "c",
+            "text": "The binodal lies inside the spinodal"
+          },
+          {
+            "label": "d",
+            "text": "The spinodal lies inside the binodal; the two curves touch at the critical point"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 14,
+      "originalType": "E",
+      "sourceText": "For a symmetric regular solution the spinodal boundaries at a given $T$ satisfy $RT=2\\Omega\\,x(1-x)$. At the critical point this gives $x=$:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$0$"
+          },
+          {
+            "label": "b",
+            "text": "$0.5$"
+          },
+          {
+            "label": "c",
+            "text": "$1$"
+          },
+          {
+            "label": "d",
+            "text": "$0.25$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 15,
+      "originalType": "A",
+      "sourceText": "The sub-regular solution model differs from the regular model in that:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The entropy of mixing is zero"
+          },
+          {
+            "label": "b",
+            "text": "There is no enthalpy of mixing"
+          },
+          {
+            "label": "c",
+            "text": "The interaction parameter $\\Omega$ itself varies with composition"
+          },
+          {
+            "label": "d",
+            "text": "It applies only to gases"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 16,
+      "originalType": "A",
+      "sourceText": "The Flory–Huggins model extends the regular-solution theory mainly to account for:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Ideal-gas behaviour"
+          },
+          {
+            "label": "b",
+            "text": "The large size difference between polymer molecules, using volume fractions and an entropy term corrected for chain length"
+          },
+          {
+            "label": "c",
+            "text": "Electrostatic forces"
+          },
+          {
+            "label": "d",
+            "text": "Radioactive decay"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 18,
+      "originalType": "E",
+      "sourceText": "A regular solution has $\\Omega=20\\ \\mathrm{kJ\\,mol^{-1}}$ at $T=1000\\ \\mathrm{K}$. The ratio $\\Omega/RT$ is about:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$0.42$"
+          },
+          {
+            "label": "b",
+            "text": "$2.4$"
+          },
+          {
+            "label": "c",
+            "text": "$24$"
+          },
+          {
+            "label": "d",
+            "text": "$1.0$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 19,
+      "originalType": "B",
+      "sourceText": "Which statements about the ideal entropy of mixing are correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I, II and III"
+          },
+          {
+            "label": "b",
+            "text": "II and III only"
+          },
+          {
+            "label": "c",
+            "text": "I only"
+          },
+          {
+            "label": "d",
+            "text": "I and II only"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 21,
+      "originalType": "A",
+      "sourceText": "Which of the following produces an *asymmetric* miscibility gap?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "An ideal solution"
+          },
+          {
+            "label": "b",
+            "text": "A perfectly symmetric regular solution"
+          },
+          {
+            "label": "c",
+            "text": "A dilute ideal gas"
+          },
+          {
+            "label": "d",
+            "text": "A sub-regular solution with a composition-dependent $\\Omega$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 22,
+      "originalType": "E",
+      "sourceText": "For a regular solution with $\\Omega=6{,}000\\ \\mathrm{J\\,mol^{-1}}$ at $T=500\\ \\mathrm{K}$, is a single-phase solution stable?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Yes — $\\Omega/RT<2$, so it is stable"
+          },
+          {
+            "label": "b",
+            "text": "No — $\\Omega/RT>2$, so it demixes"
+          },
+          {
+            "label": "c",
+            "text": "Cannot be determined"
+          },
+          {
+            "label": "d",
+            "text": "Only at infinite temperature"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 23,
+      "originalType": "A",
+      "sourceText": "Which statement about excess functions is correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$G^{E}$ is always zero"
+          },
+          {
+            "label": "b",
+            "text": "$G^{E}=-T\\Delta S_{\\text{mix}}$"
+          },
+          {
+            "label": "c",
+            "text": "$G^{E}=H^{E}+TS^{E}$"
+          },
+          {
+            "label": "d",
+            "text": "$G^{E}=RT\\sum_i x_i\\ln\\gamma_i$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 25,
+      "originalType": "A",
+      "sourceText": "The common-tangent construction on a molar free-energy diagram gives directly:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The melting point"
+          },
+          {
+            "label": "b",
+            "text": "The entropy of the system"
+          },
+          {
+            "label": "c",
+            "text": "The compositions of the two coexisting phases at equilibrium"
+          },
+          {
+            "label": "d",
+            "text": "The pressure"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch10",
+      "n": 26,
+      "originalType": "E",
+      "sourceText": "For a symmetric regular solution the critical composition and critical temperature are:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$x_c=0,\\ T_c=\\Omega/R$"
+          },
+          {
+            "label": "b",
+            "text": "$x_c=0.5,\\ T_c=2\\Omega/R$"
+          },
+          {
+            "label": "c",
+            "text": "$x_c=0.5,\\ T_c=\\Omega/2R$"
+          },
+          {
+            "label": "d",
+            "text": "$x_c=1,\\ T_c=\\Omega/2R$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "An Ellingham diagram plots, against temperature, the standard free-energy change for:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The vaporisation of metals"
+          },
+          {
+            "label": "b",
+            "text": "The formation of a compound (usually an oxide) from the elements, expressed per mole of $O_2$ consumed"
+          },
+          {
+            "label": "c",
+            "text": "The heat capacity of metals"
+          },
+          {
+            "label": "d",
+            "text": "The density of oxides"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "On an Ellingham diagram, the slope of each line equals:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta H^\\circ$"
+          },
+          {
+            "label": "b",
+            "text": "$-\\Delta S^\\circ$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta G^\\circ$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta C_P$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 3,
+      "originalType": "A",
+      "sourceText": "Most metal-oxidation lines on an Ellingham diagram slope *upward* because:",
+      "sourceFingerprint": "ffe50e47",
+      "updates": {
+        "type": "A",
+        "text": "An oxide-formation line has a positive slope on a standard Ellingham plot of $\\Delta G^\\circ$ against temperature. Which interpretation is consistent with that slope?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "If the plot's slope equals $\\Delta H^\\circ$, an exothermic oxide-formation reaction should slope downward as temperature rises."
+          },
+          {
+            "label": "b",
+            "text": "The slope is $\\Delta S^\\circ$ rather than its negative; a negative oxidation entropy would therefore produce a downward-sloping line."
+          },
+          {
+            "label": "c",
+            "text": "The line's slope is determined by equilibrium oxygen pressure; entropy changes alter the intercept but not the temperature trend."
+          },
+          {
+            "label": "d",
+            "text": "Oxide formation commonly consumes gaseous $O_2$, so $\\Delta S^\\circ<0$ and the slope $-\\Delta S^\\circ$ is positive."
+          }
+        ],
+        "answer": "d",
+        "keyExplanation": "For a plot of $\\Delta G^\\circ=\\Delta H^\\circ-T\\Delta S^\\circ$ against $T$, the slope is $-\\Delta S^\\circ$. Oxide formation commonly consumes gaseous $O_2$ and produces a condensed oxide, making the reaction entropy negative and the slope positive.",
+        "concise": "Ellingham slope $=-\\Delta S^\\circ$; consuming gaseous oxygen generally makes oxide-formation entropy negative and the slope positive.",
+        "detailed": "The slope follows directly from $\\Delta G^\\circ=\\Delta H^\\circ-T\\Delta S^\\circ$. It is $-\\Delta S^\\circ$, not the enthalpy. Oxidation generally removes high-entropy oxygen gas and forms a condensed oxide, so $\\Delta S^\\circ$ is usually negative. A positive slope is therefore expected, though phase changes or nonstandard reactions can alter the trend."
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 4,
+      "originalType": "A",
+      "sourceText": "Why does an Ellingham line show a kink at the melting point of the metal?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The metal vaporises"
+          },
+          {
+            "label": "b",
+            "text": "The pressure changes"
+          },
+          {
+            "label": "c",
+            "text": "The entropy of the metal jumps at the phase change, changing the slope"
+          },
+          {
+            "label": "d",
+            "text": "The oxide decomposes"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 5,
+      "originalType": "A",
+      "sourceText": "On an Ellingham diagram, the more stable an oxide is, the:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Higher its line lies"
+          },
+          {
+            "label": "b",
+            "text": "Steeper its line"
+          },
+          {
+            "label": "c",
+            "text": "Lower its line lies on the diagram"
+          },
+          {
+            "label": "d",
+            "text": "Flatter its line"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 6,
+      "originalType": "A",
+      "sourceText": "Metal M can reduce the oxide of metal N if, at the temperature of interest:",
+      "sourceFingerprint": "73fcc402",
+      "updates": {
+        "type": "A",
+        "text": "At a specified temperature, metal M is being considered as a reductant for oxide N. Which Ellingham-diagram relationship indicates a favourable standard-state reduction of N's oxide by M?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "N's oxide line lies below M's at this temperature, so N's oxide is more stable and M is not the preferred reductant."
+          },
+          {
+            "label": "b",
+            "text": "At the target temperature, M's oxide line is below N's, so the coupled reaction has negative $\\Delta G^\\circ$."
+          },
+          {
+            "label": "c",
+            "text": "The two lines meet at the target temperature, so the coupled reaction has approximately zero standard-state driving force."
+          },
+          {
+            "label": "d",
+            "text": "M's line is lower only below the target temperature and lies above N's line at the temperature actually being considered."
+          }
+        ],
+        "answer": "b",
+        "keyExplanation": "A reductant is effective when forming its own oxide is thermodynamically more favourable. M's oxide line must lie below N's oxide line at the temperature of interest.",
+        "concise": "M can reduce N's oxide when M's oxide line lies lower at the temperature being considered.",
+        "detailed": "Reverse N-oxide formation to reduce N's oxide, then add M-oxide formation. If M's oxide line is lower, the combined standard free-energy change is negative, so the coupled reduction is thermodynamically favourable. Coincident lines imply no standard-state driving force at that temperature. A crossing at a different temperature does not determine feasibility at the current temperature."
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 9,
+      "originalType": "E",
+      "sourceText": "A reaction has $\\Delta G^\\circ=100{,}000-100\\,T\\ \\mathrm{J\\,mol^{-1}}$. Above what temperature does it become thermodynamically favourable?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$100\\ \\mathrm{K}$"
+          },
+          {
+            "label": "b",
+            "text": "$1000\\ \\mathrm{K}$"
+          },
+          {
+            "label": "c",
+            "text": "$10{,}000\\ \\mathrm{K}$"
+          },
+          {
+            "label": "d",
+            "text": "$500\\ \\mathrm{K}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 11,
+      "originalType": "A",
+      "sourceText": "At equilibrium between a metal, its oxide and oxygen gas, the relation between $\\Delta G^\\circ$ and the oxygen partial pressure is:",
+      "sourceFingerprint": "cef862de",
+      "updates": {
+        "type": "A",
+        "text": "For the oxide-formation reaction written per mole of oxygen, $\\frac{2x}{y}M+O_2(g)\\rightarrow\\frac{2}{y}M_xO_y(s)$, assume pure condensed phases have unit activity. At equilibrium, which relation holds using the standard-pressure convention?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\Delta G^\\circ=-RT\\ln(p_{O_2}/p^\\circ)$"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta G^\\circ=RT(p_{O_2}/p^\\circ)$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta G^\\circ=RT\\ln(p_{O_2}/p^\\circ)$"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta G^\\circ=0$ for every oxygen pressure at equilibrium."
+          }
+        ],
+        "answer": "c",
+        "keyExplanation": "For the stated formation reaction, $Q=1/(p_{O_2}/p^\\circ)$. At equilibrium $0=\\Delta G^\\circ+RT\\ln Q$, hence $\\Delta G^\\circ=RT\\ln(p_{O_2}/p^\\circ)$. The reverse decomposition reaction has the opposite sign under matching conventions.",
+        "concise": "For oxide formation per mole of $O_2$, equilibrium gives $\\Delta G^\\circ=RT\\ln(p_{O_2}/p^\\circ)$.",
+        "detailed": "Start with $\\Delta G=\\Delta G^\\circ+RT\\ln Q$. With unit activities for the pure metal and oxide, the reaction quotient for the formation direction is $Q=1/(p_{O_2}/p^\\circ)$. Setting $\\Delta G=0$ gives $\\Delta G^\\circ=RT\\ln(p_{O_2}/p^\\circ)$. A very negative formation free energy corresponds to a very low equilibrium oxygen pressure. If the reaction is reversed, the sign reverses too."
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 12,
+      "originalType": "E",
+      "sourceText": "For the reaction $2C+O_2=2CO$, $\\Delta H^\\circ=-221\\ \\mathrm{kJ}$ and $\\Delta S^\\circ=+179\\ \\mathrm{J\\,K^{-1}}$. The slope of its Ellingham line is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$+179\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$-179\\ \\mathrm{J\\,K^{-1}}$ (line descends with $T$)"
+          },
+          {
+            "label": "c",
+            "text": "$-221{,}000\\ \\mathrm{J\\,K^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$0$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 13,
+      "originalType": "A",
+      "sourceText": "Which statement about the use of the oxygen scale on an Ellingham diagram is correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The oxygen scale is read directly off the $y$-axis"
+          },
+          {
+            "label": "b",
+            "text": "Joining the origin O to a point on an oxide line at temperature $T$ and extending to the $p_{O_2}$ axis gives the equilibrium oxygen pressure"
+          },
+          {
+            "label": "c",
+            "text": "The oxygen scale applies only at 298 K"
+          },
+          {
+            "label": "d",
+            "text": "There is no oxygen scale on Ellingham diagrams"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 14,
+      "originalType": "A",
+      "sourceText": "In practice, CO is a better reductant for FeO than solid carbon directly because:",
+      "sourceFingerprint": "89fce23f",
+      "updates": {
+        "type": "A",
+        "text": "In a blast furnace, why is carbon monoxide commonly the immediate gas-phase reductant for iron oxide, while coke also remains essential?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "CO is always thermodynamically stronger than solid carbon at every temperature, regardless of gas composition."
+          },
+          {
+            "label": "b",
+            "text": "Solid carbon cannot participate in iron-oxide reduction under any furnace condition."
+          },
+          {
+            "label": "c",
+            "text": "CO reduces iron oxide only by supplying carbon for carbide formation, not by removing oxygen."
+          },
+          {
+            "label": "d",
+            "text": "CO reaches oxide surfaces as a gas, while coke helps regenerate CO through the C–CO$_2$ equilibrium."
+          }
+        ],
+        "answer": "d",
+        "keyExplanation": "CO can contact oxide surfaces as a gas and reduce them through reactions such as $FeO+CO\\rightleftharpoons Fe+CO_2$. Coke contributes by generating CO through the Boudouard reaction, $C+CO_2\\rightleftharpoons2CO$.",
+        "concise": "CO is the gas-phase reductant at oxide surfaces; coke supplies heat and helps regenerate CO.",
+        "detailed": "The reducing ability of CO depends on temperature and the $p_{CO}/p_{CO_2}$ ratio, so it is not universally stronger under every possible condition. In the furnace, gas–solid contact allows CO to reach oxide surfaces. Coke is still essential as a fuel and as a source of CO through $C+CO_2\\rightleftharpoons2CO$. Direct carbon reactions can occur; they are not impossible at all temperatures."
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 15,
+      "originalType": "E",
+      "sourceText": "For $FeO+CO=Fe+CO_2$, at equilibrium the ratio $p_{CO}/p_{CO_2}$ is fixed by temperature. If the equilibrium constant at 1000 K is 0.5, the required $p_{CO}/p_{CO_2}$ to reduce FeO is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$0.5$"
+          },
+          {
+            "label": "b",
+            "text": "$1.0$"
+          },
+          {
+            "label": "c",
+            "text": "$0$"
+          },
+          {
+            "label": "d",
+            "text": "$2.0$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 16,
+      "originalType": "A",
+      "sourceText": "Ellingham diagrams exist not only for oxides but also, in analogous form, for:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Only oxides"
+          },
+          {
+            "label": "b",
+            "text": "Only metals"
+          },
+          {
+            "label": "c",
+            "text": "Sulfides, chlorides and nitrides (formation of compounds from the elements)"
+          },
+          {
+            "label": "d",
+            "text": "Only gases"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 18,
+      "originalType": "E",
+      "sourceText": "The standard free energy of formation of $Al_2O_3$ is far more negative than that of $FeO$ at all temperatures. This means aluminium:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Cannot reduce FeO"
+          },
+          {
+            "label": "b",
+            "text": "Is less reactive than iron"
+          },
+          {
+            "label": "c",
+            "text": "Reduces only at 0 K"
+          },
+          {
+            "label": "d",
+            "text": "Can reduce FeO, releasing much heat — the basis of the aluminothermic (thermite) reaction"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 21,
+      "originalType": "E",
+      "sourceText": "For $2Mg+O_2=2MgO$, $\\Delta G^\\circ=-1{,}200{,}000+400\\,T\\ \\mathrm{J}$. Above approximately what temperature does MgO cease to be stable (in isolation)?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$400\\ \\mathrm{K}$"
+          },
+          {
+            "label": "b",
+            "text": "$1{,}200{,}000\\ \\mathrm{K}$"
+          },
+          {
+            "label": "c",
+            "text": "$1200\\ \\mathrm{K}$"
+          },
+          {
+            "label": "d",
+            "text": "$3000\\ \\mathrm{K}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 22,
+      "originalType": "A",
+      "sourceText": "The main reason a metal oxide can be reduced by carbon at high temperature is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Carbon melts at high temperature"
+          },
+          {
+            "label": "b",
+            "text": "The oxide vaporises"
+          },
+          {
+            "label": "c",
+            "text": "The $2C+O_2\\to2CO$ line descends with temperature and eventually crosses below the oxide line"
+          },
+          {
+            "label": "d",
+            "text": "Carbon is a gas"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 23,
+      "originalType": "A",
+      "sourceText": "Below the line of an oxide $\\frac{2x}{y}M+O_2=\\frac{2}{y}M_xO_y$, the stable phase is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The pure metal $M$"
+          },
+          {
+            "label": "b",
+            "text": "A mixture of M and O"
+          },
+          {
+            "label": "c",
+            "text": "The oxide $M_xO_y$"
+          },
+          {
+            "label": "d",
+            "text": "A gas"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 24,
+      "originalType": "E",
+      "sourceText": "A free-energy function calculation gives for the formation of a particular oxide $\\Delta G^\\circ=-500{,}000+150\\,T\\ \\mathrm{J}$. At $1000\\ \\mathrm{K}$, $\\Delta G^\\circ$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-500{,}000\\ \\mathrm{J}$"
+          },
+          {
+            "label": "b",
+            "text": "$+150{,}000\\ \\mathrm{J}$"
+          },
+          {
+            "label": "c",
+            "text": "$-650{,}000\\ \\mathrm{J}$"
+          },
+          {
+            "label": "d",
+            "text": "$-350{,}000\\ \\mathrm{J}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch11",
+      "n": 28,
+      "originalType": "A",
+      "sourceText": "Which of the following is *not* directly obtainable from an Ellingham diagram?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The temperature at which two reactions balance"
+          },
+          {
+            "label": "b",
+            "text": "The equilibrium oxygen partial pressure"
+          },
+          {
+            "label": "c",
+            "text": "The relative stability of oxides"
+          },
+          {
+            "label": "d",
+            "text": "The reaction *rate* (kinetics) of reduction"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "The Gibbs phase rule is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$F=C+P+2$"
+          },
+          {
+            "label": "b",
+            "text": "$F=C-P$"
+          },
+          {
+            "label": "c",
+            "text": "$F=C-P+2$"
+          },
+          {
+            "label": "d",
+            "text": "$F=P-C+2$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "For a condensed (solid/liquid) system at constant pressure, the phase rule becomes:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$F=C-P+2$"
+          },
+          {
+            "label": "b",
+            "text": "$F=C+P$"
+          },
+          {
+            "label": "c",
+            "text": "$F=C-P+1$"
+          },
+          {
+            "label": "d",
+            "text": "$F=C/P$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 3,
+      "originalType": "E",
+      "sourceText": "At the triple point of pure water (three phases coexist), the number of degrees of freedom is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$1$"
+          },
+          {
+            "label": "b",
+            "text": "$0$"
+          },
+          {
+            "label": "c",
+            "text": "$2$"
+          },
+          {
+            "label": "d",
+            "text": "$3$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 5,
+      "originalType": "A",
+      "sourceText": "The Clapeyron equation for a phase boundary is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\dfrac{dP}{dT}=\\dfrac{T\\,\\Delta V}{\\Delta H}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\dfrac{dP}{dT}=\\dfrac{\\Delta H}{T\\,\\Delta V}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\dfrac{dP}{dT}=\\dfrac{\\Delta S}{T}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\dfrac{dP}{dT}=\\Delta H\\cdot T$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 6,
+      "originalType": "A",
+      "sourceText": "The Clausius–Clapeyron equation for vaporisation (where the vapour is treated as an ideal gas and $V_{\\text{gas}}\\gg V_{\\text{condensed}}$) takes the form:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\dfrac{d\\ln P}{dT}=\\dfrac{RT^2}{\\Delta H_{\\text{vap}}}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\dfrac{dP}{dT}=\\dfrac{RT}{\\Delta H}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\dfrac{d\\ln P}{dT}=\\dfrac{\\Delta H_{\\text{vap}}}{RT^2}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\dfrac{d\\ln P}{dT}=\\Delta H_{\\text{vap}}\\cdot T$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 9,
+      "originalType": "A",
+      "sourceText": "The melting (solid–liquid) boundary of water has a *negative* slope $dP/dT$ because:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Water does not melt"
+          },
+          {
+            "label": "b",
+            "text": "$\\Delta H_{\\text{fus}}$ is negative"
+          },
+          {
+            "label": "c",
+            "text": "Ice is denser than water"
+          },
+          {
+            "label": "d",
+            "text": "Ice occupies a larger volume than liquid water, so $\\Delta V_{\\text{melting}}<0$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "The lever rule is used to determine:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The melting point"
+          },
+          {
+            "label": "b",
+            "text": "The relative amounts (fractions) of two coexisting phases"
+          },
+          {
+            "label": "c",
+            "text": "The activation energy"
+          },
+          {
+            "label": "d",
+            "text": "The density of a phase"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 11,
+      "originalType": "E",
+      "sourceText": "In a binary eutectic system at the eutectic temperature, how many phases coexist and what is $F$ (at fixed pressure)?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$2$ phases, $F=1$"
+          },
+          {
+            "label": "b",
+            "text": "$3$ phases, $F=0$"
+          },
+          {
+            "label": "c",
+            "text": "$1$ phase, $F=2$"
+          },
+          {
+            "label": "d",
+            "text": "$3$ phases, $F=1$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 12,
+      "originalType": "E",
+      "sourceText": "For the sublimation of a solid, $\\Delta H_{\\text{sub}}=60{,}000\\ \\mathrm{J\\,mol^{-1}}$. Using $\\ln(P_2/P_1)=-\\dfrac{\\Delta H}{R}\\left(\\dfrac1{T_2}-\\dfrac1{T_1}\\right)$, doubling from $P_1=1\\ \\mathrm{Pa}$ at $T_1=400\\ \\mathrm{K}$ to $P_2=2\\ \\mathrm{Pa}$ occurs at roughly:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx 800\\ \\mathrm{K}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx 200\\ \\mathrm{K}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx 416\\ \\mathrm{K}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\approx 600\\ \\mathrm{K}$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 13,
+      "originalType": "A",
+      "sourceText": "On a $\\ln P$ vs $1/T$ plot for vaporisation, the slope equals:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$+\\Delta H_{\\text{vap}}/R$"
+          },
+          {
+            "label": "b",
+            "text": "$-R/\\Delta H_{\\text{vap}}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\Delta S/R$"
+          },
+          {
+            "label": "d",
+            "text": "$-\\Delta H_{\\text{vap}}/R$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 14,
+      "originalType": "E",
+      "sourceText": "Increasing the pressure on ice (which contracts on melting) will:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Raise its melting point"
+          },
+          {
+            "label": "b",
+            "text": "Not affect it"
+          },
+          {
+            "label": "c",
+            "text": "Lower its melting point"
+          },
+          {
+            "label": "d",
+            "text": "Convert it to steam"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 15,
+      "originalType": "A",
+      "sourceText": "Which of the following is an *invariant* point in a one-component system?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Any point on a sublimation curve"
+          },
+          {
+            "label": "b",
+            "text": "Any point on a vaporisation curve"
+          },
+          {
+            "label": "c",
+            "text": "Any point inside a single-phase region"
+          },
+          {
+            "label": "d",
+            "text": "The triple point"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 16,
+      "originalType": "A",
+      "sourceText": "On a typical binary eutectic phase diagram, the eutectic reaction on cooling is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$L\\rightarrow\\alpha$"
+          },
+          {
+            "label": "b",
+            "text": "$L\\rightarrow\\alpha+\\beta$"
+          },
+          {
+            "label": "c",
+            "text": "$\\alpha+\\beta\\rightarrow L$"
+          },
+          {
+            "label": "d",
+            "text": "$\\alpha\\rightarrow\\beta$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 17,
+      "originalType": "B",
+      "sourceText": "Which statements about the Clapeyron equation are correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I, II and III"
+          },
+          {
+            "label": "b",
+            "text": "I and II only"
+          },
+          {
+            "label": "c",
+            "text": "II and III only"
+          },
+          {
+            "label": "d",
+            "text": "I only"
+          }
+        ],
+        "answer": "a"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 18,
+      "originalType": "C",
+      "sourceText": "Choose the correct option:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Both A and R are true, but R is not the correct explanation of A"
+          },
+          {
+            "label": "b",
+            "text": "Both A and R are true, and R is the correct explanation of A"
+          },
+          {
+            "label": "c",
+            "text": "A is true but R is false"
+          },
+          {
+            "label": "d",
+            "text": "A is false but R is true"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 19,
+      "originalType": "E",
+      "sourceText": "For a solid-state transformation with $\\Delta H=1{,}000\\ \\mathrm{J\\,mol^{-1}}$ and $\\Delta V=0.2\\ \\mathrm{cm^3\\,mol^{-1}}$ at $500\\ \\mathrm{K}$, $dP/dT$ is approximately (1 J = 10 Pa·cm³):",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx 1\\ \\mathrm{bar\\,K^{-1}}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx 100\\ \\mathrm{bar\\,K^{-1}}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx 0.1\\ \\mathrm{bar\\,K^{-1}}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\approx 10\\ \\mathrm{bar\\,K^{-1}}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch12",
+      "n": 22,
+      "originalType": "E",
+      "sourceText": "At the normal boiling point of a liquid (1 atm), what is the value of $\\Delta G$ for the vaporisation?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$-\\Delta H_{\\text{vap}}$"
+          },
+          {
+            "label": "b",
+            "text": "$+\\Delta H_{\\text{vap}}$"
+          },
+          {
+            "label": "c",
+            "text": "$T\\Delta S$"
+          },
+          {
+            "label": "d",
+            "text": "$0$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch13",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "Sieverts' law states that the solubility of a diatomic gas in a metal is proportional to:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Its partial pressure"
+          },
+          {
+            "label": "b",
+            "text": "The square of its partial pressure"
+          },
+          {
+            "label": "c",
+            "text": "Its partial pressure to the power $-1$"
+          },
+          {
+            "label": "d",
+            "text": "The square root of its partial pressure"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch13",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "The physical reason for the square-root dependence in Sieverts' law is that:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "The gas liquefies"
+          },
+          {
+            "label": "b",
+            "text": "The gas molecule dissociates into two atoms before dissolving"
+          },
+          {
+            "label": "c",
+            "text": "The metal melts"
+          },
+          {
+            "label": "d",
+            "text": "The gas is monatomic"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch13",
+      "n": 3,
+      "originalType": "E",
+      "sourceText": "If the partial pressure of hydrogen over a metal is quadrupled, its dissolved hydrogen content becomes:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Four times as large"
+          },
+          {
+            "label": "b",
+            "text": "Half as large"
+          },
+          {
+            "label": "c",
+            "text": "Twice as large"
+          },
+          {
+            "label": "d",
+            "text": "Unchanged"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch13",
+      "n": 4,
+      "originalType": "A",
+      "sourceText": "The equilibrium constant for the dissolution $\\tfrac12 H_2(g)\\rightleftharpoons H\\text{(in metal)}$ is written as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$K=[H]\\cdot p_{H_2}$"
+          },
+          {
+            "label": "b",
+            "text": "$K=\\dfrac{[H]}{p_{H_2}}$"
+          },
+          {
+            "label": "c",
+            "text": "$K=\\dfrac{p_{H_2}}{[H]^2}$"
+          },
+          {
+            "label": "d",
+            "text": "$K=\\dfrac{[H]}{\\sqrt{p_{H_2}}}$"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch13",
+      "n": 6,
+      "originalType": "E",
+      "sourceText": "At $1000\\ \\mathrm{K}$, a reaction has $\\Delta G^\\circ=-20\\ \\mathrm{kJ\\,mol^{-1}}$. The equilibrium constant is about:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx 0.09$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx 11$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx 2.4$"
+          },
+          {
+            "label": "d",
+            "text": "$\\approx 1$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch13",
+      "n": 7,
+      "originalType": "E",
+      "sourceText": "A gas dissolves exothermically in a metal $(\\Delta H^\\circ<0)$. As temperature increases, its solubility:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Increases"
+          },
+          {
+            "label": "b",
+            "text": "Stays constant"
+          },
+          {
+            "label": "c",
+            "text": "Decreases"
+          },
+          {
+            "label": "d",
+            "text": "Becomes negative"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch13",
+      "n": 9,
+      "originalType": "B",
+      "sourceText": "Which statements about dissolved gases in metals are correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "I and II only"
+          },
+          {
+            "label": "b",
+            "text": "II and III only"
+          },
+          {
+            "label": "c",
+            "text": "I, II and III"
+          },
+          {
+            "label": "d",
+            "text": "I only"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch13",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "Which statement about $\\Delta G^\\circ=-RT\\ln K$ is correct?",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "A large positive $K$ corresponds to a positive $\\Delta G^\\circ$"
+          },
+          {
+            "label": "b",
+            "text": "A large positive $K$ corresponds to a large negative $\\Delta G^\\circ$"
+          },
+          {
+            "label": "c",
+            "text": "$K$ is independent of temperature"
+          },
+          {
+            "label": "d",
+            "text": "$\\Delta G^\\circ$ and $K$ have the same sign"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 1,
+      "originalType": "A",
+      "sourceText": "The information carried by an event of probability $p$ is defined as:",
+      "sourceFingerprint": "1c4966a4",
+      "updates": {
+        "type": "A",
+        "text": "The self-information, in bits, of an event with probability $p$ is:",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "$I=\\log_2 p$"
+          },
+          {
+            "label": "b",
+            "text": "$I=-\\log_2 p$"
+          },
+          {
+            "label": "c",
+            "text": "$I=-p\\log_2 p$"
+          },
+          {
+            "label": "d",
+            "text": "$I=p\\log_2 p$"
+          }
+        ],
+        "answer": "b",
+        "keyExplanation": "Self-information is $I=-\\log_2 p$. The probability-weighted quantity $-p\\log_2p$ is one event's contribution to Shannon entropy, not the self-information of the event.",
+        "concise": "Self-information is $-\\log_2p$ bits; $-p\\log_2p$ is the probability-weighted entropy contribution.",
+        "detailed": "The information associated with learning that event $i$ occurred is $I_i=-\\log_2 p_i$. A certain event has $I=0$, while rarer events have larger self-information. Averaging over all outcomes gives Shannon entropy $H=-\\sum_i p_i\\log_2p_i$, which is a different quantity."
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 2,
+      "originalType": "E",
+      "sourceText": "The information content of an event with probability $p=1/2$ is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$2$ bits"
+          },
+          {
+            "label": "b",
+            "text": "$0$ bits"
+          },
+          {
+            "label": "c",
+            "text": "$0.5$ bit"
+          },
+          {
+            "label": "d",
+            "text": "$1$ bit"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 3,
+      "originalType": "E",
+      "sourceText": "The Shannon entropy of a fair coin toss is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$0$ bits"
+          },
+          {
+            "label": "b",
+            "text": "$2$ bits"
+          },
+          {
+            "label": "c",
+            "text": "$-1$ bit"
+          },
+          {
+            "label": "d",
+            "text": "$1$ bit"
+          }
+        ],
+        "answer": "d"
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 5,
+      "originalType": "A",
+      "sourceText": "The Boltzmann relation linking thermodynamic entropy to the number of microstates is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$S=k_B\\Omega$"
+          },
+          {
+            "label": "b",
+            "text": "$S=k_B\\ln\\Omega$"
+          },
+          {
+            "label": "c",
+            "text": "$S=-\\Omega\\ln k_B$"
+          },
+          {
+            "label": "d",
+            "text": "$S=k_B/\\Omega$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 6,
+      "originalType": "E",
+      "sourceText": "One *bit* of information corresponds to a thermodynamic entropy of:",
+      "sourceFingerprint": "8dbd4075",
+      "updates": {
+        "type": "E",
+        "text": "A binary memory state has one bit of uncertainty. What is the corresponding thermodynamic entropy for that one binary choice?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "$k_B\\ln 3$"
+          },
+          {
+            "label": "b",
+            "text": "$k_B\\ln 4$"
+          },
+          {
+            "label": "c",
+            "text": "$k_B\\ln 5$"
+          },
+          {
+            "label": "d",
+            "text": "$k_B\\ln 2$"
+          }
+        ],
+        "answer": "d",
+        "keyExplanation": "One bit distinguishes two equally likely states, so $S=k_B\\ln\\Omega=k_B\\ln 2$. Each option has entropy units; the logarithm distinguishes the assumed number of equally likely states.",
+        "concise": "One bit means two equally likely states: $S=k_B\\ln2$.",
+        "detailed": "Using the Boltzmann relation $S=k_B\\ln\\Omega$, a single binary choice has $\\Omega=2$, giving $S=k_B\\ln2\\approx9.57\\times10^{-24}\\,\\mathrm{J\\,K^{-1}}$. The other options would correspond to three, four or five equally likely states."
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 7,
+      "originalType": "E",
+      "sourceText": "Landauer's principle gives the minimum energy dissipated to erase one bit as:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$k_BT$"
+          },
+          {
+            "label": "b",
+            "text": "$RT$"
+          },
+          {
+            "label": "c",
+            "text": "$k_BT\\ln2$"
+          },
+          {
+            "label": "d",
+            "text": "$k_B\\ln2$"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 8,
+      "originalType": "E",
+      "sourceText": "The minimum energy to erase one bit at room temperature $(300\\ \\mathrm{K})$ is about:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$\\approx 4.1\\times10^{-21}\\ \\mathrm{J}$"
+          },
+          {
+            "label": "b",
+            "text": "$\\approx 2.9\\times10^{-21}\\ \\mathrm{J}$"
+          },
+          {
+            "label": "c",
+            "text": "$\\approx 1.4\\times10^{-23}\\ \\mathrm{J}$"
+          },
+          {
+            "label": "d",
+            "text": "$\\approx 9.6\\times10^{-24}\\ \\mathrm{J}$"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 9,
+      "originalType": "A",
+      "sourceText": "Maxwell's demon appears to violate the Second Law by:",
+      "sourceFingerprint": "985d1b79",
+      "updates": {
+        "type": "A",
+        "text": "In Maxwell's demon thought experiment, what action appears to reduce the gas's entropy without ordinary work input?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "The demon records molecular speeds but leaves the gate unbiased, so both compartments retain the same molecular-speed distribution."
+          },
+          {
+            "label": "b",
+            "text": "It uses speed-selective passage to send fast and slow molecules in opposite directions, apparently creating a temperature gradient without work."
+          },
+          {
+            "label": "c",
+            "text": "It allows molecules to cross randomly, independent of speed, so the gas remains close to equilibrium instead of separating into hot and cold regions."
+          },
+          {
+            "label": "d",
+            "text": "It runs an externally powered heat pump to move energy from the colder compartment to the warmer one, explicitly using work."
+          }
+        ],
+        "answer": "b",
+        "keyExplanation": "Speed-selective sorting appears to create a temperature gradient from an initially uniform gas without the usual work input. The apparent paradox is resolved by accounting for the demon's information storage and erasure.",
+        "concise": "The apparent violation comes from sorting fast and slow molecules to create a temperature difference without ordinary work input.",
+        "detailed": "The thought experiment imagines a gatekeeper that uses molecular-speed information to let fast molecules into one compartment and slow molecules into another. The resulting temperature difference appears to reduce entropy. Random passage would not sort the gas, and a powered pump would explicitly use work. The information-processing cost is the key to resolving the paradox in the companion question."
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "Maxwell's demon does *not* violate the Second Law because:",
+      "sourceFingerprint": "17f4df4f",
+      "updates": {
+        "type": "A",
+        "text": "Which statement best explains why Maxwell's demon does not provide a perpetual-motion route around the Second Law?",
+        "statements": [],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "Every measurement must dissipate at least $k_BT\\ln2$ of heat per bit, even if the stored record is never erased."
+          },
+          {
+            "label": "b",
+            "text": "An ideal gas has no configurational entropy at the microscopic level, so sorting its molecules cannot alter its thermodynamic state."
+          },
+          {
+            "label": "c",
+            "text": "Because the demon's memory is outside the gas sample, resetting it cannot affect the entropy balance of the gas-plus-environment system."
+          },
+          {
+            "label": "d",
+            "text": "Erasing an unbiased bit in an isothermal setting dissipates at least $k_BT\\ln2$; include that heat in the entropy balance."
+          }
+        ],
+        "answer": "d",
+        "keyExplanation": "Landauer's principle constrains logically irreversible erasure, not every measurement operation to a fixed cost. Including memory reset and its heat dissipation restores the full Second-Law accounting.",
+        "concise": "The minimum cost is tied to erasing information from memory; include that cost in the total entropy balance.",
+        "detailed": "The key is not that every measurement necessarily costs exactly $k_BT\\ln2$. Landauer's principle states that logically irreversible erasure of one unbiased bit in an isothermal environment dissipates at least $k_BT\\ln2$. A demon that repeatedly resets its memory must account for that entropy transfer. When the gas, demon's memory and environment are considered together, the apparent loophole disappears."
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 11,
+      "originalType": "C",
+      "sourceText": "Choose the correct option:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Both A and R are true, but R is not the correct explanation of A"
+          },
+          {
+            "label": "b",
+            "text": "A is true but R is false"
+          },
+          {
+            "label": "c",
+            "text": "Both A and R are true, and R is the correct explanation of A"
+          },
+          {
+            "label": "d",
+            "text": "A is false but R is true"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 15,
+      "originalType": "E",
+      "sourceText": "A source emits one of three symbols with probabilities $0.5, 0.25, 0.25$. Its Shannon entropy (in bits) is:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "$3$ bits"
+          },
+          {
+            "label": "b",
+            "text": "$1$ bit"
+          },
+          {
+            "label": "c",
+            "text": "$1.5$ bits"
+          },
+          {
+            "label": "d",
+            "text": "$0.75$ bit"
+          }
+        ],
+        "answer": "c"
+      }
+    },
+    {
+      "chapter": "ch14",
+      "n": 16,
+      "originalType": "A",
+      "sourceText": "The Second Law, expressed in terms of information, says that:",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Information can be destroyed freely"
+          },
+          {
+            "label": "b",
+            "text": "Entropy can be reduced at no cost"
+          },
+          {
+            "label": "c",
+            "text": "The total entropy (thermodynamic + information) of an isolated system never decreases"
+          },
+          {
+            "label": "d",
+            "text": "Maxwell's demon can power a perpetual motion machine"
+          }
+        ],
+        "answer": "c"
+      }
+    }
+  ]
+}
