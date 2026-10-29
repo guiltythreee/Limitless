@@ -153,7 +153,25 @@ test('completion evidence must match the normalized activity class', () => {
   assert.equal(ledger.summary().xp, 0);
 });
 
-test('stored totalXp is only a cache; authoritative award history controls the total', () => {
+test('stored totalXp is only a cache; authoritative award history controls the total', () => {test('legacy awards remain in the ledger with explicit fallback evidence and duplicate IDs counted once', () => {
+  const { ledger, storage } = setup();
+  storage.setItem(Rewards.STORAGE_KEY, JSON.stringify({
+    standard: 'LSR-1',
+    totalXp: 999,
+    awards: [
+      { id: 'legacy-row', c: 'old:content', d: '2026-10-28', x: 7, t: 1 },
+      { id: 'legacy-row', c: 'old:content', d: '2026-10-28', x: 11, t: 2 }
+    ]
+  }));
+  const summary = ledger.summary();
+  assert.equal(summary.xp, 7);
+  assert.equal(summary.awardCount, 1);
+  assert.equal(summary.recentAwards[0].evidence, 'legacy-record');
+  assert.match(summary.recentAwards[0].reason, /Legacy award retained/);
+  assert.equal(JSON.parse(storage.raw(Rewards.STORAGE_KEY)).totalXp, 999, 'summary is read-only until the next successful write');
+});
+
+
   const { ledger, storage } = setup();
   storage.setItem(Rewards.STORAGE_KEY, JSON.stringify({
     standard: 'LSR-1', totalXp: 9999,
@@ -234,12 +252,15 @@ test('unlocked titles and emblems can be equipped without changing lifetime EXP'
 });
 
 test('Level 10 and later unlocks include equipable profile effects', () => {
-  const { ledger } = setup();
+  const { ledger, events } = setup();
   ledger.recordMany(Array.from({ length: 180 }, (_, i) => ({
     module: 'probability', eventId: `profile-effect-${i}`, contentKey: `profile-effect-content-${i}`,
     activityClass: 'standard-task', evidence: 'completed-session'
   })));
   assert.equal(ledger.summary().level, 10);
+  const levelEvent = events.find((event) => event && event.levelUp);
+  assert.ok(levelEvent);
+  assert.deepEqual(levelEvent.levelsCrossed, [2, 3, 4, 5, 6, 7, 8, 9, 10]);
   assert.equal(ledger.equipReward('polymath-glow', 'profile-effect').ok, true);
   assert.equal(ledger.summary().equippedProfileEffect.id, 'polymath-glow');
   assert.equal(ledger.equipReward('limitless-aura', 'profile-effect').error, 'reward-not-unlocked');
