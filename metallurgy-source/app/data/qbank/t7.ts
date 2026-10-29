@@ -22,10 +22,10 @@ const T7: TopicSource = {
       diff: 1,
       text: "Proteins are natural polymers whose repeat linkage is the:",
       options: [
-        { label: "a", text: "ester bond" },
-        { label: "b", text: "amide (peptide) bond, –CO–NH–" },
-        { label: "c", text: "C–C single bond" },
-        { label: "d", text: "ether bond" }
+        { label: "a", text: "Ester linkage (–CO–O–), formed from carboxyl and hydroxyl groups during polyester chain growth." },
+        { label: "b", text: "Amide or peptide linkage (–CO–NH–), formed when amino-acid carboxyl and amino groups join." },
+        { label: "c", text: "Carbon–carbon single bond (–C–C–), the principal backbone linkage in common vinyl addition polymers." },
+        { label: "d", text: "Ether linkage (–C–O–C–), the principal repeat linkage in polyethers and many polysaccharides." }
       ],
       answer: "b",
       why: "Amino acids condense head-to-tail to give the **amide (peptide) linkage** — chemically the same bond as in nylon, which is why proteins are natural polyamides.",
@@ -225,10 +225,10 @@ const T7: TopicSource = {
       diff: 2,
       text: "Why are proteins classified as condensation polymers?",
       options: [
-        { label: "a", text: "They are made from two monomers." },
-        { label: "b", text: "They are synthesized from ethylene." },
-        { label: "c", text: "They contain double bonds." },
-        { label: "d", text: "Each peptide bond forms with the elimination of a water molecule between an –NH₂ and a –COOH group." }
+        { label: "a", text: "Their backbones form by opening carbon–carbon double bonds in an ethylene-like monomer without eliminating a small molecule." },
+        { label: "b", text: "They are made from only two monomers; the number of distinct monomers, rather than bond chemistry, defines condensation." },
+        { label: "c", text: "They contain double bonds along the backbone, and each double bond releases oxygen when the chains join together." },
+        { label: "d", text: "Peptide links form by joining amino and carboxyl groups with loss of a small molecule, conventionally water." }
       ],
       answer: "d",
       why: "Bond formation is $\\text{–COOH} + \\text{H}_2\\text{N–} \\rightarrow \\text{–CO–NH–} + \\text{H}_2\\text{O}$ — a **condensation** producing water, exactly like nylon formation.",
