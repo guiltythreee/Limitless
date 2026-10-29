@@ -392,6 +392,9 @@ export function recordAttempt(q: string, picked: number[], ms: number, rewardAct
 /** Persist submitted answers and the test record/reward ledger in one canonical root write. */
 export function recordTestWithAttempts(t: TestRecord, inputs: AttemptInput[]): Attempt[] {
   ensureLoaded();
+  // Repeated finish callbacks carrying the same assessment identity do not
+  // append attempts, tests, or duplicate ledger rows.
+  if (state.tests.some((existing) => existing.id === t.id)) return [];
   const prepared = prepareAttempts(Array.isArray(inputs) ? inputs : []);
   const rewards = rewardAssessment(t, [...state.rewardLedger]);
   rewards.push(...verifiedMasteryRewards(
