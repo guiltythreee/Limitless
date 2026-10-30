@@ -180,7 +180,8 @@ export function recordAnswer(
   correct: boolean,
   mode: Mode = "practice",
   ms = 0,
-  difficulty = 1
+  difficulty = 1,
+  persist = true
 ): Progress {
   const now = Date.now();
   const day = dayKey(now);
@@ -191,18 +192,18 @@ export function recordAnswer(
   };
   if (mode !== "exam") {
     next = appendLsrActivity(next, questionActivity("metallurgy-mt203", qid, now, correct, p.attempts.length, difficulty)).progress;
-    saveProgress(next, true);
-  } else {
+    if (persist) saveProgress(next, true);
+  } else if (persist) {
     saveProgress(next);
   }
   return next;
 }
 
 /** Idempotent one-time award. Returns xp gained (0 if already awarded). */
-export function awardOnce(p: Progress, key: string, xp: number): { xp: number; progress: Progress } {
+export function awardOnce(p: Progress, key: string, xp: number, persist = true): { xp: number; progress: Progress } {
   if (p.awarded[key]) return { xp: 0, progress: p };
   const next: Progress = { ...p, awarded: { ...p.awarded, [key]: xp } };
-  saveProgress(next);
+  if (persist) saveProgress(next);
   return { xp, progress: next };
 }
 
@@ -213,7 +214,7 @@ export function markTheoryRead(p: Progress, key: string): Progress {
   return next;
 }
 
-export function recordExam(p: Progress, rec: ExamRecord): Progress {
+export function recordExam(p: Progress, rec: ExamRecord, persist = true): Progress {
   let next: Progress = { ...p, exams: [rec, ...p.exams].slice(0, 50) };
   if (!p.best || rec.correct / Math.max(1, rec.total) > p.best.score / Math.max(1, p.best.total)) {
     next.best = { score: rec.correct, total: rec.total, at: rec.ts };
@@ -226,7 +227,7 @@ export function recordExam(p: Progress, rec: ExamRecord): Progress {
     correct: rec.correct,
   });
   if (activity) next = appendLsrActivity(next, activity).progress;
-  saveProgress(next, Boolean(activity));
+  if (persist) saveProgress(next, Boolean(activity));
   return next;
 }
 
@@ -402,14 +403,15 @@ export function awardAnswer(
   p: Progress,
   qid: string,
   diff: Difficulty,
-  correct: boolean
+  correct: boolean,
+  persist = true
 ): { xp: number; progress: Progress } {
   if (!correct) return { xp: 0, progress: p };
   const key = `q:${qid}`;
   if (p.awarded[key]) return { xp: 0, progress: p };
   const xp = xpForQuestion(diff);
   const next: Progress = { ...p, awarded: { ...p.awarded, [key]: xp } };
-  saveProgress(next);
+  if (persist) saveProgress(next);
   return { xp, progress: next };
 }
 
