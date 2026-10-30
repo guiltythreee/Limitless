@@ -67,7 +67,7 @@ for (const check of expected) {
     check.excludes,
     `MT202 question ${check.n}: detailed explanation contains unrelated material`,
   );
-  const explicitKey = explanation.match(/(?:is correct|gives|therefore|giving|answer is)[^*]{0,30}\*\*\\(([a-d])\\)\*\*/i);
+  const explicitKey = explanation.match(/(?:is correct|gives|therefore|giving|answer is)[^*]{0,30}\*\*\(([a-d])\)\*\*/i);
   if (explicitKey) {
     assert.equal(
       explicitKey[1],
