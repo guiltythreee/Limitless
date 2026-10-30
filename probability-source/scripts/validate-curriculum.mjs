@@ -59,6 +59,7 @@ for (const [file, id, rank] of rankChecks) {
 }
 const indexSource = read("app/content/index.ts");
 for (const [name, expected] of Object.entries({
+  rank09Order: ["sample-space", "events-operations", "set-theory", "mutually-exclusive", "exhaustive-partitions", "counting", "combinations", "multinomials", "axioms", "properties", "equally-likely", "probability-counting", "geometric-probability", "de-morgan", "continuity"],
   rank03Order: ["joint-distributions", "conditional-expectation", "joint-transformations", "sums-convolution", "generating-functions", "order-statistics"],
   rank01Order: ["markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "reliability-hazards"],
   rank02Order: ["limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "borel-cantelli", "likelihood-estimation", "confidence-hypothesis-tests"],
@@ -73,6 +74,14 @@ for (const [name, expected] of Object.entries({
 
 const legacySource = read("app/content/legacy.ts");
 const legacyRankBlock = legacySource.slice(legacySource.indexOf("const legacyRank"));
+const representedRanks = new Set();
+for (const source of lessonSources) {
+  for (const match of source.matchAll(/\\brank:\\s*(\\d+)/g)) representedRanks.add(Number(match[1]));
+}
+for (const match of legacyRankBlock.matchAll(/:\\s*(\\d+)/g)) representedRanks.add(Number(match[1]));
+for (let rank = 0; rank <= 9; rank++) {
+  if (!representedRanks.has(rank)) throw new Error("Sequence " + String(rank).padStart(2, "0") + " has no lessons.");
+}
 for (const [id, rank] of Object.entries({ conditional: 7, bayes: 6, "random-variables": 5, distributions: 5, "limit-theorems": 2, markov: 1 })) {
   if (!new RegExp('"' + id + '"\\s*:\\s*' + rank + '\\b|\\b' + id + '\\s*:\\s*' + rank + '\\b').test(legacyRankBlock)) {
     throw new Error("Legacy lesson " + id + " must remain in Sequence " + String(rank).padStart(2, "0") + ".");
