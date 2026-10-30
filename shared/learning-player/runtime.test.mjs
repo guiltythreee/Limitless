@@ -69,6 +69,35 @@ assert.equal(multiResult.submission.grade.score, 0.5);
 assert.equal(multiResult.submission.grade.status, "partial");
 assert.deepEqual(multiResult.submission.answer.optionIds, [0]);
 
+// Probability permits retries: a later submission is a new attempt.
+multi = navigatePlayer(multiResult.session, "previous");
+multi = setPlayerAnswer(multi, multiAdapter, {
+  kind: "multi-choice", optionIds: [0, 2],
+});
+const retry = submitPlayerAnswer(multi, multiAdapter, {
+  submittedAt: 50, mode: "practice",
+});
+assert.equal(retry.submission.grade.correct, true);
+assert.equal(retry.session.submissions.length, 2);
+
+// Metallurgy locks a question after its first recorded answer.
+const lockedAdapter = { ...singleAdapter, canRetry: () => false };
+let locked = createLearningPlayerSession([singleQuestion, { ...singleQuestion, id: "q2" }]);
+locked = setPlayerAnswer(locked, lockedAdapter, {
+  kind: "single-choice", optionId: "B",
+});
+locked = submitPlayerAnswer(locked, lockedAdapter, {
+  submittedAt: 60, mode: "practice",
+}).session;
+locked = navigatePlayer(locked, "next");
+locked = navigatePlayer(locked, "previous");
+assert.equal(setPlayerAnswer(locked, lockedAdapter, {
+  kind: "single-choice", optionId: "A",
+}), locked, "non-retryable course answers stay locked after revisiting");
+assert.equal(submitPlayerAnswer(locked, lockedAdapter, {
+  submittedAt: 70, mode: "practice",
+}).submission, null, "non-retryable course submissions cannot duplicate");
+
 const queue = createLearningPlayerSession([singleQuestion, { ...singleQuestion, id: "q2" }]);
 assert.equal(navigatePlayer(queue, "next").state.index, 1);
 assert.equal(navigatePlayer(queue, "previous").state.index, 0);
