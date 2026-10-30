@@ -264,13 +264,17 @@ export const geometricProbability: Lesson = {
 export const borelCantelli: Lesson = {
   id: "borel-cantelli", rank: 2, title: "Limsup, Liminf & Borel–Cantelli", minutes: 14,
   description: "Events that happen infinitely often, and when that has probability 0.",
-  objective: "Read lim sup and lim inf as “infinitely often” and “eventually always”, and apply the first Borel–Cantelli lemma.",
+  objective: "Interpret lim sup and lim inf, prove and apply both Borel–Cantelli lemmas, and identify exactly where independence is required.",
   body: [
     "For arbitrary events A₁, A₂, … define lim sup Aₙ = ⋂ over n of ⋃ over k ≥ n of Aₖ, and lim inf Aₙ = ⋃ over n of ⋂ over k ≥ n of Aₖ.",
     "Reading them. ω ∈ lim sup Aₙ iff for every n there is a k ≥ n with ω ∈ Aₖ, i.e. ω ∈ Aₖ for infinitely many k. We write {Aₙ i.o.} (“infinitely often”). ω ∈ lim inf Aₙ iff ω ∈ Aₖ for all large k, i.e. for all but finitely many k (“eventually”). By De Morgan, (lim sup Aₙ)ᶜ = lim inf Aₙᶜ, and always lim inf Aₙ ⊆ lim sup Aₙ.",
     "Theorem 1.11.4 (Fatou’s lemma for events). P(lim inf Aₙ) ≤ lim inf P(Aₙ) ≤ lim sup P(Aₙ) ≤ P(lim sup Aₙ). Proof. Let Cₙ = ⋂ over k ≥ n of Aₖ, so Cₙ ↑ lim inf Aₙ and Cₙ ⊆ Aₙ, giving P(Cₙ) ≤ P(Aₙ). By continuity, P(lim inf Aₙ) = lim P(Cₙ) ≤ lim inf P(Aₙ). Similarly Dₙ = ⋃ over k ≥ n of Aₖ ↓ lim sup Aₙ and Dₙ ⊇ Aₙ, so P(lim sup Aₙ) = lim P(Dₙ) ≥ lim sup P(Aₙ). The middle inequality holds for any real sequence.",
     "Theorem 1.11.5 (first Borel–Cantelli lemma). If Σ P(Aₙ) < ∞, then P(Aₙ i.o.) = 0: almost surely only finitely many of the Aₙ occur. Proof. For every n, lim sup Aₖ ⊆ ⋃ over k ≥ n of Aₖ, so by the union bound P(Aₖ i.o.) ≤ Σ over k ≥ n of P(Aₖ). The right side is the tail of a convergent series, so it tends to 0 as n → ∞.",
-    "What BC1 does not need. No independence is required. The converse (if the Aₙ are independent and ΣP(Aₙ) = ∞ then P(Aₙ i.o.) = 1) is the second Borel–Cantelli lemma, proved after independence is introduced. Together they form a 0–1 law: for independent events, “infinitely often” has probability 0 or 1, never in between.",
+    "Theorem 1.11.6 (second Borel–Cantelli lemma). If the events Aₙ are mutually independent and ΣP(Aₙ) = ∞, then P(Aₙ i.o.) = 1. For fixed N≤M, independence gives P(no Aₙ occurs for N≤n≤M)=∏(1−P(Aₙ))≤exp(−ΣP(Aₙ)). As M→∞ the right side tends to 0, so the probability that no Aₙ occurs after N is 0. Taking the countable union over N shows that the probability of only finitely many occurrences is 0.",
+    "Independence is essential for this converse. If Aₙ=A₁ for every n and P(A₁)=1/2, then ΣP(Aₙ)=∞ but P(Aₙ i.o.)=1/2, not 1. The first lemma needs no independence; the second lemma as stated does.",
+    "Together, the two lemmas give a useful test: for independent events, convergence of ΣP(Aₙ) implies only finitely many occurrences almost surely, while divergence implies infinitely many occurrences almost surely.",
+    "Quant lens. Borel–Cantelli is the standard way to prove “eventually this never happens again”. Passing from finite horizons to the whole infinite horizon, as in ruin probabilities and laws of large numbers, rests on continuity and these lemmas.",
+    "Chapter 1 toolkit. Probability space (Ω, F, P): P ≥ 0, P(Ω) = 1, countably additive. P(Aᶜ) = 1 − P(A); A ⊆ B implies P(A) ≤ P(B); P(B \\ A) = P(B) − P(A ∩ B). P(A ∪ B) = P(A) + P(B) − P(A ∩ B); P(A △ B) = P(A) + P(B) − 2P(A ∩ B). Union bound P(⋃Aᵢ) ≤ ΣP(Aᵢ); Bonferroni P(⋂Aᵢ) ≥ 1 − ΣP(Aᵢᶜ). Equally likely: P(A) = |A|/|Ω| (label objects, count consistently). De Morgan, and “at least one” = 1 − (none). Continuity: Aₙ ↑ A ⇒ P(Aₙ) ↑ P(A); Aₙ ↓ A ⇒ P(Aₙ) ↓ P(A). BC1: ΣP(Aₙ) < ∞ ⇒ P(Aₙ i.o.) = 0; independent BC2: ΣP(Aₙ) = ∞ ⇒ P(Aₙ i.o.) = 1.",
     "Quant lens. Borel–Cantelli is the standard way to prove “eventually this never happens again”. Passing from finite horizons to the whole infinite horizon, as in ruin probabilities and laws of large numbers, rests on continuity and on this lemma.",
     "Chapter 1 toolkit. Probability space (Ω, F, P): P ≥ 0, P(Ω) = 1, countably additive. P(Aᶜ) = 1 − P(A); A ⊆ B implies P(A) ≤ P(B); P(B \\ A) = P(B) − P(A ∩ B). P(A ∪ B) = P(A) + P(B) − P(A ∩ B); P(A △ B) = P(A) + P(B) − 2P(A ∩ B). Union bound P(⋃Aᵢ) ≤ ΣP(Aᵢ); Bonferroni P(⋂Aᵢ) ≥ 1 − ΣP(Aᵢᶜ). Equally likely: P(A) = |A|/|Ω| (label objects, count consistently). De Morgan, and “at least one” = 1 − (none). Continuity: Aₙ ↑ A ⇒ P(Aₙ) ↑ P(A); Aₙ ↓ A ⇒ P(Aₙ) ↓ P(A). BC1: ΣP(Aₙ) < ∞ ⇒ P(Aₙ i.o.) = 0.",
     "Problem-solving checklist. (1) What is Ω? Is it fine enough? Are outcomes equally likely, or must I use a mass function or density? (2) Translate the question into events using “and / or / not”. Is it a union (use the complement or inclusion–exclusion), a disjoint decomposition (partition), or a limit (continuity)? (3) Can I write the quantity as a sum of indicators? (4) Check the answer against bounds: 0 ≤ P ≤ 1, monotonicity, symmetric special cases.",
@@ -280,6 +284,7 @@ export const borelCantelli: Lesson = {
     { label: "Eventually always (liminf)", text: "lim inf Aₙ = ⋃ₙ ⋂_(k ≥ n) Aₖ" },
     { label: "Fatou for events", text: "P(lim inf Aₙ) ≤ lim inf P(Aₙ) ≤ lim sup P(Aₙ) ≤ P(lim sup Aₙ)" },
     { label: "First Borel–Cantelli lemma", text: "Σ P(Aₙ) < ∞ ⟹ P(Aₙ i.o.) = 0" },
+    { label: "Second Borel–Cantelli lemma", text: "Independent Aₙ and Σ P(Aₙ) = ∞ ⟹ P(Aₙ i.o.) = 1" },
   ],
   examples: [
     {
@@ -290,6 +295,28 @@ export const borelCantelli: Lesson = {
         "Therefore P(Aₙ i.o.) = 0: almost surely only finitely many of the Aₙ occur.",
       ],
     },
+    {
+      title: "Independent events with a divergent sum",
+      problem: "Let Aₙ be independent and P(Aₙ)=1/n for n≥1. What is the probability that infinitely many Aₙ occur?",
+      steps: [
+        "The harmonic series Σ1/n diverges.",
+        "The events are independent, so the second Borel–Cantelli lemma applies.",
+        "Thus P(Aₙ i.o.)=1: infinitely many occur almost surely."
+      ],
+    },
+    {
+      title: "Why independence matters",
+      problem: "Let Aₙ=A₁ for every n, with P(A₁)=1/2. Although ΣP(Aₙ) diverges, find P(Aₙ i.o.).",
+      steps: [
+        "All events are identical, so either every Aₙ occurs or none occurs.",
+        "The event Aₙ i.o. is exactly A₁.",
+        "Therefore P(Aₙ i.o.)=1/2. Divergence alone is insufficient for the second lemma without independence."
+      ],
+    },
   ],
-  quiz: [],
+  quiz: [
+    { question: "The first Borel–Cantelli lemma says that if ΣP(Aₙ) is finite, then", options: ["Aₙ are independent", "Aₙ occur infinitely often almost surely", "Aₙ occur only finitely often almost surely", "P(Aₙ)=0 for every n"], answer: 2, difficulty: "easy", explanation: "A finite sum of event probabilities forces the probability of infinitely many occurrences to be zero; no independence is needed." },
+    { question: "Which additional condition is sufficient for the divergent-sum conclusion P(Aₙ i.o.)=1?", options: ["Pairwise disjointness", "Mutual independence", "Equal event probabilities", "Identical events"], answer: 1, difficulty: "medium", explanation: "The standard second Borel–Cantelli lemma assumes mutual independence and a divergent sum of probabilities." },
+    { question: "If Aₙ=A₁ for every n and P(A₁)=1/2, then ΣP(Aₙ) diverges but P(Aₙ i.o.) equals", options: ["0", "1/2", "1", "It is undefined"], answer: 1, difficulty: "hard", explanation: "The events are perfectly dependent and Aₙ i.o. is just A₁. This shows why independence is needed for the divergent-sum converse." }
+  ],
 };
