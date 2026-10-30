@@ -12,9 +12,14 @@
 // unchanged.
 
 import { useEffect, useRef, useState } from "react";
-import { awardAnswer, Mode, Progress, recordAnswer } from "../lib/mt203-progress";
+import { awardAnswer, Mode, Progress, recordAnswer, toggleBookmark } from "../lib/mt203-progress";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 import { Question } from "../courses/types";
+
+const fmtElapsed = (ms: number) => {
+  const seconds = Math.floor(Math.max(0, ms) / 1000);
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+};
 
 export default function Player({
   questions,
@@ -25,6 +30,7 @@ export default function Player({
   topicTitles,
   onFinished,
   onExit,
+  initialQuestionId,
 }: {
   questions: Question[];
   mode: Mode;
@@ -34,6 +40,7 @@ export default function Player({
   topicTitles?: Record<string, string>;
   onFinished?: (p: Progress) => void;
   onExit?: () => void;
+  initialQuestionId?: string;
 }) {
   const [order, setOrder] = useState<number[]>(() => questions.map((_, i) => i));
   const [idx, setIdx] = useState(0);
@@ -42,24 +49,76 @@ export default function Player({
   const [done, setDone] = useState(false);
   const [gain, setGain] = useState(0);
   const [toast, setToast] = useState<number | null>(null);
+  const [elapsedMs, setElapsedMs] = useState(0);
+  const openedAt = useRef<number | null>(null);
+  const elapsedBase = useRef(0);
+
+  const elapsedNow = () =>
+    elapsedBase.current + (openedAt.current === null ? 0 : Date.now() - openedAt.current);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Reset whenever a different question set is supplied.
   useEffect(() => {
-    setOrder(questions.map((_, i) => i));
-    setIdx(0);
-    setPicked({});
-    setRevealed({});
+    const nextOrder = questions.map((_, i) => i);
+    setOrder(nextOrder);
+    const target = initialQuestionId
+      ? questions.findIndex((question) => question.id === initialQuestionId)
+      : 0;
+    setIdx(target >= 0 ? target : 0);
+    const storedAttempt = initialQuestionId
+      ? [...progress.attempts].reverse().find((attempt) => attempt.q === initialQuestionId)
+      : undefined;
+    setPicked(storedAttempt && initialQuestionId ? { [initialQuestionId]: storedAttempt.picked } : {});
+    setRevealed(storedAttempt && initialQuestionId ? { [initialQuestionId]: true } : {});
     setDone(false);
     setGain(0);
     setToast(null);
-  }, [questions]);
+  }, [questions, initialQuestionId]);
 
   useEffect(() => () => {
     if (toastTimer.current) clearTimeout(toastTimer.current);
   }, []);
 
   const theQ = questions[order[idx]];
+  const isRevealed = theQ ? !!revealed[theQ.id] : false;
+
+  useEffect(() => {
+    if (!theQ || isRevealed) {
+      openedAt.current = null;
+      elapsedBase.current = 0;
+      setElapsedMs(0);
+      return;
+    }
+
+    elapsedBase.current = 0;
+    openedAt.current = document.hidden ? null : Date.now();
+    setElapsedMs(0);
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        if (openedAt.current !== null) {
+          elapsedBase.current += Date.now() - openedAt.current;
+          openedAt.current = null;
+        }
+      } else if (openedAt.current === null) {
+        openedAt.current = Date.now();
+      }
+      setElapsedMs(Math.round(elapsedNow()));
+    };
+
+    const timer = window.setInterval(() => setElapsedMs(Math.round(elapsedNow())), 250);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      if (openedAt.current !== null) {
+        elapsedBase.current += Date.now() - openedAt.current;
+        openedAt.current = null;
+      }
+    };
+    // The question id and its revealed state define one stopwatch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theQ?.id, isRevealed]);
 
   const answered = order.filter((i) => revealed[questions[i].id]).length;
   const right = order.filter(
@@ -75,7 +134,9 @@ export default function Player({
   const pick = (lab: string) => {
     if (!theQ || revealed[theQ.id]) return;
     const ok = lab === theQ.answer;
-    let p = recordAnswer(progress, theQ.id, lab, ok, mode, 0);
+    const ms = Math.max(0, Math.round(elapsedNow()));
+    openedAt.current = null;
+    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms);
     const res = awardAnswer(p, theQ.id, theQ.difficulty, ok);
     p = res.progress;
     onProgress(p);
@@ -172,7 +233,12 @@ export default function Player({
   }
 
   const chosen = picked[theQ.id];
-  const isRevealed = !!revealed[theQ.id];
+  const lastTimedAttempt = isRevealed
+    ? [...progress.attempts].reverse().find((attempt) => attempt.q === theQ.id && attempt.ms > 0)
+    : undefined;
+  const timeLabel = isRevealed
+    ? lastTimedAttempt ? fmtElapsed(lastTimedAttempt.ms) : "—"
+    : fmtElapsed(elapsedMs);
 
   return (
     <div className="panel">
@@ -197,11 +263,33 @@ export default function Player({
           <span className="chip">
             {idx + 1} / {order.length} · {answered} answered · {right} correct
           </span>
+          <span className="chip" aria-label="Time on question">⏱ {timeLabel}</span>
+          {!isRevealed && (
+            <button
+              className="btn"
+              onClick={() => {
+                elapsedBase.current = 0;
+                openedAt.current = document.hidden ? null : Date.now();
+                setElapsedMs(0);
+              }}
+            >
+              Reset timer
+            </button>
+          )}
           {topicTitles?.[theQ.topicId] && (
             <span className="chip chip-gold">{topicTitles[theQ.topicId]}</span>
           )}
         </div>
 
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.4rem" }}>
+          <button
+            className="btn"
+            aria-pressed={progress.bookmarks.includes(theQ.id)}
+            onClick={() => onProgress(toggleBookmark(progress, theQ.id))}
+          >
+            {progress.bookmarks.includes(theQ.id) ? "★ Bookmarked" : "☆ Bookmark"}
+          </button>
+        </div>
         <QuestionMeta q={theQ} />
         <QuestionBody q={theQ} />
         <OptionList q={theQ} picked={chosen} onPick={pick} locked={isRevealed} />

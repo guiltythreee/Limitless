@@ -30,6 +30,14 @@ export const MT201_MANIFEST: CourseManifest = {
     practiceScopes: { topic: true },
     exam: true,
     review: true,
+    bookmarks: true,
+    timers: true,
+    mistakes: true,
+    attemptHistory: true,
+    analyticsCharts: true,
+    periodFilters: true,
+    goals: true,
+    streaks: true,
   }),
   units: [], // MT201 has no module grouping in its source
   topics: [

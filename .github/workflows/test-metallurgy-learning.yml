@@ -1,0 +1,116 @@
+name: Metallurgy Learning Regression Tests
+
+on:
+  pull_request:
+    paths:
+      - "metallurgy-source/app/platform/learning/**"
+      - "metallurgy-source/app/courses/BookmarksPanel.tsx"
+      - "metallurgy-source/app/courses/ActivityHistoryPanel.tsx"
+      - "metallurgy-source/app/courses/DailyGoalsPanel.tsx"
+      - "metallurgy-source/app/courses/manifests/mt201.ts"
+      - "metallurgy-source/app/courses/manifests/mt202.ts"
+      - "metallurgy-source/app/courses/manifests/mt203.ts"
+      - "metallurgy-source/app/mt201/page.tsx"
+      - "metallurgy-source/app/mt201/quiz.tsx"
+      - "metallurgy-source/app/mt202/page.tsx"
+      - "metallurgy-source/app/mt202/quiz.tsx"
+      - "metallurgy-source/app/mt203/page.tsx"
+      - "metallurgy-source/app/mt203/player.tsx"
+      - "metallurgy-source/app/lib/mt203-progress.ts"
+      - "metallurgy-source/scripts/test-bookmarks.mjs"
+      - "metallurgy-source/scripts/test-question-timers.mjs"
+      - "metallurgy-source/scripts/test-daily-goals.mjs"
+      - "metallurgy-source/app/mt201/progress.ts"
+      - "metallurgy-source/app/mt201/exam.tsx"
+      - "metallurgy-source/app/lib/progress.ts"
+      - "metallurgy-source/app/mt202/exam.tsx"
+      - "metallurgy-source/app/courses/registry.ts"
+      - "metallurgy-source/app/courses/capabilities.ts"
+      - "metallurgy-source/scripts/test-learning-core.mjs"
+      - "metallurgy-source/scripts/test-capability-truth.mjs"
+      - "metallurgy-source/scripts/test-mt201-attempts.mjs"
+      - "metallurgy-source/scripts/test-mt202-attempts.mjs"
+      - "metallurgy-source/scripts/test-attempt-parity.mjs"
+      - "metallurgy-source/scripts/ts-resolve-hook.mjs"
+      - ".github/workflows/test-metallurgy-learning.yml"
+  push:
+    branches: [main]
+    paths:
+      - "metallurgy-source/app/platform/learning/**"
+      - "metallurgy-source/app/courses/BookmarksPanel.tsx"
+      - "metallurgy-source/app/courses/ActivityHistoryPanel.tsx"
+      - "metallurgy-source/app/courses/DailyGoalsPanel.tsx"
+      - "metallurgy-source/app/courses/manifests/mt201.ts"
+      - "metallurgy-source/app/courses/manifests/mt202.ts"
+      - "metallurgy-source/app/courses/manifests/mt203.ts"
+      - "metallurgy-source/app/mt201/page.tsx"
+      - "metallurgy-source/app/mt201/quiz.tsx"
+      - "metallurgy-source/app/mt202/page.tsx"
+      - "metallurgy-source/app/mt202/quiz.tsx"
+      - "metallurgy-source/app/mt203/page.tsx"
+      - "metallurgy-source/app/mt203/player.tsx"
+      - "metallurgy-source/app/lib/mt203-progress.ts"
+      - "metallurgy-source/scripts/test-bookmarks.mjs"
+      - "metallurgy-source/scripts/test-question-timers.mjs"
+      - "metallurgy-source/scripts/test-daily-goals.mjs"
+      - "metallurgy-source/app/mt201/progress.ts"
+      - "metallurgy-source/app/mt201/exam.tsx"
+      - "metallurgy-source/app/lib/progress.ts"
+      - "metallurgy-source/app/mt202/exam.tsx"
+      - "metallurgy-source/app/courses/registry.ts"
+      - "metallurgy-source/app/courses/capabilities.ts"
+      - "metallurgy-source/scripts/test-learning-core.mjs"
+      - "metallurgy-source/scripts/test-capability-truth.mjs"
+      - "metallurgy-source/scripts/test-mt201-attempts.mjs"
+      - "metallurgy-source/scripts/test-mt202-attempts.mjs"
+      - "metallurgy-source/scripts/test-attempt-parity.mjs"
+      - "metallurgy-source/scripts/ts-resolve-hook.mjs"
+      - ".github/workflows/test-metallurgy-learning.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: metallurgy-learning-regression-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    name: Shared core and course persistence
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install project dependencies for the TypeScript test hook
+        working-directory: metallurgy-source
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run learning and persistence gates
+        working-directory: metallurgy-source
+        shell: bash
+        run: |
+          set -euo pipefail
+          tests=(
+            scripts/test-learning-core.mjs
+            scripts/test-capability-truth.mjs
+            scripts/test-mt201-attempts.mjs
+            scripts/test-mt202-attempts.mjs
+            scripts/test-attempt-parity.mjs
+            scripts/test-bookmarks.mjs
+            scripts/test-question-timers.mjs
+            scripts/test-daily-goals.mjs
+          )
+          for test_file in "${tests[@]}"; do
+            echo "::group::${test_file}"
+            node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs "${test_file}"
+            echo "::endgroup::"
+          done
+          npx tsc --noEmit --incremental false

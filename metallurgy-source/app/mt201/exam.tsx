@@ -7,9 +7,13 @@
 // and chapter ids/titles from the manifest. Answer recording still writes the
 // same progress keys (`ch01-q12`) to mm-mt201-v1, so saved progress is
 // untouched.
+//
+// PHASE 5.1: submitting also appends one `exam` activity per attempted
+// question through the shared activity log (blanks are skipped). Score, best
+// ratio and the progress payload itself are unchanged; nothing new is rendered.
 
 import { useEffect, useRef, useState } from "react";
-import { Progress, recordAnswer } from "./progress";
+import { Progress, qid, recordExamAnswers, type ExamAnswer } from "./progress";
 import { MT201_ENTRY } from "../courses/entries/mt201";
 import type { Question } from "../courses/types";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
@@ -75,17 +79,28 @@ export default function Exam({
     setScore(sc);
     setRunning(false);
     setSubmitted(true);
-    // record exam answers into regular progress too, so weak chambers show up
-    let p = progress;
-    pool.forEach((q, i) => {
+    // record exam answers into regular progress too, so weak chambers show up.
+    // Blank questions are skipped: they are neither saved nor logged.
+    const attempted: ExamAnswer[] = [];
+    pool.forEach((qp, i) => {
       const a = answers[i];
-      if (a) p = recordAnswer(p, `${q.chId}-q${q.n}`, a, a === q.answer);
+      if (!a) return;
+      attempted.push({
+        key: qid(qp.chId, qp.n),
+        topicId: qp.topicId,
+        choice: a,
+        correct: a === qp.answer,
+      });
     });
     const total = pool.length;
     const prevRatio = progress.examBest ? progress.examBest.score / progress.examBest.total : -1;
-    if (total && sc / total >= prevRatio) {
-      p = { ...p, examBest: { score: sc, total, at: Date.now() } };
-    }
+    const nextBest =
+      total && sc / total >= prevRatio
+        ? { score: sc, total, at: Date.now() }
+        : progress.examBest;
+    // ONE persistent write: the answered entries, the exam activity batch and
+    // the updated best go down together, so a reload can never lose the record.
+    const p = recordExamAnswers(progress, attempted, nextBest);
     onProgress(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
