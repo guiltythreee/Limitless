@@ -161,9 +161,12 @@ export const activityLog: ActivityLog = createActivityLog<Progress>({
 /** Append through the shared log and hand back the root it persisted. */
 function appendAndReturn(
   root: Progress,
-  incoming: readonly NewActivity[]
+  incoming: readonly NewActivity[],
+  notifyMeta = false
 ): Progress {
-  return { ...root, activities: logFor(root).append(incoming) };
+  const next = { ...root, activities: logFor(root).append(incoming) };
+  if (notifyMeta) announceLsrRewardWrite();
+  return next;
 }
 
 /** One real answer = one `practice` activity, plus the usual `answered` entry. */
@@ -190,7 +193,7 @@ export function recordAnswer(p: Progress, key: string, choice: string, correct: 
   const goalSnapshot = withDailyGoalSnapshot(next, now);
   return appendAndReturn({ ...goalSnapshot, activities: logFor(p).load() }, [
     { q: key, topicId, picked: choice, correct, mode: "practice", ms, ts: now },
-  ]);
+  ], fresh);
 }
 
 /** One attempted question of a submitted exam. Blanks never reach the log. */
@@ -223,7 +226,8 @@ const sameExamBest = (a: Progress["examBest"], b: Progress["examBest"]) =>
 export function recordExamAnswers(
   p: Progress,
   attempted: readonly ExamAnswer[],
-  examBest?: Progress["examBest"]
+  examBest?: Progress["examBest"],
+  assessment?: AssessmentInput
 ): Progress {
   // Blanks are skipped here as well as by the caller: no `answered` entry and
   // no activity for an unanswered question.
@@ -248,12 +252,14 @@ export function recordExamAnswers(
   // The single write of the exam flow: the shared log appends the activity
   // batch onto THIS root, so answered + activities + examBest persist together.
   // Nothing may be saved after it.
-  const root = withDailyGoalSnapshot({
+  let root = withDailyGoalSnapshot({
     ...p,
     answered,
     examBest: best,
     activities: logFor(p).load(),
   }, now);
+  const reward = assessment ? assessmentActivity("metallurgy-mt201", assessment) : null;
+  if (reward) root = appendLsrActivity(root, reward).progress;
 
   return appendAndReturn(
     root,
@@ -264,7 +270,8 @@ export function recordExamAnswers(
       correct: a.correct,
       mode: "exam",
       ts: now,
-    }))
+    })),
+    Boolean(reward)
   );
 }
 
