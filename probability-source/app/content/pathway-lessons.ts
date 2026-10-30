@@ -436,6 +436,11 @@ export const pathwayLessons: Lesson[] = [
         "Every toss remains random with probability 1/2 of heads.",
         "The relative frequency of heads converges in probability to 1/2.",
         "The theorem does not say the next toss becomes more balanced or that heads must occur exactly n/2 times."
+      ] },
+      { title: "A CLT approximation for a count", problem: "A fair coin is tossed 100 times. Use a normal approximation with continuity correction to estimate P(X≥60).", steps: [
+        "X is Binomial(100,0.5), with mean 50 and standard deviation 5.",
+        "Continuity correction gives P(X≥60)≈P(Y≥59.5) for Y~N(50,25), so z=(59.5−50)/5=1.9.",
+        "The upper tail is approximately 1−Φ(1.9)≈0.0287. The approximation is not an exact binomial probability."
       ] }
     ],
     quiz: [
@@ -469,6 +474,11 @@ export const pathwayLessons: Lesson[] = [
         "Use a=10 and σ²=25 in Chebyshev's inequality.",
         "P(|X−100|≥10)≤25/100=0.25.",
         "This bound does not require a normal distribution. A normal approximation would need additional assumptions."
+      ] },
+      { title: "A bound for a sample mean", problem: "IID observations have variance 16. How large must n be to guarantee by Chebyshev that P(|X̄−μ|≥1)≤0.04?", steps: [
+        "Chebyshev gives P(|X̄−μ|≥1)≤16/n.",
+        "Require 16/n≤0.04.",
+        "Thus n≥400 observations guarantee the stated bound. This is a sufficient sample size, not necessarily the smallest possible under a sharper model."
       ] }
     ],
     quiz: [
