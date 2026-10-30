@@ -12,7 +12,7 @@
 // question through the shared activity log (blanks are skipped). The updated
 // exam best is passed into that same batch so it survives reload in one write.
 
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import { Progress, qid, recordExamAnswers, type ExamAnswer } from "../lib/progress";
 import { MT202_ENTRY } from "../courses/entries/mt202";
 import type { Question } from "../courses/types";
