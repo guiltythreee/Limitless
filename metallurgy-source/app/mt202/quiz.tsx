@@ -7,7 +7,7 @@
 // renders them through the shared qview wrapper. Progress keys are unchanged
 // (`ch01-q12`), so existing saved progress keeps working exactly as before.
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { createElement, useEffect, useMemo, useRef, useState } from "react";
 import { Progress, qid, recordAnswer, toggleBookmark } from "../lib/progress";
 import type { Question } from "../courses/types";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
@@ -20,6 +20,10 @@ import {
   tickPlayer,
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
 
 const fmtElapsed = (ms: number) => {
   const seconds = Math.floor(Math.max(0, ms) / 1000);
@@ -185,19 +189,18 @@ export default function Quiz({
 
   return (
     <div className="panel">
-      <div className="dots">
-        {dots.map((d) => (
-          <button
-            key={d.n}
-            type="button"
-            className={d.cls}
-            title={`Question ${d.n}`}
-            onClick={() => setSession((current) => selectPlayerQuestion(current, d.n - 1))}
-          />
-        ))}
-      </div>
+      <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={dots.map((d) => (
+                  {dots.map((d) => (
+                    <button
+                      key={d.n}
+                      type="button"
+                      className={d.cls}
+                      title={`Question ${d.n}`}
+                      onClick={() => setSession((current) => selectPlayerQuestion(current, d.n - 1))}
+                    />
+                  ))}
+                ))}>
 
-      <div className="qwrap">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.6rem", flexWrap: "wrap", marginBottom: "0.4rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
             <span className="chip" aria-label="Time on question">⏱ {timeLabel}</span>
@@ -260,7 +263,6 @@ export default function Quiz({
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </LearningPlayerShell>
   );
 }
