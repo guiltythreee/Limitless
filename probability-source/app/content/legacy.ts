@@ -142,13 +142,31 @@ const legacy: LegacyLesson[] = [
     body: [
       "The law of large numbers says, under suitable assumptions, sample averages converge toward the population expectation as the number of observations grows.",
       "It does not say outcomes become less random, nor that short sequences must balance out. A fair coin can produce long runs of heads.",
-      "The central limit theorem is related but distinct: after suitable centering and scaling, sums or averages often have an approximately normal distribution."
+      "The central limit theorem is related but distinct: after suitable centering and scaling, sums or averages often have an approximately normal distribution.",
+      "For IID observations with finite mean μ, the weak law says X̄ₙ converges in probability to μ. With finite variance σ², Var(X̄ₙ)=σ²/n, so the average becomes more concentrated even though individual observations retain their original distribution.",
+      "The IID central limit theorem adds a distributional approximation: (X̄ₙ−μ)/(σ/√n) approaches a standard normal law when 0<σ²<∞. It is a statement about the shape of the standardized sampling distribution, not a claim that the raw data are normal."
     ],
     formula: "X̄ₙ = (X₁ + ··· + Xₙ) / n",
     question: "A fair coin has been tossed 8 times and landed heads every time. On the next toss, assuming a fair independent coin, what is P(heads)?",
     options: ["0", "1/9", "1/2", "8/9"],
     answer: 2,
-    explanation: "Independent tosses do not remember previous results. The next toss still has probability 1/2 of heads."
+    explanation: "Independent tosses do not remember previous results. The next toss still has probability 1/2 of heads.",
+    examples: [
+      { title: "A stabilizing sample proportion", problem: "A fair coin is tossed 400 times. What are the mean and standard deviation of the sample proportion of heads?", steps: [
+        "The number of heads is Binomial(400,0.5), so the sample proportion has mean 0.5.",
+        "Its variance is p(1−p)/n=0.25/400=0.000625.",
+        "The standard deviation is 0.025. The law of large numbers explains concentration near 0.5, not an exact count of 200."
+      ] },
+      { title: "LLN versus CLT", problem: "A sample mean is based on IID observations with mean 10 and standard deviation 6. For n=36, state its mean and standard error.", steps: [
+        "The sample mean remains centered at the population mean, 10.",
+        "Its standard error is σ/√n=6/6=1.",
+        "The LLN says the sample mean concentrates near 10 as n grows; the CLT describes its standardized distribution for large n."
+      ] }
+    ],
+    additionalQuestions: [
+      { question: "The weak law of large numbers states that the sample mean", options: ["becomes exactly equal to μ after a fixed number of trials", "converges in probability to μ under its assumptions", "makes individual observations less variable", "must be normally distributed for every n"], answer: 1, difficulty: "medium", explanation: "The weak law concerns convergence in probability of averages, not exact equality or a change in the individual observation distribution." },
+      { question: "If σ=8 and n=64, the standard error of the sample mean is", options: ["8", "4", "1", "1/8"], answer: 2, difficulty: "hard", explanation: "SE=σ/√n=8/8=1. The standard error falls with the square root of sample size." }
+    ]
   },
   {
     id: "markov", unit: "09", title: "Markov Chains", level: "Sage", minutes: 25,
