@@ -8,6 +8,7 @@ export type MetaStatus = {
   progressPct: number;
   nextReward: RewardUnlock | null;
   equipped: string[];
+  equippedEffect: string | null;
   pendingNotifications: number;
 };
 export function readMetaStatus(storage: { getItem(key: string): string | null }): MetaStatus;
