@@ -54,7 +54,7 @@ export function listRegisteredProjects(storage) {
   const projects = rawProjects.filter((project) =>
     isRecord(project) &&
     typeof project.projectId === "string" &&
-    typeof project.moduleId === "string" &&
+    project.moduleId === "personal-projects" &&
     typeof project.title === "string" &&
     typeof project.scope === "string" &&
     typeof project.criteria === "string" &&
