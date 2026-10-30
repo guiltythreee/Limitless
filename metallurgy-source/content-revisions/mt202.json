@@ -236,7 +236,7 @@
       "sourceText": "Match the element class to its members.",
       "sourceFingerprint": "97caf77d",
       "updates": {
-        "detailed": "In BCC, atoms touch along the body diagonal, whose length √3a spans four atomic radii: √3a = 4R. **(a)** is correct. Option (b), the cube edge, and (c), the face diagonal, are not contact directions in BCC."
+        "detailed": "The table matches metals with roughly three-quarters of the elements, metalloids with B, Ge, Si, Sb, As, Te and Po, and non-metals with N, O, P, S and the noble gases. Therefore 1–iii, 2–i and 3–ii gives **(a)**. The other options interchange at least two of the three classes."
       }
     },
     {
@@ -246,7 +246,7 @@
       "sourceText": "Match the bond type to its mechanism.",
       "sourceFingerprint": "4927531f",
       "updates": {
-        "detailed": "In FCC, atoms touch along a face diagonal, whose length √2a spans four atomic radii: √2a = 4R. **(c)** is correct. The cube edge (a) and body diagonal (b) are not the contact directions for FCC."
+        "detailed": "Ionic bonding involves electron transfer followed by Coulomb attraction (c); covalent bonding uses shared, localised electron pairs (a); metallic bonding uses delocalised valence electrons (d); and van der Waals forces arise from induced-dipole attractions (b). Thus 1–c, 2–a, 3–d and 4–b gives **(a)**."
       }
     },
     {
@@ -256,7 +256,7 @@
       "sourceText": "Which statement(s) about the *covalent* bond is/are correct?",
       "sourceFingerprint": "a0c5806d",
       "updates": {
-        "detailed": "For BCC, the body diagonal relation is √3a = 4R, so a = 4R/√3. **(d)** is correct. Option (a), 2R, is the simple-cubic edge relation; (b), 2√2R, is FCC; and (c), 4R/√2, is another form of the FCC relation."
+        "detailed": "Statements 1, 3 and 4 are correct. Covalent bonds are directional because the shared electron density is concentrated between particular atoms; typical bond energies are commonly quoted in the broad range 200–1000 kJ/mol; and diamond is a classic three-dimensional covalent-network solid. Statement 2 is false because non-directionality is characteristic of metallic bonding, not covalent bonding. Therefore **(a)** is correct."
       }
     },
     {
@@ -284,7 +284,7 @@
           }
         ],
         "answer": "b",
-        "detailed": "For FCC, the face diagonal relation is √2a = 4R, so a = 4R/√2 = 2√2R. **(d)** is correct. Option (a), 2R, is simple cubic; (b), 4R/√3, is BCC; and (c), 4R, is not the FCC lattice parameter."
+        "detailed": "Statements 1–3 are consequences associated with metallic bonding: delocalised electrons support electrical and thermal conductivity; non-directional bonding allows layers of atoms to move while metallic cohesion is maintained, contributing to ductility; and mobile electrons interact with light, contributing to metallic lustre and opacity. Statement 4 is not a general consequence of metallic bonding; hardness and brittleness are more characteristic of many ionic and covalent-network solids. Therefore **(b)** is correct."
       },
       "sourceFingerprint": "9dc94feb"
     },
