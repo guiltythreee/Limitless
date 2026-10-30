@@ -103,4 +103,4 @@ assert.equal(navigatePlayer(queue, "next").state.index, 1);
 assert.equal(navigatePlayer(queue, "previous").state.index, 0);
 assert.equal(navigatePlayer(queue, "previous").state.index, 0);
 
-console.log("P6 player runtime: 15 assertions passed");
+console.log("P6 player runtime: 19 assertions passed");
