@@ -320,6 +320,11 @@ export const pathwayLessons: Lesson[] = [
         "Both marginals are Bernoulli(1/2): each coordinate is 0 or 1 with probability 1/2.",
         "For each pair, p(x,y)=1/4=(1/2)(1/2)=pX(x)pY(y).",
         "Factorization holds on the whole support, so X and Y are independent."
+      ] },
+      { title: "Zero covariance without independence", problem: "Let X be Uniform(−1,1) and Y=X². Show that X and Y have zero covariance but are dependent.", steps: [
+        "Symmetry gives E[X]=0 and E[X³]=0, while E[XY]=E[X³]=0.",
+        "Therefore Cov(X,Y)=E[XY]−E[X]E[Y]=0.",
+        "But Y is determined by X and is not constant, so they are dependent. Zero covariance only rules out linear association."
       ] }
     ],
     quiz: [
@@ -353,6 +358,11 @@ export const pathwayLessons: Lesson[] = [
         "The expected within-group variance is E[Var(X|Y)]=4.",
         "The conditional mean is equally likely to be 10 or 14, so its mean is 12 and its variance is 4.",
         "Total variance is 4+4=8. Both within-group and between-group uncertainty matter."
+      ] },
+      { title: "Conditioning on parity", problem: "A fair die is rolled. Let X be its face value and Y indicate whether it is even or odd. Find E[X|Y=even], E[X|Y=odd] and verify the tower property.", steps: [
+        "Given an even result, X is uniform on {2,4,6}, so E[X|even]=(2+4+6)/3=4.",
+        "Given an odd result, X is uniform on {1,3,5}, so E[X|odd]=(1+3+5)/3=3.",
+        "Each parity has probability 1/2, so E[E[X|Y]]=(1/2)4+(1/2)3=3.5=E[X]."
       ] }
     ],
     quiz: [
@@ -387,6 +397,11 @@ export const pathwayLessons: Lesson[] = [
         "Differentiate: M′_X(t)=exp(λ(eᵗ−1))·λeᵗ.",
         "At t=0, the exponential factor and e⁰ both equal 1.",
         "Therefore E[X]=M′_X(0)=λ."
+      ] },
+      { title: "A sum of two Bernoulli variables", problem: "Let X and Y be independent Bernoulli variables with success probabilities 0.2 and 0.5. Use their PGFs to find P(X+Y=0) and E[X+Y].", steps: [
+        "Their PGFs are G_X(s)=0.8+0.2s and G_Y(s)=0.5+0.5s.",
+        "Independence gives G_{X+Y}(s)=(0.8+0.2s)(0.5+0.5s). The constant coefficient is P(X+Y=0)=0.4.",
+        "The mean is 0.2+0.5=0.7 by linearity, or by differentiating the product at s=1."
       ] }
     ],
     quiz: [
