@@ -340,4 +340,48 @@ export const advancedPathwayLessons: Lesson[] = [
       { question: "A two-sided test reports p=0.03. Which interpretation is valid?", options: ["There is a 3% probability that H₀ is true", "There is a 97% probability that H₁ is true", "Assuming H₀, data at least this extreme have probability 0.03 under the specified test", "The observed effect is necessarily practically important"], answer: 2, difficulty: "hard", explanation: "The p-value is computed under the null model and measures extremeness of the data. It is not the probability of either hypothesis and says nothing by itself about practical importance." }
     ]
   }
+
+  {
+    id: "bayesian-computation", rank: 0, title: "Bayesian Computation & Posterior Diagnostics", minutes: 30,
+    description: "Approximate posterior expectations with simulation and judge whether an MCMC run is trustworthy.",
+    objective: "Distinguish direct posterior simulation from MCMC, quantify Monte Carlo error, diagnose mixing and convergence, and assess predictive calibration.",
+    body: [
+      "A posterior distribution is often known only up to a normalizing constant: π(θ|y) ∝ p(y|θ)p(θ). When its integrals cannot be evaluated analytically, posterior simulation approximates expectations such as E[g(θ)|y] by an average over draws.",
+      "If θ₁,…,θₙ are independent draws from the posterior, the Monte Carlo estimate is ĝ=n⁻¹Σg(θᵢ), with standard error estimated by s_g/√n. This error describes simulation noise, not uncertainty about the unknown parameter itself; posterior spread and Monte Carlo error answer different questions.",
+      "Markov chain Monte Carlo draws are dependent. The variance of their average depends on autocovariances: Var(ĝ) is approximately σ²τ/n, where τ=1+2Σₖ≥₁ρₖ when the series is well behaved. The effective sample size n_eff≈n/τ expresses the independent-draw equivalent; it is not the literal number of iterations.",
+      "Trace plots reveal sticking, trends, separated regions and poor mixing. Multiple chains started from dispersed initial values help reveal chains that have not reached a common stationary regime. Split-R-hat near 1 is a useful warning check, not a proof of convergence; inspect it alongside trace plots, effective sample size and Monte Carlo standard errors.",
+      "Warm-up is used to adapt or move a chain toward its target and is normally excluded from posterior summaries. Thinning is not a general cure for autocorrelation: it discards information and should be used only for a concrete storage or computational reason.",
+      "Posterior predictive checking asks whether replicated data y_rep drawn from p(y_rep|y)=∫p(y_rep|θ)π(θ|y)dθ reproduce features of the observed data. Calibration checks compare predictive probabilities with observed frequencies across repeated or held-out cases. A narrow posterior or a converged chain does not by itself establish that the model is well specified."
+    ],
+    formulas: [
+      { label: "Posterior expectation estimate", text: "ĝ = (1/n) Σᵢ₌₁ⁿ g(θᵢ)" },
+      { label: "IID Monte Carlo standard error", text: "MCSE(ĝ) ≈ s_g/√n" },
+      { label: "Integrated autocorrelation time", text: "τ = 1 + 2Σₖ₌₁∞ ρₖ;  n_eff ≈ n/τ" },
+      { label: "MCMC mean standard error", text: "MCSE(ĝ) ≈ s_g/√n_eff" },
+      { label: "Posterior predictive distribution", text: "p(y_rep|y) = ∫ p(y_rep|θ) π(θ|y) dθ" }
+    ],
+    examples: [
+      { title: "Monte Carlo error versus posterior uncertainty", problem: "An IID posterior simulation has n=400 draws. The sampled values of g(θ) have sample standard deviation 2. Estimate the Monte Carlo standard error of their mean.", steps: [
+        "The IID Monte Carlo standard error is s_g/√n.",
+        "Substitute 2/√400 = 2/20.",
+        "The estimated simulation error is 0.1. This is not the posterior standard deviation of θ; it is the estimated numerical error in the simulated average."
+      ] },
+      { title: "Autocorrelation reduces information", problem: "An MCMC run has 1,000 retained draws and estimated integrated autocorrelation time τ=5. Estimate effective sample size and the MCSE when the marginal standard deviation of g is 3.", steps: [
+        "Use n_eff≈n/τ=1000/5=200 independent-draw equivalents.",
+        "The dependent-draw MCSE is approximately s_g/√n_eff.",
+        "Thus MCSE≈3/√200≈0.212. Treating all 1,000 draws as independent would understate the simulation error."
+      ] },
+      { title: "Reading a diagnostic together", problem: "Two chains have R-hat=1.01, but one trace plot shows long flat stretches and the chains occupy different regions for much of the run. Is the posterior estimate trustworthy?", steps: [
+        "A value near 1 is reassuring only when considered with other diagnostics; it is not a convergence certificate.",
+        "Long flat stretches indicate poor exploration, while separated chain regions suggest the chains may not have sampled the same target region adequately.",
+        "Do not rely on the estimate yet. Investigate parameterization and sampler behaviour, run longer or improve the sampler, and reassess traces, R-hat, effective sample size and MCSE."
+      ] }
+    ],
+    quiz: [
+      { question: "For 400 independent posterior draws, the sample standard deviation of g(θ) is 2. What is the estimated MCSE of its sample mean?", options: ["2", "0.5", "0.1", "0.01"], answer: 2, difficulty: "easy", explanation: "MCSE≈s/√n=2/20=0.1. This quantifies simulation error in the mean, not posterior spread." },
+      { question: "An MCMC chain has 2,000 retained draws and integrated autocorrelation time 8. Its approximate effective sample size is", options: ["16,000", "2,000", "250", "8"], answer: 2, difficulty: "medium", explanation: "n_eff≈n/τ=2000/8=250. Dependence means the information content is much smaller than the iteration count." },
+      { question: "Which conclusion is justified by R-hat close to 1 when trace plots still show chains stuck in distinct regions?", options: ["Convergence is proved", "The posterior variance is zero", "The chains are independent", "The diagnostics conflict, so reliable convergence has not been established"], answer: 3, difficulty: "hard", explanation: "R-hat is a diagnostic, not proof. Sticking and separated traces are warning signs that require investigation even when a scalar summary looks reassuring." }
+    ]
+  },
+
 ];
