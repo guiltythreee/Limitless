@@ -60,6 +60,7 @@ for (const [file, id, rank] of rankChecks) {
 const indexSource = read("app/content/index.ts");
 for (const [name, expected] of Object.entries({
   rank03Order: ["joint-distributions", "conditional-expectation", "joint-transformations", "sums-convolution", "generating-functions", "order-statistics"],
+  rank01Order: ["markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "reliability-hazards"],
   rank02Order: ["limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "borel-cantelli", "likelihood-estimation", "confidence-hypothesis-tests"],
   rank00Order: ["martingales", "renewal-queueing", "monte-carlo", "mcmc"],
 })) {
