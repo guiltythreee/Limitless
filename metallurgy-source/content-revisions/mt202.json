@@ -3122,7 +3122,8 @@
             "text": "it is the hardest available steel"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Rimming steel develops a relatively pure, ductile outer skin because impurities are concentrated toward the core during gas evolution. That surface layer is valuable in deep drawing and pressing. **(a)** misidentifies the useful region; **(b)** is false because rimming steel can contain blowholes; **(d)** confuses ductility with hardness. Therefore **(c) is correct**."
       },
       "sourceFingerprint": "f565f601"
     },
@@ -3208,7 +3209,8 @@
             "text": "microsegregation"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Tin sweat and surface exudation of low-melting solute are examples of **inverse segregation**. Solute-rich liquid is drawn outward through interdendritic channels to feed solidification shrinkage. **(a)** normal segregation is associated with centre/upper-ingot enrichment; **(b)** gravity segregation is density-driven; **(d)** microsegregation occurs within grains or dendrite arms. Therefore **(c) is correct**."
       },
       "sourceFingerprint": "ffa146a1"
     },
@@ -3236,7 +3238,8 @@
             "text": "corner segregation"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The antimony-rich primary particles are less dense than the remaining liquid, so they rise and enrich the upper region. Movement of a separate phase under a density difference is **gravity segregation**. **(a)** normal and **(c)** inverse segregation describe solute redistribution during solidification and feeding; **(d)** is not the mechanism described. Therefore **(b) is correct**."
       },
       "sourceFingerprint": "9892cc1a"
     },
