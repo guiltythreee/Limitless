@@ -192,3 +192,22 @@ GitHub Actions run `41060608354` completed successfully for both Probability and
 - Both projects' TypeScript toolchains type-checked the shared contracts, reducer, runtime, and type fixtures.
 
 This is still a shared-runtime validation gate, not a production integration or full Next.js build. Course adapters, existing grading functions, persistence, and UI remain unchanged. The next work is to prove adapters against the actual course models and existing graders before integrating either course.
+
+## 13. P6.1 course-adapter compatibility checkpoint
+
+Source inspection confirmed the answer-shape boundary against live course code:
+
+- Probability's `Q` uses stable `key` IDs and its authoritative `grade(item, picked: number[])` returns score plus correct/partial/incorrect status. Its adapter translates shared option IDs back to the original numeric option indices and calls that exact function. It does not duplicate the partial-credit formula.
+- Metallurgy's canonical `Question` uses the original question ID, option labels, and one answer label. MT201/MT202 progress stores the selected label and boolean correctness; the MT202 practice and exam flows compare the selected label with `question.answer`. The adapter preserves that behaviour for MT201, MT202, and MT203.
+- MT202's taxonomy label `multiple-correct` describes question stems where several statements may be true; the answer options are combinations (for example, "1, 2 and 3"), and the player selects one combination option. It is not Probability-style multi-select input. The canonical single-choice answer shape is therefore correct for current MT202 UI behaviour.
+
+Adapter files:
+- `probability-source/app/learning-player/adapter-core.ts` translates shared answer IDs and delegates grading.
+- `probability-source/app/learning-player/adapter.ts` binds the core to the real Probability `grade()` function.
+- `metallurgy-source/app/learning-player/adapter.ts` creates course-ID-specific adapters over the canonical Metallurgy question model.
+
+The adapters are not yet imported by production player routes and do not write progress. Tests and strict TypeScript checks were added to the P6 workflow. GitHub Actions run `41061598550` completed successfully for both apps:
+- Probability: 13 lifecycle + 15 runtime + 8 adapter assertions passed; adapter and shared files type-checked.
+- Metallurgy: 13 lifecycle + 15 runtime + 9 adapter assertions passed; adapter and shared files type-checked.
+
+The Node test-only loader resolves extensionless TypeScript imports for these tests; it does not alter production module resolution. This gate validates adapter mapping and type compatibility, not full app builds or production integration.
