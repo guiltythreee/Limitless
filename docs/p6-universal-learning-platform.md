@@ -1,6 +1,6 @@
 # P6 — Universal Learning Platform Architecture
 
-Status: P6.0–P6.4 engine integration is complete; P6.5 has its first shared-shell vertical slice across MT201 and Probability Practice. Both app builds, shared-runtime type checks, and Metallurgy regressions pass on the current branch. No merge or deployment has been performed.
+Status: P6.0–P6.4 engine integration is complete; P6.5 shared-shell structure is rolled out across all eight active player/exam surfaces. Both app builds, shared-runtime type checks, shared-shell structural tests, and Metallurgy regressions pass on the latest validated implementation. No merge or deployment has been performed.
 Base: `main` after PR #28.
 Branch: `architecture/p6-universal-learning-platform`
 
@@ -369,3 +369,14 @@ Validation on branch commit `4ba50b5c4bb9dbd78c9effd9f5ecee842111c1bb`:
 The first extraction initially exposed two real integration issues: React could not be resolved from the repository-level shared folder, and the Probability Practice component import was missing. The shared shell was changed to receive the consuming app's element factory, the import was added, and the current two builds/type checks are green.
 
 P6.5 remains in progress. The shell is not yet rolled out to the other player surfaces, and the visual treatment is not yet a unified design system.
+
+
+## 23. P6.5 shared-shell structural regression
+
+Added `shared/learning-player/player-shell.test.mjs`. It exercises the shared shell with an injected fake element factory, without importing React. The 12 assertions verify the semantic `section` boundary, labelled `nav` landmark, supplied palette slot, supplied content slot, class forwarding, and the no-palette case.
+
+The P6 workflow now runs this structural test in both independent app matrices and includes `PlayerShell.ts` in both TypeScript checks. Validation on branch commit `59344bc137aea92b2d86dea538b600acf754ced1`:
+- P6 workflow run `41068471218`: both production builds, both shared-runtime TypeScript checks, the 12 shared-shell assertions, and the 29 cross-discipline assertions passed.
+- Metallurgy regression workflow run `41068471212`: completed successfully.
+
+The shell test deliberately validates structure and slot preservation, not browser-level visual regression, responsive breakpoints, or assistive-technology behaviour. Those remain the next P6.5 QA tasks.
