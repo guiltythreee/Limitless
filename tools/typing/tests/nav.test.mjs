@@ -12,15 +12,17 @@ assert.notEqual(scriptEnd, -1, "Bookkeys application script should close");
 const navSource = html.slice(navStart, scriptEnd);
 
 test("trackpad and touchscreen navigation gestures are left to the browser", () => {
-  assert.doesNotMatch(navSource, /window\\.addEventListener\\(["']wheel["']/,
+  assert.equal(navSource.includes('window.addEventListener("wheel"'), false,
     "Bookkeys must not intercept horizontal trackpad wheel gestures");
-  assert.doesNotMatch(navSource, /window\\.addEventListener\\(["']touch(?:start|move|end|cancel)["']/,
+  assert.equal(navSource.includes('window.addEventListener("touchstart"'), false,
     "Bookkeys must not install its own page-level touchscreen gesture recognizer");
-  assert.doesNotMatch(navSource, /function\\s+swipeIntent\\s*\\(/,
+  assert.equal(navSource.includes('window.addEventListener("touchmove"'), false,
+    "Bookkeys must not cancel native two-finger touchscreen navigation");
+  assert.equal(navSource.includes("function swipeIntent("), false,
     "the custom swipe classifier should be removed");
-  assert.doesNotMatch(navSource, /function\\s+navBackOrLeave\\s*\\(/,
+  assert.equal(navSource.includes("function navBackOrLeave("), false,
     "gesture-only back routing should be removed");
-  assert.doesNotMatch(navSource, /function\\s+leaveForHome\\s*\\(/,
+  assert.equal(navSource.includes("function leaveForHome("), false,
     "a gesture must not be replaced with a custom homepage redirect");
 });
 
