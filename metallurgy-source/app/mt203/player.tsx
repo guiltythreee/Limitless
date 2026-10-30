@@ -284,6 +284,8 @@ export default function Player({
                         key={qq.id}
                         className={`dot ${cls} ${i === idx ? "cur" : ""}`}
                         title={`Question ${i + 1}`}
+                        aria-label={`Question ${i + 1}`}
+                        aria-current={i === idx ? "step" : undefined}
                         onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
                       />
                     );
