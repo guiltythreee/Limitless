@@ -103,7 +103,7 @@ export const pathwayLessons: Lesson[] = [
       "Conditional probability changes the reference event: P(A | B)=P(A ∩ B)/P(B), provided P(B)>0. The denominator is B because we now know the outcome lies in B.",
       "A and B are independent exactly when P(A ∩ B)=P(A)P(B), equivalently P(A | B)=P(A) when P(B)>0. Independence is a statement about the probability model, not whether events sound unrelated.",
       "Mutually exclusive events with positive probabilities cannot be independent. Disjointness makes P(A ∩ B)=0, whereas independence would require P(A)P(B)>0.",
-      "Conditional independence is different: A and B may be dependent overall but independent once a third event C is known. Test outcomes, for example, can be independent conditional on a patient's true disease status even when the unconditioned results are associated."
+      "Conditional independence is different: A and B may be dependent overall but independent once a third event C is known. Test outcomes, for example, can be independent conditional on a patient's true disease status even when the unconditioned results are associated.",
       "For a conditioning event C with positive probability, the conditional model is itself a probability model on C. Its event probabilities are P(A|C), and the same addition and multiplication rules apply inside that model.",
       "For a finite partition {Cᵢ}, conditional independence given the partition means the factorisation holds within each relevant case Cᵢ. It does not generally imply unconditional independence: mixing over an unknown common cause can create dependence."
     ],
