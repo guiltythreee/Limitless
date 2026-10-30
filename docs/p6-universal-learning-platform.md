@@ -178,3 +178,17 @@ GitHub Actions run `41059775942` completed successfully for both independent pro
 - Metallurgy: lifecycle test and shared-contract TypeScript check passed.
 
 This validates the shared files with both installed TypeScript toolchains and confirms the pure lifecycle test executes in both CI environments. It does **not** yet validate either full Next.js app build or any production integration. The branch remains isolated and the PR remains draft.
+
+## 12. P6.1 adapter-driven session runtime checkpoint
+
+The first reusable session runtime now lives in `shared/learning-player/runtime.ts`. It is framework-neutral and generic over the course question and answer types. It owns the in-memory queue, answer map, current lifecycle state, and submission records.
+
+The runtime deliberately delegates question identity and grading to the supplied course adapter. It does not import either course, infer correctness, persist data, or render controls. It refuses submission when no answer exists and prevents a second submission or answer mutation while the current question is in review. Navigation retains answers and prior submissions while resetting the per-question lifecycle timer.
+
+Runtime tests cover unanswered submission, adapter-based single-choice grading, multi-choice partial-credit preservation, elapsed-time capture, review locking, duplicate-submit prevention, and queue navigation.
+
+GitHub Actions run `41060608354` completed successfully for both Probability and Metallurgy:
+- Both runtime/lifecycle test scripts passed.
+- Both projects' TypeScript toolchains type-checked the shared contracts, reducer, runtime, and type fixtures.
+
+This is still a shared-runtime validation gate, not a production integration or full Next.js build. Course adapters, existing grading functions, persistence, and UI remain unchanged. The next work is to prove adapters against the actual course models and existing graders before integrating either course.
