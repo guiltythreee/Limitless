@@ -27,9 +27,9 @@ export function LearningPlayerShell({
   return (
     <section className={className}>
       {palette !== undefined && (
-        <div className={paletteClassName} aria-label="Question navigation">
+        <nav className={paletteClassName} aria-label="Question navigation">
           {palette}
-        </div>
+        </nav>
       )}
       <div className={contentClassName}>{children}</div>
     </section>
