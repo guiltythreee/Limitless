@@ -4534,26 +4534,9 @@ SCENES.mist = {
   useSample();
   if (RM) { demoI = 70; demoDraw(); }
   showHome();
-  // ----- back and forward: the browser buttons, Alt+Left / Alt+Right, a mouse side button and a two-finger swipe all walk
-  // through the places you have been (Home, and the book you were reading). If a panel is open, going back closes it first. -----
-  /*NAV-START*/
-  // A two-finger swipe: how far sideways counts, and what a drag means. Pure, so it can be tested.
-  var SWIPE_MIN = 110;       // pixels of sideways travel before a two-finger drag counts as a swipe
-  var SWIPE_MAX_MS = 1400;   // a swipe is a quick flick, not a slow drag
-  function swipeIntent(dx, dy, i, max) {
-    if (Math.abs(dx) < Math.abs(dy) * 1.5) return "";   // mostly vertical: a scroll, not a swipe
-    if (Math.abs(dx) < SWIPE_MIN) return "";            // too short to mean anything yet
-    if (dx > 0) return "back";                          // left to right: back
-    return i < max ? "forward" : "";                    // right to left: forward only when there is somewhere to go
-  }
-  // Where "back to the Limitless homepage" points, or "" when there is no site around this page.
-  // Inside Limitless the page is framed by a shell whose own "Back to Limitless" link is the homepage;
-  // a standalone copy served from the site's own tools/typing folder uses the site root.
-  function homeHref(parentHref, path) {
-    if (parentHref) return parentHref;
-    return /\/tools\/typing\/[^/]*$/.test(path || "") ? "../../" : "";
-  }
-  /*NAV-END*/
+  // ----- back and forward: browser buttons, Alt+Left / Alt+Right and mouse side buttons walk
+  // through Bookkeys history (Home and the book you were reading). Browser Back closes an open panel first. -----
+
   function navTo(v) {
     if (!NAV.ready || NAV.v === v) return;
     NAV.v = v; NAV.i++; NAV.max = NAV.i;
@@ -4569,66 +4552,6 @@ SCENES.mist = {
   });
   function navBack() { if (NAV.i > 0) history.back(); }
   function navForward() { if (NAV.i < NAV.max) history.forward(); }
-  // Leave Bookkeys for the Limitless homepage. Reads the shell's own "Back to Limitless" link when the
-  // page is framed; in a bare copy with no site to return to it does nothing at all.
-  function leaveForHome() {
-    var parentHref = "", a = null, url;
-    try {
-      if (window.parent && window.parent !== window) {
-        a = window.parent.document.querySelector(".nav-links a, a.brand, a[href]");
-        if (a) parentHref = a.href || "";
-      }
-    } catch (e) {}   // a parent from another origin cannot be read, and that is fine
-    url = homeHref(parentHref, location.pathname);
-    if (!url) return false;
-    try { (window.top || window).location.href = url; return true; } catch (e2) { return false; }
-  }
-  // A swipe back: walk back through the places you have been, then close a panel, then leave Bookkeys.
-  function navBackOrLeave() {
-    if (NAV.i > 0) { navBack(); return; }
-    if (anyDialogOpen()) { closeTopDialog(); return; }
-    leaveForHome();
-  }
-  var wheelAcc = 0, wheelT = 0, wheelDone = false;
-  window.addEventListener("wheel", function (e) {
-    var now;
-    if (e.ctrlKey || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
-    now = performance.now();
-    if (now - wheelT > 250) { wheelAcc = 0; wheelDone = false; }
-    wheelT = now; e.preventDefault();   // stops the browser's own swipe navigation, so it cannot fire as well
-    if (wheelDone) return;
-    wheelAcc += e.deltaX;
-    if (wheelAcc <= -90) { wheelDone = true; navBackOrLeave(); } else if (wheelAcc >= 90) { wheelDone = true; navForward(); }
-  }, { passive: false });
-  // A two-finger swipe on a touchscreen: the same walk through places as the trackpad swipe above, and
-  // the way out to the Limitless homepage once there is nowhere left to go back to. Two fingers only,
-  // mostly sideways only, so typing, one-finger scrolling, pinch and text selection stay untouched.
-  var tt = null;
-  function ttEnd() { tt = null; }
-  function inTyping(t) {
-    for (; t && t.nodeType === 1; t = t.parentNode) {
-      var n = t.tagName;
-      if (n === "INPUT" || n === "TEXTAREA" || n === "SELECT" || t.isContentEditable) return true;
-    }
-    return false;
-  }
-  window.addEventListener("touchstart", function (e) {
-    if (e.touches.length !== 2 || inTyping(e.target)) { tt = null; return; }
-    tt = { x: (e.touches[0].clientX + e.touches[1].clientX) / 2, y: (e.touches[0].clientY + e.touches[1].clientY) / 2, t: performance.now(), done: false };
-  }, { passive: true });
-  window.addEventListener("touchmove", function (e) {
-    var x, y, what;
-    if (!tt || tt.done || e.touches.length !== 2) return;
-    x = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-    y = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-    what = swipeIntent(x - tt.x, y - tt.y, NAV.i, NAV.max);
-    if (!what || performance.now() - tt.t > SWIPE_MAX_MS) return;
-    tt.done = true;
-    if (what === "back") navBackOrLeave(); else navForward();
-    if (e.cancelable) e.preventDefault();   // keep the browser from also acting on this drag
-  }, { passive: false });
-  window.addEventListener("touchend", ttEnd, { passive: true });
-  window.addEventListener("touchcancel", ttEnd, { passive: true });
   document.addEventListener("keydown", function (e) {
     if (e.altKey && e.key === "ArrowLeft") { e.preventDefault(); navBack(); } else if (e.altKey && e.key === "ArrowRight") { e.preventDefault(); navForward(); }
   });
