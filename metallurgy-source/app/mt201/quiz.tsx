@@ -114,8 +114,8 @@ export default function Quiz({
   const correct = qs.filter((x) => stateFor(x.n)?.correct).length;
 
   const pick = (label: string) => {
-    if (!q) return null;
-  const rec = stateFor(q.n);
+    if (!q) return;
+    const rec = stateFor(q.n);
     if (rec) return; // already recorded — locked
     const ms = Math.max(0, Math.round(elapsedNow()));
     timerStartedAt.current = null;
@@ -171,6 +171,7 @@ export default function Quiz({
     );
   }
 
+  if (!q) return null;
   const rec = stateFor(q.n);
   const questionKey = qid(topicId, q.n);
   const latestTimedActivity = rec
