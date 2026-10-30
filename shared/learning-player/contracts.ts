@@ -23,6 +23,8 @@ export type PlayerAnswerStatus =
   | "unattempted";
 
 export interface PlayerGrade {
+  /** True only when the response is fully correct. */
+  correct: boolean;
   /** Normalised points earned, inclusive 0 and 1. */
   score: number;
   status: Exclude<PlayerAnswerStatus, "unattempted">;
