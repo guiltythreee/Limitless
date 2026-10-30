@@ -141,20 +141,20 @@ for (let i = 0; i < starts.length; i++) {
 }
 // Sequence 09 core-extension lessons must be fully taught, not title-and-formula stubs.
 const rank09ExtraSource = read("app/content/rank09-extra.ts");
-const rank09ExtraStarts = [...rank09ExtraSource.matchAll(/\\n  \\{\\n    id: "([^"]+)", rank: 9/g)];
+const rank09ExtraStarts = [...rank09ExtraSource.matchAll(/\n  \{\n    id: "([^"]+)", rank: 9/g)];
 if (rank09ExtraStarts.length !== 9) {
   throw new Error("Expected nine Sequence 09 extension lessons; found " + rank09ExtraStarts.length);
 }
 for (let i = 0; i < rank09ExtraStarts.length; i++) {
   const start = rank09ExtraStarts[i].index;
-  const end = i + 1 < rank09ExtraStarts.length ? rank09ExtraStarts[i + 1].index : rank09ExtraSource.lastIndexOf("\\n];");
+  const end = i + 1 < rank09ExtraStarts.length ? rank09ExtraStarts[i + 1].index : rank09ExtraSource.lastIndexOf("\n];");
   const block = rank09ExtraSource.slice(start, end);
   const id = rank09ExtraStarts[i][1];
-  const examples = [...block.matchAll(/\\{\\s*title:\\s*"[^"]*",\\s*problem:/g)].length;
-  const questions = [...block.matchAll(/\\{\\s*question:\\s*"[^"]*",\\s*options:/g)];
+  const examples = [...block.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length;
+  const questions = [...block.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)];
   if (examples < 2) throw new Error("Sequence 09 lesson " + id + " needs at least two worked examples.");
   if (questions.length !== 3) throw new Error("Sequence 09 lesson " + id + " needs exactly three graded questions.");
-  const difficulties = new Set([...block.matchAll(/difficulty:\\s*"(easy|medium|hard)"/g)].map((m) => m[1]));
+  const difficulties = new Set([...block.matchAll(/difficulty:\s*"(easy|medium|hard)"/g)].map((m) => m[1]));
   for (const level of ["easy", "medium", "hard"]) {
     if (!difficulties.has(level)) throw new Error("Sequence 09 lesson " + id + " is missing its " + level + " question.");
   }
