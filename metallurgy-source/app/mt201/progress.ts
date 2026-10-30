@@ -167,9 +167,10 @@ function appendAndReturn(
 }
 
 /** One real answer = one `practice` activity, plus the usual `answered` entry. */
-export function recordAnswer(p: Progress, key: string, choice: string, correct: boolean, ms = 0): Progress {
+export function recordAnswer(p: Progress, key: string, choice: string, correct: boolean, ms = 0, difficulty = 1): Progress {
   const now = Date.now();
-  const next: Progress = {
+  const fresh = p.answered[key] === undefined;
+  let next: Progress = {
     ...p,
     answered: { ...p.answered, [key]: { choice, correct, at: now } },
   };
@@ -185,6 +186,7 @@ export function recordAnswer(p: Progress, key: string, choice: string, correct: 
   // Snapshot the stored-or-derived history BEFORE this answer lands, so the
   // answer is logged exactly once and never duplicated as a legacy twin.
   // `load()` only reads — nothing is written or backfilled here.
+  if (fresh) next = appendLsrActivity(next, questionActivity("metallurgy-mt201", key, now, correct, 0, difficulty)).progress;
   const goalSnapshot = withDailyGoalSnapshot(next, now);
   return appendAndReturn({ ...goalSnapshot, activities: logFor(p).load() }, [
     { q: key, topicId, picked: choice, correct, mode: "practice", ms, ts: now },
