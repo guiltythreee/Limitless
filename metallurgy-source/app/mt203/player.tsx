@@ -166,11 +166,11 @@ export default function Player({
     if (!result.submission) return;
     const ok = result.submission.grade.correct;
     setSession(result.session);
-    const initialRewardLedgerLength = progress.rewardLedger.length;
+    const initialRewardLedgerLength = progress.rewardLedger?.length ?? 0;
     let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty, false);
     const res = awardAnswer(p, theQ.id, theQ.difficulty, ok, false);
     p = res.progress;
-    saveProgress(p, p.rewardLedger.length > initialRewardLedgerLength);
+    saveProgress(p, (p.rewardLedger?.length ?? 0) > initialRewardLedgerLength);
     onProgress(p);
     if (res.xp > 0) {
       setGain((g) => g + res.xp);
