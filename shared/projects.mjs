@@ -36,7 +36,7 @@ function validateProject(input) {
   const difficulty = clean(input?.difficulty);
 
   if (!PROJECT_ID_RE.test(projectId) || projectId.length > 64) return { ok: false, error: "invalid-project-id" };
-  if (!REWARD_SOURCE_REGISTRY.some((source) => source.moduleId === moduleId)) return { ok: false, error: "unregistered-module" };
+  if (moduleId !== "personal-projects" || !REWARD_SOURCE_REGISTRY.some((source) => source.moduleId === moduleId)) return { ok: false, error: "unregistered-module" };
   if (title.length < 5 || title.length > 120) return { ok: false, error: "invalid-title" };
   if (scope.length < 20 || scope.length > 2000) return { ok: false, error: "invalid-scope" };
   if (criteria.length < 20 || criteria.length > 2000) return { ok: false, error: "invalid-criteria" };
@@ -54,7 +54,7 @@ export function listRegisteredProjects(storage) {
   const projects = rawProjects.filter((project) =>
     isRecord(project) &&
     typeof project.projectId === "string" &&
-    typeof project.moduleId === "string" &&
+    project.moduleId === "personal-projects" &&
     typeof project.title === "string" &&
     typeof project.scope === "string" &&
     typeof project.criteria === "string" &&
