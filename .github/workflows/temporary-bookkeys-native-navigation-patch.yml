@@ -59,12 +59,15 @@ jobs:
           };
           if (Object.values(checks).some(v => !v)) throw new Error('Navigation regression failed: ' + JSON.stringify(checks));
 
-          const scriptBlocks = [...s.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)];
+          const scriptParts = s.split('<script').slice(1);
           let compiled = 0;
-          for (const match of scriptBlocks) {
-            const attrs = match[1] || '';
-            if (/\\btype\\s*=\\s*["'](?:application\\/json|application\\/ld\\+json|text\\/template)["']/i.test(attrs)) continue;
-            new Function(match[2] || '');
+          for (const part of scriptParts) {
+            const close = part.indexOf('</script>');
+            const open = part.indexOf('>');
+            if (close < 0 || open < 0 || open > close) throw new Error('Malformed inline script element');
+            const attrs = part.slice(0, open);
+            if (attrs.includes('type="application/json"') || attrs.includes("type='application/json'")) continue;
+            new Function(part.slice(open + 1, close));
             compiled++;
           }
           if (compiled !== 5) throw new Error('Expected to syntax-check five inline script blocks; checked ' + compiled);
