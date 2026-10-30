@@ -230,7 +230,8 @@ const sameExamBest = (a: Progress["examBest"], b: Progress["examBest"]) =>
 export function recordExamAnswers(
   p: Progress,
   attempted: readonly ExamAnswer[],
-  examBest?: Progress["examBest"]
+  examBest?: Progress["examBest"],
+  assessment?: AssessmentInput
 ): Progress {
   // Blanks are skipped here as well as by the caller: no `answered` entry and
   // no activity for an unanswered question.
@@ -255,12 +256,14 @@ export function recordExamAnswers(
   // The single write of the exam flow: the shared log appends the activity
   // batch onto THIS root, so answered + activities + examBest persist together.
   // Nothing may be saved after it.
-  const root = withDailyGoalSnapshot({
+  let root = withDailyGoalSnapshot({
     ...p,
     answered,
     examBest: best,
     activities: logFor(p).load(),
   }, now);
+  const reward = assessment ? assessmentActivity("metallurgy-mt202", assessment) : null;
+  if (reward) root = appendLsrActivity(root, reward).progress;
 
   return appendAndReturn(
     root,
@@ -271,7 +274,8 @@ export function recordExamAnswers(
       correct: a.correct,
       mode: "exam",
       ts: now,
-    }))
+    })),
+    Boolean(reward)
   );
 }
 
@@ -287,11 +291,8 @@ export function toggleBookmark(p: Progress, questionId: string): Progress {
 }
 
 export function resetProgress() {
-  try {
-    window.localStorage.removeItem(KEY);
-  } catch {
-    /* ignore */
-  }
+  const saved = loadProgress();
+  saveProgress({ answered: {}, examBest: null, rewardLedger: saved.rewardLedger });
 }
 
 export function loadTheme(): "dark" | "light" {
