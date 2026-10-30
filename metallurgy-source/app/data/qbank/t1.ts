@@ -23,16 +23,16 @@ const T1: TopicSource = {
       diff: 1,
       text: "A polymer is a macromolecule built by chemically linking many small molecules called:",
       options: [
-        { label: "a", text: "repeat units" },
-        { label: "b", text: "ions" },
-        { label: "c", text: "monomers" },
-        { label: "d", text: "oligomers" }
+        { label: "a", text: "monomers" },
+        { label: "b", text: "repeat units" },
+        { label: "c", text: "oligomers" },
+        { label: "d", text: "ions" }
       ],
-      answer: "c",
+      answer: "a",
       why: "**Monomers** are the small reactive molecules that link together; the unit left behind in the chain is the *repeat unit*.",
       distractors: {
-        a: "A repeat unit is what remains *inside* the chain after polymerization — not the starting molecule.",
-        d: "Oligomers are short polymers (a few repeat units), not the building blocks.",
+        b: "A repeat unit is what remains *inside* the chain after polymerization — not the starting molecule.",
+        c: "Oligomers are short polymers (a few repeat units), not the building blocks.",
       },
       concept: "poly (many) + meres (parts)",
       tags: ["revision"],
@@ -43,8 +43,8 @@ const T1: TopicSource = {
       diff: 2,
       text: "Why is the repeat unit of polyethylene written as $\\text{–CH}_2\\text{–CH}_2\\text{–}$ rather than $\\text{CH}_2{=}\\text{CH}_2$?",
       options: [
-        { label: "a", text: "The formula is a convention — the structure is not known exactly." },
-        { label: "b", text: "The double bond is only temporarily broken during polymerization." },
+        { label: "a", text: "The double bond is only temporarily broken during polymerization." },
+        { label: "b", text: "The formula is a convention — the structure is not known exactly." },
         { label: "c", text: "The double bond opens and two backbone single-bonded carbons remain in the chain." },
         { label: "d", text: "Polyethylene actually retains one double bond per repeat unit." }
       ],
@@ -52,7 +52,7 @@ const T1: TopicSource = {
       why: "Addition polymerization **opens the $\\pi$ bond** of $C{=}C$: each monomer carbon forms a new $\\sigma$ bond to its neighbours, leaving a saturated $\\text{–CH}_2\\text{–CH}_2\\text{–}$ repeat unit.",
       distractors: {
         d: "The product is saturated — no $C{=}C$ remains (that is why PE is chemically inert).",
-        b: "The change is permanent and irreversible; the bond does not re-form.",
+        a: "The change is permanent and irreversible; the bond does not re-form.",
       },
       concept: "count atoms on the *repeat unit*, not the monomer",
       tags: ["confused"],
@@ -63,16 +63,16 @@ const T1: TopicSource = {
       diff: 1,
       text: "Which was the **first fully synthetic polymer** to be produced commercially?",
       options: [
-        { label: "a", text: "Polyethylene (1933)" },
-        { label: "b", text: "Bakelite (phenol–formaldehyde, 1909)" },
-        { label: "c", text: "Nylon 6,6 (1935)" },
-        { label: "d", text: "Celluloid (cellulose nitrate, 1868)" }
+        { label: "a", text: "Nylon 6,6 (1935)" },
+        { label: "b", text: "Celluloid (cellulose nitrate, 1868)" },
+        { label: "c", text: "Polyethylene (1933)" },
+        { label: "d", text: "Bakelite (phenol–formaldehyde, 1909)" }
       ],
-      answer: "b",
+      answer: "d",
       why: "**Bakelite (1909, Baekeland)** was the first wholly man-made polymer — made entirely from synthetic small molecules, not from a natural polymer backbone.",
       distractors: {
-        d: "Celluloid is **semi-synthetic**: it modifies natural cellulose.",
-        c: "Nylon came more than two decades after Bakelite.",
+        b: "Celluloid is **semi-synthetic**: it modifies natural cellulose.",
+        a: "Nylon came more than two decades after Bakelite.",
       },
       tags: ["revision"],
     },
@@ -102,15 +102,15 @@ const T1: TopicSource = {
       diff: 1,
       text: "Nylon 6,6 gets its name because:",
       options: [
-        { label: "a", text: "The material was first commercialized in 1966, so the two sixes record the year it entered industrial production." },
-        { label: "b", text: "Each nylon macromolecule contains exactly six repeat units, and the second six records the number of chains in a batch." },
-        { label: "c", text: "The diamine and diacid each contain six carbon atoms: hexamethylenediamine and adipic acid." },
-        { label: "d", text: "Its melting point is 66 °C, with the two digits repeated to distinguish the grade from other nylons." }
+        { label: "a", text: "Its melting point is 66 °C, with the two digits repeated to distinguish the grade from other nylons." },
+        { label: "b", text: "The material was first commercialized in 1966, so the two sixes record the year it entered industrial production." },
+        { label: "c", text: "Each nylon macromolecule contains exactly six repeat units, and the second six records the number of chains in a batch." },
+        { label: "d", text: "The diamine and diacid each contain six carbon atoms: hexamethylenediamine and adipic acid." }
       ],
-      answer: "c",
+      answer: "d",
       why: "The two numbers give the **carbon counts of the two monomers**: hexamethylene**diamine** (6 C) + **adipic** acid (6 C). Nylon 6,10 = diamine of 6 C + diacid of 10 C.",
       distractors: {
-        b: "The numbers never refer to chain length — chains contain thousands of units.",
+        c: "The numbers never refer to chain length — chains contain thousands of units.",
       },
       tags: ["revision"],
     },
@@ -126,15 +126,15 @@ const T1: TopicSource = {
         { num: 4, text: "The degree of polymerization equals the number of monomer molecules originally present." },
       ],
       options: [
-        { label: "a", text: "1, 2 and 3 only" },
-        { label: "b", text: "2, 3 and 4 only" },
-        { label: "c", text: "1 and 4 only" },
-        { label: "d", text: "1, 2, 3 and 4" }
+        { label: "a", text: "1 and 4 only" },
+        { label: "b", text: "1, 2 and 3 only" },
+        { label: "c", text: "1, 2, 3 and 4" },
+        { label: "d", text: "2, 3 and 4 only" }
       ],
-      answer: "a",
+      answer: "b",
       why: "Items 1–3 are correct. Item 4 is wrong: **DP = number of repeat units in one chain**, not the total number of monomers charged to the reactor.",
       distractors: {
-        d: "Item 4 confuses DP of *one chain* with the total monomer feed.",
+        c: "Item 4 confuses DP of *one chain* with the total monomer feed.",
       },
       tags: ["confused"],
     },
@@ -144,15 +144,15 @@ const T1: TopicSource = {
       diff: 2,
       text: "Polyethylene chains have a number-average molecular weight $M_n = 56{,}000$ g/mol. Taking the repeat unit $\\text{–CH}_2\\text{–CH}_2\\text{–}$ ($M = 28$ g/mol), the number-average degree of polymerization is:",
       options: [
-        { label: "a", text: "2.0 × 10²" },
+        { label: "a", text: "2.0 × 10³" },
         { label: "b", text: "2.8 × 10⁴" },
-        { label: "c", text: "2.0 × 10³" },
+        { label: "c", text: "2.0 × 10²" },
         { label: "d", text: "5.6 × 10²" }
       ],
-      answer: "c",
+      answer: "a",
       why: "$DP_n = M_n / M_{repeat} = 56{,}000 / 28 = \\mathbf{2{,}000}$.",
       distractors: {
-        a: "200 would need $M_n = 5{,}600$ — off by a factor of ten.",
+        c: "200 would need $M_n = 5{,}600$ — off by a factor of ten.",
         d: "560 divides by 100, not by 28.",
       },
       concept: "$DP = M / M_{repeat}$",
@@ -188,16 +188,16 @@ const T1: TopicSource = {
       diff: 2,
       text: "Why does LDPE have lower density and lower crystallinity than HDPE?",
       options: [
-        { label: "a", text: "LDPE's long branches prevent chains from packing closely." },
-        { label: "b", text: "LDPE has stronger intermolecular forces." },
-        { label: "c", text: "LDPE has a higher molecular weight." },
-        { label: "d", text: "LDPE is a thermoset with cross-links." }
+        { label: "a", text: "LDPE is a thermoset with cross-links." },
+        { label: "b", text: "LDPE has a higher molecular weight." },
+        { label: "c", text: "LDPE has stronger intermolecular forces." },
+        { label: "d", text: "LDPE's long branches prevent chains from packing closely." }
       ],
-      answer: "a",
+      answer: "d",
       why: "LDPE's **branches** sterically block close packing → less crystalline → lower density. HDPE is essentially **linear** and packs efficiently (≈80% crystalline).",
       distractors: {
-        d: "LDPE is a thermoplastic; branching ≠ cross-linking.",
-        c: "Density here is set by packing, not by chain length.",
+        a: "LDPE is a thermoplastic; branching ≠ cross-linking.",
+        b: "Density here is set by packing, not by chain length.",
       },
       concept: "linear → HDPE (dense) · branched → LDPE (less dense)",
       tags: ["confused"],
@@ -208,15 +208,15 @@ const T1: TopicSource = {
       diff: 1,
       text: "The configuration of a polymer chain can only be changed by:",
       options: [
-        { label: "a", text: "Dissolving a polymer may change its shape or conformation, but does not change its chain configuration by itself." },
-        { label: "b", text: "Rotation about single bonds changes chain conformation, while the covalent configuration remains unchanged." },
+        { label: "a", text: "Rotation about single bonds changes chain conformation, while the covalent configuration remains unchanged." },
+        { label: "b", text: "Changing temperature may alter conformation or phase, but does not change configuration unless a chemical reaction occurs." },
         { label: "c", text: "Breaking and reforming covalent bonds can alter stereochemical configuration or the arrangement around a double bond." },
-        { label: "d", text: "Changing temperature may alter conformation or phase, but does not change configuration unless a chemical reaction occurs." }
+        { label: "d", text: "Dissolving a polymer may change its shape or conformation, but does not change its chain configuration by itself." }
       ],
       answer: "c",
       why: "**Configuration** (tacticity, cis/trans geometry) is fixed by bonding — altering it needs bond breakage. Rotations about single bonds change **conformation** only.",
       distractors: {
-        b: "That changes conformation, which is freely interconvertible.",
+        a: "That changes conformation, which is freely interconvertible.",
       },
       concept: "configuration ≠ conformation",
       tags: ["confused"],
@@ -228,20 +228,20 @@ const T1: TopicSource = {
       "text": "Which structural explanation best accounts for natural rubber being flexible while gutta-percha is more rigid and crystalline, despite both being polyisoprene?",
       "options": [
         {
-          "label": "a",
-          "text": "The cis and trans forms have different repeat-unit compositions and molar masses, which alone determine the crystallinity difference."
+            "label": "a",
+            "text": "The cis and trans forms have different repeat-unit compositions and molar masses, which alone determine the crystallinity difference."
         },
         {
-          "label": "b",
-          "text": "The cis geometry introduces kinks that hinder regular packing, whereas straighter trans chains can pack into crystallites."
+            "label": "b",
+            "text": "The cis geometry introduces kinks that hinder regular packing, whereas straighter trans chains can pack into crystallites."
         },
         {
-          "label": "c",
-          "text": "Gutta-percha's rigidity is caused by a higher covalent cross-link density, while chain geometry has little effect on packing."
+            "label": "c",
+            "text": "Gutta-percha's rigidity is caused by a higher covalent cross-link density, while chain geometry has little effect on packing."
         },
         {
-          "label": "d",
-          "text": "The cis geometry lets the chain pack in a more regular arrangement, while trans geometry introduces kinks that inhibit crystallization."
+            "label": "d",
+            "text": "The cis geometry lets the chain pack in a more regular arrangement, while trans geometry introduces kinks that inhibit crystallization."
         }
       ],
       "answer": "b",
@@ -262,16 +262,16 @@ const T1: TopicSource = {
       diff: 1,
       text: "The copolymer connective `co` denotes which sequence arrangement?",
       options: [
-        { label: "a", text: "Block" },
-        { label: "b", text: "Alternating" },
-        { label: "c", text: "Random" },
-        { label: "d", text: "Graft" }
+        { label: "a", text: "Graft" },
+        { label: "b", text: "Random" },
+        { label: "c", text: "Alternating" },
+        { label: "d", text: "Block" }
       ],
-      answer: "c",
+      answer: "b",
       why: "`co` = **random** (e.g. SBR = styrene-*co*-butadiene). `alt` = alternating, `block` = block, `graft` = graft.",
       distractors: {
-        b: "Alternating uses `alt`.",
-        a: "Block uses `block`.",
+        c: "Alternating uses `alt`.",
+        d: "Block uses `block`.",
       },
       tags: ["revision"],
     },
@@ -281,12 +281,12 @@ const T1: TopicSource = {
       diff: 3,
       text: "A container must be remoulded repeatedly after use. Which polymer class is required?",
       options: [
-        { label: "a", text: "Heavily cross-linked elastomer" },
-        { label: "b", text: "Thermoplastic polymer" },
-        { label: "c", text: "Any of these — all remelt" },
+        { label: "a", text: "Thermoplastic polymer" },
+        { label: "b", text: "Any of these — all remelt" },
+        { label: "c", text: "Heavily cross-linked elastomer" },
         { label: "d", text: "Thermosetting polymer" }
       ],
-      answer: "b",
+      answer: "a",
       why: "Only **thermoplastics** consist of separate chains held by secondary forces — they soften on heating and can be remoulded any number of times.",
       distractors: {
         d: "Thermosets cure into an infinite network: heat degrades them, it does not flow them.",
@@ -302,11 +302,11 @@ const T1: TopicSource = {
       reason: "Vinyl alcohol tautomerizes to acetaldehyde, so PVA is instead produced by hydrolysis of polyvinyl acetate.",
       options: [
         { label: "a", text: "A is true, R is false" },
-        { label: "b", text: "Both A and R are true, but R is NOT the correct explanation of A" },
-        { label: "c", text: "Both A and R are true, and R is the correct explanation of A" },
+        { label: "b", text: "Both A and R are true, and R is the correct explanation of A" },
+        { label: "c", text: "Both A and R are true, but R is NOT the correct explanation of A" },
         { label: "d", text: "A is false, R is true" }
       ],
-      answer: "c",
+      answer: "b",
       why: "Vinyl alcohol's enol form spontaneously **tautomerizes** to the more stable aldehyde, so the monomer does not exist stably. Hence the industrial route: **hydrolyse (alcoholize) PVAc → PVA**.",
       concept: "enol ↔ keto tautomerism",
       tags: ["confused"],
@@ -318,15 +318,15 @@ const T1: TopicSource = {
       text: "Order these milestones chronologically, earliest first: (1) Ziegler–Natta stereospecific catalysis (2) Bakelite commercialized (3) Staudinger's macromolecular hypothesis (4) Carothers' nylon & step-growth theory (5) Celluloid (Hyatt)",
       options: [
         { label: "a", text: "2 → 5 → 3 → 1 → 4" },
-        { label: "b", text: "5 → 2 → 3 → 4 → 1" },
-        { label: "c", text: "5 → 3 → 2 → 4 → 1" },
-        { label: "d", text: "5 → 2 → 4 → 3 → 1" }
+        { label: "b", text: "5 → 2 → 4 → 3 → 1" },
+        { label: "c", text: "5 → 2 → 3 → 4 → 1" },
+        { label: "d", text: "5 → 3 → 2 → 4 → 1" }
       ],
-      answer: "b",
+      answer: "c",
       why: "Celluloid **1868** → Bakelite **1909** → Staudinger's hypothesis **1920s** → Carothers' nylon work **1930s** → Ziegler–Natta **1950s**.",
       distractors: {
-        c: "Staudinger (1920s) came after Bakelite (1909), not before.",
-        d: "Carothers (1930s) came after Staudinger (1920s).",
+        d: "Staudinger (1920s) came after Bakelite (1909), not before.",
+        b: "Carothers (1930s) came after Staudinger (1920s).",
       },
       tags: ["revision"],
     },
@@ -342,12 +342,12 @@ const T1: TopicSource = {
         ["4", "PTFE", "", "(iv) poly(methyl methacrylate)"],
       ],
       options: [
-        { label: "a", text: "1-iv, 2-iii, 3-ii, 4-i" },
-        { label: "b", text: "1-ii, 2-i, 3-iv, 4-iii" },
-        { label: "c", text: "1-ii, 2-iv, 3-i, 4-iii" },
-        { label: "d", text: "1-i, 2-ii, 3-iii, 4-iv" }
+        { label: "a", text: "1-i, 2-ii, 3-iii, 4-iv" },
+        { label: "b", text: "1-ii, 2-iv, 3-i, 4-iii" },
+        { label: "c", text: "1-ii, 2-i, 3-iv, 4-iii" },
+        { label: "d", text: "1-iv, 2-iii, 3-ii, 4-i" }
       ],
-      answer: "b",
+      answer: "c",
       why: "POM = polyoxymethylene (polyacetal) · PET = polyethylene terephthalate · PMMA = poly(methyl methacrylate) · PTFE = polytetrafluoroethylene.",
       tags: ["revision"],
     },
@@ -363,15 +363,15 @@ const T1: TopicSource = {
         { num: 4, text: "Large strains are essentially recoverable because elasticity is entropic in origin." },
       ],
       options: [
-        { label: "a", text: "2 and 3 only" },
-        { label: "b", text: "1, 2 and 4 only" },
-        { label: "c", text: "1, 2, 3 and 4" },
-        { label: "d", text: "3 and 4 only" }
+        { label: "a", text: "3 and 4 only" },
+        { label: "b", text: "1, 2, 3 and 4" },
+        { label: "c", text: "2 and 3 only" },
+        { label: "d", text: "1, 2 and 4 only" }
       ],
-      answer: "b",
+      answer: "d",
       why: "1, 2 and 4 define an elastomer. Item 3 is false — elastomers are **amorphous**; crystallinity would make them rigid (that is exactly why *trans*-polyisoprene is rigid).",
       distractors: {
-        c: "Item 3 inverts the requirement: amorphous + lightly cross-linked + above Tg.",
+        b: "Item 3 inverts the requirement: amorphous + lightly cross-linked + above Tg.",
       },
       tags: ["confused"],
     },
@@ -381,15 +381,15 @@ const T1: TopicSource = {
       diff: 3,
       text: "Why does raising the functionality of monomers above two lead to cross-linked (network) polymers in step-growth polymerization?",
       options: [
-        { label: "a", text: "Trifunctional monomers release more small molecules, and that by-product alone causes a polymer to become a cross-linked network." },
-        { label: "b", text: "Each extra reactive group can connect another chain segment, enabling branching and eventually a three-dimensional network." },
+        { label: "a", text: "Each extra reactive group can connect another chain segment, enabling branching and eventually a three-dimensional network." },
+        { label: "b", text: "Covalent cross-linking occurs only in chain-growth systems; step-growth monomers with functionality above two remain linear." },
         { label: "c", text: "Trifunctional monomers always react faster than bifunctional ones, so rate alone explains the gel and cross-link formation." },
-        { label: "d", text: "Covalent cross-linking occurs only in chain-growth systems; step-growth monomers with functionality above two remain linear." }
+        { label: "d", text: "Trifunctional monomers release more small molecules, and that by-product alone causes a polymer to become a cross-linked network." }
       ],
-      answer: "b",
+      answer: "a",
       why: "Functionality = number of reactive groups per monomer. With **f > 2**, some units are branch points; beyond the **gel point** the branches connect into one infinite network.",
       distractors: {
-        a: "More condensate does not cross-link anything — cross-linking is covalent branching.",
+        d: "More condensate does not cross-link anything — cross-linking is covalent branching.",
       },
       concept: "f = 2 → linear · f > 2 → branched/network · gel point",
       tags: ["confused"],
@@ -400,15 +400,15 @@ const T1: TopicSource = {
       diff: 1,
       text: "Degree of polymerization (DP) is defined as the number of:",
       options: [
-        { label: "a", text: "functional groups per repeat unit" },
-        { label: "b", text: "repeat units in one polymer chain" },
-        { label: "c", text: "chains in one mole of polymer" },
-        { label: "d", text: "monomer molecules in the whole sample" }
+        { label: "a", text: "monomer molecules in the whole sample" },
+        { label: "b", text: "chains in one mole of polymer" },
+        { label: "c", text: "repeat units in one polymer chain" },
+        { label: "d", text: "functional groups per repeat unit" }
       ],
-      answer: "b",
+      answer: "c",
       why: "**DP = repeat units per chain**; $M \\approx DP \\times M_{repeat}$.",
       distractors: {
-        d: "The sample contains many chains, each with its own DP.",
+        a: "The sample contains many chains, each with its own DP.",
       },
       tags: ["revision"],
     },
@@ -418,15 +418,15 @@ const T1: TopicSource = {
       diff: 2,
       text: "Distinguish a *branched* polymer from a *cross-linked* polymer.",
       options: [
-        { label: "a", text: "Branching and cross-linking are both side chains on one molecule; neither connects two separate polymer chains." },
-        { label: "b", text: "Branches are intermolecular attractions between chains, while cross-links are weak intramolecular side chains." },
-        { label: "c", text: "The terms describe the same architecture; both mean a polymer with more than one linear chain segment." },
-        { label: "d", text: "A branch extends from one backbone; a cross-link forms a covalent bridge between separate chains." }
+        { label: "a", text: "A branch extends from one backbone; a cross-link forms a covalent bridge between separate chains." },
+        { label: "b", text: "Branching and cross-linking are both side chains on one molecule; neither connects two separate polymer chains." },
+        { label: "c", text: "Branches are intermolecular attractions between chains, while cross-links are weak intramolecular side chains." },
+        { label: "d", text: "The terms describe the same architecture; both mean a polymer with more than one linear chain segment." }
       ],
-      answer: "d",
+      answer: "a",
       why: "**Branching** = a side-chain growing from one backbone (LDPE). **Cross-linking** = a covalent bridge joining two *separate* chains, forming a 3-D network (vulcanized rubber, thermosets).",
       distractors: {
-        b: "Branches are covalent too — they are made during polymerization.",
+        c: "Branches are covalent too — they are made during polymerization.",
       },
       concept: "topology: linear / branched / cross-linked",
       tags: ["confused"],
@@ -437,16 +437,16 @@ const T1: TopicSource = {
       diff: 2,
       text: "Nylon 6 has the repeat unit $\\text{–[NH(CH}_2\\text{)}_5\\text{CO]}\\text{–}$ ($M_{repeat} = 113$ g/mol). A nylon 6 sample with $M_n = 22{,}600$ g/mol has $DP_n$:",
       options: [
-        { label: "a", text: "50" },
-        { label: "b", text: "1{,}130" },
-        { label: "c", text: "113" },
-        { label: "d", text: "200" }
+        { label: "a", text: "113" },
+        { label: "b", text: "200" },
+        { label: "c", text: "50" },
+        { label: "d", text: "1{,}130" }
       ],
-      answer: "d",
+      answer: "b",
       why: "$DP_n = 22{,}600 / 113 = \\mathbf{200}$.",
       distractors: {
-        a: "50 corresponds to $M_n = 5{,}650$.",
-        c: "113 is the repeat-unit mass itself, not the ratio.",
+        c: "50 corresponds to $M_n = 5{,}650$.",
+        a: "113 is the repeat-unit mass itself, not the ratio.",
       },
       concept: "$DP = M_n / M_{repeat}$",
       tags: ["numeric", "formula"],
@@ -461,15 +461,15 @@ const T1: TopicSource = {
         ["Tensile strength (MPa)", "5", "25", "45", "47"],
       ],
       options: [
-        { label: "a", text: "Crystallization becomes complete at DP ≈ 400, so all chains above that length must have identical structure and properties." },
-        { label: "b", text: "The apparent plateau is most likely an instrument artefact, because all mechanical properties keep rising linearly with DP." },
-        { label: "c", text: "Polymerization stops at DP 400 in every sample, leaving no possibility for the average chain length to rise further." },
-        { label: "d", text: "Once chains are sufficiently long and entangled, extra repeat units produce diminishing changes in bulk mechanical properties." }
+        { label: "a", text: "Polymerization stops at DP 400 in every sample, leaving no possibility for the average chain length to rise further." },
+        { label: "b", text: "Once chains are sufficiently long and entangled, extra repeat units produce diminishing changes in bulk mechanical properties." },
+        { label: "c", text: "Crystallization becomes complete at DP ≈ 400, so all chains above that length must have identical structure and properties." },
+        { label: "d", text: "The apparent plateau is most likely an instrument artefact, because all mechanical properties keep rising linearly with DP." }
       ],
-      answer: "d",
+      answer: "b",
       why: "Above a **critical chain length**, added units contribute negligibly to the entanglement network — strength, Tg and viscosity level off (the entanglement plateau).",
       distractors: {
-        a: "Crystallinity saturates too, but the plateau is a chain-length (entanglement) effect present in amorphous polymers as well.",
+        c: "Crystallinity saturates too, but the plateau is a chain-length (entanglement) effect present in amorphous polymers as well.",
       },
       concept: "useful-DP-range graph (supplement)",
       tags: ["confused"],
@@ -480,12 +480,12 @@ const T1: TopicSource = {
       diff: 3,
       text: "An engineering component must survive repeated solvent exposure without dissolving or swelling. Which architecture is most appropriate?",
       options: [
-        { label: "a", text: "Linear thermoplastic" },
-        { label: "b", text: "Branched thermoplastic" },
-        { label: "c", text: "Linear polymer of very low MW" },
-        { label: "d", text: "Cross-linked (network) polymer" }
+        { label: "a", text: "Branched thermoplastic" },
+        { label: "b", text: "Linear thermoplastic" },
+        { label: "c", text: "Cross-linked (network) polymer" },
+        { label: "d", text: "Linear polymer of very low MW" }
       ],
-      answer: "d",
+      answer: "c",
       why: "A covalent **network** cannot dissolve — solvent can at most swell it. Linear chains (a, c, d) can be solvated and separated, dissolving fully if low enough in MW.",
       concept: "cross-linking → solvent resistance",
       tags: ["revision"],
@@ -502,15 +502,15 @@ const T1: TopicSource = {
         ["4", "Epoxy (fully cured)", "", "(iv) thermoplastic elastomer"],
       ],
       options: [
-        { label: "a", text: "1-ii, 2-i, 3-iii, 4-iv" },
-        { label: "b", text: "1-i, 2-iii, 3-iv, 4-ii" },
+        { label: "a", text: "1-i, 2-iii, 3-iv, 4-ii" },
+        { label: "b", text: "1-ii, 2-i, 3-iii, 4-iv" },
         { label: "c", text: "1-iii, 2-ii, 3-i, 4-i" },
         { label: "d", text: "1-iii, 2-i, 3-ii, 4-i" }
       ],
       answer: "d",
       why: "PE remelts → thermoplastic. Bakelite and cured epoxy are infusible networks → thermosets. Vulcanized NR is a lightly cross-linked amorphous elastomer.",
       distractors: {
-        b: "Bakelite is not a thermoplastic — that is the defining contrast with PE.",
+        a: "Bakelite is not a thermoplastic — that is the defining contrast with PE.",
       },
       tags: ["revision"],
     },
@@ -520,12 +520,12 @@ const T1: TopicSource = {
       diff: 2,
       text: "Why is a *thermoplastic elastomer* like SBS reprocessable even though it behaves like a vulcanized rubber in service?",
       options: [
-        { label: "a", text: "Its cross-links are physical (glassy PS domains) that disassemble on heating." },
+        { label: "a", text: "It has chemical cross-links that break at low temperature." },
         { label: "b", text: "It contains no cross-links of any kind — the rubbery behaviour is an illusion." },
-        { label: "c", text: "It has chemical cross-links that break at low temperature." },
-        { label: "d", text: "It slowly reverts to a liquid at body temperature." }
+        { label: "c", text: "It slowly reverts to a liquid at body temperature." },
+        { label: "d", text: "Its cross-links are physical (glassy PS domains) that disassemble on heating." }
       ],
-      answer: "a",
+      answer: "d",
       why: "In SBS the hard **polystyrene end-blocks** aggregate into glassy domains that act as *physical* cross-links. Heating above the PS Tg dissociates them → flowable → remouldable. No covalent vulcanization.",
       distractors: {
         b: "The domains are real physical cross-links — that is why it recovers strain.",
@@ -540,8 +540,8 @@ const T1: TopicSource = {
       text: "Poly(vinyl acetate) is saponified to PVA, which is then blended with starch for a biodegradable film. In the PAIR of operations, the chemistry of each step is:",
       options: [
         { label: "a", text: "Hydrolysis (saponification), then physical blending of PVA with starch." },
-        { label: "b", text: "Addition polymerization, then condensation polymerization with starch as a comonomer." },
-        { label: "c", text: "Condensation polymerization, then a second condensation reaction between PVA and starch." },
+        { label: "b", text: "Condensation polymerization, then a second condensation reaction between PVA and starch." },
+        { label: "c", text: "Addition polymerization, then condensation polymerization with starch as a comonomer." },
         { label: "d", text: "Radical chain scission, then addition polymerization that grafts starch onto the PVA backbone." }
       ],
       answer: "a",
@@ -559,28 +559,28 @@ const T1: TopicSource = {
       "text": "A polymer is classified as semi-synthetic when it is produced by:",
       "options": [
         {
-          "label": "a",
-          "text": "chemically modifying a naturally occurring polymer backbone."
+            "label": "a",
+            "text": "physically blending natural and synthetic polymers without chemically modifying either."
         },
         {
-          "label": "b",
-          "text": "using a natural polymer without chemically changing its structure."
+            "label": "b",
+            "text": "using a natural polymer without chemically changing its structure."
         },
         {
-          "label": "c",
-          "text": "physically blending natural and synthetic polymers without chemically modifying either."
+            "label": "c",
+            "text": "chemically modifying a naturally occurring polymer backbone."
         },
         {
-          "label": "d",
-          "text": "polymerizing synthetic monomers without a natural-polymer precursor."
+            "label": "d",
+            "text": "polymerizing synthetic monomers without a natural-polymer precursor."
         }
       ],
-      "answer": "a",
+      "answer": "c",
       "why": "Semi-synthetic polymers are made by chemically modifying a natural polymer, as in cellulose acetate or cellulose nitrate. A physical blend does not make either component semi-synthetic.",
       "distractors": {
         "b": "That remains a natural polymer in its unmodified form.",
         "d": "That describes a fully synthetic polymer.",
-        "c": "That describes a polymer blend rather than a chemically modified natural polymer."
+        "a": "That describes a polymer blend rather than a chemically modified natural polymer."
       },
       "tags": [
         "revision"
@@ -599,8 +599,8 @@ const T1: TopicSource = {
       ],
       options: [
         { label: "a", text: "1, 2, 3 and 4" },
-        { label: "b", text: "3 and 4 only" },
-        { label: "c", text: "2 and 3 only" },
+        { label: "b", text: "2 and 3 only" },
+        { label: "c", text: "3 and 4 only" },
         { label: "d", text: "1, 2 and 4 only" }
       ],
       answer: "d",
@@ -618,11 +618,11 @@ const T1: TopicSource = {
       text: "How does an *alternating* copolymer differ from a *random* copolymer?",
       options: [
         { label: "a", text: "Alternating is cross-linked; random is linear." },
-        { label: "b", text: "There is no difference — the terms are interchangeable." },
+        { label: "b", text: "Alternating: strict –A–B–A–B–; random: A and B in statistically irregular sequence." },
         { label: "c", text: "Alternating has more A than B; random has equal amounts." },
-        { label: "d", text: "Alternating: strict –A–B–A–B–; random: A and B in statistically irregular sequence." }
+        { label: "d", text: "There is no difference — the terms are interchangeable." }
       ],
-      answer: "d",
+      answer: "b",
       why: "**Alternating** (…*alt*…) has a fixed A/B alternation; **random** (*co*) has irregular, statistically governed sequencing — the same overall composition, different order.",
       tags: ["revision"],
     },
@@ -632,16 +632,16 @@ const T1: TopicSource = {
       diff: 3,
       text: "A copolymer sample is 40 mol% monomer A ($M_A = 100$ g/mol) and 60 mol% monomer B ($M_B = 50$ g/mol). Its repeat-unit molar mass is:",
       options: [
-        { label: "a", text: "70 g/mol" },
-        { label: "b", text: "65 g/mol" },
-        { label: "c", text: "75 g/mol" },
-        { label: "d", text: "50 g/mol" }
+        { label: "a", text: "65 g/mol" },
+        { label: "b", text: "75 g/mol" },
+        { label: "c", text: "50 g/mol" },
+        { label: "d", text: "70 g/mol" }
       ],
-      answer: "a",
+      answer: "d",
       why: "Mole-fraction average: $M = 0.40(100) + 0.60(50) = 40 + 30 = \\mathbf{70}$ g/mol.",
       distractors: {
-        c: "75 would need 50/50 weighting: 0.5(100)+0.5(50) = 75.",
-        d: "50 is just $M_B$.",
+        b: "75 would need 50/50 weighting: 0.5(100)+0.5(50) = 75.",
+        c: "50 is just $M_B$.",
       },
       concept: "$M_{repeat} = \\sum x_i M_i$",
       tags: ["numeric", "formula"],
@@ -653,9 +653,9 @@ const T1: TopicSource = {
       text: "Why can the *same* base polymer be sold both as a rigid engineering plastic and as a soft elastomer?",
       options: [
         { label: "a", text: "Formulation and morphology can be tuned with plasticizer, reinforcement, crystallinity and cross-linking to change stiffness and elasticity." },
-        { label: "b", text: "Suppliers use different test definitions for stiffness, so the apparent rigid-plastic and elastomer grades are mechanically identical." },
-        { label: "c", text: "The two products must have different repeat-unit chemistry, because one polymer backbone cannot be formulated across different properties." },
-        { label: "d", text: "A single polymer chemistry cannot be made rigid or elastomeric; its properties remain fixed after the monomer has been chosen." }
+        { label: "b", text: "The two products must have different repeat-unit chemistry, because one polymer backbone cannot be formulated across different properties." },
+        { label: "c", text: "A single polymer chemistry cannot be made rigid or elastomeric; its properties remain fixed after the monomer has been chosen." },
+        { label: "d", text: "Suppliers use different test definitions for stiffness, so the apparent rigid-plastic and elastomer grades are mechanically identical." }
       ],
       answer: "a",
       why: "The **balance** of intermolecular forces, chain flexibility, crystallinity and cross-link density decides the end use. The same chemistry can be moved across the plastic–elastomer space by compounding and structure control.",
@@ -669,11 +669,11 @@ const T1: TopicSource = {
       text: "A resin cures irreversibly into an infusible network, then a second batch of the *same* formulation is kept below cure temperature and remoulded. The explanation is:",
       options: [
         { label: "a", text: "The batches must be different polymers, because a single formulation cannot be processed both before and after it cures." },
-        { label: "b", text: "Cure is reversible below 100 °C, so the first batch can be remoulded once the cross-links cool and contract." },
+        { label: "b", text: "The first batch has cured into a network; the second remains an uncured, flowable prepolymer until its cure reaction proceeds." },
         { label: "c", text: "Both batches are fully cured thermosets; the second can be remoulded because its molecular weight is lower." },
-        { label: "d", text: "The first batch has cured into a network; the second remains an uncured, flowable prepolymer until its cure reaction proceeds." }
+        { label: "d", text: "Cure is reversible below 100 °C, so the first batch can be remoulded once the cross-links cool and contract." }
       ],
-      answer: "d",
+      answer: "b",
       why: "Thermoset systems are processed as **low-MW flowable prepolymers**; the irreversible cross-linking happens *during* cure. Before cure the material flows like a thermoplastic; after cure it never does again.",
       concept: "prepolymer → cure → network (one-way door)",
       tags: ["confused"],
