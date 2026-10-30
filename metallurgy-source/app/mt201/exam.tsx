@@ -25,6 +25,10 @@ import {
   submitPlayerAnswer,
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
 
 type PoolQ = Question & { chId: string; chTitle: string };
 
@@ -233,20 +237,16 @@ export default function Exam({
         <button className="btn btn-gold" onClick={finish}>Submit exam</button>
       </div>
 
-      <div className="panel">
-        <div className="palette">
-          {pool.map((qp, i) => (
-            <button
-              key={`${qp.chId}-${qp.n}`}
-              className={`pbtn ${answers[i] ? "answered" : ""} ${i === idx ? "current" : ""}`}
-              onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
+      <LearningPlayerShell className="panel" paletteClassName="palette" contentClassName="qwrap" palette={pool.map((qp, i) => (
+          <button
+            key={`${qp.chId}-${qp.n}`}
+            className={`pbtn ${answers[i] ? "answered" : ""} ${i === idx ? "current" : ""}`}
+            onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
+          >
+            {i + 1}
+          </button>
+        ))}>
 
-        <div className="qwrap">
           <div className="qhead">
             <span className="chip">{q.chId.toUpperCase()} · {q.chTitle}</span>
           </div>
@@ -265,8 +265,7 @@ export default function Exam({
             <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>← Prev</button>
             <button className="btn" disabled={idx >= pool.length - 1} onClick={() => setSession((current) => navigatePlayer(current, "next"))}>Next →</button>
           </div>
-        </div>
-      </div>
+      </LearningPlayerShell>
     </div>
   );
 }
