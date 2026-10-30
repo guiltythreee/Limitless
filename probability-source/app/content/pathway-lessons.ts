@@ -104,6 +104,8 @@ export const pathwayLessons: Lesson[] = [
       "A and B are independent exactly when P(A ∩ B)=P(A)P(B), equivalently P(A | B)=P(A) when P(B)>0. Independence is a statement about the probability model, not whether events sound unrelated.",
       "Mutually exclusive events with positive probabilities cannot be independent. Disjointness makes P(A ∩ B)=0, whereas independence would require P(A)P(B)>0.",
       "Conditional independence is different: A and B may be dependent overall but independent once a third event C is known. Test outcomes, for example, can be independent conditional on a patient's true disease status even when the unconditioned results are associated."
+      "For a conditioning event C with positive probability, the conditional model is itself a probability model on C. Its event probabilities are P(A|C), and the same addition and multiplication rules apply inside that model.",
+      "For a finite partition {Cᵢ}, conditional independence given the partition means the factorisation holds within each relevant case Cᵢ. It does not generally imply unconditional independence: mixing over an unknown common cause can create dependence."
     ],
     formulas: [
       { label: "Conditional probability", text: "P(A | B) = P(A ∩ B)/P(B), P(B) > 0" },
@@ -120,6 +122,11 @@ export const pathwayLessons: Lesson[] = [
         "Disjointness gives P(A ∩ B)=0.",
         "Independence would require P(A ∩ B)=0.2·0.3=0.06.",
         "The conditions conflict, so the events are not independent. Disjoint and independent are not synonyms."
+      ] },
+      { title: "Independent tests given disease status", problem: "A disease has probability 0.1. Two tests are conditionally independent given disease status. Each has sensitivity 0.9 and false-positive rate 0.2. Find P(both positive).", steps: [
+        "Split into disease and no-disease cases. Given disease, both are positive with probability 0.9²=0.81.",
+        "Given no disease, both are positive with probability 0.2²=0.04.",
+        "Total probability gives 0.1(0.81)+0.9(0.04)=0.117. Multiplying the unconditional positive-test probability by itself would incorrectly assume unconditional independence."
       ] }
     ],
     quiz: [
@@ -152,6 +159,11 @@ export const pathwayLessons: Lesson[] = [
         "Total probability gives P(D)=0.6·0.01+0.4·0.03=0.018, or 1.8%.",
         "Bayes gives P(B | D)=0.4·0.03/0.018.",
         "The result is 2/3. Although B produces fewer items, it contributes two-thirds of defects because its defect rate is higher."
+      ] },
+      { title: "Three possible causes", problem: "A machine is selected from A, B or C with probabilities 0.5, 0.3 and 0.2. Their failure rates are 1%, 2% and 5%. Find the overall failure probability and P(C | failure).", steps: [
+        "Total probability gives P(F)=0.5(0.01)+0.3(0.02)+0.2(0.05)=0.021.",
+        "The joint probability of selecting C and observing failure is 0.2(0.05)=0.01.",
+        "Bayes gives P(C|F)=0.01/0.021=10/21≈0.4762. The highest-risk machine contributes nearly half of failures despite only a 20% selection share."
       ] }
     ],
     quiz: [
