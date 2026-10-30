@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { createElement, useEffect, useMemo, useRef, useState } from "react";
 import { lessons, ranks, pad2, type Difficulty } from "../content";
 import { Rich } from "../lib/rich";
 import { allQuestions, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
@@ -17,6 +17,10 @@ import {
 } from "../../../shared/learning-player/runtime";
 import { probabilityPlayerAdapter } from "../learning-player/adapter";
 import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
 
 const MARK: Record<Status, string> = { correct: "✓", incorrect: "×", partial: "◐", unattempted: "" };
 const MARKCLS: Record<Status, string> = { correct: "text-emerald-500", incorrect: "text-red-500", partial: "text-amber-500", unattempted: "" };
@@ -233,10 +237,9 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
   const answeredCount = Object.values(picks).filter((picked) => picked.length > 0).length;
   if (!q) return null;
   return (
-    <div>
-      <div className="mb-4 flex flex-wrap items-center gap-1.5">
-        {pool.map((x, n) => <button key={x.key} onClick={() => go(n)} className={`qnum ${picks[x.key]?.length ? "qnum-partial" : ""} ${n === i ? "qnum-cur" : ""}`}><span className="text-xs">{n + 1}</span><span className="qmark">{picks[x.key]?.length ? "•" : "·"}</span></button>)}
-      </div>
+    <LearningPlayerShell paletteClassName="mb-4 flex flex-wrap items-center gap-1.5" palette={pool.map((x, n) => (
+          <button key={x.key} onClick={() => go(n)} className={`qnum ${picks[x.key]?.length ? "qnum-partial" : ""} ${n === i ? "qnum-cur" : ""}`}><span className="text-xs">{n + 1}</span><span className="qmark">{picks[x.key]?.length ? "•" : "·"}</span></button>
+        ))}>
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
         <div className="text-sm text-body">Test · Q {i + 1}/{pool.length}</div>
         <div className="timerpill">⏱ {fmtTime(Date.now() - startedAt.current).padStart(5, "0")}</div>
@@ -251,7 +254,7 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
         <button className="btn-side" disabled={i >= pool.length - 1} onClick={() => go(i + 1)}>Next</button>
       </div>
       <button onClick={onExit} className="mt-3 text-xs text-faint hover:text-gold">Abandon test</button>
-    </div>
+    </LearningPlayerShell>
   );
 }
 
