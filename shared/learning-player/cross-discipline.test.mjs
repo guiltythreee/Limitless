@@ -131,4 +131,4 @@ assert.equal(submitPlayerAnswer(exam, createMetallurgyPlayerAdapter("mt201"), {
 exam = selectPlayerQuestion(exam, 0);
 assert.equal(exam.answers["ch01-q1"].optionId, "B", "navigation retains the answer for later batch submission");
 
-console.log("P6 cross-discipline runtime: 20 assertions passed");
+console.log("P6 cross-discipline runtime: 25 assertions passed");
