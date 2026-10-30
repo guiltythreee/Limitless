@@ -291,3 +291,30 @@ Validation:
 - Metallurgy regression run `41064181963` also passed all existing regression gates.
 
 No Probability question bank, partial-credit formula, draft representation, bookmark data, test-record schema, storage key, or deployment workflow was changed.
+
+
+## 19. P6.3 Metallurgy exam integration
+
+The three Metallurgy timed exam simulators now use the shared session runtime and the same course adapter grading boundary as their practice players:
+
+- MT201 exam stores selected answers in the shared session, uses shared question selection/navigation, and grades every answered question through the MT201 adapter at submission. The existing `recordExamAnswers` batch helper remains responsible for the single persistent write containing answered state, activity history, and `examBest`.
+- MT202 exam follows the same shared-session flow while preserving its Ch09 revision-mix/all-chapters source selection and existing `mm-mt202-v1` batch persistence.
+- MT203 exam uses the shared session for answer capture, palette navigation, and adapter grading. Its existing per-answer `recordAnswer`, first-correct XP award, exam record, and module-bonus settlement remain authoritative.
+
+The course-specific exam setup, countdown timers, closed-book behaviour, result screens, and solution renderers remain in their owning applications. The shared runtime does not own exam scheduling, reward calculations, or storage.
+
+Validation on branch commit `2d44ca669fe118d1008ed18563ebcc12aed72a30`:
+- P6 workflow run `41064668279` completed successfully: both production builds and both shared-runtime TypeScript gates passed.
+- Metallurgy regression run `41064668300` was marked cancelled at the workflow level, but its sole regression job completed successfully before cancellation. The job ran all eight existing regression scripts (109 learning-core, 196 capability, 29 MT201 attempts, 32 MT202 attempts, 29 attempt-parity, 27 bookmarks, 14 timers, and 36 daily-goal assertions) and completed the full Metallurgy TypeScript check successfully.
+
+No deployment was run. The PR remains draft.
+
+## 20. P6.4 cross-discipline validation — next gate
+
+The shared runtime is now used by the live practice and exam/question-test surfaces in both applications:
+- Metallurgy: MT201 and MT202 chapter practice, MT203 sequential learning, and all three timed exams.
+- Probability: practice and test sessions, including multi-select answers and partial-credit grading.
+
+The next gate is an explicit cross-discipline regression harness that exercises the real Probability and Metallurgy adapters through the same shared runtime, including retry/lock policy, multi-select grading preservation, navigation with retained answers, unanswered exam questions, and batch-submission behaviour. This is separate from the already-passing per-adapter tests and independent application builds.
+
+P6.4 must not consolidate course storage, rewrite reward logic, or replace the existing course-specific renderers.
