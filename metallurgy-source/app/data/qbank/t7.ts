@@ -22,12 +22,24 @@ const T7: TopicSource = {
       diff: 1,
       text: "Proteins are natural polymers whose repeat linkage is the:",
       options: [
-        { label: "a", text: "ester bond" },
-        { label: "b", text: "amide (peptide) bond, –CO–NH–" },
-        { label: "c", text: "ether bond" },
-        { label: "d", text: "C–C single bond" },
+        {
+          label: "a",
+          text: "ester bond",
+        },
+        {
+          label: "b",
+          text: "ether bond",
+        },
+        {
+          label: "c",
+          text: "amide (peptide) bond, –CO–NH–",
+        },
+        {
+          label: "d",
+          text: "C–C single bond",
+        }
       ],
-      answer: "b",
+      answer: "c",
       why: "Amino acids condense head-to-tail to give the **amide (peptide) linkage** — chemically the same bond as in nylon, which is why proteins are natural polyamides.",
       tags: ["revision"],
     },
@@ -58,12 +70,24 @@ const T7: TopicSource = {
       diff: 2,
       text: "In the α-helix, the structure is stabilized by:",
       options: [
-        { label: "a", text: "Disulfide bonds only" },
-        { label: "b", text: "Hydrogen bonds between the C=O of one residue and the N–H of a residue about four positions ahead" },
-        { label: "c", text: "Van der Waals forces only" },
-        { label: "d", text: "Covalent cross-links along the helix" },
+        {
+          label: "a",
+          text: "Disulfide bonds only",
+        },
+        {
+          label: "b",
+          text: "Van der Waals forces only",
+        },
+        {
+          label: "c",
+          text: "Hydrogen bonds between the C=O of one residue and the N–H of a residue about four positions ahead",
+        },
+        {
+          label: "d",
+          text: "Covalent cross-links along the helix",
+        }
       ],
-      answer: "b",
+      answer: "c",
       why: "The helix repeats every **3.6 residues**, held by intra-chain H-bonds from the backbone $\\text{C}{=}\\text{O}$ to the $\\text{N–H}$ four residues along — H-bonds, not covalent links.",
       concept: "α-helix: intrachain H-bonds, 3.6 residues/turn",
       tags: ["revision"],
@@ -74,12 +98,24 @@ const T7: TopicSource = {
       diff: 2,
       text: "Which statement correctly contrasts the α-helix and the β-sheet?",
       options: [
-        { label: "a", text: "α-helix: coiled, intra-chain H-bonds. β-sheet: extended chains side-by-side, inter-chain H-bonds." },
-        { label: "b", text: "α-helix: inter-chain H-bonds; β-sheet: intra-chain." },
-        { label: "c", text: "Both are held together by disulfide bonds." },
-        { label: "d", text: "β-sheets exist only in collagen." },
+        {
+          label: "a",
+          text: "α-helix: inter-chain H-bonds; β-sheet: intra-chain.",
+        },
+        {
+          label: "b",
+          text: "α-helix: coiled, intra-chain H-bonds. β-sheet: extended chains side-by-side, inter-chain H-bonds.",
+        },
+        {
+          label: "c",
+          text: "Both are held together by disulfide bonds.",
+        },
+        {
+          label: "d",
+          text: "β-sheets exist only in collagen.",
+        }
       ],
-      answer: "a",
+      answer: "b",
       why: "The helix coils with H-bonds *within* one chain; the sheet is a flat arrangement of *adjacent* chains H-bonded across. Silk fibroin is the classic β-sheet protein; keratin is largely α-helical.",
       concept: "helix = intra · sheet = inter",
       tags: ["confused"],
@@ -106,12 +142,24 @@ const T7: TopicSource = {
       diff: 1,
       text: "The chemical bond responsible for setting and permanent waving of hair (keratin) is the:",
       options: [
-        { label: "a", text: "peptide bond" },
-        { label: "b", text: "disulfide (–S–S–) bond" },
-        { label: "c", text: "hydrogen bond" },
-        { label: "d", text: "ionic bond" },
+        {
+          label: "a",
+          text: "disulfide (–S–S–) bond",
+        },
+        {
+          label: "b",
+          text: "peptide bond",
+        },
+        {
+          label: "c",
+          text: "hydrogen bond",
+        },
+        {
+          label: "d",
+          text: "ionic bond",
+        }
       ],
-      answer: "b",
+      answer: "a",
       why: "**Disulfide bridges** between cysteine residues (→ cystine) cross-link keratin. Waving reduces S–S to –SH, reshapes, then re-oxidizes into new S–S pairs.",
       tags: ["revision"],
     },
@@ -121,12 +169,24 @@ const T7: TopicSource = {
       diff: 3,
       text: "Explain chemically what happens during a 'permanent wave'.",
       options: [
-        { label: "a", text: "Heat alone melts the hair." },
-        { label: "b", text: "A reducing agent cleaves disulfide bonds to thiols, the fibre is set in a new shape and an oxidizing agent reforms new disulfide cross-links." },
-        { label: "c", text: "Peptide bonds are broken and rebuilt." },
-        { label: "d", text: "Water adds across the disulfide bond." },
+        {
+          label: "a",
+          text: "Heat alone melts the hair.",
+        },
+        {
+          label: "b",
+          text: "Peptide bonds are broken and rebuilt.",
+        },
+        {
+          label: "c",
+          text: "Water adds across the disulfide bond.",
+        },
+        {
+          label: "d",
+          text: "A reducing agent cleaves disulfide bonds to thiols, the fibre is set in a new shape and an oxidizing agent reforms new disulfide cross-links.",
+        }
       ],
-      answer: "b",
+      answer: "d",
       why: "Reduce (–S–S– → 2 –SH) → shape → oxidize (2 –SH → new –S–S–). Because the **primary structure (peptide bonds) is untouched**, the change is permanent but reversible by the same chemistry.",
       concept: "reduce → reshape → reoxidize",
       tags: ["confused"],
@@ -137,12 +197,24 @@ const T7: TopicSource = {
       diff: 1,
       text: "Silk fibroin's outstanding tensile strength comes from its:",
       options: [
-        { label: "a", text: "random-coil conformation" },
-        { label: "b", text: "antiparallel β-sheet structure" },
-        { label: "c", text: "triple helix" },
-        { label: "d", text: "disulfide cross-links" },
+        {
+          label: "a",
+          text: "random-coil conformation",
+        },
+        {
+          label: "b",
+          text: "triple helix",
+        },
+        {
+          label: "c",
+          text: "antiparallel β-sheet structure",
+        },
+        {
+          label: "d",
+          text: "disulfide cross-links",
+        }
       ],
-      answer: "b",
+      answer: "c",
       why: "Fibroin's chains lie in **antiparallel β-sheets** with dense inter-chain H-bonding, giving high axial strength with limited elasticity (contrast the α-helical, extensible wool).",
       tags: ["revision"],
     },
@@ -152,12 +224,24 @@ const T7: TopicSource = {
       diff: 2,
       text: "Denaturation of a protein by heat or acid destroys:",
       options: [
-        { label: "a", text: "The primary structure" },
-        { label: "b", text: "The secondary and tertiary structure, leaving the primary sequence intact" },
-        { label: "c", text: "All covalent bonds" },
-        { label: "d", text: "Nothing — it is only a physical change in shape with no chemical meaning" },
+        {
+          label: "a",
+          text: "The primary structure",
+        },
+        {
+          label: "b",
+          text: "All covalent bonds",
+        },
+        {
+          label: "c",
+          text: "Nothing — it is only a physical change in shape with no chemical meaning",
+        },
+        {
+          label: "d",
+          text: "The secondary and tertiary structure, leaving the primary sequence intact",
+        }
       ],
-      answer: "b",
+      answer: "d",
       why: "Denaturation unfolds the chain by breaking **H-bonds and other non-covalent interactions** (and sometimes S–S); the peptide-bond sequence is not hydrolysed. Hence boiled egg white is insoluble but chemically still protein.",
       concept: "denaturation = loss of conformation, not of sequence",
       tags: ["confused"],
@@ -225,12 +309,24 @@ const T7: TopicSource = {
       diff: 2,
       text: "Why are proteins classified as condensation polymers?",
       options: [
-        { label: "a", text: "They are made from two monomers." },
-        { label: "b", text: "Each peptide bond forms with the elimination of a water molecule between an –NH₂ and a –COOH group." },
-        { label: "c", text: "They contain double bonds." },
-        { label: "d", text: "They are synthesized from ethylene." },
+        {
+          label: "a",
+          text: "They are made from two monomers.",
+        },
+        {
+          label: "b",
+          text: "They contain double bonds.",
+        },
+        {
+          label: "c",
+          text: "Each peptide bond forms with the elimination of a water molecule between an –NH₂ and a –COOH group.",
+        },
+        {
+          label: "d",
+          text: "They are synthesized from ethylene.",
+        }
       ],
-      answer: "b",
+      answer: "c",
       why: "Bond formation is $\\text{–COOH} + \\text{H}_2\\text{N–} \\rightarrow \\text{–CO–NH–} + \\text{H}_2\\text{O}$ — a **condensation** producing water, exactly like nylon formation.",
       concept: "amide formation = condensation + H₂O",
       tags: ["revision"],
@@ -260,12 +356,24 @@ const T7: TopicSource = {
       diff: 3,
       text: "To harden a water-soluble protein into a durable, insoluble plastic (as in early casein buttons), the correct treatment is:",
       options: [
-        { label: "a", text: "Dissolve it in water" },
-        { label: "b", text: "Cross-link it, e.g. with formaldehyde, converting the soluble chains into a 3-D network" },
-        { label: "c", text: "Cool it below Tg" },
-        { label: "d", text: "Add a plasticizer" },
+        {
+          label: "a",
+          text: "Dissolve it in water",
+        },
+        {
+          label: "b",
+          text: "Cool it below Tg",
+        },
+        {
+          label: "c",
+          text: "Add a plasticizer",
+        },
+        {
+          label: "d",
+          text: "Cross-link it, e.g. with formaldehyde, converting the soluble chains into a 3-D network",
+        }
       ],
-      answer: "b",
+      answer: "d",
       why: "**Formaldehyde bridges amino groups** into methylene cross-links, turning soluble protein into a thermoset network insoluble in water — the chemistry of galalith and of leather tanning.",
       concept: "protein cross-linking → insolubility & hardness",
       tags: ["revision"],
@@ -274,17 +382,36 @@ const T7: TopicSource = {
       id: "t7-16",
       type: "higher",
       diff: 4,
-      text: "Collagen has a denaturation (melting) temperature ~ 40 °C and is stabilized by hydrogen-bonded water bridges plus a glycine-rich triple helix. In cold-water fish collagen this temperature drops to ~ 15 °C. The best material-engineering conclusion is:",
+      text: "Collagen from cold-water fish commonly has a lower denaturation temperature than collagen from warm-water species. Which material-chemistry explanation best fits this trend?",
       options: [
-        { label: "a", text: "Thermal stability is tuned by the extent of H-bonding/hydroxyproline content — fewer H-bonds give a lower melting triple helix, which is why tropical-species collagen is more heat-stable." },
-        { label: "b", text: "Collagen is always stable to 100 °C." },
-        { label: "c", text: "Fish collagen is chemically a different polymer family." },
-        { label: "d", text: "The melting temperature is set by molecular weight alone." },
+        {
+          label: "a",
+          text: "A lower denaturation temperature reflects fewer peptide bonds, even when the triple-helix sequence is otherwise identical.",
+        },
+        {
+          label: "b",
+          text: "Hydroxyproline destabilises the triple helix, so removing it normally raises the denaturation temperature.",
+        },
+        {
+          label: "c",
+          text: "Denaturation temperature is fixed by water’s boiling point; amino-acid composition and water bridges do not matter.",
+        },
+        {
+          label: "d",
+          text: "Lower imino-acid/hydroxyproline content and less stabilising water-mediated interaction can reduce cold-adapted collagen stability.",
+        }
       ],
-      answer: "a",
-      why: "Triple-helix stability tracks the density of **H-bonds (notably involving hydroxyproline and water)**; warm-water species have more, cold-water species fewer → lower melting point. A clean example of composition→transition-temperature control in a natural polymer.",
-      concept: "H-bond density controls protein thermal stability",
-      tags: ["confused"],
+      answer: "d",
+      why: "Collagen stability depends on sequence and composition, including proline/hydroxyproline content and water-mediated interactions. Cold-adapted fish collagen commonly has less thermal stabilisation, so it can denature at a lower temperature.",
+      concept: "composition and thermal stability of protein materials",
+      tags: [
+        "reviewed"
+      ],
+      distractors: {
+        a: "A lower denaturation temperature does not imply missing peptide bonds; collagen’s primary linkage is still the peptide bond.",
+        b: "Hydroxyproline generally contributes to collagen triple-helix stability rather than universally disrupting it.",
+        c: "Protein denaturation temperature depends on molecular sequence and interactions, not simply the boiling point of the solvent.",
+      },
     },
   ],
 };

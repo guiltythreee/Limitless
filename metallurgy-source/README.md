@@ -2,7 +2,7 @@
 
 A Next.js learning site for the Limitless "Metallurgical and Materials Engineering"
 discipline, styled as a gothic archive in the same family as the Probability Archive.
-The first chamber is **MT202 — Physical Metallurgy**: condensed lessons, 387 chapter-wise
+The first chamber is **MT202 — Physical Metallurgy**: condensed lessons, 522 chapter-wise
 MCQs with concise *and* detailed solutions on reveal, a timed exam simulator, metallurgy
 calculators and browser-local progress.
 

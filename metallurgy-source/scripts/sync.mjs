@@ -296,6 +296,26 @@ const index = {
 };
 fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify(index, null, 2));
 
+// Limitless durable authored question overrides — reapplied after external bank sync.
+const revisionOverridePath = path.join(__dirname, "..", "content-revisions", "mt202.json");
+const revisionHash = (value) => { let h = 2166136261; for (const ch of value) h = Math.imul(h ^ ch.codePointAt(0), 16777619) >>> 0; return h.toString(16).padStart(8, "0"); };
+const revisionFingerprint = (q) => revisionHash(JSON.stringify([q.text || "", q.statements || [], q.tableRows || [], q.assertion || "", q.reason || "", (q.options || []).map((o) => [o.label, o.text]), q.answer || "", q.type || ""]));
+if (fs.existsSync(revisionOverridePath)) {
+  const revisionOverrides = JSON.parse(fs.readFileSync(revisionOverridePath, "utf8"));
+  for (const revision of revisionOverrides.replacements ?? []) {
+    const chapterPath = path.join(OUT, `${revision.chapter}.json`);
+    if (!fs.existsSync(chapterPath)) throw new Error(`Revision overlay chapter not found: ${revision.chapter}`);
+    const chapter = JSON.parse(fs.readFileSync(chapterPath, "utf8"));
+    const matches = chapter.questions.filter((q) => q.n === revision.n);
+    if (matches.length !== 1) throw new Error(`Revision overlay target mismatch: ${revision.chapter} Q${revision.n}`);
+    const question = matches[0];
+    if (question.type !== revision.originalType) throw new Error(`Revision overlay type mismatch: ${revision.chapter} Q${revision.n}`);
+    if (revisionFingerprint(question) !== revision.sourceFingerprint) throw new Error(`Revision overlay source fingerprint mismatch: ${revision.chapter} Q${revision.n}; inspect the authoritative question bank before applying this locator`);
+    Object.assign(question, revision.updates);
+    fs.writeFileSync(chapterPath, JSON.stringify(chapter));
+  }
+}
+
 console.log("\nSynced chapters:");
 for (const s of summary) console.log(`  ${s.id}  ${String(s.count).padStart(3)} questions  ${s.title}`);
 console.log(`  TOTAL: ${totalQ} questions`);
