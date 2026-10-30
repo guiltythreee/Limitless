@@ -2057,7 +2057,8 @@
             "text": "ΔG(r) = −2γ_SL/ΔG_v"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "ΔG(r) contains a favourable negative volume term and an unfavourable positive interface term: ΔG(r) = −(4/3)πr³ΔG_v + 4πr²γ_SL. **(b)** matches this expression. Option (a) reverses both signs; (c) reverses the signs relative to the physical convention; (d) is not the free-energy expression. The surface term dominates at small r, while the volume term dominates at sufficiently large r."
       },
       "sourceFingerprint": "6ac66f21"
     },
@@ -2085,7 +2086,8 @@
             "text": "r* = ΔH_fΔT/T_m"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Differentiating ΔG(r) = −(4/3)πr³ΔG_v + 4πr²γ_SL and setting the derivative to zero gives −4πr²ΔG_v + 8πrγ_SL = 0, hence r* = 2γ_SL/ΔG_v. **(c)** is correct. Option (a) omits the factor of 2; (b) is the homogeneous nucleation barrier ΔG*; (d) is the driving-force approximation."
       },
       "sourceFingerprint": "0b24a0ad"
     },
@@ -2113,7 +2115,8 @@
             "text": "ΔG* = ΔH_fΔT"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Substituting the critical radius into the embryo free-energy expression gives ΔG* = 16πγ_SL³/(3ΔG_v²). **(b)** is correct. Option (a) is the critical radius, (c) is only the surface-energy contribution at a specified radius, and (d) is not the barrier expression."
       },
       "sourceFingerprint": "6e362b2d"
     },
@@ -2141,7 +2144,8 @@
             "text": "ΔG_v ≈ ΔH_fΔT/T_m"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Using ΔS_f = ΔH_f/T_m, the magnitude of the volumetric driving force below the melting point is ΔG_v ≈ ΔH_fΔT/T_m. **(d)** is correct. The driving force increases with undercooling; the other options have incorrect dependencies or dimensions."
       },
       "sourceFingerprint": "64ba788a"
     },
@@ -2197,7 +2201,8 @@
             "text": "γ_ML = γ_SM + γ_SL cos ψ"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Young's equation at the three-phase contact line is γ_ML = γ_SM + γ_SL cos ψ. **(d)** is correct. Rearranging gives cos ψ = (γ_ML − γ_SM)/γ_SL. The contact angle is determined by the interfacial energies and is not fixed at 180°."
       },
       "sourceFingerprint": "279c492d"
     },
@@ -2253,7 +2258,8 @@
             "text": "nucleation is suppressed entirely"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "For cos ψ = −1, S(ψ) = (2 + cos ψ)(1 − cos ψ)²/4 = (1)(2)²/4 = 1. Thus the heterogeneous barrier equals the homogeneous barrier: **(c)** is correct. The substrate provides no reduction in this limiting case."
       },
       "sourceFingerprint": "a17a8f32"
     },
@@ -2337,7 +2343,8 @@
             "text": "minimises γ_SM (a low-energy, coherent-ish interface), giving a small ψ and a low nucleation barrier"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "A close lattice match lowers the solid–substrate interfacial energy γ_SM. This improves wetting (smaller ψ), lowers S(ψ), and reduces the heterogeneous nucleation barrier. **(d)** states this sequence; the other choices describe the opposite trend or incorrectly change the critical radius."
       },
       "sourceFingerprint": "3cca2393"
     },
@@ -2458,7 +2465,8 @@
             "text": "heat is being added to the metal"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "During the thermal arrest, latent heat released by solidification balances heat extracted by the surroundings, so the temperature remains approximately constant at the melting point. **(c)** is correct. Options (a), (b), and (d) do not describe this energy balance."
       },
       "sourceFingerprint": "2c1ed728"
     },
@@ -2486,7 +2494,8 @@
             "text": "130 °C"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Recalescence is the temperature rise after initial undercooling when rapid nucleation and growth release latent heat. The stated value is approximately **0.13 °C**, option **(b)**. Option (a) is 1.3 °C, (c) is 13 °C and (d) is 130 °C."
       },
       "sourceFingerprint": "747b0b91"
     },
@@ -2514,7 +2523,8 @@
             "text": "a small bump on the interface sticks out into more undercooled liquid and grows faster than its surroundings"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "A small protrusion on the solid–liquid interface extends into more undercooled liquid and therefore grows faster than neighbouring regions. This amplifies the perturbation and promotes dendritic growth. **(d)** is correct. Surface tension is not the stated branching mechanism, and purity alone does not explain the instability."
       },
       "sourceFingerprint": "7905742e"
     },
@@ -2542,7 +2552,8 @@
             "text": "90°"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "In cubic metals, primary dendrite arms and secondary branches commonly meet at approximately 90° because of the preferred crystallographic growth directions. **(d)** is correct. The other listed angles do not represent the characteristic cubic branching angle in this question."
       },
       "sourceFingerprint": "2b8dd07a"
     },
@@ -2625,7 +2636,7 @@
           }
         ],
         "answer": "d",
-        "detailed": "For an alloy, solute rejected at the solid–liquid interface changes the local liquidus temperature ahead of the front. If the actual temperature falls below that local liquidus, a constitutionally supercooled zone forms and destabilises the planar interface. Therefore **(d) is correct**. Option (a) is the thermal-instability description more commonly used for pure metals; (b) and (c) are not the primary mechanism described here. The key distinction is that constitutional supercooling is composition-driven."
+        "detailed": "For an alloy, solute rejected at the solid–liquid interface changes the local liquidus temperature ahead of the front. If the actual temperature falls below that local liquidus, a constitutionally supercooled zone forms and destabilises the planar interface. Therefore **(d) is correct**. Option (a) is the thermal-instability description more commonly used for pure metals; (b) and (c) are not the primary mechanism described here."
       },
       "sourceFingerprint": "c7304e08"
     },
@@ -2737,7 +2748,8 @@
             "text": "it prevents pipe formation"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "At a sharp internal mould corner, columnar crystals growing from the two adjacent faces meet along a diagonal plane. If the two sets do not interlock, that plane can become a mechanical weakness. Rounding the corner reduces the severity of this meeting plane. **(c)** is the correct explanation; the other options do not describe the mechanism."
       },
       "sourceFingerprint": "f9de936d"
     },
@@ -2765,7 +2777,8 @@
             "text": "30–50%"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The typical volumetric contraction of most metals on solidification is approximately **3–7%**, option **(b)**. Option (a), 0.1–0.5%, is too small; (c) and (d) are too large. Bismuth and some other elements are notable exceptions that expand on freezing."
       },
       "sourceFingerprint": "d38de91b"
     },
@@ -3417,7 +3430,7 @@
         "text": "A steel ingot is solidifying such that the liquid ahead of the interface has a carbon content of 0.6 wt% and the solid forming has 0.3 wt% C. The equilibrium liquidus temperature at 0.6 wt% C is 1450 °C and at 0.3 wt% C is 1490 °C. If the actual temperature gradient is 300,000 °C/m, calculate the critical distance ahead of the interface beyond which constitutional supercooling occurs.",
         "keyExplanation": "The liquidus-temperature difference is 40 °C. With G = 300,000 °C/m, x_c ≈ ΔT/G = 40/300,000 = 1.33 × 10⁻⁴ m.",
         "concise": "x_c = ΔT/G = 40 °C ÷ 300,000 °C/m ≈ 1.33 × 10⁻⁴ m.",
-        "detailed": "The liquidus difference is 1490 − 1450 = 40 °C. The critical distance is x_c = ΔT/G = 40 °C ÷ (300,000 °C/m) = 1.33 × 10⁻⁴ m. The units reduce to metres. Option (d) is correct."
+        "detailed": "The liquidus-temperature difference is 1490 − 1450 = 40 °C. With G = 300,000 °C/m, the critical distance is x_c = ΔT/G = 40/300,000 = 1.33 × 10⁻⁴ m. Therefore **(a)** is correct. The temperature-difference units cancel, leaving metres."
       },
       "sourceFingerprint": "7035cc33"
     },
@@ -3686,7 +3699,8 @@
             "text": "reduces the thermal conductivity of the mould"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Moulding sand needs permeability so gases generated during pouring and solidification can escape through the pore network. If they are trapped at the metal surface, they can produce gas porosity or blowholes. **(c)** is correct. Mould strength is mainly provided by the binder; permeability does not prevent metal–mould reactions or primarily control thermal conductivity."
       },
       "sourceFingerprint": "a8dd8b96"
     },
