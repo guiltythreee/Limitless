@@ -12,7 +12,6 @@ const labels = {
   assessment: "Assessment",
   "unit-milestone": "Unit milestone",
   "major-completion": "Major completion",
-  "unit-milestone": "Unit milestone",
   "bespoke-project": "Bespoke project",
 };
 
