@@ -10,6 +10,7 @@ on:
       - "metallurgy-source/app/mt203/player.tsx"
       - "probability-source/app/learning-player/**"
       - "probability-source/app/components/Practice.tsx"
+      - "probability-source/app/components/Test.tsx"
       - "metallurgy-source/next.config.ts"
       - "probability-source/next.config.ts"
       - ".github/workflows/test-p6-learning-player-contracts.yml"
