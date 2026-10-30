@@ -29,6 +29,12 @@ Bookkeys uses the hash of normalized page text as the repeat-policy item ID, not
 
 Practice mistakes are not punished: a real submitted attempt can earn base micro-practice EXP. Accuracy only contributes the small quality bonus, while mastery and passing remain separate metrics. Empty or abandoned work, an open page, idle time, and speed alone do not qualify.
 
+## Milestone interpretation and trust model
+
+Probability awards a lesson-mastery milestone once per lesson and a major-completion milestone once per distinct pathway. Shared lessons can contribute to more than one pathway; completing multiple distinct routes intentionally earns each route's one-time completion award. The whole-archive pathway is excluded when it duplicates the separate course-completion scope. These are rewards for completing distinct curricula, not for replaying the same lesson.
+
+Bespoke project rewards are self-attested for this personal-use system. The project scope, difficulty, value and acceptance criteria are frozen before work begins, and each registered project can pay only once. This is a trust-based progress record, not an adversarial anti-cheat system.
+
 ## Authoritative records and storage
 
 There is no second parallel global XP counter. The Meta page recomputes totals and levels from versioned `rewardLedger` records in the registered module roots:
@@ -52,7 +58,7 @@ The profile-equipment preference is separate under `limitless.profile-equipment.
 - **Bookkeys:** one standard-task reward for each eligible, newly completed substantial page; unit chapter and major book-completion rewards use the shared milestone classes.
 - **Math Trainer / Zetamac:** session-level rewards, not answer-click rewards. The adapter requires the run's existing completion/attempt gate; the selected Easy/Normal/Hard setting adjusts the mapped difficulty tier, while accuracy can provide the quality bonus. A qualifying checkpoint pass has its own +15 record.
 - **Probability:** standalone submitted questions earn micro-practice rewards. Answers in an assessment still populate answer history, mastery, and analytics but are not double-paid as independent practice. Meaningful assessments require at least five answers and a full answer set to earn assessment EXP. A topic milestone requires a latest eligible result for every question in that topic with at least 80% average; pathway/course completion requires every topic in that scope to meet the same bar.
-- **Metallurgy MT201–MT203:** additive LSR-1 records are stored alongside the existing course progress roots; legacy local ranks/XP are retained but excluded from global totals. A metallurgy exam result may remain in local history when incomplete, but assessment EXP requires all questions in the scored pool to be answered; a qualifying first pass can earn its own one-time +15 record. Each course's answer/exam flow has a course-specific regression suite.
+- **Metallurgy MT201–MT203:** additive LSR-1 records are stored alongside the existing course progress roots; legacy local ranks/XP are retained but excluded from global totals. MT201/MT202 activity history, answers, exam-best state and reward records are persisted in one write per answer or submitted assessment. MT203 attempt/exam history and its reward record also share one write. Incomplete exams remain in local history but earn no assessment EXP; a fully answered qualifying assessment can earn its own one-time +15 record. Course resets clear local study state while retaining the lifetime Meta ledger. Each course's answer/exam flow has a course-specific regression suite.
 - **Bespoke projects:** register module, ID, title, scope, fixed 20–100 base EXP, difficulty and acceptance criteria before starting. Project definitions are immutable. Completion requires an explicit acceptance confirmation and grants one reward only.
 
 ## Levels and universal rewards
