@@ -136,7 +136,7 @@ export default function Player({
     const ok = lab === theQ.answer;
     const ms = Math.max(0, Math.round(elapsedNow()));
     openedAt.current = null;
-    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms);
+    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty);
     const res = awardAnswer(p, theQ.id, theQ.difficulty, ok);
     p = res.progress;
     onProgress(p);
