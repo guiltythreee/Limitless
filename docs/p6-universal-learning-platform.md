@@ -315,6 +315,6 @@ The shared runtime is now used by the live practice and exam/question-test surfa
 - Metallurgy: MT201 and MT202 chapter practice, MT203 sequential learning, and all three timed exams.
 - Probability: practice and test sessions, including multi-select answers and partial-credit grading.
 
-The next gate is an explicit cross-discipline regression harness that exercises the real Probability and Metallurgy adapters through the same shared runtime, including retry/lock policy, multi-select grading preservation, navigation with retained answers, unanswered exam questions, and batch-submission behaviour. This is separate from the already-passing per-adapter tests and independent application builds.
+An explicit cross-discipline regression harness has now been added at `shared/learning-player/cross-discipline.test.mjs`. It imports the production Probability adapter and its real `grade()` function, plus the production Metallurgy adapter for MT201/MT202/MT203, then drives them through the same shared runtime. It covers Probability single-choice and multi-select grading, partial credit and retry, Metallurgy course-specific retry/lock policy, answer retention across navigation, and unanswered exam questions. The P6 workflow now runs this harness in both application matrices. Its first CI result is pending.
 
 P6.4 must not consolidate course storage, rewrite reward logic, or replace the existing course-specific renderers.
