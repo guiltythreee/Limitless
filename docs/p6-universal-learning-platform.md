@@ -241,3 +241,15 @@ Validation:
 - The MT201 route compiled and was prerendered by the Metallurgy production build.
 
 This is the first production-route integration, limited to MT201 practice. MT201 exam, MT202, MT203, and Probability production players remain unchanged. No deployment was run.
+
+## 16. P6.2 second live integration — MT202 practice quiz
+
+MT202's chapter quiz now uses the same shared session runtime and Metallurgy adapter pattern as MT201. The existing single-option combination-answer behaviour is unchanged, including the MT202-specific `practice` activity mode and its `mm-mt202-v1` persistence.
+
+Both MT201 and MT202 practice routes now use shared navigation, direct palette selection, answer submission, adapter grading, and elapsed-time capture while retaining their original course renderers and persistence APIs. Exam simulators and MT203 remain unchanged at this checkpoint.
+
+Validation on the updated branch:
+- P6 workflow run `41063243184`: both production builds, shared lifecycle/runtime/adapter tests, and TypeScript gates passed.
+- Metallurgy regression run `41063243108`: all eight existing regression scripts passed (109 learning-core checks, 196 capability checks, 29 MT201 attempt assertions, 32 MT202 attempt assertions, 29 parity assertions, 27 bookmark assertions, 14 timer assertions, 36 daily-goal assertions) plus full Metallurgy TypeScript check.
+
+No course storage key, payload shape, generated Probability output, or deployment workflow changed.
