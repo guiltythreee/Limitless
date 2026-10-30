@@ -1073,21 +1073,16 @@
   $('nav-topic').addEventListener('click', function () { navigate('topic'); });
 
   var answerBox = $('answer');
-  /* the answer box only accepts the characters an answer can contain:
-     digits, one decimal point, one slash (fractions like 5/36) and a leading minus */
+  /* Preserve numeric punctuation for the engine parser to validate instead of
+     silently rewriting malformed answers. Normalize Unicode minus for negatives. */
   function cleanAnswer(v) {
-    var out = '', dot = false, slash = false, i, c;
-    for (i = 0; i < v.length; i++) {
-      c = v.charAt(i);
-      if (c >= '0' && c <= '9') out += c;
-      else if (c === '-' && out === '') out += c;
-      else if (c === '.' && !dot && !slash) { dot = true; out += c; }
-      else if (c === '/' && !slash && /\d$/.test(out)) { slash = true; out += c; }
-    }
-    return out.slice(0, 14);
+    /* Normalize the alternate minus glyph, but do not delete other characters
+       or truncate pasted text: the parser must reject malformed input rather
+       than silently turning it into a different, potentially correct answer. */
+    return String(v).replace(/−/g, '-');
   }
   answerBox.addEventListener('beforeinput', function (e) {
-    if (e.inputType && e.inputType.indexOf('insert') === 0 && e.data && e.data.length === 1 && !/^[0-9.\/-]$/.test(e.data)) e.preventDefault();   /* pastes are cleaned afterwards */
+    if (e.inputType && e.inputType.indexOf('insert') === 0 && e.data && e.data.length === 1 && !/^[0-9.,\/−-]$/.test(e.data)) e.preventDefault();   /* pastes are cleaned afterwards */
   });
   answerBox.addEventListener('input', function () {
     var cleaned = cleanAnswer(answerBox.value);      /* also catches paste and autofill */
