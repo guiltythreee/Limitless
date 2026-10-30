@@ -1,0 +1,28 @@
+import type { LearningPlayerAdapter } from "../../../shared/learning-player/contracts";
+import type { Question } from "../courses/types";
+
+export type MetallurgyPlayerAnswer = {
+  kind: "single-choice";
+  /** Original course option label, e.g. "a" or "B". */
+  optionId: string;
+};
+
+export type MetallurgyCourseId = "mt201" | "mt202" | "mt203";
+
+/** All three canonical Metallurgy courses persist one selected option label. */
+export function createMetallurgyPlayerAdapter(
+  courseId: MetallurgyCourseId,
+): LearningPlayerAdapter<Question, MetallurgyPlayerAnswer> {
+  return {
+    courseId,
+    questionId: (question) => question.id,
+    grade(question, answer) {
+      const correct = answer.optionId === question.answer;
+      return {
+        correct,
+        score: correct ? 1 : 0,
+        status: correct ? "correct" : "incorrect",
+      };
+    },
+  };
+}
