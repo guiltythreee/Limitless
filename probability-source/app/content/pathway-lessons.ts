@@ -56,6 +56,7 @@ export const pathwayLessons: Lesson[] = [
       "The coupon collector asks how many uniform independent draws are needed to see all m types. Once k distinct types have appeared, the chance the next draw is new is (m−k)/m, so the expected wait for that new type is m/(m−k). Adding the waits gives E[T] = mHₘ.",
       "Expected collection time is an average, not a deadline. The waiting time has a long right tail, so a result above the mean is not automatically unusual.",
       "For n draws into m equally likely boxes, the expected number of empty boxes is m(1−1/m)ⁿ: use one indicator per box and add their probabilities of remaining empty. This is linearity of expectation and does not require empty-box indicators to be independent.",
+      "The birthday problem is another occupancy model: people are balls and calendar dates are boxes. For n people and d equally likely birthdays, the probability of no shared birthday is d(d−1)···(d−n+1)/dⁿ, provided n≤d. The collision probability is its complement. Independence of individual birthdays is assumed; real calendars introduce small complications such as leap days and seasonal variation.",
       "The coupon-collector waiting time splits into stages with geometric success probabilities 1,(m−1)/m,…,1/m. Their means sum to mHₘ; their variances also sum because successive waiting stages are independent under fresh independent draws."
     ],
     formulas: [
@@ -63,6 +64,7 @@ export const pathwayLessons: Lesson[] = [
       { label: "Expected collection time", text: "E[T] = mHₘ = m(1 + 1/2 + ··· + 1/m)" },
       { label: "Expected wait for a new type", text: "m/(m − k), when k types have appeared" },
       { label: "Expected number of empty boxes", text: "E[empty boxes] = m(1 − 1/m)ⁿ" },
+      { label: "Birthday collision probability", text: "P(at least one shared birthday) = 1 − d(d−1)···(d−n+1)/dⁿ" },
       { label: "Coupon-collector variance", text: "Var(T) = m²Hₘ⁽²⁾ − mHₘ,  Hₘ⁽²⁾=Σⱼ₌₁ᵐ1/j²" }
     ],
     examples: [
@@ -80,6 +82,11 @@ export const pathwayLessons: Lesson[] = [
         "For each box i, let Iᵢ=1 if it is empty. A given ball avoids that box with probability 2/3.",
         "All five balls avoid a specified box with probability (2/3)⁵, so E[Iᵢ]=(2/3)⁵.",
         "By linearity, E[empty boxes]=3(2/3)⁵=96/243=32/81."
+      ] },
+      { title: "The birthday threshold", problem: "Assuming 365 equally likely birthdays and independent birthdays, write the probability of at least one shared birthday among 23 people.", steps: [
+        "It is easier to first calculate the probability that all birthdays are different.",
+        "The first person has 365 choices, the second 364, and so on through the 23rd, which has 343 choices. Divide by 365²³.",
+        "Thus P(match)=1−(365×364×···×343)/365²³≈0.5073. The probability exceeds one half even with only 23 people."
       ] }
     ],
     quiz: [
