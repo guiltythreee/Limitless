@@ -91,6 +91,7 @@ export default function Mt201() {
         <nav className="nav-links" aria-label="Main navigation">
           <Link href="/">Disciplines</Link>
           <Link href="/mt202/">MT202</Link>
+          <a href="/meta/">Meta</a>
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Switch theme">
             {theme === "dark" ? "◐" : "◑"}
           </button>
