@@ -214,11 +214,19 @@ export function markTheoryRead(p: Progress, key: string): Progress {
 }
 
 export function recordExam(p: Progress, rec: ExamRecord): Progress {
-  const next: Progress = { ...p, exams: [rec, ...p.exams].slice(0, 50) };
+  let next: Progress = { ...p, exams: [rec, ...p.exams].slice(0, 50) };
   if (!p.best || rec.correct / Math.max(1, rec.total) > p.best.score / Math.max(1, p.best.total)) {
     next.best = { score: rec.correct, total: rec.total, at: rec.ts };
   }
-  saveProgress(next);
+  const activity = assessmentActivity("metallurgy-mt203", {
+    runId: rec.id,
+    ts: rec.ts,
+    total: rec.total,
+    answered: typeof rec.answered === "number" ? rec.answered : 0,
+    correct: rec.correct,
+  });
+  if (activity) next = appendLsrActivity(next, activity).progress;
+  saveProgress(next, Boolean(activity));
   return next;
 }
 
