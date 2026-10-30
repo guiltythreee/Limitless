@@ -206,8 +206,8 @@ Adapter files:
 - `probability-source/app/learning-player/adapter.ts` binds the core to the real Probability `grade()` function.
 - `metallurgy-source/app/learning-player/adapter.ts` creates course-ID-specific adapters over the canonical Metallurgy question model.
 
-The adapters are not yet imported by production player routes and do not write progress. Tests and strict TypeScript checks were added to the P6 workflow. GitHub Actions run `41061598550` completed successfully for both apps:
-- Probability: 13 lifecycle + 15 runtime + 8 adapter assertions passed; adapter and shared files type-checked.
+The adapters are not yet imported by production player routes and do not write progress. Tests and strict TypeScript checks were added to the P6 workflow. GitHub Actions run `41061862176` completed successfully for both apps:
+- Probability: 13 lifecycle + 15 runtime + 13 adapter assertions passed. The adapter test also exercises the production binding against the actual Probability grader for single-choice, partial-credit multi-select, fully correct multi-select, and over-selection.
 - Metallurgy: 13 lifecycle + 15 runtime + 9 adapter assertions passed; adapter and shared files type-checked.
 
 The Node test-only loader resolves extensionless TypeScript imports for these tests; it does not alter production module resolution. This gate validates adapter mapping and type compatibility, not full app builds or production integration.
