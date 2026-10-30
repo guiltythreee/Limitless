@@ -287,11 +287,8 @@ export function toggleBookmark(p: Progress, questionId: string): Progress {
 }
 
 export function resetProgress() {
-  try {
-    window.localStorage.removeItem(KEY);
-  } catch {
-    /* ignore */
-  }
+  const saved = loadProgress();
+  saveProgress({ answered: {}, examBest: null, rewardLedger: saved.rewardLedger });
 }
 
 export function loadTheme(): "dark" | "light" {
