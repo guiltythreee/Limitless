@@ -13,11 +13,14 @@ export const pathwayLessons: Lesson[] = [
       "Counting is reliable only when every desired outcome is counted exactly once. Common failures are omission (a case is missed) and overcounting (an outcome appears in more than one case).",
       "For two finite sets, |A ∪ B| = |A| + |B| − |A ∩ B|. For three sets, add individual sizes, subtract pairwise intersections, then add the triple intersection. The alternating signs repair repeated counting.",
       "Complementary counting is often shorter: count the whole space and subtract outcomes that fail the condition. “At least one” is often easier as 1 − P(none).",
-      "A case split must be exhaustive and disjoint. State the cases, verify every valid outcome belongs to a case, and verify no outcome belongs to two cases before adding the counts."
+      "A case split must be exhaustive and disjoint. State the cases, verify every valid outcome belongs to a case, and verify no outcome belongs to two cases before adding the counts.",
+      "For three sets, inclusion–exclusion alternates signs: add the three individual sizes, subtract all three pairwise overlaps, then add the triple overlap. The triple intersection was subtracted three times but should be counted once, so it must be restored.",
+      "A useful way to count objects satisfying exactly one condition is to partition by which condition holds, rather than apply a union formula blindly. For larger collections, inclusion–exclusion has alternating terms over every nonempty subset; symmetry or complements can be more efficient."
     ],
     formulas: [
       { label: "Two-set inclusion–exclusion", text: "|A ∪ B| = |A| + |B| − |A ∩ B|" },
       { label: "Three-set inclusion–exclusion", text: "|A ∪ B ∪ C| = Σ|A| − Σ|A ∩ B| + |A ∩ B ∩ C|" },
+      { label: "General inclusion–exclusion", text: "|⋃ᵢ₌₁ⁿ Aᵢ| = Σ|Aᵢ| − Σ|Aᵢ∩Aⱼ| + Σ|Aᵢ∩Aⱼ∩Aₖ| − ···" },
       { label: "Complement", text: "|A| = |Ω| − |Aᶜ|" }
     ],
     examples: [
@@ -30,6 +33,11 @@ export const pathwayLessons: Lesson[] = [
         "The complement of at least one six is that all four dice avoid 6.",
         "By independence, P(no six) = (5/6)^4.",
         "Therefore P(at least one six) = 1 − (5/6)^4 = 671/1296 ≈ 0.5177. Adding four probabilities of 1/6 double-counts outcomes with multiple sixes."
+      ] },
+      { title: "Three overlapping clubs", problem: "In a group of 100 students, 45 study French, 40 German and 35 Spanish. The pairwise overlaps are 15, 12 and 10, and 5 study all three. How many study at least one language?", steps: [
+        "Add the individual totals: 45+40+35=120.",
+        "Subtract pairwise overlaps: 120−15−12−10=83.",
+        "Add the triple overlap once: 83+5=88 students study at least one language."
       ] }
     ],
     quiz: [
@@ -46,12 +54,16 @@ export const pathwayLessons: Lesson[] = [
       "Occupancy problems distribute labelled trials or objects among categories such as boxes, birthdays, servers, or product types. First decide whether outcomes are ordered, whether categories are equally likely, and whether repetitions are allowed.",
       "If n independent draws select one of m equally likely categories, there are mⁿ ordered sequences. Inclusion–exclusion counts sequences in which every category appears: Σⱼ₌₀ᵐ (−1)ʲ C(m,j)(m−j)ⁿ.",
       "The coupon collector asks how many uniform independent draws are needed to see all m types. Once k distinct types have appeared, the chance the next draw is new is (m−k)/m, so the expected wait for that new type is m/(m−k). Adding the waits gives E[T] = mHₘ.",
-      "Expected collection time is an average, not a deadline. The waiting time has a long right tail, so a result above the mean is not automatically unusual."
+      "Expected collection time is an average, not a deadline. The waiting time has a long right tail, so a result above the mean is not automatically unusual.",
+      "For n draws into m equally likely boxes, the expected number of empty boxes is m(1−1/m)ⁿ: use one indicator per box and add their probabilities of remaining empty. This is linearity of expectation and does not require empty-box indicators to be independent.",
+      "The coupon-collector waiting time splits into stages with geometric success probabilities 1,(m−1)/m,…,1/m. Their means sum to mHₘ; their variances also sum because successive waiting stages are independent under fresh independent draws."
     ],
     formulas: [
       { label: "All m categories observed in n draws", text: "P(all seen) = (1/mⁿ) Σⱼ₌₀ᵐ (−1)ʲ C(m,j)(m−j)ⁿ" },
       { label: "Expected collection time", text: "E[T] = mHₘ = m(1 + 1/2 + ··· + 1/m)" },
-      { label: "Expected wait for a new type", text: "m/(m − k), when k types have appeared" }
+      { label: "Expected wait for a new type", text: "m/(m − k), when k types have appeared" },
+      { label: "Expected number of empty boxes", text: "E[empty boxes] = m(1 − 1/m)ⁿ" },
+      { label: "Coupon-collector variance", text: "Var(T) = m²Hₘ⁽²⁾ − mHₘ,  Hₘ⁽²⁾=Σⱼ₌₁ᵐ1/j²" }
     ],
     examples: [
       { title: "Four draws, three colours", problem: "Each draw independently returns one of three equally likely colours. Find the probability all three colours appear in four draws.", steps: [
@@ -63,6 +75,11 @@ export const pathwayLessons: Lesson[] = [
         "The first distinct type arrives on the first purchase.",
         "After one type is collected, each draw finds a new type with probability 2/3, so the expected extra wait is 3/2.",
         "After two types, the expected wait for the last type is 3. Therefore E[T]=1+3/2+3=11/2 purchases."
+      ] },
+      { title: "Expected empty boxes", problem: "Five independent balls are placed uniformly into three boxes. Find the expected number of empty boxes.", steps: [
+        "For each box i, let Iᵢ=1 if it is empty. A given ball avoids that box with probability 2/3.",
+        "All five balls avoid a specified box with probability (2/3)⁵, so E[Iᵢ]=(2/3)⁵.",
+        "By linearity, E[empty boxes]=3(2/3)⁵=96/243=32/81."
       ] }
     ],
     quiz: [
