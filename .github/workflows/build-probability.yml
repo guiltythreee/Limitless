@@ -50,6 +50,9 @@ jobs:
       - name: Test Meta dashboard and dedicated project ledger
         run: node meta/test-meta.mjs
 
+      - name: Test shared in-app Meta status model
+        run: node shared/meta/status.test.mjs
+
       - name: Validate curriculum routes and question quality
         working-directory: probability-source
         run: npm run validate:curriculum
