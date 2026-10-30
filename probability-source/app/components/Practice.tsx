@@ -18,6 +18,7 @@ import {
 } from "../../../shared/learning-player/runtime";
 import { probabilityPlayerAdapter } from "../learning-player/adapter";
 import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
+import { LearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
 
 type ScopeKind = "topic" | "rank" | "all";
 type View = "overview" | "all" | "topics" | "saved" | "mistakes" | "question";
