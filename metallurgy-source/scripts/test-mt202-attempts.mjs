@@ -109,7 +109,11 @@ const legacy = {
   const p = loadProgress();
   recordAnswer(p, "ch01-q1", "A", true);
   resetProgress();
-  eq(s.getItem(KEY), null, "reset removes the MT202 progress key");
+  const reset = JSON.parse(s.getItem(KEY));
+  eq(reset.answered, {}, "reset clears MT202 local answers");
+  eq(reset.examBest, null, "reset clears MT202 local exam best");
+  eq(reset.activities, [], "reset clears MT202 local activity history");
+  eq(reset.rewardLedger.length, 1, "reset preserves lifetime MT202 Meta rewards");
   eq(s.getItem(THEME), "light", "reset leaves the theme key intact");
 }
 
