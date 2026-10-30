@@ -168,10 +168,12 @@ export function recordAnswer(
   choice: string,
   correct: boolean,
   mode: AttemptMode = "practice",
-  ms = 0
+  ms = 0,
+  difficulty = 1
 ): Progress {
   const now = Date.now();
-  const next: Progress = {
+  const fresh = p.answered[key] === undefined;
+  let next: Progress = {
     ...p,
     answered: { ...p.answered, [key]: { choice, correct, at: now } },
   };
@@ -188,10 +190,14 @@ export function recordAnswer(
   // (legacy derives from the PRE-answer `answered`). `load()` only reads;
   // the append below is the ONE write of this answer — answered + history
   // (and every other root field, known or unknown) persist together.
+  const reward = fresh && mode === "practice"
+    ? questionActivity("metallurgy-mt202", key, now, correct, 0, difficulty)
+    : null;
+  if (reward) next = appendLsrActivity(next, reward).progress;
   const goalSnapshot = withDailyGoalSnapshot(next, now);
   return appendAndReturn({ ...goalSnapshot, activities: logFor(p).load() }, [
     { q: key, topicId, picked: choice, correct, mode, ms, ts: now },
-  ]);
+  ], Boolean(reward));
 }
 
 /** One attempted question of a submitted exam. Blanks never reach the log. */
