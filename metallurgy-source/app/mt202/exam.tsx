@@ -47,7 +47,7 @@ export default function Exam({
   const [running, setRunning] = useState(false);
   const [pool, setPool] = useState<PoolQ[]>([]);
   const [session, setSession] = useState(() =>
-    createLearningPlayerSession<PoolQ, MetallurgyPlayerAnswer>([])
+    createLearningPlayerSession<Question, MetallurgyPlayerAnswer>([])
   );
   const idx = session.state.index;
   const answers: Record<number, string> = {};
@@ -86,7 +86,7 @@ export default function Exam({
     const shuffled = [...all].sort(() => Math.random() - 0.5);
     const drawn = shuffled.slice(0, Math.min(count, shuffled.length));
     setPool(drawn);
-    setSession(createLearningPlayerSession<PoolQ, MetallurgyPlayerAnswer>(drawn));
+    setSession(createLearningPlayerSession<Question, MetallurgyPlayerAnswer>(drawn));
     setLeft(Math.max(1, minutes) * 60);
     setSubmitted(false);
     setRunning(true);
