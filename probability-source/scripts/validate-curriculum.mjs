@@ -187,7 +187,9 @@ for (const { id, block } of sequence08Lessons) {
 const legacyBayesSource = read("app/content/legacy.ts");
 for (const id of ["conditional", "bayes", "random-variables", "distributions", "limit-theorems", "markov"]) {
   const lessonStart = legacyBayesSource.indexOf('id: "' + id + '"');
-  const lessonEnd = legacyBayesSource.indexOf("\n  },", lessonStart);
+  const nextCommaEnd = legacyBayesSource.indexOf("\n  },", lessonStart);
+  const finalObjectEnd = legacyBayesSource.indexOf("\n  }\n];", lessonStart);
+  const lessonEnd = nextCommaEnd >= 0 ? nextCommaEnd : finalObjectEnd;
   const block = legacyBayesSource.slice(lessonStart, lessonEnd);
   if (lessonStart < 0 || lessonEnd < 0 ||
       [...block.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length < 2 ||
