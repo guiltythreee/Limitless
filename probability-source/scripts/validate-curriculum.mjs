@@ -183,6 +183,31 @@ for (const { id, block } of sequence08Lessons) {
   if (examples < 3) throw new Error("Sequence 08 lesson " + id + " needs at least three worked examples.");
   if (questions.length !== 3) throw new Error("Sequence 08 lesson " + id + " needs exactly three graded questions.");
 }
+// Sequence 07 keeps the legacy conditional lesson ID while requiring complete teaching material.
+const legacyConditional = read("app/content/legacy.ts");
+const conditionalStart = legacyConditional.indexOf('id: "conditional"');
+const conditionalEnd = legacyConditional.indexOf('\n  },', conditionalStart);
+const conditionalBlock = legacyConditional.slice(conditionalStart, conditionalEnd);
+if (conditionalStart < 0 || conditionalEnd < 0 ||
+    !/examples:\s*\[/.test(conditionalBlock) ||
+    [...conditionalBlock.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length < 2 ||
+    [...conditionalBlock.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)].length !== 2) {
+  throw new Error("Legacy conditional lesson must retain its ID and contain two examples plus two additional graded questions.");
+}
+const sequence07Source = read("app/content/pathway-lessons.ts");
+const sequence07Starts = [...sequence07Source.matchAll(/\n  \{\n    id: "(conditional-independence|total-probability)", rank: 7/g)];
+const sequence07AllStarts = [...sequence07Source.matchAll(/\n  \{\n    id: "[^"]+", rank: \d+/g)];
+if (sequence07Starts.length !== 2) throw new Error("Expected two expanded Sequence 07 lessons.");
+for (const match of sequence07Starts) {
+  const next = sequence07AllStarts.find((candidate) => candidate.index > match.index);
+  const block = sequence07Source.slice(match.index, next ? next.index : sequence07Source.length);
+  const id = match[1];
+  const examples = [...block.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length;
+  const questions = [...block.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)];
+  if (examples < 3 || questions.length !== 3) {
+    throw new Error("Sequence 07 lesson " + id + " needs three worked examples and three graded questions.");
+  }
+}
 const geometricSource = read("app/content/chapter1-theory.ts");
 const geometricStart = geometricSource.indexOf("export const geometricProbability");
 const geometricEnd = geometricSource.indexOf("export const borelCantelli", geometricStart);
