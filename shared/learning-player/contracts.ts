@@ -59,6 +59,8 @@ export interface LearningPlayerAdapter<
   readonly courseId: PlayerCourseId;
   questionId(question: TQuestion): PlayerQuestionId;
   grade(question: TQuestion, answer: TAnswer): PlayerGrade;
+  /** Defaults to true; false preserves courses that lock a question after its first submission. */
+  canRetry?(question: TQuestion): boolean;
   /** Course-specific draft representation; absent means drafts are unsupported. */
   saveDraft?(question: TQuestion, answer: TAnswer, elapsedMs: number): TDraft;
   restoreDraft?(question: TQuestion, draft: TDraft): {
