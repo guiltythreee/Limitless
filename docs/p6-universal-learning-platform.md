@@ -222,3 +222,22 @@ The P6 workflow now runs both applications' production builds independently, wit
 - The contract/runtime/adapter test and type-check matrix also passed in the same run.
 
 This confirms the current branch still builds both applications. The shared runtime is not yet imported by either production route, so this is a baseline build checkpoint before the first live integration.
+
+## 15. P6.2 first live integration — MT201 practice quiz
+
+The MT201 chapter quiz now uses the shared player session runtime for:
+- Current question index and previous/next navigation.
+- Direct selection from the question palette and deep-link initial question selection.
+- Single-choice answer capture and adapter-driven grading.
+- Submission phase and elapsed-time capture.
+
+The existing MT201 renderer, solution/peek UI, bookmark action, timer scheduling/visibility behaviour, progress shape, and `mm-mt201-v1` storage remain course-owned. On submission, the shared adapter's correctness result is passed into the existing `recordAnswer` function; no new storage format or persistence path was introduced.
+
+The first production build exposed a genuine module-boundary issue: Next.js Turbopack treated each app directory as its root and could not resolve the repository-level shared runtime. Both Next configs now set Turbopack's root to the repository root, allowing the two independent apps to import one shared implementation without copying it into either app. The existing static-export settings and deployment workflows are unchanged.
+
+Validation:
+- P6 workflow run `41063007319`: both app production builds and both shared contract/runtime/adapter type-check matrices passed.
+- Metallurgy regression run `41063007334`: 109 learning-core checks, 196 capability checks, MT201/MT202 attempt tests, attempt parity, bookmarks, timers, daily goals, and the full Metallurgy TypeScript check all passed.
+- The MT201 route compiled and was prerendered by the Metallurgy production build.
+
+This is the first production-route integration, limited to MT201 practice. MT201 exam, MT202, MT203, and Probability production players remain unchanged. No deployment was run.
