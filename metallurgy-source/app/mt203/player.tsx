@@ -12,7 +12,7 @@
 // unchanged.
 
 import { useEffect, useRef, useState } from "react";
-import { awardAnswer, Mode, Progress, recordAnswer, toggleBookmark } from "../lib/mt203-progress";
+import { awardAnswer, Mode, Progress, recordAnswer, saveProgress, toggleBookmark } from "../lib/mt203-progress";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 import { Question } from "../courses/types";
 
@@ -136,9 +136,12 @@ export default function Player({
     const ok = lab === theQ.answer;
     const ms = Math.max(0, Math.round(elapsedNow()));
     openedAt.current = null;
-    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty);
-    const res = awardAnswer(p, theQ.id, theQ.difficulty, ok);
+    const initialRewardLedgerLength = progress.rewardLedger.length;
+    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty, false);
+    const res = awardAnswer(p, theQ.id, theQ.difficulty, ok, false);
     p = res.progress;
+    // Persist attempt history, legacy XP and the LSR-1 record together.
+    saveProgress(p, p.rewardLedger.length > initialRewardLedgerLength);
     onProgress(p);
     if (res.xp > 0) {
       setGain((g) => g + res.xp);
