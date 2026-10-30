@@ -9,21 +9,46 @@ import { theoryAdditions, geometricProbability, borelCantelli } from "./chapter1
 import { problemsA } from "./chapter1-problems-a";
 import { problemsB } from "./chapter1-problems-b";
 import { problemsC } from "./chapter1-problems-c";
+import { pathwayLessons } from "./pathway-lessons";
+import { advancedPathwayLessons } from "./pathway-lessons-advanced";
+
+export { pathways } from "./pathways";
+export { coverageAreas } from "./coverage";
 
 export * from "./types";
 export * from "./backgrounds";
 
-// Teaching order inside rank 09. Lessons not listed here keep their file order after the listed ones.
+// Explicit teaching order for sequences whose source files are assembled from multiple chapters.
 const rank09Order = [
   "sample-space", "events-operations", "set-theory", "mutually-exclusive", "exhaustive-partitions",
   "counting", "combinations", "multinomials",
   "axioms", "properties", "equally-likely", "probability-counting", "geometric-probability",
-  "de-morgan", "continuity", "borel-cantelli",
+  "de-morgan", "continuity",
 ];
+const rank02Order = [
+  "limit-theorems", "limit-theorems-deep",
+  "concentration-inequalities", "chernoff-hoeffding", "borel-cantelli",
+  "likelihood-estimation", "confidence-hypothesis-tests",
+];
+const rank08Order = ["advanced-counting", "occupancy-coupon", "random-permutations"];
+const rank07Order = ["conditional", "conditional-independence", "total-probability"];
+const rank06Order = ["bayes", "bayesian-inference"];
+const rank05Order = ["random-variables", "distributions", "discrete-distributions", "negative-binomial"];
+const rank04Order = ["expectation-variance", "continuous-rv", "normal-distribution", "gamma-beta-distributions"];
+const rank03Order = [
+  "joint-distributions", "conditional-expectation", "joint-transformations",
+  "sums-convolution", "generating-functions", "order-statistics",
+];
+const rank01Order = [
+  "markov", "markov-chain-analysis", "random-walks", "branching-processes",
+  "poisson-processes", "reliability-hazards",
+];
+const rank00Order = ["martingales", "renewal-queueing", "monte-carlo", "mcmc", "bayesian-computation"];
 const position = (l: Lesson) => {
-  if (l.rank !== 9) return 0;
-  const i = rank09Order.indexOf(l.id);
-  return i === -1 ? rank09Order.length : i;
+  const order = l.rank === 9 ? rank09Order : l.rank === 8 ? rank08Order : l.rank === 7 ? rank07Order : l.rank === 6 ? rank06Order : l.rank === 5 ? rank05Order : l.rank === 4 ? rank04Order : l.rank === 3 ? rank03Order : l.rank === 2 ? rank02Order : l.rank === 1 ? rank01Order : l.rank === 0 ? rank00Order : null;
+  if (!order) return 0;
+  const i = order.indexOf(l.id);
+  return i === -1 ? order.length : i;
 };
 
 // Chapter 1 problem set (54 problems), keyed by lesson id.
@@ -52,7 +77,7 @@ const enrich = (l: Lesson): Lesson => {
 };
 
 // Lessons are listed from rank 09 down to rank 00, in teaching order.
-export const lessons: Lesson[] = [...rank09, ...rank09Extra, geometricProbability, borelCantelli, ...legacyLessons]
+export const lessons: Lesson[] = [...rank09, ...rank09Extra, geometricProbability, borelCantelli, ...legacyLessons, ...pathwayLessons, ...advancedPathwayLessons]
   .map(enrich)
   .sort((a, b) => b.rank - a.rank || position(a) - position(b));
 

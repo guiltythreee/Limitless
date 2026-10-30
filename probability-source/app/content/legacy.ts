@@ -106,7 +106,7 @@ const legacyRank: Record<string, number> = {
   conditional: 7,
   bayes: 6,
   "random-variables": 5,
-  distributions: 4,
+  distributions: 5,
   "limit-theorems": 2,
   markov: 1,
 };
