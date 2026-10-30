@@ -7,6 +7,16 @@ import { allQuestions, correctSet, grade, isMulti, questionByKey, type Q, type S
 import { clearDraft, latestByQuestion, recordAttempt, recordTest, saveDraft, toggleBookmark, useStore, type Attempt, type TestRecord } from "../lib/store";
 import { fmtTime, summarize } from "../lib/stats";
 import { StatsPanel } from "./Dashboard";
+import {
+  createLearningPlayerSession,
+  selectPlayerQuestion,
+  setPlayerAnswer,
+  submitPlayerAnswer,
+  tickPlayer,
+  type LearningPlayerSession,
+} from "../../../shared/learning-player/runtime";
+import { probabilityPlayerAdapter } from "../learning-player/adapter";
+import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
 
 type ScopeKind = "topic" | "rank" | "all";
 type View = "overview" | "all" | "topics" | "saved" | "mistakes" | "question";
@@ -30,8 +40,11 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
   const [scopeKind, setScopeKind] = useState<ScopeKind>("topic");
   const [view, setView] = useState<View>("overview");
   const [back, setBack] = useState<View>("all");
-  const [queue, setQueue] = useState<string[]>([]);
-  const [qi, setQi] = useState(0);
+  const [session, setSession] = useState<LearningPlayerSession<Q, ProbabilityPlayerAnswer>>(
+    () => createLearningPlayerSession<Q, ProbabilityPlayerAnswer>([]),
+  );
+  const queue = session.questions.map((question) => question.key);
+  const qi = session.state.index;
 
   const latest = useMemo(() => latestByQuestion(store.attempts), [store.attempts]);
   const statusOf = (k: string): Status => latest[k]?.status ?? "unattempted";
@@ -42,7 +55,11 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
   const scopeLabel = scopeKind === "topic" ? lesson.title : scopeKind === "rank" ? `Sequence ${pad2(lesson.rank)}` : "All of probability";
 
   function open(keys: string[], index: number, from: View) {
-    setQueue(keys); setQi(index); setBack(from); setView("question");
+    const questions = keys.map((key) => questionByKey[key]).filter((question): question is Q => Boolean(question));
+    const nextSession = createLearningPlayerSession<Q, ProbabilityPlayerAnswer>(questions);
+    setSession(selectPlayerQuestion(nextSession, index));
+    setBack(from);
+    setView("question");
   }
   function practiceAll() {
     const keys = pool.map((q) => q.key);
@@ -106,10 +123,12 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
         {view === "question" && queue.length > 0 && (
           <QuestionView
             key={queue[qi]}
-            q={questionByKey[queue[qi]]}
+            q={session.questions[qi]}
             queue={queue}
             index={qi}
-            onGo={(i) => setQi(i)}
+            session={session}
+            onSessionChange={setSession}
+            onGo={(i) => setSession((current) => selectPlayerQuestion(current, i))}
             onBack={() => setView(back)}
             showTopic={scopeKind !== "topic"}
           />
