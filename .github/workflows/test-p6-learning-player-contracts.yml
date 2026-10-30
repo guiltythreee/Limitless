@@ -54,7 +54,6 @@ jobs:
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/runtime.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/learning-player/adapter.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/cross-discipline.test.mjs
-          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/cross-discipline.test.mjs
 
       - name: Type-check shared contract and fixtures
         working-directory: ${{ matrix.project }}
