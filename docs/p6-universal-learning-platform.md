@@ -333,12 +333,15 @@ What intentionally remains course-owned:
 - Answer controls and their visual treatment.
 - Course-specific setup, filters, bookmarks, drafts, rewards, progress summaries, and exam review layouts.
 
-The first P6.5 vertical slice is now implemented in `shared/learning-player/PlayerShell.ts` and consumed by all five principal practice/test surfaces:
+The shared P6.5 shell is now implemented in `shared/learning-player/PlayerShell.ts` and consumed by all eight active player/exam surfaces:
 - MT201 chapter practice in `metallurgy-source/app/mt201/quiz.tsx`.
 - MT202 chapter practice in `metallurgy-source/app/mt202/quiz.tsx`.
 - MT203 sequential learning/revision player in `metallurgy-source/app/mt203/player.tsx`.
 - Probability Practice question view in `probability-source/app/components/Practice.tsx`.
 - Probability Test run in `probability-source/app/components/Test.tsx`.
+- MT201 timed exam in `metallurgy-source/app/mt201/exam.tsx`.
+- MT202 timed exam in `metallurgy-source/app/mt202/exam.tsx`.
+- MT203 timed exam in `metallurgy-source/app/mt203/exam.tsx`.
 
 The shell owns the semantic question-navigation landmark and shared content boundary. Each app injects its own React `createElement` factory, so the shared source does not depend on either app's separately installed React package. The question palette is supplied as a slot; course-specific question metadata, prompts, answer controls, timer/draft behaviour, grading, solution rendering, retry, bookmarks, and action buttons remain in their original components.
 
@@ -358,9 +361,9 @@ The shared implementation is deliberately framework-neutral at module resolution
 
 No course logic was moved. MT201 retains its timer, bookmark, single-choice lock, grading adapter, solution renderer, and progress write. Probability retains multi-select toggling, draft autosave, stopwatch pause/resume, partial-credit grading, attempts, retry, bookmark, and explanation behaviour. The shared shell only owns the semantic navigation landmark and content boundary.
 
-Validation on branch commit `27b62ae541c31f3d1c09d48401ef7b7297c80fb2`:
-- P6 workflow run `41067826070`: both independent production builds and both shared-runtime TypeScript checks passed.
-- Metallurgy regression run `41067825881`: completed successfully.
+Validation on branch commit `4ba50b5c4bb9dbd78c9effd9f5ecee842111c1bb`:
+- P6 workflow run `41068229729`: both independent production builds and both shared-runtime TypeScript checks passed.
+- Metallurgy regression run `41068229630`: completed successfully.
 - The 29-assertion cross-discipline harness remains part of the P6 workflow.
 
 The first extraction initially exposed two real integration issues: React could not be resolved from the repository-level shared folder, and the Probability Practice component import was missing. The shared shell was changed to receive the consuming app's element factory, the import was added, and the current two builds/type checks are green.
