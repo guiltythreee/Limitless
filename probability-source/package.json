@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "validate:curriculum": "node scripts/validate-curriculum.mjs",
-    "test:rewards": "node scripts/test-reward-standard.mjs && node scripts/test-reward-store.mjs && node ../shared/calibrate-week.mjs"
+    "test:rewards": "node --check ../shared/rewards.mjs && node --check ../shared/profile.mjs && node --check ../shared/projects.mjs && node --check ../shared/level-notifications.mjs && node --check ../meta/meta.js && node scripts/test-reward-standard.mjs && node scripts/test-reward-store.mjs && node ../shared/calibrate-week.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
