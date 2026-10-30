@@ -3298,6 +3298,37 @@
     },
     {
       "chapter": "ch03",
+      "n": 54,
+      "originalType": "E",
+      "sourceText": "Calculate the critical radius r* for copper at an undercooling of 10 °C, given γ_SL = 0.177 J/m², ΔH_f = 1.88 × 10⁹ J/m³ and T_m = 1356 K.",
+      "sourceFingerprint": "da483247",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "2.55 × 10⁻⁸ m"
+          },
+          {
+            "label": "b",
+            "text": "5.66 × 10⁻⁹ m"
+          },
+          {
+            "label": "c",
+            "text": "6.36 × 10⁻⁹ m"
+          },
+          {
+            "label": "d",
+            "text": "7.08 × 10⁻⁹ m"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Using ΔG_v ≈ ΔH_fΔT/T_m gives 1.386 × 10⁷ J/m³. Therefore r* = 2γ_SL/ΔG_v = 0.354/(1.386 × 10⁷) ≈ 2.55 × 10⁻⁸ m.",
+        "concise": "The supplied values give r* ≈ 2.55 × 10⁻⁸ m.",
+        "detailed": "ΔG_v ≈ ΔH_fΔT/T_m = (1.88 × 10⁹ × 10)/1356 ≈ 1.386 × 10⁷ J/m³. Then r* = 2γ_SL/ΔG_v = (2 × 0.177)/(1.386 × 10⁷) ≈ 2.55 × 10⁻⁸ m. Thus option (a) is correct."
+      }
+    },
+    {
+      "chapter": "ch03",
       "n": 55,
       "originalType": "E",
       "sourceText": "For the same conditions as Q54, the critical free-energy barrier ΔG* (in J) for homogeneous nucleation is closest to:",
@@ -3305,22 +3336,25 @@
         "options": [
           {
             "label": "a",
-            "text": "1.2 × 10⁻¹⁷"
+            "text": "4.8 × 10⁻¹⁶ J"
           },
           {
             "label": "b",
-            "text": "5.9 × 10⁻¹⁸"
+            "text": "1.2 × 10⁻¹⁷ J"
           },
           {
             "label": "c",
-            "text": "1.8 × 10⁻¹⁷"
+            "text": "1.8 × 10⁻¹⁷ J"
           },
           {
             "label": "d",
-            "text": "2.5 × 10⁻¹⁷"
+            "text": "2.5 × 10⁻¹⁷ J"
           }
         ],
-        "answer": "b"
+        "answer": "a",
+        "keyExplanation": "ΔG* = 16πγ_SL³/(3ΔG_v²) ≈ 4.8 × 10⁻¹⁶ J for the supplied values.",
+        "concise": "The homogeneous nucleation barrier is approximately 4.8 × 10⁻¹⁶ J.",
+        "detailed": "From Q54, ΔG_v ≈ 1.386 × 10⁷ J/m³. Using ΔG* = 16πγ_SL³/(3ΔG_v²), with γ_SL = 0.177 J/m², gives ΔG* ≈ 4.8 × 10⁻¹⁶ J. Option (a) is correct."
       },
       "sourceFingerprint": "d36209d4"
     },
@@ -3376,7 +3410,11 @@
             "text": "1.0 × 10⁻⁴ m"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "text": "A steel ingot is solidifying such that the liquid ahead of the interface has a carbon content of 0.6 wt% and the solid forming has 0.3 wt% C. The equilibrium liquidus temperature at 0.6 wt% C is 1450 °C and at 0.3 wt% C is 1490 °C. If the actual temperature gradient is 300,000 °C/m, calculate the critical distance ahead of the interface beyond which constitutional supercooling occurs.",
+        "keyExplanation": "The liquidus-temperature difference is 40 °C. With G = 300,000 °C/m, x_c ≈ ΔT/G = 40/300,000 = 1.33 × 10⁻⁴ m.",
+        "concise": "x_c = ΔT/G = 40 °C ÷ 300,000 °C/m ≈ 1.33 × 10⁻⁴ m.",
+        "detailed": "The liquidus difference is 1490 − 1450 = 40 °C. The critical distance is x_c = ΔT/G = 40 °C ÷ (300,000 °C/m) = 1.33 × 10⁻⁴ m. The units reduce to metres. Option (d) is correct."
       },
       "sourceFingerprint": "7035cc33"
     },
@@ -3438,6 +3476,47 @@
     },
     {
       "chapter": "ch03",
+      "n": 65,
+      "originalType": "B",
+      "sourceText": "Which of the following correctly distinguish blowholes from interdendritic sponginess?",
+      "sourceFingerprint": "4dbc1109",
+      "updates": {
+        "detailed": "1. TRUE: blowholes arise from dissolved or evolved gas, whereas sponginess is shrinkage porosity. 2. TRUE: blowholes are commonly more discrete; sponginess is fine and interdendritic. 3. TRUE: degassing addresses gas porosity, while improved feeding addresses shrinkage. 4. FALSE: blowholes may be subsurface as well as surface-connected. Therefore statements 1, 2 and 3 are correct: option (c)."
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 67,
+      "originalType": "E",
+      "sourceText": "For a nucleating substrate with interfacial energies such that cos ψ = 0.5, the shape factor S(ψ) for heterogeneous nucleation is approximately:",
+      "sourceFingerprint": "d9686777",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "0.125"
+          },
+          {
+            "label": "b",
+            "text": "0.15625"
+          },
+          {
+            "label": "c",
+            "text": "0.250"
+          },
+          {
+            "label": "d",
+            "text": "0.500"
+          }
+        ],
+        "answer": "b",
+        "keyExplanation": "S(ψ) = (2 + cos ψ)(1 − cos ψ)²/4. For cos ψ = 0.5, S = (2.5)(0.5)²/4 = 0.15625.",
+        "concise": "The shape factor is S(ψ) = 0.15625.",
+        "detailed": "Substitute cos ψ = 0.5 into S(ψ) = (2 + cos ψ)(1 − cos ψ)²/4: S = (2.5)(0.5)²/4 = 0.625/4 = 0.15625. Therefore option (b) is correct."
+      }
+    },
+    {
+      "chapter": "ch03",
       "n": 68,
       "originalType": "G",
       "sourceText": "Increasing the cooling rate during solidification of an alloy generally results in which combination?",
@@ -3488,7 +3567,8 @@
             "text": "1 and 3 only"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "1. TRUE: normal (V) segregation is a casting-scale pattern commonly associated with centre/upper-ingot enrichment. 2. TRUE: inverse (Λ) segregation involves solute-rich liquid moving outward toward the surface. 3. TRUE: gravity segregation is driven by density differences and settling or rising of phases. 4. FALSE: coring is microsegregation within individual dendrite arms or grains. Therefore statements 1, 2 and 3 are correct: option (b)."
       },
       "sourceFingerprint": "49ca3f79"
     },
@@ -3547,6 +3627,37 @@
         "answer": "b"
       },
       "sourceFingerprint": "08aa14a2"
+    },
+    {
+      "chapter": "ch03",
+      "n": 72,
+      "originalType": "E",
+      "sourceText": "Calculate the minimum undercooling ΔT required to make a copper nucleus of radius 5.0 × 10⁻⁹ m stable, given γ_SL = 0.177 J/m² and ΔH_f = 1.88 × 10⁹ J/m³, T_m = 1356 K.",
+      "sourceFingerprint": "5ad5b072",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "6.8 °C"
+          },
+          {
+            "label": "b",
+            "text": "10.2 °C"
+          },
+          {
+            "label": "c",
+            "text": "12.7 °C"
+          },
+          {
+            "label": "d",
+            "text": "51.1 °C"
+          }
+        ],
+        "answer": "d",
+        "keyExplanation": "Rearranging r* = 2γ_SL T_m/(ΔH_fΔT) gives ΔT = 2γ_SL T_m/(ΔH_f r*) ≈ 51.1 K (51.1 °C).",
+        "concise": "The required undercooling is approximately 51.1 °C.",
+        "detailed": "Rearrange r* = 2γ_SL T_m/(ΔH_fΔT): ΔT = 2γ_SL T_m/(ΔH_f r*). Substitution gives (2 × 0.177 × 1356)/(1.88 × 10⁹ × 5.0 × 10⁻⁹) = 480.0/9.4 ≈ 51.1 K. A temperature difference of 51.1 K is 51.1 °C, so option (d) is correct."
+      }
     },
     {
       "chapter": "ch03",
