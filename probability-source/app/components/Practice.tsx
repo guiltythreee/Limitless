@@ -344,6 +344,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
 
   return (
     <LearningPlayerShell paletteClassName="mb-4 flex items-center gap-2 overflow-x-auto pb-1" palette={(
+                  <>
                   <button onClick={onBack} className="pill shrink-0" aria-label="Back to the list">←</button>
                   <div className="flex gap-1.5">
                     {queue.map((k, i) => {
@@ -355,6 +356,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
                       );
                     })}
                   </div>
+                  </>
                 )}>
       <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3">
         <div>
