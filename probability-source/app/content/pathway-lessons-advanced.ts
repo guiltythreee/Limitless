@@ -261,4 +261,40 @@ export const advancedPathwayLessons: Lesson[] = [
       { question: "Constant hazard in an exponential lifetime", options: ["Means every lifetime equals the mean", "Implies memorylessness and may not fit aging components", "Means the component never fails", "Makes survival constant"], answer: 1, difficulty: "hard", explanation: "The exponential law has constant hazard and the memoryless property, which many aging mechanisms do not satisfy." }
     ]
   }
+
+  ,
+  {
+    id: "likelihood-estimation", rank: 2, title: "Likelihood, Estimation & Maximum Likelihood", minutes: 27,
+    description: "Turn a probability model into an estimator and assess its sampling behaviour.",
+    objective: "Construct likelihoods, derive maximum-likelihood estimates, and distinguish bias, variance, and consistency.",
+    body: [
+      "An estimator is a statistic computed from data to learn an unknown parameter. Before observing data, it is a random variable; after observing data, its realised value is an estimate.",
+      "For observed data x under parameter θ, the likelihood L(θ;x)=f(x;θ) is viewed as a function of θ with the data held fixed. It is not a probability distribution over θ unless a Bayesian prior and normalisation are added.",
+      "A maximum-likelihood estimator maximises L(θ;x), or equivalently the log-likelihood. For n Bernoulli observations with x successes, L(p) is proportional to pˣ(1−p)ⁿ⁻ˣ and the MLE is p̂=x/n.",
+      "Estimator quality has several dimensions. Bias is E[θ̂]−θ; variance measures sampling spread; mean squared error is variance plus squared bias. Consistency means the estimator converges in probability to the true parameter as sample size grows.",
+      "An MLE need not be unbiased in finite samples. Under regularity conditions it often has useful large-sample properties, but boundary parameters, non-identifiability, and model misspecification require care."
+    ],
+    formulas: [
+      { label: "Likelihood", text: "L(θ;x)=f(x;θ), with x fixed" },
+      { label: "Bias and MSE", text: "Bias(θ̂)=E[θ̂]−θ; MSE(θ̂)=Var(θ̂)+Bias(θ̂)²" },
+      { label: "Bernoulli MLE", text: "p̂=x/n" }
+    ],
+    examples: [
+      { title: "Estimating a coin's head probability", problem: "A coin is tossed 10 times and produces 7 heads. Find the maximum-likelihood estimate of its head probability p.", steps: [
+        "For x=7 successes in n=10 Bernoulli trials, the likelihood is proportional to p⁷(1−p)³.",
+        "The log-likelihood is 7 log p + 3 log(1−p) plus a constant. Differentiating and setting the derivative to zero gives 7/p−3/(1−p)=0.",
+        "Solving gives p̂=7/10=0.7. This is the MLE, not a claim that the unknown parameter is certainly 0.7."
+      ] },
+      { title: "Estimating an exponential rate", problem: "An IID exponential sample has observed mean 4 hours. Under f(t;λ)=λe⁻ˡᵃᵐᵇᵈᵃᵗ, find the MLE of λ.", steps: [
+        "The log-likelihood is n log λ − λΣtᵢ.",
+        "Differentiating gives n/λ − Σtᵢ=0, so λ̂=n/Σtᵢ=1/t̄.",
+        "With t̄=4 hours, λ̂=0.25 per hour. The reciprocal has rate units, not hours."
+      ] }
+    ],
+    quiz: [
+      { question: "When constructing a likelihood L(θ;x), which quantity is held fixed?", options: ["The parameter θ", "The observed data x", "The sample size must be random", "The likelihood must integrate to one over θ"], answer: 1, difficulty: "easy", explanation: "The observed data are fixed and the likelihood is examined as a function of the unknown parameter. It is not automatically a probability distribution over parameters." },
+      { question: "A Bernoulli sample contains 18 successes in 30 trials. Its maximum-likelihood estimate of p is", options: ["0.30", "0.50", "0.60", "0.80"], answer: 2, difficulty: "medium", explanation: "The Bernoulli MLE is the observed success proportion: p̂=18/30=0.60." },
+      { question: "An estimator has variance 4 and bias 3. Its mean squared error is", options: ["4", "7", "9", "13"], answer: 3, difficulty: "hard", explanation: "MSE equals variance plus squared bias: 4+3²=13. Bias must be squared, not simply added." }
+    ]
+  }
 ];
