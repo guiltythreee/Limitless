@@ -55,7 +55,23 @@ const legacy: LegacyLesson[] = [
     question: "A fair coin is chosen from a box containing one fair coin and one double-headed coin. It is tossed and lands heads. What is the probability the chosen coin was double-headed?",
     options: ["1/4", "1/2", "2/3", "1"],
     answer: 2,
-    explanation: "The double-headed coin always gives heads; the fair coin gives heads with probability 1/2. With equal prior chances, Bayes gives (1 × 1/2) / (1 × 1/2 + 1/2 × 1/2) = 2/3."
+    explanation: "The double-headed coin always gives heads; the fair coin gives heads with probability 1/2. With equal prior chances, Bayes gives (1 × 1/2) / (1 × 1/2 + 1/2 × 1/2) = 2/3.",
+    examples: [
+      { title: "A rare-disease update", problem: "A disease has prevalence 2%. A test has 95% sensitivity and a 4% false-positive rate. Find the probability of disease after a positive result.", steps: [
+        "Among 10,000 people, about 200 have the disease and 95% of them (190) test positive.",
+        "Of 9,800 healthy people, 4% (392) test positive. There are 582 positive results in total.",
+        "The posterior is 190/582≈0.3265, or 32.65%. High sensitivity alone does not determine the posterior; prevalence and false positives matter."
+      ] },
+      { title: "A biased coin source", problem: "A coin is chosen from source A with probability 0.7 or source B with probability 0.3. Their head probabilities are 0.4 and 0.8. Given a head, find the probability the coin came from B.", steps: [
+        "The total probability of a head is 0.7(0.4)+0.3(0.8)=0.52.",
+        "The joint probability of source B and a head is 0.3(0.8)=0.24.",
+        "Bayes gives P(B|H)=0.24/0.52=6/13≈0.4615."
+      ] }
+    ],
+    additionalQuestions: [
+      { question: "A condition has prior probability 0.1. A test has sensitivity 0.8 and false-positive rate 0.1. What is P(condition | positive)?", options: ["0.08/0.17", "0.8", "0.1", "0.9"], answer: 0, difficulty: "medium", explanation: "Bayes gives 0.8(0.1)/[0.8(0.1)+0.1(0.9)]=0.08/0.17≈0.4706." },
+      { question: "Bayes' theorem requires the evidence event E to have", options: ["probability zero", "positive probability", "probability one-half", "independence from the hypothesis"], answer: 1, difficulty: "hard", explanation: "The posterior P(H|E) divides by P(E), so the conditioning event must have positive probability." }
+    ]
   },
   {
     id: "random-variables", unit: "06", title: "Random Variables & Expectation", level: "Adept", minutes: 20,
