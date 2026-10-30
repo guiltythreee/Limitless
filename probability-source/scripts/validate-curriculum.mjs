@@ -183,16 +183,17 @@ for (const { id, block } of sequence08Lessons) {
   if (examples < 3) throw new Error("Sequence 08 lesson " + id + " needs at least three worked examples.");
   if (questions.length !== 3) throw new Error("Sequence 08 lesson " + id + " needs exactly three graded questions.");
 }
-// Sequence 07 keeps the legacy conditional lesson ID while requiring complete teaching material.
-const legacyConditional = read("app/content/legacy.ts");
-const conditionalStart = legacyConditional.indexOf('id: "conditional"');
-const conditionalEnd = legacyConditional.indexOf('\n  },', conditionalStart);
-const conditionalBlock = legacyConditional.slice(conditionalStart, conditionalEnd);
-if (conditionalStart < 0 || conditionalEnd < 0 ||
-    !/examples:\s*\[/.test(conditionalBlock) ||
-    [...conditionalBlock.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length < 2 ||
-    [...conditionalBlock.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)].length !== 2) {
-  throw new Error("Legacy conditional lesson must retain its ID and contain two examples plus two additional graded questions.");
+// Sequence 07 and 06 retain their legacy IDs while requiring complete teaching material.
+const legacyBayesSource = read("app/content/legacy.ts");
+for (const id of ["conditional", "bayes"]) {
+  const lessonStart = legacyBayesSource.indexOf('id: "' + id + '"');
+  const lessonEnd = legacyBayesSource.indexOf("\n  },", lessonStart);
+  const block = legacyBayesSource.slice(lessonStart, lessonEnd);
+  if (lessonStart < 0 || lessonEnd < 0 ||
+      [...block.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length < 2 ||
+      [...block.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)].length !== 2) {
+    throw new Error("Legacy lesson " + id + " must retain its ID and contain two examples plus two additional graded questions.");
+  }
 }
 const sequence07Source = read("app/content/pathway-lessons.ts");
 const sequence07Starts = [...sequence07Source.matchAll(/\n  \{\n    id: "(conditional-independence|total-probability)", rank: 7/g)];
@@ -207,6 +208,15 @@ for (const match of sequence07Starts) {
   if (examples < 3 || questions.length !== 3) {
     throw new Error("Sequence 07 lesson " + id + " needs three worked examples and three graded questions.");
   }
+}
+const bayesianInferenceSource = read("app/content/pathway-lessons-advanced.ts");
+const bayesianInferenceStart = bayesianInferenceSource.indexOf('id: "bayesian-inference"');
+const bayesianInferenceEnd = bayesianInferenceSource.indexOf("\n  },", bayesianInferenceStart);
+const bayesianInferenceBlock = bayesianInferenceSource.slice(bayesianInferenceStart, bayesianInferenceEnd);
+if (bayesianInferenceStart < 0 || bayesianInferenceEnd < 0 ||
+    [...bayesianInferenceBlock.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length < 3 ||
+    [...bayesianInferenceBlock.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)].length !== 3) {
+  throw new Error("Sequence 06 Bayesian inference lesson needs three worked examples and three graded questions.");
 }
 const geometricSource = read("app/content/chapter1-theory.ts");
 const geometricStart = geometricSource.indexOf("export const geometricProbability");
