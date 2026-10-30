@@ -36,6 +36,7 @@ import {
   difficultyTier,
   questionActivity,
   type AssessmentInput,
+  type LsrActivityMode,
 } from "./lsr1-rewards";
 
 export type QState = { choice: string; correct: boolean; at: number };
@@ -174,8 +175,8 @@ export function recordAnswer(
   choice: string,
   correct: boolean,
   mode: AttemptMode = "practice",
-  ms = 0,
-  difficulty = 1
+  difficulty = 1,
+  ms = 0
 ): Progress {
   const now = Date.now();
   const fresh = p.answered[key] === undefined;
@@ -285,6 +286,15 @@ export function recordExamAnswers(
     })),
     notifyMeta
   );
+}
+
+/** Record a completed assessment reward without changing local attempt history. */
+export function recordExamAssessment(p: Progress, input: AssessmentInput): Progress {
+  const activity = assessmentActivity("metallurgy-mt202", input);
+  if (!activity) return p;
+  const reward = appendLsrActivity(p, activity);
+  saveProgress(reward.progress, Boolean(reward.record && reward.record.totalExp > 0));
+  return reward.progress;
 }
 
 export function toggleBookmark(p: Progress, questionId: string): Progress {
