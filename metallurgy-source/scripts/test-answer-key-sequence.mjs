@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // Detect answer-position runs and local-window patterns in the MT203 four-option bank.
+// This guard evaluates MCQs in learner-facing question order, not by aggregate counts alone.
 import { TOPIC_IDS } from "../app/mt203/types.ts";
 
 const errors = [];
