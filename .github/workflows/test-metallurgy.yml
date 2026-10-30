@@ -1,0 +1,60 @@
+name: Metallurgy Regression Tests
+
+on:
+  pull_request:
+    paths:
+      - "metallurgy-source/**"
+      - "shared/**"
+      - ".github/workflows/test-metallurgy.yml"
+  push:
+    branches: [main]
+    paths:
+      - "metallurgy-source/**"
+      - "shared/**"
+      - ".github/workflows/test-metallurgy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: metallurgy-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: metallurgy-source/package-lock.json
+      - name: Install dependencies
+        working-directory: metallurgy-source
+        run: npm ci
+      - name: Test LSR-1 module adapters and legacy XP isolation
+        working-directory: metallurgy-source
+        run: npm run test:lsr1
+      - name: Validate course manifests and content locks
+        working-directory: metallurgy-source
+        run: node --import ./scripts/ts-resolve-hook.mjs scripts/validate-courses.mjs
+      - name: MT201 regression suite
+        working-directory: metallurgy-source
+        run: node --import ./scripts/ts-resolve-hook.mjs scripts/test-mt201.mjs
+      - name: MT202 regression suite
+        working-directory: metallurgy-source
+        run: node --import ./scripts/ts-resolve-hook.mjs scripts/test-mt202.mjs
+      - name: MT203 migration regression suite
+        working-directory: metallurgy-source
+        run: node --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203-migration.mjs
+      - name: MT203 content validation
+        working-directory: metallurgy-source
+        run: node --import ./scripts/ts-resolve-hook.mjs scripts/validate-mt203.mjs
+      - name: Production static-export build
+        working-directory: metallurgy-source
+        run: npm run build
