@@ -6546,7 +6546,8 @@
             "text": "slip plane and slip direction"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "A slip system is defined by a particular pair consisting of a **slip plane and a slip direction**. **(d)** is correct. Option (a), Burgers vector plus line direction, describes the geometry of a dislocation; (b) and (c) are unrelated pairs."
       },
       "sourceFingerprint": "534459f2"
     },
@@ -6574,7 +6575,8 @@
             "text": "{100} × ⟨100⟩ = 6"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The primary BCC slip family is {110} planes with ⟨111⟩ directions, giving 12 systems in the conventional count used here. **(c)** is correct. Option (a) is FCC; (b) is HCP basal slip; (d) is not the primary BCC system."
       },
       "sourceFingerprint": "ffbb7c57"
     },
@@ -6602,7 +6604,8 @@
             "text": "{101̄0} × ⟨112̄0⟩ = 6"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The primary HCP slip family is basal {0001} with ⟨11̄20⟩ directions, giving three systems. **(b)** is correct. Option (a) is FCC; (c) is BCC; (d) describes a prismatic family rather than the primary basal system."
       },
       "sourceFingerprint": "6dc9cbd0"
     },
@@ -6793,7 +6796,8 @@
             "text": "τ_R = σ cos φ cos λ"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Schmid's law is τ_R = σ cos φ cos λ. **(d)** is correct. Option (a) uses sine factors; (b) rearranges the relation incorrectly; and (c) is not Schmid's law. The angles are defined in Q15–Q16."
       },
       "sourceFingerprint": "ea4b2da9"
     },
@@ -6821,7 +6825,8 @@
             "text": "the tensile (stress) axis and the slip-**plane normal**"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "In Schmid's law, φ is the angle between the tensile axis and the slip-plane normal. **(d)** is correct. Option (a) defines λ, the angle to the slip direction; the other options do not define φ."
       },
       "sourceFingerprint": "3e6610b5"
     },
@@ -6886,7 +6891,8 @@
             "text": "m is always exactly 0.5"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The Schmid factor has the range 0 ≤ m ≤ 0.5, with its maximum at φ = λ = 45°. **(c)** is correct. Option (a) ignores that the slip-plane normal and slip direction are perpendicular; (b) gives an incorrect range; (d) incorrectly makes m constant."
       },
       "sourceFingerprint": "0f190afb"
     },
@@ -6914,7 +6920,8 @@
             "text": "8.5 MPa"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "At φ = λ = 45°, m = cos45° cos45° = 0.5. Slip begins when σ_y m = τ_crss, so σ_y = 1/0.5 = 2 MPa. **(a)** is correct. Option (b) is below τ_crss even at the maximum Schmid factor; (c) assumes m = 1; and (d) belongs to the less favourable orientation in Q19."
       },
       "sourceFingerprint": "c2c1028e"
     },
@@ -6942,7 +6949,8 @@
             "text": "4.3 MPa"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "At φ = λ = 70°, m = cos²70° ≈ 0.117. Therefore σ_y = 1/0.117 ≈ 8.5 MPa, so **(b)** is correct. The other options do not satisfy σ_y = τ_crss/m."
       },
       "sourceFingerprint": "f44e3ff6"
     },
@@ -6998,7 +7006,8 @@
             "text": "the largest grain size"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Each slip system experiences τ_R = σm. As the tensile stress rises, the system with the **largest Schmid factor** reaches τ_crss first. **(b)** is correct. Option (a) would require the largest applied stress; (c) and (d) are not the criterion."
       },
       "sourceFingerprint": "baf9cc70"
     },
@@ -7084,7 +7093,8 @@
             "text": "the Schmid factor equals 0.5"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Since τ_R = σ cos φ cos λ, the resolved shear stress is zero if either φ or λ is 90°. **(b)** is correct. Option (a), φ = λ = 45°, gives the maximum Schmid factor; (c) gives a non-zero value; and (d) gives the maximum rather than zero."
       },
       "sourceFingerprint": "e5f7aae3"
     },
@@ -7112,7 +7122,8 @@
             "text": "a homogeneous shear of a block of lattice into a mirror-image orientation of the parent lattice across the twin plane"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Twinning is a homogeneous shear that reorients a block of lattice into a mirror-image orientation across the twin plane. **(d)** is correct. Option (a) describes slip by dislocation glide; (b) is reversible elastic bending; and (c) is grain-boundary migration."
       },
       "sourceFingerprint": "e6786a7e"
     },
@@ -7224,7 +7235,8 @@
             "text": "homogeneous shear producing a small fixed angle of reorientation"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Twinning produces a homogeneous shear and a small, fixed crystallographic reorientation. **(d)** is correct. Option (a), step-like displacement in whole multiples of b, describes slip; (b) and (c) incorrectly deny permanent plastic shape change."
       },
       "sourceFingerprint": "62a6f872"
     },
@@ -7391,7 +7403,8 @@
             "text": "tear a dislocation free from its Cottrell atmosphere, or to nucleate fresh unpinned dislocations"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The upper yield point is the extra stress needed to free dislocations pinned by Cottrell atmospheres or to activate fresh unpinned sources. **(d)** is correct. Options (a)–(c) do not describe the unlocking process."
       },
       "sourceFingerprint": "2e3209fc"
     },
@@ -7447,7 +7460,8 @@
             "text": "0.87 MPa"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The Schmid factor is m = cos30° cos60° = 0.8660 × 0.5 = 0.433. Thus σ_y = τ_crss/m = 1.0/0.433 ≈ 2.31 MPa, so **(c)** is correct. Option (a) uses only one cosine; (b) overestimates the required stress; and (d) does not apply the division by m."
       },
       "sourceFingerprint": "21a7acdd"
     },
@@ -7475,7 +7489,8 @@
             "text": "stick–slip of the specimen in the grips"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "The Portevin–Le Chatelier effect is dynamic strain ageing: diffusing solute atoms repeatedly pin moving dislocations, which then break away as the applied stress rises. This repeated pinning and release produces serrated flow. **(a)** is correct; the other options are not the mechanism."
       },
       "sourceFingerprint": "4dbad496"
     },
@@ -7509,6 +7524,16 @@
     },
     {
       "chapter": "ch06",
+      "n": 43,
+      "originalType": "G",
+      "sourceText": "A crystal is pulled in tension at an orientation φ = λ = 60° and yields at an applied stress of 400 MPa. Its critical resolved shear stress is:",
+      "sourceFingerprint": "acc26c52",
+      "updates": {
+        "detailed": "With φ = λ = 60°, m = cos²60° = 0.25. Therefore τ_crss = σ_y m = 400 × 0.25 = 100 MPa, so **(b)** is correct. Options (a), (c), and (d) use incorrect Schmid factors."
+      }
+    },
+    {
+      "chapter": "ch06",
       "n": 44,
       "originalType": "A",
       "sourceText": "In HCP metals the dominant slip system is governed mainly by the c/a ratio. Which statement is correct?",
@@ -7531,7 +7556,8 @@
             "text": "Metals with c/a > 1.633 (Zn, Cd) favour pyramidal ⟨a⟩ slip exclusively"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The c/a ratio changes which HCP plane family is most densely packed. Ti and Zr, with c/a below the ideal value, favour prismatic ⟨a⟩ slip; Zn and Cd, with c/a above the ideal value, retain basal slip. **(b)** is correct. Option (a) incorrectly makes basal slip universal; (c) confuses packing factor with plane density; (d) incorrectly claims exclusive pyramidal slip."
       },
       "sourceFingerprint": "f2012ffc"
     },
@@ -7559,7 +7585,8 @@
             "text": "25.0 MPa"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "τ_R = σ cos φ cos λ = 100 × cos45° × cos60° = 100 × 0.7071 × 0.5 ≈ 35.4 MPa. **(b)** is correct. The other options apply only one projection or use the wrong angle."
       },
       "sourceFingerprint": "4d966c28"
     },
@@ -7615,7 +7642,8 @@
             "text": "a plateau of zero hardening followed by necking"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "Stage II is the high, nearly constant work-hardening-rate region caused by dislocation multiplication and the formation of tangles and pile-ups on intersecting slip systems. **(a)** is correct. Option (b) describes Stage I easy glide; (c) describes Stage III with dynamic recovery; (d) is not the Stage II response."
       },
       "sourceFingerprint": "1b4a2422"
     },
@@ -7643,7 +7671,8 @@
             "text": "elastic recovery on unloading — the elastic part of the strain is recovered while the plastic part remains"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Springback is elastic recovery on unloading: the elastic part of the bending strain is recovered while the plastic part remains. **(d)** is correct. Strain ageing, thermal contraction and recrystallisation are not the cause of ordinary press-brake springback."
       },
       "sourceFingerprint": "b8263f0c"
     },
@@ -7671,7 +7700,8 @@
             "text": "A true, R false"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "- A is TRUE: an un-skin-passed sheet can retain a sharp yield point and form Lüders markings during subsequent forming.\n- R is FALSE: temper-rolling pre-deforms the sheet and removes the sharp yield-point behaviour; it does not reinstate it.\nTherefore A is true and R is false: **(d)** is correct."
       },
       "sourceFingerprint": "0b6cd08a"
     },
@@ -7699,7 +7729,8 @@
             "text": "Specimen S"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "For each specimen, σ_y = τ_crss/m. The Schmid factors are P = 0.500, Q ≈ 0.196, R ≈ 0.067 and S ≈ 0.112. Specimen R has the smallest m and therefore requires the highest applied stress. **(c)** is correct."
       },
       "sourceFingerprint": "fd6afda8"
     },
@@ -7755,7 +7786,8 @@
             "text": "cooling creates additional slip systems in the BCC lattice"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "BCC iron has a relatively high Peierls barrier on non-close-packed slip planes, so glide is strongly thermally activated and its yield stress rises sharply on cooling. FCC aluminium has close-packed {111} slip with a much lower, less temperature-sensitive barrier. **(c)** is correct. Options (a), (b), and (d) do not explain the contrasting temperature dependence."
       },
       "sourceFingerprint": "87010a25"
     },
@@ -7783,7 +7815,8 @@
             "text": "2.00 MPa and 1.33 MPa"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "The required tensile stress is σ = τ_crss/m. For m₁ = 0.45, σ₁ = 0.6/0.45 = 1.33 MPa; for m₂ = 0.30, σ₂ = 0.6/0.30 = 2.00 MPa. **(a)** is correct. The larger Schmid factor reaches the critical resolved shear stress at the lower applied tensile stress."
       },
       "sourceFingerprint": "0c64a4a1"
     },
