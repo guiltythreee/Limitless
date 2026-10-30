@@ -33,6 +33,7 @@ import {
   difficultyTier,
   questionActivity,
   type AssessmentInput,
+  type LsrActivityMode,
 } from "../lib/lsr1-rewards";
 
 export type QState = { choice: string; correct: boolean; at: number };
@@ -182,8 +183,9 @@ export function recordAnswer(
   key: string,
   choice: string,
   correct: boolean,
-  ms = 0,
-  difficulty = 1
+  mode: LsrActivityMode = "practice",
+  difficulty = 1,
+  ms = 0
 ): Progress {
   const now = Date.now();
   const fresh = p.answered[key] === undefined;
@@ -201,7 +203,7 @@ export function recordAnswer(
   const goalSnapshot = withDailyGoalSnapshot(next, now);
   let root: Progress = { ...goalSnapshot, activities: logFor(p).load() };
   let notifyMeta = false;
-  if (fresh) {
+  if (fresh && mode === "practice") {
     const reward = appendLsrActivity(root, {
       ...questionActivity("metallurgy-mt201", key, now, correct),
       difficulty: difficultyTier(difficulty),
@@ -211,7 +213,7 @@ export function recordAnswer(
   }
 
   return appendAndReturn(root, [
-    { q: key, topicId, picked: choice, correct, mode: "practice", ms, ts: now },
+    { q: key, topicId, picked: choice, correct, mode, ms, ts: now },
   ], notifyMeta);
 }
 
@@ -293,6 +295,15 @@ export function recordExamAnswers(
     })),
     notifyMeta
   );
+}
+
+/** Record a completed assessment reward without changing local attempt history. */
+export function recordExamAssessment(p: Progress, input: AssessmentInput): Progress {
+  const activity = assessmentActivity("metallurgy-mt201", input);
+  if (!activity) return p;
+  const reward = appendLsrActivity(p, activity);
+  saveProgress(reward.progress, Boolean(reward.record && reward.record.totalExp > 0));
+  return reward.progress;
 }
 
 export function toggleBookmark(p: Progress, questionId: string): Progress {
