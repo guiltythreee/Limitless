@@ -36,7 +36,7 @@ export const pathways: Pathway[] = [
     outcome: "Understand the probabilistic basis of estimation, sampling variation, and common statistical models.",
     lessonIds: [
       "sample-space", "counting", "combinations", "random-permutations", "advanced-counting", "occupancy-coupon", "axioms", "properties", "conditional",
-      "conditional-independence", "total-probability", "bayes", "bayesian-inference", "likelihood-estimation", "random-variables",
+      "conditional-independence", "total-probability", "bayes", "bayesian-inference", "likelihood-estimation", "confidence-hypothesis-tests", "random-variables",
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
@@ -51,7 +51,7 @@ export const pathways: Pathway[] = [
     outcome: "Build the probability toolkit needed before deeper work in stochastic calculus, derivatives pricing, risk, and quantitative research.",
     lessonIds: [
       "sample-space", "counting", "combinations", "random-permutations", "advanced-counting", "occupancy-coupon", "axioms", "properties", "conditional",
-      "conditional-independence", "total-probability", "bayes", "bayesian-inference", "likelihood-estimation", "random-variables",
+      "conditional-independence", "total-probability", "bayes", "bayesian-inference", "likelihood-estimation", "confidence-hypothesis-tests", "random-variables",
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
