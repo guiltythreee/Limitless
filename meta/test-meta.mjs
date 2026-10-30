@@ -18,10 +18,10 @@ assert.ok(pageSource.includes('<a href="../metallurgy/">Metallurgy</a>'),
   "Meta navigation links to the Metallurgy application");
 assert.ok(pageSource.includes('id="recent-awards"'),
   "recent-award renderer has a page host");
-const projectModuleSelect = pageSource.match(/<select id="project-module"[\\s\\S]*?<\\/select>/)?.[0] ?? "";
+const projectModuleSelect = pageSource.match(/<select id="project-module"[\s\S]*?<\/select>/)?.[0] ?? "";
 assert.ok(projectModuleSelect.includes('value="personal-projects"'),
   "bespoke projects use the dedicated personal-project ledger");
-assert.equal((projectModuleSelect.match(/<option\\b/g) ?? []).length, 1,
+assert.equal((projectModuleSelect.match(/<option\b/g) ?? []).length, 1,
   "the UI does not offer module ledgers that the project registry rejects");
 
 console.log("Meta dashboard: all checks passed.");
