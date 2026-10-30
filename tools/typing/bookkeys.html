@@ -4537,6 +4537,9 @@ SCENES.mist = {
   // ----- back and forward: browser buttons, Alt+Left / Alt+Right and mouse side buttons walk
   // through Bookkeys history (Home and the book you were reading). Browser Back closes an open panel first. -----
 
+  /*NAV-START*/
+  // Native browser Back/Forward gestures are intentionally delegated to the browser.
+  /*NAV-END*/
   function navTo(v) {
     if (!NAV.ready || NAV.v === v) return;
     NAV.v = v; NAV.i++; NAV.max = NAV.i;
