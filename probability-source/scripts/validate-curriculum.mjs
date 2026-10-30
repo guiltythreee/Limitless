@@ -57,6 +57,18 @@ for (const [file, id, rank] of rankChecks) {
   const pattern = new RegExp('id\\s*:\\s*"' + id + '"\\s*,\\s*rank\\s*:\\s*' + rank + '\\b');
   if (!pattern.test(source)) throw new Error("Lesson " + id + " must remain in Sequence " + String(rank).padStart(2, "0") + ".");
 }
+const indexSource = read("app/content/index.ts");
+for (const [name, expected] of Object.entries({
+  rank02Order: ["limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "borel-cantelli", "likelihood-estimation", "confidence-hypothesis-tests"],
+  rank00Order: ["martingales", "renewal-queueing", "monte-carlo", "mcmc"],
+})) {
+  const match = indexSource.match(new RegExp("const " + name + " = \\[([\\s\\S]*?)\\]"));
+  const actual = match ? [...match[1].matchAll(/"([^"]+)"/g)].map((item) => item[1]) : [];
+  if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+    throw new Error(name + " no longer matches the intended sequence teaching order.");
+  }
+}
+
 const legacySource = read("app/content/legacy.ts");
 const legacyRankBlock = legacySource.slice(legacySource.indexOf("const legacyRank"));
 for (const [id, rank] of Object.entries({ conditional: 7, bayes: 6, "random-variables": 5, distributions: 5, "limit-theorems": 2, markov: 1 })) {
