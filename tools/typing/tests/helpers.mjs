@@ -2,8 +2,9 @@
 //
 // The app page embeds everything it needs (pdf.js, JSZip, epub.js and the app itself) as inline
 // scripts, exactly so it works from a file with no internet. These helpers read those scripts back
-// out of the page: the pure helper regions are extracted between their START/END markers (the same
-// technique the page's own comment promises), and the libraries are extracted by script id.
+// out of the page: BLOCKS and EPUB are extracted as pure helper regions, while NAV remains a
+// reserved no-op region documenting that gesture navigation is delegated to the browser; libraries
+// are extracted by script id.
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { JSDOM } from "jsdom";
