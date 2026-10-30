@@ -30,8 +30,9 @@ const rank02Order = [
   "concentration-inequalities", "chernoff-hoeffding", "borel-cantelli",
   "likelihood-estimation", "confidence-hypothesis-tests",
 ];
+const rank00Order = ["martingales", "renewal-queueing", "monte-carlo", "mcmc"];
 const position = (l: Lesson) => {
-  const order = l.rank === 9 ? rank09Order : l.rank === 2 ? rank02Order : null;
+  const order = l.rank === 9 ? rank09Order : l.rank === 2 ? rank02Order : l.rank === 0 ? rank00Order : null;
   if (!order) return 0;
   const i = order.indexOf(l.id);
   return i === -1 ? order.length : i;
