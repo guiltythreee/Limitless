@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  clearPlayerAnswer,
   createLearningPlayerSession,
   navigatePlayer,
   setPlayerAnswer,
@@ -107,4 +108,11 @@ assert.equal(selectPlayerQuestion(queue, 1).state.index, 1);
 assert.equal(selectPlayerQuestion(queue, -4).state.index, 0);
 assert.equal(selectPlayerQuestion(queue, 99).state.index, 1);
 
-console.log("P6 player runtime: 22 assertions passed");
+let clearable = createLearningPlayerSession([singleQuestion]);
+clearable = setPlayerAnswer(clearable, singleAdapter, {
+  kind: "single-choice", optionId: "B",
+});
+clearable = clearPlayerAnswer(clearable, singleAdapter);
+assert.equal(clearable.answers[singleQuestion.id], undefined);
+
+console.log("P6 player runtime: 23 assertions passed");
