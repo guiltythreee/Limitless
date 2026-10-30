@@ -370,7 +370,7 @@
           }
         ],
         "answer": "b",
-        "detailed": "The n = 3 shell contains 3s, 3p and 3d subshells, with capacities 2 + 6 + 10 = 18. **(c)** is correct. Option (b), 24, is not the n = 3 shell capacity; (a) and (d) are capacities of other shells."
+        "detailed": "The typical bond-energy ranges increase from van der Waals (about 1–10 kJ/mol) to metallic (about 70–850 kJ/mol), covalent (about 200–1000 kJ/mol), and ionic (about 600–1500 kJ/mol). Thus **(b)** gives the intended increasing order. The ranges overlap, but van der Waals interactions are the weakest and ionic bonds are generally strongest."
       },
       "sourceFingerprint": "be832649"
     },
