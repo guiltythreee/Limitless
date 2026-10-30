@@ -126,19 +126,26 @@ export const advancedPathwayLessons: Lesson[] = [
     description: "Update an uncertain probability and predict future observations.",
     objective: "Apply Beta–Binomial updating and distinguish posterior predictions from plug-in estimates.",
     body: [
-      "Bayesian inference combines a prior distribution for a parameter with the likelihood of observed data to obtain a posterior distribution.",
-      "For Bernoulli probability p, a Beta(α,β) prior and s successes, f failures give posterior Beta(α+s,β+f).",
-      "The posterior mean is (α+s)/(α+β+s+f). The predictive success probability for the next Bernoulli trial equals this posterior mean, averaging over parameter uncertainty."
+      "Bayesian inference combines a prior distribution for an unknown parameter with the likelihood of observed data. The posterior is proportional to prior × likelihood; it is a distribution describing parameter uncertainty after seeing the data.",
+      "For IID Bernoulli trials with success probability p, a Beta(α,β) prior is conjugate: after s successes and f failures, p|data ∼ Beta(α′,β′), where α′=α+s and β′=β+f. The prior mean is α/(α+β), and α+β is often interpreted as a prior concentration or effective sample size, not as literal observed data.",
+      "For one future trial, integrating p over its posterior gives predictive success probability α′/(α′+β′). For m future trials, the number K of successes follows a Beta-binomial distribution: P(K=k|data)=C(m,k)B(α′+k,β′+m−k)/B(α′,β′).",
+      "The posterior predictive distribution averages over uncertainty in p. It is generally more dispersed than a Binomial(m, posterior mean) plug-in model, because future outcomes share the same unknown p. Conditional on p the trials are independent; after integrating p out, they are positively dependent when the posterior variance of p is positive.",
+      "For K∼BetaBinomial(m,α′,β′), E[K|data]=mα′/(α′+β′) and Var(K|data)=mα′β′(α′+β′+m)/((α′+β′)²(α′+β′+1)). The extra variance relative to a plug-in binomial captures parameter uncertainty."
     ],
-    formulas: [{ label: "Posterior", text: "p|data ∼ Beta(α+s,β+f)" }, { label: "Posterior mean", text: "E[p|data]=(α+s)/(α+β+s+f)" }],
+    formulas: [
+      { label: "Posterior", text: "p|data ∼ Beta(α′,β′), α′=α+s, β′=β+f" },
+      { label: "Posterior predictive", text: "P(K=k|data)=C(m,k)B(α′+k,β′+m−k)/B(α′,β′)" },
+      { label: "Predictive mean and variance", text: "E[K]=mα′/(α′+β′); Var(K)=mα′β′(α′+β′+m)/((α′+β′)²(α′+β′+1))" }
+    ],
     examples: [
       { title: "Update a success rate", problem: "A Beta(2,2) prior observes 7 successes and 3 failures. Find the posterior and mean.", steps: ["Add successes and failures to the respective parameters.", "The posterior is Beta(9,5).", "The posterior mean is 9/14≈0.6429."] },
-      { title: "Predict the next trial", problem: "With a Beta(1,1) prior, data contain 3 successes and 1 failure. Find the next-trial predictive probability.", steps: ["The posterior is Beta(4,2).", "Its mean is 4/(4+2).", "The predictive success probability is 2/3."] }
+      { title: "Predict several future trials", problem: "A Beta(2,2) prior is updated by 7 successes and 3 failures. Find the predictive probability of exactly 2 successes in the next 3 trials.", steps: ["The posterior is Beta(9,5), so α′=9 and β′=5.", "Use P(K=2)=C(3,2)B(11,6)/B(9,5).", "Equivalently, (3/1)×(9·10·5)/(14·15·16)=450/560=45/56≈0.8036."] },
+      { title: "Compare plug-in and integrated prediction", problem: "For the same Beta(9,5) posterior, compare the variance of K in 3 future trials with a Binomial(3,9/14) plug-in model.", steps: ["The plug-in binomial variance is 3(9/14)(5/14)=135/196≈0.6888.", "The Beta-binomial variance is 3·9·5·17/(14²·15)=2295/2940≈0.7806.", "The integrated predictive variance is larger because it includes uncertainty about p."] }
     ],
     quiz: [
       { question: "A Beta(2,3) prior observes 4 successes and 2 failures. The posterior is", options: ["Beta(4,2)", "Beta(6,5)", "Beta(2,3)", "Beta(8,7)"], answer: 1, difficulty: "easy", explanation: "Update the parameters to α=2+4=6 and β=3+2=5." },
-      { question: "With a Beta(1,1) prior and 3 successes, 1 failure, the next-trial predictive success probability is", options: ["1/2", "3/4", "2/3", "4/5"], answer: 2, difficulty: "medium", explanation: "The posterior is Beta(4,2), with mean 4/6=2/3." },
-      { question: "Why can the posterior predictive probability differ from the observed fraction s/n?", options: ["Bayes' rule cannot use binomial data", "The posterior incorporates prior information and parameter uncertainty", "It must always equal 1/2", "The prior always dominates the data"], answer: 1, difficulty: "hard", explanation: "The posterior mean incorporates prior parameters and the observations, rather than only the observed fraction." }
+      { question: "Under a Beta(9,5) posterior, the probability of success on the next trial is", options: ["9/5", "5/14", "9/14", "1/2"], answer: 2, difficulty: "medium", explanation: "Integrating the Bernoulli likelihood over the posterior gives E[p|data]=9/(9+5)=9/14." },
+      { question: "Why is the Beta-binomial predictive variance generally larger than the Binomial(m, posterior mean) variance?", options: ["The Beta prior changes the number of future trials", "It includes uncertainty about the shared unknown success probability", "The future trials are conditionally dependent given p", "The posterior mean is not a probability"], answer: 1, difficulty: "hard", explanation: "Conditional on p the trials are independent, but integrating over uncertain shared p induces positive marginal dependence and extra predictive variance." }
     ]
   },
   {
