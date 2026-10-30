@@ -139,7 +139,7 @@ export const advancedPathwayLessons: Lesson[] = [
     ],
     examples: [
       { title: "Update a success rate", problem: "A Beta(2,2) prior observes 7 successes and 3 failures. Find the posterior and mean.", steps: ["Add successes and failures to the respective parameters.", "The posterior is Beta(9,5).", "The posterior mean is 9/14≈0.6429."] },
-      { title: "Predict several future trials", problem: "A Beta(2,2) prior is updated by 7 successes and 3 failures. Find the predictive probability of exactly 2 successes in the next 3 trials.", steps: ["The posterior is Beta(9,5), so α′=9 and β′=5.", "Use P(K=2)=C(3,2)B(11,6)/B(9,5).", "Equivalently, (3/1)×(9·10·5)/(14·15·16)=450/3360=15/112≈0.1339."] },
+      { title: "Predict several future trials", problem: "A Beta(2,2) prior is updated by 7 successes and 3 failures. Find the predictive probability of exactly 2 successes in the next 3 trials.", steps: ["The posterior is Beta(9,5), so α′=9 and β′=5.", "Use P(K=2)=C(3,2)B(11,6)/B(9,5).", "Substitution gives 3×(9·10·5)/(14·15·16)=1350/3360=45/112≈0.4018."] },
       { title: "Compare plug-in and integrated prediction", problem: "For the same Beta(9,5) posterior, compare the variance of K in 3 future trials with a Binomial(3,9/14) plug-in model.", steps: ["The plug-in binomial variance is 3(9/14)(5/14)=135/196≈0.6888.", "The Beta-binomial variance is 3·9·5·17/(14²·15)=2295/2940≈0.7806.", "The integrated predictive variance is larger because it includes uncertainty about p."] }
     ],
     quiz: [
