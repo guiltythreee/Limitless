@@ -76,9 +76,9 @@ const legacySource = read("app/content/legacy.ts");
 const legacyRankBlock = legacySource.slice(legacySource.indexOf("const legacyRank"));
 const representedRanks = new Set();
 for (const source of lessonSources) {
-  for (const match of source.matchAll(/\\brank:\\s*(\\d+)/g)) representedRanks.add(Number(match[1]));
+  for (const match of source.matchAll(/\brank:\s*(\d+)/g)) representedRanks.add(Number(match[1]));
 }
-for (const match of legacyRankBlock.matchAll(/:\\s*(\\d+)/g)) representedRanks.add(Number(match[1]));
+for (const match of legacyRankBlock.matchAll(/:\s*(\d+)/g)) representedRanks.add(Number(match[1]));
 for (let rank = 0; rank <= 9; rank++) {
   if (!representedRanks.has(rank)) throw new Error("Sequence " + String(rank).padStart(2, "0") + " has no lessons.");
 }
