@@ -13,6 +13,7 @@ on:
       - "metallurgy-source/scripts/test-mt203-migration.mjs"
       - "metallurgy-source/scripts/test-qview.mjs"
       - "metallurgy-source/scripts/test-answer-key-balance.mjs"
+      - "metallurgy-source/scripts/test-answer-key-sequence.mjs"
       - ".github/workflows/test-metallurgy-content.yml"
   push:
     branches: [main]
@@ -73,6 +74,7 @@ jobs:
             scripts/test-mt203-migration.mjs
             scripts/test-qview.mjs
             scripts/test-answer-key-balance.mjs
+            scripts/test-answer-key-sequence.mjs
           )
           for test_file in "${tests[@]}"; do
             echo "::group::${test_file}"
