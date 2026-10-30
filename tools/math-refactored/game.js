@@ -253,7 +253,7 @@
       if (!s || typeof s !== 'object') return null;
       return { n: num(s.n, 0, 100, 0), acc: num(s.acc, 0, 1, 0), med: num(s.med, 0, 300, 0), ratio: num(s.ratio, 0, 20, 0), ts: num(s.ts, 0, 4e12, 0) };
     }
-    return { base: stat(t.base), post: stat(t.post), practice: num(t.practice, 0, 10000, 0), skipBase: t.skipBase === true, masteryRewarded: t.masteryRewarded === true, lastTs: num(t.lastTs, 0, 4e12, 0) };
+    return { base: stat(t.base), post: stat(t.post), practice: num(t.practice, 0, 10000, 0), practiceSinceBaseline: num(t.practiceSinceBaseline, 0, 10000, 0), skipBase: t.skipBase === true, masteryRewarded: t.masteryRewarded === true, lastTs: num(t.lastTs, 0, 4e12, 0) };
   }
   /* bring in xp / streak / tricks / tier clears from another file, never lowering what is already here */
   function mergeMeta(m, tiers) {
@@ -867,7 +867,7 @@
     var box = $('trick-detail'); U.clear(box);
     if (!openTrickId) { box.hidden = true; return; }
     box.hidden = false; box.className = 'panel trick-detail';
-    var tr = E.TRICK_BY_ID[openTrickId], rec = meta.tricks[tr.id] || {};
+    var tr = E.TRICK_BY_ID[openTrickId], rec = tk(tr.id);
     box.appendChild(U.h('h3', '', tr.name));
     box.appendChild(U.h('p', 'note', tr.when));
     if (trickBanner) box.appendChild(U.h('div', 'trick-banner', trickBanner));
@@ -918,9 +918,12 @@
 
     /* step 4: post-test */
     var s4 = U.h('div', 'trick-step');
-    var t4 = U.h('div', 's-text'); t4.appendChild(U.h('b', '', '4. Post-test. ')); t4.appendChild(document.createTextNode(rec.post ? 'Latest: ' + U.statCell(rec.post) + '.' : '6 fresh questions with no help, compared with your baseline.'));
+    var canPost = unlocked && window.MathTrickProgression.hasPracticeSinceBaseline(rec);
+    var postText = rec.post ? 'Latest: ' + U.statCell(rec.post) + '.' : '6 fresh questions with no help, compared with your baseline.';
+    if (!canPost) postText += ' Complete a practice run after the latest baseline before taking the post-test.';
+    var t4 = U.h('div', 's-text'); t4.appendChild(U.h('b', '', '4. Post-test. ')); t4.appendChild(document.createTextNode(postText));
     s4.appendChild(t4);
-    var b4 = U.h('button', 'button button-primary small', rec.post ? 'Retake post-test' : 'Take post-test'); b4.type = 'button'; b4.disabled = !unlocked;
+    var b4 = U.h('button', 'button button-primary small', rec.post ? 'Retake post-test' : 'Take post-test'); b4.type = 'button'; b4.disabled = !canPost;
     b4.addEventListener('click', function () { startRun({ trick: { id: tr.id, phase: 'post' } }); });
     s4.appendChild(b4);
     steps.appendChild(s4);
@@ -944,8 +947,9 @@
   }
 
   function tk(id) {
-    if (!meta.tricks[id]) meta.tricks[id] = { base: null, post: null, practice: 0, skipBase: false, masteryRewarded: false, lastTs: 0 };
+    if (!meta.tricks[id]) meta.tricks[id] = { base: null, post: null, practice: 0, practiceSinceBaseline: 0, skipBase: false, masteryRewarded: false, lastTs: 0 };
     var rec = meta.tricks[id];
+    if (!Number.isInteger(rec.practiceSinceBaseline) || rec.practiceSinceBaseline < 0) rec.practiceSinceBaseline = 0;
     /* Migrate previously mastered records so the one-time bonus cannot be farmed. */
     return window.MathTrickProgression.migrateMasteryReward(rec);
   }
@@ -969,7 +973,7 @@
       var xp = 0, wasMastered = isMastered(rec);
       if (wasMastered) rec.masteryRewarded = true;
       if (phase === 'baseline') { xp = window.MathTrickProgression.replaceBaseline(rec, stat) ? 2 : 15; trickBanner = 'Baseline recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median. The previous post-test has been cleared; take a new post-test after practising.'; }
-      else if (phase === 'practice') { xp = Math.max(2, 10 - 2 * (rec.practice || 0)); rec.practice = (rec.practice || 0) + 1; trickBanner = 'Practice done: ' + U.pct(stat.acc) + ' right. Take the post-test when the steps feel automatic.'; }
+      else if (phase === 'practice') { xp = Math.max(2, 10 - 2 * (rec.practice || 0)); window.MathTrickProgression.recordPractice(rec); trickBanner = 'Practice done: ' + U.pct(stat.acc) + ' right. Take the post-test when the steps feel automatic.'; }
       else {
         xp = rec.post ? 3 : 25; rec.post = stat;
         if (window.MathTrickProgression.awardFirstMastery(rec)) xp += 30;
