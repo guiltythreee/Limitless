@@ -203,7 +203,6 @@ export const legacyLessons: Lesson[] = legacy.map((l) => ({
   objective: l.objective,
   body: l.body,
   formulas: [{ label: "The governing relation", text: l.formula }],
-  examples: [],
   examples: l.examples ?? [],
   quiz: [{ question: l.question, options: l.options, answer: l.answer, explanation: l.explanation }, ...(l.additionalQuestions ?? [])],
 }));
