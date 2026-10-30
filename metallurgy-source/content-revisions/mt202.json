@@ -8824,7 +8824,7 @@
       "sourceText": "",
       "sourceFingerprint": "f5cf2afe",
       "updates": {
-        "detailed": "The upper yield point is the extra stress required to free a dislocation from its Cottrell atmosphere or to activate fresh unpinned dislocations. **(d)** is correct. Options (a), (b), and (c) do not describe this unlocking mechanism."
+        "detailed": "Overaging causes precipitates to coarsen, increasing the distance between particles. A dislocation can then bow between them more easily, so the Orowan stress decreases as interparticle spacing rises. The precipitates may individually become harder, but their increased spacing reduces the overall strengthening effect. Both A and R are true, and R correctly explains A: **(a)**."
       }
     },
     {
@@ -9078,7 +9078,7 @@
           }
         ],
         "answer": "c",
-        "detailed": "Stage II is the high, nearly constant hardening-rate region produced by multiple slip, dislocation multiplication, tangles and pile-ups on intersecting systems. **(a)** is correct. Option (b) describes Stage I easy glide; (c) describes Stage III dynamic recovery; and (d) is not the Stage II response."
+        "detailed": "When a dislocation shears a small coherent precipitate, order strengthening (including creation of an anti-phase boundary in an ordered particle), coherency-strain interactions and modulus mismatch can all resist the dislocation. Orowan looping is the alternative bypass mechanism around particles that cannot be sheared; it is not a shearing-strengthening mechanism. Therefore statements 1, 2 and 3 are correct, giving **(c)**."
       },
       "sourceFingerprint": "cae5a6e4"
     },
