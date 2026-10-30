@@ -333,9 +333,12 @@ What intentionally remains course-owned:
 - Answer controls and their visual treatment.
 - Course-specific setup, filters, bookmarks, drafts, rewards, progress summaries, and exam review layouts.
 
-The first P6.5 vertical slice is now implemented in `shared/learning-player/PlayerShell.ts` and consumed by:
+The first P6.5 vertical slice is now implemented in `shared/learning-player/PlayerShell.ts` and consumed by all five principal practice/test surfaces:
 - MT201 chapter practice in `metallurgy-source/app/mt201/quiz.tsx`.
+- MT202 chapter practice in `metallurgy-source/app/mt202/quiz.tsx`.
+- MT203 sequential learning/revision player in `metallurgy-source/app/mt203/player.tsx`.
 - Probability Practice question view in `probability-source/app/components/Practice.tsx`.
+- Probability Test run in `probability-source/app/components/Test.tsx`.
 
 The shell owns the semantic question-navigation landmark and shared content boundary. Each app injects its own React `createElement` factory, so the shared source does not depend on either app's separately installed React package. The question palette is supplied as a slot; course-specific question metadata, prompts, answer controls, timer/draft behaviour, grading, solution rendering, retry, bookmarks, and action buttons remain in their original components.
 
@@ -345,17 +348,19 @@ The next P6.5 step is to review the shared shell's accessibility and responsive 
 
 ## 22. P6.5 first shared-shell vertical slice
 
-The first shared UI-shell extraction is implemented across one surface in each independent app:
-- MT201 practice uses the shared question-palette/content shell.
-- Probability Practice uses the same shell while injecting its back-to-list control and status-aware question palette.
+The first shared UI-shell extraction now covers all five principal practice/test surfaces across the two independent apps:
+- MT201 and MT202 chapter practice use the shared question-palette/content shell.
+- MT203 sequential learning/revision uses the same shell while preserving its XP toast and question-state palette.
+- Probability Practice uses the shell while injecting its back-to-list control and status-aware question palette.
+- Probability Test uses it for the test question palette and content boundary.
 
 The shared implementation is deliberately framework-neutral at module resolution: each application injects its own React `createElement` function. This avoids making the repository-level shared folder resolve React from the repository root, where neither app's separately installed dependency tree is guaranteed to exist.
 
 No course logic was moved. MT201 retains its timer, bookmark, single-choice lock, grading adapter, solution renderer, and progress write. Probability retains multi-select toggling, draft autosave, stopwatch pause/resume, partial-credit grading, attempts, retry, bookmark, and explanation behaviour. The shared shell only owns the semantic navigation landmark and content boundary.
 
-Validation on branch commit `235dd88565661d10283ade24861f46977d1e4984`:
-- P6 workflow run `41067419211`: both independent production builds and both shared-runtime TypeScript checks passed.
-- Metallurgy regression run `41067419264`: completed successfully.
+Validation on branch commit `27b62ae541c31f3d1c09d48401ef7b7297c80fb2`:
+- P6 workflow run `41067826070`: both independent production builds and both shared-runtime TypeScript checks passed.
+- Metallurgy regression run `41067825881`: completed successfully.
 - The 29-assertion cross-discipline harness remains part of the P6 workflow.
 
 The first extraction initially exposed two real integration issues: React could not be resolved from the repository-level shared folder, and the Probability Practice component import was missing. The shared shell was changed to receive the consuming app's element factory, the import was added, and the current two builds/type checks are green.
