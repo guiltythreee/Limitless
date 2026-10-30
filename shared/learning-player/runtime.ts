@@ -122,3 +122,21 @@ export function tickPlayer<
     state: reduceLearningPlayerState(session.state, { type: "tick", elapsedMs }),
   };
 }
+
+/** Jump to an arbitrary queue position (for question palettes and deep links). */
+export function selectPlayerQuestion<
+  TQuestion,
+  TAnswer extends PlayerAnswer,
+>(
+  session: LearningPlayerSession<TQuestion, TAnswer>,
+  requestedIndex: number,
+): LearningPlayerSession<TQuestion, TAnswer> {
+  const count = session.questions.length;
+  const index = count === 0
+    ? 0
+    : Math.min(count - 1, Math.max(0, Math.floor(requestedIndex)));
+  return {
+    ...session,
+    state: { index, phase: "answering", elapsedMs: 0 },
+  };
+}
