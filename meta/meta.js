@@ -12,7 +12,6 @@ const labels = {
   assessment: "Assessment",
   "unit-milestone": "Unit milestone",
   "major-completion": "Major completion",
-  "unit-milestone": "Unit milestone",
   "bespoke-project": "Bespoke project",
 };
 
@@ -288,7 +287,7 @@ function render() {
   if (!summary.sources.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No registered module progress is saved yet. Complete a Probability problem, an eligible Math Trainer session, or a Bookkeys page to begin.";
+    empty.textContent = "No registered module progress is saved yet. Complete an eligible Probability, Math Trainer, Bookkeys, or Metallurgy activity to begin.";
     modules.append(empty);
   } else {
     for (const source of summary.sources) {
@@ -301,7 +300,7 @@ function render() {
   if (!summary.recentAwards.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No EXP awards yet. Submit a Probability answer, finish an eligible Math Trainer session, or type a Bookkeys page.";
+    empty.textContent = "No EXP awards yet. Submit a Probability answer, finish an eligible Math Trainer session, type a verified Bookkeys page, or practise in Metallurgy MT201–MT203.";
     recent.append(empty);
   } else {
     for (const award of summary.recentAwards) {
@@ -317,6 +316,12 @@ function render() {
           : award.activityClass === "assessment"
             ? "Math Trainer assessment"
             : "Math Trainer session";
+      } else if (award.moduleId === "metallurgy-mt201") {
+        title = "Metallurgy · MT201";
+      } else if (award.moduleId === "metallurgy-mt202") {
+        title = "Metallurgy · MT202";
+      } else if (award.moduleId === "metallurgy-mt203") {
+        title = "Metallurgy · MT203";
       } else if (award.moduleId === "bookkeys") {
         title = award.itemId.startsWith("bookkeys:page:")
           ? "Bookkeys · typed page"
