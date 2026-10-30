@@ -27,6 +27,7 @@ assert.equal(status.level, 1);
 assert.equal(status.progressPct, 0);
 assert.equal(status.pendingNotifications, 2);
 assert.deepEqual(status.equipped, []);
+assert.equal(status.equippedEffect, null);
 assert.equal(status.nextReward?.name, "First Light");
 assert.equal(writes, 0, "Meta status reads must never write or initialise storage");
 
