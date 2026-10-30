@@ -74,13 +74,27 @@ assert.equal(completeProject(null, project.projectId, { confirmed: true }).error
   "project completion reports unavailable storage");
 assert.equal(completeProject(storage, "missing-project", { confirmed: true }).error, "project-not-registered",
   "unregistered projects cannot be completed");
+const failureProjectValues = new Map();
+const failureProjectSeedStorage = {
+  getItem(key) { return failureProjectValues.get(key) ?? null; },
+  setItem(key, value) { failureProjectValues.set(key, value); },
+};
+const failureProject = {
+  ...project,
+  projectId: "failed-completion-test",
+  title: "Failed completion storage test",
+  scope: "A separate registered project used to test failed reward writes.",
+  criteria: "The completion test verifies that a failed ledger write is reported safely.",
+};
+assert.equal(registerProject(failureProjectSeedStorage, failureProject).ok, true,
+  "failure-path project is registered before simulating storage failure");
 const failedProjectStorage = {
-  getItem(key) { return values.get(key) ?? null; },
+  getItem(key) { return failureProjectValues.get(key) ?? null; },
   setItem() { throw new Error("quota exceeded"); },
 };
 assert.equal(registerProject(failedProjectStorage, { ...project, projectId: "failed-register-test", title: "Failed storage registration test", scope: "A separate bounded project used to test failed storage writes.", criteria: "The test verifies that failed registration writes are reported safely." }).error,
   "storage-unavailable", "project registration handles storage write failure");
-assert.equal(completeProject(failedProjectStorage, project.projectId, { confirmed: true }).error,
+assert.equal(completeProject(failedProjectStorage, failureProject.projectId, { confirmed: true }).error,
   "storage-unavailable", "project completion handles reward-ledger write failure");
 
 // Profile equipment behaviour.
