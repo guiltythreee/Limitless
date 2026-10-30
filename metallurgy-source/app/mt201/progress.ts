@@ -183,10 +183,15 @@ export function recordAnswer(
   key: string,
   choice: string,
   correct: boolean,
-  mode: LsrActivityMode = "practice",
+  modeOrMs: LsrActivityMode | number = "practice",
   difficulty = 1,
-  ms = 0
+  elapsedMs = 0
 ): Progress {
+  // Preserve the P5 five-argument call (where argument five is elapsed ms),
+  // while allowing the LSR-1 form (mode, difficulty, elapsed ms).
+  const mode: LsrActivityMode = typeof modeOrMs === "string" ? modeOrMs : "practice";
+  const actualDifficulty = typeof modeOrMs === "string" ? difficulty : 1;
+  const ms = typeof modeOrMs === "number" ? modeOrMs : elapsedMs;
   const now = Date.now();
   const fresh = p.answered[key] === undefined;
   const next: Progress = {
@@ -206,7 +211,7 @@ export function recordAnswer(
   if (fresh && mode === "practice") {
     const reward = appendLsrActivity(root, {
       ...questionActivity("metallurgy-mt201", key, now, correct),
-      difficulty: difficultyTier(difficulty),
+      difficulty: difficultyTier(actualDifficulty),
     });
     root = reward.progress;
     notifyMeta = Boolean(reward.record && reward.record.totalExp > 0);
