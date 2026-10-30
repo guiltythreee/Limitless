@@ -64,4 +64,4 @@ for (const token of [
   "--lp-radius-md", "--lp-font-reading",
 ]) assert.ok(sharedCss.includes(token), `missing shared design token: ${token}`);
 
-console.log("P6 shared player shell and design tokens: 30 assertions passed");
+console.log("P6 shared player shell and design tokens: 31 assertions passed");
