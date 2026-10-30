@@ -297,4 +297,40 @@ export const advancedPathwayLessons: Lesson[] = [
       { question: "An estimator has variance 4 and bias 3. Its mean squared error is", options: ["4", "7", "9", "13"], answer: 3, difficulty: "hard", explanation: "MSE equals variance plus squared bias: 4+3²=13. Bias must be squared, not simply added." }
     ]
   }
+
+  ,
+  {
+    id: "confidence-hypothesis-tests", rank: 2, title: "Confidence Intervals & Hypothesis Testing", minutes: 30,
+    description: "Quantify estimation uncertainty and make decisions with controlled error rates.",
+    objective: "Construct confidence intervals, interpret p-values, and distinguish Type I error, Type II error, and power.",
+    body: [
+      "A confidence interval is produced by a procedure with a long-run coverage guarantee. A 95% confidence procedure covers the fixed population parameter in 95% of repeated samples when its assumptions hold. After an interval is observed, frequentist theory does not assign a 95% probability to the fixed parameter lying inside it.",
+      "For an IID sample with known population standard deviation σ from a normal population, a 1−α confidence interval for the mean is x̄ ± z₁₋α/₂ σ/√n. When σ is unknown and the population is normal, replace σ by the sample standard deviation and the normal critical value by the appropriate Student t critical value with n−1 degrees of freedom.",
+      "A test specifies a null hypothesis H₀, an alternative H₁, a test statistic, and a rejection rule. The significance level α controls the probability of a Type I error: rejecting H₀ when it is true. A Type II error is failing to reject a false H₀; power is 1−β for a specified alternative.",
+      "A p-value is calculated assuming H₀ and the sampling model. It is the probability of obtaining a test statistic at least as extreme as the observed one, in the direction or directions specified by the test. It is not the probability that H₀ is true, nor the probability that the result occurred by chance.",
+      "For a matching two-sided test and confidence interval, a null parameter value is rejected at level α exactly when it lies outside the corresponding 1−α confidence interval. Statistical significance alone does not establish practical importance or causation."
+    ],
+    formulas: [
+      { label: "Known-σ confidence interval", text: "x̄ ± z₁₋α/₂ σ/√n" },
+      { label: "One-sample z statistic", text: "Z=(x̄−μ₀)/(σ/√n)" },
+      { label: "Power", text: "1−β=P(reject H₀ | specified alternative)" }
+    ],
+    examples: [
+      { title: "A confidence interval for a mean", problem: "A sample of n=100 has mean 50. The population standard deviation is known to be 10. Construct a 95% z confidence interval for the population mean.", steps: [
+        "The standard error is σ/√n=10/√100=1.",
+        "For a 95% two-sided interval, z₀.₉₇₅≈1.96.",
+        "The interval is 50±1.96, or (48.04, 51.96), in the same units as the measured variable."
+      ] },
+      { title: "A one-sided z test", problem: "A process has known σ=12. A sample of n=36 has mean 104. Test H₀: μ=100 against H₁: μ>100 and calculate the z statistic and p-value.", steps: [
+        "The standard error is 12/√36=2.",
+        "The test statistic is z=(104−100)/2=2.",
+        "The upper-tail standard-normal p-value is approximately 0.0228. At α=0.05, reject H₀. This does not mean the probability H₀ is true is 0.0228."
+      ] }
+    ],
+    quiz: [
+      { question: "A 95% frequentist confidence procedure is interpreted as", options: ["The fixed parameter has a 95% probability of lying in this realised interval", "95% of intervals from repeated samples cover the fixed parameter", "95% of observations lie inside every interval", "The null hypothesis has a 95% probability of being true"], answer: 1, difficulty: "easy", explanation: "The 95% describes the long-run coverage of the interval-generating procedure under its assumptions, not a posterior probability for the fixed parameter." },
+      { question: "A test has significance level α=0.01. Under a true null hypothesis, its Type I error probability is", options: ["0.99", "0.10", "0.01", "The power"], answer: 2, difficulty: "medium", explanation: "The significance level controls the probability of rejecting a true null hypothesis." },
+      { question: "A two-sided test reports p=0.03. Which interpretation is valid?", options: ["There is a 3% probability that H₀ is true", "There is a 97% probability that H₁ is true", "Assuming H₀, data at least this extreme have probability 0.03 under the specified test", "The observed effect is necessarily practically important"], answer: 2, difficulty: "hard", explanation: "The p-value is computed under the null model and measures extremeness of the data. It is not the probability of either hypothesis and says nothing by itself about practical importance." }
+    ]
+  }
 ];
