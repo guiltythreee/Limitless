@@ -220,6 +220,15 @@ export function calculateReward(input, priorRecords = []) {
   let passBonus = 0;
   let totalExp = 0;
 
+  // The first-pass checkpoint bonus is a separate lifetime milestone. It remains
+  // payable even when the ordinary activity award has reached its daily cap.
+  if (basicValid && !duplicate && completed && input?.passed === true && checkpointId) {
+    const checkpointPreviouslyPassed = prior.some((r) =>
+      r.moduleId === moduleId && r.checkpointId === checkpointId && r.passBonus > 0
+    );
+    if (!checkpointPreviouslyPassed) passBonus = 15;
+  }
+
   if (basicValid && duplicate) {
     reason = "duplicate-event";
   } else if (basicValid && !completed) {
@@ -232,10 +241,6 @@ export function calculateReward(input, priorRecords = []) {
     reason = "awarded";
     countsTowardRepeatCap = true;
     qualityBonus = Math.round(baseExp * QUALITY_BONUS_CAP * clamp((quality - QUALITY_BONUS_THRESHOLD) / (1 - QUALITY_BONUS_THRESHOLD), 0, 1));
-    if (input?.passed === true && checkpointId) {
-      const checkpointPreviouslyPassed = prior.some((r) => r.moduleId === moduleId && r.checkpointId === checkpointId && r.passBonus > 0);
-      if (!checkpointPreviouslyPassed) passBonus = 15;
-    }
     totalExp = Math.round(baseExp * multiplier + qualityBonus) + passBonus;
   }
 
@@ -289,7 +294,7 @@ export function calculateReward(input, priorRecords = []) {
  */
 export function buildRewardRecords(input, priorRecords = []) {
   const calculated = calculateReward(input, priorRecords);
-  if (!calculated.passBonus || !calculated.checkpointId || !calculated.eligible) return [calculated];
+  if (!calculated.passBonus || !calculated.checkpointId) return [calculated];
 
   const activityRecord = sanitiseRewardRecord({
     ...calculated,
