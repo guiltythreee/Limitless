@@ -41,7 +41,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "PMF", text: "P(T=k)=C(k−1,r−1)pʳ(1−p)ᵏ⁻ʳ, k≥r" }, { label: "Mean and variance", text: "E[T]=r/p, Var(T)=r(1−p)/p²" }],
     examples: [
       { title: "Third success on trial five", problem: "Independent trials have success probability 0.4. Find the probability that the third success occurs on trial 5.", steps: ["Trial 5 must be a success; among the first four trials there must be exactly two successes.", "There are C(4,2)=6 arrangements of the first two successes.", "P(T=5)=6(0.4)³(0.6)²=0.13824."] },
-      { title: "Expected waiting time", problem: "A trial succeeds with probability 0.25. Find the expected number of trials through the third success.", steps: ["Each geometric waiting time has mean 1/p=4 trials.", "The total waiting time is the sum of three such waiting times.", "Thus E[T]=r/p=3/0.25=12 trials."] }
+      { title: "Expected waiting time", problem: "A trial succeeds with probability 0.25. Find the expected number of trials through the third success.", steps: ["Each geometric waiting time has mean 1/p=4 trials.", "The total waiting time is the sum of three such waiting times.", "Thus E[T]=r/p=3/0.25=12 trials."] },
+      { title: "A negative-binomial probability", problem: "Independent trials have success probability 0.25. Find the probability that the third success occurs on trial 5.", steps: [
+        "Trial 5 must be a success, and among the first four trials exactly two must be successes.",
+        "There are C(4,2)=6 arrangements for the first two successes.",
+        "P(T=5)=C(4,2)(0.25)³(0.75)²=6(1/64)(9/16)=27/512≈0.05273."
+      ] }
     ],
     quiz: [
       { question: "For a waiting time counting trials through the r-th success, the smallest possible value is", options: ["0", "1", "r", "r+1"], answer: 2, difficulty: "easy", explanation: "At least r trials are required to observe r successes." },
