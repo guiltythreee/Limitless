@@ -1,0 +1,76 @@
+name: Temporary Bookkeys native navigation regression
+on:
+  push:
+    branches:
+      - fix/bookkeys-native-browser-navigation
+permissions:
+  contents: write
+jobs:
+  bookkeys-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/bookkeys-native-browser-navigation
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tools/typing/tests/package-lock.json
+      - name: Retain the no-op navigation test region and validate source
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const file = 'tools/typing/bookkeys.html';
+          let s = fs.readFileSync(file, 'utf8');
+          const anchor = '  function navTo(v) {';
+          const markerBlock = '  /*NAV-START*/\n  // Native browser Back/Forward gestures are intentionally delegated to the browser.\n  /*NAV-END*/\n';
+          if (s.includes('/*NAV-START*/') || s.split(anchor).length !== 2) throw new Error('Unexpected Bookkeys navigation source structure');
+          s = s.replace(anchor, markerBlock + anchor);
+          const start = s.indexOf('function navTo(v)');
+          const end = s.indexOf('</script>', start);
+          const nav = s.slice(start, end);
+          const checks = {
+            noCustomWheel: !nav.includes('window.addEventListener("wheel"'),
+            noCustomTouchStart: !nav.includes('window.addEventListener("touchstart"'),
+            noCustomTouchMove: !nav.includes('window.addEventListener("touchmove"'),
+            noSwipeClassifier: !nav.includes('function swipeIntent('),
+            noGestureBackWrapper: !nav.includes('function navBackOrLeave('),
+            noHomepageRedirect: !nav.includes('function leaveForHome('),
+            popstate: nav.includes('window.addEventListener("popstate"'),
+            pushState: nav.includes('history.pushState({ i: NAV.i, v: v }'),
+            back: nav.includes('function navBack() { if (NAV.i > 0) history.back(); }'),
+            forward: nav.includes('function navForward() { if (NAV.i < NAV.max) history.forward(); }'),
+            dialogBack: nav.includes('if (anyDialogOpen()) { NAV.revert = true; history.go(NAV.i - st.i); closeTopDialog(); return; }')
+          };
+          if (Object.values(checks).some(v => !v)) throw new Error('Bookkeys native navigation source check failed: ' + JSON.stringify(checks));
+          const parts = s.split('<script').slice(1);
+          let compiled = 0;
+          for (const part of parts) {
+            const close = part.indexOf('</script>');
+            const open = part.indexOf('>');
+            if (close < 0 || open < 0 || open > close) throw new Error('Malformed inline script');
+            new Function(part.slice(open + 1, close));
+            compiled++;
+          }
+          if (compiled !== 5) throw new Error('Expected five inline scripts, checked ' + compiled);
+          fs.writeFileSync(file, s);
+          console.log('PASS: native wheel/touch delegation and browser-history preservation');
+          console.log('PASS: syntax checked ' + compiled + ' inline JavaScript blocks');
+          NODE
+      - name: Run the complete Bookkeys test suite
+        run: |
+          cd tools/typing/tests
+          npm ci
+          npm test
+      - name: Save the tested Bookkeys change and remove this temporary workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- tools/typing/bookkeys.html tools/typing/tests/nav.test.mjs tools/typing/tests/helpers.mjs
+          git rm -- .github/workflows/temporary-bookkeys-regression.yml
+          git diff --cached --check
+          git commit -m "Add native Bookkeys browser navigation regressions"
+          git push origin HEAD:fix/bookkeys-native-browser-navigation
