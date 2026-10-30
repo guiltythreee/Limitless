@@ -181,7 +181,23 @@ const legacy: LegacyLesson[] = [
     question: "In a two-state Markov chain, a row of the transition matrix is [0.7, 0.3]. What does the 0.3 mean?",
     options: ["The probability of the current state is 0.3", "The probability of moving to the second state next is 0.3", "The chain has 0.3 states", "The long-run probability is necessarily 0.3"],
     answer: 1,
-    explanation: "In a row-stochastic transition matrix, each entry is the one-step probability of moving from the row's current state to the column's destination state."
+    explanation: "In a row-stochastic transition matrix, each entry is the one-step probability of moving from the row's current state to the column's destination state.",
+    examples: [
+      { title: "A two-step transition", problem: "A two-state chain has P=[[0.7,0.3],[0.4,0.6]] and starts in state 1. Find the probability it is in state 1 after two steps.", steps: [
+        "After one step, the chain is in state 1 with probability 0.7 and state 2 with probability 0.3.",
+        "To be in state 1 after two steps, it can follow 1→1→1 or 1→2→1.",
+        "The probability is 0.7(0.7)+0.3(0.4)=0.61."
+      ] },
+      { title: "Checking a transition matrix", problem: "A proposed transition matrix is [[0.6,0.4],[0.2,0.7]]. Is it a valid row-stochastic transition matrix?", steps: [
+        "Each entry is nonnegative, which is necessary for probabilities.",
+        "The first row sums to 1, but the second row sums to 0.9.",
+        "It is not a valid row-stochastic transition matrix because each row must sum to exactly one."
+      ] }
+    ],
+    additionalQuestions: [
+      { question: "If the current state is i, the Markov property says the distribution of the next state depends on", options: ["the entire past only", "the current state, not the earlier history", "the initial state only", "the number of states"], answer: 1, difficulty: "medium", explanation: "Conditional on the present state, the next state is independent of the earlier history." },
+      { question: "A valid row-stochastic transition matrix must have", options: ["columns summing to zero", "nonnegative entries and each row summing to one", "equal rows", "only diagonal entries"], answer: 1, difficulty: "hard", explanation: "Each row represents a probability distribution over next states, so entries are nonnegative and sum to one." }
+    ]
   }
 ];
 
