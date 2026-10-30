@@ -247,7 +247,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Fair hitting probability", text: "Pᵢ(hit N before 0)=i/N" }, { label: "Fair expected absorption time", text: "Eᵢ[T]=i(N−i)" }],
     examples: [
       { title: "Reach the upper boundary", problem: "A fair gambler starts with 3 units and stops at 0 or 10 units. Find the probability of reaching 10 first.", steps: ["The walk starts at i=3 and the upper boundary is N=10.", "For a fair walk the hitting probability is i/N.", "The answer is 3/10."] },
-      { title: "Expected duration", problem: "A fair walk starts at 3 with absorbing boundaries 0 and 10. Find its expected absorption time.", steps: ["Use mᵢ=i(N−i).", "Substitute i=3, N=10.", "The expected number of steps is 3·7=21."] }
+      { title: "Expected duration", problem: "A fair walk starts at 3 with absorbing boundaries 0 and 10. Find its expected absorption time.", steps: ["Use mᵢ=i(N−i).", "Substitute i=3, N=10.", "The expected number of steps is 3·7=21."] },
+      { title: "A biased gambler's ruin walk", problem: "A gambler starts with 2 units and stops at 0 or 5. Each step wins one unit with probability 0.6 and loses one with probability 0.4. Find the probability of reaching 5 first.", steps: [
+        "For p≠q, the hitting probability is [1−(q/p)ⁱ]/[1−(q/p)ᴺ]. Here q/p=2/3, i=2 and N=5.",
+        "Substitute: [1−(2/3)²]/[1−(2/3)⁵].",
+        "This simplifies to 135/211≈0.6398. The fair-walk formula i/N would not apply."
+      ] }
     ],
     quiz: [
       { question: "For a fair gambler's ruin walk starting at i, the probability of hitting N before 0 is", options: ["1/2", "i/N", "i²/N²", "(N−i)/N"], answer: 1, difficulty: "easy", explanation: "The first-step equation has the linear solution hᵢ=i/N." },
@@ -267,7 +272,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Offspring PGF", text: "G(s)=E[s^X]" }, { label: "Extinction fixed point", text: "q=G(q), smallest solution in [0,1]" }],
     examples: [
       { title: "Critical binary model", problem: "Each individual has 0 or 2 offspring with equal probability. Find the extinction probability.", steps: ["The PGF is G(s)=1/2+s²/2 and mean offspring count is 1.", "Solve q=1/2+q²/2, giving (q−1)²=0.", "Therefore q=1, so extinction occurs with probability one."] },
-      { title: "A supercritical model", problem: "An individual has 0 offspring with probability 1/4 and 2 with probability 3/4. Find extinction probability.", steps: ["The PGF is G(s)=1/4+3s²/4.", "Solving q=G(q) gives roots 1 and 1/3.", "Extinction probability is the smallest fixed point, q=1/3."] }
+      { title: "A supercritical model", problem: "An individual has 0 offspring with probability 1/4 and 2 with probability 3/4. Find extinction probability.", steps: ["The PGF is G(s)=1/4+3s²/4.", "Solving q=G(q) gives roots 1 and 1/3.", "Extinction probability is the smallest fixed point, q=1/3."] },
+      { title: "A second supercritical offspring law", problem: "Each individual has 0 offspring with probability 0.2 and 2 offspring with probability 0.8. Find the extinction probability.", steps: [
+        "The offspring PGF is G(s)=0.2+0.8s² and the mean offspring count is 1.6, so the process is supercritical.",
+        "Solve q=0.2+0.8q², or 4q²−5q+1=0.",
+        "The roots are 1 and 1/4. The smallest fixed point is q=1/4."
+      ] }
     ],
     quiz: [
       { question: "In a Galton–Watson process, extinction probability q satisfies", options: ["q=E[X]", "q=G(q)", "q=1−G(0)", "q=μ²"], answer: 1, difficulty: "easy", explanation: "Conditioning on the number of offspring leads to the fixed point q=G(q)." },
@@ -307,7 +317,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Survival", text: "S(t)=P(T>t)=1−F(t)" }, { label: "Hazard", text: "h(t)=f(t)/S(t)" }, { label: "Parallel reliability", text: "Rparallel=1−Πᵢ(1−Rᵢ)" }],
     examples: [
       { title: "Two components in series", problem: "Independent components have reliabilities 0.9 and 0.8. Find series reliability.", steps: ["The system works only if both components work.", "Under independence, multiply the reliabilities: 0.9·0.8.", "The series reliability is 0.72."] },
-      { title: "Redundant components", problem: "Those components are placed in parallel. Find parallel reliability.", steps: ["The system fails only if both components fail.", "Failure probabilities are 0.1 and 0.2.", "Reliability is 1−0.1·0.2=0.98."] }
+      { title: "Redundant components", problem: "Those components are placed in parallel. Find parallel reliability.", steps: ["The system fails only if both components fail.", "Failure probabilities are 0.1 and 0.2.", "Reliability is 1−0.1·0.2=0.98."] },
+      { title: "An increasing hazard", problem: "A component lifetime follows a Weibull model with shape k=2 and scale η=1000 hours. Find its hazard at t=500 hours and survival to 500 hours.", steps: [
+        "For Weibull(k,η), S(t)=exp[−(t/η)ᵏ] and h(t)=(k/η)(t/η)ᵏ⁻¹.",
+        "At t=500, S(500)=e^(−0.25)≈0.7788.",
+        "The hazard is (2/1000)(0.5)=0.001 per hour. Since k>1, the hazard increases with age."
+      ] }
     ],
     quiz: [
       { question: "The survival function S(t) equals", options: ["P(T≤t)", "P(T>t)", "f(t)/F(t)", "E[T]−t"], answer: 1, difficulty: "easy", explanation: "Survival is the probability the lifetime exceeds t." },
