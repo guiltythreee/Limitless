@@ -137,6 +137,7 @@ export default function Quiz({
       result.submission.grade.correct,
       "practice",
       ms,
+      q.difficulty,
     ));
   };
 
