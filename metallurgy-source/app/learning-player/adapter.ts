@@ -10,9 +10,9 @@ export type MetallurgyPlayerAnswer = {
 export type MetallurgyCourseId = "mt201" | "mt202" | "mt203";
 
 /** All three canonical Metallurgy courses persist one selected option label. */
-export function createMetallurgyPlayerAdapter(
+export function createMetallurgyPlayerAdapter<TQuestion extends Question = Question>(
   courseId: MetallurgyCourseId,
-): LearningPlayerAdapter<Question, MetallurgyPlayerAnswer> {
+): LearningPlayerAdapter<TQuestion, MetallurgyPlayerAnswer> {
   return {
     courseId,
     questionId: (question) => question.id,
