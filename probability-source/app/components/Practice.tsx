@@ -8,6 +8,7 @@ import { clearDraft, latestByQuestion, recordAttempt, recordTest, saveDraft, tog
 import { fmtTime, summarize } from "../lib/stats";
 import { StatsPanel } from "./Dashboard";
 import {
+  clearPlayerAnswer,
   createLearningPlayerSession,
   selectPlayerQuestion,
   setPlayerAnswer,
@@ -300,6 +301,8 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
         ? { kind: "multi-choice", optionIds: next.map(String) }
         : { kind: "single-choice", optionId: String(next[0]) };
       onSessionChange((current) => setPlayerAnswer(current, probabilityPlayerAdapter, answer));
+    } else {
+      onSessionChange((current) => clearPlayerAnswer(current, probabilityPlayerAdapter));
     }
     flush();
   }
