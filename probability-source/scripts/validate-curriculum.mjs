@@ -79,7 +79,7 @@ for (let i = 0; i < starts.length; i++) {
   if (!routeIds.has(id)) throw new Error("New lesson " + id + " is not assigned to a pathway.");
 }
 const coverage = read("app/content/coverage.ts");
-const coverageAreas = [...coverage.matchAll(/\\{\\s*area:\\s*"([^"]+)"/g)].map((match) => match[1]);
+const coverageAreas = [...coverage.matchAll(/\{\s*area:\s*"([^"]+)"/g)].map((match) => match[1]);
 if (new Set(coverageAreas).size !== coverageAreas.length) {
   throw new Error("Coverage ledger contains duplicate topic areas.");
 }
