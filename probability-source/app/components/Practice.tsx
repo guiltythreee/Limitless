@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import { createElement, useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { lessons, pad2, type Difficulty } from "../content";
 import { Explanation, Rich } from "../lib/rich";
 import { allQuestions, correctSet, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
@@ -18,7 +18,10 @@ import {
 } from "../../../shared/learning-player/runtime";
 import { probabilityPlayerAdapter } from "../learning-player/adapter";
 import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
-import { LearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
 
 type ScopeKind = "topic" | "rank" | "all";
 type View = "overview" | "all" | "topics" | "saved" | "mistakes" | "question";
