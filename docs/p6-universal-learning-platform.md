@@ -1,6 +1,6 @@
 # P6 — Universal Learning Platform Architecture
 
-Status: Architecture baseline; implementation not yet started.
+Status: P6.0–P6.4 implemented on the draft PR; cross-discipline validation is green. No merge or deployment has been performed.
 Base: `main` after PR #28.
 Branch: `architecture/p6-universal-learning-platform`
 
@@ -125,13 +125,11 @@ Metallurgy's current single-answer model maps to a single-choice answer and its 
 - Verify no local-storage key collisions and no cross-course data leakage.
 - Confirm generated Probability deployment output is produced only by its existing workflow.
 
-## 7. Repository/build-system decision required before sharing runtime components
+## 7. Repository/build-system decision completed for the shared runtime
 
-The two Next.js applications currently install dependencies independently and compile from separate project roots. There is no root workspace or shared package boundary.
+The two Next.js applications still install dependencies independently and compile from separate project roots; no root workspace or shared React package was introduced. The framework-independent runtime is shared directly from `shared/learning-player/`, and both Next configurations widen the Turbopack root to the repository root. Both independent production builds and TypeScript matrices have passed with this arrangement.
 
-Therefore, do not immediately create a root React package and assume both builds can import it. Before sharing runtime components, validate a small proof of concept for module resolution, React peer dependencies, TypeScript path handling, and both static-export workflows.
-
-If a root shared package requires workspace conversion, treat that as a separate, explicitly tested infrastructure change. Do not combine it invisibly with player extraction.
+This validates sharing framework-independent runtime code, not a shared React component package. If a future milestone requires React components/hooks in the shared directory, first resolve React dependency ownership and package/module boundaries. Treat any root workspace conversion as a separate, explicitly tested infrastructure change.
 
 ## 8. Out of scope for the first player milestone
 
@@ -309,7 +307,7 @@ Validation on branch commit `2d44ca669fe118d1008ed18563ebcc12aed72a30`:
 
 No deployment was run. The PR remains draft.
 
-## 20. P6.4 cross-discipline validation — next gate
+## 20. P6.4 cross-discipline validation — completed
 
 The shared runtime is now used by the live practice and exam/question-test surfaces in both applications:
 - Metallurgy: MT201 and MT202 chapter practice, MT203 sequential learning, and all three timed exams.
@@ -320,3 +318,23 @@ An explicit cross-discipline regression harness is in `shared/learning-player/cr
 The initial CI run exposed an invalid assumption that the live Probability question bank contained multi-select entries. The test was corrected to use an explicit synthetic course question while retaining the real production grader. On commit `87ecbaea844fbbb62323d82afaefdd70f877fdcc`, both P6 workflow matrices passed, including 25 cross-discipline assertions, both production builds, both type checks, and the full Metallurgy regression suite. The harness has since been strengthened with four additional assertions for over-selection penalties and invalid option IDs. On the latest validated branch commit `d75f13f8781e75baaface189e540d07b5603c474`, all 29 cross-discipline assertions passed in the P6 workflow; both production builds, both shared-runtime type checks, and the full Metallurgy regression workflow also passed.
 
 P6.4 must not consolidate course storage, rewrite reward logic, or replace the existing course-specific renderers.
+
+## 21. P6.5 remaining UI-unification boundary
+
+P6.4 completes the first shared player-engine milestone, but it does not mean every discipline now renders through one shared React interface.
+
+What is genuinely shared today:
+- Answer contracts, lifecycle state, queue navigation, answer capture, submission orchestration, and adapter grading boundary.
+- The same framework-independent runtime is used by both applications.
+- Both applications independently pass production builds and shared-runtime type checks.
+
+What intentionally remains course-owned:
+- Prompt, diagram, formula, and solution rendering.
+- Answer controls and their visual treatment.
+- Course-specific setup, filters, bookmarks, drafts, rewards, progress summaries, and exam review layouts.
+
+The next UI-unification milestone should be scoped separately. First inventory the repeated interaction shell across MT201/MT202/MT203 and Probability Practice/Test, then define a renderer/answer-control slot contract and accessibility/keyboard behaviour. Do not force the two apps into one CSS system or move course-specific controls into the engine. A shared React package/hook is not approved by the current P6 work; the current proof of concept validates only framework-independent TypeScript modules.
+
+P6.5 acceptance should require at least one shared, accessible player-shell implementation used by one Metallurgy surface and one Probability surface, with the course renderers and answer controls injected, and both static builds passing. Only then should the shell be expanded to the remaining surfaces.
+
+No P6.5 implementation is claimed in this checkpoint.
