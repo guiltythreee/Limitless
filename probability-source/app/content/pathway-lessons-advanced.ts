@@ -314,7 +314,12 @@ export const advancedPathwayLessons: Lesson[] = [
       "Exponential lifetimes have constant hazard and a memoryless residual lifetime, which may be unrealistic for aging components.",
       "For independent components, series reliability is the product of component reliabilities. Parallel reliability is one minus the probability every component fails. Shared failure causes can invalidate independence."
     ],
-    formulas: [{ label: "Survival", text: "S(t)=P(T>t)=1−F(t)" }, { label: "Hazard", text: "h(t)=f(t)/S(t)" }, { label: "Parallel reliability", text: "Rparallel=1−Πᵢ(1−Rᵢ)" }],
+    formulas: [
+      { label: "Survival", text: "S(t)=P(T>t)=1−F(t)" },
+      { label: "Hazard", text: "h(t)=f(t)/S(t)" },
+      { label: "Parallel reliability", text: "Rparallel=1−Πᵢ(1−Rᵢ)" },
+      { label: "Weibull survival and hazard", text: "S(t)=e^(−(t/η)ᵏ), h(t)=(k/η)(t/η)ᵏ⁻¹" }
+    ],
     examples: [
       { title: "Two components in series", problem: "Independent components have reliabilities 0.9 and 0.8. Find series reliability.", steps: ["The system works only if both components work.", "Under independence, multiply the reliabilities: 0.9·0.8.", "The series reliability is 0.72."] },
       { title: "Redundant components", problem: "Those components are placed in parallel. Find parallel reliability.", steps: ["The system fails only if both components fail.", "Failure probabilities are 0.1 and 0.2.", "Reliability is 1−0.1·0.2=0.98."] },
