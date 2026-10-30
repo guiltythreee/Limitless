@@ -3816,7 +3816,8 @@
             "text": "segregate to grain boundaries only"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "In a substitutional solid solution, solute atoms replace solvent atoms at normal lattice sites. **(b)** is correct. Option (a) describes interstitial occupancy; (c) describes a separate phase; and (d) describes grain-boundary segregation rather than a substitutional solution."
       },
       "sourceFingerprint": "5e807ccf"
     },
@@ -3844,7 +3845,8 @@
             "text": "are always larger than the solvent atoms"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "In an interstitial solid solution, sufficiently small solute atoms occupy the gaps between host atoms. **(c)** is correct. Option (a) describes substitutional occupancy, (b) is not required, and (d) is false because interstitial solutes are generally smaller than the host atoms. They can nevertheless be larger than the available interstitial void, which is why they create substantial lattice strain."
       },
       "sourceFingerprint": "5b513bd2"
     },
@@ -3900,7 +3902,8 @@
             "text": "their valences differ greatly"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Complete substitutional solid solubility across the composition range requires the two metals to share the same crystal structure. **(b)** is correct. A size mismatch above about 15%, strong compound-forming affinity, and a large valence difference each tend to restrict solubility; those are the limiting conditions, not the conditions for complete solubility."
       },
       "sourceFingerprint": "017e94a2"
     },
@@ -4038,7 +4041,8 @@
             "text": "3:2 → BCC (β); 21:13 → complex cubic (γ); 7:4 → HCP (ε)"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The electron-compound sequence is e/a = 3:2 → BCC β, 21:13 → complex cubic γ, and 7:4 → HCP ε. **(d)** is correct. Options (a), (b), and (c) assign the characteristic structures incorrectly."
       },
       "sourceFingerprint": "e0dec6de"
     },
@@ -4094,7 +4098,8 @@
             "text": "W_L = C₀/C_L"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The liquid fraction uses the opposite tie-line arm, from C₀ to C_S: W_L = (C_S − C₀)/(C_S − C_L). **(c)** is correct. Option (a) is the solid-fraction numerator; (b) is not a valid phase-fraction expression; (d) is not the lever rule."
       },
       "sourceFingerprint": "3f2e2108"
     },
@@ -4122,7 +4127,8 @@
             "text": "W_α = (C₀ − C_L)/(C₀ − C_S)"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The solid fraction uses the opposite tie-line arm, from C_L to C₀: W_α = (C₀ − C_L)/(C_S − C_L). **(c)** is correct. Option (a) is the liquid-fraction formula; (b) and (d) are not valid lever-rule expressions."
       },
       "sourceFingerprint": "d9a5ea03"
     },
@@ -4178,7 +4184,8 @@
             "text": "C_L = 46% Ni, C_S = 58% Ni"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "At 1300 °C, the liquidus intersection gives C_L = 46 wt% Ni and the solidus intersection gives C_S = 58 wt% Ni. **(d)** is correct. Option (a) reverses the phase labels; (b) incorrectly equates both phase compositions to the nominal composition; and (c) gives values not read from the tie line."
       },
       "sourceFingerprint": "24cfe8d3"
     },
@@ -4288,7 +4295,8 @@
             "text": "identical to C₀"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The first solid to form is richer in the higher-melting component than the liquid from which it forms. **(c)** is correct. Option (a) reverses the enrichment; (b) incorrectly equates the first solid and liquid compositions; and (d) incorrectly equates the first solid with the nominal composition."
       },
       "sourceFingerprint": "76deae14"
     },
@@ -4316,7 +4324,8 @@
             "text": "the tie line becomes vertical"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Equilibrium solidification ends when the solidus reaches the nominal composition C₀, so the last trace of liquid disappears. **(c)** is correct. Option (a) marks the start of freezing, while (b) and (d) do not describe the equilibrium completion condition."
       },
       "sourceFingerprint": "ec25ff66"
     },
@@ -4428,7 +4437,8 @@
             "text": "an oxide film on the grain surface"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Coring is a composition gradient within a cast grain, typically from a high-melting, solute-lean core that formed first to a lower-melting, solute-rich edge that formed last. **(c)** is correct. Option (a) describes a grain-boundary crack, (b) describes gas porosity, and (d) describes a surface oxide film."
       },
       "sourceFingerprint": "de5e17f4"
     },
@@ -4510,7 +4520,8 @@
             "text": "a carbon-rich edge to a carbon-free core"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "In a cored Cu–Ni grain, the first-formed core is richer in the higher-melting component (Ni) and the last-formed edge is richer in the lower-melting component (Cu). **(c)** is correct. Option (a) reverses the direction for this system; (b) removes the composition gradient; and (d) is not the general Cu–Ni coring description."
       },
       "sourceFingerprint": "5dbc1e1a"
     },
@@ -4538,7 +4549,8 @@
             "text": "the peritectic reaction L + β → α produces a shell of α that envelops the untransformed β core, insulating it and starving the reaction of contact area"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "In a peritectic reaction L + β → α, the α product can form a shell around the remaining β core. That shell separates β from the liquid, limiting further reaction. **(d)** is correct; (a), (b), and (c) do not describe this enveloping mechanism."
       },
       "sourceFingerprint": "7e36abe0"
     },
@@ -4734,7 +4746,9 @@
             "text": "Increasing the thermal gradient G ahead of the interface while decreasing the growth rate v"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The planar-front stability criterion requires a sufficiently large ratio G/v. Increasing the thermal gradient G and decreasing the growth rate v both raise G/v and suppress constitutional supercooling. **(d)** is correct. Option (a) moves both variables in the destabilising direction; (b) raises G but also raises v; and (c) lowers both, so neither guarantees an improved G/v.",
+        "keyExplanation": "The planar-front criterion requires G/v to exceed a critical value. Increasing G and decreasing v both improve stability; option (d) combines both favourable changes."
       },
       "sourceFingerprint": "05aa0ba5"
     },
@@ -4816,7 +4830,8 @@
             "text": "0.65"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The lever rule gives W_L = (C_S − C₀)/(C_S − C_L) = (50 − 40)/(50 − 28) = 10/22 ≈ 0.45. Therefore **(c)** is correct. The solid fraction is W_α = 12/22 ≈ 0.55, option (a); the two fractions sum to 1."
       },
       "sourceFingerprint": "fb90d3aa"
     },
