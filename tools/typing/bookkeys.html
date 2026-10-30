@@ -57,7 +57,7 @@ html[data-bg="pic-night"] #picBg { background-image: url(data:image/webp;base64,
   --panel: #FFFCF6;
   --ink: #2A2540;
   --dim: #6F688C;
-  --accent: #6A4DBF;
+  --accent: #78866A;
   --on-accent: #FFFFFF;
   --bad: #C0304F;
   --bad-bg: #F8DCE3;
@@ -96,6 +96,12 @@ button { cursor: pointer; background: var(--panel); border: 1px solid var(--line
 button:hover { border-color: var(--accent); }
 button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 button.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+button.primary:hover, label.btn:hover { background: #68785B; border-color: #68785B; }
+button.primary:focus-visible, .reqbtn:focus-visible, .ch button:focus-visible {
+  outline: 2px solid #A18B62; outline-offset: 2px;
+}
+.reqbtn.on { background: #E8EDE2; color: #40513A; border-color: #AAB89B; }
+.reqbtn.opt { background: #F7F2E9; color: #81745F; border-color: #DDD2BF; }
 button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 button:disabled { opacity: .4; cursor: default; }
 
@@ -432,9 +438,10 @@ html:is([data-deco="gothic"], [data-deco="garden"]) #home::before { content: "";
 .bk small, .ch small { color: var(--dim); white-space: nowrap; }
 .ch.opt { border-style: dashed; }
 .ch input { flex: 1; min-width: 90px; }
+.chOrdinal { color: var(--dim); font: 12px var(--font-ui); white-space: nowrap; min-width: 58px; }
+.chPart { margin: 12px 0 4px; padding: 5px 9px; border-left: 3px solid var(--accent); color: var(--ink); font-weight: 700; background: var(--panel); border-radius: 4px; }
 .reqbtn { flex: 0 0 auto; border: 1px solid var(--line); background: var(--panel); color: var(--dim); border-radius: 6px; padding: 5px 9px; font-size: 12px; }
-.reqbtn.on { color: var(--ink); border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
-.reqbtn.opt { opacity: .75; }
+/* Required/optional states use soft botanical and parchment tones. */
 .bk select, .dialog input[type="text"], .ch input { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 5px 7px; color: var(--ink); font: inherit; }
 .dialog .row.start { justify-content: flex-start; }
 .dialog .row.start input { flex: 1; min-width: 120px; }
@@ -830,8 +837,8 @@ function pagesFromText(raw) {
 }
 // ----- chapters: pure helpers -----
 var CH_WORDS = "one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty";
-var CH_RE = new RegExp("^(chapter|part|book)\\s+(\\d{1,3}|[ivxlc]{1,8}|" + CH_WORDS + ")(?![a-z0-9])\\s*[.:)\\-]*\\s*(.*)$", "i");
-var ROMAN_RE = /^c{0,2}(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})$/i;
+var CH_RE = new RegExp("^(chapter|part|book|volume|vol)\\s+(\\d{1,3}|[ivxlcdm]{1,8}|" + CH_WORDS + ")(?![a-z0-9])\\s*[.:)\\-]*\\s*(.*)$", "i");
+var ROMAN_RE = /^(?=.)m{0,3}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})$/i;
 function chNumOk(tok) {
   if (/^\d+$/.test(tok)) return parseInt(tok, 10) > 0;
   if (new RegExp("^(" + CH_WORDS + ")$", "i").test(tok)) return true;
@@ -839,69 +846,117 @@ function chNumOk(tok) {
 }
 function chNumKey(tok) { return /^\d+$/.test(tok) ? String(parseInt(tok, 10)) : tok.toLowerCase(); }
 
-// Chapter-looking lines on one page. Rejects dot-leader contents lines, page-edge running headers,
-// and ordinary sentences that merely start with "Chapter 7".
+// Detect explicit chapter/part headings and typographically isolated Roman-numeral chapter markers.
+// A Part is metadata for the chapters that follow; it is never counted as a chapter itself.
 function chapterHeadsOnPage(lines, bodySize, pageH) {
-  var out = [], i, L, t, m, rest, words, caps, big, titleCase, nx, title;
+  var out = [], i, L, t, m, rest, words, caps, big, titleCase, nx, title, kind, roman;
   for (i = 0; i < lines.length; i++) {
     L = lines[i]; t = normalize(L.text);
     if (!t || t.length > 70) continue;
     if (pageH && (L.y > pageH * 0.95 || L.y < pageH * 0.04)) continue;
     if (/\.{3,}|(\. ){3,}/.test(t)) continue;
     m = CH_RE.exec(t);
-    if (!m || !chNumOk(m[2])) continue;
-    rest = m[3].trim();
-    if (/\s\d{1,4}$/.test(rest)) continue;
-    words = rest ? rest.split(" ") : [];
-    caps = t === t.toUpperCase();
-    big = !!bodySize && L.size > bodySize * 1.1;
-    titleCase = words.length <= 6 && words.every(function (w) { return w.length <= 3 || /^[A-Z"'(\d]/.test(w); });
-    if (!(big || caps || !rest || titleCase)) continue;
-    title = t.replace(/[\s.:\-]+$/, "");
-    nx = lines[i + 1];
-    if (!rest && nx && /[A-Za-z]/.test(nx.text) && Math.abs(L.y - nx.y) < L.size * 3.5 && nx.text.length <= 50 &&
+    kind = "chapter";
+    if (m && chNumOk(m[2])) {
+      kind = /^(part|book|volume|vol)$/i.test(m[1]) ? "part" : "chapter";
+      rest = m[3].trim();
+      if (/\s\d{1,4}$/.test(rest)) continue;
+      words = rest ? rest.split(" ") : [];
+      caps = t === t.toUpperCase();
+      big = !!bodySize && L.size > bodySize * 1.1;
+      titleCase = words.length <= 6 && words.every(function (w) { return w.length <= 3 || /^[A-Z"'(\d]/.test(w); });
+      if (!(big || caps || !rest || titleCase)) continue;
+      title = t.replace(/[\s.:\-]+$/, "");
+      nx = lines[i + 1];
+      if (!rest && nx && /[A-Za-z]/.test(nx.text) && Math.abs(L.y - nx.y) < L.size * 3.5 && nx.text.length <= 50 &&
+          !CH_RE.test(normalize(nx.text)) && (Math.abs(nx.size - L.size) < 0.6 || nx.text === nx.text.toUpperCase())) {
+        title += ": " + normalize(nx.text).replace(/[\s.]+$/, "");
+      }
+      out.push({ kind: kind, key: m[1].toLowerCase() + " " + chNumKey(m[2]), title: title.slice(0, 80), y: L.y });
+      continue;
+    }
+    // Standalone Roman numerals are common chapter headings (e.g. 1984). Require visual emphasis
+    // and a short isolated line so ordinary Roman numerals in prose are not treated as headings.
+    roman = t.match(/^([ivxlcdm]{1,8})[.)]?$/i);
+    if (!roman || !ROMAN_RE.test(roman[1]) || !(!!bodySize && L.size > bodySize * 1.08 || t === t.toUpperCase())) continue;
+    title = roman[1].toUpperCase(); nx = lines[i + 1];
+    if (nx && /[A-Za-z]/.test(nx.text) && Math.abs(L.y - nx.y) < L.size * 3.5 && nx.text.length <= 50 &&
         !CH_RE.test(normalize(nx.text)) && (Math.abs(nx.size - L.size) < 0.6 || nx.text === nx.text.toUpperCase())) {
       title += ": " + normalize(nx.text).replace(/[\s.]+$/, "");
     }
-    out.push({ key: m[1].toLowerCase() + " " + chNumKey(m[2]), title: title.slice(0, 80), y: L.y });
+    out.push({ kind: "chapter", key: "chapter " + roman[1].toLowerCase(), title: title.slice(0, 80), y: L.y, bareRoman: true });
   }
   return out;
 }
 
-// Sort, drop duplicates and out-of-range pages, and make sure the first chapter starts on page 1 (index 0).
+// Sort, drop duplicate/out-of-range starts, and retain the parent Part label on each chapter.
 function tidyChapters(entries, n) {
   var seen = {}, out = [];
   entries.filter(function (e) { return isFinite(e.p) && e.p >= 0 && e.p < n; })
-    .map(function (e, i) { return { p: e.p, title: e.title || "", i: i }; })
+    .map(function (e, i) { return { p: e.p, title: e.title || "", part: typeof e.part === "string" ? e.part.slice(0, 80) : "", i: i }; })
     .sort(function (a, b) { return a.p - b.p || a.i - b.i; })
-    .forEach(function (e) { if (!seen[e.p]) { seen[e.p] = 1; out.push({ p: e.p, title: e.title }); } });
-  if (out.length && out[0].p > 0) out.unshift({ p: 0, title: "Beginning" });
+    .forEach(function (e) { if (!seen[e.p]) { seen[e.p] = 1; out.push({ p: e.p, title: e.title, part: e.part }); } });
+  if (out.length && out[0].p > 0) out.unshift({ p: 0, title: "Beginning", part: "" });
   return withRequirements(out);
 }
 
-// pageHeads[p] = chapterHeadsOnPage(...) for page p. Returns [] when it does not look like a real chapter list.
+// Group headings by identity, discard likely contents-page repetitions, and attach the latest Part
+// heading to each chapter. Parts are not independent progress/reward units.
 function pickChapters(pageHeads, n) {
-  var byKey = {}, picks = [], p, k, occ, keep;
+  var raw = [], partMap = {}, parts = [], byKey = {}, picks = [], p, k, occ, keep;
   for (p = 0; p < n; p++) {
     var h = pageHeads[p] || [];
-    if (h.length >= 3) continue;                       // a contents page lists many chapters at once
-    h.forEach(function (x) { (byKey[x.key] = byKey[x.key] || []).push({ p: p, title: x.title }); });
+    if (h.length >= 3) continue;
+    h.forEach(function (x) {
+      if (x.kind === "part") (partMap[x.key] = partMap[x.key] || []).push({ p: p, title: x.title });
+      else raw.push({ p: p, title: x.title, key: x.key });
+    });
   }
+  for (k in partMap) {
+    occ = partMap[k];
+    keep = occ.length === 2 && occ[1].p - occ[0].p > 1 ? occ[1] : occ[0];
+    parts.push(keep);
+  }
+  parts.sort(function (a, b) { return a.p - b.p; });
+  raw.forEach(function (c) {
+    var active = "";
+    parts.forEach(function (part) { if (part.p <= c.p) active = part.title; });
+    c.part = active;
+    k = c.key + "|" + active.toLowerCase();
+    (byKey[k] = byKey[k] || []).push(c);
+  });
   for (k in byKey) {
     occ = byKey[k];
     if (occ.length === 1) keep = occ[0];
-    else if (occ.length === 2 && occ[1].p - occ[0].p > 1) keep = occ[1];   // contents entry first, real heading later
-    else keep = occ[0];                                // repeated on many pages: a running header, keep where it first appears
+    else if (occ.length === 2 && occ[1].p - occ[0].p > 1) keep = occ[1];
+    else keep = occ[0];
     picks.push(keep);
   }
   if (picks.length < 2 || picks.length > Math.max(3, n / 2)) return [];
-  return tidyChapters(picks, n);
+  return tidyChapters(picks.sort(function (a, b) { return a.p - b.p; }), n);
 }
 
-// Fallback: even sections of about 20 pages. An empty title means "show the page range".
+// Flatten a PDF outline while retaining Part -> Chapter grouping.
+function resolveOutline(pdf, nodes, n, inheritedPart) {
+  var jobs = [], activePart = inheritedPart || "";
+  (nodes || []).slice(0, 800).forEach(function (node) {
+    var title = (node.title || "").replace(/\s+/g, " ").trim().slice(0, 80);
+    var isPart = /^(part|book|volume|vol)\s+/i.test(title);
+    if (isPart) {
+      activePart = title;
+      if (node.items && node.items.length) jobs.push(resolveOutline(pdf, node.items, n, title));
+    } else {
+      // Keep the chapter bookmark itself even if it has lower-level bookmarks beneath it.
+      jobs.push(destPage(pdf, node.dest).then(function (p) { return p >= 0 && p < n ? [{ p: p, title: title, part: activePart }] : []; }));
+    }
+  });
+  return Promise.all(jobs).then(function (groups) { return [].concat.apply([], groups); });
+}
+
+// Fallback: estimated even sections of about 20 pages. Never describe these as detected chapters.
 function evenChapters(n) {
   var count = Math.max(1, Math.round(n / 20)), per = Math.ceil(n / count), out = [], p;
-  for (p = 0; p < n; p += per) out.push({ p: p, title: "", req: true });
+  for (p = 0; p < n; p += per) out.push({ p: p, title: "", part: "", req: true });
   return out;
 }
 
@@ -920,7 +975,8 @@ var SECTION_OPTIONAL = [
   "about the authors", "about the editors", "about the contributors", "also by", "colophon",
   "errata", "abbreviations", "chronology", "timeline", "cast of characters", "dramatis personae",
   "translator's note", "translator's preface", "editor's note", "editor's preface",
-  "publisher's note", "a note on the text", "a note on the translation", "how to use this book"
+  "publisher's note", "a note on the text", "note on the text", "note on the translation",
+  "more from", "how to use this book"
 ];
 // A heading with a leading "Chapter 3" / "12." / "IV" marker taken off, so what is matched against
 // the list above is the name of the section itself.
@@ -935,6 +991,8 @@ function sectionRequired(title) {
   if (!t) return true;                                                        // an untitled section (an even split) is required
   if (/^[0-9]{1,4}$/.test(t) || /^[ivxlcdm]{1,7}$/.test(t)) return true;      // "12" or "IV" on its own is a chapter
   body = sectionBody(t) || t;
+  // Publisher/author-credit pages are back matter, not chapters.
+  if (/^by\s+[a-z][a-z .'-]{1,80}$/.test(body) || /^more from(?:\s|$)/.test(body)) return false;
   forms = [body, body.replace(/^(?:the|a|an)\s+/, "")];
   for (i = 0; i < SECTION_OPTIONAL.length; i++) {
     w = SECTION_OPTIONAL[i];
@@ -943,10 +1001,19 @@ function sectionRequired(title) {
   return true;
 }
 // The default for one entry: the pages before a book's first chapter are front matter.
-function defaultReq(c) { return (c.p === 0 && c.title === "Beginning") ? false : sectionRequired(c.title); }
+function defaultReq(c) {
+  // EPUB spine entries without a real TOC title are structural/untitled sections,
+  // not confirmed chapters. Keep them optional unless the reader explicitly marks them required.
+  if (S.isEpub && !String(c.title || "").trim()) return false;
+  return (c.p === 0 && c.title === "Beginning") ? false : sectionRequired(c.title);
+}
 // Give a chapter list its required/optional defaults, keeping any choice already made.
-function withRequirements(list) {
-  return list.map(function (c) { return { p: c.p, title: c.title || "", req: typeof c.req === "boolean" ? c.req : defaultReq(c) }; });
+// A freshly imported EPUB TOC has no prior user choices, so apply the current defaults.
+function withRequirements(list, source) {
+  return list.map(function (c) {
+    var req = source === "toc" ? defaultReq(c) : (typeof c.req === "boolean" ? c.req : defaultReq(c));
+    return { p: c.p, title: c.title || "", part: typeof c.part === "string" ? c.part.slice(0, 80) : "", req: req };
+  });
 }
 
 // ----- game: pure helpers -----
@@ -2622,7 +2689,7 @@ SCENES.mist = {
     usePages(pages, "Pasted text", LEGEND, "");
   });
   // ----- chapters: bookmarks, then headings, then even sections; your edits are saved per book -----
-  var CH = { list: [], src: "", busy: "" }, chapTok = 0, CHAP_VER = 3, lastKeyAt = -1e9;
+  var CH = { list: [], src: "", busy: "" }, chapTok = 0, CHAP_VER = 6, lastKeyAt = -1e9;
   function chapKey() { return "bookkeys:chap:" + S.key; }
   function chapEnd(i) { return i + 1 < CH.list.length ? CH.list[i + 1].p : S.total; }
   function unitName(one) { return S.isEpub ? (one ? "section" : "sections") : (one ? "page" : "pages"); }
@@ -2669,18 +2736,12 @@ SCENES.mist = {
     })).then(function (r) { return r.filter(function (e) { return e.p >= 0 && e.p < n; }); });
   }
   function distinctPages(list) { var seen = {}, c = 0; list.forEach(function (e) { if (!seen[e.p]) { seen[e.p] = 1; c++; } }); return c; }
-  // Layer 1: the PDF's own bookmarks. Top level first; if that is too thin, the level below it.
+  // Layer 1: the PDF's own bookmarks. Preserve nested Part -> Chapter relationships.
   function readOutline(pdf, n) {
     if (!pdf.getOutline) return Promise.resolve([]);
     return pdf.getOutline().then(function (tree) {
       if (!tree || !tree.length) return [];
-      return resolveItems(pdf, tree, n).then(function (top) {
-        var kids = [];
-        if (distinctPages(top) >= 3) return top;
-        tree.forEach(function (t) { (t.items || []).forEach(function (k) { kids.push(k); }); });
-        if (!kids.length) return top;
-        return resolveItems(pdf, kids, n).then(function (low) { return distinctPages(low) > distinctPages(top) ? low : top; });
-      });
+      return resolveOutline(pdf, tree, n, "");
     }).then(function (list) { return distinctPages(list) >= 2 ? tidyChapters(list, n) : []; });
   }
   // Layer 2: read every page's text once and look for "Chapter N" headings. Runs in the background.
@@ -2731,9 +2792,9 @@ SCENES.mist = {
     var tok = ++chapTok, saved = null;
     CH.list = []; CH.src = ""; CH.busy = "";
     try { saved = JSON.parse(load(chapKey()) || "null"); } catch (e) { saved = null; }
-    if (saved && saved.list && saved.list.length && saved.list[0].p === 0 && (saved.src === "edited" || saved.v === 2 || saved.v === CHAP_VER) && saved.list.every(function (c, i) {
+    if (saved && saved.list && saved.list.length && saved.list[0].p === 0 && (saved.src === "edited" || saved.src === "even-manual" || (saved.src !== "even" && (saved.v === 2 || saved.v === 3 || saved.v === 4 || saved.v === CHAP_VER))) && saved.list.every(function (c, i) {
       return c && c.p >= 0 && c.p < S.total && (i === 0 || c.p > saved.list[i - 1].p);
-    })) { CH.list = withRequirements(saved.list); CH.src = saved.src || "edited"; chapSave(); chapLabelUpdate(); return Promise.resolve(); }
+    })) { CH.list = withRequirements(saved.list, saved.src); CH.src = saved.src || "edited"; chapSave(); chapLabelUpdate(); return Promise.resolve(); }
     if (S.isEpub) return chapFromToc();   // an EPUB's chapters come from its own table of contents
     return chapDetect(tok).catch(function () {});
   }
@@ -2748,7 +2809,7 @@ SCENES.mist = {
 
   function chapSrcText() {
     var t = { toc: "Found in the EPUB\u2019s table of contents.", bookmarks: "Found from the PDF\u2019s bookmarks.", headings: "Found by reading the chapter headings. Check the list and fix anything that is wrong.",
-      even: "No chapters were found, so the book is split into even sections.", edited: "Edited by you." }[CH.src] || "";
+      even: "No chapters were found, so the book is split into even sections.", "even-manual": "You chose to split the book into even sections.", edited: "Edited by you." }[CH.src] || "";
     $("chSrc").textContent = CH.busy ? "Still looking for chapters in the background. The list below is temporary." : t;
     $("chStop").hidden = !CH.busy;
   }
@@ -2756,14 +2817,18 @@ SCENES.mist = {
     var box = $("chList"), cur = chapAt(S.idx);
     box.innerHTML = "";
     chapSrcText();
+    var lastPart = null;
     CH.list.forEach(function (c, i) {
-      var row = el("div", c.req === false ? "ch opt" : "ch"), t = document.createElement("input"), len = chapEnd(i) - c.p,
-        info = el("small", "", S.isEpub ? ("Section " + (c.p + 1) + " \u00B7 " + len + (len === 1 ? " section" : " sections")) : ("p. " + (c.p + 1) + " \u00B7 " + len + (len === 1 ? " page" : " pages"))),
-        req = el("button", "reqbtn " + (c.req === false ? "opt" : "on"), c.req === false ? "Optional" : "Required"),
-        go = el("button", "primary", "Go"), rm = el("button", "", "Remove");
+      var row, t, len, info, req, go, rm;
+      if (c.part && c.part !== lastPart) box.appendChild(el("div", "chPart", c.part));
+      lastPart = c.part || null;
+      row = el("div", c.req === false ? "ch opt" : "ch"); var ordinal = el("span", "chOrdinal", "Chapter " + (i + 1)); t = document.createElement("input"); len = chapEnd(i) - c.p;
+      info = el("small", "", S.isEpub ? ("Section " + (c.p + 1) + " · " + len + (len === 1 ? " section" : " sections")) : ("p. " + (c.p + 1) + " · " + len + (len === 1 ? " page" : " pages")));
+      req = el("button", "reqbtn " + (c.req === false ? "opt" : "on"), c.req === false ? "Optional" : "Required");
+      go = el("button", "primary", "Go"); rm = el("button", "", "Remove");
       t.type = "text"; t.maxLength = 80; t.value = chapName(i); t.disabled = !!CH.busy;
       t.setAttribute("aria-label", "Chapter " + (i + 1) + " title");
-      go.type = "button"; rm.type = "button"; rm.hidden = i === 0; rm.disabled = !!CH.busy;
+      go.type = "button"; rm.type = "button"; rm.hidden = CH.list.length <= 1; rm.disabled = !!CH.busy; rm.title = i === 0 ? "Remove this opening section boundary; its pages remain in the book and join the next chapter" : "Remove this chapter boundary; its pages remain in the book and join the previous chapter";
       req.type = "button"; req.disabled = !!CH.busy; req.setAttribute("aria-pressed", String(c.req !== false));
       req.title = c.req === false ? "Optional: this section does not have to be typed to finish the book" : "Required: this section has to be typed to finish the book";
       if (i === cur) row.setAttribute("aria-current", "true");
@@ -2778,9 +2843,10 @@ SCENES.mist = {
       });
       go.addEventListener("click", function () { dlgClose("chapters"); showPage(c.p, 1); });
       rm.addEventListener("click", function () {
+        if (i === 0 && CH.list.length > 1) CH.list[1].p = 0;
         CH.list.splice(i, 1); CH.src = "edited"; chapSave(); chapLabelUpdate(); chapRender();
       });
-      [t, info, req, go, rm].forEach(function (n) { row.appendChild(n); });
+      [ordinal, t, info, req, go, rm].forEach(function (n) { row.appendChild(n); });
       box.appendChild(row);
     });
     chapProgUpdate();
@@ -2803,7 +2869,7 @@ SCENES.mist = {
     if (!S.isBook) return;
     if (CH.busy) { chMsg("Still looking for chapters. Try again in a moment.", true); return; }
     for (i = 0; i < CH.list.length; i++) if (CH.list[i].p === p) { chMsg("A chapter already starts on " + unitName(true) + " " + (p + 1) + ".", true); return; }
-    CH.list.push({ p: p, title: "New chapter", req: true });
+    CH.list.push({ p: p, title: "New chapter", part: CH.list[chapAt(p)].part || "", req: true });
     CH.list.sort(function (a, b) { return a.p - b.p; });
     CH.src = "edited"; chapSave(); chapLabelUpdate(); chapRender();
     chMsg("Chapter added at " + unitName(true) + " " + (p + 1) + ". Rename it if you like.");
@@ -2819,7 +2885,7 @@ SCENES.mist = {
       return;
     }
     if (b.dataset.arm) { clearTimeout(+b.dataset.arm); delete b.dataset.arm; b.textContent = label; }
-    CH.list = evenChapters(S.total); CH.src = "even"; chapSave(); chapLabelUpdate(); chapRender(); chMsg("");
+    CH.list = evenChapters(S.total); CH.src = "even-manual"; chapSave(); chapLabelUpdate(); chapRender(); chMsg("");
   });
   armed($("chRedo"), "Click again to confirm", function () {
     var p;
@@ -3299,6 +3365,9 @@ SCENES.mist = {
       return startPdf(blob.arrayBuffer(), m.name, "lib:" + m.id, $("libStatus"));
     }).then(function () {
       if (S.fp && S.key === "lib:" + m.id && !m.fp) { m.fp = S.fp; DB.put(m).catch(function () {}); }
+      // Opening a Library book starts at its chapter index. The reader remains
+      // loaded underneath; choosing Go on a chapter takes the reader to that page.
+      chapOpen();
     }).catch(function () { libMsg("Could not open that book.", true); });
   }
 
@@ -4431,7 +4500,7 @@ SCENES.mist = {
     if (!loc || !Array.isArray(loc.list) || !loc.list.length) { if (!store(k, s)) return 0; if (k === chapKey()) dataChapDirty = true; return 1; }
     seen = {}; list = [];
     loc.list.concat(imp.list).forEach(function (c) {
-      if (c && typeof c.p === "number" && c.p >= 0 && !seen[c.p]) { seen[c.p] = 1; list.push({ p: c.p, title: typeof c.title === "string" ? c.title : "", req: typeof c.req === "boolean" ? c.req : undefined }); }
+      if (c && typeof c.p === "number" && c.p >= 0 && !seen[c.p]) { seen[c.p] = 1; list.push({ p: c.p, title: typeof c.title === "string" ? c.title : "", part: typeof c.part === "string" ? c.part : "", req: typeof c.req === "boolean" ? c.req : undefined }); }
     });
     if (list.length === loc.list.length) return 0;
     list.sort(function (a, b) { return a.p - b.p; });
