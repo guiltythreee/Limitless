@@ -1,0 +1,85 @@
+name: Temporary Bookkeys native navigation patch
+on:
+  push:
+    branches:
+      - fix/bookkeys-native-browser-navigation
+permissions:
+  contents: write
+jobs:
+  patch-bookkeys:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/bookkeys-native-browser-navigation
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply precise gesture removal and run source regressions
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const file = 'tools/typing/bookkeys.html';
+          let s = fs.readFileSync(file, 'utf8');
+          const oldComment = '  // ----- back and forward: the browser buttons, Alt+Left / Alt+Right, a mouse side button and a two-finger swipe all walk\n  // through the places you have been (Home, and the book you were reading). If a panel is open, going back closes it first. -----';
+          const newComment = '  // ----- back and forward: browser buttons, Alt+Left / Alt+Right and mouse side buttons walk\n  // through Bookkeys history (Home and the book you were reading). Browser Back closes an open panel first. -----';
+          const gestureNeedle = '  // Leave Bookkeys for the Limitless homepage. Reads the shell\'s own "Back to Limitless" link';
+          const counts = {
+            comment: s.split(oldComment).length - 1,
+            navStart: s.split('  /*NAV-START*/').length - 1,
+            navEnd: s.split('  /*NAV-END*/').length - 1,
+            leaveHelper: s.split(gestureNeedle).length - 1,
+            wheel: s.split('  window.addEventListener("wheel", function (e) {').length - 1,
+            customTouchMove: s.split('  window.addEventListener("touchmove", function (e) {').length - 1
+          };
+          if (Object.values(counts).some(n => n !== 1)) throw new Error('Unexpected Bookkeys source structure: ' + JSON.stringify(counts));
+          s = s.replace(oldComment, newComment);
+          const navStart = s.indexOf('  /*NAV-START*/');
+          const navEnd = s.indexOf('  /*NAV-END*/', navStart);
+          s = s.slice(0, navStart) + s.slice(navEnd + '  /*NAV-END*/'.length);
+          const leaveStart = s.indexOf(gestureNeedle);
+          const keydownStart = s.indexOf('  document.addEventListener("keydown", function (e) {', leaveStart);
+          if (leaveStart < 0 || keydownStart < leaveStart) throw new Error('Could not locate gesture block boundaries');
+          s = s.slice(0, leaveStart) + s.slice(keydownStart);
+
+          const checks = {
+            noWheelInterceptor: !s.includes('  window.addEventListener("wheel", function (e) {'),
+            noTouchSwipeInterceptor: !s.includes('  window.addEventListener("touchmove", function (e) {'),
+            noSwipeClassifier: !s.includes('function swipeIntent('),
+            noTouchTargetFilter: !s.includes('function inTyping(t)'),
+            noGestureBackWrapper: !s.includes('function navBackOrLeave()'),
+            noHomepageGestureRedirect: !s.includes('function leaveForHome()'),
+            popstatePreserved: s.includes('window.addEventListener("popstate", function (e) {'),
+            pushStatePreserved: s.includes('history.pushState({ i: NAV.i, v: v }'),
+            historyBackPreserved: s.includes('function navBack() { if (NAV.i > 0) history.back(); }'),
+            historyForwardPreserved: s.includes('function navForward() { if (NAV.i < NAV.max) history.forward(); }'),
+            dialogBackPreserved: s.includes('if (anyDialogOpen()) { NAV.revert = true; history.go(NAV.i - st.i); closeTopDialog(); return; }'),
+            keyboardNavigationPreserved: s.includes('if (e.altKey && e.key === "ArrowLeft")')
+          };
+          if (Object.values(checks).some(v => !v)) throw new Error('Navigation regression failed: ' + JSON.stringify(checks));
+
+          const scriptBlocks = [...s.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)];
+          let compiled = 0;
+          for (const match of scriptBlocks) {
+            const attrs = match[1] || '';
+            if (/\\btype\\s*=\\s*["'](?:application\\/json|application\\/ld\\+json|text\\/template)["']/i.test(attrs)) continue;
+            new Function(match[2] || '');
+            compiled++;
+          }
+          if (compiled !== 5) throw new Error('Expected to syntax-check five inline script blocks; checked ' + compiled);
+          fs.writeFileSync(file, s);
+          console.log('PASS: Bookkeys native navigation source regressions');
+          console.log('PASS: syntax checked ' + compiled + ' inline JavaScript blocks');
+          console.log('PASS: retained popstate, pushState, history back/forward and dialog handling');
+          NODE
+      - name: Save only the Bookkeys source change
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- tools/typing/bookkeys.html
+          git rm -- .github/workflows/temporary-bookkeys-native-navigation-patch.yml
+          git diff --cached --check
+          git commit -m "Fix Bookkeys native browser navigation gestures"
+          git push origin HEAD:fix/bookkeys-native-browser-navigation
