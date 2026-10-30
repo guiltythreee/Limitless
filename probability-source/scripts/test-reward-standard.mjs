@@ -268,6 +268,8 @@ const projectInput = {
   baseExp: 50,
   difficulty: "advanced",
 };
+assert.equal(registerProject(projectStorage, { ...projectInput, moduleId: "probability" }, () => ts).error,
+  "unregistered-module", "bespoke projects cannot be written into a discipline-owned reward ledger");
 const registered = registerProject(projectStorage, projectInput, () => ts);
 assert.equal(registered.ok, true);
 assert.equal(registerProject(projectStorage, projectInput, () => ts).error, "project-id-already-registered");
