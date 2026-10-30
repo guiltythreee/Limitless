@@ -416,8 +416,7 @@ export const advancedPathwayLessons: Lesson[] = [
       { question: "A test has significance level α=0.01. Under a true null hypothesis, its Type I error probability is", options: ["0.99", "0.10", "0.01", "The power"], answer: 2, difficulty: "medium", explanation: "The significance level controls the probability of rejecting a true null hypothesis." },
       { question: "A two-sided test reports p=0.03. Which interpretation is valid?", options: ["There is a 3% probability that H₀ is true", "There is a 97% probability that H₁ is true", "Assuming H₀, data at least this extreme have probability 0.03 under the specified test", "The observed effect is necessarily practically important"], answer: 2, difficulty: "hard", explanation: "The p-value is computed under the null model and measures extremeness of the data. It is not the probability of either hypothesis and says nothing by itself about practical importance." }
     ]
-  }
-
+  },
   {
     id: "bayesian-computation", rank: 0, title: "Bayesian Computation & Posterior Diagnostics", minutes: 30,
     description: "Approximate posterior expectations with simulation and judge whether an MCMC run is trustworthy.",
