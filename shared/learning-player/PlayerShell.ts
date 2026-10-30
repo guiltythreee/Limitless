@@ -23,15 +23,30 @@ export function createLearningPlayerShell(
     ? null
     : createElement(
         "nav",
-        { className: props.paletteClassName, "aria-label": "Question navigation" },
+        {
+          className: props.paletteClassName,
+          "aria-label": "Question navigation",
+          "data-learning-player-palette": "true",
+        },
         props.palette,
       );
 
   const content = createElement(
     "div",
-    { className: props.contentClassName },
+    {
+      className: props.contentClassName,
+      "data-learning-player-content": "true",
+    },
     props.children,
   );
 
-  return createElement("section", { className: props.className }, palette, content);
+  return createElement(
+    "section",
+    {
+      className: props.className,
+      "data-learning-player": "true",
+    },
+    palette,
+    content,
+  );
 }
