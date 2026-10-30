@@ -11,7 +11,7 @@
 // course registry adapter; progress keys (question ids) and XP rules are
 // unchanged.
 
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import { awardAnswer, Mode, Progress, recordAnswer, toggleBookmark } from "../lib/mt203-progress";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 import type { Question } from "../courses/types";
@@ -24,6 +24,10 @@ import {
   tickPlayer,
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
 
 const playerAdapter = createMetallurgyPlayerAdapter("mt203");
 
@@ -270,23 +274,24 @@ export default function Player({
 
   return (
     <div className="panel">
-      <div className="dots" role="tablist" aria-label="Question navigator">
-        {order.map((qi, i) => {
-          const qq = questions[qi];
-          const st = revealed[qq.id];
-          const cls = st ? (picked[qq.id] === qq.answer ? "right" : "wrong") : "";
-          return (
-            <button
-              key={qq.id}
-              className={`dot ${cls} ${i === idx ? "cur" : ""}`}
-              title={`Question ${i + 1}`}
-              onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
-            />
-          );
-        })}
-      </div>
+      <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={(
+        <div role="tablist" aria-label="Question navigator">
+                  {order.map((qi, i) => {
+                    const qq = questions[qi];
+                    const st = revealed[qq.id];
+                    const cls = st ? (picked[qq.id] === qq.answer ? "right" : "wrong") : "";
+                    return (
+                      <button
+                        key={qq.id}
+                        className={`dot ${cls} ${i === idx ? "cur" : ""}`}
+                        title={`Question ${i + 1}`}
+                        onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
+                      />
+                    );
+                  })}
+                  </div>
+      )}>
 
-      <div className="qwrap">
         <div className="qhead">
           <span className="chip">
             {idx + 1} / {order.length} · {answered} answered · {right} correct
@@ -331,9 +336,7 @@ export default function Player({
             {idx < order.length - 1 ? "Next →" : "Finish"}
           </button>
         </div>
-      </div>
-
       {toast !== null && <div className="xp-toast">+{toast} XP</div>}
-    </div>
+      </LearningPlayerShell>
   );
 }
