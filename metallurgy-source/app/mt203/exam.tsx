@@ -7,7 +7,7 @@
 // XP: each first-correct answer pays once; clearing a module or reaching its
 // mastery criteria pays a one-time bonus (settleModuleBonuses).
 
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import {
   moduleOfTopic,
   moduleQuestionIds,
@@ -33,6 +33,10 @@ import {
   submitPlayerAnswer,
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
 
 const playerAdapter = createMetallurgyPlayerAdapter("mt203");
 
@@ -326,20 +330,16 @@ export default function Exam({
         </button>
       </div>
 
-      <div className="panel">
-        <div className="palette">
-          {pool.map((pq, i) => (
-            <button
-              key={pq.id}
-              className={`pbtn ${answers[i] ? "answered" : ""} ${i === idx ? "current" : ""}`}
-              onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
+      <LearningPlayerShell className="panel" paletteClassName="palette" contentClassName="qwrap" palette={pool.map((pq, i) => (
+          <button
+            key={pq.id}
+            className={`pbtn ${answers[i] ? "answered" : ""} ${i === idx ? "current" : ""}`}
+            onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
+          >
+            {i + 1}
+          </button>
+        ))}>
 
-        <div className="qwrap">
           <div className="qhead">
             <span className="chip">{moduleOfTopic(q.topicId).toUpperCase()}</span>
           </div>
@@ -358,8 +358,7 @@ export default function Exam({
             <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>← Prev</button>
             <button className="btn" disabled={idx >= pool.length - 1} onClick={() => setSession((current) => navigatePlayer(current, "next"))}>Next →</button>
           </div>
-        </div>
-      </div>
+      </LearningPlayerShell>
     </div>
   );
 }
