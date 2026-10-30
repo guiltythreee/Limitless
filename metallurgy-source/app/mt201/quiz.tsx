@@ -184,8 +184,7 @@ export default function Quiz({
   const revealed = Boolean(rec) || peeked[q.n];
 
   return (
-      <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={(
-                  {dots.map((d) => (
+      <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={dots.map((d) => (
                     <button
                       key={d.n}
                       type="button"
@@ -193,8 +192,7 @@ export default function Quiz({
                       title={`Question ${d.n}`}
                       onClick={() => setSession((current) => selectPlayerQuestion(current, d.n - 1))}
                     />
-                  ))}
-                )}>
+                  ))}>
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.6rem", flexWrap: "wrap", marginBottom: "0.4rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
