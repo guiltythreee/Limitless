@@ -74,8 +74,15 @@ const legacy = {
     { key: "ch01-q1", topicId: "ch01", choice: "A", correct: true },
     { key: "ch03-q4", topicId: "ch03", choice: "D", correct: true },
     { key: "ch03-q5", topicId: "ch03", choice: "", correct: false },
-  ], best);
+  ], best, {
+    runId: "mt201-atomic-assessment",
+    ts: 424243,
+    total: 2,
+    answered: 2,
+    correct: 2,
+  });
   eq(s.writes.length, 1, "an exam batch is one write");
+  eq(result.rewardLedger.length, 2, "assessment and first-pass reward share the exam batch write");
   eq(result.examBest, best, "exam best is returned with the batch");
   eq(result.activities.filter((a) => a.mode === "exam").length, 2, "only submitted exam answers are logged");
   ok(!result.activities.some((a) => a.q === "ch03-q5"), "blank question has no activity");
