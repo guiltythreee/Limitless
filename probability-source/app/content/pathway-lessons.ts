@@ -199,6 +199,11 @@ export const pathwayLessons: Lesson[] = [
         "Use Var(X+Y)=Var(X)+Var(Y)+2Cov(X,Y).",
         "Substitute 4 + 9 + 2(−2) = 9.",
         "Adding 4 and 9 alone would be correct only if covariance were zero."
+      ] },
+      { title: "Scaling a random variable", problem: "A random variable X has mean 5 and variance 4. Find the mean and variance of Y=3X−2.", steps: [
+        "Expectation transforms linearly: E[Y]=3E[X]−2=3(5)−2=13.",
+        "Adding or subtracting a constant does not change variance, while multiplying by 3 multiplies variance by 3².",
+        "Thus Var(Y)=9Var(X)=36. Variance has squared units, so the factor is 9 rather than 3."
       ] }
     ],
     quiz: [
@@ -256,6 +261,7 @@ export const pathwayLessons: Lesson[] = [
       "The CDF F(x)=P(X≤x) is the integral of the density up to x. Where differentiable, F′(x)=f(x); the CDF is defined even where a density is inconvenient.",
       "Expectation extends sums to integrals: E[g(X)]=∫g(x)f(x)dx. Do not confuse density height f(x) with P(X=x), which is zero for an absolutely continuous variable.",
       "For a monotone differentiable transformation Y=g(X), fY(y)=fX(g⁻¹(y))|d g⁻¹(y)/dy|. For non-monotone transformations, sum the contributions from every inverse branch.",
+      "A transformation can change the support and can create more than one inverse branch. For Y=g(X), add the density contributions from every solution x of g(x)=y, each weighted by 1/|g′(x)| where the derivative is nonzero. Always derive the transformed support before applying the formula."
       "Uniform, exponential, normal, gamma and beta distributions are a toolkit, not interchangeable formulas. Select a distribution by assumptions and support, then check units and normalization."
     ],
     formulas: [
@@ -274,6 +280,11 @@ export const pathwayLessons: Lesson[] = [
         "For 0≤y≤1, F_Y(y)=P(X²≤y)=P(X≤√y)=√y.",
         "Differentiate: f_Y(y)=1/(2√y) for 0<y<1.",
         "The density is large near zero but integrable: ∫₀¹1/(2√y)dy=1."
+      ] },
+      { title: "A non-monotone transformation", problem: "Let X be Uniform(−1,1) and Y=|X|. Find the density of Y.", steps: [
+        "The support of Y is [0,1]. For 0≤y≤1, F_Y(y)=P(−y≤X≤y).",
+        "The interval has length 2y inside a uniform interval of length 2, so F_Y(y)=y.",
+        "Differentiating gives f_Y(y)=1 on 0<y<1. Both inverse branches x=y and x=−y contribute to the density."
       ] }
     ],
     quiz: [
