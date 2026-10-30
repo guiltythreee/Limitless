@@ -234,6 +234,11 @@ export const pathwayLessons: Lesson[] = [
         "Use X ~ Poisson(λ=0.4).",
         "P(X=0)=e^(−0.4)·0.4⁰/0! = e^(−0.4).",
         "Numerically this is about 0.6703. The mean 0.4 is not itself the probability of a failure."
+      ] },
+      { title: "A geometric waiting time", problem: "A trial succeeds independently with probability 0.2. If T counts trials through the first success, find P(T>4) and P(T=5).", steps: [
+        "T>4 means the first four trials all fail, so P(T>4)=(0.8)⁴=0.4096.",
+        "T=5 means four failures followed by a success.",
+        "Therefore P(T=5)=(0.8)⁴(0.2)=0.08192. The geometric support starts at 1 under this convention."
       ] }
     ],
     quiz: [
