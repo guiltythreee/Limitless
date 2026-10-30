@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { lessons, pad2, type Difficulty } from "../content";
 import { Explanation, Rich } from "../lib/rich";
 import { allQuestions, correctSet, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
@@ -240,7 +240,16 @@ export function Options({ item, picked, onPick, reveal, disabled }: { item: Q["i
 }
 
 // ---------- one question, one stopwatch ----------
-function QuestionView({ q, queue, index, onGo, onBack, showTopic }: { q: Q; queue: string[]; index: number; onGo: (i: number) => void; onBack: () => void; showTopic: boolean }) {
+function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack, showTopic }: {
+  q: Q;
+  queue: string[];
+  index: number;
+  session: LearningPlayerSession<Q, ProbabilityPlayerAnswer>;
+  onSessionChange: Dispatch<SetStateAction<LearningPlayerSession<Q, ProbabilityPlayerAnswer>>>;
+  onGo: (i: number) => void;
+  onBack: () => void;
+  showTopic: boolean;
+}) {
   const store = useStore();
   const mine = store.attempts.filter((a) => a.q === q.key);
   const last: Attempt | undefined = mine[mine.length - 1];
@@ -284,10 +293,29 @@ function QuestionView({ q, queue, index, onGo, onBack, showTopic }: { q: Q; queu
   function choose(i: number) {
     if (phase !== "answering") return;
     const next = multi ? (picked.includes(i) ? picked.filter((p) => p !== i) : [...picked, i]) : [i];
-    setPicked(next); pickedRef.current = next; flush();
+    setPicked(next);
+    pickedRef.current = next;
+    if (next.length > 0) {
+      const answer: ProbabilityPlayerAnswer = multi
+        ? { kind: "multi-choice", optionIds: next.map(String) }
+        : { kind: "single-choice", optionId: String(next[0]) };
+      onSessionChange((current) => setPlayerAnswer(current, probabilityPlayerAdapter, answer));
+    }
+    flush();
   }
   function check() {
     pause();
+    const answer: ProbabilityPlayerAnswer = multi
+      ? { kind: "multi-choice", optionIds: picked.map(String) }
+      : { kind: "single-choice", optionId: String(picked[0]) };
+    const timed = tickPlayer(session, acc.current);
+    const answered = setPlayerAnswer(timed, probabilityPlayerAdapter, answer);
+    const result = submitPlayerAnswer(answered, probabilityPlayerAdapter, {
+      submittedAt: Date.now(),
+      mode: "practice",
+    });
+    if (!result.submission) return;
+    onSessionChange(() => result.session);
     phaseRef.current = "review";
     recordAttempt(q.key, picked, acc.current);
     setPhase("review");
@@ -300,6 +328,7 @@ function QuestionView({ q, queue, index, onGo, onBack, showTopic }: { q: Q; queu
   }
   function retry() {
     clearDraft(q.key);
+    onSessionChange((current) => selectPlayerQuestion(current, index));
     acc.current = 0; t0.current = null;
     setPicked([]); pickedRef.current = [];
     phaseRef.current = "answering"; setPhase("answering");
