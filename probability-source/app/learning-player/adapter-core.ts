@@ -1,6 +1,5 @@
 import type {
   LearningPlayerAdapter,
-  PlayerAnswer,
   PlayerGrade,
 } from "../../../shared/learning-player/contracts";
 
