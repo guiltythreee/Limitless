@@ -38,7 +38,7 @@ export default function Quiz({
   const pick = (label: string) => {
     const rec = stateFor(q.n);
     if (rec) return; // already recorded — locked
-    onProgress(recordAnswer(progress, qid(topicId, q.n), label, label === q.answer));
+    onProgress(recordAnswer(progress, qid(topicId, q.n), label, label === q.answer, "practice", q.difficulty));
   };
 
   const dots = useMemo(

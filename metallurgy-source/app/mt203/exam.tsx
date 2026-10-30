@@ -117,7 +117,7 @@ export default function Exam({
       const a = answers[i];
       if (!a) return;
       const ok = a === q.answer;
-      p = recordAnswer(p, q.id, a, ok, "exam", 0);
+      p = recordAnswer(p, q.id, a, ok, "exam", 0, q.difficulty);
       const r = awardAnswer(p, q.id, q.difficulty, ok);
       p = r.progress;
       xp += r.xp;
@@ -135,6 +135,7 @@ export default function Exam({
       label: scope === "all" ? "Whole course" : UNITS.find((u) => u.id === scope)?.title ?? scope,
       total: pool.length,
       correct: sc,
+      answered: Object.keys(answers).length,
       ms: 0,
       breakdown,
     });

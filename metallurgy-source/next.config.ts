@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 // "npm run dev" keeps working at http://localhost:3000 as before.
@@ -11,6 +12,8 @@ const nextConfig: NextConfig = {
   basePath,
   trailingSlash: true,
   images: { unoptimized: true },
+  // LSR-1 is shared from the repository root so the archive and Meta dashboard use identical policy.
+  turbopack: { root: path.resolve(process.cwd(), "..") },
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
 };
 

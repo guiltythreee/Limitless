@@ -8,6 +8,13 @@
 // or older saved payload can never crash the UI — bad fields are dropped.
 
 import type { Difficulty } from "../mt203/types";
+import { sanitiseRewardRecords, type RewardRecord } from "../../../shared/rewards.mjs";
+import {
+  appendLsrActivity,
+  announceLsrRewardWrite,
+  assessmentActivity,
+  questionActivity,
+} from "./lsr1-rewards";
 
 export type { Difficulty };
 
@@ -30,6 +37,8 @@ export type ExamRecord = {
   correct: number;
   ms: number;
   breakdown: Record<string, { done: number; right: number }>; // module id -> counts
+  /** Count of questions the learner actually answered; missing on legacy exam records. */
+  answered?: number;
 };
 
 export type Progress = {
@@ -42,6 +51,8 @@ export type Progress = {
   /** daily goal met flags, keyed by YYYY-MM-DD — drives the streak */
   days: Record<string, number>;
   goal: number;
+  /** Additive shared LSR-1 lifetime EXP ledger; legacy XP remains in awarded[]. */
+  rewardLedger: RewardRecord[];
 };
 
 const KEY = "mm-mt203-v1";
@@ -58,6 +69,7 @@ const EMPTY: Progress = {
   awarded: {},
   days: {},
   goal: DEFAULT_GOAL,
+  rewardLedger: [],
 };
 
 const isNum = (v: unknown): v is number => typeof v === "number" && isFinite(v);
@@ -110,6 +122,7 @@ function sanitise(raw: unknown): Progress {
     awarded,
     days,
     goal: isNum(p.goal) && p.goal > 0 ? Math.min(200, Math.round(p.goal)) : DEFAULT_GOAL,
+    rewardLedger: sanitiseRewardRecords(p.rewardLedger),
   };
 }
 
@@ -124,20 +137,28 @@ export function loadProgress(): Progress {
   }
 }
 
-export function saveProgress(p: Progress) {
+export function saveProgress(p: Progress, notifyMeta = false) {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(p));
+    if (notifyMeta) announceLsrRewardWrite();
   } catch {
     /* storage unavailable or full — progress just will not persist */
   }
 }
 
 export function resetProgress() {
-  try {
-    window.localStorage.removeItem(KEY);
-  } catch {
-    /* ignore */
-  }
+  const saved = loadProgress();
+  saveProgress({
+    ...EMPTY,
+    attempts: [],
+    theoryRead: [],
+    exams: [],
+    best: null,
+    awarded: {},
+    days: {},
+    goal: DEFAULT_GOAL,
+    rewardLedger: saved.rewardLedger,
+  });
 }
 
 /** Latest attempt per question id (last write wins). */
@@ -158,16 +179,23 @@ export function recordAnswer(
   picked: string,
   correct: boolean,
   mode: Mode = "practice",
-  ms = 0
+  ms = 0,
+  difficulty = 1,
 ): Progress {
   const now = Date.now();
   const day = dayKey(now);
-  const next: Progress = {
+  let next: Progress = {
     ...p,
     attempts: [...p.attempts, { q: qid, picked, correct, mode, ms, ts: now }].slice(-MAX_ATTEMPTS),
     days: { ...p.days, [day]: (p.days[day] ?? 0) + 1 },
   };
-  saveProgress(next);
+  if (mode !== "exam") {
+    const input = questionActivity("metallurgy-mt203", qid, now, correct, p.attempts.length, difficulty);
+    next = appendLsrActivity(next, input).progress;
+    saveProgress(next, true);
+  } else {
+    saveProgress(next);
+  }
   return next;
 }
 
@@ -187,11 +215,20 @@ export function markTheoryRead(p: Progress, key: string): Progress {
 }
 
 export function recordExam(p: Progress, rec: ExamRecord): Progress {
-  const next: Progress = { ...p, exams: [rec, ...p.exams].slice(0, 50) };
+  let next: Progress = { ...p, exams: [rec, ...p.exams].slice(0, 50) };
   if (!p.best || rec.correct / Math.max(1, rec.total) > p.best.score / Math.max(1, p.best.total)) {
     next.best = { score: rec.correct, total: rec.total, at: rec.ts };
   }
-  saveProgress(next);
+  const activity = assessmentActivity("metallurgy-mt203", {
+    runId: rec.id,
+    ts: rec.ts,
+    total: rec.total,
+    answered: typeof rec.answered === "number" ? rec.answered : 0,
+    correct: rec.correct,
+  });
+  if (activity) next = appendLsrActivity(next, activity).progress;
+  // The exam record, best result and single LSR-1 assessment share one write.
+  saveProgress(next, Boolean(activity));
   return next;
 }
 
