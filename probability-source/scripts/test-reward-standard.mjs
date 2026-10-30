@@ -25,6 +25,7 @@ import {
   nextRewardForLevel,
   unlockedRewardsForLevel,
   readGlobalRewardSummary,
+  REWARD_SOURCE_REGISTRY,
   sanitiseRewardRecords,
   summariseRewards,
 } from "../../shared/rewards.mjs";
@@ -291,6 +292,41 @@ assert.deepEqual(global.registeredModules.map((module) => module.moduleId), [
   "probability", "math-trainer", "bookkeys",
   "metallurgy-mt201", "metallurgy-mt202", "metallurgy-mt203", "personal-projects",
 ], "the registry lists only modules actually integrated with LSR-1");
+
+// Cross-discipline integration: all seven independent storage roots must
+// contribute to one total, one global level, and one universal unlock catalogue.
+const crossModuleValues = new Map();
+const crossModuleStorage = {
+  getItem(key) { return crossModuleValues.get(key) ?? null; },
+  setItem(key, value) { crossModuleValues.set(key, String(value)); },
+};
+for (const [index, source] of REWARD_SOURCE_REGISTRY.entries()) {
+  const record = calculateReward({
+    eventId: "cross-module:" + source.moduleId,
+    moduleId: source.moduleId,
+    itemId: "verified-major-completion:" + source.moduleId,
+    ts: ts + index,
+    activityClass: "major-completion",
+    difficulty: "advanced",
+    completionEvidence: "cross-module-integration-fixture",
+    completed: true,
+    quality: 0,
+  }, []);
+  crossModuleStorage.setItem(source.storageKey, JSON.stringify({ rewardLedger: [record] }));
+}
+const crossModuleSummary = readGlobalRewardSummary(crossModuleStorage);
+assert.equal(crossModuleSummary.totalExp, 7 * 150,
+  "all seven discipline ledgers contribute to one global EXP total");
+assert.equal(crossModuleSummary.awardCount, 7);
+assert.deepEqual(crossModuleSummary.sources.map((source) => source.moduleId).sort(),
+  REWARD_SOURCE_REGISTRY.map((source) => source.moduleId).sort(),
+  "each registered discipline appears in the combined source breakdown");
+assert.equal(crossModuleSummary.level.level, 7,
+  "EXP earned in separate disciplines combines when calculating global level");
+assert.ok(crossModuleSummary.unlockedRewards.some((reward) => reward.id === "scholars-mark"),
+  "a cross-discipline total unlocks the shared level-five emblem");
+assert.equal(crossModuleSummary.nextReward.level, 10,
+  "the next unlock is calculated from the combined global level");
 
 // Bespoke projects must be registered in advance with immutable criteria/value,
 // then completed once into the same authoritative module reward ledger.
