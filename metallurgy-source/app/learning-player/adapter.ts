@@ -16,7 +16,7 @@ export function createMetallurgyPlayerAdapter(
   return {
     courseId,
     questionId: (question) => question.id,
-    canRetry: () => false,
+    canRetry: () => courseId === "mt203",
     grade(question, answer) {
       const correct = answer.optionId === question.answer;
       return {
