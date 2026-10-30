@@ -185,7 +185,7 @@ for (const { id, block } of sequence08Lessons) {
 }
 // Sequence 07 and 06 retain their legacy IDs while requiring complete teaching material.
 const legacyBayesSource = read("app/content/legacy.ts");
-for (const id of ["conditional", "bayes", "random-variables", "distributions"]) {
+for (const id of ["conditional", "bayes", "random-variables", "distributions", "limit-theorems"]) {
   const lessonStart = legacyBayesSource.indexOf('id: "' + id + '"');
   const lessonEnd = legacyBayesSource.indexOf("\n  },", lessonStart);
   const block = legacyBayesSource.slice(lessonStart, lessonEnd);
@@ -298,6 +298,31 @@ for (const source of sequence03Files) {
   }
 }
 if (sequence03Count !== 6) throw new Error("Expected all six expanded Sequence 03 lessons.");
+// Sequence 02 checks limit laws, concentration, Borel–Cantelli and inference foundations.
+const sequence02Files = [
+  read("app/content/pathway-lessons.ts"),
+  read("app/content/pathway-lessons-advanced.ts"),
+];
+const sequence02Ids = new Set([
+  "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
+  "likelihood-estimation", "confidence-hypothesis-tests",
+]);
+let sequence02Count = 0;
+for (const source of sequence02Files) {
+  const starts = [...source.matchAll(/\n  \{\n    id: "([^"]+)", rank: \d+/g)];
+  for (let i = 0; i < starts.length; i++) {
+    const id = starts[i][1];
+    if (!sequence02Ids.has(id)) continue;
+    sequence02Count++;
+    const block = source.slice(starts[i].index, i + 1 < starts.length ? starts[i + 1].index : source.length);
+    const examples = [...block.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length;
+    const questions = [...block.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)];
+    if (examples < 3 || questions.length !== 3) {
+      throw new Error("Sequence 02 lesson " + id + " needs three worked examples and three graded questions.");
+    }
+  }
+}
+if (sequence02Count !== 5) throw new Error("Expected all five expanded Sequence 02 lessons.");
 const geometricSource = read("app/content/chapter1-theory.ts");
 const geometricStart = geometricSource.indexOf("export const geometricProbability");
 const geometricEnd = geometricSource.indexOf("export const borelCantelli", geometricStart);
