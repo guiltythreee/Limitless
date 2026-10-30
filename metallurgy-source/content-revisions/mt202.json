@@ -7978,7 +7978,8 @@
             "text": "a single linear stage"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The FCC single-crystal work-hardening curve has three stages in order: Stage I easy glide on a single slip system; Stage II multiple slip with approximately linear hardening; and Stage III dynamic recovery with a parabolic, flattening response. **(b)** is correct. The other options give the wrong sequence or omit stages."
       },
       "sourceFingerprint": "b8accdd9"
     },
@@ -8057,7 +8058,8 @@
             "text": "not work harden at all"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Finer grains raise the starting flow stress through Hall–Petch strengthening and generally increase the initial work-hardening rate because grain boundaries promote pile-ups and additional obstacles. **(c)** is correct. Options (a), (b), and (d) state the opposite or deny work hardening."
       },
       "sourceFingerprint": "662e7d87"
     },
@@ -8113,7 +8115,8 @@
             "text": "σ = Kεⁿ, where n is the strain-hardening exponent (0 for perfectly plastic, up to ~0.5 for highly hardenable metals)"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The empirical strain-hardening relation is σ = Kεⁿ, so **(d)** is correct. Option (a) is the Hall–Petch relation, (b) is Hooke's law, and (c) is Schmid's law. Keep the three relations distinct: grain-size strengthening, elastic response, and resolved shear stress are different phenomena."
       },
       "sourceFingerprint": "890ebc3a"
     },
@@ -8141,7 +8144,8 @@
             "text": "σ_y = σ₀ + k_y d^(−1/2)"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The Hall–Petch relation is σ_y = σ₀ + k_y d^(−1/2), so **(d)** is correct. Option (a) has the wrong sign of the exponent; (b) is not the Hall–Petch form; and (c) is the strain-hardening power law σ = Kεⁿ."
       },
       "sourceFingerprint": "a4de8c13"
     },
@@ -8169,7 +8173,8 @@
             "text": "the strain-hardening exponent"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The Hall–Petch coefficient k_y is the locking parameter: it measures how effectively grain boundaries impede slip transmission and is the slope in a plot of σ_y against d^(−1/2). **(b)** is correct. Option (a) is σ₀, the friction stress; (c) is grain diameter d; and (d) is the strain-hardening exponent n."
       },
       "sourceFingerprint": "61a98842"
     },
@@ -8197,7 +8202,8 @@
             "text": "the diffusion coefficient"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "In the Hall–Petch relation, d is the average grain diameter. **(b)** is correct. Option (a) is dislocation density ρ; (c) is Burgers-vector magnitude b; and (d) is diffusion coefficient D."
       },
       "sourceFingerprint": "0a80541e"
     },
@@ -8344,7 +8350,8 @@
             "text": "1/√2"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Halving d changes d^(−1/2) by a factor of √2, because (d/2)^(−1/2) = √2 d^(−1/2). **(c)** is correct. Option (a) is the factor for 1/d; (b) is the factor for 1/d²; and (d) corresponds to doubling d."
       },
       "sourceFingerprint": "5266114b"
     },
@@ -8646,7 +8653,8 @@
             "text": "semi-coherent → coherent → GP zones → incoherent"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "As ageing proceeds, precipitates evolve from fully coherent GP zones to coherent precipitates, then semi-coherent particles with misfit dislocations, and finally incoherent particles. **(c)** gives the correct order. Options (a), (b), and (d) put the stages in the wrong sequence."
       },
       "sourceFingerprint": "587ad65a"
     },
@@ -8674,7 +8682,8 @@
             "text": "strength rising through the underaged regime, peaking at optimal precipitate size and spacing, then falling in the overaged regime"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The strength-versus-ageing-time curve rises during underageing, reaches a maximum at peak ageing, and falls during overageing as precipitates coarsen and spacing increases. **(d)** describes this rise–peak–decline sequence. The other options omit the peak or give a monotonic trend."
       },
       "sourceFingerprint": "df77ca93"
     },
@@ -8736,6 +8745,16 @@
     },
     {
       "chapter": "ch07",
+      "n": 35,
+      "originalType": "C",
+      "sourceText": "",
+      "sourceFingerprint": "f5cf2afe",
+      "updates": {
+        "detailed": "The upper yield point is the extra stress required to free a dislocation from its Cottrell atmosphere or to activate fresh unpinned dislocations. **(d)** is correct. Options (a), (b), and (c) do not describe this unlocking mechanism."
+      }
+    },
+    {
+      "chapter": "ch07",
       "n": 36,
       "originalType": "G",
       "sourceText": "The classic teaching example of precipitation hardening is the Al–Cu system (2xxx \"duralumin\"), in which the strengthening phase is:",
@@ -8758,7 +8777,8 @@
             "text": "α-ferrite"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "In Al–Cu duralumin, the principal peak-strengthening precipitate is θ′, reached through the sequence GP zones → θ″ → θ′ → θ. **(b)** is correct. Cementite Fe₃C belongs to steel; martensite is a diffusionless transformation product; and α-ferrite is a matrix phase."
       },
       "sourceFingerprint": "2a316372"
     },
@@ -8786,7 +8806,8 @@
             "text": "150–190 °C"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Artificial ageing of Al–Cu duralumin is commonly carried out around 150–190 °C, so **(d)** is correct. Option (b), 20–50 °C, describes natural ageing near room temperature; (a) is the solution-treatment range; and (c) is far too high."
       },
       "sourceFingerprint": "c7cddd3f"
     },
@@ -8924,7 +8945,8 @@
             "text": "ρ is measured on a plane, so the volume density is ρ^(3/2) and the stress follows that"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The mean spacing between forest dislocations scales as L ≈ ρ^(−1/2). The stress required to bow a dislocation between obstacles scales as Gb/L, giving Δσ ∝ Gb√ρ. **(c)** is correct. Options (a), (b), and (d) do not give this spacing-based derivation."
       },
       "sourceFingerprint": "29973857"
     },
@@ -8952,7 +8974,8 @@
             "text": "400 MPa"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Using τ ≈ Gb/λ: Gb = 40 × 10⁹ × 0.25 × 10⁻⁹ = 10 Pa·m, and λ = 50 × 10⁻⁹ m. Thus τ = 10/(50 × 10⁻⁹) = 2 × 10⁸ Pa = 200 MPa. **(b)** is correct. Options (a), (c), and (d) correspond to different spacings."
       },
       "sourceFingerprint": "196439a1"
     },
@@ -8980,7 +9003,8 @@
             "text": "1, 2, 3 and 4"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Stage II is the high, nearly constant hardening-rate region produced by multiple slip, dislocation multiplication, tangles and pile-ups on intersecting systems. **(a)** is correct. Option (b) describes Stage I easy glide; (c) describes Stage III dynamic recovery; and (d) is not the Stage II response."
       },
       "sourceFingerprint": "cae5a6e4"
     },
@@ -9092,7 +9116,8 @@
             "text": "the magnetic free energy of the domain structure"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Recrystallisation is driven primarily by the stored strain energy of dislocations introduced during cold work. New strain-free grains consume this stored energy as they nucleate and grow. **(c)** is correct. Grain-boundary energy is the main driving force for subsequent grain growth, not recrystallisation."
       },
       "sourceFingerprint": "80a0199c"
     },
@@ -9120,7 +9145,8 @@
             "text": "the particles lower the Hall–Petch slope k_y, so coarsened grains still appear strong"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Fine second-phase particles exert a Zener pinning pressure on grain boundaries. Grain growth stalls when the boundary's driving pressure falls below the particle pinning pressure. **(b)** is correct. The particles retard boundary motion; they do not raise matrix stored energy or change the Hall–Petch slope."
       },
       "sourceFingerprint": "b9e28f65"
     },
@@ -9148,7 +9174,8 @@
             "text": "make cross-slip difficult, keep slip planar, delay dynamic recovery and raise the work-hardening rate"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Lower stacking-fault energy separates Shockley partials more widely, making constriction and cross-slip more difficult. Slip remains planar, dynamic recovery is delayed, and the work-hardening rate increases. **(d)** is correct. Option (a) reverses the cross-slip effect; (b) overstates twinning; and (c) incorrectly claims dislocation motion stops."
       },
       "sourceFingerprint": "199965ec"
     },
