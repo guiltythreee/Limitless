@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { lessons, pathways, ranks, pad2, type Difficulty } from "../content";
 import { Rich } from "../lib/rich";
 import { allQuestions, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
-import { recordAttempt, recordTest, useStore, type TestRecord } from "../lib/store";
+import { recordTestWithAttempts, useStore, type TestRecord } from "../lib/store";
 import { fmtTime } from "../lib/stats";
 import { Options } from "./Practice";
 import {
@@ -178,6 +178,7 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
     let working = session;
     let correct = 0, score = 0, answered = 0;
     const results: TestRecord["results"] = [];
+    const submitted: { q: string; picked: number[]; ms: number }[] = [];
     for (let index = 0; index < pool.length; index++) {
       const question = pool[index];
       const picked = picks[question.key] ?? [];
@@ -194,7 +195,7 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
           continue;
         }
         working = result.session;
-        recordAttempt(question.key, picked, ms);
+        submitted.push({ q: question.key, picked, ms });
         const grade = result.submission.grade;
         answered++;
         score += grade.score;
@@ -205,7 +206,7 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
       }
     }
     const rec: TestRecord = { id: `t${Date.now()}`, ts: Date.now(), label, total: pool.length, answered, correct, score, ms: Date.now() - startedAt.current, results };
-    recordTest(rec);
+    recordTestWithAttempts(rec, submitted);
     setSession(working);
     setDone(rec);
   }
