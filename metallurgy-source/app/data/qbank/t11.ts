@@ -1,6 +1,7 @@
 import type { TopicSource } from "../../mt203/types";
 
 /**
+ * Answer-position sequence regression: see scripts/test-answer-key-sequence.mjs.
  * MT203 — Topic 11: Compounding & Processing
  * Source: Module 4. 26 questions.
  */
