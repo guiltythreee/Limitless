@@ -7,6 +7,8 @@ on:
       - "metallurgy-source/app/learning-player/**"
       - "metallurgy-source/app/mt201/quiz.tsx"
       - "probability-source/app/learning-player/**"
+      - "metallurgy-source/next.config.ts"
+      - "probability-source/next.config.ts"
       - ".github/workflows/test-p6-learning-player-contracts.yml"
   workflow_dispatch:
 
