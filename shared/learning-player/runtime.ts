@@ -51,6 +51,23 @@ export function setPlayerAnswer<
 }
 
 /** Grades through the course adapter; the shared runtime never calculates scores. */
+/** Remove an unsent selection when a course supports toggling every option off. */
+export function clearPlayerAnswer<
+  TQuestion,
+  TAnswer extends PlayerAnswer,
+>(
+  session: LearningPlayerSession<TQuestion, TAnswer>,
+  adapter: Pick<LearningPlayerAdapter<TQuestion, TAnswer>, "questionId">,
+): LearningPlayerSession<TQuestion, TAnswer> {
+  const question = currentQuestion(session);
+  if (!question || session.state.phase !== "answering") return session;
+  const id = adapter.questionId(question);
+  if (!(id in session.answers)) return session;
+  const answers = { ...session.answers };
+  delete answers[id];
+  return { ...session, answers };
+}
+
 export function submitPlayerAnswer<
   TQuestion,
   TAnswer extends PlayerAnswer,
