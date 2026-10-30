@@ -103,15 +103,16 @@ function checkLedgerOnly(actual, expected, label) {
   assert.deepEqual(p.rewardLedger, []);
   assert.equal(store.getItem("mm-mt202-v1"), before, "MT202 load must not rewrite legacy data");
 
-  const practiced = MT202.recordAnswer(p, "ch02-q3", "D", false, "practice", 2);
+  const practiced = MT202.recordAnswer(p, "ch02-q3", "D", false, "practice", 2, 0);
   checkLedgerOnly(practiced.rewardLedger, 1, "MT202 practice logs a submitted answer");
   assert.equal(practiced.rewardLedger[0].moduleId, "metallurgy-mt202");
+  assert.equal(practiced.rewardLedger[0].difficulty, "intermediate");
   assert.equal(practiced.rewardLedger[0].baseExp, 5, "wrong answers use the shared micro-practice base");
   assert.equal(practiced.rewardLedger[0].qualityBonus, 0, "wrong answers get no quality bonus");
   assert.equal(practiced.answered["ch01-q1"].correct, false);
   assert.equal(JSON.parse(store.getItem("mm-mt202-v1")).legacyExtension, "keep");
 
-  const examAnswer = MT202.recordAnswer(practiced, "ch09-q1", "A", true, "exam", 4);
+  const examAnswer = MT202.recordAnswer(practiced, "ch09-q1", "A", true, "exam", 4, 0);
   checkLedgerOnly(examAnswer.rewardLedger, 1, "MT202 exam question does not also pay per-answer LSR-1 EXP");
   const partial = MT202.recordExamAssessment(examAnswer, {
     runId: "mt202-exam-partial", ts: 1700000003500, total: 10, answered: 5, correct: 4,
