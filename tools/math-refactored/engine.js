@@ -158,7 +158,7 @@
     do {
       a = nd(r, p.da); b = nd(r, p.db); n++;
     } while (n < 100 && ((a % 10 === 0 && b % 10 === 0) || (p.da > 1 && a % 100 === 0) || (p.db > 1 && b % 100 === 0)));
-    var diff = 0.5 * Math.max(p.da, p.db) + 0.4 * countCarries(a, b) + 0.2 * Math.min(p.da, p.db);
+    var diff = 0.5 * Math.max(p.da, p.db) + 0.4 * countCarries(a, b) + 0.2 * Math.min(p.da, p.db) + (p.bonus || 0);
     return Q('Addition', a + ' + ' + b, a + '+' + b, rat(a + b), diff);
   };
 
@@ -168,7 +168,7 @@
       a = nd(r, p.da); b = nd(r, p.db); n++;
       if (a < b) { var t = a; a = b; b = t; }
     } while (n < 100 && (a === b || (a % 10 === 0 && b % 10 === 0)));
-    var diff = 0.55 * Math.max(p.da, p.db) + 0.4 * countBorrows(a, b) + 0.2 * Math.min(p.da, p.db);
+    var diff = 0.55 * Math.max(p.da, p.db) + 0.4 * countBorrows(a, b) + 0.2 * Math.min(p.da, p.db) + (p.bonus || 0);
     return Q('Subtraction', a + ' ' + MINUS + ' ' + b, a + '-' + b, rat(a - b), diff);
   };
 
@@ -208,6 +208,17 @@
     }
   };
 
+  G.divRem = function (r, p) {
+    for (var i = 0; i < 500; i++) {
+      var a = r.int(p.alo, p.ahi), d = r.int(p.dlo, p.dhi);
+      var rem = a % d;
+      if (rem === 0) continue;
+      var diff = 0.5 * digits(a) + 0.2 * digits(d) + 0.4 + (p.bonus || 0);
+      return Q('Division', 'Remainder: ' + a + ' ' + DIVIDE + ' ' + d, a + '%' + d, rat(rem), diff);
+    }
+    throw new Error('divRem: could not generate');
+  };
+
   /* decimal add/subtract: ia/ib = digits of the whole numbers, dpa/dpb = decimal places */
   G.decAdd = function (r, p) {
     for (var i = 0; ; i++) {
@@ -222,12 +233,12 @@
         a = rat(A, Math.pow(10, dpa)); b = rat(B, Math.pow(10, dpb));
         ans = rSub(a, b);
         var sa = fmtScaled(A, dpa), sb = fmtScaled(B, dpb);
-        return Q('Decimals', sa + ' ' + MINUS + ' ' + sb, sa + '-' + sb, ans, 0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb));
+        return Q('Decimals', sa + ' ' + MINUS + ' ' + sb, sa + '-' + sb, ans, 0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb) + (p.bonus || 0));
       }
       if (ans.n === 0) continue;
       var s1 = fmtScaled(A, p.dpa), s2 = fmtScaled(B, p.dpb);
       return Q('Decimals', s1 + ' ' + (plus ? '+' : MINUS) + ' ' + s2, s1 + (plus ? '+' : '-') + s2, ans,
-        0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb));
+        0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb) + (p.bonus || 0));
     }
   };
 
@@ -289,7 +300,7 @@
       var N = step * r.int(lo, hi);
       var easy = [5, 10, 20, 25, 50].indexOf(pct) >= 0;
       /* Non-friendly percentages need more mental work; decimal percentages add a further step. */
-      var diff = 1.6 + (p10 % 10 !== 0 ? 0.9 : 0) + 0.45 * digits(N) + 0.5 * dp + (!easy ? 1.0 : 0) + (dp > 0 ? 1.5 : 0) - (easy ? 0.9 : 0);
+      var diff = 1.6 + (p10 % 10 !== 0 ? 0.9 : 0) + 0.45 * digits(N) + 0.5 * dp + (!easy ? 1.0 : 0) + (dp > 0 ? 1.5 : 0) - (easy ? 0.9 : 0) + (p.bonus || 0);
       return Q('Percentages', pct + '% of ' + N, pct + '/100*' + N, rat(N * p10, 1000), diff);
     }
     throw new Error('pctOf: could not generate');
@@ -304,7 +315,7 @@
       var lo = Math.ceil(p.lo / step), hi = Math.floor(p.hi / step);
       if (hi < lo) continue;
       var old = step * r.int(lo, hi), nw = old * factor / 1000;
-      var diff = 4.5 + (p10 % 10 !== 0 ? 1.2 : 0) + 0.7 * digits(old);
+      var diff = 4.5 + (p10 % 10 !== 0 ? 1.2 : 0) + 0.7 * digits(old) + (p.bonus || 0);
       return Q('Percentages', old + ' → ' + nw + '  (% change)', '(' + nw + '-' + old + ')/' + old + '*100',
         rat(up ? p10 : -p10, 10), diff);
     }
@@ -319,7 +330,7 @@
       if (hi < lo) continue;
       var B = step * r.int(lo, hi), A = B * p10 / 1000;
       if (A === B || A < 1) continue;
-      var diff = 4.5 + (p10 % 10 !== 0 ? 0.8 : 0) + 0.4 * digits(B);
+      var diff = 4.5 + (p10 % 10 !== 0 ? 0.8 : 0) + 0.4 * digits(B) + (p.bonus || 0);
       return Q('Percentages', A + ' is what % of ' + B + '?', A + '/' + B + '*100', rat(p10, 10), diff);
     }
     throw new Error('pctWhat: could not generate');
@@ -336,11 +347,37 @@
       if (!plus && a * d < c * b) { var t = a; a = c; c = t; t = b; b = d; d = t; }
       var ans = plus ? rAdd(rat(a, b), rat(c, d)) : rSub(rat(a, b), rat(c, d));
       if (ans.n === 0) continue;
-      var diff = 3 + Math.log(lcm(b, d)) / Math.LN2;
+      var diff = 3 + Math.log(lcm(b, d)) / Math.LN2 + (p.bonus || 0);
       return Q('Fractions', a + '/' + b + ' ' + (plus ? '+' : MINUS) + ' ' + c + '/' + d,
         a + '/' + b + (plus ? '+' : '-') + c + '/' + d, ans, diff);
     }
     throw new Error('fracAdd: could not generate');
+  };
+
+  G.fracMul = function (r, p) {
+    for (var i = 0; i < 500; i++) {
+      var b = r.pick(p.dens), d = r.pick(p.dens);
+      var a = r.int(1, b - 1), c = r.int(1, d - 1);
+      if (gcd(a, b) !== 1 || gcd(c, d) !== 1) continue;
+      var ans = rat(a * c, b * d);
+      var diff = 1.5 + 0.5 * Math.log(b * d) / Math.LN2 + (p.bonus || 0);
+      return Q('Fractions', a + '/' + b + ' ' + TIMES + ' ' + c + '/' + d,
+        a + '/' + b + '*' + c + '/' + d, ans, diff);
+    }
+    throw new Error('fracMul: could not generate');
+  };
+
+  G.fracDiv = function (r, p) {
+    for (var i = 0; i < 500; i++) {
+      var b = r.pick(p.dens), d = r.pick(p.dens);
+      var a = r.int(1, b - 1), c = r.int(1, d - 1);
+      if (gcd(a, b) !== 1 || gcd(c, d) !== 1) continue;
+      var ans = rat(a * d, b * c);
+      var diff = 1.5 + 0.5 * Math.log(b * d) / Math.LN2 + (p.bonus || 0);
+      return Q('Fractions', a + '/' + b + ' ' + DIVIDE + ' ' + c + '/' + d,
+        a + '/' + b + '/(' + c + '/' + d + ')', ans, diff);
+    }
+    throw new Error('fracDiv: could not generate');
   };
 
   G.fracOfInt = function (r, p) {
@@ -819,6 +856,8 @@
       recipes: [
         ['add', 3, { da: 2, db: 2 }], ['sub', 3, { da: 2, db: 2 }],
         ['table', 2, { lo: 3, hi: 12 }], ['div', 2, { dq: 1, dd: 1 }],
+        ['divRem', 1, { alo: 10, ahi: 99, dlo: 2, dhi: 9, bonus: 0.4 }],
+        ['pctOf', 1, { set: EASY_PCT, lo: 20, hi: 100, dp: 0 }],
         ['square', 1, { lo: 2, hi: 15 }], ['mul', 1, { da: 2, db: 1, shortcut: 'any' }]
       ] },
     { id: 'scribe', name: 'Scribe', label: 'Easy+', emblem: '✶', accuracy: 0.95,
@@ -826,8 +865,13 @@
       recipes: [
         ['add', 2, { da: 3, db: 2 }], ['sub', 2, { da: 3, db: 2 }], ['add', 1, { da: 3, db: 3 }],
         ['mul', 3, { da: 2, db: 1, shortcut: 'any' }], ['div', 2, { dq: 2, dd: 1 }],
+        ['divRem', 1, { alo: 10, ahi: 99, dlo: 2, dhi: 9, bonus: 0.8 }],
+        ['fracAdd', 1, { dens: [2, 3, 4, 5], bonus: -3 }],
+        ['fracMul', 1, { dens: [2, 3, 4, 5, 8] }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 8] }],
         ['decAdd', 2, { ia: 1, ib: 1, dpa: 1, dpb: 1 }], ['decMul', 1, { da: 1, dpa: 1, db: 1, dpb: 0 }],
         ['square', 1, { lo: 11, hi: 25 }], ['pctOf', 1, { set: EASY_PCT, lo: 40, hi: 400, dp: 0 }],
+        ['pctChange', 1, { set: [5, 10, 20, 25], lo: 20, hi: 200, decrease: true, bonus: -2.5 }],
+        ['pctWhat', 1, { set: [10, 20, 25, 50], lo: 20, hi: 200, bonus: -1.5 }],
         ['proportion', 1, { amax: 8 }], ['mean', 1, { nlo: 3, nhi: 3, lo: 3, hi: 20, spread: 4 }]
       ] },
     { id: 'adept', name: 'Adept', label: 'Medium', emblem: '❂', accuracy: 0.95,
@@ -838,9 +882,14 @@
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 6, hi: 25, zlo: 10, zhi: 99 }],
         ['neg', 1, { ops1: ['+', '-'], ops2: ['+', '-'], lo: 20, hi: 99, zlo: 20, zhi: 99 }],
         ['pctOf', 2, { set: MID_PCT, lo: 80, hi: 900, dp: 0 }],
+        ['pctChange', 1, { set: [5, 10, 20, 25], lo: 40, hi: 400, decrease: true, bonus: -1.5 }],
+        ['pctWhat', 1, { set: MID_PCT, lo: 80, hi: 900, bonus: 0.5 }],
         ['decMul', 2, { da: 2, dpa: 1, db: 2, dpb: 1 }],
         ['decAdd', 1, { ia: 2, ib: 1, dpa: 2, dpb: 1 }],
-        ['div', 1, { dq: 2, dd: 2 }], ['square', 1, { lo: 16, hi: 30 }],
+        ['div', 1, { dq: 2, dd: 2 }], ['divRem', 1, { alo: 100, ahi: 999, dlo: 10, dhi: 99, bonus: 1.8 }],
+        ['fracAdd', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: -1.5 }],
+        ['fracMul', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }],
+        ['square', 1, { lo: 16, hi: 30 }],
         ['fracToDec', 1, { dens: [4, 5, 8, 16, 20, 25] }],
         ['proportion', 1, { amax: 12 }], ['mean', 1, { lo: 20, hi: 90, spread: 12 }],
         ['fracOfInt', 1, { dens: [3, 4, 5, 6, 8, 12], lo: 60, hi: 960 }]
@@ -849,11 +898,15 @@
       blurb: 'Three-digit products, brackets, fractions, percentage change.',
       recipes: [
         ['mul', 3, { da: 3, db: 2, shortcut: 'any' }],
+        ['add', 1, { da: 4, db: 3, bonus: 2.5 }], ['sub', 1, { da: 4, db: 3, bonus: 2.5 }], ['div', 1, { dq: 3, dd: 2 }], ['divRem', 1, { alo: 1000, ahi: 9999, dlo: 10, dhi: 99, bonus: 2.8 }],
+        ['decAdd', 1, { ia: 2, ib: 2, dpa: 2, dpb: 1, bonus: 1.5 }],
         ['chain', 1, { kind: 'A' }], ['chain', 1, { kind: 'B' }], ['chain', 1, { kind: 'D' }],
         ['decMul', 2, { da: 3, dpa: 1, db: 2, dpb: 1 }], ['decDiv', 1, { dq: 2, dpq: 0, dd: 2, dpd: 1 }],
         ['fracAdd', 2, { dens: [3, 4, 5, 6, 8, 9, 10, 12] }],
+        ['fracMul', 1, { dens: [3, 4, 5, 6, 8, 10, 12], bonus: 2.5 }], ['fracDiv', 1, { dens: [3, 4, 5, 6, 8, 10, 12], bonus: 2.5 }],
         ['pctChange', 2, { set: [10, 15, 20, 25, 30, 35, 40, 12.5], lo: 40, hi: 800, decrease: true }],
         ['pctWhat', 1, { set: [15, 35, 45, 62.5, 12.5, 85, 24, 36], lo: 40, hi: 800 }],
+        ['pctOf', 1, { set: MID_PCT, lo: 100, hi: 1500, dp: 0, bonus: 2.5 }],
         ['cube', 1, { lo: 8, hi: 20 }], ['sqrtPerfect', 1, { lo: 25, hi: 55 }], ['cbrtPerfect', 1, { lo: 8, hi: 20 }],
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 12, hi: 60, zlo: 20, zhi: 199 }],
         ['fracToDec', 1, { dens: [32, 64, 80, 125, 128, 160] }],
@@ -865,13 +918,17 @@
       blurb: 'Estimation, powers, awkward fractions, decimal chains.',
       recipes: [
         ['mul', 2, { da: 3, db: 3, shortcut: 'any' }], ['mul', 1, { da: 4, db: 2, shortcut: 'any' }],
+        ['add', 1, { da: 5, db: 4, bonus: 3.5 }], ['sub', 1, { da: 5, db: 4, bonus: 3.5 }], ['div', 1, { dq: 4, dd: 2 }], ['divRem', 1, { alo: 10000, ahi: 99999, dlo: 10, dhi: 99, bonus: 3.8 }],
+        ['decAdd', 1, { ia: 3, ib: 2, dpa: 2, dpb: 2, bonus: 2.5 }],
         ['chain', 2, { kind: 'C' }], ['chain', 1, { kind: 'E' }],
         ['fracAdd', 2, { dens: [7, 9, 11, 12, 14, 15, 18] }],
+        ['fracMul', 1, { dens: [7, 9, 11, 12, 14, 15, 18], bonus: 4 }], ['fracDiv', 1, { dens: [7, 9, 11, 12, 14, 15, 18], bonus: 4 }],
         ['pow', 1, { bases: [2], elo: 10, ehi: 16, klo: 1, khi: 9 }],
         ['est', 1, { kind: 'mul', alo: 31, ahi: 99, dpa: 1, blo: 201, bhi: 999, dpb: 1 }],
         ['est', 1, { kind: 'div', nlo: 2000, nhi: 99999, dlo: 13, dhi: 98 }],
         ['pctChange', 2, { set: [12.5, 17.5, 22.5, 27.5, 32.5, 7.5, 37.5], lo: 80, hi: 1600, decrease: true }],
         ['pctOf', 1, { set: HARD_PCT, lo: 200, hi: 4000, dp: 1 }],
+        ['pctWhat', 1, { set: HARD_PCT, lo: 200, hi: 4000, bonus: 2.5 }],
         ['sqrtApprox', 1, { lo: 20, hi: 500 }],
         ['square', 1, { lo: 55, hi: 125, five: true }], ['mul', 1, { near100: true }],
         ['decDiv', 1, { dq: 2, dpq: 1, dd: 2, dpd: 1 }],
@@ -883,12 +940,17 @@
       blurb: 'Brutal products, double products, hard estimation.',
       recipes: [
         ['mul', 2, { da: 4, db: 3, shortcut: 'any' }], ['mul', 2, { da: 5, db: 2, shortcut: 'any' }],
+        ['add', 1, { da: 6, db: 5, bonus: 5 }], ['sub', 1, { da: 6, db: 5, bonus: 5 }], ['div', 1, { dq: 5, dd: 3 }], ['divRem', 1, { alo: 100000, ahi: 999999, dlo: 100, dhi: 999, bonus: 5 }],
+        ['decAdd', 1, { ia: 4, ib: 3, dpa: 2, dpb: 2, bonus: 3.5 }],
         ['chain', 2, { kind: 'E' }], ['chain', 2, { kind: 'F' }], ['chain', 1, { kind: 'C' }],
         ['decMul', 2, { da: 3, dpa: 2, db: 3, dpb: 1 }],
         ['est', 2, { kind: 'mul', alo: 301, ahi: 999, dpa: 2, blo: 301, bhi: 999, dpb: 1 }],
         ['est', 1, { kind: 'div', nlo: 20000, nhi: 999999, dlo: 113, dhi: 987 }],
         ['fracAdd', 1, { dens: [11, 13, 14, 15, 16, 18, 21] }],
-        ['pctChange', 1, { set: [17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5], lo: 400, hi: 8000, decrease: true }],
+        ['fracMul', 1, { dens: [11, 13, 14, 15, 16, 18, 21], bonus: 6 }], ['fracDiv', 1, { dens: [11, 13, 14, 15, 16, 18, 21], bonus: 6 }],
+        ['pctChange', 1, { set: [17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5], lo: 400, hi: 8000, decrease: true, bonus: 2 }],
+        ['pctOf', 1, { set: HARD_PCT, lo: 1000, hi: 9000, dp: 1, bonus: 3.5 }],
+        ['pctWhat', 1, { set: HARD_PCT, lo: 1000, hi: 9000, bonus: 4 }],
         ['sqrtApprox', 1, { lo: 500, hi: 9999 }],
         ['pow', 1, { bases: [3, 6, 7, 12], elo: 4, ehi: 8, klo: 3, khi: 9 }],
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 21, hi: 99, zlo: 100, zhi: 999 }],
@@ -975,10 +1037,10 @@
      SKILLS, DRILLS, DECKS, TRICKS — what the trainer uses on top of tiers
      ================================================================== */
   var RECIPE_SKILL = {
-    add: 'Addition', sub: 'Subtraction', table: 'Multiplication', mul: 'Multiplication', div: 'Division',
+    add: 'Addition', sub: 'Subtraction', table: 'Multiplication', mul: 'Multiplication', div: 'Division', divRem: 'Division',
     decAdd: 'Decimals', decMul: 'Decimals', decDiv: 'Decimals', neg: 'Negatives',
     pctOf: 'Percentages', pctChange: 'Percentages', pctWhat: 'Percentages',
-    fracAdd: 'Fractions', fracOfInt: 'Fractions', fracToDec: 'Fractions',
+    fracAdd: 'Fractions', fracMul: 'Fractions', fracDiv: 'Fractions', fracOfInt: 'Fractions', fracToDec: 'Fractions',
     square: 'Squares & roots', cube: 'Squares & roots', sqrtPerfect: 'Squares & roots', cbrtPerfect: 'Squares & roots', sqrtApprox: 'Squares & roots',
     pow: 'Powers', est: 'Estimation', proportion: 'Ratios', mean: 'Averages', chain: 'Mixed operations',
     probDice: 'Probability', probCoin: 'Probability', probBag: 'Probability',
