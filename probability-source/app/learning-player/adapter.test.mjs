@@ -57,4 +57,4 @@ assert.deepEqual(probabilityPlayerAdapter.grade(realMulti, {
   kind: "multi-choice", optionIds: ["1", "2", "0"],
 }), { correct: false, score: 0.5, status: "partial" });
 
-console.log("Probability player adapter: 13 assertions passed");
+console.log("Probability player adapter: 15 assertions passed");
