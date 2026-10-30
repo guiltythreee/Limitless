@@ -39,7 +39,7 @@ export const pathways: Pathway[] = [
       "conditional-independence", "total-probability", "bayes", "bayesian-inference", "likelihood-estimation", "confidence-hypothesis-tests", "random-variables",
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
-      "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
+      "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "bayesian-computation",
       "geometric-probability", "continuity", "borel-cantelli"
     ]
   },
@@ -55,7 +55,7 @@ export const pathways: Pathway[] = [
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
-      "continuity", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "renewal-queueing", "reliability-hazards", "monte-carlo", "martingales", "mcmc"
+      "continuity", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "renewal-queueing", "reliability-hazards", "monte-carlo", "martingales", "mcmc", "bayesian-computation"
     ]
   },
   {
@@ -82,7 +82,7 @@ export const pathways: Pathway[] = [
       "sample-space", "counting", "random-permutations", "conditional", "bayes", "bayesian-inference", "random-variables",
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
-      "monte-carlo", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "mcmc"
+      "monte-carlo", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "mcmc", "bayesian-computation"
     ]
   }
 ];
