@@ -300,7 +300,7 @@ function render() {
   if (!summary.recentAwards.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No EXP awards yet. Submit a Probability answer, finish an eligible Math Trainer session, type a verified Bookkeys page, or practise in Metallurgy MT201–MT203.";
+    empty.textContent = "No EXP awards yet. Submit a Probability answer, finish an eligible Math Trainer session, type a verified Bookkeys page, practise in Metallurgy MT201–MT203, or complete a registered personal project.";
     recent.append(empty);
   } else {
     for (const award of summary.recentAwards) {
