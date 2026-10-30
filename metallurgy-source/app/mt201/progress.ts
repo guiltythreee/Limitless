@@ -194,6 +194,11 @@ export function recordAnswer(
   const ms = typeof modeOrMs === "number" ? modeOrMs : elapsedMs;
   const now = Date.now();
   const fresh = p.answered[key] === undefined;
+  const alreadyRewarded = (p.rewardLedger ?? []).some((record) =>
+    record.moduleId === "metallurgy-mt201" &&
+    record.itemId === "question:" + key &&
+    record.totalExp > 0
+  );
   const next: Progress = {
     ...p,
     answered: { ...p.answered, [key]: { choice, correct, at: now } },
@@ -208,7 +213,7 @@ export function recordAnswer(
   const goalSnapshot = withDailyGoalSnapshot(next, now);
   let root: Progress = { ...goalSnapshot, activities: logFor(p).load() };
   let notifyMeta = false;
-  if (fresh && mode === "practice") {
+  if (fresh && !alreadyRewarded && mode === "practice") {
     const reward = appendLsrActivity(root, {
       ...questionActivity("metallurgy-mt201", key, now, correct),
       difficulty: difficultyTier(actualDifficulty),
