@@ -174,9 +174,13 @@ export function recordAnswer(
   choice: string,
   correct: boolean,
   mode: LsrActivityMode = "practice",
-  difficulty = 1,
-  ms = 0
+  difficultyOrMs = 0,
+  elapsedMs?: number
 ): Progress {
+  // Six-argument P5 callers pass elapsed ms; the LSR-1 quiz passes both
+  // difficulty and elapsed ms as the seventh argument.
+  const difficulty = elapsedMs === undefined ? 1 : difficultyOrMs;
+  const ms = elapsedMs === undefined ? difficultyOrMs : elapsedMs;
   const now = Date.now();
   const fresh = p.answered[key] === undefined;
   const next: Progress = {
