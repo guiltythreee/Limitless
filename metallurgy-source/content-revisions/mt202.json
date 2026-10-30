@@ -10368,7 +10368,8 @@
             "text": "liquidus"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The liquidus is the boundary separating the liquid + solid field from the single-phase liquid field. **(d)** is correct. Option (a) is the solidus, (b) is the solvus, and (c) is an invariant reaction rather than the liquidus boundary."
       },
       "sourceFingerprint": "2ca24f33"
     },
@@ -10424,7 +10425,8 @@
             "text": "0.25"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The Schmid factor is m = cos φ cos λ = cos60° × cos60° = 0.5 × 0.5 = 0.25. **(d)** is correct. Option (a), 0.50, is the maximum at 45°/45°; (b) is too large because m cannot exceed 0.5; and (c) is the value near 70°/70°."
       },
       "sourceFingerprint": "4c0afb2a"
     },
@@ -10517,7 +10519,8 @@
             "text": "hard, brittle martensite"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Rimming action produces a relatively pure, blowhole-containing outer rim, a segregated core, and little or no shrinkage pipe because CO evolution compensates for shrinkage. **(c)** is correct. Option (a) incorrectly calls the ingot defect-free; (b) describes a shrinkage pipe; and (d) is unrelated martensite."
       },
       "sourceFingerprint": "a8956ee2"
     },
@@ -10573,7 +10576,8 @@
             "text": "a beneficial grain-refining treatment"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Burning is genuine grain-boundary melting after the local effective (cored) solidus is crossed. It is permanent and unrecoverable. **(c)** is correct. Option (a) describes recoverable overheating; (b) is surface oxidation; and (d) is not a beneficial treatment."
       },
       "sourceFingerprint": "8f29c5c5"
     },
@@ -10629,7 +10633,8 @@
             "text": "a/2⟨111⟩ with |b| = (√3/2) a"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The shortest perfect-dislocation translation in BCC is a/2⟨111⟩, with magnitude (√3/2)a. **(d)** is correct. Option (a) is the FCC a/2⟨110⟩ vector; (b) is a simple-cubic translation; and (c) is a Shockley partial vector."
       },
       "sourceFingerprint": "20efed3e"
     },
@@ -10657,7 +10662,8 @@
             "text": "340,000 sites"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "A vacancy fraction of 2.9 × 10⁻⁵ corresponds to one vacant site in approximately 1/(2.9 × 10⁻⁵) ≈ 34,000 sites. **(a)** is correct. The other options correspond to vacancy fractions one or more orders of magnitude different."
       },
       "sourceFingerprint": "e9d2f00d"
     },
@@ -10713,7 +10719,8 @@
             "text": "130 °C"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Recalescence brings the temperature back to within approximately 0.13 °C of the true freezing point. **(b)** is correct. Option (a) is 13 °C, (c) is 1.3 °C, and (d) is 130 °C."
       },
       "sourceFingerprint": "5bc8fa75"
     },
@@ -10769,7 +10776,8 @@
             "text": "a single crystal"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "At high pouring temperature in a metal (chill) mould, columnar crystals can grow almost to the centre. **(c)** is correct. A fine equiaxed structure is favoured by lower pouring temperature; an amorphous structure requires much higher cooling rates; and a single crystal requires seeded growth."
       },
       "sourceFingerprint": "4bca63c4"
     },
@@ -10825,7 +10833,8 @@
             "text": "size difference below 1% only"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Complete substitutional solid solubility is favoured when the atomic-size difference is below about 15%. **(b)** is correct. A difference above 50% is far outside the usual limit; size is not irrelevant; and a 1% limit is unnecessarily strict."
       },
       "sourceFingerprint": "58f297fe"
     },
@@ -10853,7 +10862,8 @@
             "text": "complex cubic (γ)"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "An electron compound with e/a = 3:2 adopts the BCC β structure. **(b)** is correct. The 21:13 ratio corresponds to complex cubic γ, and 7:4 corresponds to HCP ε; FCC is not the 3:2 electron-compound structure."
       },
       "sourceFingerprint": "e57c8523"
     },
@@ -10937,7 +10947,9 @@
             "text": "a grain boundary"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "text": "The FCC dissociation a/2[10̄1] → a/6[2 1̄ 1̄] + a/6[11 2̄] produces two Shockley partial dislocations separated by:",
+        "detailed": "The perfect FCC dislocation a/2[10̄1] dissociates into two Shockley partials:\n```\n(a/2)[10̄1] → (a/6)[2 1̄ 1̄] + (a/6)[11 2̄]\n```\nComponent-wise, [2, −1, −1] + [1, 1, −2] = [3, 0, −3], so the partials sum to (a/2)[1, 0, −1], exactly the parent Burgers vector. The two partials enclose a ribbon of stacking fault, where the FCC ABCABC… sequence is locally disrupted into ABAB… stacking. **(b)** is correct. This vector form also matches the corrected dissociation in Chapter 5."
       },
       "sourceFingerprint": "ecd94864"
     },
@@ -10993,7 +11005,8 @@
             "text": "a stacking-fault ribbon"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "A Cottrell atmosphere is a cluster of interstitial solute atoms, especially C or N, in the tensile region below the extra half-plane of an edge dislocation. The solutes pin the dislocation. **(c)** is correct. Option (a) is a vacancy cloud; (b) is a grain-boundary precipitate; and (d) is a stacking-fault ribbon."
       },
       "sourceFingerprint": "db783a6b"
     },
@@ -11383,7 +11396,8 @@
             "text": "Metallic — a shared cloud of delocalised valence electrons — the bond is non-directional, giving both high electrical conductivity and ductility"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Metallic bonding consists of delocalised valence electrons shared across the metal. Its non-directional character helps explain both high electrical conductivity and ductility. **(d)** is correct. Option (a) misdescribes diamond's coordination and conductivity; (b) incorrectly calls ionic crystals ductile; and (c) confuses strong in-plane covalent bonding in graphite with weak interlayer van der Waals bonding."
       },
       "sourceFingerprint": "84477a17"
     },
@@ -11439,7 +11453,8 @@
             "text": "The solidus is 590 °C, where the last of the liquid is consumed"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "The liquid fraction remains 1.00 at 700 °C and 690 °C, then first falls at 680 °C, so the liquidus lies between 690 °C and 680 °C. At 577 °C the final 0.15 liquid undergoes the eutectic reaction, leaving 0.85 primary α plus 0.15 eutectic. **(a)** is correct. This is a hypoeutectic alloy, not a eutectic-composition alloy."
       },
       "sourceFingerprint": "7da17bf4"
     },
@@ -11551,7 +11566,8 @@
             "text": "Cu (0.128 nm) and Ni (0.124 nm) differ by about 3% in size, have the same valence and similar electronegativities, and are both FCC, so they form a continuous solid solution"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Cu and Ni satisfy the Hume–Rothery criteria: both are FCC, their atomic-size mismatch is about 3%, and their valence and chemical character are similar. They form a continuous solid solution. **(d)** is correct. Option (a) misclassifies carbon in iron as substitutional; (b) fails the size criterion; and (c) fails the same-crystal-structure criterion."
       },
       "sourceFingerprint": "81a04d0e"
     },
@@ -11579,7 +11595,8 @@
             "text": "An alloy just off the eutectic composition — one constant freezing temperature — no primary phase forms before the invariant reaction"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "An alloy at the eutectic composition undergoes one isothermal invariant reaction: all remaining liquid transforms at the eutectic temperature into a fine, uniform two-phase eutectic structure. **(b)** is correct. Option (a) describes a pure metal, (c) incorrectly gives the eutectic alloy a freezing range and primary dendrites, and (d) describes neither the off-eutectic path nor the primary-phase formation correctly."
       },
       "sourceFingerprint": "2242ef92"
     },
