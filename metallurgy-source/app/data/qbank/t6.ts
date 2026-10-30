@@ -23,12 +23,12 @@ const T6: TopicSource = {
       diff: 1,
       text: "The glass-transition temperature Tg is the temperature at which:",
       options: [
-        { label: "a", text: "Covalent cross-links first form in amorphous regions, making the polymer brittle before the glass transition." },
-        { label: "b", text: "Amorphous regions change from glassy and brittle to rubbery or leathery as segmental motion becomes possible." },
-        { label: "c", text: "The backbone decomposes and releases volatile fragments, creating the mechanical change that defines Tg." },
+        { label: "a", text: "Amorphous regions change from glassy and brittle to rubbery or leathery as segmental motion becomes possible." },
+        { label: "b", text: "The backbone decomposes and releases volatile fragments, creating the mechanical change that defines Tg." },
+        { label: "c", text: "Covalent cross-links first form in amorphous regions, making the polymer brittle before the glass transition." },
         { label: "d", text: "Crystalline regions melt and lose long-range order at the temperature that defines the glass transition." }
       ],
-      answer: "b",
+      answer: "a",
       why: "**Tg** marks the onset of large-scale segmental motion in the amorphous phase: below Tg the chain segments are frozen (glass), above Tg they move (rubber). It involves no latent heat — a second-order-like transition.",
       distractors: {
         d: "Crystalline regions melt at **Tm**, which is always higher than Tg.",
@@ -41,15 +41,15 @@ const T6: TopicSource = {
       diff: 2,
       text: "Which statement correctly contrasts Tg and Tm?",
       options: [
-        { label: "a", text: "Tm is first-order with latent heat as crystals melt; Tg is a rate-dependent transition in amorphous regions." },
-        { label: "b", text: "Both Tg and Tm release latent heat because each marks a first-order change in the polymer's crystal structure." },
+        { label: "a", text: "Both Tg and Tm release latent heat because each marks a first-order change in the polymer's crystal structure." },
+        { label: "b", text: "Tm is first-order with latent heat as crystals melt; Tg is a rate-dependent transition in amorphous regions." },
         { label: "c", text: "Tg is first-order melting of amorphous regions, whereas Tm is a second-order change in chain mobility." },
         { label: "d", text: "Tg occurs only in semicrystalline polymers because the crystalline fraction drives the glass transition." }
       ],
-      answer: "a",
+      answer: "b",
       why: "Melting is **thermodynamic** (sharp, latent heat $\\Delta H_m$, only in semi-crystalline polymers). Glass transition is **kinetic** (a step in Cp, depends on cooling/heating rate, exists in all amorphous material).",
       distractors: {
-        b: "Tg shows a step in heat capacity, not an endotherm.",
+        a: "Tg shows a step in heat capacity, not an endotherm.",
       },
       concept: "Tm: endotherm · Tg: Cp step",
       tags: ["confused"],
@@ -60,12 +60,12 @@ const T6: TopicSource = {
       diff: 3,
       text: "Which change would raise a polymer's Tg?",
       options: [
-        { label: "a", text: "Bulky side groups or stronger intermolecular attractions restrict segmental motion, raising Tg." },
+        { label: "a", text: "Adding a plasticizer raises Tg by shielding chain segments and reducing intermolecular separation." },
         { label: "b", text: "Lower molecular weight usually raises Tg because shorter chains have fewer ends and pack more efficiently." },
-        { label: "c", text: "Increasing free volume raises Tg by making each local segment require more thermal energy to move." },
-        { label: "d", text: "Adding a plasticizer raises Tg by shielding chain segments and reducing intermolecular separation." }
+        { label: "c", text: "Bulky side groups or stronger intermolecular attractions restrict segmental motion, raising Tg." },
+        { label: "d", text: "Increasing free volume raises Tg by making each local segment require more thermal energy to move." }
       ],
-      answer: "a",
+      answer: "c",
       why: "Anything that **restricts segmental motion** raises Tg: bulky/stiff backbones, polar groups, H-bonding, cross-linking and higher MW. Plasticizers and free volume *lower* Tg.",
       concept: "Tg ↑ with chain stiffness, forces, cross-linking, MW",
       tags: ["revision"],
@@ -76,15 +76,15 @@ const T6: TopicSource = {
       diff: 3,
       text: "Using the Fox equation, the Tg of a 50/50 (wt) blend of polymer A (Tg = 100 °C = 373 K) and polymer B (Tg = 200 °C = 473 K) is:",
       options: [
-        { label: "a", text: "144 °C" },
-        { label: "b", text: "150 °C" },
-        { label: "c", text: "100 °C" },
-        { label: "d", text: "123 °C" }
+        { label: "a", text: "123 °C" },
+        { label: "b", text: "144 °C" },
+        { label: "c", text: "150 °C" },
+        { label: "d", text: "100 °C" }
       ],
-      answer: "a",
+      answer: "b",
       why: "$\\dfrac{1}{T_g} = \\dfrac{w_A}{T_{gA}} + \\dfrac{w_B}{T_{gB}} = \\dfrac{0.5}{373} + \\dfrac{0.5}{473} = 0.001340 + 0.001057 = 0.002398$ → $T_g = 417$ K $= \\mathbf{144}$ °C.",
       distractors: {
-        b: "150 °C is the simple arithmetic mean — the Fox equation is harmonic, so the result is lower.",
+        c: "150 °C is the simple arithmetic mean — the Fox equation is harmonic, so the result is lower.",
       },
       concept: "$1/T_g = \\sum w_i/T_{gi}$ (Fox)",
       tags: ["numeric", "formula"],
@@ -95,16 +95,16 @@ const T6: TopicSource = {
       diff: 4,
       text: "By the Fox–Flory relation $T_g = T_g^\\infty - K/M_n$, with $T_g^\\infty = 373$ K and $K = 1.0\\times10^{5}$ K·g/mol, find Tg for $M_n = 10{,}000$ g/mol.",
       options: [
-        { label: "a", text: "90 °C" },
-        { label: "b", text: "87 °C" },
-        { label: "c", text: "100 °C" },
-        { label: "d", text: "98 °C" }
+        { label: "a", text: "87 °C" },
+        { label: "b", text: "100 °C" },
+        { label: "c", text: "98 °C" },
+        { label: "d", text: "90 °C" }
       ],
-      answer: "a",
+      answer: "d",
       why: "$T_g = 373 - \\dfrac{1.0\\times10^5}{10{,}000} = 373 - 10 = 363$ K $= \\mathbf{90}$ °C.",
       distractors: {
-        c: "100 °C is the $\\infty$-MW limit; finite chains always have a lower Tg.",
-        d: "98 °C corresponds to $M_n = 50{,}000$.",
+        b: "100 °C is the $\\infty$-MW limit; finite chains always have a lower Tg.",
+        c: "98 °C corresponds to $M_n = 50{,}000$.",
       },
       concept: "$T_g = T_g^\\infty - K/M_n$ (free volume from chain ends)",
       tags: ["numeric", "formula"],
@@ -115,12 +115,12 @@ const T6: TopicSource = {
       diff: 1,
       text: "Which polymer has the lowest Tg?",
       options: [
-        { label: "a", text: "Poly(vinyl chloride) (~80 °C)" },
-        { label: "b", text: "Polystyrene (~100 °C)" },
-        { label: "c", text: "Polyethylene (~ −120 °C)" },
-        { label: "d", text: "Poly(methyl methacrylate) (~105 °C)" }
+        { label: "a", text: "Polyethylene (~ −120 °C)" },
+        { label: "b", text: "Poly(methyl methacrylate) (~105 °C)" },
+        { label: "c", text: "Poly(vinyl chloride) (~80 °C)" },
+        { label: "d", text: "Polystyrene (~100 °C)" }
       ],
-      answer: "c",
+      answer: "a",
       why: "**Polyethylene** has the most flexible backbone (no side groups, only C–C and C–H) → Tg ≈ −120 °C. Bulky side groups (phenyl, methyl, Cl) raise Tg.",
       tags: ["revision"],
     },
@@ -130,15 +130,15 @@ const T6: TopicSource = {
       diff: 2,
       text: "How does a plasticizer lower a polymer's Tg?",
       options: [
-        { label: "a", text: "It raises the melting point, which prevents segmental motion but leaves the material flexible at room temperature." },
-        { label: "b", text: "It adds covalent cross-links between chains, increasing mobility and lowering the glass-transition temperature." },
-        { label: "c", text: "Small molecules separate chains and add free volume, allowing segmental motion to occur at a lower temperature." },
-        { label: "d", text: "It increases crystallinity, which loosens chain packing and reduces intermolecular constraints in the amorphous phase." }
+        { label: "a", text: "Small molecules separate chains and add free volume, allowing segmental motion to occur at a lower temperature." },
+        { label: "b", text: "It increases crystallinity, which loosens chain packing and reduces intermolecular constraints in the amorphous phase." },
+        { label: "c", text: "It adds covalent cross-links between chains, increasing mobility and lowering the glass-transition temperature." },
+        { label: "d", text: "It raises the melting point, which prevents segmental motion but leaves the material flexible at room temperature." }
       ],
-      answer: "c",
+      answer: "a",
       why: "Plasticizer molecules **shield inter-chain attractions and add free volume**, so segments move at lower temperature → Tg and HDT fall and flexibility rises (the PVC ↔ plasticized-PVC contrast).",
       distractors: {
-        d: "Plasticizers usually *lower* crystallinity too.",
+        b: "Plasticizers usually *lower* crystallinity too.",
       },
       concept: "free volume ↑ → Tg ↓",
       tags: ["revision"],
@@ -156,11 +156,11 @@ const T6: TopicSource = {
       ],
       options: [
         { label: "a", text: "1-ii, 2-i, 3-iv, 4-iii" },
-        { label: "b", text: "1-i, 2-ii, 3-iii, 4-iv" },
+        { label: "b", text: "1-i, 2-ii, 3-iv, 4-iii" },
         { label: "c", text: "1-iii, 2-iv, 3-i, 4-ii" },
-        { label: "d", text: "1-i, 2-ii, 3-iv, 4-iii" }
+        { label: "d", text: "1-i, 2-ii, 3-iii, 4-iv" }
       ],
-      answer: "b",
+      answer: "d",
       why: "E′ = elastic/in-phase, E″ = viscous/out-of-phase, tan δ = E″/E′ = damping, and the **tan-δ maximum defines Tg** by DMA.",
       tags: ["revision"],
     },
@@ -170,10 +170,10 @@ const T6: TopicSource = {
       diff: 3,
       text: "A DSC heating curve of a semi-crystalline sample shows a step at 60 °C, a small exotherm at 120 °C and a large endotherm at 250 °C. Identify the events.",
       options: [
-        { label: "a", text: "All three are melting events" },
+        { label: "a", text: "Tm at 60 °C, Tg at 120 °C, decomposition at 250 °C" },
         { label: "b", text: "Tg at 60 °C, cold crystallization at 120 °C, Tm at 250 °C" },
-        { label: "c", text: "Tg at 60 °C, Tm at 120 °C, degradation at 250 °C" },
-        { label: "d", text: "Tm at 60 °C, Tg at 120 °C, decomposition at 250 °C" }
+        { label: "c", text: "All three are melting events" },
+        { label: "d", text: "Tg at 60 °C, Tm at 120 °C, degradation at 250 °C" }
       ],
       answer: "b",
       why: "Step (change in Cp) = **Tg**; exotherm = **cold crystallization** of amorphous chains that gained mobility; large endotherm = **Tm** of the crystallites.",
@@ -192,8 +192,8 @@ const T6: TopicSource = {
         { num: 4, text: "Adding a plasticizer raises Tg." },
       ],
       options: [
-        { label: "a", text: "1 and 4 only" },
-        { label: "b", text: "4 only" },
+        { label: "a", text: "4 only" },
+        { label: "b", text: "1 and 4 only" },
         { label: "c", text: "1, 2 and 3 only" },
         { label: "d", text: "1, 2, 3 and 4" }
       ],
@@ -211,12 +211,12 @@ const T6: TopicSource = {
       assertion: "Cross-linking raises the glass-transition temperature of a polymer.",
       reason: "Covalent cross-links tie chains together and restrict the segmental motion that the glass transition requires.",
       options: [
-        { label: "a", text: "A is false, R is true" },
-        { label: "b", text: "A is true, R is false" },
-        { label: "c", text: "Both A and R are true, and R is the correct explanation of A" },
+        { label: "a", text: "A is true, R is false" },
+        { label: "b", text: "Both A and R are true, and R is the correct explanation of A" },
+        { label: "c", text: "A is false, R is true" },
         { label: "d", text: "Both A and R are true, but R is NOT the correct explanation of A" }
       ],
-      answer: "c",
+      answer: "b",
       why: "Cross-links reduce the number of conformations and **restrict segmental mobility**, so a higher temperature is needed to mobilize the chains — the direct cause of the Tg rise.",
       concept: "cross-link density ↑ → Tg ↑",
       tags: ["revision"],
@@ -228,15 +228,15 @@ const T6: TopicSource = {
       text: "A part must remain dimensionally stable under load at 90 °C. Which is the safest choice?",
       options: [
         { label: "a", text: "Choose a glass-fibre-reinforced semicrystalline grade with an HDT comfortably above 90 °C and low creep." },
-        { label: "b", text: "Use atactic polystyrene because its Tg near 100 °C guarantees toughness and dimensional stability under load." },
-        { label: "c", text: "Use unplasticized PVC because a Tg near 80 °C means it remains stiff and stable at a 90 °C service temperature." },
-        { label: "d", text: "Use plasticized PVC because plasticizer raises Tg and increases stiffness when the part is loaded above room temperature." }
+        { label: "b", text: "Use plasticized PVC because plasticizer raises Tg and increases stiffness when the part is loaded above room temperature." },
+        { label: "c", text: "Use atactic polystyrene because its Tg near 100 °C guarantees toughness and dimensional stability under load." },
+        { label: "d", text: "Use unplasticized PVC because a Tg near 80 °C means it remains stiff and stable at a 90 °C service temperature." }
       ],
       answer: "a",
       why: "Service temperature must sit well below the relevant transition. A **reinforced semi-crystalline** polymer retains modulus up to near its high Tm; its crystallites plus fibres bear load. Unplasticized PVC (Tg 80 °C) is above its glass transition at 90 °C → softens.",
       distractors: {
-        c: "At 90 °C unplasticized PVC is already past Tg → it creeps.",
-        d: "Plasticizer moves Tg well below 90 °C — worst choice.",
+        d: "At 90 °C unplasticized PVC is already past Tg → it creeps.",
+        b: "Plasticizer moves Tg well below 90 °C — worst choice.",
       },
       concept: "service T < Tg (amorphous) or < Tm (crystalline)",
       tags: ["revision"],
@@ -247,12 +247,12 @@ const T6: TopicSource = {
       diff: 3,
       text: "Why is the experimentally measured Tg of a polymer dependent on the cooling rate?",
       options: [
-        { label: "a", text: "Faster cooling leaves less time for segmental relaxation, so the measured glass-transition temperature typically shifts upward." },
-        { label: "b", text: "The polymer degrades as it cools, producing shorter chains that raise Tg regardless of the cooling rate." },
-        { label: "c", text: "Tg is rate-independent; apparent shifts arise solely from instrument calibration or specimen geometry." },
-        { label: "d", text: "The cooling rate shifts the melting point, which directly determines the measured glass-transition temperature." }
+        { label: "a", text: "Tg is rate-independent; apparent shifts arise solely from instrument calibration or specimen geometry." },
+        { label: "b", text: "The cooling rate shifts the melting point, which directly determines the measured glass-transition temperature." },
+        { label: "c", text: "Faster cooling leaves less time for segmental relaxation, so the measured glass-transition temperature typically shifts upward." },
+        { label: "d", text: "The polymer degrades as it cools, producing shorter chains that raise Tg regardless of the cooling rate." }
       ],
-      answer: "a",
+      answer: "c",
       why: "Unlike melting, the glass transition is **relaxation-limited**: at a faster cooling/heating rate the system is further from equilibrium, so Tg appears higher. DSC values are therefore quoted at a standard rate (e.g. 10 K/min).",
       concept: "Tg is rate-dependent; Tm is not",
       tags: ["confused"],
@@ -263,12 +263,12 @@ const T6: TopicSource = {
       diff: 2,
       text: "The heat-deflection temperature (HDT) of a plastic is:",
       options: [
-        { label: "a", text: "The melting temperature at which all crystalline regions disappear, regardless of load or specimen geometry." },
-        { label: "b", text: "The onset temperature of a specified percentage of mass loss during thermogravimetric analysis in inert gas." },
-        { label: "c", text: "The glass-transition temperature measured from the heat-capacity step of an amorphous polymer." },
-        { label: "d", text: "The temperature at which a standard specimen reaches a specified deflection under a stated bending load." }
+        { label: "a", text: "The onset temperature of a specified percentage of mass loss during thermogravimetric analysis in inert gas." },
+        { label: "b", text: "The glass-transition temperature measured from the heat-capacity step of an amorphous polymer." },
+        { label: "c", text: "The temperature at which a standard specimen reaches a specified deflection under a stated bending load." },
+        { label: "d", text: "The melting temperature at which all crystalline regions disappear, regardless of load or specimen geometry." }
       ],
-      answer: "d",
+      answer: "c",
       why: "**HDT** is a *stiffness* (mechanical) measure under load, not a thermodynamic transition — hence reinforcing or crystallizing a polymer raises HDT even if Tg is unchanged.",
       tags: ["revision"],
     },
@@ -293,9 +293,9 @@ const T6: TopicSource = {
       diff: 3,
       text: "A semi-crystalline polymer such as polypropylene can be used far above its Tg (−10 °C) up to near its Tm (~165 °C). Why?",
       options: [
-        { label: "a", text: "It has no amorphous phase, so segmental motion is impossible at all temperatures and the material never softens." },
-        { label: "b", text: "Its Tg is actually close to 165 °C, so service above −10 °C remains below the glass transition." },
-        { label: "c", text: "Polypropylene is a thermoset, and its permanent covalent network prevents melting or creep during service." },
+        { label: "a", text: "Polypropylene is a thermoset, and its permanent covalent network prevents melting or creep during service." },
+        { label: "b", text: "It has no amorphous phase, so segmental motion is impossible at all temperatures and the material never softens." },
+        { label: "c", text: "Its Tg is actually close to 165 °C, so service above −10 °C remains below the glass transition." },
         { label: "d", text: "Crystallites act as physical cross-links that hold shape above Tg until the crystalline phase approaches Tm." }
       ],
       answer: "d",
@@ -309,15 +309,15 @@ const T6: TopicSource = {
       diff: 3,
       text: "As a rough rule, $T_g \\approx \\tfrac{2}{3} T_m$ (both in kelvin). For a polymer with $T_m = 540$ K, the estimated Tg is about:",
       options: [
-        { label: "a", text: "540 K" },
-        { label: "b", text: "270 K" },
-        { label: "c", text: "360 K" },
-        { label: "d", text: "180 K" }
+        { label: "a", text: "360 K" },
+        { label: "b", text: "540 K" },
+        { label: "c", text: "180 K" },
+        { label: "d", text: "270 K" }
       ],
-      answer: "c",
+      answer: "a",
       why: "$T_g \\approx \\tfrac{2}{3}\\times540 = \\mathbf{360}$ K ($\\approx 87$ °C), which is a reasonable estimate for many polymers (PET: Tm 538 K, Tg ~ 342 K).",
       distractors: {
-        b: "270 K would use the ½ rule, a poorer fit for polar/aromatic chains.",
+        d: "270 K would use the ½ rule, a poorer fit for polar/aromatic chains.",
       },
       concept: "$T_g \\approx \\tfrac{1}{2}$–$\\tfrac{2}{3} T_m$ (rough rule; many exceptions)",
       tags: ["numeric"],
@@ -329,11 +329,11 @@ const T6: TopicSource = {
       text: "In free-volume theory, the glass transition occurs when the fractional free volume falls to about:",
       options: [
         { label: "a", text: "10%" },
-        { label: "b", text: "2.5%" },
+        { label: "b", text: "50%" },
         { label: "c", text: "0.01%" },
-        { label: "d", text: "50%" }
+        { label: "d", text: "2.5%" }
       ],
-      answer: "b",
+      answer: "d",
       why: "The **iso-free-volume** concept: all polymers reach Tg when their fractional free volume drops to a universal value of roughly **0.025** — the point where segmental motion effectively freezes out.",
       concept: "free-volume fraction at Tg ≈ 0.025 (WLF)",
       tags: ["revision"],
@@ -350,15 +350,15 @@ const T6: TopicSource = {
         { num: 4, text: "Tm is independent of crystal thickness and perfection." },
       ],
       options: [
-        { label: "a", text: "1, 2, 3 and 4" },
+        { label: "a", text: "2 and 4 only" },
         { label: "b", text: "1, 2 and 3 only" },
         { label: "c", text: "4 only" },
-        { label: "d", text: "2 and 4 only" }
+        { label: "d", text: "1, 2, 3 and 4" }
       ],
       answer: "b",
       why: "1–3 are correct. Item 4 is false — **thinner, more defective crystals melt lower** (nylon 6,6 ~ 265 °C vs branched PE ~ 105 °C reflects both regularity and lamellar thickness).",
       distractors: {
-        a: "Item 4 ignores crystal perfection, which sets the measured Tm.",
+        d: "Item 4 ignores crystal perfection, which sets the measured Tm.",
       },
       tags: ["confused"],
     },
@@ -388,12 +388,12 @@ const T6: TopicSource = {
       diff: 2,
       text: "A random copolymer has a single Tg intermediate between those of its two homopolymers because:",
       options: [
-        { label: "a", text: "The copolymer Tg is always the arithmetic mean of the two homopolymer Tgs, independent of composition or interactions." },
+        { label: "a", text: "Randomly linked units share one amorphous phase, giving one Tg typically between the two homopolymer values." },
         { label: "b", text: "Random incorporation of unlike repeat units necessarily raises crystallinity, which merges the two glass transitions." },
-        { label: "c", text: "The two homopolymer Tgs are added together to create one transition whose temperature depends only on chain length." },
-        { label: "d", text: "Randomly linked units share one amorphous phase, giving one Tg typically between the two homopolymer values." }
+        { label: "c", text: "The copolymer Tg is always the arithmetic mean of the two homopolymer Tgs, independent of composition or interactions." },
+        { label: "d", text: "The two homopolymer Tgs are added together to create one transition whose temperature depends only on chain length." }
       ],
-      answer: "d",
+      answer: "a",
       why: "In a **random** copolymer the two units share one chain, so there is one amorphous environment → **one Tg** between the homopolymer values. (A *block* or *immiscible blend* instead shows two Tgs — a key miscibility test.)",
       concept: "random copolymer: 1 Tg · immiscible blend: 2 Tgs",
       tags: ["confused"],
@@ -404,12 +404,12 @@ const T6: TopicSource = {
       diff: 4,
       text: "A clear PET bottle (Tg 69 °C, Tm 265 °C) must not distort in a 60 °C hot-fill process; a competitor uses hot-fill PET with higher crystallinity. The reasoning is:",
       options: [
-        { label: "a", text: "PET's glass transition is about 265 °C and its melting point is 69 °C, so the bottle is safely below Tg at 60 °C." },
-        { label: "b", text: "Higher crystallinity lowers heat-deflection temperature because crystal domains disrupt load transfer and soften the wall." },
-        { label: "c", text: "Hot filling chemically cross-links the PET wall, converting the bottle into a permanent thermoset." },
-        { label: "d", text: "Amorphous PET is close to Tg at 60 °C; heat-setting crystallizes the wall and raises stiffness/HDT." }
+        { label: "a", text: "Higher crystallinity lowers heat-deflection temperature because crystal domains disrupt load transfer and soften the wall." },
+        { label: "b", text: "Hot filling chemically cross-links the PET wall, converting the bottle into a permanent thermoset." },
+        { label: "c", text: "Amorphous PET is close to Tg at 60 °C; heat-setting crystallizes the wall and raises stiffness/HDT." },
+        { label: "d", text: "PET's glass transition is about 265 °C and its melting point is 69 °C, so the bottle is safely below Tg at 60 °C." }
       ],
-      answer: "d",
+      answer: "c",
       why: "Because Tg (69 °C) is close to the fill temperature, an **amorphous** bottle is dimensionally marginal. **Heat-setting** the preform develops crystallites that act as physical cross-links and raise the HDT, while keeping the bottle transparent (small crystallites).",
       concept: "crystallinity ⇒ higher HDT above Tg",
       tags: ["confused"],
