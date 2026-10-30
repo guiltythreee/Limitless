@@ -4663,7 +4663,10 @@
             "text": "$2.0$"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "text": "For FeO + CO → Fe + CO₂ at 1000 K, the equilibrium constant is K = p_CO₂/p_CO = 0.5. What is the minimum CO/CO₂ pressure ratio at the equilibrium threshold for reduction?",
+        "keyExplanation": "At equilibrium, K = p_CO₂/p_CO = 0.5, so p_CO/p_CO₂ = 1/K = 2.0. A ratio greater than 2.0 drives reduction in the forward direction; 2.0 is the threshold.",
+        "detailed": "$K=p_{CO_2}/p_{CO}=0.5$, so the equilibrium threshold is $p_{CO}/p_{CO_2}=1/K=2.0$. A more reducing gas has $p_{CO}/p_{CO_2}>2.0$ and drives FeO reduction forward. Thus option (d), 2.0, is the minimum equilibrium threshold."
       },
       "sourceFingerprint": "09565627"
     },
