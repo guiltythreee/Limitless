@@ -512,6 +512,11 @@ export const pathwayLessons: Lesson[] = [
         "Let T be the hitting time from state 1 and m=E[T].",
         "One step always occurs. With probability 1/2 absorption occurs; with probability 1/2 the chain returns to state 1 and expected remaining time is m.",
         "Thus m=1+(1/2)m, giving m=2 steps."
+      ] },
+      { title: "Two transient states", problem: "A chain starts in A. From A it moves to B with probability 1/4 and otherwise is absorbed; from B it moves to A with probability 1/2 and otherwise is absorbed. Find the expected time to absorption from A.", steps: [
+        "Let m_A and m_B be expected remaining steps. First-step equations are m_A=1+(1/4)m_B and m_B=1+(1/2)m_A.",
+        "Substitute the second equation into the first: m_A=1+(1/4)(1+(1/2)m_A).",
+        "Solving gives (7/8)m_A=5/4, hence m_A=10/7 steps."
       ] }
     ],
     quiz: [
@@ -546,6 +551,11 @@ export const pathwayLessons: Lesson[] = [
         "Superposition gives total rate 2+5=7 events per minute.",
         "Over 3 minutes, the mean count is 7·3=21.",
         "The total count is Poisson(21) under the independent homogeneous-process assumptions."
+      ] },
+      { title: "At least three arrivals", problem: "Events follow a Poisson process at rate 2 per minute. Find the probability of at least three arrivals in the next minute.", steps: [
+        "The one-minute count N has distribution Poisson(2).",
+        "Use the complement: P(N≥3)=1−P(N=0)−P(N=1)−P(N=2).",
+        "This equals 1−e⁻²(1+2+2)=1−5e⁻²≈0.3233."
       ] }
     ],
     quiz: [
