@@ -66,7 +66,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Standardization", text: "Z=(X−μ)/σ ∼ N(0,1)" }, { label: "Affine transform", text: "aX+b ∼ N(aμ+b,a²σ²)" }],
     examples: [
       { title: "A quality threshold", problem: "Measurements follow N(100,15²). Estimate the probability a measurement exceeds 130.", steps: ["Standardize: z=(130−100)/15=2.", "P(X>130)=1−Φ(2).", "Since Φ(2)≈0.97725, the upper tail is approximately 0.02275."] },
-      { title: "Difference of measurements", problem: "Independent variables have distributions N(10,4) and N(3,9), where the second parameter is variance. Find the distribution of X−Y.", steps: ["The mean difference is 10−3=7.", "Independence gives Var(X−Y)=4+9=13.", "Thus X−Y~N(7,13)."] }
+      { title: "Difference of measurements", problem: "Independent variables have distributions N(10,4) and N(3,9), where the second parameter is variance. Find the distribution of X−Y.", steps: ["The mean difference is 10−3=7.", "Independence gives Var(X−Y)=4+9=13.", "Thus X−Y~N(7,13)."] },
+      { title: "A central normal interval", problem: "A measurement is distributed as N(70,10²). Find P(60≤X≤85).", steps: [
+        "Standardize both endpoints: z₁=(60−70)/10=−1 and z₂=(85−70)/10=1.5.",
+        "The desired probability is Φ(1.5)−Φ(−1).",
+        "Using Φ(1.5)≈0.9332 and Φ(−1)≈0.1587 gives approximately 0.7745."
+      ] }
     ],
     quiz: [
       { question: "If X~N(50,10²), the standardized value at X=70 is", options: ["1", "2", "7", "20"], answer: 1, difficulty: "easy", explanation: "z=(70−50)/10=2." },
@@ -83,10 +88,19 @@ export const advancedPathwayLessons: Lesson[] = [
       "A Gamma variable with shape α and rate λ has mean α/λ and variance α/λ². Exponential is Gamma(1,λ); sums of independent exponentials with the same rate are gamma distributed.",
       "A Beta(α,β) variable lies on (0,1), has mean α/(α+β), and is useful for modelling uncertain probabilities. Gamma rate λ and scale θ=1/λ are different parameterizations."
     ],
-    formulas: [{ label: "Exponential survival and mean", text: "P(X>t)=e^(−λt), E[X]=1/λ" }, { label: "Gamma mean and variance", text: "E[X]=α/λ, Var(X)=α/λ²" }, { label: "Beta mean", text: "E[X]=α/(α+β)" }],
+    formulas: [
+      { label: "Exponential survival and mean", text: "P(X>t)=e^(−λt), E[X]=1/λ" },
+      { label: "Gamma mean and variance", text: "E[X]=α/λ, Var(X)=α/λ²" },
+      { label: "Beta mean and variance", text: "E[X]=α/(α+β), Var(X)=αβ/[(α+β)²(α+β+1)]" }
+    ],
     examples: [
       { title: "Exponential survival", problem: "A component lifetime is exponential with rate 2 per hour. Find the probability it lasts longer than 30 minutes.", steps: ["Convert 30 minutes to 0.5 hours.", "P(X>t)=e^(−λt)=e^(−2·0.5).", "The probability is e⁻¹≈0.3679."] },
-      { title: "A beta mean", problem: "Let P~Beta(2,3). Find E[P].", steps: ["Use E[P]=α/(α+β).", "Substitute α=2 and β=3.", "E[P]=2/5=0.4."] }
+      { title: "A beta mean", problem: "Let P~Beta(2,3). Find E[P].", steps: ["Use E[P]=α/(α+β).", "Substitute α=2 and β=3.", "E[P]=2/5=0.4."] },
+      { title: "A sum of exponential waiting times", problem: "Three independent waiting times are exponential with rate 2 per hour. Find the probability their total exceeds one hour.", steps: [
+        "The sum has a Gamma distribution with shape 3 and rate 2.",
+        "For an Erlang(shape 3, rate 2) variable, P(S>t)=e^(−2t)[1+2t+(2t)²/2].",
+        "At t=1 this is 5e⁻²≈0.6767. The rate is per hour, so t must be measured in hours."
+      ] }
     ],
     quiz: [
       { question: "An exponential variable has rate 4 per hour. Its mean waiting time is", options: ["4 hours", "1/4 hour", "1/16 hour", "2 hours"], answer: 1, difficulty: "easy", explanation: "The mean is 1/λ=1/4 hour, or 15 minutes." },
