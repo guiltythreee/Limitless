@@ -50,6 +50,7 @@ const rankChecks = [
   ["app/content/pathway-lessons.ts", "markov-chain-analysis", 1],
   ["app/content/pathway-lessons.ts", "poisson-processes", 1],
   ["app/content/pathway-lessons.ts", "martingales", 0],
+  ["app/content/pathway-lessons-advanced.ts", "bayesian-computation", 0],
   ["app/content/pathway-lessons.ts", "monte-carlo", 0],
 ];
 for (const [file, id, rank] of rankChecks) {
@@ -68,7 +69,7 @@ for (const [name, expected] of Object.entries({
   rank03Order: ["joint-distributions", "conditional-expectation", "joint-transformations", "sums-convolution", "generating-functions", "order-statistics"],
   rank01Order: ["markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "reliability-hazards"],
   rank02Order: ["limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "borel-cantelli", "likelihood-estimation", "confidence-hypothesis-tests"],
-  rank00Order: ["martingales", "renewal-queueing", "monte-carlo", "mcmc"],
+  rank00Order: ["martingales", "renewal-queueing", "monte-carlo", "mcmc", "bayesian-computation"],
 })) {
   const match = indexSource.match(new RegExp("const " + name + " = \\[([\\s\\S]*?)\\]"));
   const actual = match ? [...match[1].matchAll(/"([^"]+)"/g)].map((item) => item[1]) : [];
@@ -114,7 +115,7 @@ for (const id of lessonIds) {
 
 const authored = read("app/content/pathway-lessons.ts") + "\n" + read("app/content/pathway-lessons-advanced.ts");
 const starts = [...authored.matchAll(/\n  \{\n    id: "([^"]+)", rank: \d+/g)];
-if (starts.length !== 32) throw new Error("Expected 32 authored expansion lessons; found " + starts.length);
+if (starts.length !== 33) throw new Error("Expected 33 authored expansion lessons; found " + starts.length);
 let questionTotal = 0;
 
 for (let i = 0; i < starts.length; i++) {
