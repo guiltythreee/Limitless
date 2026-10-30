@@ -11062,7 +11062,9 @@
             "text": "170 MPa"
           }
         ],
-        "answer": "d"
+        "answer": "a",
+        "keyExplanation": "d = 0.01 mm gives d^(−1/2) = 10 mm^(−1/2). Therefore σ_y = 100 + 0.7 × 10 = 107 MPa, so option (a) is correct.",
+        "detailed": "Using the supplied units consistently:\n```\nd = 0.01 mm\n d^(−1/2) = 1/√0.01 = 10 mm^(−1/2)\nk_y d^(−1/2) = 0.7 MPa·mm^(1/2) × 10 mm^(−1/2) = 7 MPa\nσ_y = σ₀ + k_y d^(−1/2) = 100 + 7 = 107 MPa\n```\nTherefore **(a)** is correct. Option (b), 700 MPa, is not the Hall–Petch result; (c), 100.7 MPa, misapplies the grain-size term; and (d), 170 MPa, does not follow from the stated data. The key had incorrectly selected (d)."
       },
       "sourceFingerprint": "e8b4513e"
     },
@@ -11146,7 +11148,8 @@
             "text": "4× the time"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Diffusion depth scales as √t, so the time required scales as the square of depth. Doubling the depth therefore requires 4× the time. **(d)** is correct. Option (a) would give only √2 times the depth; (b) and (c) are inconsistent with the square-law scaling."
       },
       "sourceFingerprint": "3f6ce029"
     },
@@ -11174,7 +11177,8 @@
             "text": "2.2 × 10⁵ s"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The worked carburising example gives t ≈ 2.2 × 10⁴ s. **(b)** is correct. Option (a), 2.2 × 10² s, is 100 times too short; (c), 2.2 × 10³ s, is ten times too short; and (d), 2.2 × 10⁵ s, is ten times too long. Convert x to metres before squaring it."
       },
       "sourceFingerprint": "1b3fb56e"
     },
@@ -11230,7 +11234,8 @@
             "text": "interstitial diffusion has a lower activation energy Q_d and is faster at every temperature"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Interstitial diffusion generally has a lower activation energy than substitutional diffusion and is faster at a given temperature in the usual comparison. **(d)** states this correctly. Option (a) reverses the activation-energy ordering; (b) incorrectly makes the Arrhenius lines parallel; and (c) incorrectly claims interstitial diffusion is slower at high temperature."
       },
       "sourceFingerprint": "5ce12d2c"
     },
