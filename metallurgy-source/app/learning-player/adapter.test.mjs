@@ -23,4 +23,4 @@ for (const courseId of ["mt201", "mt202", "mt203"]) {
     { correct: false, score: 0, status: "incorrect" });
 }
 
-console.log("Metallurgy player adapter: 9 assertions passed");
+console.log("Metallurgy player adapter: 12 assertions passed");
