@@ -133,6 +133,20 @@ for (let i = 0; i < starts.length; i++) {
   if (worked < 2) throw new Error(id + " needs at least two worked examples.");
   if (!routeIds.has(id)) throw new Error("New lesson " + id + " is not assigned to a pathway.");
 }
+const geometricSource = read("app/content/chapter1-theory.ts");
+const geometricStart = geometricSource.indexOf("export const geometricProbability");
+const geometricEnd = geometricSource.indexOf("export const borelCantelli", geometricStart);
+const geometricBlock = geometricSource.slice(geometricStart, geometricEnd);
+if (geometricStart < 0 || geometricEnd < 0) throw new Error("Geometric probability lesson is missing.");
+for (const required of ["Buffon’s needle", "Bertrand’s paradox", "P({x}) = 0"]) {
+  if (!geometricBlock.includes(required)) throw new Error("Geometric probability lesson is missing: " + required);
+}
+const geometricExamples = [...geometricBlock.matchAll(/title:\s*"/g)].length;
+const geometricQuestions = [...geometricBlock.matchAll(/question:\s*"/g)].length;
+if (geometricExamples < 3 || geometricQuestions < 3) {
+  throw new Error("Geometric probability needs at least three worked examples and three graded questions.");
+}
+
 const coverage = read("app/content/coverage.ts");
 const coverageAreas = [...coverage.matchAll(/\{\s*area:\s*"([^"]+)"/g)].map((match) => match[1]);
 if (new Set(coverageAreas).size !== coverageAreas.length) {
