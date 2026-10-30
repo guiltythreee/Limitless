@@ -253,3 +253,23 @@ Validation on the updated branch:
 - Metallurgy regression run `41063243108`: all eight existing regression scripts passed (109 learning-core checks, 196 capability checks, 29 MT201 attempt assertions, 32 MT202 attempt assertions, 29 parity assertions, 27 bookmark assertions, 14 timer assertions, 36 daily-goal assertions) plus full Metallurgy TypeScript check.
 
 No course storage key, payload shape, generated Probability output, or deployment workflow changed.
+
+## 17. P6.2 third live integration — MT203 sequential learning player
+
+The MT203 sequential `Player` now uses the shared runtime for current-question state, palette selection, previous/next navigation, answer submission, adapter grading, and elapsed-time capture. Because this component backs per-topic study quizzes plus mixed, weak-area, and spaced-revision practice, those MT203 learning modes now share the same runtime.
+
+The existing MT203-specific behaviour remains in place:
+- The course's own question renderer and immediate solution display.
+- Attempt-history recording with the original `learn` / `practice` / `revision` mode.
+- First-correct XP awards and reward-ledger idempotency.
+- Bookmark handling, toast feedback, and summary calculations.
+- The explicit "retry missed" flow, which creates a fresh session containing only the missed questions. The MT203 adapter allows this controlled retry; MT201/MT202 remain one-attempt locked.
+- Existing `mm-mt203-v1` persistence.
+
+The MT203 timed exam simulator is intentionally not integrated yet; it has a different lifecycle (closed-book answers, countdown, batch submission, then review) and needs a separate adapter/session orchestration step.
+
+Validation:
+- P6 run `41063600753`: both production builds and both shared player test/type-check jobs passed.
+- Metallurgy regression run `41063600814`: all existing learning, attempt-parity, bookmark, timer, daily-goal, capability, and TypeScript gates passed.
+
+At this checkpoint, all three Metallurgy practice/learning player surfaces (MT201, MT202, MT203) use the same framework-neutral runtime. Their content renderers, grading/persistence adapters, and course-specific reward rules remain authoritative.
