@@ -47,7 +47,7 @@ export default function Exam({
   const [running, setRunning] = useState(false);
   const [pool, setPool] = useState<PoolQ[]>([]);
   const [session, setSession] = useState(() =>
-    createLearningPlayerSession<Question, MetallurgyPlayerAnswer>([])
+    createLearningPlayerSession<PoolQ, MetallurgyPlayerAnswer>([])
   );
   const idx = session.state.index;
   const answers: Record<number, string> = {};
@@ -55,7 +55,7 @@ export default function Exam({
     const answer = session.answers[question.id];
     if (answer) answers[index] = answer.optionId;
   });
-  const playerAdapter = createMetallurgyPlayerAdapter("mt202");
+  const playerAdapter = createMetallurgyPlayerAdapter<PoolQ>("mt202");
   const [left, setLeft] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
@@ -86,7 +86,7 @@ export default function Exam({
     const shuffled = [...all].sort(() => Math.random() - 0.5);
     const drawn = shuffled.slice(0, Math.min(count, shuffled.length));
     setPool(drawn);
-    setSession(createLearningPlayerSession<Question, MetallurgyPlayerAnswer>(drawn));
+    setSession(createLearningPlayerSession<PoolQ, MetallurgyPlayerAnswer>(drawn));
     setLeft(Math.max(1, minutes) * 60);
     setSubmitted(false);
     setRunning(true);
