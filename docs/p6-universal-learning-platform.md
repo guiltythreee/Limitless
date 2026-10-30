@@ -165,3 +165,16 @@ Inspection of the live source confirms that the current shared Metallurgy activi
 Accordingly, P6 does **not** reuse or widen the P5 activity record as its answer contract. The first neutral contract lives at `shared/learning-player/contracts.ts` and defines discriminated single-choice, multi-choice, numeric, and text answers, plus an explicit normalised grade. Adapters call the existing course grading function and map the result; the shared player must never recalculate a course's score.
 
 This is a contracts-only foundation. It is not yet imported by either application, and no production player, storage, deployment output, or workflow has been changed. The next gate is a small compilation/test harness for the shared contract and a verified import path into each independent Next app before extracting UI/runtime code.
+
+
+## 11. P6.0 lifecycle checkpoint
+
+The shared foundation now includes a pure navigation/lifecycle reducer at `shared/learning-player/state.ts`. It owns only the current index, answering/review phase, and elapsed-time value. It does not own timer scheduling, grading, answer state, or persistence.
+
+The lifecycle test at `shared/learning-player/state.test.mjs` covers initial state, elapsed-time normalisation, submit/review transition, stopping elapsed-time updates after submission, next/previous bounds, reset, and empty queues.
+
+GitHub Actions run `41059775942` completed successfully for both independent projects:
+- Probability: lifecycle test and shared-contract TypeScript check passed.
+- Metallurgy: lifecycle test and shared-contract TypeScript check passed.
+
+This validates the shared files with both installed TypeScript toolchains and confirms the pure lifecycle test executes in both CI environments. It does **not** yet validate either full Next.js app build or any production integration. The branch remains isolated and the PR remains draft.
