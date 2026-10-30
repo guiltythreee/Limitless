@@ -185,7 +185,7 @@ for (const { id, block } of sequence08Lessons) {
 }
 // Sequence 07 and 06 retain their legacy IDs while requiring complete teaching material.
 const legacyBayesSource = read("app/content/legacy.ts");
-for (const id of ["conditional", "bayes"]) {
+for (const id of ["conditional", "bayes", "random-variables", "distributions"]) {
   const lessonStart = legacyBayesSource.indexOf('id: "' + id + '"');
   const lessonEnd = legacyBayesSource.indexOf("\n  },", lessonStart);
   const block = legacyBayesSource.slice(lessonStart, lessonEnd);
@@ -218,6 +218,39 @@ if (bayesianInferenceStart < 0 || bayesianInferenceEnd < 0 ||
     [...bayesianInferenceBlock.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)].length !== 3) {
   throw new Error("Sequence 06 Bayesian inference lesson needs three worked examples and three graded questions.");
 }
+// Sequence 05 covers discrete random variables and distribution families in depth.
+const sequence05Legacy = read("app/content/legacy.ts");
+for (const id of ["random-variables", "distributions"]) {
+  const lessonStart = sequence05Legacy.indexOf('id: "' + id + '"');
+  const lessonEnd = sequence05Legacy.indexOf("\n  },", lessonStart);
+  const block = sequence05Legacy.slice(lessonStart, lessonEnd);
+  if (lessonStart < 0 || lessonEnd < 0 ||
+      [...block.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length < 2 ||
+      [...block.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)].length !== 2) {
+    throw new Error("Legacy Sequence 05 lesson " + id + " needs two worked examples and two additional questions.");
+  }
+}
+const sequence05Files = [
+  read("app/content/pathway-lessons.ts"),
+  read("app/content/pathway-lessons-advanced.ts"),
+];
+const sequence05Ids = new Set(["discrete-distributions", "negative-binomial"]);
+let sequence05Count = 0;
+for (const source of sequence05Files) {
+  const starts = [...source.matchAll(/\n  \{\n    id: "([^"]+)", rank: \d+/g)];
+  for (let i = 0; i < starts.length; i++) {
+    const id = starts[i][1];
+    if (!sequence05Ids.has(id)) continue;
+    sequence05Count++;
+    const block = source.slice(starts[i].index, i + 1 < starts.length ? starts[i + 1].index : source.length);
+    const examples = [...block.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length;
+    const questions = [...block.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)];
+    if (examples < 3 || questions.length !== 3) {
+      throw new Error("Sequence 05 lesson " + id + " needs three worked examples and three graded questions.");
+    }
+  }
+}
+if (sequence05Count !== 2) throw new Error("Expected both expanded Sequence 05 distribution lessons.");
 const geometricSource = read("app/content/chapter1-theory.ts");
 const geometricStart = geometricSource.indexOf("export const geometricProbability");
 const geometricEnd = geometricSource.indexOf("export const borelCantelli", geometricStart);
