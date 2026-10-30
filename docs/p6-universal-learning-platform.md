@@ -206,7 +206,7 @@ Adapter files:
 - `probability-source/app/learning-player/adapter.ts` binds the core to the real Probability `grade()` function.
 - `metallurgy-source/app/learning-player/adapter.ts` creates course-ID-specific adapters over the canonical Metallurgy question model.
 
-The adapters are not yet imported by production player routes and do not write progress. The adapter contract now also exposes an optional retry policy: Probability permits retries, while the three Metallurgy course adapters lock a question after its first submission. The runtime enforces that policy when a user revisits a question, so it does not accidentally turn a one-attempt course into a retryable one.
+The adapters are not yet imported by production player routes and do not write progress. The adapter contract now also exposes a retry policy: Probability permits retries; MT201 and MT202 lock a question after its first submission; MT203 permits its existing controlled "retry missed questions" flow. The runtime enforces the adapter policy when a user revisits a question.
 
 Tests and strict TypeScript checks were added to the P6 workflow. GitHub Actions run `41062224892` completed successfully for both apps:
 - Probability: 13 lifecycle + 19 runtime + 15 adapter assertions passed. The adapter test exercises the production binding against the actual Probability grader for single-choice, partial-credit multi-select, fully correct multi-select, and over-selection.
