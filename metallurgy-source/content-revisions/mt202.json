@@ -4952,7 +4952,8 @@
             "text": "an atom at a grain boundary"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "A self-interstitial is a host atom displaced into a non-lattice interstitial position. Because the atom is crowded into a small void, it creates a large strain field and has a high formation energy, so its equilibrium concentration is low. **(c)** is correct. Option (a) is a vacancy; (b) is a substitutional solute; (d) is not the definition of a point defect."
       },
       "sourceFingerprint": "d7b472d9"
     },
@@ -5008,7 +5009,8 @@
             "text": "1.0 × 10⁻³"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "The vacancy fraction is exp[−0.9/(8.62 × 10⁻⁵ × 1000)] = exp(−10.44) ≈ 2.9 × 10⁻⁵, so **(a)** is correct. Option (b), 2.9 × 10⁻², is far too large; (c), 2.9 × 10⁻⁹, is far too small; (d) is not the calculated value. Keep Q_v in eV and k in eV/K so the exponent is dimensionless."
       },
       "sourceFingerprint": "6b3765d1"
     },
@@ -5064,7 +5066,8 @@
             "text": "τ = Gb²/2π"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "For adjacent planes displaced by x, the restoring shear stress is periodic and vanishes at x = 0. The Frenkel approximation is τ = τ_max sin(2πx/b), so **(b)** is correct. Option (a) has the wrong phase because a cosine is nonzero at x = 0; (c) is only the small-displacement linear approximation; (d) is not the periodic stress relation."
       },
       "sourceFingerprint": "3db9e225"
     },
@@ -5092,7 +5095,8 @@
             "text": "τ_max ≈ G/2π ≈ 0.16 G"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Matching the small-displacement approximation of the sinusoidal restoring stress to the elastic shear stress gives τ_max ≈ Gb/(2πa). Taking b ≈ a gives τ_max ≈ G/(2π) ≈ 0.16G, so **(d)** is correct. Options (a) and (b) are orders-of-magnitude estimates for real crystal strength, not the ideal theoretical estimate; (c), 2πG, is physically too large."
       },
       "sourceFingerprint": "8a557338"
     },
@@ -5120,7 +5124,8 @@
             "text": "G/π"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "A more realistic interatomic potential reduces the ideal theoretical shear-strength estimate to approximately G/30. **(b)** is correct. Option (a), G/3, is too high; (c), G/3000, is far too low and closer to the range of real strengths; (d), G/π, is not the refined estimate."
       },
       "sourceFingerprint": "b3bb1b0f"
     },
@@ -5148,7 +5153,8 @@
             "text": "exactly the theoretical value"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Real metal single crystals yield at shear stresses of roughly G/1000 to G/100,000, far below the theoretical estimates G/30 or G/(2π). **(b)** is correct. Option (a) is the Frenkel theoretical estimate; (c) is the refined theoretical estimate; (d) contradicts the measured strength gap."
       },
       "sourceFingerprint": "0a303466"
     },
@@ -5232,7 +5238,8 @@
             "text": "the edge of an extra half-plane of atoms inserted partway into the crystal, denoted ⊥"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "An edge dislocation is the terminating edge of an extra half-plane of atoms inserted partway into the crystal. **(d)** is correct. Option (a) describes a screw dislocation; (b) is not the standard structural definition of an edge dislocation; (c) is a planar grain-boundary defect. An edge dislocation is a one-dimensional line defect."
       },
       "sourceFingerprint": "cba84948"
     },
@@ -5260,7 +5267,8 @@
             "text": "one part of a crystal is sheared relative to the rest parallel to the dislocation line, so planes spiral like a screw thread"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "A screw dislocation forms when one part of the crystal is sheared relative to the other parallel to the dislocation line, producing a helical ramp of lattice planes. **(d)** is correct. Option (a) describes an edge dislocation; (b) is vacancy migration; and (c) describes neither screw-dislocation formation nor the required shear geometry."
       },
       "sourceFingerprint": "778f76b6"
     },
@@ -5428,7 +5436,8 @@
             "text": "the length of the dislocation line"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The Burgers vector is the closure-failure vector of an atomic circuit drawn around a dislocation in the real crystal, compared with the corresponding closed circuit in a perfect reference crystal. Under the stated convention it is drawn from Finish to Start (FS) using the right-hand (RH) convention. **(c)** is correct. The other choices confuse it with a cell dimension, interplanar spacing or dislocation-line length."
       },
       "sourceFingerprint": "aa4c8811"
     },
@@ -5549,7 +5558,8 @@
             "text": "E ≈ αGb², with α ≈ ½ to 1"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The dislocation strain energy per unit length scales approximately as E ≈ αGb², with α commonly of order 1/2 to 1. **(d)** is correct. Option (a) has the wrong dependence on b; (b) is a particular approximate expression with a different numerical prefactor; (c) incorrectly places b² in the denominator. The b² dependence explains why smaller Burgers vectors are energetically favoured."
       },
       "sourceFingerprint": "7fd9efd1"
     },
@@ -5594,7 +5604,7 @@
           },
           {
             "label": "b",
-            "text": "a/2[101̄] → a/6[21̄1] + a/6[112̄]"
+            "text": "a/2[101̄] → a/6[21̄1̄] + a/6[112̄]"
           },
           {
             "label": "c",
@@ -5605,7 +5615,9 @@
             "text": "a/2[110] → a[100] + a[010]"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "keyExplanation": "The FCC perfect dislocation a/2[10̄1] dissociates into Shockley partials a/6[2 1̄ 1̄] and a/6[11 2̄]. Their vector sum is a/2[10̄1], and the sum of their squared magnitudes is a²/3, less than the perfect dislocation's a²/2.",
+        "detailed": "In FCC the perfect dislocation can dissociate into two Shockley partials:\n```\n(a/2)[10̄1] → (a/6)[2 1̄ 1̄] + (a/6)[11 2̄]\n```\nCheck vector addition: [2, −1, −1] + [1, 1, −2] = [3, 0, −3], so the right-hand side is (a/6)[3,0,−3] = (a/2)[1,0,−1], matching the parent.\n\nEach Shockley partial has magnitude (a/6)√6. Therefore |b₁|² + |b₂|² = 2(a²/6) = a²/3, while the perfect vector has |b|² = a²/2. The lower squared-magnitude sum reduces the elastic energy, making dissociation favourable. **(b)** is correct."
       },
       "sourceFingerprint": "a4cd0cec"
     },
@@ -5745,7 +5757,8 @@
             "text": "10⁶ cm⁻² in an annealed metal to 10¹⁰–10¹² cm⁻² heavily cold worked"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Frank–Read sources increase dislocation line length during plastic deformation. A typical density rises from about 10⁶ cm⁻² in an annealed metal to 10¹⁰–10¹² cm⁻² in a heavily cold-worked metal. **(d)** is correct. Option (a) reverses the trend; (b) gives much smaller values; (c) incorrectly assumes an initially defect-free crystal and gives too small a final density."
       },
       "sourceFingerprint": "e3b14537"
     },
@@ -5773,7 +5786,8 @@
             "text": "the barrier is removed"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Dislocations in a pile-up repel one another, and the combined force raises the stress concentration at the head of the pile-up. The local stress scales with the number of dislocations and can trigger slip in the neighbouring grain. **(b)** is correct. Options (a), (c), and (d) describe the opposite of the pile-up effect."
       },
       "sourceFingerprint": "c67e660b"
     },
@@ -6101,7 +6115,8 @@
             "text": "Both false"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "- A is TRUE: the Burgers vector is fixed by the lattice translation and has the same magnitude and direction along a continuous dislocation line.\n- R is FALSE: changing the line direction changes the local character (edge, screw or mixed), not the Burgers vector or the closure failure of a Burgers circuit.\nTherefore A is true and R is false: **(b)** is correct."
       },
       "sourceFingerprint": "9eecf8f7"
     },
@@ -6207,7 +6222,8 @@
             "text": "24 nm"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Rearrange τ ≈ Gb/L to obtain b = τL/G. Substitution gives (6 × 10⁶ Pa)(3 × 10⁻⁶ m)/(75 × 10⁹ Pa) = 2.4 × 10⁻¹⁰ m = 0.24 nm. **(c)** is correct. Option (a) is ten times too small, (b) is ten times too large, and (d) is one hundred times too large."
       },
       "sourceFingerprint": "d3c5be1a"
     },
@@ -6235,7 +6251,8 @@
             "text": "24, 12, 6"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "FCC has 12 conventional {111}⟨110⟩ slip systems; BCC has 12 conventional {110}⟨111⟩ systems in the count used here; HCP basal slip has three ⟨11̄20⟩ directions on {0001}. The sequence is 12, 12, 3, so **(c)** is correct. Options (a), (b), and (d) give at least one incorrect count."
       },
       "sourceFingerprint": "9d35778d"
     },
@@ -6263,7 +6280,8 @@
             "text": "a"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "For basal slip in HCP, the shortest lattice translation along a close-packed ⟨11̄20⟩ direction has magnitude a. Thus **(d)** is correct. Option (a) is the c-axis parameter; (b) and (c) are not the basal repeat distance."
       },
       "sourceFingerprint": "6e53e346"
     },
@@ -6291,7 +6309,9 @@
             "text": "Edge — b perpendicular to line; Screw — b parallel to line; Mixed — b at an oblique angle to line"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "keyExplanation": "Edge: b is perpendicular to the dislocation line; screw: b is parallel; mixed: b is oblique. The only option that gives all three correctly is (d).",
+        "detailed": "- Edge: the extra half-plane makes b perpendicular to the line.\n- Screw: the line runs parallel to b, allowing cross-slip onto another plane containing that direction.\n- Mixed: b meets the line at an oblique angle.\nTherefore **(d)** is correct. Option (a) swaps edge and screw; (b) assigns 45° to both pure characters; (c) incorrectly makes b perpendicular for screw as well."
       },
       "sourceFingerprint": "d1fd57c0"
     },
@@ -6375,7 +6395,8 @@
             "text": "Total volume of the dislocation cores per unit length of the dislocation line"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Dislocation density is the total length of dislocation line per unit volume, with units m⁻² (or cm⁻²). **(c)** is correct. Options (a) and (b) count lines rather than total line length; (d) is a core-volume-to-line-length ratio and has units of area, not inverse area."
       },
       "sourceFingerprint": "0cdac3e7"
     },
@@ -6403,7 +6424,8 @@
             "text": "1, 2, 3"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "- Item 1 — TRUE: a wider dislocation core spreads the Burgers vector over a larger distance and lowers the lattice friction.\n- Item 2 — TRUE: BCC metals generally have higher Peierls barriers than close-packed FCC metals, contributing to strong low-temperature flow-stress increases.\n- Item 3 — TRUE: thermal activation assists motion over the lattice barrier.\n- Item 4 — FALSE: the barrier depends on the Burgers vector and core width.\nThus statements 1, 2 and 3 are correct: **(d)**."
       },
       "sourceFingerprint": "505ac2fa"
     },
