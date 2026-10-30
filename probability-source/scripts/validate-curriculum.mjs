@@ -36,6 +36,37 @@ for (let i = 0; i < lessonSources.length; i++) {
   }
 }
 
+// Guard the ten original sequence placements: ranks are part of the curriculum design.
+const rankChecks = [
+  ["app/content/chapter1-theory.ts", "geometric-probability", 9],
+  ["app/content/chapter1-theory.ts", "borel-cantelli", 2],
+  ["app/content/pathway-lessons.ts", "discrete-distributions", 5],
+  ["app/content/pathway-lessons-advanced.ts", "negative-binomial", 5],
+  ["app/content/pathway-lessons-advanced.ts", "bayesian-inference", 6],
+  ["app/content/pathway-lessons-advanced.ts", "likelihood-estimation", 2],
+  ["app/content/pathway-lessons-advanced.ts", "confidence-hypothesis-tests", 2],
+  ["app/content/pathway-lessons.ts", "joint-distributions", 3],
+  ["app/content/pathway-lessons.ts", "conditional-expectation", 3],
+  ["app/content/pathway-lessons.ts", "markov-chain-analysis", 1],
+  ["app/content/pathway-lessons.ts", "poisson-processes", 1],
+  ["app/content/pathway-lessons.ts", "martingales", 0],
+  ["app/content/pathway-lessons.ts", "monte-carlo", 0],
+];
+for (const [file, id, rank] of rankChecks) {
+  const source = read(file);
+  const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, "\\const routeSource = read("app/content/pathways.ts");");
+  const pattern = new RegExp('id\\s*:\\s*"' + escapedId + '"\\s*,\\s*rank\\s*:\\s*' + rank + '\\b');
+  if (!pattern.test(source)) throw new Error("Lesson " + id + " must remain in Sequence " + String(rank).padStart(2, "0") + ".");
+}
+const legacySource = read("app/content/legacy.ts");
+const legacyRankBlock = legacySource.slice(legacySource.indexOf("const legacyRank"));
+for (const [id, rank] of Object.entries({ conditional: 7, bayes: 6, "random-variables": 5, distributions: 5, "limit-theorems": 2, markov: 1 })) {
+  const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, "\\const routeSource = read("app/content/pathways.ts");");
+  if (!new RegExp('"' + escapedId + '"\\s*:\\s*' + rank + '\\b|\\b' + escapedId + '\\s*:\\s*' + rank + '\\b').test(legacyRankBlock)) {
+    throw new Error("Legacy lesson " + id + " must remain in Sequence " + String(rank).padStart(2, "0") + ".");
+  }
+}
+
 const routeSource = read("app/content/pathways.ts");
 const routeBlocks = [...routeSource.matchAll(/lessonIds:\s*\[([\s\S]*?)\]/g)];
 if (routeBlocks.length !== 5) throw new Error("Expected five overlapping learning pathways.");
