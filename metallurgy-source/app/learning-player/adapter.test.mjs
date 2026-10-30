@@ -16,6 +16,7 @@ for (const courseId of ["mt201", "mt202", "mt203"]) {
   const adapter = createMetallurgyPlayerAdapter(courseId);
   assert.equal(adapter.courseId, courseId);
   assert.equal(adapter.questionId(question), "ch01-q1");
+  assert.equal(adapter.canRetry(question), false);
   assert.deepEqual(adapter.grade(question, { kind: "single-choice", optionId: "c" }),
     { correct: true, score: 1, status: "correct" });
   assert.deepEqual(adapter.grade(question, { kind: "single-choice", optionId: "a" }),
