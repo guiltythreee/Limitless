@@ -7,6 +7,8 @@ import {
   registerProject,
 } from "../shared/projects.mjs";
 import { REWARD_SOURCE_REGISTRY } from "../shared/rewards.mjs";
+import { equipReward, readEquippedRewards, unequipReward, PROFILE_EQUIPMENT_STORAGE_KEY } from "../shared/profile.mjs";
+import { acknowledgeLevelNotification, syncLevelNotifications, LEVEL_NOTIFICATION_STORAGE_KEY } from "../shared/level-notifications.mjs";
 
 const metaSource = readFileSync(new URL("./meta.js", import.meta.url), "utf8");
 const pageSource = readFileSync(new URL("./index.html", import.meta.url), "utf8");
