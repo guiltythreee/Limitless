@@ -37,6 +37,8 @@ jobs:
       - name: Install dependencies
         working-directory: metallurgy-source
         run: npm ci
+      - name: Test shared in-app Meta status model
+        run: node shared/meta/status.test.mjs
       - name: Test LSR-1 module adapters and legacy XP isolation
         working-directory: metallurgy-source
         run: npm run test:lsr1
