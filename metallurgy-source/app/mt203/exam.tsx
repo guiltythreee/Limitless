@@ -20,6 +20,7 @@ import {
   Progress,
   recordAnswer,
   recordExam,
+  saveProgress,
 } from "../lib/mt203-progress";
 import { MT203_ENTRY } from "../courses/entries/mt203";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
@@ -112,13 +113,14 @@ export default function Exam({
   const finish = () => {
     const sc = pool.reduce((acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0), 0);
     let p = progress;
+    const initialRewardLedgerLength = p.rewardLedger.length;
     let xp = 0;
     pool.forEach((q, i) => {
       const a = answers[i];
       if (!a) return;
       const ok = a === q.answer;
-      p = recordAnswer(p, q.id, a, ok, "exam", 0, q.difficulty);
-      const r = awardAnswer(p, q.id, q.difficulty, ok);
+      p = recordAnswer(p, q.id, a, ok, "exam", 0, q.difficulty, false);
+      const r = awardAnswer(p, q.id, q.difficulty, ok, false);
       p = r.progress;
       xp += r.xp;
     });
@@ -138,10 +140,14 @@ export default function Exam({
       answered: Object.keys(answers).length,
       ms: 0,
       breakdown,
-    });
-    const settled = settleModuleBonuses(p);
+    }, false);
+    const settled = settleModuleBonuses(p, false);
     p = settled.progress;
     xp += settled.xp;
+
+    // Persist the complete exam (attempts, legacy XP, best score, LSR-1 award
+    // and module bonuses) atomically instead of writing once per answer.
+    saveProgress(p, p.rewardLedger.length > initialRewardLedgerLength);
 
     setScore(sc);
     setGained(xp);
