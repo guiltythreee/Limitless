@@ -31,7 +31,7 @@ Practice mistakes are not punished: a real submitted attempt can earn base micro
 
 ## Milestone interpretation and trust model
 
-Probability awards a lesson-mastery milestone once per lesson and a major-completion milestone once per distinct pathway. Shared lessons can contribute to more than one pathway; completing multiple distinct routes intentionally earns each route's one-time completion award. The whole-archive pathway is excluded when it duplicates the separate course-completion scope. These are rewards for completing distinct curricula, not for replaying the same lesson.
+Probability awards a lesson-mastery milestone once per lesson per curriculum version and a major-completion milestone once per distinct pathway per curriculum version. Shared lessons can contribute to more than one pathway; completing multiple distinct routes intentionally earns each route's one-time completion award. A deliberate curriculum-version change creates a new milestone identity. The whole-archive pathway is excluded when it duplicates the separate course-completion scope. These are rewards for completing distinct curricula, not for replaying the same lesson.
 
 Bespoke project rewards are self-attested for this personal-use system. The project scope, difficulty, value and acceptance criteria are frozen before work begins, and each registered project can pay only once. This is a trust-based progress record, not an adversarial anti-cheat system.
 
