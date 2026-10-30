@@ -47,7 +47,8 @@ export type Progress = {
   goal: number;
   /** Additive saved-question list, kept separate from attempt/reward ledgers. */
   bookmarks: string[];
-  rewardLedger?: RewardRecord[];
+  /** Always present on the normalised in-memory Progress returned by loadProgress. */
+  rewardLedger: RewardRecord[];
 };
 
 const KEY = "mm-mt203-v1";
