@@ -135,7 +135,7 @@ export default function Exam({
     let sc = 0;
     let p = progress;
     let xp = 0;
-    const initialRewardLedgerLength = progress.rewardLedger.length;
+    const initialRewardLedgerLength = progress.rewardLedger?.length ?? 0;
     pool.forEach((q, index) => {
       working = selectPlayerQuestion(working, index);
       const result = submitPlayerAnswer(working, playerAdapter, {
@@ -179,7 +179,7 @@ export default function Exam({
     setGained(xp);
     setRunning(false);
     setSubmitted(true);
-    saveProgress(p, p.rewardLedger.length > initialRewardLedgerLength);
+    saveProgress(p, (p.rewardLedger?.length ?? 0) > initialRewardLedgerLength);
     onProgress(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
