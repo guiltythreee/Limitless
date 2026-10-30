@@ -3626,7 +3626,8 @@
             "text": "Columnar grains only, with no equiaxed core"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "Increasing the cooling rate generally refines the dendritic structure, reduces primary dendrite-arm spacing (PDAS), and shortens the diffusion distance needed during homogenisation. Since homogenisation time scales approximately with the square of diffusion distance, finer spacing means less time is required. **(a)** is correct. Option (b) gives the opposite trend; (c) incorrectly predicts a planar interface; and (d) incorrectly excludes equiaxed grains."
       },
       "sourceFingerprint": "32b9b105"
     },
