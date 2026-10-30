@@ -15,6 +15,7 @@ const adapter = createProbabilityPlayerAdapter((q, picked) => {
 });
 
 assert.equal(adapter.questionId(question), "lesson-a:0");
+assert.equal(adapter.canRetry(question), true);
 assert.deepEqual(adapter.grade(question, { kind: "single-choice", optionId: "1" }),
   { correct: true, score: 1, status: "correct" });
 assert.deepEqual(calls.at(-1).picked, [1]);
@@ -45,6 +46,7 @@ const realMulti = {
     answers: [1, 2], explanation: "",
   },
 };
+assert.equal(probabilityPlayerAdapter.canRetry(realMulti), true);
 assert.deepEqual(probabilityPlayerAdapter.grade(realMulti, {
   kind: "multi-choice", optionIds: ["1"],
 }), { correct: false, score: 0.5, status: "partial" });
