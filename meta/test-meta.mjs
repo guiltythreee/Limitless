@@ -6,7 +6,7 @@ const metaSource = readFileSync(new URL("./meta.js", import.meta.url), "utf8");
 const pageSource = readFileSync(new URL("./index.html", import.meta.url), "utf8");
 
 assert.equal(
-  (metaSource.match(/else document\.body\.removeAttribute\\("data-lsr1-effect"\\);/g) ?? []).length,
+  (metaSource.match(/else document\.body\.removeAttribute\("data-lsr1-effect"\);/g) ?? []).length,
   1,
   "equipped profile effect has exactly one fallback branch",
 );
