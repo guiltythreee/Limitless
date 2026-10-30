@@ -23,7 +23,6 @@ import type {
   Activity,
   ActivityLog,
   ActivityLogConfig,
-  AttemptMode,
   NewActivity,
 } from "../platform/learning";
 import type { TopicId } from "../courses/types";
@@ -174,7 +173,7 @@ export function recordAnswer(
   key: string,
   choice: string,
   correct: boolean,
-  mode: AttemptMode = "practice",
+  mode: LsrActivityMode = "practice",
   difficulty = 1,
   ms = 0
 ): Progress {
