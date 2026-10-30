@@ -2905,7 +2905,8 @@
             "text": "3 only"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Stage 1 (liquid contraction) and Stage 2 (solidification shrinkage) can be compensated by feeding while liquid remains available. Stage 3 (solid-state contraction) occurs after the metal has solidified and must be allowed for in the pattern dimensions. Thus stages 1 and 2 only are correct: **(c)**. Option (b) incorrectly includes solid-state contraction; (a) omits stage 2; and (d) selects the stage that cannot be fed."
       },
       "sourceFingerprint": "83773581"
     },
@@ -4481,7 +4482,8 @@
             "text": "surface tension is overcome"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "A protrusion extending into the constitutionally supercooled liquid experiences greater local undercooling and grows faster than the surrounding planar front. The perturbation amplifies, producing cells and then dendrites. **(b)** is correct. Options (a), (c), and (d) do not describe the constitutional-supercooling instability."
       },
       "sourceFingerprint": "74e8f64a"
     },
@@ -11363,7 +11365,8 @@
             "text": "α (BCC) →912 °C→ γ (FCC) →1394 °C→ δ (BCC) →1538 °C→ liquid"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "On heating, iron transforms α-Fe (BCC) → γ-Fe (FCC) at 912 °C, γ-Fe (FCC) → δ-Fe (BCC) at 1394 °C, and δ-Fe (BCC) → liquid at 1538 °C. **(d)** is correct. Option (a) reverses the α/γ sequence; (b) assigns the wrong first transition temperature; and (c) reverses the high-temperature solid phases."
       },
       "sourceFingerprint": "74a56631"
     },
