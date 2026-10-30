@@ -47,6 +47,9 @@ jobs:
         working-directory: probability-source
         run: npm run test:rewards
 
+      - name: Test Meta dashboard and dedicated project ledger
+        run: node meta/test-meta.mjs
+
       - name: Validate curriculum routes and question quality
         working-directory: probability-source
         run: npm run validate:curriculum
