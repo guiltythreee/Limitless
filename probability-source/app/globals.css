@@ -315,3 +315,56 @@ select.pill { appearance: auto; padding-right: .6rem; }
 .weekcol b { display: block; font-size: 13px; color: var(--soft); }
 .weekcol-met { background: color-mix(in srgb, var(--good) 18%, transparent); }
 .weekcol-today { outline: 1px solid var(--gold); }
+
+
+/* Shared LSR-1 progression strip — rendered by both learning applications. */
+.limitless-meta-strip {
+  position: relative;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 42px;
+  padding: .35rem clamp(1rem, 4vw, 2.6rem);
+  border-bottom: 1px solid var(--panel-line);
+  background: var(--panel-bg);
+  color: var(--body);
+  font-size: .72rem;
+  line-height: 1.3;
+}
+.limitless-meta-summary {
+  display: grid;
+  grid-template-columns: auto auto minmax(72px, 150px) auto;
+  align-items: center;
+  gap: .65rem;
+  min-width: 0;
+  color: var(--body);
+}
+.limitless-meta-level { color: var(--gold); font-weight: 800; letter-spacing: .08em; white-space: nowrap; }
+.limitless-meta-exp { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.limitless-meta-track { height: 5px; overflow: hidden; border-radius: 99px; background: var(--track); }
+.limitless-meta-track > span { display: block; height: 100%; background: var(--bar); transition: width .2s ease; }
+.limitless-meta-next { color: var(--dim); white-space: nowrap; }
+.limitless-meta-details { min-width: 0; overflow: hidden; color: var(--faint); text-overflow: ellipsis; white-space: nowrap; }
+.limitless-meta-notice { margin-left: .6rem; color: var(--gold); white-space: nowrap; }
+.limitless-meta-open { flex: none; color: var(--gold); font-weight: 700; white-space: nowrap; }
+@media (max-width: 720px) {
+  .limitless-meta-strip { align-items: flex-start; flex-wrap: wrap; gap: .35rem .8rem; padding-top: .55rem; padding-bottom: .55rem; }
+  .limitless-meta-summary { flex: 1 1 100%; grid-template-columns: auto auto minmax(45px, 1fr) auto; gap: .45rem; }
+  .limitless-meta-next { font-size: .65rem; }
+  .limitless-meta-details { flex: 1 1 auto; max-width: calc(100% - 55px); }
+}
+
+
+/* Equipped global Meta effects are applied by the shared status component. */
+body[data-lsr1-effect="polymath-glow"] .limitless-meta-strip {
+  box-shadow: inset 0 0 24px rgba(211, 178, 103, .16), 0 0 18px rgba(211, 178, 103, .12);
+}
+body[data-lsr1-effect="radiant-archive"] .limitless-meta-strip {
+  border-bottom-color: var(--gold);
+  background-image: linear-gradient(90deg, transparent, rgba(211, 178, 103, .08), transparent);
+}
+body[data-lsr1-effect="limitless-aura"] .limitless-meta-strip {
+  box-shadow: inset 0 0 28px rgba(211, 178, 103, .22), 0 0 26px rgba(211, 178, 103, .2);
+}

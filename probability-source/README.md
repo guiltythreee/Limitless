@@ -1,44 +1,57 @@
-# Hidden Chamber III — The Probability Archive
+# Limitless Probability Archive
 
-A separate Next.js learning site for probability, styled as a gothic occult archive. This first version includes nine progressive lessons, short quizzes, a dice-frequency simulation, and browser-local progress.
+A Next.js learning app for probability. Its curriculum is a shared set of chapters that can be followed through overlapping pathways: foundations, statistics and data science, quantitative finance, stochastic processes, and computational probability.
 
-## Requirements
+## Run locally
+
 - Node.js 20.9 or later
 - npm
 
-## Run locally
 ```bash
-npm install
+npm ci
 npm run dev
 ```
+
 Open http://localhost:3000.
 
-## Production build
+## Validate and build
+
 ```bash
+npm run validate:curriculum
+npm run test:rewards
+npx tsc --noEmit
 npm run build
-npm start
 ```
 
-## Architecture
-- `app/page.tsx`: interactive archive, lesson content, quiz state, experiment and local progress.
-- `app/globals.css`: dark gothic palette, gold accents and background treatments.
-- `app/layout.tsx`: app shell and metadata.
-- `tailwind.config.ts`: Tailwind theme tokens.
-- `localStorage` key `hc3-progress-v1`: completed lesson IDs and selected quiz answers.
+## Curriculum architecture
 
-## Connect it to the existing Limitless site
-The existing Limitless repository is a plain static `index.html`, so keep the projects separate. Deploy this app as its own Next.js project, then update the Hidden Chamber III card in the existing `index.html` to link to the deployed URL.
+- `app/content/types.ts`: shared lesson, example, formula, and quiz contracts.
+- `app/content/index.ts`: canonical shared lesson catalogue and stable lesson IDs.
+- `app/content/pathways.ts`: overlapping, ordered routes over the same lessons; the full archive remains available.
+- `app/content/coverage.ts`: topic-by-topic coverage ledger using Blitzstein–Hwang and Sheldon Ross as scope references.
+- `app/content/pathway-lessons.ts`: 30 original expanded lessons with 60 worked examples and 90 graded questions at easy, medium, and hard levels.
+- `app/components/TopicTree.tsx`: pathway selector and route-specific chapter navigation.
+- `app/components/Test.tsx`: cumulative tests restricted to the selected route unless the full archive is active.
+- `app/lib/store.ts`: browser-local progress, attempts, and an additive `rewardLedger` persisted with the same write as each rewarded action.
+- `../shared/rewards.mjs`: canonical LSR-1 award policy, pure calculator, repeat cap, level curve, registry and global summary.
+- `../meta/index.html` + `../meta/meta.js`: static global EXP/level dashboard. It counts registered LSR-1 ledgers only. Math Trainer and Bookkeys have separate new ledgers; their historical module-local XP remains deliberately excluded.
 
-Example:
-```html
-<a class="chamber-card" href="https://YOUR-DEPLOYED-URL.example">
-  <!-- existing Hidden Chamber III card content -->
-</a>
-```
-If the current card already has an outer clickable element, update its `href` rather than nesting another link inside it.
+## LSR-1 reward pilot
 
-## Deployment notes
-This is a standard Next.js app and can be deployed to a platform that supports Next.js, such as Vercel. For static-only hosting, configure Next.js static export and ensure the hosting platform supports the generated output. Browser-local progress is specific to the browser and device; it does not sync between devices.
+The shared `LSR-1` policy standardizes activity classes, difficulty multipliers, a capped quality bonus, a one-time checkpoint pass bonus, duplicate-event protection, and a configurable daily repeat cap. Probability was the first registered pilot; Math Trainer and Bookkeys followed, and additive adapters now cover Metallurgy MT201–MT203. Probability practice/assessment awards remain in its existing `hc3-progress-v3` root with the related attempt/test record, and resetting ordinary Probability progress preserves its lifetime reward ledger. MT201–MT203 store new rewards in their existing course progress roots (`mm-mt201-v1`, `mm-mt202-v1`, and `mm-mt203-v1`) without importing legacy local XP. Math Trainer writes eligible completed-session and verified Trick Chamber awards to the separate `limitless-math-lsr1-v1` ledger; its existing `limitless.math.v1.*` records, including legacy rank XP, are not migrated or rewritten. Bookkeys records newly verified page, chapter, and required-section book completions in the separate `bookkeys-lsr1-v1` ledger through its same-origin shell bridge; historical `bookkeys:game` XP is not imported, and pre-existing pages or backup-imported progress without a fresh Bookkeys completion marker do not earn retroactive EXP.
 
-## Current scope
-This is a functional first release, not yet a complete textbook. It has nine starter lessons, quizzes, a dice simulation, and locally saved progress. Advanced lessons such as continuous distributions, covariance, generating functions, concentration inequalities, Poisson processes and martingales can be added next.
+The standard and starting values are provisional and require calibration from representative use. Global EXP is derived from saved LSR-1 award records rather than a separately incremented counter. The current integration registers the new MT201–MT203 reward ledgers; legacy Metallurgy XP remains separate and is deliberately excluded from global EXP. These integrations remain in an open draft PR and are not deployed until the dependency PRs are merged and the production build completes.
+
+## Pathway design
+
+A pathway is an ordered list of lesson IDs, not a duplicate course. Shared prerequisites appear in several routes but retain one lesson, question history, and completion identity. Changing pathways filters navigation and test setup; it does not reset progress. Sequence numbers group related topics, while each pathway can skip content irrelevant to its focus.
+
+## Scope and quality standard
+
+Blitzstein–Hwang and Sheldon Ross guide topic selection and sequencing; this repository contains original explanations and problems rather than copied textbook text or solutions. The coverage ledger distinguishes expanded areas from starter and planned work. This is a substantial curriculum expansion, not a claim that every chapter or exercise in either textbook has been exhaustively covered.
+
+A lesson should not be treated as complete merely because it has a title. The expected standard includes accurate definitions, stated assumptions, worked reasoning, variation in question difficulty, and explanations of common misconceptions. The validator checks route references, lesson identity, authored lesson question counts, difficulty coverage, worked-example counts, and MCQ answer indexes.
+
+## Deployment
+
+The GitHub Actions workflow builds a static export into `probability/` when changes reach `main`. Pull-request builds validate and build the app without modifying deployed files.

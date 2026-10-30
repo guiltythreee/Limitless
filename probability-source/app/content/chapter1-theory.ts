@@ -239,13 +239,17 @@ export const geometricProbability: Lesson = {
   body: [
     "When the sample space is a region of the line, plane or space with finite positive size, “a point chosen uniformly at random” means that the probability of an event is the size of its region divided by the size of the whole: P(A) = vol(A)/vol(Ω). On Ω = [0, 1] this gives P([a, b]) = b − a. That this definition extends to every Borel set is Carathéodory’s extension theorem, which we use without proof.",
     "The method is always the same. Sketch Ω and the region that makes the event happen, then compare areas (or lengths). Choose the integration variable that makes the boundary of the region a function, and use the complement when it is simpler.",
-    "A single point has size 0, so P({x}) = 0 for every x, yet some point does occur. Probability 0 is not impossible, because the axiom of additivity concerns only countable unions: an uncountable union of null events, such as [0, 1] = ⋃ₓ {x}, can have any probability.",
-    "Bertrand’s paradox. On an uncountable sample space, “uniformly at random” is ambiguous unless you say which parametrisation is uniform. The chord of a circle chosen with uniform random endpoints, a uniform distance along a radius, or a uniform midpoint in the disk gives three different answers for the same question, namely 1/3, 1/2 and 1/4. Equal likelihood is a modelling assumption, never a theorem.",
+    "A single point has size 0, so P({x}) = 0 for every x, yet some point does occur. Probability 0 is not impossibility. Countable additivity does not extend to arbitrary uncountable unions: [0, 1] is the uncountable union of its singleton sets, each of probability 0, but the interval has probability 1.",
+    "Bertrand’s paradox. On an uncountable sample space, “uniformly at random” is ambiguous unless you specify the random experiment. For a circle of radius R, a chord is longer than the inscribed equilateral-triangle side exactly when its midpoint is within distance R/2 of the centre. Choosing two independent uniform endpoints on the circumference gives probability 1/3; choosing the chord's distance from the centre uniformly on [0,R] gives 1/2; choosing its midpoint uniformly by area in the disk gives 1/4. These are different probability measures on chords, not contradictory answers.",
+    "Buffon’s needle. Drop a needle of length ℓ onto parallel lines separated by distance d, with 0 < ℓ ≤ d. If its angle θ is uniform on [0,π/2] and its centre is uniform relative to the nearest line, then it crosses a line with probability 2ℓ/(πd). Conditional on θ, the centre must lie within (ℓ/2)sin θ of a line; averaging that conditional probability over θ gives the formula. This is a geometric probability model whose answer depends on the stated random-drop mechanism.",
+    "A geometric probability calculation can also be an integral rather than a simple area ratio. If (X,Y) is uniform on a region and the event boundary is curved, integrate the cross-sectional length or area. Check the support and Jacobian if you change coordinates; a uniform point in one coordinate system need not remain uniform after a nonlinear transformation.",
     "Quant lens. “A random portfolio”, “a random correlation matrix” and “a random direction” are all ambiguous until the probability measure is specified. Writing down which coordinates are uniform is part of the model.",
   ],
   formulas: [
     { label: "Uniform law on a region", text: "P(A) = vol(A) / vol(Ω)" },
     { label: "Uniform law on [0, 1]", text: "P([a, b]) = b − a,  P({x}) = 0" },
+    { label: "Buffon needle (ℓ ≤ d)", text: "P(needle crosses a line) = 2ℓ / (πd)" },
+    { label: "Two independent uniform points", text: "P(|X − Y| ≤ a) = 2a − a²,  0 ≤ a ≤ 1" },
   ],
   examples: [
     {
@@ -257,22 +261,46 @@ export const geometricProbability: Lesson = {
         "The square has area 1, so the probability is 1/8.",
       ],
     },
+    {
+      title: "Distance between two random points",
+      problem: "Let X and Y be independent Uniform(0,1) points. Find P(|X − Y| ≤ 1/2).",
+      steps: [
+        "The sample space is the unit square in the (x,y)-plane, with total area 1.",
+        "The event |x−y|≤1/2 is the central band between y=x−1/2 and y=x+1/2. Its complement consists of two right triangles, each with legs 1/2.",
+        "The excluded area is 2 × (1/2)(1/2)(1/2)=1/4. Hence the required probability is 1−1/4=3/4.",
+      ],
+    },
+    {
+      title: "Buffon’s needle and π",
+      problem: "A needle of length 2 cm is dropped onto parallel lines 5 cm apart, under the standard uniform-angle and uniform-position model. Find the probability it crosses a line.",
+      steps: [
+        "Here ℓ=2 cm and d=5 cm, so the condition ℓ≤d is satisfied.",
+        "Use P(crossing)=2ℓ/(πd)=4/(5π).",
+        "Numerically, the probability is approximately 0.2546. The result depends on the stated random-drop model.",
+      ],
+    },
   ],
-  quiz: [],
+  quiz: [
+    { question: "A point is chosen uniformly in the unit square. What is the probability it lies in the triangle x≥0, y≥0, x+y≤1/2?", options: ["1/4", "1/8", "1/2", "1/16"], answer: 1, difficulty: "easy", explanation: "The triangle has legs 1/2, so its area is (1/2)(1/2)(1/2)=1/8 of the unit-square area." },
+    { question: "For a Buffon needle of length ℓ≤d under the standard uniform-drop model, the crossing probability is", options: ["ℓ/d", "2ℓ/(πd)", "πℓ/(2d)", "ℓ²/d²"], answer: 1, difficulty: "medium", explanation: "Averaging the conditional crossing probability (ℓ/d)sin θ over θ uniform on [0,π/2] gives 2ℓ/(πd)." },
+    { question: "Why can Bertrand’s chord problem produce different probabilities for the same geometric property?", options: ["Circle area is not well-defined", "The chord length is random only in discrete models", "Different procedures induce different probability measures on chords", "All uniform distributions on a circle are identical"], answer: 2, difficulty: "hard", explanation: "Uniform endpoints, uniform radial distance and uniform midpoint-by-area are different random experiments and therefore induce different distributions on chords." },
+  ],
 };
 
 export const borelCantelli: Lesson = {
-  id: "borel-cantelli", rank: 9, title: "Limsup, Liminf & Borel–Cantelli", minutes: 14,
+  id: "borel-cantelli", rank: 2, title: "Limsup, Liminf & Borel–Cantelli", minutes: 14,
   description: "Events that happen infinitely often, and when that has probability 0.",
-  objective: "Read lim sup and lim inf as “infinitely often” and “eventually always”, and apply the first Borel–Cantelli lemma.",
+  objective: "Interpret lim sup and lim inf, prove and apply both Borel–Cantelli lemmas, and identify exactly where independence is required.",
   body: [
     "For arbitrary events A₁, A₂, … define lim sup Aₙ = ⋂ over n of ⋃ over k ≥ n of Aₖ, and lim inf Aₙ = ⋃ over n of ⋂ over k ≥ n of Aₖ.",
     "Reading them. ω ∈ lim sup Aₙ iff for every n there is a k ≥ n with ω ∈ Aₖ, i.e. ω ∈ Aₖ for infinitely many k. We write {Aₙ i.o.} (“infinitely often”). ω ∈ lim inf Aₙ iff ω ∈ Aₖ for all large k, i.e. for all but finitely many k (“eventually”). By De Morgan, (lim sup Aₙ)ᶜ = lim inf Aₙᶜ, and always lim inf Aₙ ⊆ lim sup Aₙ.",
     "Theorem 1.11.4 (Fatou’s lemma for events). P(lim inf Aₙ) ≤ lim inf P(Aₙ) ≤ lim sup P(Aₙ) ≤ P(lim sup Aₙ). Proof. Let Cₙ = ⋂ over k ≥ n of Aₖ, so Cₙ ↑ lim inf Aₙ and Cₙ ⊆ Aₙ, giving P(Cₙ) ≤ P(Aₙ). By continuity, P(lim inf Aₙ) = lim P(Cₙ) ≤ lim inf P(Aₙ). Similarly Dₙ = ⋃ over k ≥ n of Aₖ ↓ lim sup Aₙ and Dₙ ⊇ Aₙ, so P(lim sup Aₙ) = lim P(Dₙ) ≥ lim sup P(Aₙ). The middle inequality holds for any real sequence.",
     "Theorem 1.11.5 (first Borel–Cantelli lemma). If Σ P(Aₙ) < ∞, then P(Aₙ i.o.) = 0: almost surely only finitely many of the Aₙ occur. Proof. For every n, lim sup Aₖ ⊆ ⋃ over k ≥ n of Aₖ, so by the union bound P(Aₖ i.o.) ≤ Σ over k ≥ n of P(Aₖ). The right side is the tail of a convergent series, so it tends to 0 as n → ∞.",
-    "What BC1 does not need. No independence is required. The converse (if the Aₙ are independent and ΣP(Aₙ) = ∞ then P(Aₙ i.o.) = 1) is the second Borel–Cantelli lemma, proved after independence is introduced. Together they form a 0–1 law: for independent events, “infinitely often” has probability 0 or 1, never in between.",
-    "Quant lens. Borel–Cantelli is the standard way to prove “eventually this never happens again”. Passing from finite horizons to the whole infinite horizon, as in ruin probabilities and laws of large numbers, rests on continuity and on this lemma.",
-    "Chapter 1 toolkit. Probability space (Ω, F, P): P ≥ 0, P(Ω) = 1, countably additive. P(Aᶜ) = 1 − P(A); A ⊆ B implies P(A) ≤ P(B); P(B \\ A) = P(B) − P(A ∩ B). P(A ∪ B) = P(A) + P(B) − P(A ∩ B); P(A △ B) = P(A) + P(B) − 2P(A ∩ B). Union bound P(⋃Aᵢ) ≤ ΣP(Aᵢ); Bonferroni P(⋂Aᵢ) ≥ 1 − ΣP(Aᵢᶜ). Equally likely: P(A) = |A|/|Ω| (label objects, count consistently). De Morgan, and “at least one” = 1 − (none). Continuity: Aₙ ↑ A ⇒ P(Aₙ) ↑ P(A); Aₙ ↓ A ⇒ P(Aₙ) ↓ P(A). BC1: ΣP(Aₙ) < ∞ ⇒ P(Aₙ i.o.) = 0.",
+    "Theorem 1.11.6 (second Borel–Cantelli lemma). If the events Aₙ are mutually independent and ΣP(Aₙ) = ∞, then P(Aₙ i.o.) = 1. For fixed N≤M, independence gives P(no Aₙ occurs for N≤n≤M)=∏(1−P(Aₙ))≤exp(−ΣP(Aₙ)). As M→∞ the right side tends to 0, so the probability that no Aₙ occurs after N is 0. Taking the countable union over N shows that the probability of only finitely many occurrences is 0.",
+    "Independence is essential for this converse. If Aₙ=A₁ for every n and P(A₁)=1/2, then ΣP(Aₙ)=∞ but P(Aₙ i.o.)=1/2, not 1. The first lemma needs no independence; the second lemma as stated does.",
+    "Together, the two lemmas give a useful test: for independent events, convergence of ΣP(Aₙ) implies only finitely many occurrences almost surely, while divergence implies infinitely many occurrences almost surely.",
+    "Quant lens. Borel–Cantelli is the standard way to prove “eventually this never happens again”. Passing from finite horizons to the whole infinite horizon, as in ruin probabilities and laws of large numbers, rests on continuity and these lemmas.",
+    "Chapter 1 toolkit. Probability space (Ω, F, P): P ≥ 0, P(Ω) = 1, countably additive. P(Aᶜ) = 1 − P(A); A ⊆ B implies P(A) ≤ P(B); P(B \\ A) = P(B) − P(A ∩ B). P(A ∪ B) = P(A) + P(B) − P(A ∩ B); P(A △ B) = P(A) + P(B) − 2P(A ∩ B). Union bound P(⋃Aᵢ) ≤ ΣP(Aᵢ); Bonferroni P(⋂Aᵢ) ≥ 1 − ΣP(Aᵢᶜ). Equally likely: P(A) = |A|/|Ω| (label objects, count consistently). De Morgan, and “at least one” = 1 − (none). Continuity: Aₙ ↑ A ⇒ P(Aₙ) ↑ P(A); Aₙ ↓ A ⇒ P(Aₙ) ↓ P(A). BC1: ΣP(Aₙ) < ∞ ⇒ P(Aₙ i.o.) = 0; independent BC2: ΣP(Aₙ) = ∞ ⇒ P(Aₙ i.o.) = 1.",
     "Problem-solving checklist. (1) What is Ω? Is it fine enough? Are outcomes equally likely, or must I use a mass function or density? (2) Translate the question into events using “and / or / not”. Is it a union (use the complement or inclusion–exclusion), a disjoint decomposition (partition), or a limit (continuity)? (3) Can I write the quantity as a sum of indicators? (4) Check the answer against bounds: 0 ≤ P ≤ 1, monotonicity, symmetric special cases.",
   ],
   formulas: [
@@ -280,6 +308,7 @@ export const borelCantelli: Lesson = {
     { label: "Eventually always (liminf)", text: "lim inf Aₙ = ⋃ₙ ⋂_(k ≥ n) Aₖ" },
     { label: "Fatou for events", text: "P(lim inf Aₙ) ≤ lim inf P(Aₙ) ≤ lim sup P(Aₙ) ≤ P(lim sup Aₙ)" },
     { label: "First Borel–Cantelli lemma", text: "Σ P(Aₙ) < ∞ ⟹ P(Aₙ i.o.) = 0" },
+    { label: "Second Borel–Cantelli lemma", text: "Independent Aₙ and Σ P(Aₙ) = ∞ ⟹ P(Aₙ i.o.) = 1" },
   ],
   examples: [
     {
@@ -290,6 +319,28 @@ export const borelCantelli: Lesson = {
         "Therefore P(Aₙ i.o.) = 0: almost surely only finitely many of the Aₙ occur.",
       ],
     },
+    {
+      title: "Independent events with a divergent sum",
+      problem: "Let Aₙ be independent and P(Aₙ)=1/n for n≥1. What is the probability that infinitely many Aₙ occur?",
+      steps: [
+        "The harmonic series Σ1/n diverges.",
+        "The events are independent, so the second Borel–Cantelli lemma applies.",
+        "Thus P(Aₙ i.o.)=1: infinitely many occur almost surely."
+      ],
+    },
+    {
+      title: "Why independence matters",
+      problem: "Let Aₙ=A₁ for every n, with P(A₁)=1/2. Although ΣP(Aₙ) diverges, find P(Aₙ i.o.).",
+      steps: [
+        "All events are identical, so either every Aₙ occurs or none occurs.",
+        "The event Aₙ i.o. is exactly A₁.",
+        "Therefore P(Aₙ i.o.)=1/2. Divergence alone is insufficient for the second lemma without independence."
+      ],
+    },
   ],
-  quiz: [],
+  quiz: [
+    { question: "The first Borel–Cantelli lemma says that if ΣP(Aₙ) is finite, then", options: ["Aₙ are independent", "Aₙ occur infinitely often almost surely", "Aₙ occur only finitely often almost surely", "P(Aₙ)=0 for every n"], answer: 2, difficulty: "easy", explanation: "A finite sum of event probabilities forces the probability of infinitely many occurrences to be zero; no independence is needed." },
+    { question: "Which additional condition is sufficient for the divergent-sum conclusion P(Aₙ i.o.)=1?", options: ["Pairwise disjointness", "Mutual independence", "Equal event probabilities", "Identical events"], answer: 1, difficulty: "medium", explanation: "The standard second Borel–Cantelli lemma assumes mutual independence and a divergent sum of probabilities." },
+    { question: "If Aₙ=A₁ for every n and P(A₁)=1/2, then ΣP(Aₙ) diverges but P(Aₙ i.o.) equals", options: ["0", "1/2", "1", "It is undefined"], answer: 1, difficulty: "hard", explanation: "The events are perfectly dependent and Aₙ i.o. is just A₁. This shows why independence is needed for the divergent-sum converse." }
+  ],
 };

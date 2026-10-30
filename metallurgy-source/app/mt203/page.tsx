@@ -157,6 +157,7 @@ export default function Mt203() {
         <nav className="nav-links" aria-label="Main navigation">
           <Link href="/">Disciplines</Link>
           <Link href="/mt202/">MT202</Link>
+          <a href="/meta/">Meta</a>
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Switch theme">
             {theme === "dark" ? "◐" : "◑"}
           </button>
@@ -283,7 +284,7 @@ export default function Mt203() {
                 className="btn"
                 style={{ width: "100%", fontSize: "0.78rem" }}
                 onClick={() => {
-                  if (confirm("Erase all saved MT203 progress (XP, attempts, exams)?")) {
+                  if (confirm("Erase MT203 legacy XP, attempts, and exams? Lifetime Meta EXP is kept.")) {
                     resetProgress();
                     setProgress(loadProgress());
                     setView({ kind: "dashboard" });

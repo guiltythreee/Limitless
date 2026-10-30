@@ -140,6 +140,7 @@ export default function Quiz({
       label,
       result.submission.grade.correct,
       ms,
+      q.difficulty,
     ));
   };
 

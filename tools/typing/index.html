@@ -8,6 +8,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; frame-src 'self'; script-src 'unsafe-inline' 'self'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src data:; worker-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Typing Trainer &mdash; Limitless</title>
   <link rel="stylesheet" href="../../theme.css">
+  <link rel="stylesheet" href="../../shared/meta/status-strip.css">
   <script>
     /* set the shell theme before first paint so there is no flash (same pattern as Math Trainer) */
     (function () {
@@ -29,6 +30,7 @@
     /* Full-screen Bookkeys: the Limitless top bar is hidden on this page only. The markup and script stay in place, so deleting this one rule brings the bar back. */
     .navbar { display: none; }
     .shell-main { flex: 1 1 auto; min-height: 0; display: flex; }
+    #limitless-meta-mount { flex: 0 0 auto; }
     .shell-main iframe { flex: 1 1 auto; width: 100%; height: 100%; border: 0; display: block; background: #08070d; }
 
     /* Theme toggle, mirroring hub-theme.css (that file is hub-wide and not loaded here). */
@@ -69,11 +71,14 @@
     </nav>
   </header>
 
+  <div id="limitless-meta-mount"></div>
   <main class="shell-main">
     <!-- The full Bookkeys application, running as its own document (identical to the standalone file). -->
     <iframe src="bookkeys.html" title="Bookkeys — Typing Trainer" loading="eager"></iframe>
   </main>
 
+  <script type="module" src="../../shared/meta/mount-status-strip.mjs"></script>
+  <script type="module" src="./bookkeys-reward-bridge.mjs"></script>
   <script>
     (function () {
       var root = document.documentElement, btn = document.getElementById('theme-toggle');

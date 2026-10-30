@@ -20,6 +20,7 @@ import {
   Progress,
   recordAnswer,
   recordExam,
+  saveProgress,
 } from "../lib/mt203-progress";
 import { MT203_ENTRY } from "../courses/entries/mt203";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
@@ -134,6 +135,7 @@ export default function Exam({
     let sc = 0;
     let p = progress;
     let xp = 0;
+    const initialRewardLedgerLength = progress.rewardLedger?.length ?? 0;
     pool.forEach((q, index) => {
       working = selectPlayerQuestion(working, index);
       const result = submitPlayerAnswer(working, playerAdapter, {
@@ -145,8 +147,8 @@ export default function Exam({
       const answer = result.submission.answer.optionId;
       const ok = result.submission.grade.correct;
       if (ok) sc++;
-      p = recordAnswer(p, q.id, answer, ok, "exam", 0);
-      const reward = awardAnswer(p, q.id, q.difficulty, ok);
+      p = recordAnswer(p, q.id, answer, ok, "exam", 0, q.difficulty, false);
+      const reward = awardAnswer(p, q.id, q.difficulty, ok, false);
       p = reward.progress;
       xp += reward.xp;
     });
@@ -157,16 +159,18 @@ export default function Exam({
       b.done++;
       if (answers[i] === q.answer) b.right++;
     });
+    const completedAt = Date.now();
     p = recordExam(p, {
-      id: `exam-${Date.now()}`,
-      ts: Date.now(),
+      id: `exam-${completedAt}`,
+      ts: completedAt,
       label: scope === "all" ? "Whole course" : UNITS.find((u) => u.id === scope)?.title ?? scope,
       total: pool.length,
       correct: sc,
+      answered: working.submissions.length,
       ms: 0,
       breakdown,
-    });
-    const settled = settleModuleBonuses(p);
+    }, false);
+    const settled = settleModuleBonuses(p, false);
     p = settled.progress;
     xp += settled.xp;
 
@@ -175,6 +179,7 @@ export default function Exam({
     setGained(xp);
     setRunning(false);
     setSubmitted(true);
+    saveProgress(p, (p.rewardLedger?.length ?? 0) > initialRewardLedgerLength);
     onProgress(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

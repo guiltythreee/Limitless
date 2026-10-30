@@ -37,15 +37,15 @@ export type Rank = { num: number; name: string; detail: string };
 // The archive ranks descend from 09 to 00 (see the specification, section 4).
 export const ranks: Rank[] = [
   { num: 9, name: "Initiate", detail: "Events, sample spaces, counting principles and the axioms" },
-  { num: 8, name: "Observer", detail: "Set operations, complements, unions and probability models" },
+  { num: 8, name: "Observer", detail: "Inclusion–exclusion, occupancy, matching and coupon collection" },
   { num: 7, name: "Apprentice", detail: "Conditional probability, independence and tree diagrams" },
   { num: 6, name: "Diviner", detail: "Bayes’ theorem and updating beliefs from evidence" },
-  { num: 5, name: "Adept", detail: "Random variables, mass functions and distribution functions" },
-  { num: 4, name: "Arithmetician", detail: "Expectation, variance and common distributions" },
+  { num: 5, name: "Adept", detail: "Discrete random variables, PMFs, CDFs and distribution models" },
+  { num: 4, name: "Arithmetician", detail: "Continuous variables, transformations, expectation and variance" },
   { num: 3, name: "Scholar", detail: "Joint distributions, covariance and conditional expectation" },
   { num: 2, name: "Theoretician", detail: "Inequalities, convergence and the limit theorems" },
   { num: 1, name: "Sage", detail: "Markov chains, Poisson processes and stochastic processes" },
-  { num: 0, name: "Archon", detail: "Advanced processes, Monte Carlo methods and MCMC" },
+  { num: 0, name: "Archon", detail: "Advanced processes, martingales, Monte Carlo and MCMC" },
 ];
 
 export const pad2 = (n: number) => String(n).padStart(2, "0");

@@ -601,6 +601,43 @@
     $('answer').focus();
   }
 
+  /* LSR-1 rewards are additive and stored separately from legacy MathXP. */
+  function awardMetaActivity(method, input) {
+    var api = window.LimitlessMathRewards;
+    if (api && typeof api[method] === 'function') {
+      try { api[method](input); } catch (e) {}
+      return;
+    }
+    /* Module scripts are deferred; dynamically import as a safe fallback. */
+    import('./math-rewards.mjs').then(function (rewards) {
+      var adapter = window.LimitlessMathRewards;
+      if (!adapter) adapter = rewards.createMathRewardAdapter(window.localStorage);
+      if (adapter && typeof adapter[method] === 'function') adapter[method](input);
+    }).catch(function () {});
+  }
+
+  function awardMetaRun(r, summary) {
+    var tierId = r.mode === 'limitless'
+      ? E.TIERS[r.topTierIndex].id
+      : (r.tier || E.TIERS[r.topTierIndex].id);
+    var tier = E.TIER_BY_ID[tierId];
+    awardMetaActivity('awardRun', {
+      runId: r.id,
+      completedAt: Date.now(),
+      completed: true,
+      mode: r.mode,
+      tier: tierId,
+      topTier: E.TIERS[r.topTierIndex].id,
+      tierIndex: tier ? tier.index : r.topTierIndex,
+      attempted: summary.attempted,
+      accuracy: summary.accuracy,
+      qualifying: summary.qualifying,
+      cleared: summary.cleared,
+      diff: r.diff,
+      drillSkills: r.drill && Array.isArray(r.drill.skills) ? r.drill.skills.slice() : []
+    });
+  }
+
   function finishRun(reason) {
     var s = MathRunState.state();
     if (!s || s.ended) return;
@@ -611,6 +648,7 @@
     var summary = summarise(s, reason);
     MathXP.touchStreak();
     persist(s, summary);
+    awardMetaRun(s, summary);
     renderResults(s, summary);
   }
 
@@ -966,19 +1004,34 @@
         ratio: median(answered.map(function (a) { return a.time / a.target; })), ts: Date.now() };
       var rec = tk(id);
       rec.lastTs = Date.now();
-      var xp = 0, wasMastered = isMastered(rec);
+      var xp = 0, wasMastered = isMastered(rec), newlyMastered = false;
       if (wasMastered) rec.masteryRewarded = true;
       if (phase === 'baseline') { xp = window.MathTrickProgression.replaceBaseline(rec, stat) ? 2 : 15; trickBanner = 'Baseline recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median. The previous post-test has been cleared; take a new post-test after practising.'; }
       else if (phase === 'practice') { xp = Math.max(2, 10 - 2 * (rec.practice || 0)); rec.practice = (rec.practice || 0) + 1; trickBanner = 'Practice done: ' + U.pct(stat.acc) + ' right. Take the post-test when the steps feel automatic.'; }
       else {
         xp = rec.post ? 3 : 25; rec.post = stat;
-        if (window.MathTrickProgression.awardFirstMastery(rec)) xp += 30;
+        newlyMastered = window.MathTrickProgression.awardFirstMastery(rec);
+        if (newlyMastered) xp += 30;
         trickBanner = 'Post-test recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median.' + (rec.base ? ' Baseline was ' + U.fmtSec(rec.base.med) + '.' : '') + (isMastered(rec) ? ' ' + tr.name + ' mastered!' : '');
       }
       MathXP.touchStreak();
       var award = MathXP.awardXp(xp);
       trickBanner += ' +' + award.gained + ' XP' + (award.rankUp ? ' · new rank: ' + award.rankUp + '!' : '') + '.';
       MathXP.saveMeta();
+      awardMetaActivity('awardTrickPhase', {
+        runId: s.id,
+        completedAt: Date.now(),
+        completed: true,
+        verified: true,
+        trickId: id,
+        phase: phase,
+        attempted: answered.length,
+        questionCount: s.attempts.length,
+        requiredCount: s.count,
+        skipped: s.skipped,
+        accuracy: stat.acc,
+        firstMastery: newlyMastered
+      });
     }
     setOpenTrick(id);
     MathRunState.reset();
