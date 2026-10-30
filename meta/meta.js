@@ -100,6 +100,7 @@ function renderEquippedProfile(level) {
   }
   if (equipped.effect) document.body.setAttribute("data-lsr1-effect", equipped.effect.id);
   else document.body.removeAttribute("data-lsr1-effect");
+  else document.body.removeAttribute("data-lsr1-effect");
   return equipped;
 }
 
