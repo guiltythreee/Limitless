@@ -222,7 +222,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Chernoff step", text: "P(S≥a)≤infₜ>₀ e^(−ta)E[e^(tS)]" }, { label: "Hoeffding", text: "P(|X̄−E[X]|≥ε)≤2exp(−2nε²/(b−a)²)" }],
     examples: [
       { title: "A bounded sample mean", problem: "IID observations lie in [0,1]. For n=100, bound the probability their mean differs from its expectation by at least 0.1.", steps: ["Substitute n=100, ε=0.1 and b−a=1.", "Hoeffding gives 2exp(−2·100·0.1²)=2e^(−2).", "The numerical bound is about 0.2707, not an estimate of the actual probability."] },
-      { title: "Derive the Chernoff step", problem: "For t>0, derive a bound on P(S≥a) using an exponential moment.", steps: ["If S≥a then e^(tS)≥e^(ta).", "Apply Markov: P(e^(tS)≥e^(ta))≤E[e^(tS)]/e^(ta).", "Thus P(S≥a)≤e^(−ta)E[e^(tS)]; optimize t when possible."] }
+      { title: "Derive the Chernoff step", problem: "For t>0, derive a bound on P(S≥a) using an exponential moment.", steps: ["If S≥a then e^(tS)≥e^(ta).", "Apply Markov: P(e^(tS)≥e^(ta))≤E[e^(tS)]/e^(ta).", "Thus P(S≥a)≤e^(−ta)E[e^(tS)]; optimize t when possible."] },
+      { title: "A sharper bounded-tail calculation", problem: "Independent variables lie in [0,1]. For n=50, use Hoeffding to bound P(X̄−E[X]≥0.2).", steps: [
+        "The one-sided Hoeffding bound is exp(−2nε²)/(the two-sided factor 2 is not needed for this one-sided event).",
+        "Substitute n=50 and ε=0.2: exp(−2·50·0.04)=e⁻⁴.",
+        "The upper bound is approximately 0.0183. Independence and the common bounded interval are essential."
+      ] }
     ],
     quiz: [
       { question: "Chernoff's method applies Markov's inequality to", options: ["S−E[S]", "e^(tS)", "S²−E[S²]", "Only an event indicator"], answer: 1, difficulty: "easy", explanation: "For t>0, e^(tS) is nonnegative and S≥a implies e^(tS)≥e^(ta)." },
@@ -338,6 +343,11 @@ export const advancedPathwayLessons: Lesson[] = [
         "The log-likelihood is n log λ − λΣtᵢ.",
         "Differentiating gives n/λ − Σtᵢ=0, so λ̂=n/Σtᵢ=1/t̄.",
         "With t̄=4 hours, λ̂=0.25 per hour. The reciprocal has rate units, not hours."
+      ] },
+      { title: "Bias and mean squared error", problem: "An estimator θ̂ has expectation θ+2 and variance 9. Find its bias and MSE.", steps: [
+        "Bias is E[θ̂]−θ=2.",
+        "MSE equals variance plus squared bias.",
+        "MSE=9+2²=13. An estimator with smaller variance can still have larger MSE if its bias is large."
       ] }
     ],
     quiz: [
@@ -374,6 +384,11 @@ export const advancedPathwayLessons: Lesson[] = [
         "The standard error is 12/√36=2.",
         "The test statistic is z=(104−100)/2=2.",
         "The upper-tail standard-normal p-value is approximately 0.0228. At α=0.05, reject H₀. This does not mean the probability H₀ is true is 0.0228."
+      ] },
+      { title: "An interval with unknown σ", problem: "A normal population is sampled with n=16, x̄=20 and sample standard deviation s=4. Construct a 95% t interval for the mean.", steps: [
+        "The population standard deviation is unknown, so use t with 15 degrees of freedom.",
+        "The standard error is s/√n=4/4=1 and t₀.₉₇₅,₁₅≈2.131.",
+        "The interval is 20±2.131, or (17.869,22.131), in the measurement's original units."
       ] }
     ],
     quiz: [
