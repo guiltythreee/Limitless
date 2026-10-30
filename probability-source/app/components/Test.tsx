@@ -3,10 +3,20 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { lessons, ranks, pad2, type Difficulty } from "../content";
 import { Rich } from "../lib/rich";
-import { allQuestions, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
+import { allQuestions, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
 import { recordAttempt, recordTest, useStore, type TestRecord } from "../lib/store";
 import { fmtTime } from "../lib/stats";
 import { Options } from "./Practice";
+import {
+  clearPlayerAnswer,
+  createLearningPlayerSession,
+  selectPlayerQuestion,
+  setPlayerAnswer,
+  submitPlayerAnswer,
+  tickPlayer,
+} from "../../../shared/learning-player/runtime";
+import { probabilityPlayerAdapter } from "../learning-player/adapter";
+import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
 
 const MARK: Record<Status, string> = { correct: "✓", incorrect: "×", partial: "◐", unattempted: "" };
 const MARKCLS: Record<Status, string> = { correct: "text-emerald-500", incorrect: "text-red-500", partial: "text-amber-500", unattempted: "" };
@@ -116,8 +126,20 @@ function Setup({ currentLessonId, onStart }: { currentLessonId: string; onStart:
 }
 
 function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: () => void }) {
-  const [i, setI] = useState(0);
-  const [picks, setPicks] = useState<Record<string, number[]>>({});
+  const [session, setSession] = useState(() =>
+    createLearningPlayerSession<Q, ProbabilityPlayerAnswer>(pool)
+  );
+  const i = session.state.index;
+  const picks = useMemo(() => {
+    const out: Record<string, number[]> = {};
+    for (const question of pool) {
+      const answer = session.answers[question.key];
+      out[question.key] = !answer ? []
+        : answer.kind === "multi-choice" ? answer.optionIds.map(Number)
+        : [Number(answer.optionId)];
+    }
+    return out;
+  }, [pool, session.answers]);
   const [done, setDone] = useState<TestRecord | null>(null);
   const times = useRef<Record<string, number>>({});
   const since = useRef(Date.now());
@@ -126,29 +148,62 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
   useEffect(() => { const iv = setInterval(() => tick((n) => n + 1), 1000); return () => clearInterval(iv); }, []);
 
   const q = pool[i];
-  const bank = () => { const now = Date.now(); times.current[q.key] = (times.current[q.key] ?? 0) + (now - since.current); since.current = now; };
-  const go = (n: number) => { bank(); setI(n); };
+  const bank = () => {
+    if (!q) return;
+    const now = Date.now();
+    times.current[q.key] = (times.current[q.key] ?? 0) + (now - since.current);
+    since.current = now;
+  };
+  const go = (n: number) => {
+    bank();
+    setSession((current) => selectPlayerQuestion(current, n));
+  };
   function choose(k: number) {
+    if (!q) return;
     const cur = picks[q.key] ?? [];
     const next = isMulti(q.item) ? (cur.includes(k) ? cur.filter((p) => p !== k) : [...cur, k]) : [k];
-    setPicks({ ...picks, [q.key]: next });
+    const answer: ProbabilityPlayerAnswer | null = next.length === 0 ? null
+      : isMulti(q.item)
+        ? { kind: "multi-choice", optionIds: next.map(String) }
+        : { kind: "single-choice", optionId: String(next[0]) };
+    setSession((current) => answer
+      ? setPlayerAnswer(current, probabilityPlayerAdapter, answer)
+      : clearPlayerAnswer(current, probabilityPlayerAdapter));
   }
   function finish() {
     bank();
+    let working = session;
     let correct = 0, score = 0, answered = 0;
     const results: TestRecord["results"] = [];
-    for (const x of pool) {
-      const p = picks[x.key];
-      const ms = times.current[x.key] ?? 0;
-      if (p && p.length) {
-        recordAttempt(x.key, p, ms);
-        const g = grade(x.item, p);
-        answered++; score += g.score; if (g.status === "correct") correct++;
-        results.push({ q: x.key, status: g.status, ms });
-      } else results.push({ q: x.key, status: "unattempted", ms });
+    for (let index = 0; index < pool.length; index++) {
+      const question = pool[index];
+      const picked = picks[question.key] ?? [];
+      const ms = times.current[question.key] ?? 0;
+      if (picked.length) {
+        working = selectPlayerQuestion(working, index);
+        working = tickPlayer(working, ms);
+        const result = submitPlayerAnswer(working, probabilityPlayerAdapter, {
+          submittedAt: Date.now(),
+          mode: "exam",
+        });
+        if (!result.submission) {
+          results.push({ q: question.key, status: "unattempted", ms });
+          continue;
+        }
+        working = result.session;
+        recordAttempt(question.key, picked, ms);
+        const grade = result.submission.grade;
+        answered++;
+        score += grade.score;
+        if (grade.correct) correct++;
+        results.push({ q: question.key, status: grade.status, ms });
+      } else {
+        results.push({ q: question.key, status: "unattempted", ms });
+      }
     }
     const rec: TestRecord = { id: `t${Date.now()}`, ts: Date.now(), label, total: pool.length, answered, correct, score, ms: Date.now() - startedAt.current, results };
     recordTest(rec);
+    setSession(working);
     setDone(rec);
   }
 
@@ -175,7 +230,8 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
     );
   }
 
-  const answeredCount = Object.values(picks).filter((p) => p.length).length;
+  const answeredCount = Object.values(picks).filter((picked) => picked.length > 0).length;
+  if (!q) return null;
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center gap-1.5">
