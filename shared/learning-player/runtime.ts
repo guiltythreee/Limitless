@@ -39,12 +39,14 @@ export function setPlayerAnswer<
   TAnswer extends PlayerAnswer,
 >(
   session: LearningPlayerSession<TQuestion, TAnswer>,
-  adapter: Pick<LearningPlayerAdapter<TQuestion, TAnswer>, "questionId">,
+  adapter: Pick<LearningPlayerAdapter<TQuestion, TAnswer>, "questionId" | "canRetry">,
   answer: TAnswer,
 ): LearningPlayerSession<TQuestion, TAnswer> {
   const question = currentQuestion(session);
   if (!question || session.state.phase !== "answering") return session;
   const id = adapter.questionId(question);
+  const hasSubmission = session.submissions.some((entry) => entry.question.questionId === id);
+  if (hasSubmission && adapter.canRetry?.(question) === false) return session;
   return { ...session, answers: { ...session.answers, [id]: answer } };
 }
 
@@ -66,6 +68,10 @@ export function submitPlayerAnswer<
   }
 
   const questionId = adapter.questionId(question);
+  const hasSubmission = session.submissions.some((entry) => entry.question.questionId === questionId);
+  if (hasSubmission && adapter.canRetry?.(question) === false) {
+    return { session, submission: null };
+  }
   const answer = session.answers[questionId];
   if (!answer) return { session, submission: null };
 
