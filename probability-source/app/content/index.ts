@@ -34,9 +34,13 @@ const rank03Order = [
   "joint-distributions", "conditional-expectation", "joint-transformations",
   "sums-convolution", "generating-functions", "order-statistics",
 ];
+const rank01Order = [
+  "markov", "markov-chain-analysis", "random-walks", "branching-processes",
+  "poisson-processes", "reliability-hazards",
+];
 const rank00Order = ["martingales", "renewal-queueing", "monte-carlo", "mcmc"];
 const position = (l: Lesson) => {
-  const order = l.rank === 9 ? rank09Order : l.rank === 3 ? rank03Order : l.rank === 2 ? rank02Order : l.rank === 0 ? rank00Order : null;
+  const order = l.rank === 9 ? rank09Order : l.rank === 3 ? rank03Order : l.rank === 2 ? rank02Order : l.rank === 1 ? rank01Order : l.rank === 0 ? rank00Order : null;
   if (!order) return 0;
   const i = order.indexOf(l.id);
   return i === -1 ? order.length : i;
