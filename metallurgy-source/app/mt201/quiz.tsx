@@ -68,7 +68,7 @@ export default function Quiz({
       setDone(false);
     }
   }, [initialQuestionId, queueKey, topicId]);
-  const q = qs[idx];
+  const q = qs[idx]!;
 
   const stateFor = (n: number) => progress.answered[qid(topicId, n)];
 
