@@ -100,7 +100,6 @@ function renderEquippedProfile(level) {
   }
   if (equipped.effect) document.body.setAttribute("data-lsr1-effect", equipped.effect.id);
   else document.body.removeAttribute("data-lsr1-effect");
-  else document.body.removeAttribute("data-lsr1-effect");
   return equipped;
 }
 
@@ -324,6 +323,12 @@ function render() {
           : award.itemId.startsWith("bookkeys:chapter:")
             ? "Bookkeys · chapter complete"
             : "Bookkeys · book complete";
+      } else if (award.moduleId === "metallurgy-mt201") {
+        title = "Metallurgy · MT201";
+      } else if (award.moduleId === "metallurgy-mt202") {
+        title = "Metallurgy · MT202";
+      } else if (award.moduleId === "metallurgy-mt203") {
+        title = "Metallurgy · MT203";
       }
       recent.append(makeRow(title, detail, "+" + number(award.totalExp) + " EXP"));
     }
