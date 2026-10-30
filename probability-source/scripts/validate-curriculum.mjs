@@ -60,6 +60,11 @@ for (const [file, id, rank] of rankChecks) {
 const indexSource = read("app/content/index.ts");
 for (const [name, expected] of Object.entries({
   rank09Order: ["sample-space", "events-operations", "set-theory", "mutually-exclusive", "exhaustive-partitions", "counting", "combinations", "multinomials", "axioms", "properties", "equally-likely", "probability-counting", "geometric-probability", "de-morgan", "continuity"],
+  rank08Order: ["advanced-counting", "occupancy-coupon", "random-permutations"],
+  rank07Order: ["conditional", "conditional-independence", "total-probability"],
+  rank06Order: ["bayes", "bayesian-inference"],
+  rank05Order: ["random-variables", "distributions", "discrete-distributions", "negative-binomial"],
+  rank04Order: ["expectation-variance", "continuous-rv", "normal-distribution", "gamma-beta-distributions"],
   rank03Order: ["joint-distributions", "conditional-expectation", "joint-transformations", "sums-convolution", "generating-functions", "order-statistics"],
   rank01Order: ["markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "reliability-hazards"],
   rank02Order: ["limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "borel-cantelli", "likelihood-estimation", "confidence-hypothesis-tests"],
