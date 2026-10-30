@@ -36,7 +36,7 @@ function Setup({ currentLessonId, pathwayId, onStart }: { currentLessonId: strin
   const chapters = useMemo(() => ranks
     .map((r) => ({ rank: r, topics: scopedLessons.filter((l) => l.rank === r.num && l.quiz.length > 0) }))
     .filter((c) => c.topics.length > 0), [scopedLessons]);
-  const [chosen, setChosen = useState<Set<string>>(() => new Set([currentLessonId]));
+  const [chosen, setChosen] = useState<Set<string>>(() => new Set([currentLessonId]));
   const [size, setSize] = useState(10);
   const [pick, setPick] = useState<"mixed" | "new">("mixed");
   const [diff, setDiff] = useState<Difficulty | "all">("all");
