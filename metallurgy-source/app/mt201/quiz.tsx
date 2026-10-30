@@ -193,6 +193,8 @@ export default function Quiz({
                       type="button"
                       className={d.cls}
                       title={`Question ${d.n}`}
+                      aria-label={`Question ${d.n}`}
+                      aria-current={d.n === q.n ? "step" : undefined}
                       onClick={() => setSession((current) => selectPlayerQuestion(current, d.n - 1))}
                     />
                   ))}>
