@@ -1,0 +1,84 @@
+/*
+ * P6.6 — shared learning-player design tokens and layout primitives.
+ *
+ * Discipline themes remain authoritative. These semantic aliases translate
+ * their existing palette into one vocabulary without replacing their colours,
+ * typography, backgrounds, or course-specific question renderers.
+ */
+
+:root {
+  /* Semantic colour tokens shared by Probability and Metallurgy themes. */
+  --lp-color-canvas: var(--ink);
+  --lp-color-surface: var(--panel);
+  --lp-color-surface-raised: var(--chip);
+  --lp-color-text: var(--body);
+  --lp-color-heading: var(--paper);
+  --lp-color-muted: var(--dim);
+  --lp-color-subtle: var(--faint);
+  --lp-color-accent: var(--gold);
+  --lp-color-accent-strong: var(--goldhi);
+  --lp-color-border: var(--panel-line);
+  --lp-color-success: var(--ok);
+  --lp-color-danger: var(--bad, #b45353);
+  --lp-color-focus: var(--goldhi);
+
+  /* Shared spacing scale: 4, 8, 12, 16, 24, 32 and 48 px at the default root size. */
+  --lp-space-1: 0.25rem;
+  --lp-space-2: 0.5rem;
+  --lp-space-3: 0.75rem;
+  --lp-space-4: 1rem;
+  --lp-space-6: 1.5rem;
+  --lp-space-8: 2rem;
+  --lp-space-12: 3rem;
+
+  /* Shared shape, type and elevation tokens. */
+  --lp-radius-sm: 0.5rem;
+  --lp-radius-md: 0.75rem;
+  --lp-radius-lg: 1rem;
+  --lp-radius-pill: 999px;
+  --lp-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --lp-font-reading: Georgia, "Times New Roman", serif;
+  --lp-shadow-panel: var(--panel-shadow, 0 12px 36px #0002);
+}
+
+/*
+ * The shell owns only the shared page structure. It deliberately does not
+ * style course-owned question content, answer controls, or palette buttons.
+ */
+[data-learning-player] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--lp-space-4);
+  width: 100%;
+  min-width: 0;
+}
+
+[data-learning-player-palette],
+[data-learning-player-content] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+[data-learning-player-palette] {
+  width: 100%;
+}
+
+[data-learning-player-content] {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 40rem) {
+  [data-learning-player] {
+    gap: var(--lp-space-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-learning-player],
+  [data-learning-player] * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
