@@ -21,10 +21,10 @@ export function difficultyTier(raw: number | undefined): DifficultyTier {
 export function appendLsrActivity<P extends LsrProgress>(
   progress: P,
   input: RewardInput,
-): { progress: P & { rewardLedger: RewardRecord[] }; record: RewardRecord } {
+): { progress: P & { rewardLedger: RewardRecord[] }; record: RewardRecord | null } {
   const previous = sanitiseRewardRecords(progress.rewardLedger);
   const records = buildRewardRecords(input, previous);
-  const record = records[0];
+  const record = records[0] ?? null;
   return {
     progress: { ...progress, rewardLedger: [...previous, ...records] },
     record,
