@@ -117,6 +117,8 @@ const legacy = {
   eq(reset.examBest, null, "reset clears MT201 local exam best");
   eq(reset.activities, [], "reset clears MT201 local activity history");
   eq(reset.rewardLedger.length, 1, "reset preserves lifetime MT201 Meta rewards");
+  const afterResetRetry = recordAnswer(reset, "ch01-q1", "A", true);
+  eq(afterResetRetry.rewardLedger.length, 1, "reset cannot reopen a previously paid MT201 question");
   eq(s.getItem(THEME), "light", "reset leaves the theme key intact");
 }
 
