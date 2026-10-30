@@ -159,6 +159,30 @@ for (let i = 0; i < rank09ExtraStarts.length; i++) {
     if (!difficulties.has(level)) throw new Error("Sequence 09 lesson " + id + " is missing its " + level + " question.");
   }
 }
+// Sequence 08 counting/occupancy/permutation lessons require worked application depth.
+const sequence08Sources = [
+  read("app/content/pathway-lessons.ts"),
+  read("app/content/pathway-lessons-advanced.ts"),
+];
+const sequence08Lessons = [];
+for (const source of sequence08Sources) {
+  const starts = [...source.matchAll(/\n  \{\n    id: "([^"]+)", rank: 8/g)];
+  const allStarts = [...source.matchAll(/\n  \{\n    id: "([^"]+)", rank: \d+/g)];
+  for (const match of starts) {
+    const next = allStarts.find((candidate) => candidate.index > match.index);
+    const block = source.slice(match.index, next ? next.index : source.length);
+    sequence08Lessons.push({ id: match[1], block });
+  }
+}
+if (sequence08Lessons.length !== 3) {
+  throw new Error("Expected three Sequence 08 lessons; found " + sequence08Lessons.length);
+}
+for (const { id, block } of sequence08Lessons) {
+  const examples = [...block.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length;
+  const questions = [...block.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)];
+  if (examples < 3) throw new Error("Sequence 08 lesson " + id + " needs at least three worked examples.");
+  if (questions.length !== 3) throw new Error("Sequence 08 lesson " + id + " needs exactly three graded questions.");
+}
 const geometricSource = read("app/content/chapter1-theory.ts");
 const geometricStart = geometricSource.indexOf("export const geometricProbability");
 const geometricEnd = geometricSource.indexOf("export const borelCantelli", geometricStart);
