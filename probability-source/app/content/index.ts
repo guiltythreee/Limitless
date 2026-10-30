@@ -43,7 +43,7 @@ const rank01Order = [
   "markov", "markov-chain-analysis", "random-walks", "branching-processes",
   "poisson-processes", "reliability-hazards",
 ];
-const rank00Order = ["martingales", "renewal-queueing", "monte-carlo", "mcmc"];
+const rank00Order = ["martingales", "renewal-queueing", "monte-carlo", "mcmc", "bayesian-computation"];
 const position = (l: Lesson) => {
   const order = l.rank === 9 ? rank09Order : l.rank === 8 ? rank08Order : l.rank === 7 ? rank07Order : l.rank === 6 ? rank06Order : l.rank === 5 ? rank05Order : l.rank === 4 ? rank04Order : l.rank === 3 ? rank03Order : l.rank === 2 ? rank02Order : l.rank === 1 ? rank01Order : l.rank === 0 ? rank00Order : null;
   if (!order) return 0;
