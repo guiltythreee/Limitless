@@ -25,7 +25,7 @@ for (const moduleId of ["metallurgy-mt201", "metallurgy-mt202", "metallurgy-mt20
 }
 assert.ok(metaSource.includes("Metallurgy MT201–MT203"),
   "Meta empty state describes the Metallurgy integrations");
-assert.ok(metaSource.includes("registered personal projects"),
+assert.ok(metaSource.includes("registered personal project"),
   "Meta empty state describes the personal-project reward source");
 assert.ok(pageSource.includes('<a href="../metallurgy/">Metallurgy</a>'),
   "Meta navigation links to the Metallurgy application");
