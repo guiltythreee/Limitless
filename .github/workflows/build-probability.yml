@@ -43,6 +43,11 @@ jobs:
         working-directory: probability-source
         run: npm ci
 
+      - name: Validate Meta dashboard source
+        run: |
+          node --input-type=module --check < meta/meta.js
+          node meta/test-meta.mjs
+
       - name: Test LSR-1 shared reward standard
         working-directory: probability-source
         run: npm run test:rewards
