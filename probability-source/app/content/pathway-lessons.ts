@@ -515,15 +515,16 @@ export const pathwayLessons: Lesson[] = [
     description: "Formalize fair-game reasoning using conditional expectation.",
     objective: "Recognise martingales, verify the defining conditional-mean property, and use stopping-time language carefully.",
     body: [
-      "A filtration Fₙ represents information available by time n. An integrable adapted process Mₙ is a martingale when E[Mₙ₊₁|Fₙ]=Mₙ: given current information, its next conditional expectation equals its present value.",
-      "A martingale is not constant or non-random. It has no predictable drift relative to the specified information. A submartingale has nondecreasing conditional expectation; a supermartingale has nonincreasing conditional expectation.",
-      "A stopping time τ is a random time for which τ≤n can be determined using information available by time n. A rule may depend on observations up to now but not the future.",
-      "Optional stopping theorems need conditions, such as bounded stopping times or suitable integrability and tail controls. They do not imply every strategy that stops a fair game has the same expected payoff."
+      "A filtration Fₙ represents the information available by time n. A process Mₙ is adapted when Mₙ is measurable using Fₙ. If each Mₙ is integrable and E[Mₙ₊₁|Fₙ]=Mₙ, it is a martingale: conditional on all current information, the next expected value is the present value.",
+      "A martingale is not constant or non-random; individual paths can fluctuate and its variance can grow. A submartingale satisfies E[Mₙ₊₁|Fₙ]≥Mₙ, while a supermartingale satisfies the reverse inequality. These are statements about conditional drift, not every realized step.",
+      "A stopping time τ is a random time whose occurrence by time n can be decided from Fₙ. For example, the first time a running sum reaches a fixed threshold is a stopping time. The last time before a fixed horizon that the process is at its maximum is generally not, because deciding it requires knowing the future.",
+      "A basic optional-stopping result says E[Mτ]=E[M₀] when τ is a bounded stopping time and M is an integrable martingale (with the usual discrete-time setup). Other versions allow unbounded τ but require additional conditions, such as uniform integrability or suitable bounds on increments and expected duration.",
+      "The hypotheses matter. For a simple symmetric random walk started at 0, let τ be the first hitting time of +1. It is finite almost surely and Sτ=1, so E[Sτ]=1, not 0. There is no contradiction: τ is unbounded and the conditions needed to pass from the stopped martingales Sₙ∧τ to the limit are not satisfied."
     ],
     formulas: [
       { label: "Martingale condition", text: "E[Mₙ₊₁ | Fₙ] = Mₙ" },
-      { label: "Submartingale", text: "E[Mₙ₊₁ | Fₙ] ≥ Mₙ" },
-      { label: "Centered sum of IID increments", text: "Mₙ=Σᵢ₌₁ⁿ(Xᵢ−E[Xᵢ])" }
+      { label: "Optional stopping (bounded τ)", text: "If τ≤N, then E[Mτ]=E[M₀]" },
+      { label: "Centered IID sum", text: "Mₙ=Σᵢ₌₁ⁿ(Xᵢ−E[Xᵢ])" }
     ],
     examples: [
       { title: "A fair random walk", problem: "Let Sₙ be the sum of independent increments taking +1 and −1 with equal probabilities. Explain why Sₙ is a martingale.", steps: [
@@ -531,16 +532,21 @@ export const pathwayLessons: Lesson[] = [
         "Thus E[Sₙ₊₁|Fₙ]=E[Sₙ+Δₙ₊₁|Fₙ]=Sₙ.",
         "The current position is the conditional expected next position even though the next step is random."
       ] },
-      { title: "A drifted walk", problem: "Increments are +1 with probability 0.6 and −1 with probability 0.4. Is the unadjusted walk a martingale?", steps: [
-        "The next increment has mean 0.6−0.4=0.2.",
-        "Therefore E[Sₙ₊₁|Fₙ]=Sₙ+0.2, not Sₙ.",
-        "Subtracting predictable drift, Mₙ=Sₙ−0.2n, creates a martingale under this model."
+      { title: "A bounded stopping rule", problem: "Let Sₙ be a fair random walk and τ=min(T, first n with Sₙ=2), where T is a fixed positive integer. Find E[Sτ].", steps: [
+        "The first hitting time and the fixed time T are stopping times, so their minimum τ is a stopping time.",
+        "Also τ≤T, so the bounded optional-stopping result applies.",
+        "Therefore E[Sτ]=E[S₀]=0. This does not say Sτ=0 on each path; positive and negative stopped outcomes balance in expectation."
+      ] },
+      { title: "Why an unbounded rule needs care", problem: "For a fair simple random walk started at 0, τ is the first time Sₙ=1. Why does Sτ=1 not contradict the martingale property?", steps: [
+        "The walk hits +1 almost surely, so Sτ=1 almost surely and E[Sτ]=1.",
+        "The stopping time is not bounded; its expected duration is infinite.",
+        "The bounded optional-stopping theorem does not apply, and the stopped martingales do not satisfy the uniform-integrability condition needed for this limit argument."
       ] }
     ],
     quiz: [
       { question: "A martingale must satisfy which condition?", options: ["Mₙ₊₁=Mₙ on every path", "E[Mₙ₊₁|Fₙ]=Mₙ", "E[Mₙ]=0 for all processes", "Its variance must be constant"], answer: 1, difficulty: "easy", explanation: "The defining condition is equality of next conditional mean and present value. Individual paths may move and variance may change." },
-      { question: "A random walk has IID increments with mean 0.3. Which process is the natural centered martingale?", options: ["Sₙ+0.3n", "Sₙ−0.3n", "0.3Sₙ", "Sₙ²"], answer: 1, difficulty: "medium", explanation: "Subtract accumulated expected drift: Mₙ=Sₙ−0.3n. Its next increment has conditional mean zero." },
-      { question: "Why cannot optional stopping be applied blindly to every stopping strategy?", options: ["Martingales have no conditional expectations", "A stopping time must use future information", "The theorem requires additional conditions", "Stopping always increases expected value"], answer: 2, difficulty: "hard", explanation: "Optional stopping requires hypotheses controlling the stopping time and process, such as boundedness or suitable integrability. Without them, a fair-game argument can fail." }
+      { question: "Which event defines a stopping time for an adapted process?", options: ["The first time it reaches 5", "The last time it is below 5 before time 100", "The time of its global maximum over all future time", "The time immediately before its next jump"], answer: 0, difficulty: "medium", explanation: "By time n, one can determine whether the process has reached 5 at or before n. The other rules require future information." },
+      { question: "A fair simple random walk is stopped when it first reaches +1. Why does E[Sτ]=1 not violate optional stopping?", options: ["The walk is not a martingale", "The stopping time is bounded", "The hypotheses for the bounded optional-stopping result fail", "The terminal value is not integrable"], answer: 2, difficulty: "hard", explanation: "The hitting time is almost surely finite but unbounded with infinite expected duration. The conditions that justify optional stopping at this limit are not met." }
     ]
   },
   {
