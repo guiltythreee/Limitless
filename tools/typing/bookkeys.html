@@ -96,12 +96,31 @@ button { cursor: pointer; background: var(--panel); border: 1px solid var(--line
 button:hover { border-color: var(--accent); }
 button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 button.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
-button.primary:hover, label.btn:hover { background: #68785B; border-color: #68785B; }
+:root:not([data-theme="dark"]) button.primary:hover,
+:root:not([data-theme="dark"]) label.btn:hover { background: #68785B; border-color: #68785B; }
 button.primary:focus-visible, .reqbtn:focus-visible, .ch button:focus-visible {
   outline: 2px solid #A18B62; outline-offset: 2px;
 }
-.reqbtn.on { background: #E8EDE2; color: #40513A; border-color: #AAB89B; }
-.reqbtn.opt { background: #F7F2E9; color: #81745F; border-color: #DDD2BF; }
+:root:not([data-theme="dark"]) .reqbtn.on { background: #E8EDE2; color: #40513A; border-color: #AAB89B; }
+:root:not([data-theme="dark"]) .reqbtn.opt { background: #F7F2E9; color: #81745F; border-color: #DDD2BF; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .reqbtn.on,
+  :root:not([data-theme="light"]) .reqbtn.opt {
+    background: var(--panel); color: var(--ink); border-color: var(--line);
+  }
+  :root:not([data-theme="light"]) button.primary:hover,
+  :root:not([data-theme="light"]) label.btn:hover {
+    background: var(--accent); border-color: var(--accent);
+  }
+}
+:root[data-theme="dark"] .reqbtn.on,
+:root[data-theme="dark"] .reqbtn.opt {
+  background: var(--panel); color: var(--ink); border-color: var(--line);
+}
+:root[data-theme="dark"] button.primary:hover,
+:root[data-theme="dark"] label.btn:hover {
+  background: var(--accent); border-color: var(--accent);
+}
 button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 button:disabled { opacity: .4; cursor: default; }
 
@@ -971,7 +990,7 @@ var SECTION_OPTIONAL = [
   "list of maps", "list of tables", "epigraph", "dedication", "foreword", "preface",
   "acknowledgements", "acknowledgments", "introduction", "prologue", "epilogue", "afterword",
   "appendix", "appendices", "glossary", "bibliography", "references", "sources", "endnotes",
-  "notes", "footnotes", "index", "author's note", "authors note", "about the author",
+  "footnotes", "index", "author's note", "authors note", "about the author",
   "about the authors", "about the editors", "about the contributors", "also by", "colophon",
   "errata", "abbreviations", "chronology", "timeline", "cast of characters", "dramatis personae",
   "translator's note", "translator's preface", "editor's note", "editor's preface",
@@ -987,12 +1006,13 @@ function sectionBody(title) {
 }
 // Does a heading name an actual chapter (required by default) or front/back matter (optional)?
 function sectionRequired(title) {
-  var t = normalize(String(title || "")).toLowerCase(), body, forms, i, w;
+  var raw = normalize(String(title || "")), t = raw.toLowerCase(), body, forms, i, w;
   if (!t) return true;                                                        // an untitled section (an even split) is required
   if (/^[0-9]{1,4}$/.test(t) || /^[ivxlcdm]{1,7}$/.test(t)) return true;      // "12" or "IV" on its own is a chapter
   body = sectionBody(t) || t;
-  // Publisher/author-credit pages are back matter, not chapters.
-  if (/^by\s+[a-z][a-z .'-]{1,80}$/.test(body) || /^more from(?:\s|$)/.test(body)) return false;
+  // Match a proper author credit, not ordinary headings such as "By the River".
+  if (/^By\s+(?:(?:[A-Z]\.)|(?:[A-Z][\p{L}'’-]+))(?:\s+(?:(?:[A-Z]\.)|(?:[A-Z][\p{L}'’-]+))){1,3}$/u.test(raw) ||
+      /^more from(?:\s|$)/.test(body)) return false;
   forms = [body, body.replace(/^(?:the|a|an)\s+/, "")];
   for (i = 0; i < SECTION_OPTIONAL.length; i++) {
     w = SECTION_OPTIONAL[i];
