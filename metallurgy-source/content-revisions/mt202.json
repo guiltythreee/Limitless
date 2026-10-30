@@ -9231,7 +9231,8 @@
             "text": "a small solute atom (C, N, H) hops directly from one interstitial void to a neighbouring one — no vacancy required"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The interstitial mechanism is a small solute atom hopping directly between neighbouring interstitial voids without requiring a vacancy. **(d)** is correct. Option (a) is the vacancy mechanism; (b) and (c) do not describe ordinary interstitial diffusion."
       },
       "sourceFingerprint": "5896f8ec"
     },
@@ -9421,7 +9422,8 @@
             "text": "J = −D dC/dx"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Fick's first law is J = −D dC/dx, so **(d)** is correct. Option (a) has the wrong sign; (b) is not a flux law; and (c) is the spatial-derivative term appearing in Fick's second law, not the first law."
       },
       "sourceFingerprint": "182193d1"
     },
@@ -9449,7 +9451,8 @@
             "text": "the concentration increases with time"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The negative sign in J = −D dC/dx means flux runs down the concentration gradient, from high concentration toward low concentration. **(b)** is correct. The sign specifies direction; it does not describe heat or whether concentration increases with time."
       },
       "sourceFingerprint": "c08d8d7f"
     },
@@ -9477,7 +9480,8 @@
             "text": "steady state — a concentration profile that is not changing with time"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Fick's first law is used for steady-state diffusion, where the concentration profile is time-independent. **(d)** is correct. Options (a) and (b) describe transient/non-steady conditions; (c) is equilibrium, where the net flux would be zero."
       },
       "sourceFingerprint": "729bd1cf"
     },
@@ -9505,7 +9509,8 @@
             "text": "C = C₀ exp(−Q_d/RT)"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Fick's second law for constant D in one dimension is ∂C/∂t = D ∂²C/∂x². **(b)** is correct. Option (a) is Fick's first law; (c) has an incorrect sign; and (d) is not Fick's second law."
       },
       "sourceFingerprint": "2ea4c067"
     },
@@ -9533,7 +9538,8 @@
             "text": "non-steady-state diffusion, where concentration at a given point changes with time"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Fick's second law describes non-steady-state diffusion, where concentration at a point changes with time. **(d)** is correct. Option (a) describes the steady-state setting associated with the first law; (b) is heat conduction; and (c) is phase equilibrium."
       },
       "sourceFingerprint": "9cf1ffc3"
     },
@@ -9561,7 +9567,8 @@
             "text": "(C_x − C₀)/(C_s − C₀) = 1 − erf( x / (2√(Dt)) )"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "For a semi-infinite solid with a fixed surface concentration, the solution is (C_x − C₀)/(C_s − C₀) = 1 − erf[x/(2√(Dt))]. **(d)** is correct. Option (a) omits the leading 1 −; (b) is an exponential profile, not this boundary-condition solution; and (c) is not the solution."
       },
       "sourceFingerprint": "08318d29"
     },
@@ -9589,7 +9596,8 @@
             "text": "the Gaussian error function — a tabulated, standard mathematical function"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The function erf is the standard Gaussian error function, defined by erf(z) = (2/√π)∫₀ᶻ exp(−u²)du. **(d)** is correct. It is a tabulated mathematical function, not an error in the derivation, activation energy or flux."
       },
       "sourceFingerprint": "5d24662f"
     },
@@ -9671,7 +9679,8 @@
             "text": "D/t"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The characteristic diffusion distance scales as √(Dt), so **(b)** is correct. Options (a) and (d) omit the square root or place time incorrectly; (c) puts time in the denominator and has the wrong scaling."
       },
       "sourceFingerprint": "b912cd96"
     },
@@ -9699,7 +9708,8 @@
             "text": "2.2 × 10² s ≈ 3.7 min"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "The normalised concentration is (0.4 − 0.05)/(1.0 − 0.05) = 0.35/0.95 = 0.368. Thus erf(z) = 1 − 0.368 = 0.632, giving z ≈ 0.64 and t ≈ 2.2 × 10⁴ s. **(a)** is correct. The other options differ by factors of ten or one hundred."
       },
       "sourceFingerprint": "b855e7b9"
     },
@@ -9727,7 +9737,8 @@
             "text": "D = D₀ RT/Q_d"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The Arrhenius relation for diffusion is D = D₀ exp(−Q_d/RT), so **(b)** is correct. A positive exponent would make D increase as temperature falls, contrary to thermally activated diffusion; the remaining options are not exponential Arrhenius forms."
       },
       "sourceFingerprint": "9ed3f333"
     },
@@ -9783,7 +9794,8 @@
             "text": "−Q_d/R"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Taking the natural logarithm gives ln D = ln D₀ − (Q_d/R)(1/T). Therefore the slope of ln D against 1/T is −Q_d/R, so **(d)** is correct. The intercept is ln D₀; the other options are not the slope."
       },
       "sourceFingerprint": "31c92c26"
     },
@@ -9889,7 +9901,8 @@
             "text": "free surface > grain boundary > bulk (lattice)"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Diffusion is fastest along a free surface, next fastest along grain boundaries, and slowest through the bulk lattice. **(d)** is correct. The more open, disordered path has a lower activation barrier; option (b) reverses the ordering and (c) incorrectly makes the rates equal."
       },
       "sourceFingerprint": "e22d1f90"
     },
@@ -9973,7 +9986,8 @@
             "text": "it can only operate at grain boundaries, never in the lattice"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "Direct exchange requires two neighbouring atoms to move past one another simultaneously, producing a highly crowded transition configuration and a prohibitively large activation barrier. **(b)** is correct. A vacancy is not required for direct exchange; that is a different mechanism."
       },
       "sourceFingerprint": "9c429c2d"
     },
@@ -10057,7 +10071,8 @@
             "text": "1.8×10⁻⁹ mol·m⁻²·s⁻¹"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "For steady permeation, J = D(C₁ − C₂)/L. With L = 3 × 10⁻³ m, J = (5 × 10⁻¹⁰)(1.2)/(3 × 10⁻³) = 2 × 10⁻⁷ mol·m⁻²·s⁻¹. **(b)** is correct. Option (a) omits the millimetre-to-metre conversion; the other options use an incorrect length or operation."
       },
       "sourceFingerprint": "763be3f1"
     },
@@ -10085,7 +10100,8 @@
             "text": "4.2×10⁻¹² m²/s"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Using D₂/D₁ = exp[(Q_d/R)(1/T₁ − 1/T₂)] with T₁ = 773 K and T₂ = 873 K gives an exponent of about 2.14, so D₂/D₁ ≈ 8.5. Thus D₂ ≈ 8.5 × 10⁻¹² m²/s and **(c)** is correct."
       },
       "sourceFingerprint": "960d6988"
     },
@@ -10113,7 +10129,8 @@
             "text": "28 kJ/mol"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The activation energy is Q_d = R ln(D₂/D₁)/(1/T₁ − 1/T₂). Here D₂/D₁ ≈ 12.1 and the reciprocal-temperature difference is 1.464 × 10⁻⁴ K⁻¹, giving Q_d ≈ 142 kJ/mol. **(b)** is correct. The logarithm of the diffusivity ratio is essential."
       },
       "sourceFingerprint": "f9d74e42"
     },
@@ -10178,7 +10195,8 @@
             "text": "0.40"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The normalised concentration is 0.5716 = 1 − erf(z), so erf(z) = 0.4284. The supplied table gives erf(0.4) = 0.4284; therefore z = 0.40 and **(d)** is correct."
       },
       "sourceFingerprint": "de6260bc"
     },
@@ -10206,7 +10224,8 @@
             "text": "200 kJ/mol"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The Arrhenius-plot slope is ΔlnD/Δ(1/T) = −4.8/(0.2 × 10⁻³) = −24,000 K. Hence Q_d = −slope × R ≈ 24,000 × 8.314 = 2.0 × 10⁵ J/mol = 200 kJ/mol. **(d)** is correct."
       },
       "sourceFingerprint": "c84cc3e0"
     },
@@ -10234,7 +10253,8 @@
             "text": "J/4"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "At steady state, J = D(C₁ − C₂)/L. Doubling the membrane thickness halves the concentration gradient and therefore halves the flux. **(b)** is correct. The flux is inversely proportional to thickness."
       },
       "sourceFingerprint": "e271899f"
     },
@@ -10290,7 +10310,8 @@
             "text": "C(x,t) = M/(Dt) · exp(−x²/(2Dt))"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "For an instantaneous thin tracer layer with conserved areal dose M, the concentration profile is a spreading Gaussian: C(x,t) = M/[2√(πDt)] exp[−x²/(4Dt)]. **(c)** is correct. Its prefactor decreases as √t increases, preserving the integrated tracer dose; the other options have the wrong profile or time dependence."
       },
       "sourceFingerprint": "b0ad3c0a"
     },
@@ -10318,7 +10339,8 @@
             "text": "3×10⁻¹⁵ cm²/s"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Since 1 m = 100 cm, 1 m² = 10⁴ cm². Therefore 3 × 10⁻¹¹ m²/s = 3 × 10⁻⁷ cm²/s, so **(c)** is correct. Area conversion squares the length factor."
       },
       "sourceFingerprint": "54948d8e"
     },
