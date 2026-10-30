@@ -31,6 +31,7 @@ export function readMetaStatus(storage) {
     progressPct: summary.level.progressPct,
     nextReward: summary.nextReward,
     equipped: Object.values(equipped).filter(Boolean).map((reward) => reward.name),
+    equippedEffect: equipped.effect?.id ?? null,
     pendingNotifications,
   };
 }
