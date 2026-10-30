@@ -5,6 +5,7 @@ on:
     paths:
       - "shared/learning-player/**"
       - "metallurgy-source/app/learning-player/**"
+      - "metallurgy-source/app/mt201/quiz.tsx"
       - "probability-source/app/learning-player/**"
       - ".github/workflows/test-p6-learning-player-contracts.yml"
   workflow_dispatch:
