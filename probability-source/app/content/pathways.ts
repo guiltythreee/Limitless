@@ -24,7 +24,7 @@ export const pathways: Pathway[] = [
     lessonIds: [
       "sample-space", "events-operations", "set-theory", "mutually-exclusive", "exhaustive-partitions",
       "counting", "combinations", "multinomials", "axioms", "properties", "equally-likely",
-      "probability-counting", "de-morgan", "advanced-counting", "random-permutations", "occupancy-coupon",
+      "probability-counting", "de-morgan", "continuity", "advanced-counting", "random-permutations", "occupancy-coupon",
       "conditional", "conditional-independence", "total-probability", "bayes", "geometric-probability"
     ]
   },
@@ -40,7 +40,7 @@ export const pathways: Pathway[] = [
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
-      "geometric-probability", "borel-cantelli"
+      "geometric-probability", "continuity", "borel-cantelli"
     ]
   },
   {
@@ -55,7 +55,7 @@ export const pathways: Pathway[] = [
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
-      "markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "renewal-queueing", "reliability-hazards", "monte-carlo", "martingales", "mcmc"
+      "continuity", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "renewal-queueing", "reliability-hazards", "monte-carlo", "martingales", "mcmc"
     ]
   },
   {
