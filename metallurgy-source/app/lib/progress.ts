@@ -154,9 +154,12 @@ function logFor(root: Progress): ActivityLog {
 /** Append through the shared log and hand back the root it persisted. */
 function appendAndReturn(
   root: Progress,
-  incoming: readonly NewActivity[]
+  incoming: readonly NewActivity[],
+  notifyMeta = false
 ): Progress {
-  return { ...root, activities: logFor(root).append(incoming) };
+  const next = { ...root, activities: logFor(root).append(incoming) };
+  if (notifyMeta) announceLsrRewardWrite();
+  return next;
 }
 
 export function recordAnswer(
