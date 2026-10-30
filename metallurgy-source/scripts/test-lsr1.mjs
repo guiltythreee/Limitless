@@ -64,24 +64,29 @@ function checkLedgerOnly(actual, expected, label) {
   const repeated = MT201.recordAnswer(practiced, "ch01-q2", "C", true, "practice", 3);
   checkLedgerOnly(repeated.rewardLedger, 1, "MT201 locked question retry must not award again");
 
-  const underfilled = MT201.recordExamAssessment(repeated, {
+  const examAnswers = Array.from({ length: 10 }, (_, i) => ({
+    key: `ch02-q${i + 1}`, topicId: "ch02", choice: "A", correct: i < 4,
+  }));
+  const underfilled = MT201.recordExamAnswers(repeated, examAnswers.slice(0, 4), undefined, {
     runId: "mt201-exam-underfilled", ts: 1700000002000, total: 10, answered: 4, correct: 4,
   });
-  checkLedgerOnly(underfilled.rewardLedger, 1, "under-half answered MT201 assessment gets no EXP");
-  const partial = MT201.recordExamAssessment(underfilled, {
+  checkLedgerOnly(underfilled.rewardLedger, 1, "underfilled MT201 assessment gets no EXP");
+  const partial = MT201.recordExamAnswers(underfilled, examAnswers.slice(0, 5), undefined, {
     runId: "mt201-exam-partial", ts: 1700000002500, total: 10, answered: 5, correct: 4,
   });
   checkLedgerOnly(partial.rewardLedger, 1, "half-answered MT201 assessment earns no assessment EXP");
-  const exam = MT201.recordExamAssessment({
+  const writesBeforeExam = store.writes;
+  const exam = MT201.recordExamAnswers({
     ...partial, examBest: { score: 4, total: 10, at: 1700000003000 },
-  }, {
+  }, examAnswers, { score: 4, total: 10, at: 1700000003000 }, {
     runId: "mt201-exam-valid", ts: 1700000003000, total: 10, answered: 10, correct: 4,
   });
+  assert.equal(store.writes - writesBeforeExam, 1, "MT201 exam best, activity batch and reward ledger persist in one write");
   checkLedgerOnly(exam.rewardLedger, 2, "qualified MT201 exam earns one assessment award, not per-answer awards");
   assert.equal(exam.rewardLedger[1].activityClass, "assessment");
   assert.equal(JSON.parse(store.getItem("mm-mt201-v1")).examBest.score, 4);
 
-  const passedExam = MT201.recordExamAssessment(exam, {
+  const passedExam = MT201.recordExamAnswers(exam, examAnswers, undefined, {
     runId: "mt201-exam-passed", ts: 1700000005000, total: 10, answered: 10, correct: 8,
   });
   checkLedgerOnly(passedExam.rewardLedger, 4, "first passed MT201 assessment adds one separate +15 EXP record");
@@ -113,11 +118,14 @@ function checkLedgerOnly(actual, expected, label) {
 
   const examAnswer = MT202.recordAnswer(practiced, "ch09-q1", "A", true, "exam", 4);
   checkLedgerOnly(examAnswer.rewardLedger, 1, "MT202 exam question does not also pay per-answer LSR-1 EXP");
-  const partial = MT202.recordExamAssessment(examAnswer, {
+  const examAnswers202 = Array.from({ length: 10 }, (_, i) => ({
+    key: `ch03-q${i + 1}`, topicId: "ch03", choice: "B", correct: i < 4,
+  }));
+  const partial = MT202.recordExamAnswers(examAnswer, examAnswers202.slice(0, 5), undefined, {
     runId: "mt202-exam-partial", ts: 1700000003500, total: 10, answered: 5, correct: 4,
   });
   checkLedgerOnly(partial.rewardLedger, 1, "half-answered MT202 assessment earns no assessment EXP");
-  const exam = MT202.recordExamAssessment(partial, {
+  const exam = MT202.recordExamAnswers(partial, examAnswers202, undefined, {
     runId: "mt202-exam-valid", ts: 1700000004000, total: 10, answered: 10, correct: 4,
   });
   checkLedgerOnly(exam.rewardLedger, 2, "MT202 fully answered exam earns one assessment award");
