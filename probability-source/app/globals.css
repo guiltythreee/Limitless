@@ -355,3 +355,16 @@ select.pill { appearance: auto; padding-right: .6rem; }
   .limitless-meta-next { font-size: .65rem; }
   .limitless-meta-details { flex: 1 1 auto; max-width: calc(100% - 55px); }
 }
+
+
+/* Equipped global Meta effects are applied by the shared status component. */
+body[data-lsr1-effect="polymath-glow"] .limitless-meta-strip {
+  box-shadow: inset 0 0 24px rgba(211, 178, 103, .16), 0 0 18px rgba(211, 178, 103, .12);
+}
+body[data-lsr1-effect="radiant-archive"] .limitless-meta-strip {
+  border-bottom-color: var(--gold);
+  background-image: linear-gradient(90deg, transparent, rgba(211, 178, 103, .08), transparent);
+}
+body[data-lsr1-effect="limitless-aura"] .limitless-meta-strip {
+  box-shadow: inset 0 0 28px rgba(211, 178, 103, .22), 0 0 26px rgba(211, 178, 103, .2);
+}
