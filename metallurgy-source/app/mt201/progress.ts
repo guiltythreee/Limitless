@@ -25,6 +25,16 @@ import {
 import type { Activity, ActivityLog, NewActivity } from "../platform/learning";
 import type { TopicId } from "../courses/types";
 import { CHAPTER_IDS } from "./types";
+import { sanitiseRewardRecords, type RewardRecord } from "../../../shared/rewards.mjs";
+import {
+  appendLsrActivity,
+  announceLsrRewardWrite,
+  assessmentActivity,
+  difficultyTier,
+  questionActivity,
+  type AssessmentInput,
+  type LsrActivityMode,
+} from "../lib/lsr1-rewards";
 
 export type QState = { choice: string; correct: boolean; at: number };
 
@@ -39,6 +49,8 @@ export type Progress = {
   goal?: number;
   /** Historical daily targets, local YYYY-MM-DD keys. */
   goalByDay?: Record<string, number>;
+  /** Additive lifetime Meta ledger; legacy payloads are normalised on load. */
+  rewardLedger?: RewardRecord[];
 };
 
 const KEY = "mm-mt201-v1";
@@ -66,7 +78,7 @@ export function topicOf(q: string): TopicId | undefined {
 }
 
 export function loadProgress(): Progress {
-  if (typeof window === "undefined") return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
+  if (typeof window === "undefined") return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {}, rewardLedger: [] };
   try {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
@@ -86,15 +98,17 @@ export function loadProgress(): Progress {
       bookmarks: Array.isArray(p.bookmarks) ? [...new Set(p.bookmarks.filter((q) => typeof q === "string" && q.length > 0))] : [],
       goal: clampDailyGoal(p.goal ?? DEFAULT_DAILY_GOAL),
       goalByDay: sanitiseGoalByDay(p.goalByDay),
+      rewardLedger: sanitiseRewardRecords(p.rewardLedger),
     };
   } catch {
     return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
   }
 }
 
-export function saveProgress(p: Progress) {
+export function saveProgress(p: Progress, notifyMeta = false) {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(p));
+    if (notifyMeta) announceLsrRewardWrite();
   } catch {
     /* storage unavailable — progress just won't persist */
   }
@@ -124,12 +138,12 @@ export function setDailyGoal(p: Progress, value: number): Progress {
   return next;
 }
 
-function logFor(root: Progress): ActivityLog {
+function logFor(root: Progress, notifyMeta = false): ActivityLog {
   return createActivityLog<Progress>({
     courseId: COURSE_ID,
     storageKey: KEY,
     read: () => root,
-    write: saveProgress,
+    write: (value) => saveProgress(value, notifyMeta),
     getStored: (r) => r.activities,
     setStored: (r, activities) => ({ ...r, activities: [...activities] }),
     deriveLegacy: (r) =>
@@ -157,14 +171,34 @@ export const activityLog: ActivityLog = createActivityLog<Progress>({
 /** Append through the shared log and hand back the root it persisted. */
 function appendAndReturn(
   root: Progress,
-  incoming: readonly NewActivity[]
+  incoming: readonly NewActivity[],
+  notifyMeta = false
 ): Progress {
-  return { ...root, activities: logFor(root).append(incoming) };
+  return { ...root, activities: logFor(root, notifyMeta).append(incoming) };
 }
 
 /** One real answer = one `practice` activity, plus the usual `answered` entry. */
-export function recordAnswer(p: Progress, key: string, choice: string, correct: boolean, ms = 0): Progress {
+export function recordAnswer(
+  p: Progress,
+  key: string,
+  choice: string,
+  correct: boolean,
+  modeOrMs: LsrActivityMode | number = "practice",
+  difficulty = 1,
+  elapsedMs = 0
+): Progress {
+  // Preserve the P5 five-argument call (where argument five is elapsed ms),
+  // while allowing the LSR-1 form (mode, difficulty, elapsed ms).
+  const mode: LsrActivityMode = typeof modeOrMs === "string" ? modeOrMs : "practice";
+  const actualDifficulty = typeof modeOrMs === "string" ? difficulty : 1;
+  const ms = typeof modeOrMs === "number" ? modeOrMs : elapsedMs;
   const now = Date.now();
+  const fresh = p.answered[key] === undefined;
+  const alreadyRewarded = (p.rewardLedger ?? []).some((record) =>
+    record.moduleId === "metallurgy-mt201" &&
+    record.itemId === "question:" + key &&
+    record.totalExp > 0
+  );
   const next: Progress = {
     ...p,
     answered: { ...p.answered, [key]: { choice, correct, at: now } },
@@ -172,19 +206,25 @@ export function recordAnswer(p: Progress, key: string, choice: string, correct: 
 
   const topicId = topicOf(key);
   if (!topicId) {
-    // Not an id this course owns: keep the answer as before and log nothing
-    // rather than invent a topic.
     saveProgress(next);
     return next;
   }
 
-  // Snapshot the stored-or-derived history BEFORE this answer lands, so the
-  // answer is logged exactly once and never duplicated as a legacy twin.
-  // `load()` only reads — nothing is written or backfilled here.
   const goalSnapshot = withDailyGoalSnapshot(next, now);
-  return appendAndReturn({ ...goalSnapshot, activities: logFor(p).load() }, [
-    { q: key, topicId, picked: choice, correct, mode: "practice", ms, ts: now },
-  ]);
+  let root: Progress = { ...goalSnapshot, activities: logFor(p).load() };
+  let notifyMeta = false;
+  if (fresh && !alreadyRewarded && mode === "practice") {
+    const reward = appendLsrActivity(root, {
+      ...questionActivity("metallurgy-mt201", key, now, correct),
+      difficulty: difficultyTier(actualDifficulty),
+    });
+    root = reward.progress;
+    notifyMeta = Boolean(reward.record && reward.record.totalExp > 0);
+  }
+
+  return appendAndReturn(root, [
+    { q: key, topicId, picked: choice, correct, mode, ms, ts: now },
+  ], notifyMeta);
 }
 
 /** One attempted question of a submitted exam. Blanks never reach the log. */
@@ -217,16 +257,13 @@ const sameExamBest = (a: Progress["examBest"], b: Progress["examBest"]) =>
 export function recordExamAnswers(
   p: Progress,
   attempted: readonly ExamAnswer[],
-  examBest?: Progress["examBest"]
+  examBest?: Progress["examBest"],
+  assessment?: AssessmentInput
 ): Progress {
-  // Blanks are skipped here as well as by the caller: no `answered` entry and
-  // no activity for an unanswered question.
   const worked = attempted.filter((a) => Boolean(a.choice));
   const best = examBest === undefined ? p.examBest : examBest;
 
   if (worked.length === 0) {
-    // Nothing to batch: keep storage untouched unless a real new best came in
-    // (a first-place paper can still be blank), in which case one write carries it.
     if (examBest === undefined || sameExamBest(best, p.examBest)) return p;
     const only: Progress = { ...p, examBest: best };
     saveProgress(only);
@@ -239,15 +276,22 @@ export function recordExamAnswers(
     answered[a.key] = { choice: a.choice, correct: a.correct, at: now };
   }
 
-  // The single write of the exam flow: the shared log appends the activity
-  // batch onto THIS root, so answered + activities + examBest persist together.
-  // Nothing may be saved after it.
-  const root = withDailyGoalSnapshot({
+  let root = withDailyGoalSnapshot({
     ...p,
     answered,
     examBest: best,
     activities: logFor(p).load(),
   }, now);
+
+  let notifyMeta = false;
+  if (assessment) {
+    const activity = assessmentActivity("metallurgy-mt201", assessment);
+    if (activity) {
+      const reward = appendLsrActivity(root, activity);
+      root = reward.progress;
+      notifyMeta = Boolean(reward.record && reward.record.totalExp > 0);
+    }
+  }
 
   return appendAndReturn(
     root,
@@ -258,8 +302,18 @@ export function recordExamAnswers(
       correct: a.correct,
       mode: "exam",
       ts: now,
-    }))
+    })),
+    notifyMeta
   );
+}
+
+/** Record a completed assessment reward without changing local attempt history. */
+export function recordExamAssessment(p: Progress, input: AssessmentInput): Progress {
+  const activity = assessmentActivity("metallurgy-mt201", input);
+  if (!activity) return p;
+  const reward = appendLsrActivity(p, activity);
+  saveProgress(reward.progress, Boolean(reward.record && reward.record.totalExp > 0));
+  return reward.progress;
 }
 
 export function toggleBookmark(p: Progress, questionId: string): Progress {
@@ -274,11 +328,16 @@ export function toggleBookmark(p: Progress, questionId: string): Progress {
 }
 
 export function resetProgress() {
-  try {
-    window.localStorage.removeItem(KEY);
-  } catch {
-    /* ignore */
-  }
+  const saved = loadProgress();
+  saveProgress({
+    answered: {},
+    examBest: null,
+    activities: [],
+    bookmarks: [],
+    goal: DEFAULT_DAILY_GOAL,
+    goalByDay: {},
+    rewardLedger: saved.rewardLedger ?? [],
+  });
 }
 
 export function loadTheme(): "dark" | "light" {

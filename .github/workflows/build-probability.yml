@@ -8,6 +8,16 @@ on:
       - main
     paths:
       - "probability-source/**"
+      - "shared/**"
+      - "meta/**"
+      - "tools.js"
+      - ".github/workflows/build-probability.yml"
+  pull_request:
+    paths:
+      - "probability-source/**"
+      - "shared/**"
+      - "meta/**"
+      - "tools.js"
       - ".github/workflows/build-probability.yml"
   workflow_dispatch:
 
@@ -33,6 +43,24 @@ jobs:
         working-directory: probability-source
         run: npm ci
 
+      # Keep Meta dashboard syntax, module labels, navigation and project-ledger UI under CI coverage.
+      - name: Validate Meta dashboard source
+        run: |
+          node --input-type=module --check < meta/meta.js
+          node meta/test-meta.mjs
+
+      - name: Test LSR-1 shared reward standard
+        working-directory: probability-source
+        run: npm run test:rewards
+
+      - name: Validate curriculum routes and question quality
+        working-directory: probability-source
+        run: npm run validate:curriculum
+
+      - name: Type-check
+        working-directory: probability-source
+        run: npx tsc --noEmit
+
       - name: Build static website
         working-directory: probability-source
         run: npm run build
@@ -41,14 +69,19 @@ jobs:
         run: |
           test -f probability-source/out/index.html
           test -d probability-source/out/_next
-          echo "Static export verified."
+          test -f shared/rewards.mjs
+          test -f meta/index.html
+          test -f meta/meta.js
+          echo "Probability export and shared Meta assets verified."
 
       - name: Update deployed Probability files
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           mkdir -p probability
           rsync -a --delete probability-source/out/ probability/
 
       - name: Commit updated website
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

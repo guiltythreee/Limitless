@@ -96,7 +96,7 @@ export default function Quiz({
     if (rec) return; // already recorded — locked
     const ms = Math.max(0, Math.round(elapsedNow()));
     timerStartedAt.current = null;
-    onProgress(recordAnswer(progress, qid(topicId, q.n), label, label === q.answer, ms));
+    onProgress(recordAnswer(progress, qid(topicId, q.n), label, label === q.answer, "practice", q.difficulty, ms));
   };
 
   const dots = useMemo(

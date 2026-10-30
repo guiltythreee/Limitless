@@ -77,8 +77,15 @@ const legacy = {
     { key: "ch01-q1", topicId: "ch01", choice: "A", correct: true },
     { key: "ch03-q4", topicId: "ch03", choice: "D", correct: true },
     { key: "ch03-q5", topicId: "ch03", choice: "", correct: false },
-  ], best);
+  ], best, {
+    runId: "mt202-atomic-assessment",
+    ts: 424243,
+    total: 2,
+    answered: 2,
+    correct: 2,
+  });
   eq(s.writes.length, 1, "an exam batch is one write");
+  eq(result.rewardLedger.length, 2, "assessment and first-pass reward share the exam batch write");
   eq(result.examBest, best, "exam best is returned with the batch");
   eq(result.activities.filter((a) => a.mode === "exam").length, 2, "only submitted exam answers are logged");
   ok(!result.activities.some((a) => a.q === "ch03-q5"), "blank question has no activity");
@@ -109,7 +116,13 @@ const legacy = {
   const p = loadProgress();
   recordAnswer(p, "ch01-q1", "A", true);
   resetProgress();
-  eq(s.getItem(KEY), null, "reset removes the MT202 progress key");
+  const reset = JSON.parse(s.getItem(KEY));
+  eq(reset.answered, {}, "reset clears MT202 local answers");
+  eq(reset.examBest, null, "reset clears MT202 local exam best");
+  eq(reset.activities, [], "reset clears MT202 local activity history");
+  eq(reset.rewardLedger.length, 1, "reset preserves lifetime MT202 Meta rewards");
+  const afterResetRetry = recordAnswer(reset, "ch01-q1", "A", true, "practice");
+  eq(afterResetRetry.rewardLedger.length, 1, "reset cannot reopen a previously paid MT202 question");
   eq(s.getItem(THEME), "light", "reset leaves the theme key intact");
 }
 
