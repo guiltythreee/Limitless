@@ -141,7 +141,7 @@ export default function Exam({
       const answer = result.submission.answer.optionId;
       const ok = result.submission.grade.correct;
       if (ok) sc++;
-      p = recordAnswer(p, q.id, answer, ok, "exam", 0);
+      p = recordAnswer(p, q.id, answer, ok, "exam", 0, q.difficulty);
       const reward = awardAnswer(p, q.id, q.difficulty, ok);
       p = reward.progress;
       xp += reward.xp;
@@ -153,12 +153,14 @@ export default function Exam({
       b.done++;
       if (answers[i] === q.answer) b.right++;
     });
+    const completedAt = Date.now();
     p = recordExam(p, {
-      id: `exam-${Date.now()}`,
-      ts: Date.now(),
+      id: `exam-${completedAt}`,
+      ts: completedAt,
       label: scope === "all" ? "Whole course" : UNITS.find((u) => u.id === scope)?.title ?? scope,
       total: pool.length,
       correct: sc,
+      answered: working.submissions.length,
       ms: 0,
       breakdown,
     });
