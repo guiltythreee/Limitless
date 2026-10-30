@@ -285,7 +285,7 @@ export const advancedPathwayLessons: Lesson[] = [
         "The log-likelihood is 7 log p + 3 log(1−p) plus a constant. Differentiating and setting the derivative to zero gives 7/p−3/(1−p)=0.",
         "Solving gives p̂=7/10=0.7. This is the MLE, not a claim that the unknown parameter is certainly 0.7."
       ] },
-      { title: "Estimating an exponential rate", problem: "An IID exponential sample has observed mean 4 hours. Under f(t;λ)=λe⁻ˡᵃᵐᵇᵈᵃᵗ, find the MLE of λ.", steps: [
+      { title: "Estimating an exponential rate", problem: "An IID exponential sample has observed mean 4 hours. Under the rate-parameterised density f(t;λ)=λ exp(−λt), find the MLE of λ.", steps: [
         "The log-likelihood is n log λ − λΣtᵢ.",
         "Differentiating gives n/λ − Σtᵢ=0, so λ̂=n/Σtᵢ=1/t̄.",
         "With t̄=4 hours, λ̂=0.25 per hour. The reciprocal has rate units, not hours."
