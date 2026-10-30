@@ -85,6 +85,9 @@ jobs:
       - name: Run MT202 regression checks
         working-directory: metallurgy-source
         run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt202.mjs
+      - name: Check MT202 explanation alignment
+        working-directory: metallurgy-source
+        run: node scripts/test-mt202-explanation-alignment.mjs
 
       - name: Run MT203 tests and migration checks
         working-directory: metallurgy-source
