@@ -343,21 +343,19 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
   const bookmarked = store.bookmarks.includes(q.key);
 
   return (
-    <div>
-      <div className="mb-4 flex items-center gap-2 overflow-x-auto pb-1">
-        <button onClick={onBack} className="pill shrink-0" aria-label="Back to the list">←</button>
-        <div className="flex gap-1.5">
-          {queue.map((k, i) => {
-            const s: Status = latest[k]?.status ?? "unattempted";
-            return (
-              <button key={k} onClick={() => onGo(i)} className={`qnum qnum-${s} ${i === index ? "qnum-cur" : ""}`} title={s}>
-                <span className="text-xs">{i + 1}</span><span className="qmark">{MARK[s] || "·"}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
+    <LearningPlayerShell paletteClassName="mb-4 flex items-center gap-2 overflow-x-auto pb-1" palette={(
+                  <button onClick={onBack} className="pill shrink-0" aria-label="Back to the list">←</button>
+                  <div className="flex gap-1.5">
+                    {queue.map((k, i) => {
+                      const s: Status = latest[k]?.status ?? "unattempted";
+                      return (
+                        <button key={k} onClick={() => onGo(i)} className={`qnum qnum-${s} ${i === index ? "qnum-cur" : ""}`} title={s}>
+                          <span className="text-xs">{i + 1}</span><span className="qmark">{MARK[s] || "·"}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}>
       <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3">
         <div>
           <div className="text-sm text-body">Q {index + 1} <span className="text-faint">• {q.item.source ?? ""}</span> <span className={`dbadge dbadge-${q.difficulty} ml-1`}>{DIFF_LABEL[q.difficulty]}</span></div>
@@ -403,6 +401,6 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
           : <button className="btn-main" onClick={retry}>Retry · new attempt, timer from 0</button>}
         <button className="btn-side" disabled={index >= queue.length - 1} onClick={() => onGo(index + 1)}>Next</button>
       </div>
-    </div>
+    </LearningPlayerShell>
   );
 }
