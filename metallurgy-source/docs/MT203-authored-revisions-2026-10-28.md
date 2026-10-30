@@ -79,3 +79,6 @@ The Vercel status remains a separate build-rate-limit/upgrade failure. No deploy
 A sequence-level audit found that balanced answer totals alone still allowed long runs of identical keys in question order (up to seven consecutive answers in one topic). The option order, answer key and option-keyed distractor explanations have now been remapped across the 286 four-option questions. Question IDs, order, stems, option wording, correct-option meaning, difficulty and question types are preserved. The existing label-dependent explanation in `t1-08` remains untouched.
 
 The new regression guard checks that no topic has a run longer than three identical answer positions, every eight-question MCQ window contains all four positions with no position appearing more than four times, and no four-answer sequence repeats within a topic. The existing per-topic/global answer-count test remains in place. These are safeguards against conspicuous patterns, not a claim that answer position can never be guessed.
+
+
+The latest completed GitHub Actions run for the sequence-level follow-up (run #47 on the source PR head) passed after the new sequence guard was added. The consolidated PR reruns both MT203 and MT201/MT202 workflows together.
