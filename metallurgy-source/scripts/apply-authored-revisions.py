@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Safely apply the authored 84-question Limitless metallurgy revision pack.
+"""Safely apply the 59 authored MT201/MT202 Limitless metallurgy revisions.
 
 Standard-library only. Does not commit, push, deploy, clean, stash, or reset.
 Default mode is a read-only preflight. Apply with --apply.
@@ -504,7 +504,7 @@ PAYLOAD_B64 = (
 SEED = "limitless-metallurgy-quality-2026-10-28-v1"
 AUTHORED_BASE_COMMIT = "c112f8842321b4e445f7d24f7b17b30fe73b090c"
 CURRENT_MAIN_COMMIT = "b7359a6113a5888d3cf3c88cb5ce25cc716d89e4"
-COURSES = ("MT201", "MT202", "MT203")
+COURSES = ("MT201", "MT202")
 LABELS = ("a", "b", "c", "d")
 
 def revision_question_id(r):
@@ -536,16 +536,13 @@ def load_revisions():
         raise RuntimeError("Duplicate revision target IDs in embedded pack")
     return data
 
-REVISIONS = load_revisions()
-
-# The authored Batch 02 record for MT203/t8-05 mislabels the existing
-# TopicSource taxonomy as recall. Its pinned source fingerprint matches the
-# live concept item, so preserve the real renderer-facing type rather than
-# changing taxonomy just to satisfy the bad record metadata.
-for _revision in REVISIONS:
-    if _revision.get("course") == "MT203" and revision_question_id(_revision) == "t8-05":
-        _revision["originalType"] = "concept"
-        _revision["updates"]["type"] = "concept"
+# Keep the full embedded pack as provenance/integrity-checked source data, but
+# apply only MT201/MT202 here. MT203 has its own authoritative authored bank,
+# answer-key sequence safeguards and regression workflow.
+AUTHORED_PACK = load_revisions()
+REVISIONS = [r for r in AUTHORED_PACK if r.get("course") in ("MT201", "MT202")]
+if len(REVISIONS) != 59:
+    raise RuntimeError(f"Expected 59 MT201/MT202 revisions, found {len(REVISIONS)}")
 
 class SafeStop(RuntimeError):
     pass
@@ -941,9 +938,9 @@ def main():
         raise SafeStop("Expected metallurgy-source scripts were not found; repository layout differs from the audited layout")
     print("Repository status (read-only snapshot):")
     print(git_status(repo))
-    print("\nRevision records:",len(REVISIONS),"(MT201=12, MT202=47, MT203=25)")
+    print("\nRevision records:",len(REVISIONS),"(MT201=12, MT202=47; MT203 is maintained separately)")
     print("Pinned target snapshot:",CURRENT_MAIN_COMMIT)
-    print("Authored baseline:",AUTHORED_BASE_COMMIT,"(all 84 target fingerprints were cross-checked as unchanged)")
+    print("Authored baseline:",AUTHORED_BASE_COMMIT,"(all 59 MT201/MT202 target fingerprints were cross-checked as unchanged)")
 
     writes={}
     changed_questions=[]
@@ -1084,29 +1081,8 @@ def main():
                     if mch!=ch: continue
                     mq=find_json_question(md,n,course,ch)
                     mq["options"]=upd["options"]; mq["answer"]=upd["answer"]
-        # Apply same safe balancing to all MT203 topics in the source TypeScript files.
-        by_path={}
-        for path,original_text in all_ts_sources.items():
-            questions=enumerate_ts_questions(ts_sources.get(path,original_text))
-            by_path[path]=questions
-        for path, questions in by_path.items():
-            groups=defaultdict(list)
-            qmap={}
-            for qid,q,st,en in questions:
-                if safe_ts_candidate(q): groups[qid.split('-')[0]].append((qid,q))
-            for topic,items in groups.items():
-                # Each topic's non-eligible four-option items are fixed; eligible assignments balance within that topic.
-                records=[q for _,q,_,_ in questions if q.get("id","").startswith(topic+"-")]
-                candidates=[q for _,q in items]
-                targets,before,after=choose_balanced_targets(records,candidates,"MT203/"+topic)
-                for (qid,q),target in zip(items,targets):
-                    if q.get("answer")==target: continue
-                    set_options_answer(q,target,"MT203")
-                    ts_shuffled_ids.add(qid)
-                    current_text=ts_sources.get(path,all_ts_sources[path])
-                    ts_sources[path]=update_ts_object(current_text,qid,{"options":q["options"],"answer":q["answer"],**({"distractors":q["distractors"]} if isinstance(q.get("distractors"),dict) else {})})
-                    # Keep one canonical in-memory question representation for final distribution/audit.
-                    changed_questions.append(f"MT203 {qid} (answer-position balance)")
+        # MT203 answer-position order is owned by the independent MT203 quality workflow.
+        # Do not reshuffle it here; this runner only balances MT201/MT202 when requested.
 
         # Persist safe option/key shuffles in the durable sync overlays.
         for course in ("MT201","MT202"):
@@ -1221,9 +1197,9 @@ def main():
     report=[]
     report.append("# Limitless metallurgy question-bank quality audit — 2026-10-28\n")
     report.append("## Scope and limitations\n")
-    report.append("This report is generated locally from the checked-out repository after applying the authored revisions. Heuristic counts are review indicators, not proof of scientific correctness. All 84 authored targets carry a fingerprint pinned to GitHub main commit b7359a6113a5888d3cf3c88cb5ce25cc716d89e4 (2026-10-28); each target fingerprint was also checked against the earlier authoring baseline c112f8842321b4e445f7d24f7b17b30fe73b090c and found identical. Mismatched stems/options stop the apply before any write. MT201/MT202 external authoring banks are not stored in the repository, so durable override files are installed and applied by the sync scripts.\n")
+    report.append("This report is generated locally from the checked-out repository after applying the MT201/MT202 authored revisions. Heuristic counts are review indicators, not proof of scientific correctness. All 59 MT201/MT202 targets carry fingerprints pinned to GitHub main commit b7359a6113a5888d3cf3c88cb5ce25cc716d89e4 (2026-10-28). Mismatched stems/options stop the apply before any write. MT201/MT202 external authoring banks are not stored in the repository, so durable override files are installed and applied by the sync scripts. MT203 content and answer-position safeguards are maintained independently; its current quality audit is documented in docs/MT203-authored-revisions-2026-10-28.md.\n")
     report.append("## Authored revisions\n")
-    report.append("Applied 84 authored replacements: MT201 12, MT202 47, MT203 25. Stable question IDs and question types are preserved.\n")
+    report.append("Applied 59 authored replacements: MT201 12 and MT202 47. Stable question IDs and question types are preserved. MT203 is maintained independently.\n")
     report.append("### Applied IDs\n\n" + ", ".join(changed_questions) + "\n\n")
     report.append("## Four-option answer-key distribution\n")
     combined=Counter()
