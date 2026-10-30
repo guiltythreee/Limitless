@@ -152,3 +152,16 @@ The first universal player is acceptable only when:
 - No existing storage key or saved payload is broken.
 - Both applications pass their independent type-check/build and regression gates.
 - The shared engine contains no discipline-specific IDs, grading assumptions, or local-storage keys.
+
+
+## 10. P6.0 source-inspection finding and contract decision
+
+Inspection of the live source confirms that the current shared Metallurgy activity model is not a valid universal answer model:
+
+- Metallurgy's canonical `Question` currently has one correct option label and its activity record stores one picked label plus a boolean correctness value.
+- Probability's `QuizItem` supports both `answer: number` and `answers: number[]`. Its `grade()` function implements partial credit for multi-select responses, and its persisted `Attempt` stores the selected index array, score, and status.
+- Probability's existing store key is `hc3-progress-v3`; it reads v1/v2 for migration. This store remains Probability-owned.
+
+Accordingly, P6 does **not** reuse or widen the P5 activity record as its answer contract. The first neutral contract lives at `shared/learning-player/contracts.ts` and defines discriminated single-choice, multi-choice, numeric, and text answers, plus an explicit normalised grade. Adapters call the existing course grading function and map the result; the shared player must never recalculate a course's score.
+
+This is a contracts-only foundation. It is not yet imported by either application, and no production player, storage, deployment output, or workflow has been changed. The next gate is a small compilation/test harness for the shared contract and a verified import path into each independent Next app before extracting UI/runtime code.
