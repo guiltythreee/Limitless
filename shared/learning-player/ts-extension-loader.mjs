@@ -1,15 +1,19 @@
 /**
- * Node's built-in TypeScript stripping does not resolve extensionless TS imports.
- * This test-only loader retries relative extensionless imports with ".ts".
- * Production bundlers and application import paths are unchanged.
+ * Test-only resolver for Node's native TypeScript stripping.
+ * The app code uses bundler-style extensionless imports, including directory
+ * barrels such as "../content" -> "../content/index.ts".
  */
 export async function resolve(specifier, context, nextResolve) {
   try {
     return await nextResolve(specifier, context);
-  } catch (error) {
-    if (specifier.startsWith(".") && !/\.[a-z0-9]+$/i.test(specifier)) {
-      return nextResolve(`${specifier}.ts`, context);
+  } catch (firstError) {
+    if (!specifier.startsWith(".") || /\.[a-z0-9]+$/i.test(specifier)) {
+      throw firstError;
     }
-    throw error;
+    try {
+      return await nextResolve(`${specifier}.ts`, context);
+    } catch {
+      return nextResolve(`${specifier}/index.ts`, context);
+    }
   }
 }
