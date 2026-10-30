@@ -166,7 +166,7 @@ export default function Player({
     if (!result.submission) return;
     const ok = result.submission.grade.correct;
     setSession(result.session);
-    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms);
+    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty);
     const res = awardAnswer(p, theQ.id, theQ.difficulty, ok);
     p = res.progress;
     onProgress(p);
