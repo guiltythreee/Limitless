@@ -86,7 +86,23 @@ const legacy: LegacyLesson[] = [
     question: "A fair six-sided die is rolled. What is the expected result?",
     options: ["3", "3.5", "4", "4.5"],
     answer: 1,
-    explanation: "E[X] = (1 + 2 + 3 + 4 + 5 + 6) / 6 = 21/6 = 3.5."
+    explanation: "E[X] = (1 + 2 + 3 + 4 + 5 + 6) / 6 = 21/6 = 3.5.",
+    examples: [
+      { title: "A two-coin random variable", problem: "Two fair coins are tossed and X is the number of heads. Give the PMF and find P(X≤1).", steps: [
+        "The equally likely outcomes are HH, HT, TH and TT. Their head counts are 2,1,1,0.",
+        "Thus P(X=0)=1/4, P(X=1)=1/2 and P(X=2)=1/4.",
+        "The CDF value P(X≤1)=P(X=0)+P(X=1)=3/4."
+      ] },
+      { title: "An indicator variable", problem: "Ten independent components each fail with probability 0.03. Let X be the number that fail. Find E[X].", steps: [
+        "Write X as the sum of ten indicators Iᵢ, each equal to 1 when component i fails.",
+        "Each indicator has expectation 0.03.",
+        "By linearity, E[X]=ΣE[Iᵢ]=10(0.03)=0.3 expected failures. Independence is not needed for this expectation."
+      ] }
+    ],
+    additionalQuestions: [
+      { question: "A random variable is", options: ["a numerical function on outcomes", "a probability itself", "always continuous", "a random event with no values"], answer: 0, difficulty: "medium", explanation: "A random variable assigns a numerical value to each outcome in the sample space." },
+      { question: "If X takes values 0,1,2 with probabilities 0.2,0.5,0.3, then P(X≤1) is", options: ["0.2", "0.3", "0.5", "0.7"], answer: 3, difficulty: "hard", explanation: "Add the probabilities at values 0 and 1: 0.2+0.5=0.7." }
+    ]
   },
   {
     id: "distributions", unit: "07", title: "Core Distributions", level: "Adept", minutes: 22,
@@ -101,7 +117,23 @@ const legacy: LegacyLesson[] = [
     question: "For X ~ Binomial(n = 3, p = 1/2), what is P(X = 0)?",
     options: ["1/8", "1/4", "1/2", "7/8"],
     answer: 0,
-    explanation: "P(X = 0) = C(3,0)(1/2)⁰(1/2)³ = 1/8."
+    explanation: "P(X = 0) = C(3,0)(1/2)⁰(1/2)³ = 1/8.",
+    examples: [
+      { title: "Bernoulli trial", problem: "A component works with probability 0.98. Let X=1 if it works and 0 otherwise. Find E[X] and Var(X).", steps: [
+        "X is Bernoulli(p=0.98), with P(X=1)=0.98 and P(X=0)=0.02.",
+        "The mean is E[X]=p=0.98.",
+        "The variance is p(1−p)=0.98(0.02)=0.0196."
+      ] },
+      { title: "A binomial count", problem: "A player makes each free throw independently with probability 0.7. Find the probability of exactly three successes in five attempts.", steps: [
+        "The number of successes is Binomial(n=5,p=0.7): fixed number of independent trials with constant success probability.",
+        "Use P(X=3)=C(5,3)(0.7)³(0.3)².",
+        "The result is 10(0.343)(0.09)=0.3087."
+      ] }
+    ],
+    additionalQuestions: [
+      { question: "A Bernoulli(p) variable has variance", options: ["p", "1−p", "p(1−p)", "p²"], answer: 2, difficulty: "medium", explanation: "Since X²=X for a Bernoulli variable, Var(X)=E[X]−E[X]²=p−p²=p(1−p)." },
+      { question: "Which assumption is essential for a Binomial(n,p) model?", options: ["Sampling without replacement", "A fixed number of independent trials with common success probability", "A random number of trials", "Every outcome has a different success probability"], answer: 1, difficulty: "hard", explanation: "The binomial model counts successes in a fixed number of independent Bernoulli trials sharing the same p." }
+    ]
   },
   {
     id: "limit-theorems", unit: "08", title: "Law of Large Numbers", level: "Scholar", minutes: 22,
