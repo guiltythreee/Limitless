@@ -184,7 +184,6 @@ export default function Quiz({
   const revealed = Boolean(rec) || peeked[q.n];
 
   return (
-    <div className="panel">
       <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={(
                   {dots.map((d) => (
                     <button
