@@ -35,6 +35,10 @@ jobs:
         working-directory: ${{ matrix.project }}
         run: npm ci --ignore-scripts --no-audit --no-fund
 
+      - name: Test pure player lifecycle
+        working-directory: ${{ matrix.project }}
+        run: node --experimental-strip-types ../shared/learning-player/state.test.mjs
+
       - name: Type-check shared contract and fixtures
         working-directory: ${{ matrix.project }}
         run: >-
