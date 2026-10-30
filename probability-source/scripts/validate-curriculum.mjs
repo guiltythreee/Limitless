@@ -93,6 +93,9 @@ for (let i = 0; i < routeBlocks.length; i++) {
     routeIds.add(id);
   }
 }
+for (const id of lessonIds) {
+  if (!routeIds.has(id)) throw new Error("Lesson " + id + " is not included in any learning pathway.");
+}
 
 const authored = read("app/content/pathway-lessons.ts") + "\n" + read("app/content/pathway-lessons-advanced.ts");
 const starts = [...authored.matchAll(/\n  \{\n    id: "([^"]+)", rank: \d+/g)];
