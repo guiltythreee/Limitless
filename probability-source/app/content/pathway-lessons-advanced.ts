@@ -120,7 +120,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Discrete convolution", text: "P(X+Y=s)=ΣₓP(X=x)P(Y=s−x)" }, { label: "Continuous convolution", text: "fS(s)=∫fX(x)fY(s−x)dx" }],
     examples: [
       { title: "The sum of two dice", problem: "Two independent fair dice are rolled. Find the probability their sum is 7.", steps: ["Six ordered pairs sum to 7.", "Each pair has probability 1/36.", "Thus the probability is 6/36=1/6."] },
-      { title: "Two exponential waits", problem: "X and Y are independent exponential variables with rate 1. Find the density of S=X+Y for s>0.", steps: ["Convolution gives ∫₀ˢe^(−x)e^(−(s−x))dx.", "The integrand is e^(−s), so the integral is s e^(−s).", "This is the Gamma(shape 2, rate 1) density."] }
+      { title: "Two exponential waits", problem: "X and Y are independent exponential variables with rate 1. Find the density of S=X+Y for s>0.", steps: ["Convolution gives ∫₀ˢe^(−x)e^(−(s−x))dx.", "The integrand is e^(−s), so the integral is s e^(−s).", "This is the Gamma(shape 2, rate 1) density."] },
+      { title: "Sum of two uniforms", problem: "X and Y are independent Uniform(0,1) variables. Find the density of S=X+Y.", steps: [
+        "The convolution is f_S(s)=∫f_X(x)f_Y(s−x)dx over 0≤x≤1 and 0≤s−x≤1.",
+        "For 0<s<1, the valid interval is 0<x<s, giving f_S(s)=s.",
+        "For 1≤s<2, the valid interval is s−1<x<1, giving f_S(s)=2−s. The density is zero outside [0,2]."
+      ] }
     ],
     quiz: [
       { question: "For independent discrete X and Y, the probability P(X+Y=s) is found by", options: ["Adding the means", "Summing P(X=x)P(Y=s−x) over valid x", "Multiplying the means", "Taking P(X=s)P(Y=s)"], answer: 1, difficulty: "easy", explanation: "Each valid split contributes a joint probability that factors by independence." },
@@ -140,7 +145,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Maximum CDF", text: "F_M(x)=F(x)ⁿ" }, { label: "Minimum CDF", text: "F_m(x)=1−(1−F(x))ⁿ" }],
     examples: [
       { title: "Maximum of three uniforms", problem: "Three IID Uniform(0,1) observations are taken. Find the probability their maximum is at most 1/2.", steps: ["Each observation is at most 1/2 with probability 1/2.", "All three must be at most 1/2.", "The probability is (1/2)³=1/8."] },
-      { title: "Expected extrema", problem: "For five IID Uniform(0,1) variables, find the expected minimum and maximum.", steps: ["The k-th order statistic has expectation k/(n+1).", "For the minimum k=1 and for the maximum k=5.", "The means are 1/6 and 5/6, respectively."] }
+      { title: "Expected extrema", problem: "For five IID Uniform(0,1) variables, find the expected minimum and maximum.", steps: ["The k-th order statistic has expectation k/(n+1).", "For the minimum k=1 and for the maximum k=5.", "The means are 1/6 and 5/6, respectively."] },
+      { title: "A high sample maximum", problem: "Four IID Uniform(0,1) measurements are taken. Find the probability their maximum exceeds 0.9.", steps: [
+        "The complement is that all four measurements are at most 0.9.",
+        "By independence, P(max≤0.9)=0.9⁴=0.6561.",
+        "Therefore P(max>0.9)=1−0.6561=0.3439."
+      ] }
     ],
     quiz: [
       { question: "For n IID observations with CDF F, the CDF of their maximum is", options: ["F(x)/n", "F(x)ⁿ", "1−F(x)ⁿ", "nF(x)"], answer: 1, difficulty: "easy", explanation: "The maximum is at most x only if every observation is at most x, giving F(x)ⁿ." },
@@ -187,7 +197,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Change of variables", text: "fU,V(u,v)=fX,Y(x(u,v),y(u,v))|∂(x,y)/∂(u,v)|" }, { label: "Inverse Jacobian", text: "|J|=u" }],
     examples: [
       { title: "Sum-ratio transformation", problem: "For independent Exp(1) variables X,Y, let U=X+Y and V=X/(X+Y). Derive the joint density.", steps: ["The inverse is x=uv and y=u(1−v), with u>0 and 0<v<1.", "The original joint density is e^(−u), and the inverse Jacobian magnitude is u.", "Therefore f_U,V(u,v)=u e^(−u) on the transformed support."] },
-      { title: "Marginals and independence", problem: "Use the preceding joint density to identify U and V.", steps: ["Integrating over v gives f_U(u)=u e^(−u), a Gamma(2,1) density.", "Integrating over u gives f_V(v)=1 for 0<v<1.", "The joint density factors into the marginals, so U and V are independent."] }
+      { title: "Marginals and independence", problem: "Use the preceding joint density to identify U and V.", steps: ["Integrating over v gives f_U(u)=u e^(−u), a Gamma(2,1) density.", "Integrating over u gives f_V(v)=1 for 0<v<1.", "The joint density factors into the marginals, so U and V are independent."] },
+      { title: "Transforming a uniform square", problem: "Let X,Y be independent Uniform(0,1), U=X+Y and V=X. Describe the inverse map and transformed support.", steps: [
+        "The inverse is x=v and y=u−v. Its Jacobian determinant has absolute value 1.",
+        "The original support 0<x<1, 0<y<1 becomes 0<v<1 and v<u<v+1.",
+        "The transformed density is 1 on that slanted region and zero elsewhere. The support must be transformed along with the density."
+      ] }
     ],
     quiz: [
       { question: "The Jacobian determinant in a density transformation adjusts for", options: ["Sample size", "Change in area under the coordinate map", "Independence automatically", "The mean"], answer: 1, difficulty: "easy", explanation: "Its absolute value accounts for local area expansion or contraction, preserving probability mass." },
