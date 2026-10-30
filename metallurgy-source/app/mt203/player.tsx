@@ -273,7 +273,6 @@ export default function Player({
     : fmtElapsed(elapsedMs);
 
   return (
-    <div className="panel">
       <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={(
         <div role="tablist" aria-label="Question navigator">
                   {order.map((qi, i) => {
