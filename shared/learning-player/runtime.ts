@@ -1,0 +1,118 @@
+import type {
+  LearningPlayerAdapter,
+  LearningPlayerState,
+  PlayerAnswer,
+  PlayerSubmission,
+} from "./contracts";
+import { createLearningPlayerState, reduceLearningPlayerState } from "./state";
+
+export interface LearningPlayerSession<
+  TQuestion,
+  TAnswer extends PlayerAnswer,
+> {
+  readonly questions: readonly TQuestion[];
+  readonly state: LearningPlayerState;
+  readonly answers: Readonly<Record<string, TAnswer>>;
+  readonly submissions: readonly PlayerSubmission<TAnswer>[];
+}
+
+export function createLearningPlayerSession<
+  TQuestion,
+  TAnswer extends PlayerAnswer,
+>(questions: readonly TQuestion[]): LearningPlayerSession<TQuestion, TAnswer> {
+  return {
+    questions: [...questions],
+    state: createLearningPlayerState(),
+    answers: {},
+    submissions: [],
+  };
+}
+
+function currentQuestion<TQuestion, TAnswer extends PlayerAnswer>(
+  session: LearningPlayerSession<TQuestion, TAnswer>,
+): TQuestion | null {
+  return session.questions[session.state.index] ?? null;
+}
+
+export function setPlayerAnswer<
+  TQuestion,
+  TAnswer extends PlayerAnswer,
+>(
+  session: LearningPlayerSession<TQuestion, TAnswer>,
+  adapter: Pick<LearningPlayerAdapter<TQuestion, TAnswer>, "questionId">,
+  answer: TAnswer,
+): LearningPlayerSession<TQuestion, TAnswer> {
+  const question = currentQuestion(session);
+  if (!question || session.state.phase !== "answering") return session;
+  const id = adapter.questionId(question);
+  return { ...session, answers: { ...session.answers, [id]: answer } };
+}
+
+/** Grades through the course adapter; the shared runtime never calculates scores. */
+export function submitPlayerAnswer<
+  TQuestion,
+  TAnswer extends PlayerAnswer,
+>(
+  session: LearningPlayerSession<TQuestion, TAnswer>,
+  adapter: LearningPlayerAdapter<TQuestion, TAnswer>,
+  options: { submittedAt: number; mode: PlayerSubmission<TAnswer>["mode"] },
+): {
+  session: LearningPlayerSession<TQuestion, TAnswer>;
+  submission: PlayerSubmission<TAnswer> | null;
+} {
+  const question = currentQuestion(session);
+  if (!question || session.state.phase !== "answering") {
+    return { session, submission: null };
+  }
+
+  const questionId = adapter.questionId(question);
+  const answer = session.answers[questionId];
+  if (!answer) return { session, submission: null };
+
+  const submission: PlayerSubmission<TAnswer> = {
+    question: { courseId: adapter.courseId, questionId },
+    answer,
+    grade: adapter.grade(question, answer),
+    elapsedMs: Math.max(0, Math.round(session.state.elapsedMs)),
+    submittedAt: options.submittedAt,
+    mode: options.mode,
+  };
+
+  return {
+    session: {
+      ...session,
+      state: reduceLearningPlayerState(session.state, { type: "submit" }),
+      submissions: [...session.submissions, submission],
+    },
+    submission,
+  };
+}
+
+export function navigatePlayer<
+  TQuestion,
+  TAnswer extends PlayerAnswer,
+>(
+  session: LearningPlayerSession<TQuestion, TAnswer>,
+  direction: "next" | "previous",
+): LearningPlayerSession<TQuestion, TAnswer> {
+  const state = direction === "next"
+    ? reduceLearningPlayerState(session.state, {
+        type: "next",
+        questionCount: session.questions.length,
+      })
+    : reduceLearningPlayerState(session.state, { type: "previous" });
+  return { ...session, state };
+}
+
+export function tickPlayer<
+  TQuestion,
+  TAnswer extends PlayerAnswer,
+>(
+  session: LearningPlayerSession<TQuestion, TAnswer>,
+  elapsedMs: number,
+): LearningPlayerSession<TQuestion, TAnswer> {
+  return {
+    ...session,
+    state: reduceLearningPlayerState(session.state, { type: "tick", elapsedMs }),
+  };
+}
