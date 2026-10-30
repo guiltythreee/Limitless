@@ -273,3 +273,21 @@ Validation:
 - Metallurgy regression run `41063600814`: all existing learning, attempt-parity, bookmark, timer, daily-goal, capability, and TypeScript gates passed.
 
 At this checkpoint, all three Metallurgy practice/learning player surfaces (MT201, MT202, MT203) use the same framework-neutral runtime. Their content renderers, grading/persistence adapters, and course-specific reward rules remain authoritative.
+
+## 18. P6.3 Probability practice and test integration
+
+Both Probability question-playing surfaces now use the shared runtime:
+
+- Practice queue navigation and question-palette selection use the shared session index.
+- Each question's single- or multi-select answer is stored in the shared session using option indices encoded as stable strings.
+- Checking an answer delegates to the production Probability adapter, which calls the existing `grade()` function. The existing `recordAttempt()` remains responsible for the unchanged `hc3-progress-v3` persistence, including partial-credit score/status and attempt history.
+- Retry resets the shared question lifecycle but retains the Probability policy that permits another attempt. Drafts, stopwatch pause/resume, and bookmarks remain owned by the existing Practice view/store.
+- Probability Test uses the same session answer map and navigation. It defers submission until the user finishes the test, then grades each answered question through the adapter and preserves the existing batch `TestRecord` and attempt writes. Unanswered questions remain unattempted.
+
+The shared runtime gained `clearPlayerAnswer` so toggling every selected option off removes the unsent answer instead of leaving stale state in the session.
+
+Validation:
+- P6 run `41064181883`: both application production builds passed; both TypeScript matrices passed; lifecycle (13), runtime (23), Probability adapter (15), and Metallurgy adapter (12) assertions passed.
+- Metallurgy regression run `41064181963` also passed all existing regression gates.
+
+No Probability question bank, partial-credit formula, draft representation, bookmark data, test-record schema, storage key, or deployment workflow was changed.
