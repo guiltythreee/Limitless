@@ -78,7 +78,7 @@ const failedProjectStorage = {
   getItem(key) { return values.get(key) ?? null; },
   setItem() { throw new Error("quota exceeded"); },
 };
-assert.equal(registerProject(failedProjectStorage, { ...project, projectId: "failed-register-test" }).error,
+assert.equal(registerProject(failedProjectStorage, { ...project, projectId: "failed-register-test", title: "Failed storage registration test", scope: "A separate bounded project used to test failed storage writes.", criteria: "The test verifies that failed registration writes are reported safely." }).error,
   "storage-unavailable", "project registration handles storage write failure");
 assert.equal(completeProject(failedProjectStorage, project.projectId, { confirmed: true }).error,
   "storage-unavailable", "project completion handles reward-ledger write failure");
