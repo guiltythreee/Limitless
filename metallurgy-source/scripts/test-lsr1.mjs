@@ -54,14 +54,14 @@ function checkLedgerOnly(actual, expected, label) {
   assert.deepEqual(p.rewardLedger, []);
   assert.equal(store.getItem("mm-mt201-v1"), before, "MT201 load must not rewrite legacy data");
 
-  const practiced = MT201.recordAnswer(p, "ch01-q2", "C", true, "practice", 3);
+  const practiced = MT201.recordAnswer(p, "ch01-q2", "C", true, 0, 3);
   checkLedgerOnly(practiced.rewardLedger, 1, "MT201 practice logs one LSR-1 record");
   assert.equal(practiced.rewardLedger[0].moduleId, "metallurgy-mt201");
   assert.equal(practiced.rewardLedger[0].difficulty, "advanced");
   assert.equal(practiced.answered["ch01-q1"].correct, true);
   assert.equal(JSON.parse(store.getItem("mm-mt201-v1")).legacyExtension, "preserve on additive writes");
 
-  const repeated = MT201.recordAnswer(practiced, "ch01-q2", "C", true, "practice", 3);
+  const repeated = MT201.recordAnswer(practiced, "ch01-q2", "C", true, 0, 3);
   checkLedgerOnly(repeated.rewardLedger, 1, "MT201 locked question retry must not award again");
 
   const examAnswers = Array.from({ length: 10 }, (_, i) => ({
