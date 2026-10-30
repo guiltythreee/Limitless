@@ -239,13 +239,17 @@ export const geometricProbability: Lesson = {
   body: [
     "When the sample space is a region of the line, plane or space with finite positive size, “a point chosen uniformly at random” means that the probability of an event is the size of its region divided by the size of the whole: P(A) = vol(A)/vol(Ω). On Ω = [0, 1] this gives P([a, b]) = b − a. That this definition extends to every Borel set is Carathéodory’s extension theorem, which we use without proof.",
     "The method is always the same. Sketch Ω and the region that makes the event happen, then compare areas (or lengths). Choose the integration variable that makes the boundary of the region a function, and use the complement when it is simpler.",
-    "A single point has size 0, so P({x}) = 0 for every x, yet some point does occur. Probability 0 is not impossible, because the axiom of additivity concerns only countable unions: an uncountable union of null events, such as [0, 1] = ⋃ₓ {x}, can have any probability.",
-    "Bertrand’s paradox. On an uncountable sample space, “uniformly at random” is ambiguous unless you say which parametrisation is uniform. The chord of a circle chosen with uniform random endpoints, a uniform distance along a radius, or a uniform midpoint in the disk gives three different answers for the same question, namely 1/3, 1/2 and 1/4. Equal likelihood is a modelling assumption, never a theorem.",
+    "A single point has size 0, so P({x}) = 0 for every x, yet some point does occur. Probability 0 is not impossibility. Countable additivity does not extend to arbitrary uncountable unions: [0, 1] is the uncountable union of its singleton sets, each of probability 0, but the interval has probability 1.",
+    "Bertrand’s paradox. On an uncountable sample space, “uniformly at random” is ambiguous unless you specify the random experiment. For a circle of radius R, a chord is longer than the inscribed equilateral-triangle side exactly when its midpoint is within distance R/2 of the centre. Choosing two independent uniform endpoints on the circumference gives probability 1/3; choosing the chord's distance from the centre uniformly on [0,R] gives 1/2; choosing its midpoint uniformly by area in the disk gives 1/4. These are different probability measures on chords, not contradictory answers.",
+    "Buffon’s needle. Drop a needle of length ℓ onto parallel lines separated by distance d, with 0 < ℓ ≤ d. If its angle θ is uniform on [0,π/2] and its centre is uniform relative to the nearest line, then it crosses a line with probability 2ℓ/(πd). Conditional on θ, the centre must lie within (ℓ/2)sin θ of a line; averaging that conditional probability over θ gives the formula. This is a geometric probability model whose answer depends on the stated random-drop mechanism.",
+    "A geometric probability calculation can also be an integral rather than a simple area ratio. If (X,Y) is uniform on a region and the event boundary is curved, integrate the cross-sectional length or area. Check the support and Jacobian if you change coordinates; a uniform point in one coordinate system need not remain uniform after a nonlinear transformation.",
     "Quant lens. “A random portfolio”, “a random correlation matrix” and “a random direction” are all ambiguous until the probability measure is specified. Writing down which coordinates are uniform is part of the model.",
   ],
   formulas: [
     { label: "Uniform law on a region", text: "P(A) = vol(A) / vol(Ω)" },
     { label: "Uniform law on [0, 1]", text: "P([a, b]) = b − a,  P({x}) = 0" },
+    { label: "Buffon needle (ℓ ≤ d)", text: "P(needle crosses a line) = 2ℓ / (πd)" },
+    { label: "Two independent uniform points", text: "P(|X − Y| ≤ a) = 2a − a²,  0 ≤ a ≤ 1" },
   ],
   examples: [
     {
@@ -257,8 +261,30 @@ export const geometricProbability: Lesson = {
         "The square has area 1, so the probability is 1/8.",
       ],
     },
+    {
+      title: "Distance between two random points",
+      problem: "Let X and Y be independent Uniform(0,1) points. Find P(|X − Y| ≤ 1/2).",
+      steps: [
+        "The sample space is the unit square in the (x,y)-plane, with total area 1.",
+        "The event |x−y|≤1/2 is the central band between y=x−1/2 and y=x+1/2. Its complement consists of two right triangles, each with legs 1/2.",
+        "The excluded area is 2 × (1/2)(1/2)(1/2)=1/4. Hence the required probability is 1−1/4=3/4.",
+      ],
+    },
+    {
+      title: "Buffon’s needle and π",
+      problem: "A needle of length 2 cm is dropped onto parallel lines 5 cm apart, under the standard uniform-angle and uniform-position model. Find the probability it crosses a line.",
+      steps: [
+        "Here ℓ=2 cm and d=5 cm, so the condition ℓ≤d is satisfied.",
+        "Use P(crossing)=2ℓ/(πd)=4/(5π).",
+        "Numerically, the probability is approximately 0.2546. The result depends on the stated random-drop model.",
+      ],
+    },
   ],
-  quiz: [],
+  quiz: [
+    { question: "A point is chosen uniformly in the unit square. What is the probability it lies in the triangle x≥0, y≥0, x+y≤1/2?", options: ["1/4", "1/8", "1/2", "1/16"], answer: 1, difficulty: "easy", explanation: "The triangle has legs 1/2, so its area is (1/2)(1/2)(1/2)=1/8 of the unit-square area." },
+    { question: "For a Buffon needle of length ℓ≤d under the standard uniform-drop model, the crossing probability is", options: ["ℓ/d", "2ℓ/(πd)", "πℓ/(2d)", "ℓ²/d²"], answer: 1, difficulty: "medium", explanation: "Averaging the conditional crossing probability (ℓ/d)sin θ over θ uniform on [0,π/2] gives 2ℓ/(πd)." },
+    { question: "Why can Bertrand’s chord problem produce different probabilities for the same geometric property?", options: ["Circle area is not well-defined", "The chord length is random only in discrete models", "Different procedures induce different probability measures on chords", "All uniform distributions on a circle are identical"], answer: 2, difficulty: "hard", explanation: "Uniform endpoints, uniform radial distance and uniform midpoint-by-area are different random experiments and therefore induce different distributions on chords." },
+  ],
 };
 
 export const borelCantelli: Lesson = {
