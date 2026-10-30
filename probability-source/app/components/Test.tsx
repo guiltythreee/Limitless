@@ -238,7 +238,7 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
   if (!q) return null;
   return (
     <LearningPlayerShell paletteClassName="mb-4 flex flex-wrap items-center gap-1.5" palette={pool.map((x, n) => (
-          <button key={x.key} onClick={() => go(n)} className={`qnum ${picks[x.key]?.length ? "qnum-partial" : ""} ${n === i ? "qnum-cur" : ""}`}><span className="text-xs">{n + 1}</span><span className="qmark">{picks[x.key]?.length ? "•" : "·"}</span></button>
+          <button key={x.key} onClick={() => go(n)} className={`qnum ${picks[x.key]?.length ? "qnum-partial" : ""} ${n === i ? "qnum-cur" : ""}`} aria-label={`Question ${n + 1}${picks[x.key]?.length ? ", answered" : ", unanswered"}`} aria-current={n === i ? "step" : undefined}><span className="text-xs">{n + 1}</span><span className="qmark">{picks[x.key]?.length ? "•" : "·"}</span></button>
         ))}>
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
         <div className="text-sm text-body">Test · Q {i + 1}/{pool.length}</div>
