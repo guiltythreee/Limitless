@@ -289,7 +289,7 @@ function render() {
   if (!summary.sources.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No registered module progress is saved yet. Complete a Probability problem, an eligible Math Trainer session, or a Bookkeys page to begin.";
+    empty.textContent = "No registered module progress is saved yet. Submit a Probability answer, complete a Math Trainer session, type a verified Bookkeys page, or practise in Metallurgy MT201–MT203 to begin.";
     modules.append(empty);
   } else {
     for (const source of summary.sources) {
@@ -302,7 +302,7 @@ function render() {
   if (!summary.recentAwards.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No EXP awards yet. Submit a Probability answer, finish an eligible Math Trainer session, or type a Bookkeys page.";
+    empty.textContent = "No EXP awards yet. Submit a Probability answer, complete a qualifying Math Trainer session, type a verified Bookkeys page, practise in Metallurgy MT201–MT203, or complete a registered personal project.";
     recent.append(empty);
   } else {
     for (const award of summary.recentAwards) {
