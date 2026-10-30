@@ -6787,7 +6787,7 @@
           }
         ],
         "answer": "c",
-        "detailed": "Frenkel's sinusoidal restoring-stress model is τ = τ_max sin(2πx/b), so **(b)** is correct. Option (a) is the cosine form and is nonzero at x = 0, where the unstressed crystal should have zero restoring stress. Option (c) is only the small-displacement linear approximation; (d) is not the periodic relation."
+        "detailed": "- A is TRUE: HCP metals with only the three easy basal slip systems are generally less ductile as polycrystals than FCC metals, despite both having an ideal packing factor of 0.74.\n- R is TRUE: three independent basal systems are fewer than the five independent systems required by the von Mises criterion, while FCC commonly provides 12 easy {111}⟨110⟩ systems.\n- R correctly explains A: the shortage of independent easy deformation modes makes compatible shape change across HCP grains difficult without additional mechanisms such as twinning.\nTherefore **(c)** is correct."
       },
       "sourceFingerprint": "84a27af9"
     },
@@ -6841,7 +6841,7 @@
         "answer": "b",
         "keyExplanation": "The table gives the same ideal packing factor for both structures but 12 common FCC slip systems versus only 3 easy basal HCP systems. Accessible independent deformation modes, not packing factor alone, explain the usual formability difference.",
         "concise": "FCC typically offers more independent easy slip modes than HCP basal slip, despite the same ideal packing factor.",
-        "detailed": "Matching the small-displacement limit of the sinusoidal stress to the elastic shear stress gives τ_max ≈ Gb/(2πa). With b ≈ a, τ_max ≈ G/(2π) ≈ 0.16G, so **(d)** is correct. Options (a) and (b) are experimental-strength scales, while (c), 2πG, is not the Frenkel estimate."
+        "detailed": "FCC is generally more formable because it has 12 common, relatively easy {111}⟨110⟩ slip systems, whereas HCP metals often rely mainly on only three easy basal slip systems at room temperature. Both structures have the same ideal atomic packing factor (0.74), so packing factor alone does not explain the difference. **(b)** is correct. Options (a), (c), and (d) give incorrect explanations."
       }
     },
     {
