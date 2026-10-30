@@ -37,7 +37,9 @@ jobs:
 
       - name: Test pure player lifecycle
         working-directory: ${{ matrix.project }}
-        run: node --experimental-strip-types ../shared/learning-player/state.test.mjs
+        run: |
+          node --experimental-strip-types ../shared/learning-player/state.test.mjs
+          node --experimental-strip-types ../shared/learning-player/runtime.test.mjs
 
       - name: Type-check shared contract and fixtures
         working-directory: ${{ matrix.project }}
@@ -46,4 +48,6 @@ jobs:
           --target ES2017 --lib ESNext,DOM
           --module ESNext --moduleResolution bundler
           ../shared/learning-player/contracts.ts
+          ../shared/learning-player/state.ts
+          ../shared/learning-player/runtime.ts
           ../shared/learning-player/contracts.type-test.ts
