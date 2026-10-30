@@ -1,6 +1,6 @@
 # P6 — Universal Learning Platform Architecture
 
-Status: P6.0–P6.4 implemented on the draft PR; cross-discipline validation is green. No merge or deployment has been performed.
+Status: P6.0–P6.4 engine integration is complete; P6.5 has its first shared-shell vertical slice across MT201 and Probability Practice. Both app builds, shared-runtime type checks, and Metallurgy regressions pass on the current branch. No merge or deployment has been performed.
 Base: `main` after PR #28.
 Branch: `architecture/p6-universal-learning-platform`
 
@@ -333,8 +333,31 @@ What intentionally remains course-owned:
 - Answer controls and their visual treatment.
 - Course-specific setup, filters, bookmarks, drafts, rewards, progress summaries, and exam review layouts.
 
-The next UI-unification milestone should be scoped separately. First inventory the repeated interaction shell across MT201/MT202/MT203 and Probability Practice/Test, then define a renderer/answer-control slot contract and accessibility/keyboard behaviour. Do not force the two apps into one CSS system or move course-specific controls into the engine. A shared React package/hook is not approved by the current P6 work; the current proof of concept validates only framework-independent TypeScript modules.
+The first P6.5 vertical slice is now implemented in `shared/learning-player/PlayerShell.ts` and consumed by:
+- MT201 chapter practice in `metallurgy-source/app/mt201/quiz.tsx`.
+- Probability Practice question view in `probability-source/app/components/Practice.tsx`.
 
-P6.5 acceptance should require at least one shared, accessible player-shell implementation used by one Metallurgy surface and one Probability surface, with the course renderers and answer controls injected, and both static builds passing. Only then should the shell be expanded to the remaining surfaces.
+The shell owns the semantic question-navigation landmark and shared content boundary. Each app injects its own React `createElement` factory, so the shared source does not depend on either app's separately installed React package. The question palette is supplied as a slot; course-specific question metadata, prompts, answer controls, timer/draft behaviour, grading, solution rendering, retry, bookmarks, and action buttons remain in their original components.
 
-No P6.5 implementation is claimed in this checkpoint.
+This is intentionally a narrow first slice, not a universal visual redesign. It does not yet unify the footer/action bar, timer presentation, review state, or all five player surfaces. Do not force the two apps into one CSS system or move course-specific controls into the engine.
+
+The next P6.5 step is to review the shared shell's accessibility and responsive behaviour, then extend the same shell contract to MT202/MT203 and Probability Test only where their interaction structures genuinely match. Preserve course-specific answer controls and session semantics.
+
+## 22. P6.5 first shared-shell vertical slice
+
+The first shared UI-shell extraction is implemented across one surface in each independent app:
+- MT201 practice uses the shared question-palette/content shell.
+- Probability Practice uses the same shell while injecting its back-to-list control and status-aware question palette.
+
+The shared implementation is deliberately framework-neutral at module resolution: each application injects its own React `createElement` function. This avoids making the repository-level shared folder resolve React from the repository root, where neither app's separately installed dependency tree is guaranteed to exist.
+
+No course logic was moved. MT201 retains its timer, bookmark, single-choice lock, grading adapter, solution renderer, and progress write. Probability retains multi-select toggling, draft autosave, stopwatch pause/resume, partial-credit grading, attempts, retry, bookmark, and explanation behaviour. The shared shell only owns the semantic navigation landmark and content boundary.
+
+Validation on branch commit `235dd88565661d10283ade24861f46977d1e4984`:
+- P6 workflow run `41067419211`: both independent production builds and both shared-runtime TypeScript checks passed.
+- Metallurgy regression run `41067419264`: completed successfully.
+- The 29-assertion cross-discipline harness remains part of the P6 workflow.
+
+The first extraction initially exposed two real integration issues: React could not be resolved from the repository-level shared folder, and the Probability Practice component import was missing. The shared shell was changed to receive the consuming app's element factory, the import was added, and the current two builds/type checks are green.
+
+P6.5 remains in progress. The shell is not yet rolled out to the other player surfaces, and the visual treatment is not yet a unified design system.
