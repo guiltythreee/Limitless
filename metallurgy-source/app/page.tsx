@@ -49,6 +49,7 @@ export default function Landing() {
         <nav className="nav-links" aria-label="Main navigation">
           <Link href="/">Home</Link>
           <Link href="/mt202/">Courses</Link>
+          <a href="/meta/">Meta</a>
           <button className="theme-toggle" onClick={toggle} aria-label="Switch theme">
             {theme === "dark" ? "◐" : "◑"}
           </button>
