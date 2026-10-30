@@ -1,7 +1,7 @@
 # Limitless Standard Rewards (LSR-1)
 
 **Policy identifier:** `LSR-1`  
-**Status:** Provisional, versioned implementation in the open Probability-pathways PR. It is not deployed until that PR is merged and the site build completes.
+**Status:** Provisional, versioned implementation in draft PR #36, stacked on the P6/P6.5 foundation in draft PR #33. The reward policy and adapters have passed the reported GitHub Actions validation, but they are not deployed. Deployment requires integrating the dependency PRs and completing the production build.
 
 LSR-1 supplies one shared EXP calculation and global level curve. Each learning module retains its own progress, rankings, accuracy, mastery, and exam history. Global EXP is not skill mastery and is never spendable currency.
 
