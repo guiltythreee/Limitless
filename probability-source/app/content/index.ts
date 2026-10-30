@@ -18,17 +18,23 @@ export { coverageAreas } from "./coverage";
 export * from "./types";
 export * from "./backgrounds";
 
-// Teaching order inside rank 09. Lessons not listed here keep their file order after the listed ones.
+// Explicit teaching order for sequences whose source files are assembled from multiple chapters.
 const rank09Order = [
   "sample-space", "events-operations", "set-theory", "mutually-exclusive", "exhaustive-partitions",
   "counting", "combinations", "multinomials",
   "axioms", "properties", "equally-likely", "probability-counting", "geometric-probability",
   "de-morgan", "continuity",
 ];
+const rank02Order = [
+  "limit-theorems", "limit-theorems-deep",
+  "concentration-inequalities", "chernoff-hoeffding", "borel-cantelli",
+  "likelihood-estimation", "confidence-hypothesis-tests",
+];
 const position = (l: Lesson) => {
-  if (l.rank !== 9) return 0;
-  const i = rank09Order.indexOf(l.id);
-  return i === -1 ? rank09Order.length : i;
+  const order = l.rank === 9 ? rank09Order : l.rank === 2 ? rank02Order : null;
+  if (!order) return 0;
+  const i = order.indexOf(l.id);
+  return i === -1 ? order.length : i;
 };
 
 // Chapter 1 problem set (54 problems), keyed by lesson id.
