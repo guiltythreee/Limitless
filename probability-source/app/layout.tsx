@@ -1,3 +1,4 @@
+import MetaStatusBar from "./components/MetaStatusBar";
 
 import type { Metadata } from "next";
 import "./globals.css";
@@ -19,7 +20,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
       </head>
-      <body>{children}</body>
+      <body><MetaStatusBar />{children}</body>
     </html>
   );
 }
