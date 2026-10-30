@@ -31,4 +31,4 @@ assert.equal(status.equippedEffect, null);
 assert.equal(status.nextReward?.name, "First Light");
 assert.equal(writes, 0, "Meta status reads must never write or initialise storage");
 
-console.log("Meta status: 7 assertions passed.");
+console.log("Meta status: 8 assertions passed.");
