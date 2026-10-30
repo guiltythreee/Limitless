@@ -122,7 +122,7 @@ export const advancedPathwayLessons: Lesson[] = [
     ]
   },
   {
-    id: "bayesian-inference", rank: 3, title: "Bayesian Updating & Posterior Prediction", minutes: 24,
+    id: "bayesian-inference", rank: 6, title: "Bayesian Updating & Posterior Prediction", minutes: 24,
     description: "Update an uncertain probability and predict future observations.",
     objective: "Apply Beta–Binomial updating and distinguish posterior predictions from plug-in estimates.",
     body: [
