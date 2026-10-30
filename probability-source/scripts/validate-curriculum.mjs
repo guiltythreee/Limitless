@@ -273,6 +273,31 @@ for (const source of sequence04Files) {
   }
 }
 if (sequence04Count !== 4) throw new Error("Expected all four expanded Sequence 04 lessons.");
+// Sequence 03 requires joint-law, conditional-expectation and transformation applications.
+const sequence03Files = [
+  read("app/content/pathway-lessons.ts"),
+  read("app/content/pathway-lessons-advanced.ts"),
+];
+const sequence03Ids = new Set([
+  "joint-distributions", "conditional-expectation", "generating-functions",
+  "joint-transformations", "sums-convolution", "order-statistics",
+]);
+let sequence03Count = 0;
+for (const source of sequence03Files) {
+  const starts = [...source.matchAll(/\n  \{\n    id: "([^"]+)", rank: \d+/g)];
+  for (let i = 0; i < starts.length; i++) {
+    const id = starts[i][1];
+    if (!sequence03Ids.has(id)) continue;
+    sequence03Count++;
+    const block = source.slice(starts[i].index, i + 1 < starts.length ? starts[i + 1].index : source.length);
+    const examples = [...block.matchAll(/\{\s*title:\s*"[^"]*",\s*problem:/g)].length;
+    const questions = [...block.matchAll(/\{\s*question:\s*"[^"]*",\s*options:/g)];
+    if (examples < 3 || questions.length !== 3) {
+      throw new Error("Sequence 03 lesson " + id + " needs three worked examples and three graded questions.");
+    }
+  }
+}
+if (sequence03Count !== 6) throw new Error("Expected all six expanded Sequence 03 lessons.");
 const geometricSource = read("app/content/chapter1-theory.ts");
 const geometricStart = geometricSource.indexOf("export const geometricProbability");
 const geometricEnd = geometricSource.indexOf("export const borelCantelli", geometricStart);
