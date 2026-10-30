@@ -261,7 +261,7 @@ export const pathwayLessons: Lesson[] = [
       "The CDF F(x)=P(X≤x) is the integral of the density up to x. Where differentiable, F′(x)=f(x); the CDF is defined even where a density is inconvenient.",
       "Expectation extends sums to integrals: E[g(X)]=∫g(x)f(x)dx. Do not confuse density height f(x) with P(X=x), which is zero for an absolutely continuous variable.",
       "For a monotone differentiable transformation Y=g(X), fY(y)=fX(g⁻¹(y))|d g⁻¹(y)/dy|. For non-monotone transformations, sum the contributions from every inverse branch.",
-      "A transformation can change the support and can create more than one inverse branch. For Y=g(X), add the density contributions from every solution x of g(x)=y, each weighted by 1/|g′(x)| where the derivative is nonzero. Always derive the transformed support before applying the formula."
+      "A transformation can change the support and can create more than one inverse branch. For Y=g(X), add the density contributions from every solution x of g(x)=y, each weighted by 1/|g′(x)| where the derivative is nonzero. Always derive the transformed support before applying the formula.",
       "Uniform, exponential, normal, gamma and beta distributions are a toolkit, not interchangeable formulas. Select a distribution by assumptions and support, then check units and normalization."
     ],
     formulas: [
