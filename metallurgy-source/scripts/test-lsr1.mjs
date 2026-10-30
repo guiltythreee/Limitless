@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { readGlobalRewardSummary } from "../../shared/rewards.mjs";
 
 class MemoryStorage {
@@ -181,6 +182,67 @@ function checkLedgerOnly(actual, expected, label) {
   assert.deepEqual(reset.awarded, {});
   checkLedgerOnly(reset.rewardLedger, 2, "MT203 reset preserves lifetime Meta EXP");
 }
+
+// Live MT203 practice and exam surfaces defer all mutations to one final root write.
+{
+  const isolated = new MemoryStorage({
+    "mm-mt203-v1": JSON.stringify({
+      attempts: [], theoryRead: [], exams: [], best: null, awarded: {}, days: {},
+      goal: 10, bookmarks: [], rewardLedger: [],
+    }),
+  });
+  globalThis.window.localStorage = isolated;
+
+  const player = readFileSync(new URL("../app/mt203/player.tsx", import.meta.url), "utf8");
+  assert.ok(player.includes("recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty, false)"));
+  assert.ok(player.includes("awardAnswer(p, theQ.id, theQ.difficulty, ok, false)"));
+  assert.ok(player.includes("saveProgress(p, p.rewardLedger.length > initialRewardLedgerLength)"));
+
+  let p = MT203.loadProgress();
+  let before = p.rewardLedger.length;
+  isolated.writes = 0;
+  p = MT203.recordAnswer(p, "practice-single-write", "A", true, "practice", 123, 3, false);
+  p = MT203.awardAnswer(p, "practice-single-write", 3, true, false).progress;
+  assert.equal(isolated.writes, 0);
+  MT203.saveProgress(p, p.rewardLedger.length > before);
+  assert.equal(isolated.writes, 1, "MT203 practice is one root write");
+  let saved = JSON.parse(isolated.getItem("mm-mt203-v1"));
+  assert.equal(saved.attempts.at(-1).ms, 123);
+  assert.equal(saved.awarded["q:practice-single-write"], 14);
+  assert.equal(saved.rewardLedger.at(-1).difficulty, "advanced");
+
+  const exam = readFileSync(new URL("../app/mt203/exam.tsx", import.meta.url), "utf8");
+  assert.ok(exam.includes('recordAnswer(p, q.id, answer, ok, "exam", 0, q.difficulty, false)'));
+  assert.ok(exam.includes("awardAnswer(p, q.id, q.difficulty, ok, false)"));
+  assert.ok(exam.includes("settleModuleBonuses(p, false)"));
+  assert.ok(exam.includes("saveProgress(p, p.rewardLedger.length > initialRewardLedgerLength)"));
+
+  p = MT203.loadProgress();
+  before = p.rewardLedger.length;
+  isolated.writes = 0;
+  for (let i = 0; i < 5; i++) {
+    const qid = "exam-single-write-" + i;
+    const correct = i < 3;
+    p = MT203.recordAnswer(p, qid, correct ? "A" : "B", correct, "exam", 0, 2, false);
+    p = MT203.awardAnswer(p, qid, 2, correct, false).progress;
+  }
+  p = MT203.recordExam(p, {
+    id: "single-write-exam", ts: 1700000007000, label: "Batch test",
+    total: 5, answered: 5, correct: 3, ms: 300000, breakdown: {},
+  }, false);
+  p = MT203.awardOnce(p, "batch:module-clear", 60, false).progress;
+  assert.equal(isolated.writes, 0);
+  MT203.saveProgress(p, p.rewardLedger.length > before);
+  assert.equal(isolated.writes, 1, "MT203 exam is one root write");
+  saved = JSON.parse(isolated.getItem("mm-mt203-v1"));
+  assert.equal(saved.exams[0].id, "single-write-exam");
+  assert.equal(saved.best.score, 3);
+  assert.equal(saved.attempts.filter((a) => a.q.startsWith("exam-single-write-")).length, 5);
+  assert.equal(saved.awarded["q:exam-single-write-0"], 8);
+  assert.equal(saved.awarded["batch:module-clear"], 60);
+  assert.ok(saved.rewardLedger.some((record) => record.eventId === "metallurgy-mt203:assessment:single-write-exam"));
+}
+globalThis.window.localStorage = store;
 
 const summary = readGlobalRewardSummary(store);
 assert.deepEqual(
