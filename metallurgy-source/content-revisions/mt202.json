@@ -2624,7 +2624,8 @@
             "text": "constitutional supercooling, driven by composition rather than temperature"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "For an alloy, solute rejected at the solid–liquid interface changes the local liquidus temperature ahead of the front. If the actual temperature falls below that local liquidus, a constitutionally supercooled zone forms and destabilises the planar interface. Therefore **(d) is correct**. Option (a) is the thermal-instability description more commonly used for pure metals; (b) and (c) are not the primary mechanism described here. The key distinction is that constitutional supercooling is composition-driven."
       },
       "sourceFingerprint": "c7304e08"
     },
@@ -2904,7 +2905,8 @@
             "text": "fine distributed shrinkage porosity trapped between dendrite arms, worst in alloys freezing over a wide temperature range"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "Interdendritic sponginess is fine, distributed **shrinkage porosity** trapped between dendrite arms, especially in alloys that freeze over a wide temperature range because feeding through the mushy zone becomes difficult. **(a)** describes gas porosity (blowholes); **(b)** describes a macro-shrinkage cavity or pipe; **(c)** describes a surface oxide film. Thus **(d) is correct**. Sponginess is addressed by feeding; gas porosity requires control of dissolved or generated gas."
       },
       "sourceFingerprint": "1fd813c6"
     },
