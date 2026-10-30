@@ -354,7 +354,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
                     {queue.map((k, i) => {
                       const s: Status = latest[k]?.status ?? "unattempted";
                       return (
-                        <button key={k} onClick={() => onGo(i)} className={`qnum qnum-${s} ${i === index ? "qnum-cur" : ""}`} title={s}>
+                        <button key={k} onClick={() => onGo(i)} className={`qnum qnum-${s} ${i === index ? "qnum-cur" : ""}`} title={s} aria-label={`Question ${i + 1}, ${s}`} aria-current={i === index ? "step" : undefined}>
                           <span className="text-xs">{i + 1}</span><span className="qmark">{MARK[s] || "·"}</span>
                         </button>
                       );
