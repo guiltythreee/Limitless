@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { readGlobalRewardSummary } from "../../shared/rewards.mjs";
 
 class MemoryStorage {
@@ -173,6 +174,42 @@ function checkLedgerOnly(actual, expected, label) {
   assert.equal(reset.attempts.length, 0);
   assert.deepEqual(reset.awarded, {});
   checkLedgerOnly(reset.rewardLedger, 2, "MT203 reset preserves lifetime Meta EXP");
+}
+
+
+// The actual MT203 exam UI must defer every progress mutation and perform one final root write.
+{
+  const examSource = readFileSync(new URL("../app/mt203/exam.tsx", import.meta.url), "utf8");
+  assert.match(examSource, /recordAnswer\(p, q\.id, a, ok, "exam", 0, q\.difficulty, false\)/);
+  assert.match(examSource, /awardAnswer\(p, q\.id, q\.difficulty, ok, false\)/);
+  assert.match(examSource, /recordExam\(p, \{/);
+  assert.match(examSource, /\}, false\);\s*const settled = settleModuleBonuses\(p, false\)/);
+  assert.match(examSource, /saveProgress\(p, p\.rewardLedger\.length > initialRewardLedgerLength\)/);
+
+  let p = MT203.loadProgress();
+  const priorLedgerLength = p.rewardLedger.length;
+  store.writes = 0;
+  for (let i = 0; i < 5; i++) {
+    const qid = "mt203-batch-q" + i;
+    const correct = i < 3;
+    p = MT203.recordAnswer(p, qid, correct ? "A" : "B", correct, "exam", 0, 2, false);
+    p = MT203.awardAnswer(p, qid, 2, correct, false).progress;
+  }
+  p = MT203.recordExam(p, {
+    id: "mt203-batch-exam", ts: 1700000007000, label: "Batch test",
+    total: 5, answered: 5, correct: 3, ms: 300000, breakdown: {},
+  }, false);
+  p = MT203.awardOnce(p, "batch:module-clear", 60, false).progress;
+  assert.equal(store.writes, 0, "all exam mutations remain in memory until final save");
+  MT203.saveProgress(p, p.rewardLedger.length > priorLedgerLength);
+  assert.equal(store.writes, 1, "the complete MT203 exam submission uses exactly one storage write");
+  const persisted = JSON.parse(store.getItem("mm-mt203-v1"));
+  assert.equal(persisted.exams[0].id, "mt203-batch-exam");
+  assert.equal(persisted.best.score, 3);
+  assert.equal(persisted.attempts.filter((a) => a.q.startsWith("mt203-batch-q")).length, 5);
+  assert.equal(persisted.awarded["q:mt203-batch-q0"], 8);
+  assert.equal(persisted.awarded["batch:module-clear"], 60);
+  assert.ok(persisted.rewardLedger.some((record) => record.eventId === "metallurgy-mt203:assessment:mt203-batch-exam"));
 }
 
 const summary = readGlobalRewardSummary(store);
