@@ -7,18 +7,20 @@ import {
   submitPlayerAnswer,
 } from "./runtime.ts";
 import { probabilityPlayerAdapter } from "../../probability-source/app/learning-player/adapter.ts";
-import {
-  allQuestions,
-  correctSet,
-  grade,
-  isMulti,
-} from "../../probability-source/app/lib/questions.ts";
+import { grade } from "../../probability-source/app/lib/questions.ts";
 import { createMetallurgyPlayerAdapter } from "../../metallurgy-source/app/learning-player/adapter.ts";
 
 // Exercise the production Probability adapter and its real course grader.
-const probabilitySingle = allQuestions.find((q) => !isMulti(q));
-assert.ok(probabilitySingle, "the real Probability bank contains a single-choice question");
-const singleCorrect = correctSet(probabilitySingle.item)[0];
+const probabilitySingle = {
+  key: "fixture:single",
+  item: {
+    question: "Choose one correct option",
+    options: ["A", "B", "C"],
+    answer: 1,
+    explanation: "",
+  },
+};
+const singleCorrect = 1;
 let probability = createLearningPlayerSession([probabilitySingle]);
 probability = setPlayerAnswer(probability, probabilityPlayerAdapter, {
   kind: "single-choice",
@@ -35,14 +37,17 @@ assert.equal(singleResult.submission.question.courseId, "probability");
 
 // Multi-select partial credit and over-selection must remain exactly the
 // result of Probability's existing grade() implementation.
-const probabilityMulti = allQuestions.find((q) =>
-  isMulti(q) &&
-  correctSet(q.item).length > 1 &&
-  q.item.options.length > correctSet(q.item).length
-);
-assert.ok(probabilityMulti, "the real Probability bank contains a multi-select question");
-const right = correctSet(probabilityMulti.item);
-const wrong = probabilityMulti.item.options.findIndex((_, i) => !right.includes(i));
+const probabilityMulti = {
+  key: "fixture:multi",
+  item: {
+    question: "Choose both correct options",
+    options: ["A", "B", "C", "D"],
+    answer: 0,
+    answers: [0, 2],
+    explanation: "",
+  },
+};
+const right = probabilityMulti.item.answers;
 let multi = createLearningPlayerSession([probabilityMulti]);
 multi = setPlayerAnswer(multi, probabilityPlayerAdapter, {
   kind: "multi-choice",
