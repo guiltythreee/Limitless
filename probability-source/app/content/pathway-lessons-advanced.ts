@@ -8,12 +8,20 @@ export const advancedPathwayLessons: Lesson[] = [
     body: [
       "A uniform permutation of n distinct objects has n! equally likely arrangements. A fixed point is an object in its original position; a derangement has no fixed points.",
       "Inclusion–exclusion gives Dₙ=n!Σⱼ₌₀ⁿ(−1)ʲ/j!, so P(no fixed points)=Σⱼ₌₀ⁿ(−1)ʲ/j!, which approaches e⁻¹.",
-      "Let Iᵢ indicate whether object i is fixed. Each has expectation 1/n, so if X=ΣIᵢ is the number of fixed points, E[X]=1 by linearity. Independence is not needed for this expectation."
+      "Let Iᵢ indicate whether object i is fixed. Each has expectation 1/n, so if X=ΣIᵢ is the number of fixed points, E[X]=1 by linearity. Independence is not needed for this expectation.",
+      "The number of permutations with exactly k fixed points is C(n,k)Dₙ₋ₖ: choose the k objects that stay fixed, then derange the remaining objects. Dividing by n! gives the full distribution of the fixed-point count.",
+      "Fixed-point indicators are not mutually independent: once some objects occupy their own positions, the remaining positions are constrained. Indicators are still useful because linearity of expectation does not require independence. For n≥2, a second-moment calculation gives Var(X)=1."
     ],
-    formulas: [{ label: "Derangements", text: "Dₙ=n!Σⱼ₌₀ⁿ(−1)ʲ/j!" }, { label: "Expected fixed points", text: "E[X]=ΣᵢE[Iᵢ]=1" }],
+    formulas: [
+      { label: "Derangements", text: "Dₙ=n!Σⱼ₌₀ⁿ(−1)ʲ/j!" },
+      { label: "Exactly k fixed points", text: "P(X=k)=C(n,k)Dₙ₋ₖ/n!" },
+      { label: "Expected fixed points", text: "E[X]=ΣᵢE[Iᵢ]=1" },
+      { label: "Variance of fixed-point count", text: "Var(X)=1 for n≥2" }
+    ],
     examples: [
       { title: "Four letters", problem: "Four letters are placed uniformly at random into four addressed envelopes. Find the probability that no letter reaches its addressed envelope.", steps: ["There are 4!=24 equally likely permutations.", "Inclusion–exclusion gives D₄=24−24+12−4+1=9.", "Therefore P(no fixed points)=9/24=3/8."] },
-      { title: "Expected fixed points", problem: "Find the expected number of fixed points in a uniform permutation of n objects.", steps: ["For each object i, let Iᵢ=1 if it is fixed.", "Each object is equally likely to occupy any of n positions, so E[Iᵢ]=1/n.", "Linearity gives E[X]=ΣE[Iᵢ]=n/n=1."] }
+      { title: "Expected fixed points", problem: "Find the expected number of fixed points in a uniform permutation of n objects.", steps: ["For each object i, let Iᵢ=1 if it is fixed.", "Each object is equally likely to occupy any of n positions, so E[Iᵢ]=1/n.", "Linearity gives E[X]=ΣE[Iᵢ]=n/n=1."] },
+      { title: "Exactly two fixed points", problem: "A uniform permutation of five objects is selected. Find the probability it has exactly two fixed points.", steps: ["Choose which two objects remain fixed: C(5,2)=10 choices.", "The other three must form a derangement. There are D₃=2 ways.", "There are 5!=120 total permutations, so P(X=2)=10·2/120=1/6."] }
     ],
     quiz: [
       { question: "What is the probability a uniform permutation of four objects has no fixed points?", options: ["1/4", "3/8", "1/2", "5/8"], answer: 1, difficulty: "easy", explanation: "There are 9 derangements among 24 permutations, so the probability is 9/24=3/8." },
