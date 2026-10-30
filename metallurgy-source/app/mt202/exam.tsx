@@ -119,12 +119,19 @@ export default function Exam({
     setRunning(false);
     setSubmitted(true);
     const total = pool.length;
+    const completedAt = Date.now();
     const prevRatio = progress.examBest ? progress.examBest.score / progress.examBest.total : -1;
     const nextBest =
       total && sc / total >= prevRatio
-        ? { score: sc, total, at: Date.now() }
+        ? { score: sc, total, at: completedAt }
         : progress.examBest;
-    const p = recordExamAnswers(progress, attempted, nextBest);
+    const p = recordExamAnswers(progress, attempted, nextBest, {
+      runId: `exam-${completedAt}-${Math.random().toString(36).slice(2, 8)}`,
+      ts: completedAt,
+      total,
+      answered: attempted.length,
+      correct: sc,
+    });
     onProgress(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
