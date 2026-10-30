@@ -172,7 +172,7 @@ export const pathwayLessons: Lesson[] = [
     ]
   },
   {
-    id: "discrete-distributions", rank: 4, title: "Discrete Distributions & Model Choice", minutes: 24,
+    id: "discrete-distributions", rank: 5, title: "Discrete Distributions & Model Choice", minutes: 24,
     description: "Choose a distribution from the experiment, not from a memorised list.",
     objective: "Model Bernoulli trials, sampling without replacement, waiting times, and rare-event counts.",
     body: [
