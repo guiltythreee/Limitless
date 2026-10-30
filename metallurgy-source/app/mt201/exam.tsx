@@ -12,7 +12,7 @@
 // question through the shared activity log (blanks are skipped). Score, best
 // ratio and the progress payload itself are unchanged; nothing new is rendered.
 
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import { Progress, qid, recordExamAnswers, type ExamAnswer } from "./progress";
 import { MT201_ENTRY } from "../courses/entries/mt201";
 import type { Question } from "../courses/types";
