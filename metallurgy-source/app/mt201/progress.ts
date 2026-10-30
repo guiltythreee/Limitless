@@ -25,6 +25,8 @@ import {
 import type { Activity, ActivityLog, NewActivity } from "../platform/learning";
 import type { TopicId } from "../courses/types";
 import { CHAPTER_IDS } from "./types";
+import { sanitiseRewardRecords, type RewardRecord } from "../../../shared/rewards.mjs";
+import { appendLsrActivity, announceLsrRewardWrite, assessmentActivity, questionActivity, type AssessmentInput } from "../lib/lsr1-rewards";
 
 export type QState = { choice: string; correct: boolean; at: number };
 
@@ -39,6 +41,7 @@ export type Progress = {
   goal?: number;
   /** Historical daily targets, local YYYY-MM-DD keys. */
   goalByDay?: Record<string, number>;
+  rewardLedger?: RewardRecord[];
 };
 
 const KEY = "mm-mt201-v1";
@@ -86,6 +89,7 @@ export function loadProgress(): Progress {
       bookmarks: Array.isArray(p.bookmarks) ? [...new Set(p.bookmarks.filter((q) => typeof q === "string" && q.length > 0))] : [],
       goal: clampDailyGoal(p.goal ?? DEFAULT_DAILY_GOAL),
       goalByDay: sanitiseGoalByDay(p.goalByDay),
+      rewardLedger: sanitiseRewardRecords(p.rewardLedger),
     };
   } catch {
     return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
