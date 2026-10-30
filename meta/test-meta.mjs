@@ -25,7 +25,7 @@ for (const moduleId of ["metallurgy-mt201", "metallurgy-mt202", "metallurgy-mt20
 }
 assert.ok(metaSource.includes("Metallurgy MT201–MT203"),
   "Meta empty state describes the Metallurgy integrations");
-assert.ok(pageSource.includes('<a href="../metallurgy/">Metallurgy</a>'),
+assert.ok(metaSource.includes("registered personal projects"),\n  "Meta empty state describes the personal-project reward source");\nassert.ok(pageSource.includes('<a href="../metallurgy/">Metallurgy</a>'),
   "Meta navigation links to the Metallurgy application");
 const projectModuleSelect = pageSource.match(/<select id="project-module"[\s\S]*?<\/select>/)?.[0] ?? "";
 assert.ok(projectModuleSelect.includes('value="personal-projects"'),
