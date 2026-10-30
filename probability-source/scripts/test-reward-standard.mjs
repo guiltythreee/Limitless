@@ -156,6 +156,47 @@ const assessmentRetry = calculateReward(activity({
 assert.equal(assessmentRetry.passBonus, 0, "a checkpoint pass bonus is one-time");
 assert.equal(assessmentRetry.totalExp, 36);
 
+// A first checkpoint pass is its own milestone and must survive the activity repeat cap.
+const cappedAssessmentHistory = [];
+for (let i = 1; i <= 3; i++) {
+  cappedAssessmentHistory.push(...buildRewardRecords(activity({
+    eventId: "capped-assessment-" + i,
+    itemId: "assessment:late-first-pass",
+    activityClass: "assessment",
+    difficulty: "intermediate",
+    completionEvidence: "fully-answered-assessment",
+    passed: false,
+    checkpointId: "late-first-pass",
+  }), cappedAssessmentHistory));
+}
+const lateFirstPass = buildRewardRecords(activity({
+  eventId: "assessment-late-first-pass",
+  itemId: "assessment:late-first-pass",
+  activityClass: "assessment",
+  difficulty: "intermediate",
+  completionEvidence: "fully-answered-assessment",
+  passed: true,
+  checkpointId: "late-first-pass",
+}), cappedAssessmentHistory);
+assert.equal(lateFirstPass.length, 2);
+assert.equal(lateFirstPass[0].eligible, false, "the fourth activity remains capped");
+assert.equal(lateFirstPass[0].reason, "daily-repeat-cap");
+assert.equal(lateFirstPass[0].totalExp, 0);
+assert.equal(lateFirstPass[1].eventId, "lsr1:pass-bonus:probability:late-first-pass");
+assert.equal(lateFirstPass[1].eligible, true, "the separate first-pass milestone remains eligible");
+assert.equal(lateFirstPass[1].totalExp, 15);
+assert.equal(lateFirstPass[1].countsTowardRepeatCap, false);
+assert.equal(buildRewardRecords(activity({
+  eventId: "assessment-late-first-pass-retry",
+  itemId: "assessment:late-first-pass",
+  activityClass: "assessment",
+  difficulty: "intermediate",
+  completionEvidence: "fully-answered-assessment",
+  passed: true,
+  checkpointId: "late-first-pass",
+}), [...cappedAssessmentHistory, ...lateFirstPass]).length, 1,
+"the late first-pass milestone is still paid only once");
+
 // Persistent adapters must store the first-pass bonus as a separate record.
 const firstPassRecords = buildRewardRecords(activity({
   eventId: "assessment-split",
