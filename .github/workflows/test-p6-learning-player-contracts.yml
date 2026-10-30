@@ -7,6 +7,7 @@ on:
       - "metallurgy-source/app/learning-player/**"
       - "metallurgy-source/app/mt201/quiz.tsx"
       - "metallurgy-source/app/mt202/quiz.tsx"
+      - "metallurgy-source/app/mt203/player.tsx"
       - "probability-source/app/learning-player/**"
       - "metallurgy-source/next.config.ts"
       - "probability-source/next.config.ts"
