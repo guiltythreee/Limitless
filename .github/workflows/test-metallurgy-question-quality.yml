@@ -72,10 +72,8 @@ jobs:
       - name: Install metallurgy dependencies
         run: npm ci --prefix metallurgy-source
 
-      - name: Syntax-check and read-only preflight the MT201/MT202 revision runner
-        run: |
-          python -m py_compile metallurgy-source/scripts/apply-authored-revisions.py
-          python metallurgy-source/scripts/apply-authored-revisions.py --repo "$GITHUB_WORKSPACE"
+      - name: Read-only preflight the MT201/MT202 revision runner
+        run: python metallurgy-source/scripts/apply-authored-revisions.py --repo "$GITHUB_WORKSPACE"
 
       - name: Validate committed revision overlays and generated mirrors
         run: python metallurgy-source/scripts/validate-question-quality-overlays.py --repo "$GITHUB_WORKSPACE"
