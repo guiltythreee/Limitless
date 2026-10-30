@@ -3,6 +3,7 @@ import {
   createLearningPlayerSession,
   navigatePlayer,
   setPlayerAnswer,
+  selectPlayerQuestion,
   submitPlayerAnswer,
   tickPlayer,
 } from "./runtime.ts";
@@ -102,5 +103,8 @@ const queue = createLearningPlayerSession([singleQuestion, { ...singleQuestion, 
 assert.equal(navigatePlayer(queue, "next").state.index, 1);
 assert.equal(navigatePlayer(queue, "previous").state.index, 0);
 assert.equal(navigatePlayer(queue, "previous").state.index, 0);
+assert.equal(selectPlayerQuestion(queue, 1).state.index, 1);
+assert.equal(selectPlayerQuestion(queue, -4).state.index, 0);
+assert.equal(selectPlayerQuestion(queue, 99).state.index, 1);
 
-console.log("P6 player runtime: 19 assertions passed");
+console.log("P6 player runtime: 22 assertions passed");
