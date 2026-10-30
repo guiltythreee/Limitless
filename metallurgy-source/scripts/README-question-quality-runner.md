@@ -6,7 +6,9 @@ This branch carries a guarded runner for the 84 authored metallurgy question rev
 - MT202: 47 authored replacements
 - MT203: 25 authored replacements
 
-The branch workflow applies the revisions to a clean checkout, performs safe deterministic answer-position balancing, runs the existing course test and validation scripts, and runs the production build. Only if all checks pass does the workflow commit the generated source/output changes back to this test branch. It never writes to main.
+The committed branch already contains the authored revisions, durable MT201/MT202 overlays, generated output mirrors, answer-position balancing, and the audit/follow-up reports.
+
+The GitHub Actions workflow is deliberately read-only with respect to repository content: it validates the committed overlays and generated mirrors, runs the MT201/MT202/MT203 regression checks and validators, and builds the metallurgy site. It does not apply revisions, modify files, or commit generated output.
 
 Workflow: .github/workflows/test-metallurgy-question-quality.yml
 
@@ -20,7 +22,7 @@ From the repository root, using Python 3.10+ and installed Node dependencies:
 py "metallurgy-source/scripts/apply-authored-revisions.py" --repo "$PWD" --balance-answers
 ```
 
-This command is a read-only preflight. To apply and run tests/build locally, only after preflight succeeds:
+This command is a read-only preflight. To apply the revision pack locally, only after preflight succeeds:
 
 ```powershell
 py "metallurgy-source/scripts/apply-authored-revisions.py" --repo "$PWD" --apply --balance-answers --run-tests --build
