@@ -1,4 +1,4 @@
-import type { Lesson } from "./types";
+import type { Example, Lesson, QuizItem } from "./types";
 
 // Lessons written for the first release, kept word for word. Each is placed
 // under the rank that the specification assigns to its topic, and will be
@@ -7,6 +7,7 @@ type LegacyLesson = {
   id: string; unit: string; title: string; level: string; minutes: number;
   description: string; objective: string; body: string[]; formula: string;
   question: string; options: string[]; answer: number; explanation: string;
+  examples?: Example[]; additionalQuestions?: QuizItem[];
 };
 
 const legacy: LegacyLesson[] = [
@@ -23,7 +24,23 @@ const legacy: LegacyLesson[] = [
     question: "Suppose P(A ∩ B) = 0.12 and P(B) = 0.30. What is P(A | B)?",
     options: ["0.036", "0.18", "0.40", "2.50"],
     answer: 2,
-    explanation: "Divide the intersection probability by P(B): 0.12 / 0.30 = 0.40."
+    explanation: "Divide the intersection probability by P(B): 0.12 / 0.30 = 0.40.",
+    examples: [
+      { title: "A card conditional on its suit", problem: "A card is drawn uniformly from a standard deck. Given that it is a heart, what is the probability it is a queen?", steps: [
+        "The condition restricts the sample space to the 13 hearts.",
+        "Exactly one of those 13 cards is the queen of hearts.",
+        "Therefore P(queen | heart)=1/13. The denominator is 13 because the heart condition is already known."
+      ] },
+      { title: "Conditional probability from a table", problem: "In a group of 100 people, 30 exercise regularly and 18 both exercise regularly and cycle to work. Find P(cycles | exercises).", steps: [
+        "Let E be exercising and C be cycling. The known group is E, which contains 30 people.",
+        "Of those 30, 18 cycle to work.",
+        "Thus P(C | E)=18/30=0.6. The reverse conditional P(E | C) would use the number of cyclists as its denominator."
+      ] }
+    ],
+    additionalQuestions: [
+      { question: "If P(A∩B)=0.18 and P(B)=0.6, then P(A|B) is", options: ["0.108", "0.30", "0.42", "3.33"], answer: 1, difficulty: "medium", explanation: "Conditional probability divides the joint probability by the probability of the condition: 0.18/0.6=0.30." },
+      { question: "A class has 20 students who study mathematics, 12 of whom also study physics. Given that a student studies mathematics, what is the probability they study physics?", options: ["12/20", "12/32", "20/12", "8/20"], answer: 0, difficulty: "hard", explanation: "The condition selects the 20 mathematics students. Twelve of these also study physics, so the conditional probability is 12/20=0.6." }
+    ]
   },
   {
     id: "bayes", unit: "05", title: "Bayes' Theorem", level: "Apprentice", minutes: 18,
@@ -121,5 +138,6 @@ export const legacyLessons: Lesson[] = legacy.map((l) => ({
   body: l.body,
   formulas: [{ label: "The governing relation", text: l.formula }],
   examples: [],
-  quiz: [{ question: l.question, options: l.options, answer: l.answer, explanation: l.explanation }],
+  examples: l.examples ?? [],
+  quiz: [{ question: l.question, options: l.options, answer: l.answer, explanation: l.explanation }, ...(l.additionalQuestions ?? [])],
 }));
