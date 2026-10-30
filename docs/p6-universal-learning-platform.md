@@ -213,3 +213,12 @@ Tests and strict TypeScript checks were added to the P6 workflow. GitHub Actions
 - Metallurgy: 13 lifecycle + 19 runtime + 12 adapter assertions passed; adapter and shared files type-checked.
 
 The Node test-only loader resolves extensionless TypeScript imports for these tests; it does not alter production module resolution. This gate validates adapter mapping and type compatibility, not full app builds or production integration.
+
+## 14. Independent application build checkpoint
+
+The P6 workflow now runs both applications' production builds independently, without running the Probability deployment/synchronisation workflow. GitHub Actions run `41062402968` completed successfully:
+- Metallurgy: Next.js production compilation and static page generation succeeded.
+- Probability: Next.js production compilation and static page generation succeeded.
+- The contract/runtime/adapter test and type-check matrix also passed in the same run.
+
+This confirms the current branch still builds both applications. The shared runtime is not yet imported by either production route, so this is a baseline build checkpoint before the first live integration.
