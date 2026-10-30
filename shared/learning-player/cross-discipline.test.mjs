@@ -62,6 +62,28 @@ assert.equal(partial.submission.grade.score, expectedPartial.score);
 assert.equal(partial.submission.grade.status, expectedPartial.status);
 assert.equal(partial.submission.grade.status, "partial");
 
+// Selecting a wrong option in addition to both correct options must preserve
+// the existing penalty rule: (2 hits - 1 wrong) / 2 correct = 0.5.
+let overSelected = createLearningPlayerSession([probabilityMulti]);
+overSelected = setPlayerAnswer(overSelected, probabilityPlayerAdapter, {
+  kind: "multi-choice",
+  optionIds: [String(right[0]), String(right[1]), "1"],
+});
+const overSelectionResult = submitPlayerAnswer(overSelected, probabilityPlayerAdapter, {
+  submittedAt: 250,
+  mode: "practice",
+});
+const expectedOverSelection = grade(probabilityMulti.item, [right[0], right[1], 1]);
+assert.equal(overSelectionResult.submission.grade.score, expectedOverSelection.score);
+assert.equal(overSelectionResult.submission.grade.status, expectedOverSelection.status);
+assert.equal(overSelectionResult.submission.grade.score, 0.5);
+
+// Invalid option identifiers must be rejected at the adapter boundary.
+assert.throws(() => probabilityPlayerAdapter.grade(probabilityMulti, {
+  kind: "multi-choice",
+  optionIds: ["999"],
+}), RangeError);
+
 // Probability permits a second attempt; the shared runtime retains both
 // submissions while the production adapter remains the grading authority.
 multi = navigatePlayer(partial.session, "previous");
@@ -136,4 +158,4 @@ assert.equal(submitPlayerAnswer(exam, createMetallurgyPlayerAdapter("mt201"), {
 exam = selectPlayerQuestion(exam, 0);
 assert.equal(exam.answers["ch01-q1"].optionId, "B", "navigation retains the answer for later batch submission");
 
-console.log("P6 cross-discipline runtime: 25 assertions passed");
+console.log("P6 cross-discipline runtime: 29 assertions passed");
