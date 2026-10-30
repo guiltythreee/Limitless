@@ -334,6 +334,8 @@ export default function Exam({
           <button
             key={pq.id}
             className={`pbtn ${answers[i] ? "answered" : ""} ${i === idx ? "current" : ""}`}
+            aria-label={`Question ${i + 1}${answers[i] ? ", answered" : ", unanswered"}`}
+            aria-current={i === idx ? "step" : undefined}
             onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
           >
             {i + 1}
