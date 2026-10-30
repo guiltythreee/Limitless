@@ -1153,7 +1153,7 @@ def main():
     # Compose an audit report from actual files plus supplied high-confidence review history.
     audit_path=src/"reports"/"metallurgy-question-bank-quality-audit-2026-10-28.md"
     queue_path=src/"reports"/"metallurgy-question-bank-follow-up-queue-2026-10-28.csv"
-    if audit_path.exists() or queue_path.exists(): raise SafeStop(f"Refusing to overwrite an existing audit artifact: {audit_path if audit_path.exists() else queue_path}")
+    # Existing tracked audit outputs may be regenerated. They are included in the\n    # dirty-target check and backup manifest; untracked or modified files stop safely.
     # Current content-level audit is generated after all edits below, once values are parsed.
 
     # Preserve any pre-existing dirty work in target files; README is patched by a unique literal substitution only.
