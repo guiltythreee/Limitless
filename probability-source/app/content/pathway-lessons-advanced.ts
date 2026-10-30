@@ -8,12 +8,20 @@ export const advancedPathwayLessons: Lesson[] = [
     body: [
       "A uniform permutation of n distinct objects has n! equally likely arrangements. A fixed point is an object in its original position; a derangement has no fixed points.",
       "Inclusion–exclusion gives Dₙ=n!Σⱼ₌₀ⁿ(−1)ʲ/j!, so P(no fixed points)=Σⱼ₌₀ⁿ(−1)ʲ/j!, which approaches e⁻¹.",
-      "Let Iᵢ indicate whether object i is fixed. Each has expectation 1/n, so if X=ΣIᵢ is the number of fixed points, E[X]=1 by linearity. Independence is not needed for this expectation."
+      "Let Iᵢ indicate whether object i is fixed. Each has expectation 1/n, so if X=ΣIᵢ is the number of fixed points, E[X]=1 by linearity. Independence is not needed for this expectation.",
+      "The number of permutations with exactly k fixed points is C(n,k)Dₙ₋ₖ: choose the k objects that stay fixed, then derange the remaining objects. Dividing by n! gives the full distribution of the fixed-point count.",
+      "Fixed-point indicators are not mutually independent: once some objects occupy their own positions, the remaining positions are constrained. Indicators are still useful because linearity of expectation does not require independence. For n≥2, a second-moment calculation gives Var(X)=1."
     ],
-    formulas: [{ label: "Derangements", text: "Dₙ=n!Σⱼ₌₀ⁿ(−1)ʲ/j!" }, { label: "Expected fixed points", text: "E[X]=ΣᵢE[Iᵢ]=1" }],
+    formulas: [
+      { label: "Derangements", text: "Dₙ=n!Σⱼ₌₀ⁿ(−1)ʲ/j!" },
+      { label: "Exactly k fixed points", text: "P(X=k)=C(n,k)Dₙ₋ₖ/n!" },
+      { label: "Expected fixed points", text: "E[X]=ΣᵢE[Iᵢ]=1" },
+      { label: "Variance of fixed-point count", text: "Var(X)=1 for n≥2" }
+    ],
     examples: [
       { title: "Four letters", problem: "Four letters are placed uniformly at random into four addressed envelopes. Find the probability that no letter reaches its addressed envelope.", steps: ["There are 4!=24 equally likely permutations.", "Inclusion–exclusion gives D₄=24−24+12−4+1=9.", "Therefore P(no fixed points)=9/24=3/8."] },
-      { title: "Expected fixed points", problem: "Find the expected number of fixed points in a uniform permutation of n objects.", steps: ["For each object i, let Iᵢ=1 if it is fixed.", "Each object is equally likely to occupy any of n positions, so E[Iᵢ]=1/n.", "Linearity gives E[X]=ΣE[Iᵢ]=n/n=1."] }
+      { title: "Expected fixed points", problem: "Find the expected number of fixed points in a uniform permutation of n objects.", steps: ["For each object i, let Iᵢ=1 if it is fixed.", "Each object is equally likely to occupy any of n positions, so E[Iᵢ]=1/n.", "Linearity gives E[X]=ΣE[Iᵢ]=n/n=1."] },
+      { title: "Exactly two fixed points", problem: "A uniform permutation of five objects is selected. Find the probability it has exactly two fixed points.", steps: ["Choose which two objects remain fixed: C(5,2)=10 choices.", "The other three must form a derangement. There are D₃=2 ways.", "There are 5!=120 total permutations, so P(X=2)=10·2/120=1/6."] }
     ],
     quiz: [
       { question: "What is the probability a uniform permutation of four objects has no fixed points?", options: ["1/4", "3/8", "1/2", "5/8"], answer: 1, difficulty: "easy", explanation: "There are 9 derangements among 24 permutations, so the probability is 9/24=3/8." },
@@ -33,7 +41,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "PMF", text: "P(T=k)=C(k−1,r−1)pʳ(1−p)ᵏ⁻ʳ, k≥r" }, { label: "Mean and variance", text: "E[T]=r/p, Var(T)=r(1−p)/p²" }],
     examples: [
       { title: "Third success on trial five", problem: "Independent trials have success probability 0.4. Find the probability that the third success occurs on trial 5.", steps: ["Trial 5 must be a success; among the first four trials there must be exactly two successes.", "There are C(4,2)=6 arrangements of the first two successes.", "P(T=5)=6(0.4)³(0.6)²=0.13824."] },
-      { title: "Expected waiting time", problem: "A trial succeeds with probability 0.25. Find the expected number of trials through the third success.", steps: ["Each geometric waiting time has mean 1/p=4 trials.", "The total waiting time is the sum of three such waiting times.", "Thus E[T]=r/p=3/0.25=12 trials."] }
+      { title: "Expected waiting time", problem: "A trial succeeds with probability 0.25. Find the expected number of trials through the third success.", steps: ["Each geometric waiting time has mean 1/p=4 trials.", "The total waiting time is the sum of three such waiting times.", "Thus E[T]=r/p=3/0.25=12 trials."] },
+      { title: "A negative-binomial probability", problem: "Independent trials have success probability 0.25. Find the probability that the third success occurs on trial 5.", steps: [
+        "Trial 5 must be a success, and among the first four trials exactly two must be successes.",
+        "There are C(4,2)=6 arrangements for the first two successes.",
+        "P(T=5)=C(4,2)(0.25)³(0.75)²=6(1/64)(9/16)=27/512≈0.05273."
+      ] }
     ],
     quiz: [
       { question: "For a waiting time counting trials through the r-th success, the smallest possible value is", options: ["0", "1", "r", "r+1"], answer: 2, difficulty: "easy", explanation: "At least r trials are required to observe r successes." },
@@ -53,7 +66,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Standardization", text: "Z=(X−μ)/σ ∼ N(0,1)" }, { label: "Affine transform", text: "aX+b ∼ N(aμ+b,a²σ²)" }],
     examples: [
       { title: "A quality threshold", problem: "Measurements follow N(100,15²). Estimate the probability a measurement exceeds 130.", steps: ["Standardize: z=(130−100)/15=2.", "P(X>130)=1−Φ(2).", "Since Φ(2)≈0.97725, the upper tail is approximately 0.02275."] },
-      { title: "Difference of measurements", problem: "Independent variables have distributions N(10,4) and N(3,9), where the second parameter is variance. Find the distribution of X−Y.", steps: ["The mean difference is 10−3=7.", "Independence gives Var(X−Y)=4+9=13.", "Thus X−Y~N(7,13)."] }
+      { title: "Difference of measurements", problem: "Independent variables have distributions N(10,4) and N(3,9), where the second parameter is variance. Find the distribution of X−Y.", steps: ["The mean difference is 10−3=7.", "Independence gives Var(X−Y)=4+9=13.", "Thus X−Y~N(7,13)."] },
+      { title: "A central normal interval", problem: "A measurement is distributed as N(70,10²). Find P(60≤X≤85).", steps: [
+        "Standardize both endpoints: z₁=(60−70)/10=−1 and z₂=(85−70)/10=1.5.",
+        "The desired probability is Φ(1.5)−Φ(−1).",
+        "Using Φ(1.5)≈0.9332 and Φ(−1)≈0.1587 gives approximately 0.7745."
+      ] }
     ],
     quiz: [
       { question: "If X~N(50,10²), the standardized value at X=70 is", options: ["1", "2", "7", "20"], answer: 1, difficulty: "easy", explanation: "z=(70−50)/10=2." },
@@ -70,10 +88,19 @@ export const advancedPathwayLessons: Lesson[] = [
       "A Gamma variable with shape α and rate λ has mean α/λ and variance α/λ². Exponential is Gamma(1,λ); sums of independent exponentials with the same rate are gamma distributed.",
       "A Beta(α,β) variable lies on (0,1), has mean α/(α+β), and is useful for modelling uncertain probabilities. Gamma rate λ and scale θ=1/λ are different parameterizations."
     ],
-    formulas: [{ label: "Exponential survival and mean", text: "P(X>t)=e^(−λt), E[X]=1/λ" }, { label: "Gamma mean and variance", text: "E[X]=α/λ, Var(X)=α/λ²" }, { label: "Beta mean", text: "E[X]=α/(α+β)" }],
+    formulas: [
+      { label: "Exponential survival and mean", text: "P(X>t)=e^(−λt), E[X]=1/λ" },
+      { label: "Gamma mean and variance", text: "E[X]=α/λ, Var(X)=α/λ²" },
+      { label: "Beta mean and variance", text: "E[X]=α/(α+β), Var(X)=αβ/[(α+β)²(α+β+1)]" }
+    ],
     examples: [
       { title: "Exponential survival", problem: "A component lifetime is exponential with rate 2 per hour. Find the probability it lasts longer than 30 minutes.", steps: ["Convert 30 minutes to 0.5 hours.", "P(X>t)=e^(−λt)=e^(−2·0.5).", "The probability is e⁻¹≈0.3679."] },
-      { title: "A beta mean", problem: "Let P~Beta(2,3). Find E[P].", steps: ["Use E[P]=α/(α+β).", "Substitute α=2 and β=3.", "E[P]=2/5=0.4."] }
+      { title: "A beta mean", problem: "Let P~Beta(2,3). Find E[P].", steps: ["Use E[P]=α/(α+β).", "Substitute α=2 and β=3.", "E[P]=2/5=0.4."] },
+      { title: "A sum of exponential waiting times", problem: "Three independent waiting times are exponential with rate 2 per hour. Find the probability their total exceeds one hour.", steps: [
+        "The sum has a Gamma distribution with shape 3 and rate 2.",
+        "For an Erlang(shape 3, rate 2) variable, P(S>t)=e^(−2t)[1+2t+(2t)²/2].",
+        "At t=1 this is 5e⁻²≈0.6767. The rate is per hour, so t must be measured in hours."
+      ] }
     ],
     quiz: [
       { question: "An exponential variable has rate 4 per hour. Its mean waiting time is", options: ["4 hours", "1/4 hour", "1/16 hour", "2 hours"], answer: 1, difficulty: "easy", explanation: "The mean is 1/λ=1/4 hour, or 15 minutes." },
@@ -93,7 +120,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Discrete convolution", text: "P(X+Y=s)=ΣₓP(X=x)P(Y=s−x)" }, { label: "Continuous convolution", text: "fS(s)=∫fX(x)fY(s−x)dx" }],
     examples: [
       { title: "The sum of two dice", problem: "Two independent fair dice are rolled. Find the probability their sum is 7.", steps: ["Six ordered pairs sum to 7.", "Each pair has probability 1/36.", "Thus the probability is 6/36=1/6."] },
-      { title: "Two exponential waits", problem: "X and Y are independent exponential variables with rate 1. Find the density of S=X+Y for s>0.", steps: ["Convolution gives ∫₀ˢe^(−x)e^(−(s−x))dx.", "The integrand is e^(−s), so the integral is s e^(−s).", "This is the Gamma(shape 2, rate 1) density."] }
+      { title: "Two exponential waits", problem: "X and Y are independent exponential variables with rate 1. Find the density of S=X+Y for s>0.", steps: ["Convolution gives ∫₀ˢe^(−x)e^(−(s−x))dx.", "The integrand is e^(−s), so the integral is s e^(−s).", "This is the Gamma(shape 2, rate 1) density."] },
+      { title: "Sum of two uniforms", problem: "X and Y are independent Uniform(0,1) variables. Find the density of S=X+Y.", steps: [
+        "The convolution is f_S(s)=∫f_X(x)f_Y(s−x)dx over 0≤x≤1 and 0≤s−x≤1.",
+        "For 0<s<1, the valid interval is 0<x<s, giving f_S(s)=s.",
+        "For 1≤s<2, the valid interval is s−1<x<1, giving f_S(s)=2−s. The density is zero outside [0,2]."
+      ] }
     ],
     quiz: [
       { question: "For independent discrete X and Y, the probability P(X+Y=s) is found by", options: ["Adding the means", "Summing P(X=x)P(Y=s−x) over valid x", "Multiplying the means", "Taking P(X=s)P(Y=s)"], answer: 1, difficulty: "easy", explanation: "Each valid split contributes a joint probability that factors by independence." },
@@ -113,7 +145,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Maximum CDF", text: "F_M(x)=F(x)ⁿ" }, { label: "Minimum CDF", text: "F_m(x)=1−(1−F(x))ⁿ" }],
     examples: [
       { title: "Maximum of three uniforms", problem: "Three IID Uniform(0,1) observations are taken. Find the probability their maximum is at most 1/2.", steps: ["Each observation is at most 1/2 with probability 1/2.", "All three must be at most 1/2.", "The probability is (1/2)³=1/8."] },
-      { title: "Expected extrema", problem: "For five IID Uniform(0,1) variables, find the expected minimum and maximum.", steps: ["The k-th order statistic has expectation k/(n+1).", "For the minimum k=1 and for the maximum k=5.", "The means are 1/6 and 5/6, respectively."] }
+      { title: "Expected extrema", problem: "For five IID Uniform(0,1) variables, find the expected minimum and maximum.", steps: ["The k-th order statistic has expectation k/(n+1).", "For the minimum k=1 and for the maximum k=5.", "The means are 1/6 and 5/6, respectively."] },
+      { title: "A high sample maximum", problem: "Four IID Uniform(0,1) measurements are taken. Find the probability their maximum exceeds 0.9.", steps: [
+        "The complement is that all four measurements are at most 0.9.",
+        "By independence, P(max≤0.9)=0.9⁴=0.6561.",
+        "Therefore P(max>0.9)=1−0.6561=0.3439."
+      ] }
     ],
     quiz: [
       { question: "For n IID observations with CDF F, the CDF of their maximum is", options: ["F(x)/n", "F(x)ⁿ", "1−F(x)ⁿ", "nF(x)"], answer: 1, difficulty: "easy", explanation: "The maximum is at most x only if every observation is at most x, giving F(x)ⁿ." },
@@ -160,7 +197,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Change of variables", text: "fU,V(u,v)=fX,Y(x(u,v),y(u,v))|∂(x,y)/∂(u,v)|" }, { label: "Inverse Jacobian", text: "|J|=u" }],
     examples: [
       { title: "Sum-ratio transformation", problem: "For independent Exp(1) variables X,Y, let U=X+Y and V=X/(X+Y). Derive the joint density.", steps: ["The inverse is x=uv and y=u(1−v), with u>0 and 0<v<1.", "The original joint density is e^(−u), and the inverse Jacobian magnitude is u.", "Therefore f_U,V(u,v)=u e^(−u) on the transformed support."] },
-      { title: "Marginals and independence", problem: "Use the preceding joint density to identify U and V.", steps: ["Integrating over v gives f_U(u)=u e^(−u), a Gamma(2,1) density.", "Integrating over u gives f_V(v)=1 for 0<v<1.", "The joint density factors into the marginals, so U and V are independent."] }
+      { title: "Marginals and independence", problem: "Use the preceding joint density to identify U and V.", steps: ["Integrating over v gives f_U(u)=u e^(−u), a Gamma(2,1) density.", "Integrating over u gives f_V(v)=1 for 0<v<1.", "The joint density factors into the marginals, so U and V are independent."] },
+      { title: "Transforming a uniform square", problem: "Let X,Y be independent Uniform(0,1), U=X+Y and V=X. Describe the inverse map and transformed support.", steps: [
+        "The inverse is x=v and y=u−v. Its Jacobian determinant has absolute value 1.",
+        "The original support 0<x<1, 0<y<1 becomes 0<v<1 and v<u<v+1.",
+        "The transformed density is 1 on that slanted region and zero elsewhere. The support must be transformed along with the density."
+      ] }
     ],
     quiz: [
       { question: "The Jacobian determinant in a density transformation adjusts for", options: ["Sample size", "Change in area under the coordinate map", "Independence automatically", "The mean"], answer: 1, difficulty: "easy", explanation: "Its absolute value accounts for local area expansion or contraction, preserving probability mass." },
@@ -180,7 +222,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Chernoff step", text: "P(S≥a)≤infₜ>₀ e^(−ta)E[e^(tS)]" }, { label: "Hoeffding", text: "P(|X̄−E[X]|≥ε)≤2exp(−2nε²/(b−a)²)" }],
     examples: [
       { title: "A bounded sample mean", problem: "IID observations lie in [0,1]. For n=100, bound the probability their mean differs from its expectation by at least 0.1.", steps: ["Substitute n=100, ε=0.1 and b−a=1.", "Hoeffding gives 2exp(−2·100·0.1²)=2e^(−2).", "The numerical bound is about 0.2707, not an estimate of the actual probability."] },
-      { title: "Derive the Chernoff step", problem: "For t>0, derive a bound on P(S≥a) using an exponential moment.", steps: ["If S≥a then e^(tS)≥e^(ta).", "Apply Markov: P(e^(tS)≥e^(ta))≤E[e^(tS)]/e^(ta).", "Thus P(S≥a)≤e^(−ta)E[e^(tS)]; optimize t when possible."] }
+      { title: "Derive the Chernoff step", problem: "For t>0, derive a bound on P(S≥a) using an exponential moment.", steps: ["If S≥a then e^(tS)≥e^(ta).", "Apply Markov: P(e^(tS)≥e^(ta))≤E[e^(tS)]/e^(ta).", "Thus P(S≥a)≤e^(−ta)E[e^(tS)]; optimize t when possible."] },
+      { title: "A sharper bounded-tail calculation", problem: "Independent variables lie in [0,1]. For n=50, use Hoeffding to bound P(X̄−E[X]≥0.2).", steps: [
+        "The one-sided Hoeffding bound is exp(−2nε²)/(the two-sided factor 2 is not needed for this one-sided event).",
+        "Substitute n=50 and ε=0.2: exp(−2·50·0.04)=e⁻⁴.",
+        "The upper bound is approximately 0.0183. Independence and the common bounded interval are essential."
+      ] }
     ],
     quiz: [
       { question: "Chernoff's method applies Markov's inequality to", options: ["S−E[S]", "e^(tS)", "S²−E[S²]", "Only an event indicator"], answer: 1, difficulty: "easy", explanation: "For t>0, e^(tS) is nonnegative and S≥a implies e^(tS)≥e^(ta)." },
@@ -200,7 +247,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Fair hitting probability", text: "Pᵢ(hit N before 0)=i/N" }, { label: "Fair expected absorption time", text: "Eᵢ[T]=i(N−i)" }],
     examples: [
       { title: "Reach the upper boundary", problem: "A fair gambler starts with 3 units and stops at 0 or 10 units. Find the probability of reaching 10 first.", steps: ["The walk starts at i=3 and the upper boundary is N=10.", "For a fair walk the hitting probability is i/N.", "The answer is 3/10."] },
-      { title: "Expected duration", problem: "A fair walk starts at 3 with absorbing boundaries 0 and 10. Find its expected absorption time.", steps: ["Use mᵢ=i(N−i).", "Substitute i=3, N=10.", "The expected number of steps is 3·7=21."] }
+      { title: "Expected duration", problem: "A fair walk starts at 3 with absorbing boundaries 0 and 10. Find its expected absorption time.", steps: ["Use mᵢ=i(N−i).", "Substitute i=3, N=10.", "The expected number of steps is 3·7=21."] },
+      { title: "A biased gambler's ruin walk", problem: "A gambler starts with 2 units and stops at 0 or 5. Each step wins one unit with probability 0.6 and loses one with probability 0.4. Find the probability of reaching 5 first.", steps: [
+        "For p≠q, the hitting probability is [1−(q/p)ⁱ]/[1−(q/p)ᴺ]. Here q/p=2/3, i=2 and N=5.",
+        "Substitute: [1−(2/3)²]/[1−(2/3)⁵].",
+        "This simplifies to 135/211≈0.6398. The fair-walk formula i/N would not apply."
+      ] }
     ],
     quiz: [
       { question: "For a fair gambler's ruin walk starting at i, the probability of hitting N before 0 is", options: ["1/2", "i/N", "i²/N²", "(N−i)/N"], answer: 1, difficulty: "easy", explanation: "The first-step equation has the linear solution hᵢ=i/N." },
@@ -220,7 +272,12 @@ export const advancedPathwayLessons: Lesson[] = [
     formulas: [{ label: "Offspring PGF", text: "G(s)=E[s^X]" }, { label: "Extinction fixed point", text: "q=G(q), smallest solution in [0,1]" }],
     examples: [
       { title: "Critical binary model", problem: "Each individual has 0 or 2 offspring with equal probability. Find the extinction probability.", steps: ["The PGF is G(s)=1/2+s²/2 and mean offspring count is 1.", "Solve q=1/2+q²/2, giving (q−1)²=0.", "Therefore q=1, so extinction occurs with probability one."] },
-      { title: "A supercritical model", problem: "An individual has 0 offspring with probability 1/4 and 2 with probability 3/4. Find extinction probability.", steps: ["The PGF is G(s)=1/4+3s²/4.", "Solving q=G(q) gives roots 1 and 1/3.", "Extinction probability is the smallest fixed point, q=1/3."] }
+      { title: "A supercritical model", problem: "An individual has 0 offspring with probability 1/4 and 2 with probability 3/4. Find extinction probability.", steps: ["The PGF is G(s)=1/4+3s²/4.", "Solving q=G(q) gives roots 1 and 1/3.", "Extinction probability is the smallest fixed point, q=1/3."] },
+      { title: "A second supercritical offspring law", problem: "Each individual has 0 offspring with probability 0.2 and 2 offspring with probability 0.8. Find the extinction probability.", steps: [
+        "The offspring PGF is G(s)=0.2+0.8s² and the mean offspring count is 1.6, so the process is supercritical.",
+        "Solve q=0.2+0.8q², or 4q²−5q+1=0.",
+        "The roots are 1 and 1/4. The smallest fixed point is q=1/4."
+      ] }
     ],
     quiz: [
       { question: "In a Galton–Watson process, extinction probability q satisfies", options: ["q=E[X]", "q=G(q)", "q=1−G(0)", "q=μ²"], answer: 1, difficulty: "easy", explanation: "Conditioning on the number of offspring leads to the fixed point q=G(q)." },
@@ -257,10 +314,20 @@ export const advancedPathwayLessons: Lesson[] = [
       "Exponential lifetimes have constant hazard and a memoryless residual lifetime, which may be unrealistic for aging components.",
       "For independent components, series reliability is the product of component reliabilities. Parallel reliability is one minus the probability every component fails. Shared failure causes can invalidate independence."
     ],
-    formulas: [{ label: "Survival", text: "S(t)=P(T>t)=1−F(t)" }, { label: "Hazard", text: "h(t)=f(t)/S(t)" }, { label: "Parallel reliability", text: "Rparallel=1−Πᵢ(1−Rᵢ)" }],
+    formulas: [
+      { label: "Survival", text: "S(t)=P(T>t)=1−F(t)" },
+      { label: "Hazard", text: "h(t)=f(t)/S(t)" },
+      { label: "Parallel reliability", text: "Rparallel=1−Πᵢ(1−Rᵢ)" },
+      { label: "Weibull survival and hazard", text: "S(t)=e^(−(t/η)ᵏ), h(t)=(k/η)(t/η)ᵏ⁻¹" }
+    ],
     examples: [
       { title: "Two components in series", problem: "Independent components have reliabilities 0.9 and 0.8. Find series reliability.", steps: ["The system works only if both components work.", "Under independence, multiply the reliabilities: 0.9·0.8.", "The series reliability is 0.72."] },
-      { title: "Redundant components", problem: "Those components are placed in parallel. Find parallel reliability.", steps: ["The system fails only if both components fail.", "Failure probabilities are 0.1 and 0.2.", "Reliability is 1−0.1·0.2=0.98."] }
+      { title: "Redundant components", problem: "Those components are placed in parallel. Find parallel reliability.", steps: ["The system fails only if both components fail.", "Failure probabilities are 0.1 and 0.2.", "Reliability is 1−0.1·0.2=0.98."] },
+      { title: "An increasing hazard", problem: "A component lifetime follows a Weibull model with shape k=2 and scale η=1000 hours. Find its hazard at t=500 hours and survival to 500 hours.", steps: [
+        "For Weibull(k,η), S(t)=exp[−(t/η)ᵏ] and h(t)=(k/η)(t/η)ᵏ⁻¹.",
+        "At t=500, S(500)=e^(−0.25)≈0.7788.",
+        "The hazard is (2/1000)(0.5)=0.001 per hour. Since k>1, the hazard increases with age."
+      ] }
     ],
     quiz: [
       { question: "The survival function S(t) equals", options: ["P(T≤t)", "P(T>t)", "f(t)/F(t)", "E[T]−t"], answer: 1, difficulty: "easy", explanation: "Survival is the probability the lifetime exceeds t." },
@@ -296,6 +363,11 @@ export const advancedPathwayLessons: Lesson[] = [
         "The log-likelihood is n log λ − λΣtᵢ.",
         "Differentiating gives n/λ − Σtᵢ=0, so λ̂=n/Σtᵢ=1/t̄.",
         "With t̄=4 hours, λ̂=0.25 per hour. The reciprocal has rate units, not hours."
+      ] },
+      { title: "Bias and mean squared error", problem: "An estimator θ̂ has expectation θ+2 and variance 9. Find its bias and MSE.", steps: [
+        "Bias is E[θ̂]−θ=2.",
+        "MSE equals variance plus squared bias.",
+        "MSE=9+2²=13. An estimator with smaller variance can still have larger MSE if its bias is large."
       ] }
     ],
     quiz: [
@@ -332,6 +404,11 @@ export const advancedPathwayLessons: Lesson[] = [
         "The standard error is 12/√36=2.",
         "The test statistic is z=(104−100)/2=2.",
         "The upper-tail standard-normal p-value is approximately 0.0228. At α=0.05, reject H₀. This does not mean the probability H₀ is true is 0.0228."
+      ] },
+      { title: "An interval with unknown σ", problem: "A normal population is sampled with n=16, x̄=20 and sample standard deviation s=4. Construct a 95% t interval for the mean.", steps: [
+        "The population standard deviation is unknown, so use t with 15 degrees of freedom.",
+        "The standard error is s/√n=4/4=1 and t₀.₉₇₅,₁₅≈2.131.",
+        "The interval is 20±2.131, or (17.869,22.131), in the measurement's original units."
       ] }
     ],
     quiz: [

@@ -13,11 +13,14 @@ export const pathwayLessons: Lesson[] = [
       "Counting is reliable only when every desired outcome is counted exactly once. Common failures are omission (a case is missed) and overcounting (an outcome appears in more than one case).",
       "For two finite sets, |A ∪ B| = |A| + |B| − |A ∩ B|. For three sets, add individual sizes, subtract pairwise intersections, then add the triple intersection. The alternating signs repair repeated counting.",
       "Complementary counting is often shorter: count the whole space and subtract outcomes that fail the condition. “At least one” is often easier as 1 − P(none).",
-      "A case split must be exhaustive and disjoint. State the cases, verify every valid outcome belongs to a case, and verify no outcome belongs to two cases before adding the counts."
+      "A case split must be exhaustive and disjoint. State the cases, verify every valid outcome belongs to a case, and verify no outcome belongs to two cases before adding the counts.",
+      "For three sets, inclusion–exclusion alternates signs: add the three individual sizes, subtract all three pairwise overlaps, then add the triple overlap. The triple intersection was subtracted three times but should be counted once, so it must be restored.",
+      "A useful way to count objects satisfying exactly one condition is to partition by which condition holds, rather than apply a union formula blindly. For larger collections, inclusion–exclusion has alternating terms over every nonempty subset; symmetry or complements can be more efficient."
     ],
     formulas: [
       { label: "Two-set inclusion–exclusion", text: "|A ∪ B| = |A| + |B| − |A ∩ B|" },
       { label: "Three-set inclusion–exclusion", text: "|A ∪ B ∪ C| = Σ|A| − Σ|A ∩ B| + |A ∩ B ∩ C|" },
+      { label: "General inclusion–exclusion", text: "|⋃ᵢ₌₁ⁿ Aᵢ| = Σ|Aᵢ| − Σ|Aᵢ∩Aⱼ| + Σ|Aᵢ∩Aⱼ∩Aₖ| − ···" },
       { label: "Complement", text: "|A| = |Ω| − |Aᶜ|" }
     ],
     examples: [
@@ -30,6 +33,11 @@ export const pathwayLessons: Lesson[] = [
         "The complement of at least one six is that all four dice avoid 6.",
         "By independence, P(no six) = (5/6)^4.",
         "Therefore P(at least one six) = 1 − (5/6)^4 = 671/1296 ≈ 0.5177. Adding four probabilities of 1/6 double-counts outcomes with multiple sixes."
+      ] },
+      { title: "Three overlapping clubs", problem: "In a group of 100 students, 45 study French, 40 German and 35 Spanish. The pairwise overlaps are 15, 12 and 10, and 5 study all three. How many study at least one language?", steps: [
+        "Add the individual totals: 45+40+35=120.",
+        "Subtract pairwise overlaps: 120−15−12−10=83.",
+        "Add the triple overlap once: 83+5=88 students study at least one language."
       ] }
     ],
     quiz: [
@@ -46,12 +54,18 @@ export const pathwayLessons: Lesson[] = [
       "Occupancy problems distribute labelled trials or objects among categories such as boxes, birthdays, servers, or product types. First decide whether outcomes are ordered, whether categories are equally likely, and whether repetitions are allowed.",
       "If n independent draws select one of m equally likely categories, there are mⁿ ordered sequences. Inclusion–exclusion counts sequences in which every category appears: Σⱼ₌₀ᵐ (−1)ʲ C(m,j)(m−j)ⁿ.",
       "The coupon collector asks how many uniform independent draws are needed to see all m types. Once k distinct types have appeared, the chance the next draw is new is (m−k)/m, so the expected wait for that new type is m/(m−k). Adding the waits gives E[T] = mHₘ.",
-      "Expected collection time is an average, not a deadline. The waiting time has a long right tail, so a result above the mean is not automatically unusual."
+      "Expected collection time is an average, not a deadline. The waiting time has a long right tail, so a result above the mean is not automatically unusual.",
+      "For n draws into m equally likely boxes, the expected number of empty boxes is m(1−1/m)ⁿ: use one indicator per box and add their probabilities of remaining empty. This is linearity of expectation and does not require empty-box indicators to be independent.",
+      "The birthday problem is another occupancy model: people are balls and calendar dates are boxes. For n people and d equally likely birthdays, the probability of no shared birthday is d(d−1)···(d−n+1)/dⁿ, provided n≤d. The collision probability is its complement. Independence of individual birthdays is assumed; real calendars introduce small complications such as leap days and seasonal variation.",
+      "The coupon-collector waiting time splits into stages with geometric success probabilities 1,(m−1)/m,…,1/m. Their means sum to mHₘ; their variances also sum because successive waiting stages are independent under fresh independent draws."
     ],
     formulas: [
       { label: "All m categories observed in n draws", text: "P(all seen) = (1/mⁿ) Σⱼ₌₀ᵐ (−1)ʲ C(m,j)(m−j)ⁿ" },
       { label: "Expected collection time", text: "E[T] = mHₘ = m(1 + 1/2 + ··· + 1/m)" },
-      { label: "Expected wait for a new type", text: "m/(m − k), when k types have appeared" }
+      { label: "Expected wait for a new type", text: "m/(m − k), when k types have appeared" },
+      { label: "Expected number of empty boxes", text: "E[empty boxes] = m(1 − 1/m)ⁿ" },
+      { label: "Birthday collision probability", text: "P(at least one shared birthday) = 1 − d(d−1)···(d−n+1)/dⁿ" },
+      { label: "Coupon-collector variance", text: "Var(T) = m²Hₘ⁽²⁾ − mHₘ,  Hₘ⁽²⁾=Σⱼ₌₁ᵐ1/j²" }
     ],
     examples: [
       { title: "Four draws, three colours", problem: "Each draw independently returns one of three equally likely colours. Find the probability all three colours appear in four draws.", steps: [
@@ -63,6 +77,16 @@ export const pathwayLessons: Lesson[] = [
         "The first distinct type arrives on the first purchase.",
         "After one type is collected, each draw finds a new type with probability 2/3, so the expected extra wait is 3/2.",
         "After two types, the expected wait for the last type is 3. Therefore E[T]=1+3/2+3=11/2 purchases."
+      ] },
+      { title: "Expected empty boxes", problem: "Five independent balls are placed uniformly into three boxes. Find the expected number of empty boxes.", steps: [
+        "For each box i, let Iᵢ=1 if it is empty. A given ball avoids that box with probability 2/3.",
+        "All five balls avoid a specified box with probability (2/3)⁵, so E[Iᵢ]=(2/3)⁵.",
+        "By linearity, E[empty boxes]=3(2/3)⁵=96/243=32/81."
+      ] },
+      { title: "The birthday threshold", problem: "Assuming 365 equally likely birthdays and independent birthdays, write the probability of at least one shared birthday among 23 people.", steps: [
+        "It is easier to first calculate the probability that all birthdays are different.",
+        "The first person has 365 choices, the second 364, and so on through the 23rd, which has 343 choices. Divide by 365²³.",
+        "Thus P(match)=1−(365×364×···×343)/365²³≈0.5073. The probability exceeds one half even with only 23 people."
       ] }
     ],
     quiz: [
@@ -80,6 +104,8 @@ export const pathwayLessons: Lesson[] = [
       "A and B are independent exactly when P(A ∩ B)=P(A)P(B), equivalently P(A | B)=P(A) when P(B)>0. Independence is a statement about the probability model, not whether events sound unrelated.",
       "Mutually exclusive events with positive probabilities cannot be independent. Disjointness makes P(A ∩ B)=0, whereas independence would require P(A)P(B)>0.",
       "Conditional independence is different: A and B may be dependent overall but independent once a third event C is known. Test outcomes, for example, can be independent conditional on a patient's true disease status even when the unconditioned results are associated."
+      "For a conditioning event C with positive probability, the conditional model is itself a probability model on C. Its event probabilities are P(A|C), and the same addition and multiplication rules apply inside that model.",
+      "For a finite partition {Cᵢ}, conditional independence given the partition means the factorisation holds within each relevant case Cᵢ. It does not generally imply unconditional independence: mixing over an unknown common cause can create dependence."
     ],
     formulas: [
       { label: "Conditional probability", text: "P(A | B) = P(A ∩ B)/P(B), P(B) > 0" },
@@ -96,6 +122,11 @@ export const pathwayLessons: Lesson[] = [
         "Disjointness gives P(A ∩ B)=0.",
         "Independence would require P(A ∩ B)=0.2·0.3=0.06.",
         "The conditions conflict, so the events are not independent. Disjoint and independent are not synonyms."
+      ] },
+      { title: "Independent tests given disease status", problem: "A disease has probability 0.1. Two tests are conditionally independent given disease status. Each has sensitivity 0.9 and false-positive rate 0.2. Find P(both positive).", steps: [
+        "Split into disease and no-disease cases. Given disease, both are positive with probability 0.9²=0.81.",
+        "Given no disease, both are positive with probability 0.2²=0.04.",
+        "Total probability gives 0.1(0.81)+0.9(0.04)=0.117. Multiplying the unconditional positive-test probability by itself would incorrectly assume unconditional independence."
       ] }
     ],
     quiz: [
@@ -128,6 +159,11 @@ export const pathwayLessons: Lesson[] = [
         "Total probability gives P(D)=0.6·0.01+0.4·0.03=0.018, or 1.8%.",
         "Bayes gives P(B | D)=0.4·0.03/0.018.",
         "The result is 2/3. Although B produces fewer items, it contributes two-thirds of defects because its defect rate is higher."
+      ] },
+      { title: "Three possible causes", problem: "A machine is selected from A, B or C with probabilities 0.5, 0.3 and 0.2. Their failure rates are 1%, 2% and 5%. Find the overall failure probability and P(C | failure).", steps: [
+        "Total probability gives P(F)=0.5(0.01)+0.3(0.02)+0.2(0.05)=0.021.",
+        "The joint probability of selecting C and observing failure is 0.2(0.05)=0.01.",
+        "Bayes gives P(C|F)=0.01/0.021=10/21≈0.4762. The highest-risk machine contributes nearly half of failures despite only a 20% selection share."
       ] }
     ],
     quiz: [
@@ -163,6 +199,11 @@ export const pathwayLessons: Lesson[] = [
         "Use Var(X+Y)=Var(X)+Var(Y)+2Cov(X,Y).",
         "Substitute 4 + 9 + 2(−2) = 9.",
         "Adding 4 and 9 alone would be correct only if covariance were zero."
+      ] },
+      { title: "Scaling a random variable", problem: "A random variable X has mean 5 and variance 4. Find the mean and variance of Y=3X−2.", steps: [
+        "Expectation transforms linearly: E[Y]=3E[X]−2=3(5)−2=13.",
+        "Adding or subtracting a constant does not change variance, while multiplying by 3 multiplies variance by 3².",
+        "Thus Var(Y)=9Var(X)=36. Variance has squared units, so the factor is 9 rather than 3."
       ] }
     ],
     quiz: [
@@ -198,6 +239,11 @@ export const pathwayLessons: Lesson[] = [
         "Use X ~ Poisson(λ=0.4).",
         "P(X=0)=e^(−0.4)·0.4⁰/0! = e^(−0.4).",
         "Numerically this is about 0.6703. The mean 0.4 is not itself the probability of a failure."
+      ] },
+      { title: "A geometric waiting time", problem: "A trial succeeds independently with probability 0.2. If T counts trials through the first success, find P(T>4) and P(T=5).", steps: [
+        "T>4 means the first four trials all fail, so P(T>4)=(0.8)⁴=0.4096.",
+        "T=5 means four failures followed by a success.",
+        "Therefore P(T=5)=(0.8)⁴(0.2)=0.08192. The geometric support starts at 1 under this convention."
       ] }
     ],
     quiz: [
@@ -215,6 +261,7 @@ export const pathwayLessons: Lesson[] = [
       "The CDF F(x)=P(X≤x) is the integral of the density up to x. Where differentiable, F′(x)=f(x); the CDF is defined even where a density is inconvenient.",
       "Expectation extends sums to integrals: E[g(X)]=∫g(x)f(x)dx. Do not confuse density height f(x) with P(X=x), which is zero for an absolutely continuous variable.",
       "For a monotone differentiable transformation Y=g(X), fY(y)=fX(g⁻¹(y))|d g⁻¹(y)/dy|. For non-monotone transformations, sum the contributions from every inverse branch.",
+      "A transformation can change the support and can create more than one inverse branch. For Y=g(X), add the density contributions from every solution x of g(x)=y, each weighted by 1/|g′(x)| where the derivative is nonzero. Always derive the transformed support before applying the formula."
       "Uniform, exponential, normal, gamma and beta distributions are a toolkit, not interchangeable formulas. Select a distribution by assumptions and support, then check units and normalization."
     ],
     formulas: [
@@ -233,6 +280,11 @@ export const pathwayLessons: Lesson[] = [
         "For 0≤y≤1, F_Y(y)=P(X²≤y)=P(X≤√y)=√y.",
         "Differentiate: f_Y(y)=1/(2√y) for 0<y<1.",
         "The density is large near zero but integrable: ∫₀¹1/(2√y)dy=1."
+      ] },
+      { title: "A non-monotone transformation", problem: "Let X be Uniform(−1,1) and Y=|X|. Find the density of Y.", steps: [
+        "The support of Y is [0,1]. For 0≤y≤1, F_Y(y)=P(−y≤X≤y).",
+        "The interval has length 2y inside a uniform interval of length 2, so F_Y(y)=y.",
+        "Differentiating gives f_Y(y)=1 on 0<y<1. Both inverse branches x=y and x=−y contribute to the density."
       ] }
     ],
     quiz: [
@@ -268,6 +320,11 @@ export const pathwayLessons: Lesson[] = [
         "Both marginals are Bernoulli(1/2): each coordinate is 0 or 1 with probability 1/2.",
         "For each pair, p(x,y)=1/4=(1/2)(1/2)=pX(x)pY(y).",
         "Factorization holds on the whole support, so X and Y are independent."
+      ] },
+      { title: "Zero covariance without independence", problem: "Let X be Uniform(−1,1) and Y=X². Show that X and Y have zero covariance but are dependent.", steps: [
+        "Symmetry gives E[X]=0 and E[X³]=0, while E[XY]=E[X³]=0.",
+        "Therefore Cov(X,Y)=E[XY]−E[X]E[Y]=0.",
+        "But Y is determined by X and is not constant, so they are dependent. Zero covariance only rules out linear association."
       ] }
     ],
     quiz: [
@@ -301,6 +358,11 @@ export const pathwayLessons: Lesson[] = [
         "The expected within-group variance is E[Var(X|Y)]=4.",
         "The conditional mean is equally likely to be 10 or 14, so its mean is 12 and its variance is 4.",
         "Total variance is 4+4=8. Both within-group and between-group uncertainty matter."
+      ] },
+      { title: "Conditioning on parity", problem: "A fair die is rolled. Let X be its face value and Y indicate whether it is even or odd. Find E[X|Y=even], E[X|Y=odd] and verify the tower property.", steps: [
+        "Given an even result, X is uniform on {2,4,6}, so E[X|even]=(2+4+6)/3=4.",
+        "Given an odd result, X is uniform on {1,3,5}, so E[X|odd]=(1+3+5)/3=3.",
+        "Each parity has probability 1/2, so E[E[X|Y]]=(1/2)4+(1/2)3=3.5=E[X]."
       ] }
     ],
     quiz: [
@@ -335,6 +397,11 @@ export const pathwayLessons: Lesson[] = [
         "Differentiate: M′_X(t)=exp(λ(eᵗ−1))·λeᵗ.",
         "At t=0, the exponential factor and e⁰ both equal 1.",
         "Therefore E[X]=M′_X(0)=λ."
+      ] },
+      { title: "A sum of two Bernoulli variables", problem: "Let X and Y be independent Bernoulli variables with success probabilities 0.2 and 0.5. Use their PGFs to find P(X+Y=0) and E[X+Y].", steps: [
+        "Their PGFs are G_X(s)=0.8+0.2s and G_Y(s)=0.5+0.5s.",
+        "Independence gives G_{X+Y}(s)=(0.8+0.2s)(0.5+0.5s). The constant coefficient is P(X+Y=0)=0.4.",
+        "The mean is 0.2+0.5=0.7 by linearity, or by differentiating the product at s=1."
       ] }
     ],
     quiz: [
@@ -369,6 +436,11 @@ export const pathwayLessons: Lesson[] = [
         "Every toss remains random with probability 1/2 of heads.",
         "The relative frequency of heads converges in probability to 1/2.",
         "The theorem does not say the next toss becomes more balanced or that heads must occur exactly n/2 times."
+      ] },
+      { title: "A CLT approximation for a count", problem: "A fair coin is tossed 100 times. Use a normal approximation with continuity correction to estimate P(X≥60).", steps: [
+        "X is Binomial(100,0.5), with mean 50 and standard deviation 5.",
+        "Continuity correction gives P(X≥60)≈P(Y≥59.5) for Y~N(50,25), so z=(59.5−50)/5=1.9.",
+        "The upper tail is approximately 1−Φ(1.9)≈0.0287. The approximation is not an exact binomial probability."
       ] }
     ],
     quiz: [
@@ -402,6 +474,11 @@ export const pathwayLessons: Lesson[] = [
         "Use a=10 and σ²=25 in Chebyshev's inequality.",
         "P(|X−100|≥10)≤25/100=0.25.",
         "This bound does not require a normal distribution. A normal approximation would need additional assumptions."
+      ] },
+      { title: "A bound for a sample mean", problem: "IID observations have variance 16. How large must n be to guarantee by Chebyshev that P(|X̄−μ|≥1)≤0.04?", steps: [
+        "Chebyshev gives P(|X̄−μ|≥1)≤16/n.",
+        "Require 16/n≤0.04.",
+        "Thus n≥400 observations guarantee the stated bound. This is a sufficient sample size, not necessarily the smallest possible under a sharper model."
       ] }
     ],
     quiz: [
@@ -435,6 +512,11 @@ export const pathwayLessons: Lesson[] = [
         "Let T be the hitting time from state 1 and m=E[T].",
         "One step always occurs. With probability 1/2 absorption occurs; with probability 1/2 the chain returns to state 1 and expected remaining time is m.",
         "Thus m=1+(1/2)m, giving m=2 steps."
+      ] },
+      { title: "Two transient states", problem: "A chain starts in A. From A it moves to B with probability 1/4 and otherwise is absorbed; from B it moves to A with probability 1/2 and otherwise is absorbed. Find the expected time to absorption from A.", steps: [
+        "Let m_A and m_B be expected remaining steps. First-step equations are m_A=1+(1/4)m_B and m_B=1+(1/2)m_A.",
+        "Substitute the second equation into the first: m_A=1+(1/4)(1+(1/2)m_A).",
+        "Solving gives (7/8)m_A=5/4, hence m_A=10/7 steps."
       ] }
     ],
     quiz: [
@@ -469,6 +551,11 @@ export const pathwayLessons: Lesson[] = [
         "Superposition gives total rate 2+5=7 events per minute.",
         "Over 3 minutes, the mean count is 7·3=21.",
         "The total count is Poisson(21) under the independent homogeneous-process assumptions."
+      ] },
+      { title: "At least three arrivals", problem: "Events follow a Poisson process at rate 2 per minute. Find the probability of at least three arrivals in the next minute.", steps: [
+        "The one-minute count N has distribution Poisson(2).",
+        "Use the complement: P(N≥3)=1−P(N=0)−P(N=1)−P(N=2).",
+        "This equals 1−e⁻²(1+2+2)=1−5e⁻²≈0.3233."
       ] }
     ],
     quiz: [
