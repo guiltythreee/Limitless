@@ -22,7 +22,7 @@ export const advancedPathwayLessons: Lesson[] = [
     ]
   },
   {
-    id: "negative-binomial", rank: 4, title: "Negative Binomial & Repeated Successes", minutes: 22,
+    id: "negative-binomial", rank: 5, title: "Negative Binomial & Repeated Successes", minutes: 22,
     description: "Model the number of trials needed to collect a fixed number of successes.",
     objective: "Use the negative-binomial PMF and moments, while stating the waiting-time convention.",
     body: [
