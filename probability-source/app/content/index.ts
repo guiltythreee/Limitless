@@ -23,7 +23,7 @@ const rank09Order = [
   "sample-space", "events-operations", "set-theory", "mutually-exclusive", "exhaustive-partitions",
   "counting", "combinations", "multinomials",
   "axioms", "properties", "equally-likely", "probability-counting", "geometric-probability",
-  "de-morgan", "continuity", "borel-cantelli",
+  "de-morgan", "continuity",
 ];
 const position = (l: Lesson) => {
   if (l.rank !== 9) return 0;
