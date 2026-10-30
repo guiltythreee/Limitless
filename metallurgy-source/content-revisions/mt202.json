@@ -81,7 +81,8 @@
             "text": "electrons in the outermost shell"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The atomic number Z is the number of protons in the nucleus, so **(c)** is correct. Option (a) gives the neutron count; (b) gives the mass number (protons plus neutrons); and (d) refers to outer-shell electrons."
       },
       "sourceFingerprint": "084d1a62"
     },
@@ -109,7 +110,8 @@
             "text": "32"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The maximum number of electrons in shell n = 3 is 2n² = 2 × 3² = 18, so **(c)** is correct. Option (a), 8, is the n = 2 shell capacity; (b), 24, is not the capacity; and (d), 32, is the n = 4 capacity."
       },
       "sourceFingerprint": "ea87bc75"
     },
@@ -137,7 +139,8 @@
             "text": "2, 8, 18, 36"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "Using 2n², the first four shell capacities are 2, 8, 18 and 32. **(a)** is correct. Option (b) incorrectly gives 16 for the third shell; (c) is the s, p, d, f subshell-capacity sequence; and (d) incorrectly gives 36 for the fourth shell."
       },
       "sourceFingerprint": "8bb30c9c"
     },
@@ -193,7 +196,8 @@
             "text": "4s fills before 3d"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The 4s subshell fills before 3d in the usual neutral-atom filling sequence, so **(d)** is correct. Option (a) reverses this order; (b) is not the relevant 4s/3d exception; and (c) is an unrelated ordering."
       },
       "sourceFingerprint": "162ad2f5"
     },
@@ -227,6 +231,36 @@
     },
     {
       "chapter": "ch01",
+      "n": 10,
+      "originalType": "D",
+      "sourceText": "Match the element class to its members.",
+      "sourceFingerprint": "97caf77d",
+      "updates": {
+        "detailed": "In BCC, atoms touch along the body diagonal, whose length √3a spans four atomic radii: √3a = 4R. **(a)** is correct. Option (b), the cube edge, and (c), the face diagonal, are not contact directions in BCC."
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 11,
+      "originalType": "D",
+      "sourceText": "Match the bond type to its mechanism.",
+      "sourceFingerprint": "4927531f",
+      "updates": {
+        "detailed": "In FCC, atoms touch along a face diagonal, whose length √2a spans four atomic radii: √2a = 4R. **(c)** is correct. The cube edge (a) and body diagonal (b) are not the contact directions for FCC."
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 12,
+      "originalType": "B",
+      "sourceText": "Which statement(s) about the *covalent* bond is/are correct?",
+      "sourceFingerprint": "a0c5806d",
+      "updates": {
+        "detailed": "For BCC, the body diagonal relation is √3a = 4R, so a = 4R/√3. **(d)** is correct. Option (a), 2R, is the simple-cubic edge relation; (b), 2√2R, is FCC; and (c), 4R/√2, is another form of the FCC relation."
+      }
+    },
+    {
+      "chapter": "ch01",
       "n": 13,
       "originalType": "B",
       "sourceText": "Which of the following is/are consequences of the *metallic* bond?",
@@ -249,7 +283,8 @@
             "text": "1 and 3 only"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "For FCC, the face diagonal relation is √2a = 4R, so a = 4R/√2 = 2√2R. **(d)** is correct. Option (a), 2R, is simple cubic; (b), 4R/√3, is BCC; and (c), 4R, is not the FCC lattice parameter."
       },
       "sourceFingerprint": "9dc94feb"
     },
@@ -305,7 +340,8 @@
             "text": "1 and 4 only"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "At room temperature, aluminium is FCC, so **(d)** is correct. α-Fe, Cr and W are BCC. Do not confuse α-Fe (BCC) with γ-Fe (FCC)."
       },
       "sourceFingerprint": "ea0478c5"
     },
@@ -333,7 +369,8 @@
             "text": "ionic < covalent < metallic < van der Waals"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "The n = 3 shell contains 3s, 3p and 3d subshells, with capacities 2 + 6 + 10 = 18. **(c)** is correct. Option (b), 24, is not the n = 3 shell capacity; (a) and (d) are capacities of other shells."
       },
       "sourceFingerprint": "be832649"
     },
@@ -415,7 +452,8 @@
             "text": "high reflectivity"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "The EXCEPT item is **(c)**: metals are electrical conductors, not electrical insulators. Options (a), (b) and (d) are genuine metallic properties: high thermal conductivity, plastic deformability and reflectivity."
       },
       "sourceFingerprint": "3867cf5f"
     },
@@ -471,7 +509,8 @@
             "text": "the two atoms are in contact and touching"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "detailed": "At equilibrium spacing r₀, the net force is zero and the interatomic potential energy is at a minimum. **(a)** is correct. Option (b) incorrectly makes the attractive force maximal; (c) incorrectly sets the repulsive force to zero; and (d) treats atoms as hard spheres in literal contact."
       },
       "sourceFingerprint": "9461b0b7"
     },
@@ -499,7 +538,8 @@
             "text": "bond energy"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The depth E₀ of the interatomic potential-energy well measures the bond energy required to separate the atoms. **(d)** is correct. Atomic radius is associated with the position r₀; coordination number and crystal structure are not measured by the well depth."
       },
       "sourceFingerprint": "b90a7f0d"
     },
@@ -583,7 +623,8 @@
             "text": "dE/dr = 0 at r₀"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The equilibrium spacing r₀ is at the minimum of E(r), so dE/dr = 0 at r = r₀. **(d)** is correct. Option (a), d²E/dr² = 0, is not the minimum condition; (b), E = 0, is not the equilibrium binding energy; and (c) is not a meaningful derivative condition."
       },
       "sourceFingerprint": "b63d92a0"
     },
@@ -749,7 +790,8 @@
             "text": "metallic; covalent"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "Within each graphite layer, carbon atoms are joined by strong covalent bonds; adjacent layers are held together by weak van der Waals forces. **(c)** is correct. The other options reverse or misidentify these bonding types."
       },
       "sourceFingerprint": "0fa6a830"
     },
@@ -805,7 +847,8 @@
             "text": "32"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "For l = 3, the subshell is f and contains 2l + 1 = 7 orbitals, each holding two electrons: 14 electrons. **(b)** is correct. Option (a) is the capacity of one orbital; (c) is an eight-electron value; and (d) is the n = 4 shell capacity, not a subshell capacity."
       },
       "sourceFingerprint": "0b068fdd"
     },
