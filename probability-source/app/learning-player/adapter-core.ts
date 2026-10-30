@@ -38,6 +38,7 @@ export function createProbabilityPlayerAdapter<
   return {
     courseId: "probability",
     questionId: (question) => question.key,
+    canRetry: () => true,
     grade(question, answer): PlayerGrade {
       const picked = answer.kind === "single-choice"
         ? [parseOptionId(answer.optionId, question.item.options.length)]
