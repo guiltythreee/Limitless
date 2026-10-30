@@ -179,16 +179,22 @@ export function recordAnswer(
   picked: string,
   correct: boolean,
   mode: Mode = "practice",
-  ms = 0
+  ms = 0,
+  difficulty = 1
 ): Progress {
   const now = Date.now();
   const day = dayKey(now);
-  const next: Progress = {
+  let next: Progress = {
     ...p,
     attempts: [...p.attempts, { q: qid, picked, correct, mode, ms, ts: now }].slice(-MAX_ATTEMPTS),
     days: { ...p.days, [day]: (p.days[day] ?? 0) + 1 },
   };
-  saveProgress(next);
+  if (mode !== "exam") {
+    next = appendLsrActivity(next, questionActivity("metallurgy-mt203", qid, now, correct, p.attempts.length, difficulty)).progress;
+    saveProgress(next, true);
+  } else {
+    saveProgress(next);
+  }
   return next;
 }
 
