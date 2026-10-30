@@ -204,6 +204,28 @@
     });
     var wrap = U.h('div', 'table-wrap'); wrap.appendChild(table); box.appendChild(wrap);
     if (rows.length > 8) box.appendChild(U.h('p', 'note', 'Showing the 8 weakest of ' + rows.length + ' skills.'));
+
+    var tierRows = C.analyseByTier().filter(function (r) { return r.n >= 3; });
+    if (tierRows.length) {
+      box.appendChild(U.h('h4', '', 'Skill performance by tier'));
+      box.appendChild(U.h('p', 'note', 'Uses local attempts only. Uploaded profiles currently provide overall skill summaries, not tier-specific results.'));
+      var tierTable = U.h('table', 'skill-table');
+      var tierHead = U.h('tr');
+      ['Skill', 'Tier', 'Questions', 'Accuracy', 'Pace vs target', 'Diagnosis'].forEach(function (t) { tierHead.appendChild(U.h('th', '', t)); });
+      tierTable.appendChild(tierHead);
+      tierRows.slice(0, 8).forEach(function (r) {
+        var tr = U.h('tr');
+        tr.appendChild(U.h('td', '', r.skill));
+        tr.appendChild(U.h('td', '', E.TIER_BY_ID[r.tier] ? E.TIER_BY_ID[r.tier].name : r.tier));
+        tr.appendChild(U.h('td', '', String(r.n)));
+        tr.appendChild(U.h('td', '', U.pct(r.acc)));
+        tr.appendChild(U.h('td', '', r.ratio.toFixed(1) + '×'));
+        var td = U.h('td'); td.appendChild(U.h('span', 'diag ' + r.diag.cls, r.diag.text)); tr.appendChild(td);
+        tierTable.appendChild(tr);
+      });
+      var tierWrap = U.h('div', 'table-wrap'); tierWrap.appendChild(tierTable); box.appendChild(tierWrap);
+      if (tierRows.length > 8) box.appendChild(U.h('p', 'note', 'Showing the 8 weakest skill/tier combinations of ' + tierRows.length + ' with at least 3 attempts.'));
+    }
   }
 
   /* ---------- weak-spot analysis file: download / upload ---------- */
