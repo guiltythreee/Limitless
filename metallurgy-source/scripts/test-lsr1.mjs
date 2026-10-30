@@ -196,7 +196,7 @@ function checkLedgerOnly(actual, expected, label) {
   const player = readFileSync(new URL("../app/mt203/player.tsx", import.meta.url), "utf8");
   assert.ok(player.includes("recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty, false)"));
   assert.ok(player.includes("awardAnswer(p, theQ.id, theQ.difficulty, ok, false)"));
-  assert.ok(player.includes("saveProgress(p, p.rewardLedger.length > initialRewardLedgerLength)"));
+  assert.ok(player.includes("saveProgress(p, (p.rewardLedger?.length ?? 0) > initialRewardLedgerLength)"));
 
   let p = MT203.loadProgress();
   let before = p.rewardLedger.length;
@@ -215,7 +215,7 @@ function checkLedgerOnly(actual, expected, label) {
   assert.ok(exam.includes('recordAnswer(p, q.id, answer, ok, "exam", 0, q.difficulty, false)'));
   assert.ok(exam.includes("awardAnswer(p, q.id, q.difficulty, ok, false)"));
   assert.ok(exam.includes("settleModuleBonuses(p, false)"));
-  assert.ok(exam.includes("saveProgress(p, p.rewardLedger.length > initialRewardLedgerLength)"));
+  assert.ok(exam.includes("saveProgress(p, (p.rewardLedger?.length ?? 0) > initialRewardLedgerLength)"));
 
   p = MT203.loadProgress();
   before = p.rewardLedger.length;
