@@ -177,6 +177,29 @@ function checkLedgerOnly(actual, expected, label) {
 }
 
 
+// The actual MT203 practice player must persist attempt, legacy XP and LSR-1 together.
+{
+  const playerSource = readFileSync(new URL("../app/mt203/player.tsx", import.meta.url), "utf8");
+  assert.ok(playerSource.includes("recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty, false)"));
+  assert.ok(playerSource.includes("awardAnswer(p, theQ.id, theQ.difficulty, ok, false)"));
+  assert.ok(playerSource.includes("saveProgress(p, p.rewardLedger.length > initialRewardLedgerLength)"));
+
+  let p = MT203.loadProgress();
+  const priorLedgerLength = p.rewardLedger.length;
+  store.writes = 0;
+  p = MT203.recordAnswer(p, "mt203-practice-q", "A", true, "practice", 123, 3, false);
+  p = MT203.awardAnswer(p, "mt203-practice-q", 3, true, false).progress;
+  assert.equal(store.writes, 0, "practice mutations remain in memory until final save");
+  MT203.saveProgress(p, p.rewardLedger.length > priorLedgerLength);
+  assert.equal(store.writes, 1, "one MT203 practice answer uses exactly one storage write");
+  const persisted = JSON.parse(store.getItem("mm-mt203-v1"));
+  assert.equal(persisted.attempts.at(-1).ms, 123);
+  assert.equal(persisted.awarded["q:mt203-practice-q"], 14);
+  assert.equal(persisted.rewardLedger.at(-1).difficulty, "advanced",
+    "the shared ledger receives the actual question difficulty");
+  assert.equal(persisted.rewardLedger.at(-1).activityClass, "micro-practice");
+}
+
 // The actual MT203 exam UI must defer every progress mutation and perform one final root write.
 {
   const examSource = readFileSync(new URL("../app/mt203/exam.tsx", import.meta.url), "utf8");
