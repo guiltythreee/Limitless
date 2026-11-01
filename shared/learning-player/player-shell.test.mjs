@@ -98,4 +98,4 @@ for (const appPath of [
   );
 }
 
-console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 48 assertions passed");
+console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 60 assertions passed");
