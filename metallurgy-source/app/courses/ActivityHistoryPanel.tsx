@@ -118,15 +118,15 @@ export default function ActivityHistoryPanel({
 
       <div className="study-utility-visual">
         <div style={{ fontWeight: 600, marginBottom: "0.5rem" }}>Daily activity · last 7 days</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(0, 1fr))", gap: "0.45rem", alignItems: "end" }}>
+        <div className="study-utility-week-grid" style={{ alignItems: "end" }}>
           {week.map((day) => (
-            <div key={day.key} style={{ minWidth: 0, textAlign: "center" }}>
+            <div key={day.key} className="study-utility-week-cell">
               <div style={{ height: "4.5rem", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "stretch", margin: "0 auto", maxWidth: "2rem" }} aria-label={`${day.key}: ${day.total} attempts, ${day.correct} correct`}>
                 <div style={{ height: `${(day.total - day.correct) / maxDaily * 64}px`, background: "var(--bad)", minHeight: day.total > day.correct ? "2px" : 0 }} />
                 <div style={{ height: `${day.correct / maxDaily * 64}px`, background: "var(--good)", minHeight: day.correct > 0 ? "2px" : 0 }} />
               </div>
-              <div style={{ fontSize: "0.7rem", marginTop: "0.35rem" }}>{day.label}</div>
-              <div style={{ fontSize: "0.68rem", color: "var(--dim)" }}>{day.total}</div>
+              <div className="study-utility-week-label" style={{ marginTop: "0.35rem" }}>{day.label}</div>
+              <div className="study-utility-week-detail">{day.total}</div>
             </div>
           ))}
         </div>
