@@ -1,6 +1,6 @@
 # Studies & Disciplines Layer — Architecture Proposal
 
-Status: S0 contracts, S1 read-only reference registrations, S2a registration-backed homepage directory, and S2b.1 read-only progress projections implemented and validated; S2b.2 shared landing composition implemented, final CI validation pending. No storage migration.
+Status: S0 contracts, S1 read-only reference registrations, S2a registration-backed homepage directory, and S2b.1 read-only progress projections implemented and validated; S2b.2 shared landing composition implemented and validated. No storage migration.
 Branch: `architecture/studies-discipline-layer-20261101`
 Base: P6.6 branch head `13ab67766c5ad572e2c9e3133d1cedf9e31be3b8`.
 
