@@ -174,6 +174,7 @@ export default function Mt203() {
           </div>
 
           <button
+            aria-current={view.kind === "dashboard" ? "location" : undefined}
             className={`ch-item ${view.kind === "dashboard" ? "active" : ""}`}
             onClick={() => setView({ kind: "dashboard" })}
           >
@@ -205,6 +206,7 @@ export default function Mt203() {
                   return (
                     <button
                       key={t.id}
+                      aria-current={activeTopic === t.id ? "location" : undefined}
                       className={`ch-item ${activeTopic === t.id ? "active" : ""}`}
                       onClick={() =>
                         setView({
@@ -231,6 +233,7 @@ export default function Mt203() {
 
           <div className="ch-list" style={{ marginTop: "0.7rem", borderTop: "1px solid var(--panel-line)", paddingTop: "0.7rem" }}>
             <button
+              aria-current={view.kind === "practice" && view.mode === "mixed" ? "location" : undefined}
               className={`ch-item ${view.kind === "practice" && view.mode === "mixed" ? "active" : ""}`}
               onClick={() => setView({ kind: "practice", mode: "mixed", scope: "all", count: PRACTICE_COUNT })}
             >
@@ -238,6 +241,7 @@ export default function Mt203() {
               <span className="ch-title">Mixed practice</span>
             </button>
             <button
+              aria-current={view.kind === "practice" && view.mode === "weak" ? "location" : undefined}
               className={`ch-item ${view.kind === "practice" && view.mode === "weak" ? "active" : ""}`}
               onClick={() => setView({ kind: "practice", mode: "weak", scope: "all", count: PRACTICE_COUNT })}
             >
@@ -245,6 +249,7 @@ export default function Mt203() {
               <span className="ch-title">Weak-area training</span>
             </button>
             <button
+              aria-current={view.kind === "practice" && view.mode === "revision" ? "location" : undefined}
               className={`ch-item ${view.kind === "practice" && view.mode === "revision" ? "active" : ""}`}
               onClick={() => setView({ kind: "practice", mode: "revision", scope: "all", count: PRACTICE_COUNT })}
             >
@@ -252,6 +257,7 @@ export default function Mt203() {
               <span className="ch-title">Spaced revision</span>
             </button>
             <button
+              aria-current={view.kind === "exam" ? "location" : undefined}
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
               onClick={() => setView({ kind: "exam" })}
             >
