@@ -177,7 +177,10 @@ export default function Mt203() {
             onClick={() => setView({ kind: "dashboard" })}
           >
             <span className="ch-num">◧</span>
-                {createStudyUtilityNav(createElement, {
+            <span className="ch-title">Dashboard · progress &amp; mastery</span>
+          </button>
+
+          {createStudyUtilityNav(createElement, {
             className: "course-utility-nav",
             items: [
               { id: "bookmarks", label: "Bookmarked questions", count: progress?.bookmarks.length ?? 0, active: view.kind === "bookmarks" },
@@ -186,39 +189,6 @@ export default function Mt203() {
             ],
             onSelect: (id) => setView({ kind: id as "bookmarks" | "history" | "mistakes" }),
           })}
-
-          <div className="ch-list" style={{ marginTop: "0.5rem" }}>
-            {UNITS.map((u) => (
-              <div key={u.id}>
-                <div className="side-group">
-                  Module {u.num} · {u.title}
-                </div>
-                {u.topicIds.map((tid) => {
-                  const t = TOPIC_BY_ID[tid];
-                  if (!t) return null;
-                  const a = byTopic[t.id];
-                  const pct = a?.pct ?? 0;
-                  return (
-                    <button
-                      key={t.id}
-                      className={`ch-item ${activeTopic === t.id ? "active" : ""}`}
-                      onClick={() =>
-                        setView({
-                          kind: "study",
-                          topic: t.id,
-                          tab: view.kind === "study" ? view.tab : "lesson",
-                        })
-                      }
-                    >
-                      <span className="ch-num">{t.id.replace("t", "T")}</span>
-                      <span>
-                        <span className="ch-title">{t.title}</span>
-                        <span className="ch-meta">
-                          <span className="ch-bar"><i style={{ width: `${pct}%` }} /></span>
-                          <span className="ch-pct">{pct}%</span>
-                        </span>
-                      </span>
-                    </button>
                   );
                 })}
               </div>
