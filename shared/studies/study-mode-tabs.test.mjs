@@ -95,3 +95,9 @@ assert.deepEqual(pressTab(1, "Escape"), { focused: -1, defaultPrevented: false }
 assert.deepEqual(keyboardSelections, ["four", "one", "one", "four"], "keyboard navigation selects each focused tab");
 
 console.log("Shared study mode tabs: 30 assertions passed");
+
+const probabilityPage = readFileSync(resolve(root, "probability-source/app/page.tsx"), "utf8");
+assert.ok(probabilityPage.includes('aria-label="Probability page navigation"'), "Probability header navigation has a descriptive landmark label");
+for (const section of ["archive", "analysis", "experiment", "coverage"]) {
+  assert.ok(probabilityPage.includes(`aria-pressed={tab === "${section}"}`), `Probability header ${section} control exposes its selected state`);
+}
