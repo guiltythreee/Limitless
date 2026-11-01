@@ -40,3 +40,20 @@ assert.deepEqual(selected, ["history"]);
 const empty = createStudyUtilityNav(h, { items: [], onSelect: () => {} });
 assert.equal(empty.children.length, 0);
 console.log("Shared study utility navigation: 17 assertions passed");
+
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+const root = resolve(new URL("../..", import.meta.url).pathname);
+for (const app of ["probability-source", "metallurgy-source"]) {
+  const layout = readFileSync(resolve(root, app, "app/layout.tsx"), "utf8");
+  assert.ok(layout.includes("shared/studies/study-utility-nav.css"), `${app} must load shared utility navigation styles`);
+}
+for (const appPath of [
+  "probability-source/app/components/Practice.tsx",
+  "metallurgy-source/app/mt201/page.tsx",
+  "metallurgy-source/app/mt202/page.tsx",
+  "metallurgy-source/app/mt203/page.tsx",
+]) {
+  const source = readFileSync(resolve(root, appPath), "utf8");
+  assert.ok(source.includes("createStudyUtilityNav"), `${appPath} must use shared utility navigation`);
+}
