@@ -37,4 +37,4 @@ const summary = summarizeStudyProgress(probability);
 assert.equal(summary.totalContent, probability.content.length);
 assert.equal(summary.unknown, probability.content.length, "registration must not read or invent progress on load");
 
-console.log("Reference Studies registrations: 10 checks passed");
+console.log("Reference Studies registrations: 11 checks passed");
