@@ -79,7 +79,7 @@ for (const token of [
   "[data-learning-player-palette] > .dots",
   "flex-wrap: nowrap;",
   "width: max-content;",
-  ".learning-player-option > :last-child",
+  ".learning-player-option__text",
   "max-width: 100%;\n  overflow-wrap: anywhere;",
 ]) assert.ok(sharedCss.includes(token), `missing shared player design or interaction rule: ${token}`);
 
@@ -96,6 +96,11 @@ for (const appPath of [
     /<LearningPlayerShell className="learning-player-frame" paletteClassName="learning-player-palette" contentClassName="learning-player-content"/,
     `player should use the shared frame and content layout: ${appPath}`,
   );
+  assert.match(
+    source,
+    /learning-player-option__text/,
+    `answer text should use the shared responsive content hook: ${appPath}`,
+  );
 }
 
-console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 60 assertions passed");
+console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 62 assertions passed");
