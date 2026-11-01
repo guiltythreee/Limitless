@@ -1,6 +1,6 @@
 # Studies & Disciplines Layer — Architecture Proposal
 
-Status: S0 contracts, S1 read-only reference registrations, and S2a registration-backed homepage directory implemented; shared landing composition and progress adapters remain pending. No storage migration.
+Status: S0 contracts, S1 read-only reference registrations, S2a registration-backed homepage directory, and S2b.1 read-only progress projections implemented; shared landing composition and adapter validation remain in progress. No storage migration.
 Branch: `architecture/studies-discipline-layer-20261101`
 Base: P6.6 branch head `13ab67766c5ad572e2c9e3133d1cedf9e31be3b8`.
 
@@ -91,7 +91,7 @@ A new discipline should be able to register its own content and adapters without
 ### S1 — Read-only reference registrations — implemented; UI pending
 - Probability registers its existing lesson IDs and five pathways without copying lessons or touching its progress store.
 - Metallurgy registers MT201, MT202 and MT203 under one discipline, retaining course-specific capability declarations rather than advertising the union as universally available.
-- Registrations are static/read-only. No progress adapter is attached yet, so the shared summary correctly reports progress as unknown rather than triggering a migration or inventing state.
+- Registrations are static/read-only. S2b.1 attaches direct, read-only projections over the existing canonical local-storage payloads; it does not call app hydration/load functions, migrate, initialise, normalise, or write data. Missing keys represent an empty record; malformed or inaccessible payloads remain unknown.\n- Probability reports its explicit completed lesson flags and in-progress lessons from submitted attempts. Metallurgy reports activity-only course/topic status from MT201/MT202 answered maps and MT203 attempt history; it does not infer mastery or completion from activity.
 - The registrations remain static/read-only. No progress adapter is attached, so progress is unknown rather than triggering a migration or inventing state.
 
 ### S2 — Registration-backed Studies directory and landing surface
