@@ -242,7 +242,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
 export function Options({ item, picked, onPick, reveal, disabled }: { item: Q["item"]; picked: number[]; onPick: (i: number) => void; reveal: boolean; disabled: boolean }) {
   const right = correctSet(item);
   return (
-    <div className="mt-6 grid gap-3 sm:grid-cols-2 learning-player-options">
+    <div className="learning-player-options">
       {item.options.map((option, i) => {
         const sel = picked.includes(i);
         const ok = right.includes(i);
