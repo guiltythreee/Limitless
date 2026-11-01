@@ -174,7 +174,7 @@ export function OptionList({
   variant: QViewVariant;
 }) {
   return (
-    <div className="opts">
+    <div className="opts learning-player-options">
       {q.options.map((o) => {
         let cls = "opt";
         if (locked) {
@@ -187,7 +187,7 @@ export function OptionList({
           <button
             key={o.label}
             type={variant.buttonType}
-            className={cls}
+            className={`${cls} learning-player-option`}
             disabled={locked}
             onClick={() => onPick?.(o.label)}
           >
@@ -220,7 +220,7 @@ export function SolutionPanel({
   if (variant.solutionStyle === "concise") {
     const { concise, detailed, keyExplanation } = q.solution;
     return (
-      <div className="reveal">
+      <div className="reveal learning-player-review">
         {concise && (
           <div
             className="concise"
@@ -228,10 +228,10 @@ export function SolutionPanel({
           />
         )}
         {detailed && (
-          <div className="detailed" dangerouslySetInnerHTML={{ __html: mdToHtml(detailed) }} />
+          <div className="detailed learning-player-solution" dangerouslySetInnerHTML={{ __html: mdToHtml(detailed) }} />
         )}
         {showKey && keyExplanation && (
-          <div className="keyexp" dangerouslySetInnerHTML={{ __html: mdInline(keyExplanation) }} />
+          <div className="keyexp learning-player-solution" dangerouslySetInnerHTML={{ __html: mdInline(keyExplanation) }} />
         )}
       </div>
     );
@@ -242,14 +242,14 @@ export function SolutionPanel({
   const distractors = q.solution.distractors;
   return (
     <div className="reveal">
-      <div className={`verdict ${right ? "right" : "wrong"}`}>
+      <div className={`verdict learning-player-feedback ${right ? "right" : "wrong"}`}>
         {right
           ? "✓ Correct"
           : picked
             ? `✗ Incorrect — the answer is (${q.answer})`
             : `Answer: (${q.answer})`}
       </div>
-      <div className="concise" dangerouslySetInnerHTML={{ __html: mdToHtml(why) }} />
+      <div className="concise learning-player-solution" dangerouslySetInnerHTML={{ __html: mdToHtml(why) }} />
       {distractors && Object.keys(distractors).length > 0 && (
         <div className="distractor-list">
           {q.options
