@@ -92,7 +92,7 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
         </div>
         <div className="study-utility-visual mt-5">
           <DayBars bars={bars} goal={store.goalByDay[bars[bars.length - 1]?.day] ?? store.goal} />
-          <div className="mt-1 flex gap-4 text-[10px] text-dim"><span><i className="mr-1 inline-block h-2 w-2" style={{ background: "var(--good)" }} />correct</span><span><i className="mr-1 inline-block h-2 w-2" style={{ background: "var(--bad)" }} />not correct</span></div>
+          <div className="study-utility-legend"><span className="study-utility-legend__item"><i className="study-utility-legend__swatch" style={{ background: "var(--good)" }} />correct</span><span className="study-utility-legend__item"><i className="study-utility-legend__swatch" style={{ background: "var(--bad)" }} />not correct</span></div>
         </div>
       </div>
       </section>
