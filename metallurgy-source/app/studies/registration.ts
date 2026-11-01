@@ -2,6 +2,11 @@ import { MT201_MANIFEST } from "../courses/manifests/mt201";
 import { MT202_MANIFEST } from "../courses/manifests/mt202";
 import { MT203_MANIFEST } from "../courses/manifests/mt203";
 import type { CourseCapabilities } from "../courses/types";
+import { ALL_QUESTION_IDS, TOPIC_OF } from "../data/qbank/meta";
+import {
+  activitySnapshot,
+  readStoredProgress,
+} from "../../../shared/studies/progress";
 import type {
   StudyCapability,
   StudyContentRef,
@@ -93,4 +98,77 @@ export const METALLURGY_STUDIES_REGISTRATION = {
   },
   content,
   pathways: [],
+  /**
+   * Read each course's existing browser-local record directly. These reads
+   * deliberately bypass loadProgress() so discovery cannot normalise, migrate,
+   * or write course data. A malformed course record remains unknown.
+   */
+  readProgress: () => {
+    if (typeof window === "undefined") return [];
+
+    const snapshots = [];
+    for (const manifest of manifests) {
+      const stored = readStoredProgress(
+        (key) => window.localStorage.getItem(key),
+        manifest.storageKey,
+      );
+      if (stored.status !== "available") continue;
+
+      const contentForCourse = content.filter((item) => item.id === manifest.id || item.parentId === manifest.id);
+      const topicActivity = new Map<string, { count: number; lastAt?: number }>();
+      let totalActivity = 0;
+      let lastActivityAt = 0;
+
+      if (manifest.id === "mt203") {
+        const attempts = Array.isArray(stored.value.attempts) ? stored.value.attempts : [];
+        const validIds = new Set(ALL_QUESTION_IDS);
+        for (const raw of attempts) {
+          if (!raw || typeof raw !== "object") continue;
+          const attempt = raw as { q?: unknown; ts?: unknown };
+          if (typeof attempt.q !== "string" || !validIds.has(attempt.q)) continue;
+          const topicId = TOPIC_OF[attempt.q];
+          if (!topicId) continue;
+          const current = topicActivity.get(topicId) ?? { count: 0 };
+          current.count++;
+          if (typeof attempt.ts === "number" && Number.isFinite(attempt.ts) && attempt.ts > 0) {
+            current.lastAt = Math.max(current.lastAt ?? 0, attempt.ts);
+            lastActivityAt = Math.max(lastActivityAt, attempt.ts);
+          }
+          topicActivity.set(topicId, current);
+          totalActivity++;
+        }
+      } else {
+        const answered = stored.value.answered;
+        if (!answered || typeof answered !== "object" || Array.isArray(answered)) continue;
+        for (const topic of manifest.topics) {
+          const prefix = `${topic.id}-q`;
+          let count = 0;
+          let lastAt = 0;
+          for (const [questionId, raw] of Object.entries(answered as Record<string, unknown>)) {
+            if (!questionId.startsWith(prefix) || !raw || typeof raw !== "object") continue;
+            count++;
+            const at = (raw as { at?: unknown }).at;
+            if (typeof at === "number" && Number.isFinite(at) && at > 0) {
+              lastAt = Math.max(lastAt, at);
+              lastActivityAt = Math.max(lastActivityAt, at);
+            }
+          }
+          if (count) topicActivity.set(topic.id, { count, lastAt: lastAt || undefined });
+          totalActivity += count;
+        }
+      }
+
+      for (const topic of manifest.topics) {
+        const id = `${manifest.id}:${topic.id}`;
+        const activity = topicActivity.get(topic.id);
+        snapshots.push(activitySnapshot(id, activity?.count ?? 0, activity?.lastAt));
+        // Lesson content is a separate catalogue node. Only expose its status
+        // when the course has a persisted lesson-read signal; question attempts
+        // alone do not prove that the theory lesson was completed.
+      }
+
+      snapshots.push(activitySnapshot(manifest.id, totalActivity, lastActivityAt));
+    }
+    return snapshots;
+  },
 } satisfies StudyDisciplineRegistration;
