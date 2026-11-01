@@ -151,6 +151,20 @@
   font-size: .8rem;
   line-height: 1.35;
 }
+.study-utility-panel .study-utility-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  min-height: 2.2rem;
+  padding: .45rem .8rem;
+  border-radius: .6rem;
+  font: inherit;
+  font-size: .8rem;
+  line-height: 1.35;
+}
+
+/* A consistent keyboard indicator applies to every interactive panel control. */
 .study-utility-panel :is(button, input, select, textarea):focus-visible {
   border-color: var(--gold, currentColor);
   outline: 2px solid var(--gold, currentColor);
