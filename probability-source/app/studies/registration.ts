@@ -46,7 +46,6 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
       kind: "lesson" as const,
       title: lesson.title,
       description: lesson.description,
-      route: `/probability?lesson=${encodeURIComponent(lesson.id)}`,
       parentId: "probability-course",
     })),
   ],
