@@ -15,8 +15,8 @@ export function GoalCard() {
   const [text, setText] = useState("");
   const frac = Math.min(1, g.today / g.goal);
   return (
-    <div className="card">
-      <div className="flex items-center justify-between">
+    <div className="card study-utility-panel">
+      <div className="study-utility-panel__header flex items-center justify-between">
         <div className="serif text-xl">Your Daily Goal</div>
         <button onClick={() => setOpen(!open)} className="text-sm text-gold hover:underline">{open ? "Close" : "View more ›"}</button>
       </div>
@@ -41,8 +41,8 @@ export function StreakCard() {
   const store = useStore();
   const g = goalInfo(store);
   return (
-    <div className="card">
-      <div className="flex items-center justify-between">
+    <div className="card study-utility-panel">
+      <div className="study-utility-panel__header flex items-center justify-between">
         <div className="serif text-xl">Daily Goal Streak</div>
         <div className="text-sm text-body">{g.streak} day streak <span className="text-orange-500">🔥</span> <span className="ml-2 text-xs text-faint">best {g.best}</span></div>
       </div>
@@ -72,15 +72,15 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
   const diffs = (["easy", "medium", "hard"] as const);
   return (
     <div className="space-y-5">
-      <div className="card">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="card study-utility-panel">
+        <div className="study-utility-panel__header flex flex-wrap items-center justify-between gap-3">
           <div className="serif text-xl">History of Qs Solved</div>
           {scopeControl}
         </div>
         <div className="mt-4 flex flex-wrap gap-1 rounded-full border border-gold/20 p-1">
           {PERIODS.map((p) => <button key={p.id} onClick={() => setPeriod(p.id)} className={`flex-1 rounded-full px-3 py-2 text-sm ${period === p.id ? "bg-gold/15 text-gold outline outline-1 outline-gold/50" : "text-dim hover:text-parchment"}`}>{p.label}</button>)}
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <div className="study-utility-metrics mt-4 grid gap-3 sm:grid-cols-3">
           <div className="tile" style={{ background: "color-mix(in srgb, var(--c-attempt) 12%, transparent)" }}><div className="tv" style={{ color: "var(--c-attempt)" }}>{sum.questions}</div><div className="tl">Qs Solved</div></div>
           <div className="tile" style={{ background: "color-mix(in srgb, var(--warn) 12%, transparent)" }}><div className="tv" style={{ color: "var(--warn)" }}>{sum.avgMs ? fmtTime(sum.avgMs) : "–"}</div><div className="tl">Time per Q (m:ss)</div></div>
           <div className="tile" style={{ background: "color-mix(in srgb, var(--good) 12%, transparent)" }}><div className="tv" style={{ color: "var(--good)" }}>{sum.attempts ? pct(sum.accuracy) : "–"}</div><div className="tl">Accuracy</div></div>
@@ -91,8 +91,8 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
         </div>
       </div>
 
-      <div className="card">
-        <div className="flex items-center justify-between"><div className="serif text-xl">Progress</div><div className="text-sm text-dim">{sum.questions}/{poolSize} questions · {poolSize ? (sum.questions / poolSize * 100).toFixed(1) : "0.0"}%</div></div>
+      <div className="card study-utility-panel">
+        <div className="study-utility-panel__header flex items-center justify-between"><div className="serif text-xl">Progress</div><div className="text-sm text-dim">{sum.questions}/{poolSize} questions · {poolSize ? (sum.questions / poolSize * 100).toFixed(1) : "0.0"}%</div></div>
         <div className="mt-3 h-2 overflow-hidden rounded bg-track"><div className="h-full rounded bg-gold" style={{ width: `${poolSize ? Math.min(100, (sum.questions / poolSize) * 100) : 0}%` }} /></div>
       </div>
 
