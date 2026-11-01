@@ -40,10 +40,10 @@ export default function DailyGoalsPanel({
       </div>
 
       <div className="study-utility-metrics study-utility-metrics--goals">
-        <div className="study-utility-metric" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.25rem", padding: "0.9rem" }}>
-          <span style={{ fontSize: "0.75rem", opacity: 0.8 }}>Today's progress</span>
-          <strong style={{ fontSize: "1.6rem" }}>{info.todayCount} / {info.goal}</strong>
-          <span style={{ color: info.reached ? "var(--good)" : "var(--dim)", fontSize: "0.8rem" }}>
+        <div className="study-utility-metric">
+          <span className="study-utility-metric__label">Today's progress</span>
+          <strong className="study-utility-metric__value">{info.todayCount} / {info.goal}</strong>
+          <span className="study-utility-metric__detail" style={{ color: info.reached ? "var(--good)" : "var(--dim)" }}>
             {info.reached ? "Goal reached" : `${Math.max(0, info.goal - info.todayCount)} more to reach today's goal`}
           </span>
           <div style={{ height: "0.45rem", width: "100%", borderRadius: "999px", background: "var(--panel-line)", overflow: "hidden", marginTop: "0.25rem" }}>
@@ -51,9 +51,9 @@ export default function DailyGoalsPanel({
           </div>
         </div>
         <div className="study-utility-metric" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.25rem", padding: "0.9rem" }}>
-          <span style={{ fontSize: "0.75rem", opacity: 0.8 }}>Current streak</span>
-          <strong style={{ fontSize: "1.6rem" }}>{info.streak} {info.streak === 1 ? "day" : "days"}</strong>
-          <span style={{ color: "var(--dim)", fontSize: "0.8rem" }}>Best: {info.bestStreak} {info.bestStreak === 1 ? "day" : "days"}</span>
+          <span className="study-utility-metric__label">Current streak</span>
+          <strong className="study-utility-metric__value">{info.streak} {info.streak === 1 ? "day" : "days"}</strong>
+          <span className="study-utility-metric__detail">Best: {info.bestStreak} {info.bestStreak === 1 ? "day" : "days"}</span>
         </div>
       </div>
 
