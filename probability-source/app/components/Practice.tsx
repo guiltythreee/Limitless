@@ -364,7 +364,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
   const bookmarked = store.bookmarks.includes(q.key);
 
   return (
-    <LearningPlayerShell paletteClassName="mb-4 flex items-center gap-2 overflow-x-auto pb-1" palette={(
+    <LearningPlayerShell paletteClassName="learning-player-palette mb-4 flex items-center gap-2 overflow-x-auto pb-1" palette={(
                   <>
                   <button onClick={onBack} className="pill shrink-0" aria-label="Back to the list">←</button>
                   <div className="flex gap-1.5">
@@ -379,7 +379,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
                   </div>
                   </>
                 )}>
-      <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3">
+      <div className="learning-player-meta grid grid-cols-[1fr_auto_1fr] items-start gap-3">
         <div>
           <div className="text-sm text-body">Q {index + 1} <span className="text-faint">• {q.item.source ?? ""}</span> <span className={`dbadge dbadge-${q.difficulty} ml-1`}>{DIFF_LABEL[q.difficulty]}</span></div>
           {showTopic && <div className="mt-1 text-xs text-dim">{lessonTitle(q.lessonId)}</div>}
@@ -417,7 +417,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
         </div>
       )}
 
-      <div className="actionbar">
+      <div className="learning-player-actions actionbar">
         <button className="btn-side" disabled={index === 0} onClick={() => onGo(index - 1)}>Previous</button>
         {phase === "answering"
           ? <button className="btn-main" disabled={picked.length === 0} onClick={check}>Check Answer</button>
