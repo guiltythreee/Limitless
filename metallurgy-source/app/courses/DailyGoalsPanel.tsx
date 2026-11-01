@@ -59,12 +59,12 @@ export default function DailyGoalsPanel({
 
       <div className="study-utility-visual">
         <div style={{ fontWeight: 600, marginBottom: "0.65rem" }}>This week</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(0, 1fr))", gap: "0.45rem" }}>
+        <div className="study-utility-week-grid">
           {info.week.map((day) => (
-            <div key={day.key} style={{ minWidth: 0, textAlign: "center", padding: "0.55rem 0.15rem", borderRadius: "0.6rem", border: day.today ? "1px solid var(--gold)" : "1px solid var(--panel-line)", background: day.met ? "color-mix(in srgb, var(--good) 12%, transparent)" : "transparent", opacity: day.future ? 0.5 : 1 }}>
-              <div style={{ fontSize: "0.72rem" }}>{day.label}</div>
-              <div style={{ fontWeight: 700, fontSize: "0.95rem", marginTop: "0.25rem" }}>{day.count}</div>
-              <div style={{ fontSize: "0.63rem", color: "var(--dim)", marginTop: "0.15rem" }}>of {day.goal}</div>
+            <div key={day.key} className="study-utility-week-cell" style={{ padding: "0.55rem 0.15rem", borderRadius: "0.6rem", border: day.today ? "1px solid var(--gold)" : "1px solid var(--panel-line)", background: day.met ? "color-mix(in srgb, var(--good) 12%, transparent)" : "transparent", opacity: day.future ? 0.5 : 1 }}>
+              <div className="study-utility-week-label">{day.label}</div>
+              <div className="study-utility-week-value" style={{ marginTop: "0.25rem" }}>{day.count}</div>
+              <div className="study-utility-week-detail" style={{ marginTop: "0.15rem" }}>of {day.goal}</div>
               <div style={{ fontSize: "0.7rem", marginTop: "0.15rem", color: day.met ? "var(--good)" : "var(--dim)" }}>
                 {day.met ? "✓" : day.future ? "·" : "—"}
               </div>
