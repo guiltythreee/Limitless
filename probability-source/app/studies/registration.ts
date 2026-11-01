@@ -23,7 +23,7 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
     id: "probability",
     title: "Probability",
     description: "A structured probability curriculum from foundations and counting through distributions, inference, stochastic processes and simulation.",
-    route: "/probability",
+    route: "/probability/studies",
     status: "active",
     capabilities: [
       "theory",
@@ -47,9 +47,14 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
       id: "probability-course",
       disciplineId: "probability",
       kind: "course",
-      title: "Probability",
+      title: "Probability Archive",
       description: "Probability theory, inference, stochastic processes and simulation.",
-      route: "/probability",
+      route: "/",
+      symbol: "◇",
+      capabilities: [
+        "theory", "formulas", "examples", "practice", "assessment", "answer-review",
+        "revision", "bookmarks", "drafts", "timers", "attempt-history", "analytics", "goals", "mastery",
+      ],
     },
     ...lessons.map((lesson) => ({
       id: lesson.id,
