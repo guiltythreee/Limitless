@@ -4,15 +4,31 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
     "id": "probability",
     "title": "Probability",
     "description": "A structured probability curriculum from foundations and counting through distributions, inference, stochastic processes and simulation.",
-    "href": "probability/",
+    "href": "probability/studies/",
     "status": "beta",
     "symbol": "◇",
     "courses": [
       {
         "id": "probability-course",
-        "title": "Probability",
-        "route": "/probability",
-        "capabilities": []
+        "title": "Probability Archive",
+        "route": "/",
+        "capabilities": [
+          "theory",
+          "formulas",
+          "examples",
+          "practice",
+          "assessment",
+          "answer-review",
+          "revision",
+          "bookmarks",
+          "drafts",
+          "timers",
+          "attempt-history",
+          "analytics",
+          "goals",
+          "mastery"
+        ],
+        "symbol": "◇"
       }
     ],
     "capabilities": [
@@ -42,8 +58,8 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
     "courses": [
       {
         "id": "mt201",
-        "title": "Metallurgical Thermodynamics",
-        "route": "/metallurgy/mt201",
+        "title": "MT201 — Metallurgical Thermodynamics",
+        "route": "/mt201",
         "capabilities": [
           "practice",
           "assessment",
@@ -53,12 +69,13 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
           "attempt-history",
           "analytics",
           "goals"
-        ]
+        ],
+        "symbol": "♨"
       },
       {
         "id": "mt202",
-        "title": "Physical Metallurgy",
-        "route": "/metallurgy/mt202",
+        "title": "MT202 — Physical Metallurgy",
+        "route": "/mt202",
         "capabilities": [
           "theory",
           "formulas",
@@ -71,12 +88,13 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
           "analytics",
           "goals",
           "subject-tools"
-        ]
+        ],
+        "symbol": "⚗"
       },
       {
         "id": "mt203",
-        "title": "Polymer Science and Technology",
-        "route": "/metallurgy/mt203",
+        "title": "MT203 — Polymer Science and Technology",
+        "route": "/mt203",
         "capabilities": [
           "theory",
           "formulas",
@@ -90,7 +108,8 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
           "analytics",
           "goals",
           "mastery"
-        ]
+        ],
+        "symbol": "⛓"
       }
     ],
     "capabilities": [
