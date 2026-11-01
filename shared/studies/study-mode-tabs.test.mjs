@@ -58,4 +58,4 @@ for (const path of [
   const source = readFileSync(resolve(root, path), "utf8");
   assert.ok(source.includes("createStudyModeTabs"), `${path} should use the shared tab component`);
 }
-console.log("Shared study mode tabs: 20 assertions passed");
+console.log("Shared study mode tabs: 21 assertions passed");
