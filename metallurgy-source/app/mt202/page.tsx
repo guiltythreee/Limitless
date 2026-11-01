@@ -122,7 +122,7 @@ export default function Mt202() {
 
       <div className="archive">
         {/* ---------------- sidebar ---------------- */}
-        <aside className="panel side">
+        <aside className="panel side" aria-label="MT202 course navigation">
           <div className="side-head">
             <div className="t1">{MANIFEST.code} · {MANIFEST.title}</div>
             <div className="t2">{TOTAL} questions · {TOPICS.length} chambers</div>
