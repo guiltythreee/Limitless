@@ -126,4 +126,4 @@ jobs:
           node --experimental-strip-types
           --experimental-loader ./shared/learning-player/ts-extension-loader.mjs
           scripts/generate-studies-catalog.mjs --write
-          && git diff --exit-code -- studies-catalog.js
+          && node --check tools.js\n          && node --check studies-catalog.js\n          && git diff --exit-code -- studies-catalog.js
