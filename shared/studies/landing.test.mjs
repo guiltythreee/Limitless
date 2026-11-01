@@ -42,3 +42,7 @@ for (const token of [
   "@media (max-width:760px) {\n  .studies-landing__hero {\n    flex-wrap: wrap;",
   ".studies-landing__hero-mark {\n    flex: 0 0 auto;",
 ]) assert.ok(landingCss.includes(token), `missing responsive Studies landing rule: ${token}`);
+assert.ok(landingCss.includes(".studies-landing a:focus-visible"), "Studies landing links expose a visible keyboard focus indicator");
+assert.ok(landingCss.includes("outline-offset: 3px;"), "Studies landing focus indicator is offset from link text");
+assert.ok(landingCss.includes("@media (forced-colors: active)"), "Studies landing focus indicator supports forced-colour mode");
+assert.ok(landingCss.includes("outline-color: Highlight;"), "Studies landing uses the system highlight in forced-colour mode");
