@@ -94,7 +94,7 @@ export default function DailyGoalsPanel({
             style={{ width: "10rem" }}
           />
         </label>
-        <button className="btn btn-gold" type="submit">Save goal</button>
+        <button className="btn btn-gold study-utility-action" type="submit">Save goal</button>
       </form>
       <p style={{ color: "var(--dim)", fontSize: "0.75rem", marginTop: "0.7rem" }}>
         An answer counts when it is recorded, including a submitted exam answer. Opening a lesson or viewing a solution alone does not count.
