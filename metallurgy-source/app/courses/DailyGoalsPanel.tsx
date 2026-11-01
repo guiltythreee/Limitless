@@ -33,7 +33,7 @@ export default function DailyGoalsPanel({
   return (
     <section className="panel study-utility-panel" aria-label="Daily goal and streak">
       <div className="topbar study-utility-panel__header">
-        <div>
+        <div className="study-utility-panel__heading">
           <h2 className="study-utility-panel__title">Daily Goal &amp; Streak</h2>
           <div className="sub study-utility-panel__description">Build a steady study habit · answers are counted locally in this course</div>
         </div>
