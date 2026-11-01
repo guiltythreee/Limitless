@@ -58,11 +58,11 @@ export default function BookmarksPanel({
                 </div>
                 <div className="study-utility-row__actions">
                   {topic && (
-                    <button className="btn btn-gold" onClick={() => onOpen(questionId, topic.id)}>
+                    <button className="btn btn-gold study-utility-action" onClick={() => onOpen(questionId, topic.id)}>
                       Open question →
                     </button>
                   )}
-                  <button className="btn" onClick={() => onRemove(questionId)}>
+                  <button className="btn study-utility-action" onClick={() => onRemove(questionId)}>
                     Remove
                   </button>
                 </div>
