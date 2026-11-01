@@ -134,6 +134,26 @@
 .study-utility-panel__content > :last-child { margin-bottom: 0; }
 
 
+/* Shared controls inside course-owned utility panels. Legacy .pill and
+   .field classes remain available outside these panels. */
+.study-utility-panel .study-utility-control {
+  min-width: 0;
+  min-height: 2.2rem;
+  padding: .42rem .7rem;
+  border: 1px solid var(--panel-line, rgba(180,150,90,.22));
+  border-radius: .6rem;
+  background: var(--inset, var(--chip, transparent));
+  color: var(--body, inherit);
+  font: inherit;
+  font-size: .8rem;
+  line-height: 1.35;
+}
+.study-utility-panel .study-utility-control:focus-visible {
+  border-color: var(--gold, currentColor);
+  outline: 2px solid var(--gold, currentColor);
+  outline-offset: 1px;
+}
+
 /* Shared inner layout primitives for course-owned utility panels. */
 .study-utility-toolbar {
   display: flex;
