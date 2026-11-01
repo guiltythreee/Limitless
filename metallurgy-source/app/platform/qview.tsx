@@ -228,10 +228,10 @@ export function SolutionPanel({
           />
         )}
         {detailed && (
-          <div className="detailed learning-player-solution" dangerouslySetInnerHTML={{ __html: mdToHtml(detailed) }} />
+          <div className="detailed" dangerouslySetInnerHTML={{ __html: mdToHtml(detailed) }} />
         )}
         {showKey && keyExplanation && (
-          <div className="keyexp learning-player-solution" dangerouslySetInnerHTML={{ __html: mdInline(keyExplanation) }} />
+          <div className="keyexp" dangerouslySetInnerHTML={{ __html: mdInline(keyExplanation) }} />
         )}
       </div>
     );
@@ -249,7 +249,7 @@ export function SolutionPanel({
             ? `✗ Incorrect — the answer is (${q.answer})`
             : `Answer: (${q.answer})`}
       </div>
-      <div className="concise learning-player-solution" dangerouslySetInnerHTML={{ __html: mdToHtml(why) }} />
+      <div className="concise" dangerouslySetInnerHTML={{ __html: mdToHtml(why) }} />
       {distractors && Object.keys(distractors).length > 0 && (
         <div className="distractor-list">
           {q.options
