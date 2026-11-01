@@ -29,6 +29,14 @@
   outline: 2px solid var(--lp-color-accent, var(--gold, currentColor));
   outline-offset: 2px;
 }
+
+@media (forced-colors: active) {
+  .study-utility-nav__item:focus-visible,
+  .study-utility-panel :is(button, input, select, textarea):focus-visible {
+    outline-color: Highlight;
+    border-color: Highlight;
+  }
+}
 .study-utility-nav__item.is-active {
   border-color: var(--lp-color-accent, var(--gold, currentColor));
   background: color-mix(in srgb, var(--lp-color-accent, var(--gold, #c5a66a)) 10%, transparent);
