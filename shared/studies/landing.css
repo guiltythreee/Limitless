@@ -157,3 +157,21 @@
 @media(prefers-reduced-motion:reduce) {
   .studies-landing__card,.studies-landing__progress-track span { transition:none; }
 }
+/* Long discipline names and descriptions must not push the shared landing
+   hero mark beyond the viewport on narrow screens. */
+.studies-landing__hero-copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.studies-landing__hero h1,
+.studies-landing__hero p {
+  overflow-wrap: anywhere;
+}
+@media (max-width:760px) {
+  .studies-landing__hero {
+    flex-wrap: wrap;
+  }
+  .studies-landing__hero-mark {
+    flex: 0 0 auto;
+  }
+}
