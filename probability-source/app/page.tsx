@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { createElement, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { lessons, pathways, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND } from "./content";
 import { Illustration, Theory } from "./components/Sections";
 import Practice from "./components/Practice";
@@ -11,6 +11,7 @@ import Coverage from "./components/Coverage";
 import { allQuestions } from "./lib/questions";
 import { latestByQuestion, markComplete, resetAll, useHydrated, useStore } from "./lib/store";
 import { goalInfo } from "./lib/stats";
+import { createStudyModeTabs } from "../../shared/studies/StudyModeTabs";
 
 // The site is served from /probability/ when published, so image addresses need that prefix (same as backgrounds).
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -176,12 +177,21 @@ export default function Home() {
       <section id="study" className="mx-auto max-w-[1440px] px-5 py-12 md:px-10 md:py-16">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="art-text"><div className="eyebrow mb-3">Choose your next revelation</div><h2 className="serif text-3xl md:text-4xl">The Archive</h2></div>
-          <div className="flex max-w-full flex-wrap border border-gold/20 bg-ink/70 p-1">
-            <button onClick={() => setTab("archive")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "archive" ? "bg-gold text-ongold" : "text-dim"}`}>Lessons</button>
-            <button onClick={() => setTab("analysis")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "analysis" ? "bg-gold text-ongold" : "text-dim"}`}>Analysis</button>
-            <button onClick={() => setTab("experiment")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "experiment" ? "bg-gold text-ongold" : "text-dim"}`}>Experiments</button>
-            <button onClick={() => setTab("coverage")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "coverage" ? "bg-gold text-ongold" : "text-dim"}`}>Coverage</button>
-          </div>
+          {createStudyModeTabs(createElement, {
+            items: [
+              { id: "archive", label: "Lessons" },
+              { id: "analysis", label: "Analysis" },
+              { id: "experiment", label: "Experiments" },
+              { id: "coverage", label: "Coverage" },
+            ],
+            activeId: tab,
+            onSelect: (id) => setTab(id as "archive" | "analysis" | "experiment" | "coverage"),
+            className: "flex max-w-full flex-wrap border border-gold/20 bg-ink/70 p-1",
+            itemClassName: "px-4 py-2 text-xs uppercase tracking-[.12em]",
+            activeClassName: "bg-gold text-ongold",
+            inactiveClassName: "text-dim",
+            label: "Archive sections",
+          })}
         </div>
 
         {tab === "analysis" ? (
