@@ -13,10 +13,10 @@ export function DiffBars({ title, headline, sub, data, color, max }: {
   const W = 560, H = 190, base = H - 26, plot = base - 14;
   const slot = W / data.length;
   return (
-    <div className="card">
-      <div className="flex items-start justify-between gap-4">
-        <div className="serif text-xl">{title}</div>
-        <div className="text-right"><div className="serif text-xl text-parchment">{headline}</div><div className="text-xs text-dim">{sub}</div></div>
+    <section className="card study-utility-panel" aria-label={title}>
+      <div className="study-utility-panel__header flex items-start justify-between gap-4">
+        <div className="study-utility-panel__title">{title}</div>
+        <div className="text-right"><div className="serif text-xl text-parchment">{headline}</div><div className="study-utility-panel__description">{sub}</div></div>
       </div>
       <div className="relative mt-3">
         <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full text-mutedgold" role="img" aria-label={title}>
@@ -41,7 +41,7 @@ export function DiffBars({ title, headline, sub, data, color, max }: {
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }
 
