@@ -1,6 +1,6 @@
 "use client";
 
-import { createElement, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { createElement, useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
 import { lessons, pathways, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND } from "./content";
 import { Illustration, Theory } from "./components/Sections";
 import Practice from "./components/Practice";
@@ -19,13 +19,14 @@ const rankName = (num: number) => ranks.find((r) => r.num === num)?.name ?? "";
 // Phones and narrow windows: one button that opens the same foldable chapter list.
 function TopicPicker({ activeId, completed, onChoose, title, unit, pathwayId, onPathwayChange }: { activeId: string; completed: string[]; onChoose: (id: string) => void; title: string; unit: string; pathwayId: string; onPathwayChange: (id: string) => void }) {
   const [shown, setShown] = useState(false);
+  const panelId = useId();
   return (
     <div className="md:hidden">
-      <button onClick={() => setShown(!shown)} aria-expanded={shown} className="panel flex w-full items-center gap-3 px-4 py-3 text-left">
+      <button onClick={() => setShown(!shown)} aria-expanded={shown} aria-controls={panelId} className="panel flex w-full items-center gap-3 px-4 py-3 text-left">
         <span className="min-w-0 flex-1"><span className="eyebrow block text-[9px]!">Topic</span><span className="mt-1 block truncate text-sm text-parchment">{unit ? `${unit} · ` : ""}{title}</span></span>
         <span className={`text-gold transition-transform ${shown ? "rotate-180" : ""}`}>▾</span>
       </button>
-      {shown && <div className="panel mt-2 max-h-[65vh] overflow-y-auto p-3"><TopicTree activeId={activeId} completed={completed} onChoose={(id) => { onChoose(id); setShown(false); }} pathwayId={pathwayId} onPathwayChange={onPathwayChange} /></div>}
+      {shown && <div id={panelId} className="panel mt-2 max-h-[65vh] max-h-[65dvh] overflow-y-auto overscroll-contain p-3"><TopicTree activeId={activeId} completed={completed} onChoose={(id) => { onChoose(id); setShown(false); }} pathwayId={pathwayId} onPathwayChange={onPathwayChange} /></div>}
     </div>
   );
 }
