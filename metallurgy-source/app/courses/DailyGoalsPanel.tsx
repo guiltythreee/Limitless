@@ -50,7 +50,7 @@ export default function DailyGoalsPanel({
             <div style={{ height: "100%", width: `${percent}%`, background: info.reached ? "var(--good)" : "var(--gold)", transition: "width 160ms ease" }} />
           </div>
         </div>
-        <div className="chip" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.25rem", padding: "0.9rem" }}>
+        <div className="chip study-utility-metric" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.25rem", padding: "0.9rem" }}>
           <span style={{ fontSize: "0.75rem", opacity: 0.8 }}>Current streak</span>
           <strong style={{ fontSize: "1.6rem" }}>{info.streak} {info.streak === 1 ? "day" : "days"}</strong>
           <span style={{ color: "var(--dim)", fontSize: "0.8rem" }}>Best: {info.bestStreak} {info.bestStreak === 1 ? "day" : "days"}</span>
