@@ -30,7 +30,7 @@ export function GoalCard() {
         <form className="study-utility-form mt-5 border-t border-gold/10 pt-4" onSubmit={(e) => { e.preventDefault(); if (text) { setGoal(Number(text)); setText(""); } }}>
           <label htmlFor="goal" className="text-xs text-dim">Questions per day</label>
           <input id="goal" type="number" min={1} max={500} value={text} placeholder={String(store.goal)} onChange={(e) => setText(e.target.value)} className="field study-utility-control w-24" />
-          <button className="btn-gold px-3! py-2!">Set goal</button>
+          <button className="btn-gold study-utility-action">Set goal</button>
           <span className="text-[11px] text-faint">Changing it affects today and the days after, not past days.</span>
         </form>
       )}
