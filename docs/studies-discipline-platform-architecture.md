@@ -1,6 +1,6 @@
 # Studies & Disciplines Layer — Architecture Proposal
 
-Status: design checkpoint; no production integration or storage migration in this milestone.
+Status: S0 contracts and S1 read-only reference registrations implemented; no UI integration or storage migration in this milestone.
 Branch: `architecture/studies-discipline-layer-20261101`
 Base: P6.6 branch head `13ab67766c5ad572e2c9e3133d1cedf9e31be3b8`.
 
@@ -82,17 +82,16 @@ A new discipline should be able to register its own content and adapters without
 
 ## 7. Delivery sequence
 
-### S0 — Architecture and contract tests
-- Lock down the boundaries in this document.
-- Add framework-neutral type contracts and tests for registration, stable IDs, overlapping pathways, truthful capability declarations, and unknown progress values.
-- Include fixtures representing Probability's shared lesson across two pathways and Metallurgy courses with different capabilities.
-- No production route or storage changes.
+### S0 — Architecture and contract tests — implemented
+- Framework-neutral contracts and pure registry functions live under `shared/studies/`.
+- Tests cover registration validation, stable discipline-scoped content identities, overlapping pathways, capability declarations, and unknown progress values.
+- Both app TypeScript matrices and production builds passed; Metallurgy and Bookkeys regression workflows also passed on the S0 checkpoint.
 
-### S1 — Read-only registry and discovery
-- Add a shared discipline registry interface and app-owned registrations.
-- Validate unique discipline/content IDs and pathway references.
-- Render a read-only Studies / Disciplines index from registered adapters.
-- Do not move the existing Home navigation until the new surface is validated.
+### S1 — Read-only reference registrations — implemented; UI pending
+- Probability registers its existing lesson IDs and five pathways without copying lessons or touching its progress store.
+- Metallurgy registers MT201, MT202 and MT203 under one discipline, retaining course-specific capability declarations rather than advertising the union as universally available.
+- Registrations are static/read-only. No progress adapter is attached yet, so the shared summary correctly reports progress as unknown rather than triggering a migration or inventing state.
+- The read-only Studies / Disciplines index is the next UI task. Do not move existing Home navigation until that surface is validated.
 
 ### S2 — Shared study landing surface
 - Add common discipline/course landing composition: description, learning routes, available activity types, and adapter-provided progress summary.
