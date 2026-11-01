@@ -150,7 +150,12 @@
 }
 .study-utility-metrics--goals { grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: .8rem; margin-bottom: 1rem; }
 .study-utility-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2rem;
   min-width: 0;
+  text-align: left;
   border: 1px solid var(--panel-line, rgba(180,150,90,.22));
   border-radius: .75rem;
   background: var(--panel-bg, transparent);
