@@ -58,4 +58,8 @@ for (const path of [
   const source = readFileSync(resolve(root, path), "utf8");
   assert.ok(source.includes("createStudyModeTabs"), `${path} should use the shared tab component`);
 }
-console.log("Shared study mode tabs: 21 assertions passed");
+const probability = readFileSync(resolve(root, "probability-source/app/page.tsx"), "utf8");
+assert.ok(probability.includes('label: "Lesson sections"'), "Probability lesson sections use the shared accessible tablist");
+assert.ok(probability.includes("items: SECTIONS.map((sec) => ({"), "Probability lesson sections preserve their discipline-owned labels and counts");
+assert.ok(!probability.includes('className="mt-6 flex flex-wrap gap-1 border-b border-gold/15" role="tablist"'), "Probability does not retain a parallel hand-built section tablist");
+console.log("Shared study mode tabs: 24 assertions passed");
