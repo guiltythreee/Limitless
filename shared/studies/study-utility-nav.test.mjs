@@ -31,6 +31,7 @@ assert.equal(nav.children[0].props["aria-pressed"], true);
 assert.equal(nav.children[1].props["aria-pressed"], false);
 assert.equal("aria-current" in nav.children[0].props, false);
 assert.equal(nav.children[0].children[1].children[0], "4");
+assert.equal("aria-label" in nav.children[0].children[1].props, false);
 assert.equal(nav.children[1].children[0].children[1].children[0], "Recorded answers");
 assert.match(nav.children[2].props.className, /is-accent/);
 nav.children[1].props.onClick();
@@ -38,4 +39,4 @@ assert.deepEqual(selected, ["history"]);
 
 const empty = createStudyUtilityNav(h, { items: [], onSelect: () => {} });
 assert.equal(empty.children.length, 0);
-console.log("Shared study utility navigation: 16 assertions passed");
+console.log("Shared study utility navigation: 17 assertions passed");
