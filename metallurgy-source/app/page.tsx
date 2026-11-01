@@ -7,7 +7,8 @@ import { METALLURGY_STUDIES_REGISTRATION } from "./studies/registration";
 import { createStudiesLanding } from "../../shared/studies/StudiesLanding";
 import type { StudyProgressSnapshot } from "../../shared/studies/contracts";
 
-// Course copy is sourced from each manifest; MT202 keeps its verified "522 chapter-wise MCQs" description in that registration.\nexport default function Landing() {
+// Course copy is sourced from each manifest; MT202 keeps its verified "522 chapter-wise MCQs" description in that registration.
+export default function Landing() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [snapshots, setSnapshots] = useState<readonly StudyProgressSnapshot[]>([]);
   const [progressReady, setProgressReady] = useState(false);
