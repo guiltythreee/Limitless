@@ -42,8 +42,9 @@ assert.equal(empty.children.length, 0);
 console.log("Shared study utility navigation: 17 assertions passed");
 
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-const root = resolve(new URL("../..", import.meta.url).pathname);
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 for (const app of ["probability-source", "metallurgy-source"]) {
   const layout = readFileSync(resolve(root, app, "app/layout.tsx"), "utf8");
   assert.ok(layout.includes("shared/studies/study-utility-nav.css"), `${app} must load shared utility navigation styles`);
