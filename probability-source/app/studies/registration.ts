@@ -16,7 +16,8 @@ const PROBABILITY_STORAGE_KEY = "hc3-progress-v3";
  *
  * This is a read-only catalogue projection. Probability continues to own its
  * lesson content, pathway definitions, question bank, grading and progress
- * store. The registration does not initialise or read local storage.
+ * store. Its optional progress projection reads the canonical payload directly
+ * and never calls the store's mutating hydration path.
  */
 export const PROBABILITY_STUDIES_REGISTRATION = {
   descriptor: {
@@ -85,12 +86,16 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
     );
     if (stored.status !== "available") return [];
 
+    if (stored.value.completed !== undefined && !Array.isArray(stored.value.completed)) return [];
+    if (stored.value.attempts !== undefined && !Array.isArray(stored.value.attempts)) return [];
+
     const completed = new Set(
       Array.isArray(stored.value.completed)
         ? stored.value.completed.filter((id): id is string => typeof id === "string")
         : [],
     );
-    const validQuestionIds = new Set(allQuestions.map((question) => question.key));
+    const questionLesson = new Map(allQuestions.map((question) => [question.key, question.lessonId]));
+    const validQuestionIds = new Set(questionLesson.keys());
     const attempts = Array.isArray(stored.value.attempts)
       ? stored.value.attempts.filter((attempt): attempt is { q: string; ts: number } =>
           !!attempt && typeof attempt === "object" &&
@@ -103,7 +108,7 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
 
     const byLesson = new Map<string, { count: number; lastAt?: number }>();
     for (const attempt of attempts) {
-      const lessonId = allQuestions.find((question) => question.key === attempt.q)?.lessonId;
+      const lessonId = questionLesson.get(attempt.q);
       if (!lessonId) continue;
       const current = byLesson.get(lessonId) ?? { count: 0 };
       current.count++;
