@@ -79,3 +79,8 @@ for (const [appPath, label] of [
 }
 const probabilityTree = readFileSync(resolve(root, "probability-source/app/components/TopicTree.tsx"), "utf8");
 assert.ok(probabilityTree.includes('<nav aria-label="Probability course navigation"'), "Probability topic tree must expose a labelled navigation landmark");
+
+assert.ok(probabilityTree.includes("aria-controls={topicsId}"), "Probability sequence disclosure identifies its topic panel");
+assert.ok(probabilityTree.includes('<div id={topicsId}'), "Probability sequence topic panel exposes the controlled id");
+assert.ok(probabilityTree.includes("aria-expanded={isOpen}"), "Probability sequence disclosure exposes expanded state");
+assert.ok(probabilityTree.includes('type="button"'), "Probability topic navigation buttons cannot submit an enclosing form");
