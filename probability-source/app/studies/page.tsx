@@ -1,8 +1,30 @@
+ "use client";
+
 import Link from "next/link";
+import { createElement, useEffect, useState } from "react";
+import type { StudyProgressSnapshot } from "../../../shared/studies/contracts";
 import { PROBABILITY_STUDIES_REGISTRATION } from "./registration";
-import { StudiesLanding } from "../../../shared/studies/StudiesLanding";
+import { createStudiesLanding } from "../../../shared/studies/StudiesLanding";
 
 export default function ProbabilityStudiesLanding() {
+  const [snapshots, setSnapshots] = useState<readonly StudyProgressSnapshot[]>([]);
+  const [progressReady, setProgressReady] = useState(false);
+
+  useEffect(() => {
+    try {
+      setSnapshots(PROBABILITY_STUDIES_REGISTRATION.readProgress?.() ?? []);
+    } catch {
+      setSnapshots([]);
+    }
+    setProgressReady(true);
+  }, []);
+
+  const landing = createStudiesLanding(createElement, Link, {
+    registration: PROBABILITY_STUDIES_REGISTRATION,
+    snapshots,
+    ready: progressReady,
+  });
+
   return (
     <>
       <header className="sticky top-0 z-30 border-b border-gold/15 bg-ink/90 backdrop-blur-xl">
@@ -11,7 +33,7 @@ export default function ProbabilityStudiesLanding() {
           <a href="/" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">↖ Limitless</a>
         </div>
       </header>
-      <StudiesLanding registration={PROBABILITY_STUDIES_REGISTRATION} />
+      {landing}
     </>
   );
 }
