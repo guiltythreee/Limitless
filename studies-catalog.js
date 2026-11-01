@@ -52,8 +52,7 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
           "timers",
           "attempt-history",
           "analytics",
-          "goals",
-          "subject-tools"
+          "goals"
         ]
       },
       {
@@ -70,7 +69,8 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
           "timers",
           "attempt-history",
           "analytics",
-          "goals"
+          "goals",
+          "subject-tools"
         ]
       },
       {
