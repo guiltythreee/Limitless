@@ -68,3 +68,14 @@ for (const [appPath, marker] of [
   const source = readFileSync(resolve(root, appPath), "utf8");
   assert.ok(source.includes(marker), `${appPath} must expose its active topic as the current location`);
 }
+
+for (const [appPath, label] of [
+  ["metallurgy-source/app/mt201/page.tsx", "MT201 course navigation"],
+  ["metallurgy-source/app/mt202/page.tsx", "MT202 course navigation"],
+  ["metallurgy-source/app/mt203/page.tsx", "MT203 course navigation"],
+]) {
+  const source = readFileSync(resolve(root, appPath), "utf8");
+  assert.ok(source.includes(`aria-label="${label}"`), `${appPath} must label its course navigation landmark`);
+}
+const probabilityTree = readFileSync(resolve(root, "probability-source/app/components/TopicTree.tsx"), "utf8");
+assert.ok(probabilityTree.includes('<nav aria-label="Probability course navigation"'), "Probability topic tree must expose a labelled navigation landmark");
