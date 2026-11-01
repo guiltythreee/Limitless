@@ -47,8 +47,8 @@ export default function DailyGoalsPanel({
           <span className="study-utility-metric__detail" style={{ color: info.reached ? "var(--good)" : "var(--dim)" }}>
             {info.reached ? "Goal reached" : `${Math.max(0, info.goal - info.todayCount)} more to reach today's goal`}
           </span>
-          <div style={{ height: "0.45rem", width: "100%", borderRadius: "999px", background: "var(--panel-line)", overflow: "hidden", marginTop: "0.25rem" }}>
-            <div style={{ height: "100%", width: `${percent}%`, background: info.reached ? "var(--good)" : "var(--gold)", transition: "width 160ms ease" }} />
+          <div className="study-utility-progress" style={{ marginTop: "0.25rem" }}>
+            <div className="study-utility-progress__fill" style={{ width: `${percent}%`, background: info.reached ? "var(--good)" : "var(--gold)" }} />
           </div>
         </div>
         <div className="study-utility-metric">
