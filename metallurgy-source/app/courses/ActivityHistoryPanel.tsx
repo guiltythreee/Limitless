@@ -1,5 +1,7 @@
 "use client";
 
+import StudyUtilityPanel from "../../../shared/studies/StudyUtilityPanel";
+
 import { useMemo, useState } from "react";
 import type { Activity, AttemptMode, Period } from "../platform/learning";
 import { PERIODS, dayKey, latestByQuestion, selectActivities, summarise } from "../platform/learning";
@@ -72,18 +74,14 @@ export default function ActivityHistoryPanel({
   const maxDaily = Math.max(1, ...week.map((day) => day.total));
 
   return (
-    <section className="panel" aria-label={view === "mistakes" ? "Mistakes" : "Attempt history"}>
-      <div className="topbar">
-        <div>
-          <h2>{view === "mistakes" ? "Latest Mistakes" : "Attempt History"}</h2>
-          <div className="sub">
-            {view === "mistakes"
-              ? "Questions whose most recent recorded attempt in this filter was incorrect"
-              : "Every recorded answer, including retries · saved locally in this course"}
-          </div>
-        </div>
-        <span className="chip">{rows.length} {view === "mistakes" ? "questions" : "entries"}</span>
-      </div>
+    <StudyUtilityPanel
+      title={view === "mistakes" ? "Latest Mistakes" : "Attempt History"}
+      description={view === "mistakes"
+        ? "Questions whose most recent recorded attempt in this filter was incorrect"
+        : "Every recorded answer, including retries · saved locally in this course"}
+      count={rows.length}
+      countLabel={view === "mistakes" ? "questions" : "entries"}
+    >
 
       <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", alignItems: "center", marginBottom: "1rem" }}>
         <label style={{ display: "flex", gap: "0.4rem", alignItems: "center", fontSize: "0.85rem" }}>
@@ -171,6 +169,6 @@ export default function ActivityHistoryPanel({
           })}
         </div>
       )}
-    </section>
+    </StudyUtilityPanel>
   );
 }
