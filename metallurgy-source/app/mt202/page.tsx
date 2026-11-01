@@ -15,6 +15,7 @@
 import Link from "next/link";
 import { createElement, lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { createStudyUtilityNav } from "../../../shared/studies/StudyUtilityNav";
+import { createStudyModeTabs } from "../../../shared/studies/StudyModeTabs";
 import { mdInline, mdToHtml } from "../lib/md";
 import Tex from "../lib/tex";
 import { activityLog, loadProgress, loadTheme, Progress, resetProgress, saveTheme, setDailyGoal, toggleBookmark } from "../lib/progress";
@@ -292,20 +293,11 @@ export default function Mt202() {
                       <span className="chip chip-gold">{st.right} correct</span>
                     </div>
                   )}
-                  <div className="tabs">
-                    <button
-                      className={`tab ${view.tab === "lesson" ? "active" : ""}`}
-                      onClick={() => setView({ ...view, tab: "lesson" })}
-                    >
-                      Lesson
-                    </button>
-                    <button
-                      className={`tab ${view.tab === "quiz" ? "active" : ""}`}
-                      onClick={() => setView({ ...view, tab: "quiz" })}
-                    >
-                      Quiz
-                    </button>
-                  </div>
+                  {createStudyModeTabs(createElement, {
+                    items: [{ id: "lesson", label: "Lesson" }, { id: "quiz", label: "Quiz" }],
+                    activeId: view.tab,
+                    onSelect: (tab) => setView({ ...view, tab: tab as "lesson" | "quiz" }),
+                  })}
                 </div>
               </div>
 
