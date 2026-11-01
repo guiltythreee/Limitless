@@ -131,9 +131,9 @@
   font-size: .72rem;
   font-variant-numeric: tabular-nums;
 }
+/* A neutral content boundary keeps grid/flex children shrinkable without
+   overriding panel-specific spacing. */
 .study-utility-panel__content { min-width: 0; }
-.study-utility-panel__content > :first-child { margin-top: 0; }
-.study-utility-panel__content > :last-child { margin-bottom: 0; }
 
 
 /* Shared controls inside course-owned utility panels. Legacy .pill and
