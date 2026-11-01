@@ -4,6 +4,7 @@ import "./globals.css";
 import "../../shared/learning-player/player.css";
 import "../../shared/studies/landing.css";
 import "../../shared/studies/study-utility-nav.css";
+import "../../shared/studies/study-navigation.css";
 
 export const metadata: Metadata = {
   title: "Limitless Probability — The Probability Archive",
