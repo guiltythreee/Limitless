@@ -20,6 +20,7 @@ export function GoalCard() {
         <div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Your Daily Goal</h2></div>
         <button onClick={() => setOpen(!open)} className="text-sm text-gold hover:underline">{open ? "Close" : "View more ›"}</button>
       </div>
+      <div className="study-utility-panel__content">
       <div className="mt-3 text-lg text-body">{g.today}/{g.goal} Qs {g.reached && <span className="ml-2 text-sm text-emerald-500">goal reached ✓</span>}</div>
       <div className="mile" aria-label={`${g.today} of ${g.goal} questions today`}>
         <div className="mile-fill" style={{ width: `${frac * 100}%` }} />
@@ -33,6 +34,7 @@ export function GoalCard() {
           <span className="text-[11px] text-faint">Changing it affects today and the days after, not past days.</span>
         </form>
       )}
+      </div>
     </div>
   );
 }
@@ -46,6 +48,7 @@ export function StreakCard() {
         <div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Daily Goal Streak</h2></div>
         <div className="text-sm text-body">{g.streak} day streak <span className="text-orange-500">🔥</span> <span className="ml-2 text-xs text-faint">best {g.best}</span></div>
       </div>
+      <div className="study-utility-panel__content">
       <div className="study-utility-visual mt-4 flex gap-1">
         {g.week.map((d) => (
           <div key={d.day} className={`weekcol ${d.met ? "weekcol-met" : ""} ${d.isToday ? "weekcol-today" : ""}`}>
@@ -54,6 +57,7 @@ export function StreakCard() {
             <span className="mt-1 block h-4 text-base leading-none">{d.met ? "🔥" : ""}</span>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
@@ -77,6 +81,7 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
           <div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">History of Qs Solved</h2></div>
           {scopeControl}
         </div>
+      <div className="study-utility-panel__content">
         <div className="mt-4 flex flex-wrap gap-1 rounded-full border border-gold/20 p-1">
           {PERIODS.map((p) => <button key={p.id} onClick={() => setPeriod(p.id)} className={`flex-1 rounded-full px-3 py-2 text-sm ${period === p.id ? "bg-gold/15 text-gold outline outline-1 outline-gold/50" : "text-dim hover:text-parchment"}`}>{p.label}</button>)}
         </div>
@@ -90,10 +95,13 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
           <div className="mt-1 flex gap-4 text-[10px] text-dim"><span><i className="mr-1 inline-block h-2 w-2" style={{ background: "var(--good)" }} />correct</span><span><i className="mr-1 inline-block h-2 w-2" style={{ background: "var(--bad)" }} />not correct</span></div>
         </div>
       </div>
+      </div>
 
       <div className="card study-utility-panel">
         <div className="study-utility-panel__header flex items-center justify-between"><div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Progress</h2></div><div className="text-sm text-dim">{sum.questions}/{poolSize} questions · {poolSize ? (sum.questions / poolSize * 100).toFixed(1) : "0.0"}%</div></div>
+      <div className="study-utility-panel__content">
         <div className="mt-3 h-2 overflow-hidden rounded bg-track"><div className="h-full rounded bg-gold" style={{ width: `${poolSize ? Math.min(100, (sum.questions / poolSize) * 100) : 0}%` }} /></div>
+      </div>
       </div>
 
       <DiffBars title="Qs Attempted" headline={`${sum.attempts} Qs`} sub="Total attempted" color="var(--c-attempt)"
