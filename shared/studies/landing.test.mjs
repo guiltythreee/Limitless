@@ -33,3 +33,12 @@ const courseLinks = metallurgy.filter((node) =>
 assert.deepEqual(courseLinks.map((node) => node.props.href), ["/mt201", "/mt202", "/mt203"]);
 assert.ok(metallurgy.some((node) => node.type === "h2" && node.children[0] === "Discipline capabilities"));
 console.log("Shared Studies landing composition checks passed.");
+
+import { readFileSync } from "node:fs";
+const landingCss = readFileSync(new URL("./landing.css", import.meta.url), "utf8");
+for (const token of [
+  ".studies-landing__hero-copy {\n  min-width: 0;",
+  "overflow-wrap: anywhere;",
+  "@media (max-width:760px) {\n  .studies-landing__hero {\n    flex-wrap: wrap;",
+  ".studies-landing__hero-mark {\n    flex: 0 0 auto;",
+]) assert.ok(landingCss.includes(token), `missing responsive Studies landing rule: ${token}`);
