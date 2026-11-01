@@ -67,6 +67,8 @@
   flex-wrap: wrap;
   align-items: center;
   gap: .4rem;
+  width: 100%;
+  min-width: 0;
 }
 .probability-utility-nav .study-utility-nav__item {
   width: auto;
@@ -138,6 +140,7 @@
    .field classes remain available outside these panels. */
 .study-utility-panel .study-utility-control {
   min-width: 0;
+  max-width: 100%;
   min-height: 2.2rem;
   padding: .42rem .7rem;
   border: 1px solid var(--panel-line, rgba(180,150,90,.22));
@@ -160,8 +163,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: .6rem;
+  min-width: 0;
   margin-bottom: 1rem;
 }
+.study-utility-toolbar > * { max-width: 100%; }
 .study-utility-metrics {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
