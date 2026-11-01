@@ -5,6 +5,10 @@ on:
     paths:
       - "shared/learning-player/**"
       - "shared/studies/**"
+      - "scripts/generate-studies-catalog.mjs"
+      - "studies-catalog.js"
+      - "tools.js"
+      - "index.html"
       - "metallurgy-source/app/layout.tsx"
       - "probability-source/app/layout.tsx"
       - "metallurgy-source/app/learning-player/**"
@@ -104,3 +108,21 @@ jobs:
       - name: Build application without deployment
         working-directory: ${{ matrix.project }}
         run: npm run build
+
+  studies-catalogue:
+    name: "Validate generated Studies homepage catalogue"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate registrations and generated catalogue
+        run: >-
+          node --experimental-strip-types
+          --experimental-loader ./shared/learning-player/ts-extension-loader.mjs
+          scripts/generate-studies-catalog.mjs
