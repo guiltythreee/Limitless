@@ -1,6 +1,6 @@
 # Studies & Disciplines Layer — Architecture Proposal
 
-Status: S0 contracts and S1 read-only reference registrations implemented; no UI integration or storage migration in this milestone.
+Status: S0 contracts, S1 read-only reference registrations, and S2a registration-backed homepage directory implemented; shared landing composition and progress adapters remain pending. No storage migration.
 Branch: `architecture/studies-discipline-layer-20261101`
 Base: P6.6 branch head `13ab67766c5ad572e2c9e3133d1cedf9e31be3b8`.
 
@@ -92,7 +92,7 @@ A new discipline should be able to register its own content and adapters without
 - Probability registers its existing lesson IDs and five pathways without copying lessons or touching its progress store.
 - Metallurgy registers MT201, MT202 and MT203 under one discipline, retaining course-specific capability declarations rather than advertising the union as universally available.
 - Registrations are static/read-only. No progress adapter is attached yet, so the shared summary correctly reports progress as unknown rather than triggering a migration or inventing state.
-- The read-only Studies / Disciplines index is the next UI task. Do not move existing Home navigation until that surface is validated.
+- The registrations remain static/read-only. No progress adapter is attached, so progress is unknown rather than triggering a migration or inventing state.
 
 ### S2 — Registration-backed Studies directory and landing surface
 - Replace duplicated static subject metadata in the existing root `tools.js` Studies group with a generated/validated catalogue derived from the app-owned registrations; do not create a competing second directory.
