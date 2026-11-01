@@ -137,7 +137,7 @@ export default function ActivityHistoryPanel({
       </div>
 
       {rows.length === 0 ? (
-        <div className="prose">
+        <div className="prose study-utility-empty">
           <p>{view === "mistakes" ? "No latest mistakes match these filters. Keep practising." : "No attempts match these filters yet."}</p>
         </div>
       ) : (
