@@ -109,9 +109,9 @@ export default function ActivityHistoryPanel({
           { label: "Accuracy", value: summary.attempts ? `${Math.round(summary.accuracy * 100)}%` : "—" },
           { label: "Timed avg.", value: summary.timed ? fmtElapsed(summary.avgMs) : "—" },
         ].map((tile) => (
-          <div key={tile.label} className="study-utility-metric" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.2rem", padding: "0.65rem 0.8rem" }}>
-            <span style={{ fontSize: "0.72rem", opacity: 0.8 }}>{tile.label}</span>
-            <strong style={{ fontSize: "1.1rem" }}>{tile.value}</strong>
+          <div key={tile.label} className="study-utility-metric">
+            <span className="study-utility-metric__label">{tile.label}</span>
+            <strong className="study-utility-metric__value">{tile.value}</strong>
           </div>
         ))}
       </div>
