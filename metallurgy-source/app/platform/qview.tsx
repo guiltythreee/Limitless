@@ -192,7 +192,7 @@ export function OptionList({
             onClick={() => onPick?.(o.label)}
           >
             <span className="tag">{o.label.toUpperCase()}</span>
-            <span dangerouslySetInnerHTML={h(o.text)} />
+            <span className="learning-player-option__text" dangerouslySetInnerHTML={h(o.text)} />
           </button>
         );
       })}
