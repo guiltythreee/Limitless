@@ -114,7 +114,6 @@ export const METALLURGY_STUDIES_REGISTRATION = {
       );
       if (stored.status !== "available") continue;
 
-      const contentForCourse = content.filter((item) => item.id === manifest.id || item.parentId === manifest.id);
       const topicActivity = new Map<string, { count: number; lastAt?: number }>();
       let totalActivity = 0;
       let lastActivityAt = 0;
