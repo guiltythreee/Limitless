@@ -88,13 +88,13 @@ export default function ActivityHistoryPanel({
       <div className="study-utility-toolbar">
         <label style={{ display: "flex", gap: "0.4rem", alignItems: "center", fontSize: "0.85rem" }}>
           Period
-          <select className="field" aria-label="History period" value={period} onChange={(event) => setPeriod(event.target.value as Period)}>
+          <select className="field study-utility-control" aria-label="History period" value={period} onChange={(event) => setPeriod(event.target.value as Period)}>
             {PERIODS.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
           </select>
         </label>
         <label style={{ display: "flex", gap: "0.4rem", alignItems: "center", fontSize: "0.85rem" }}>
           Mode
-          <select className="field" aria-label="Attempt mode" value={mode} onChange={(event) => setMode(event.target.value as AttemptMode | "any")}>
+          <select className="field study-utility-control" aria-label="Attempt mode" value={mode} onChange={(event) => setMode(event.target.value as AttemptMode | "any")}>
             {(["any", "learn", "practice", "exam", "revision"] as const).map((item) => (
               <option key={item} value={item}>{MODE_LABEL[item]}</option>
             ))}
