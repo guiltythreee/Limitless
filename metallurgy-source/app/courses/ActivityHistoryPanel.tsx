@@ -72,8 +72,8 @@ export default function ActivityHistoryPanel({
   const maxDaily = Math.max(1, ...week.map((day) => day.total));
 
   return (
-    <section className="panel study-utility-panel" aria-label={view === "mistakes" ? "Mistakes" : "Attempt history"}>
-      <div className="topbar study-utility-panel__header">
+    <section className="study-utility-panel" aria-label={view === "mistakes" ? "Mistakes" : "Attempt history"}>
+      <div className="study-utility-panel__header">
         <div className="study-utility-panel__heading">
           <h2 className="study-utility-panel__title">{view === "mistakes" ? "Latest Mistakes" : "Attempt History"}</h2>
           <div className="sub study-utility-panel__description">
