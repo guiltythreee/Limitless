@@ -295,7 +295,7 @@ export default function Player({
                   </div>
       )}>
 
-        <div className="learning-player-meta qhead">
+        <div className="learning-player-meta learning-player-meta--compact">
           <span className="chip">
             {idx + 1} / {order.length} · {answered} answered · {right} correct
           </span>
@@ -331,7 +331,7 @@ export default function Player({
         <OptionList q={theQ} picked={chosen} onPick={pick} locked={isRevealed} />
         {isRevealed && <SolutionPanel q={theQ} picked={chosen} />}
 
-        <div className="learning-player-actions qnav">
+        <div className="learning-player-actions">
           <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>
             ← Prev
           </button>
