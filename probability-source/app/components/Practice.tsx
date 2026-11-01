@@ -187,7 +187,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
         <span className="study-utility-panel__count">{list.length} questions</span>
       </header>
       <div className="study-utility-panel__content">
-      <div className="study-utility-toolbar flex flex-wrap items-center gap-2">
+      <div className="study-utility-toolbar">
         <button onClick={() => setHide(!hide)} className="pill study-utility-control flex items-center gap-2" aria-pressed={hide}>Hide Attempted <span className={`switch ${hide ? "switch-on" : ""}`} /></button>
         {topics.length > 1 && (
           <select value={topic} onChange={(e) => setTopic(e.target.value)} className="pill study-utility-control max-w-[200px]" aria-label="Topic"><option value="all">All topics</option>{topics.map((t) => <option key={t} value={t}>{lessonTitle(t)}</option>)}</select>
@@ -200,7 +200,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
         </select>
       </div>
 
-      <div className="study-utility-toolbar mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
+      <div className="study-utility-toolbar mt-4 justify-between text-sm">
         <span className="text-body">{title} · {isFiltered ? "Showing filtered Qs" : "Showing all Qs"} ({list.length}/{pool.length})</span>
         <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="pill study-utility-control" aria-label="Sort">
           <option value="order">Book order</option>
