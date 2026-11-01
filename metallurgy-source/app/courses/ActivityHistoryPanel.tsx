@@ -149,7 +149,7 @@ export default function ActivityHistoryPanel({
             return (
               <article className="study-utility-row study-utility-row--history" key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`}>
                 <div className="study-utility-row__top">
-                  <div style={{ minWidth: 0, flex: "1 1 14rem" }}>
+                  <div className="study-utility-row__copy">
                     <div className="study-utility-row__title">
                       {topic?.title ?? topicId} · {activity.q}
                     </div>
