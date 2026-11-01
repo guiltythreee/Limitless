@@ -131,9 +131,9 @@ export default function ActivityHistoryPanel({
             </div>
           ))}
         </div>
-        <div style={{ display: "flex", gap: "0.8rem", fontSize: "0.72rem", color: "var(--dim)", marginTop: "0.6rem" }}>
-          <span><i style={{ display: "inline-block", width: "0.55rem", height: "0.55rem", background: "var(--good)", marginRight: "0.3rem" }} />Correct</span>
-          <span><i style={{ display: "inline-block", width: "0.55rem", height: "0.55rem", background: "var(--bad)", marginRight: "0.3rem" }} />Incorrect</span>
+        <div className="study-utility-legend">
+          <span className="study-utility-legend__item"><i className="study-utility-legend__swatch" style={{ background: "var(--good)" }} />Correct</span>
+          <span className="study-utility-legend__item"><i className="study-utility-legend__swatch" style={{ background: "var(--bad)" }} />Incorrect</span>
         </div>
       </div>
 
