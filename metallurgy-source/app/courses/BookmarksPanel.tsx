@@ -48,7 +48,7 @@ export default function BookmarksPanel({
             return (
               <div className="study-utility-row study-utility-row--item" key={questionId}>
                 <div className="study-utility-row__copy">
-                  <div style={{ fontWeight: 600 }}>{label}</div>
+                  <div className="study-utility-row__title">{label}</div>
                   <div className="study-utility-row__meta">{questionId}</div>
                   {!topic && (
                     <div className="study-utility-row__meta">
