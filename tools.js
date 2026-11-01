@@ -37,13 +37,17 @@ const TOOLS = [
   desc: "Type through your own books and PDFs, track your weak keys, and level up.",
   href: "tools/typing/", status: "beta" },
 
-  // ---- Studies & Disciplines ----
-  { group: "studies", symbol: "◇", name: "Probability",
-    desc: "Study probability theory, practise problems, and track your progress.",
-    href: "probability/", status: "beta" },
-  { group: "studies", symbol: "⚗", name: "Metallurgical and Materials Engineering",
-    desc: "MT202 Physical Metallurgy: lessons, 387 chapter-wise MCQs with detailed solutions, exam simulator and metallurgy calculators.",
-    href: "metallurgy/", status: "beta" },
+  // ---- Studies & Disciplines (generated from app-owned registrations) ----
+  ...(globalThis.LIMITLESS_STUDIES_CATALOG || []).map(study => ({
+    group: "studies",
+    symbol: study.symbol,
+    name: study.title,
+    desc: study.courses.length > 1
+      ? study.description + " Courses: " + study.courses.map(course => course.title).join(", ") + "."
+      : study.description,
+    href: study.href,
+    status: study.status
+  })),
 
   // ---- Shared progression ----
   { group: "progression", symbol: "✧", name: "Meta Progression",
