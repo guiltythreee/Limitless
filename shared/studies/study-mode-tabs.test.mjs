@@ -94,7 +94,7 @@ assert.deepEqual(pressTab(0, "End"), { focused: 3, defaultPrevented: true }, "En
 assert.deepEqual(pressTab(1, "Escape"), { focused: -1, defaultPrevented: false }, "unrelated keys are not intercepted");
 assert.deepEqual(keyboardSelections, ["four", "one", "one", "four"], "keyboard navigation selects each focused tab");
 
-console.log("Shared study mode tabs: 30 assertions passed");
+console.log("Shared study mode tabs: 35 assertions passed");
 
 const probabilityPage = readFileSync(resolve(root, "probability-source/app/page.tsx"), "utf8");
 assert.ok(probabilityPage.includes('aria-label="Probability page navigation"'), "Probability header navigation has a descriptive landmark label");
