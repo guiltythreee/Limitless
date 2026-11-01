@@ -137,13 +137,17 @@ export const METALLURGY_STUDIES_REGISTRATION = {
           totalActivity++;
         }
       } else {
-        const answered = stored.value.answered;
-        if (!answered || typeof answered !== "object" || Array.isArray(answered)) continue;
+        const answeredValue = stored.value.answered;
+        // A missing key is a valid empty legacy/default payload. An explicitly
+        // malformed answered field is not safe to interpret as zero activity.
+        if (answeredValue !== undefined &&
+          (!answeredValue || typeof answeredValue !== "object" || Array.isArray(answeredValue))) continue;
+        const answered = (answeredValue ?? {}) as Record<string, unknown>;
         for (const topic of manifest.topics) {
           const prefix = `${topic.id}-q`;
           let count = 0;
           let lastAt = 0;
-          for (const [questionId, raw] of Object.entries(answered as Record<string, unknown>)) {
+          for (const [questionId, raw] of Object.entries(answered)) {
             if (!questionId.startsWith(prefix) || !raw || typeof raw !== "object") continue;
             count++;
             const at = (raw as { at?: unknown }).at;
