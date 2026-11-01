@@ -122,7 +122,13 @@ export default function Mt201() {
                     <span className="ch-meta">
                       <span className="ch-bar"><i style={{ width: `${pct}%` }} /></span>
                       <span className="ch-pct">{pct}%</span>
-                              {createStudyUtilityNav(createElement, {
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+
+            {createStudyUtilityNav(createElement, {
               className: "course-utility-nav",
               items: [
                 { id: "bookmarks", label: "Bookmarked questions", count: progress?.bookmarks?.length ?? 0, active: view.kind === "bookmarks" },
