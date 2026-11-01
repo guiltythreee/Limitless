@@ -82,8 +82,8 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
         </div>
         <div className="study-utility-metrics mt-4 grid gap-3 sm:grid-cols-3">
           <div className="study-utility-metric" style={{ background: "color-mix(in srgb, var(--c-attempt) 12%, transparent)" }}><div className="study-utility-metric__value" style={{ color: "var(--c-attempt)" }}>{sum.questions}</div><div className="study-utility-metric__label">Qs Solved</div></div>
-          <div className="tile study-utility-metric" style={{ background: "color-mix(in srgb, var(--warn) 12%, transparent)" }}><div className="tv" style={{ color: "var(--warn)" }}>{sum.avgMs ? fmtTime(sum.avgMs) : "–"}</div><div className="tl">Time per Q (m:ss)</div></div>
-          <div className="tile study-utility-metric" style={{ background: "color-mix(in srgb, var(--good) 12%, transparent)" }}><div className="tv" style={{ color: "var(--good)" }}>{sum.attempts ? pct(sum.accuracy) : "–"}</div><div className="tl">Accuracy</div></div>
+          <div className="study-utility-metric" style={{ background: "color-mix(in srgb, var(--warn) 12%, transparent)" }}><div className="study-utility-metric__value" style={{ color: "var(--warn)" }}>{sum.avgMs ? fmtTime(sum.avgMs) : "–"}</div><div className="study-utility-metric__label">Time per Q (m:ss)</div></div>
+          <div className="study-utility-metric" style={{ background: "color-mix(in srgb, var(--good) 12%, transparent)" }}><div className="study-utility-metric__value" style={{ color: "var(--good)" }}>{sum.attempts ? pct(sum.accuracy) : "–"}</div><div className="study-utility-metric__label">Accuracy</div></div>
         </div>
         <div className="study-utility-visual mt-5">
           <DayBars bars={bars} goal={store.goalByDay[bars[bars.length - 1]?.day] ?? store.goal} />
