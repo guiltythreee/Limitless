@@ -5,37 +5,21 @@ import type {
 import { summarizeStudyProgress } from "./registry";
 
 const CAPABILITY_LABELS: Record<string, string> = {
-  theory: "Theory",
-  formulas: "Formulas",
-  examples: "Examples",
-  practice: "Practice",
-  assessment: "Assessments",
-  "answer-review": "Answer review",
-  revision: "Revision",
-  "subject-tools": "Subject tools",
-  bookmarks: "Bookmarks",
-  drafts: "Drafts",
-  timers: "Timers",
-  "attempt-history": "Attempt history",
-  analytics: "Analytics",
-  goals: "Goals",
-  mastery: "Mastery",
+  theory: "Theory", formulas: "Formulas", examples: "Examples",
+  practice: "Practice", assessment: "Assessments", "answer-review": "Answer review",
+  revision: "Revision", "subject-tools": "Subject tools", bookmarks: "Bookmarks",
+  drafts: "Drafts", timers: "Timers", "attempt-history": "Attempt history",
+  analytics: "Analytics", goals: "Goals", mastery: "Mastery",
 };
 
 type ElementFactory = (...args: any[]) => any;
 
-/**
- * Shared markup factory: React and Next Link are injected by each app so this
- * framework-neutral shared folder does not resolve app-local packages.
- */
+/** Shared composition; app-local React and Next Link are injected by the host. */
 export function createStudiesLanding(
   createElement: ElementFactory,
   LinkComponent: any,
   {
-    registration,
-    snapshots,
-    ready,
-    homeHref = "/",
+    registration, snapshots, ready, homeHref = "/",
   }: {
     registration: StudyDisciplineRegistration;
     snapshots: readonly StudyProgressSnapshot[];
@@ -48,130 +32,132 @@ export function createStudiesLanding(
   const courses = registration.content.filter((item) => item.kind === "course");
   const capabilities = registration.descriptor.capabilities;
   const pathways = registration.pathways;
+  const progressPercent = summary.totalContent
+    ? Math.round((summary.completed / summary.totalContent) * 100)
+    : 0;
+  const byId = new Map(snapshots.map((snapshot) => [snapshot.contentId, snapshot]));
   const tags = (items: readonly string[]) => h(
-    "div",
-    { className: "studies-landing__tags" },
-    ...items.map((capability) => h(
-      "span",
-      { key: capability },
-      CAPABILITY_LABELS[capability] ?? capability,
-    )),
+    "div", { className: "studies-landing__tags" },
+    ...items.map((capability) => h("span", { key: capability },
+      CAPABILITY_LABELS[capability] ?? capability)),
   );
 
-  return h(
-    "main",
-    { className: "studies-landing" },
-    h(
-      "section",
-      { className: "studies-landing__hero" },
-      h("div", { className: "studies-landing__eyebrow" }, "Studies & Disciplines"),
-      h("h1", null, registration.descriptor.title),
-      h("p", null, registration.descriptor.description),
-      h("a", { className: "studies-landing__back", href: homeHref }, "← Limitless home"),
+  return h("main", { className: "studies-landing" },
+    h("nav", { className: "studies-landing__subnav", "aria-label": "Page sections" },
+      h("a", { href: homeHref }, "← Limitless"),
+      h("span", { "aria-hidden": "true" }, "／"),
+      h("a", { href: "#courses" }, courses.length === 1 ? "Course" : "Courses"),
+      pathways.length > 0 && h("a", { href: "#pathways" }, "Pathways"),
+      h("a", { href: "#capabilities" }, "Facilities"),
     ),
-    h(
-      "section",
-      { className: "studies-landing__section", "aria-labelledby": "studies-progress-title" },
-      h(
-        "div",
-        { className: "studies-landing__section-head" },
-        h(
-          "div",
-          null,
+    h("section", { className: "studies-landing__hero" },
+      h("div", { className: "studies-landing__hero-copy" },
+        h("div", { className: "studies-landing__eyebrow" }, "Studies & Disciplines"),
+        h("h1", null, registration.descriptor.title),
+        h("p", null, registration.descriptor.description),
+        h("div", { className: "studies-landing__hero-meta" },
+          h("span", null, registration.descriptor.status === "active" ? "Active discipline" : "Planned discipline"),
+          h("span", null, courses.length + (courses.length === 1 ? " learning route" : " learning routes")),
+          h("span", null, pathways.length + (pathways.length === 1 ? " pathway" : " pathways")),
+        ),
+      ),
+      h("div", { className: "studies-landing__hero-mark", "aria-hidden": "true" },
+        h("span", null, registration.descriptor.id === "probability" ? "∿" : registration.descriptor.id === "metallurgy" ? "⚗" : "◇"),
+        h("small", null, "LIMITLESS"),
+      ),
+    ),
+    h("section", { className: "studies-landing__section studies-landing__progress", "aria-labelledby": "studies-progress-title" },
+      h("div", { className: "studies-landing__section-head" },
+        h("div", null,
           h("div", { className: "studies-landing__eyebrow" }, "Your record"),
           h("h2", { id: "studies-progress-title" }, "Study progress"),
         ),
         h("span", { className: "studies-landing__meta" },
-          ready ? "Read-only · saved on this browser" : "Reading local progress…"),
+          ready ? "Read-only · existing browser data" : "Reading saved progress…"),
       ),
       ready && summary.unknown === summary.totalContent
         ? h("p", { className: "studies-landing__notice" },
             "Progress is unavailable or the saved record could not be read. Your existing study data has not been changed.")
-        : h(
-            "div",
-            { className: "studies-landing__stats" },
-            ...[
-              ["Completed", summary.completed],
-              ["In progress", summary.inProgress],
-              ["Not started", summary.notStarted],
-              ["Unknown", summary.unknown],
-            ].map(([label, value]) => h(
-              "div",
-              { key: label },
-              h("strong", null, value),
-              h("span", null, label),
-            )),
+        : h("div", { className: "studies-landing__progress-body" },
+            h("div", { className: "studies-landing__progress-track", role: "img",
+              "aria-label": progressPercent + "% of registered content explicitly completed" },
+              h("span", { style: { width: progressPercent + "%" } }),
+            ),
+            h("div", { className: "studies-landing__stats" },
+              ...[
+                ["Completed", summary.completed, "completed"],
+                ["In progress", summary.inProgress, "active"],
+                ["Not started", summary.notStarted, "idle"],
+                ["Unknown", summary.unknown, "unknown"],
+              ].map(([label, value, tone]) => h("div", {
+                className: "studies-landing__stat studies-landing__stat--" + tone, key: label,
+              }, h("strong", null, value), h("span", null, label))),
+            ),
           ),
+      h("p", { className: "studies-landing__footnote" },
+        "Counts use canonical registered content, not pathway appearances. Attempts are not treated as mastery."),
     ),
-    courses.length > 0 && h(
-      "section",
-      { className: "studies-landing__section", "aria-labelledby": "studies-courses-title" },
-      h(
-        "div",
-        { className: "studies-landing__section-head" },
-        h(
-          "div",
-          null,
-          h("div", { className: "studies-landing__eyebrow" }, "Learning routes"),
+    courses.length > 0 && h("section", { id: "courses", className: "studies-landing__section", "aria-labelledby": "studies-courses-title" },
+      h("div", { className: "studies-landing__section-head" },
+        h("div", null,
+          h("div", { className: "studies-landing__eyebrow" }, "Start learning"),
           h("h2", { id: "studies-courses-title" }, courses.length === 1 ? "Course" : "Courses"),
         ),
-        h("span", { className: "studies-landing__meta" }, courses.length + " registered"),
+        h("span", { className: "studies-landing__meta" }, "Choose a learning route"),
       ),
-      h(
-        "div",
-        { className: "studies-landing__grid" },
-        ...courses.map((course) => h(
-          "article",
-          { className: "studies-landing__card", key: course.id },
-          h("div", { className: "studies-landing__symbol", "aria-hidden": "true" }, course.symbol ?? "◇"),
-          h("h3", null, course.title ?? course.id),
-          course.description && h("p", null, course.description),
-          course.capabilities?.length ? tags(course.capabilities) : null,
-          course.route && h(LinkComponent, {
-            className: "studies-landing__open",
-            href: course.route,
-          }, "Open course →"),
-        )),
+      h("div", { className: "studies-landing__grid studies-landing__grid--courses" },
+        ...courses.map((course, index) => {
+          const status = byId.get(course.id)?.status;
+          const statusLabel = status === "completed" ? "Completed"
+            : status === "in-progress" ? "In progress"
+            : status === "not-started" ? "Not started" : "Progress unknown";
+          return h("article", { className: "studies-landing__card studies-landing__course", key: course.id },
+            h("div", { className: "studies-landing__card-top" },
+              h("span", { className: "studies-landing__symbol", "aria-hidden": "true" }, course.symbol ?? "◇"),
+              h("span", { className: "studies-landing__index" }, String(index + 1).padStart(2, "0")),
+            ),
+            h("h3", null, course.title ?? course.id),
+            course.description && h("p", null, course.description),
+            h("div", { className: "studies-landing__card-bottom" },
+              course.capabilities?.length ? tags(course.capabilities) : null,
+              h("span", { className: "studies-landing__course-status" }, statusLabel),
+              course.route && h(LinkComponent, {
+                className: "studies-landing__open", href: course.route,
+              }, "Enter course", h("span", { "aria-hidden": "true" }, " ↗")),
+            ),
+          );
+        }),
       ),
     ),
-    pathways.length > 0 && h(
-      "section",
-      { className: "studies-landing__section", "aria-labelledby": "studies-pathways-title" },
-      h(
-        "div",
-        { className: "studies-landing__section-head" },
-        h(
-          "div",
-          null,
+    pathways.length > 0 && h("section", { id: "pathways", className: "studies-landing__section", "aria-labelledby": "studies-pathways-title" },
+      h("div", { className: "studies-landing__section-head" },
+        h("div", null,
           h("div", { className: "studies-landing__eyebrow" }, "Curated curriculum"),
           h("h2", { id: "studies-pathways-title" }, "Learning pathways"),
         ),
-        h("span", { className: "studies-landing__meta" }, pathways.length + " pathways"),
+        h("span", { className: "studies-landing__meta" }, "Different routes through the same canonical lessons"),
       ),
-      h(
-        "div",
-        { className: "studies-landing__grid" },
-        ...pathways.map((pathway) => h(
-          "article",
-          { className: "studies-landing__card studies-landing__pathway", key: pathway.id },
+      h("div", { className: "studies-landing__grid studies-landing__grid--pathways" },
+        ...pathways.map((pathway, index) => h("article", {
+          className: "studies-landing__card studies-landing__pathway", key: pathway.id,
+        },
+          h("div", { className: "studies-landing__pathway-number" }, "PATHWAY " + String(index + 1).padStart(2, "0")),
           h("h3", null, pathway.title),
           pathway.description && h("p", null, pathway.description),
-          h("span", { className: "studies-landing__meta" }, pathway.contentIds.length + " canonical lessons"),
-          h(LinkComponent, {
-            className: "studies-landing__open",
-            href: "/#path",
-          }, "Choose this pathway in the archive →"),
+          h("span", { className: "studies-landing__meta" }, pathway.contentIds.length + " lessons in this route"),
+          h(LinkComponent, { className: "studies-landing__open", href: "/#path" },
+            "Explore pathway", h("span", { "aria-hidden": "true" }, " ↗")),
         )),
       ),
     ),
-    h(
-      "section",
-      { className: "studies-landing__section", "aria-labelledby": "studies-capabilities-title" },
+    h("section", { id: "capabilities", className: "studies-landing__section", "aria-labelledby": "studies-capabilities-title" },
       h("div", { className: "studies-landing__eyebrow" }, "Available study facilities"),
       h("h2", { id: "studies-capabilities-title" }, "Discipline capabilities"),
+      h("p", { className: "studies-landing__intro" },
+        "This discipline currently supports the following learning facilities."),
       tags(capabilities),
       h("p", { className: "studies-landing__footnote" },
-        "Facilities are shown only when declared by this discipline. Individual courses may provide a narrower set."),
+        "Facilities are declared by the discipline. Individual courses may provide a narrower set."),
     ),
   );
 }
