@@ -45,20 +45,8 @@ export default function BookmarksPanel({
               ? `${topic.title} · ${digits ? `Question ${Number(digits)}` : questionId}`
               : questionId;
             return (
-              <div
-                className="study-utility-row"
-                key={questionId}
-                style={{
-                  display: "flex",
-                  gap: "0.75rem",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  flexWrap: "wrap",
-                  padding: "0.8rem 0",
-                  borderBottom: "1px solid var(--panel-line)",
-                }}
-              >
-                <div style={{ minWidth: 0, flex: "1 1 16rem" }}>
+              <div className="study-utility-row study-utility-row--item" key={questionId}>
+                <div className="study-utility-row__copy">
                   <div style={{ fontWeight: 600 }}>{label}</div>
                   <div style={{ color: "var(--dim)", fontSize: "0.78rem" }}>{questionId}</div>
                   {!topic && (
@@ -67,7 +55,7 @@ export default function BookmarksPanel({
                     </div>
                   )}
                 </div>
-                <div className="study-utility-row__actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                <div className="study-utility-row__actions">
                   {topic && (
                     <button className="btn btn-gold" onClick={() => onOpen(questionId, topic.id)}>
                       Open question →
