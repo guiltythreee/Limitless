@@ -79,6 +79,8 @@ for (const token of [
   "[data-learning-player-palette] > .dots",
   "flex-wrap: nowrap;",
   "width: max-content;",
+  ".learning-player-option > :last-child",
+  "max-width: 100%;\n  overflow-wrap: anywhere;",
 ]) assert.ok(sharedCss.includes(token), `missing shared player design or interaction rule: ${token}`);
 
 // Every discipline player composes the same frame, palette and content inset.
