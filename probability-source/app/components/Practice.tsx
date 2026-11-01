@@ -180,7 +180,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
   return (
     <div className="study-utility-panel">
       <header className="study-utility-panel__header">
-        <div>
+        <div className="study-utility-panel__heading">
           <h2 className="study-utility-panel__title">{title}</h2>
           <p className="study-utility-panel__description">{title === "Bookmarked questions" ? "Your saved questions in this learning set. Open any question to continue studying." : title.startsWith("My mistakes") ? "Review questions whose latest recorded answer was incorrect or partially correct." : "Filter, sort and reopen questions from this learning set."}</p>
         </div>
