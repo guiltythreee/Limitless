@@ -39,6 +39,7 @@ export default function DailyGoalsPanel({
         </div>
       </div>
 
+      <div className="study-utility-panel__content">
       <div className="study-utility-metrics study-utility-metrics--goals">
         <div className="study-utility-metric">
           <span className="study-utility-metric__label">Today's progress</span>
@@ -98,6 +99,7 @@ export default function DailyGoalsPanel({
       <p style={{ color: "var(--dim)", fontSize: "0.75rem", marginTop: "0.7rem" }}>
         An answer counts when it is recorded, including a submitted exam answer. Opening a lesson or viewing a solution alone does not count.
       </p>
+      </div>
     </section>
   );
 }
