@@ -120,6 +120,7 @@ export const METALLURGY_STUDIES_REGISTRATION = {
       let lastActivityAt = 0;
 
       if (manifest.id === "mt203") {
+        if (stored.value.attempts !== undefined && !Array.isArray(stored.value.attempts)) continue;
         const attempts = Array.isArray(stored.value.attempts) ? stored.value.attempts : [];
         const validIds = new Set(ALL_QUESTION_IDS);
         for (const raw of attempts) {
