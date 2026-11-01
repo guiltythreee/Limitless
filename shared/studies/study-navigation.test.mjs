@@ -23,4 +23,4 @@ assert.ok(tree.includes('data-study-topic-tree="true"'), "Probability topic tree
 const page = readFileSync(resolve(root, "probability-source/app/page.tsx"), "utf8");
 assert.ok(page.includes('data-study-topic-picker="true"'), "mobile Probability topic disclosure exposes the shared focus styling boundary");
 
-console.log("Shared study navigation focus: 9 assertions passed");
+console.log("Shared study navigation focus: 11 assertions passed");
