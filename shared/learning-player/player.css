@@ -262,3 +262,28 @@
     align-items: flex-start;
   }
 }
+
+/* Keep discipline-owned rich content inside the shared player at narrow widths.
+   Tables and display mathematics scroll within the reading surface; they must
+   never widen the page or squeeze the answer/navigation controls. */
+.learning-player-content {
+  overflow-wrap: anywhere;
+}
+.learning-player-content :where(table) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.learning-player-content :where(pre, .eq, .math-display, .katex-display) {
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.learning-player-content :where(.math, .katex) {
+  overflow-wrap: normal;
+}
+.learning-player-content :where(img, svg, video, canvas) {
+  max-width: 100%;
+}
