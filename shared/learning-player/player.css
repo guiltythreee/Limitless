@@ -298,7 +298,7 @@
 /* Option text is discipline-rendered (Rich in Probability, HTML in Metallurgy).
    Constrain that final content cell so long formulas and unbroken labels cannot
    force either the shared grid or the page wider than the player. */
-[data-learning-player] .learning-player-option > :last-child {
+[data-learning-player] .learning-player-option__text {
   min-width: 0;
   max-width: 100%;
   overflow-wrap: anywhere;
