@@ -175,8 +175,15 @@
   min-width: 0;
 }
 [data-learning-player] .learning-player-option {
+  box-sizing: border-box;
+  width: 100%;
   min-width: 0;
   max-width: 100%;
+  text-align: left;
+}
+[data-learning-player] .learning-player-option:focus-visible {
+  outline: 2px solid var(--lp-color-focus);
+  outline-offset: 2px;
 }
 [data-learning-player] .learning-player-feedback {
   display: flex;
