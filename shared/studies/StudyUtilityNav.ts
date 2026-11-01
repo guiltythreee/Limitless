@@ -59,7 +59,7 @@ export function createStudyUtilityNav(
             : null,
         ),
         item.count !== undefined
-          ? h("span", { className: "study-utility-nav__count", "aria-label": String(item.count) }, String(item.count))
+          ? h("span", { className: "study-utility-nav__count" }, String(item.count))
           : null,
       ),
     ),
