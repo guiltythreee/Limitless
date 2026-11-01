@@ -186,6 +186,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
         </div>
         <span className="study-utility-panel__count">{list.length} questions</span>
       </header>
+      <div className="study-utility-panel__content">
       <div className="study-utility-toolbar flex flex-wrap items-center gap-2">
         <button onClick={() => setHide(!hide)} className="pill flex items-center gap-2" aria-pressed={hide}>Hide Attempted <span className={`switch ${hide ? "switch-on" : ""}`} /></button>
         {topics.length > 1 && (
@@ -232,6 +233,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
         })}
       </div>
       <div className="floating-analysis"><button onClick={onAnalysis}>▮▯ Analysis</button></div>
+      </div>
     </div>
   );
 }
