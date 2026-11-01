@@ -25,6 +25,8 @@ assert.equal(nav.props["data-study-utility-nav"], "true");
 assert.match(nav.props.className, /course-sidebar/);
 assert.equal(nav.children.length, 3);
 assert.equal(nav.children[0].type, "button");
+assert.equal(nav.children[0].props.type, "button");
+assert.equal(nav.children[1].props.type, "button");
 assert.equal(nav.children[0].props["aria-pressed"], true);
 assert.equal(nav.children[1].props["aria-pressed"], false);
 assert.equal("aria-current" in nav.children[0].props, false);
@@ -36,4 +38,4 @@ assert.deepEqual(selected, ["history"]);
 
 const empty = createStudyUtilityNav(h, { items: [], onSelect: () => {} });
 assert.equal(empty.children.length, 0);
-console.log("Shared study utility navigation: 14 assertions passed");
+console.log("Shared study utility navigation: 16 assertions passed");
