@@ -82,7 +82,7 @@ export default function ActivityHistoryPanel({
               : "Every recorded answer, including retries · saved locally in this course"}
           </div>
         </div>
-        <span className="chip">{rows.length} {view === "mistakes" ? "questions" : "entries"}</span>
+        <span className="study-utility-panel__count">{rows.length} {view === "mistakes" ? "questions" : "entries"}</span>
       </div>
 
       <div className="study-utility-toolbar">
