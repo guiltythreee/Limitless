@@ -19,6 +19,7 @@ import {
 import { probabilityPlayerAdapter } from "../learning-player/adapter";
 import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+import { createStudyUtilityNav } from "../../../shared/studies/StudyUtilityNav";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -87,7 +88,16 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
 
       {view !== "question" && (
         <div className="subnav mt-4 border-b border-gold/10 pb-3">
-          {NAV.map((n) => <button key={n.id} onClick={() => setView(n.id)} className={nav === n.id ? "on" : ""}><span aria-hidden>{n.icon}</span>{n.label}</button>)}
+          {createStudyUtilityNav(createElement, {
+            className: "probability-utility-nav",
+            items: NAV.map((item) => ({
+              id: item.id,
+              label: item.label,
+              count: item.id === "saved" ? store.bookmarks.length : undefined,
+              active: nav === item.id,
+            })),
+            onSelect: (id) => setView(id as View),
+          })}
         </div>
       )}
 
