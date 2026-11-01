@@ -1,0 +1,26 @@
+/* Shared responsive behaviour for the chapter-based Metallurgy workspaces.
+   Discipline-specific topic structures remain owned by each course. */
+.archive > .side {
+  min-width: 0;
+  max-height: calc(100dvh - 82px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+/* At the stacked breakpoint the sidebar becomes ordinary page content.
+   It must not remain sticky or trap the user in a nested scroll region. */
+@media (max-width: 880px) {
+  .archive > .side {
+    position: static;
+    top: auto;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    scrollbar-gutter: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .archive > .side { scroll-behavior: auto; }
+}
