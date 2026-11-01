@@ -121,3 +121,47 @@
 [data-learning-player-palette] :where(button, a, [role="button"]) {
   flex-shrink: 0;
 }
+
+
+/* Shared question-player control rhythm across all discipline adapters. */
+[data-learning-player] .learning-player-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--lp-space-2) var(--lp-space-3);
+  min-width: 0;
+}
+[data-learning-player] .learning-player-palette {
+  display: flex;
+  align-items: center;
+  gap: var(--lp-space-2);
+  min-width: 0;
+  padding-block: var(--lp-space-1);
+}
+[data-learning-player] .learning-player-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--lp-space-3);
+  min-width: 0;
+  padding-top: var(--lp-space-3);
+  margin-top: var(--lp-space-4);
+  border-top: 1px solid var(--lp-color-border);
+}
+[data-learning-player] .learning-player-actions > :where(div, span) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lp-space-2);
+}
+@media (max-width: 40rem) {
+  [data-learning-player] .learning-player-meta,
+  [data-learning-player] .learning-player-actions {
+    align-items: stretch;
+  }
+  [data-learning-player] .learning-player-actions > :where(div, span) {
+    width: 100%;
+  }
+}
