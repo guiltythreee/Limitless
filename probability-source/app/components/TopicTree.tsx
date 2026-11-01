@@ -106,6 +106,7 @@ export default function TopicTree({
                   {inRank.map((lesson) => (
                     <button
                       key={lesson.id}
+                      aria-current={activeId === lesson.id ? "location" : undefined}
                       onClick={() => onChoose(lesson.id)}
                       className={`flex w-full items-start gap-3 border px-3 py-3 text-left transition ${activeId === lesson.id ? "border-gold/45 bg-gold/[.07]" : "border-transparent hover:border-gold/15 hover:bg-gold/5"}`}
                     >
