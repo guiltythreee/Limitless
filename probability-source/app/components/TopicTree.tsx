@@ -50,7 +50,7 @@ export default function TopicTree({
   const allOpen = withLessons.length > 0 && withLessons.every((r) => open.includes(r.num));
 
   return (
-    <div data-study-topic-tree="true">
+    <nav aria-label="Probability course navigation" data-study-topic-tree="true">
       <div className="mb-4">
         <label htmlFor="probability-pathway" className="eyebrow mb-2 block px-2">Choose a learning pathway</label>
         <select
@@ -125,6 +125,6 @@ export default function TopicTree({
           );
         })}
       </div>
-    </div>
+    </nav>
   );
 }
