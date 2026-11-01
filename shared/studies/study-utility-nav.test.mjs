@@ -1,5 +1,10 @@
 import assert from "node:assert/strict";
 import { createStudyUtilityNav } from "./StudyUtilityNav.ts";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
 const calls = [];
 const h = (type, props, ...children) => {
@@ -57,12 +62,8 @@ assert.ok(utilityCss.includes(".study-utility-panel__header {"), "shared utility
 assert.ok(utilityCss.includes("padding-bottom: 1rem;"), "shared utility panel headers use the common bottom inset");
 assert.ok(utilityCss.includes("border-bottom: 1px solid var(--panel-line"), "shared utility panel headers use the common divider");
 
-console.log("Shared study utility navigation: 35 assertions passed");
+console.log("Shared study utility navigation: assertions passed");
 
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 for (const app of ["probability-source", "metallurgy-source"]) {
   const layout = readFileSync(resolve(root, app, "app/layout.tsx"), "utf8");
   assert.ok(layout.includes("shared/studies/study-utility-nav.css"), `${app} must load shared utility navigation styles`);
