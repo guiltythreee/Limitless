@@ -81,7 +81,7 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
           {PERIODS.map((p) => <button key={p.id} onClick={() => setPeriod(p.id)} className={`flex-1 rounded-full px-3 py-2 text-sm ${period === p.id ? "bg-gold/15 text-gold outline outline-1 outline-gold/50" : "text-dim hover:text-parchment"}`}>{p.label}</button>)}
         </div>
         <div className="study-utility-metrics mt-4 grid gap-3 sm:grid-cols-3">
-          <div className="tile study-utility-metric" style={{ background: "color-mix(in srgb, var(--c-attempt) 12%, transparent)" }}><div className="tv" style={{ color: "var(--c-attempt)" }}>{sum.questions}</div><div className="tl">Qs Solved</div></div>
+          <div className="study-utility-metric" style={{ background: "color-mix(in srgb, var(--c-attempt) 12%, transparent)" }}><div className="study-utility-metric__value" style={{ color: "var(--c-attempt)" }}>{sum.questions}</div><div className="study-utility-metric__label">Qs Solved</div></div>
           <div className="tile study-utility-metric" style={{ background: "color-mix(in srgb, var(--warn) 12%, transparent)" }}><div className="tv" style={{ color: "var(--warn)" }}>{sum.avgMs ? fmtTime(sum.avgMs) : "–"}</div><div className="tl">Time per Q (m:ss)</div></div>
           <div className="tile study-utility-metric" style={{ background: "color-mix(in srgb, var(--good) 12%, transparent)" }}><div className="tv" style={{ color: "var(--good)" }}>{sum.attempts ? pct(sum.accuracy) : "–"}</div><div className="tl">Accuracy</div></div>
         </div>
