@@ -20,6 +20,7 @@ export type StudyContentKind =
 
 export type StudyCapability =
   | "theory"
+  | "formulas"
   | "examples"
   | "practice"
   | "assessment"
@@ -51,6 +52,9 @@ export interface StudyContentRef {
   id: StudyContentId;
   disciplineId: StudyDisciplineId;
   kind: StudyContentKind;
+  title?: string;
+  description?: string;
+  route?: string;
   /** Optional parent reference, e.g. a lesson's course or topic. */
   parentId?: StudyContentId;
   /** Optional narrower capability set for this course/content entry. */
