@@ -17,6 +17,7 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
     status: "active",
     capabilities: [
       "theory",
+      "formulas",
       "examples",
       "practice",
       "assessment",
