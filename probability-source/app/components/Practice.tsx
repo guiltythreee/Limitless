@@ -188,7 +188,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
       </header>
       <div className="study-utility-panel__content">
       <div className="study-utility-toolbar flex flex-wrap items-center gap-2">
-        <button onClick={() => setHide(!hide)} className="pill flex items-center gap-2" aria-pressed={hide}>Hide Attempted <span className={`switch ${hide ? "switch-on" : ""}`} /></button>
+        <button onClick={() => setHide(!hide)} className="pill study-utility-control flex items-center gap-2" aria-pressed={hide}>Hide Attempted <span className={`switch ${hide ? "switch-on" : ""}`} /></button>
         {topics.length > 1 && (
           <select value={topic} onChange={(e) => setTopic(e.target.value)} className="pill study-utility-control max-w-[200px]" aria-label="Topic"><option value="all">All topics</option>{topics.map((t) => <option key={t} value={t}>{lessonTitle(t)}</option>)}</select>
         )}
