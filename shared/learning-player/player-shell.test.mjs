@@ -64,6 +64,27 @@ for (const token of [
   "--lp-radius-md", "--lp-font-reading",
   ":focus-visible", "overscroll-behavior-x: contain",
   "scrollbar-width: thin", "flex-shrink: 0",
+  ".learning-player-frame {", ".learning-player-content {",
+  "[data-learning-player] .learning-player-palette {",
+  ".learning-player-meta--compact {", ".learning-player-meta__group {",
+  "padding: 1.1rem 1.4rem 1.5rem;",
+  "border-radius: var(--lp-radius-lg);",
+  "background: var(--panel-bg, var(--lp-color-surface));",
 ]) assert.ok(sharedCss.includes(token), `missing shared player design or interaction rule: ${token}`);
 
-console.log("P6 shared player shell, design tokens and interaction rules: 35 assertions passed");
+// Every discipline player composes the same frame, palette and content inset.
+for (const appPath of [
+  "probability-source/app/components/Practice.tsx",
+  "metallurgy-source/app/mt201/quiz.tsx",
+  "metallurgy-source/app/mt202/quiz.tsx",
+  "metallurgy-source/app/mt203/player.tsx",
+]) {
+  const source = readFileSync(resolve(root, appPath), "utf8");
+  assert.match(
+    source,
+    /<LearningPlayerShell className="learning-player-frame" paletteClassName="learning-player-palette" contentClassName="learning-player-content"/,
+    `player should use the shared frame and content layout: ${appPath}`,
+  );
+}
+
+console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 47 assertions passed");
