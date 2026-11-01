@@ -160,7 +160,7 @@
   min-width: 0;
   border-bottom: 1px solid var(--panel-line, rgba(180,150,90,.22));
 }
-  .study-utility-row { padding: .85rem 0; }
+.study-utility-row--history { padding: .85rem 0; }
 .study-utility-row__top { display: flex; justify-content: space-between; gap: .6rem; flex-wrap: wrap; align-items: flex-start; }
 .study-utility-row__meta {
   color: var(--dim, #999);
