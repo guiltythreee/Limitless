@@ -253,7 +253,7 @@ export function Options({ item, picked, onPick, reveal, disabled }: { item: Q["i
         return (
           <button key={i} onClick={() => onPick(i)} disabled={disabled} className={`optcard learning-player-option text-body disabled:cursor-default ${style}`}>
             <span className="optletter">{String.fromCharCode(65 + i)}</span>
-            <span className="min-w-0 flex-1"><Rich text={option} /></span>
+            <span className="learning-player-option__text min-w-0 flex-1"><Rich text={option} /></span>
             {reveal && ok && <span className="text-emerald-500">✓</span>}
             {reveal && sel && !ok && <span className="text-red-500">×</span>}
           </button>
