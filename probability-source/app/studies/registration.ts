@@ -1,4 +1,11 @@
 import { lessons, pathways } from "../content";
+import { allQuestions } from "../lib/questions";
+import { STORAGE_KEY } from "../lib/store";
+import {
+  activitySnapshot,
+  completedSnapshot,
+  readStoredProgress,
+} from "../../../shared/studies/progress";
 import type { StudyDisciplineRegistration } from "../../../shared/studies/contracts";
 
 /**
@@ -57,4 +64,62 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
     description: pathway.description,
     contentIds: [...pathway.lessonIds],
   })),
+  /**
+   * Read only the canonical v3 payload. In particular, do not call useStore():
+   * its normal hydration path may initialise reward metadata or persist a
+   * migration. A missing key is an empty record; malformed data stays unknown.
+   */
+  readProgress: () => {
+    if (typeof window === "undefined") return [];
+    const stored = readStoredProgress(
+      (key) => window.localStorage.getItem(key),
+      STORAGE_KEY,
+    );
+    if (stored.status !== "available") return [];
+
+    const completed = new Set(
+      Array.isArray(stored.value.completed)
+        ? stored.value.completed.filter((id): id is string => typeof id === "string")
+        : [],
+    );
+    const validQuestionIds = new Set(allQuestions.map((question) => question.key));
+    const attempts = Array.isArray(stored.value.attempts)
+      ? stored.value.attempts.filter((attempt): attempt is { q: string; ts: number } =>
+          !!attempt && typeof attempt === "object" &&
+          typeof (attempt as { q?: unknown }).q === "string" &&
+          validQuestionIds.has((attempt as { q: string }).q) &&
+          typeof (attempt as { ts?: unknown }).ts === "number" &&
+          Number.isFinite((attempt as { ts: number }).ts),
+        )
+      : [];
+
+    const byLesson = new Map<string, { count: number; lastAt?: number }>();
+    for (const attempt of attempts) {
+      const lessonId = allQuestions.find((question) => question.key === attempt.q)?.lessonId;
+      if (!lessonId) continue;
+      const current = byLesson.get(lessonId) ?? { count: 0 };
+      current.count++;
+      if (attempt.ts > 0) current.lastAt = Math.max(current.lastAt ?? 0, attempt.ts);
+      byLesson.set(lessonId, current);
+    }
+
+    const snapshots = lessons.map((lesson) => {
+      const activity = byLesson.get(lesson.id);
+      return completed.has(lesson.id)
+        ? completedSnapshot(lesson.id, activity?.lastAt)
+        : activitySnapshot(lesson.id, activity?.count ?? 0, activity?.lastAt);
+    });
+    const completedCount = lessons.filter((lesson) => completed.has(lesson.id)).length;
+    const activityCount = attempts.length;
+    const lastActivityAt = attempts.reduce(
+      (latest, attempt) => Math.max(latest, attempt.ts > 0 ? attempt.ts : 0),
+      0,
+    );
+    snapshots.push(
+      completedCount === lessons.length
+        ? completedSnapshot("probability-course", lastActivityAt)
+        : activitySnapshot("probability-course", activityCount + completedCount, lastActivityAt),
+    );
+    return snapshots;
+  },
 } satisfies StudyDisciplineRegistration;
