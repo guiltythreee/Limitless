@@ -31,6 +31,7 @@ export default function BookmarksPanel({
         </div>
       </div>
 
+      <div className="study-utility-panel__content">
       {ordered.length === 0 ? (
         <div className="study-utility-empty">
           <p>Nothing saved yet. Open a question and select ☆ Bookmark to keep it here.</p>
@@ -70,6 +71,7 @@ export default function BookmarksPanel({
           })}
         </div>
       )}
+      </div>
     </section>
   );
 }
