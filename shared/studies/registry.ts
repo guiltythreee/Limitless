@@ -43,6 +43,14 @@ export function validateStudyRegistration(
     if (item.disciplineId !== descriptor.id) errors.push(`content ${item.id} belongs to another discipline`);
     if (contentIds.has(item.id)) errors.push(`duplicate content id: ${item.id}`);
     contentIds.add(item.id);
+    if (item.capabilities) {
+      const itemCapabilities = new Set<string>();
+      for (const capability of item.capabilities) {
+        if (!CAPABILITIES.has(capability)) errors.push("content " + item.id + " has unknown capability: " + capability);
+        if (itemCapabilities.has(capability)) errors.push("content " + item.id + " repeats capability: " + capability);
+        itemCapabilities.add(capability);
+      }
+    }
   }
   for (const item of registration.content ?? []) {
     if (item.parentId && !contentIds.has(item.parentId)) errors.push(`content ${item.id} has unknown parent: ${item.parentId}`);
