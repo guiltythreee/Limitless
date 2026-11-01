@@ -58,3 +58,13 @@ for (const appPath of [
   const source = readFileSync(resolve(root, appPath), "utf8");
   assert.ok(source.includes("createStudyUtilityNav"), `${appPath} must use shared utility navigation`);
 }
+
+for (const [appPath, marker] of [
+  ["probability-source/app/components/TopicTree.tsx", 'aria-current={activeId === lesson.id ? "location" : undefined}'],
+  ["metallurgy-source/app/mt201/page.tsx", 'aria-current={activeCh === t.id ? "location" : undefined}'],
+  ["metallurgy-source/app/mt202/page.tsx", 'aria-current={activeCh === t.id ? "location" : undefined}'],
+  ["metallurgy-source/app/mt203/page.tsx", 'aria-current={activeTopic === t.id ? "location" : undefined}'],
+]) {
+  const source = readFileSync(resolve(root, appPath), "utf8");
+  assert.ok(source.includes(marker), `${appPath} must expose its active topic as the current location`);
+}
