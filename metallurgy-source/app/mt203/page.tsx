@@ -16,7 +16,8 @@
 // tolerant of missing or malformed saved data.
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { createElement, useCallback, useEffect, useMemo, useState } from "react";
+import { createStudyUtilityNav } from "../../../shared/studies/StudyUtilityNav";
 import { ALL_QUESTION_IDS, TOPIC_OF } from "../data/qbank/meta";
 import { toActivities } from "../platform/learning";
 import { mdInline, mdToHtml } from "../lib/md";
@@ -176,34 +177,15 @@ export default function Mt203() {
             onClick={() => setView({ kind: "dashboard" })}
           >
             <span className="ch-num">◧</span>
-            <span className="ch-title">Dashboard · progress &amp; mastery</span>
-          </button>
-
-          <button
-            className={`ch-item ${view.kind === "bookmarks" ? "active" : ""}`}
-            onClick={() => setView({ kind: "bookmarks" })}
-          >
-            <span className="ch-num">★</span>
-            <span>
-              <span className="ch-title">Bookmarked questions</span>
-              <span className="ch-meta"><span className="ch-pct">{progress?.bookmarks.length ?? 0} saved</span></span>
-            </span>
-          </button>
-
-          <button
-            className={`ch-item ${view.kind === "history" ? "active" : ""}`}
-            onClick={() => setView({ kind: "history" })}
-          >
-            <span className="ch-num">↺</span>
-            <span className="ch-title">Attempt history</span>
-          </button>
-          <button
-            className={`ch-item ${view.kind === "mistakes" ? "active" : ""}`}
-            onClick={() => setView({ kind: "mistakes" })}
-          >
-            <span className="ch-num">!</span>
-            <span className="ch-title">Latest mistakes</span>
-          </button>
+                {createStudyUtilityNav(createElement, {
+            className: "course-utility-nav",
+            items: [
+              { id: "bookmarks", label: "Bookmarked questions", count: progress?.bookmarks.length ?? 0, active: view.kind === "bookmarks" },
+              { id: "history", label: "Attempt history", active: view.kind === "history" },
+              { id: "mistakes", label: "Latest mistakes", active: view.kind === "mistakes" },
+            ],
+            onSelect: (id) => setView({ kind: id as "bookmarks" | "history" | "mistakes" }),
+          })}
 
           <div className="ch-list" style={{ marginTop: "0.5rem" }}>
             {UNITS.map((u) => (
