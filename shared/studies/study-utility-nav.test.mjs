@@ -59,6 +59,8 @@ for (const panelPath of [
 }
 const utilityCss = readFileSync(resolve(root, "shared/studies/study-utility-nav.css"), "utf8");
 assert.ok(utilityCss.includes(".study-utility-panel__header {"), "shared utility panel header owns the common layout");
+assert.ok(utilityCss.includes("@media (forced-colors: active)"), "utility navigation and panel focus support forced-colour mode");
+assert.ok(utilityCss.includes("outline-color: Highlight;"), "utility focus uses the system highlight in forced-colour mode");
 assert.ok(utilityCss.includes("padding-bottom: 1rem;"), "shared utility panel headers use the common bottom inset");
 assert.ok(utilityCss.includes("border-bottom: 1px solid var(--panel-line"), "shared utility panel headers use the common divider");
 
