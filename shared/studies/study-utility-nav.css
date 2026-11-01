@@ -225,6 +225,27 @@
   padding: .8rem;
   margin-bottom: 1.2rem;
 }
+.study-utility-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .8rem;
+  margin-top: .6rem;
+  color: var(--dim, #999);
+  font-size: .72rem;
+  line-height: 1.4;
+}
+.study-utility-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+}
+.study-utility-legend__swatch {
+  width: .55rem;
+  height: .55rem;
+  flex: none;
+  border-radius: 2px;
+}
 /* Shared seven-day utility grid shell; each discipline keeps its own
    chart bars, progress indicators and day-state visuals. */
 .study-utility-week-grid {
