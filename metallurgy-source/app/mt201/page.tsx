@@ -100,7 +100,7 @@ export default function Mt201() {
 
       <div className="archive mt201">
         {/* ---------------- sidebar ---------------- */}
-        <aside className="panel side">
+        <aside className="panel side" aria-label="MT201 course navigation">
           <div className="side-head">
             <div className="t1">{MANIFEST.code} · {MANIFEST.title}</div>
             <div className="t2">{TOTAL} questions · {TOPICS.length} chambers</div>
