@@ -366,7 +366,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
   const bookmarked = store.bookmarks.includes(q.key);
 
   return (
-    <LearningPlayerShell paletteClassName="learning-player-palette mb-4 flex items-center gap-2 overflow-x-auto pb-1" palette={(
+    <LearningPlayerShell className="learning-player-frame" paletteClassName="learning-player-palette" contentClassName="learning-player-content" palette={(
                   <>
                   <button onClick={onBack} className="pill shrink-0" aria-label="Back to the list">←</button>
                   <div className="flex gap-1.5">
@@ -381,7 +381,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
                   </div>
                   </>
                 )}>
-      <div className="learning-player-meta grid grid-cols-[1fr_auto_1fr] items-start gap-3">
+      <div className="learning-player-meta">
         <div>
           <div className="text-sm text-body">Q {index + 1} <span className="text-faint">• {q.item.source ?? ""}</span> <span className={`dbadge dbadge-${q.difficulty} ml-1`}>{DIFF_LABEL[q.difficulty]}</span></div>
           {showTopic && <div className="mt-1 text-xs text-dim">{lessonTitle(q.lessonId)}</div>}
