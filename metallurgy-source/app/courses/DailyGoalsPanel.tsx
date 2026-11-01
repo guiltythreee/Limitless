@@ -84,6 +84,7 @@ export default function DailyGoalsPanel({
           Daily target (1–200 answers)
           <input
             type="number"
+            className="study-utility-control"
             min={1}
             max={200}
             inputMode="numeric"
