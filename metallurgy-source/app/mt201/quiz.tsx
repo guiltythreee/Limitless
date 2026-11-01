@@ -238,8 +238,8 @@ export default function Quiz({
 
         {revealed && <SolutionPanel q={q} />}
 
-        <div className="learning-player-actions qnav">
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+        <div className="learning-player-actions">
+          <div>
             <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>
               ← Prev
             </button>
@@ -251,7 +251,7 @@ export default function Quiz({
               Next →
             </button>
           </div>
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+          <div>
             {!rec && !peeked[q.n] && (
               <button className="btn" onClick={() => setPeeked({ ...peeked, [q.n]: true })}>
                 Peek (not recorded)
