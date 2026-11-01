@@ -74,7 +74,7 @@ export default function ActivityHistoryPanel({
   return (
     <section className="panel study-utility-panel" aria-label={view === "mistakes" ? "Mistakes" : "Attempt history"}>
       <div className="topbar study-utility-panel__header">
-        <div>
+        <div className="study-utility-panel__heading">
           <h2 className="study-utility-panel__title">{view === "mistakes" ? "Latest Mistakes" : "Attempt History"}</h2>
           <div className="sub study-utility-panel__description">
             {view === "mistakes"
