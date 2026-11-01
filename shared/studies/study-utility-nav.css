@@ -161,6 +161,15 @@
   border-bottom: 1px solid var(--panel-line, rgba(180,150,90,.22));
 }
 .study-utility-row--history { padding: .85rem 0; }
+.study-utility-row--item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem;
+  padding: .8rem 0;
+}
+.study-utility-row__copy { min-width: 0; flex: 1 1 16rem; }
 .study-utility-row__top { display: flex; justify-content: space-between; gap: .6rem; flex-wrap: wrap; align-items: flex-start; }
 .study-utility-row__meta {
   color: var(--dim, #999);
