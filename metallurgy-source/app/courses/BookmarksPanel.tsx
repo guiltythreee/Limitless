@@ -48,9 +48,9 @@ export default function BookmarksPanel({
               <div className="study-utility-row study-utility-row--item" key={questionId}>
                 <div className="study-utility-row__copy">
                   <div style={{ fontWeight: 600 }}>{label}</div>
-                  <div style={{ color: "var(--dim)", fontSize: "0.78rem" }}>{questionId}</div>
+                  <div className="study-utility-row__meta">{questionId}</div>
                   {!topic && (
-                    <div style={{ color: "var(--dim)", fontSize: "0.78rem" }}>
+                    <div className="study-utility-row__meta">
                       This saved ID is no longer present in the course index.
                     </div>
                   )}
