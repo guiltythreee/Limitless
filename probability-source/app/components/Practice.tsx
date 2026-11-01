@@ -178,7 +178,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
   const isFiltered = hide || topic !== "all" || status !== "all" || diff !== "all";
 
   return (
-    <div className="study-utility-panel">
+    <section className="study-utility-panel">
       <header className="study-utility-panel__header">
         <div className="study-utility-panel__heading">
           <h2 className="study-utility-panel__title">{title}</h2>
@@ -234,7 +234,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
       </div>
       <div className="floating-analysis"><button onClick={onAnalysis}>▮▯ Analysis</button></div>
       </div>
-    </div>
+    </section>
   );
 }
 
