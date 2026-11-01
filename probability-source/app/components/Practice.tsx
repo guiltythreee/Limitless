@@ -182,11 +182,11 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
       <header className="study-utility-panel__header">
         <div>
           <h2 className="study-utility-panel__title">{title}</h2>
-          <p className="study-utility-panel__description">Filter, sort and reopen questions from this learning set.</p>
+          <p className="study-utility-panel__description">{title === "Bookmarked questions" ? "Your saved questions in this learning set. Open any question to continue studying." : title.startsWith("My mistakes") ? "Review questions whose latest recorded answer was incorrect or partially correct." : "Filter, sort and reopen questions from this learning set."}</p>
         </div>
         <span className="study-utility-panel__count">{list.length} questions</span>
       </header>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="study-utility-toolbar flex flex-wrap items-center gap-2">
         <button onClick={() => setHide(!hide)} className="pill flex items-center gap-2" aria-pressed={hide}>Hide Attempted <span className={`switch ${hide ? "switch-on" : ""}`} /></button>
         {topics.length > 1 && (
           <select value={topic} onChange={(e) => setTopic(e.target.value)} className="pill max-w-[200px]" aria-label="Topic"><option value="all">All topics</option>{topics.map((t) => <option key={t} value={t}>{lessonTitle(t)}</option>)}</select>
@@ -199,7 +199,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
         </select>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
+      <div className="study-utility-toolbar mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
         <span className="text-body">{title} · {isFiltered ? "Showing filtered Qs" : "Showing all Qs"} ({list.length}/{pool.length})</span>
         <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="pill" aria-label="Sort">
           <option value="order">Book order</option>
@@ -208,14 +208,14 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
         </select>
       </div>
 
-      <div className="mt-3">
+      <div className="study-utility-list mt-3">
         {list.length === 0 ? (
-          <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">{pool.length === 0 ? empty ?? "No questions here yet." : "No question matches these filters."}</div>
+          <div className="study-utility-empty border border-dashed border-gold/25 p-8 text-center text-sm text-dim">{pool.length === 0 ? empty ?? "No questions here yet." : "No question matches these filters."}</div>
         ) : list.map((q, i) => {
           const st: Status = latest[q.key]?.status ?? "unattempted";
           const n = store.attempts.filter((a) => a.q === q.key).length;
           return (
-            <button key={q.key} className="rowq" onClick={() => onOpen(list.map((x) => x.key), i)}>
+            <button key={q.key} className="rowq study-utility-row" onClick={() => onOpen(list.map((x) => x.key), i)}>
               <span className="rn"><span>{i + 1}</span><span className={`mt-1 text-base leading-none ${MARKCLS[st]}`} title={st}>{MARK[st] || " "}</span></span>
               <span className="min-w-0">
                 <span className="clamp2 block text-[15px] leading-6 text-body"><Rich text={q.item.question} /></span>
