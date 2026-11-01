@@ -15,7 +15,7 @@ export function GoalCard() {
   const [text, setText] = useState("");
   const frac = Math.min(1, g.today / g.goal);
   return (
-    <div className="card study-utility-panel">
+    <section className="card study-utility-panel">
       <div className="study-utility-panel__header flex items-center justify-between">
         <div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Your Daily Goal</h2></div>
         <button onClick={() => setOpen(!open)} className="text-sm text-gold hover:underline">{open ? "Close" : "View more ›"}</button>
@@ -35,7 +35,7 @@ export function GoalCard() {
         </form>
       )}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -43,7 +43,7 @@ export function StreakCard() {
   const store = useStore();
   const g = goalInfo(store);
   return (
-    <div className="card study-utility-panel">
+    <section className="card study-utility-panel">
       <div className="study-utility-panel__header flex items-center justify-between">
         <div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Daily Goal Streak</h2></div>
         <div className="text-sm text-body">{g.streak} day streak <span className="text-orange-500">🔥</span> <span className="ml-2 text-xs text-faint">best {g.best}</span></div>
@@ -59,7 +59,7 @@ export function StreakCard() {
         ))}
       </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -76,7 +76,7 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
   const diffs = (["easy", "medium", "hard"] as const);
   return (
     <div className="space-y-5">
-      <div className="card study-utility-panel">
+      <section className="card study-utility-panel">
         <div className="study-utility-panel__header flex flex-wrap items-center justify-between gap-3">
           <div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">History of Qs Solved</h2></div>
           {scopeControl}
@@ -95,14 +95,14 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
           <div className="mt-1 flex gap-4 text-[10px] text-dim"><span><i className="mr-1 inline-block h-2 w-2" style={{ background: "var(--good)" }} />correct</span><span><i className="mr-1 inline-block h-2 w-2" style={{ background: "var(--bad)" }} />not correct</span></div>
         </div>
       </div>
-      </div>
+      </section>
 
-      <div className="card study-utility-panel">
+      <section className="card study-utility-panel">
         <div className="study-utility-panel__header flex items-center justify-between"><div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Progress</h2></div><div className="text-sm text-dim">{sum.questions}/{poolSize} questions · {poolSize ? (sum.questions / poolSize * 100).toFixed(1) : "0.0"}%</div></div>
       <div className="study-utility-panel__content">
         <div className="mt-3 h-2 overflow-hidden rounded bg-track"><div className="h-full rounded bg-gold" style={{ width: `${poolSize ? Math.min(100, (sum.questions / poolSize) * 100) : 0}%` }} /></div>
       </div>
-      </div>
+      </section>
 
       <DiffBars title="Qs Attempted" headline={`${sum.attempts} Qs`} sub="Total attempted" color="var(--c-attempt)"
         data={diffs.map((k) => ({ label: labels[k], value: d[k].attempts, tip: `Attempted : ${d[k].attempts}` }))} />
