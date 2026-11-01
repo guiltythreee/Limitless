@@ -62,6 +62,8 @@ for (const token of [
   "--lp-color-canvas", "--lp-color-surface", "--lp-color-text",
   "--lp-color-accent", "--lp-color-success", "--lp-space-4",
   "--lp-radius-md", "--lp-font-reading",
-]) assert.ok(sharedCss.includes(token), `missing shared design token: ${token}`);
+  ":focus-visible", "overscroll-behavior-x: contain",
+  "scrollbar-width: thin", "flex-shrink: 0",
+]) assert.ok(sharedCss.includes(token), `missing shared player design or interaction rule: ${token}`);
 
-console.log("P6 shared player shell and design tokens: 31 assertions passed");
+console.log("P6 shared player shell, design tokens and interaction rules: 35 assertions passed");
