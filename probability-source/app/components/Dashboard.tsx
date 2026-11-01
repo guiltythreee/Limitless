@@ -100,7 +100,7 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
       <section className="study-utility-panel">
         <div className="study-utility-panel__header"><div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Progress</h2></div><div className="text-sm text-dim">{sum.questions}/{poolSize} questions · {poolSize ? (sum.questions / poolSize * 100).toFixed(1) : "0.0"}%</div></div>
       <div className="study-utility-panel__content">
-        <div className="mt-3 h-2 overflow-hidden rounded bg-track"><div className="h-full rounded bg-gold" style={{ width: `${poolSize ? Math.min(100, (sum.questions / poolSize) * 100) : 0}%` }} /></div>
+        <div className="study-utility-progress study-utility-progress--overview mt-3"><div className="study-utility-progress__fill" style={{ width: `${poolSize ? Math.min(100, (sum.questions / poolSize) * 100) : 0}%` }} /></div>
       </div>
       </section>
 
