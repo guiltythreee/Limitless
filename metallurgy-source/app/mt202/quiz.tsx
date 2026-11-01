@@ -189,7 +189,7 @@ export default function Quiz({
   const revealed = Boolean(rec) || peeked[q.n];
 
   return (
-      <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={dots.map((d) => (
+      <LearningPlayerShell className="panel" paletteClassName="learning-player-palette dots" contentClassName="qwrap" palette={dots.map((d) => (
           <button
             key={d.n}
             type="button"
@@ -201,7 +201,7 @@ export default function Quiz({
           />
         ))}>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.6rem", flexWrap: "wrap", marginBottom: "0.4rem" }}>
+        <div className="learning-player-meta" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.6rem", flexWrap: "wrap", marginBottom: "0.4rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
             <span className="chip" aria-label="Time on question">⏱ {timeLabel}</span>
             {!rec && (
@@ -239,7 +239,7 @@ export default function Quiz({
 
         {revealed && <SolutionPanel q={q} />}
 
-        <div className="qnav">
+        <div className="learning-player-actions qnav">
           <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
             <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>
               ← Prev
