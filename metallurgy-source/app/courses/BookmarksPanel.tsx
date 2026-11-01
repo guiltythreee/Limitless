@@ -23,7 +23,7 @@ export default function BookmarksPanel({
   return (
     <section className="panel study-utility-panel" aria-label={title}>
       <div className="topbar study-utility-panel__header">
-        <div>
+        <div className="study-utility-panel__heading">
           <h2 className="study-utility-panel__title">{title}</h2>
           <div className="sub study-utility-panel__description">
             {ordered.length} saved {ordered.length === 1 ? "question" : "questions"} · saved only in this course
