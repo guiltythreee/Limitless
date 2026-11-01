@@ -135,6 +135,7 @@ export default function Mt202() {
               return (
                 <button
                   key={t.id}
+                  aria-current={activeCh === t.id ? "location" : undefined}
                   className={`ch-item ${activeCh === t.id ? "active" : ""}`}
                   onClick={() => setView({ kind: "study", ch: t.id, tab: view.kind === "study" ? view.tab : "lesson" })}
                 >
@@ -162,6 +163,7 @@ export default function Mt202() {
             })}
 
             <button
+              aria-current={view.kind === "exam" ? "location" : undefined}
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
               onClick={() => setView({ kind: "exam" })}
             >
@@ -176,6 +178,7 @@ export default function Mt202() {
 
             {MANIFEST.capabilities.tools && Calculators && (
               <button
+                aria-current={view.kind === "calc" ? "location" : undefined}
                 className={`ch-item ${view.kind === "calc" ? "active" : ""}`}
                 onClick={() => setView({ kind: "calc" })}
               >
