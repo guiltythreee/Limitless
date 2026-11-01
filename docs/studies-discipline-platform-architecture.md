@@ -34,6 +34,7 @@ Meta reads verified reward records and calculates global EXP, levels, and univer
 
 ## 3. What already exists (and what it does not provide)
 
+- The root home page already has a static `Studies & Disciplines` group in `tools.js`, currently listing Probability and Metallurgy. The missing piece is registration-backed discovery and consistent metadata, not the existence of a Studies section.
 - P6 shared learning-player contracts/runtime handle question navigation, answer state, submission, and adapter-owned grading. They are not a curriculum or discipline registry.
 - P6.5 provides a common structural shell for question-player surfaces. It does not provide a universal lesson renderer or study dashboard.
 - Metallurgy has a course registry, manifests, capability flags, and a P5 activity/history/goal core. That core currently lives under `metallurgy-source/app/platform/learning/` and imports Metallurgy course types; it must not be treated as a drop-in cross-app package.
@@ -93,7 +94,8 @@ A new discipline should be able to register its own content and adapters without
 - Registrations are static/read-only. No progress adapter is attached yet, so the shared summary correctly reports progress as unknown rather than triggering a migration or inventing state.
 - The read-only Studies / Disciplines index is the next UI task. Do not move existing Home navigation until that surface is validated.
 
-### S2 — Shared study landing surface
+### S2 — Registration-backed Studies directory and landing surface
+- Replace duplicated static subject metadata in the existing root `tools.js` Studies group with a generated/validated catalogue derived from the app-owned registrations; do not create a competing second directory.
 - Add common discipline/course landing composition: description, learning routes, available activity types, and adapter-provided progress summary.
 - Render only capabilities actually declared by the selected discipline.
 - Launch existing Probability and Metallurgy routes without replacing their current content screens.
