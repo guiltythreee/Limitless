@@ -125,4 +125,5 @@ jobs:
         run: >-
           node --experimental-strip-types
           --experimental-loader ./shared/learning-player/ts-extension-loader.mjs
-          scripts/generate-studies-catalog.mjs
+          scripts/generate-studies-catalog.mjs --write
+          && git diff --exit-code -- studies-catalog.js
