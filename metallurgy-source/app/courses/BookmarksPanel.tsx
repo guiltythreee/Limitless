@@ -1,7 +1,5 @@
 "use client";
 
-import StudyUtilityPanel from "../../../shared/studies/StudyUtilityPanel";
-
 type TopicLink = { id: string; title: string };
 
 export default function BookmarksPanel({
@@ -23,10 +21,15 @@ export default function BookmarksPanel({
   const ordered = [...bookmarks];
 
   return (
-    <StudyUtilityPanel
-      title={title}
-      description={`${ordered.length} saved ${ordered.length === 1 ? "question" : "questions"} · saved only in this course`}
-    >
+    <section className="panel study-utility-panel" aria-label={title}>
+      <div className="topbar study-utility-panel__header">
+        <div>
+          <h2 className="study-utility-panel__title">{title}</h2>
+          <div className="sub study-utility-panel__description">
+            {ordered.length} saved {ordered.length === 1 ? "question" : "questions"} · saved only in this course
+          </div>
+        </div>
+      </div>
 
       {ordered.length === 0 ? (
         <div className="prose">
@@ -78,6 +81,6 @@ export default function BookmarksPanel({
           })}
         </div>
       )}
-    </StudyUtilityPanel>
+    </section>
   );
 }
