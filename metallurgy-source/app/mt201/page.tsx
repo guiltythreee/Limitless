@@ -113,6 +113,7 @@ export default function Mt201() {
               return (
                 <button
                   key={t.id}
+                  aria-current={activeCh === t.id ? "location" : undefined}
                   className={`ch-item ${activeCh === t.id ? "active" : ""}`}
                   onClick={() => setView({ kind: "study", ch: t.id })}
                 >
@@ -140,6 +141,7 @@ export default function Mt201() {
             })}
 
             <button
+              aria-current={view.kind === "exam" ? "location" : undefined}
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
               onClick={() => setView({ kind: "exam" })}
             >
