@@ -20,6 +20,7 @@ import { probabilityPlayerAdapter } from "../learning-player/adapter";
 import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
 import { createStudyUtilityNav } from "../../../shared/studies/StudyUtilityNav";
+import StudyUtilityPanel from "../../../shared/studies/StudyUtilityPanel";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -178,7 +179,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
   const isFiltered = hide || topic !== "all" || status !== "all" || diff !== "all";
 
   return (
-    <div>
+    <StudyUtilityPanel title={title} description="Filter, sort and reopen questions from this learning set." count={list.length} countLabel="questions">
       <div className="flex flex-wrap items-center gap-2">
         <button onClick={() => setHide(!hide)} className="pill flex items-center gap-2" aria-pressed={hide}>Hide Attempted <span className={`switch ${hide ? "switch-on" : ""}`} /></button>
         {topics.length > 1 && (
@@ -225,7 +226,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
         })}
       </div>
       <div className="floating-analysis"><button onClick={onAnalysis}>▮▯ Analysis</button></div>
-    </div>
+    </StudyUtilityPanel>
   );
 }
 
