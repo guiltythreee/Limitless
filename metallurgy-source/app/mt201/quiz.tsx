@@ -229,7 +229,7 @@ export default function Quiz({
         <OptionList q={q} picked={rec?.choice} onPick={pick} locked={Boolean(rec)} />
 
         {rec && (
-          <div className={`verdict ${rec.correct ? "right" : "wrong"}`} style={{ marginTop: "0.8rem" }}>
+          <div className={`verdict learning-player-feedback ${rec.correct ? "right" : "wrong"}`} style={{ marginTop: "0.8rem" }}>
             {rec.correct
               ? "✓ Correct"
               : `✗ Incorrect — the answer is (${q.answer.toUpperCase()})`}
