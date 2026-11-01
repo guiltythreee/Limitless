@@ -1,5 +1,7 @@
 "use client";
 
+import StudyUtilityPanel from "../../../shared/studies/StudyUtilityPanel";
+
 import { useEffect, useMemo, useState } from "react";
 import type { Activity } from "../platform/learning";
 import {
@@ -31,13 +33,10 @@ export default function DailyGoalsPanel({
   const percent = Math.min(100, Math.round((info.todayCount / Math.max(1, info.goal)) * 100));
 
   return (
-    <section className="panel" aria-label="Daily goal and streak">
-      <div className="topbar">
-        <div>
-          <h2>Daily Goal &amp; Streak</h2>
-          <div className="sub">Build a steady study habit · answers are counted locally in this course</div>
-        </div>
-      </div>
+    <StudyUtilityPanel
+      title="Daily Goal &amp; Streak"
+      description="Build a steady study habit · answers are counted locally in this course"
+    >
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(10rem, 1fr))", gap: "0.8rem", marginBottom: "1rem" }}>
         <div className="chip" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.25rem", padding: "0.9rem" }}>
@@ -97,6 +96,6 @@ export default function DailyGoalsPanel({
       <p style={{ color: "var(--dim)", fontSize: "0.75rem", marginTop: "0.7rem" }}>
         An answer counts when it is recorded, including a submitted exam answer. Opening a lesson or viewing a solution alone does not count.
       </p>
-    </section>
+    </StudyUtilityPanel>
   );
 }
