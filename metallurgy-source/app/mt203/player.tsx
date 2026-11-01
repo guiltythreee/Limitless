@@ -275,7 +275,7 @@ export default function Player({
     : fmtElapsed(elapsedMs);
 
   return (
-      <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={(
+      <LearningPlayerShell className="panel" paletteClassName="learning-player-palette dots" contentClassName="qwrap" palette={(
         <div role="tablist" aria-label="Question navigator">
                   {order.map((qi, i) => {
                     const qq = questions[qi];
@@ -295,7 +295,7 @@ export default function Player({
                   </div>
       )}>
 
-        <div className="qhead">
+        <div className="learning-player-meta qhead">
           <span className="chip">
             {idx + 1} / {order.length} · {answered} answered · {right} correct
           </span>
@@ -331,7 +331,7 @@ export default function Player({
         <OptionList q={theQ} picked={chosen} onPick={pick} locked={isRevealed} />
         {isRevealed && <SolutionPanel q={theQ} picked={chosen} />}
 
-        <div className="qnav">
+        <div className="learning-player-actions qnav">
           <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>
             ← Prev
           </button>
