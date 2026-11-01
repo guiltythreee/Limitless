@@ -95,3 +95,29 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+ * Shared interaction behaviour. Course components keep their own visual
+ * treatment; the shell guarantees keyboard visibility and a usable palette
+ * viewport across desktop and touch layouts.
+ */
+[data-learning-player] :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--lp-color-focus, var(--lp-color-accent));
+  outline-offset: 3px;
+}
+
+[data-learning-player] :where(button, input, select, textarea):disabled {
+  cursor: not-allowed;
+}
+
+[data-learning-player-palette] {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-color: var(--lp-color-border) transparent;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-learning-player-palette] :where(button, a, [role="button"]) {
+  flex-shrink: 0;
+}
