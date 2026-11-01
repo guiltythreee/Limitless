@@ -150,6 +150,16 @@
   gap: var(--lp-space-2) var(--lp-space-3);
   min-width: 0;
 }
+[data-learning-player] .learning-player-meta--compact {
+  margin-bottom: .4rem;
+}
+[data-learning-player] .learning-player-meta__group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lp-space-2);
+  min-width: 0;
+}
 [data-learning-player] .learning-player-palette {
   display: flex;
   align-items: center;
