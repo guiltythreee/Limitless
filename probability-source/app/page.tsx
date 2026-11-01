@@ -221,13 +221,19 @@ export default function Home() {
               <h3 className="serif mt-4 text-3xl leading-tight md:text-4xl">{activeLesson.title}</h3>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-dim">{activeLesson.description}</p>
 
-              <div className="mt-6 flex flex-wrap gap-1 border-b border-gold/15" role="tablist">
-                {SECTIONS.map((sec) => (
-                  <button key={sec.id} role="tab" aria-selected={section === sec.id} onClick={() => setSection(sec.id)} className={`-mb-px border-b-2 px-4 py-3 text-xs uppercase tracking-[.14em] transition ${section === sec.id ? "border-gold text-gold" : "border-transparent text-dim hover:text-parchment"}`}>
-                    {sec.label}{sec.count !== undefined && <span className="ml-2 text-[10px] text-faint">{sec.count}</span>}
-                  </button>
-                ))}
-              </div>
+              {createStudyModeTabs(createElement, {
+                items: SECTIONS.map((sec) => ({
+                  id: sec.id,
+                  label: sec.count !== undefined ? `${sec.label} · ${sec.count}` : sec.label,
+                })),
+                activeId: section,
+                onSelect: (id) => setSection(id as Section),
+                className: "mt-6 flex flex-wrap gap-1 border-b border-gold/15",
+                itemClassName: "-mb-px border-b-2 px-4 py-3 text-xs uppercase tracking-[.14em] transition",
+                activeClassName: "border-gold text-gold",
+                inactiveClassName: "border-transparent text-dim hover:text-parchment",
+                label: "Lesson sections",
+              })}
 
               <div className="mt-7">
                 {section === "theory" && <Theory lesson={activeLesson} />}
