@@ -22,7 +22,7 @@ function TopicPicker({ activeId, completed, onChoose, title, unit, pathwayId, on
   const panelId = useId();
   return (
     <div className="md:hidden">
-      <button type="button" onClick={() => setShown(!shown)} aria-expanded={shown} aria-controls={panelId} className="panel flex w-full items-center gap-3 px-4 py-3 text-left">
+      <button type="button" onClick={() => setShown(!shown)} aria-expanded={shown} aria-controls={panelId} data-study-topic-picker="true" className="panel flex w-full items-center gap-3 px-4 py-3 text-left">
         <span className="min-w-0 flex-1"><span className="eyebrow block text-[9px]!">Topic</span><span className="mt-1 block truncate text-sm text-parchment">{unit ? `${unit} · ` : ""}{title}</span></span>
         <span className={`text-gold transition-transform ${shown ? "rotate-180" : ""}`}>▾</span>
       </button>
