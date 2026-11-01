@@ -52,7 +52,8 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
           "timers",
           "attempt-history",
           "analytics",
-          "goals"
+          "goals",
+          "subject-tools"
         ]
       },
       {
@@ -62,11 +63,9 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
         "capabilities": [
           "theory",
           "formulas",
-          "examples",
           "practice",
           "assessment",
           "answer-review",
-          "subject-tools",
           "bookmarks",
           "timers",
           "attempt-history",
@@ -81,7 +80,6 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
         "capabilities": [
           "theory",
           "formulas",
-          "examples",
           "practice",
           "assessment",
           "answer-review",
