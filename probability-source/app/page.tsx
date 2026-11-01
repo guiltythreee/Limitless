@@ -128,11 +128,11 @@ export default function Home() {
               <div className="eyebrow mt-1 text-[8px]! tracking-[.2em]!">The Probability Archive</div>
             </div>
           </button>
-          <nav className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
-            <button onClick={() => setTab("archive")} className={tab === "archive" ? "text-gold" : "hover:text-parchment"}>The Archive</button>
-            <button onClick={() => setTab("analysis")} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Analysis</button>
-            <button onClick={() => setTab("experiment")} className={tab === "experiment" ? "text-gold" : "hover:text-parchment"}>Experiment</button>
-            <button onClick={() => setTab("coverage")} className={tab === "coverage" ? "text-gold" : "hover:text-parchment"}>Coverage</button>
+          <nav aria-label="Probability page navigation" className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
+            <button type="button" aria-pressed={tab === "archive"} onClick={() => setTab("archive")} className={tab === "archive" ? "text-gold" : "hover:text-parchment"}>The Archive</button>
+            <button type="button" aria-pressed={tab === "analysis"} onClick={() => setTab("analysis")} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Analysis</button>
+            <button type="button" aria-pressed={tab === "experiment"} onClick={() => setTab("experiment")} className={tab === "experiment" ? "text-gold" : "hover:text-parchment"}>Experiment</button>
+            <button type="button" aria-pressed={tab === "coverage"} onClick={() => setTab("coverage")} className={tab === "coverage" ? "text-gold" : "hover:text-parchment"}>Coverage</button>
             <a href="/meta/" className="hover:text-parchment">Meta</a>
             <a href="#path" className="hover:text-parchment">Pathway</a>
           </nav>
