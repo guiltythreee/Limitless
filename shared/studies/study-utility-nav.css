@@ -148,10 +148,10 @@
   font-size: .8rem;
   line-height: 1.35;
 }
-.study-utility-panel .study-utility-control:focus-visible {
+.study-utility-panel :is(button, input, select, textarea):focus-visible {
   border-color: var(--gold, currentColor);
   outline: 2px solid var(--gold, currentColor);
-  outline-offset: 1px;
+  outline-offset: 2px;
 }
 
 /* Shared inner layout primitives for course-owned utility panels. */
