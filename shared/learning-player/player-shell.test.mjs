@@ -71,6 +71,11 @@ for (const token of [
   "border-radius: var(--lp-radius-lg);",
   "background: var(--panel-bg, var(--lp-color-surface));",
   "margin-top: var(--lp-space-4);",
+  "overflow-wrap: anywhere;",
+  "display: block;\n  max-width: 100%;\n  overflow-x: auto;",
+  ":where(pre, .eq, .math-display, .katex-display)",
+  ":where(.math, .katex)",
+  ":where(img, svg, video, canvas)",
 ]) assert.ok(sharedCss.includes(token), `missing shared player design or interaction rule: ${token}`);
 
 // Every discipline player composes the same frame, palette and content inset.
