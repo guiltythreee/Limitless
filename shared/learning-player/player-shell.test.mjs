@@ -96,11 +96,11 @@ for (const appPath of [
     /<LearningPlayerShell className="learning-player-frame" paletteClassName="learning-player-palette" contentClassName="learning-player-content"/,
     `player should use the shared frame and content layout: ${appPath}`,
   );
-  assert.match(
-    source,
-    /learning-player-option__text/,
-    `answer text should use the shared responsive content hook: ${appPath}`,
-  );
 }
+
+const probabilityOptions = readFileSync(resolve(root, "probability-source/app/components/Practice.tsx"), "utf8");
+const metallurgyOptions = readFileSync(resolve(root, "metallurgy-source/app/platform/qview.tsx"), "utf8");
+assert.match(probabilityOptions, /learning-player-option__text/, "Probability answer text should use the shared responsive content hook");
+assert.match(metallurgyOptions, /learning-player-option__text/, "Metallurgy's shared question renderer should use the shared responsive content hook");
 
 console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 62 assertions passed");
