@@ -130,6 +130,19 @@
   letter-spacing:.08em; text-decoration:none; text-transform:uppercase;
 }
 .studies-landing__open:hover { text-decoration:underline; }
+
+/* Landing-page links use the same visible keyboard focus language as the
+   study workspace navigation, while retaining the discipline accent. */
+.studies-landing a:focus-visible {
+  outline: 2px solid var(--studies-accent);
+  outline-offset: 3px;
+  border-radius: .2rem;
+}
+@media (forced-colors: active) {
+  .studies-landing a:focus-visible {
+    outline-color: Highlight;
+  }
+}
 .studies-landing__pathway { min-height:205px; }
 .studies-landing__pathway .studies-landing__meta { margin-top:auto; padding-top:.5rem; }
 .studies-landing__footnote {
