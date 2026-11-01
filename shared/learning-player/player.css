@@ -287,3 +287,11 @@
 .learning-player-content :where(img, svg, video, canvas) {
   max-width: 100%;
 }
+/* Long Metallurgy question palettes stay on one scrollable row, matching the
+   direct-button palette used by the other shared players. */
+[data-learning-player-palette] > .dots {
+  flex-wrap: nowrap;
+  width: max-content;
+  min-width: 100%;
+  padding: 0;
+}
