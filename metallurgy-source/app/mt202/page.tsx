@@ -13,7 +13,8 @@
 // untouched — so saved progress loads exactly as before.
 
 import Link from "next/link";
-import { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import { createElement, lazy, Suspense, useCallback, useEffect, useState } from "react";
+import { createStudyUtilityNav } from "../../../shared/studies/StudyUtilityNav";
 import { mdInline, mdToHtml } from "../lib/md";
 import Tex from "../lib/tex";
 import { activityLog, loadProgress, loadTheme, Progress, resetProgress, saveTheme, setDailyGoal, toggleBookmark } from "../lib/progress";
@@ -142,45 +143,16 @@ export default function Mt202() {
                     <span className="ch-meta">
                       <span className="ch-bar"><i style={{ width: `${pct}%` }} /></span>
                       <span className="ch-pct">{pct}%</span>
-                    </span>
-                  </span>
-                </button>
-              );
+                              {createStudyUtilityNav(createElement, {
+              className: "course-utility-nav",
+              items: [
+                { id: "bookmarks", label: "Bookmarked questions", count: progress?.bookmarks?.length ?? 0, active: view.kind === "bookmarks" },
+                { id: "history", label: "Attempt history", active: view.kind === "history" },
+                { id: "mistakes", label: "Latest mistakes", active: view.kind === "mistakes" },
+                { id: "goals", label: "Daily goal & streak", active: view.kind === "goals" },
+              ],
+              onSelect: (id) => setView({ kind: id as "bookmarks" | "history" | "mistakes" | "goals" }),
             })}
-
-            <button
-              className={`ch-item ${view.kind === "bookmarks" ? "active" : ""}`}
-              onClick={() => setView({ kind: "bookmarks" })}
-            >
-              <span className="ch-num">★</span>
-              <span>
-                <span className="ch-title">Bookmarked questions</span>
-                <span className="ch-meta"><span className="ch-pct">{progress?.bookmarks?.length ?? 0} saved</span></span>
-              </span>
-            </button>
-
-            <button
-              className={`ch-item ${view.kind === "history" ? "active" : ""}`}
-              onClick={() => setView({ kind: "history" })}
-            >
-              <span className="ch-num">↺</span>
-              <span className="ch-title">Attempt history</span>
-            </button>
-            <button
-              className={`ch-item ${view.kind === "mistakes" ? "active" : ""}`}
-              onClick={() => setView({ kind: "mistakes" })}
-            >
-              <span className="ch-num">!</span>
-              <span className="ch-title">Latest mistakes</span>
-            </button>
-
-            <button
-              className={`ch-item ${view.kind === "goals" ? "active" : ""}`}
-              onClick={() => setView({ kind: "goals" })}
-            >
-              <span className="ch-num">◎</span>
-              <span className="ch-title">Daily goal &amp; streak</span>
-            </button>
 
             <button
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
