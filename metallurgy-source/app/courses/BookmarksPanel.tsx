@@ -36,7 +36,7 @@ export default function BookmarksPanel({
           <p>Nothing saved yet. Open a question and select ☆ Bookmark to keep it here.</p>
         </div>
       ) : (
-        <div className="qwrap study-utility-list">
+        <div className="study-utility-list">
           {ordered.map((questionId) => {
             const topicId = resolveTopic(questionId);
             const topic = topicId ? topicById.get(topicId) : undefined;
