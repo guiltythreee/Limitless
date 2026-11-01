@@ -88,14 +88,14 @@
   color: var(--body, inherit);
   box-shadow: var(--panel-shadow, 0 12px 35px rgba(0,0,0,.12));
 }
-.study-utility-panel__header {
+.study-utility-panel .study-utility-panel__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: .8rem 1.2rem;
   flex-wrap: wrap;
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  padding: 0 0 1rem;
+  margin: 0 0 1rem;
   border-bottom: 1px solid var(--panel-line, rgba(180,150,90,.22));
 }
 .study-utility-panel__heading { min-width: 0; }
