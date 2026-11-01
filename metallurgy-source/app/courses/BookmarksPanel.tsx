@@ -36,7 +36,7 @@ export default function BookmarksPanel({
           <p>Nothing saved yet. Open a question and select ☆ Bookmark to keep it here.</p>
         </div>
       ) : (
-        <div className="qwrap">
+        <div className="qwrap study-utility-list">
           {ordered.map((questionId) => {
             const topicId = resolveTopic(questionId);
             const topic = topicId ? topicById.get(topicId) : undefined;
@@ -46,6 +46,7 @@ export default function BookmarksPanel({
               : questionId;
             return (
               <div
+                className="study-utility-row"
                 key={questionId}
                 style={{
                   display: "flex",
@@ -66,7 +67,7 @@ export default function BookmarksPanel({
                     </div>
                   )}
                 </div>
-                <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                <div className="study-utility-row__actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
                   {topic && (
                     <button className="btn btn-gold" onClick={() => onOpen(questionId, topic.id)}>
                       Open question →
