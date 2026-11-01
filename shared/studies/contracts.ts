@@ -55,6 +55,7 @@ export interface StudyContentRef {
   title?: string;
   description?: string;
   route?: string;
+  symbol?: string;
   /** Optional parent reference, e.g. a lesson's course or topic. */
   parentId?: StudyContentId;
   /** Optional narrower capability set for this course/content entry. */
