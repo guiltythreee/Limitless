@@ -39,7 +39,25 @@ assert.deepEqual(selected, ["history"]);
 
 const empty = createStudyUtilityNav(h, { items: [], onSelect: () => {} });
 assert.equal(empty.children.length, 0);
-console.log("Shared study utility navigation: 23 assertions passed");
+// Shared utility panels must use the same header contract in both disciplines.
+// In particular, do not reintroduce Metallurgy's legacy .topbar padding here.
+for (const panelPath of [
+  "metallurgy-source/app/courses/BookmarksPanel.tsx",
+  "metallurgy-source/app/courses/ActivityHistoryPanel.tsx",
+  "metallurgy-source/app/courses/DailyGoalsPanel.tsx",
+  "probability-source/app/components/Practice.tsx",
+]) {
+  const source = readFileSync(resolve(root, panelPath), "utf8");
+  assert.ok(source.includes("study-utility-panel__header"), `${panelPath} must use the shared utility panel header`);
+  assert.ok(source.includes("study-utility-panel__title"), `${panelPath} must use the shared utility panel title`);
+  assert.ok(!source.includes('study-utility-panel__header topbar'), `${panelPath} must not apply legacy topbar padding to the shared header`);
+}
+const utilityCss = readFileSync(resolve(root, "shared/studies/study-utility-nav.css"), "utf8");
+assert.ok(utilityCss.includes(".study-utility-panel__header {"), "shared utility panel header owns the common layout");
+assert.ok(utilityCss.includes("padding-bottom: 1rem;"), "shared utility panel headers use the common bottom inset");
+assert.ok(utilityCss.includes("border-bottom: 1px solid var(--panel-line"), "shared utility panel headers use the common divider");
+
+console.log("Shared study utility navigation: 35 assertions passed");
 
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
