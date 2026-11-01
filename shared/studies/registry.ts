@@ -20,6 +20,9 @@ export function validateStudyRegistration(
   const errors: string[] = [];
   const descriptor = registration?.descriptor;
   if (!descriptor || !isNonEmpty(descriptor.id)) return ["descriptor.id is required"];
+  if (!Array.isArray(registration.content)) errors.push("content must be an array");
+  if (!Array.isArray(registration.pathways)) errors.push("pathways must be an array");
+  if (!Array.isArray(descriptor.capabilities)) errors.push("descriptor.capabilities must be an array");
   if (!isNonEmpty(descriptor.title)) errors.push("descriptor.title is required");
   if (!isNonEmpty(descriptor.route)) errors.push("descriptor.route is required");
   if (!["active", "planned"].includes(descriptor.status)) errors.push("descriptor.status is invalid");
@@ -40,6 +43,9 @@ export function validateStudyRegistration(
     if (item.disciplineId !== descriptor.id) errors.push(`content ${item.id} belongs to another discipline`);
     if (contentIds.has(item.id)) errors.push(`duplicate content id: ${item.id}`);
     contentIds.add(item.id);
+  }
+  for (const item of registration.content ?? []) {
+    if (item.parentId && !contentIds.has(item.parentId)) errors.push(`content ${item.id} has unknown parent: ${item.parentId}`);
   }
 
   const pathwayIds = new Set<string>();
@@ -82,17 +88,18 @@ export function validateStudyRegistry(
  * Return pathway content once, preserving first-seen order.
  * A shared lesson in Statistics and Quant Finance remains one content item.
  */
-export function uniquePathwayContentIds(
+export function uniquePathwayContentRefs(
   registrations: readonly StudyDisciplineRegistration[],
-): StudyContentId[] {
-  const seen = new Set<StudyContentId>();
-  const result: StudyContentId[] = [];
+): Array<{ disciplineId: string; contentId: StudyContentId }> {
+  const seen = new Set<string>();
+  const result: Array<{ disciplineId: string; contentId: StudyContentId }> = [];
   for (const registration of registrations) {
     for (const pathway of registration.pathways) {
       for (const id of pathway.contentIds) {
-        if (seen.has(id)) continue;
-        seen.add(id);
-        result.push(id);
+        const key = `${registration.descriptor.id}::${id}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        result.push({ disciplineId: registration.descriptor.id, contentId: id });
       }
     }
   }
