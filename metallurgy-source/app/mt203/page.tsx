@@ -18,6 +18,7 @@
 import Link from "next/link";
 import { createElement, useCallback, useEffect, useMemo, useState } from "react";
 import { createStudyUtilityNav } from "../../../shared/studies/StudyUtilityNav";
+import { createStudyModeTabs } from "../../../shared/studies/StudyModeTabs";
 import { ALL_QUESTION_IDS, TOPIC_OF } from "../data/qbank/meta";
 import { toActivities } from "../platform/learning";
 import { mdInline, mdToHtml } from "../lib/md";
@@ -359,20 +360,11 @@ export default function Mt203() {
                 </div>
                 <div style={{ display: "flex", gap: "0.7rem", alignItems: "center", flexWrap: "wrap" }}>
                   {progress.theoryRead.includes(view.topic) && <span className="chip">theory ✓</span>}
-                  <div className="tabs">
-                    <button
-                      className={`tab ${view.tab === "lesson" ? "active" : ""}`}
-                      onClick={() => setView({ ...view, tab: "lesson" })}
-                    >
-                      Lesson
-                    </button>
-                    <button
-                      className={`tab ${view.tab === "quiz" ? "active" : ""}`}
-                      onClick={() => setView({ ...view, tab: "quiz" })}
-                    >
-                      Quiz
-                    </button>
-                  </div>
+                  {createStudyModeTabs(createElement, {
+                    items: [{ id: "lesson", label: "Lesson" }, { id: "quiz", label: "Quiz" }],
+                    activeId: view.tab,
+                    onSelect: (tab) => setView({ ...view, tab: tab as "lesson" | "quiz" }),
+                  })}
                 </div>
               </div>
 
