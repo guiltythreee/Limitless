@@ -13,7 +13,7 @@ export function DiffBars({ title, headline, sub, data, color, max }: {
   const W = 560, H = 190, base = H - 26, plot = base - 14;
   const slot = W / data.length;
   return (
-    <section className="card study-utility-panel" aria-label={title}>
+    <section className="study-utility-panel" aria-label={title}>
       <div className="study-utility-panel__header flex items-start justify-between gap-4">
         <div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">{title}</h2></div>
         <div className="text-right"><div className="serif text-xl text-parchment">{headline}</div><div className="study-utility-panel__description">{sub}</div></div>
