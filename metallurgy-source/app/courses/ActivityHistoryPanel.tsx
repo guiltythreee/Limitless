@@ -150,14 +150,14 @@ export default function ActivityHistoryPanel({
               <article className="study-utility-row study-utility-row--history" key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`}>
                 <div className="study-utility-row__top">
                   <div style={{ minWidth: 0, flex: "1 1 14rem" }}>
-                    <div style={{ fontWeight: 600 }}>
+                    <div className="study-utility-row__title">
                       {topic?.title ?? topicId} · {activity.q}
                     </div>
                     <div className="study-utility-row__meta">
                       {activity.ts > 0 ? new Date(activity.ts).toLocaleString() : "Date unknown"} · {MODE_LABEL[activity.mode]} · {activity.ms > 0 ? fmtElapsed(activity.ms) : "Time unknown"}
                       {activity.source === "legacy" ? " · legacy record" : ""}
                     </div>
-                    <div style={{ fontSize: "0.85rem", marginTop: "0.35rem" }}>
+                    <div className="study-utility-row__detail">
                       Selected: <strong>{activity.picked}</strong> · <span style={{ color: activity.correct ? "var(--good)" : "var(--bad)" }}>{activity.correct ? "Correct" : "Incorrect"}</span>
                     </div>
                   </div>
