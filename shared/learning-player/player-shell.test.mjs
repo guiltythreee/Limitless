@@ -76,6 +76,9 @@ for (const token of [
   ":where(pre, .eq, .math-display, .katex-display)",
   ":where(.math, .katex)",
   ":where(img, svg, video, canvas)",
+  "[data-learning-player-palette] > .dots",
+  "flex-wrap: nowrap;",
+  "width: max-content;",
 ]) assert.ok(sharedCss.includes(token), `missing shared player design or interaction rule: ${token}`);
 
 // Every discipline player composes the same frame, palette and content inset.
