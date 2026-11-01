@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import {
   summarizeStudyProgress,
-  uniquePathwayContentIds,
+  uniquePathwayContentRefs,
   validateStudyRegistration,
   validateStudyRegistry,
 } from "./registry.ts";
@@ -46,7 +46,17 @@ const mt201 = {
 assert.deepEqual(validateStudyRegistration(probability), []);
 assert.deepEqual(validateStudyRegistration(mt201), []);
 assert.deepEqual(validateStudyRegistry([probability, mt201]), []);
-assert.deepEqual(uniquePathwayContentIds([probability]), ["sample-space", "conditional", "bayes"]);
+assert.deepEqual(uniquePathwayContentRefs([probability]), [
+  { disciplineId: "probability", contentId: "sample-space" },
+  { disciplineId: "probability", contentId: "conditional" },
+  { disciplineId: "probability", contentId: "bayes" },
+]);
+const otherDiscipline = {
+  descriptor: { id: "statistics", title: "Statistics", description: "Statistics", route: "/statistics", status: "active", capabilities: [] },
+  content: [{ id: "sample-space", disciplineId: "statistics", kind: "lesson" }],
+  pathways: [{ id: "intro", disciplineId: "statistics", title: "Intro", contentIds: ["sample-space"] }],
+};
+assert.equal(uniquePathwayContentRefs([probability, otherDiscipline]).length, 4);
 assert.deepEqual(summarizeStudyProgress(probability), {
   totalContent: 3,
   completed: 1,
