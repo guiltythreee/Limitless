@@ -32,7 +32,7 @@ export default function BookmarksPanel({
       </div>
 
       {ordered.length === 0 ? (
-        <div className="prose">
+        <div className="prose study-utility-empty">
           <p>Nothing saved yet. Open a question and select ☆ Bookmark to keep it here.</p>
         </div>
       ) : (
