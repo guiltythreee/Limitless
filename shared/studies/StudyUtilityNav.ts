@@ -49,7 +49,7 @@ export function createStudyUtilityNav(
             item.active ? "is-active" : "",
             item.tone === "accent" ? "is-accent" : "",
           ].filter(Boolean).join(" "),
-          "aria-pressed": Boolean(item.active),
+          "aria-current": item.active ? "page" : undefined,
           onClick: () => onSelect(item.id),
         },
         h("span", { className: "study-utility-nav__copy" },
