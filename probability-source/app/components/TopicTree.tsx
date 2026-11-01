@@ -105,8 +105,7 @@ export default function TopicTree({
                 </span>
                 <span className="text-[10px] text-faint">{done}/{inRank.length}</span>
               </button>
-              {isOpen && (
-                <div id={topicsId} className="mt-1 space-y-1">
+              <div id={topicsId} hidden={!isOpen} className="mt-1 space-y-1">
                   {inRank.map((lesson) => (
                     <button
                       key={lesson.id}
@@ -124,8 +123,7 @@ export default function TopicTree({
                       </span>
                     </button>
                   ))}
-                </div>
-              )}
+              </div>
             </div>
           );
         })}
