@@ -62,4 +62,36 @@ const probability = readFileSync(resolve(root, "probability-source/app/page.tsx"
 assert.ok(probability.includes('label: "Lesson sections"'), "Probability lesson sections use the shared accessible tablist");
 assert.ok(probability.includes("items: SECTIONS.map((sec) => ({"), "Probability lesson sections preserve their discipline-owned labels and counts");
 assert.ok(!probability.includes('className="mt-6 flex flex-wrap gap-1 border-b border-gold/15" role="tablist"'), "Probability does not retain a parallel hand-built section tablist");
-console.log("Shared study mode tabs: 24 assertions passed");
+const keyboardSelections = [];
+const keyboardTabs = createStudyModeTabs(h, {
+  items: [
+    { id: "one", label: "One" },
+    { id: "two", label: "Two" },
+    { id: "three", label: "Three" },
+    { id: "four", label: "Four" },
+  ],
+  activeId: "one",
+  onSelect: (id) => keyboardSelections.push(id),
+});
+function pressTab(index, key) {
+  let focused = -1;
+  let defaultPrevented = false;
+  keyboardTabs.children[index].props.onKeyDown({
+    key,
+    preventDefault: () => { defaultPrevented = true; },
+    currentTarget: {
+      parentElement: {
+        querySelectorAll: () => keyboardTabs.children.map((_, i) => ({ focus: () => { focused = i; } })),
+      },
+    },
+  });
+  return { focused, defaultPrevented };
+}
+assert.deepEqual(pressTab(0, "ArrowLeft"), { focused: 3, defaultPrevented: true }, "ArrowLeft wraps from first to last");
+assert.deepEqual(pressTab(3, "ArrowRight"), { focused: 0, defaultPrevented: true }, "ArrowRight wraps from last to first");
+assert.deepEqual(pressTab(2, "Home"), { focused: 0, defaultPrevented: true }, "Home focuses first tab");
+assert.deepEqual(pressTab(0, "End"), { focused: 3, defaultPrevented: true }, "End focuses last tab");
+assert.deepEqual(pressTab(1, "Escape"), { focused: -1, defaultPrevented: false }, "unrelated keys are not intercepted");
+assert.deepEqual(keyboardSelections, ["four", "one", "one", "four"], "keyboard navigation selects each focused tab");
+
+console.log("Shared study mode tabs: 30 assertions passed");
