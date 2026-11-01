@@ -19,7 +19,7 @@ const probability = flatten(createStudiesLanding(createElement, "Link", {
   ready: true,
 }));
 assert.ok(probability.some((node) => node.type === "h1" && node.children[0] === "Probability"));
-assert.equal(probability.filter((node) => node.props.className === "studies-landing__pathway").length, 5);
+assert.equal(probability.filter((node) => String(node.props.className ?? "").split(/\s+/).includes("studies-landing__pathway")).length, 5);
 assert.ok(probability.some((node) => node.type === "Link" && node.props.href === "/"));
 
 const metallurgy = flatten(createStudiesLanding(createElement, "Link", {
