@@ -167,7 +167,7 @@ export default function Mt203() {
 
       <div className="archive">
         {/* ---------------- sidebar ---------------- */}
-        <aside className="panel side">
+        <aside className="panel side" aria-label="MT203 course navigation">
           <div className="side-head">
             <div className="t1">MT203 · Polymers</div>
             <div className="t2">{topics()}</div>
