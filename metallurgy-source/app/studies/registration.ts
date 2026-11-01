@@ -53,9 +53,10 @@ for (const manifest of manifests) {
     id: manifest.id,
     disciplineId: "metallurgy",
     kind: "course",
-    title: manifest.title,
+    title: `${manifest.code} — ${manifest.title}`,
     description: manifest.description,
-    route: `/metallurgy/${manifest.route}`,
+    route: `/${manifest.route}`,
+    symbol: manifest.symbol,
     capabilities: capabilitiesFor(manifest.capabilities),
   });
 
