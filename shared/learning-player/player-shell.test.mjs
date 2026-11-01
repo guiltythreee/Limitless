@@ -70,6 +70,7 @@ for (const token of [
   "padding: 1.1rem 1.4rem 1.5rem;",
   "border-radius: var(--lp-radius-lg);",
   "background: var(--panel-bg, var(--lp-color-surface));",
+  "margin-top: var(--lp-space-4);",
 ]) assert.ok(sharedCss.includes(token), `missing shared player design or interaction rule: ${token}`);
 
 // Every discipline player composes the same frame, palette and content inset.
@@ -87,4 +88,4 @@ for (const appPath of [
   );
 }
 
-console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 47 assertions passed");
+console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 48 assertions passed");
