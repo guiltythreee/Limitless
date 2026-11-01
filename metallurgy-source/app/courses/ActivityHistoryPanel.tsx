@@ -146,7 +146,7 @@ export default function ActivityHistoryPanel({
             const topicId = resolveTopic(activity.q) ?? activity.topicId;
             const topic = topicById.get(topicId);
             return (
-              <article className="study-utility-row" key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`}>
+              <article className="study-utility-row study-utility-row--history" key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`}>
                 <div className="study-utility-row__top">
                   <div style={{ minWidth: 0, flex: "1 1 14rem" }}>
                     <div style={{ fontWeight: 600 }}>
