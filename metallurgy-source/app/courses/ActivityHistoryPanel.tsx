@@ -85,7 +85,7 @@ export default function ActivityHistoryPanel({
         <span className="chip">{rows.length} {view === "mistakes" ? "questions" : "entries"}</span>
       </div>
 
-      <div className="study-utility-toolbar" style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", alignItems: "center", marginBottom: "1rem" }}>
+      <div className="study-utility-toolbar">
         <label style={{ display: "flex", gap: "0.4rem", alignItems: "center", fontSize: "0.85rem" }}>
           Period
           <select className="field" aria-label="History period" value={period} onChange={(event) => setPeriod(event.target.value as Period)}>
@@ -102,7 +102,7 @@ export default function ActivityHistoryPanel({
         </label>
       </div>
 
-      <div className="study-utility-metrics" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(7rem, 1fr))", gap: "0.6rem", marginBottom: "1.2rem" }}>
+      <div className="study-utility-metrics">
         {[
           { label: "Attempts", value: String(summary.attempts) },
           { label: "Questions", value: String(summary.questions) },
@@ -116,7 +116,7 @@ export default function ActivityHistoryPanel({
         ))}
       </div>
 
-      <div className="study-utility-visual" style={{ border: "1px solid var(--panel-line)", borderRadius: "0.75rem", padding: "0.8rem", marginBottom: "1.2rem" }}>
+      <div className="study-utility-visual">
         <div style={{ fontWeight: 600, marginBottom: "0.5rem" }}>Daily activity · last 7 days</div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(0, 1fr))", gap: "0.45rem", alignItems: "end" }}>
           {week.map((day) => (
@@ -146,8 +146,8 @@ export default function ActivityHistoryPanel({
             const topicId = resolveTopic(activity.q) ?? activity.topicId;
             const topic = topicById.get(topicId);
             return (
-              <article className="study-utility-row" key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`} style={{ padding: "0.85rem 0", borderBottom: "1px solid var(--panel-line)" }}>
-                <div className="study-utility-row__top" style={{ display: "flex", justifyContent: "space-between", gap: "0.6rem", flexWrap: "wrap", alignItems: "flex-start" }}>
+              <article className="study-utility-row" key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`}>
+                <div className="study-utility-row__top">
                   <div style={{ minWidth: 0, flex: "1 1 14rem" }}>
                     <div style={{ fontWeight: 600 }}>
                       {topic?.title ?? topicId} · {activity.q}
