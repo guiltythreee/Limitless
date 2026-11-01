@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "../../shared/learning-player/player.css";
+import "../../shared/studies/landing.css";
 
 export const metadata: Metadata = {
   title: "Limitless Probability — The Probability Archive",
