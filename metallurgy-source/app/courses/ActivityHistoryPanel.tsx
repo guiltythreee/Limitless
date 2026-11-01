@@ -85,7 +85,7 @@ export default function ActivityHistoryPanel({
         <span className="chip">{rows.length} {view === "mistakes" ? "questions" : "entries"}</span>
       </div>
 
-      <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", alignItems: "center", marginBottom: "1rem" }}>
+      <div className="study-utility-toolbar" style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", alignItems: "center", marginBottom: "1rem" }}>
         <label style={{ display: "flex", gap: "0.4rem", alignItems: "center", fontSize: "0.85rem" }}>
           Period
           <select className="field" aria-label="History period" value={period} onChange={(event) => setPeriod(event.target.value as Period)}>
@@ -102,21 +102,21 @@ export default function ActivityHistoryPanel({
         </label>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(7rem, 1fr))", gap: "0.6rem", marginBottom: "1.2rem" }}>
+      <div className="study-utility-metrics" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(7rem, 1fr))", gap: "0.6rem", marginBottom: "1.2rem" }}>
         {[
           { label: "Attempts", value: String(summary.attempts) },
           { label: "Questions", value: String(summary.questions) },
           { label: "Accuracy", value: summary.attempts ? `${Math.round(summary.accuracy * 100)}%` : "—" },
           { label: "Timed avg.", value: summary.timed ? fmtElapsed(summary.avgMs) : "—" },
         ].map((tile) => (
-          <div key={tile.label} className="chip" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.2rem", padding: "0.65rem 0.8rem" }}>
+          <div key={tile.label} className="chip study-utility-metric" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.2rem", padding: "0.65rem 0.8rem" }}>
             <span style={{ fontSize: "0.72rem", opacity: 0.8 }}>{tile.label}</span>
             <strong style={{ fontSize: "1.1rem" }}>{tile.value}</strong>
           </div>
         ))}
       </div>
 
-      <div style={{ border: "1px solid var(--panel-line)", borderRadius: "0.75rem", padding: "0.8rem", marginBottom: "1.2rem" }}>
+      <div className="study-utility-visual" style={{ border: "1px solid var(--panel-line)", borderRadius: "0.75rem", padding: "0.8rem", marginBottom: "1.2rem" }}>
         <div style={{ fontWeight: 600, marginBottom: "0.5rem" }}>Daily activity · last 7 days</div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(0, 1fr))", gap: "0.45rem", alignItems: "end" }}>
           {week.map((day) => (
@@ -146,13 +146,13 @@ export default function ActivityHistoryPanel({
             const topicId = resolveTopic(activity.q) ?? activity.topicId;
             const topic = topicById.get(topicId);
             return (
-              <article key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`} style={{ padding: "0.85rem 0", borderBottom: "1px solid var(--panel-line)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: "0.6rem", flexWrap: "wrap", alignItems: "flex-start" }}>
+              <article className="study-utility-row" key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`} style={{ padding: "0.85rem 0", borderBottom: "1px solid var(--panel-line)" }}>
+                <div className="study-utility-toolbar" style={{ display: "flex", justifyContent: "space-between", gap: "0.6rem", flexWrap: "wrap", alignItems: "flex-start" }}>
                   <div style={{ minWidth: 0, flex: "1 1 14rem" }}>
                     <div style={{ fontWeight: 600 }}>
                       {topic?.title ?? topicId} · {activity.q}
                     </div>
-                    <div style={{ color: "var(--dim)", fontSize: "0.78rem", marginTop: "0.2rem" }}>
+                    <div className="study-utility-row__meta" style={{ color: "var(--dim)", fontSize: "0.78rem", marginTop: "0.2rem" }}>
                       {activity.ts > 0 ? new Date(activity.ts).toLocaleString() : "Date unknown"} · {MODE_LABEL[activity.mode]} · {activity.ms > 0 ? fmtElapsed(activity.ms) : "Time unknown"}
                       {activity.source === "legacy" ? " · legacy record" : ""}
                     </div>
