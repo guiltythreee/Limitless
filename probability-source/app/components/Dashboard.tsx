@@ -49,9 +49,9 @@ export function StreakCard() {
         <div className="text-sm text-body">{g.streak} day streak <span className="text-orange-500">🔥</span> <span className="ml-2 text-xs text-faint">best {g.best}</span></div>
       </div>
       <div className="study-utility-panel__content">
-      <div className="study-utility-visual mt-4 flex gap-1">
+      <div className="study-utility-visual study-utility-week-grid mt-4">
         {g.week.map((d) => (
-          <div key={d.day} className={`weekcol ${d.met ? "weekcol-met" : ""} ${d.isToday ? "weekcol-today" : ""}`}>
+          <div key={d.day} className={`study-utility-week-cell weekcol ${d.met ? "weekcol-met" : ""} ${d.isToday ? "weekcol-today" : ""}`}>
             <b>{d.name}</b>
             <span className="mt-1 block">{d.future ? "--" : d.count ? `${d.count} Qs` : "--"}</span>
             <span className="mt-1 block h-4 text-base leading-none">{d.met ? "🔥" : ""}</span>
