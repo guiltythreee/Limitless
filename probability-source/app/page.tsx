@@ -26,7 +26,7 @@ function TopicPicker({ activeId, completed, onChoose, title, unit, pathwayId, on
         <span className="min-w-0 flex-1"><span className="eyebrow block text-[9px]!">Topic</span><span className="mt-1 block truncate text-sm text-parchment">{unit ? `${unit} · ` : ""}{title}</span></span>
         <span className={`text-gold transition-transform ${shown ? "rotate-180" : ""}`}>▾</span>
       </button>
-      <div id={panelId} hidden={!shown} className="panel mt-2 max-h-[65vh] max-h-[65dvh] overflow-y-auto overscroll-contain p-3"><TopicTree activeId={activeId} completed={completed} onChoose={(id) => { onChoose(id); setShown(false); }} pathwayId={pathwayId} onPathwayChange={onPathwayChange} /></div>}
+      <div id={panelId} hidden={!shown} className="panel mt-2 max-h-[65vh] max-h-[65dvh] overflow-y-auto overscroll-contain p-3"><TopicTree activeId={activeId} completed={completed} onChoose={(id) => { onChoose(id); setShown(false); }} pathwayId={pathwayId} onPathwayChange={onPathwayChange} /></div>
     </div>
   );
 }
