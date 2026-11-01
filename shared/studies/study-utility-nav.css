@@ -202,7 +202,12 @@
   border: 1px dashed var(--panel-line, rgba(180,150,90,.22));
   border-radius: .75rem;
   color: var(--dim, #999);
+  font-size: .875rem;
+  line-height: 1.55;
+  text-align: center;
 }
+.study-utility-empty > :first-child { margin-top: 0; }
+.study-utility-empty > :last-child { margin-bottom: 0; }
 .study-utility-form {
   display: flex;
   flex-wrap: wrap;
