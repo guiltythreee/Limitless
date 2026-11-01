@@ -1,15 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { createElement, useEffect, useState } from "react";
 import { loadTheme, saveTheme } from "./lib/progress";
 import { METALLURGY_STUDIES_REGISTRATION } from "./studies/registration";
-import { StudiesLanding } from "../../shared/studies/StudiesLanding";
+import { createStudiesLanding } from "../../shared/studies/StudiesLanding";
+import type { StudyProgressSnapshot } from "../../shared/studies/contracts";
 
 export default function Landing() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [snapshots, setSnapshots] = useState<readonly StudyProgressSnapshot[]>([]);
+  const [progressReady, setProgressReady] = useState(false);
 
-  useEffect(() => setTheme(loadTheme()), []);
+  useEffect(() => {
+    setTheme(loadTheme());
+    try {
+      setSnapshots(METALLURGY_STUDIES_REGISTRATION.readProgress?.() ?? []);
+    } catch {
+      setSnapshots([]);
+    }
+    setProgressReady(true);
+  }, []);
+
+  const landing = createStudiesLanding(createElement, Link, {
+    registration: METALLURGY_STUDIES_REGISTRATION,
+    snapshots,
+    ready: progressReady,
+  });
 
   const toggle = () => {
     const next = theme === "dark" ? "light" : "dark";
@@ -31,7 +48,7 @@ export default function Landing() {
         </nav>
       </header>
 
-      <StudiesLanding registration={METALLURGY_STUDIES_REGISTRATION} />
+      {landing}
 
       <footer className="site-footer">✧ &nbsp; M&amp;M ENGINEERING ARCHIVE &nbsp;✧</footer>
     </>
