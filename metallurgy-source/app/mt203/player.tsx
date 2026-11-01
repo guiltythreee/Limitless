@@ -275,7 +275,7 @@ export default function Player({
     : fmtElapsed(elapsedMs);
 
   return (
-      <LearningPlayerShell className="panel" paletteClassName="learning-player-palette dots" contentClassName="qwrap" palette={(
+      <LearningPlayerShell className="learning-player-frame" paletteClassName="learning-player-palette" contentClassName="learning-player-content" palette={(
         <div role="tablist" aria-label="Question navigator">
                   {order.map((qi, i) => {
                     const qq = questions[qi];
