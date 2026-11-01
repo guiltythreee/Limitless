@@ -6,7 +6,7 @@ import type {
 } from "./contracts";
 
 const CAPABILITIES = new Set<StudyCapability>([
-  "theory", "examples", "practice", "assessment", "revision", "bookmarks",
+  "theory", "examples", "practice", "assessment", "answer-review", "revision", "subject-tools", "bookmarks",
   "drafts", "timers", "attempt-history", "analytics", "goals", "mastery",
 ]);
 
