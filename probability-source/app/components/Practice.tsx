@@ -240,7 +240,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
 export function Options({ item, picked, onPick, reveal, disabled }: { item: Q["item"]; picked: number[]; onPick: (i: number) => void; reveal: boolean; disabled: boolean }) {
   const right = correctSet(item);
   return (
-    <div className="mt-6 grid gap-3 sm:grid-cols-2">
+    <div className="mt-6 grid gap-3 sm:grid-cols-2 learning-player-options">
       {item.options.map((option, i) => {
         const sel = picked.includes(i);
         const ok = right.includes(i);
@@ -249,7 +249,7 @@ export function Options({ item, picked, onPick, reveal, disabled }: { item: Q["i
         else if (reveal && sel) style = "border-red-600/70! bg-red-500/10";
         else if (sel) style = "border-gold/70! bg-gold/10";
         return (
-          <button key={i} onClick={() => onPick(i)} disabled={disabled} className={`optcard text-body disabled:cursor-default ${style}`}>
+          <button key={i} onClick={() => onPick(i)} disabled={disabled} className={`optcard learning-player-option text-body disabled:cursor-default ${style}`}>
             <span className="optletter">{String.fromCharCode(65 + i)}</span>
             <span className="min-w-0 flex-1"><Rich text={option} /></span>
             {reveal && ok && <span className="text-emerald-500">✓</span>}
@@ -399,12 +399,12 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
       <Options item={q.item} picked={phase === "review" ? last?.picked ?? [] : picked} onPick={choose} reveal={reviewing} disabled={phase === "review"} />
 
       {reviewing && last && (
-        <div className="mt-6 space-y-4">
-          <div className={`flex flex-wrap items-center gap-x-4 gap-y-1 rounded-xl border px-4 py-3 text-sm ${st === "correct" ? "border-emerald-700/50 bg-emerald-500/10 text-ok" : st === "partial" ? "border-amber-600/50 bg-amber-500/10 text-body" : "border-red-700/40 bg-red-500/10 text-body"}`}>
+        <div className="mt-6 space-y-4 learning-player-review">
+          <div className={`learning-player-feedback flex flex-wrap items-center gap-x-4 gap-y-1 rounded-xl border px-4 py-3 text-sm ${st === "correct" ? "border-emerald-700/50 bg-emerald-500/10 text-ok" : st === "partial" ? "border-amber-600/50 bg-amber-500/10 text-body" : "border-red-700/40 bg-red-500/10 text-body"}`}>
             <strong>{st === "correct" ? "Correct" : st === "partial" ? `Partly correct · ${Math.round(last.score * 100)}%` : "Incorrect"}</strong>
             <span className="text-dim">Time taken {fmtTime(last.ms)}</span>
           </div>
-          <div className="rounded-xl border border-gold/15 p-4"><Explanation text={q.item.explanation} /></div>
+          <div className="learning-player-solution rounded-xl border border-gold/15 p-4"><Explanation text={q.item.explanation} /></div>
         </div>
       )}
 
