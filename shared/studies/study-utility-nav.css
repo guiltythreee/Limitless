@@ -169,16 +169,35 @@
   margin-bottom: 1.2rem;
 }
 .study-utility-metrics--goals { grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: .8rem; margin-bottom: 1rem; }
-.study-utility-metric {
+.study-utility-panel .study-utility-metric {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: .2rem;
   min-width: 0;
+  padding: .75rem .8rem;
   text-align: left;
   border: 1px solid var(--panel-line, rgba(180,150,90,.22));
   border-radius: .75rem;
   background: var(--panel-bg, transparent);
+}
+.study-utility-metric__label {
+  color: var(--dim, #999);
+  font-size: .75rem;
+  line-height: 1.4;
+}
+.study-utility-metric__value {
+  color: var(--paper, var(--body, inherit));
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+.study-utility-metric__detail {
+  color: var(--dim, #999);
+  font-size: .75rem;
+  line-height: 1.45;
 }
 .study-utility-visual {
   min-width: 0;
