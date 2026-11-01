@@ -220,7 +220,7 @@ export function SolutionPanel({
   if (variant.solutionStyle === "concise") {
     const { concise, detailed, keyExplanation } = q.solution;
     return (
-      <div className="reveal learning-player-review">
+      <div className="reveal">
         {concise && (
           <div
             className="concise"
