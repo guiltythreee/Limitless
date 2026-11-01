@@ -14,6 +14,7 @@ export function createStudyModeTabs(
     className = "tabs",
     itemClassName = "tab",
     activeClassName = "active",
+    inactiveClassName = "",
     label = "Study sections",
   }: {
     items: readonly StudyModeTab[];
@@ -22,6 +23,7 @@ export function createStudyModeTabs(
     className?: string;
     itemClassName?: string;
     activeClassName?: string;
+    inactiveClassName?: string;
     label?: string;
   },
 ) {
@@ -38,7 +40,7 @@ export function createStudyModeTabs(
           type: "button",
           role: "tab",
           "aria-selected": active,
-          className: [itemClassName, active ? activeClassName : ""].filter(Boolean).join(" "),
+          className: [itemClassName, active ? activeClassName : inactiveClassName].filter(Boolean).join(" "),
           onClick: () => onSelect(item.id),
         },
         item.label,
