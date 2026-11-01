@@ -62,7 +62,7 @@ export function createStudiesLanding(
         ),
       ),
       h("div", { className: "studies-landing__hero-mark", "aria-hidden": "true" },
-        h("span", null, registration.descriptor.id === "probability" ? "∿" : registration.descriptor.id === "metallurgy" ? "⚗" : "◇"),
+        h("span", null, courses[0]?.symbol ?? "◇"),
         h("small", null, "LIMITLESS"),
       ),
     ),
