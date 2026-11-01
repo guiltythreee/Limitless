@@ -37,4 +37,38 @@ const summary = summarizeStudyProgress(probability);
 assert.equal(summary.totalContent, probability.content.length);
 assert.equal(summary.unknown, probability.content.length, "registration must not read or invent progress on load");
 
-console.log("Reference Studies registrations: 11 checks passed");
+// Progress adapters must read canonical payloads without invoking any writer.
+const records = new Map([
+  ["hc3-progress-v3", JSON.stringify({
+    completed: ["sample-space"],
+    attempts: [{ q: "known-question", ts: 100 }],
+  })],
+  ["mm-mt201-v1", JSON.stringify({
+    answered: { "ch01-q1": { choice: "A", correct: true, at: 123 } },
+  })],
+]);
+let writes = 0;
+globalThis.window = {
+  localStorage: {
+    getItem(key) { return records.has(key) ? records.get(key) : null; },
+    setItem() { writes++; throw new Error("progress projection must never write"); },
+  },
+};
+
+const probabilitySnapshots = probability.readProgress();
+const probabilityLesson = probabilitySnapshots.find((item) => item.contentId === "sample-space");
+assert.equal(probabilityLesson?.status, "completed");
+assert.ok(probabilitySnapshots.some((item) => item.contentId === "probability-course" && item.status === "in-progress"));
+
+const metallurgySnapshots = metallurgy.readProgress();
+assert.ok(metallurgySnapshots.some((item) => item.contentId === "mt201:ch01" && item.status === "in-progress"));
+assert.ok(metallurgySnapshots.some((item) => item.contentId === "mt201" && item.status === "in-progress"));
+assert.ok(metallurgySnapshots.some((item) => item.contentId === "mt202" && item.status === "not-started"));
+
+records.set("hc3-progress-v3", "{malformed");
+assert.deepEqual(probability.readProgress(), [], "malformed Probability data must remain unknown");
+records.set("mm-mt201-v1", "[]");
+assert.ok(!metallurgy.readProgress().some((item) => item.contentId === "mt201"), "malformed course data must remain unknown");
+assert.equal(writes, 0, "read-only projections must never persist, migrate, or initialise data");
+
+console.log("Reference Studies registrations and read-only progress: checks passed");
