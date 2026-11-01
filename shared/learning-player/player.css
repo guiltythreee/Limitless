@@ -53,6 +53,24 @@
   min-width: 0;
 }
 
+/* The outer player frame and its reading inset belong to the shared shell.
+   Course adapters provide content and controls, not competing panel frames. */
+.learning-player-frame {
+  min-width: 0;
+  border: 1px solid var(--lp-color-border);
+  border-radius: var(--lp-radius-lg);
+  background: var(--panel-bg, var(--lp-color-surface));
+  box-shadow: var(--lp-shadow-panel);
+}
+.learning-player-content {
+  min-width: 0;
+  max-width: 100%;
+  padding: 1.1rem 1.4rem 1.5rem;
+}
+@media (max-width: 40rem) {
+  .learning-player-content { padding: 1rem; }
+}
+
 [data-learning-player-header],
 [data-learning-player-palette],
 [data-learning-player-content],
@@ -137,7 +155,10 @@
   align-items: center;
   gap: var(--lp-space-2);
   min-width: 0;
-  padding-block: var(--lp-space-1);
+  padding: .5rem 1rem .25rem;
+}
+[data-learning-player] .learning-player-palette > * {
+  flex: 0 0 auto;
 }
 [data-learning-player] .learning-player-actions {
   display: flex;
