@@ -100,12 +100,6 @@
   margin-bottom: 1rem;
   border-bottom: 1px solid var(--panel-line, rgba(180,150,90,.22));
 }
-/* Metallurgy's legacy topbar adds horizontal and top padding. Remove only
-   that legacy inset when it is used as a shared utility panel header. */
-.study-utility-panel .topbar.study-utility-panel__header {
-  padding: 0 0 1rem;
-  margin: 0 0 1rem;
-}
 .study-utility-panel__heading { min-width: 0; }
 .study-utility-panel__header .study-utility-panel__title {
   margin: 0;
