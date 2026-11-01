@@ -141,7 +141,7 @@ export default function ActivityHistoryPanel({
           <p>{view === "mistakes" ? "No latest mistakes match these filters. Keep practising." : "No attempts match these filters yet."}</p>
         </div>
       ) : (
-        <div>
+        <div className="study-utility-list">
           {rows.map((activity, index) => {
             const topicId = resolveTopic(activity.q) ?? activity.topicId;
             const topic = topicById.get(topicId);
@@ -152,7 +152,7 @@ export default function ActivityHistoryPanel({
                     <div style={{ fontWeight: 600 }}>
                       {topic?.title ?? topicId} · {activity.q}
                     </div>
-                    <div className="study-utility-row__meta" style={{ color: "var(--dim)", fontSize: "0.78rem", marginTop: "0.2rem" }}>
+                    <div className="study-utility-row__meta">
                       {activity.ts > 0 ? new Date(activity.ts).toLocaleString() : "Date unknown"} · {MODE_LABEL[activity.mode]} · {activity.ms > 0 ? fmtElapsed(activity.ms) : "Time unknown"}
                       {activity.source === "legacy" ? " · legacy record" : ""}
                     </div>
