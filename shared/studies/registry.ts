@@ -121,6 +121,7 @@ export function uniquePathwayContentRefs(
  */
 export function summarizeStudyProgress(
   registration: StudyDisciplineRegistration,
+  projectedSnapshots?: readonly StudyProgressSnapshot[],
 ): {
   totalContent: number;
   completed: number;
@@ -129,7 +130,7 @@ export function summarizeStudyProgress(
   unknown: number;
   snapshots: readonly StudyProgressSnapshot[];
 } {
-  const snapshots = registration.readProgress?.() ?? [];
+  const snapshots = projectedSnapshots ?? registration.readProgress?.() ?? [];
   const byId = new Map(snapshots.map((snapshot) => [snapshot.contentId, snapshot]));
   let completed = 0;
   let inProgress = 0;
