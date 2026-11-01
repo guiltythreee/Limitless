@@ -20,8 +20,8 @@ const catalogue = registrations.map(({ descriptor, content }) => ({
   href: descriptor.route.split("/").filter(Boolean).join("/") + "/",
   status: descriptor.status === "active" ? "beta" : "soon",
   symbol: descriptor.id === "probability" ? "◇" : descriptor.id === "metallurgy" ? "⚗" : "✧",
-  courses: content.filter((item) => item.kind === "course").map(({ id, title, route, capabilities }) => ({
-    id, title, route, capabilities: capabilities ?? [],
+  courses: content.filter((item) => item.kind === "course").map(({ id, title, route, capabilities, symbol }) => ({
+    id, title, route, capabilities: capabilities ?? [], symbol,
   })),
   capabilities: [...descriptor.capabilities],
 }));
