@@ -19,8 +19,20 @@ assert.equal(tabs.children[0].props.role, "tab");
 assert.equal(tabs.children[0].props.type, "button");
 assert.equal(tabs.children[0].props["aria-selected"], true);
 assert.equal(tabs.children[1].props["aria-selected"], false);
+assert.equal(tabs.children[0].props.tabIndex, 0);
+assert.equal(tabs.children[1].props.tabIndex, -1);
 tabs.children[1].props.onClick();
 assert.deepEqual(selected, ["quiz"]);
+let focusedIndex = -1;
+let prevented = false;
+tabs.children[0].props.onKeyDown({
+  key: "ArrowRight",
+  preventDefault: () => { prevented = true; },
+  currentTarget: { parentElement: { querySelectorAll: () => tabs.children.map((_, index) => ({ focus: () => { focusedIndex = index; } })) } },
+});
+assert.equal(prevented, true);
+assert.equal(focusedIndex, 1);
+assert.deepEqual(selected, ["quiz", "quiz"]);
 
 const custom = createStudyModeTabs(h, {
   items: [{ id: "archive", label: "Lessons" }, { id: "analysis", label: "Analysis" }],
@@ -46,4 +58,4 @@ for (const path of [
   const source = readFileSync(resolve(root, path), "utf8");
   assert.ok(source.includes("createStudyModeTabs"), `${path} should use the shared tab component`);
 }
-console.log("Shared study mode tabs: 16 assertions passed");
+console.log("Shared study mode tabs: 20 assertions passed");
