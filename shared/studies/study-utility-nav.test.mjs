@@ -84,3 +84,4 @@ assert.ok(probabilityTree.includes("aria-controls={topicsId}"), "Probability seq
 assert.ok(probabilityTree.includes('<div id={topicsId}'), "Probability sequence topic panel exposes the controlled id");
 assert.ok(probabilityTree.includes("aria-expanded={isOpen}"), "Probability sequence disclosure exposes expanded state");
 assert.ok(probabilityTree.includes('type="button"'), "Probability topic navigation buttons cannot submit an enclosing form");
+assert.ok(probabilityTree.includes("hidden={!isOpen}"), "Probability disclosure target remains mounted and hidden when collapsed");
