@@ -189,7 +189,7 @@
   border: 1px solid var(--lp-color-border);
   border-radius: var(--lp-radius-md);
 }
-[data-learning-player] .learning-player-review {
+[data-learning-player] :where(.learning-player-review, .reveal) {
   display: grid;
   gap: var(--lp-space-3);
   min-width: 0;
