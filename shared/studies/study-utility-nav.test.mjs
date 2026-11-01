@@ -39,7 +39,7 @@ assert.deepEqual(selected, ["history"]);
 
 const empty = createStudyUtilityNav(h, { items: [], onSelect: () => {} });
 assert.equal(empty.children.length, 0);
-console.log("Shared study utility navigation: 17 assertions passed");
+console.log("Shared study utility navigation: 23 assertions passed");
 
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
