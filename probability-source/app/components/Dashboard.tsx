@@ -26,7 +26,7 @@ export function GoalCard() {
         {MILE.map((m, i) => <span key={i} className={`mile-node ${frac >= i / 4 && (i === 0 || g.today > 0) ? "mile-node-on" : ""}`}>{m}</span>)}
       </div>
       {open && (
-        <form className="mt-5 flex flex-wrap items-center gap-2 border-t border-gold/10 pt-4" onSubmit={(e) => { e.preventDefault(); if (text) { setGoal(Number(text)); setText(""); } }}>
+        <form className="study-utility-form mt-5 border-t border-gold/10 pt-4" onSubmit={(e) => { e.preventDefault(); if (text) { setGoal(Number(text)); setText(""); } }}>
           <label htmlFor="goal" className="text-xs text-dim">Questions per day</label>
           <input id="goal" type="number" min={1} max={500} value={text} placeholder={String(store.goal)} onChange={(e) => setText(e.target.value)} className="field w-24" />
           <button className="btn-gold px-3! py-2!">Set goal</button>
@@ -46,7 +46,7 @@ export function StreakCard() {
         <div className="serif text-xl">Daily Goal Streak</div>
         <div className="text-sm text-body">{g.streak} day streak <span className="text-orange-500">🔥</span> <span className="ml-2 text-xs text-faint">best {g.best}</span></div>
       </div>
-      <div className="mt-4 flex gap-1">
+      <div className="study-utility-visual mt-4 flex gap-1">
         {g.week.map((d) => (
           <div key={d.day} className={`weekcol ${d.met ? "weekcol-met" : ""} ${d.isToday ? "weekcol-today" : ""}`}>
             <b>{d.name}</b>
@@ -81,11 +81,11 @@ export function StatsPanel({ scope, poolSize, scopeControl }: { scope: Scope; po
           {PERIODS.map((p) => <button key={p.id} onClick={() => setPeriod(p.id)} className={`flex-1 rounded-full px-3 py-2 text-sm ${period === p.id ? "bg-gold/15 text-gold outline outline-1 outline-gold/50" : "text-dim hover:text-parchment"}`}>{p.label}</button>)}
         </div>
         <div className="study-utility-metrics mt-4 grid gap-3 sm:grid-cols-3">
-          <div className="tile" style={{ background: "color-mix(in srgb, var(--c-attempt) 12%, transparent)" }}><div className="tv" style={{ color: "var(--c-attempt)" }}>{sum.questions}</div><div className="tl">Qs Solved</div></div>
-          <div className="tile" style={{ background: "color-mix(in srgb, var(--warn) 12%, transparent)" }}><div className="tv" style={{ color: "var(--warn)" }}>{sum.avgMs ? fmtTime(sum.avgMs) : "–"}</div><div className="tl">Time per Q (m:ss)</div></div>
-          <div className="tile" style={{ background: "color-mix(in srgb, var(--good) 12%, transparent)" }}><div className="tv" style={{ color: "var(--good)" }}>{sum.attempts ? pct(sum.accuracy) : "–"}</div><div className="tl">Accuracy</div></div>
+          <div className="tile study-utility-metric" style={{ background: "color-mix(in srgb, var(--c-attempt) 12%, transparent)" }}><div className="tv" style={{ color: "var(--c-attempt)" }}>{sum.questions}</div><div className="tl">Qs Solved</div></div>
+          <div className="tile study-utility-metric" style={{ background: "color-mix(in srgb, var(--warn) 12%, transparent)" }}><div className="tv" style={{ color: "var(--warn)" }}>{sum.avgMs ? fmtTime(sum.avgMs) : "–"}</div><div className="tl">Time per Q (m:ss)</div></div>
+          <div className="tile study-utility-metric" style={{ background: "color-mix(in srgb, var(--good) 12%, transparent)" }}><div className="tv" style={{ color: "var(--good)" }}>{sum.attempts ? pct(sum.accuracy) : "–"}</div><div className="tl">Accuracy</div></div>
         </div>
-        <div className="mt-5 rounded-2xl border border-gold/10 p-3">
+        <div className="study-utility-visual mt-5">
           <DayBars bars={bars} goal={store.goalByDay[bars[bars.length - 1]?.day] ?? store.goal} />
           <div className="mt-1 flex gap-4 text-[10px] text-dim"><span><i className="mr-1 inline-block h-2 w-2" style={{ background: "var(--good)" }} />correct</span><span><i className="mr-1 inline-block h-2 w-2" style={{ background: "var(--bad)" }} />not correct</span></div>
         </div>
