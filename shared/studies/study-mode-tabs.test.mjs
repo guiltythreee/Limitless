@@ -1,0 +1,49 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { createStudyModeTabs } from "./StudyModeTabs.ts";
+
+const h = (type, props, ...children) => ({ type, props: props ?? {}, children });
+const selected = [];
+const tabs = createStudyModeTabs(h, {
+  items: [{ id: "lesson", label: "Lesson" }, { id: "quiz", label: "Quiz" }],
+  activeId: "lesson",
+  onSelect: (id) => selected.push(id),
+});
+assert.equal(tabs.type, "div");
+assert.equal(tabs.props.role, "tablist");
+assert.equal(tabs.props["aria-label"], "Study sections");
+assert.equal(tabs.children.length, 2);
+assert.equal(tabs.children[0].props.role, "tab");
+assert.equal(tabs.children[0].props.type, "button");
+assert.equal(tabs.children[0].props["aria-selected"], true);
+assert.equal(tabs.children[1].props["aria-selected"], false);
+tabs.children[1].props.onClick();
+assert.deepEqual(selected, ["quiz"]);
+
+const custom = createStudyModeTabs(h, {
+  items: [{ id: "archive", label: "Lessons" }, { id: "analysis", label: "Analysis" }],
+  activeId: "analysis",
+  onSelect: () => {},
+  className: "custom-tabs",
+  itemClassName: "tab-item",
+  activeClassName: "selected",
+  inactiveClassName: "idle",
+  label: "Archive sections",
+});
+assert.equal(custom.props.className, "custom-tabs");
+assert.equal(custom.props["aria-label"], "Archive sections");
+assert.equal(custom.children[0].props.className, "tab-item idle");
+assert.equal(custom.children[1].props.className, "tab-item selected");
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+for (const path of [
+  "probability-source/app/page.tsx",
+  "metallurgy-source/app/mt202/page.tsx",
+  "metallurgy-source/app/mt203/page.tsx",
+]) {
+  const source = readFileSync(resolve(root, path), "utf8");
+  assert.ok(source.includes("createStudyModeTabs"), `${path} should use the shared tab component`);
+}
+console.log("Shared study mode tabs: 14 assertions passed");
