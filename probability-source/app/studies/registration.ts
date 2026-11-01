@@ -1,12 +1,15 @@
 import { lessons, pathways } from "../content";
 import { allQuestions } from "../lib/questions";
-import { STORAGE_KEY } from "../lib/store";
 import {
   activitySnapshot,
   completedSnapshot,
   readStoredProgress,
 } from "../../../shared/studies/progress";
 import type { StudyDisciplineRegistration } from "../../../shared/studies/contracts";
+
+// Must stay aligned with the canonical key in app/lib/store.ts. Kept local to
+// this adapter so the framework-neutral registry tests do not import React.
+const PROBABILITY_STORAGE_KEY = "hc3-progress-v3";
 
 /**
  * Probability registration for the shared Studies directory.
@@ -73,7 +76,7 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
     if (typeof window === "undefined") return [];
     const stored = readStoredProgress(
       (key) => window.localStorage.getItem(key),
-      STORAGE_KEY,
+      PROBABILITY_STORAGE_KEY,
     );
     if (stored.status !== "available") return [];
 
