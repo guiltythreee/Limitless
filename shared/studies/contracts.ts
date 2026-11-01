@@ -51,6 +51,8 @@ export interface StudyContentRef {
   kind: StudyContentKind;
   /** Optional parent reference, e.g. a lesson's course or topic. */
   parentId?: StudyContentId;
+  /** Optional narrower capability set for this course/content entry. */
+  capabilities?: readonly StudyCapability[];
 }
 
 export interface StudyPathway {
