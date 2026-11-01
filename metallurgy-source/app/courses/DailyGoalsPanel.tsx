@@ -39,7 +39,7 @@ export default function DailyGoalsPanel({
         </div>
       </div>
 
-      <div className="study-utility-metrics" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(10rem, 1fr))", gap: "0.8rem", marginBottom: "1rem" }}>
+      <div className="study-utility-metrics study-utility-metrics--goals">
         <div className="chip study-utility-metric" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.25rem", padding: "0.9rem" }}>
           <span style={{ fontSize: "0.75rem", opacity: 0.8 }}>Today's progress</span>
           <strong style={{ fontSize: "1.6rem" }}>{info.todayCount} / {info.goal}</strong>
@@ -57,7 +57,7 @@ export default function DailyGoalsPanel({
         </div>
       </div>
 
-      <div className="study-utility-visual" style={{ border: "1px solid var(--panel-line)", borderRadius: "0.75rem", padding: "0.85rem", marginBottom: "1rem" }}>
+      <div className="study-utility-visual">
         <div style={{ fontWeight: 600, marginBottom: "0.65rem" }}>This week</div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(0, 1fr))", gap: "0.45rem" }}>
           {info.week.map((day) => (
@@ -79,7 +79,6 @@ export default function DailyGoalsPanel({
           event.preventDefault();
           onSetGoal(clampDailyGoal(Number(draft)));
         }}
-        style={{ display: "flex", gap: "0.65rem", flexWrap: "wrap", alignItems: "end" }}
       >
         <label style={{ display: "flex", flexDirection: "column", gap: "0.35rem", fontSize: "0.85rem" }}>
           Daily target (1–200 answers)
