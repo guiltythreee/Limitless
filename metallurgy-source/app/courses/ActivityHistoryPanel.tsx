@@ -162,7 +162,7 @@ export default function ActivityHistoryPanel({
                     </div>
                   </div>
                   {topic && (
-                    <button className="btn" onClick={() => onOpen(activity.q, topic.id)}>
+                    <button className="btn study-utility-action" onClick={() => onOpen(activity.q, topic.id)}>
                       Open question →
                     </button>
                   )}
