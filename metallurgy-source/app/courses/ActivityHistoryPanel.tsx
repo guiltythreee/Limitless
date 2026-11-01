@@ -85,6 +85,7 @@ export default function ActivityHistoryPanel({
         <span className="study-utility-panel__count">{rows.length} {view === "mistakes" ? "questions" : "entries"}</span>
       </div>
 
+      <div className="study-utility-panel__content">
       <div className="study-utility-toolbar">
         <label style={{ display: "flex", gap: "0.4rem", alignItems: "center", fontSize: "0.85rem" }}>
           Period
@@ -171,6 +172,7 @@ export default function ActivityHistoryPanel({
           })}
         </div>
       )}
+      </div>
     </section>
   );
 }
