@@ -144,7 +144,7 @@ test("pickChapters preserves repeated chapter numbers when a Part heading separa
   pageHeads[10] = [{ key: "part ii", title: "Part II", kind: "part" }];
   pageHeads[15] = [{ key: "chapter 1", title: "Chapter 1 — Again", kind: "chapter" }];
   const picked = H.pickChapters(pageHeads, pageHeads.length);
-  assert.deepEqual(picked.filter((c) => /^Chapter 1/.test(c.title)).map((c) => c.p), [1, 4]);
+  assert.deepEqual(picked.filter((c) => /^Chapter 1/.test(c.title)).map((c) => c.p), [2, 15]);
 });
 
 test("pickChapters discards a contents occurrence before Part I but keeps repeated chapters in later Parts", () => {
@@ -155,7 +155,7 @@ test("pickChapters discards a contents occurrence before Part I but keeps repeat
   pageHeads[10] = [{ key: "part ii", title: "Part II", kind: "part" }];
   pageHeads[15] = [{ key: "chapter 1", title: "Chapter 1 — Again", kind: "chapter" }];
   const picked = H.pickChapters(pageHeads, pageHeads.length);
-  assert.deepEqual(picked.filter((c) => /^Chapter 1/.test(c.title)).map((c) => c.p), [2, 4]);
+  assert.deepEqual(picked.filter((c) => /^Chapter 1/.test(c.title)).map((c) => c.p), [4, 15]);
 });
 
 // ---------------------------------------------------------------------------
