@@ -310,6 +310,36 @@ async function closeChapters() {
   await wait(() => $("chapters").hidden, "the chapters panel to close");
 }
 
+test("Part headings visually group their child chapters in the chapter list", async () => {
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
+    <html xmlns="http://www.w3.org/1999/xhtml"><head><title>Parts Book</title></head><body>
+      <h1>Part I — The Beginning</h1><p>Opening of the first part.</p>
+      <h2>Chapter 1 — The Palace</h2><p>First chapter.</p>
+      <h2>Chapter 2 — The Journey</h2><p>Second chapter.</p>
+      <h1>Part II — The Return</h1><h2>Chapter 1 — A New Dawn</h2><p>Repeated chapter number.</p>
+      <h1>Acknowledgements</h1><p>Thanks.</p>
+    </body></html>`;
+  const bytes = buildEpub({
+    chapters: [{ file: "parts.xhtml", label: "Parts Book", body }],
+    tocEntries: [],
+  });
+  await importEpub(bytes, "parts-book.epub");
+  await openChapters();
+  const rows = [...w.document.querySelectorAll("#chList .ch")];
+  assert.deepEqual(rows.map((r) => r.querySelector("input").value), [
+    "Part I — The Beginning", "Chapter 1 — The Palace", "Chapter 2 — The Journey",
+    "Part II — The Return", "Chapter 1 — A New Dawn", "Acknowledgements",
+  ].map((s) => s.replaceAll(" — ", " - ")));
+  assert.ok(rows[0].classList.contains("part"), "Part I is a group heading");
+  assert.ok(rows[1].classList.contains("child") && rows[2].classList.contains("child"),
+    "chapters in Part I are visibly nested");
+  assert.ok(rows[3].classList.contains("part"), "Part II starts a new group");
+  assert.ok(rows[4].classList.contains("child"), "repeated Chapter 1 belongs to Part II");
+  assert.ok(!rows[5].classList.contains("child") && rows[5].classList.contains("opt"),
+    "optional back matter is outside the Part grouping");
+  await closeChapters();
+});
+
 test("front matter is optional by default and never blocks finishing the book", async () => {
   const bytes = sectionsEpub(true);
   const before = new Set(bookKeysNow());
