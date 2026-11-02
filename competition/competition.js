@@ -6,6 +6,7 @@
     startDate: '2026-11-02',
     targetDate: '2027-03-02',
     qualificationCutoff: '',
+    qualificationPoolSize: '',
     rankBuffer: '',
     qualificationTrack: '',
     benchmarkSource: '',
@@ -409,32 +410,44 @@
   }
   function renderSafety() {
     var cutoff = state.qualificationCutoff === '' ? NaN : Number(state.qualificationCutoff);
+    var poolSize = state.qualificationPoolSize === '' ? NaN : Number(state.qualificationPoolSize);
     var buffer = state.rankBuffer === '' ? 0 : Number(state.rankBuffer);
     var validCutoff = Number.isInteger(cutoff) && cutoff > 0;
+    var validPool = Number.isInteger(poolSize) && poolSize > 0 && (!validCutoff || poolSize >= cutoff);
     var validBuffer = Number.isInteger(buffer) && buffer >= 0 && (!validCutoff || buffer < cutoff);
-    var target = validCutoff && validBuffer ? cutoff - buffer : null;
-    $('safe-target').textContent = target === null ? 'Safe target rank: waiting for a valid cutoff and buffer' :
-      'Safe target: rank ' + target + ' or better (top ' + target + ')';
+    var safeRank = validCutoff && validBuffer ? cutoff - buffer : null;
+    var targetPercent = safeRank !== null && validPool ? safeRank / poolSize : null;
+    $('safe-target').textContent = targetPercent === null
+      ? 'Safe target: enter a valid top-N cutoff and qualifying-pool size'
+      : 'Safe target: top ' + safeRank + ' of ' + poolSize + ' (top ' + (targetPercent * 100).toFixed(2) + '%)';
     var mock = latestRankedFullMock();
-    if (!validCutoff || !validBuffer || !mock) {
+    if (!validCutoff || !validPool || !validBuffer || !mock) {
       $('safety-result').innerHTML = '<strong>Comparable rank evidence needed</strong><span>' +
         (!validCutoff ? 'Enter a verified qualifying rank limit. ' : '') +
+        (!validPool ? 'Enter the qualifying-pool size; it must be at least as large as the cutoff. ' : '') +
         (!validBuffer ? 'The buffer must be a whole number smaller than the cutoff. ' : '') +
-        (!mock ? 'Record a full 2.5-hour mock with rank and cohort size to calculate the margin.' : '') +
+        (!mock ? 'Record a full 2.5-hour mock with rank and cohort size. ' : '') +
+        'The mock should represent the same selection pool; otherwise treat its percentile only as a rough diagnostic.' +
         '</span>';
       return;
     }
-    var margin = target - Number(mock.rank);
-    var status = margin > 0 ? 'Inside the safety buffer' : margin === 0 ? 'Exactly on the safety target' :
-      Number(mock.rank) <= cutoff ? 'Inside the qualifying line, but buffer not reached' : 'Outside the qualifying line';
-    var percentile = Number(mock.cohort) ? (Number(mock.rank) / Number(mock.cohort) * 100) : null;
-    var detail = 'Latest comparable mock: rank ' + mock.rank + ' of ' + mock.cohort +
-      (percentile === null ? '' : ' (approximately top ' + percentile.toFixed(1) + '%)') +
-      '. Safety target: ' + target + '. ' +
-      (margin >= 0 ? margin + ' rank places inside the safety target.' : Math.abs(margin) + ' places short of the safety target.') +
-      (state.qualificationTrack ? ' Cohort: ' + esc(state.qualificationTrack) + '.' : '') +
-      (state.benchmarkSource ? ' Cutoff source: ' + esc(state.benchmarkSource) + '.' : '');
-    $('safety-result').innerHTML = '<strong>' + status + '</strong><span>' + detail + '</span>';
+    var mockPercent = Number(mock.rank) / Number(mock.cohort);
+    var marginPoints = (targetPercent - mockPercent) * 100;
+    var projectedRank = mockPercent * poolSize;
+    var status = marginPoints > 0.0001 ? 'Above the safety target' :
+      marginPoints >= -0.0001 ? 'On the safety target' :
+      mockPercent <= cutoff / poolSize ? 'Inside the qualifying line, buffer not reached' :
+      'Outside the qualifying line';
+    var detail = 'Mock rank ' + mock.rank + ' of ' + mock.cohort +
+      ' = top ' + (mockPercent * 100).toFixed(2) + '%. Estimated equivalent position in the qualifying pool: ' +
+      projectedRank.toFixed(0) + ' of ' + poolSize + '. Safe threshold: top ' + safeRank +
+      ' (' + (targetPercent * 100).toFixed(2) + '%). Margin: ' +
+      (marginPoints >= 0 ? '+' : '') + marginPoints.toFixed(2) + ' percentage points.';
+    if (mock.cohortLabel) detail += ' Mock cohort: ' + esc(mock.cohortLabel) + '.';
+    if (state.qualificationTrack) detail += ' Selection pool: ' + esc(state.qualificationTrack) + '.';
+    if (state.benchmarkSource) detail += ' Cutoff source: ' + esc(state.benchmarkSource) + '.';
+    $('safety-result').innerHTML = '<strong>' + status + '</strong><span>' + detail +
+      ' This projection assumes the mock cohort is representative; it is not a guaranteed selection result.</span>';
   }
 
   function renderProblemHistory() {
@@ -499,17 +512,19 @@
     $('start-date').value = state.startDate;
     $('target-date').value = state.targetDate;
     $('qualification-cutoff').value = state.qualificationCutoff;
+    $('qualification-pool-size').value = state.qualificationPoolSize;
     $('rank-buffer').value = state.rankBuffer;
     $('qualification-track').value = state.qualificationTrack;
     $('benchmark-source').value = state.benchmarkSource;
     bindInput('start-date','startDate');
     bindInput('target-date','targetDate');
     bindInput('qualification-cutoff','qualificationCutoff');
+    bindInput('qualification-pool-size','qualificationPoolSize');
     bindInput('rank-buffer','rankBuffer');
     bindInput('qualification-track','qualificationTrack');
     bindInput('benchmark-source','benchmarkSource');
     ['start-date','target-date'].forEach(function (id) { $(id).addEventListener('change', renderOverview); });
-    ['qualification-cutoff','rank-buffer','qualification-track','benchmark-source'].forEach(function (id) { $(id).addEventListener('change', renderSafety); });
+    ['qualification-cutoff','qualification-pool-size','rank-buffer','qualification-track','benchmark-source'].forEach(function (id) { $(id).addEventListener('change', renderSafety); });
 
     renderOverview();
     renderSubjects();
@@ -564,6 +579,7 @@
           twoMax:twoMax === '' ? '' : Number(twoMax),
           rank:rank === '' ? '' : Number(rank),
           cohort:cohort === '' ? '' : Number(cohort),
+          cohortLabel:$('mock-cohort-label').value.trim(),
           note:$('mock-note').value.trim()
         });
         $('mock-form').reset();
