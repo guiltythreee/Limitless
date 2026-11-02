@@ -208,3 +208,12 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
   .mock-row span:nth-child(4) { grid-column:2/-1; }
   .mock-row button { grid-column:3; }
 }
+
+.resource-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+.resource-card { display:flex; flex-direction:column; gap:9px; min-width:0; padding:17px; border:1px solid var(--comp-border); background:var(--comp-panel); }
+.resource-card h3 { margin:0; color:var(--comp-accent); font:17px Georgia,serif; }
+.resource-card p { flex:1; margin:0; color:var(--comp-muted); font:10px/1.6 Arial,sans-serif; }
+.resource-card a { color:var(--comp-accent); font:10px/1.5 Arial,sans-serif; text-decoration:underline; text-underline-offset:3px; }
+.resource-card a:hover { color:var(--comp-ink); }
+@media(max-width:900px) { .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:600px) { .resource-grid { grid-template-columns:1fr; } }
