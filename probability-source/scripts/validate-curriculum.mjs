@@ -395,18 +395,18 @@ const bankFiles = [
   "app/content/probability-pack-bank-seq07-b.ts",
   "app/content/probability-pack-bank-seq07-c.ts",
 ];
-const bankSource = bankFiles.map(read).join("\\n");
+const bankSource = bankFiles.map(read).join("\n");
 const bankIds = [...bankSource.matchAll(/"source":"([^"]+)"/g)].map((match) => match[1]);
 if (bankIds.length !== 99 || new Set(bankIds).size !== 99) {
   throw new Error("The Sequence 08/07 supplemental bank must contain 99 unique questions.");
 }
-const bankNumericCount = [...bankSource.matchAll(/"numericAnswer":\\{/g)].length;
+const bankNumericCount = [...bankSource.matchAll(/"numericAnswer":\{/g)].length;
 if (bankNumericCount !== 53) throw new Error("Expected 53 numeric-response bank questions; found " + bankNumericCount + ".");
-const bankMultiCount = [...bankSource.matchAll(/"answers":\\[/g)].length;
+const bankMultiCount = [...bankSource.matchAll(/"answers":\[/g)].length;
 if (bankMultiCount !== 11) throw new Error("Expected 11 multi-select bank questions; found " + bankMultiCount + ".");
 const bankTopics = new Map();
 for (const id of bankIds) {
-  const match = id.match(/^(.*)-b\\d{2}$/);
+  const match = id.match(/^(.*)-b\d{2}$/);
   if (!match) throw new Error("Malformed supplemental bank question ID: " + id);
   bankTopics.set(match[1], (bankTopics.get(match[1]) ?? 0) + 1);
 }
