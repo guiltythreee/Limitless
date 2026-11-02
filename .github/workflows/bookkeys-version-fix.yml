@@ -1,3 +1,4 @@
+# Re-run after updating the version expectation in app-boot regression test
 # Trigger automatic chapter parser refresh
 name: Bookkeys chapter parser version refresh
 
@@ -38,7 +39,7 @@ jobs:
           cp.execFileSync('npm',['test'],{cwd:'tools/typing/tests',stdio:'inherit'});
           cp.execFileSync('git',['config','user.name','github-actions[bot]']);
           cp.execFileSync('git',['config','user.email','41898282+github-actions[bot]@users.noreply.github.com']);
-          cp.execFileSync('git',['add',path,'.github/workflows/bookkeys-version-fix.yml']);
+          cp.execFileSync('git',['add',path,'tools/typing/tests/app-boot.test.mjs','.github/workflows/bookkeys-version-fix.yml']);
           cp.execFileSync('git',['rm','-f','.github/workflows/bookkeys-version-fix.yml']);
           cp.execFileSync('git',['commit','-m','Refresh automatic Bookkeys chapter detection']);
           cp.execFileSync('git',['push','origin','HEAD:fix/bookkeys-optional-section-classification-20261102']);
