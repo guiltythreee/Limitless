@@ -137,25 +137,23 @@ test("chapterHeadsOnPage recognises em-dash chapter headings and standalone supp
 });
 
 test("pickChapters preserves repeated chapter numbers when a Part heading separates them", () => {
-  const pageHeads = [
-    [{ key: "part i", title: "Part I", kind: "part" }],
-    [{ key: "chapter 1", title: "Chapter 1 — First", kind: "chapter" }],
-    [{ key: "chapter 2", title: "Chapter 2 — Second", kind: "chapter" }],
-    [{ key: "part ii", title: "Part II", kind: "part" }],
-    [{ key: "chapter 1", title: "Chapter 1 — Again", kind: "chapter" }],
-  ];
+  const pageHeads = Array.from({ length: 20 }, () => []);
+  pageHeads[0] = [{ key: "part i", title: "Part I", kind: "part" }];
+  pageHeads[2] = [{ key: "chapter 1", title: "Chapter 1 — First", kind: "chapter" }];
+  pageHeads[5] = [{ key: "chapter 2", title: "Chapter 2 — Second", kind: "chapter" }];
+  pageHeads[10] = [{ key: "part ii", title: "Part II", kind: "part" }];
+  pageHeads[15] = [{ key: "chapter 1", title: "Chapter 1 — Again", kind: "chapter" }];
   const picked = H.pickChapters(pageHeads, pageHeads.length);
   assert.deepEqual(picked.filter((c) => /^Chapter 1/.test(c.title)).map((c) => c.p), [1, 4]);
 });
 
 test("pickChapters discards a contents occurrence before Part I but keeps repeated chapters in later Parts", () => {
-  const pageHeads = [
-    [{ key: "chapter 1", title: "Chapter 1", kind: "chapter" }],
-    [{ key: "part i", title: "Part I", kind: "part" }],
-    [{ key: "chapter 1", title: "Chapter 1 — First", kind: "chapter" }],
-    [{ key: "part ii", title: "Part II", kind: "part" }],
-    [{ key: "chapter 1", title: "Chapter 1 — Again", kind: "chapter" }],
-  ];
+  const pageHeads = Array.from({ length: 20 }, () => []);
+  pageHeads[0] = [{ key: "chapter 1", title: "Chapter 1", kind: "chapter" }];
+  pageHeads[2] = [{ key: "part i", title: "Part I", kind: "part" }];
+  pageHeads[4] = [{ key: "chapter 1", title: "Chapter 1 — First", kind: "chapter" }];
+  pageHeads[10] = [{ key: "part ii", title: "Part II", kind: "part" }];
+  pageHeads[15] = [{ key: "chapter 1", title: "Chapter 1 — Again", kind: "chapter" }];
   const picked = H.pickChapters(pageHeads, pageHeads.length);
   assert.deepEqual(picked.filter((c) => /^Chapter 1/.test(c.title)).map((c) => c.p), [2, 4]);
 });
