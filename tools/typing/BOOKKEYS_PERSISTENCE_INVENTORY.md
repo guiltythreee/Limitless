@@ -264,3 +264,21 @@ Drafts are written at most once per three seconds per active page unless forced.
 Each per-book progress record in \`book\` is keyed by the book fingerprint/key and contains page/section completion arrays \`p\`, \`e\`, \`c\`, and \`x\`, plus \`done\`. Reward IDs in \`paid\` prevent duplicate payment. Backup merge uses field-specific maximum/union/earliest-unlock rules; do not replace this with a generic object overwrite.
 
 This list documents the initial schema/default object, not a closed schema: keep forward-compatible unknown properties when handling existing saved game data wherever the current merge logic does so.
+
+
+## 9. Complete settings option catalogues
+
+The source-defined catalogues have also been counted and enumerated. Preserve the original IDs and labels; do not reduce these to a generic small set during the UI migration.
+
+| Catalogue | Count | IDs / labels |
+|---|---:|---|
+| Themes | 34 | Auto (system), Gothic Night, Letter Garden, Paper, Sepia, High contrast, Midnight, Nord, Terminal, Amber, Dusk, Solarized Light, Mint, Lavender, Sky, Blush, Peach, Ink on Paper, Dracula, Solarized Dark, Gruvbox, Tokyo Night, Monokai, Mocha, Rose Pine, Ocean, Forest, Crimson, Cyberpunk, Coffee, Graphite, Sunset, OLED Black |
+| Backgrounds | 27 | No Background, Time of Day (automatic), Morning (picture), Evening (picture), Night (picture), Night Sky, Snow, Aurora, Rain, Digital Rain, Underwater, Light Shafts, Candlelight, Hearth, CRT, Warp Speed, Nebula, Fireflies, Synthwave, Sakura, Autumn Leaves, Lava Lamp, Thunderstorm, Bokeh, Gradient Mesh, Constellation, Misty Pines |
+| Accent swatches | 26 | Theme default, Blue, Violet, Rose, Orange, Yellow, Green, Teal, Red, Crimson, Coral, Pink, Fuchsia, Lavender, Indigo, Sky, Cyan, Mint, Emerald, Lime, Amber, Gold, Brown, Slate, White, Black |
+| Typeface choices | 10 | Newsreader, Literata, Lora, Source Serif, Baskerville, Atkinson, Plex Mono, JetBrains Mono, Courier Prime, Special Elite |
+| Text-color swatches | 22 | Theme default, White, Silver, Cream, Black, Charcoal, Navy, Brown, Forest, Sky, Teal, Mint, Green, Lime, Yellow, Amber, Orange, Coral, Rose, Pink, Lavender, Violet |
+| Cursor-color choices | 7 | Match accent, Amber, Green, Pink, Sky, White, Black |
+
+The 34 themes consist of 11 explicit base entries and 23 additional themes generated through \`mkTheme\`. The generated themes share the same theme data structure and must be carried over with their exact palette values. The background catalogue has 27 choices; its visual previews and matching \`BGPAL\` palettes are separate source data and both need preservation.
+
+These catalogue counts are a useful parity assertion for the future settings UI: 34 themes, 27 backgrounds, 26 accent swatches, 10 typefaces, 22 text-color swatches and 7 cursor-color choices.
