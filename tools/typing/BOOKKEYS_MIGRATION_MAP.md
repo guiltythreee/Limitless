@@ -88,7 +88,7 @@ Recorded in `tools/typing/BOOKKEYS_PERSISTENCE_INVENTORY.md` and `tools/typing/B
 
 Still required:
 1. Source-level persistence audit is complete for the documented production source blob: all known localStorage key families, read/write/delete/merge paths, legacy draft adoption, record schemas and settings catalogues are recorded in `BOOKKEYS_PERSISTENCE_INVENTORY.md`. Reopen this audit only if later extraction reveals a mismatch.
-2. Real-browser PDF/EPUB import, chapter display, typing resume, backup export, theme coexistence and one imported-book full-reload/reopen check are now user-confirmed. Library deletion is now user-confirmed PASS. Still verify both formats' reload/reopen parity if only one was tested, backup restore/merge, offline assets, CSP, browser Back/Forward and custom artwork.
+2. Real-browser PDF/EPUB import, chapter display, typing resume, backup export, theme coexistence and one imported-book full-reload/reopen check are now user-confirmed. Library deletion, backup restore/merge and offline reopen/typing are now user-confirmed PASS. Still verify both formats' reload/reopen parity if only one was tested, iframe CSP, browser Back/Forward and custom artwork.
 3. Manual baseline confirms the site-wide light/dark control and in-app Morning/Evening/Night scene-background control coexist without breaking one another. Preserve both behaviours and verify their placement again on the parallel route.
 
 Isolated scaffolding may proceed. The first imported-book reload/reopen gate is closed for the tested book; do not export a route or begin subsystem extraction until the remaining runtime parity checks are complete.
