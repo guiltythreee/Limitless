@@ -911,22 +911,89 @@ function evenChapters(n) {
 // defaults the reader can change for any section, never rules. A leading numbering is understood,
 // so both "12. Kalidasa" and "I. The Palace" are chapters, while "12. Notes" is still back matter.
 var SECTION_OPTIONAL = [
-  "cover", "title page", "half title", "frontispiece", "copyright", "publication",
-  "contents", "table of contents", "list of illustrations", "list of figures", "list of plates",
-  "list of maps", "list of tables", "epigraph", "dedication", "foreword", "preface",
-  "acknowledgements", "acknowledgments", "introduction", "prologue", "epilogue", "afterword",
-  "appendix", "appendices", "glossary", "bibliography", "references", "sources", "endnotes",
-  "notes", "footnotes", "index", "author's note", "authors note", "about the author",
-  "about the authors", "about the editors", "about the contributors", "also by", "colophon",
-  "errata", "abbreviations", "chronology", "timeline", "cast of characters", "dramatis personae",
-  "translator's note", "translator's preface", "editor's note", "editor's preface",
-  "publisher's note", "a note on the text", "a note on the translation", "how to use this book"
-];
+  "cover",
+  "title page",
+  "half title",
+  "frontispiece",
+  "copyright",
+  "copyright page",
+  "publication",
+  "publication information",
+  "legal notice",
+  "contents",
+  "table of contents",
+  "list of illustrations",
+  "list of figures",
+  "list of plates",
+  "list of maps",
+  "list of tables",
+  "epigraph",
+  "dedication",
+  "foreword",
+  "preface",
+  "acknowledgements",
+  "acknowledgments",
+  "afterword",
+  "appendix",
+  "appendices",
+  "glossary",
+  "bibliography",
+  "references",
+  "sources",
+  "endnotes",
+  "notes",
+  "footnotes",
+  "index",
+  "author's note",
+  "authors note",
+  "about the author",
+  "about the authors",
+  "author biography",
+  "author biographies",
+  "about the editors",
+  "editor biography",
+  "editor biographies",
+  "about the contributors",
+  "translator biography",
+  "translator biographies",
+  "translator's note",
+  "translator's preface",
+  "editor's note",
+  "editor's preface",
+  "publisher's note",
+  "publisher information",
+  "more from the publisher",
+  "publisher advertisement",
+  "publisher advertisements",
+  "advertisements",
+  "also by",
+  "other books by",
+  "further reading",
+  "reading guide",
+  "reading group questions",
+  "book club questions",
+  "discussion guide",
+  "discussion questions",
+  "questions for discussion",
+  "series information",
+  "about the series",
+  "series",
+  "a note on the text",
+  "a note on the translation",
+  "how to use this book",
+  "colophon",
+  "errata",
+  "abbreviations",
+  "chronology",
+  "timeline",
+  "cast of characters",
+  "dramatis personae"
+];;
 // A heading with a leading "Chapter 3" / "12." / "IV" marker taken off, so what is matched against
 // the list above is the name of the section itself.
 function sectionBody(title) {
   var t = normalize(String(title || "")).toLowerCase();
-  var m = t.match(/^(?:(?:chapter|part|book|volume|vol|section|act|scene|canto|letter)\s+)?(?:[0-9]{1,4}|[ivxlcdm]{1,7})(?=\s|$|[.):,\-])[\s.):,\-]*/);
+  var m = t.match(/^(?:(?:chapter|part|book|volume|vol|section|act|scene|canto|letter)\s+)?(?:[0-9]{1,4}|[ivxlcdm]{1,7})(?=\s|$|[.):,\-–—])[\s.):,\-–—]*/);
   return m ? t.slice(m[0].length) : t;
 }
 // Does a heading name an actual chapter (required by default) or front/back matter (optional)?
@@ -938,7 +1005,7 @@ function sectionRequired(title) {
   forms = [body, body.replace(/^(?:the|a|an)\s+/, "")];
   for (i = 0; i < SECTION_OPTIONAL.length; i++) {
     w = SECTION_OPTIONAL[i];
-    if (forms.some(function (f) { return f === w || f.indexOf(w + " ") === 0 || f.indexOf(w + ":") === 0 || f.indexOf(w + ",") === 0; })) return false;
+    if (forms.some(function (f) { return f === w || (f.indexOf(w) === 0 && /[\s:;,.!?–—-]/.test(f.charAt(w.length))); })) return false;
   }
   return true;
 }
