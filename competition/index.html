@@ -121,6 +121,11 @@
           <select id="problem-subject"><option value="Logical Reasoning">Logical Reasoning</option><option value="Combinatorics">Combinatorics</option><option value="Probability">Probability</option><option value="Graph Theory">Graph Theory</option><option value="Dynamic Programming">Dynamic Programming</option><option value="C++ / Implementation">C++ / Implementation</option></select>
         </label>
         <label>Difficulty / rating (optional)<input id="problem-difficulty" type="text" maxlength="30" placeholder="Source's label, if available"></label>
+        <label>First-attempt result
+          <select id="problem-outcome"><option value="independent">Solved independently</option><option value="hint">Solved after a hint</option><option value="editorial">Solved after reading editorial</option><option value="unsolved">Not solved yet</option></select>
+        </label>
+        <label>Time spent (minutes)<input id="problem-time" type="number" min="0" step="1" placeholder="Optional"></label>
+
         <label>Key observation<input id="problem-observation" type="text" maxlength="240" required placeholder="What unlocked the problem?"></label>
         <label>Missed insight<input id="problem-missed" type="text" maxlength="240" placeholder="What did you fail to notice?"></label>
         <label>Underlying concept<input id="problem-concept" type="text" maxlength="120" placeholder="e.g. complement, invariant, BFS"></label>
