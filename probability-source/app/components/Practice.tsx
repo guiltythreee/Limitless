@@ -216,7 +216,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
           const st: Status = latest[q.key]?.status ?? "unattempted";
           const n = store.attempts.filter((a) => a.q === q.key).length;
           return (
-            <button key={q.key} className="rowq study-utility-row" onClick={() => onOpen(list.map((x) => x.key), i)}>
+            <button key={q.key} className="rowq study-utility-row study-utility-row--question" onClick={() => onOpen(list.map((x) => x.key), i)}>
               <span className="rn"><span>{i + 1}</span><span className={`mt-1 text-base leading-none ${MARKCLS[st]}`} title={st}>{MARK[st] || " "}</span></span>
               <span className="min-w-0">
                 <span className="clamp2 block text-[15px] leading-6 text-body"><Rich text={q.item.question} /></span>
