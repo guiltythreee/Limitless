@@ -459,7 +459,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
             <strong>{st === "correct" ? "Correct" : st === "partial" ? `Partly correct · ${Math.round(last.score * 100)}%` : "Incorrect"}</strong>
             <span className="text-dim">Time taken {fmtTime(last.ms)}</span>
           </div>
-          <div className="learning-player-solution rounded-xl border border-gold/15 p-4"><Explanation text={q.item.explanation} /></div>
+          <div className="learning-player-solution rounded-xl border border-gold/15 p-4"><Explanation text={q.item.explanation} solutionSteps={q.item.solutionSteps} /></div>
         </div>
       )}
 
