@@ -56,6 +56,88 @@
       .meta-panel { padding: 1.1rem; }
       .meta-table th, .meta-table td { font-size: .75rem; }
     }
+  
+    /* Light mode: keep the artwork outside the reading surfaces. Meta cards must
+       be opaque enough that their text never inherits contrast from the image. */
+    html[data-theme="light"] .meta-page {
+      color: #30283a;
+    }
+    html[data-theme="light"] .meta-title {
+      color: #68470f;
+      text-shadow: 0 1px 2px rgba(255,250,235,.9);
+    }
+    html[data-theme="light"] .meta-eyebrow,
+    html[data-theme="light"] .meta-exp,
+    html[data-theme="light"] .meta-number {
+      color: #76500e;
+    }
+    html[data-theme="light"] .meta-lede,
+    html[data-theme="light"] .meta-muted,
+    html[data-theme="light"] .meta-row,
+    html[data-theme="light"] .meta-field label {
+      color: #463b4b;
+      opacity: 1;
+    }
+    html[data-theme="light"] .meta-panel,
+    html[data-theme="light"] .meta-unlock {
+      color: #30283a;
+      background: #fffaf0;
+      border-color: rgba(122, 88, 32, .38);
+      box-shadow: 0 8px 24px rgba(65, 48, 28, .12);
+      backdrop-filter: none;
+    }
+    html[data-theme="light"] .meta-panel h2,
+    html[data-theme="light"] .meta-panel h3,
+    html[data-theme="light"] .meta-unlock strong {
+      color: #392b3d;
+      opacity: 1;
+    }
+    html[data-theme="light"] .meta-track {
+      background: #e5d9bd;
+      border: 1px solid #c8b58c;
+    }
+    html[data-theme="light"] .meta-fill {
+      background: #8a6414;
+    }
+    html[data-theme="light"] .meta-notice {
+      color: #403448;
+      background: #f5ecd8;
+      border-left-color: #8a6414;
+    }
+    html[data-theme="light"] .meta-table th,
+    html[data-theme="light"] .meta-table td {
+      color: #403448;
+      border-bottom-color: rgba(122, 88, 32, .25);
+      opacity: 1;
+    }
+    html[data-theme="light"] .meta-table th {
+      color: #654b20;
+    }
+    html[data-theme="light"] .meta-field input,
+    html[data-theme="light"] .meta-field select,
+    html[data-theme="light"] .meta-field textarea {
+      color: #30283a;
+      background: #fffdf7;
+      border-color: #b9a77f;
+    }
+    html[data-theme="light"] .meta-field input::placeholder,
+    html[data-theme="light"] .meta-field textarea::placeholder {
+      color: #766b78;
+      opacity: 1;
+    }
+    html[data-theme="light"] .meta-button {
+      color: #382a3c;
+      background: #f2e7cc;
+      border-color: #98752e;
+    }
+    html[data-theme="light"] .meta-button:hover {
+      color: #251b2a;
+      background: #e9d7ad;
+    }
+    html[data-theme="light"] .meta-error {
+      color: #922f2a;
+    }
+
   </style>
 </head>
 <body>
