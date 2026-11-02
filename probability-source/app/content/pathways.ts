@@ -55,7 +55,7 @@ export const pathways: Pathway[] = [
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
-      "continuity", "gamblers-ruin", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "renewal-queueing", "reliability-hazards", "monte-carlo", "martingales", "mcmc", "bayesian-computation"
+      "continuity", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "poisson-processes", "renewal-queueing", "reliability-hazards", "monte-carlo", "martingales", "mcmc", "bayesian-computation"
     ]
   },
   {
@@ -65,7 +65,7 @@ export const pathways: Pathway[] = [
     description: "Follow random variables into evolving systems, Markov chains, Poisson arrivals, martingales, and MCMC.",
     outcome: "Read and reason about models whose random state changes over time.",
     lessonIds: [
-      "sample-space", "conditional", "conditional-independence", "total-probability", "bayesian-inference",
+      "sample-space", "conditional", "conditional-independence", "total-probability", "gamblers-ruin", "bayesian-inference",
       "random-variables", "expectation-variance", "distributions", "discrete-distributions", "negative-binomial",
       "continuous-rv", "normal-distribution", "gamma-beta-distributions", "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "markov", "markov-chain-analysis", "random-walks", "branching-processes",

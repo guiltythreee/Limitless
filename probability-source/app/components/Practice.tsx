@@ -239,7 +239,40 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
 }
 
 // ---------- option cards (shared by practice and tests) ----------
-export function Options({ item, picked, onPick, reveal, disabled }: { item: Q["item"]; picked: number[]; onPick: (i: number) => void; reveal: boolean; disabled: boolean }) {
+export function Options({ item, picked, onPick, reveal, disabled, numericText, onNumericChange }: {
+  item: Q["item"];
+  picked: number[];
+  onPick: (i: number) => void;
+  reveal: boolean;
+  disabled: boolean;
+  numericText: string;
+  onNumericChange: (value: string) => void;
+}) {
+  if (item.numericAnswer) {
+    return (
+      <div className="learning-player-options">
+        <label htmlFor="probability-numeric-answer" className="mb-2 block text-sm text-dim">
+          Numerical answer{item.numericAnswer.unit ? ` (${item.numericAnswer.unit})` : ""}
+        </label>
+        <input
+          id="probability-numeric-answer"
+          type="number"
+          inputMode="decimal"
+          step="any"
+          value={numericText}
+          onChange={(event) => onNumericChange(event.target.value)}
+          disabled={disabled}
+          className="pill w-full max-w-sm text-base"
+          aria-label="Enter a numerical answer"
+        />
+        {reveal && (
+          <p className="mt-3 text-sm text-ok">
+            Expected answer: {item.numericAnswer.value}{item.numericAnswer.unit ? ` ${item.numericAnswer.unit}` : ""}
+          </p>
+        )}
+      </div>
+    );
+  }
   const right = correctSet(item);
   return (
     <div className="learning-player-options">
@@ -279,10 +312,12 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
   const last: Attempt | undefined = mine[mine.length - 1];
   const draft = store.drafts[q.key];
   const multi = isMulti(q.item);
+  const numeric = Boolean(q.item.numericAnswer);
   const latest = useMemo(() => latestByQuestion(store.attempts), [store.attempts]);
 
   const [phase, setPhase] = useState<"answering" | "review">(last && !draft ? "review" : "answering");
   const [picked, setPicked] = useState<number[]>(draft?.picked ?? []);
+  const [numericText, setNumericText] = useState(draft?.picked[0] !== undefined ? String(draft.picked[0]) : "");
   const [, tick] = useState(0);
 
   // Stopwatch: acc = time banked so far, t0 = when it last started (null while paused).
@@ -329,11 +364,29 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
     }
     flush();
   }
+  function chooseNumeric(value: string) {
+    if (phase !== "answering") return;
+    setNumericText(value);
+    const parsed = value.trim() === "" ? Number.NaN : Number(value);
+    const next = Number.isFinite(parsed) ? [parsed] : [];
+    setPicked(next);
+    pickedRef.current = next;
+    if (next.length) {
+      onSessionChange((current) => setPlayerAnswer(current, probabilityPlayerAdapter, {
+        kind: "numeric", value: parsed, unit: q.item.numericAnswer?.unit,
+      }));
+    } else {
+      onSessionChange((current) => clearPlayerAnswer(current, probabilityPlayerAdapter));
+    }
+    flush();
+  }
   function check() {
     pause();
-    const answer: ProbabilityPlayerAnswer = multi
-      ? { kind: "multi-choice", optionIds: picked.map(String) }
-      : { kind: "single-choice", optionId: String(picked[0]) };
+    const answer: ProbabilityPlayerAnswer = numeric
+      ? { kind: "numeric", value: picked[0], unit: q.item.numericAnswer?.unit }
+      : multi
+        ? { kind: "multi-choice", optionIds: picked.map(String) }
+        : { kind: "single-choice", optionId: String(picked[0]) };
     const timed = tickPlayer(session, acc.current);
     const answered = setPlayerAnswer(timed, probabilityPlayerAdapter, answer);
     const result = submitPlayerAnswer(answered, probabilityPlayerAdapter, {
@@ -356,7 +409,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
     clearDraft(q.key);
     onSessionChange((current) => selectPlayerQuestion(current, index));
     acc.current = 0; t0.current = null;
-    setPicked([]); pickedRef.current = [];
+    setPicked([]); pickedRef.current = []; setNumericText("");
     phaseRef.current = "answering"; setPhase("answering");
     if (!document.hidden) start();
   }
@@ -398,7 +451,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
       <h4 className="qtext mt-6 text-lg leading-8 text-parchment"><Rich text={q.item.question} /></h4>
       {multi && phase === "answering" && <div className="mt-1 text-xs text-mutedgold">Select all that apply. Partial credit is given.</div>}
 
-      <Options item={q.item} picked={phase === "review" ? last?.picked ?? [] : picked} onPick={choose} reveal={reviewing} disabled={phase === "review"} />
+      <Options item={q.item} picked={phase === "review" ? last?.picked ?? [] : picked} onPick={choose} reveal={reviewing} disabled={phase === "review"} numericText={phase === "review" && last?.picked[0] !== undefined ? String(last.picked[0]) : numericText} onNumericChange={chooseNumeric} />
 
       {reviewing && last && (
         <div className="mt-6 space-y-4 learning-player-review">

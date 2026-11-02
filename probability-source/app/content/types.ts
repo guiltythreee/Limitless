@@ -3,7 +3,9 @@ export type Difficulty = "easy" | "medium" | "hard";
 export type QuizItem = {
   question: string;
   options: string[];
-  answer: number; // index of the single correct option
+  /** Numeric-response items use this target instead of answer-option indexes. */
+  numericAnswer?: { value: number; tolerance: number; unit?: string };
+  answer: number; // index of the single correct option (unused for numeric-response items)
   explanation: string;
   difficulty?: Difficulty; // missing means "easy"
   // Multi-select questions list every correct option here; they are graded with partial credit.

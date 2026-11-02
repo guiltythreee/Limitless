@@ -10,6 +10,7 @@ const requiredFiles = [
   "app/content/chapter1-theory.ts",
   "app/content/pathway-lessons.ts",
   "app/content/pathway-lessons-advanced.ts",
+  "app/content/probability-pack.ts",
   "app/content/pathways.ts",
   "app/content/coverage.ts",
 ];
@@ -17,7 +18,7 @@ for (const file of requiredFiles) {
   if (!fs.existsSync(path.join(root, file))) throw new Error("Required curriculum file missing: " + file);
 }
 
-const sourcePaths = ["app/content/rank09.ts", "app/content/rank09-extra.ts", "app/content/legacy.ts", "app/content/chapter1-theory.ts", "app/content/pathway-lessons.ts", "app/content/pathway-lessons-advanced.ts"];
+const sourcePaths = ["app/content/rank09.ts", "app/content/rank09-extra.ts", "app/content/legacy.ts", "app/content/chapter1-theory.ts", "app/content/pathway-lessons.ts", "app/content/pathway-lessons-advanced.ts", "app/content/probability-pack.ts"];
 const lessonSources = sourcePaths.map(read);
 const lessonIds = new Set();
 const idLocations = new Map();

@@ -13,7 +13,7 @@ import { pathwayLessons } from "./pathway-lessons";
 import { advancedPathwayLessons } from "./pathway-lessons-advanced";
 import { probabilityPackLessons } from "./probability-pack";
 import { probabilityPackAdditions } from "./probability-pack-additions";
-import { probabilityPackAdditions } from "./probability-pack-additions";
+import { probabilityPackBank } from "./probability-pack-bank";
 
 export { pathways } from "./pathways";
 export { coverageAreas } from "./coverage";
@@ -34,7 +34,7 @@ const rank02Order = [
   "likelihood-estimation", "confidence-hypothesis-tests",
 ];
 const rank08Order = ["advanced-counting", "occupancy-coupon", "random-permutations"];
-const rank07Order = ["conditional", "conditional-independence", "total-probability", "gamblers-ruin", "simpson-prosecutor"];
+const rank07Order = ["conditional", "conditional-independence", "total-probability"];
 const rank06Order = ["bayes", "bayesian-inference"];
 const rank05Order = ["random-variables", "distributions", "discrete-distributions", "negative-binomial"];
 const rank04Order = ["expectation-variance", "continuous-rv", "normal-distribution", "gamma-beta-distributions"];
@@ -79,13 +79,14 @@ const enrich = (l: Lesson): Lesson => {
     };
   })() : l;
   const pack = probabilityPackAdditions[base.id];
-  if (!pack) return base;
+  const bank = probabilityPackBank[base.id] ?? [];
+  if (!pack && bank.length === 0) return base;
   return {
     ...base,
-    body: [...base.body, ...(pack.body ?? [])],
-    formulas: [...base.formulas, ...(pack.formulas ?? [])],
-    examples: [...base.examples, ...(pack.examples ?? [])],
-    quiz: [...base.quiz, ...(pack.quiz ?? [])],
+    body: [...base.body, ...(pack?.body ?? [])],
+    formulas: [...base.formulas, ...(pack?.formulas ?? [])],
+    examples: [...base.examples, ...(pack?.examples ?? [])],
+    quiz: [...base.quiz, ...(pack?.quiz ?? []), ...bank],
   };
 };
 
