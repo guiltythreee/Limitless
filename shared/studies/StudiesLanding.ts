@@ -106,7 +106,6 @@ export function createStudiesLanding(
               h("span", { className: "studies-landing__index" }, String(index + 1).padStart(2, "0")),
             ),
             h("h3", null, course.title ?? course.id),
-            course.description && h("p", null, course.description),
             h("div", { className: "studies-landing__card-bottom" },
               h("span", { className: "studies-landing__course-status" }, statusLabel),
               h("span", { className: "studies-landing__open" },
