@@ -350,6 +350,48 @@
     }).join('');
   }
 
+  // Topic-level references: keep the learning source beside the exact checkpoint.
+  // Links point to stable course/book resources; chapter numbers are omitted because
+  // pagination and chapter numbering vary across editions.
+  var TOPIC_RESOURCES = {
+    logic:[
+      {label:'MIT discrete mathematics notes',url:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf'},
+      {label:'How to Prove It (book reference)',url:'https://www.cambridge.org/highereducation/books/how-to-prove-it/'}
+    ],
+    combinatorics:[
+      {label:'MIT counting & discrete math notes',url:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf'},
+      {label:'AoPS Counting & Probability',url:'https://artofproblemsolving.com/store/book/aops-vol2'}
+    ],
+    probability:[
+      {label:'Harvard Stat 110',url:'https://projects.iq.harvard.edu/stat110/home'},
+      {label:'Blitzstein & Hwang — Introduction to Probability',url:'https://projects.iq.harvard.edu/stat110/home'}
+    ],
+    graphs:[
+      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book/book.pdf'},
+      {label:'CP-Algorithms',url:'https://cp-algorithms.com/'},
+      {label:'CSES Graph Algorithms',url:'https://cses.fi/problemset/'}
+    ],
+    dp:[
+      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book/book.pdf'},
+      {label:'CP-Algorithms',url:'https://cp-algorithms.com/'},
+      {label:'CSES Dynamic Programming',url:'https://cses.fi/problemset/'}
+    ],
+    coding:[
+      {label:'LearnCpp',url:'https://www.learncpp.com/'},
+      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book/book.pdf'}
+    ]
+  };
+
+  function topicResourceLinks(subjectId, weekIndex) {
+    var links = TOPIC_RESOURCES[subjectId] || [];
+    // Early weeks emphasise explanation and worked examples; later weeks add
+    // structured problem practice without implying a rating-based progression.
+    if (weekIndex < 4) links = links.slice(0, 2);
+    return links.map(function (resource) {
+      return '<a href="' + resource.url + '" target="_blank" rel="noopener noreferrer">' + esc(resource.label) + '</a>';
+    }).join('<span class="resource-separator">·</span>');
+  }
+
   function renderWeeks() {
     var openWeeks = {};
     $('week-list').querySelectorAll('.week-card').forEach(function (details, index) { openWeeks[index] = details.open; });
@@ -362,7 +404,7 @@
       var topics = week.topics.map(function (topic, ti) {
         var key = topicKey(wi,ti);
         var subjectName = topic[0] === 'coding' ? 'C++ / Implementation' : SUBJECTS.find(function (s) { return s.id === topic[0]; }).name;
-        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small></div>' +
+        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small><span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span></div>' +
           '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
       }).join('');
       var days = DAILY_PLAN.map(function (day) {
