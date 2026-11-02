@@ -264,8 +264,12 @@ export function Explanation({ text, solutionSteps = [] }: { text: string; soluti
       {answer && <p className="para"><strong className="lead">Correct answer ({answer})</strong></p>}
       <section className="question-reasoning">
         <div className="lead mb-2">{steps.length ? "Worked solution" : "Why this is correct"}</div>
-        {intro && <p className="para mb-2"><Rich text={intro} /></p>}
-        {steps.length > 0 ? <SolutionSteps steps={steps} /> : <p className="para"><Rich text={reasoning} /></p>}
+        {steps.length > 0 ? (
+          <>
+            {intro && <p className="para mb-2"><Rich text={intro} /></p>}
+            <SolutionSteps steps={steps} />
+          </>
+        ) : <p className="para"><Rich text={reasoning} /></p>}
       </section>
       {others && (
         <section className="question-distractors">
