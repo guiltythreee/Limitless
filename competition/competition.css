@@ -94,3 +94,15 @@ html[data-theme="light"] .overview-card,html[data-theme="light"] .safety-panel,h
   cursor:pointer; font:11px Arial,sans-serif; letter-spacing:.5px;
 }
 .competition-nav .theme-toggle:hover { background:rgba(232,203,139,.18); }
+
+.volume-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+.volume-card { display:flex; flex-direction:column; gap:12px; min-width:0; padding:18px; border:1px solid var(--comp-border); background:var(--comp-panel); backdrop-filter:blur(10px); }
+.volume-value { display:flex; align-items:baseline; gap:8px; }
+.volume-value strong { color:var(--comp-accent); font:400 30px Georgia,serif; }
+.volume-value span,.volume-card small,.volume-card p { color:var(--comp-muted); font:10px/1.5 Arial,sans-serif; }
+.volume-card label { display:flex; flex-direction:column; gap:6px; color:var(--comp-muted); font:10px Arial,sans-serif; }
+.volume-card input { margin-top:1px; }
+.rating-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.volume-card small { margin-top:auto; }
+@media(max-width:900px) { .volume-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:520px) { .volume-grid { grid-template-columns:1fr; } }
