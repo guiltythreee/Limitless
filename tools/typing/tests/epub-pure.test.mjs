@@ -13,7 +13,7 @@ const H = loadHelpers([
   "epubHash", "epubFlattenToc", "epubResolveRel", "epubHrefKey", "epubSpineIndexFor",
   "epubInlineText", "epubHasBlockChild", "epubBlocksFromRoot",
   "epubLongPieces", "epubExpandBlocks", "epubPackSections", "epubChapterList",
-  "epubNavDir", "epubErr", "epubErrShort",
+  "epubNavDir", "epubHeadingIsBoundary", "epubErr", "epubErrShort",
 ], { ePub: dom.window.ePub });
 
 function xmlDoc(xhtml) {
@@ -158,6 +158,18 @@ test("epubPackSections closes a section at the target, never splits a block, and
   assert.deepEqual(sections[0].map((b) => b.text[0]), ["T", "x", "y"]);
   assert.deepEqual(sections[1].map((b) => b.text[0]), ["z"]);
   for (const sec of sections) for (const b of sec) assert.ok(blocks.includes(b), "intact block, present once");
+});
+
+test("EPUB heading boundary detection recognises unprefixed numbered headings and narrative openings", () => {
+  assert.equal(H.epubHeadingIsBoundary("2 — Introduction"), true);
+  assert.equal(H.epubHeadingIsBoundary("I — The Palace"), true);
+  assert.equal(H.epubHeadingIsBoundary("One — The Beginning"), true);
+  assert.equal(H.epubHeadingIsBoundary("Prologue"), true);
+  assert.equal(H.epubHeadingIsBoundary("Epilogue"), true);
+  assert.equal(H.epubHeadingIsBoundary("Acknowledgements"), true,
+    "optional supplementary headings still form selectable section boundaries");
+  assert.equal(H.epubHeadingIsBoundary("The Palace"), false,
+    "ordinary subheadings are not promoted to chapter boundaries");
 });
 
 test("epubPackSections keeps every block exactly once (no text lost or reordered)", () => {
