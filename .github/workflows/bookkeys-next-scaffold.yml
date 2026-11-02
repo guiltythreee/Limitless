@@ -28,8 +28,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: tools/typing-next-source/package-lock.json
       - name: Install dependencies
         working-directory: tools/typing-next-source
         run: npm install --no-audit --no-fund
