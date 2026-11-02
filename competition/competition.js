@@ -4,7 +4,7 @@
   var DEFAULTS = {
     startDate: '2026-11-02', targetDate: '2027-03-02',
     benchmark: '', latestScore: '', safetyBuffer: '', benchmarkSource: '',
-    completed: {}, mocks: [], dayChecks: {}
+    completed: {}, mocks: [], dayChecks: {}, cfRating: '', problemLog: []
   };
   var SUBJECTS = [
     { id:'logic', name:'Logical Reasoning', note:'Proofs, deduction, invariants and constructive thinking' },
@@ -37,13 +37,18 @@
   function load() {
     try {
       var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-      return saved && typeof saved === 'object' ? Object.assign(cloneDefaults(), saved) : cloneDefaults();
+      if (!saved || typeof saved !== 'object') return cloneDefaults();
+      delete saved.weeklyTarget; delete saved.weekHours; delete saved.practice; delete saved.cfRatingTarget;
+      var merged = Object.assign(cloneDefaults(), saved);
+      if (!Array.isArray(merged.problemLog)) merged.problemLog = [];
+      if (!merged.dayChecks || typeof merged.dayChecks !== 'object') merged.dayChecks = {};
+      return merged;
     } catch (_) { return cloneDefaults(); }
   }
   function save() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); $('storage-note').textContent = 'Saved in this browser · Export a backup to move it to another device'; }
     catch (_) { $('storage-note').textContent = 'Could not save to browser storage. Export a backup to protect your changes.'; }
-    renderOverview(); renderSubjects(); renderSafety(); renderMockHistory();
+    renderOverview(); renderSubjects(); renderSafety(); renderMockHistory(); renderProblemHistory(); renderCodeforces();
   }
   function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, function (c) {
@@ -115,6 +120,36 @@
       });
     });
   }
+  function renderCodeforces() {
+    var today = new Date(); today.setHours(0,0,0,0);
+    var start = new Date(state.startDate + 'T00:00:00');
+    var week = Math.max(1, Math.min(16, Math.floor((today - start) / 604800000) + 1));
+    var phase = week <= 4 ? {range:'800–1000',low:800,name:'Foundations',period:'Weeks 1–4'}
+      : week <= 8 ? {range:'900–1100',low:900,name:'Core concepts',period:'Weeks 5–8'}
+      : week <= 12 ? {range:'1000–1200',low:1000,name:'Integrated problem-solving',period:'Weeks 9–12'}
+      : {range:'1100–1400',low:1100,name:'Competition readiness',period:'Weeks 13–16'};
+    $('cf-rating').value = state.cfRating;
+    $('cf-phase-target').textContent = phase.range;
+    $('cf-phase-note').textContent = phase.period + ' · ' + phase.name;
+    var rating = state.cfRating === '' ? NaN : Number(state.cfRating);
+    $('cf-rating-gap').textContent = Number.isFinite(rating) ? (rating >= phase.low ? '+' : '') + (rating - phase.low) : 'Not set';
+  }
+  function renderProblemHistory() {
+    var rows = (state.problemLog || []).slice().reverse();
+    $('problem-history').innerHTML = rows.length ? rows.map(function (p) {
+      return '<article class="problem-entry"><div class="problem-entry-head"><strong>' + escapeHtml(p.name) + '</strong><span>' + escapeHtml(p.difficulty || 'Difficulty not set') + '</span><small>' + escapeHtml(p.date) + '</small><button type="button" data-delete-problem="' + escapeHtml(p.id) + '">Remove</button></div><p><b>Key observation:</b> ' + escapeHtml(p.observation) + '</p>' +
+        (p.missed ? '<p><b>Missed insight:</b> ' + escapeHtml(p.missed) + '</p>' : '') +
+        (p.concept ? '<p><b>Concept:</b> ' + escapeHtml(p.concept) + '</p>' : '') +
+        (p.approach ? '<p><b>Approach:</b> ' + escapeHtml(p.approach) + '</p>' : '') +
+        '<p><b>Re-solve:</b> ' + (p.resolve === 'yes' ? 'Can solve independently' : p.resolve === 'no' ? 'Needs another attempt' : 'Not tested yet') + '</p></article>';
+    }).join('') : '<p class="empty-state">No problem reviews recorded yet.</p>';
+    $('problem-history').querySelectorAll('[data-delete-problem]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        state.problemLog = state.problemLog.filter(function (p) { return p.id !== button.dataset.deleteProblem; });
+        save();
+      });
+    });
+  }
   function renderSafety() {
     var benchmark = Number(state.benchmark), latest = Number(state.latestScore), buffer = Number(state.safetyBuffer || 0);
     var hasBenchmark = state.benchmark !== '' && Number.isFinite(benchmark) && benchmark >= 0 && benchmark <= 100;
@@ -150,13 +185,29 @@
   }
   function init() {
     $('start-date').value = state.startDate; $('target-date').value = state.targetDate;
-    $('benchmark-score').value = state.benchmark; $('latest-score').value = state.latestScore; $('safety-buffer').value = state.safetyBuffer; $('benchmark-source').value = state.benchmarkSource;
+    $('cf-rating').value = state.cfRating;\n    $('benchmark-score').value = state.benchmark; $('latest-score').value = state.latestScore; $('safety-buffer').value = state.safetyBuffer; $('benchmark-source').value = state.benchmarkSource;
     bindInput('start-date','startDate'); bindInput('target-date','targetDate');
-    bindInput('benchmark-score','benchmark'); bindInput('latest-score','latestScore'); bindInput('safety-buffer','safetyBuffer'); bindInput('benchmark-source','benchmarkSource');
+    bindInput('cf-rating','cfRating');\n    bindInput('benchmark-score','benchmark'); bindInput('latest-score','latestScore'); bindInput('safety-buffer','safetyBuffer'); bindInput('benchmark-source','benchmarkSource');
     ['start-date','target-date'].forEach(function (id) { $(id).addEventListener('change', renderOverview); });
     ['benchmark-score','latest-score','safety-buffer','benchmark-source'].forEach(function (id) { $(id).addEventListener('change', renderSafety); });
-    renderWeeks(); renderOverview(); renderSubjects(); renderSafety(); renderMockHistory();
+    renderWeeks(); renderOverview(); renderSubjects(); renderSafety(); renderMockHistory(); renderProblemHistory(); renderCodeforces();
     $('mock-date').value = new Date().toISOString().slice(0,10);
+    $('problem-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      state.problemLog = state.problemLog || [];
+      state.problemLog.push({
+        id:String(Date.now()) + '-' + Math.random().toString(36).slice(2,7),
+        date:new Date().toISOString().slice(0,10),
+        name:$('problem-name').value.trim(),
+        difficulty:$('problem-difficulty').value.trim(),
+        observation:$('problem-observation').value.trim(),
+        missed:$('problem-missed').value.trim(),
+        concept:$('problem-concept').value.trim(),
+        approach:$('problem-approach').value.trim(),
+        resolve:$('problem-resolve-status').value
+      });
+      $('problem-form').reset(); save();
+    });
     $('mock-form').addEventListener('submit', function (event) {
       event.preventDefault(); var score = Number($('mock-score').value);
       if (!Number.isFinite(score) || score < 0 || score > 100) return;
