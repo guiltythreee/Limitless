@@ -845,15 +845,24 @@ function chNumKey(tok) { return /^\d+$/.test(tok) ? String(parseInt(tok, 10)) : 
 // Chapter-looking lines on one page. Rejects dot-leader contents lines, page-edge running headers,
 // and ordinary sentences that merely start with "Chapter 7".
 function chapterHeadsOnPage(lines, bodySize, pageH) {
-  var out = [], i, L, t, m, rest, words, caps, big, titleCase, nx, title;
+  var out = [], i, L, t, m, rest, words, caps, big, titleCase, nx, title, key, kind;
   for (i = 0; i < lines.length; i++) {
     L = lines[i]; t = normalize(L.text);
     if (!t || t.length > 70) continue;
     if (pageH && (L.y > pageH * 0.95 || L.y < pageH * 0.04)) continue;
     if (/\.{3,}|(\. ){3,}/.test(t)) continue;
     m = CH_RE.exec(t);
-    if (!m || !chNumOk(m[2])) continue;
-    rest = m[3].trim();
+    if (m) {
+      if (!chNumOk(m[2])) continue;
+      rest = m[3].trim();
+      key = m[1].toLowerCase() + " " + chNumKey(m[2]);
+      kind = /^(?:part|book|volume|vol)$/i.test(m[1]) ? "part" : "chapter";
+    } else {
+      if (!epubHeadingIsBoundary(t)) continue;
+      rest = "";
+      key = "heading " + t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+      kind = "section";
+    }
     if (/\s\d{1,4}$/.test(rest)) continue;
     words = rest ? rest.split(" ") : [];
     caps = t === t.toUpperCase();
@@ -862,11 +871,11 @@ function chapterHeadsOnPage(lines, bodySize, pageH) {
     if (!(big || caps || !rest || titleCase)) continue;
     title = t.replace(/[\s.:\-–—]+$/, "");
     nx = lines[i + 1];
-    if (!rest && nx && /[A-Za-z]/.test(nx.text) && Math.abs(L.y - nx.y) < L.size * 3.5 && nx.text.length <= 50 &&
+    if (m && !rest && nx && /[A-Za-z]/.test(nx.text) && Math.abs(L.y - nx.y) < L.size * 3.5 && nx.text.length <= 50 &&
         !CH_RE.test(normalize(nx.text)) && (Math.abs(nx.size - L.size) < 0.6 || nx.text === nx.text.toUpperCase())) {
       title += ": " + normalize(nx.text).replace(/[\s.]+$/, "");
     }
-    out.push({ key: m[1].toLowerCase() + " " + chNumKey(m[2]), title: title.slice(0, 80), y: L.y });
+    out.push({ key: key, title: title.slice(0, 80), y: L.y, kind: kind });
   }
   return out;
 }
@@ -884,18 +893,37 @@ function tidyChapters(entries, n) {
 
 // pageHeads[p] = chapterHeadsOnPage(...) for page p. Returns [] when it does not look like a real chapter list.
 function pickChapters(pageHeads, n) {
-  var byKey = {}, picks = [], p, k, occ, keep;
+  var byKey = {}, picks = [], p, k, occ, j, kept, start, hasPartBefore;
+  function partAt(page) {
+    return (pageHeads[page] || []).some(function (x) { return x.kind === "part"; });
+  }
+  function partBetween(a, b) {
+    var q;
+    for (q = a + 1; q <= b; q++) if (partAt(q)) return true;
+    return false;
+  }
+  function partBefore(page) {
+    var q;
+    for (q = 0; q <= page; q++) if (partAt(q)) return true;
+    return false;
+  }
   for (p = 0; p < n; p++) {
     var h = pageHeads[p] || [];
-    if (h.length >= 3) continue;                       // a contents page lists many chapters at once
+    if (h.length >= 3) continue;
     h.forEach(function (x) { (byKey[x.key] = byKey[x.key] || []).push({ p: p, title: x.title }); });
   }
   for (k in byKey) {
     occ = byKey[k];
-    if (occ.length === 1) keep = occ[0];
-    else if (occ.length === 2 && occ[1].p - occ[0].p > 1) keep = occ[1];   // contents entry first, real heading later
-    else keep = occ[0];                                // repeated on many pages: a running header, keep where it first appears
-    picks.push(keep);
+    if (occ.length === 1) { picks.push(occ[0]); continue; }
+    hasPartBefore = partBefore(occ[0].p);
+    start = !hasPartBefore && partBetween(occ[0].p, occ[1].p) ? 1 : 0;
+    kept = [occ[start]];
+    for (j = start + 1; j < occ.length; j++) {
+      if (partBetween(occ[j - 1].p, occ[j].p)) kept.push(occ[j]);
+    }
+    if (kept.length > 1) Array.prototype.push.apply(picks, kept);
+    else if (occ.length === 2 && occ[1].p - occ[0].p > 1) picks.push(occ[1]);
+    else picks.push(occ[0]);
   }
   if (picks.length < 2 || picks.length > Math.max(3, n / 2)) return [];
   return tidyChapters(picks, n);
@@ -2709,7 +2737,7 @@ SCENES.mist = {
     usePages(pages, "Pasted text", LEGEND, "");
   });
   // ----- chapters: bookmarks, then headings, then even sections; your edits are saved per book -----
-  var CH = { list: [], src: "", busy: "" }, chapTok = 0, CHAP_VER = 4, lastKeyAt = -1e9;
+  var CH = { list: [], src: "", busy: "" }, chapTok = 0, CHAP_VER = 5, lastKeyAt = -1e9;
   function chapKey() { return "bookkeys:chap:" + S.key; }
   function chapEnd(i) { return i + 1 < CH.list.length ? CH.list[i + 1].p : S.total; }
   function unitName(one) { return S.isEpub ? (one ? "section" : "sections") : (one ? "page" : "pages"); }
