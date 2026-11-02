@@ -1,0 +1,39 @@
+name: Bookkeys preservation tests
+
+on:
+  push:
+    branches:
+      - "audit/bookkeys-preservation-migration-20261102"
+    paths:
+      - "tools/typing/**"
+      - ".github/workflows/test-bookkeys.yml"
+  pull_request:
+    paths:
+      - "tools/typing/**"
+      - ".github/workflows/test-bookkeys.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  bookkeys-tests:
+    name: Bookkeys regression suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.9"
+          cache: npm
+          cache-dependency-path: tools/typing/tests/package-lock.json
+
+      - name: Install test dependencies
+        working-directory: tools/typing/tests
+        run: npm ci
+
+      - name: Run Bookkeys regression suite
+        working-directory: tools/typing/tests
+        run: npm test
