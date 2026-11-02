@@ -27,10 +27,5 @@
     var next = current() === 'dark' ? 'light' : 'dark';
     apply(next, true);   // instant: label and theme change together, so rapid clicks cannot flip it back
   });
-  var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)');
-  if (mq && mq.addEventListener) mq.addEventListener('change', function (e) {
-    var saved = null; try { saved = sessionStorage.getItem(KEY); } catch (er) {}
-    if (!saved) apply(e.matches ? 'light' : 'dark', false);
-  });
   paint();
 })();
