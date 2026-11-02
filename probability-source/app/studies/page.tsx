@@ -24,6 +24,7 @@ export default function ProbabilityStudiesLanding() {
     snapshots,
     ready: progressReady,
     showPathways: true,
+    pathwayHref: (pathwayId) => `/probability/?pathway=${encodeURIComponent(pathwayId)}#study`,
   });
 
   return (
