@@ -141,6 +141,7 @@ export default function Quiz({
       result.submission.grade.correct,
       "practice",
       ms,
+      q.difficulty,
     ));
   };
 
@@ -188,7 +189,7 @@ export default function Quiz({
   const revealed = Boolean(rec) || peeked[q.n];
 
   return (
-      <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={dots.map((d) => (
+      <LearningPlayerShell className="learning-player-frame" paletteClassName="learning-player-palette" contentClassName="learning-player-content" palette={dots.map((d) => (
           <button
             key={d.n}
             type="button"
@@ -200,8 +201,8 @@ export default function Quiz({
           />
         ))}>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.6rem", flexWrap: "wrap", marginBottom: "0.4rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+        <div className="learning-player-meta learning-player-meta--compact">
+          <div className="learning-player-meta__group">
             <span className="chip" aria-label="Time on question">⏱ {timeLabel}</span>
             {!rec && (
               <button
@@ -229,7 +230,7 @@ export default function Quiz({
         <OptionList q={q} picked={rec?.choice} onPick={pick} locked={Boolean(rec)} />
 
         {rec && (
-          <div className={`verdict ${rec.correct ? "right" : "wrong"}`} style={{ marginTop: "0.8rem" }}>
+          <div className={`verdict learning-player-feedback ${rec.correct ? "right" : "wrong"}`} style={{ marginTop: "0.8rem" }}>
             {rec.correct
               ? "✓ Correct"
               : `✗ Incorrect — the answer is (${q.answer.toUpperCase()})`}
@@ -238,8 +239,8 @@ export default function Quiz({
 
         {revealed && <SolutionPanel q={q} />}
 
-        <div className="qnav">
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+        <div className="learning-player-actions">
+          <div>
             <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>
               ← Prev
             </button>
@@ -251,7 +252,7 @@ export default function Quiz({
               Next →
             </button>
           </div>
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+          <div>
             {!rec && !peeked[q.n] && (
               <button className="btn" onClick={() => setPeeked({ ...peeked, [q.n]: true })}>
                 Peek (not recorded)

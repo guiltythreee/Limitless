@@ -25,6 +25,8 @@ import {
 import type { Activity, ActivityLog, NewActivity } from "../platform/learning";
 import type { TopicId } from "../courses/types";
 import { CHAPTER_IDS } from "./types";
+import { sanitiseRewardRecords, type RewardRecord } from "../../../shared/rewards.mjs";
+import { appendLsrActivity, announceLsrRewardWrite, assessmentActivity, questionActivity, type AssessmentInput } from "../lib/lsr1-rewards";
 
 export type QState = { choice: string; correct: boolean; at: number };
 
@@ -39,6 +41,7 @@ export type Progress = {
   goal?: number;
   /** Historical daily targets, local YYYY-MM-DD keys. */
   goalByDay?: Record<string, number>;
+  rewardLedger?: RewardRecord[];
 };
 
 const KEY = "mm-mt201-v1";
@@ -86,6 +89,7 @@ export function loadProgress(): Progress {
       bookmarks: Array.isArray(p.bookmarks) ? [...new Set(p.bookmarks.filter((q) => typeof q === "string" && q.length > 0))] : [],
       goal: clampDailyGoal(p.goal ?? DEFAULT_DAILY_GOAL),
       goalByDay: sanitiseGoalByDay(p.goalByDay),
+      rewardLedger: sanitiseRewardRecords(p.rewardLedger),
     };
   } catch {
     return { answered: {}, examBest: null, bookmarks: [], goal: DEFAULT_DAILY_GOAL, goalByDay: {} };
@@ -157,15 +161,19 @@ export const activityLog: ActivityLog = createActivityLog<Progress>({
 /** Append through the shared log and hand back the root it persisted. */
 function appendAndReturn(
   root: Progress,
-  incoming: readonly NewActivity[]
+  incoming: readonly NewActivity[],
+  notifyMeta = false
 ): Progress {
-  return { ...root, activities: logFor(root).append(incoming) };
+  const next = { ...root, activities: logFor(root).append(incoming) };
+  if (notifyMeta) announceLsrRewardWrite();
+  return next;
 }
 
 /** One real answer = one `practice` activity, plus the usual `answered` entry. */
-export function recordAnswer(p: Progress, key: string, choice: string, correct: boolean, ms = 0): Progress {
+export function recordAnswer(p: Progress, key: string, choice: string, correct: boolean, ms = 0, difficulty = 1): Progress {
   const now = Date.now();
-  const next: Progress = {
+  const fresh = p.answered[key] === undefined;
+  let next: Progress = {
     ...p,
     answered: { ...p.answered, [key]: { choice, correct, at: now } },
   };
@@ -181,10 +189,11 @@ export function recordAnswer(p: Progress, key: string, choice: string, correct: 
   // Snapshot the stored-or-derived history BEFORE this answer lands, so the
   // answer is logged exactly once and never duplicated as a legacy twin.
   // `load()` only reads — nothing is written or backfilled here.
+  if (fresh) next = appendLsrActivity(next, questionActivity("metallurgy-mt201", key, now, correct, 0, difficulty)).progress;
   const goalSnapshot = withDailyGoalSnapshot(next, now);
   return appendAndReturn({ ...goalSnapshot, activities: logFor(p).load() }, [
     { q: key, topicId, picked: choice, correct, mode: "practice", ms, ts: now },
-  ]);
+  ], fresh);
 }
 
 /** One attempted question of a submitted exam. Blanks never reach the log. */
@@ -217,7 +226,8 @@ const sameExamBest = (a: Progress["examBest"], b: Progress["examBest"]) =>
 export function recordExamAnswers(
   p: Progress,
   attempted: readonly ExamAnswer[],
-  examBest?: Progress["examBest"]
+  examBest?: Progress["examBest"],
+  assessment?: AssessmentInput
 ): Progress {
   // Blanks are skipped here as well as by the caller: no `answered` entry and
   // no activity for an unanswered question.
@@ -242,12 +252,14 @@ export function recordExamAnswers(
   // The single write of the exam flow: the shared log appends the activity
   // batch onto THIS root, so answered + activities + examBest persist together.
   // Nothing may be saved after it.
-  const root = withDailyGoalSnapshot({
+  let root = withDailyGoalSnapshot({
     ...p,
     answered,
     examBest: best,
     activities: logFor(p).load(),
   }, now);
+  const reward = assessment ? assessmentActivity("metallurgy-mt201", assessment) : null;
+  if (reward) root = appendLsrActivity(root, reward).progress;
 
   return appendAndReturn(
     root,
@@ -258,7 +270,8 @@ export function recordExamAnswers(
       correct: a.correct,
       mode: "exam",
       ts: now,
-    }))
+    })),
+    Boolean(reward)
   );
 }
 
@@ -274,11 +287,8 @@ export function toggleBookmark(p: Progress, questionId: string): Progress {
 }
 
 export function resetProgress() {
-  try {
-    window.localStorage.removeItem(KEY);
-  } catch {
-    /* ignore */
-  }
+  const saved = loadProgress();
+  saveProgress({ answered: {}, examBest: null, rewardLedger: saved.rewardLedger });
 }
 
 export function loadTheme(): "dark" | "light" {
