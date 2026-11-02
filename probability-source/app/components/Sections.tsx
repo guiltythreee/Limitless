@@ -1,11 +1,35 @@
 import type { Lesson } from "../content";
 import { Display, Para, Rich } from "../lib/rich";
 
+type TheoryGroup = { title: string; paragraphs: string[] };
+
+function theoryGroups(paragraphs: string[]): TheoryGroup[] {
+  const groups: TheoryGroup[] = [];
+  for (const paragraph of paragraphs) {
+    const title = /^(Definition|Theorem|Proposition|Lemma|Corollary)\\b/.test(paragraph)
+      ? "Formal statements"
+      : /^(Proof|More proofs)\\b/.test(paragraph)
+        ? "Proofs and derivations"
+        : /^(Intuition|Working rule|Example|Application|Quant lens)\\b/.test(paragraph)
+          ? "Intuition and applications"
+          : "Core ideas";
+    const current = groups[groups.length - 1];
+    if (current?.title === title) current.paragraphs.push(paragraph);
+    else groups.push({ title, paragraphs: [paragraph] });
+  }
+  return groups;
+}
+
 export function Theory({ lesson }: { lesson: Lesson }) {
   return (
     <div className="measure">
       <div className="border-l-2 border-gold/60 bg-gold/4.5 px-4 py-3"><div className="eyebrow text-[9px]!">Learning objective</div><p className="mt-2 text-sm leading-6 text-body"><Rich text={lesson.objective} /></p></div>
-      <div className="theory mt-7 space-y-4">{lesson.body.map((p, i) => <Para key={i} text={p} />)}</div>
+      <div className="theory mt-7 space-y-5">{theoryGroups(lesson.body).map((group, i) => (
+        <section key={`${group.title}-${i}`} className="theory-topic-group">
+          <h3 className="theory-topic-heading">{group.title}</h3>
+          <div className="space-y-4">{group.paragraphs.map((p, j) => <Para key={j} text={p} />)}</div>
+        </section>
+      ))}</div>
       {lesson.formulas.length > 0 && (
         <div className="subtle-grid mt-8 border border-gold/20 bg-inset/70 px-5 py-6">
           <div className="eyebrow mb-4 text-center text-[9px]!">{lesson.formulas.length > 1 ? "The governing relations" : "The governing relation"}</div>
