@@ -1,6 +1,7 @@
 import MetaStatusBar from "./components/MetaStatusBar";
 import type { Metadata } from "next";
 import "./globals.css";
+import "../../shared/learning-player/player.css";
 import "katex/dist/katex.min.css";
 
 export const metadata: Metadata = {
