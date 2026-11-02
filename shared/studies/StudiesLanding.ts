@@ -109,8 +109,6 @@ export function createStudiesLanding(
             course.description && h("p", null, course.description),
             h("div", { className: "studies-landing__card-bottom" },
               h("span", { className: "studies-landing__course-status" }, statusLabel),
-              h("span", { className: "studies-landing__open" },
-                "Open course", h("span", { "aria-hidden": "true" }, " ↗")),
             ),
           );
         }),
