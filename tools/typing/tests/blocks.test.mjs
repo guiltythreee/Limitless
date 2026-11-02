@@ -123,6 +123,43 @@ test("chapterHeadsOnPage finds 'Chapter N' lines near the top of a page", () => 
   assert.equal(heads[0].title, "CHAPTER 7");
 });
 
+test("chapterHeadsOnPage recognises em-dash chapter headings and standalone supplementary headings", () => {
+  const heads = H.chapterHeadsOnPage([
+    { text: "Chapter 2 — The Road", y: 100, size: 18 },
+    { text: "Acknowledgements", y: 180, size: 18 },
+    { text: "The Palace", y: 240, size: 10 },
+  ], 10, 792);
+  assert.equal(heads.length, 2);
+  assert.equal(heads[0].key, "chapter 2");
+  assert.equal(heads[0].kind, "chapter");
+  assert.equal(heads[1].title, "Acknowledgements");
+  assert.equal(heads[1].kind, "section");
+});
+
+test("pickChapters preserves repeated chapter numbers when a Part heading separates them", () => {
+  const pageHeads = [
+    [{ key: "part i", title: "Part I", kind: "part" }],
+    [{ key: "chapter 1", title: "Chapter 1 — First", kind: "chapter" }],
+    [{ key: "chapter 2", title: "Chapter 2 — Second", kind: "chapter" }],
+    [{ key: "part ii", title: "Part II", kind: "part" }],
+    [{ key: "chapter 1", title: "Chapter 1 — Again", kind: "chapter" }],
+  ];
+  const picked = H.pickChapters(pageHeads, pageHeads.length);
+  assert.deepEqual(picked.filter((c) => /^Chapter 1/.test(c.title)).map((c) => c.p), [1, 4]);
+});
+
+test("pickChapters discards a contents occurrence before Part I but keeps repeated chapters in later Parts", () => {
+  const pageHeads = [
+    [{ key: "chapter 1", title: "Chapter 1", kind: "chapter" }],
+    [{ key: "part i", title: "Part I", kind: "part" }],
+    [{ key: "chapter 1", title: "Chapter 1 — First", kind: "chapter" }],
+    [{ key: "part ii", title: "Part II", kind: "part" }],
+    [{ key: "chapter 1", title: "Chapter 1 — Again", kind: "chapter" }],
+  ];
+  const picked = H.pickChapters(pageHeads, pageHeads.length);
+  assert.deepEqual(picked.filter((c) => /^Chapter 1/.test(c.title)).map((c) => c.p), [2, 4]);
+});
+
 // ---------------------------------------------------------------------------
 // XP maths, ranks, streaks
 // ---------------------------------------------------------------------------
