@@ -13,6 +13,7 @@ import { pathwayLessons } from "./pathway-lessons";
 import { advancedPathwayLessons } from "./pathway-lessons-advanced";
 import { probabilityPackLessons } from "./probability-pack";
 import { probabilityPackAdditions } from "./probability-pack-additions";
+import { probabilityPackAdditions } from "./probability-pack-additions";
 
 export { pathways } from "./pathways";
 export { coverageAreas } from "./coverage";
