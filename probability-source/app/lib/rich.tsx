@@ -234,9 +234,14 @@ export function Para({ text }: { text: string }) {
 }
 
 // ---------- practice explanations: "Answer (B). … Why the others are wrong: (A) … (C) …" ----------
-export function Explanation({ text }: { text: string }) {
+export function Explanation({ text, solutionSteps = [] }: { text: string; solutionSteps?: string[] }) {
   const m = text.match(/^Answer \(([A-E](?:,\s*[A-E])*)\)\.\s*([\s\S]*?)(?:\s*Why the others are wrong:\s*([\s\S]*))?$/);
-  if (!m) return <p className="para"><Rich text={text} /></p>;
+  if (!m) return (
+    <div className="space-y-3">
+      <p className="para"><Rich text={text} /></p>
+      {solutionSteps.length > 0 && <SolutionSteps steps={solutionSteps} />}
+    </div>
+  );
   const [, ans, why, others] = m;
   const items: { label: string; text: string }[] = [];
   if (others) {
@@ -251,6 +256,7 @@ export function Explanation({ text }: { text: string }) {
   return (
     <div className="space-y-3">
       <p className="para"><strong className="lead">Answer ({ans}).</strong> <Rich text={why} /></p>
+      {solutionSteps.length > 0 && <SolutionSteps steps={solutionSteps} />}
       {others && (
         <div>
           <div className="lead mb-1.5">Why the others are wrong</div>
@@ -262,5 +268,23 @@ export function Explanation({ text }: { text: string }) {
         </div>
       )}
     </div>
+  );
+}
+
+
+/** Numbered derivation for questions that need more than a one-line explanation. */
+function SolutionSteps({ steps }: { steps: string[] }) {
+  return (
+    <section className="question-worked-solution" aria-label="Step-by-step solution">
+      <div className="lead mb-2">Step-by-step solution</div>
+      <ol className="space-y-2.5">
+        {steps.map((step, index) => (
+          <li key={index} className="flex gap-3 text-sm leading-7 text-body">
+            <span className="solution-step-number" aria-hidden="true">{index + 1}</span>
+            <span className="min-w-0"><Rich text={step} /></span>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
