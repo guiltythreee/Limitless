@@ -76,14 +76,13 @@
   function renderPractice() {
     var practice = state.practice || { cf:0, cses:0, math:0 };
     var metrics = [
-      { id:'cf', value:Number(practice.cf || 0), target:180 },
-      { id:'cses', value:Number(practice.cses || 0), target:50 },
-      { id:'math-exercises', value:Number(practice.math || 0), target:100 }
+      { key:'cf-solved', value:Number(practice.cf || 0), target:180 },
+      { key:'cses-solved', value:Number(practice.cses || 0), target:50 },
+      { key:'math-exercises', value:Number(practice.math || 0), target:100 }
     ];
     metrics.forEach(function (m) {
-      var key = m.id === 'math-exercises' ? 'math-exercises' : m.id;
-      $(key + '-value').textContent = m.value;
-      $(key + '-bar').style.width = Math.min(100, m.target ? m.value / m.target * 100 : 0) + '%';
+      $(m.key + '-value').textContent = m.value;
+      $(m.key + '-bar').style.width = Math.min(100, m.target ? m.value / m.target * 100 : 0) + '%';
     });
     $('cf-solved-target').textContent = '/ 180 problems';
     $('mock-count-value').textContent = state.mocks.length;
