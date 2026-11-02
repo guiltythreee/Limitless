@@ -12,11 +12,23 @@
 // question through the shared activity log (blanks are skipped). Score, best
 // ratio and the progress payload itself are unchanged; nothing new is rendered.
 
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import { Progress, qid, recordExamAnswers, type ExamAnswer } from "./progress";
 import { MT201_ENTRY } from "../courses/entries/mt201";
 import type { Question } from "../courses/types";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
+import {
+  createLearningPlayerSession,
+  navigatePlayer,
+  selectPlayerQuestion,
+  setPlayerAnswer,
+  submitPlayerAnswer,
+} from "../../../shared/learning-player/runtime";
+import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
 
 type PoolQ = Question & { chId: string; chTitle: string };
 
@@ -37,8 +49,16 @@ export default function Exam({
 
   const [running, setRunning] = useState(false);
   const [pool, setPool] = useState<PoolQ[]>([]);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [idx, setIdx] = useState(0);
+  const [session, setSession] = useState(() =>
+    createLearningPlayerSession<PoolQ, MetallurgyPlayerAnswer>([])
+  );
+  const idx = session.state.index;
+  const answers: Record<number, string> = {};
+  pool.forEach((question, index) => {
+    const answer = session.answers[question.id];
+    if (answer) answers[index] = answer.optionId;
+  });
+  const playerAdapter = createMetallurgyPlayerAdapter<PoolQ>("mt201");
   const [left, setLeft] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
@@ -66,40 +86,46 @@ export default function Exam({
       c.questions.map((q) => ({ ...q, chId: c.topicId, chTitle: titleOf(c.topicId) }))
     );
     const shuffled = [...all].sort(() => Math.random() - 0.5);
-    setPool(shuffled.slice(0, Math.min(count, shuffled.length)));
-    setAnswers({});
-    setIdx(0);
+    const drawn = shuffled.slice(0, Math.min(count, shuffled.length));
+    setPool(drawn);
+    setSession(createLearningPlayerSession<PoolQ, MetallurgyPlayerAnswer>(drawn));
     setLeft(Math.max(1, minutes) * 60);
     setSubmitted(false);
     setRunning(true);
   };
 
   const finish = () => {
-    const sc = pool.reduce((acc, qp, i) => acc + (answers[i] === qp.answer ? 1 : 0), 0);
-    setScore(sc);
-    setRunning(false);
-    setSubmitted(true);
-    // record exam answers into regular progress too, so weak chambers show up.
-    // Blank questions are skipped: they are neither saved nor logged.
+    let working = session;
+    let sc = 0;
     const attempted: ExamAnswer[] = [];
-    pool.forEach((qp, i) => {
-      const a = answers[i];
-      if (!a) return;
+    pool.forEach((qp, index) => {
+      working = selectPlayerQuestion(working, index);
+      const result = submitPlayerAnswer(working, playerAdapter, {
+        submittedAt: Date.now(),
+        mode: "exam",
+      });
+      if (!result.submission) return;
+      working = result.session;
+      const choice = result.submission.answer.optionId;
+      const correct = result.submission.grade.correct;
+      if (correct) sc++;
       attempted.push({
         key: qid(qp.chId, qp.n),
         topicId: qp.topicId,
-        choice: a,
-        correct: a === qp.answer,
+        choice,
+        correct,
       });
     });
+    setSession(working);
+    setScore(sc);
+    setRunning(false);
+    setSubmitted(true);
     const total = pool.length;
     const prevRatio = progress.examBest ? progress.examBest.score / progress.examBest.total : -1;
     const nextBest =
       total && sc / total >= prevRatio
         ? { score: sc, total, at: Date.now() }
         : progress.examBest;
-    // ONE persistent write: the answered entries, the exam activity batch and
-    // the updated best go down together, so a reload can never lose the record.
     const p = recordExamAnswers(progress, attempted, nextBest);
     onProgress(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -211,32 +237,37 @@ export default function Exam({
         <button className="btn btn-gold" onClick={finish}>Submit exam</button>
       </div>
 
-      <div className="panel">
-        <div className="palette">
-          {pool.map((qp, i) => (
-            <button
-              key={`${qp.chId}-${qp.n}`}
-              className={`pbtn ${answers[i] ? "answered" : ""} ${i === idx ? "current" : ""}`}
-              onClick={() => setIdx(i)}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
+      <LearningPlayerShell className="panel" paletteClassName="palette" contentClassName="qwrap" palette={pool.map((qp, i) => (
+          <button
+            key={`${qp.chId}-${qp.n}`}
+            className={`pbtn ${answers[i] ? "answered" : ""} ${i === idx ? "current" : ""}`}
+            aria-label={`Question ${i + 1}${answers[i] ? ", answered" : ", unanswered"}`}
+            aria-current={i === idx ? "step" : undefined}
+            onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
+          >
+            {i + 1}
+          </button>
+        ))}>
 
-        <div className="qwrap">
           <div className="qhead">
             <span className="chip">{q.chId.toUpperCase()} · {q.chTitle}</span>
           </div>
           <QuestionMeta q={q} />
           <QuestionBody q={q} />
-          <OptionList q={q} picked={given} onPick={(l) => setAnswers({ ...answers, [idx]: l })} locked={false} />
+          <OptionList
+            q={q}
+            picked={given}
+            onPick={(label) => setSession((current) => setPlayerAnswer(current, playerAdapter, {
+              kind: "single-choice",
+              optionId: label,
+            }))}
+            locked={false}
+          />
           <div className="qnav">
-            <button className="btn" disabled={idx === 0} onClick={() => setIdx(idx - 1)}>← Prev</button>
-            <button className="btn" disabled={idx >= pool.length - 1} onClick={() => setIdx(idx + 1)}>Next →</button>
+            <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>← Prev</button>
+            <button className="btn" disabled={idx >= pool.length - 1} onClick={() => setSession((current) => navigatePlayer(current, "next"))}>Next →</button>
           </div>
-        </div>
-      </div>
+      </LearningPlayerShell>
     </div>
   );
 }

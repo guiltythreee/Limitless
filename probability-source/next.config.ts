@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 // "npm run dev" keeps working at http://localhost:3000 as before.
@@ -10,6 +11,9 @@ const nextConfig: NextConfig = {
   basePath,
   trailingSlash: true,
   images: { unoptimized: true },
+  // The shared learning-player runtime lives one directory above this app.
+  // Widen Turbopack's root so both apps can resolve that single source.
+  turbopack: { root: path.resolve(process.cwd(), "..") },
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
 };
 

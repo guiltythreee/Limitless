@@ -1,12 +1,27 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { createElement, useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { lessons, pad2, type Difficulty } from "../content";
 import { Explanation, Rich } from "../lib/rich";
 import { allQuestions, correctSet, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
 import { clearDraft, latestByQuestion, recordAttempt, recordTest, saveDraft, toggleBookmark, useStore, type Attempt, type TestRecord } from "../lib/store";
 import { fmtTime, summarize } from "../lib/stats";
 import { StatsPanel } from "./Dashboard";
+import {
+  clearPlayerAnswer,
+  createLearningPlayerSession,
+  selectPlayerQuestion,
+  setPlayerAnswer,
+  submitPlayerAnswer,
+  tickPlayer,
+  type LearningPlayerSession,
+} from "../../../shared/learning-player/runtime";
+import { probabilityPlayerAdapter } from "../learning-player/adapter";
+import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
 
 type ScopeKind = "topic" | "rank" | "all";
 type View = "overview" | "all" | "topics" | "saved" | "mistakes" | "question";
@@ -30,8 +45,11 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
   const [scopeKind, setScopeKind] = useState<ScopeKind>("topic");
   const [view, setView] = useState<View>("overview");
   const [back, setBack] = useState<View>("all");
-  const [queue, setQueue] = useState<string[]>([]);
-  const [qi, setQi] = useState(0);
+  const [session, setSession] = useState<LearningPlayerSession<Q, ProbabilityPlayerAnswer>>(
+    () => createLearningPlayerSession<Q, ProbabilityPlayerAnswer>([]),
+  );
+  const queue = session.questions.map((question) => question.key);
+  const qi = session.state.index;
 
   const latest = useMemo(() => latestByQuestion(store.attempts), [store.attempts]);
   const statusOf = (k: string): Status => latest[k]?.status ?? "unattempted";
@@ -42,7 +60,11 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
   const scopeLabel = scopeKind === "topic" ? lesson.title : scopeKind === "rank" ? `Sequence ${pad2(lesson.rank)}` : "All of probability";
 
   function open(keys: string[], index: number, from: View) {
-    setQueue(keys); setQi(index); setBack(from); setView("question");
+    const questions = keys.map((key) => questionByKey[key]).filter((question): question is Q => Boolean(question));
+    const nextSession = createLearningPlayerSession<Q, ProbabilityPlayerAnswer>(questions);
+    setSession(selectPlayerQuestion(nextSession, index));
+    setBack(from);
+    setView("question");
   }
   function practiceAll() {
     const keys = pool.map((q) => q.key);
@@ -106,10 +128,12 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
         {view === "question" && queue.length > 0 && (
           <QuestionView
             key={queue[qi]}
-            q={questionByKey[queue[qi]]}
+            q={session.questions[qi]}
             queue={queue}
             index={qi}
-            onGo={(i) => setQi(i)}
+            session={session}
+            onSessionChange={setSession}
+            onGo={(i) => setSession((current) => selectPlayerQuestion(current, i))}
             onBack={() => setView(back)}
             showTopic={scopeKind !== "topic"}
           />
@@ -221,7 +245,16 @@ export function Options({ item, picked, onPick, reveal, disabled }: { item: Q["i
 }
 
 // ---------- one question, one stopwatch ----------
-function QuestionView({ q, queue, index, onGo, onBack, showTopic }: { q: Q; queue: string[]; index: number; onGo: (i: number) => void; onBack: () => void; showTopic: boolean }) {
+function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack, showTopic }: {
+  q: Q;
+  queue: string[];
+  index: number;
+  session: LearningPlayerSession<Q, ProbabilityPlayerAnswer>;
+  onSessionChange: Dispatch<SetStateAction<LearningPlayerSession<Q, ProbabilityPlayerAnswer>>>;
+  onGo: (i: number) => void;
+  onBack: () => void;
+  showTopic: boolean;
+}) {
   const store = useStore();
   const mine = store.attempts.filter((a) => a.q === q.key);
   const last: Attempt | undefined = mine[mine.length - 1];
@@ -265,10 +298,31 @@ function QuestionView({ q, queue, index, onGo, onBack, showTopic }: { q: Q; queu
   function choose(i: number) {
     if (phase !== "answering") return;
     const next = multi ? (picked.includes(i) ? picked.filter((p) => p !== i) : [...picked, i]) : [i];
-    setPicked(next); pickedRef.current = next; flush();
+    setPicked(next);
+    pickedRef.current = next;
+    if (next.length > 0) {
+      const answer: ProbabilityPlayerAnswer = multi
+        ? { kind: "multi-choice", optionIds: next.map(String) }
+        : { kind: "single-choice", optionId: String(next[0]) };
+      onSessionChange((current) => setPlayerAnswer(current, probabilityPlayerAdapter, answer));
+    } else {
+      onSessionChange((current) => clearPlayerAnswer(current, probabilityPlayerAdapter));
+    }
+    flush();
   }
   function check() {
     pause();
+    const answer: ProbabilityPlayerAnswer = multi
+      ? { kind: "multi-choice", optionIds: picked.map(String) }
+      : { kind: "single-choice", optionId: String(picked[0]) };
+    const timed = tickPlayer(session, acc.current);
+    const answered = setPlayerAnswer(timed, probabilityPlayerAdapter, answer);
+    const result = submitPlayerAnswer(answered, probabilityPlayerAdapter, {
+      submittedAt: Date.now(),
+      mode: "practice",
+    });
+    if (!result.submission) return;
+    onSessionChange(() => result.session);
     phaseRef.current = "review";
     recordAttempt(q.key, picked, acc.current);
     setPhase("review");
@@ -281,6 +335,7 @@ function QuestionView({ q, queue, index, onGo, onBack, showTopic }: { q: Q; queu
   }
   function retry() {
     clearDraft(q.key);
+    onSessionChange((current) => selectPlayerQuestion(current, index));
     acc.current = 0; t0.current = null;
     setPicked([]); pickedRef.current = [];
     phaseRef.current = "answering"; setPhase("answering");
@@ -292,21 +347,21 @@ function QuestionView({ q, queue, index, onGo, onBack, showTopic }: { q: Q; queu
   const bookmarked = store.bookmarks.includes(q.key);
 
   return (
-    <div>
-      <div className="mb-4 flex items-center gap-2 overflow-x-auto pb-1">
-        <button onClick={onBack} className="pill shrink-0" aria-label="Back to the list">←</button>
-        <div className="flex gap-1.5">
-          {queue.map((k, i) => {
-            const s: Status = latest[k]?.status ?? "unattempted";
-            return (
-              <button key={k} onClick={() => onGo(i)} className={`qnum qnum-${s} ${i === index ? "qnum-cur" : ""}`} title={s}>
-                <span className="text-xs">{i + 1}</span><span className="qmark">{MARK[s] || "·"}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
+    <LearningPlayerShell paletteClassName="mb-4 flex items-center gap-2 overflow-x-auto pb-1" palette={(
+                  <>
+                  <button onClick={onBack} className="pill shrink-0" aria-label="Back to the list">←</button>
+                  <div className="flex gap-1.5">
+                    {queue.map((k, i) => {
+                      const s: Status = latest[k]?.status ?? "unattempted";
+                      return (
+                        <button key={k} onClick={() => onGo(i)} className={`qnum qnum-${s} ${i === index ? "qnum-cur" : ""}`} title={s} aria-label={`Question ${i + 1}, ${s}`} aria-current={i === index ? "step" : undefined}>
+                          <span className="text-xs">{i + 1}</span><span className="qmark">{MARK[s] || "·"}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  </>
+                )}>
       <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3">
         <div>
           <div className="text-sm text-body">Q {index + 1} <span className="text-faint">• {q.item.source ?? ""}</span> <span className={`dbadge dbadge-${q.difficulty} ml-1`}>{DIFF_LABEL[q.difficulty]}</span></div>
@@ -352,6 +407,6 @@ function QuestionView({ q, queue, index, onGo, onBack, showTopic }: { q: Q; queu
           : <button className="btn-main" onClick={retry}>Retry · new attempt, timer from 0</button>}
         <button className="btn-side" disabled={index >= queue.length - 1} onClick={() => onGo(index + 1)}>Next</button>
       </div>
-    </div>
+    </LearningPlayerShell>
   );
 }

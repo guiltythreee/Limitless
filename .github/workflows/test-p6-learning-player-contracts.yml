@@ -1,0 +1,98 @@
+name: P6 Learning Player Contract Types
+
+on:
+  pull_request:
+    paths:
+      - "shared/learning-player/**"
+      - "metallurgy-source/app/learning-player/**"
+      - "metallurgy-source/app/mt201/quiz.tsx"
+      - "metallurgy-source/app/mt202/quiz.tsx"
+      - "metallurgy-source/app/mt203/player.tsx"
+      - "metallurgy-source/app/mt201/exam.tsx"
+      - "metallurgy-source/app/mt202/exam.tsx"
+      - "metallurgy-source/app/mt203/exam.tsx"
+      - "probability-source/app/learning-player/**"
+      - "probability-source/app/components/Practice.tsx"
+      - "probability-source/app/components/Test.tsx"
+      - "metallurgy-source/next.config.ts"
+      - "probability-source/next.config.ts"
+      - ".github/workflows/test-p6-learning-player-contracts.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  typecheck:
+    name: "Type-check shared contracts (${{ matrix.project }})"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - metallurgy-source
+          - probability-source
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
+
+      - name: Install project TypeScript toolchain
+        working-directory: ${{ matrix.project }}
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Test pure player lifecycle
+        working-directory: ${{ matrix.project }}
+        run: |
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/state.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/runtime.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/learning-player/adapter.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/cross-discipline.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/player-shell.test.mjs
+
+      - name: Type-check shared contract and fixtures
+        working-directory: ${{ matrix.project }}
+        run: >-
+          npx tsc --noEmit --strict --skipLibCheck
+          --target ES2017 --lib ESNext,DOM
+          --module ESNext --moduleResolution bundler
+          ../shared/learning-player/contracts.ts
+          ../shared/learning-player/state.ts
+          ../shared/learning-player/runtime.ts
+          ../shared/learning-player/PlayerShell.ts
+          ../shared/learning-player/contracts.type-test.ts
+          app/learning-player/adapter.ts
+
+  app-build:
+    name: "Production build (${{ matrix.project }})"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - metallurgy-source
+          - probability-source
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
+
+      - name: Install project dependencies
+        working-directory: ${{ matrix.project }}
+        run: npm ci --no-audit --no-fund
+
+      - name: Build application without deployment
+        working-directory: ${{ matrix.project }}
+        run: npm run build

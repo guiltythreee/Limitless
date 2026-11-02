@@ -11,10 +11,25 @@
 // course registry adapter; progress keys (question ids) and XP rules are
 // unchanged.
 
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import { awardAnswer, Mode, Progress, recordAnswer, toggleBookmark } from "../lib/mt203-progress";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
-import { Question } from "../courses/types";
+import type { Question } from "../courses/types";
+import {
+  createLearningPlayerSession,
+  navigatePlayer,
+  selectPlayerQuestion,
+  setPlayerAnswer,
+  submitPlayerAnswer,
+  tickPlayer,
+} from "../../../shared/learning-player/runtime";
+import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
+
+const playerAdapter = createMetallurgyPlayerAdapter("mt203");
 
 const fmtElapsed = (ms: number) => {
   const seconds = Math.floor(Math.max(0, ms) / 1000);
@@ -43,7 +58,10 @@ export default function Player({
   initialQuestionId?: string;
 }) {
   const [order, setOrder] = useState<number[]>(() => questions.map((_, i) => i));
-  const [idx, setIdx] = useState(0);
+  const [session, setSession] = useState(() =>
+    createLearningPlayerSession<Question, MetallurgyPlayerAnswer>(questions)
+  );
+  const idx = session.state.index;
   const [picked, setPicked] = useState<Record<string, string>>({});
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
   const [done, setDone] = useState(false);
@@ -64,7 +82,8 @@ export default function Player({
     const target = initialQuestionId
       ? questions.findIndex((question) => question.id === initialQuestionId)
       : 0;
-    setIdx(target >= 0 ? target : 0);
+    const nextSession = createLearningPlayerSession<Question, MetallurgyPlayerAnswer>(questions);
+    setSession(selectPlayerQuestion(nextSession, target >= 0 ? target : 0));
     const storedAttempt = initialQuestionId
       ? [...progress.attempts].reverse().find((attempt) => attempt.q === initialQuestionId)
       : undefined;
@@ -133,9 +152,20 @@ export default function Player({
 
   const pick = (lab: string) => {
     if (!theQ || revealed[theQ.id]) return;
-    const ok = lab === theQ.answer;
     const ms = Math.max(0, Math.round(elapsedNow()));
     openedAt.current = null;
+    const timed = tickPlayer(session, ms);
+    const answeredSession = setPlayerAnswer(timed, playerAdapter, {
+      kind: "single-choice",
+      optionId: lab,
+    });
+    const result = submitPlayerAnswer(answeredSession, playerAdapter, {
+      submittedAt: Date.now(),
+      mode,
+    });
+    if (!result.submission) return;
+    const ok = result.submission.grade.correct;
+    setSession(result.session);
     let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms);
     const res = awardAnswer(p, theQ.id, theQ.difficulty, ok);
     p = res.progress;
@@ -149,7 +179,7 @@ export default function Player({
   };
 
   const advance = () => {
-    if (idx < order.length - 1) setIdx(idx + 1);
+    if (idx < order.length - 1) setSession((current) => navigatePlayer(current, "next"));
     else {
       setDone(true);
       onFinished?.(progress);
@@ -162,7 +192,9 @@ export default function Player({
     );
     if (wrong.length === 0) return;
     setOrder(wrong);
-    setIdx(0);
+    setSession(createLearningPlayerSession<Question, MetallurgyPlayerAnswer>(
+      wrong.map((questionIndex) => questions[questionIndex])
+    ));
     setDone(false);
     setPicked((m) => {
       const n = { ...m };
@@ -178,7 +210,7 @@ export default function Player({
 
   const restart = () => {
     setOrder(questions.map((_, i) => i));
-    setIdx(0);
+    setSession(createLearningPlayerSession<Question, MetallurgyPlayerAnswer>(questions));
     setPicked({});
     setRevealed({});
     setDone(false);
@@ -241,24 +273,26 @@ export default function Player({
     : fmtElapsed(elapsedMs);
 
   return (
-    <div className="panel">
-      <div className="dots" role="tablist" aria-label="Question navigator">
-        {order.map((qi, i) => {
-          const qq = questions[qi];
-          const st = revealed[qq.id];
-          const cls = st ? (picked[qq.id] === qq.answer ? "right" : "wrong") : "";
-          return (
-            <button
-              key={qq.id}
-              className={`dot ${cls} ${i === idx ? "cur" : ""}`}
-              title={`Question ${i + 1}`}
-              onClick={() => setIdx(i)}
-            />
-          );
-        })}
-      </div>
+      <LearningPlayerShell className="panel" paletteClassName="dots" contentClassName="qwrap" palette={(
+        <div role="tablist" aria-label="Question navigator">
+                  {order.map((qi, i) => {
+                    const qq = questions[qi];
+                    const st = revealed[qq.id];
+                    const cls = st ? (picked[qq.id] === qq.answer ? "right" : "wrong") : "";
+                    return (
+                      <button
+                        key={qq.id}
+                        className={`dot ${cls} ${i === idx ? "cur" : ""}`}
+                        title={`Question ${i + 1}`}
+                        aria-label={`Question ${i + 1}`}
+                        aria-current={i === idx ? "step" : undefined}
+                        onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
+                      />
+                    );
+                  })}
+                  </div>
+      )}>
 
-      <div className="qwrap">
         <div className="qhead">
           <span className="chip">
             {idx + 1} / {order.length} · {answered} answered · {right} correct
@@ -296,16 +330,14 @@ export default function Player({
         {isRevealed && <SolutionPanel q={theQ} picked={chosen} />}
 
         <div className="qnav">
-          <button className="btn" disabled={idx === 0} onClick={() => setIdx(idx - 1)}>
+          <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>
             ← Prev
           </button>
           <button className="btn btn-gold" onClick={advance}>
             {idx < order.length - 1 ? "Next →" : "Finish"}
           </button>
         </div>
-      </div>
-
       {toast !== null && <div className="xp-toast">+{toast} XP</div>}
-    </div>
+      </LearningPlayerShell>
   );
 }

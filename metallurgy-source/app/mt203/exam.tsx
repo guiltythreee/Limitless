@@ -7,7 +7,7 @@
 // XP: each first-correct answer pays once; clearing a module or reaching its
 // mastery criteria pays a one-time bonus (settleModuleBonuses).
 
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import {
   moduleOfTopic,
   moduleQuestionIds,
@@ -25,6 +25,20 @@ import { MT203_ENTRY } from "../courses/entries/mt203";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 import { settleModuleBonuses } from "./rewards";
 import type { Question } from "../courses/types";
+import {
+  createLearningPlayerSession,
+  navigatePlayer,
+  selectPlayerQuestion,
+  setPlayerAnswer,
+  submitPlayerAnswer,
+} from "../../../shared/learning-player/runtime";
+import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
+import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+
+const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
+  createLearningPlayerShell(createElement, props);
+
+const playerAdapter = createMetallurgyPlayerAdapter("mt203");
 
 // PHASE 4b: the scope tabs and exam labels come from the manifest's units, and
 // questions are drawn through the registry adapter — so the per-topic dynamic
@@ -67,8 +81,15 @@ export default function Exam({
 
   const [running, setRunning] = useState(false);
   const [pool, setPool] = useState<Question[]>([]);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [idx, setIdx] = useState(0);
+  const [session, setSession] = useState(() =>
+    createLearningPlayerSession<Question, MetallurgyPlayerAnswer>([])
+  );
+  const idx = session.state.index;
+  const answers: Record<number, string> = {};
+  pool.forEach((question, index) => {
+    const answer = session.answers[question.id];
+    if (answer) answers[index] = answer.optionId;
+  });
   const [left, setLeft] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
@@ -98,8 +119,7 @@ export default function Exam({
         scope === "all" ? await loadAllQuestions() : await loadUnitQuestions(scope);
       const drawn = shuffle(pool).slice(0, Math.min(count, pool.length));
       setPool(drawn);
-      setAnswers({});
-      setIdx(0);
+      setSession(createLearningPlayerSession<Question, MetallurgyPlayerAnswer>(drawn));
       setLeft(Math.max(1, minutes) * 60);
       setSubmitted(false);
       setGained(0);
@@ -110,17 +130,25 @@ export default function Exam({
   };
 
   const finish = () => {
-    const sc = pool.reduce((acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0), 0);
+    let working = session;
+    let sc = 0;
     let p = progress;
     let xp = 0;
-    pool.forEach((q, i) => {
-      const a = answers[i];
-      if (!a) return;
-      const ok = a === q.answer;
-      p = recordAnswer(p, q.id, a, ok, "exam", 0);
-      const r = awardAnswer(p, q.id, q.difficulty, ok);
-      p = r.progress;
-      xp += r.xp;
+    pool.forEach((q, index) => {
+      working = selectPlayerQuestion(working, index);
+      const result = submitPlayerAnswer(working, playerAdapter, {
+        submittedAt: Date.now(),
+        mode: "exam",
+      });
+      if (!result.submission) return;
+      working = result.session;
+      const answer = result.submission.answer.optionId;
+      const ok = result.submission.grade.correct;
+      if (ok) sc++;
+      p = recordAnswer(p, q.id, answer, ok, "exam", 0);
+      const reward = awardAnswer(p, q.id, q.difficulty, ok);
+      p = reward.progress;
+      xp += reward.xp;
     });
     const breakdown: Record<string, { done: number; right: number }> = {};
     pool.forEach((q, i) => {
@@ -142,6 +170,7 @@ export default function Exam({
     p = settled.progress;
     xp += settled.xp;
 
+    setSession(working);
     setScore(sc);
     setGained(xp);
     setRunning(false);
@@ -301,32 +330,37 @@ export default function Exam({
         </button>
       </div>
 
-      <div className="panel">
-        <div className="palette">
-          {pool.map((pq, i) => (
-            <button
-              key={pq.id}
-              className={`pbtn ${answers[i] ? "answered" : ""} ${i === idx ? "current" : ""}`}
-              onClick={() => setIdx(i)}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
+      <LearningPlayerShell className="panel" paletteClassName="palette" contentClassName="qwrap" palette={pool.map((pq, i) => (
+          <button
+            key={pq.id}
+            className={`pbtn ${answers[i] ? "answered" : ""} ${i === idx ? "current" : ""}`}
+            aria-label={`Question ${i + 1}${answers[i] ? ", answered" : ", unanswered"}`}
+            aria-current={i === idx ? "step" : undefined}
+            onClick={() => setSession((current) => selectPlayerQuestion(current, i))}
+          >
+            {i + 1}
+          </button>
+        ))}>
 
-        <div className="qwrap">
           <div className="qhead">
             <span className="chip">{moduleOfTopic(q.topicId).toUpperCase()}</span>
           </div>
           <QuestionMeta q={q} />
           <QuestionBody q={q} />
-          <OptionList q={q} picked={given} onPick={(l) => setAnswers({ ...answers, [idx]: l })} locked={false} />
+          <OptionList
+            q={q}
+            picked={given}
+            onPick={(label) => setSession((current) => setPlayerAnswer(current, playerAdapter, {
+              kind: "single-choice",
+              optionId: label,
+            }))}
+            locked={false}
+          />
           <div className="qnav">
-            <button className="btn" disabled={idx === 0} onClick={() => setIdx(idx - 1)}>← Prev</button>
-            <button className="btn" disabled={idx >= pool.length - 1} onClick={() => setIdx(idx + 1)}>Next →</button>
+            <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>← Prev</button>
+            <button className="btn" disabled={idx >= pool.length - 1} onClick={() => setSession((current) => navigatePlayer(current, "next"))}>Next →</button>
           </div>
-        </div>
-      </div>
+      </LearningPlayerShell>
     </div>
   );
 }
