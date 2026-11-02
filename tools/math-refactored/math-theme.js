@@ -1,7 +1,7 @@
 // Math Trainer theme layer. One entry per theme; add a new entry (and CSS block) for more.
 (function () {
   'use strict';
-  var KEY = 'limitless.math.v1.theme';
+  var KEY = 'limitless.site.theme';
   var root = document.documentElement;
 
   var THEMES = {
@@ -28,7 +28,7 @@
 
   function apply(name, remember) {
     root.setAttribute('data-theme', name);
-    if (remember) { try { localStorage.setItem(KEY, name); } catch (e) {} }
+    if (remember) { try { sessionStorage.setItem(KEY, name); } catch (e) {} }
     paintToggle();
   }
 
@@ -40,7 +40,7 @@
   // follow the device setting until the visitor picks one manually
   var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)');
   if (mq && mq.addEventListener) mq.addEventListener('change', function (e) {
-    var saved = null; try { saved = localStorage.getItem(KEY); } catch (er) {}
+    var saved = null; try { saved = sessionStorage.getItem(KEY); } catch (er) {}
     if (!saved) apply(e.matches ? 'light' : 'dark', false);
   });
 
