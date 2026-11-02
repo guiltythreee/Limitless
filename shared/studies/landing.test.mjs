@@ -17,6 +17,7 @@ const probability = flatten(createStudiesLanding(createElement, "Link", {
   registration: PROBABILITY_STUDIES_REGISTRATION,
   snapshots: [],
   ready: true,
+  pathwayHref: (pathwayId) => `/probability/?pathway=${encodeURIComponent(pathwayId)}#study`,
 }));
 assert.ok(probability.some((node) => node.type === "h1" && node.children[0] === "Probability"));
 const pathwayCards = probability.filter((node) =>
