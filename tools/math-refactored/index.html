@@ -13,10 +13,8 @@
     /* set the theme before first paint so there is no flash */
     (function () {
       var t = null;
-      try { t = localStorage.getItem('limitless.math.v1.theme'); } catch (e) {}
-      if (t !== 'dark' && t !== 'light') {
-        t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
-      }
+      try { var nav = performance.getEntriesByType('navigation')[0]; if (nav && nav.type === 'reload') sessionStorage.removeItem('limitless.site.theme'); t = sessionStorage.getItem('limitless.site.theme'); } catch (e) {}
+      if (t !== 'dark' && t !== 'light') t = 'dark';
       document.documentElement.setAttribute('data-theme', t);
       document.documentElement.setAttribute('data-mood', 'adept');
     })();
