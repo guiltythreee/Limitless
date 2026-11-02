@@ -96,8 +96,21 @@ body {
 .bg {
   position: fixed;
   inset: 0;
-  background: var(--page-bg);
   z-index: -2;
+  background-color: var(--ink);
+  background-image: var(--veil), var(--limitless-bg-dark);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+}
+[data-theme="light"] .bg {
+  background-image: var(--veil), var(--limitless-bg-light);
+}
+@media (max-aspect-ratio: 4/5) {
+  .bg { background-image: var(--veil), var(--limitless-bg-dark-mobile); }
+  [data-theme="light"] .bg {
+    background-image: var(--veil), var(--limitless-bg-light-mobile);
+  }
 }
 
 .bg::after {
