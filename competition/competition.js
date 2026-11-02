@@ -308,17 +308,18 @@
   }
 
   function renderOverview() {
-    var topics = allTopics(), weight = 0, mastered = 0, practiced = 0, learning = 0;
+    var topics = allTopics(), mastered = 0, practiced = 0, learning = 0;
     topics.forEach(function (_, index) {
       var status = statusOf('w' + (Math.floor(index / 6) + 1) + '-t' + (index % 6));
-      weight += WEIGHTS[status];
       if (status === 'mastered') mastered++;
       else if (status === 'practiced') practiced++;
       else if (status === 'learning') learning++;
     });
-    var pct = topics.length ? Math.round(weight / topics.length * 100) : 0;
+    // Show only strict mastered topics as completed mastery. Do not assign
+    // arbitrary fractional weights to "learning" or "practiced".
+    var pct = topics.length ? Math.round(mastered / topics.length * 100) : 0;
     $('overall-progress').textContent = pct + '%';
-    $('mastery-summary').textContent = mastered + ' mastered · ' + practiced + ' practiced';
+    $('mastery-summary').textContent = mastered + ' / ' + topics.length + ' mastered · ' + practiced + ' practiced · ' + learning + ' learning';
     $('overall-bar').style.width = pct + '%';
     var wi = currentWeekIndex();
     $('current-week').textContent = 'Week ' + (wi + 1);
@@ -339,10 +340,9 @@
         });
       });
       var total = counts['not-started'] + counts.learning + counts.practiced + counts.mastered;
-      var weighted = counts.learning * 0.25 + counts.practiced * 0.65 + counts.mastered;
-      var pct = total ? Math.round(weighted / total * 100) : 0;
+      var pct = total ? Math.round(counts.mastered / total * 100) : 0;
       return '<article class="subject-card"><h3>' + subject.name + '</h3><p>' + subject.note + '</p>' +
-        '<div class="subject-count"><span>' + counts.mastered + ' mastered</span><span>' + pct + '% weighted</span></div>' +
+        '<div class="subject-count"><span>' + counts.mastered + ' / ' + total + ' mastered</span><span>' + pct + '% mastery</span></div>' +
         '<div class="progress-track"><span style="width:' + pct + '%"></span></div>' +
         '<div class="subject-breakdown"><span>' + counts.learning + ' learning</span><span>' + counts.practiced + ' practiced</span><span>' + counts['not-started'] + ' not started</span></div>' +
         '<a class="subject-link" href="#roadmap">Open roadmap ↓</a></article>';
@@ -360,7 +360,8 @@
       };
       var topics = week.topics.map(function (topic, ti) {
         var key = topicKey(wi,ti);
-        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + SUBJECTS.find(function (s) { return s.id === topic[0]; }).name + (topic[0] === 'coding' ? ' / Programming' : '') + '</small></div>' +
+        var subjectName = topic[0] === 'coding' ? 'C++ / Implementation' : SUBJECTS.find(function (s) { return s.id === topic[0]; }).name;
+        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small></div>' +
           '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
       }).join('');
       var days = DAILY_PLAN.map(function (day) {
@@ -589,7 +590,14 @@
       reader.onload = function () {
         try {
           var parsed = JSON.parse(reader.result), incoming = parsed.data || parsed;
-          if (!incoming || typeof incoming !== 'object' || !incoming.mastery || !Array.isArray(incoming.mocks)) throw new Error('Invalid backup');
+          if (!incoming || typeof incoming !== 'object' || (!incoming.mastery && !incoming.completed) || !Array.isArray(incoming.mocks)) throw new Error('Invalid backup');
+          if (!incoming.mastery && incoming.completed) {
+            incoming.mastery = {};
+            Object.keys(incoming.completed).forEach(function (key) {
+              if (incoming.completed[key]) incoming.mastery[key] = 'practiced';
+            });
+          }
+          delete incoming.completed;
           state = Object.assign(cloneDefaults(), incoming);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
           location.reload();
