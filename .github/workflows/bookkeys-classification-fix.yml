@@ -1,0 +1,117 @@
+name: Bookkeys EPUB and PDF segmentation patch
+
+on:
+  push:
+    branches:
+      - fix/bookkeys-optional-section-classification-20261102
+    paths:
+      - .github/workflows/bookkeys-classification-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/bookkeys-optional-section-classification-20261102
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Patch, syntax-check, and regression-test Bookkeys
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const cp = require('child_process');
+          const path = 'tools/typing/bookkeys.html';
+          let html = fs.readFileSync(path, 'utf8');
+          function replaceOnce(oldText, newText, label) {
+            const count = html.split(oldText).length - 1;
+            if (count !== 1) throw new Error(label + ' expected once; found ' + count);
+            html = html.replace(oldText, newText);
+          }
+          const chReStart = html.indexOf('var CH_RE = new RegExp(');
+          const chReEnd = html.indexOf('\n', chReStart);
+          if (chReStart < 0 || chReEnd < 0) throw new Error('PDF chapter-heading regex not found');
+          html = html.slice(0, chReStart) + "var CH_RE = new RegExp(\"^(chapter|part|book|volume|vol|section|act|scene|canto|letter)\\\\s+(\\\\d{1,3}|[ivxlcdm]{1,8}|\" + CH_WORDS + \")(?![a-z0-9])\\\\s*[.:)\\\\-–—]*\\\\s*(.*)$\", \"i\");" + html.slice(chReEnd);
+          const titleStart = html.indexOf('    title = t.replace(', html.indexOf('function chapterHeadsOnPage'));
+          const titleEnd = html.indexOf('\n', titleStart);
+          if (titleStart < 0 || titleEnd < 0) throw new Error('PDF heading title normalizer not found');
+          const oldTitle = html.slice(titleStart, titleEnd);
+          const newTitle = oldTitle.replace("[\\s.:\\-]+$", "[\\s.:\\-–—]+$");
+          if (newTitle === oldTitle) throw new Error('PDF heading dash normalization did not change');
+          html = html.slice(0, titleStart) + newTitle + html.slice(titleEnd);
+          replaceOnce("function epubPackSections(blocks, target) {\n  target = target || 900;\n  var sections = [], cur = [], secOf = [], len = 0, i;\n  for (i = 0; i < blocks.length; i++) {\n    cur.push(blocks[i]); secOf.push(sections.length); len += blocks[i].text.length;\n    if (len >= target) { sections.push(cur); cur = []; len = 0; }\n  }\n  if (cur.length) sections.push(cur);\n  return { sections: sections, secOf: secOf };\n}", "function epubPackSections(blocks, target) {\n  target = target || 900;\n  var sections = [], cur = [], secOf = [], len = 0, i;\n  for (i = 0; i < blocks.length; i++) {\n    if (cur.length && blocks[i].t === \"h\" && epubHeadingIsBoundary(blocks[i].text)) {\n      sections.push(cur); cur = []; len = 0;\n    }\n    cur.push(blocks[i]); secOf.push(sections.length); len += blocks[i].text.length;\n    if (len >= target) { sections.push(cur); cur = []; len = 0; }\n  }\n  if (cur.length) sections.push(cur);\n  return { sections: sections, secOf: secOf };\n}", 'EPUB section packer');
+          replaceOnce("return tidyChapters(entries.concat(extra || []), total);", "return tidyChapters((extra || []).concat(entries), total);", 'EPUB chapter priority');
+          replaceOnce("var sections = [], parts = [], bySi = {};", "var sections = [], parts = [], bySi = {}, headings = [];", 'EPUB heading collection');
+          replaceOnce("        blocks.forEach(function (b, bi) { if (b.id && idMap[b.id] === undefined) idMap[b.id] = start + packed.secOf[bi]; });\n        blocks.some(function (b) { if (b.t === \"h\") { head = b.text; return true; } return false; });", "        blocks.forEach(function (b, bi) {\n          var page = start + packed.secOf[bi];\n          if (b.id && idMap[b.id] === undefined) idMap[b.id] = page;\n          if (b.t === \"h\" && epubHeadingIsBoundary(b.text)) headings.push({ p: page, title: b.text });\n        });\n        blocks.some(function (b) { if (b.t === \"h\") { head = b.text; return true; } return false; });", 'EPUB heading collection block');
+          replaceOnce("chapters: epubChapterList(parts, sections.length, anchors),", "chapters: epubChapterList(parts, sections.length, anchors.concat(headings)),", 'EPUB heading merge');
+          replaceOnce("// The directory the table of contents itself lives in (\"\", or e.g. \"OEBPS/nav\").", "function epubHeadingIsBoundary(title) {\n  var t = normalize(String(title || \"\")).trim().toLowerCase();\n  if (!t) return false;\n  if (CH_RE.test(t)) return true;\n  if (/^(?:prologue|epilogue|introduction)(?:$|[\\s:;,.!?–—-])/.test(t)) return true;\n  if (new RegExp(\"^(?:[0-9]{1,4}|[ivxlcdm]{1,7}|\" + CH_WORDS + \")(?:$|[\\\\s.:),–—-])\", \"i\").test(t)) return true;\n  return !sectionRequired(t);\n}\n\n// The directory the table of contents itself lives in (\"\", or e.g. \"OEBPS/nav\").", 'EPUB heading boundary helper');
+          replaceOnce("];;\\n// A heading with a leading", "];\\n// A heading with a leading", 'optional list terminator cleanup');
+          if (!html.includes('function openLibBook') || !html.includes('function epubParseBook')) throw new Error('Bookkeys source integrity check failed');
+          fs.writeFileSync(path, html);
+          const appStart = html.indexOf('/*BLOCKS-START*/');
+          const appEnd = html.indexOf('</script>', appStart);
+          if (appStart < 0 || appEnd < 0) throw new Error('Bookkeys application script boundaries not found');
+          fs.writeFileSync('/tmp/bookkeys-app.js', html.slice(appStart + '/*BLOCKS-START*/'.length, appEnd));
+          cp.execFileSync(process.execPath, ['--check', '/tmp/bookkeys-app.js']);
+          const normStart = html.indexOf('var PUNCT_EXACT = false;');
+          const normEnd = html.indexOf('// Group PDF text items', normStart);
+          const chapterStart = html.indexOf('// ----- chapters: pure helpers -----');
+          const chapterEnd = html.indexOf('// ----- required chapters and optional sections -----', chapterStart);
+          const classifyStart = chapterEnd;
+          const classifyEnd = html.indexOf('// ----- game: pure helpers -----', classifyStart);
+          const epubStart = html.indexOf('/*EPUB-START*/');
+          const epubEnd = html.indexOf('/*EPUB-END*/', epubStart);
+          if ([normStart,normEnd,chapterStart,chapterEnd,classifyEnd,epubStart,epubEnd].some(x => x < 0)) throw new Error('Regression helper extraction failed');
+          const context = {}; vm.createContext(context);
+          vm.runInContext(html.slice(normStart,normEnd) + html.slice(chapterStart,chapterEnd) + html.slice(classifyStart,classifyEnd) + html.slice(epubStart,epubEnd) + '; globalThis.checkSection=sectionRequired; globalThis.checkBody=sectionBody; globalThis.checkPdfHeads=chapterHeadsOnPage; globalThis.checkEpub=epubParseBook; globalThis.checkBoundary=epubHeadingIsBoundary;', context);
+          const cases = [
+            ['Acknowledgements',false], ['Acknowledgments — Contributors',false], ['Chapter 2 — Acknowledgements',false],
+            ['Dedication',false], ['Foreword',false], ['Preface',false], ['Afterword',false], ['Appendix A — Sources',false],
+            ['Glossary',false], ['Bibliography',false], ['References',false], ['Index',false], ['Notes',false],
+            [\"Translator's Note\",false], [\"Editor's Note\",false], ['About the Author',false], ['Author Biography',false],
+            ['Translator Biography',false], ['Publisher Information',false], ['Publisher Advertisements',false],
+            ['Further Reading',false], ['Reading Group Questions',false], ['Discussion Guide',false],
+            ['Series Information',false], ['Other Books by the Author',false],
+            ['Introduction',true], ['Prologue',true], ['Epilogue',true], ['Chapter 3 — Introduction',true],
+            ['Chapter 4 — Prologue',true], ['Chapter 5 — Epilogue',true], ['Chapter 1 — The Palace',true]
+          ];
+          for (const [heading, expected] of cases) { const actual=context.checkSection(heading); if(actual!==expected) throw new Error(JSON.stringify({heading,expected,actual})); }
+          if (context.checkBody('Chapter 4 — Acknowledgements') !== 'acknowledgements') throw new Error('Em-dash chapter prefix was not stripped');
+          if (!context.CH_RE.test('Chapter 2 — The Road') || !context.CH_RE.test('Part II — The Return')) throw new Error('PDF chapter regex missed em-dash headings');
+          const pdfHeads=context.checkPdfHeads([{text:'Chapter 2 — The Road',y:100,size:20}],12,1000);
+          if(pdfHeads.length!==1 || pdfHeads[0].key!=='chapter 2') throw new Error('PDF heading scan failed em-dash regression');
+          const tx=s=>({nodeType:3,nodeValue:s});
+          const el=(tag,text,id)=>({nodeType:1,localName:tag,childNodes:[tx(text)],getAttribute:k=>k==='id'?(id||''):''});
+          const body={nodeType:1,localName:'body',childNodes:[
+            el('h1','Part I — The Beginning','part1'), el('p','Opening words from the first part.'),
+            el('h2','Chapter 1 — The Palace','ch1'), el('p','The first chapter begins.'),
+            el('h2','Chapter 2 — The Journey','ch2'), el('p','The second chapter begins.'),
+            el('h1','Part II — The Return','part2'), el('h2','Chapter 1 — A New Dawn','ch3'),
+            el('p','The repeated chapter number belongs to the second part.'),
+            el('h1','Acknowledgements','ack'), el('p','Thanks to everyone who helped.')
+          ],querySelector:function(q){return q==='body'?this:null;}};
+          const item={url:'OEBPS/book.xhtml',linear:true,properties:'',load:()=>Promise.resolve(body),unload:()=>{}};
+          const book={navigation:{toc:[]},spine:{spineItems:[item]},packaging:{navPath:'',metadata:{title:'Synthetic Book'}},load:()=>{}};
+          context.checkEpub(book,context.normalize,900).then(result=>{
+            const titles=result.chapters.map(c=>c.title);
+            const repeated=titles.filter(t=>/^Chapter 1/.test(t)).length;
+            if(repeated!==2) throw new Error('EPUB fallback did not preserve repeated Chapter 1 headings: '+JSON.stringify(titles));
+            if(!titles.includes('Part I — The Beginning') || !titles.includes('Part II — The Return')) throw new Error('EPUB Part headings were not retained: '+JSON.stringify(titles));
+            const ack=result.chapters.find(c=>c.title==='Acknowledgements');
+            if(!ack || ack.req!==false) throw new Error('EPUB Acknowledgements was not marked optional');
+            if(result.chapters.length!==6) throw new Error('Unexpected EPUB chapter boundary count: '+JSON.stringify(titles));
+            console.log('Bookkeys syntax passed; '+cases.length+' classification cases, PDF em-dash detection, and synthetic multi-chapter EPUB fallback passed.');
+            cp.execFileSync('git',['config','user.name','github-actions[bot]']);
+            cp.execFileSync('git',['config','user.email','41898282+github-actions[bot]@users.noreply.github.com']);
+            cp.execFileSync('git',['add',path,'.github/workflows/bookkeys-classification-fix.yml']);
+            cp.execFileSync('git',['rm','-f','.github/workflows/bookkeys-classification-fix.yml']);
+            cp.execFileSync('git',['commit','-m','Improve universal Bookkeys EPUB and PDF chapter detection']);
+            cp.execFileSync('git',['push','origin','HEAD:fix/bookkeys-optional-section-classification-20261102']);
+          }).catch(e=>{console.error(e);process.exit(1);});
+          NODE
