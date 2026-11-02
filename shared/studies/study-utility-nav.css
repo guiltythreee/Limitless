@@ -301,6 +301,11 @@
 .study-utility-row {
   min-width: 0;
 }
+.study-utility-row--question {
+  padding: .85rem .3rem;
+  border-top: 0;
+  border-bottom: 1px solid var(--panel-line, rgba(180,150,90,.22));
+}
 .study-utility-row--history {
   padding: .85rem 0;
   border-bottom: 1px solid var(--panel-line, rgba(180,150,90,.22));
