@@ -7,6 +7,8 @@ export type QuizItem = {
   numericAnswer?: { value: number; tolerance: number; unit?: string };
   answer: number; // index of the single correct option (unused for numeric-response items)
   explanation: string;
+  /** Optional worked derivation, shown as numbered steps after the concise explanation. */
+  solutionSteps?: string[];
   difficulty?: Difficulty; // missing means "easy"
   // Multi-select questions list every correct option here; they are graded with partial credit.
   answers?: number[];
