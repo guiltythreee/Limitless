@@ -3,6 +3,14 @@
   'use strict';
   var KEY = 'limitless.site.theme';
   var root = document.documentElement;
+  // A single tab-scoped choice is shared by every Limitless module.
+  // A browser refresh intentionally clears it; ordinary page navigation keeps it.
+  try {
+    var navigation = performance.getEntriesByType('navigation')[0];
+    if (navigation && navigation.type === 'reload') sessionStorage.removeItem('limitless.site.theme');
+    var selected = sessionStorage.getItem('limitless.site.theme');
+    root.setAttribute('data-theme', selected === 'light' ? 'light' : 'dark');
+  } catch (e) { root.setAttribute('data-theme', 'dark'); }
   var COLORS = { dark: '#08070d', light: '#dfe6ee' };
   var bg = document.getElementById('theme-bg');
   var btn = document.getElementById('theme-toggle');
