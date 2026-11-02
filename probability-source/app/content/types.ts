@@ -31,6 +31,8 @@ export type Lesson = {
   description: string;
   objective: string;
   body: string[];
+  /** Optional section headings inserted before the indexed theory paragraph. */
+  topicHeadings?: { before: number; title: string }[];
   formulas: Formula[];
   examples: Example[];
   quiz: QuizItem[];
