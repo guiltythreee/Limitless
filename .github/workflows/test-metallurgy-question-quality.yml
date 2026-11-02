@@ -1,0 +1,101 @@
+name: Metallurgy question-quality test
+
+on:
+  pull_request:
+    paths:
+      - "metallurgy-source/app/data/qbank/**"
+      - "metallurgy-source/content-revisions/**"
+      - "metallurgy-source/public/data/mt201/**"
+      - "metallurgy-source/public/data/mt202/**"
+      - "metallurgy/data/mt201/**"
+      - "metallurgy/data/mt202/**"
+      - "metallurgy-source/scripts/apply-authored-revisions.py"
+      - "metallurgy-source/scripts/validate-question-quality-overlays.py"
+      - "metallurgy-source/scripts/sync-mt201.mjs"
+      - "metallurgy-source/scripts/sync.mjs"
+      - "metallurgy-source/scripts/test-mt201.mjs"
+      - "metallurgy-source/scripts/test-mt202.mjs"
+      - "metallurgy-source/scripts/test-mt203.mjs"
+      - "metallurgy-source/scripts/test-mt203-migration.mjs"
+      - "metallurgy-source/scripts/validate-mt203.mjs"
+      - "metallurgy-source/package.json"
+      - "metallurgy-source/package-lock.json"
+      - ".github/workflows/test-metallurgy-question-quality.yml"
+  push:
+    branches:
+      - work/metallurgy-question-quality-2026-10-29
+    paths:
+      - "metallurgy-source/app/data/qbank/**"
+      - "metallurgy-source/content-revisions/**"
+      - "metallurgy-source/public/data/mt201/**"
+      - "metallurgy-source/public/data/mt202/**"
+      - "metallurgy/data/mt201/**"
+      - "metallurgy/data/mt202/**"
+      - "metallurgy-source/scripts/**"
+      - "metallurgy-source/package.json"
+      - "metallurgy-source/package-lock.json"
+      - ".github/workflows/test-metallurgy-question-quality.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: metallurgy-question-quality-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out the commit under test
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check revision runner syntax
+        run: python -m py_compile metallurgy-source/scripts/apply-authored-revisions.py
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: metallurgy-source/package-lock.json
+
+      - name: Install metallurgy dependencies
+        run: npm ci --prefix metallurgy-source
+
+      - name: Read-only preflight the MT201/MT202 revision runner
+        run: python metallurgy-source/scripts/apply-authored-revisions.py --repo "$GITHUB_WORKSPACE"
+
+      - name: Validate committed revision overlays and generated mirrors
+        run: python metallurgy-source/scripts/validate-question-quality-overlays.py --repo "$GITHUB_WORKSPACE"
+
+      - name: Run MT201 regression checks
+        working-directory: metallurgy-source
+        run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt201.mjs
+
+      - name: Run MT202 regression checks
+        working-directory: metallurgy-source
+        run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt202.mjs
+      - name: Check MT202 explanation alignment
+        working-directory: metallurgy-source
+        run: node scripts/test-mt202-explanation-alignment.mjs
+
+      - name: Run MT203 tests and migration checks
+        working-directory: metallurgy-source
+        run: |
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/test-mt203.mjs
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203-migration.mjs
+          node scripts/validate-mt203.mjs
+
+      - name: Production build
+        working-directory: metallurgy-source
+        run: npm run build

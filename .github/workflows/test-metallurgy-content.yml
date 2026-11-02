@@ -1,0 +1,84 @@
+name: Metallurgy Content Regression Tests
+
+on:
+  pull_request:
+    paths:
+      - "metallurgy-source/app/data/qbank/**"
+      - "metallurgy-source/app/mt203/**"
+      - "metallurgy-source/app/courses/**"
+      - "metallurgy-source/app/lib/mt203-progress.ts"
+      - "metallurgy-source/scripts/validate-mt203.mjs"
+      - "metallurgy-source/scripts/validate-courses.mjs"
+      - "metallurgy-source/scripts/test-mt203.mjs"
+      - "metallurgy-source/scripts/test-mt203-migration.mjs"
+      - "metallurgy-source/scripts/test-qview.mjs"
+      - "metallurgy-source/scripts/test-answer-key-balance.mjs"
+      - "metallurgy-source/scripts/test-answer-key-sequence.mjs"
+      - ".github/workflows/test-metallurgy-content.yml"
+  push:
+    branches: [main]
+    paths:
+      - "metallurgy-source/app/data/qbank/**"
+      - "metallurgy-source/app/mt203/**"
+      - "metallurgy-source/app/courses/**"
+      - "metallurgy-source/app/lib/mt203-progress.ts"
+      - "metallurgy-source/scripts/validate-mt203.mjs"
+      - "metallurgy-source/scripts/validate-courses.mjs"
+      - "metallurgy-source/scripts/test-mt203.mjs"
+      - "metallurgy-source/scripts/test-mt203-migration.mjs"
+      - "metallurgy-source/scripts/test-qview.mjs"
+      - "metallurgy-source/scripts/test-answer-key-balance.mjs"
+      - ".github/workflows/test-metallurgy-content.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: metallurgy-content-regression-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  content-regression:
+    name: MT203 source and course integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install project dependencies
+        working-directory: metallurgy-source
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Validate MT203 source and course registry
+        working-directory: metallurgy-source
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/validate-mt203.mjs
+          node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/validate-courses.mjs
+
+      - name: Run MT203 regression tests
+        working-directory: metallurgy-source
+        shell: bash
+        run: |
+          set -euo pipefail
+          tests=(
+            scripts/test-mt203.mjs
+            scripts/test-mt203-migration.mjs
+            scripts/test-qview.mjs
+            scripts/test-answer-key-balance.mjs
+            scripts/test-answer-key-sequence.mjs
+          )
+          for test_file in "${tests[@]}"; do
+            echo "::group::${test_file}"
+            node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs "${test_file}"
+            echo "::endgroup::"
+          done
+          npx tsc --noEmit --incremental false
