@@ -1,4 +1,4 @@
-
+ 
  // ------------------------------------------------------------------
  // THE TOOL LIST — this is the only place you edit to add or change a card.
  //
@@ -129,7 +129,7 @@ function buildCard(tool) {
 
   const label = STATUS_LABELS[tool.status] || tool.status;
   card.appendChild(makeEl("span", "status status-" + tool.status, label));
-  if (isLive) card.appendChild(makeEl("div", "card-cta", "Open →"));
+  // The entire available card is the link; do not add a separate "Open" action.
   return card;
 }
 
