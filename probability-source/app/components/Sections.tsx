@@ -4,7 +4,7 @@ import { Display, Para, Rich } from "../lib/rich";
 function theoryHeading(paragraph: string, index: number): string {
   const explicit = paragraph.match(/^(Definition|Theorem|Proposition|Lemma|Corollary|Intuition|Proof|Working rule|Example|Application)[^.!?]*[.!?]?/);
   if (explicit) return explicit[0].replace(/[.!?]$/, "");
-  const firstSentence = paragraph.split(/(?<=[.!?])\\s+/)[0] ?? paragraph;
+  const firstSentence = paragraph.split(/(?<=[.!?])\s+/)[0] ?? paragraph;
   const compact = firstSentence.trim();
   return compact.length > 76 ? `${compact.slice(0, 73).trimEnd()}…` : compact || `Concept ${index + 1}`;
 }
