@@ -16,11 +16,16 @@ export const allQuestions: Q[] = lessons.flatMap((l) =>
 );
 export const questionByKey: Record<string, Q> = Object.fromEntries(allQuestions.map((q) => [q.key, q]));
 
-export const correctSet = (item: QuizItem) => item.answers ?? [item.answer];
+export const correctSet = (item: QuizItem) => item.numericAnswer ? [] : item.answers ?? [item.answer];
 export const isMulti = (item: QuizItem) => (item.answers?.length ?? 0) > 1;
 
 /** Marks an answer. A normal question is right or wrong; a multi-select question earns partial credit. */
 export function grade(item: QuizItem, picked: number[]): { score: number; status: Exclude<Status, "unattempted"> } {
+  if (item.numericAnswer) {
+    const valid = picked.length === 1 && Number.isFinite(picked[0]);
+    const correct = valid && Math.abs(picked[0] - item.numericAnswer.value) <= item.numericAnswer.tolerance;
+    return { score: correct ? 1 : 0, status: correct ? "correct" : "incorrect" };
+  }
   const right = correctSet(item);
   const hits = picked.filter((p) => right.includes(p)).length;
   const wrong = picked.length - hits;

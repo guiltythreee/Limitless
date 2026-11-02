@@ -143,11 +143,13 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
       const answer = session.answers[question.key];
       out[question.key] = !answer ? []
         : answer.kind === "multi-choice" ? answer.optionIds.map(Number)
+        : answer.kind === "numeric" ? [answer.value]
         : [Number(answer.optionId)];
     }
     return out;
   }, [pool, session.answers]);
   const [done, setDone] = useState<TestRecord | null>(null);
+  const [numericInputs, setNumericInputs] = useState<Record<string, string>>({});
   const times = useRef<Record<string, number>>({});
   const since = useRef(Date.now());
   const startedAt = useRef(Date.now());
@@ -175,6 +177,16 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
         : { kind: "single-choice", optionId: String(next[0]) };
     setSession((current) => answer
       ? setPlayerAnswer(current, probabilityPlayerAdapter, answer)
+      : clearPlayerAnswer(current, probabilityPlayerAdapter));
+  }
+  function chooseNumeric(value: string) {
+    if (!q?.item.numericAnswer) return;
+    setNumericInputs((current) => ({ ...current, [q.key]: value }));
+    const parsed = value.trim() === "" ? Number.NaN : Number(value);
+    setSession((current) => Number.isFinite(parsed)
+      ? setPlayerAnswer(current, probabilityPlayerAdapter, {
+          kind: "numeric", value: parsed, unit: q.item.numericAnswer?.unit,
+        })
       : clearPlayerAnswer(current, probabilityPlayerAdapter));
   }
   function finish() {
@@ -251,7 +263,7 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
       </div>
       <h4 className="qtext mt-6 text-lg leading-8 text-parchment"><Rich text={q.item.question} /></h4>
       {isMulti(q.item) && <div className="mt-1 text-xs text-mutedgold">Select all that apply.</div>}
-      <Options item={q.item} picked={picks[q.key] ?? []} onPick={choose} reveal={false} disabled={false} />
+      <Options item={q.item} picked={picks[q.key] ?? []} onPick={choose} reveal={false} disabled={false} numericText={numericInputs[q.key] ?? (picks[q.key]?.[0] !== undefined ? String(picks[q.key][0]) : "")} onNumericChange={chooseNumeric} />
       <div className="actionbar">
         <button className="btn-side" disabled={i === 0} onClick={() => go(i - 1)}>Previous</button>
         <button className="btn-main" onClick={() => { if (answeredCount === pool.length || window.confirm(`${pool.length - answeredCount} question(s) unanswered. Finish the test?`)) finish(); }}>Finish test</button>

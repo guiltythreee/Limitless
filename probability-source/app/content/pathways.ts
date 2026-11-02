@@ -36,7 +36,7 @@ export const pathways: Pathway[] = [
     outcome: "Understand the probabilistic basis of estimation, sampling variation, and common statistical models.",
     lessonIds: [
       "sample-space", "counting", "combinations", "random-permutations", "advanced-counting", "occupancy-coupon", "axioms", "properties", "conditional",
-      "conditional-independence", "total-probability", "bayes", "bayesian-inference", "likelihood-estimation", "confidence-hypothesis-tests", "random-variables",
+      "conditional-independence", "total-probability", "simpson-prosecutor", "bayes", "bayesian-inference", "likelihood-estimation", "confidence-hypothesis-tests", "random-variables",
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "bayesian-computation",
@@ -51,7 +51,7 @@ export const pathways: Pathway[] = [
     outcome: "Build the probability toolkit needed before deeper work in stochastic calculus, derivatives pricing, risk, and quantitative research.",
     lessonIds: [
       "sample-space", "counting", "combinations", "random-permutations", "advanced-counting", "occupancy-coupon", "axioms", "properties", "conditional",
-      "conditional-independence", "total-probability", "bayes", "bayesian-inference", "likelihood-estimation", "confidence-hypothesis-tests", "random-variables",
+      "conditional-independence", "total-probability", "gamblers-ruin", "bayes", "bayesian-inference", "likelihood-estimation", "confidence-hypothesis-tests", "random-variables",
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
@@ -65,7 +65,7 @@ export const pathways: Pathway[] = [
     description: "Follow random variables into evolving systems, Markov chains, Poisson arrivals, martingales, and MCMC.",
     outcome: "Read and reason about models whose random state changes over time.",
     lessonIds: [
-      "sample-space", "conditional", "conditional-independence", "total-probability", "bayesian-inference",
+      "sample-space", "conditional", "conditional-independence", "total-probability", "gamblers-ruin", "bayesian-inference",
       "random-variables", "expectation-variance", "distributions", "discrete-distributions", "negative-binomial",
       "continuous-rv", "normal-distribution", "gamma-beta-distributions", "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "conditional-expectation", "generating-functions",
       "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding", "markov", "markov-chain-analysis", "random-walks", "branching-processes",
@@ -82,7 +82,7 @@ export const pathways: Pathway[] = [
       "sample-space", "counting", "random-permutations", "conditional", "bayes", "bayesian-inference", "random-variables",
       "expectation-variance", "distributions", "discrete-distributions", "negative-binomial", "continuous-rv", "normal-distribution", "gamma-beta-distributions",
       "joint-distributions", "joint-transformations", "sums-convolution", "order-statistics", "limit-theorems", "limit-theorems-deep", "concentration-inequalities", "chernoff-hoeffding",
-      "monte-carlo", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "mcmc", "bayesian-computation"
+      "monte-carlo", "gamblers-ruin", "markov", "markov-chain-analysis", "random-walks", "branching-processes", "mcmc", "bayesian-computation"
     ]
   }
 ];

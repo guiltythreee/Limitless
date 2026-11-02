@@ -57,4 +57,21 @@ assert.deepEqual(probabilityPlayerAdapter.grade(realMulti, {
   kind: "multi-choice", optionIds: ["1", "2", "0"],
 }), { correct: false, score: 0.5, status: "partial" });
 
-console.log("Probability player adapter: 15 assertions passed");
+const realNumeric = {
+  key: "fixture-numeric",
+  item: { question: "numeric", options: [], numericAnswer: { value: 0.5, tolerance: 0.001 }, answer: 0, explanation: "" },
+};
+assert.deepEqual(probabilityPlayerAdapter.grade(realNumeric, {
+  kind: "numeric", value: 0.5005,
+}), { correct: true, score: 1, status: "correct" });
+assert.deepEqual(probabilityPlayerAdapter.grade(realNumeric, {
+  kind: "numeric", value: 0.52,
+}), { correct: false, score: 0, status: "incorrect" });
+assert.throws(() => probabilityPlayerAdapter.grade(realNumeric, {
+  kind: "single-choice", optionId: "0",
+}), RangeError);
+assert.throws(() => probabilityPlayerAdapter.grade(realNumeric, {
+  kind: "numeric", value: Number.NaN,
+}), TypeError);
+
+console.log("Probability player adapter: 19 assertions passed");

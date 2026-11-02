@@ -5,11 +5,12 @@ import type {
 
 export type ProbabilityPlayerAnswer =
   | { kind: "single-choice"; optionId: string }
-  | { kind: "multi-choice"; optionIds: readonly string[] };
+  | { kind: "multi-choice"; optionIds: readonly string[] }
+  | { kind: "numeric"; value: number; unit?: string };
 
 export interface ProbabilityQuestionLike {
   key: string;
-  item: { options: readonly unknown[] };
+  item: { options: readonly unknown[]; numericAnswer?: { value: number; tolerance: number; unit?: string } };
 }
 
 export type ProbabilityGrade = {
@@ -40,9 +41,16 @@ export function createProbabilityPlayerAdapter<
     questionId: (question) => question.key,
     canRetry: () => true,
     grade(question, answer): PlayerGrade {
-      const picked = answer.kind === "single-choice"
-        ? [parseOptionId(answer.optionId, question.item.options.length)]
-        : answer.optionIds.map((id) => parseOptionId(id, question.item.options.length));
+      const picked = answer.kind === "numeric"
+        ? (() => {
+            if (!question.item.numericAnswer || !Number.isFinite(answer.value)) {
+              throw new TypeError("A finite numeric response requires a numeric Probability question.");
+            }
+            return [answer.value];
+          })()
+        : answer.kind === "single-choice"
+          ? [parseOptionId(answer.optionId, question.item.options.length)]
+          : answer.optionIds.map((id) => parseOptionId(id, question.item.options.length));
       const result = gradeQuestion(question, picked);
       return {
         correct: result.status === "correct",

@@ -11,6 +11,10 @@ import { problemsB } from "./chapter1-problems-b";
 import { problemsC } from "./chapter1-problems-c";
 import { pathwayLessons } from "./pathway-lessons";
 import { advancedPathwayLessons } from "./pathway-lessons-advanced";
+import { probabilityPackLessons } from "./probability-pack";
+import { probabilityPackAdditions } from "./probability-pack-additions";
+import { probabilityPackBank } from "./probability-pack-bank";
+import { chapterPackAdditions } from "./probability-chapters-01-05-additions";
 
 export { pathways } from "./pathways";
 export { coverageAreas } from "./coverage";
@@ -59,25 +63,36 @@ for (const part of [problemsA, problemsB, problemsC]) {
 
 // Adds the textbook theory, the worked problems and the practice questions to each rank 09 lesson.
 const enrich = (l: Lesson): Lesson => {
-  if (l.rank !== 9) return l;
-  const add = theoryAdditions[l.id];
+  const base: Lesson = l.rank === 9 ? (() => {
+    const add = theoryAdditions[l.id];
+    return {
+      ...l,
+      body: [...l.body, ...(add?.body ?? [])],
+      formulas: [...l.formulas, ...(add?.formulas ?? [])],
+      examples: [...l.examples, ...(add?.examples ?? []), ...(problems[l.id] ?? [])],
+      quiz: [
+        ...l.quiz.map((q) => ({ ...q, difficulty: q.difficulty ?? ("easy" as const) })),
+        ...(mcqByLesson[l.id] ?? []).map((q, i) => {
+          const source = mcqSources[l.id]?.[i];
+          return { ...q, source, difficulty: source?.startsWith("M") ? ("medium" as const) : ("easy" as const) };
+        }),
+      ],
+    };
+  })() : l;
+  const packParts = [probabilityPackAdditions[base.id], chapterPackAdditions[base.id]].filter(Boolean);
+  const bank = probabilityPackBank[base.id] ?? [];
+  if (packParts.length === 0 && bank.length === 0) return base;
   return {
-    ...l,
-    body: [...l.body, ...(add?.body ?? [])],
-    formulas: [...l.formulas, ...(add?.formulas ?? [])],
-    examples: [...l.examples, ...(add?.examples ?? []), ...(problems[l.id] ?? [])],
-    quiz: [
-      ...l.quiz.map((q) => ({ ...q, difficulty: q.difficulty ?? ("easy" as const) })),
-      ...(mcqByLesson[l.id] ?? []).map((q, i) => {
-        const source = mcqSources[l.id]?.[i];
-        return { ...q, source, difficulty: source?.startsWith("M") ? ("medium" as const) : ("easy" as const) };
-      }),
-    ],
+    ...base,
+    body: [...base.body, ...packParts.flatMap((part) => part?.body ?? [])],
+    formulas: [...base.formulas, ...packParts.flatMap((part) => part?.formulas ?? [])],
+    examples: [...base.examples, ...packParts.flatMap((part) => part?.examples ?? [])],
+    quiz: [...base.quiz, ...packParts.flatMap((part) => part?.quiz ?? []), ...bank],
   };
 };
 
 // Lessons are listed from rank 09 down to rank 00, in teaching order.
-export const lessons: Lesson[] = [...rank09, ...rank09Extra, geometricProbability, borelCantelli, ...legacyLessons, ...pathwayLessons, ...advancedPathwayLessons]
+export const lessons: Lesson[] = [...rank09, ...rank09Extra, geometricProbability, borelCantelli, ...legacyLessons, ...pathwayLessons, ...advancedPathwayLessons, ...probabilityPackLessons]
   .map(enrich)
   .sort((a, b) => b.rank - a.rank || position(a) - position(b));
 
