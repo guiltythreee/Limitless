@@ -12,7 +12,7 @@
     /* choose the theme before first paint so there is no flash */
     (function () {
       var t = null;
-      try { var nav = performance.getEntriesByType('navigation')[0]; if (nav && nav.type === 'reload') sessionStorage.removeItem('limitless.site.theme'); t = sessionStorage.getItem('limitless.site.theme'); } catch (e) {}
+      try { var nav = performance.getEntriesByType('navigation')[0]; t = localStorage.getItem('limitless.site.theme'); } catch (e) {}
       if (t !== 'dark' && t !== 'light') t = 'dark';
       document.documentElement.setAttribute('data-theme', t);
     })();

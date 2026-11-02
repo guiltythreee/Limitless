@@ -3,12 +3,9 @@
   'use strict';
   var KEY = 'limitless.site.theme';
   var root = document.documentElement;
-  // A single tab-scoped choice is shared by every Limitless module.
-  // A browser refresh intentionally clears it; ordinary page navigation keeps it.
+  // Persist one site-wide choice across refreshes, tabs, and Limitless modules.
   try {
-    var navigation = performance.getEntriesByType('navigation')[0];
-    if (navigation && navigation.type === 'reload') sessionStorage.removeItem('limitless.site.theme');
-    var selected = sessionStorage.getItem('limitless.site.theme');
+    var selected = localStorage.getItem(KEY);
     root.setAttribute('data-theme', selected === 'light' ? 'light' : 'dark');
   } catch (e) { root.setAttribute('data-theme', 'dark'); }
   var COLORS = { dark: '#08070d', light: '#dfe6ee' };
@@ -28,12 +25,12 @@
   }
   function apply(name, remember) {
     root.setAttribute('data-theme', name);
-    if (remember) { try { sessionStorage.setItem(KEY, name); } catch (e) {} }
+    if (remember) { try { localStorage.setItem(KEY, name); } catch (e) {} }
     paint();
   }
   if (btn) btn.addEventListener('click', function () {
     var next = current() === 'dark' ? 'light' : 'dark';
-    apply(next, true);   // instant: label and theme change together, so rapid clicks cannot flip it back
+    apply(next, true);
   });
   paint();
 })();

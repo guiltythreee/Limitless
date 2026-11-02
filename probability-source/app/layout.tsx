@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   },
 };
 
-// One site-wide, tab-session theme. A hard refresh deliberately resets to dark.
-const themeInit = `try{var n=performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload")sessionStorage.removeItem("limitless.site.theme");var t=sessionStorage.getItem("limitless.site.theme");if(t!=="light"&&t!=="dark")t="dark";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}`;
+// Restore the persistent site-wide theme before first paint.
+const themeInit = `try{var t=localStorage.getItem("limitless.site.theme");if(t!=="light"&&t!=="dark")t="dark";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}`;
 
 export default function RootLayout({
   children,
