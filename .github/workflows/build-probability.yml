@@ -87,5 +87,8 @@ jobs:
             echo "No deployed files changed."
           else
             git commit -m "Build Probability website"
+            # Another module's deployment may update main while this build runs.
+            # Rebase the generated-site commit onto the latest main before pushing.
+            git pull --rebase origin main
             git push
           fi
