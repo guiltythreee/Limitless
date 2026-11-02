@@ -28,7 +28,7 @@
 
   function apply(name, remember) {
     root.setAttribute('data-theme', name);
-    if (remember) { try { sessionStorage.setItem(KEY, name); } catch (e) {} }
+    if (remember) { try { localStorage.setItem(KEY, name); } catch (e) {} }
     paintToggle();
   }
 

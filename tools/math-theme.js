@@ -1,7 +1,7 @@
 // Math Trainer theme layer. One entry per theme; add a new entry (and CSS block) for more.
 (function () {
   'use strict';
-  var KEY = 'limitless.math.v1.theme';
+  var KEY = 'limitless.site.theme';
   var root = document.documentElement;
 
   var THEMES = {
