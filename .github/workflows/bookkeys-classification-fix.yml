@@ -35,14 +35,37 @@ jobs:
           if (html.split(oldList).length !== 2) throw new Error('Expected optional-label list not found exactly once');
           if (html.split(oldBoundary).length !== 2) throw new Error('Expected heading-boundary rule not found exactly once');
           html = html.replace(oldList, newList).replace(oldBoundary, newBoundary);
+          const listStart = html.indexOf('var SECTION_OPTIONAL = [');
+          const listEnd = html.indexOf('\n];', listStart);
+          if (listStart < 0 || listEnd < 0) throw new Error('Optional-section list not found');
+          const optionalList = \`var SECTION_OPTIONAL = [
+            "cover", "title page", "half title", "frontispiece", "copyright", "copyright page",
+            "publication", "publication information", "legal notice", "contents", "table of contents",
+            "list of illustrations", "list of figures", "list of plates", "list of maps", "list of tables",
+            "epigraph", "dedication", "foreword", "preface", "acknowledgements", "acknowledgments",
+            "afterword", "appendix", "appendices", "glossary", "bibliography", "references", "sources",
+            "endnotes", "notes", "footnotes", "index", "author's note", "authors note", "about the author",
+            "about the authors", "author biography", "author biographies", "about the editors",
+            "editor biography", "editor biographies", "about the contributors", "translator biography",
+            "translator biographies", "translator's note", "translator's preface", "editor's note",
+            "editor's preface", "publisher's note", "publisher information", "more from the publisher",
+            "publisher advertisement", "publisher advertisements", "advertisements", "also by",
+            "other books by", "further reading", "reading guide", "reading group questions",
+            "book club questions", "discussion guide", "discussion questions", "questions for discussion",
+            "series information", "about the series", "series", "a note on the text",
+            "a note on the translation", "how to use this book", "colophon", "errata", "abbreviations",
+            "chronology", "timeline", "cast of characters", "dramatis personae"
+          ];\`;
+          html = html.slice(0, listStart) + optionalList + html.slice(listEnd + 2);
           const bodyStart = html.indexOf('function sectionBody(title)');
           const regexStart = html.indexOf('  var m = t.match(', bodyStart);
           const regexEnd = html.indexOf('\\n', regexStart);
           if (bodyStart < 0 || regexStart < 0 || regexEnd < 0) throw new Error('Chapter heading parser not found');
           const regexLine = html.slice(regexStart, regexEnd);
-          console.log('ACTUAL_CHAPTER_HEADING_REGEX=' + regexLine);
-          const dashLine = regexLine.replaceAll('\\\\-]', '\\\\-–—]');
-          if (dashLine === regexLine) throw new Error('Heading separator regex was not updated');
+          const dashLine = regexLine
+            .replace(String.raw\`[.):,\-]\`, String.raw\`[.):,\-–—]\`)
+            .replace(String.raw\`[\s.):,\-]*\`, String.raw\`[\s.):,\-–—]*\`);
+          if (dashLine === regexLine) throw new Error('Heading separator regex was not updated: ' + regexLine);
           html = html.slice(0, regexStart) + dashLine + html.slice(regexEnd);
           if (html.includes(oldList) || html.includes(oldBoundary) || !html.includes('function openLibBook')) throw new Error('Post-patch source integrity check failed');
           fs.writeFileSync(path, html);
