@@ -12,6 +12,9 @@ export function Theory({ lesson }: { lesson: Lesson }) {
       <div className="theory mt-8 space-y-6">
         {lesson.body.map((paragraph, index) => (
           <div key={index} className="theory-reading-block">
+            {lesson.topicHeadings?.filter((heading) => heading.before === index).map((heading) => (
+              <h3 key={heading.title} className="theory-topic-heading">{heading.title}</h3>
+            ))}
             <Para text={paragraph} />
           </div>
         ))}
