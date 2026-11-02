@@ -10,6 +10,17 @@ export const metadata: Metadata = {
   title: "Limitless Probability — The Probability Archive",
   description:
     "A gothic academic archive for learning probability, from first principles to stochastic processes.",
+  icons: {
+    icon: [
+      {
+        url: "/probability/brand-icon-light.webp",
+        type: "image/webp",
+        sizes: "512x512",
+      },
+    ],
+    shortcut: ["/probability/brand-icon-light.webp"],
+    apple: ["/probability/brand-icon-light.webp"],
+  },
 };
 
 // Keep the existing theme key so saved dark/light preferences continue working.
