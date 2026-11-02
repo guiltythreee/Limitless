@@ -24,7 +24,9 @@ export default function ProbabilityStudiesLanding() {
     snapshots,
     ready: progressReady,
     showPathways: true,
-    pathwayHref: (pathwayId) => `/probability/?pathway=${encodeURIComponent(pathwayId)}#study`,
+    // Next.js applies the configured production basePath (/probability) to Link hrefs.
+    // Keep this route base-path-relative or it becomes /probability/probability/.
+    pathwayHref: (pathwayId) => `/?pathway=${encodeURIComponent(pathwayId)}#study`,
   });
 
   return (
