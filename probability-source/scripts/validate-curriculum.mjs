@@ -17,6 +17,7 @@ const requiredFiles = [
   "app/content/probability-pack-bank-seq07-a.ts",
   "app/content/probability-pack-bank-seq07-b.ts",
   "app/content/probability-pack-bank-seq07-c.ts",
+  "app/content/probability-chapters-01-05-additions.ts",
   "app/content/pathways.ts",
   "app/content/coverage.ts",
 ];
@@ -412,6 +413,11 @@ for (const id of bankIds) {
 }
 if (bankTopics.size !== 11 || [...bankTopics.values()].some((count) => count !== 9)) {
   throw new Error("Each of the 11 supplemental topics must contain exactly nine bank questions.");
+}
+const chapterPackSource = read("app/content/probability-chapters-01-05-additions.ts");
+const chapterPackQuestionIds = [...chapterPackSource.matchAll(/source:\s*"([^"]+)"/g)].map((match) => match[1]);
+if (chapterPackQuestionIds.length !== 40 || new Set(chapterPackQuestionIds).size !== 40) {
+  throw new Error("Expected 40 unique, non-duplicated chapter-pack question IDs; found " + chapterPackQuestionIds.length + ".");
 }
 console.log("Curriculum validation passed.");
 console.log("- Unique lesson IDs: " + lessonIds.size);

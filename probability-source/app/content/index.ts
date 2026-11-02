@@ -14,6 +14,7 @@ import { advancedPathwayLessons } from "./pathway-lessons-advanced";
 import { probabilityPackLessons } from "./probability-pack";
 import { probabilityPackAdditions } from "./probability-pack-additions";
 import { probabilityPackBank } from "./probability-pack-bank";
+import { chapterPackAdditions } from "./probability-chapters-01-05-additions";
 
 export { pathways } from "./pathways";
 export { coverageAreas } from "./coverage";
@@ -78,15 +79,15 @@ const enrich = (l: Lesson): Lesson => {
       ],
     };
   })() : l;
-  const pack = probabilityPackAdditions[base.id];
+  const packParts = [probabilityPackAdditions[base.id], chapterPackAdditions[base.id]].filter(Boolean);
   const bank = probabilityPackBank[base.id] ?? [];
-  if (!pack && bank.length === 0) return base;
+  if (packParts.length === 0 && bank.length === 0) return base;
   return {
     ...base,
-    body: [...base.body, ...(pack?.body ?? [])],
-    formulas: [...base.formulas, ...(pack?.formulas ?? [])],
-    examples: [...base.examples, ...(pack?.examples ?? [])],
-    quiz: [...base.quiz, ...(pack?.quiz ?? []), ...bank],
+    body: [...base.body, ...packParts.flatMap((part) => part?.body ?? [])],
+    formulas: [...base.formulas, ...packParts.flatMap((part) => part?.formulas ?? [])],
+    examples: [...base.examples, ...packParts.flatMap((part) => part?.examples ?? [])],
+    quiz: [...base.quiz, ...packParts.flatMap((part) => part?.quiz ?? []), ...bank],
   };
 };
 
