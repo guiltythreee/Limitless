@@ -40,7 +40,7 @@ export const rank09: Lesson[] = [
       {
         question: "A coin is tossed three times. How many outcomes are in the sample space?",
         options: ["3", "6", "8", "9"], answer: 2,
-        explanation: "Each toss has 2 results and the tosses combine: 2 × 2 × 2 = 8, from HHH to TTT.",
+        explanation: "Each toss has 2 results and the tosses combine: 2 × 2 × 2 = 8, from HHH to TTT.", solutionSteps: ["Each of the three tosses has two possible results: H or T.","The tosses form three stages, so apply the product rule: 2×2×2=8.","Thus the sample space contains 8 ordered sequences."],
       },
       {
         question: "One die is rolled. Which set is the event “the result is a prime number”?",
@@ -50,7 +50,7 @@ export const rank09: Lesson[] = [
       {
         question: "Two coins are tossed. The event “exactly one head” is…",
         options: ["a single outcome", "the set {HT, TH}", "the whole sample space", "an impossible event"], answer: 1,
-        explanation: "One head can happen two ways: head first, or head second. So the event contains two outcomes.",
+        explanation: "One head can happen two ways: head first, or head second. So the event contains two outcomes.", solutionSteps: ["The ordered sample space for two coin tosses is {HH,HT,TH,TT}.","Exactly one head occurs for HT or TH.","Therefore the event is {HT,TH}, containing two outcomes."],
       },
     ],
   },
@@ -103,17 +103,17 @@ export const rank09: Lesson[] = [
       {
         question: "A restaurant offers 4 starters, 5 mains and 3 desserts. How many three-course meals (one of each) are possible?",
         options: ["12", "60", "47", "20"], answer: 1,
-        explanation: "Three stages, so multiply: 4 × 5 × 3 = 60. Adding (4 + 5 + 3 = 12) would count single dishes, not whole meals.",
+        explanation: "Three stages, so multiply: 4 × 5 × 3 = 60. Adding (4 + 5 + 3 = 12) would count single dishes, not whole meals.", solutionSteps: ["Choose one starter in 4 ways.","For each starter, choose one main in 5 ways and one dessert in 3 ways.","By the product rule, there are 4×5×3=60 three-course meals."],
       },
       {
         question: "In how many ways can 6 different people stand in a queue?",
         options: ["36", "120", "720", "5,040"], answer: 2,
-        explanation: "6! = 6 × 5 × 4 × 3 × 2 × 1 = 720.",
+        explanation: "6! = 6 × 5 × 4 × 3 × 2 × 1 = 720.", solutionSteps: ["There are 6 choices for the first position.","After each person is placed, one fewer person remains: 5, then 4, 3, 2, and 1 choices.","Multiply: 6!=6×5×4×3×2×1=720 queues."],
       },
       {
         question: "A 3-letter code uses letters A to Z with no letter repeated. How many codes are there?",
         options: ["17,576", "15,600", "2,600", "78"], answer: 1,
-        explanation: "26 × 25 × 24 = 15,600. If repeats were allowed it would be 26³ = 17,576.",
+        explanation: "26 × 25 × 24 = 15,600. If repeats were allowed it would be 26³ = 17,576.", solutionSteps: ["There are 26 choices for the first letter.","No repetition leaves 25 choices for the second and 24 for the third.","The number of codes is 26×25×24=15,600."],
       },
     ],
   },
@@ -167,7 +167,7 @@ export const rank09: Lesson[] = [
       {
         question: "In how many ways can a group of 3 be chosen from 8 people?",
         options: ["24", "56", "336", "512"], answer: 1,
-        explanation: "C(8, 3) = (8 × 7 × 6) / (3 × 2 × 1) = 56. The number 336 = 8 × 7 × 6 counts ordered picks, so each group is counted 6 times.",
+        explanation: "C(8, 3) = (8 × 7 × 6) / (3 × 2 × 1) = 56. The number 336 = 8 × 7 × 6 counts ordered picks, so each group is counted 6 times.", solutionSteps: ["Order does not matter when choosing a group, so use combinations rather than permutations.","C(8,3)=8!/(3!5!)=(8×7×6)/(3×2×1).","This gives 56 distinct groups."],
       },
       {
         question: "C(10, 7) is equal to…",
@@ -177,7 +177,7 @@ export const rank09: Lesson[] = [
       {
         question: "A set has 6 elements. How many subsets does it have in total, counting the empty set and the whole set?",
         options: ["12", "36", "64", "720"], answer: 2,
-        explanation: "Each element is either in a subset or out of it: 2 choices for each of 6 elements, so 2⁶ = 64.",
+        explanation: "Each element is either in a subset or out of it: 2 choices for each of 6 elements, so 2⁶ = 64.", solutionSteps: ["For each of the six elements, independently decide whether to include it.","Each element therefore contributes two choices.","The total number of subsets is 2⁶=64, including the empty set and the whole set."],
       },
     ],
   },
@@ -227,17 +227,17 @@ export const rank09: Lesson[] = [
       {
         question: "How many distinct arrangements are there of the letters in ALLOY?",
         options: ["120", "60", "30", "20"], answer: 1,
-        explanation: "5 letters with the L repeated twice: 5! / 2! = 120 / 2 = 60.",
+        explanation: "5 letters with the L repeated twice: 5! / 2! = 120 / 2 = 60.", solutionSteps: ["If all five letters were distinct, there would be 5! arrangements.","The two Ls are indistinguishable, so each distinct arrangement is counted 2! times.","Divide by 2!: 5!/2!=120/2=60."],
       },
       {
         question: "Eight people are split into two unlabelled teams of 4. How many splits are there?",
         options: ["70", "35", "24", "8"], answer: 1,
-        explanation: "C(8, 4) = 70 counts each split twice, once for each way of naming the teams, so divide by 2 to get 35.",
+        explanation: "C(8, 4) = 70 counts each split twice, once for each way of naming the teams, so divide by 2 to get 35.", solutionSteps: ["Choose four of the eight people for one team: C(8,4)=70.","Because the teams are unlabelled, choosing the other four as the first team describes the same split.","Divide by 2: 70/2=35 distinct splits."],
       },
       {
         question: "A signal is 7 flags in a row: 3 red, 2 green, 2 yellow, with same-coloured flags identical. How many different signals?",
         options: ["5,040", "420", "210", "35"], answer: 2,
-        explanation: "7! / (3! × 2! × 2!) = 5,040 / 24 = 210.",
+        explanation: "7! / (3! × 2! × 2!) = 5,040 / 24 = 210.", solutionSteps: ["There are 7 positions to fill, giving 7! arrangements if all flags were distinct.","The 3 red flags can be permuted in 3! ways without changing the signal; similarly divide by 2! for green and 2! for yellow.","The number of distinct signals is 7!/(3!2!2!)=210."],
       },
     ],
   },
@@ -290,7 +290,7 @@ export const rank09: Lesson[] = [
       {
         question: "If P(A) = 0.35, what is P(Aᶜ)?",
         options: ["0.35", "0.55", "0.65", "1.35"], answer: 2,
-        explanation: "P(Aᶜ) = 1 − P(A) = 1 − 0.35 = 0.65.",
+        explanation: "P(Aᶜ) = 1 − P(A) = 1 − 0.35 = 0.65.", solutionSteps: ["A and its complement partition the sample space.","Their probabilities therefore add to one: P(A)+P(Aᶜ)=1.","So P(Aᶜ)=1−0.35=0.65."],
       },
       {
         question: "The outcomes a, b, c are mutually exclusive and make up Ω. Which assignment is valid?",
@@ -305,7 +305,7 @@ export const rank09: Lesson[] = [
       {
         question: "Events A and B are mutually exclusive, with P(A) = 0.2 and P(B) = 0.5. What is P(A ∪ B)?",
         options: ["0.1", "0.3", "0.7", "0.8"], answer: 2,
-        explanation: "By Axiom 3, mutually exclusive events add: 0.2 + 0.5 = 0.7.",
+        explanation: "By Axiom 3, mutually exclusive events add: 0.2 + 0.5 = 0.7.", solutionSteps: ["Mutual exclusivity means A∩B=∅, so the events cannot occur together.","By additivity for disjoint events, P(A∪B)=P(A)+P(B).","Substitute: 0.2+0.5=0.7."],
       },
     ],
   },
