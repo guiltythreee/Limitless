@@ -14,7 +14,7 @@ Parallel URL reserved for later: `/tools/typing-next-preview/`
 
 ## Verified compile checkpoint
 
-Workflow: [Bookkeys TypeScript Scaffold run 4](https://github.com/guiltythreee/Limitless/actions/runs/41474210546)
+Workflow: [Bookkeys TypeScript Scaffold run 8](https://github.com/guiltythreee/Limitless/actions/runs/41474687293)
 
 - Node.js: 22.23.4
 - npm: 10.9.9
@@ -25,7 +25,7 @@ Workflow: [Bookkeys TypeScript Scaffold run 4](https://github.com/guiltythreee/L
 - Build output: static export
 - Workflow result: success
 
-The successful scaffold was committed before any follow-on changes. The TypeScript JSX mode was then aligned with Next.js 16's generated `react-jsx` setting; a follow-up CI run is checking that final config together with the existing Bookkeys regression suite.
+The successful scaffold was committed before any follow-on changes. The TypeScript JSX mode was aligned with Next.js 16's generated `react-jsx` setting. The final scaffold configuration passed a second complete type-check and static build. The existing Bookkeys regression suite also passed again on the same PR head: [run 545](https://github.com/guiltythreee/Limitless/actions/runs/41474687420).
 
 ## Strict boundary
 
