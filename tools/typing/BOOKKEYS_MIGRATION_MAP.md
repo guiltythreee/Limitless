@@ -78,20 +78,20 @@ Library add/delete updates metadata and blobs together. Book files and artwork m
 ## 6. Required inventory work before extraction
 
 Completed:
-1. Extracted all 34 settings fields, defaults and primitive types.
-2. Extracted the IndexedDB version-1 stores, key definitions, lack of indexes, library metadata fields, artwork keys and transaction boundaries.
-3. Documented the settings UI control type and ranges/options for each setting.
+1. All 34 settings fields, defaults and primitive types.
+2. Settings UI control mapping, exact range constraints and full source catalogue counts/names: 34 themes, 27 backgrounds, 26 accent swatches, 10 typefaces, 22 text-color swatches and 7 cursor-color choices.
+3. IndexedDB version-1 stores, key definitions, lack of indexes, library metadata fields, artwork keys and transaction boundaries.
+4. localStorage record schemas for book positions, shelves, chapter segmentation, typing drafts and the game/progression object.
+5. Current automated regression run: **98 passed, 0 failed, 0 skipped**, Node.js 22. Run 41462586271. The tested application/test tree is unchanged by subsequent documentation-only commits.
 
-Recorded in `tools/typing/BOOKKEYS_PERSISTENCE_INVENTORY.md`.
+Recorded in `tools/typing/BOOKKEYS_PERSISTENCE_INVENTORY.md` and `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
 
 Still required:
-1. Enumerate the complete option catalogues and conditional visibility rules for themes, backgrounds, fonts, swatches and cursor colors.
-2. Trace every localStorage read/write site, including draft trimming and page-position writes.
-3. Verify shelf object, chapter segmentation and draft record schemas against all read/write paths.
-4. Run the current regression suite on this fresh branch and record the exact Node version, test count and result. The earlier 91-pass result is historical only.
-5. Perform a read-only browser baseline of the live route: EPUB/PDF import, saved library, reload/resume, backup/restore, offline assets, CSP, browser Back/Forward and shared theme synchronization.
+1. Finish source-level trace of every remaining localStorage read/write and conditional settings visibility rules.
+2. Complete a read-only real-browser baseline of the live route: EPUB/PDF import, saved library, reload/resume, backup/restore, offline assets, CSP, browser Back/Forward, custom artwork and shared theme synchronization.
+3. Only after those checks, design and start the isolated Next.js/React/TypeScript extraction on a parallel static route.
 
-Do not start component extraction until the remaining inventories and the live-browser baseline are complete.
+Do not start component extraction until the remaining inventory and live-browser baseline are complete.
 
 ## 7. Migration sequence
 
