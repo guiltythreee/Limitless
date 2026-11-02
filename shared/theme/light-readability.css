@@ -1,0 +1,188 @@
+/* Shared light-mode readability layer.
+   The homepage is the visual reference: preserve the artwork, but give text,
+   navigation and reading surfaces enough local contrast. Every rule is light-only. */
+:root[data-theme="light"] {
+  --readable-ink: #302719;
+  --readable-muted: #514536;
+  --readable-gold: #68470f;
+  --readable-surface: rgba(252, 247, 235, .88);
+  --readable-surface-strong: rgba(252, 247, 235, .94);
+  --readable-border: rgba(122, 88, 32, .28);
+}
+
+:root[data-theme="light"] :where(.page-head, .page-intro, .page-heading, .study-intro) {
+  color: var(--readable-ink);
+  text-shadow: 0 1px 3px rgba(255, 250, 235, .9);
+}
+
+:root[data-theme="light"] :where(.page-head, .page-intro, .page-heading, .study-intro) :where(h1, h2, h3) {
+  color: var(--readable-gold);
+  text-shadow: 0 1px 4px rgba(255, 250, 235, .95);
+}
+
+:root[data-theme="light"] :where(.page-head, .page-intro, .page-heading, .study-intro) :where(p, small, .subtitle, .description) {
+  color: var(--readable-muted);
+}
+
+:root[data-theme="light"] :where(.studies-landing__hero, .studies-landing__section) {
+  background: var(--readable-surface);
+  border-color: var(--readable-border);
+  box-shadow: 0 12px 36px rgba(80, 60, 20, .10), inset 0 1px rgba(255,255,255,.72);
+  backdrop-filter: blur(9px);
+}
+
+:root[data-theme="light"] .studies-landing__hero h1,
+:root[data-theme="light"] .studies-landing__section h2,
+:root[data-theme="light"] .studies-landing__card h3 {
+  color: #50370f;
+  text-shadow: 0 1px 2px rgba(255,255,255,.65);
+}
+
+:root[data-theme="light"] .studies-landing__hero p,
+:root[data-theme="light"] .studies-landing__section p,
+:root[data-theme="light"] .studies-landing__card {
+  color: #403629;
+}
+
+:root[data-theme="light"] :where(.navbar, .site-header, header.navbar) {
+  background-color: rgba(252, 247, 235, .78);
+  border-color: var(--readable-border);
+  backdrop-filter: blur(12px);
+}
+
+:root[data-theme="light"] :where(.navbar, .site-header, header.navbar) :where(a, button) {
+  text-shadow: none;
+}
+
+:root[data-theme="light"] :where(.panel, .card, .course-card, .learning-player-frame) {
+  border-color: var(--readable-border);
+  box-shadow: 0 12px 34px rgba(80, 60, 20, .10);
+}
+
+:root[data-theme="light"] :where(.panel, .card, .course-card, .learning-player-frame) :where(p, li, label, small) {
+  color: #403629;
+}
+
+:root[data-theme="light"] :where(.panel, .card, .course-card, .learning-player-frame) :where(h1, h2, h3, h4) {
+  color: #50370f;
+}
+
+:root[data-theme="light"] :where(.art-text, .page-title, .page-sub, .section-heading, .group-title, .group-note) {
+  text-shadow: 0 1px 3px rgba(255, 250, 235, .96), 0 0 12px rgba(255, 250, 235, .72);
+}
+
+:root[data-theme="light"] :where(.note, .muted, .text-muted, .faint) {
+  color: #625744;
+}
+
+:root[data-theme="light"] :where(input, select, textarea) {
+  color: #302719;
+  background-color: rgba(255, 251, 240, .96);
+  border-color: rgba(122, 88, 32, .38);
+}
+
+@media (max-width: 700px) {
+  :root[data-theme="light"] :where(.studies-landing__hero, .studies-landing__section) {
+    background: var(--readable-surface-strong);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root[data-theme="light"] :where(.studies-landing__hero, .studies-landing__section, .navbar) {
+    backdrop-filter: none;
+  }
+}
+
+/* Keep the footer legible where the artwork is naturally darkest, matching the hub. */
+:root[data-theme="light"] footer {
+  color: #4a3a28;
+  background: linear-gradient(
+    180deg,
+    rgba(252, 247, 235, 0) 0%,
+    rgba(252, 247, 235, .82) 34%,
+    rgba(252, 247, 235, .9) 100%
+  );
+  border-top-color: rgba(122, 88, 32, .24);
+}
+:root[data-theme="light"] footer :where(a, span, small) {
+  color: #5a472b;
+}
+
+
+/* Meta Progression uses its own inline component styles, so explicitly map
+   those surfaces onto the same parchment/ink treatment as the light homepage. */
+:root[data-theme="light"] .meta-page {
+  color: #302719;
+  text-shadow: 0 1px 3px rgba(255, 250, 235, .78);
+}
+:root[data-theme="light"] .meta-title,
+:root[data-theme="light"] .meta-section > h2 {
+  color: #50370f;
+  text-shadow: 0 1px 4px rgba(255, 250, 235, .96);
+}
+:root[data-theme="light"] .meta-lede,
+:root[data-theme="light"] .meta-muted {
+  color: #514536;
+  opacity: 1;
+}
+:root[data-theme="light"] .meta-panel,
+:root[data-theme="light"] .meta-unlock {
+  color: #302719;
+  background: rgba(252, 247, 235, .91);
+  border-color: rgba(122, 88, 32, .30);
+  box-shadow: 0 12px 34px rgba(80, 60, 20, .11), inset 0 1px rgba(255,255,255,.78);
+  backdrop-filter: blur(8px);
+}
+:root[data-theme="light"] .meta-panel h2,
+:root[data-theme="light"] .meta-panel h3,
+:root[data-theme="light"] .meta-unlock strong {
+  color: #50370f;
+  opacity: 1;
+}
+:root[data-theme="light"] .meta-number,
+:root[data-theme="light"] .meta-exp,
+:root[data-theme="light"] .meta-level-notice strong {
+  color: #80520d;
+}
+:root[data-theme="light"] .meta-notice {
+  color: #403629;
+  background: rgba(252, 247, 235, .88);
+  border-left-color: rgba(138, 90, 18, .72);
+}
+:root[data-theme="light"] .meta-row {
+  border-bottom-color: rgba(122, 88, 32, .22);
+}
+:root[data-theme="light"] .meta-table th,
+:root[data-theme="light"] .meta-table td {
+  color: #403629;
+  border-bottom-color: rgba(122, 88, 32, .22);
+}
+:root[data-theme="light"] .meta-table th {
+  color: #68470f;
+  opacity: 1;
+}
+:root[data-theme="light"] .meta-field label {
+  color: #514536;
+  opacity: 1;
+}
+:root[data-theme="light"] .meta-field input,
+:root[data-theme="light"] .meta-field select,
+:root[data-theme="light"] .meta-field textarea {
+  color: #302719;
+  background: rgba(255, 251, 240, .98);
+  border-color: rgba(122, 88, 32, .38);
+}
+:root[data-theme="light"] .meta-button {
+  color: #50370f;
+  background: rgba(213, 174, 91, .20);
+  border-color: rgba(122, 88, 32, .48);
+}
+:root[data-theme="light"] .meta-button:hover {
+  background: rgba(213, 174, 91, .32);
+}
+:root[data-theme="light"] .meta-track {
+  background: rgba(122, 88, 32, .16);
+}
+:root[data-theme="light"] .meta-fill {
+  background: #9a6a18;
+}

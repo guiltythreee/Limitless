@@ -8,6 +8,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; frame-src 'self'; script-src 'unsafe-inline' 'self'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src data:; worker-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Typing Trainer &mdash; Limitless</title>
   <link rel="stylesheet" href="../../theme.css">
+  <link rel="stylesheet" href="../../shared/theme/light-readability.css">
   <script>
     /* set the shell theme before first paint so there is no flash (same pattern as Math Trainer) */
     (function () {
@@ -93,6 +94,26 @@
         paint();
       });
       paint();
+
+      // Bookkeys is a same-origin document inside the full-screen frame.
+      // Load the same light-only readability layer inside it as well as on this shell.
+      var bookkeysFrame = document.querySelector(".shell-main iframe");
+      if (bookkeysFrame) {
+        bookkeysFrame.addEventListener("load", function () {
+          try {
+            var frameDoc = bookkeysFrame.contentDocument;
+            if (!frameDoc || !frameDoc.head ||
+                frameDoc.getElementById("limitless-light-readability")) return;
+            var readability = frameDoc.createElement("link");
+            readability.id = "limitless-light-readability";
+            readability.rel = "stylesheet";
+            readability.href = "../../shared/theme/light-readability.css";
+            frameDoc.head.appendChild(readability);
+          } catch (e) {
+            // The standalone Bookkeys document remains functional if frame access is unavailable.
+          }
+        });
+      }
     })();
   </script>
 </body>
