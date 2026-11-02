@@ -64,6 +64,7 @@
     .meta-field textarea { min-height: 95px; resize: vertical; }
     .goal-presets { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.65rem; }
     .goal-preset { display:flex; flex-direction:column; align-items:flex-start; gap:.25rem; padding:.85rem; text-align:left; border:1px solid rgba(211,178,103,.28); background:rgba(211,178,103,.06); color:inherit; cursor:pointer; font:inherit; }
+    .goal-preset:focus-visible { outline:2px solid var(--gold,#d3b267); outline-offset:2px; }
     .goal-preset[aria-pressed="true"] { border-color:var(--gold,#d3b267); background:rgba(211,178,103,.16); box-shadow:inset 0 0 0 1px var(--gold,#d3b267); }
     .goal-preset small { opacity:.7; font-size:.75rem; }
     .goal-template-note { padding:.75rem .9rem; background:rgba(211,178,103,.07); border-left:2px solid rgba(211,178,103,.55); font-size:.82rem; line-height:1.6; }
@@ -318,7 +319,7 @@
               </div>
               <div class="meta-field">
                 <label for="project-title">What are you working on?</label>
-                <input id="project-title" name="title" required minlength="3" maxlength="120" placeholder="e.g. The Great Gatsby">
+                <input id="project-title" name="title" required minlength="5" maxlength="120" placeholder="e.g. The Great Gatsby">
               </div>
               <div class="goal-template-note" id="goal-template-note">A reading goal is complete when you finish the selected book or reading and record that you have finished it.</div>
               <p class="meta-muted">No project IDs, lengthy descriptions, or reward settings. Limitless creates those automatically.</p>
