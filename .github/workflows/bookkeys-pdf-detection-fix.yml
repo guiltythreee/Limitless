@@ -1,3 +1,4 @@
+# Retry PDF chapter detection after correcting the synthetic page-count fixtures
 # Trigger PDF chapter detection patch and tests
 name: Bookkeys PDF chapter detection patch
 
