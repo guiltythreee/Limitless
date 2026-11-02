@@ -128,7 +128,7 @@ export default function Home() {
               <div className="eyebrow mt-1 text-[8px]! tracking-[.2em]!">The Probability Archive</div>
             </div>
           </button>
-          <nav aria-label="Main study navigation" className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
+          <nav aria-label="Probability page navigation" className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
             <button type="button" aria-current={tab === "archive" && section !== "practice" ? "page" : undefined} onClick={() => { setTab("archive"); setSection("theory"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "archive" && section !== "practice" ? "text-gold" : "hover:text-parchment"}>Learn</button>
             <button type="button" aria-current={tab === "archive" && section === "practice" ? "page" : undefined} onClick={() => { if (!opened) chooseLesson(visibleLessons.find(l => !completed.includes(l.id))?.id ?? visibleLessons[0]?.id ?? lessons[0].id); setTab("archive"); setSection("practice"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "archive" && section === "practice" ? "text-gold" : "hover:text-parchment"}>Practice</button>
             <button type="button" aria-current={tab === "analysis" ? "page" : undefined} onClick={() => { setTab("analysis"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Progress</button>
@@ -139,7 +139,7 @@ export default function Home() {
             <a href="/" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">↖ Limitless</a>
           </div>
         </div>
-        <nav aria-label="Main study navigation" className="mx-auto flex max-w-[1440px] items-center justify-around border-t border-gold/10 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-dim md:hidden">
+        <nav aria-label="Probability page navigation" className="mx-auto flex max-w-[1440px] items-center justify-around border-t border-gold/10 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-dim md:hidden">
           <button type="button" onClick={() => { setTab("archive"); setSection("theory"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "archive" && section !== "practice" ? "text-gold" : "hover:text-parchment"}>Learn</button>
           <button type="button" onClick={() => { if (!opened) chooseLesson(visibleLessons.find(l => !completed.includes(l.id))?.id ?? visibleLessons[0]?.id ?? lessons[0].id); setTab("archive"); setSection("practice"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "archive" && section === "practice" ? "text-gold" : "hover:text-parchment"}>Practice</button>
           <button type="button" onClick={() => { setTab("analysis"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Progress</button>
