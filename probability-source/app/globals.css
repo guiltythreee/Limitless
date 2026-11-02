@@ -371,3 +371,67 @@ select.pill { appearance: auto; padding-right: .6rem; }
 .question-solution-steps { margin-top: .65rem; }
 .question-solution-steps li { align-items: flex-start; }
 .question-distractors { border-top: 1px solid var(--panel-line); padding-top: .9rem; }
+
+
+/* ---------- long-form theory reading ---------- */
+.measure.theory-reading {
+  width: min(100%, 70ch);
+  max-width: 70ch;
+  margin-inline: auto;
+}
+.theory-objective {
+  border-radius: 0 12px 12px 0;
+}
+.theory-reading .theory {
+  color: var(--body);
+}
+.theory-reading .theory-reading-block {
+  min-width: 0;
+}
+.theory-reading .theory-reading-block .para {
+  margin: 0;
+  font-size: 1.04rem;
+  line-height: 1.9;
+  letter-spacing: .005em;
+  overflow-wrap: break-word;
+}
+.theory-reading .theory-reading-block .lead {
+  display: inline;
+  font-size: 1.02em;
+  line-height: inherit;
+}
+.theory-reading .para-box {
+  padding: 1.15rem 1.3rem;
+  border-radius: 0 10px 10px 0;
+}
+.theory-reading .para-proof {
+  padding: .2rem 0 .2rem 1.15rem;
+  line-height: 1.9;
+}
+.theory-reading .litems {
+  margin-top: .8rem;
+}
+.theory-reading .litem {
+  grid-template-columns: 2.1rem minmax(0, 1fr);
+  gap: .55rem;
+  padding: .55rem 0;
+  line-height: 1.8;
+}
+.theory-reading .math {
+  font-size: 1.06em;
+}
+.theory-reading .math-display {
+  line-height: 1.6;
+}
+@media (max-width: 640px) {
+  .measure.theory-reading {
+    width: 100%;
+  }
+  .theory-reading .theory-reading-block .para {
+    font-size: 1rem;
+    line-height: 1.82;
+  }
+  .theory-reading .para-box {
+    padding: .95rem 1rem;
+  }
+}
