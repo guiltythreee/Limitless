@@ -50,6 +50,14 @@ export const pathwayLessons: Lesson[] = [
     id: "occupancy-coupon", rank: 8, title: "Occupancy, Matching & Coupon Collection", minutes: 22,
     description: "Model repeated choices, collisions, and waiting until every type appears.",
     objective: "Count occupancy outcomes and derive probabilities and expectations for coupon-collector experiments.",
+    topicHeadings: [
+      { before: 0, title: "How occupancy models work" },
+      { before: 1, title: "Counting assignments with inclusion–exclusion" },
+      { before: 2, title: "The coupon collector: expected waiting time" },
+      { before: 4, title: "Expected number of empty boxes" },
+      { before: 5, title: "The birthday problem as an occupancy model" },
+      { before: 6, title: "Variance of the collection time" }
+    ],
     body: [
       "Occupancy problems distribute labelled trials or objects among categories such as boxes, birthdays, servers, or product types. First decide whether outcomes are ordered, whether categories are equally likely, and whether repetitions are allowed.",
       "If n independent draws select one of m equally likely categories, there are mⁿ ordered sequences. Inclusion–exclusion counts sequences in which every category appears: Σⱼ₌₀ᵐ (−1)ʲ C(m,j)(m−j)ⁿ.",
