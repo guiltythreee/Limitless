@@ -9,12 +9,12 @@ export const probabilityPackLessons: Lesson[] = [
     body: [
       "First-step analysis solves a problem by conditioning on what happens first. After that first outcome, the remaining problem often has the same structure but a different starting state. Total probability combines the cases.",
       "In the gambler's ruin model, a player starts with i units and bets one unit per round. Each round is a win with probability p and a loss with probability q = 1 − p. Play stops on reaching N units (success) or 0 units (ruin). Let rᵢ be the probability of reaching N before 0 from starting fortune i.",
-      "Condition on the first bet. A win moves the fortune to i + 1; a loss moves it to i − 1. Therefore rᵢ = p rᵢ₊₁ + q rᵢ₋₁, with boundary conditions r₀ = 0 and rₙ = 1.",
+      "Condition on the first bet. A win moves the fortune to i + 1; a loss moves it to i − 1. Therefore rᵢ = p rᵢ₊₁ + q rᵢ₋₁, with boundary conditions r₀ = 0 and r_N = 1.",
       "For a fair game, p = q = 1/2. The recurrence says each value is the average of its neighbours, so the solution is linear: rᵢ = i/N. The chance of reaching the target is proportional to the starting fortune.",
       "For an unfair game with p ≠ 1/2, put ρ = q/p. The probability is rᵢ = (1 − ρⁱ)/(1 − ρᴺ). If the game is unfavourable (ρ > 1), the chance of reaching a distant target can become very small. The formula assumes independent rounds, fixed win probability, and unit-size bets."
     ],
     formulas: [
-      { label: "First-step recurrence", text: "rᵢ = p rᵢ₊₁ + q rᵢ₋₁;  r₀ = 0, rₙ = 1" },
+      { label: "First-step recurrence", text: "rᵢ = p rᵢ₊₁ + q rᵢ₋₁;  r₀ = 0, r_N = 1" },
       { label: "Fair game", text: "p = 1/2:  rᵢ = i/N" },
       { label: "Unfair game", text: "p ≠ 1/2:  rᵢ = (1 − (q/p)ⁱ)/(1 − (q/p)ᴺ)" }
     ],
