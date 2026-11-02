@@ -12,7 +12,7 @@ const labels = {
   assessment: "Assessment",
   "unit-milestone": "Unit milestone",
   "major-completion": "Major completion",
-  "bespoke-project": "Bespoke project",
+  "bespoke-project": "Personal learning goal",
 };
 
 function makeRow(title, detail, exp) {
@@ -162,7 +162,7 @@ function renderProjects() {
   } catch {
     const error = document.createElement("p");
     error.className = "meta-error";
-    error.textContent = "Registered projects could not be read from browser storage.";
+    error.textContent = "Your learning goals could not be loaded from browser storage.";
     host.append(error);
     return;
   }
