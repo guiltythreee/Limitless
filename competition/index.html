@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08070d">
+  <meta name="description" content="Track your regional competition preparation, weekly progress, mock performance and qualification safety margin.">
+  <title>Regional Qualification | Limitless</title>
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="competition.css">
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('limitless.site.theme');
+        document.documentElement.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
+      } catch (_) { document.documentElement.setAttribute('data-theme', 'dark'); }
+    })();
+  </script>
+</head>
+<body class="competition-page">
+  <div class="background-art" aria-hidden="true"></div>
+  <header class="competition-nav">
+    <a class="competition-brand" href="../">LIMITLESS</a>
+    <nav aria-label="Competition navigation">
+      <a href="../#tools">All sections</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#subjects">Subjects</a>
+    </nav>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch theme">Light mode</button>
+  </header>
+  <main class="competition-shell" id="dashboard">
+    <section class="competition-heading">
+      <div class="eyebrow">LIMITLESS · COMPETITION TRACKING</div>
+      <p class="competition-kicker">FOUR-MONTH CAMPAIGN</p>
+      <h1>Regional Qualification</h1>
+      <p class="competition-lede">One place to manage preparation across Probability, Combinatorics, Graph Theory, Dynamic Programming and Logical Reasoning — and measure whether your performance is keeping a safe distance from the qualification benchmark.</p>
+      <div class="campaign-meta">
+        <label>Campaign start <input id="start-date" type="date"></label>
+        <label>Target competition date <input id="target-date" type="date"></label>
+        <label>Weekly study target <span class="input-with-unit"><input id="weekly-target" type="number" min="1" max="60" step="0.5"><span>hours</span></span></label>
+      </div>
+    </section>
+    <section class="overview-grid" aria-label="Preparation overview">
+      <article class="overview-card overview-primary">
+        <div class="card-label">OVERALL PREPARATION</div>
+        <div class="metric-line"><strong id="overall-progress">0%</strong><span id="completed-topics">0 / 0 topics</span></div>
+        <div class="progress-track"><span id="overall-bar"></span></div>
+        <p>Based on completed syllabus checkpoints, not time spent.</p>
+      </article>
+      <article class="overview-card">
+        <div class="card-label">WEEKLY STUDY HOURS</div>
+        <div class="metric-line"><strong id="hours-this-week">0h</strong><span id="hours-target">of 21h</span></div>
+        <div class="progress-track"><span id="hours-bar"></span></div>
+        <p id="hours-context">Log your study hours in the current week.</p>
+      </article>
+      <article class="overview-card">
+        <div class="card-label">TIME REMAINING</div>
+        <div class="metric-line"><strong id="days-remaining">—</strong><span>days</span></div>
+        <p id="campaign-week">Campaign week not set</p>
+      </article>
+    </section>
+    <section class="safety-panel" aria-labelledby="safety-title">
+      <div class="safety-copy">
+        <div class="card-label">QUALIFICATION SAFETY MARGIN</div>
+        <h2 id="safety-title">Are you ahead of the benchmark?</h2>
+        <p>This is a measured comparison against a benchmark you enter from official results, a previous cutoff or a comparable mock cohort. Limitless will not invent a qualifying score.</p>
+        <div class="safety-result" id="safety-result" aria-live="polite">
+          <strong>Benchmark needed</strong>
+          <span>Add a comparable qualifying benchmark and your latest mock score to calculate your safety margin.</span>
+        </div>
+      </div>
+      <div class="safety-controls">
+        <label>Qualifying benchmark (%)<input id="benchmark-score" type="number" min="0" max="100" step="0.1" placeholder="e.g. 72"></label>
+        <label>Latest mock score (%)<input id="latest-score" type="number" min="0" max="100" step="0.1" placeholder="e.g. 84"></label>
+        <label>Safety buffer (%)<input id="safety-buffer" type="number" min="0" max="50" step="1"></label>
+        <label class="wide-field">Benchmark source / cohort<input id="benchmark-source" type="text" maxlength="120" placeholder="e.g. Previous-year regional cutoff"></label>
+        <div class="safe-target" id="safe-target">Safe target: waiting for benchmark</div>
+      </div>
+    </section>
+    <section class="section-block" id="subjects">
+      <div class="section-heading-row"><div><div class="card-label">FIVE SUBJECTS</div><h2>Subject readiness</h2></div><p>Mark a topic complete only when you can solve representative problems without relying on a solution.</p></div>
+      <div class="subject-grid" id="subject-grid"></div>
+    </section>
+    <section class="section-block" id="roadmap">
+      <div class="section-heading-row"><div><div class="card-label">16-WEEK ROADMAP</div><h2>Preparation checkpoints</h2></div><p>Expand a week to check off its topics and record the hours you actually studied.</p></div>
+      <div class="phase-legend"><span><i class="legend-dot foundation"></i> Foundations</span><span><i class="legend-dot core"></i> Core concepts</span><span><i class="legend-dot integration"></i> Integrated practice</span><span><i class="legend-dot competition"></i> Competition readiness</span></div>
+      <div id="week-list" class="week-list"></div>
+    </section>
+    <section class="section-block mock-section" id="mock-tests">
+      <div class="section-heading-row"><div><div class="card-label">PERFORMANCE EVIDENCE</div><h2>Mock test history</h2></div><p>Use comparable timed tests. The latest score feeds the safety-margin calculation.</p></div>
+      <form id="mock-form" class="mock-form">
+        <label>Test date<input id="mock-date" type="date" required></label>
+        <label>Score (%)<input id="mock-score" type="number" min="0" max="100" step="0.1" required placeholder="0–100"></label>
+        <label>Format / notes<input id="mock-note" type="text" maxlength="120" placeholder="e.g. 2.5h full simulation"></label>
+        <button type="submit" class="action-button">Add result</button>
+      </form>
+      <div id="mock-history" class="mock-history"><p class="empty-state">No mock tests recorded yet.</p></div>
+    </section>
+    <section class="section-block data-section">
+      <div><div class="card-label">YOUR RECORD</div><h2>Progress data</h2><p>Progress is saved in this browser. Export a backup periodically so your records can be restored on another device.</p></div>
+      <div class="data-actions"><button id="export-data" class="action-button" type="button">Export backup</button><label class="action-button secondary-action" for="import-data">Import backup<input id="import-data" type="file" accept="application/json" hidden></label><button id="reset-data" class="text-action" type="button">Reset tracker</button></div>
+      <p class="storage-note" id="storage-note" role="status">Local browser storage · No account sync</p>
+    </section>
+  </main>
+  <script src="competition.js" defer></script>
+</body>
+</html>
