@@ -131,7 +131,7 @@ export function createStudiesLanding(
           return h(LinkComponent, {
             className: "studies-landing__card studies-landing__pathway",
             key: pathway.id,
-            href: `/?pathway=${encodeURIComponent(pathway.id)}#study`,
+            href: `/probability/?pathway=${encodeURIComponent(pathway.id)}#study`,
             "aria-label": "Open " + pathway.title + " learning pathway",
           },
             h("div", { className: "studies-landing__pathway-number" }, "PATHWAY " + String(index + 1).padStart(2, "0")),
