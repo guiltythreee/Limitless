@@ -11,12 +11,12 @@ export function createStudiesLanding(
   createElement: ElementFactory,
   LinkComponent: any,
   {
-    registration, snapshots, ready, homeHref = "/",
+    registration, snapshots, ready, homeHref = "/", showPathways = true,
   }: {
     registration: StudyDisciplineRegistration;
     snapshots: readonly StudyProgressSnapshot[];
     ready: boolean;
-    homeHref?: string;
+    homeHref?: string;\n    showPathways?: boolean;
   },
 ) {
   const h = createElement;
@@ -42,7 +42,7 @@ export function createStudiesLanding(
         h("div", { className: "studies-landing__hero-meta" },
           h("span", null, registration.descriptor.status === "active" ? "Active discipline" : "Planned discipline"),
           h("span", null, courses.length + (courses.length === 1 ? " learning route" : " learning routes")),
-          h("span", null, pathways.length + (pathways.length === 1 ? " pathway" : " pathways")),
+          showPathways && h("span", null, pathways.length + (pathways.length === 1 ? " pathway" : " pathways")),
         ),
       ),
       h("div", { className: "studies-landing__hero-mark", "aria-hidden": "true" },
@@ -114,7 +114,7 @@ export function createStudiesLanding(
         }),
       ),
     ),
-    pathways.length > 0 && h("section", { id: "pathways", className: "studies-landing__section", "aria-labelledby": "studies-pathways-title" },
+    showPathways && pathways.length > 0 && h("section", { id: "pathways", className: "studies-landing__section", "aria-labelledby": "studies-pathways-title" },
       h("div", { className: "studies-landing__section-head" },
         h("div", null,
           h("div", { className: "studies-landing__eyebrow" }, "Curated curriculum"),
