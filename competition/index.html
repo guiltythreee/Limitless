@@ -48,7 +48,7 @@
         <div class="card-label">SYLLABUS MASTERY</div>
         <div class="metric-line"><strong id="overall-progress">0%</strong><span id="mastery-summary">0 mastered · 0 topics</span></div>
         <div class="progress-track"><span id="overall-bar"></span></div>
-        <p>Weighted topic status. This is not a probability of qualifying.</p>
+        <p>Only topics marked Mastered count in this percentage. It is not a probability of qualifying.</p>
       </article>
       <article class="overview-card">
         <div class="card-label">CURRENT CAMPAIGN WEEK</div>
@@ -73,7 +73,7 @@
       <div class="safety-copy">
         <div class="card-label">QUALIFICATION SAFETY MARGIN</div>
         <h2 id="safety-title">How far inside the qualifying line are you?</h2>
-        <p>The selection information you supplied describes different qualifying pools: India has a top-600 pool plus 20 reserved places for women; the international rule is written as min(Top 20, 75th percentile), whose exact application should be confirmed with the organiser. Enter the verified rank limit for your own pool and compare it only with a mock drawn from a comparable cohort. A raw score alone cannot establish a rank safety margin.</p>
+        <p>The selection information you supplied describes different qualifying pools: India has a top-600 pool plus 20 reserved places for women; the international rule is written as min(Top 20, 75th percentile), whose exact application should be confirmed with the organiser. Enter the verified rank limit and size of your own selection pool. The tracker compares rank percentiles, not raw rank numbers, and only gives a useful estimate when the mock cohort is representative of that pool. A raw score alone cannot establish a rank safety margin.</p>
         <div class="safety-result" id="safety-result" aria-live="polite">
           <strong>Comparable rank evidence needed</strong>
           <span>Enter the applicable qualifying position and record a mock rank with its cohort size.</span>
@@ -81,6 +81,7 @@
       </div>
       <div class="safety-controls">
         <label>Qualifying position (top N)<input id="qualification-cutoff" type="number" min="1" step="1" placeholder="Enter verified rank limit"></label>
+        <label>Size of qualifying pool<input id="qualification-pool-size" type="number" min="1" step="1" placeholder="Official / comparable field size"></label>
         <label>Safety buffer (rank places)<input id="rank-buffer" type="number" min="0" step="1" placeholder="Optional"></label>
         <label class="wide-field">Qualification category / cohort<input id="qualification-track" type="text" maxlength="140" placeholder="e.g. India open pool · previous official cutoff"></label>
         <label class="wide-field">Cutoff source<input id="benchmark-source" type="text" maxlength="180" placeholder="Official rules, published result or comparable mock"></label>
@@ -154,6 +155,7 @@
         <label>Test 2 maximum<input id="mock-two-max" type="number" min="0.1" step="0.1" placeholder="Maximum"></label>
         <label>Mock rank / position<input id="mock-rank" type="number" min="1" step="1" placeholder="Optional"></label>
         <label>Mock cohort size<input id="mock-cohort" type="number" min="1" step="1" placeholder="Optional"></label>
+        <label class="wide-field">Mock cohort / source<input id="mock-cohort-label" type="text" maxlength="160" placeholder="Describe who took this mock and how it compares to the qualifier"></label>
         <label class="wide-field">Notes<input id="mock-note" type="text" maxlength="180" placeholder="Weak topics, time management, test conditions"></label>
         <button type="submit" class="action-button">Add assessment</button>
       </form>
