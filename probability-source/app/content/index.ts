@@ -12,6 +12,7 @@ import { problemsC } from "./chapter1-problems-c";
 import { pathwayLessons } from "./pathway-lessons";
 import { advancedPathwayLessons } from "./pathway-lessons-advanced";
 import { probabilityPackLessons } from "./probability-pack";
+import { probabilityPackAdditions } from "./probability-pack-additions";
 
 export { pathways } from "./pathways";
 export { coverageAreas } from "./coverage";
@@ -60,20 +61,30 @@ for (const part of [problemsA, problemsB, problemsC]) {
 
 // Adds the textbook theory, the worked problems and the practice questions to each rank 09 lesson.
 const enrich = (l: Lesson): Lesson => {
-  if (l.rank !== 9) return l;
-  const add = theoryAdditions[l.id];
+  const base: Lesson = l.rank === 9 ? (() => {
+    const add = theoryAdditions[l.id];
+    return {
+      ...l,
+      body: [...l.body, ...(add?.body ?? [])],
+      formulas: [...l.formulas, ...(add?.formulas ?? [])],
+      examples: [...l.examples, ...(add?.examples ?? []), ...(problems[l.id] ?? [])],
+      quiz: [
+        ...l.quiz.map((q) => ({ ...q, difficulty: q.difficulty ?? ("easy" as const) })),
+        ...(mcqByLesson[l.id] ?? []).map((q, i) => {
+          const source = mcqSources[l.id]?.[i];
+          return { ...q, source, difficulty: source?.startsWith("M") ? ("medium" as const) : ("easy" as const) };
+        }),
+      ],
+    };
+  })() : l;
+  const pack = probabilityPackAdditions[base.id];
+  if (!pack) return base;
   return {
-    ...l,
-    body: [...l.body, ...(add?.body ?? [])],
-    formulas: [...l.formulas, ...(add?.formulas ?? [])],
-    examples: [...l.examples, ...(add?.examples ?? []), ...(problems[l.id] ?? [])],
-    quiz: [
-      ...l.quiz.map((q) => ({ ...q, difficulty: q.difficulty ?? ("easy" as const) })),
-      ...(mcqByLesson[l.id] ?? []).map((q, i) => {
-        const source = mcqSources[l.id]?.[i];
-        return { ...q, source, difficulty: source?.startsWith("M") ? ("medium" as const) : ("easy" as const) };
-      }),
-    ],
+    ...base,
+    body: [...base.body, ...(pack.body ?? [])],
+    formulas: [...base.formulas, ...(pack.formulas ?? [])],
+    examples: [...base.examples, ...(pack.examples ?? [])],
+    quiz: [...base.quiz, ...(pack.quiz ?? [])],
   };
 };
 
