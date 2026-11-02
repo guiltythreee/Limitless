@@ -103,7 +103,7 @@ export const rank09Extra: Lesson[] = [
     ],
     quiz: [
       { question: "If A and B are disjoint, then", options: ["P(A ∩ B)=1", "P(A ∩ B)=0", "P(A)=P(B)", "A and B must be independent"], answer: 1, difficulty: "easy", explanation: "Disjoint events have an empty intersection, whose probability is zero." },
-      { question: "If P(A)=0.25 and P(B)=0.15 and A,B are disjoint, P(A ∪ B) is", options: ["0.10", "0.0375", "0.40", "0.25"], answer: 2, difficulty: "medium", explanation: "For disjoint events, add the probabilities: 0.25+0.15=0.40." },
+      { question: "If P(A)=0.25 and P(B)=0.15 and A,B are disjoint, P(A ∪ B) is", options: ["0.10", "0.0375", "0.40", "0.25"], answer: 2, difficulty: "medium", explanation: "For disjoint events, add the probabilities: 0.25+0.15=0.40.", solutionSteps: ["Disjointness means P(A∩B)=0.","Use inclusion–exclusion: P(A∪B)=P(A)+P(B)−P(A∩B).","Substitute 0.25+0.15−0=0.40."] },
       { question: "A and B are disjoint and each has positive probability. Which statement is true?", options: ["They are independent", "They are dependent", "They are complements", "Their union is impossible"], answer: 1, difficulty: "hard", explanation: "Their intersection probability is zero, whereas independence would require the positive product P(A)P(B). Thus they are dependent." }
     ]
   },
@@ -171,7 +171,7 @@ export const rank09Extra: Lesson[] = [
     quiz: [
       { question: "If P(A)=0.37, then P(Aᶜ) is", options: ["0.37", "0.63", "1.37", "0"], answer: 1, difficulty: "easy", explanation: "The event and its complement partition Ω, so their probabilities add to one." },
       { question: "If A⊆B, which inequality must hold?", options: ["P(A)≥P(B)", "P(A)=1−P(B)", "P(A)≤P(B)", "P(A)+P(B)=1"], answer: 2, difficulty: "medium", explanation: "B contains every outcome in A and possibly more, so monotonicity gives P(A)≤P(B)." },
-      { question: "If P(A)=0.6, P(B)=0.5 and P(A∩B)=0.3, what is P(A∪B)?", options: ["1.1", "0.8", "0.3", "0.2"], answer: 1, difficulty: "hard", explanation: "Inclusion–exclusion gives 0.6+0.5−0.3=0.8. Simply adding would double-count the intersection." }
+      { question: "If P(A)=0.6, P(B)=0.5 and P(A∩B)=0.3, what is P(A∪B)?", options: ["1.1", "0.8", "0.3", "0.2"], answer: 1, difficulty: "hard", explanation: "Inclusion–exclusion gives 0.6+0.5−0.3=0.8. Simply adding would double-count the intersection.", solutionSteps: ["Start with P(A∪B)=P(A)+P(B)−P(A∩B).","Substitute the given values: 0.6+0.5−0.3.","Therefore P(A∪B)=0.8."] }
     ]
   },
   {
@@ -201,8 +201,8 @@ export const rank09Extra: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "A fair die is rolled. What is P(result at most 2)?", options: ["1/6", "1/3", "1/2", "2/3"], answer: 1, difficulty: "easy", explanation: "The favourable outcomes are 1 and 2, so the probability is 2/6=1/3." },
-      { question: "Two fair dice are rolled. How many equally likely elementary outcomes are there?", options: ["11", "12", "21", "36"], answer: 3, difficulty: "medium", explanation: "The dice are distinguishable, so each ordered pair is an elementary outcome: 6×6=36." },
+      { question: "A fair die is rolled. What is P(result at most 2)?", options: ["1/6", "1/3", "1/2", "2/3"], answer: 1, difficulty: "easy", explanation: "The favourable outcomes are 1 and 2, so the probability is 2/6=1/3.", solutionSteps: ["A fair die has six equally likely outcomes: 1,2,3,4,5,6.","The outcomes at most 2 are {1,2}, giving two favourable outcomes.","Thus P(result≤2)=2/6=1/3."] },
+      { question: "Two fair dice are rolled. How many equally likely elementary outcomes are there?", options: ["11", "12", "21", "36"], answer: 3, difficulty: "medium", explanation: "The dice are distinguishable, so each ordered pair is an elementary outcome: 6×6=36.", solutionSteps: ["The first die has six possible results.","For each first-die result, the second die independently has six possible results.","By the product rule, the ordered sample space has 6×6=36 outcomes."] },
       { question: "Two fair dice are rolled. Why is it invalid to treat each possible sum 2,…,12 as equally likely?", options: ["There are too many sums", "Different sums are produced by different numbers of ordered pairs", "Dice sums are continuous", "The dice are dependent"], answer: 1, difficulty: "hard", explanation: "For example, sum 2 has one ordered pair, while sum 7 has six. Equal likelihood applies to elementary ordered pairs, not to the coarser sum categories." }
     ]
   },
@@ -234,8 +234,8 @@ export const rank09Extra: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "A five-card hand is an unordered selection. The number of possible hands is", options: ["52×51×50×49×48", "C(52,5)", "52⁵", "5!"], answer: 1, difficulty: "easy", explanation: "Order does not matter in a hand, so choose five distinct cards from 52." },
-      { question: "A box has 3 red and 2 blue balls. Two are drawn without replacement. What is the probability both are red?", options: ["3/5", "3/10", "1/2", "9/25"], answer: 1, difficulty: "medium", explanation: "The probability is (3/5)(2/4)=6/20=3/10. The second draw has only two red among four remaining." },
+      { question: "A five-card hand is an unordered selection. The number of possible hands is", options: ["52×51×50×49×48", "C(52,5)", "52⁵", "5!"], answer: 1, difficulty: "easy", explanation: "Order does not matter in a hand, so choose five distinct cards from 52.", solutionSteps: ["A hand is an unordered selection, so permutations of the same five cards count as one hand.","Choose five distinct cards from 52: C(52,5)=52!/(5!47!).","This equals 2,598,960 possible hands."] },
+      { question: "A box has 3 red and 2 blue balls. Two are drawn without replacement. What is the probability both are red?", options: ["3/5", "3/10", "1/2", "9/25"], answer: 1, difficulty: "medium", explanation: "The probability is (3/5)(2/4)=6/20=3/10. The second draw has only two red among four remaining.", solutionSteps: ["Initially there are 3 red balls among 5, so P(first red)=3/5.","After drawing a red ball, 2 red balls remain among 4 balls, so P(second red|first red)=2/4.","Multiply the conditional probabilities: (3/5)(2/4)=6/20=3/10."] },
       { question: "Which ratio correctly counts the probability of a five-card hand containing exactly two aces?", options: ["C(4,2)C(48,3)/C(52,5)", "4×3/C(52,5)", "C(52,2)/C(4,2)", "C(4,2)C(48,3)/(52×51×50×49×48)"], answer: 0, difficulty: "hard", explanation: "Choose two of the four aces and three of the 48 non-aces, then divide by all unordered five-card hands. Both numerator and denominator count hands." }
     ]
   },
@@ -269,7 +269,7 @@ export const rank09Extra: Lesson[] = [
     quiz: [
       { question: "The complement of A∪B is", options: ["Aᶜ∪Bᶜ", "Aᶜ∩Bᶜ", "A∩B", "Aᶜ∩B"], answer: 1, difficulty: "easy", explanation: "Not (A or B) means neither A nor B: both complements must occur." },
       { question: "“Not both A and B” is", options: ["Aᶜ∩Bᶜ", "A∩B", "Aᶜ∪Bᶜ", "A∪B"], answer: 2, difficulty: "medium", explanation: "The complement of an intersection is the union of the complements: at least one of A or B fails." },
-      { question: "Independent events A₁,…,Aₙ each have probability p. What is the probability at least one occurs?", options: ["pⁿ", "1−pⁿ", "1−(1−p)ⁿ", "(1−p)ⁿ"], answer: 2, difficulty: "hard", explanation: "The complement is that none occurs. Independence gives probability (1−p)ⁿ for none, so the desired probability is 1−(1−p)ⁿ." }
+      { question: "Independent events A₁,…,Aₙ each have probability p. What is the probability at least one occurs?", options: ["pⁿ", "1−pⁿ", "1−(1−p)ⁿ", "(1−p)ⁿ"], answer: 2, difficulty: "hard", explanation: "The complement is that none occurs. Independence gives probability (1−p)ⁿ for none, so the desired probability is 1−(1−p)ⁿ.", solutionSteps: ["The complement of “at least one occurs” is “none of the events occurs”.","Each event fails with probability 1−p. By independence, the probability all n fail is (1−p)ⁿ.","Subtract from one: P(at least one)=1−(1−p)ⁿ."] }
     ]
   },
   {

@@ -315,3 +315,176 @@ select.pill { appearance: auto; padding-right: .6rem; }
 .weekcol b { display: block; font-size: 13px; color: var(--soft); }
 .weekcol-met { background: color-mix(in srgb, var(--good) 18%, transparent); }
 .weekcol-today { outline: 1px solid var(--gold); }
+
+
+/* ---------- focused reading groups and worked question solutions ---------- */
+.measure { max-width: 68ch; }
+.theory-topic-group {
+  border: 1px solid var(--panel-line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 58%, transparent);
+  padding: 1.1rem 1.2rem 1.25rem;
+}
+.theory-topic-heading {
+  margin: 0 0 .9rem;
+  padding-bottom: .65rem;
+  border-bottom: 1px solid var(--panel-line);
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  letter-spacing: .01em;
+}
+.theory .para { font-size: 1.015rem; line-height: 1.82; }
+.question-worked-solution {
+  border-top: 1px solid var(--panel-line);
+  margin-top: .9rem;
+  padding-top: .9rem;
+}
+.solution-step-number {
+  display: inline-flex;
+  width: 1.55rem;
+  height: 1.55rem;
+  flex: 0 0 1.55rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: .25rem;
+  border: 1px solid var(--panel-line);
+  border-radius: 999px;
+  color: var(--gold);
+  font-size: .7rem;
+  font-weight: 700;
+}
+@media (max-width: 640px) {
+  .theory-topic-group { padding: .9rem; }
+  .theory .para { font-size: .98rem; line-height: 1.78; }
+}
+
+.theory-topic-group > summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.theory-topic-group > summary::-webkit-details-marker { display: none; }
+.theory-topic-group > summary::after { content: "+"; flex: none; color: var(--mutedgold); font: 600 1rem/1 sans-serif; }
+.theory-topic-group[open] > summary::after { content: "−"; }
+.theory-topic-group[open] { background: color-mix(in srgb, var(--panel) 78%, transparent); }
+.theory-topic-group .theory-topic-heading { margin: 0; padding: 0; border: 0; font-size: 1rem; line-height: 1.55; }
+
+.question-reasoning, .question-distractors { min-width: 0; }
+.question-reasoning > .lead, .question-distractors > .lead { letter-spacing: .01em; }
+.question-solution-steps { margin-top: .65rem; }
+.question-solution-steps li { align-items: flex-start; }
+.question-distractors { border-top: 1px solid var(--panel-line); padding-top: .9rem; }
+
+
+/* ---------- long-form theory reading ---------- */
+.measure.theory-reading {
+  width: min(100%, 70ch);
+  max-width: 70ch;
+  margin-inline: auto;
+}
+.theory-objective {
+  border-radius: 0 12px 12px 0;
+}
+.theory-reading .theory {
+  color: var(--body);
+}
+.theory-reading .theory-reading-block {
+  min-width: 0;
+}
+.theory-reading .theory-reading-block .para {
+  margin: 0;
+  font-size: 1.04rem;
+  line-height: 1.9;
+  letter-spacing: .005em;
+  overflow-wrap: break-word;
+}
+.theory-reading .theory-reading-block .lead {
+  display: inline;
+  font-size: 1.02em;
+  line-height: inherit;
+}
+.theory-reading .para-box {
+  padding: 1.15rem 1.3rem;
+  border-radius: 0 10px 10px 0;
+}
+.theory-reading .para-proof {
+  padding: .2rem 0 .2rem 1.15rem;
+  line-height: 1.9;
+}
+.theory-reading .litems {
+  margin-top: .8rem;
+}
+.theory-reading .litem {
+  grid-template-columns: 2.1rem minmax(0, 1fr);
+  gap: .55rem;
+  padding: .55rem 0;
+  line-height: 1.8;
+}
+.theory-reading .math {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  vertical-align: baseline;
+  font-size: 1.06em;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.theory-reading .theory-topic-heading {
+  margin: 1.8rem 0 .15rem;
+  padding: 0 0 .55rem;
+  border-bottom: 1px solid var(--panel-line);
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.theory-reading .theory-reading-block:first-child .theory-topic-heading {
+  margin-top: 0;
+}
+.theory-reading .math-display {
+  line-height: 1.6;
+}
+@media (max-width: 640px) {
+  .measure.theory-reading {
+    width: 100%;
+  }
+  .theory-reading .theory-reading-block .para {
+    font-size: 1rem;
+    line-height: 1.82;
+  }
+  .theory-reading .para-box {
+    padding: .95rem 1rem;
+  }
+}
+
+
+/* Give the short labels already present in the source prose a clear visual
+   hierarchy, without rewriting or hiding any of the textbook material. */
+.theory-reading .theory-reading-block .para-note > .lead {
+  display: block;
+  margin: 0 0 .38rem;
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+.theory-reading .theory-reading-block .para-box > .lead {
+  display: block;
+  margin-bottom: .35rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  line-height: 1.45;
+}
+.theory-reading .theory-reading-block .para-proof > .lead {
+  display: block;
+  margin-bottom: .25rem;
+  font-size: .92rem;
+  font-style: normal;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.theory-reading .theory-reading-block .para-note {
+  padding-block: .15rem;
+}
+.theory-reading .theory-reading-block .para-note + .para-note {
+  margin-top: .1rem;
+}

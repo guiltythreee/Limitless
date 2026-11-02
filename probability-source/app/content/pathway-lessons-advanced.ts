@@ -24,9 +24,9 @@ export const advancedPathwayLessons: Lesson[] = [
       { title: "Exactly two fixed points", problem: "A uniform permutation of five objects is selected. Find the probability it has exactly two fixed points.", steps: ["Choose which two objects remain fixed: C(5,2)=10 choices.", "The other three must form a derangement. There are D₃=2 ways.", "There are 5!=120 total permutations, so P(X=2)=10·2/120=1/6."] }
     ],
     quiz: [
-      { question: "What is the probability a uniform permutation of four objects has no fixed points?", options: ["1/4", "3/8", "1/2", "5/8"], answer: 1, difficulty: "easy", explanation: "There are 9 derangements among 24 permutations, so the probability is 9/24=3/8." },
-      { question: "The expected number of fixed points in a uniform permutation of n objects is", options: ["1/n", "1", "n/2", "n"], answer: 1, difficulty: "medium", explanation: "Every object is fixed with probability 1/n, giving an expected total n·(1/n)=1." },
-      { question: "What is the probability a uniform permutation of five objects has at least one fixed point?", options: ["11/30", "19/30", "1/5", "4/5"], answer: 1, difficulty: "hard", explanation: "D₅=44, so the probability is 1−44/120=19/30." }
+      { question: "What is the probability a uniform permutation of four objects has no fixed points?", options: ["1/4", "3/8", "1/2", "5/8"], answer: 1, difficulty: "easy", explanation: "There are 9 derangements among 24 permutations, so the probability is 9/24=3/8.", solutionSteps: ["There are 4! = 24 equally likely permutations of four objects.","The number of derangements is D₄ = 9.","Therefore P(no fixed points) = D₄/4! = 9/24 = 3/8."] },
+      { question: "The expected number of fixed points in a uniform permutation of n objects is", options: ["1/n", "1", "n/2", "n"], answer: 1, difficulty: "medium", explanation: "Every object is fixed with probability 1/n, giving an expected total n·(1/n)=1.", solutionSteps: ["Let Iᵢ indicate whether object i is fixed. Then P(Iᵢ=1)=1/n, so E[Iᵢ]=1/n.","The number of fixed points is X=ΣIᵢ. By linearity of expectation, E[X]=ΣE[Iᵢ].","There are n indicators, hence E[X]=n(1/n)=1. Independence is not required."] },
+      { question: "What is the probability a uniform permutation of five objects has at least one fixed point?", options: ["11/30", "19/30", "1/5", "4/5"], answer: 1, difficulty: "hard", explanation: "D₅=44, so the probability is 1−44/120=19/30.", solutionSteps: ["There are 5! = 120 equally likely permutations.","The number of derangements is D₅ = 44.","At least one fixed point is the complement of a derangement: 1−44/120 = 76/120 = 19/30."] }
     ]
   },
   {
@@ -50,8 +50,8 @@ export const advancedPathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "For a waiting time counting trials through the r-th success, the smallest possible value is", options: ["0", "1", "r", "r+1"], answer: 2, difficulty: "easy", explanation: "At least r trials are required to observe r successes." },
-      { question: "If p=0.5, how many trials are expected to obtain four successes?", options: ["2", "4", "8", "16"], answer: 2, difficulty: "medium", explanation: "E[T]=r/p=4/0.5=8 trials." },
-      { question: "With p=0.4, what is the probability the second success occurs on trial 4?", options: ["0.0384", "0.1728", "0.13824", "0.2304"], answer: 1, difficulty: "hard", explanation: "P(T=4)=C(3,1)(0.4)²(0.6)²=0.1728." }
+      { question: "If p=0.5, how many trials are expected to obtain four successes?", options: ["2", "4", "8", "16"], answer: 2, difficulty: "medium", explanation: "E[T]=r/p=4/0.5=8 trials.", solutionSteps: ["The waiting time T counts trials through the r-th success.","The expected waiting time for one success is 1/p.","Adding the expected waits for r successes gives E[T]=r/p=4/0.5=8 trials."] },
+      { question: "With p=0.4, what is the probability the second success occurs on trial 4?", options: ["0.0384", "0.1728", "0.13824", "0.2304"], answer: 1, difficulty: "hard", explanation: "P(T=4)=C(3,1)(0.4)²(0.6)²=0.1728.", solutionSteps: ["For the second success to occur on trial 4, exactly one success must occur in the first three trials, followed by a success on trial 4.","Choose the location of the first success: C(3,1)=3 ways.","Each arrangement has probability (0.4)²(0.6)², so P(T=4)=3×0.16×0.36=0.1728."] }
     ]
   },
   {
@@ -74,9 +74,9 @@ export const advancedPathwayLessons: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "If X~N(50,10²), the standardized value at X=70 is", options: ["1", "2", "7", "20"], answer: 1, difficulty: "easy", explanation: "z=(70−50)/10=2." },
+      { question: "If X~N(50,10²), the standardized value at X=70 is", options: ["1", "2", "7", "20"], answer: 1, difficulty: "easy", explanation: "z=(70−50)/10=2.", solutionSteps: ["The mean is 50 and the standard deviation is 10.","Standardize with z=(x−μ)/σ.","At x=70, z=(70−50)/10=2."] },
       { question: "Independent variables with variances 4 and 9 have difference variance", options: ["5", "13", "25", "−5"], answer: 1, difficulty: "medium", explanation: "Var(X−Y)=Var(X)+Var(Y) under independence, so the result is 13." },
-      { question: "If X~N(100,15²), approximately what is P(X>130)?", options: ["0.50", "0.1587", "0.0228", "0.9772"], answer: 2, difficulty: "hard", explanation: "The standardized value is 2, so P(X>130)=1−Φ(2)≈0.0228." }
+      { question: "If X~N(100,15²), approximately what is P(X>130)?", options: ["0.50", "0.1587", "0.0228", "0.9772"], answer: 2, difficulty: "hard", explanation: "The standardized value is 2, so P(X>130)=1−Φ(2)≈0.0228.", solutionSteps: ["Standardize 130: z=(130−100)/15=2.","Thus P(X>130)=P(Z>2)=1−Φ(2).","From the standard normal distribution, 1−Φ(2)≈0.0228."] }
     ]
   },
   {
@@ -103,9 +103,9 @@ export const advancedPathwayLessons: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "An exponential variable has rate 4 per hour. Its mean waiting time is", options: ["4 hours", "1/4 hour", "1/16 hour", "2 hours"], answer: 1, difficulty: "easy", explanation: "The mean is 1/λ=1/4 hour, or 15 minutes." },
-      { question: "A Gamma variable with shape 6 and rate 2 has mean", options: ["3", "12", "1/3", "8"], answer: 0, difficulty: "medium", explanation: "Under rate parameterization, E[X]=α/λ=6/2=3." },
-      { question: "If P~Beta(3,5), what is E[P]?", options: ["5/8", "3/5", "3/8", "1/8"], answer: 2, difficulty: "hard", explanation: "E[P]=3/(3+5)=3/8." }
+      { question: "An exponential variable has rate 4 per hour. Its mean waiting time is", options: ["4 hours", "1/4 hour", "1/16 hour", "2 hours"], answer: 1, difficulty: "easy", explanation: "The mean is 1/λ=1/4 hour, or 15 minutes.", solutionSteps: ["For an exponential waiting time, E[T]=1/λ.","Substitute λ=4 per hour: E[T]=1/4 hour.","One quarter of an hour is 15 minutes."] },
+      { question: "A Gamma variable with shape 6 and rate 2 has mean", options: ["3", "12", "1/3", "8"], answer: 0, difficulty: "medium", explanation: "Under rate parameterization, E[X]=α/λ=6/2=3.", solutionSteps: ["For Gamma(shape α, rate λ), the mean is α/λ.","Substitute α=6 and λ=2.","Therefore E[X]=6/2=3."] },
+      { question: "If P~Beta(3,5), what is E[P]?", options: ["5/8", "3/5", "3/8", "1/8"], answer: 2, difficulty: "hard", explanation: "E[P]=3/(3+5)=3/8.", solutionSteps: ["For P~Beta(α,β), E[P]=α/(α+β).","Substitute α=3 and β=5.","Thus E[P]=3/8."] }
     ]
   },
   {
@@ -129,8 +129,8 @@ export const advancedPathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "For independent discrete X and Y, the probability P(X+Y=s) is found by", options: ["Adding the means", "Summing P(X=x)P(Y=s−x) over valid x", "Multiplying the means", "Taking P(X=s)P(Y=s)"], answer: 1, difficulty: "easy", explanation: "Each valid split contributes a joint probability that factors by independence." },
-      { question: "Independent Poisson variables with rates 2 and 5 sum to", options: ["Poisson(3)", "Poisson(7)", "Poisson(10)", "Binomial(7,1/2)"], answer: 1, difficulty: "medium", explanation: "The sum is Poisson with parameter 2+5=7." },
-      { question: "For IID exponential(rate 1) variables X,Y, the density of X+Y is", options: ["e^(−s)", "2e^(−2s)", "s e^(−s)", "s²e^(−s)"], answer: 2, difficulty: "hard", explanation: "Convolution gives ∫₀ˢe^(−s)dx=s e^(−s)." }
+      { question: "Independent Poisson variables with rates 2 and 5 sum to", options: ["Poisson(3)", "Poisson(7)", "Poisson(10)", "Binomial(7,1/2)"], answer: 1, difficulty: "medium", explanation: "The sum is Poisson with parameter 2+5=7.", solutionSteps: ["The two Poisson variables are independent with rates 2 and 5.","Independent Poisson variables add to a Poisson variable whose rate is the sum.","Therefore X+Y~Poisson(2+5)=Poisson(7)."] },
+      { question: "For IID exponential(rate 1) variables X,Y, the density of X+Y is", options: ["e^(−s)", "2e^(−2s)", "s e^(−s)", "s²e^(−s)"], answer: 2, difficulty: "hard", explanation: "Convolution gives ∫₀ˢe^(−s)dx=s e^(−s).", solutionSteps: ["For independent X,Y, the density of S=X+Y is their convolution.","For rate-1 exponentials, fX(x)fY(s−x)=e^(−x)e^{−(s−x)}=e^(−s), with 0≤x≤s.","Integrating gives fS(s)=∫₀ˢe^(−s)dx=s e^(−s), for s≥0."] }
     ]
   },
   {
@@ -153,9 +153,9 @@ export const advancedPathwayLessons: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "For n IID observations with CDF F, the CDF of their maximum is", options: ["F(x)/n", "F(x)ⁿ", "1−F(x)ⁿ", "nF(x)"], answer: 1, difficulty: "easy", explanation: "The maximum is at most x only if every observation is at most x, giving F(x)ⁿ." },
-      { question: "For three IID Uniform(0,1) observations, P(max≤1/2) is", options: ["1/2", "1/4", "1/8", "3/8"], answer: 2, difficulty: "medium", explanation: "Independence gives (1/2)³=1/8." },
-      { question: "For n IID Uniform(0,1) variables, the expected second-smallest observation is", options: ["1/(n+1)", "2/(n+1)", "n/(n+1)", "1/2"], answer: 1, difficulty: "hard", explanation: "The k-th uniform order statistic has mean k/(n+1); set k=2." }
+      { question: "For n IID observations with CDF F, the CDF of their maximum is", options: ["F(x)/n", "F(x)ⁿ", "1−F(x)ⁿ", "nF(x)"], answer: 1, difficulty: "easy", explanation: "The maximum is at most x only if every observation is at most x, giving F(x)ⁿ.", solutionSteps: ["M=max(X₁,…,Xₙ) satisfies M≤x exactly when all Xᵢ≤x.","By independence, P(M≤x)=ΠᵢP(Xᵢ≤x).","Each factor is F(x), so F_M(x)=F(x)ⁿ."] },
+      { question: "For three IID Uniform(0,1) observations, P(max≤1/2) is", options: ["1/2", "1/4", "1/8", "3/8"], answer: 2, difficulty: "medium", explanation: "Independence gives (1/2)³=1/8.", solutionSteps: ["The maximum is at most 1/2 only if all three observations are at most 1/2.","For each Uniform(0,1) observation, this probability is 1/2.","Independence gives (1/2)³=1/8."] },
+      { question: "For n IID Uniform(0,1) variables, the expected second-smallest observation is", options: ["1/(n+1)", "2/(n+1)", "n/(n+1)", "1/2"], answer: 1, difficulty: "hard", explanation: "The k-th uniform order statistic has mean k/(n+1); set k=2.", solutionSteps: ["For n IID Uniform(0,1) variables, the k-th order statistic has a Beta(k,n+1−k) distribution.","A Beta(a,b) variable has mean a/(a+b).","Setting k=2 gives E[X_(2)]=2/(n+1)."] }
     ]
   },
   {
@@ -180,8 +180,8 @@ export const advancedPathwayLessons: Lesson[] = [
       { title: "Compare plug-in and integrated prediction", problem: "For the same Beta(9,5) posterior, compare the variance of K in 3 future trials with a Binomial(3,9/14) plug-in model.", steps: ["The plug-in binomial variance is 3(9/14)(5/14)=135/196≈0.6888.", "The Beta-binomial variance is 3·9·5·17/(14²·15)=2295/2940≈0.7806.", "The integrated predictive variance is larger because it includes uncertainty about p."] }
     ],
     quiz: [
-      { question: "A Beta(2,3) prior observes 4 successes and 2 failures. The posterior is", options: ["Beta(4,2)", "Beta(6,5)", "Beta(2,3)", "Beta(8,7)"], answer: 1, difficulty: "easy", explanation: "Update the parameters to α=2+4=6 and β=3+2=5." },
-      { question: "Under a Beta(9,5) posterior, the probability of success on the next trial is", options: ["9/5", "5/14", "9/14", "1/2"], answer: 2, difficulty: "medium", explanation: "Integrating the Bernoulli likelihood over the posterior gives E[p|data]=9/(9+5)=9/14." },
+      { question: "A Beta(2,3) prior observes 4 successes and 2 failures. The posterior is", options: ["Beta(4,2)", "Beta(6,5)", "Beta(2,3)", "Beta(8,7)"], answer: 1, difficulty: "easy", explanation: "Update the parameters to α=2+4=6 and β=3+2=5.", solutionSteps: ["The Beta prior is conjugate to the Bernoulli likelihood.","Each success adds one to α and each failure adds one to β.","Beta(2,3) with four successes and two failures becomes Beta(6,5)."] },
+      { question: "Under a Beta(9,5) posterior, the probability of success on the next trial is", options: ["9/5", "5/14", "9/14", "1/2"], answer: 2, difficulty: "medium", explanation: "Integrating the Bernoulli likelihood over the posterior gives E[p|data]=9/(9+5)=9/14.", solutionSteps: ["The posterior is Beta(9,5). The next-trial predictive success probability is the posterior mean.","For Beta(α,β), E[p]=α/(α+β).","Hence P(next success|data)=9/(9+5)=9/14."] },
       { question: "Why is the Beta-binomial predictive variance generally larger than the Binomial(m, posterior mean) variance?", options: ["The Beta prior changes the number of future trials", "It includes uncertainty about the shared unknown success probability", "The future trials are conditionally dependent given p", "The posterior mean is not a probability"], answer: 1, difficulty: "hard", explanation: "Conditional on p the trials are independent, but integrating over uncertain shared p induces positive marginal dependence and extra predictive variance." }
     ]
   },
@@ -231,7 +231,7 @@ export const advancedPathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "Chernoff's method applies Markov's inequality to", options: ["S−E[S]", "e^(tS)", "S²−E[S²]", "Only an event indicator"], answer: 1, difficulty: "easy", explanation: "For t>0, e^(tS) is nonnegative and S≥a implies e^(tS)≥e^(ta)." },
-      { question: "For IID variables in [0,1], n=100 and ε=0.1, Hoeffding's two-sided bound is", options: ["2e^(−2)", "e^(−100)", "0.1", "1/100"], answer: 0, difficulty: "medium", explanation: "Substitution gives 2 exp(−2·100·0.01)=2e^(−2)." },
+      { question: "For IID variables in [0,1], n=100 and ε=0.1, Hoeffding's two-sided bound is", options: ["2e^(−2)", "e^(−100)", "0.1", "1/100"], answer: 0, difficulty: "medium", explanation: "Substitution gives 2 exp(−2·100·0.01)=2e^(−2).", solutionSteps: ["Hoeffding's two-sided bound for IID variables in [0,1] is 2exp(−2nε²).","Substitute n=100 and ε=0.1: 2exp(−2×100×0.1²).","This equals 2e^(−2)≈0.2707."] },
       { question: "The standard Hoeffding inequality for independent bounded variables", options: ["Gives an exact probability", "Needs only a finite mean", "Assumes independence and bounded ranges", "Means the true probability equals the bound"], answer: 2, difficulty: "hard", explanation: "Independence and bounded ranges are assumptions, and the result is an upper bound rather than an equality." }
     ]
   },
@@ -255,7 +255,7 @@ export const advancedPathwayLessons: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "For a fair gambler's ruin walk starting at i, the probability of hitting N before 0 is", options: ["1/2", "i/N", "i²/N²", "(N−i)/N"], answer: 1, difficulty: "easy", explanation: "The first-step equation has the linear solution hᵢ=i/N." },
+      { question: "For a fair gambler's ruin walk starting at i, the probability of hitting N before 0 is", options: ["1/2", "i/N", "i²/N²", "(N−i)/N"], answer: 1, difficulty: "easy", explanation: "The first-step equation has the linear solution hᵢ=i/N.", solutionSteps: ["Let hᵢ be the probability of hitting N before 0 from i. For a fair walk, hᵢ=(hᵢ₋₁+hᵢ₊₁)/2.","Rearranging shows successive differences are constant, so hᵢ is linear in i.","Using h₀=0 and hN=1 gives hᵢ=i/N."] },
       { question: "A fair walk starts at i=2 with boundaries 0 and 8. Its expected absorption time is", options: ["6", "8", "12", "16"], answer: 2, difficulty: "medium", explanation: "mᵢ=i(N−i)=2(8−2)=12 steps." },
       { question: "Why does the fair-walk hitting formula not apply unchanged when p≠1/2?", options: ["The state space becomes continuous", "The first-step equation changes", "Absorption becomes impossible", "Independence fails"], answer: 1, difficulty: "hard", explanation: "For a biased walk the first-step equation is hᵢ=phᵢ₊₁+qhᵢ₋₁, not the fair averaging equation." }
     ]
@@ -281,7 +281,7 @@ export const advancedPathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "In a Galton–Watson process, extinction probability q satisfies", options: ["q=E[X]", "q=G(q)", "q=1−G(0)", "q=μ²"], answer: 1, difficulty: "easy", explanation: "Conditioning on the number of offspring leads to the fixed point q=G(q)." },
-      { question: "For G(s)=1/4+3s²/4, the extinction probability is", options: ["1", "1/2", "1/3", "3/4"], answer: 2, difficulty: "medium", explanation: "The fixed-point roots are 1 and 1/3; choose the smallest root." },
+      { question: "For G(s)=1/4+3s²/4, the extinction probability is", options: ["1", "1/2", "1/3", "3/4"], answer: 2, difficulty: "medium", explanation: "The fixed-point roots are 1 and 1/3; choose the smallest root.", solutionSteps: ["Extinction probability q is the smallest solution in [0,1] of q=G(q).","Here q=1/4+3q²/4, so 3q²−4q+1=0.","Factor: (3q−1)(q−1)=0. The smallest valid root is q=1/3."] },
       { question: "In a supercritical branching process", options: ["Extinction is impossible", "Every population survives", "Extinction may still have positive probability", "The mean offspring count is below one"], answer: 2, difficulty: "hard", explanation: "A mean above one permits positive survival probability but does not rule out extinction." }
     ]
   },
@@ -301,7 +301,7 @@ export const advancedPathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "For an M/M/1 queue to have the usual stationary distribution, which condition is required?", options: ["λ>μ", "λ=μ", "λ<μ", "λ=0 only"], answer: 2, difficulty: "easy", explanation: "Traffic intensity must be below one, so arrivals occur more slowly than service on average." },
-      { question: "An M/M/1 system has λ=2 and μ=3 per hour. Its empty-system probability is", options: ["1/3", "2/3", "1/2", "1/6"], answer: 0, difficulty: "medium", explanation: "ρ=2/3, hence P(N=0)=1−ρ=1/3." },
+      { question: "An M/M/1 system has λ=2 and μ=3 per hour. Its empty-system probability is", options: ["1/3", "2/3", "1/2", "1/6"], answer: 0, difficulty: "medium", explanation: "ρ=2/3, hence P(N=0)=1−ρ=1/3.", solutionSteps: ["Traffic intensity is ρ=λ/μ=2/3.","The stationary M/M/1 distribution is P(N=n)=(1−ρ)ρⁿ.","At n=0, P(N=0)=1−ρ=1/3."] },
       { question: "For λ=2/hour and μ=3/hour, mean count L=2 and mean time W=1 hour satisfy", options: ["L=λ/W", "L=λW", "W=μ−λ", "L=ρ²"], answer: 1, difficulty: "hard", explanation: "Little's law is L=λW, giving 2=(2 per hour)(1 hour)." }
     ]
   },
@@ -331,7 +331,7 @@ export const advancedPathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "The survival function S(t) equals", options: ["P(T≤t)", "P(T>t)", "f(t)/F(t)", "E[T]−t"], answer: 1, difficulty: "easy", explanation: "Survival is the probability the lifetime exceeds t." },
-      { question: "Two independent components have reliabilities 0.9 and 0.8. Their series reliability is", options: ["0.98", "0.85", "0.72", "0.20"], answer: 2, difficulty: "medium", explanation: "Both components must work, so 0.9·0.8=0.72." },
+      { question: "Two independent components have reliabilities 0.9 and 0.8. Their series reliability is", options: ["0.98", "0.85", "0.72", "0.20"], answer: 2, difficulty: "medium", explanation: "Both components must work, so 0.9·0.8=0.72.", solutionSteps: ["A series system works only if both components work.","Under independence, multiply the component reliabilities: 0.9×0.8.","The system reliability is 0.72."] },
       { question: "Constant hazard in an exponential lifetime", options: ["Means every lifetime equals the mean", "Implies memorylessness and may not fit aging components", "Means the component never fails", "Makes survival constant"], answer: 1, difficulty: "hard", explanation: "The exponential law has constant hazard and the memoryless property, which many aging mechanisms do not satisfy." }
     ]
   }
@@ -372,8 +372,8 @@ export const advancedPathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "When constructing a likelihood L(θ;x), which quantity is held fixed?", options: ["The parameter θ", "The observed data x", "The sample size must be random", "The likelihood must integrate to one over θ"], answer: 1, difficulty: "easy", explanation: "The observed data are fixed and the likelihood is examined as a function of the unknown parameter. It is not automatically a probability distribution over parameters." },
-      { question: "A Bernoulli sample contains 18 successes in 30 trials. Its maximum-likelihood estimate of p is", options: ["0.30", "0.50", "0.60", "0.80"], answer: 2, difficulty: "medium", explanation: "The Bernoulli MLE is the observed success proportion: p̂=18/30=0.60." },
-      { question: "An estimator has variance 4 and bias 3. Its mean squared error is", options: ["4", "7", "9", "13"], answer: 3, difficulty: "hard", explanation: "MSE equals variance plus squared bias: 4+3²=13. Bias must be squared, not simply added." }
+      { question: "A Bernoulli sample contains 18 successes in 30 trials. Its maximum-likelihood estimate of p is", options: ["0.30", "0.50", "0.60", "0.80"], answer: 2, difficulty: "medium", explanation: "The Bernoulli MLE is the observed success proportion: p̂=18/30=0.60.", solutionSteps: ["For Bernoulli data, maximizing the likelihood gives the sample success proportion p̂=x/n.","There are x=18 successes in n=30 trials.","Thus p̂=18/30=0.60."] },
+      { question: "An estimator has variance 4 and bias 3. Its mean squared error is", options: ["4", "7", "9", "13"], answer: 3, difficulty: "hard", explanation: "MSE equals variance plus squared bias: 4+3²=13. Bias must be squared, not simply added.", solutionSteps: ["Use MSE=Var(θ̂)+Bias(θ̂)².","The variance is 4 and the bias is 3, so squared bias is 9.","MSE=4+9=13."] }
     ]
   }
 
@@ -455,8 +455,8 @@ export const advancedPathwayLessons: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "For 400 independent posterior draws, the sample standard deviation of g(θ) is 2. What is the estimated MCSE of its sample mean?", options: ["2", "0.5", "0.1", "0.01"], answer: 2, difficulty: "easy", explanation: "MCSE≈s/√n=2/20=0.1. This quantifies simulation error in the mean, not posterior spread." },
-      { question: "An MCMC chain has 2,000 retained draws and integrated autocorrelation time 8. Its approximate effective sample size is", options: ["16,000", "2,000", "250", "8"], answer: 2, difficulty: "medium", explanation: "n_eff≈n/τ=2000/8=250. Dependence means the information content is much smaller than the iteration count." },
+      { question: "For 400 independent posterior draws, the sample standard deviation of g(θ) is 2. What is the estimated MCSE of its sample mean?", options: ["2", "0.5", "0.1", "0.01"], answer: 2, difficulty: "easy", explanation: "MCSE≈s/√n=2/20=0.1. This quantifies simulation error in the mean, not posterior spread.", solutionSteps: ["The Monte Carlo standard error of a sample mean is approximately s/√n.","Here s=2 and √400=20.","Therefore MCSE≈2/20=0.1."] },
+      { question: "An MCMC chain has 2,000 retained draws and integrated autocorrelation time 8. Its approximate effective sample size is", options: ["16,000", "2,000", "250", "8"], answer: 2, difficulty: "medium", explanation: "n_eff≈n/τ=2000/8=250. Dependence means the information content is much smaller than the iteration count.", solutionSteps: ["Approximate effective sample size by n_eff≈n/τ.","Substitute n=2,000 retained draws and integrated autocorrelation time τ=8.","Thus n_eff≈2,000/8=250 effectively independent draws."] },
       { question: "Which conclusion is justified by R-hat close to 1 when trace plots still show chains stuck in distinct regions?", options: ["Convergence is proved", "The posterior variance is zero", "The chains are independent", "The diagnostics conflict, so reliable convergence has not been established"], answer: 3, difficulty: "hard", explanation: "R-hat is a diagnostic, not proof. Sticking and separated traces are warning signs that require investigation even when a scalar summary looks reassuring." }
     ]
   },

@@ -234,33 +234,66 @@ export function Para({ text }: { text: string }) {
 }
 
 // ---------- practice explanations: "Answer (B). … Why the others are wrong: (A) … (C) …" ----------
-export function Explanation({ text }: { text: string }) {
+export function Explanation({ text, solutionSteps = [] }: { text: string; solutionSteps?: string[] }) {
   const m = text.match(/^Answer \(([A-E](?:,\s*[A-E])*)\)\.\s*([\s\S]*?)(?:\s*Why the others are wrong:\s*([\s\S]*))?$/);
-  if (!m) return <p className="para"><Rich text={text} /></p>;
-  const [, ans, why, others] = m;
+  const answer = m?.[1];
+  const reasoning = m?.[2] ?? text;
+  const others = m?.[3];
+  const embeddedSteps: { number: string; text: string }[] = [];
+  const stepPattern = /(?:^|\s)Step\s+(\d+)\s*:\s*/gi;
+  const marks = [...reasoning.matchAll(stepPattern)];
+  marks.forEach((mark, index) => {
+    const startAt = mark.index! + mark[0].length;
+    const endAt = index + 1 < marks.length ? marks[index + 1].index! : reasoning.length;
+    embeddedSteps.push({ number: mark[1], text: reasoning.slice(startAt, endAt).trim() });
+  });
+  const intro = marks.length ? reasoning.slice(0, marks[0].index).trim() : reasoning;
+  const steps = solutionSteps.length ? solutionSteps : embeddedSteps.map((step) => step.text);
   const items: { label: string; text: string }[] = [];
   if (others) {
     const re = /(?:^|\s)\(([A-E])\)\s/g;
-    const marks = [...others.matchAll(re)];
-    marks.forEach((mk, i) => {
-      const start = mk.index! + mk[0].length;
-      const end = i + 1 < marks.length ? marks[i + 1].index! : others.length;
-      items.push({ label: mk[1], text: others.slice(start, end).trim() });
+    const wrongMarks = [...others.matchAll(re)];
+    wrongMarks.forEach((mark, index) => {
+      const itemStart = mark.index! + mark[0].length;
+      const itemEnd = index + 1 < wrongMarks.length ? wrongMarks[index + 1].index! : others.length;
+      items.push({ label: mark[1], text: others.slice(itemStart, itemEnd).trim() });
     });
   }
   return (
-    <div className="space-y-3">
-      <p className="para"><strong className="lead">Answer ({ans}).</strong> <Rich text={why} /></p>
+    <div className="space-y-4">
+      {answer && <p className="para"><strong className="lead">Correct answer ({answer})</strong></p>}
+      <section className="question-reasoning">
+        <div className="lead mb-2">{steps.length ? "Worked solution" : "Why this is correct"}</div>
+        {steps.length > 0 ? (
+          <>
+            {intro && <p className="para mb-2"><Rich text={intro} /></p>}
+            <SolutionSteps steps={steps} />
+          </>
+        ) : <p className="para"><Rich text={reasoning} /></p>}
+      </section>
       {others && (
-        <div>
-          <div className="lead mb-1.5">Why the others are wrong</div>
+        <section className="question-distractors">
+          <div className="lead mb-2">Why the other options are incorrect</div>
           {items.length ? (
             <span className="litems">
-              {items.map((it) => <span key={it.label} className="litem"><span className="llabel">({it.label})</span><span><Rich text={it.text} /></span></span>)}
+              {items.map((item) => <span key={item.label} className="litem"><span className="llabel">({item.label})</span><span><Rich text={item.text} /></span></span>)}
             </span>
           ) : <p className="para"><Rich text={others} /></p>}
-        </div>
+        </section>
       )}
     </div>
+  );
+}
+
+function SolutionSteps({ steps }: { steps: string[] }) {
+  return (
+    <ol className="question-solution-steps space-y-2.5">
+      {steps.map((step, index) => (
+        <li key={index} className="flex gap-3 text-sm leading-7 text-body">
+          <span className="solution-step-number" aria-hidden="true">{index + 1}</span>
+          <span className="min-w-0"><Rich text={step} /></span>
+        </li>
+      ))}
+    </ol>
   );
 }
