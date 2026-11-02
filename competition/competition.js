@@ -356,11 +356,9 @@
   var TOPIC_RESOURCES = {
     logic:[
       {label:'MIT discrete mathematics notes',url:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf'},
-      {label:'How to Prove It (book reference)',url:'https://www.cambridge.org/highereducation/books/how-to-prove-it/'}
     ],
     combinatorics:[
       {label:'MIT counting & discrete math notes',url:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf'},
-      {label:'AoPS Counting & Probability',url:'https://artofproblemsolving.com/store/book/aops-vol2'}
     ],
     probability:[
       {label:'Harvard Stat 110',url:'https://projects.iq.harvard.edu/stat110/home'},
