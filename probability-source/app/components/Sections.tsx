@@ -6,11 +6,11 @@ type TheoryGroup = { title: string; paragraphs: string[] };
 function theoryGroups(paragraphs: string[]): TheoryGroup[] {
   const groups: TheoryGroup[] = [];
   for (const paragraph of paragraphs) {
-    const title = /^(Definition|Theorem|Proposition|Lemma|Corollary)\\b/.test(paragraph)
+    const title = /^(Definition|Theorem|Proposition|Lemma|Corollary)\b/.test(paragraph)
       ? "Formal statements"
-      : /^(Proof|More proofs)\\b/.test(paragraph)
+      : /^(Proof|More proofs)\b/.test(paragraph)
         ? "Proofs and derivations"
-        : /^(Intuition|Working rule|Example|Application|Quant lens)\\b/.test(paragraph)
+        : /^(Intuition|Working rule|Example|Application|Quant lens)\b/.test(paragraph)
           ? "Intuition and applications"
           : "Core ideas";
     const current = groups[groups.length - 1];
