@@ -11,8 +11,8 @@
   --bar-ok: #e8cb8b; --bar-bad: #d9695f; --bar-skip: #8a8396;
   --shadow-title: none;
   --shadow-sub: none;
-  --bg-land: url("themes/dark/landscape.webp");
-  --bg-port: url("themes/dark/portrait.webp");
+  --bg-land: var(--limitless-bg-dark);
+  --bg-port: var(--limitless-bg-dark-mobile);
   --glyph: #f9e6b5; --glyph-glow: rgba(232,203,139,.55);
 }
 
@@ -27,8 +27,8 @@ html[data-theme="light"] {
   --bad: #b3392b; --on-gold: #fff8e6;
   --bar-ok: #b8832a; --bar-bad: #c0443a; --bar-skip: #8d8a96;
   --shadow-title: none; --shadow-sub: none;
-  --bg-land: url("themes/light/landscape.webp");
-  --bg-port: url("themes/light/portrait.webp");
+  --bg-land: var(--limitless-bg-light);
+  --bg-port: var(--limitless-bg-light-mobile);
   --glyph: #3b3350; --glyph-glow: rgba(255,255,255,.7);
 }
 html[data-theme="light"] body { background: #dfe6ee; color: var(--text); }
