@@ -117,7 +117,6 @@ function buildCard(tool) {
 
     const footer = makeEl("div", "studies-card-footer");
     footer.appendChild(makeEl("span", "studies-card-status", STATUS_LABELS[tool.status] || tool.status));
-    footer.appendChild(makeEl("span", "studies-card-cta", "Explore discipline ↗"));
     card.appendChild(footer);
     return card;
   }

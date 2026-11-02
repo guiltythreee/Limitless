@@ -1,3 +1,4 @@
+@import url("theme-backgrounds.css");
 :root {
   --gold: #e8cb8b;
   --gold-bright: #f9e6b5;
@@ -22,6 +23,10 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center center;
+  background-image: var(--limitless-bg-current);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   pointer-events: none;
   transform: scale(1.005);
   animation: background-breathe 25s ease-in-out infinite alternate;
@@ -255,4 +260,8 @@ a.card:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3p
 .section-description, .group-note {
   color: #f0e2b4;
   text-shadow: 0 1px 4px rgba(5,4,10,1), 0 0 16px rgba(5,4,10,.95), 0 0 36px rgba(5,4,10,.85);
+}
+
+@media (max-aspect-ratio: 4/5) {
+  .background-art { background-image: var(--limitless-bg-current-mobile); }
 }

@@ -1,0 +1,16 @@
+/* One shared pair of Limitless background themes.
+   Every surface reads these variables; theme selection remains owned by PR #46.
+   Files are intentionally root-relative so the same assets work from /, /probability/
+   and /metallurgy/ in the Cloudflare static deployment. */
+:root {
+  --limitless-bg-dark: url("/themes/shared/limitless-dark-desktop.webp");
+  --limitless-bg-dark-mobile: url("/themes/shared/limitless-dark-mobile.webp");
+  --limitless-bg-light: url("/themes/shared/limitless-light-desktop.webp");
+  --limitless-bg-light-mobile: url("/themes/shared/limitless-light-mobile.webp");
+  --limitless-bg-current: var(--limitless-bg-dark);
+  --limitless-bg-current-mobile: var(--limitless-bg-dark-mobile);
+}
+:root[data-theme="light"] {
+  --limitless-bg-current: var(--limitless-bg-light);
+  --limitless-bg-current-mobile: var(--limitless-bg-light-mobile);
+}

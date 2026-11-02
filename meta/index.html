@@ -191,6 +191,46 @@
       color: #922f2a;
     }
 
+    /* Keep every Meta overview surface on the shared light palette.
+       Scope below the page root so generic .panel/.card styles cannot leave
+       the summary looking dark while the surrounding page is in light mode. */
+    html[data-theme="light"] .meta-page .meta-grid > .meta-panel,
+    html[data-theme="light"] .meta-page .meta-panel {
+      color: #30283a;
+      background: rgba(255, 250, 240, .94);
+      border-color: rgba(122, 88, 32, .38);
+      box-shadow: 0 8px 24px rgba(65, 48, 28, .12);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+    html[data-theme="light"] .meta-page .meta-panel h2,
+    html[data-theme="light"] .meta-page .meta-panel h3,
+    html[data-theme="light"] .meta-page .meta-panel strong {
+      color: #392b3d;
+      opacity: 1;
+    }
+    html[data-theme="light"] .meta-page .meta-panel p,
+    html[data-theme="light"] .meta-page .meta-panel label,
+    html[data-theme="light"] .meta-page .meta-panel td,
+    html[data-theme="light"] .meta-page .meta-panel th {
+      color: #463b4b;
+      opacity: 1;
+    }
+    html[data-theme="light"] .meta-page .meta-track {
+      background: #e5d9bd;
+      border-color: #c8b58c;
+    }
+    html[data-theme="light"] .meta-page .meta-row {
+      color: #463b4b;
+      border-bottom-color: rgba(122, 88, 32, .25);
+    }
+    html[data-theme="light"] .meta-page .meta-row strong {
+      color: #392b3d;
+    }
+    html[data-theme="light"] .meta-page .meta-exp {
+      color: #76500e;
+    }
+
   </style>
 </head>
 <body>

@@ -91,6 +91,21 @@
           innerRoot.setAttribute('data-tone', current());
           Object.keys(palette).forEach(function (key) { innerRoot.style.setProperty('--' + key, palette[key]); });
           innerRoot.style.setProperty('color-scheme', current());
+          // The reader shares the same site-wide artwork as every other Limitless surface.
+          if (doc.body) {
+            var mobile = window.matchMedia && window.matchMedia('(max-aspect-ratio: 4/5)').matches;
+            var image = current() === 'light'
+              ? (mobile ? '/themes/shared/limitless-light-mobile.webp' : '/themes/shared/limitless-light-desktop.webp')
+              : (mobile ? '/themes/shared/limitless-dark-mobile.webp' : '/themes/shared/limitless-dark-desktop.webp');
+            var veil = current() === 'light'
+              ? 'linear-gradient(rgba(246,239,220,.16), rgba(246,239,220,.34)), '
+              : 'linear-gradient(rgba(8,7,13,.24), rgba(8,7,13,.48)), ';
+            doc.body.style.backgroundImage = veil + 'url("' + image + '")';
+            doc.body.style.backgroundSize = 'cover';
+            doc.body.style.backgroundPosition = 'center';
+            doc.body.style.backgroundAttachment = 'fixed';
+            doc.body.style.backgroundRepeat = 'no-repeat';
+          }
         } catch (e) { /* The standalone frame remains usable if same-origin access is unavailable. */ }
       }
       if (frame) frame.addEventListener('load', syncBookkeys);

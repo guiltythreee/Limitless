@@ -3,8 +3,8 @@
    Add a theme: a block here, an entry in hub-theme.js, and a folder in themes/. */
 
 :root {
-  --bg-land: url("cathedral-hd.webp");
-  --bg-port: url("themes/dark/portrait.webp");
+  --bg-land: var(--limitless-bg-dark);
+  --bg-port: var(--limitless-bg-dark-mobile);
   --chip-bg: rgba(10,8,17,.5);
 }
 
@@ -95,8 +95,8 @@ html[data-theme="light"] {
   --panel: rgba(252,247,235,.78);
   --border: rgba(122,88,32,.4);
   --chip-bg: rgba(255,251,240,.75);
-  --bg-land: url("themes/light/landscape.webp");
-  --bg-port: url("themes/light/portrait.webp");
+  --bg-land: var(--limitless-bg-light);
+  --bg-port: var(--limitless-bg-light-mobile);
 }
 
 html[data-theme="light"] { background: #dfe6ee; }
