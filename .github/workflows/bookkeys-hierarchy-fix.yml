@@ -1,0 +1,53 @@
+name: Bookkeys Part hierarchy patch
+
+on:
+  push:
+    branches:
+      - fix/bookkeys-optional-section-classification-20261102
+    paths:
+      - .github/workflows/bookkeys-hierarchy-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/bookkeys-optional-section-classification-20261102
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Patch, syntax-check, and run all Bookkeys tests
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const cp = require('child_process');
+          const path = 'tools/typing/bookkeys.html';
+          let html = fs.readFileSync(path, 'utf8');
+          function replaceOnce(oldText, newText, label) { const n = html.split(oldText).length - 1; if (n !== 1) throw new Error(label + ' expected once; found ' + n); html = html.replace(oldText, newText); }
+          replaceOnce("function epubHeadingIsBoundary(title) {\n  var t = normalize(String(title || \"\")).trim().toLowerCase();\n  if (!t) return false;\n  if (CH_RE.test(t)) return true;\n  if (/^(?:prologue|epilogue|introduction)(?:$|[\\s:;,.!?–—-])/.test(t)) return true;\n  if (new RegExp(\"^(?:[0-9]{1,4}|[ivxlcdm]{1,7}|\" + CH_WORDS + \")(?:$|[\\\\\\\\s.:),–—-])\", \"i\").test(t)) return true;\n  return !sectionRequired(t);\n}", "function epubHeadingIsBoundary(title) {\n  var t = normalize(String(title || \"\")).trim().toLowerCase(), first;\n  if (!t) return false;\n  if (CH_RE.test(t)) return true;\n  if (/^(?:prologue|epilogue|introduction)(?:$|[\\s:;,.!?–—-])/.test(t)) return true;\n  first = t.split(/[\\s.:),–—-]/)[0];\n  if (/^\\d{1,4}$/.test(first) || /^[ivxlcdm]{1,7}$/i.test(first) || CH_WORDS.split(\"|\").indexOf(first) >= 0) return true;\n  return !sectionRequired(t);\n}", 'EPUB heading boundary helper');
+          replaceOnce(".ch.opt { border-style: dashed; }", ".ch.opt { border-style: dashed; }\n.ch.part { font-weight: 600; }\n.ch.part input { font-weight: 600; }\n.ch.child { margin-left: 18px; }", 'Part hierarchy styles');
+          replaceOnce("  function chapRender() {", "function chapterIsPartHeading(title) {\n  var m = CH_RE.exec(normalize(String(title || \"\")));\n  return !!(m && /^(?:part|book|volume|vol)$/i.test(m[1]));\n}\n\n  function chapRender() {", 'Part heading helper');
+          replaceOnce("    var box = $(\"chList\"), cur = chapAt(S.idx);", "    var box = $(\"chList\"), cur = chapAt(S.idx), inPart = false;", 'Part grouping state');
+          replaceOnce("      t.type = \"text\"; t.maxLength = 80; t.value = chapName(i); t.disabled = !!CH.busy;", "      if (chapterIsPartHeading(c.title)) { inPart = true; row.classList.add(\"part\"); }\n      else if (inPart && sectionRequired(c.title)) row.classList.add(\"child\");\n      else if (!sectionRequired(c.title)) inPart = false;\n      t.type = \"text\"; t.maxLength = 80; t.value = chapName(i); t.disabled = !!CH.busy;", 'Part grouping rows');
+          if (!html.includes('function openLibBook') || !html.includes('function epubParseBook')) throw new Error('Bookkeys source integrity check failed');
+          fs.writeFileSync(path, html);
+          const appStart=html.indexOf('/*BLOCKS-START*/'), appEnd=html.indexOf('</script>',appStart);
+          if(appStart<0||appEnd<0) throw new Error('Application script boundaries missing');
+          fs.writeFileSync('/tmp/bookkeys-app.js',html.slice(appStart+'/*BLOCKS-START*/'.length,appEnd));
+          cp.execFileSync(process.execPath,['--check','/tmp/bookkeys-app.js']);
+          cp.execFileSync('npm',['ci'],{cwd:'tools/typing/tests',stdio:'inherit'});
+          cp.execFileSync('npm',['test'],{cwd:'tools/typing/tests',stdio:'inherit'});
+          cp.execFileSync('git',['config','user.name','github-actions[bot]']);
+          cp.execFileSync('git',['config','user.email','41898282+github-actions[bot]@users.noreply.github.com']);
+          cp.execFileSync('git',['add',path,'tools/typing/tests/app-boot.test.mjs','.github/workflows/bookkeys-hierarchy-fix.yml']);
+          cp.execFileSync('git',['rm','-f','.github/workflows/bookkeys-hierarchy-fix.yml']);
+          cp.execFileSync('git',['commit','-m','Preserve Bookkeys Part and Chapter hierarchy']);
+          cp.execFileSync('git',['push','origin','HEAD:fix/bookkeys-optional-section-classification-20261102']);
+          console.log('Bookkeys hierarchy patch committed after syntax and full regression suite passed.');
+          NODE
