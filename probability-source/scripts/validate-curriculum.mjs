@@ -11,6 +11,12 @@ const requiredFiles = [
   "app/content/pathway-lessons.ts",
   "app/content/pathway-lessons-advanced.ts",
   "app/content/probability-pack.ts",
+  "app/content/probability-pack-bank.ts",
+  "app/content/probability-pack-bank-seq08-a.ts",
+  "app/content/probability-pack-bank-seq08-b.ts",
+  "app/content/probability-pack-bank-seq07-a.ts",
+  "app/content/probability-pack-bank-seq07-b.ts",
+  "app/content/probability-pack-bank-seq07-c.ts",
   "app/content/pathways.ts",
   "app/content/coverage.ts",
 ];
@@ -381,6 +387,31 @@ if (new Set(coverageAreas).size !== coverageAreas.length) {
 }
 if (!coverage.includes('status: "planned"') || !coverage.includes('status: "expanded"')) {
   throw new Error("Coverage ledger must distinguish current expansion from remaining work.");
+}
+const bankFiles = [
+  "app/content/probability-pack-bank-seq08-a.ts",
+  "app/content/probability-pack-bank-seq08-b.ts",
+  "app/content/probability-pack-bank-seq07-a.ts",
+  "app/content/probability-pack-bank-seq07-b.ts",
+  "app/content/probability-pack-bank-seq07-c.ts",
+];
+const bankSource = bankFiles.map(read).join("\\n");
+const bankIds = [...bankSource.matchAll(/"source":"([^"]+)"/g)].map((match) => match[1]);
+if (bankIds.length !== 99 || new Set(bankIds).size !== 99) {
+  throw new Error("The Sequence 08/07 supplemental bank must contain 99 unique questions.");
+}
+const bankNumericCount = [...bankSource.matchAll(/"numericAnswer":\\{/g)].length;
+if (bankNumericCount !== 53) throw new Error("Expected 53 numeric-response bank questions; found " + bankNumericCount + ".");
+const bankMultiCount = [...bankSource.matchAll(/"answers":\\[/g)].length;
+if (bankMultiCount !== 11) throw new Error("Expected 11 multi-select bank questions; found " + bankMultiCount + ".");
+const bankTopics = new Map();
+for (const id of bankIds) {
+  const match = id.match(/^(.*)-b\\d{2}$/);
+  if (!match) throw new Error("Malformed supplemental bank question ID: " + id);
+  bankTopics.set(match[1], (bankTopics.get(match[1]) ?? 0) + 1);
+}
+if (bankTopics.size !== 11 || [...bankTopics.values()].some((count) => count !== 9)) {
+  throw new Error("Each of the 11 supplemental topics must contain exactly nine bank questions.");
 }
 console.log("Curriculum validation passed.");
 console.log("- Unique lesson IDs: " + lessonIds.size);

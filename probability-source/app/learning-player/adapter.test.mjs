@@ -70,5 +70,8 @@ assert.deepEqual(probabilityPlayerAdapter.grade(realNumeric, {
 assert.throws(() => probabilityPlayerAdapter.grade(realNumeric, {
   kind: "single-choice", optionId: "0",
 }), RangeError);
+assert.throws(() => probabilityPlayerAdapter.grade(realNumeric, {
+  kind: "numeric", value: Number.NaN,
+}), TypeError);
 
-console.log("Probability player adapter: 18 assertions passed");
+console.log("Probability player adapter: 19 assertions passed");
