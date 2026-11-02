@@ -199,7 +199,7 @@ function renderProjects() {
       button.textContent = "Mark as complete";
       button.addEventListener("click", () => {
         const accepted = window.confirm(
-          `Confirm this project meets every acceptance criterion?\n\n${project.title}\n\n${project.criteria}\n\nThis action grants one immutable reward and cannot be repeated.`
+          `Mark “${project.title}” as complete? You can claim its reward only once.`
         );
         if (!accepted) return;
         const result = completeProject(window.localStorage, project.projectId, { confirmed: true });
