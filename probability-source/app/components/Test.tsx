@@ -143,6 +143,7 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
       const answer = session.answers[question.key];
       out[question.key] = !answer ? []
         : answer.kind === "multi-choice" ? answer.optionIds.map(Number)
+        : answer.kind === "numeric" ? [answer.value]
         : [Number(answer.optionId)];
     }
     return out;
