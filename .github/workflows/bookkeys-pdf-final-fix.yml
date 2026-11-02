@@ -1,3 +1,4 @@
+# Retry after correcting expected PDF chapter page positions
 # Trigger final PDF detection patch and full tests
 name: Bookkeys PDF chapter detection final patch
 
