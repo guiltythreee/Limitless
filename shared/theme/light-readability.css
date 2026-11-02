@@ -92,3 +92,18 @@
     backdrop-filter: none;
   }
 }
+
+/* Keep the footer legible where the artwork is naturally darkest, matching the hub. */
+:root[data-theme="light"] footer {
+  color: #4a3a28;
+  background: linear-gradient(
+    180deg,
+    rgba(252, 247, 235, 0) 0%,
+    rgba(252, 247, 235, .82) 34%,
+    rgba(252, 247, 235, .9) 100%
+  );
+  border-top-color: rgba(122, 88, 32, .24);
+}
+:root[data-theme="light"] footer :where(a, span, small) {
+  color: #5a472b;
+}
