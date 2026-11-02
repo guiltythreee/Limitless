@@ -191,3 +191,76 @@ Still open:
 - Trace every localStorage key read/write, including draft trimming and page-position writes.
 - Verify shelf object, chapter segmentation and draft record schemas from all read/write paths.
 - Run the current suite on this fresh branch and complete the real-browser baseline.
+
+
+## 8. Remaining localStorage record schemas
+
+### Book positions
+
+The active page index is stored as a decimal string under \`bookkeys:<S.key>\`. A saved library book uses \`S.key = "lib:" + libraryId\`, producing \`bookkeys:lib:<library-id>\`. The value is zero-based. The same key is read when the book is reopened. Sample and pasted text do not receive a book key and therefore do not persist a book position.
+
+The separate legacy chapter-name lookup key \`bookkeys:chap:lib:<library-id>\` is read by the Home "Continue where you left off" label. Keep it readable even if the current chapter editor uses the normal \`bookkeys:chap:<S.key>\` key.
+
+### Shelves
+
+\`bookkeys:shelves\` is a JSON array of objects shaped as \`{ id: string, name: string }\`. The built-in Library shelf is \`{ id: "main", name: "Library" }\` and is reinserted if absent. Recent is a virtual view, not a persisted shelf. If a book references a shelf that no longer exists, the app moves its metadata back to \`main\` rather than deleting the book.
+
+### Chapter segmentation
+
+The current chapter key is \`bookkeys:chap:<S.key>\`. Its JSON shape is:
+
+\`\`\`json
+{
+  "v": 3,
+  "src": "toc | bookmarks | headings | even | edited",
+  "list": [
+    { "p": 0, "title": "Beginning", "req": true }
+  ]
+}
+\`\`\`
+
+- \`p\` is a zero-based page/section index, strictly increasing; the first item begins at 0.
+- \`title\` is a string; an empty title means the UI derives a page/section range label.
+- \`req\` is boolean. Missing/non-boolean values are filled using the current required/optional classification rules.
+- The current schema version is 3. The loader also accepts legacy version 2 and explicitly edited records, then normalizes and saves them in the current shape.
+- The saved \`src\` records whether the list came from an EPUB TOC, PDF bookmarks, heading detection, even splitting, or user edits.
+
+Chapter data is saved only when a book key exists, the list is non-empty, and chapter detection is not busy. A "redo" removes the current chapter key and regenerates the list. Bulk Required/Optional operations and manual edits save back to the same record.
+
+### Typing drafts
+
+The current draft key is \`bookkeys:draft:<S.key>:<page-index>\`. Its JSON shape is:
+
+\`\`\`json
+{
+  "v": 1,
+  "page": 0,
+  "sig": "text-length:hash",
+  "typed": "unfinished text",
+  "ok": 12,
+  "all": 13,
+  "spent": 42000,
+  "t": 1760000000000
+}
+\`\`\`
+
+- \`page\` is the zero-based page/section index.
+- \`sig\` is a signature of the exact page target text; mismatches are rejected.
+- \`typed\` is unfinished typed text.
+- \`ok\` and \`all\` are correct and total keystroke counters.
+- \`spent\` is elapsed typing time in milliseconds.
+- \`t\` is the last-save timestamp in milliseconds.
+
+Drafts are written at most once per three seconds per active page unless forced. They are also saved on visibility change and pagehide. Completed pages are not retained as drafts. The app validates draft version, page, text signature, typed length, counters and elapsed time before restoring. It supports adopting a legacy one-draft-per-book key \`bookkeys:draft:<S.key>\` when the draft belongs to the current page, then removes that legacy key. It keeps the eight most recent unfinished page drafts per book; pruning is based on \`t\`.
+
+### Game/progression record
+
+\`bookkeys:game\` is a JSON object initialized from \`newGame()\`. Its top-level fields are:
+
+- Reward/protection: \`paid\`, \`check\`, \`base\`.
+- Counters/records: \`bestPct\`, \`beat5\`, \`up20\`, \`pro60\`, \`vir80\`, \`recs\`, \`hund\`, \`sessMax\`, \`bigBook\`, \`flawlessCh\`, \`xp\`, \`words\`, \`chars\`, \`pages\`, \`chapters\`, \`books\`, \`bestWpm\`, \`perfect\`, \`run\`, \`bestRun\`, \`days\`, \`bestDay\`, \`night\`, \`early\`.
+- Nested records: \`streak: { cur, best, last }\`, \`day: { d, w }\`, \`ach\`, and \`book\`.
+
+Each per-book progress record in \`book\` is keyed by the book fingerprint/key and contains page/section completion arrays \`p\`, \`e\`, \`c\`, and \`x\`, plus \`done\`. Reward IDs in \`paid\` prevent duplicate payment. Backup merge uses field-specific maximum/union/earliest-unlock rules; do not replace this with a generic object overwrite.
+
+This list documents the initial schema/default object, not a closed schema: keep forward-compatible unknown properties when handling existing saved game data wherever the current merge logic does so.
