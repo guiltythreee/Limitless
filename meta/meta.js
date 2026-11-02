@@ -169,7 +169,7 @@ function renderProjects() {
   if (!projects.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No bespoke projects registered yet.";
+    empty.textContent = "No learning goals yet. Add one when you have something you want to work towards.";
     host.append(empty);
     return;
   }
@@ -181,30 +181,22 @@ function renderProjects() {
     heading.textContent = project.title;
     const meta = document.createElement("p");
     meta.className = "meta-muted";
-    meta.textContent = `${project.moduleId} · ${project.baseExp} base EXP · ${project.difficulty} · registered ${new Date(project.registeredAt).toLocaleDateString()}`;
-    const scope = document.createElement("p");
-    scope.className = "meta-muted";
-    scope.style.marginTop = ".7rem";
-    scope.textContent = "Scope: " + project.scope;
-    const criteria = document.createElement("p");
-    criteria.className = "meta-muted";
-    criteria.style.marginTop = ".5rem";
-    criteria.textContent = "Acceptance criteria: " + project.criteria;
-    card.append(heading, meta, scope, criteria);
+    meta.textContent = `Added ${new Date(project.registeredAt).toLocaleDateString()}`;
+    card.append(heading, meta);
 
     const actions = document.createElement("div");
     actions.className = "meta-project-actions";
     const status = document.createElement("span");
     status.className = project.completed ? "meta-muted" : "meta-exp";
     status.textContent = project.completed
-      ? `Completed · +${number(project.award?.totalExp ?? 0)} EXP recorded`
-      : "Not completed";
+      ? `Completed · +${number(project.award?.totalExp ?? 0)} EXP earned`
+      : "In progress";
     actions.append(status);
     if (!project.completed) {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "meta-button";
-      button.textContent = "Confirm acceptance criteria and complete";
+      button.textContent = "Mark as complete";
       button.addEventListener("click", () => {
         const accepted = window.confirm(
           `Confirm this project meets every acceptance criterion?\n\n${project.title}\n\n${project.criteria}\n\nThis action grants one immutable reward and cannot be repeated.`
@@ -212,7 +204,7 @@ function renderProjects() {
         if (!accepted) return;
         const result = completeProject(window.localStorage, project.projectId, { confirmed: true });
         status.textContent = result.ok
-          ? result.duplicate ? "This project was already rewarded." : `Completed · +${number(result.record?.totalExp ?? 0)} EXP recorded`
+          ? result.duplicate ? "This goal has already been completed." : `Completed · +${number(result.record?.totalExp ?? 0)} EXP earned`
           : "Completion failed: " + result.error;
         status.className = result.ok ? "meta-muted" : "meta-error";
         renderProjects();
@@ -225,33 +217,109 @@ function renderProjects() {
   }
 }
 
+const GOAL_TEMPLATES = {
+  reading: {
+    scope: (title) => `Finish the selected reading: ${title}.`,
+    criteria: () => "Finish the book or selected reading and confirm that you have completed it.",
+    baseExp: 50,
+    difficulty: "intermediate",
+    note: "Finish the book or the portion of reading you set out to complete. You confirm completion when you are done.",
+  },
+  course: {
+    scope: (title) => `Complete the course or learning pathway: ${title}.`,
+    criteria: () => "Complete the course or pathway content and reach its final completion point.",
+    baseExp: 100,
+    difficulty: "advanced",
+    note: "Work through the course or pathway and mark it complete when you reach its final milestone.",
+  },
+  topic: {
+    scope: (title) => `Study and understand the topic: ${title}.`,
+    criteria: () => "Complete the selected study material and demonstrate the main ideas in a short self-check.",
+    baseExp: 50,
+    difficulty: "intermediate",
+    note: "Study the topic using your chosen material, then complete a short self-check to confirm understanding.",
+  },
+  practice: {
+    scope: (title) => `Complete a focused practice target for: ${title}.`,
+    criteria: () => "Complete the practice target you set and review the results.",
+    baseExp: 35,
+    difficulty: "foundational",
+    note: "Choose a manageable practice target, complete it, and review how you did.",
+  },
+  build: {
+    scope: (title) => `Create and finish: ${title}.`,
+    criteria: () => "Produce a finished, usable result that matches the stated goal.",
+    baseExp: 75,
+    difficulty: "advanced",
+    note: "Build the thing you described and mark the goal complete when there is a finished result.",
+  },
+  research: {
+    scope: (title) => `Investigate and summarise: ${title}.`,
+    criteria: () => "Complete the investigation and produce a concise summary of the findings.",
+    baseExp: 75,
+    difficulty: "advanced",
+    note: "Explore the question, check your sources, and write or save a concise summary of what you found.",
+  },
+};
+
 function installProjectForm() {
   const form = byId("project-form");
   if (!form) return;
+  let selectedTemplate = "reading";
+  const note = byId("goal-template-note");
+  const templateInput = byId("goal-template");
+  const presetButtons = [...document.querySelectorAll("[data-template]")];
+
+  function chooseTemplate(key) {
+    if (!GOAL_TEMPLATES[key]) return;
+    selectedTemplate = key;
+    templateInput.value = key;
+    note.textContent = GOAL_TEMPLATES[key].note;
+    for (const button of presetButtons) {
+      button.setAttribute("aria-pressed", String(button.dataset.template === key));
+    }
+  }
+  for (const button of presetButtons) {
+    button.addEventListener("click", () => chooseTemplate(button.dataset.template));
+  }
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const status = byId("project-form-status");
-    const input = {
-      projectId: byId("project-id").value,
-      moduleId: byId("project-module").value,
-      title: byId("project-title").value,
-      scope: byId("project-scope").value,
-      criteria: byId("project-criteria").value,
-      baseExp: Number(byId("project-base-exp").value),
-      difficulty: byId("project-difficulty").value,
-    };
-    const result = registerProject(window.localStorage, input);
-    if (!result.ok) {
-      status.textContent = "Could not register project: " + result.error;
+    const title = byId("project-title").value.trim();
+    const template = GOAL_TEMPLATES[selectedTemplate];
+    if (!title || !template) {
+      status.textContent = "Choose a goal type and enter what you want to accomplish.";
       status.className = "meta-error";
       return;
     }
-    status.textContent = "Project registered. Its criteria, difficulty, and EXP value are now immutable.";
+    const slug = title.toLowerCase()
+      .normalize("NFKD")
+      .replace(/[\\u0300-\\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 42) || "learning-goal";
+    const input = {
+      projectId: `${slug}-${Date.now().toString(36)}`,
+      moduleId: "personal-projects",
+      title,
+      scope: template.scope(title),
+      criteria: template.criteria(title),
+      baseExp: template.baseExp,
+      difficulty: template.difficulty,
+    };
+    const result = registerProject(window.localStorage, input);
+    if (!result.ok) {
+      status.textContent = result.error === "duplicate-project-definition"
+        ? "This learning goal is already on your list."
+        : "Could not add this goal. Please try again.";
+      status.className = "meta-error";
+      return;
+    }
+    status.textContent = "Learning goal added.";
     status.className = "meta-muted";
     form.reset();
-    byId("project-base-exp").value = "50";
-    byId("project-module").value = "personal-projects";
-    byId("project-difficulty").value = "intermediate";
+    chooseTemplate("reading");
     renderProjects();
   });
 }
