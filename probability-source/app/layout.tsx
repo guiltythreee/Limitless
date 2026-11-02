@@ -2,6 +2,7 @@ import MetaStatusBar from "./components/MetaStatusBar";
 
 import type { Metadata } from "next";
 import "./globals.css";
+import "../../shared/learning-player/player.css";
 
 export const metadata: Metadata = {
   title: "Limitless Probability — The Probability Archive",
