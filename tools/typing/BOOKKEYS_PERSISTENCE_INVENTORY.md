@@ -122,11 +122,14 @@ The site-wide theme key `limitless.site.theme` is a separate shell/session conce
 
 ## 5. Remaining work after this inventory
 
-- Map every settings field to its exact UI control and allowed option/range constraints.
-- Trace all localStorage key call sites, including draft trimming and page-position writes.
-- Verify shelf object shape and chapter/draft schemas against all read/write paths.
-- Run the current main-branch test suite on this working branch; the earlier 91-pass result remains historical until rerun.
-- Complete real-browser verification of IndexedDB, artwork, PDF/EPUB import, offline resources, iframe CSP and shared theme behaviour.
+The source-level settings and persistence audit is complete for the preserved production blob. Sections 6–10 record the settings controls and catalogues, record schemas, and localStorage read/write/delete/merge call-site matrix.
+
+Remaining work is runtime verification, not another source inventory pass:
+- Complete real-browser verification of IndexedDB add/open/delete and reload persistence.
+- Verify backup restore/merge behaviour in a safe test profile.
+- Verify offline resources and iframe CSP.
+- Verify browser Back/Forward and custom artwork persistence.
+- Keep the successful PDF/EPUB import, chapter display, typing resume, backup export and theme-coexistence results in `BOOKKEYS_BROWSER_REGRESSION.md`.
 
 No migration code should be extracted until those remaining checks are complete.
 
@@ -180,17 +183,16 @@ The source defines the swatch/tile catalogues (\`THEMES\`, \`ACC\`, \`BGS\`, \`F
 
 ## 7. Updated inventory status
 
-Completed in this source-level pass:
+Completed in the source-level pass:
 - All 34 settings keys, defaults and primitive types.
-- UI control type and ranges/options for each setting.
+- UI control types, ranges and options.
+- Full settings option catalogue counts and labels.
 - IndexedDB database version, store definitions, keys, absence of indexes, metadata fields and transaction boundaries.
 - Local-only artwork storage and current v1 backup boundary.
+- Book-position, shelf, chapter, typing-draft and game/progression record schemas.
+- localStorage read/write/delete/merge call-site matrix, including legacy draft adoption and eight-draft pruning.
 
-Still open:
-- Enumerate the full option catalogues and every UI label/conditional visibility rule.
-- Trace every localStorage key read/write, including draft trimming and page-position writes.
-- Verify shelf object, chapter segmentation and draft record schemas from all read/write paths.
-- Run the current suite on this fresh branch and complete the real-browser baseline.
+Runtime browser verification remains open and is tracked in `BOOKKEYS_BROWSER_REGRESSION.md`.
 
 
 ## 8. Remaining localStorage record schemas
