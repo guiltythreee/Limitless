@@ -16,7 +16,8 @@ export function createStudiesLanding(
     registration: StudyDisciplineRegistration;
     snapshots: readonly StudyProgressSnapshot[];
     ready: boolean;
-    homeHref?: string;\n    showPathways?: boolean;
+    homeHref?: string;
+    showPathways?: boolean;
   },
 ) {
   const h = createElement;
