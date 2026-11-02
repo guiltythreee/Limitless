@@ -62,6 +62,45 @@ for (const token of [
   "--lp-color-canvas", "--lp-color-surface", "--lp-color-text",
   "--lp-color-accent", "--lp-color-success", "--lp-space-4",
   "--lp-radius-md", "--lp-font-reading",
-]) assert.ok(sharedCss.includes(token), `missing shared design token: ${token}`);
+  ":focus-visible", "overscroll-behavior-x: contain",
+  "scrollbar-width: thin", "flex-shrink: 0",
+  ".learning-player-frame {", ".learning-player-content {",
+  "[data-learning-player] .learning-player-palette {",
+  ".learning-player-meta--compact {", ".learning-player-meta__group {",
+  "padding: 1.1rem 1.4rem 1.5rem;",
+  "border-radius: var(--lp-radius-lg);",
+  "background: var(--panel-bg, var(--lp-color-surface));",
+  "margin-top: var(--lp-space-4);",
+  "overflow-wrap: anywhere;",
+  "display: block;\n  max-width: 100%;\n  overflow-x: auto;",
+  ":where(pre, .eq, .math-display, .katex-display)",
+  ":where(.math, .katex)",
+  ":where(img, svg, video, canvas)",
+  "[data-learning-player-palette] > .dots",
+  "flex-wrap: nowrap;",
+  "width: max-content;",
+  ".learning-player-option__text",
+  "max-width: 100%;\n  overflow-wrap: anywhere;",
+]) assert.ok(sharedCss.includes(token), `missing shared player design or interaction rule: ${token}`);
 
-console.log("P6 shared player shell and design tokens: 31 assertions passed");
+// Every discipline player composes the same frame, palette and content inset.
+for (const appPath of [
+  "probability-source/app/components/Practice.tsx",
+  "metallurgy-source/app/mt201/quiz.tsx",
+  "metallurgy-source/app/mt202/quiz.tsx",
+  "metallurgy-source/app/mt203/player.tsx",
+]) {
+  const source = readFileSync(resolve(root, appPath), "utf8");
+  assert.match(
+    source,
+    /<LearningPlayerShell className="learning-player-frame" paletteClassName="learning-player-palette" contentClassName="learning-player-content"/,
+    `player should use the shared frame and content layout: ${appPath}`,
+  );
+}
+
+const probabilityOptions = readFileSync(resolve(root, "probability-source/app/components/Practice.tsx"), "utf8");
+const metallurgyOptions = readFileSync(resolve(root, "metallurgy-source/app/platform/qview.tsx"), "utf8");
+assert.match(probabilityOptions, /learning-player-option__text/, "Probability answer text should use the shared responsive content hook");
+assert.match(metallurgyOptions, /learning-player-option__text/, "Metallurgy's shared question renderer should use the shared responsive content hook");
+
+console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 62 assertions passed");

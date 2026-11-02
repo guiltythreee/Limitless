@@ -50,7 +50,7 @@ export default function TopicTree({
   const allOpen = withLessons.length > 0 && withLessons.every((r) => open.includes(r.num));
 
   return (
-    <div>
+    <nav aria-label="Probability course navigation" data-study-topic-tree="true">
       <div className="mb-4">
         <label htmlFor="probability-pathway" className="eyebrow mb-2 block px-2">Choose a learning pathway</label>
         <select
@@ -76,6 +76,7 @@ export default function TopicTree({
       <div className="mb-3 flex items-center justify-between px-2">
         <div className="eyebrow">Chapters of the unknown</div>
         <button
+          type="button"
           onClick={() => save(allOpen ? [] : withLessons.map((r) => r.num))}
           className="shrink-0 whitespace-nowrap text-[10px]! uppercase tracking-[.14em] text-mutedgold hover:text-gold"
         >
@@ -88,11 +89,14 @@ export default function TopicTree({
           const inRank = visibleLessons.filter((lesson) => lesson.rank === rank.num);
           const isOpen = open.includes(rank.num);
           const done = inRank.filter((lesson) => completed.includes(lesson.id)).length;
+          const topicsId = `probability-sequence-${rank.num}-topics`;
           return (
             <div key={rank.num}>
               <button
+                type="button"
                 onClick={() => save(isOpen ? open.filter((n) => n !== rank.num) : [...open, rank.num])}
                 aria-expanded={isOpen}
+                aria-controls={topicsId}
                 className="flex w-full items-center gap-2 border border-gold/10 px-3 py-2.5 text-left transition hover:bg-gold/5"
               >
                 <span className={`text-[10px] text-mutedgold transition-transform ${isOpen ? "rotate-90" : ""}`}>▶</span>
@@ -101,11 +105,12 @@ export default function TopicTree({
                 </span>
                 <span className="text-[10px] text-faint">{done}/{inRank.length}</span>
               </button>
-              {isOpen && (
-                <div className="mt-1 space-y-1">
+              <div id={topicsId} hidden={!isOpen} className="mt-1 space-y-1">
                   {inRank.map((lesson) => (
                     <button
                       key={lesson.id}
+                      type="button"
+                      aria-current={activeId === lesson.id ? "location" : undefined}
                       onClick={() => onChoose(lesson.id)}
                       className={`flex w-full items-start gap-3 border px-3 py-3 text-left transition ${activeId === lesson.id ? "border-gold/45 bg-gold/[.07]" : "border-transparent hover:border-gold/15 hover:bg-gold/5"}`}
                     >
@@ -118,12 +123,11 @@ export default function TopicTree({
                       </span>
                     </button>
                   ))}
-                </div>
-              )}
+              </div>
             </div>
           );
         })}
       </div>
-    </div>
+    </nav>
   );
 }

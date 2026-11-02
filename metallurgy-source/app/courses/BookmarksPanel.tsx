@@ -21,22 +21,23 @@ export default function BookmarksPanel({
   const ordered = [...bookmarks];
 
   return (
-    <section className="panel" aria-label={title}>
-      <div className="topbar">
-        <div>
-          <h2>{title}</h2>
-          <div className="sub">
+    <section className="study-utility-panel" aria-label={title}>
+      <div className="study-utility-panel__header">
+        <div className="study-utility-panel__heading">
+          <h2 className="study-utility-panel__title">{title}</h2>
+          <div className="sub study-utility-panel__description">
             {ordered.length} saved {ordered.length === 1 ? "question" : "questions"} · saved only in this course
           </div>
         </div>
       </div>
 
+      <div className="study-utility-panel__content">
       {ordered.length === 0 ? (
-        <div className="prose">
+        <div className="study-utility-empty">
           <p>Nothing saved yet. Open a question and select ☆ Bookmark to keep it here.</p>
         </div>
       ) : (
-        <div className="qwrap">
+        <div className="study-utility-list">
           {ordered.map((questionId) => {
             const topicId = resolveTopic(questionId);
             const topic = topicId ? topicById.get(topicId) : undefined;
@@ -45,34 +46,23 @@ export default function BookmarksPanel({
               ? `${topic.title} · ${digits ? `Question ${Number(digits)}` : questionId}`
               : questionId;
             return (
-              <div
-                key={questionId}
-                style={{
-                  display: "flex",
-                  gap: "0.75rem",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  flexWrap: "wrap",
-                  padding: "0.8rem 0",
-                  borderBottom: "1px solid var(--panel-line)",
-                }}
-              >
-                <div style={{ minWidth: 0, flex: "1 1 16rem" }}>
-                  <div style={{ fontWeight: 600 }}>{label}</div>
-                  <div style={{ color: "var(--dim)", fontSize: "0.78rem" }}>{questionId}</div>
+              <div className="study-utility-row study-utility-row--item" key={questionId}>
+                <div className="study-utility-row__copy">
+                  <div className="study-utility-row__title">{label}</div>
+                  <div className="study-utility-row__meta">{questionId}</div>
                   {!topic && (
-                    <div style={{ color: "var(--dim)", fontSize: "0.78rem" }}>
+                    <div className="study-utility-row__meta">
                       This saved ID is no longer present in the course index.
                     </div>
                   )}
                 </div>
-                <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                <div className="study-utility-row__actions">
                   {topic && (
-                    <button className="btn btn-gold" onClick={() => onOpen(questionId, topic.id)}>
+                    <button className="btn btn-gold study-utility-action" onClick={() => onOpen(questionId, topic.id)}>
                       Open question →
                     </button>
                   )}
-                  <button className="btn" onClick={() => onRemove(questionId)}>
+                  <button className="btn study-utility-action" onClick={() => onRemove(questionId)}>
                     Remove
                   </button>
                 </div>
@@ -81,6 +71,7 @@ export default function BookmarksPanel({
           })}
         </div>
       )}
+      </div>
     </section>
   );
 }

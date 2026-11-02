@@ -37,13 +37,18 @@ const TOOLS = [
   desc: "Type through your own books and PDFs, track your weak keys, and level up.",
   href: "tools/typing/", status: "beta" },
 
-  // ---- Studies & Disciplines ----
-  { group: "studies", symbol: "◇", name: "Probability",
-    desc: "Study probability theory, practise problems, and track your progress.",
-    href: "probability/", status: "beta" },
-  { group: "studies", symbol: "⚗", name: "Metallurgical and Materials Engineering",
-    desc: "MT202 Physical Metallurgy: lessons, 387 chapter-wise MCQs with detailed solutions, exam simulator and metallurgy calculators.",
-    href: "metallurgy/", status: "beta" },
+  // ---- Studies & Disciplines (generated from app-owned registrations) ----
+  ...(globalThis.LIMITLESS_STUDIES_CATALOG || []).map(study => ({
+    group: "studies",
+    symbol: study.symbol,
+    name: study.title,
+    desc: study.courses.length > 1
+      ? study.description + " Courses: " + study.courses.map(course => course.title).join(", ") + "."
+      : study.description,
+    href: study.href,
+    status: study.status,
+    study
+  })),
 
   // ---- Shared progression ----
   { group: "progression", symbol: "✧", name: "Meta Progression",
@@ -85,16 +90,46 @@ function buildCard(tool) {
   const card = isLive ? makeEl("a", "card is-live") : makeEl("article", "card is-locked");
   if (isLive) card.href = tool.href;
 
+  if (tool.group === "studies" && tool.study) {
+    const study = tool.study;
+    card.classList.add("studies-card");
+    card.dataset.studyId = study.id;
+
+    const top = makeEl("div", "studies-card-top");
+    const symbol = makeEl("span", "studies-card-symbol", study.symbol || "◇");
+    symbol.setAttribute("aria-hidden", "true");
+    top.appendChild(symbol);
+    top.appendChild(makeEl("span", "studies-card-index",
+      study.status === "beta" || study.status === "live" ? "AVAILABLE" : "IN PREPARATION"));
+    card.appendChild(top);
+
+    card.appendChild(makeEl("h3", "studies-card-title", study.title));
+    card.appendChild(makeEl("p", "studies-card-description", study.description));
+
+    const details = makeEl("div", "studies-card-details");
+    details.appendChild(makeEl("span", "", study.courses.length + (study.courses.length === 1 ? " course" : " courses")));
+    details.appendChild(makeEl("span", "", (study.capabilities || []).length + " study facilities"));
+    card.appendChild(details);
+
+    const courseList = makeEl("ul", "studies-card-courses");
+    study.courses.forEach(course => courseList.appendChild(makeEl("li", "", course.title)));
+    card.appendChild(courseList);
+
+    const footer = makeEl("div", "studies-card-footer");
+    footer.appendChild(makeEl("span", "studies-card-status", STATUS_LABELS[tool.status] || tool.status));
+    footer.appendChild(makeEl("span", "studies-card-cta", "Explore discipline ↗"));
+    card.appendChild(footer);
+    return card;
+  }
+
   const symbol = makeEl("div", "card-symbol", tool.symbol);
   symbol.setAttribute("aria-hidden", "true");
   card.appendChild(symbol);
-
   card.appendChild(makeEl("h3", "", tool.name));
   card.appendChild(makeEl("p", "", tool.desc));
 
   const label = STATUS_LABELS[tool.status] || tool.status;
   card.appendChild(makeEl("span", "status status-" + tool.status, label));
-
   if (isLive) card.appendChild(makeEl("div", "card-cta", "Open →"));
   return card;
 }

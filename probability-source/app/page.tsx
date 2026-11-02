@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { createElement, useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
 import { lessons, pathways, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND } from "./content";
 import { Illustration, Theory } from "./components/Sections";
 import Practice from "./components/Practice";
@@ -11,6 +11,7 @@ import Coverage from "./components/Coverage";
 import { allQuestions } from "./lib/questions";
 import { latestByQuestion, markComplete, resetAll, useHydrated, useStore } from "./lib/store";
 import { goalInfo } from "./lib/stats";
+import { createStudyModeTabs } from "../../shared/studies/StudyModeTabs";
 
 // The site is served from /probability/ when published, so image addresses need that prefix (same as backgrounds).
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -18,13 +19,14 @@ const rankName = (num: number) => ranks.find((r) => r.num === num)?.name ?? "";
 // Phones and narrow windows: one button that opens the same foldable chapter list.
 function TopicPicker({ activeId, completed, onChoose, title, unit, pathwayId, onPathwayChange }: { activeId: string; completed: string[]; onChoose: (id: string) => void; title: string; unit: string; pathwayId: string; onPathwayChange: (id: string) => void }) {
   const [shown, setShown] = useState(false);
+  const panelId = useId();
   return (
     <div className="md:hidden">
-      <button onClick={() => setShown(!shown)} aria-expanded={shown} className="panel flex w-full items-center gap-3 px-4 py-3 text-left">
+      <button type="button" onClick={() => setShown(!shown)} aria-expanded={shown} aria-controls={panelId} data-study-topic-picker="true" className="panel flex w-full items-center gap-3 px-4 py-3 text-left">
         <span className="min-w-0 flex-1"><span className="eyebrow block text-[9px]!">Topic</span><span className="mt-1 block truncate text-sm text-parchment">{unit ? `${unit} · ` : ""}{title}</span></span>
         <span className={`text-gold transition-transform ${shown ? "rotate-180" : ""}`}>▾</span>
       </button>
-      {shown && <div className="panel mt-2 max-h-[65vh] overflow-y-auto p-3"><TopicTree activeId={activeId} completed={completed} onChoose={(id) => { onChoose(id); setShown(false); }} pathwayId={pathwayId} onPathwayChange={onPathwayChange} /></div>}
+      <div id={panelId} hidden={!shown} className="panel mt-2 max-h-[65vh] max-h-[65dvh] overflow-y-auto overscroll-contain p-3"><TopicTree activeId={activeId} completed={completed} onChoose={(id) => { onChoose(id); setShown(false); }} pathwayId={pathwayId} onPathwayChange={onPathwayChange} /></div>
     </div>
   );
 }
@@ -126,11 +128,11 @@ export default function Home() {
               <div className="eyebrow mt-1 text-[8px]! tracking-[.2em]!">The Probability Archive</div>
             </div>
           </button>
-          <nav className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
-            <button onClick={() => setTab("archive")} className={tab === "archive" ? "text-gold" : "hover:text-parchment"}>The Archive</button>
-            <button onClick={() => setTab("analysis")} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Analysis</button>
-            <button onClick={() => setTab("experiment")} className={tab === "experiment" ? "text-gold" : "hover:text-parchment"}>Experiment</button>
-            <button onClick={() => setTab("coverage")} className={tab === "coverage" ? "text-gold" : "hover:text-parchment"}>Coverage</button>
+          <nav aria-label="Probability page navigation" className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
+            <button type="button" aria-pressed={tab === "archive"} onClick={() => setTab("archive")} className={tab === "archive" ? "text-gold" : "hover:text-parchment"}>The Archive</button>
+            <button type="button" aria-pressed={tab === "analysis"} onClick={() => setTab("analysis")} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Analysis</button>
+            <button type="button" aria-pressed={tab === "experiment"} onClick={() => setTab("experiment")} className={tab === "experiment" ? "text-gold" : "hover:text-parchment"}>Experiment</button>
+            <button type="button" aria-pressed={tab === "coverage"} onClick={() => setTab("coverage")} className={tab === "coverage" ? "text-gold" : "hover:text-parchment"}>Coverage</button>
             <a href="/meta/" className="hover:text-parchment">Meta</a>
             <a href="#path" className="hover:text-parchment">Pathway</a>
           </nav>
@@ -176,12 +178,21 @@ export default function Home() {
       <section id="study" className="mx-auto max-w-[1440px] px-5 py-12 md:px-10 md:py-16">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="art-text"><div className="eyebrow mb-3">Choose your next revelation</div><h2 className="serif text-3xl md:text-4xl">The Archive</h2></div>
-          <div className="flex max-w-full flex-wrap border border-gold/20 bg-ink/70 p-1">
-            <button onClick={() => setTab("archive")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "archive" ? "bg-gold text-ongold" : "text-dim"}`}>Lessons</button>
-            <button onClick={() => setTab("analysis")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "analysis" ? "bg-gold text-ongold" : "text-dim"}`}>Analysis</button>
-            <button onClick={() => setTab("experiment")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "experiment" ? "bg-gold text-ongold" : "text-dim"}`}>Experiments</button>
-            <button onClick={() => setTab("coverage")} className={`px-4 py-2 text-xs uppercase tracking-[.12em] ${tab === "coverage" ? "bg-gold text-ongold" : "text-dim"}`}>Coverage</button>
-          </div>
+          {createStudyModeTabs(createElement, {
+            items: [
+              { id: "archive", label: "Lessons" },
+              { id: "analysis", label: "Analysis" },
+              { id: "experiment", label: "Experiments" },
+              { id: "coverage", label: "Coverage" },
+            ],
+            activeId: tab,
+            onSelect: (id) => setTab(id as "archive" | "analysis" | "experiment" | "coverage"),
+            className: "flex max-w-full flex-wrap border border-gold/20 bg-ink/70 p-1",
+            itemClassName: "px-4 py-2 text-xs uppercase tracking-[.12em]",
+            activeClassName: "bg-gold text-ongold",
+            inactiveClassName: "text-dim",
+            label: "Archive sections",
+          })}
         </div>
 
         {tab === "analysis" ? (
@@ -210,13 +221,19 @@ export default function Home() {
               <h3 className="serif mt-4 text-3xl leading-tight md:text-4xl">{activeLesson.title}</h3>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-dim">{activeLesson.description}</p>
 
-              <div className="mt-6 flex flex-wrap gap-1 border-b border-gold/15" role="tablist">
-                {SECTIONS.map((sec) => (
-                  <button key={sec.id} role="tab" aria-selected={section === sec.id} onClick={() => setSection(sec.id)} className={`-mb-px border-b-2 px-4 py-3 text-xs uppercase tracking-[.14em] transition ${section === sec.id ? "border-gold text-gold" : "border-transparent text-dim hover:text-parchment"}`}>
-                    {sec.label}{sec.count !== undefined && <span className="ml-2 text-[10px] text-faint">{sec.count}</span>}
-                  </button>
-                ))}
-              </div>
+              {createStudyModeTabs(createElement, {
+                items: SECTIONS.map((sec) => ({
+                  id: sec.id,
+                  label: sec.count !== undefined ? `${sec.label} · ${sec.count}` : sec.label,
+                })),
+                activeId: section,
+                onSelect: (id) => setSection(id as Section),
+                className: "mt-6 flex flex-wrap gap-1 border-b border-gold/15",
+                itemClassName: "-mb-px border-b-2 px-4 py-3 text-xs uppercase tracking-[.14em] transition",
+                activeClassName: "border-gold text-gold",
+                inactiveClassName: "border-transparent text-dim hover:text-parchment",
+                label: "Lesson sections",
+              })}
 
               <div className="mt-7">
                 {section === "theory" && <Theory lesson={activeLesson} />}
