@@ -16,13 +16,14 @@ Environment: production Bookkeys route, manually tested by the user
 | Open a book, type, refresh and resume progress | PASS | User confirmed typing progress resumed |
 | Export backup downloads | PASS | Backup download confirmed |
 | Site-wide light/dark theme and Morning/Evening/Night scene backgrounds coexist | PASS | Both controls behaved without breaking one another |
+| Delete an imported library book | PASS | User confirmed deletion works |
 
 ## Interpretation
 
 - Basic production route, PDF/EPUB import, chapter display, typing resume, backup export and theme coexistence have passed manual checks.
 - Typing progress resuming after refresh is evidence that the tested book's reading/typing state persisted.
 - It does **not** independently prove that an imported PDF/EPUB's original Blob and library metadata survive a reload and can be reopened from the Home/library screen.
-- The user has now confirmed the imported book remains available after a full page reload. This closes the basic IndexedDB reload/reopen gate for the tested book and browser. Repeat with both PDF and EPUB during full parity verification, and separately test deletion and artwork persistence.
+- The user has confirmed the imported book remains available after a full page reload and that deleting an imported library book works. These close the basic IndexedDB reload/reopen and delete gates for the tested browser. Repeat reload/reopen with both PDF and EPUB during full parity verification, and separately test artwork persistence.
 
 ## Remaining browser gate
 
@@ -30,9 +31,8 @@ Completed by user: import a book, return to Home/library, perform a full page re
 
 Remaining browser gates:
 1. Repeat the reload/reopen check for both PDF and EPUB formats if only one format was used for the confirmed test.
-2. Verify library deletion removes metadata and the stored file together.
-3. Verify backup restore/merge in a safe test profile.
-4. Verify offline assets, iframe CSP, browser Back/Forward and custom artwork persistence.
+2. Verify backup restore/merge in a safe test profile.
+3. Verify offline assets, iframe CSP, browser Back/Forward and custom artwork persistence.
 
 Do not clear site data, delete books, or modify production data as part of this check.
 
