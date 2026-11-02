@@ -9,10 +9,10 @@
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="hub-theme.css">
   <script>
-    /* Restore the saved site-wide theme before first paint. */
+    /* choose the theme before first paint so there is no flash */
     (function () {
       var t = null;
-      try { t = localStorage.getItem('limitless.site.theme'); } catch (e) {}
+      try { var nav = performance.getEntriesByType('navigation')[0]; t = localStorage.getItem('limitless.site.theme'); } catch (e) {}
       if (t !== 'dark' && t !== 'light') t = 'dark';
       document.documentElement.setAttribute('data-theme', t);
     })();
@@ -21,18 +21,61 @@
 <body>
   <div class="background-art theme-bg" id="theme-bg" aria-hidden="true"></div>
   <div class="particle-layer" id="particles" aria-hidden="true"></div>
+
   <header class="navbar">
     <a class="brand" href="#home">Limitless</a>
     <nav class="nav-links" aria-label="Main navigation">
-      <a href="#home">Home</a><a href="#tools">Tools</a><a href="#studies">Studies</a><a href="#misc">More</a>
+      <a href="#home">Home</a>
+      <a href="#tools">Tools</a>
+      <a href="#studies">Studies</a>
+      <a href="#misc">More</a>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme"></button>
     </nav>
   </header>
+
   <main>
-    <section class="hero" id="home"><div class="hero-content"><div class="eyebrow">Beyond the boundaries of the ordinary</div><div class="ornament" aria-hidden="true">✧</div><div class="front-praise">PRAISE OVER</div><h1>Lord Limitless</h1><p class="subtitle">Hail the Lord. Beyond all limits.</p><p class="description">A place for useful tools, ambitious ideas, and new creations. Explore what exists, discover what is possible, and watch the domain grow beyond its limits.</p><div class="actions"><a class="button button-primary" href="#studies">Explore Studies</a><a class="button button-secondary" href="#tools">Explore Tools</a><a class="button button-secondary" href="#misc">Discover More</a></div></div></section>
-    <section class="section" id="tools"><div class="section-inner"><h2 class="section-heading">The Domain</h2><p class="section-description">Explore the creations of Limitless. Tools open as they are completed, and new chambers are being prepared.</p><div id="tool-groups"></div><noscript><p class="section-description">Please enable JavaScript to see the tools.</p></noscript></div></section>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="eyebrow">Beyond the boundaries of the ordinary</div>
+        <div class="ornament" aria-hidden="true">✧</div>
+        <div class="front-praise">PRAISE OVER</div>
+        <h1>Lord Limitless</h1>
+        <p class="subtitle">Hail the Lord. Beyond all limits.</p>
+        <p class="description">
+          A place for useful tools, ambitious ideas, and new creations.
+          Explore what exists, discover what is possible, and watch
+          the domain grow beyond its limits.
+        </p>
+        <div class="actions">
+          <a class="button button-primary" href="#studies">Explore Studies</a>
+          <a class="button button-secondary" href="#tools">Explore Tools</a>
+          <a class="button button-secondary" href="#misc">Discover More</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="section-inner">
+        <h2 class="section-heading">The Domain</h2>
+        <p class="section-description">
+          Explore the creations of Limitless. Tools open as they are
+          completed, and new chambers are being prepared.
+        </p>
+        <div id="tool-groups"></div>
+        <noscript>
+          <p class="section-description">Please enable JavaScript to see the tools.</p>
+        </noscript>
+      </div>
+    </section>
   </main>
-  <footer><span>✧</span>&nbsp; LIMITLESS &nbsp; · &nbsp; HAIL THE LORD &nbsp;<span>✧</span></footer>
-  <script src="hub-theme.js" defer></script><script src="limitless.js" defer></script><script src="studies-catalog.js" defer></script><script src="tools.js" defer></script>
+
+  <footer>
+    <span>✧</span>&nbsp; LIMITLESS &nbsp; · &nbsp; HAIL THE LORD &nbsp;<span>✧</span>
+  </footer>
+
+  <script src="hub-theme.js" defer></script>
+  <script src="limitless.js" defer></script>
+  <script src="studies-catalog.js" defer></script>
+  <script src="tools.js" defer></script>
 </body>
 </html>
