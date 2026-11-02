@@ -9,6 +9,14 @@ export const pathwayLessons: Lesson[] = [
     id: "advanced-counting", rank: 8, title: "Inclusion–Exclusion & Counting by Cases", minutes: 18,
     description: "Count complicated events without double-counting outcomes.",
     objective: "Use inclusion–exclusion, complementary counting, and disjoint case splits to count outcomes and probabilities.",
+    topicHeadings: [
+      { before: 0, title: "The basic rule: count every outcome exactly once" },
+      { before: 1, title: "The inclusion–exclusion principle" },
+      { before: 2, title: "Complementary counting" },
+      { before: 3, title: "Splitting a problem into disjoint cases" },
+      { before: 4, title: "Why the three-set formula adds the triple overlap back" },
+      { before: 5, title: "Choosing an efficient counting strategy" }
+    ],
     body: [
       "Counting is reliable only when every desired outcome is counted exactly once. Common failures are omission (a case is missed) and overcounting (an outcome appears in more than one case).",
       "For two finite sets, |A ∪ B| = |A| + |B| − |A ∩ B|. For three sets, add individual sizes, subtract pairwise intersections, then add the triple intersection. The alternating signs repair repeated counting.",
