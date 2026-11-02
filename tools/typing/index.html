@@ -77,12 +77,30 @@
     (function () {
       var root = document.documentElement, btn = document.getElementById('theme-toggle');
       var meta = document.querySelector('meta[name="theme-color"]');
+      var frame = document.querySelector('iframe');
+      var framePalettes = {
+        dark: { bg: '#0B0D14', panel: '#12151F', ink: '#E9E1D0', dim: '#8A8399', line: '#2C2B3A' },
+        light: { bg: '#F6EFDC', panel: '#FFFAF0', ink: '#30283A', dim: '#6F6878', line: '#D9CBAE' }
+      };
+      function syncBookkeys() {
+        try {
+          var doc = frame && frame.contentDocument;
+          if (!doc || !doc.documentElement) return;
+          var innerRoot = doc.documentElement, palette = framePalettes[current()];
+          innerRoot.setAttribute('data-theme', current());
+          innerRoot.setAttribute('data-tone', current());
+          Object.keys(palette).forEach(function (key) { innerRoot.style.setProperty('--' + key, palette[key]); });
+          innerRoot.style.setProperty('color-scheme', current());
+        } catch (e) { /* The standalone frame remains usable if same-origin access is unavailable. */ }
+      }
+      if (frame) frame.addEventListener('load', syncBookkeys);
       function current() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
       function paint() {
         var other = current() === 'light' ? 'dark' : 'light';
         btn.textContent = other === 'light' ? 'Light mode' : 'Dark mode';
         btn.setAttribute('aria-label', 'Switch to ' + other + ' mode');
         if (meta) meta.setAttribute('content', current() === 'light' ? '#dfe6ee' : '#08070d');
+        syncBookkeys();
       }
       btn.addEventListener('click', function () {
         var next = current() === 'light' ? 'dark' : 'light';
