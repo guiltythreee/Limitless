@@ -25,11 +25,27 @@ assert.ok(metaSource.includes("Metallurgy MT201–MT203"),
   "Meta empty state describes the Metallurgy integrations");
 assert.ok(pageSource.includes('<a href="../metallurgy/">Metallurgy</a>'),
   "Meta navigation links to the Metallurgy application");
-const projectModuleSelect = pageSource.match(/<select id="project-module"[\s\S]*?<\/select>/)?.[0] ?? "";
-assert.ok(projectModuleSelect.includes('value="personal-projects"'),
-  "bespoke projects use the dedicated personal-project ledger");
-assert.equal((projectModuleSelect.match(/<option\b/g) ?? []).length, 1,
-  "the UI does not offer discipline ledgers for bespoke projects");
+assert.ok(pageSource.includes("<h1 class=\"meta-title\">Progress &amp; Rewards</h1>"),
+  "the page uses a plain-language progress and rewards title");
+assert.ok(pageSource.includes("<summary>Personal learning goals</summary>"),
+  "the personal goal section uses a clear label");
+assert.ok(!pageSource.includes('id="project-id"') && !pageSource.includes('id="project-scope"') &&
+  !pageSource.includes('id="project-criteria"') && !pageSource.includes('id="project-base-exp"') &&
+  !pageSource.includes('id="project-difficulty"'),
+  "users are not asked to provide technical IDs, scope, criteria, or reward settings");
+for (const template of ["reading", "course", "topic", "practice", "build", "research"]) {
+  assert.ok(pageSource.includes('data-template="' + template + '"'),
+    template + " is available as a predefined goal option");
+  assert.ok(metaSource.includes(template + ": {"),
+    template + " has an automatic goal definition");
+}
+assert.ok(metaSource.includes('projectId: `${slug}-${Date.now().toString(36)}`'),
+  "goal IDs are generated automatically");
+assert.ok(metaSource.includes('baseExp: template.baseExp') &&
+  metaSource.includes('difficulty: template.difficulty'),
+  "reward settings are selected automatically by the goal template");
+assert.ok(pageSource.includes('id="project-form"') && pageSource.includes('id="project-title"'),
+  "users only enter the name of what they want to accomplish");
 assert.ok(projectSource.includes('moduleId !== "personal-projects"'),
   "project registration rejects discipline-owned ledgers");
 assert.ok(projectSource.includes('project.moduleId === "personal-projects"'),
