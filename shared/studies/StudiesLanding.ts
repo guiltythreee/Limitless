@@ -32,7 +32,7 @@ export function createStudiesLanding(
       h("a", { href: homeHref }, "← Limitless"),
       h("span", { "aria-hidden": "true" }, "／"),
       h("a", { href: "#courses" }, courses.length === 1 ? "Course" : "Courses"),
-      pathways.length > 0 && h("a", { href: "#pathways" }, "Pathways"),
+      showPathways && pathways.length > 0 && h("a", { href: "#pathways" }, "Pathways"),
     ),
     h("section", { className: "studies-landing__hero" },
       h("div", { className: "studies-landing__hero-copy" },
