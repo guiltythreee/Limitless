@@ -75,7 +75,7 @@ jobs:
             ['Acknowledgements',false], ['Acknowledgments — Contributors',false], ['Chapter 2 — Acknowledgements',false],
             ['Dedication',false], ['Foreword',false], ['Preface',false], ['Afterword',false], ['Appendix A — Sources',false],
             ['Glossary',false], ['Bibliography',false], ['References',false], ['Index',false], ['Notes',false],
-            [\"Translator's Note\",false], [\"Editor's Note\",false], ['About the Author',false], ['Author Biography',false],
+            ["Translator's Note",false], ["Editor's Note",false], ['About the Author',false], ['Author Biography',false],
             ['Translator Biography',false], ['Publisher Information',false], ['Publisher Advertisements',false],
             ['Further Reading',false], ['Reading Group Questions',false], ['Discussion Guide',false],
             ['Series Information',false], ['Other Books by the Author',false],
