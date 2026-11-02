@@ -12,7 +12,7 @@
 // unchanged.
 
 import { createElement, useEffect, useRef, useState } from "react";
-import { awardAnswer, Mode, Progress, recordAnswer, toggleBookmark } from "../lib/mt203-progress";
+import { awardAnswer, Mode, Progress, recordAnswer, saveProgress, toggleBookmark } from "../lib/mt203-progress";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 import type { Question } from "../courses/types";
 import {
@@ -166,9 +166,11 @@ export default function Player({
     if (!result.submission) return;
     const ok = result.submission.grade.correct;
     setSession(result.session);
-    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms);
-    const res = awardAnswer(p, theQ.id, theQ.difficulty, ok);
+    const initialRewardLedgerLength = progress.rewardLedger?.length ?? 0;
+    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty, false);
+    const res = awardAnswer(p, theQ.id, theQ.difficulty, ok, false);
     p = res.progress;
+    saveProgress(p, (p.rewardLedger?.length ?? 0) > initialRewardLedgerLength);
     onProgress(p);
     if (res.xp > 0) {
       setGain((g) => g + res.xp);

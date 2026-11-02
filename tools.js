@@ -15,6 +15,8 @@ const GROUPS = [
     note: "Explore the subjects you are studying and mastering." },
   { id: "next", title: "Coming Next",
     note: "Five chambers are reserved for future creations." },
+  { id: "progression", title: "Progression",
+    note: "Track shared EXP across modules registered with the Limitless reward standard." },
   { id: "misc", title: "Miscellaneous",
     note: "Everything else: applications, experiments and odds and ends." }
 ];
@@ -42,6 +44,11 @@ const TOOLS = [
   { group: "studies", symbol: "⚗", name: "Metallurgical and Materials Engineering",
     desc: "MT202 Physical Metallurgy: lessons, 387 chapter-wise MCQs with detailed solutions, exam simulator and metallurgy calculators.",
     href: "metallurgy/", status: "beta" },
+
+  // ---- Shared progression ----
+  { group: "progression", symbol: "✧", name: "Meta Progression",
+    desc: "View your global EXP, shared level, registered modules and the versioned Limitless reward standard.",
+    href: "meta/", status: "beta" },
 
   // ---- Reserved slots for future tools ----
   { group: "next", symbol: "✧", name: "Hidden Chamber I",

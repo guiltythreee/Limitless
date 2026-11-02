@@ -1,0 +1,26 @@
+/* Shared global progression strip for the standalone trainer shells. */
+.limitless-meta-strip {
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  min-height:42px; padding:.35rem clamp(1rem,4vw,2.6rem);
+  border-bottom:1px solid var(--panel-line,rgba(211,178,103,.2));
+  background:var(--panel-bg,rgba(12,10,16,.82)); color:var(--body,inherit);
+  font: .72rem/1.3 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+.limitless-meta-summary { display:grid; grid-template-columns:auto auto minmax(72px,150px) auto; align-items:center; gap:.65rem; min-width:0; color:inherit; text-decoration:none; }
+.limitless-meta-level { color:var(--gold,#d3b267); font-weight:800; letter-spacing:.08em; white-space:nowrap; }
+.limitless-meta-exp { font-variant-numeric:tabular-nums; white-space:nowrap; }
+.limitless-meta-track { height:5px; overflow:hidden; border-radius:99px; background:rgba(128,128,128,.25); }
+.limitless-meta-track>span { display:block; height:100%; background:var(--gold,#d3b267); transition:width .2s ease; }
+.limitless-meta-next { color:var(--dim,#aaa); white-space:nowrap; }
+.limitless-meta-details { min-width:0; overflow:hidden; color:var(--dim,#aaa); text-overflow:ellipsis; white-space:nowrap; }
+.limitless-meta-notice { margin-left:.5rem; color:var(--gold,#d3b267); white-space:nowrap; }
+.limitless-meta-open { flex:none; color:var(--gold,#d3b267); font-weight:700; white-space:nowrap; }
+body[data-lsr1-effect="polymath-glow"] .limitless-meta-strip { box-shadow:inset 0 0 24px rgba(211,178,103,.16),0 0 18px rgba(211,178,103,.12); }
+body[data-lsr1-effect="radiant-archive"] .limitless-meta-strip { border-bottom-color:var(--gold,#d3b267); }
+body[data-lsr1-effect="limitless-aura"] .limitless-meta-strip { box-shadow:inset 0 0 28px rgba(211,178,103,.22),0 0 26px rgba(211,178,103,.2); }
+@media(max-width:720px) {
+ .limitless-meta-strip { flex-wrap:wrap; gap:.35rem .8rem; padding-top:.55rem; padding-bottom:.55rem; }
+ .limitless-meta-summary { flex:1 1 100%; grid-template-columns:auto auto minmax(45px,1fr) auto; gap:.45rem; }
+ .limitless-meta-next { font-size:.65rem; }
+ .limitless-meta-details { flex:1 1 auto; max-width:calc(100% - 55px); }
+}

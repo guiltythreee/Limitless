@@ -112,6 +112,7 @@ export default function Mt202() {
         <nav className="nav-links" aria-label="Main navigation">
           <Link href="/">Disciplines</Link>
           <Link href="/mt201/">MT201</Link>
+          <a href="/meta/">Meta</a>
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Switch theme">
             {theme === "dark" ? "◐" : "◑"}
           </button>
@@ -214,9 +215,9 @@ export default function Mt202() {
                 className="btn"
                 style={{ width: "100%", fontSize: "0.78rem" }}
                 onClick={() => {
-                  if (confirm("Erase all saved progress for MT202?")) {
+                  if (confirm("Erase saved MT202 answers and exam best? Lifetime Meta EXP is kept.")) {
                     resetProgress();
-                    setProgress({ answered: {}, examBest: null, bookmarks: [] });
+                    setProgress(loadProgress());
                   }
                 }}
               >

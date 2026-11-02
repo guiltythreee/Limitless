@@ -229,8 +229,11 @@ const adapter = MT201_ENTRY.adapter;
 
 // ------------------------------------------------------------- reset last
 {
+  const lifetimeExpRecords = loadProgress().rewardLedger.length;
   resetProgress();
-  check(store.getItem("mm-mt201-v1") === null, "resetProgress erases mm-mt201-v1");
+  const reset = JSON.parse(store.getItem("mm-mt201-v1") || "null");
+  check(!!reset && Object.keys(reset.answered || {}).length === 0, "resetProgress clears saved MT201 answers");
+  check((reset?.rewardLedger || []).length === lifetimeExpRecords, "resetProgress preserves MT201 lifetime Meta EXP");
   check(store.getItem("mm-theme-v1") === "light", "resetProgress leaves the shared theme key");
 }
 

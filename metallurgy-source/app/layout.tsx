@@ -1,3 +1,4 @@
+import MetaStatusBar from "./components/MetaStatusBar";
 import type { Metadata } from "next";
 import "./globals.css";
 import "katex/dist/katex.min.css";
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <div className="bg" aria-hidden="true" />
+        <MetaStatusBar />
         {children}
       </body>
     </html>

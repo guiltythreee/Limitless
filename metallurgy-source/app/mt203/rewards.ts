@@ -12,18 +12,18 @@ import { MODULE_META, moduleQuestionIds, topicsOfModule, TOPIC_OF } from "../dat
 import { awardOnce, BONUS, moduleAgg } from "../lib/mt203-progress";
 import type { Progress } from "../lib/mt203-progress";
 
-export function settleModuleBonuses(p: Progress): { progress: Progress; xp: number } {
+export function settleModuleBonuses(p: Progress, persist = true): { progress: Progress; xp: number } {
   let cur = p;
   let xp = 0;
   for (const m of MODULE_META) {
     const agg = moduleAgg(cur, m.id, moduleQuestionIds(m.id), TOPIC_OF, topicsOfModule(m.id));
     if (agg.clear) {
-      const r = awardOnce(cur, `clear:${m.id}`, BONUS.moduleClear(m.num));
+      const r = awardOnce(cur, `clear:${m.id}`, BONUS.moduleClear(m.num), persist);
       cur = r.progress;
       xp += r.xp;
     }
     if (agg.mastery) {
-      const r = awardOnce(cur, `mastery:${m.id}`, BONUS.mastery(m.num));
+      const r = awardOnce(cur, `mastery:${m.id}`, BONUS.mastery(m.num), persist);
       cur = r.progress;
       xp += r.xp;
     }
