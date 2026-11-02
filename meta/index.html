@@ -13,10 +13,13 @@
     .meta-eyebrow { color: var(--gold, #d3b267); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; }
     .meta-title { margin: .7rem 0 0; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.04; }
     .meta-lede { max-width: 760px; line-height: 1.75; opacity: .78; margin-top: 1.25rem; }
-    .meta-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
-    .meta-panel { border: 1px solid rgba(211,178,103,.22); background: rgba(12,10,16,.7); padding: 1.35rem; min-width: 0; }
-    .meta-panel h2 { margin: 0; font-size: .75rem; text-transform: uppercase; letter-spacing: .14em; opacity: .75; }
-    .meta-number { font-size: clamp(2rem, 4vw, 3.25rem); margin-top: .65rem; line-height: 1.1; color: var(--gold, #d3b267); }
+    .meta-overview { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 0; margin-top: 1.5rem; border: 1px solid rgba(211,178,103,.28); background: rgba(12,10,16,.76); }
+    .meta-stat { min-width: 0; padding: 1.15rem 1.4rem; }
+    .meta-stat + .meta-stat { border-left: 1px solid rgba(211,178,103,.2); }
+    .meta-stat h2 { margin: 0; font-size: .68rem; text-transform: uppercase; letter-spacing: .13em; opacity: .72; }
+    .meta-number { font-size: clamp(1.8rem, 3.5vw, 2.7rem); margin-top: .35rem; line-height: 1.1; color: var(--gold, #d3b267); }
+    .meta-stat .meta-muted { margin: .35rem 0 0; }
+    .meta-overview .meta-track { margin-top: .65rem; }
     .meta-muted { font-size: .82rem; line-height: 1.6; opacity: .7; }
     .meta-track { margin-top: 1rem; height: 8px; background: rgba(255,255,255,.09); overflow: hidden; }
     .meta-fill { height: 100%; width: 0; background: var(--gold, #d3b267); transition: width .2s ease; }
@@ -52,8 +55,9 @@
     .meta-level-notice strong { color: var(--gold, #d3b267); }
     @media (max-width: 540px) { .meta-form { grid-template-columns: 1fr; } .meta-field-full { grid-column: auto; } }
     @media (max-width: 720px) {
-      .meta-grid { grid-template-columns: 1fr; }
-      .meta-panel { padding: 1.1rem; }
+      .meta-overview { grid-template-columns: 1fr 1fr; }
+      .meta-stat { padding: 1rem; }
+      .meta-stat:last-child { grid-column: 1 / -1; border-left: 0; border-top: 1px solid rgba(211,178,103,.2); }
       .meta-table th, .meta-table td { font-size: .75rem; }
     }
   
@@ -177,28 +181,27 @@
   <main class="meta-page">
     <div class="meta-eyebrow">Limitless Standard Rewards · LSR-1</div>
     <h1 class="meta-title">Meta Progression</h1>
-    <p class="meta-lede">One shared EXP total and level for learning activities registered with the same reward standard. Discipline mastery remains separate: EXP measures accumulated verified work, not equal competence in every subject.</p>
+    <p class="meta-lede">One shared record of verified learning across registered modules. Subject mastery is tracked separately.</p>
 
-    <div class="meta-grid" aria-live="polite">
-      <section class="meta-panel">
-        <h2>Global EXP</h2>
+    <section class="meta-overview" aria-label="Global learning progress" aria-live="polite">
+      <div class="meta-stat">
+        <h2>Total EXP</h2>
         <div id="total-exp" class="meta-number">—</div>
-        <p id="award-count" class="meta-muted">Reading saved award history…</p>
-      </section>
-      <section class="meta-panel">
-        <h2>Global Level</h2>
+        <p id="award-count" class="meta-muted">Loading awards…</p>
+      </div>
+      <div class="meta-stat">
+        <h2>Current level</h2>
         <div id="global-level" class="meta-number">—</div>
         <p id="level-copy" class="meta-muted"></p>
-      </section>
-      <section class="meta-panel">
-        <h2>Next Level</h2>
-        <div id="level-progress" class="meta-number">—</div>
+      </div>
+      <div class="meta-stat">
+        <h2>Next level · <span id="level-progress">—</span></h2>
         <div class="meta-track" role="progressbar" aria-label="Progress to next global level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="level-track"><div class="meta-fill" id="level-fill"></div></div>
         <p id="next-level-copy" class="meta-muted"></p>
-      </section>
-    </div>
+      </div>
+    </section>
 
-    <p class="meta-notice" id="rollout-note">LSR-1 is in pilot rollout. Only modules explicitly registered with LSR-1 contribute to this total. Legacy module-specific XP is intentionally excluded until a module is migrated, so incompatible reward systems are not added together.</p>
+    <p class="meta-notice" id="rollout-note">Pilot rollout: only LSR-1 registered modules contribute EXP. Legacy XP remains separate until migration.</p>
 
     <section class="meta-section">
       <h2>Registered Modules</h2>
