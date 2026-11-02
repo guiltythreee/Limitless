@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: metallurgy-tests-${{ github.ref }}
@@ -58,3 +58,31 @@ jobs:
       - name: Production static-export build
         working-directory: metallurgy-source
         run: npm run build
+      - name: Verify static export
+        working-directory: metallurgy-source
+        run: |
+          test -f out/index.html
+          test -d out/_next
+          echo "Metallurgy static export verified."
+
+      # Cloudflare serves the checked-in /metallurgy directory as static assets.
+      # Keep it in sync with the source build on main; do not publish PR previews.
+      - name: Update deployed Metallurgy files
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: metallurgy-source
+        run: |
+          mkdir -p ../metallurgy
+          rsync -a --delete out/ ../metallurgy/
+
+      - name: Commit updated Metallurgy website
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add metallurgy/
+          if git diff --cached --quiet; then
+            echo "No deployed Metallurgy files changed."
+          else
+            git commit -m "Build Metallurgy website"
+            git push
+          fi
