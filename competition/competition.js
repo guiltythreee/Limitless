@@ -80,7 +80,7 @@
   ];
   function renderWeeks() {
     var openWeeks = {};
-    $('week-list').querySelectorAll('details').forEach(function (d, i) { openWeeks[i] = d.open; });
+    $('week-list').querySelectorAll('.week-card').forEach(function (d, i) { openWeeks[i] = d.open; });
     $('week-list').innerHTML = WEEKS.map(function (w, wi) {
       var done = w.topics.filter(function (_,ti) { return !!state.completed[topicKey(wi,ti)]; }).length;
       var checks = w.topics.map(function (t,ti) {
@@ -88,20 +88,31 @@
         var subject = t[0] === 'coding' ? 'Programming' : SUBJECTS.find(function (s) { return s.id === t[0]; }).name;
         return '<label class="topic-check"><input type="checkbox" data-topic="' + key + '" ' + (checked ? 'checked' : '') + '><span>' + escapeHtml(t[1]) + '<small>' + subject + '</small></span></label>';
       }).join('');
-      return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + w.title + '</span><span class="week-phase">' + w.phase + '</span></span><span class="week-progress">' + done + ' / ' + w.topics.length + ' topics</span></summary><div class="week-content"><p class="week-objective">' + w.objective + '</p><div class="topic-checklist">' + checks + '</div></div></details>'
-    }).join('');
-    var dailyMarkup = '<div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Tick the actual work completed each day. Sunday is reserved for rest or light revision.</p>' + DAILY_PLAN.map(function (d) {
-      var key = 'w' + (wi + 1) + '-' + d.id;
-      var checks = d.tasks.map(function (task, ti) {
-        var checkKey = key + '-' + ti;
-        return '<label class="daily-task"><input type="checkbox" data-day-task="' + checkKey + '" ' + (state.dayChecks && state.dayChecks[checkKey] ? 'checked' : '') + '><span>' + escapeHtml(task) + '</span></label>';
+      var dayRows = DAILY_PLAN.map(function (d) {
+        var dayKey = 'w' + (wi + 1) + '-' + d.id;
+        var tasks = d.tasks.map(function (task, ti) {
+          var checkKey = dayKey + '-' + ti;
+          return '<label class="daily-task"><input type="checkbox" data-day-task="' + checkKey + '" ' + (state.dayChecks && state.dayChecks[checkKey] ? 'checked' : '') + '><span>' + escapeHtml(task) + '</span></label>';
+        }).join('');
+        var count = d.tasks.filter(function (_,ti) { return !!(state.dayChecks && state.dayChecks[dayKey + '-' + ti]); }).length;
+        return '<details class="daily-day"><summary><span>' + d.day + '</span><span>' + d.focus + '</span><small>' + count + '/' + d.tasks.length + '</small></summary><div class="daily-task-list">' + tasks + '</div></details>';
       }).join('');
-      var count = d.tasks.filter(function (_,ti) { return !!(state.dayChecks && state.dayChecks[key + '-' + ti]); }).length;
-      return '<details class="daily-day"><summary><span>' + d.day + '</span><span>' + d.focus + '</span><small>' + count + '/' + d.tasks.length + '</small></summary><div class="daily-task-list">' + checks + '</div></details>';
-    }).join('') + '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div>';
-    $('week-list').querySelectorAll('details').forEach(function (detail) { if (detail.classList.contains('week-card')) { var content = detail.querySelector('.week-content'); if (content && !content.querySelector('.daily-roadmap')) content.insertAdjacentHTML('beforeend', dailyMarkup); } });
+      var phaseTarget = wi < 4 ? 'Codeforces focus: 800–1000' : wi < 8 ? 'Codeforces focus: 900–1100' : wi < 12 ? 'Codeforces focus: 1000–1200' : 'Codeforces focus: 1100–1400';
+      var assessment = [3,7,11,14,15].indexOf(wi) >= 0 ? '<p class="week-objective assessment-note">' + ({3:'Checkpoint: foundations assessment and error review.',7:'Checkpoint: core-concepts assessment and weakest-topic diagnosis.',11:'Checkpoint: integrated problem-solving assessment.',14:'Checkpoint: simulate the 1-hour test followed by the 90-minute test.',15:'Final checkpoint: complete two full competition simulations and review every mistake.'}[wi]) + '</p>' : '';
+      return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + w.title + '</span><span class="week-phase">' + w.phase + ' · ' + phaseTarget + '</span></span><span class="week-progress">' + done + ' / ' + w.topics.length + ' topics</span></summary><div class="week-content"><p class="week-objective">' + w.objective + '</p>' + assessment + '<div class="topic-checklist">' + checks + '</div><div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Tick the actual work completed each day. Sunday is reserved for rest or light revision.</p>' + dayRows + '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div></div></details>';
+    }).join('');
+    $('week-list').querySelectorAll('[data-topic]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        state.completed[input.dataset.topic] = input.checked;
+        save(); renderWeeks();
+      });
+    });
     $('week-list').querySelectorAll('[data-day-task]').forEach(function (input) {
-      input.addEventListener('change', function () { state.completed[input.dataset.topic] = input.checked; save(); renderWeeks(); });
+      input.addEventListener('change', function () {
+        state.dayChecks = state.dayChecks || {};
+        state.dayChecks[input.dataset.dayTask] = input.checked;
+        save(); renderWeeks();
+      });
     });
   }
   function renderSafety() {
