@@ -2,9 +2,9 @@
   'use strict';
   var STORAGE_KEY = 'limitless.competition.regional-qualification.v1';
   var DEFAULTS = {
-    startDate: '2026-11-02', targetDate: '2027-03-02', weeklyTarget: 21,
-    benchmark: '', latestScore: '', safetyBuffer: 10, benchmarkSource: '',
-    weekHours: {}, completed: {}, mocks: [], practice: { cf:0, cses:0, math:0 }, cfRating: '', cfRatingTarget: 1200
+    startDate: '2026-11-02', targetDate: '2027-03-02',
+    benchmark: '', latestScore: '', safetyBuffer: '', benchmarkSource: '',
+    completed: {}, mocks: [], dayChecks: {}
   };
   var SUBJECTS = [
     { id:'logic', name:'Logical Reasoning', note:'Proofs, deduction, invariants and constructive thinking' },
@@ -43,7 +43,7 @@
   function save() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); $('storage-note').textContent = 'Saved in this browser · Export a backup to move it to another device'; }
     catch (_) { $('storage-note').textContent = 'Could not save to browser storage. Export a backup to protect your changes.'; }
-    renderOverview(); renderSubjects(); renderPractice(); renderSafety(); renderMockHistory();
+    renderOverview(); renderSubjects(); renderSafety(); renderMockHistory();
   }
   function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, function (c) {
@@ -58,9 +58,6 @@
     $('overall-progress').textContent = pct + '%'; $('completed-topics').textContent = done + ' / ' + total + ' topics'; $('overall-bar').style.width = pct + '%';
     var start = new Date(state.startDate + 'T00:00:00'), today = new Date(); today.setHours(0,0,0,0);
     var week = Math.max(1, Math.min(16, Math.floor((today - start) / 604800000) + 1));
-    var hours = Number(state.weekHours[week] || 0), target = Number(state.weeklyTarget || 21);
-    $('hours-this-week').textContent = hours + 'h'; $('hours-target').textContent = 'of ' + target + 'h'; $('hours-bar').style.width = Math.min(100, target ? hours / target * 100 : 0) + '%';
-    $('hours-context').textContent = hours >= target ? 'Weekly study target reached.' : (target - hours) + 'h remaining to this week’s target.';
     var end = new Date(state.targetDate + 'T00:00:00');
     $('days-remaining').textContent = Number.isNaN(end.getTime()) ? '—' : Math.max(0, Math.ceil((end - today) / 86400000));
     $('campaign-week').textContent = 'Week ' + week + ' of 16 · ' + (today < start ? 'Campaign not started' : today > end ? 'Target date passed' : 'Current campaign week');
@@ -72,21 +69,6 @@
       var done = topics.reduce(function (a,b) { return a+b; },0), pct = topics.length ? Math.round(done/topics.length*100) : 0;
       return '<article class="subject-card"><h3>' + s.name + '</h3><p>' + s.note + '</p><div class="subject-count"><span>' + done + ' / ' + topics.length + ' complete</span><span>' + pct + '%</span></div><div class="progress-track"><span style="width:' + pct + '%"></span></div><a class="subject-link" href="#roadmap">View checkpoints ↓</a></article>';
     }).join('');
-  }
-  function renderPractice() {
-    var practice = state.practice || { cf:0, cses:0, math:0 };
-    var metrics = [
-      { key:'cf-solved', value:Number(practice.cf || 0), target:180 },
-      { key:'cses-solved', value:Number(practice.cses || 0), target:50 },
-      { key:'math-exercises', value:Number(practice.math || 0), target:100 }
-    ];
-    metrics.forEach(function (m) {
-      $(m.key + '-value').textContent = m.value;
-      $(m.key + '-bar').style.width = Math.min(100, m.target ? m.value / m.target * 100 : 0) + '%';
-    });
-    $('cf-solved-target').textContent = '/ 180 problems';
-    $('mock-count-value').textContent = state.mocks.length;
-    $('mock-count-bar').style.width = Math.min(100, state.mocks.length / 8 * 100) + '%';
   }
   function renderWeeks() {
     var openWeeks = {};
@@ -103,20 +85,19 @@
     $('week-list').querySelectorAll('[data-topic]').forEach(function (input) {
       input.addEventListener('change', function () { state.completed[input.dataset.topic] = input.checked; save(); renderWeeks(); });
     });
-    $('week-list').querySelectorAll('[data-hours-week]').forEach(function (input) {
-      input.addEventListener('change', function () { state.weekHours[input.dataset.hoursWeek] = Math.max(0, Number(input.value) || 0); save(); });
-    });
   }
   function renderSafety() {
     var benchmark = Number(state.benchmark), latest = Number(state.latestScore), buffer = Number(state.safetyBuffer || 0);
     var hasBenchmark = state.benchmark !== '' && Number.isFinite(benchmark) && benchmark >= 0 && benchmark <= 100;
     var hasLatest = state.latestScore !== '' && Number.isFinite(latest) && latest >= 0 && latest <= 100;
-    $('safe-target').textContent = hasBenchmark ? 'Safe target: ' + Math.min(100, benchmark * (1 + buffer / 100)).toFixed(1) + '% (' + buffer + '% buffer above benchmark)' : 'Safe target: waiting for benchmark';
+    var hasBuffer = state.safetyBuffer !== '' && Number.isFinite(buffer) && buffer >= 0;
+    var safeTarget = hasBenchmark ? Math.min(100, benchmark + (hasBuffer ? buffer : 0)) : null;
+    $('safe-target').textContent = hasBenchmark ? 'Safe target: ' + safeTarget.toFixed(1) + '% (' + (hasBuffer ? buffer + ' percentage-point buffer' : 'no additional buffer set') + ')' : 'Safe target: waiting for benchmark';
     if (!hasBenchmark || !hasLatest) {
       $('safety-result').innerHTML = '<strong>Benchmark needed</strong><span>Enter a comparable qualifying benchmark and latest mock score. The safety margin will then be calculated.</span>';
       return;
     }
-    var target = Math.min(100, benchmark * (1 + buffer / 100)), margin = latest - target;
+    var target = safeTarget, margin = latest - target;
     var status = margin >= 0 ? 'Above safety target' : latest >= benchmark ? 'Benchmark reached · safety buffer not reached' : 'Below qualifying benchmark';
     var detail = 'Latest mock: ' + latest.toFixed(1) + '% · Benchmark: ' + benchmark.toFixed(1) + '% · ' + (margin >= 0 ? '+' : '') + margin.toFixed(1) + ' percentage points versus safe target.';
     $('safety-result').innerHTML = '<strong>' + status + '</strong><span>' + detail + (state.benchmarkSource ? ' Source: ' + escapeHtml(state.benchmarkSource) : '') + '</span>';
@@ -139,19 +120,13 @@
     $(id).addEventListener('change', function () { state[key] = $(id).value; save(); });
   }
   function init() {
-    $('start-date').value = state.startDate; $('target-date').value = state.targetDate; $('weekly-target').value = state.weeklyTarget;
-    $('cf-solved').value = state.practice.cf || 0; $('cses-solved').value = state.practice.cses || 0; $('math-exercises').value = state.practice.math || 0;
-    $('cf-rating').value = state.cfRating; $('cf-rating-target').value = state.cfRatingTarget;
+    $('start-date').value = state.startDate; $('target-date').value = state.targetDate;
     $('benchmark-score').value = state.benchmark; $('latest-score').value = state.latestScore; $('safety-buffer').value = state.safetyBuffer; $('benchmark-source').value = state.benchmarkSource;
-    bindInput('start-date','startDate'); bindInput('target-date','targetDate'); bindInput('weekly-target','weeklyTarget');
-    $('cf-solved').addEventListener('change', function () { state.practice.cf = Math.max(0, Number(this.value) || 0); save(); });
-    $('cses-solved').addEventListener('change', function () { state.practice.cses = Math.max(0, Number(this.value) || 0); save(); });
-    $('math-exercises').addEventListener('change', function () { state.practice.math = Math.max(0, Number(this.value) || 0); save(); });
-    bindInput('cf-rating','cfRating'); bindInput('cf-rating-target','cfRatingTarget');
+    bindInput('start-date','startDate'); bindInput('target-date','targetDate');
     bindInput('benchmark-score','benchmark'); bindInput('latest-score','latestScore'); bindInput('safety-buffer','safetyBuffer'); bindInput('benchmark-source','benchmarkSource');
-    ['start-date','target-date','weekly-target'].forEach(function (id) { $(id).addEventListener('change', renderOverview); });
+    ['start-date','target-date'].forEach(function (id) { $(id).addEventListener('change', renderOverview); });
     ['benchmark-score','latest-score','safety-buffer','benchmark-source'].forEach(function (id) { $(id).addEventListener('change', renderSafety); });
-    renderWeeks(); renderOverview(); renderSubjects(); renderPractice(); renderSafety(); renderMockHistory();
+    renderWeeks(); renderOverview(); renderSubjects(); renderSafety(); renderMockHistory();
     $('mock-date').value = new Date().toISOString().slice(0,10);
     $('mock-form').addEventListener('submit', function (event) {
       event.preventDefault(); var score = Number($('mock-score').value);
