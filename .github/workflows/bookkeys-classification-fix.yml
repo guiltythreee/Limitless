@@ -42,7 +42,7 @@ jobs:
           html = html.slice(0, listStart) + optionalList + html.slice(listEnd + 2);
           const bodyStart = html.indexOf('function sectionBody(title)');
           const regexStart = html.indexOf('  var m = t.match(', bodyStart);
-          const regexEnd = html.indexOf('\\n', regexStart);
+          const regexEnd = html.indexOf('\n', regexStart);
           if (bodyStart < 0 || regexStart < 0 || regexEnd < 0) throw new Error('Chapter heading parser not found');
           const regexLine = html.slice(regexStart, regexEnd);
           const dashLine = regexLine
