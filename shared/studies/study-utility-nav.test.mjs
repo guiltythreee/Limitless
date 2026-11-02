@@ -61,6 +61,12 @@ const utilityCss = readFileSync(resolve(root, "shared/studies/study-utility-nav.
 assert.ok(utilityCss.includes(".study-utility-panel__header {"), "shared utility panel header owns the common layout");
 assert.ok(utilityCss.includes(".study-utility-row--question {"), "question lists use the shared utility row spacing contract");
 assert.ok(utilityCss.includes("padding: .85rem .3rem;"), "question-list rows share the history row vertical rhythm");
+assert.ok(utilityCss.includes(".study-utility-row--history {\n  padding: .85rem .3rem;\n  border-top: 0;"), "history rows share the common row inset and divider direction");
+assert.ok(utilityCss.includes(".study-utility-row--item {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  flex-wrap: wrap;\n  gap: .75rem;\n  padding: .85rem .3rem;\n  border-top: 0;"), "bookmark rows share the common row inset without losing their action layout");
+const historyPanel = readFileSync(resolve(root, "metallurgy-source/app/courses/ActivityHistoryPanel.tsx"), "utf8");
+assert.ok(historyPanel.includes("study-utility-row--history"), "Metallurgy history and mistakes use the shared history row");
+const bookmarkPanel = readFileSync(resolve(root, "metallurgy-source/app/courses/BookmarksPanel.tsx"), "utf8");
+assert.ok(bookmarkPanel.includes("study-utility-row--item"), "Metallurgy bookmarks use the shared item row");
 assert.ok(utilityCss.includes("border-bottom: 1px solid var(--panel-line"), "question-list rows use the shared divider treatment");
 const probabilityPractice = readFileSync(resolve(root, "probability-source/app/components/Practice.tsx"), "utf8");
 assert.ok(probabilityPractice.includes("study-utility-row--question"), "Probability question lists opt into shared row spacing");
