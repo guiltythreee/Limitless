@@ -282,3 +282,27 @@ The source-defined catalogues have also been counted and enumerated. Preserve th
 The 34 themes consist of 11 explicit base entries and 23 additional themes generated through \`mkTheme\`. The generated themes share the same theme data structure and must be carried over with their exact palette values. The background catalogue has 27 choices; its visual previews and matching \`BGPAL\` palettes are separate source data and both need preservation.
 
 These catalogue counts are a useful parity assertion for the future settings UI: 34 themes, 27 backgrounds, 26 accent swatches, 10 typefaces, 22 text-color swatches and 7 cursor-color choices.
+
+
+## 10. localStorage read/write call-site matrix
+
+The source-level call-site pass confirms the following access paths. The generic \`load(key)\` and \`store(key, value)\` wrappers catch storage exceptions; direct draft and backup operations have their own guarded error paths.
+
+| Key family | Read path | Write path | Delete/merge behaviour |
+|---|---|---|---|
+| \`bookkeys:settings\` | Startup settings initialization | \`commitST()\` | Backup merges only known fields with matching primitive types |
+| \`bookkeys:size\` | Startup legacy fallback only when \`size\` is absent from settings | No current writer | Retain as read-only compatibility |
+| \`bookkeys:bgdef1\`, \`bookkeys:bgdef2\` | One-time migration checks | Set to \`"1"\` after migration | Do not replay completed migrations |
+| \`bookkeys:game\` | \`loadGame()\` overlays saved properties onto \`newGame()\` defaults | \`saveGame()\` | Specialized max/union/earliest-unlock merge; never generic overwrite |
+| \`bookkeys:shelves\` | Startup JSON load | \`saveShelves()\` | Backup adds unseen shelf IDs; built-in main shelf is reinserted if missing |
+| \`bookkeys:<S.key>\` | Page restore in \`usePages()\` and related open paths | Every successful \`showPage()\` stores zero-based page index as a string | Library book removal deletes its \`bookkeys:lib:<id>\` position |
+| \`bookkeys:chap:<S.key>\` | \`chapInit()\` and Home continuation label | \`chapSave()\` | Chapter redo removes the current key; backup merges chapter boundaries |
+| \`bookkeys:draft:<S.key>:<page>\` | \`draftRead()\` before restoring an unfinished page | \`draftSave()\`, throttled to 3 seconds unless forced | Cleared when a page is reset/completed; pruning keeps the eight most recent drafts per book |
+| Legacy \`bookkeys:draft:<S.key>\` | Fallback when no page-specific draft exists | No normal writer | Adopted only when version/page/text conditions match, then removed |
+| Backup namespace \`bookkeys:*\` | Backup import validates the v1 envelope | Backup export enumerates every matching localStorage key | Generic keys are added only when absent; specialized records use merge logic and never delete existing entries |
+
+Library book deletion removes both \`bookkeys:lib:<id>\` (saved page position) and \`bookkeys:chap:lib:<id>\` (chapter record). It does not remove unrelated game/progression records. The IndexedDB delete transaction separately removes the metadata and original Blob.
+
+No current app code writes a separate active theme key in the \`bookkeys:\` namespace. The shell's \`limitless.site.theme\` session key is intentionally outside Bookkeys backup export.
+
+This matrix completes the localStorage key-family and read/write-path inventory for the known production source blob. It does not replace runtime testing of quota errors, private browsing restrictions or storage eviction.
