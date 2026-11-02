@@ -1,0 +1,41 @@
+name: Bookkeys TypeScript Scaffold
+
+on:
+  pull_request:
+    paths:
+      - "tools/typing-next-source/**"
+      - ".github/workflows/bookkeys-next-scaffold.yml"
+  push:
+    branches: [work/bookkeys-node-migration-20261102]
+    paths:
+      - "tools/typing-next-source/**"
+      - ".github/workflows/bookkeys-next-scaffold.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bookkeys-next-scaffold-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tools/typing-next-source/package-lock.json
+      - name: Install dependencies
+        working-directory: tools/typing-next-source
+        run: npm install --no-audit --no-fund
+      - name: Type-check
+        working-directory: tools/typing-next-source
+        run: npm run typecheck
+      - name: Build static export
+        working-directory: tools/typing-next-source
+        run: npm run build
