@@ -95,9 +95,11 @@ Isolated scaffolding may proceed. The first imported-book reload/reopen gate is 
 
 ## 7. Migration sequence
 
+The isolated Next.js/React/TypeScript scaffold now exists at `tools/typing-next-source/`. Its initial Node.js 22 type-check and static production build passed; see `BOOKKEYS_TYPESCRIPT_SCAFFOLD.md`. It contains no Bookkeys feature code and is not wired into the active route.
+
 1. Complete the persistence and settings inventories.
 2. Establish current automated and real-browser baselines.
-3. Prepare a separate, isolated Next.js/React/TypeScript source project using Node.js tooling. Scaffolding must remain non-production and must not import or replace Bookkeys logic yet.
+3. Scaffold completed: a separate Next.js/React/TypeScript project is committed under `tools/typing-next-source/`. Keep it non-production and do not import or replace Bookkeys logic yet.
 4. After the remaining browser and source-audit gates pass, export the isolated project to a temporary nested static route; leave `tools/typing/` active and unchanged.
 5. Only after the gates pass, extract one subsystem at a time, preserving the existing contracts and adding parity tests.
 6. Run the full regression suite after each checkpoint. Commit/backup each passing checkpoint before proceeding.
