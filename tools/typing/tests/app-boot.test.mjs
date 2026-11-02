@@ -390,7 +390,7 @@ test("a changed Required/Optional choice is saved, restored, and pays nothing ag
   const saved = lsKeys().filter((k) => k.indexOf("bookkeys:chap:") === 0)
     .map((k) => { try { return JSON.parse(w.localStorage.getItem(k)); } catch (e) { return null; } })
     .filter((r) => r && Array.isArray(r.list) && r.list.length === 3);
-  assert.ok(saved.some((r) => r.v === 4 && r.list[0].req === true),
+  assert.ok(saved.some((r) => r.v === 5 && r.list[0].req === true),
     "the choice is stored with the book: " + JSON.stringify(saved));
 
   const xpBefore = game().xp;
