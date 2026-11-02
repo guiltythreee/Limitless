@@ -1,6 +1,7 @@
 
 import type { Metadata } from "next";
 import "./globals.css";
+import "../../theme-backgrounds.css";
 import "../../shared/learning-player/player.css";
 import "../../shared/studies/landing.css";
 import "../../shared/studies/study-utility-nav.css";
