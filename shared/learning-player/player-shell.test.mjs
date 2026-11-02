@@ -8,31 +8,99 @@ const createElement = (type, props, ...children) => {
   return element;
 };
 
+const header = { kind: "course-owned-header" };
 const palette = { kind: "course-owned-palette" };
 const content = { kind: "course-owned-question-view" };
+const footer = { kind: "course-owned-footer" };
 const shell = createLearningPlayerShell(createElement, {
   className: "panel",
   paletteClassName: "dots",
   contentClassName: "qwrap",
+  header,
   palette,
+  footer,
   children: content,
 });
 
 assert.equal(shell.type, "section");
 assert.equal(shell.props.className, "panel");
-assert.equal(shell.children.length, 2);
-assert.equal(shell.children[0].type, "nav");
-assert.equal(shell.children[0].props.className, "dots");
-assert.equal(shell.children[0].props["aria-label"], "Question navigation");
-assert.equal(shell.children[0].children[0], palette);
-assert.equal(shell.children[1].type, "div");
-assert.equal(shell.children[1].props.className, "qwrap");
-assert.equal(shell.children[1].children[0], content);
+assert.equal(shell.props["data-learning-player"], "true");
+assert.equal(shell.children.length, 4);
+assert.equal(shell.children[0].type, "header");
+assert.equal(shell.children[0].props["data-learning-player-header"], "true");
+assert.equal(shell.children[0].children[0], header);
+assert.equal(shell.children[1].type, "nav");
+assert.equal(shell.children[1].props.className, "dots");
+assert.equal(shell.children[1].props["aria-label"], "Question navigation");
+assert.equal(shell.children[1].props["data-learning-player-palette"], "true");
+assert.equal(shell.children[1].children[0], palette);
+assert.equal(shell.children[2].type, "div");
+assert.equal(shell.children[2].props.className, "qwrap");
+assert.equal(shell.children[2].props["data-learning-player-content"], "true");
+assert.equal(shell.children[2].children[0], content);
+assert.equal(shell.children[3].type, "footer");
+assert.equal(shell.children[3].props["data-learning-player-footer"], "true");
+assert.equal(shell.children[3].children[0], footer);
 
 const withoutPalette = createLearningPlayerShell(createElement, {
   children: content,
 });
-assert.equal(withoutPalette.children[0], null);
-assert.equal(withoutPalette.children[1].children[0], content);
+assert.equal(withoutPalette.children.length, 1);
+assert.equal(withoutPalette.children[0].children[0], content);
 
-console.log("P6 shared player shell: 12 assertions passed");
+// Both applications load the same semantic design layer after their own theme.
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+for (const app of ["metallurgy-source", "probability-source"]) {
+  const layout = readFileSync(resolve(root, app, "app/layout.tsx"), "utf8");
+  assert.match(layout, /shared\/learning-player\/player\.css/);
+}
+const sharedCss = readFileSync(new URL("./player.css", import.meta.url), "utf8");
+for (const token of [
+  "--lp-color-canvas", "--lp-color-surface", "--lp-color-text",
+  "--lp-color-accent", "--lp-color-success", "--lp-space-4",
+  "--lp-radius-md", "--lp-font-reading",
+  ":focus-visible", "overscroll-behavior-x: contain",
+  "scrollbar-width: thin", "flex-shrink: 0",
+  ".learning-player-frame {", ".learning-player-content {",
+  "[data-learning-player] .learning-player-palette {",
+  ".learning-player-meta--compact {", ".learning-player-meta__group {",
+  "padding: 1.1rem 1.4rem 1.5rem;",
+  "border-radius: var(--lp-radius-lg);",
+  "background: var(--panel-bg, var(--lp-color-surface));",
+  "margin-top: var(--lp-space-4);",
+  "overflow-wrap: anywhere;",
+  "display: block;\n  max-width: 100%;\n  overflow-x: auto;",
+  ":where(pre, .eq, .math-display, .katex-display)",
+  ":where(.math, .katex)",
+  ":where(img, svg, video, canvas)",
+  "[data-learning-player-palette] > .dots",
+  "flex-wrap: nowrap;",
+  "width: max-content;",
+  ".learning-player-option__text",
+  "max-width: 100%;\n  overflow-wrap: anywhere;",
+]) assert.ok(sharedCss.includes(token), `missing shared player design or interaction rule: ${token}`);
+
+// Every discipline player composes the same frame, palette and content inset.
+for (const appPath of [
+  "probability-source/app/components/Practice.tsx",
+  "metallurgy-source/app/mt201/quiz.tsx",
+  "metallurgy-source/app/mt202/quiz.tsx",
+  "metallurgy-source/app/mt203/player.tsx",
+]) {
+  const source = readFileSync(resolve(root, appPath), "utf8");
+  assert.match(
+    source,
+    /<LearningPlayerShell className="learning-player-frame" paletteClassName="learning-player-palette" contentClassName="learning-player-content"/,
+    `player should use the shared frame and content layout: ${appPath}`,
+  );
+}
+
+const probabilityOptions = readFileSync(resolve(root, "probability-source/app/components/Practice.tsx"), "utf8");
+const metallurgyOptions = readFileSync(resolve(root, "metallurgy-source/app/platform/qview.tsx"), "utf8");
+assert.match(probabilityOptions, /learning-player-option__text/, "Probability answer text should use the shared responsive content hook");
+assert.match(metallurgyOptions, /learning-player-option__text/, "Metallurgy's shared question renderer should use the shared responsive content hook");
+
+console.log("P6 shared player shell, design tokens, shared layout and interaction rules: 62 assertions passed");

@@ -16,7 +16,9 @@
 // tolerant of missing or malformed saved data.
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { createElement, useCallback, useEffect, useMemo, useState } from "react";
+import { createStudyUtilityNav } from "../../../shared/studies/StudyUtilityNav";
+import { createStudyModeTabs } from "../../../shared/studies/StudyModeTabs";
 import { ALL_QUESTION_IDS, TOPIC_OF } from "../data/qbank/meta";
 import { toActivities } from "../platform/learning";
 import { mdInline, mdToHtml } from "../lib/md";
@@ -165,13 +167,14 @@ export default function Mt203() {
 
       <div className="archive">
         {/* ---------------- sidebar ---------------- */}
-        <aside className="panel side">
+        <aside className="panel side" aria-label="MT203 course navigation">
           <div className="side-head">
             <div className="t1">MT203 · Polymers</div>
             <div className="t2">{topics()}</div>
           </div>
 
           <button
+            aria-current={view.kind === "dashboard" ? "location" : undefined}
             className={`ch-item ${view.kind === "dashboard" ? "active" : ""}`}
             onClick={() => setView({ kind: "dashboard" })}
           >
@@ -179,31 +182,15 @@ export default function Mt203() {
             <span className="ch-title">Dashboard · progress &amp; mastery</span>
           </button>
 
-          <button
-            className={`ch-item ${view.kind === "bookmarks" ? "active" : ""}`}
-            onClick={() => setView({ kind: "bookmarks" })}
-          >
-            <span className="ch-num">★</span>
-            <span>
-              <span className="ch-title">Bookmarked questions</span>
-              <span className="ch-meta"><span className="ch-pct">{progress?.bookmarks.length ?? 0} saved</span></span>
-            </span>
-          </button>
-
-          <button
-            className={`ch-item ${view.kind === "history" ? "active" : ""}`}
-            onClick={() => setView({ kind: "history" })}
-          >
-            <span className="ch-num">↺</span>
-            <span className="ch-title">Attempt history</span>
-          </button>
-          <button
-            className={`ch-item ${view.kind === "mistakes" ? "active" : ""}`}
-            onClick={() => setView({ kind: "mistakes" })}
-          >
-            <span className="ch-num">!</span>
-            <span className="ch-title">Latest mistakes</span>
-          </button>
+          {createStudyUtilityNav(createElement, {
+            className: "course-utility-nav",
+            items: [
+              { id: "bookmarks", label: "Bookmarked questions", count: progress?.bookmarks.length ?? 0, active: view.kind === "bookmarks" },
+              { id: "history", label: "Attempt history", active: view.kind === "history" },
+              { id: "mistakes", label: "Latest mistakes", active: view.kind === "mistakes" },
+            ],
+            onSelect: (id) => setView({ kind: id as "bookmarks" | "history" | "mistakes" }),
+          })}
 
           <div className="ch-list" style={{ marginTop: "0.5rem" }}>
             {UNITS.map((u) => (
@@ -219,6 +206,7 @@ export default function Mt203() {
                   return (
                     <button
                       key={t.id}
+                      aria-current={activeTopic === t.id ? "location" : undefined}
                       className={`ch-item ${activeTopic === t.id ? "active" : ""}`}
                       onClick={() =>
                         setView({
@@ -245,6 +233,7 @@ export default function Mt203() {
 
           <div className="ch-list" style={{ marginTop: "0.7rem", borderTop: "1px solid var(--panel-line)", paddingTop: "0.7rem" }}>
             <button
+              aria-current={view.kind === "practice" && view.mode === "mixed" ? "location" : undefined}
               className={`ch-item ${view.kind === "practice" && view.mode === "mixed" ? "active" : ""}`}
               onClick={() => setView({ kind: "practice", mode: "mixed", scope: "all", count: PRACTICE_COUNT })}
             >
@@ -252,6 +241,7 @@ export default function Mt203() {
               <span className="ch-title">Mixed practice</span>
             </button>
             <button
+              aria-current={view.kind === "practice" && view.mode === "weak" ? "location" : undefined}
               className={`ch-item ${view.kind === "practice" && view.mode === "weak" ? "active" : ""}`}
               onClick={() => setView({ kind: "practice", mode: "weak", scope: "all", count: PRACTICE_COUNT })}
             >
@@ -259,6 +249,7 @@ export default function Mt203() {
               <span className="ch-title">Weak-area training</span>
             </button>
             <button
+              aria-current={view.kind === "practice" && view.mode === "revision" ? "location" : undefined}
               className={`ch-item ${view.kind === "practice" && view.mode === "revision" ? "active" : ""}`}
               onClick={() => setView({ kind: "practice", mode: "revision", scope: "all", count: PRACTICE_COUNT })}
             >
@@ -266,6 +257,7 @@ export default function Mt203() {
               <span className="ch-title">Spaced revision</span>
             </button>
             <button
+              aria-current={view.kind === "exam" ? "location" : undefined}
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
               onClick={() => setView({ kind: "exam" })}
             >
@@ -283,7 +275,7 @@ export default function Mt203() {
                 className="btn"
                 style={{ width: "100%", fontSize: "0.78rem" }}
                 onClick={() => {
-                  if (confirm("Erase all saved MT203 progress (XP, attempts, exams)?")) {
+                  if (confirm("Erase MT203 legacy XP, attempts, and exams? Lifetime Meta EXP is kept.")) {
                     resetProgress();
                     setProgress(loadProgress());
                     setView({ kind: "dashboard" });
@@ -374,20 +366,11 @@ export default function Mt203() {
                 </div>
                 <div style={{ display: "flex", gap: "0.7rem", alignItems: "center", flexWrap: "wrap" }}>
                   {progress.theoryRead.includes(view.topic) && <span className="chip">theory ✓</span>}
-                  <div className="tabs">
-                    <button
-                      className={`tab ${view.tab === "lesson" ? "active" : ""}`}
-                      onClick={() => setView({ ...view, tab: "lesson" })}
-                    >
-                      Lesson
-                    </button>
-                    <button
-                      className={`tab ${view.tab === "quiz" ? "active" : ""}`}
-                      onClick={() => setView({ ...view, tab: "quiz" })}
-                    >
-                      Quiz
-                    </button>
-                  </div>
+                  {createStudyModeTabs(createElement, {
+                    items: [{ id: "lesson", label: "Lesson" }, { id: "quiz", label: "Quiz" }],
+                    activeId: view.tab,
+                    onSelect: (tab) => setView({ ...view, tab: tab as "lesson" | "quiz" }),
+                  })}
                 </div>
               </div>
 

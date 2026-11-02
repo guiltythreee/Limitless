@@ -19,6 +19,7 @@ import {
 import { probabilityPlayerAdapter } from "../learning-player/adapter";
 import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+import { createStudyUtilityNav } from "../../../shared/studies/StudyUtilityNav";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -87,7 +88,16 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
 
       {view !== "question" && (
         <div className="subnav mt-4 border-b border-gold/10 pb-3">
-          {NAV.map((n) => <button key={n.id} onClick={() => setView(n.id)} className={nav === n.id ? "on" : ""}><span aria-hidden>{n.icon}</span>{n.label}</button>)}
+          {createStudyUtilityNav(createElement, {
+            className: "probability-utility-nav",
+            items: NAV.map((item) => ({
+              id: item.id,
+              label: item.label,
+              count: item.id === "saved" ? store.bookmarks.length : undefined,
+              active: nav === item.id,
+            })),
+            onSelect: (id) => setView(id as View),
+          })}
         </div>
       )}
 
@@ -168,37 +178,45 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
   const isFiltered = hide || topic !== "all" || status !== "all" || diff !== "all";
 
   return (
-    <div>
-      <div className="flex flex-wrap items-center gap-2">
-        <button onClick={() => setHide(!hide)} className="pill flex items-center gap-2" aria-pressed={hide}>Hide Attempted <span className={`switch ${hide ? "switch-on" : ""}`} /></button>
+    <section className="study-utility-panel">
+      <header className="study-utility-panel__header">
+        <div className="study-utility-panel__heading">
+          <h2 className="study-utility-panel__title">{title}</h2>
+          <p className="study-utility-panel__description">{title === "Bookmarked questions" ? "Your saved questions in this learning set. Open any question to continue studying." : title.startsWith("My mistakes") ? "Review questions whose latest recorded answer was incorrect or partially correct." : "Filter, sort and reopen questions from this learning set."}</p>
+        </div>
+        <span className="study-utility-panel__count">{list.length} questions</span>
+      </header>
+      <div className="study-utility-panel__content">
+      <div className="study-utility-toolbar">
+        <button onClick={() => setHide(!hide)} className="pill study-utility-control flex items-center gap-2" aria-pressed={hide}>Hide Attempted <span className={`switch ${hide ? "switch-on" : ""}`} /></button>
         {topics.length > 1 && (
-          <select value={topic} onChange={(e) => setTopic(e.target.value)} className="pill max-w-[200px]" aria-label="Topic"><option value="all">All topics</option>{topics.map((t) => <option key={t} value={t}>{lessonTitle(t)}</option>)}</select>
+          <select value={topic} onChange={(e) => setTopic(e.target.value)} className="pill study-utility-control max-w-[200px]" aria-label="Topic"><option value="all">All topics</option>{topics.map((t) => <option key={t} value={t}>{lessonTitle(t)}</option>)}</select>
         )}
-        <select value={status} onChange={(e) => setStatus(e.target.value as Status | "all")} className="pill" aria-label="Attempt status">
+        <select value={status} onChange={(e) => setStatus(e.target.value as Status | "all")} className="pill study-utility-control" aria-label="Attempt status">
           <option value="all">Attempt Status</option><option value="correct">Correct</option><option value="incorrect">Incorrect</option><option value="partial">Partially correct</option><option value="unattempted">Unattempted</option>
         </select>
-        <select value={diff} onChange={(e) => setDiff(e.target.value as Difficulty | "all")} className="pill" aria-label="Difficulty">
+        <select value={diff} onChange={(e) => setDiff(e.target.value as Difficulty | "all")} className="pill study-utility-control" aria-label="Difficulty">
           <option value="all">Difficulty</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option>
         </select>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
+      <div className="study-utility-toolbar mt-4 justify-between text-sm">
         <span className="text-body">{title} · {isFiltered ? "Showing filtered Qs" : "Showing all Qs"} ({list.length}/{pool.length})</span>
-        <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="pill" aria-label="Sort">
+        <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="pill study-utility-control" aria-label="Sort">
           <option value="order">Book order</option>
           <option value="last-first">Last attempted → first attempted</option>
           <option value="first-first">First attempted → last attempted</option>
         </select>
       </div>
 
-      <div className="mt-3">
+      <div className="study-utility-list mt-3">
         {list.length === 0 ? (
-          <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">{pool.length === 0 ? empty ?? "No questions here yet." : "No question matches these filters."}</div>
+          <div className="study-utility-empty">{pool.length === 0 ? empty ?? "No questions here yet." : "No question matches these filters."}</div>
         ) : list.map((q, i) => {
           const st: Status = latest[q.key]?.status ?? "unattempted";
           const n = store.attempts.filter((a) => a.q === q.key).length;
           return (
-            <button key={q.key} className="rowq" onClick={() => onOpen(list.map((x) => x.key), i)}>
+            <button key={q.key} className="rowq study-utility-row study-utility-row--question" onClick={() => onOpen(list.map((x) => x.key), i)}>
               <span className="rn"><span>{i + 1}</span><span className={`mt-1 text-base leading-none ${MARKCLS[st]}`} title={st}>{MARK[st] || " "}</span></span>
               <span className="min-w-0">
                 <span className="clamp2 block text-[15px] leading-6 text-body"><Rich text={q.item.question} /></span>
@@ -215,7 +233,8 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
         })}
       </div>
       <div className="floating-analysis"><button onClick={onAnalysis}>▮▯ Analysis</button></div>
-    </div>
+      </div>
+    </section>
   );
 }
 
@@ -223,7 +242,7 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; t
 export function Options({ item, picked, onPick, reveal, disabled }: { item: Q["item"]; picked: number[]; onPick: (i: number) => void; reveal: boolean; disabled: boolean }) {
   const right = correctSet(item);
   return (
-    <div className="mt-6 grid gap-3 sm:grid-cols-2">
+    <div className="learning-player-options">
       {item.options.map((option, i) => {
         const sel = picked.includes(i);
         const ok = right.includes(i);
@@ -232,9 +251,9 @@ export function Options({ item, picked, onPick, reveal, disabled }: { item: Q["i
         else if (reveal && sel) style = "border-red-600/70! bg-red-500/10";
         else if (sel) style = "border-gold/70! bg-gold/10";
         return (
-          <button key={i} onClick={() => onPick(i)} disabled={disabled} className={`optcard text-body disabled:cursor-default ${style}`}>
+          <button key={i} onClick={() => onPick(i)} disabled={disabled} className={`optcard learning-player-option text-body disabled:cursor-default ${style}`}>
             <span className="optletter">{String.fromCharCode(65 + i)}</span>
-            <span className="min-w-0 flex-1"><Rich text={option} /></span>
+            <span className="learning-player-option__text min-w-0 flex-1"><Rich text={option} /></span>
             {reveal && ok && <span className="text-emerald-500">✓</span>}
             {reveal && sel && !ok && <span className="text-red-500">×</span>}
           </button>
@@ -347,7 +366,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
   const bookmarked = store.bookmarks.includes(q.key);
 
   return (
-    <LearningPlayerShell paletteClassName="mb-4 flex items-center gap-2 overflow-x-auto pb-1" palette={(
+    <LearningPlayerShell className="learning-player-frame" paletteClassName="learning-player-palette" contentClassName="learning-player-content" palette={(
                   <>
                   <button onClick={onBack} className="pill shrink-0" aria-label="Back to the list">←</button>
                   <div className="flex gap-1.5">
@@ -362,7 +381,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
                   </div>
                   </>
                 )}>
-      <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3">
+      <div className="learning-player-meta">
         <div>
           <div className="text-sm text-body">Q {index + 1} <span className="text-faint">• {q.item.source ?? ""}</span> <span className={`dbadge dbadge-${q.difficulty} ml-1`}>{DIFF_LABEL[q.difficulty]}</span></div>
           {showTopic && <div className="mt-1 text-xs text-dim">{lessonTitle(q.lessonId)}</div>}
@@ -382,12 +401,12 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
       <Options item={q.item} picked={phase === "review" ? last?.picked ?? [] : picked} onPick={choose} reveal={reviewing} disabled={phase === "review"} />
 
       {reviewing && last && (
-        <div className="mt-6 space-y-4">
-          <div className={`flex flex-wrap items-center gap-x-4 gap-y-1 rounded-xl border px-4 py-3 text-sm ${st === "correct" ? "border-emerald-700/50 bg-emerald-500/10 text-ok" : st === "partial" ? "border-amber-600/50 bg-amber-500/10 text-body" : "border-red-700/40 bg-red-500/10 text-body"}`}>
+        <div className="mt-6 space-y-4 learning-player-review">
+          <div className={`learning-player-feedback flex flex-wrap items-center gap-x-4 gap-y-1 rounded-xl border px-4 py-3 text-sm ${st === "correct" ? "border-emerald-700/50 bg-emerald-500/10 text-ok" : st === "partial" ? "border-amber-600/50 bg-amber-500/10 text-body" : "border-red-700/40 bg-red-500/10 text-body"}`}>
             <strong>{st === "correct" ? "Correct" : st === "partial" ? `Partly correct · ${Math.round(last.score * 100)}%` : "Incorrect"}</strong>
             <span className="text-dim">Time taken {fmtTime(last.ms)}</span>
           </div>
-          <div className="rounded-xl border border-gold/15 p-4"><Explanation text={q.item.explanation} /></div>
+          <div className="learning-player-solution rounded-xl border border-gold/15 p-4"><Explanation text={q.item.explanation} /></div>
         </div>
       )}
 
@@ -400,7 +419,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
         </div>
       )}
 
-      <div className="actionbar">
+      <div className="learning-player-actions actionbar">
         <button className="btn-side" disabled={index === 0} onClick={() => onGo(index - 1)}>Previous</button>
         {phase === "answering"
           ? <button className="btn-main" disabled={picked.length === 0} onClick={check}>Check Answer</button>

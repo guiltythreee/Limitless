@@ -1,0 +1,19 @@
+/* Shared keyboard focus treatment for study navigation controls.
+   Each discipline supplies its own accent token; layout and content stay local. */
+.ch-item:focus-visible,
+[data-study-topic-tree] button:focus-visible,
+[data-study-topic-picker]:focus-visible,
+[data-study-mode-tabs] [role="tab"]:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--gold, currentColor);
+  outline-offset: 2px;
+}
+@media (forced-colors: active) {
+  .ch-item:focus-visible,
+  [data-study-topic-tree] button:focus-visible,
+  [data-study-topic-picker]:focus-visible,
+  [data-study-mode-tabs] [role="tab"]:focus-visible {
+    outline-color: Highlight;
+  }
+}

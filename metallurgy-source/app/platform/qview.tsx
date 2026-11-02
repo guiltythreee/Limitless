@@ -174,7 +174,7 @@ export function OptionList({
   variant: QViewVariant;
 }) {
   return (
-    <div className="opts">
+    <div className="opts learning-player-options">
       {q.options.map((o) => {
         let cls = "opt";
         if (locked) {
@@ -187,12 +187,12 @@ export function OptionList({
           <button
             key={o.label}
             type={variant.buttonType}
-            className={cls}
+            className={`${cls} learning-player-option`}
             disabled={locked}
             onClick={() => onPick?.(o.label)}
           >
             <span className="tag">{o.label.toUpperCase()}</span>
-            <span dangerouslySetInnerHTML={h(o.text)} />
+            <span className="learning-player-option__text" dangerouslySetInnerHTML={h(o.text)} />
           </button>
         );
       })}
@@ -242,7 +242,7 @@ export function SolutionPanel({
   const distractors = q.solution.distractors;
   return (
     <div className="reveal">
-      <div className={`verdict ${right ? "right" : "wrong"}`}>
+      <div className={`verdict learning-player-feedback ${right ? "right" : "wrong"}`}>
         {right
           ? "✓ Correct"
           : picked
