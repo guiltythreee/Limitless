@@ -245,8 +245,8 @@ export function Options({ item, picked, onPick, reveal, disabled, numericText, o
   onPick: (i: number) => void;
   reveal: boolean;
   disabled: boolean;
-  numericText: string;
-  onNumericChange: (value: string) => void;
+  numericText?: string;
+  onNumericChange?: (value: string) => void;
 }) {
   if (item.numericAnswer) {
     return (
@@ -259,8 +259,8 @@ export function Options({ item, picked, onPick, reveal, disabled, numericText, o
           type="number"
           inputMode="decimal"
           step="any"
-          value={numericText}
-          onChange={(event) => onNumericChange(event.target.value)}
+          value={numericText ?? ""}
+          onChange={(event) => onNumericChange?.(event.target.value)}
           disabled={disabled}
           className="pill w-full max-w-sm text-base"
           aria-label="Enter a numerical answer"
