@@ -155,3 +155,41 @@ No Bookkeys application code, assets, active routes, local storage keys, Indexed
 5. Review target module layout before any extraction — **not started**.
 
 No production-code migration is authorized by this checkpoint. Keep the standalone implementation active until all remaining gates are closed and the parallel replacement passes feature parity.
+
+
+## Cloudflare build-settings follow-up — 2026-11-02
+
+A second read-only dashboard inspection reached the project's Builds configuration and recorded:
+
+| Setting | Observed value |
+|---|---|
+| Project | `limitless` |
+| Git repository | `guiltythreee/Limitless` |
+| Production branch | `main` |
+| Root directory | `/` |
+| Build command | None |
+| Build output directory | No explicit value shown |
+| Deploy command | `npx wrangler deploy` |
+| Build cache | Enabled |
+| Include paths | `*` |
+| Exclude paths | `node_modules/**`, `.git/` |
+| Disable builds | Off |
+| Environment variables/secrets | None shown |
+| Deploy hooks | None shown |
+
+The Git tree at this checkpoint was also checked recursively. It contains no `wrangler.toml`, `wrangler.json`, `wrangler.jsonc`, Worker entrypoint, or root `package.json`. The only package manifests are the two discipline Next.js sources and the Bookkeys test package.
+
+**Deployment blocker:** the dashboard's configured deploy command (`npx wrangler deploy`) does not have an evident Wrangler configuration or Worker entrypoint in the checked-in tree, while the dashboard reports a Ready production deployment. The actual deployment/build logs and static asset upload mechanism must be reconciled before changing or relying on this pipeline. Do not add a guessed Wrangler config, change the deploy command, or alter Cloudflare settings as part of Bookkeys migration.
+
+The latest read-only dashboard view showed the production project as a static-assets deployment at `https://limitless.beyondthelimits.workers.dev/`. It was not modified. The Bookkeys migration branch itself is not the production branch and has not been deployed.
+
+### Verification after documentation checkpoint
+
+The Bookkeys regression workflow also passed on the updated map commit:
+
+- Run: [41459248116](https://github.com/guiltythreee/Limitless/actions/runs/41459248116)
+- Result: success.
+
+### Revised next gate
+
+Inspect the latest Cloudflare deployment's build/deploy logs and confirm exactly how the root static files are uploaded and served. Only after that should we choose the parallel Bookkeys static-export destination and cutover strategy.
