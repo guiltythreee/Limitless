@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* choose the theme before first paint so there is no flash */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=null;try{t=localStorage.getItem('mm-theme-v1');}catch(e){}if(t!=='dark'&&t!=='light'){t='dark';}document.documentElement.setAttribute('data-theme',t);})();`,
+            __html: `(function(){try{var n=performance.getEntriesByType('navigation')[0];if(n&&n.type==='reload')sessionStorage.removeItem('limitless.site.theme');var t=sessionStorage.getItem('limitless.site.theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`,
           }}
         />
       </head>
