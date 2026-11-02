@@ -185,9 +185,11 @@
   }
   function init() {
     $('start-date').value = state.startDate; $('target-date').value = state.targetDate;
-    $('cf-rating').value = state.cfRating;\n    $('benchmark-score').value = state.benchmark; $('latest-score').value = state.latestScore; $('safety-buffer').value = state.safetyBuffer; $('benchmark-source').value = state.benchmarkSource;
+    $('cf-rating').value = state.cfRating;
+    $('benchmark-score').value = state.benchmark; $('latest-score').value = state.latestScore; $('safety-buffer').value = state.safetyBuffer; $('benchmark-source').value = state.benchmarkSource;
     bindInput('start-date','startDate'); bindInput('target-date','targetDate');
-    bindInput('cf-rating','cfRating');\n    bindInput('benchmark-score','benchmark'); bindInput('latest-score','latestScore'); bindInput('safety-buffer','safetyBuffer'); bindInput('benchmark-source','benchmarkSource');
+    bindInput('cf-rating','cfRating');
+    bindInput('benchmark-score','benchmark'); bindInput('latest-score','latestScore'); bindInput('safety-buffer','safetyBuffer'); bindInput('benchmark-source','benchmarkSource');
     ['start-date','target-date'].forEach(function (id) { $(id).addEventListener('change', renderOverview); });
     ['benchmark-score','latest-score','safety-buffer','benchmark-source'].forEach(function (id) { $(id).addEventListener('change', renderSafety); });
     renderWeeks(); renderOverview(); renderSubjects(); renderSafety(); renderMockHistory(); renderProblemHistory(); renderCodeforces();
