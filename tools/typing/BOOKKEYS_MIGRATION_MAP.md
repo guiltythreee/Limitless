@@ -98,9 +98,9 @@ Do not start component extraction until the remaining inventory and live-browser
 
 1. Complete the persistence and settings inventories.
 2. Establish current automated and real-browser baselines.
-3. Create a separate Next.js/React/TypeScript source project using Node.js tooling.
-4. Export it to a temporary nested static route; leave `tools/typing/` active and unchanged.
-5. Extract one subsystem at a time, preserving the existing contracts and adding parity tests.
+3. Prepare a separate, isolated Next.js/React/TypeScript source project using Node.js tooling. Scaffolding must remain non-production and must not import or replace Bookkeys logic yet.
+4. After the remaining browser and source-audit gates pass, export the isolated project to a temporary nested static route; leave `tools/typing/` active and unchanged.
+5. Only after the gates pass, extract one subsystem at a time, preserving the existing contracts and adding parity tests.
 6. Run the full regression suite after each checkpoint. Commit/backup each passing checkpoint before proceeding.
 7. Verify the parallel route on Cloudflare preview.
 8. Only after complete feature parity, prepare a separately reviewed cutover and tested rollback.
