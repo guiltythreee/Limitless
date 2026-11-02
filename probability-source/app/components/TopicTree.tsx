@@ -52,22 +52,23 @@ export default function TopicTree({
   return (
     <nav aria-label="Probability course navigation" data-study-topic-tree="true">
       <div className="mb-4">
-        <label htmlFor="probability-pathway" className="eyebrow mb-2 block px-2">Choose a learning pathway</label>
+        <label htmlFor="probability-pathway" className="eyebrow mb-2 block px-2">Optional study focus</label>
         <select
           id="probability-pathway"
           value={pathwayId}
           onChange={(event) => onPathwayChange(event.target.value)}
           className="w-full border border-gold/20 bg-ink px-3 py-3 text-xs text-parchment outline-none focus:border-gold/60"
         >
-          <option value="all">Full curriculum · all chapters</option>
+          <option value="all">Full curriculum (recommended)</option>
           {pathways.map((pathway) => <option key={pathway.id} value={pathway.id}>{pathway.label}</option>)}
         </select>
+        <p className="mt-2 px-2 text-[10px] leading-4 text-faint">This only filters the chapter list. Your full curriculum and saved progress stay intact.</p>
         {selectedPathway && (
           <div className="mt-3 border-l border-gold/30 pl-3">
             <p className="text-xs leading-5 text-dim">{selectedPathway.description}</p>
             <p className="mt-2 text-[10px] leading-4 text-mutedgold">{selectedPathway.outcome}</p>
             <p className="mt-2 text-[10px] uppercase tracking-[.12em] text-faint">
-              {visibleLessons.filter((lesson) => completed.includes(lesson.id)).length} / {visibleLessons.length} shared chapters completed
+              {visibleLessons.filter((lesson) => completed.includes(lesson.id)).length} of {visibleLessons.length} lessons completed
             </p>
           </div>
         )}
