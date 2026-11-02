@@ -97,7 +97,12 @@ assert.deepEqual(keyboardSelections, ["four", "one", "one", "four"], "keyboard n
 console.log("Shared study mode tabs: 35 assertions passed");
 
 const probabilityPage = readFileSync(resolve(root, "probability-source/app/page.tsx"), "utf8");
-assert.ok(probabilityPage.includes('aria-label="Probability page navigation"'), "Probability header navigation has a descriptive landmark label");
-for (const section of ["archive", "analysis", "experiment", "coverage"]) {
-  assert.ok(probabilityPage.includes(`aria-pressed={tab === "${section}"}`), `Probability header ${section} control exposes its selected state`);
+assert.ok((probabilityPage.match(/aria-label="Probability page navigation"/g) ?? []).length >= 2, "Desktop and mobile Probability navigation have descriptive landmark labels");
+for (const label of ["Learn", "Practice", "Progress"]) {
+  assert.ok(probabilityPage.includes(`>${label}</button>`), `Probability primary navigation includes ${label}`);
 }
+assert.ok(probabilityPage.includes('aria-current={tab === "archive" && section !== "practice" ? "page" : undefined}'), "Learn exposes its current state");
+assert.ok(probabilityPage.includes('aria-current={tab === "archive" && section === "practice" ? "page" : undefined}'), "Practice exposes its current state");
+assert.ok(probabilityPage.includes('aria-current={tab === "analysis" ? "page" : undefined}'), "Progress exposes its current state");
+assert.ok(!probabilityPage.includes(">The Archive</button>"), "Probability does not expose the old competing Archive navigation");
+assert.ok(!probabilityPage.includes(">Experiment</button>"), "Simulations remain a secondary destination rather than primary navigation");
