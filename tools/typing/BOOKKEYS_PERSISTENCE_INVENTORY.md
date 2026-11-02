@@ -129,3 +129,65 @@ The site-wide theme key `limitless.site.theme` is a separate shell/session conce
 - Complete real-browser verification of IndexedDB, artwork, PDF/EPUB import, offline resources, iframe CSP and shared theme behaviour.
 
 No migration code should be extracted until those remaining checks are complete.
+
+
+## 6. Settings UI control mapping
+
+The 34 settings are exposed through six settings tabs. The settings UI is built dynamically; the control helpers write the same \`ST\` object and call the existing save/apply routines. This mapping must be reproduced without changing labels, choices, ranges or behaviour.
+
+| Tab | Setting | Visible control | Options / range |
+|---|---|---|---|
+| Theme | \`bgMatch\` | Toggle | on/off |
+| Theme | \`skin\` | Theme tiles | \`THEMES\` catalogue (includes Auto, Gothic Night, Letter Garden, Paper, Sepia, Contrast and other source-defined themes) |
+| Theme | \`accent\` | Swatches | \`ACC\` catalogue plus Custom |
+| Theme | \`accentCustom\` | Native color picker | six-digit hex color; also sets \`accent = "custom"\` |
+| Theme | \`deco\` | Chips | On / Off |
+| Background | \`bg\` | Background tiles | \`BGS\` catalogue |
+| Background | \`bgDensity\` | Range | 0.3–2, step 0.1 |
+| Background | \`backdrop\` | Range | 0–100, step 5 (%) |
+| Background | \`picVeil\` | Range | 0–90, step 5 (%) |
+| Background | \`picBlur\` | Range | 0–12, step 1 (px) |
+| Background | \`bgAnim\` | Toggle | on/off |
+| Background | \`bgMatch\` | Toggle | on/off; appears in both Theme and Background tabs |
+| Font | \`font\` | Typeface tiles | \`FONTS\` catalogue |
+| Font | \`fontColor\` | Swatches | \`FCOLS\` catalogue plus Custom |
+| Font | \`fontColorCustom\` | Native color picker | six-digit hex color; also sets \`fontColor = "custom"\` |
+| Font | \`size\` | Range | 14–34, step 1 (px) |
+| Font | \`lineH\` | Range | 1.3–2.4, step 0.05 |
+| Font | \`spacing\` | Range | 0–0.15, step 0.01 (em) |
+| Font | \`punct\` | Chips | Plain keys / As printed |
+| Font | \`lglow\` | Toggle | on/off |
+| Typing | \`motion\` | Chips | Follow system / Reduce / Full |
+| Typing | \`tfx\` | Chips | None, Glow, Rise, Fade in, Flash, Crunch, Explode, Fireworks, Shatter, Sparkle, Burn, Float, Shock, Ink corrupt, Pixelate, Embers |
+| Typing | \`fxInt\` | Range | 0.4–2, step 0.1 |
+| Typing | \`efx\` | Chips | Off / Red flash / Shake |
+| Typing | \`sparks\` | Chips | Off / Sparks / Ripple |
+| Typing | \`sound\` | Chips | Off / Click / Soft / Typewriter |
+| Typing | \`volume\` | Range | 0–100, step 5 (%) |
+| Typing | \`errSound\` | Toggle | on/off |
+| Typing | \`centered\` | Toggle | on/off |
+| Typing | \`celebrate\` | Toggle | on/off |
+| Cursor | \`cstyle\` | Chips | Block / Bar / Underline / Outline |
+| Cursor | \`cblink\` | Chips | Steady / Blink / Pulse |
+| Cursor | \`csmooth\` | Toggle | on/off |
+| Cursor | \`cglow\` | Toggle | on/off |
+| Cursor | \`ccolor\` | Swatches | \`CARETS\` catalogue |
+| Data | — | Backup controls | Download backup / Merge a backup; not a setting field |
+
+The UI also exposes two custom-artwork upload controls, one each for Gothic Night and Letter Garden. These are not settings fields: their JPEG data URLs are stored in IndexedDB \`files\` under \`art:gothic\` and \`art:garden\`. The UI resizes artwork to at most 1600×900 and encodes JPEG at quality 0.78 before saving.
+
+The source defines the swatch/tile catalogues (\`THEMES\`, \`ACC\`, \`BGS\`, \`FONTS\`, \`FCOLS\`, \`CARETS\`) separately from the settings defaults. A later UI port must carry the full catalogues, not replace them with a smaller set of guessed options.
+
+## 7. Updated inventory status
+
+Completed in this source-level pass:
+- All 34 settings keys, defaults and primitive types.
+- UI control type and ranges/options for each setting.
+- IndexedDB database version, store definitions, keys, absence of indexes, metadata fields and transaction boundaries.
+- Local-only artwork storage and current v1 backup boundary.
+
+Still open:
+- Enumerate the full option catalogues and every UI label/conditional visibility rule.
+- Trace every localStorage key read/write, including draft trimming and page-position writes.
+- Verify shelf object, chapter segmentation and draft record schemas from all read/write paths.
+- Run the current suite on this fresh branch and complete the real-browser baseline.
