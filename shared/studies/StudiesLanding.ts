@@ -124,16 +124,26 @@ export function createStudiesLanding(
         h("span", { className: "studies-landing__meta" }, "Different routes through the same canonical lessons"),
       ),
       h("div", { className: "studies-landing__grid studies-landing__grid--pathways" },
-        ...pathways.map((pathway, index) => h("article", {
-          className: "studies-landing__card studies-landing__pathway", key: pathway.id,
-        },
-          h("div", { className: "studies-landing__pathway-number" }, "PATHWAY " + String(index + 1).padStart(2, "0")),
-          h("h3", null, pathway.title),
-          pathway.description && h("p", null, pathway.description),
-          h("span", { className: "studies-landing__meta" }, pathway.contentIds.length + " lessons in this route"),
-          h(LinkComponent, { className: "studies-landing__open", href: "/#path" },
-            "Explore pathway", h("span", { "aria-hidden": "true" }, " ↗")),
-        )),
+        ...pathways.map((pathway, index) => {
+          const pathwayProgress = pathway.contentIds.map((id) => byId.get(id)?.status);
+          const completedInPathway = pathwayProgress.filter((status) => status === "completed").length;
+          const inProgressInPathway = pathwayProgress.filter((status) => status === "in-progress").length;
+          return h(LinkComponent, {
+            className: "studies-landing__card studies-landing__pathway",
+            key: pathway.id,
+            href: `/?pathway=${encodeURIComponent(pathway.id)}#study`,
+            "aria-label": "Open " + pathway.title + " learning pathway",
+          },
+            h("div", { className: "studies-landing__pathway-number" }, "PATHWAY " + String(index + 1).padStart(2, "0")),
+            h("h3", null, pathway.title),
+            pathway.description && h("p", null, pathway.description),
+            h("span", { className: "studies-landing__meta" },
+              pathway.sequenceLabel ?? (pathway.contentIds.length + " lessons")),
+            h("div", { className: "studies-landing__meta" },
+              completedInPathway + " / " + pathway.contentIds.length + " completed" +
+              (inProgressInPathway ? " · " + inProgressInPathway + " in progress" : "")),
+          );
+        }),
       ),
     ),
   );
