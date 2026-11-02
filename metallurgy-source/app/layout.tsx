@@ -17,10 +17,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* choose the theme before first paint so there is no flash */}
+        {/* Restore the site-wide theme before first paint. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var n=performance.getEntriesByType('navigation')[0];if(n&&n.type==='reload')sessionStorage.removeItem('limitless.site.theme');var t=sessionStorage.getItem('limitless.site.theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('limitless.site.theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`,
           }}
         />
       </head>
