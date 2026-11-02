@@ -77,14 +77,21 @@ Library add/delete updates metadata and blobs together. Book files and artwork m
 
 ## 6. Required inventory work before extraction
 
-1. Extract every field/default/merge rule in `bookkeys:settings` from the current source.
-2. Extract the complete IndexedDB metadata schema, indexes, transaction boundaries, add/open/delete flows and upgrade behaviour.
-3. Map every localStorage key read/write site and backup import/export rule.
-4. Map every visible screen/control and all event/lifecycle behaviour.
-5. Run the current main-branch test suite on this fresh branch and record the exact Node version, test count and result.
-6. Perform a read-only browser baseline of the live route: EPUB/PDF import, saved library, reload/resume, backup/restore, offline assets, CSP, browser Back/Forward and theme synchronization.
+Completed:
+1. Extracted all 34 settings fields, defaults and primitive types.
+2. Extracted the IndexedDB version-1 stores, key definitions, lack of indexes, library metadata fields, artwork keys and transaction boundaries.
+3. Documented the settings UI control type and ranges/options for each setting.
 
-Do not start component extraction until these inventories and the live-browser baseline are complete.
+Recorded in `tools/typing/BOOKKEYS_PERSISTENCE_INVENTORY.md`.
+
+Still required:
+1. Enumerate the complete option catalogues and conditional visibility rules for themes, backgrounds, fonts, swatches and cursor colors.
+2. Trace every localStorage read/write site, including draft trimming and page-position writes.
+3. Verify shelf object, chapter segmentation and draft record schemas against all read/write paths.
+4. Run the current regression suite on this fresh branch and record the exact Node version, test count and result. The earlier 91-pass result is historical only.
+5. Perform a read-only browser baseline of the live route: EPUB/PDF import, saved library, reload/resume, backup/restore, offline assets, CSP, browser Back/Forward and shared theme synchronization.
+
+Do not start component extraction until the remaining inventories and the live-browser baseline are complete.
 
 ## 7. Migration sequence
 
