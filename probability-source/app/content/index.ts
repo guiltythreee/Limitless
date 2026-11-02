@@ -11,6 +11,7 @@ import { problemsB } from "./chapter1-problems-b";
 import { problemsC } from "./chapter1-problems-c";
 import { pathwayLessons } from "./pathway-lessons";
 import { advancedPathwayLessons } from "./pathway-lessons-advanced";
+import { probabilityPackLessons } from "./probability-pack";
 
 export { pathways } from "./pathways";
 export { coverageAreas } from "./coverage";
@@ -31,7 +32,7 @@ const rank02Order = [
   "likelihood-estimation", "confidence-hypothesis-tests",
 ];
 const rank08Order = ["advanced-counting", "occupancy-coupon", "random-permutations"];
-const rank07Order = ["conditional", "conditional-independence", "total-probability"];
+const rank07Order = ["conditional", "conditional-independence", "total-probability", "gamblers-ruin", "simpson-prosecutor"];
 const rank06Order = ["bayes", "bayesian-inference"];
 const rank05Order = ["random-variables", "distributions", "discrete-distributions", "negative-binomial"];
 const rank04Order = ["expectation-variance", "continuous-rv", "normal-distribution", "gamma-beta-distributions"];
@@ -77,7 +78,7 @@ const enrich = (l: Lesson): Lesson => {
 };
 
 // Lessons are listed from rank 09 down to rank 00, in teaching order.
-export const lessons: Lesson[] = [...rank09, ...rank09Extra, geometricProbability, borelCantelli, ...legacyLessons, ...pathwayLessons, ...advancedPathwayLessons]
+export const lessons: Lesson[] = [...rank09, ...rank09Extra, geometricProbability, borelCantelli, ...legacyLessons, ...pathwayLessons, ...advancedPathwayLessons, ...probabilityPackLessons]
   .map(enrich)
   .sort((a, b) => b.rank - a.rank || position(a) - position(b));
 
