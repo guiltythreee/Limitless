@@ -11,13 +11,14 @@ export function createStudiesLanding(
   createElement: ElementFactory,
   LinkComponent: any,
   {
-    registration, snapshots, ready, homeHref = "/", showPathways = true,
+    registration, snapshots, ready, homeHref = "/", showPathways = true, pathwayHref,
   }: {
     registration: StudyDisciplineRegistration;
     snapshots: readonly StudyProgressSnapshot[];
     ready: boolean;
     homeHref?: string;
     showPathways?: boolean;
+    pathwayHref?: (pathwayId: string) => string;
   },
 ) {
   const h = createElement;
@@ -131,7 +132,7 @@ export function createStudiesLanding(
           return h(LinkComponent, {
             className: "studies-landing__card studies-landing__pathway",
             key: pathway.id,
-            href: `/probability/?pathway=${encodeURIComponent(pathway.id)}#study`,
+            href: pathwayHref?.(pathway.id) ?? "/#path",
             "aria-label": "Open " + pathway.title + " learning pathway",
           },
             h("div", { className: "studies-landing__pathway-number" }, "PATHWAY " + String(index + 1).padStart(2, "0")),
