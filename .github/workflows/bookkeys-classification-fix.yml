@@ -69,6 +69,7 @@ jobs:
           if ([normStart,normEnd,chapterStart,chapterEnd,classifyEnd,epubStart,epubEnd].some(x => x < 0)) throw new Error('Regression helper extraction failed');
           const context = {}; vm.createContext(context);
           vm.runInContext(html.slice(normStart,normEnd) + html.slice(chapterStart,chapterEnd) + html.slice(classifyStart,classifyEnd) + html.slice(epubStart,epubEnd) + '; globalThis.checkSection=sectionRequired; globalThis.checkBody=sectionBody; globalThis.checkPdfHeads=chapterHeadsOnPage; globalThis.checkEpub=epubParseBook; globalThis.checkBoundary=epubHeadingIsBoundary;', context);
+          context.PUNCT_EXACT = true;
           const cases = [
             ['Acknowledgements',false], ['Acknowledgments — Contributors',false], ['Chapter 2 — Acknowledgements',false],
             ['Dedication',false], ['Foreword',false], ['Preface',false], ['Afterword',false], ['Appendix A — Sources',false],
