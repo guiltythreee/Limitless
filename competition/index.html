@@ -60,6 +60,37 @@
         <p id="campaign-week">Campaign week not set</p>
       </article>
     </section>
+    <section class="section-block" id="practice-volume">
+      <div class="section-heading-row"><div><div class="card-label">PRACTICE VOLUME</div><h2>Problem-solving record</h2></div><p>Track actual practice output alongside topic completion. Rating is a personal progress indicator, not the regional qualification cutoff.</p></div>
+      <div class="volume-grid">
+        <article class="volume-card">
+          <div class="card-label">CODEFORCES</div>
+          <div class="volume-value"><strong id="cf-solved-value">0</strong><span id="cf-solved-target">/ 180 problems</span></div>
+          <div class="progress-track"><span id="cf-solved-bar"></span></div>
+          <label>Problems solved<input id="cf-solved" type="number" min="0" step="1"></label>
+          <div class="rating-row"><label>Current rating<input id="cf-rating" type="number" min="0" step="1" placeholder="Unrated"></label><label>Personal target<input id="cf-rating-target" type="number" min="0" step="1"></label></div>
+          <small>Personal rating target only; not an official selection requirement.</small>
+        </article>
+        <article class="volume-card">
+          <div class="card-label">CSES</div>
+          <div class="volume-value"><strong id="cses-solved-value">0</strong><span>/ 50 problems</span></div>
+          <div class="progress-track"><span id="cses-solved-bar"></span></div>
+          <label>Problems solved<input id="cses-solved" type="number" min="0" step="1"></label>
+        </article>
+        <article class="volume-card">
+          <div class="card-label">MATHEMATICAL EXERCISES</div>
+          <div class="volume-value"><strong id="math-exercises-value">0</strong><span>/ 100 exercises</span></div>
+          <div class="progress-track"><span id="math-exercises-bar"></span></div>
+          <label>Exercises completed<input id="math-exercises" type="number" min="0" step="1"></label>
+        </article>
+        <article class="volume-card">
+          <div class="card-label">TIMED MOCKS</div>
+          <div class="volume-value"><strong id="mock-count-value">0</strong><span>/ 8 simulations</span></div>
+          <div class="progress-track"><span id="mock-count-bar"></span></div>
+          <p>Mock count is calculated from the test history below.</p>
+        </article>
+      </div>
+    </section>
     <section class="safety-panel" aria-labelledby="safety-title">
       <div class="safety-copy">
         <div class="card-label">QUALIFICATION SAFETY MARGIN</div>
