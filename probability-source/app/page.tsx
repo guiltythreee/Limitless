@@ -128,13 +128,11 @@ export default function Home() {
               <div className="eyebrow mt-1 text-[8px]! tracking-[.2em]!">The Probability Archive</div>
             </div>
           </button>
-          <nav aria-label="Probability page navigation" className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
-            <button type="button" aria-pressed={tab === "archive"} onClick={() => setTab("archive")} className={tab === "archive" ? "text-gold" : "hover:text-parchment"}>The Archive</button>
-            <button type="button" aria-pressed={tab === "analysis"} onClick={() => setTab("analysis")} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Analysis</button>
-            <button type="button" aria-pressed={tab === "experiment"} onClick={() => setTab("experiment")} className={tab === "experiment" ? "text-gold" : "hover:text-parchment"}>Experiment</button>
-            <button type="button" aria-pressed={tab === "coverage"} onClick={() => setTab("coverage")} className={tab === "coverage" ? "text-gold" : "hover:text-parchment"}>Coverage</button>
+          <nav aria-label="Main study navigation" className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
+            <button type="button" aria-current={tab === "archive" ? "page" : undefined} onClick={() => { setTab("archive"); setSection("theory"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "archive" ? "text-gold" : "hover:text-parchment"}>Learn</button>
+            <button type="button" aria-current={tab === "archive" && section === "practice" ? "page" : undefined} onClick={() => { if (!opened) chooseLesson(visibleLessons.find(l => !completed.includes(l.id))?.id ?? visibleLessons[0]?.id ?? lessons[0].id); setTab("archive"); setSection("practice"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "archive" && section === "practice" ? "text-gold" : "hover:text-parchment"}>Practice</button>
+            <button type="button" aria-current={tab === "analysis" ? "page" : undefined} onClick={() => { setTab("analysis"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Progress</button>
             <a href="/meta/" className="hover:text-parchment">Meta</a>
-            <a href="#path" className="hover:text-parchment">Pathway</a>
           </nav>
           <div className="flex items-center gap-2">
             <button onClick={toggleTheme} aria-label="Switch between dark and light theme" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">{theme === "dark" ? "☀ Light" : "☾ Dark"}</button>
@@ -154,7 +152,7 @@ export default function Home() {
             <p className="mt-6 max-w-xl text-sm leading-7 text-dim md:text-base">Enter the archive of probability. Begin with outcomes and counting, advance through Bayes and random variables, then approach the deeper machinery of limit theorems and stochastic processes.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button onClick={() => { chooseLesson(visibleLessons.find(l => !completed.includes(l.id))?.id ?? visibleLessons[0]?.id ?? lessons[0].id); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/70 bg-gold px-5 py-3 text-xs font-bold uppercase tracking-[.15em] text-ongold transition hover:bg-goldhi">Continue the path <span className="ml-2">→</span></button>
-              <button onClick={() => { setTab("experiment"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/25 bg-ink/55 px-5 py-3 text-xs uppercase tracking-[.15em] text-gold transition hover:bg-gold/10">Open experiment chamber</button>
+              <button onClick={() => { setTab("experiment"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/25 bg-ink/55 px-5 py-3 text-xs uppercase tracking-[.15em] text-gold transition hover:bg-gold/10">Explore a simulation</button>
             </div>
           </div>
           <div className="panel relative mx-auto w-full max-w-md p-6 md:p-8">
