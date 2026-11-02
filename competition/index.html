@@ -82,10 +82,34 @@
       <div class="section-heading-row"><div><div class="card-label">FIVE SUBJECTS</div><h2>Subject readiness</h2></div><p>Mark a topic complete only when you can solve representative problems without relying on a solution.</p></div>
       <div class="subject-grid" id="subject-grid"></div>
     </section>
+    <section class="section-block cf-progression" id="codeforces">
+      <div class="section-heading-row"><div><div class="card-label">CODEFORCES PROGRESSION</div><h2>Rating development</h2></div><p>Track your actual rating against the roadmap's phase-specific difficulty band. These are practice targets, not guaranteed rating gains or official regional cutoffs.</p></div>
+      <div class="rating-panel">
+        <label>Current Codeforces rating<input id="cf-rating" type="number" min="0" step="1" placeholder="Enter current rating"></label>
+        <div><span class="card-label">CURRENT PHASE TARGET</span><strong id="cf-phase-target">800–1000</strong><p id="cf-phase-note">Weeks 1–4 · Foundations</p></div>
+        <div><span class="card-label">RATING GAP</span><strong id="cf-rating-gap">Not set</strong><p>Compared with the lower bound of the current phase band.</p></div>
+      </div>
+    </section>
     <section class="section-block" id="roadmap">
       <div class="section-heading-row"><div><div class="card-label">16-WEEK ROADMAP</div><h2>Preparation checkpoints</h2></div><p>Expand a week to check off its topics and record the hours you actually studied.</p></div>
       <div class="phase-legend"><span><i class="legend-dot foundation"></i> Foundations</span><span><i class="legend-dot core"></i> Core concepts</span><span><i class="legend-dot integration"></i> Integrated practice</span><span><i class="legend-dot competition"></i> Competition readiness</span></div>
       <div id="week-list" class="week-list"></div>
+    </section>
+    <section class="section-block problem-log-section" id="problem-review">
+      <div class="section-heading-row"><div><div class="card-label">CODEFORCES UPSOLVING</div><h2>Problem review log</h2></div><p>Record the reasoning behind each important problem. A solved count alone does not show whether you learned the underlying pattern.</p></div>
+      <form id="problem-form" class="problem-form">
+        <label>Problem / link<input id="problem-name" type="text" maxlength="160" required placeholder="e.g. 1749A — Death Note"></label>
+        <label>Difficulty<input id="problem-difficulty" type="text" maxlength="30" placeholder="e.g. 800"></label>
+        <label>Key observation<input id="problem-observation" type="text" maxlength="240" required placeholder="What unlocked the problem?"></label>
+        <label>Missed insight<input id="problem-missed" type="text" maxlength="240" placeholder="What did you fail to notice?"></label>
+        <label>Underlying concept<input id="problem-concept" type="text" maxlength="120" placeholder="e.g. prefix sums"></label>
+        <label>Approach<input id="problem-approach" type="text" maxlength="240" placeholder="Describe the solution idea"></label>
+        <label class="problem-resolve">Can you re-solve without help?
+          <select id="problem-resolve-status"><option value="not-yet">Not tested</option><option value="yes">Yes</option><option value="no">Not yet</option></select>
+        </label>
+        <button type="submit" class="action-button">Save review</button>
+      </form>
+      <div id="problem-history" class="problem-history"><p class="empty-state">No problem reviews recorded yet.</p></div>
     </section>
     <section class="section-block mock-section" id="mock-tests">
       <div class="section-heading-row"><div><div class="card-label">PERFORMANCE EVIDENCE</div><h2>Mock test history</h2></div><p>Use comparable timed tests. The latest score feeds the safety-margin calculation.</p></div>
