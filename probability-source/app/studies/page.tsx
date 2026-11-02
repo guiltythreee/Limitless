@@ -23,7 +23,8 @@ export default function ProbabilityStudiesLanding() {
     registration: PROBABILITY_STUDIES_REGISTRATION,
     snapshots,
     ready: progressReady,
-    showPathways: false,
+    showPathways: true,
+    pathwayHref: (pathwayId) => `/probability/?pathway=${encodeURIComponent(pathwayId)}#study`,
   });
 
   return (

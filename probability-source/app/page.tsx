@@ -50,6 +50,10 @@ export default function Home() {
 
   useEffect(() => {
     setTheme(document.documentElement.dataset.theme === "light" ? "light" : "dark");
+    const requestedPathway = new URLSearchParams(window.location.search).get("pathway");
+    if (requestedPathway && pathways.some((pathway) => pathway.id === requestedPathway)) {
+      setPathwayId(requestedPathway);
+    }
   }, []);
 
   // Opening another chapter (or section) always starts at its top.

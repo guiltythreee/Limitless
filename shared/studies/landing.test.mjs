@@ -17,9 +17,16 @@ const probability = flatten(createStudiesLanding(createElement, "Link", {
   registration: PROBABILITY_STUDIES_REGISTRATION,
   snapshots: [],
   ready: true,
+  pathwayHref: (pathwayId) => `/probability/?pathway=${encodeURIComponent(pathwayId)}#study`,
 }));
 assert.ok(probability.some((node) => node.type === "h1" && node.children[0] === "Probability"));
-assert.equal(probability.filter((node) => String(node.props.className ?? "").split(/\s+/).includes("studies-landing__pathway")).length, 5);
+const pathwayCards = probability.filter((node) =>
+  node.type === "Link" && String(node.props.className ?? "").split(/\s+/).includes("studies-landing__pathway")
+);
+assert.equal(pathwayCards.length, 5, "Probability keeps all five curated pathways");
+assert.ok(pathwayCards.every((node) => /^\/probability\/\?pathway=[a-z-]+#study$/.test(node.props.href)), "Each pathway opens its own filtered Probability route under the deployment base path");
+assert.ok(probability.some((node) => node.type === "span" && String(node.children?.[0] ?? "").startsWith("Sequences ")), "Pathway cards show their sequence coverage");
+assert.ok(probability.some((node) => node.type === "div" && String(node.children?.[0] ?? "").includes("completed")), "Pathway cards show shared completion progress");
 assert.ok(probability.some((node) => node.type === "Link" && node.props.href === "/"));
 
 const metallurgy = flatten(createStudiesLanding(createElement, "Link", {

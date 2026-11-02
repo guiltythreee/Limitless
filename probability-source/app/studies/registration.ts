@@ -71,6 +71,14 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
     disciplineId: "probability",
     title: pathway.label,
     description: pathway.description,
+    sequenceLabel: (() => {
+      const sequenceNumbers = [...new Set(
+        lessons.filter((lesson) => pathway.lessonIds.includes(lesson.id)).map((lesson) => lesson.rank),
+      )].sort((a, b) => b - a);
+      return sequenceNumbers.length
+        ? `Sequences ${sequenceNumbers.map((number) => String(number).padStart(2, "0")).join(", ")}`
+        : "No sequences assigned";
+    })(),
     contentIds: [...pathway.lessonIds],
   })),
   /**
