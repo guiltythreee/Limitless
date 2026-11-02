@@ -19,6 +19,7 @@ Environment: production Bookkeys route, manually tested by the user
 | Delete an imported library book | PASS | User confirmed deletion works |
 | Restore/merge a backup | PASS | User confirmed the restore/merge test works |
 | Offline reopen and typing | PASS | User confirmed an already imported book opens and remains usable for typing after disconnecting the network |
+| Iframe CSP | FAIL | Browser console reports the same-origin shared desktop background image blocked by `img-src data: blob:`; policy is missing `'self'` for this image |
 
 ## Interpretation
 
@@ -39,4 +40,4 @@ Do not clear site data, delete books, or modify production data as part of this 
 
 ## Migration decision
 
-The manual checks support proceeding with isolated, non-production TypeScript project scaffolding and preparation for subsystem extraction. The tested book's reload/reopen check passes. Do not cut over the active route or claim full feature parity until both-format reload parity, iframe CSP, browser-navigation and custom-artwork checks are complete. The original `tools/typing/bookkeys.html` implementation remains the production source and rollback.
+The manual checks support proceeding with isolated, non-production TypeScript project scaffolding and preparation for subsystem extraction. The tested book's reload/reopen check passes. Do not cut over the active route or claim full feature parity until the iframe CSP is corrected and re-tested, both-format reload parity is confirmed, and browser-navigation/custom-artwork checks are complete. The original `tools/typing/bookkeys.html` implementation remains the production source and rollback.
