@@ -24,7 +24,8 @@ const pathwayCards = probability.filter((node) =>
   node.type === "Link" && String(node.props.className ?? "").split(/\s+/).includes("studies-landing__pathway")
 );
 assert.equal(pathwayCards.length, 5, "Probability keeps all five curated pathways");
-assert.ok(pathwayCards.every((node) => /^\/probability\/\?pathway=[a-z-]+#study$/.test(node.props.href)), "Each pathway opens its own filtered Probability route under the deployment base path");
+assert.ok(pathwayCards.every((node) => /^\\/\\?pathway=[a-z-]+#study$/.test(node.props.href)), "Next.js basePath is applied exactly once to each pathway route");
+assert.ok(pathwayCards.every((node) => !node.props.href.startsWith("/probability/")), "Pathway hrefs must not duplicate the configured deployment base path");
 assert.ok(probability.some((node) => node.type === "span" && String(node.children?.[0] ?? "").startsWith("Sequences ")), "Pathway cards show their sequence coverage");
 assert.ok(probability.some((node) => node.type === "div" && String(node.children?.[0] ?? "").includes("completed")), "Pathway cards show shared completion progress");
 assert.ok(probability.some((node) => node.type === "Link" && node.props.href === "/"));
