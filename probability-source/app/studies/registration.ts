@@ -76,7 +76,7 @@ export const PROBABILITY_STUDIES_REGISTRATION = {
         lessons.filter((lesson) => pathway.lessonIds.includes(lesson.id)).map((lesson) => lesson.rank),
       )].sort((a, b) => b - a);
       return sequenceNumbers.length
-        ? `Sequences ${String(sequenceNumbers[0]).padStart(2, "0")}–${String(sequenceNumbers[sequenceNumbers.length - 1]).padStart(2, "0")}`
+        ? `Sequences ${sequenceNumbers.map((number) => String(number).padStart(2, "0")).join(", ")}`
         : "No sequences assigned";
     })(),
     contentIds: [...pathway.lessonIds],
