@@ -40,6 +40,7 @@ jobs:
           const regexEnd = html.indexOf('\\n', regexStart);
           if (bodyStart < 0 || regexStart < 0 || regexEnd < 0) throw new Error('Chapter heading parser not found');
           const regexLine = html.slice(regexStart, regexEnd);
+          console.log('ACTUAL_CHAPTER_HEADING_REGEX=' + regexLine);
           const dashLine = regexLine.replaceAll('\\\\-]', '\\\\-–—]');
           if (dashLine === regexLine) throw new Error('Heading separator regex was not updated');
           html = html.slice(0, regexStart) + dashLine + html.slice(regexEnd);
