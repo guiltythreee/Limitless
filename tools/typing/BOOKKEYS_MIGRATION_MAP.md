@@ -193,3 +193,68 @@ The Bookkeys regression workflow also passed on the updated map commit:
 ### Revised next gate
 
 Inspect the latest Cloudflare deployment's build/deploy logs and confirm exactly how the root static files are uploaded and served. Only after that should we choose the parallel Bookkeys static-export destination and cutover strategy.
+
+
+## Cloudflare production build-log follow-up — deployment path confirmed
+
+The individual build page was opened successfully in a read-only inspection. This resolves the earlier uncertainty about how the production static assets are published.
+
+### Observed production build
+
+| Field | Observed value |
+|---|---|
+| Build ID | `5681729f-b81f-4366-8ed5-81d62ad9692c` |
+| Production service | `limitless` |
+| Branch | `main` |
+| Commit | `b4681dc80d2f1a2a617a722ed7f0cf0b1d00dc3e` |
+| Trigger | `github-actions[bot]` |
+| Wrangler | `4.156.1` |
+| Build command | None |
+| Deploy command | `npx wrangler deploy` |
+| Working directory | Repository root (`/`) |
+| Assets directory in build container | `/opt/buildhome/repo` |
+| Files scanned | 718 |
+| New/modified assets uploaded | 13 |
+| Duration | 1m 38s |
+| Result | Successful |
+
+Relevant log evidence:
+
+```text
+No build output detected to cache. Skipping.
+No dependencies detected to cache. Skipping.
+Executing user deploy command: npx wrangler deploy
+The following package was not found and will be installed: wrangler@4.156.1
+wrangler 4.156.1
+Building list of assets...
+Read 718 files from the assets directory /opt/buildhome/repo
+Starting asset upload...
+Found 13 new or modified static assets to upload. Proceeding with upload...
+```
+
+### Correct interpretation
+
+The earlier concern about the missing checked-in Wrangler config is resolved for this production deployment: Wrangler 4.156.1 successfully deployed static assets from the repository root without a checked-in Wrangler config or root package manifest.
+
+The Cloudflare build output directory is effectively the repository root, not a Next.js `out/` folder. Discipline build workflows first generate their static exports and place the generated files into their deployed subdirectories; the subsequent Cloudflare deployment scans the root and uploads changed assets.
+
+This matches the repository's existing pattern:
+
+- Probability: Next.js static export → `probability/` → root asset deployment.
+- Metallurgy: Next.js static export → `metallurgy/` → root asset deployment.
+- Bookkeys today: standalone shell and iframe application under `tools/typing/`.
+
+### Bookkeys migration implication
+
+The safest parallel implementation is a new Next.js/React/TypeScript source project (built with Node.js) that exports static files into a separate nested directory under the repository root. Cloudflare's existing root-asset deployment can then serve that parallel route without changing the active `tools/typing/` URL.
+
+Keep the current shell, iframe, original HTML, assets, local storage and IndexedDB untouched while the parallel app is developed and tested. Only after feature parity should a separately reviewed cutover move the new export to the existing Bookkeys path. Do not add a Worker backend or change Cloudflare settings merely to support this migration.
+
+The exact temporary route and final export destination must be chosen after the remaining storage/UI inventory and URL/CSP checks. This is an architecture direction, not authorization to cut over.
+
+### Remaining gates
+
+1. Exact settings-field and IndexedDB metadata inventory.
+2. Real-browser verification of the current same-origin iframe, CSP, worker loading, offline use, and native navigation.
+3. Final source/module layout and temporary parallel route.
+4. Only then begin incremental extraction, with the 91-test suite as the compatibility guard.
