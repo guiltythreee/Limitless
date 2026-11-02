@@ -111,7 +111,12 @@ export function createStudiesLanding(
           const statusLabel = status === "completed" ? "Completed"
             : status === "in-progress" ? "In progress"
             : status === "not-started" ? "Not started" : "Progress unknown";
-          return h("article", { className: "studies-landing__card studies-landing__course", key: course.id },
+          return h(LinkComponent, {
+            className: "studies-landing__card studies-landing__course",
+            key: course.id,
+            href: course.route ?? homeHref,
+            "aria-label": "Open " + (course.title ?? course.id),
+          },
             h("div", { className: "studies-landing__card-top" },
               h("span", { className: "studies-landing__symbol", "aria-hidden": "true" }, course.symbol ?? "◇"),
               h("span", { className: "studies-landing__index" }, String(index + 1).padStart(2, "0")),
@@ -119,11 +124,9 @@ export function createStudiesLanding(
             h("h3", null, course.title ?? course.id),
             course.description && h("p", null, course.description),
             h("div", { className: "studies-landing__card-bottom" },
-              course.capabilities?.length ? tags(course.capabilities) : null,
               h("span", { className: "studies-landing__course-status" }, statusLabel),
-              course.route && h(LinkComponent, {
-                className: "studies-landing__open", href: course.route,
-              }, "Enter course", h("span", { "aria-hidden": "true" }, " ↗")),
+              h("span", { className: "studies-landing__open" },
+                "Open course", h("span", { "aria-hidden": "true" }, " ↗")),
             ),
           );
         }),
