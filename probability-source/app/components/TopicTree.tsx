@@ -62,6 +62,7 @@ export default function TopicTree({
           <option value="all">Full curriculum (recommended)</option>
           {pathways.map((pathway) => <option key={pathway.id} value={pathway.id}>{pathway.label}</option>)}
         </select>
+        <p className="mt-2 px-2 text-[10px] leading-4 text-faint">This only filters the chapter list. Your full curriculum and saved progress stay intact.</p>
         {selectedPathway && (
           <div className="mt-3 border-l border-gold/30 pl-3">
             <p className="text-xs leading-5 text-dim">{selectedPathway.description}</p>
