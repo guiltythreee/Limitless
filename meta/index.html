@@ -13,13 +13,28 @@
     .meta-eyebrow { color: var(--gold, #d3b267); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; }
     .meta-title { margin: .7rem 0 0; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.04; }
     .meta-lede { max-width: 760px; line-height: 1.75; opacity: .78; margin-top: 1.25rem; }
-    .meta-overview { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 0; margin-top: 1.5rem; border: 1px solid rgba(211,178,103,.28); background: rgba(12,10,16,.76); }
-    .meta-stat { min-width: 0; padding: 1.15rem 1.4rem; }
-    .meta-stat + .meta-stat { border-left: 1px solid rgba(211,178,103,.2); }
-    .meta-stat h2 { margin: 0; font-size: .68rem; text-transform: uppercase; letter-spacing: .13em; opacity: .72; }
-    .meta-number { font-size: clamp(1.8rem, 3.5vw, 2.7rem); margin-top: .35rem; line-height: 1.1; color: var(--gold, #d3b267); }
-    .meta-stat .meta-muted { margin: .35rem 0 0; }
-    .meta-overview .meta-track { margin-top: .65rem; }
+    .meta-overview { display:grid; grid-template-columns:1fr 1fr 1.2fr; gap:0; margin-top:1.35rem; border:1px solid rgba(211,178,103,.28); background:rgba(12,10,16,.76); }
+    .meta-stat { min-width:0; padding:1rem 1.25rem; }
+    .meta-stat + .meta-stat { border-left:1px solid rgba(211,178,103,.2); }
+    .meta-stat h2 { margin:0; font-size:.68rem; text-transform:uppercase; letter-spacing:.13em; opacity:.72; }
+    .meta-number { font-size:clamp(1.8rem,3.5vw,2.65rem); margin-top:.35rem; line-height:1.1; color:var(--gold,#d3b267); }
+    .meta-stat .meta-muted { margin:.35rem 0 0; }
+    .meta-overview .meta-track { margin-top:.65rem; }
+    .meta-section { margin-top:1rem; border:1px solid rgba(211,178,103,.2); background:rgba(12,10,16,.52); }
+    .meta-section > summary { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.15rem; cursor:pointer; list-style:none; font-size:1rem; font-weight:650; }
+    .meta-section > summary::-webkit-details-marker { display:none; }
+    .meta-section > summary::after { content:"＋"; color:var(--gold,#d3b267); font-size:1.15rem; }
+    .meta-section[open] > summary::after { content:"−"; }
+    .meta-section-body { padding:0 1.15rem 1.15rem; }
+    .meta-section-body > .meta-muted:first-child { margin-top:0; }
+    .meta-section-body > .meta-panel { margin-top:.8rem; }
+    .meta-section-body > .meta-notice { margin-top:.6rem; }
+    .meta-section-body > .meta-list { margin-top:.35rem; }
+    .meta-section-body > .meta-unlocks { margin-top:.8rem; }
+    .meta-section-body > .meta-form-wrap { margin-top:.7rem; }
+    .meta-section-body .meta-table th,.meta-section-body .meta-table td { padding:.65rem .4rem; }
+    .meta-subsection { margin:1rem 0 .4rem; font-size:.8rem; text-transform:uppercase; letter-spacing:.1em; opacity:.75; }
+    .meta-level-notice { padding:.65rem 0; }
     .meta-muted { font-size: .82rem; line-height: 1.6; opacity: .7; }
     .meta-track { margin-top: 1rem; height: 8px; background: rgba(255,255,255,.09); overflow: hidden; }
     .meta-fill { height: 100%; width: 0; background: var(--gold, #d3b267); transition: width .2s ease; }
@@ -55,10 +70,12 @@
     .meta-level-notice strong { color: var(--gold, #d3b267); }
     @media (max-width: 540px) { .meta-form { grid-template-columns: 1fr; } .meta-field-full { grid-column: auto; } }
     @media (max-width: 720px) {
-      .meta-overview { grid-template-columns: 1fr 1fr; }
-      .meta-stat { padding: 1rem; }
-      .meta-stat:last-child { grid-column: 1 / -1; border-left: 0; border-top: 1px solid rgba(211,178,103,.2); }
-      .meta-table th, .meta-table td { font-size: .75rem; }
+      .meta-overview { grid-template-columns:1fr 1fr; }
+      .meta-stat { padding:.85rem; }
+      .meta-stat:last-child { grid-column:1 / -1; border-left:0; border-top:1px solid rgba(211,178,103,.2); }
+      .meta-table th,.meta-table td { font-size:.75rem; }
+      .meta-section > summary { padding:.85rem; }
+      .meta-section-body { padding:0 .85rem .9rem; }
     }
   
     /* Light mode: keep the artwork outside the reading surfaces. Meta cards must
@@ -200,107 +217,119 @@
         <p id="next-level-copy" class="meta-muted"></p>
       </div>
     </section>
-
     <p class="meta-notice" id="rollout-note">Pilot rollout: only LSR-1 registered modules contribute EXP. Legacy XP remains separate until migration.</p>
 
-    <section class="meta-section">
-      <h2>Registered Modules</h2>
-      <div id="module-breakdown" class="meta-list"><p class="meta-muted">Loading module totals…</p></div>
-    </section>
-
-    <section class="meta-section" aria-labelledby="level-notices-heading">
-      <h2 id="level-notices-heading">Level-up Acknowledgements</h2>
-      <p class="meta-muted">Every newly observed global level-up is saved here until acknowledged. The notice is generated from the persisted global award total.</p>
-      <div id="level-up-notices" class="meta-list" aria-live="polite"><p class="meta-muted">Checking saved level-up notices…</p></div>
-    </section>
-
-    <section class="meta-section" aria-labelledby="universal-rewards-heading">
-      <h2 id="universal-rewards-heading">Universal Rewards</h2>
-      <p class="meta-muted">Titles, emblems, and profile effects unlock from the global level—not from any single discipline. They never spend or reduce EXP.</p>
-      <p id="next-reward-copy" class="meta-notice" aria-live="polite">Loading next reward…</p>
-      <div class="meta-panel" style="margin:1rem 0">
-        <h3>Equipped Profile</h3>
-        <div id="equipped-profile" class="meta-equipped"><p class="meta-muted">Loading equipped rewards…</p></div>
+    <details class="meta-section" open>
+      <summary>Registered modules</summary>
+      <div class="meta-section-body">
+        <p class="meta-muted">Progress from modules connected to the shared reward standard.</p>
+        <div id="module-breakdown" class="meta-list"><p class="meta-muted">Loading module totals…</p></div>
       </div>
-      <div id="unlocked-rewards" class="meta-unlocks"><p class="meta-muted">Loading unlocked rewards…</p></div>
-    </section>
+    </details>
 
-    <section class="meta-section" aria-labelledby="projects-heading">
-      <h2 id="projects-heading">Bespoke Learning Projects</h2>
-      <p class="meta-muted">Register the scope, acceptance criteria, difficulty, and fixed EXP value before you start. A registered definition cannot be edited; completion pays once and does not create a spendable currency.</p>
-      <div class="meta-panel" style="margin-top:1rem">
-        <form id="project-form" class="meta-form">
-          <div class="meta-field">
-            <label for="project-id">Stable project ID</label>
-            <input id="project-id" name="projectId" required minlength="3" maxlength="64" pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="e.g. probability-flashcards" autocomplete="off">
-          </div>
-          <div class="meta-field">
-            <label for="project-module">Discipline / module</label>
-            <select id="project-module" name="moduleId" required>
-              <option value="personal-projects">Personal project / other discipline</option>
-            </select>
-          </div>
-          <div class="meta-field meta-field-full">
-            <label for="project-title">Project title</label>
-            <input id="project-title" name="title" required minlength="5" maxlength="120" placeholder="What will be completed?">
-          </div>
-          <div class="meta-field meta-field-full">
-            <label for="project-scope">Scope / expected work</label>
-            <textarea id="project-scope" name="scope" required minlength="20" maxlength="2000" placeholder="Define the bounded work and expected effort."></textarea>
-          </div>
-          <div class="meta-field meta-field-full">
-            <label for="project-criteria">Acceptance criteria</label>
-            <textarea id="project-criteria" name="criteria" required minlength="20" maxlength="2000" placeholder="Specify observable evidence that will count as done."></textarea>
-          </div>
-          <div class="meta-field">
-            <label for="project-base-exp">Base EXP (20–100)</label>
-            <input id="project-base-exp" name="baseExp" type="number" required min="20" max="100" step="1" value="50">
-          </div>
-          <div class="meta-field">
-            <label for="project-difficulty">Difficulty (set before starting)</label>
-            <select id="project-difficulty" name="difficulty" required>
-              <option value="foundational">Foundational · ×1.00</option>
-              <option value="intermediate" selected>Intermediate · ×1.25</option>
-              <option value="advanced">Advanced · ×1.50</option>
-            </select>
-          </div>
-          <div class="meta-field meta-field-full">
-            <button class="meta-button" type="submit">Register immutable project</button>
-            <p id="project-form-status" class="meta-muted" role="status" aria-live="polite"></p>
-          </div>
-        </form>
+    <details class="meta-section">
+      <summary>Universal rewards</summary>
+      <div class="meta-section-body">
+        <p class="meta-muted">Titles, emblems, and profile effects unlock automatically as your global level increases. EXP is never spent.</p>
+        <p id="next-reward-copy" class="meta-notice" aria-live="polite">Loading next reward…</p>
+        <h3 class="meta-subsection">Equipped profile</h3>
+        <div id="equipped-profile" class="meta-list"><p class="meta-muted">Loading equipped rewards…</p></div>
+        <h3 class="meta-subsection">Unlocked rewards</h3>
+        <div id="unlocked-rewards" class="meta-unlocks"><p class="meta-muted">Loading unlocked rewards…</p></div>
       </div>
-      <div id="registered-projects" class="meta-list" style="margin-top:1rem"><p class="meta-muted">Loading registered projects…</p></div>
-    </section>
+    </details>
 
-    <section class="meta-section">
-      <h2>Recent EXP Awards</h2>
-      <div id="recent-awards" class="meta-list"><p class="meta-muted">Loading award history…</p></div>
-    </section>
+    <details class="meta-section">
+      <summary>Learning projects</summary>
+      <div class="meta-section-body">
+        <p class="meta-muted">Define a personal project before starting. Its scope and reward become fixed after registration; completion can award EXP once.</p>
+        <details class="meta-panel meta-form-wrap">
+          <summary>＋ Register a learning project</summary>
+          <div style="padding-top:1rem">
+            <form id="project-form" class="meta-form">
+              <div class="meta-field">
+                <label for="project-id">Project ID</label>
+                <input id="project-id" name="projectId" required minlength="3" maxlength="64" pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="e.g. probability-flashcards" autocomplete="off">
+              </div>
+              <div class="meta-field">
+                <label for="project-module">Discipline / module</label>
+                <select id="project-module" name="moduleId" required>
+                  <option value="personal-projects">Personal project / other discipline</option>
+                </select>
+              </div>
+              <div class="meta-field meta-field-full">
+                <label for="project-title">Project title</label>
+                <input id="project-title" name="title" required minlength="5" maxlength="120" placeholder="What will be completed?">
+              </div>
+              <div class="meta-field meta-field-full">
+                <label for="project-scope">Scope / expected work</label>
+                <textarea id="project-scope" name="scope" required minlength="20" maxlength="2000" placeholder="Define the bounded work and expected effort."></textarea>
+              </div>
+              <div class="meta-field meta-field-full">
+                <label for="project-criteria">Acceptance criteria</label>
+                <textarea id="project-criteria" name="criteria" required minlength="20" maxlength="2000" placeholder="Specify observable evidence that will count as done."></textarea>
+              </div>
+              <div class="meta-field">
+                <label for="project-base-exp">Base EXP (20–100)</label>
+                <input id="project-base-exp" name="baseExp" type="number" required min="20" max="100" step="1" value="50">
+              </div>
+              <div class="meta-field">
+                <label for="project-difficulty">Difficulty</label>
+                <select id="project-difficulty" name="difficulty" required>
+                  <option value="foundational">Foundational · ×1.00</option>
+                  <option value="intermediate" selected>Intermediate · ×1.25</option>
+                  <option value="advanced">Advanced · ×1.50</option>
+                </select>
+              </div>
+              <div class="meta-field meta-field-full">
+                <button class="meta-button" type="submit">Register project</button>
+                <p id="project-form-status" class="meta-muted" role="status" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+        </details>
+        <div id="registered-projects" class="meta-list" style="margin-top:1rem"><p class="meta-muted">Loading registered projects…</p></div>
+      </div>
+    </details>
 
-    <section class="meta-section">
-      <h2>Shared Reward Standard</h2>
-      <p class="meta-muted">The policy is centrally defined in the repository; modules supply completion evidence and difficulty, but do not set their own award amounts.</p>
-      <div class="meta-panel" style="margin-top:1rem">
-        <table class="meta-table">
-          <thead><tr><th>Activity Class</th><th>Base EXP</th><th>Qualifying Evidence</th></tr></thead>
-          <tbody>
-            <tr><td>Micro-practice / recall</td><td>5</td><td>A submitted, non-empty problem attempt</td></tr>
-            <tr><td>Standard task</td><td>10</td><td>A completed task with a defined end point</td></tr>
-            <tr><td>Focused practice</td><td>20</td><td>A completed practice block</td></tr>
-            <tr><td>Assessment / checkpoint</td><td>25</td><td>A fully answered, scored assessment</td></tr>
-            <tr><td>Unit milestone</td><td>50</td><td>First verified unit completion</td></tr>
-            <tr><td>Major completion</td><td>100</td><td>First verified course or pathway completion</td></tr>
-          </tbody>
-        </table>
+    <details class="meta-section">
+      <summary>Level-up notices</summary>
+      <div class="meta-section-body">
+        <p class="meta-muted">New global level milestones stay here until acknowledged.</p>
+        <div id="level-up-notices" class="meta-list" aria-live="polite"><p class="meta-muted">Checking saved notices…</p></div>
       </div>
-      <div class="meta-panel" style="margin-top:1rem">
-        <h2>Modifiers and repeat rules</h2>
-        <p style="margin-top:.9rem;line-height:1.8">Difficulty multipliers: Foundational ×1.00 · Intermediate ×1.25 · Advanced ×1.50.</p>
-        <p class="meta-muted">Quality bonus: from 0 at 80% quality to a maximum 20% of base EXP at 100%. A fully completed assessment passing the provisional 70% threshold can grant a separate +15 EXP ledger record once per checkpoint. The first three completed repetitions of the same item in a local day can earn EXP; later repetitions still count as practice but earn 0 EXP. Speed alone never adds EXP.</p>
-        <p class="meta-muted" style="margin-top:.8rem">Level curve: 100 EXP to reach level 2, then each next level costs 25 more EXP than the previous level-up. These calibration values are versioned and intentionally provisional.</p>
+    </details>
+
+    <details class="meta-section">
+      <summary>Recent EXP history</summary>
+      <div class="meta-section-body">
+        <div id="recent-awards" class="meta-list"><p class="meta-muted">Loading award history…</p></div>
       </div>
-    </section>
+    </details>
+
+    <details class="meta-section">
+      <summary>How EXP and levels work</summary>
+      <div class="meta-section-body">
+        <p class="meta-muted">The reward policy is shared across registered modules. Activities earn EXP only when their completion evidence qualifies.</p>
+        <div class="meta-panel">
+          <table class="meta-table">
+            <thead><tr><th>Activity</th><th>Base EXP</th><th>Evidence</th></tr></thead>
+            <tbody>
+              <tr><td>Micro-practice</td><td>5</td><td>Submitted problem attempt</td></tr>
+              <tr><td>Standard task</td><td>10</td><td>Completed task with a defined end point</td></tr>
+              <tr><td>Focused practice</td><td>20</td><td>Completed practice block</td></tr>
+              <tr><td>Assessment</td><td>25</td><td>Fully answered, scored assessment</td></tr>
+              <tr><td>Unit milestone</td><td>50</td><td>First verified unit completion</td></tr>
+              <tr><td>Major completion</td><td>100</td><td>First verified course or pathway completion</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 class="meta-subsection">Bonuses and limits</h3>
+        <p class="meta-muted">Difficulty: Foundational ×1.00 · Intermediate ×1.25 · Advanced ×1.50. Quality bonus: up to 20% of base EXP for quality above 80%, reaching the maximum at 100%. A qualifying first assessment pass may add +15 EXP once per checkpoint. The first three completions of an item per local day can earn EXP; later repeats remain practice but earn none. Speed alone never adds EXP.</p>
+        <h3 class="meta-subsection">Level curve</h3>
+        <p class="meta-muted">Level 2 requires 100 EXP. Each later level requires 25 more EXP than the previous level-up. These calibration values are provisional and versioned.</p>
+      </div>
+    </details>
   </main>
   <footer><span>✧</span>&nbsp; LIMITLESS META &nbsp; · &nbsp; VERIFIED PROGRESS &nbsp;<span>✧</span></footer>
   <script src="../hub-theme.js" defer></script>
