@@ -2709,7 +2709,7 @@ SCENES.mist = {
     usePages(pages, "Pasted text", LEGEND, "");
   });
   // ----- chapters: bookmarks, then headings, then even sections; your edits are saved per book -----
-  var CH = { list: [], src: "", busy: "" }, chapTok = 0, CHAP_VER = 3, lastKeyAt = -1e9;
+  var CH = { list: [], src: "", busy: "" }, chapTok = 0, CHAP_VER = 4, lastKeyAt = -1e9;
   function chapKey() { return "bookkeys:chap:" + S.key; }
   function chapEnd(i) { return i + 1 < CH.list.length ? CH.list[i + 1].p : S.total; }
   function unitName(one) { return S.isEpub ? (one ? "section" : "sections") : (one ? "page" : "pages"); }
