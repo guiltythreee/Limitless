@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#08070d">
-  <meta name="description" content="Limitless global progression — shared EXP and levels for modules registered with LSR-1.">
-  <title>Meta Progression — Limitless</title>
+  <meta name="description" content="Your learning progress, shared EXP, levels, rewards, and personal learning goals.">
+  <title>Progress &amp; Rewards — Limitless</title>
   <link rel="stylesheet" href="../theme.css">
   <link rel="stylesheet" href="../hub-theme.css">
   <style>
@@ -56,12 +56,17 @@
     body[data-lsr1-effect="polymath-glow"] .meta-title { text-shadow: 0 0 26px rgba(211,178,103,.4); }
     body[data-lsr1-effect="radiant-archive"] .meta-page { box-shadow: inset 0 0 90px rgba(211,178,103,.07); }
     body[data-lsr1-effect="limitless-aura"] .meta-title { text-shadow: 0 0 12px rgba(211,178,103,.4), 0 0 36px rgba(211,178,103,.35); }
-    .meta-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+    .meta-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: .9rem; max-width: 680px; }
     .meta-field { display: grid; gap: .35rem; min-width: 0; }
     .meta-field-full { grid-column: 1 / -1; }
     .meta-field label { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; opacity: .75; }
     .meta-field input, .meta-field select, .meta-field textarea { width: 100%; min-width: 0; border: 1px solid rgba(211,178,103,.3); border-radius: 2px; background: rgba(5,5,8,.8); color: inherit; padding: .7rem .75rem; font: inherit; }
     .meta-field textarea { min-height: 95px; resize: vertical; }
+    .goal-presets { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.65rem; }
+    .goal-preset { display:flex; flex-direction:column; align-items:flex-start; gap:.25rem; padding:.85rem; text-align:left; border:1px solid rgba(211,178,103,.28); background:rgba(211,178,103,.06); color:inherit; cursor:pointer; font:inherit; }
+    .goal-preset[aria-pressed="true"] { border-color:var(--gold,#d3b267); background:rgba(211,178,103,.16); box-shadow:inset 0 0 0 1px var(--gold,#d3b267); }
+    .goal-preset small { opacity:.7; font-size:.75rem; }
+    .goal-template-note { padding:.75rem .9rem; background:rgba(211,178,103,.07); border-left:2px solid rgba(211,178,103,.55); font-size:.82rem; line-height:1.6; }
     .meta-button { border: 1px solid rgba(211,178,103,.5); background: rgba(211,178,103,.1); color: inherit; padding: .65rem .9rem; cursor: pointer; font: inherit; }
     .meta-button:hover { background: rgba(211,178,103,.18); }
     .meta-button:focus-visible, .meta-field input:focus-visible, .meta-field select:focus-visible, .meta-field textarea:focus-visible { outline: 2px solid var(--gold, #d3b267); outline-offset: 2px; }
@@ -249,8 +254,8 @@
   </header>
   <main class="meta-page">
     <div class="meta-eyebrow">Limitless Standard Rewards · LSR-1</div>
-    <h1 class="meta-title">Meta Progression</h1>
-    <p class="meta-lede">One shared record of verified learning across registered modules. Subject mastery is tracked separately.</p>
+    <h1 class="meta-title">Progress &amp; Rewards</h1>
+    <p class="meta-lede">Your learning across Limitless, brought together in one place. See your EXP, level, rewards, and personal goals.</p>
 
     <section class="meta-overview" aria-label="Global learning progress" aria-live="polite">
       <div class="meta-stat">
@@ -292,49 +297,33 @@
     </details>
 
     <details class="meta-section">
-      <summary>Learning projects</summary>
+      <summary>Personal learning goals</summary>
       <div class="meta-section-body">
-        <p class="meta-muted">Define a personal project before starting. Its scope and reward become fixed after registration; completion can award EXP once.</p>
+        <p class="meta-muted">Choose what you want to accomplish. Limitless fills in the plan and calculates the reward.</p>
         <details class="meta-panel meta-form-wrap">
-          <summary>＋ Register a learning project</summary>
+          <summary>＋ Add a learning goal</summary>
           <div style="padding-top:1rem">
             <form id="project-form" class="meta-form">
               <div class="meta-field">
-                <label for="project-id">Project ID</label>
-                <input id="project-id" name="projectId" required minlength="3" maxlength="64" pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="e.g. probability-flashcards" autocomplete="off">
+                <label>Choose a goal type</label>
+                <div class="goal-presets" id="goal-presets">
+                  <button class="goal-preset" type="button" data-template="reading" aria-pressed="true"><strong>Read a book</strong><small>Finish a book or selected reading</small></button>
+                  <button class="goal-preset" type="button" data-template="course" aria-pressed="false"><strong>Complete a course</strong><small>Finish a course or learning pathway</small></button>
+                  <button class="goal-preset" type="button" data-template="topic" aria-pressed="false"><strong>Learn a topic</strong><small>Understand a subject or concept</small></button>
+                  <button class="goal-preset" type="button" data-template="practice" aria-pressed="false"><strong>Practise a skill</strong><small>Reach a defined practice target</small></button>
+                  <button class="goal-preset" type="button" data-template="build" aria-pressed="false"><strong>Build something</strong><small>Create a project or finished output</small></button>
+                  <button class="goal-preset" type="button" data-template="research" aria-pressed="false"><strong>Explore a question</strong><small>Complete a focused research task</small></button>
+                </div>
+                <input type="hidden" id="goal-template" value="reading">
               </div>
               <div class="meta-field">
-                <label for="project-module">Discipline / module</label>
-                <select id="project-module" name="moduleId" required>
-                  <option value="personal-projects">Personal project / other discipline</option>
-                </select>
+                <label for="project-title">What are you working on?</label>
+                <input id="project-title" name="title" required minlength="3" maxlength="120" placeholder="e.g. The Great Gatsby">
               </div>
-              <div class="meta-field meta-field-full">
-                <label for="project-title">Project title</label>
-                <input id="project-title" name="title" required minlength="5" maxlength="120" placeholder="What will be completed?">
-              </div>
-              <div class="meta-field meta-field-full">
-                <label for="project-scope">Scope / expected work</label>
-                <textarea id="project-scope" name="scope" required minlength="20" maxlength="2000" placeholder="Define the bounded work and expected effort."></textarea>
-              </div>
-              <div class="meta-field meta-field-full">
-                <label for="project-criteria">Acceptance criteria</label>
-                <textarea id="project-criteria" name="criteria" required minlength="20" maxlength="2000" placeholder="Specify observable evidence that will count as done."></textarea>
-              </div>
+              <div class="goal-template-note" id="goal-template-note">A reading goal is complete when you finish the selected book or reading and record that you have finished it.</div>
+              <p class="meta-muted">No project IDs, lengthy descriptions, or reward settings. Limitless creates those automatically.</p>
               <div class="meta-field">
-                <label for="project-base-exp">Base EXP (20–100)</label>
-                <input id="project-base-exp" name="baseExp" type="number" required min="20" max="100" step="1" value="50">
-              </div>
-              <div class="meta-field">
-                <label for="project-difficulty">Difficulty</label>
-                <select id="project-difficulty" name="difficulty" required>
-                  <option value="foundational">Foundational · ×1.00</option>
-                  <option value="intermediate" selected>Intermediate · ×1.25</option>
-                  <option value="advanced">Advanced · ×1.50</option>
-                </select>
-              </div>
-              <div class="meta-field meta-field-full">
-                <button class="meta-button" type="submit">Register project</button>
+                <button class="meta-button" type="submit">Add learning goal</button>
                 <p id="project-form-status" class="meta-muted" role="status" aria-live="polite"></p>
               </div>
             </form>
@@ -383,7 +372,7 @@
       </div>
     </details>
   </main>
-  <footer><span>✧</span>&nbsp; LIMITLESS META &nbsp; · &nbsp; VERIFIED PROGRESS &nbsp;<span>✧</span></footer>
+  <footer><span>✧</span>&nbsp; LIMITLESS &nbsp; · &nbsp; YOUR LEARNING PROGRESS &nbsp;<span>✧</span></footer>
   <script src="../hub-theme.js" defer></script>
   <script src="../limitless.js" defer></script>
   <script type="module" src="./meta.js"></script>
