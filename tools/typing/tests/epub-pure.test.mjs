@@ -169,6 +169,25 @@ test("epubPackSections keeps every block exactly once (no text lost or reordered
   sections.forEach((sec, si) => sec.forEach((b) => assert.equal(blocks.indexOf(b) >= 0 && secOf[blocks.indexOf(b)], si)));
 });
 
+test("epubPackSections starts a fresh section at structural and supplementary headings", () => {
+  const blocks = [
+    { t: "h", text: "Part I — The Beginning" },
+    { t: "p", text: "Part opening." },
+    { t: "h", text: "Chapter 1 — The Palace" },
+    { t: "p", text: "First chapter." },
+    { t: "h", text: "Chapter 1 — The Return" },
+    { t: "p", text: "A repeated chapter number in another part." },
+    { t: "h", text: "Acknowledgements" },
+    { t: "p", text: "Thanks." },
+  ];
+  const { sections, secOf } = H.epubPackSections(blocks, 900);
+  assert.deepEqual(secOf, [0, 0, 1, 1, 2, 2, 3, 3]);
+  assert.deepEqual(sections.map((s) => s[0].text), [
+    "Part I — The Beginning", "Chapter 1 — The Palace",
+    "Chapter 1 — The Return", "Acknowledgements",
+  ]);
+});
+
 test("epubLongPieces splits a long paragraph at sentence ends and never mid-word", () => {
   const text = (H.normalize("Sentence one is here. ".repeat(80)));
   const pieces = H.epubLongPieces(text, 1600);
