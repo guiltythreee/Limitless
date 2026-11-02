@@ -1,0 +1,48 @@
+name: Bookkeys PDF chapter detection final patch
+
+on:
+  push:
+    branches:
+      - fix/bookkeys-optional-section-classification-20261102
+    paths:
+      - .github/workflows/bookkeys-pdf-final-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/bookkeys-optional-section-classification-20261102
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Patch PDF detector, bump parser version, and test
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs=require('fs'),cp=require('child_process');
+          const path='tools/typing/bookkeys.html'; let html=fs.readFileSync(path,'utf8');
+          function replaceRegion(startMarker,endMarker,replacement,label){const a=html.indexOf(startMarker),b=html.indexOf(endMarker,a);if(a<0||b<0||b<=a)throw new Error(label+' region missing');html=html.slice(0,a)+replacement+'\n\n'+html.slice(b);}
+          replaceRegion('function chapterHeadsOnPage(', '// Sort, drop duplicates', "function chapterHeadsOnPage(lines, bodySize, pageH) {\n  var out = [], i, L, t, m, rest, words, caps, big, titleCase, nx, title, key, kind;\n  for (i = 0; i < lines.length; i++) {\n    L = lines[i]; t = normalize(L.text);\n    if (!t || t.length > 70) continue;\n    if (pageH && (L.y > pageH * 0.95 || L.y < pageH * 0.04)) continue;\n    if (/\\.{3,}|(\\. ){3,}/.test(t)) continue;\n    m = CH_RE.exec(t);\n    if (m) {\n      if (!chNumOk(m[2])) continue;\n      rest = m[3].trim();\n      key = m[1].toLowerCase() + \" \" + chNumKey(m[2]);\n      kind = /^(?:part|book|volume|vol)$/i.test(m[1]) ? \"part\" : \"chapter\";\n    } else {\n      if (!epubHeadingIsBoundary(t)) continue;\n      rest = \"\";\n      key = \"heading \" + t.toLowerCase().replace(/[^a-z0-9]+/g, \" \").trim();\n      kind = \"section\";\n    }\n    if (/\\s\\d{1,4}$/.test(rest)) continue;\n    words = rest ? rest.split(\" \") : [];\n    caps = t === t.toUpperCase();\n    big = !!bodySize && L.size > bodySize * 1.1;\n    titleCase = words.length <= 6 && words.every(function (w) { return w.length <= 3 || /^[A-Z\"'(\\d]/.test(w); });\n    if (!(big || caps || !rest || titleCase)) continue;\n    title = t.replace(/[\\s.:\\-–—]+$/, \"\");\n    nx = lines[i + 1];\n    if (m && !rest && nx && /[A-Za-z]/.test(nx.text) && Math.abs(L.y - nx.y) < L.size * 3.5 && nx.text.length <= 50 &&\n        !CH_RE.test(normalize(nx.text)) && (Math.abs(nx.size - L.size) < 0.6 || nx.text === nx.text.toUpperCase())) {\n      title += \": \" + normalize(nx.text).replace(/[\\s.]+$/, \"\");\n    }\n    out.push({ key: key, title: title.slice(0, 80), y: L.y, kind: kind });\n  }\n  return out;\n}", 'PDF heading detector');
+          replaceRegion('function pickChapters(', '// Fallback: even sections', "function pickChapters(pageHeads, n) {\n  var byKey = {}, picks = [], p, k, occ, j, kept, start, hasPartBefore;\n  function partAt(page) {\n    return (pageHeads[page] || []).some(function (x) { return x.kind === \"part\"; });\n  }\n  function partBetween(a, b) {\n    var q;\n    for (q = a + 1; q <= b; q++) if (partAt(q)) return true;\n    return false;\n  }\n  function partBefore(page) {\n    var q;\n    for (q = 0; q <= page; q++) if (partAt(q)) return true;\n    return false;\n  }\n  for (p = 0; p < n; p++) {\n    var h = pageHeads[p] || [];\n    if (h.length >= 3) continue;\n    h.forEach(function (x) { (byKey[x.key] = byKey[x.key] || []).push({ p: p, title: x.title }); });\n  }\n  for (k in byKey) {\n    occ = byKey[k];\n    if (occ.length === 1) { picks.push(occ[0]); continue; }\n    hasPartBefore = partBefore(occ[0].p);\n    start = !hasPartBefore && partBetween(occ[0].p, occ[1].p) ? 1 : 0;\n    kept = [occ[start]];\n    for (j = start + 1; j < occ.length; j++) {\n      if (partBetween(occ[j - 1].p, occ[j].p)) kept.push(occ[j]);\n    }\n    if (kept.length > 1) Array.prototype.push.apply(picks, kept);\n    else if (occ.length === 2 && occ[1].p - occ[0].p > 1) picks.push(occ[1]);\n    else picks.push(occ[0]);\n  }\n  if (picks.length < 2 || picks.length > Math.max(3, n / 2)) return [];\n  return tidyChapters(picks, n);\n}", 'PDF repeated chapter resolver');
+          if(html.split('CHAP_VER = 4').length-1!==1) throw new Error('Expected one chapter parser version 4 marker');
+          html=html.replace('CHAP_VER = 4','CHAP_VER = 5');
+          if(!html.includes('CHAP_VER = 5')) throw new Error('Chapter parser version 5 missing');
+          fs.writeFileSync(path,html);
+          const a=html.indexOf('/*BLOCKS-START*/'),b=html.indexOf('</script>',a);if(a<0||b<0)throw new Error('Application script boundaries missing');
+          fs.writeFileSync('/tmp/bookkeys-app.js',html.slice(a+'/*BLOCKS-START*/'.length,b));
+          cp.execFileSync(process.execPath,['--check','/tmp/bookkeys-app.js']);
+          cp.execFileSync('npm',['ci'],{cwd:'tools/typing/tests',stdio:'inherit'});
+          cp.execFileSync('npm',['test'],{cwd:'tools/typing/tests',stdio:'inherit'});
+          cp.execFileSync('git',['config','user.name','github-actions[bot]']);
+          cp.execFileSync('git',['config','user.email','41898282+github-actions[bot]@users.noreply.github.com']);
+          cp.execFileSync('git',['add',path,'tools/typing/tests/blocks.test.mjs','tools/typing/tests/app-boot.test.mjs','.github/workflows/bookkeys-pdf-final-fix.yml']);
+          cp.execFileSync('git',['rm','-f','.github/workflows/bookkeys-pdf-final-fix.yml']);
+          cp.execFileSync('git',['commit','-m','Improve PDF chapter detection across Parts']);
+          cp.execFileSync('git',['push','origin','HEAD:fix/bookkeys-optional-section-classification-20261102']);
+          console.log('PDF chapter detection patch committed after syntax and full regression suite passed.');
+          NODE
