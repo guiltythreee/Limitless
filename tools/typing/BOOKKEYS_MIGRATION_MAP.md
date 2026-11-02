@@ -87,9 +87,9 @@ Completed:
 Recorded in `tools/typing/BOOKKEYS_PERSISTENCE_INVENTORY.md` and `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
 
 Still required:
-1. Complete the detailed source call-site audit and add any missed legacy key/merge paths. The settings, chapter, draft, shelf, game and position record schemas are now documented.
+1. Source-level persistence audit is complete for the documented production source blob: all known localStorage key families, read/write/delete/merge paths, legacy draft adoption, record schemas and settings catalogues are recorded in `BOOKKEYS_PERSISTENCE_INVENTORY.md`. Reopen this audit only if later extraction reveals a mismatch.
 2. Finish real-browser parity checks for EPUB/PDF import, IndexedDB add/open/delete and reload persistence, backup/restore, offline assets, CSP, browser Back/Forward and custom artwork.
-3. Resolve the Bookkeys route's theme-control distinction: the visible in-app Morning/Evening/Night button changes scene backgrounds, while the outer shell's site-wide theme navbar is hidden. The live baseline documents this; preserve both behaviours and provide an unambiguous shared theme control in the eventual cutover.
+3. Manual baseline confirms the site-wide light/dark control and in-app Morning/Evening/Night scene-background control coexist without breaking one another. Preserve both behaviours and verify their placement again on the parallel route.
 4. The user manually confirmed that site-wide light/dark mode and the in-app Morning/Evening/Night scene backgrounds coexist. Preserve both behaviours; verify the exact control placement again on the parallel route.
 
 Isolated scaffolding may proceed, but do not export a route or start component extraction until the remaining inventory and live-browser baseline are complete.
