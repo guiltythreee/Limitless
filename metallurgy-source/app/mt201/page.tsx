@@ -11,7 +11,8 @@
 // saved progress loads exactly as before.
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { createElement, useCallback, useEffect, useState } from "react";
+import { createStudyUtilityNav } from "../../../shared/studies/StudyUtilityNav";
 import { activityLog, loadProgress, loadTheme, Progress, resetProgress, saveTheme, setDailyGoal, toggleBookmark } from "./progress";
 import BookmarksPanel from "../courses/BookmarksPanel";
 import ActivityHistoryPanel from "../courses/ActivityHistoryPanel";
@@ -91,7 +92,6 @@ export default function Mt201() {
         <nav className="nav-links" aria-label="Main navigation">
           <Link href="/">Disciplines</Link>
           <Link href="/mt202/">MT202</Link>
-          <a href="/meta/">Meta</a>
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Switch theme">
             {theme === "dark" ? "◐" : "◑"}
           </button>
@@ -100,7 +100,7 @@ export default function Mt201() {
 
       <div className="archive mt201">
         {/* ---------------- sidebar ---------------- */}
-        <aside className="panel side">
+        <aside className="panel side" aria-label="MT201 course navigation">
           <div className="side-head">
             <div className="t1">{MANIFEST.code} · {MANIFEST.title}</div>
             <div className="t2">{TOTAL} questions · {TOPICS.length} chambers</div>
@@ -113,6 +113,7 @@ export default function Mt201() {
               return (
                 <button
                   key={t.id}
+                  aria-current={activeCh === t.id ? "location" : undefined}
                   className={`ch-item ${activeCh === t.id ? "active" : ""}`}
                   onClick={() => setView({ kind: "study", ch: t.id })}
                 >
@@ -128,41 +129,19 @@ export default function Mt201() {
               );
             })}
 
-            <button
-              className={`ch-item ${view.kind === "bookmarks" ? "active" : ""}`}
-              onClick={() => setView({ kind: "bookmarks" })}
-            >
-              <span className="ch-num">★</span>
-              <span>
-                <span className="ch-title">Bookmarked questions</span>
-                <span className="ch-meta"><span className="ch-pct">{progress?.bookmarks?.length ?? 0} saved</span></span>
-              </span>
-            </button>
+            {createStudyUtilityNav(createElement, {
+              className: "course-utility-nav",
+              items: [
+                { id: "bookmarks", label: "Bookmarked questions", count: progress?.bookmarks?.length ?? 0, active: view.kind === "bookmarks" },
+                { id: "history", label: "Attempt history", active: view.kind === "history" },
+                { id: "mistakes", label: "Latest mistakes", active: view.kind === "mistakes" },
+                { id: "goals", label: "Daily goal & streak", active: view.kind === "goals" },
+              ],
+              onSelect: (id) => setView({ kind: id as "bookmarks" | "history" | "mistakes" | "goals" }),
+            })}
 
             <button
-              className={`ch-item ${view.kind === "history" ? "active" : ""}`}
-              onClick={() => setView({ kind: "history" })}
-            >
-              <span className="ch-num">↺</span>
-              <span className="ch-title">Attempt history</span>
-            </button>
-            <button
-              className={`ch-item ${view.kind === "mistakes" ? "active" : ""}`}
-              onClick={() => setView({ kind: "mistakes" })}
-            >
-              <span className="ch-num">!</span>
-              <span className="ch-title">Latest mistakes</span>
-            </button>
-
-            <button
-              className={`ch-item ${view.kind === "goals" ? "active" : ""}`}
-              onClick={() => setView({ kind: "goals" })}
-            >
-              <span className="ch-num">◎</span>
-              <span className="ch-title">Daily goal &amp; streak</span>
-            </button>
-
-            <button
+              aria-current={view.kind === "exam" ? "location" : undefined}
               className={`ch-item exam ${view.kind === "exam" ? "active" : ""}`}
               onClick={() => setView({ kind: "exam" })}
             >

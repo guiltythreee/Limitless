@@ -5,10 +5,16 @@ on:
     paths:
       - "shared/learning-player/**"
       - "shared/meta/**"
+      - "shared/studies/**"
+      - "scripts/generate-studies-catalog.mjs"
+      - "studies-catalog.js"
+      - "tools.js"
+      - "index.html"
       - "metallurgy-source/app/layout.tsx"
       - "metallurgy-source/app/components/MetaStatusBar.tsx"
       - "probability-source/app/layout.tsx"
       - "probability-source/app/components/MetaStatusBar.tsx"
+      - "probability-source/app/page.tsx"
       - "metallurgy-source/app/learning-player/**"
       - "metallurgy-source/app/mt201/quiz.tsx"
       - "metallurgy-source/app/mt202/quiz.tsx"
@@ -61,14 +67,26 @@ jobs:
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/learning-player/adapter.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/cross-discipline.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/player-shell.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/registry.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-utility-nav.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-mode-tabs.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/landing.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/workspace-layout.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-navigation.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/probability-topic-picker.test.mjs
 
       - name: Type-check shared contract and fixtures
         working-directory: ${{ matrix.project }}
         run: >-
           npx tsc --noEmit --strict --skipLibCheck
           --target ES2017 --lib ESNext,DOM
-          --module ESNext --moduleResolution bundler
+          --module ESNext --moduleResolution bundler --jsx react-jsx
           ../shared/learning-player/contracts.ts
+          ../shared/studies/contracts.ts
+          ../shared/studies/registry.ts
+          ../shared/studies/StudyModeTabs.ts
+          app/studies/registration.ts
           ../shared/learning-player/state.ts
           ../shared/learning-player/runtime.ts
           ../shared/learning-player/PlayerShell.ts
@@ -102,3 +120,24 @@ jobs:
       - name: Build application without deployment
         working-directory: ${{ matrix.project }}
         run: npm run build
+
+  studies-catalogue:
+    name: "Validate generated Studies homepage catalogue"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate registrations and generated catalogue
+        run: >-
+          node --experimental-strip-types
+          --experimental-loader ./shared/learning-player/ts-extension-loader.mjs
+          scripts/generate-studies-catalog.mjs --write
+          && node --check tools.js
+          && node --check studies-catalog.js
+          && git diff --exit-code -- studies-catalog.js

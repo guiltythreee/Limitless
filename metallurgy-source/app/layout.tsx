@@ -2,6 +2,10 @@ import MetaStatusBar from "./components/MetaStatusBar";
 import type { Metadata } from "next";
 import "./globals.css";
 import "../../shared/learning-player/player.css";
+import "../../shared/studies/landing.css";
+import "../../shared/studies/study-utility-nav.css";
+import "../../shared/studies/workspace-layout.css";
+import "../../shared/studies/study-navigation.css";
 import "katex/dist/katex.min.css";
 
 export const metadata: Metadata = {

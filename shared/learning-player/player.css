@@ -53,6 +53,24 @@
   min-width: 0;
 }
 
+/* The outer player frame and its reading inset belong to the shared shell.
+   Course adapters provide content and controls, not competing panel frames. */
+.learning-player-frame {
+  min-width: 0;
+  border: 1px solid var(--lp-color-border);
+  border-radius: var(--lp-radius-lg);
+  background: var(--panel-bg, var(--lp-color-surface));
+  box-shadow: var(--lp-shadow-panel);
+}
+.learning-player-content {
+  min-width: 0;
+  max-width: 100%;
+  padding: 1.1rem 1.4rem 1.5rem;
+}
+@media (max-width: 40rem) {
+  .learning-player-content { padding: 1rem; }
+}
+
 [data-learning-player-header],
 [data-learning-player-palette],
 [data-learning-player-content],
@@ -94,4 +112,194 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/*
+ * Shared interaction behaviour. Course components keep their own visual
+ * treatment; the shell guarantees keyboard visibility and a usable palette
+ * viewport across desktop and touch layouts.
+ */
+[data-learning-player] :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--lp-color-focus, var(--lp-color-accent));
+  outline-offset: 3px;
+}
+
+[data-learning-player] :where(button, input, select, textarea):disabled {
+  cursor: not-allowed;
+}
+
+[data-learning-player-palette] {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-color: var(--lp-color-border) transparent;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-learning-player-palette] :where(button, a, [role="button"]) {
+  flex-shrink: 0;
+}
+
+
+/* Shared question-player control rhythm across all discipline adapters. */
+[data-learning-player] .learning-player-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--lp-space-2) var(--lp-space-3);
+  min-width: 0;
+}
+[data-learning-player] .learning-player-meta--compact {
+  margin-bottom: .4rem;
+}
+[data-learning-player] .learning-player-meta__group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lp-space-2);
+  min-width: 0;
+}
+[data-learning-player] .learning-player-palette {
+  display: flex;
+  align-items: center;
+  gap: var(--lp-space-2);
+  min-width: 0;
+  padding: .5rem 1rem .25rem;
+}
+[data-learning-player] .learning-player-palette > * {
+  flex: 0 0 auto;
+}
+[data-learning-player] .learning-player-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--lp-space-3);
+  min-width: 0;
+  padding-top: var(--lp-space-3);
+  margin-top: var(--lp-space-4);
+  border-top: 1px solid var(--lp-color-border);
+}
+[data-learning-player] .learning-player-actions > :where(div, span) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lp-space-2);
+}
+@media (max-width: 40rem) {
+  [data-learning-player] .learning-player-meta,
+  [data-learning-player] .learning-player-actions {
+    align-items: stretch;
+  }
+  [data-learning-player] .learning-player-actions > :where(div, span) {
+    width: 100%;
+  }
+}
+
+
+/* Shared answer and review structure; discipline styles own the actual palette. */
+[data-learning-player] .learning-player-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--lp-space-3);
+  min-width: 0;
+  margin-top: var(--lp-space-4);
+}
+[data-learning-player] .learning-player-option {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  text-align: left;
+}
+[data-learning-player] .learning-player-option:focus-visible {
+  outline: 2px solid var(--lp-color-focus);
+  outline-offset: 2px;
+}
+[data-learning-player] .learning-player-feedback {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lp-space-2) var(--lp-space-3);
+  min-width: 0;
+  margin-top: var(--lp-space-4);
+  padding: var(--lp-space-3) var(--lp-space-4);
+  border: 1px solid var(--lp-color-border);
+  border-radius: var(--lp-radius-md);
+}
+[data-learning-player] :where(.learning-player-review, .reveal) {
+  display: grid;
+  gap: var(--lp-space-3);
+  min-width: 0;
+  margin-top: var(--lp-space-4);
+}
+[data-learning-player] .learning-player-solution {
+  min-width: 0;
+  padding: var(--lp-space-4);
+  border: 1px solid var(--lp-color-border);
+  border-radius: var(--lp-radius-md);
+}
+/* Metallurgy's reveal markup and legacy class names remain intact. */
+[data-learning-player] .reveal {
+  gap: var(--lp-space-3);
+}
+[data-learning-player] .reveal > :where(.concise, .detailed, .keyexp, .distractor-list) {
+  min-width: 0;
+  margin-block: 0;
+}
+[data-learning-player] .reveal .keyexp {
+  padding-top: var(--lp-space-3);
+}
+[data-learning-player] .learning-player-solution :where(p, ul, ol):last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 40rem) {
+  [data-learning-player] .learning-player-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  [data-learning-player] .learning-player-feedback {
+    align-items: flex-start;
+  }
+}
+
+/* Keep discipline-owned rich content inside the shared player at narrow widths.
+   Tables and display mathematics scroll within the reading surface; they must
+   never widen the page or squeeze the answer/navigation controls. */
+.learning-player-content {
+  overflow-wrap: anywhere;
+}
+.learning-player-content :where(table) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.learning-player-content :where(pre, .eq, .math-display, .katex-display) {
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.learning-player-content :where(.math, .katex) {
+  overflow-wrap: normal;
+}
+.learning-player-content :where(img, svg, video, canvas) {
+  max-width: 100%;
+}
+/* Long Metallurgy question palettes stay on one scrollable row, matching the
+   direct-button palette used by the other shared players. */
+[data-learning-player-palette] > .dots {
+  flex-wrap: nowrap;
+  width: max-content;
+  min-width: 100%;
+  padding: 0;
+}
+/* Option text is discipline-rendered (Rich in Probability, HTML in Metallurgy).
+   Constrain that final content cell so long formulas and unbroken labels cannot
+   force either the shared grid or the page wider than the player. */
+[data-learning-player] .learning-player-option__text {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }

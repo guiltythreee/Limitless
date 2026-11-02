@@ -72,29 +72,30 @@ export default function ActivityHistoryPanel({
   const maxDaily = Math.max(1, ...week.map((day) => day.total));
 
   return (
-    <section className="panel" aria-label={view === "mistakes" ? "Mistakes" : "Attempt history"}>
-      <div className="topbar">
-        <div>
-          <h2>{view === "mistakes" ? "Latest Mistakes" : "Attempt History"}</h2>
-          <div className="sub">
+    <section className="study-utility-panel" aria-label={view === "mistakes" ? "Mistakes" : "Attempt history"}>
+      <div className="study-utility-panel__header">
+        <div className="study-utility-panel__heading">
+          <h2 className="study-utility-panel__title">{view === "mistakes" ? "Latest Mistakes" : "Attempt History"}</h2>
+          <div className="sub study-utility-panel__description">
             {view === "mistakes"
               ? "Questions whose most recent recorded attempt in this filter was incorrect"
               : "Every recorded answer, including retries · saved locally in this course"}
           </div>
         </div>
-        <span className="chip">{rows.length} {view === "mistakes" ? "questions" : "entries"}</span>
+        <span className="study-utility-panel__count">{rows.length} {view === "mistakes" ? "questions" : "entries"}</span>
       </div>
 
-      <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", alignItems: "center", marginBottom: "1rem" }}>
+      <div className="study-utility-panel__content">
+      <div className="study-utility-toolbar">
         <label style={{ display: "flex", gap: "0.4rem", alignItems: "center", fontSize: "0.85rem" }}>
           Period
-          <select className="field" aria-label="History period" value={period} onChange={(event) => setPeriod(event.target.value as Period)}>
+          <select className="field study-utility-control" aria-label="History period" value={period} onChange={(event) => setPeriod(event.target.value as Period)}>
             {PERIODS.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
           </select>
         </label>
         <label style={{ display: "flex", gap: "0.4rem", alignItems: "center", fontSize: "0.85rem" }}>
           Mode
-          <select className="field" aria-label="Attempt mode" value={mode} onChange={(event) => setMode(event.target.value as AttemptMode | "any")}>
+          <select className="field study-utility-control" aria-label="Attempt mode" value={mode} onChange={(event) => setMode(event.target.value as AttemptMode | "any")}>
             {(["any", "learn", "practice", "exam", "revision"] as const).map((item) => (
               <option key={item} value={item}>{MODE_LABEL[item]}</option>
             ))}
@@ -102,66 +103,66 @@ export default function ActivityHistoryPanel({
         </label>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(7rem, 1fr))", gap: "0.6rem", marginBottom: "1.2rem" }}>
+      <div className="study-utility-metrics">
         {[
           { label: "Attempts", value: String(summary.attempts) },
           { label: "Questions", value: String(summary.questions) },
           { label: "Accuracy", value: summary.attempts ? `${Math.round(summary.accuracy * 100)}%` : "—" },
           { label: "Timed avg.", value: summary.timed ? fmtElapsed(summary.avgMs) : "—" },
         ].map((tile) => (
-          <div key={tile.label} className="chip" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.2rem", padding: "0.65rem 0.8rem" }}>
-            <span style={{ fontSize: "0.72rem", opacity: 0.8 }}>{tile.label}</span>
-            <strong style={{ fontSize: "1.1rem" }}>{tile.value}</strong>
+          <div key={tile.label} className="study-utility-metric">
+            <span className="study-utility-metric__label">{tile.label}</span>
+            <strong className="study-utility-metric__value">{tile.value}</strong>
           </div>
         ))}
       </div>
 
-      <div style={{ border: "1px solid var(--panel-line)", borderRadius: "0.75rem", padding: "0.8rem", marginBottom: "1.2rem" }}>
+      <div className="study-utility-visual">
         <div style={{ fontWeight: 600, marginBottom: "0.5rem" }}>Daily activity · last 7 days</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(0, 1fr))", gap: "0.45rem", alignItems: "end" }}>
+        <div className="study-utility-week-grid" style={{ alignItems: "end" }}>
           {week.map((day) => (
-            <div key={day.key} style={{ minWidth: 0, textAlign: "center" }}>
+            <div key={day.key} className="study-utility-week-cell">
               <div style={{ height: "4.5rem", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "stretch", margin: "0 auto", maxWidth: "2rem" }} aria-label={`${day.key}: ${day.total} attempts, ${day.correct} correct`}>
                 <div style={{ height: `${(day.total - day.correct) / maxDaily * 64}px`, background: "var(--bad)", minHeight: day.total > day.correct ? "2px" : 0 }} />
                 <div style={{ height: `${day.correct / maxDaily * 64}px`, background: "var(--good)", minHeight: day.correct > 0 ? "2px" : 0 }} />
               </div>
-              <div style={{ fontSize: "0.7rem", marginTop: "0.35rem" }}>{day.label}</div>
-              <div style={{ fontSize: "0.68rem", color: "var(--dim)" }}>{day.total}</div>
+              <div className="study-utility-week-label" style={{ marginTop: "0.35rem" }}>{day.label}</div>
+              <div className="study-utility-week-detail">{day.total}</div>
             </div>
           ))}
         </div>
-        <div style={{ display: "flex", gap: "0.8rem", fontSize: "0.72rem", color: "var(--dim)", marginTop: "0.6rem" }}>
-          <span><i style={{ display: "inline-block", width: "0.55rem", height: "0.55rem", background: "var(--good)", marginRight: "0.3rem" }} />Correct</span>
-          <span><i style={{ display: "inline-block", width: "0.55rem", height: "0.55rem", background: "var(--bad)", marginRight: "0.3rem" }} />Incorrect</span>
+        <div className="study-utility-legend">
+          <span className="study-utility-legend__item"><i className="study-utility-legend__swatch" style={{ background: "var(--good)" }} />Correct</span>
+          <span className="study-utility-legend__item"><i className="study-utility-legend__swatch" style={{ background: "var(--bad)" }} />Incorrect</span>
         </div>
       </div>
 
       {rows.length === 0 ? (
-        <div className="prose">
+        <div className="study-utility-empty">
           <p>{view === "mistakes" ? "No latest mistakes match these filters. Keep practising." : "No attempts match these filters yet."}</p>
         </div>
       ) : (
-        <div>
+        <div className="study-utility-list">
           {rows.map((activity, index) => {
             const topicId = resolveTopic(activity.q) ?? activity.topicId;
             const topic = topicById.get(topicId);
             return (
-              <article key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`} style={{ padding: "0.85rem 0", borderBottom: "1px solid var(--panel-line)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: "0.6rem", flexWrap: "wrap", alignItems: "flex-start" }}>
-                  <div style={{ minWidth: 0, flex: "1 1 14rem" }}>
-                    <div style={{ fontWeight: 600 }}>
+              <article className="study-utility-row study-utility-row--history" key={`${activity.courseId}|${activity.q}|${activity.ts}|${activity.mode}|${activity.picked}|${index}`}>
+                <div className="study-utility-row__top">
+                  <div className="study-utility-row__copy">
+                    <div className="study-utility-row__title">
                       {topic?.title ?? topicId} · {activity.q}
                     </div>
-                    <div style={{ color: "var(--dim)", fontSize: "0.78rem", marginTop: "0.2rem" }}>
+                    <div className="study-utility-row__meta">
                       {activity.ts > 0 ? new Date(activity.ts).toLocaleString() : "Date unknown"} · {MODE_LABEL[activity.mode]} · {activity.ms > 0 ? fmtElapsed(activity.ms) : "Time unknown"}
                       {activity.source === "legacy" ? " · legacy record" : ""}
                     </div>
-                    <div style={{ fontSize: "0.85rem", marginTop: "0.35rem" }}>
+                    <div className="study-utility-row__detail">
                       Selected: <strong>{activity.picked}</strong> · <span style={{ color: activity.correct ? "var(--good)" : "var(--bad)" }}>{activity.correct ? "Correct" : "Incorrect"}</span>
                     </div>
                   </div>
                   {topic && (
-                    <button className="btn" onClick={() => onOpen(activity.q, topic.id)}>
+                    <button className="btn study-utility-action" onClick={() => onOpen(activity.q, topic.id)}>
                       Open question →
                     </button>
                   )}
@@ -171,6 +172,7 @@ export default function ActivityHistoryPanel({
           })}
         </div>
       )}
+      </div>
     </section>
   );
 }
