@@ -38,24 +38,7 @@ jobs:
           const listStart = html.indexOf('var SECTION_OPTIONAL = [');
           const listEnd = html.indexOf('\n];', listStart);
           if (listStart < 0 || listEnd < 0) throw new Error('Optional-section list not found');
-          const optionalList = \`var SECTION_OPTIONAL = [
-            "cover", "title page", "half title", "frontispiece", "copyright", "copyright page",
-            "publication", "publication information", "legal notice", "contents", "table of contents",
-            "list of illustrations", "list of figures", "list of plates", "list of maps", "list of tables",
-            "epigraph", "dedication", "foreword", "preface", "acknowledgements", "acknowledgments",
-            "afterword", "appendix", "appendices", "glossary", "bibliography", "references", "sources",
-            "endnotes", "notes", "footnotes", "index", "author's note", "authors note", "about the author",
-            "about the authors", "author biography", "author biographies", "about the editors",
-            "editor biography", "editor biographies", "about the contributors", "translator biography",
-            "translator biographies", "translator's note", "translator's preface", "editor's note",
-            "editor's preface", "publisher's note", "publisher information", "more from the publisher",
-            "publisher advertisement", "publisher advertisements", "advertisements", "also by",
-            "other books by", "further reading", "reading guide", "reading group questions",
-            "book club questions", "discussion guide", "discussion questions", "questions for discussion",
-            "series information", "about the series", "series", "a note on the text",
-            "a note on the translation", "how to use this book", "colophon", "errata", "abbreviations",
-            "chronology", "timeline", "cast of characters", "dramatis personae"
-          ];\`;
+          const optionalList = "var SECTION_OPTIONAL = [\n  \"cover\",\n  \"title page\",\n  \"half title\",\n  \"frontispiece\",\n  \"copyright\",\n  \"copyright page\",\n  \"publication\",\n  \"publication information\",\n  \"legal notice\",\n  \"contents\",\n  \"table of contents\",\n  \"list of illustrations\",\n  \"list of figures\",\n  \"list of plates\",\n  \"list of maps\",\n  \"list of tables\",\n  \"epigraph\",\n  \"dedication\",\n  \"foreword\",\n  \"preface\",\n  \"acknowledgements\",\n  \"acknowledgments\",\n  \"afterword\",\n  \"appendix\",\n  \"appendices\",\n  \"glossary\",\n  \"bibliography\",\n  \"references\",\n  \"sources\",\n  \"endnotes\",\n  \"notes\",\n  \"footnotes\",\n  \"index\",\n  \"author's note\",\n  \"authors note\",\n  \"about the author\",\n  \"about the authors\",\n  \"author biography\",\n  \"author biographies\",\n  \"about the editors\",\n  \"editor biography\",\n  \"editor biographies\",\n  \"about the contributors\",\n  \"translator biography\",\n  \"translator biographies\",\n  \"translator's note\",\n  \"translator's preface\",\n  \"editor's note\",\n  \"editor's preface\",\n  \"publisher's note\",\n  \"publisher information\",\n  \"more from the publisher\",\n  \"publisher advertisement\",\n  \"publisher advertisements\",\n  \"advertisements\",\n  \"also by\",\n  \"other books by\",\n  \"further reading\",\n  \"reading guide\",\n  \"reading group questions\",\n  \"book club questions\",\n  \"discussion guide\",\n  \"discussion questions\",\n  \"questions for discussion\",\n  \"series information\",\n  \"about the series\",\n  \"series\",\n  \"a note on the text\",\n  \"a note on the translation\",\n  \"how to use this book\",\n  \"colophon\",\n  \"errata\",\n  \"abbreviations\",\n  \"chronology\",\n  \"timeline\",\n  \"cast of characters\",\n  \"dramatis personae\"\n];";
           html = html.slice(0, listStart) + optionalList + html.slice(listEnd + 2);
           const bodyStart = html.indexOf('function sectionBody(title)');
           const regexStart = html.indexOf('  var m = t.match(', bodyStart);
@@ -63,8 +46,8 @@ jobs:
           if (bodyStart < 0 || regexStart < 0 || regexEnd < 0) throw new Error('Chapter heading parser not found');
           const regexLine = html.slice(regexStart, regexEnd);
           const dashLine = regexLine
-            .replace(String.raw\`[.):,\-]\`, String.raw\`[.):,\-–—]\`)
-            .replace(String.raw\`[\s.):,\-]*\`, String.raw\`[\s.):,\-–—]*\`);
+            .replace("[.):,\\-]", "[.):,\\-–—]")
+            .replace("[\\s.):,\\-]*", "[\\s.):,\\-–—]*");
           if (dashLine === regexLine) throw new Error('Heading separator regex was not updated: ' + regexLine);
           html = html.slice(0, regexStart) + dashLine + html.slice(regexEnd);
           if (html.includes(oldList) || html.includes(oldBoundary) || !html.includes('function openLibBook')) throw new Error('Post-patch source integrity check failed');
