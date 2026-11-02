@@ -4,14 +4,6 @@ import type {
 } from "./contracts";
 import { summarizeStudyProgress } from "./registry";
 
-const CAPABILITY_LABELS: Record<string, string> = {
-  theory: "Theory", formulas: "Formulas", examples: "Examples",
-  practice: "Practice", assessment: "Assessments", "answer-review": "Answer review",
-  revision: "Revision", "subject-tools": "Subject tools", bookmarks: "Bookmarks",
-  drafts: "Drafts", timers: "Timers", "attempt-history": "Attempt history",
-  analytics: "Analytics", goals: "Goals", mastery: "Mastery",
-};
-
 type ElementFactory = (...args: any[]) => any;
 
 /** Shared composition; app-local React and Next Link are injected by the host. */
@@ -30,25 +22,17 @@ export function createStudiesLanding(
   const h = createElement;
   const summary = summarizeStudyProgress(registration, snapshots);
   const courses = registration.content.filter((item) => item.kind === "course");
-  const capabilities = registration.descriptor.capabilities;
   const pathways = registration.pathways;
   const progressPercent = summary.totalContent
     ? Math.round((summary.completed / summary.totalContent) * 100)
     : 0;
   const byId = new Map(snapshots.map((snapshot) => [snapshot.contentId, snapshot]));
-  const tags = (items: readonly string[]) => h(
-    "div", { className: "studies-landing__tags" },
-    ...items.map((capability) => h("span", { key: capability },
-      CAPABILITY_LABELS[capability] ?? capability)),
-  );
-
   return h("main", { className: "studies-landing" },
     h("nav", { className: "studies-landing__subnav", "aria-label": "Page sections" },
       h("a", { href: homeHref }, "← Limitless"),
       h("span", { "aria-hidden": "true" }, "／"),
       h("a", { href: "#courses" }, courses.length === 1 ? "Course" : "Courses"),
       pathways.length > 0 && h("a", { href: "#pathways" }, "Pathways"),
-      h("a", { href: "#capabilities" }, "Facilities"),
     ),
     h("section", { className: "studies-landing__hero" },
       h("div", { className: "studies-landing__hero-copy" },
@@ -152,15 +136,6 @@ export function createStudiesLanding(
             "Explore pathway", h("span", { "aria-hidden": "true" }, " ↗")),
         )),
       ),
-    ),
-    h("section", { id: "capabilities", className: "studies-landing__section", "aria-labelledby": "studies-capabilities-title" },
-      h("div", { className: "studies-landing__eyebrow" }, "Available study facilities"),
-      h("h2", { id: "studies-capabilities-title" }, "Discipline capabilities"),
-      h("p", { className: "studies-landing__intro" },
-        "This discipline currently supports the following learning facilities."),
-      tags(capabilities),
-      h("p", { className: "studies-landing__footnote" },
-        "Facilities are declared by the discipline. Individual courses may provide a narrower set."),
     ),
   );
 }
