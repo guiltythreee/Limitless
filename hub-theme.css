@@ -121,7 +121,7 @@ html[data-theme="light"] .particle {
 }
 
 html[data-theme="light"] .navbar {
-  background: rgba(252,247,235,.66);
+  background: rgba(252,247,235,.92);
   border-bottom-color: rgba(122,88,32,.25);
 }
 
