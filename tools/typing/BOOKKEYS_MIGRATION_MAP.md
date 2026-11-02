@@ -98,3 +98,60 @@ The prior audit's 86-pass figure is historical only. **A fresh `npm test` result
 ## Migration rule
 
 No storage key rename, IndexedDB database/store/version change, backup schema change, remote book upload, CDN dependency, original asset removal, or active-route cutover without a separate explicit compatibility plan and tests. Save/commit each compiling, passing checkpoint before adding the next change.
+
+
+## Phase 0 status update — 2026-11-02
+
+### Fresh regression baseline: complete
+
+The original Bookkeys implementation passed a fresh run of the complete test package:
+
+- GitHub Actions run: [41458291727](https://github.com/guiltythreee/Limitless/actions/runs/41458291727)
+- Node.js: 20.9.0; npm: 10.1.0
+- Command: `npm ci` followed by `npm test` in `tools/typing/tests`
+- Result: **91 passed, 0 failed, 0 skipped**
+- Duration: 8,875.876 ms
+- Preserved Bookkeys source blob: `310da8014c6c1ca9c80a75bce89b4ff1b2aa1e28`
+
+The result is recorded in `tools/typing/BOOKKEYS_TEST_BASELINE.md`. A dedicated workflow is now present at `.github/workflows/test-bookkeys.yml`, covering Bookkeys changes on this migration branch and pull requests.
+
+The baseline report commit also completed the same regression workflow successfully (run [41458435375](https://github.com/guiltythreee/Limitless/actions/runs/41458435375)).
+
+### Deployment architecture findings
+
+A read-only inspection of the Cloudflare dashboard confirmed:
+
+- Cloudflare Workers & Pages project: `limitless`
+- Connected repository: `guiltythreee/Limitless`
+- Production branch: `main`
+- Production URL: `https://limitless.beyondthelimits.workers.dev/`
+- Deployment type shown in the dashboard: static assets
+- The latest Ready deployment observed during inspection was associated with the Probability learning-goals merge; a subsequent generated Probability build was still in progress at that moment.
+
+Repository inspection confirms the root Limitless hub is still a static HTML site. Bookkeys is served from `tools/typing/index.html`, which embeds the unchanged `bookkeys.html` through a same-origin iframe.
+
+The two existing Next.js projects demonstrate the repository's static-export pattern:
+
+- `probability-source` uses Next.js static export with production `basePath: "/probability"`; `.github/workflows/build-probability.yml` builds it and syncs `out/` into `probability/` on `main`.
+- `metallurgy-source` uses Next.js static export with production `basePath: "/metallurgy"`; its README documents copying `out/` into `metallurgy/`.
+
+**Still unresolved:** the Cloudflare dashboard's build-settings page was not reached during the read-only inspection, so the authoritative root directory, build command, and output directory are not yet confirmed. Do not assume a monorepo build command or alter the production build settings. Verify those settings before choosing the final Bookkeys export/copy strategy.
+
+### Safety and branch delta
+
+Compared with the previous checkpoint `298e6d0`, this branch is exactly two commits ahead. The only added files are:
+
+- `.github/workflows/test-bookkeys.yml`
+- `tools/typing/BOOKKEYS_TEST_BASELINE.md`
+
+No Bookkeys application code, assets, active routes, local storage keys, IndexedDB schema, or deployment settings were changed.
+
+### Updated gate status
+
+1. Fresh automated baseline — **complete**.
+2. Confirm Cloudflare build root/command/output directory — **open**.
+3. Complete exact settings-field and IndexedDB metadata inventory — **open**.
+4. Verify live CSP, iframe, worker and offline behaviour — **open**.
+5. Review target module layout before any extraction — **not started**.
+
+No production-code migration is authorized by this checkpoint. Keep the standalone implementation active until all remaining gates are closed and the parallel replacement passes feature parity.
