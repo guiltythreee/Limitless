@@ -41,9 +41,9 @@ export const pathwayLessons: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "If |A| = 30, |B| = 24 and |A ∩ B| = 11, what is |A ∪ B|?", options: ["65", "54", "43", "13"], answer: 2, difficulty: "easy", explanation: "Inclusion–exclusion gives 30 + 24 − 11 = 43. Adding without subtracting the overlap double-counts the 11 shared elements." },
+      { question: "If |A| = 30, |B| = 24 and |A ∩ B| = 11, what is |A ∪ B|?", options: ["65", "54", "43", "13"], answer: 2, difficulty: "easy", explanation: "Inclusion–exclusion gives 30 + 24 − 11 = 43. Adding without subtracting the overlap double-counts the 11 shared elements.", solutionSteps: ["Let A and B be the two sets. If we add |A| and |B|, every element in A∩B is counted twice.","Subtract the 11 shared elements once: |A∪B| = 30 + 24 − 11 = 43.","Check: the union contains the elements in A only, B only, and the overlap, each exactly once."] },
       { question: "A fair die is rolled twice. What is the probability of at least one 6?", options: ["1/6", "11/36", "1/3", "1/36"], answer: 1, difficulty: "medium", explanation: "Use the complement: 1 − (5/6)² = 11/36. Adding 1/6 twice would incorrectly treat the events as disjoint.", solutionSteps: ["First find the probability that one roll is not a 6: there are five non-six faces out of six, so P(no 6 on one roll) = 5/6.", "The rolls are independent. Therefore, the probability that neither roll is a 6 is (5/6) × (5/6) = 25/36.", "The event “at least one 6” is the complement of “no 6 on either roll”. Thus P(at least one 6) = 1 − 25/36 = 11/36.", "Check by inclusion–exclusion: let A be “the first roll is 6” and B be “the second roll is 6”. Then P(A ∪ B) = 1/6 + 1/6 − 1/36 = 11/36. We subtract 1/36 because the outcome (6, 6) belongs to both events."] },
-      { question: "In a 52-card deck, how many cards are hearts or kings?", options: ["16", "17", "13", "4"], answer: 0, difficulty: "hard", explanation: "There are 13 hearts and 4 kings, with the king of hearts in both sets. Inclusion–exclusion gives 13 + 4 − 1 = 16." }
+      { question: "In a 52-card deck, how many cards are hearts or kings?", options: ["16", "17", "13", "4"], answer: 0, difficulty: "hard", explanation: "There are 13 hearts and 4 kings, with the king of hearts in both sets. Inclusion–exclusion gives 13 + 4 − 1 = 16.", solutionSteps: ["Let H be the hearts and K the kings. We want |H∪K|, meaning a heart, a king, or both.","There are 13 hearts and 4 kings. The king of hearts belongs to both groups, so it has been counted twice.","Subtract that one overlap: 13 + 4 − 1 = 16 cards."] }
     ]
   },
   {
@@ -90,8 +90,8 @@ export const pathwayLessons: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "With two equally likely categories, what is the probability that both appear in three independent draws?", options: ["1/8", "3/8", "3/4", "1/2"], answer: 2, difficulty: "easy", explanation: "The only failures are all of the first category or all of the second, each with probability 1/8. Hence the answer is 1 − 2/8 = 3/4." },
-      { question: "The expected number of draws to collect all four equally likely coupon types is", options: ["4", "25/3", "8", "10"], answer: 1, difficulty: "medium", explanation: "E[T]=4H₄=4(1+1/2+1/3+1/4)=25/3. As fewer types remain unseen, finding a new one takes longer on average." },
+      { question: "With two equally likely categories, what is the probability that both appear in three independent draws?", options: ["1/8", "3/8", "3/4", "1/2"], answer: 2, difficulty: "easy", explanation: "The only failures are all of the first category or all of the second, each with probability 1/8. Hence the answer is 1 − 2/8 = 3/4.", solutionSteps: ["There are two equally likely categories, and each draw is independent. The event fails only if all three draws have the same category.","The probability of three draws all from the first category is (1/2)³ = 1/8. The second category also gives 1/8.","These failure events are disjoint, so P(failure) = 1/8 + 1/8 = 1/4. Therefore P(both appear) = 1 − 1/4 = 3/4."] },
+      { question: "The expected number of draws to collect all four equally likely coupon types is", options: ["4", "25/3", "8", "10"], answer: 1, difficulty: "medium", explanation: "E[T]=4H₄=4(1+1/2+1/3+1/4)=25/3. As fewer types remain unseen, finding a new one takes longer on average.", solutionSteps: ["When j coupon types are still unseen, each draw finds a new type with probability j/4.","The waiting time to find the next new type is geometric with mean 4/j. The stages have j = 4, 3, 2, 1 unseen types.","Add the expected waiting times: E[T] = 4/4 + 4/3 + 4/2 + 4 = 4(1 + 1/2 + 1/3 + 1/4) = 25/3 draws."] },
       { question: "Three categories are equally likely and four independent draws are made. What is P(all three appear)?", options: ["4/9", "1/3", "8/27", "2/3"], answer: 0, difficulty: "hard", explanation: "There are 3⁴ = 81 ordered sequences. Inclusion–exclusion leaves 81 − 3·16 + 3 = 36 sequences containing all three categories, so 36/81 = 4/9." }
     ]
   },
@@ -168,7 +168,7 @@ export const pathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "A population is split into disjoint cases B₁ and B₂. Which expression gives P(A)?", options: ["P(A | B₁)+P(A | B₂)", "P(A | B₁)P(B₁)+P(A | B₂)P(B₂)", "P(B₁ | A)P(B₂ | A)", "P(A | B₁)/P(B₁)"], answer: 1, difficulty: "easy", explanation: "Each conditional probability must be weighted by how often its case occurs. Without those weights, the expression ignores prior proportions." },
-      { question: "A factory produces 75% of items on A (2% defective) and 25% on B (6% defective). What is P(defective)?", options: ["2%", "3%", "4%", "6%"], answer: 1, difficulty: "medium", explanation: "Total probability gives 0.75·0.02+0.25·0.06=0.015+0.015=0.03. Averaging 2% and 6% equally would ignore production shares." },
+      { question: "A factory produces 75% of items on A (2% defective) and 25% on B (6% defective). What is P(defective)?", options: ["2%", "3%", "4%", "6%"], answer: 1, difficulty: "medium", explanation: "Total probability gives 0.75·0.02+0.25·0.06=0.015+0.015=0.03. Averaging 2% and 6% equally would ignore production shares.", solutionSteps: ["Split defective items by the factory that produced them. Factory A contributes P(A)P(D|A) = 0.75×0.02 = 0.015.","Factory B contributes P(B)P(D|B) = 0.25×0.06 = 0.015.","Add the disjoint cases: P(D) = 0.015 + 0.015 = 0.03, or 3%."] },
       { question: "Disease prevalence is 1%, sensitivity is 90%, and false-positive rate is 5%. Approximately what fraction of positive tests are true positives?", options: ["90%", "50%", "15.4%", "7.7%"], answer: 2, difficulty: "hard", explanation: "Posterior = 0.90·0.01/[0.90·0.01+0.05·0.99]=0.009/0.0585≈0.1538, or 15.4%. Sensitivity is P(positive | disease), not P(disease | positive)." }
     ]
   },
@@ -209,7 +209,7 @@ export const pathwayLessons: Lesson[] = [
     quiz: [
       { question: "A random variable equals 0 with probability 1/4 and 4 with probability 3/4. Its expectation is", options: ["1", "2", "3", "4"], answer: 2, difficulty: "easy", explanation: "E[X]=0·1/4+4·3/4=3. The most likely value is 4, but expectation is a weighted average, not a mode." },
       { question: "Which statement about E[X+Y] is always true when expectations exist?", options: ["E[X+Y]=E[X]E[Y]", "E[X+Y]=E[X]+E[Y]", "It holds only if X,Y are independent", "E[X+Y]=0"], answer: 1, difficulty: "medium", explanation: "Expectation is linear without an independence assumption. The product formula is not a rule for the expectation of a sum." },
-      { question: "If Var(X)=4, Var(Y)=9 and Corr(X,Y)=−1/2, find Var(X+Y).", options: ["13", "7", "9", "1"], answer: 1, difficulty: "hard", explanation: "Standard deviations are 2 and 3, so Cov=Corr·σXσY=−3. Therefore Var(X+Y)=4+9+2(−3)=7." }
+      { question: "If Var(X)=4, Var(Y)=9 and Corr(X,Y)=−1/2, find Var(X+Y).", options: ["13", "7", "9", "1"], answer: 1, difficulty: "hard", explanation: "Standard deviations are 2 and 3, so Cov=Corr·σXσY=−3. Therefore Var(X+Y)=4+9+2(−3)=7.", solutionSteps: ["Use Var(X+Y) = Var(X) + Var(Y) + 2Cov(X,Y).","Convert correlation to covariance: Cov(X,Y) = ρσXσY = (−1/2)(2)(3) = −3.","Substitute: Var(X+Y) = 4 + 9 + 2(−3) = 7. The negative covariance reduces the variance of the sum."] }
     ]
   },
   {
@@ -248,8 +248,8 @@ export const pathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "Which model fits the number of defective items in 20 independent checks, each with defect probability 0.03?", options: ["Binomial(20, 0.03)", "Geometric(20)", "Hypergeometric(20, 0.03)", "Normal(20, 0.03)"], answer: 0, difficulty: "easy", explanation: "The trial count is fixed, outcomes are independent, and success probability is constant: a binomial model. Hypergeometric sampling is without replacement from a finite population." },
-      { question: "If T is geometric with success probability p=0.2, counting the successful trial, what is P(T=3)?", options: ["0.008", "0.032", "0.128", "0.160"], answer: 2, difficulty: "medium", explanation: "Two failures then a success gives (0.8)²(0.2)=0.128. The smaller value 0.032 incorrectly applies the success probability twice." },
-      { question: "Choose 2 cards without replacement from a 10-card deck with 4 red cards. What is the probability both are red?", options: ["4/25", "2/15", "4/15", "1/5"], answer: 1, difficulty: "hard", explanation: "P(both red)=C(4,2)/C(10,2)=6/45=2/15. Squaring 4/10 would incorrectly treat the draws as independent." }
+      { question: "If T is geometric with success probability p=0.2, counting the successful trial, what is P(T=3)?", options: ["0.008", "0.032", "0.128", "0.160"], answer: 2, difficulty: "medium", explanation: "Two failures then a success gives (0.8)²(0.2)=0.128. The smaller value 0.032 incorrectly applies the success probability twice.", solutionSteps: ["For T = 3, the first two trials must be failures and the third must be a success.","Each failure has probability 1−0.2 = 0.8, and the final success has probability 0.2.","Independence lets us multiply: P(T=3) = 0.8×0.8×0.2 = 0.128."] },
+      { question: "Choose 2 cards without replacement from a 10-card deck with 4 red cards. What is the probability both are red?", options: ["4/25", "2/15", "4/15", "1/5"], answer: 1, difficulty: "hard", explanation: "P(both red)=C(4,2)/C(10,2)=6/45=2/15. Squaring 4/10 would incorrectly treat the draws as independent.", solutionSteps: ["There are C(10,2) = 45 equally likely unordered pairs of cards.","Favourable pairs use two of the four red cards: C(4,2) = 6.","Thus P(both red) = 6/45 = 2/15. The second draw is not independent because the first card is not replaced."] }
     ]
   },
   {
@@ -289,8 +289,8 @@ export const pathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "For a continuous random variable X, what is P(X=2) when X has a density?", options: ["Always 1/2", "Always equal to f(2)", "0", "It depends on the unit"], answer: 2, difficulty: "easy", explanation: "A single point has zero area under a density. Density is probability per unit, not the probability of the point." },
-      { question: "If X is Uniform(0,1), what is P(X² ≤ 1/4)?", options: ["1/4", "1/2", "3/4", "1"], answer: 1, difficulty: "medium", explanation: "On [0,1], X²≤1/4 is equivalent to X≤1/2, which has probability 1/2." },
-      { question: "A density is f(x)=cx on [0,2]. What is P(X>1)?", options: ["1/4", "1/2", "3/4", "1"], answer: 2, difficulty: "hard", explanation: "Normalization gives c=1/2. Integrating from 1 to 2 gives ∫x/2 dx=3/4, not the density height at the endpoint." }
+      { question: "If X is Uniform(0,1), what is P(X² ≤ 1/4)?", options: ["1/4", "1/2", "3/4", "1"], answer: 1, difficulty: "medium", explanation: "On [0,1], X²≤1/4 is equivalent to X≤1/2, which has probability 1/2.", solutionSteps: ["Since X is restricted to [0,1], taking square roots preserves the inequality: X² ≤ 1/4 iff X ≤ 1/2.","A Uniform(0,1) variable assigns probability equal to interval length.","The interval [0,1/2] has length 1/2, so the probability is 1/2."] },
+      { question: "A density is f(x)=cx on [0,2]. What is P(X>1)?", options: ["1/4", "1/2", "3/4", "1"], answer: 2, difficulty: "hard", explanation: "Normalization gives c=1/2. Integrating from 1 to 2 gives ∫x/2 dx=3/4, not the density height at the endpoint.", solutionSteps: ["A density must integrate to one: ∫₀² cx dx = 1.","Evaluate: c[x²/2]₀² = 2c = 1, hence c = 1/2.","Now integrate over the requested interval: P(X>1) = ∫₁² (x/2)dx = [x²/4]₁² = 1−1/4 = 3/4."] }
     ]
   },
   {
@@ -330,7 +330,7 @@ export const pathwayLessons: Lesson[] = [
     quiz: [
       { question: "For discrete X and Y, how is the marginal P(X=x) obtained from the joint PMF?", options: ["Multiply all joint probabilities", "Sum P(X=x,Y=y) over all y", "Condition on X=x", "Subtract P(Y=y)"], answer: 1, difficulty: "easy", explanation: "All possible values of Y partition the event X=x, so their joint probabilities are summed." },
       { question: "If X and Y are independent with finite expectations, then Cov(X,Y) equals", options: ["1", "E[X]E[Y]", "0", "Var(X)+Var(Y)"], answer: 2, difficulty: "medium", explanation: "Independence implies E[XY]=E[X]E[Y], so covariance is zero. Zero covariance alone does not imply independence." },
-      { question: "For f(x,y)=2 on 0<x<y<1, what is Cov(X,Y)?", options: ["0", "1/36", "1/12", "−1/36"], answer: 1, difficulty: "hard", explanation: "The means are 1/3 and 2/3, and E[XY]=1/4. Therefore covariance is 1/4−2/9=1/36." }
+      { question: "For f(x,y)=2 on 0<x<y<1, what is Cov(X,Y)?", options: ["0", "1/36", "1/12", "−1/36"], answer: 1, difficulty: "hard", explanation: "The means are 1/3 and 2/3, and E[XY]=1/4. Therefore covariance is 1/4−2/9=1/36.", solutionSteps: ["The joint density is 2 on the triangle 0<x<y<1. Integrate over that triangle to obtain E[X], E[Y], and E[XY].","E[X] = ∫₀¹∫₀ʸ 2x dx dy = 1/3; similarly E[Y] = ∫₀¹∫₀ʸ 2y dx dy = 2/3.","E[XY] = ∫₀¹∫₀ʸ 2xy dx dy = 1/4.","Apply Cov(X,Y) = E[XY] − E[X]E[Y] = 1/4 − (1/3)(2/3) = 1/36."] }
     ]
   },
   {
@@ -366,9 +366,9 @@ export const pathwayLessons: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "If E[X|Y] equals 2 when Y=0 and 8 when Y=1, with P(Y=1)=1/4, what is E[X]?", options: ["3.5", "5", "6.5", "8"], answer: 0, difficulty: "easy", explanation: "By the tower property, E[X]=(3/4)·2+(1/4)·8=3.5. An unweighted average ignores group probabilities." },
+      { question: "If E[X|Y] equals 2 when Y=0 and 8 when Y=1, with P(Y=1)=1/4, what is E[X]?", options: ["3.5", "5", "6.5", "8"], answer: 0, difficulty: "easy", explanation: "By the tower property, E[X]=(3/4)·2+(1/4)·8=3.5. An unweighted average ignores group probabilities.", solutionSteps: ["Condition on the two possible values of Y. The event Y=0 has probability 3/4 and conditional mean 2.","The event Y=1 has probability 1/4 and conditional mean 8.","Average the conditional means using their probabilities: E[X] = (3/4)2 + (1/4)8 = 1.5 + 2 = 3.5."] },
       { question: "The law of total variance is", options: ["Var(X)=E[Var(X|Y)]−Var(E[X|Y])", "Var(X)=E[Var(X|Y)]+Var(E[X|Y])", "Var(X)=Var(E[X|Y]) only", "Var(X)=E[X]²"], answer: 1, difficulty: "medium", explanation: "Total variance is expected within-group variance plus the variance of group means. Subtracting the latter is incorrect." },
-      { question: "Group means are 10 and 14 with equal probabilities, and each within-group variance is 4. What is Var(X)?", options: ["4", "6", "8", "12"], answer: 2, difficulty: "hard", explanation: "Between-group variance is 4 and expected within-group variance is 4. Total variance is 8, not just either component." }
+      { question: "Group means are 10 and 14 with equal probabilities, and each within-group variance is 4. What is Var(X)?", options: ["4", "6", "8", "12"], answer: 2, difficulty: "hard", explanation: "Between-group variance is 4 and expected within-group variance is 4. Total variance is 8, not just either component.", solutionSteps: ["The group means are 10 and 14, each with probability 1/2. Their overall mean is μ = 12.","The variance of the group means is (1/2)(10−12)² + (1/2)(14−12)² = 4.","The expected within-group variance is (1/2)4 + (1/2)4 = 4.","By total variance, Var(X) = E[Var(X|group)] + Var(E[X|group]) = 4 + 4 = 8."] }
     ]
   },
   {
@@ -483,8 +483,8 @@ export const pathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "If X≥0 and E[X]=8, Markov gives P(X≥40) ≤", options: ["0.05", "0.2", "0.32", "5"], answer: 1, difficulty: "easy", explanation: "Markov gives E[X]/40=8/40=0.2. The bound is dimensionless; 5 is not a valid probability bound." },
-      { question: "A variable has variance 9. Chebyshev bounds P(|X−E[X]|≥6) by", options: ["3/2", "1/4", "1/2", "1/6"], answer: 1, difficulty: "medium", explanation: "Chebyshev gives 9/6²=9/36=1/4. Divide the variance by the square of the deviation." },
-      { question: "An IID sample has variance 16. What Chebyshev bound applies to P(|X̄ₙ−μ|≥2) for n=8?", options: ["1", "1/2", "1/4", "1/8"], answer: 1, difficulty: "hard", explanation: "Var(X̄ₙ)=16/8=2, so the bound is 2/2²=1/2. Use the variance of the mean, not one observation." }
+      { question: "A variable has variance 9. Chebyshev bounds P(|X−E[X]|≥6) by", options: ["3/2", "1/4", "1/2", "1/6"], answer: 1, difficulty: "medium", explanation: "Chebyshev gives 9/6²=9/36=1/4. Divide the variance by the square of the deviation.", solutionSteps: ["Chebyshev's inequality states P(|X−E[X]|≥a) ≤ Var(X)/a².","Here Var(X)=9 and a=6, so the bound is 9/36.","Therefore P(|X−E[X]|≥6) ≤ 1/4."] },
+      { question: "An IID sample has variance 16. What Chebyshev bound applies to P(|X̄ₙ−μ|≥2) for n=8?", options: ["1", "1/2", "1/4", "1/8"], answer: 1, difficulty: "hard", explanation: "Var(X̄ₙ)=16/8=2, so the bound is 2/2²=1/2. Use the variance of the mean, not one observation.", solutionSteps: ["For n independent observations with variance 16, Var(X̄ₙ)=16/n = 16/8 = 2.","Apply Chebyshev to the sample mean with deviation a=2: P(|X̄ₙ−μ|≥2) ≤ Var(X̄ₙ)/2².","The bound is 2/4 = 1/2."] }
     ]
   },
   {
@@ -521,7 +521,7 @@ export const pathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "A row of a row-stochastic transition matrix sums to", options: ["0", "1", "the stationary probability", "the number of states"], answer: 1, difficulty: "easy", explanation: "Each row is the conditional distribution of the next state given the current state, so its probabilities sum to one." },
-      { question: "For P=[[0.8,0.2],[0.3,0.7]], a stationary distribution is", options: ["(0.5,0.5)", "(0.6,0.4)", "(0.8,0.2)", "(0.3,0.7)"], answer: 1, difficulty: "medium", explanation: "Balance flow gives 0.2π₁=0.3π₂, so π₁:π₂=3:2 and π=(0.6,0.4). A row of P is not generally the stationary distribution." },
+      { question: "For P=[[0.8,0.2],[0.3,0.7]], a stationary distribution is", options: ["(0.5,0.5)", "(0.6,0.4)", "(0.8,0.2)", "(0.3,0.7)"], answer: 1, difficulty: "medium", explanation: "Balance flow gives 0.2π₁=0.3π₂, so π₁:π₂=3:2 and π=(0.6,0.4). A row of P is not generally the stationary distribution.", solutionSteps: ["Write π=(π₁,π₂) and solve πP=π together with π₁+π₂=1.","The first-state balance equation is π₁ = 0.8π₁ + 0.3π₂, hence 0.2π₁ = 0.3π₂.","Thus π₁:π₂ = 3:2. Normalizing gives π₁=3/5=0.6 and π₂=2/5=0.4."] },
       { question: "Which condition always holds for a stationary distribution π?", options: ["Pπ=π under every matrix convention", "πP=π under the row-vector convention", "Every state has probability 1/number of states", "The chain is necessarily absorbing"], answer: 1, difficulty: "hard", explanation: "With row vectors and a row-stochastic matrix, stationarity is πP=π. Column-vector conventions transpose the equation; stationarity does not imply uniformity or absorption." }
     ]
   },
@@ -559,9 +559,9 @@ export const pathwayLessons: Lesson[] = [
       ] }
     ],
     quiz: [
-      { question: "A Poisson process has rate 4 per hour. Its expected number of events in 30 minutes is", options: ["1", "2", "4", "8"], answer: 1, difficulty: "easy", explanation: "The expected count is λt=4·0.5=2. Convert minutes to hours before multiplying by the rate." },
+      { question: "A Poisson process has rate 4 per hour. Its expected number of events in 30 minutes is", options: ["1", "2", "4", "8"], answer: 1, difficulty: "easy", explanation: "The expected count is λt=4·0.5=2. Convert minutes to hours before multiplying by the rate.", solutionSteps: ["The rate is 4 events per hour. The interval is 30 minutes = 0.5 hour.","For a Poisson process, the expected count in time t is λt.","Therefore E[N(0.5)] = 4×0.5 = 2 events."] },
       { question: "For a rate-λ Poisson process, the probability of no events in an interval of length t is", options: ["λt", "1−e⁻λᵗ", "e⁻λᵗ", "1/(λt)"], answer: 2, difficulty: "medium", explanation: "N(t) is Poisson(λt), so P(N=0)=e⁻λᵗ. The expression 1−e⁻λᵗ is the probability of at least one event." },
-      { question: "Independent Poisson processes have rates 2 and 3 per minute. Half the first process's events are retained independently; all second-process events are retained. What is the combined rate?", options: ["3", "4", "5", "6"], answer: 1, difficulty: "hard", explanation: "Thinning the first process gives rate 2·1/2=1. Superimposing the untouched second process gives 1+3=4 per minute." }
+      { question: "Independent Poisson processes have rates 2 and 3 per minute. Half the first process's events are retained independently; all second-process events are retained. What is the combined rate?", options: ["3", "4", "5", "6"], answer: 1, difficulty: "hard", explanation: "Thinning the first process gives rate 2·1/2=1. Superimposing the untouched second process gives 1+3=4 per minute.", solutionSteps: ["Independent retention with probability 1/2 thins the first Poisson process from rate 2 to rate 2×1/2 = 1 per minute.","The second process remains at 3 per minute.","The superposition of independent Poisson processes has rate equal to the sum: 1+3 = 4 per minute."] }
     ]
   },
   {
@@ -593,7 +593,7 @@ export const pathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "If IID Monte Carlo sample size increases from 1,000 to 4,000, its standard error approximately", options: ["Doubles", "Halves", "Falls to one quarter", "Stays the same"], answer: 1, difficulty: "easy", explanation: "Standard error scales as 1/√n. Quadrupling n halves error; it does not cut error to one quarter." },
-      { question: "A simulation estimates a probability as 0.25 from 10,000 independent trials. Its approximate standard error is", options: ["0.25", "0.0043", "0.025", "0.075"], answer: 1, difficulty: "medium", explanation: "√(0.25·0.75/10,000)=√0.00001875≈0.00433. Standard error is not the probability itself." },
+      { question: "A simulation estimates a probability as 0.25 from 10,000 independent trials. Its approximate standard error is", options: ["0.25", "0.0043", "0.025", "0.075"], answer: 1, difficulty: "medium", explanation: "√(0.25·0.75/10,000)=√0.00001875≈0.00433. Standard error is not the probability itself.", solutionSteps: ["For an estimated probability p̂ from n independent Bernoulli trials, the approximate standard error is √(p̂(1−p̂)/n).","Substitute p̂=0.25 and n=10,000: √(0.25×0.75/10,000).","This is √0.00001875 ≈ 0.00433."] },
       { question: "Why may a very large Monte Carlo run still be misleading?", options: ["Sampling error always grows with n", "It can estimate the wrong model very precisely", "Averages cannot estimate expectations", "Standard error does not depend on variance"], answer: 1, difficulty: "hard", explanation: "More samples reduce Monte Carlo noise for the implemented model, but cannot correct model misspecification, biased sampling, or coding errors." }
     ]
   },
@@ -665,7 +665,7 @@ export const pathwayLessons: Lesson[] = [
     ],
     quiz: [
       { question: "For a symmetric Metropolis proposal, the acceptance probability is", options: ["min(1, π(y)/π(x))", "π(x)+π(y)", "always 1/2", "q(y|x)/q(x|y) only"], answer: 0, difficulty: "easy", explanation: "Proposal probabilities cancel because they are equal in both directions. The target density ratio remains, capped at one." },
-      { question: "A proposed state has target density half the current state under a symmetric proposal. Its acceptance probability is", options: ["1", "1/2", "0", "2"], answer: 1, difficulty: "medium", explanation: "α=min(1,0.5)=0.5. The chain sometimes accepts lower-density moves so it can explore the full target." },
+      { question: "A proposed state has target density half the current state under a symmetric proposal. Its acceptance probability is", options: ["1", "1/2", "0", "2"], answer: 1, difficulty: "medium", explanation: "α=min(1,0.5)=0.5. The chain sometimes accepts lower-density moves so it can explore the full target.", solutionSteps: ["For a symmetric proposal, the proposal-density terms cancel in the Metropolis–Hastings ratio.","The acceptance probability is α(x,y)=min(1,π(y)/π(x)).","The proposed density is half the current density, so α=min(1,0.5)=0.5."] },
       { question: "Which statement about MCMC output is correct?", options: ["Every iteration is independent by construction", "The raw iteration count always equals effective sample size", "Autocorrelation can reduce effective sample size", "Acceptance rate alone proves convergence"], answer: 2, difficulty: "hard", explanation: "MCMC samples are generally dependent, so autocorrelation reduces effective information. Neither iteration count nor acceptance rate alone proves convergence." }
     ]
   }
