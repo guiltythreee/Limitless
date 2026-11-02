@@ -22,7 +22,8 @@ export default function ProbabilityStudiesLanding() {
   const landing = createStudiesLanding(createElement, Link, {
     registration: PROBABILITY_STUDIES_REGISTRATION,
     snapshots,
-    ready: progressReady,\n    showPathways: false,
+    ready: progressReady,
+    showPathways: false,
   });
 
   return (
