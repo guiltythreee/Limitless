@@ -365,3 +365,9 @@ select.pill { appearance: auto; padding-right: .6rem; }
 .theory-topic-group[open] > summary::after { content: "−"; }
 .theory-topic-group[open] { background: color-mix(in srgb, var(--panel) 78%, transparent); }
 .theory-topic-group .theory-topic-heading { margin: 0; padding: 0; border: 0; font-size: 1rem; line-height: 1.55; }
+
+.question-reasoning, .question-distractors { min-width: 0; }
+.question-reasoning > .lead, .question-distractors > .lead { letter-spacing: .01em; }
+.question-solution-steps { margin-top: .65rem; }
+.question-solution-steps li { align-items: flex-start; }
+.question-distractors { border-top: 1px solid var(--panel-line); padding-top: .9rem; }
