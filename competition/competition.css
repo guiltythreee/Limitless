@@ -217,3 +217,9 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 .resource-card a:hover { color:var(--comp-ink); }
 @media(max-width:900px) { .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:600px) { .resource-grid { grid-template-columns:1fr; } }
+
+.resource-intro { margin:0 0 16px; color:var(--comp-muted); font:12px/1.7 Arial,sans-serif; }
+.resource-sequence { margin-top:16px; padding:18px 20px; border:1px solid var(--comp-border); background:var(--comp-panel); }
+.resource-sequence h3 { margin:0 0 10px; color:var(--comp-accent); font:18px Georgia,serif; }
+.resource-sequence p { margin:8px 0; color:var(--comp-muted); font:11px/1.7 Arial,sans-serif; }
+.resource-sequence b { color:var(--comp-ink); }
