@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   },
 };
 
-// Keep the existing theme key so saved dark/light preferences continue working.
-const themeInit = `try{var t=localStorage.getItem("hc3-theme");if(t!=="light"&&t!=="dark"){t="dark"}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}`;
+// One site-wide, tab-session theme. A hard refresh deliberately resets to dark.
+const themeInit = `try{var n=performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload")sessionStorage.removeItem("limitless.site.theme");var t=sessionStorage.getItem("limitless.site.theme");if(t!=="light"&&t!=="dark")t="dark";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}`;
 
 export default function RootLayout({
   children,

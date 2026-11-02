@@ -49,7 +49,7 @@ export type Progress = {
 };
 
 const KEY = "mm-mt202-v1";
-const THEME_KEY = "mm-theme-v1";
+const THEME_KEY = "limitless.site.theme";
 
 export function qid(chapterId: string, n: number) {
   return `${chapterId}-q${n}`;
@@ -298,7 +298,7 @@ export function resetProgress() {
 export function loadTheme(): "dark" | "light" {
   if (typeof window === "undefined") return "dark";
   try {
-    return window.localStorage.getItem(THEME_KEY) === "light" ? "light" : "dark";
+    return window.sessionStorage.getItem(THEME_KEY) === "light" ? "light" : "dark";
   } catch {
     return "dark";
   }
@@ -306,7 +306,7 @@ export function loadTheme(): "dark" | "light" {
 
 export function saveTheme(t: "dark" | "light") {
   try {
-    window.localStorage.setItem(THEME_KEY, t);
+    window.sessionStorage.setItem(THEME_KEY, t);
   } catch {
     /* ignore */
   }
