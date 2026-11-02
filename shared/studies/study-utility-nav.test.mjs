@@ -59,6 +59,11 @@ for (const panelPath of [
 }
 const utilityCss = readFileSync(resolve(root, "shared/studies/study-utility-nav.css"), "utf8");
 assert.ok(utilityCss.includes(".study-utility-panel__header {"), "shared utility panel header owns the common layout");
+assert.ok(utilityCss.includes(".study-utility-row--question {"), "question lists use the shared utility row spacing contract");
+assert.ok(utilityCss.includes("padding: .85rem .3rem;"), "question-list rows share the history row vertical rhythm");
+assert.ok(utilityCss.includes("border-bottom: 1px solid var(--panel-line"), "question-list rows use the shared divider treatment");
+const probabilityPractice = readFileSync(resolve(root, "probability-source/app/components/Practice.tsx"), "utf8");
+assert.ok(probabilityPractice.includes("study-utility-row--question"), "Probability question lists opt into shared row spacing");
 assert.ok(utilityCss.includes("@media (forced-colors: active)"), "utility navigation and panel focus support forced-colour mode");
 assert.ok(utilityCss.includes("outline-color: Highlight;"), "utility focus uses the system highlight in forced-colour mode");
 assert.ok(utilityCss.indexOf("@media (forced-colors: active)") > utilityCss.indexOf(".study-utility-panel :is(button, input, select, textarea):focus-visible"), "forced-colour focus overrides the panel default focus rule");
