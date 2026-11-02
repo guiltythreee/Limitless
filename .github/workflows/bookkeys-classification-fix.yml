@@ -1,0 +1,83 @@
+name: One-time Bookkeys classification patch
+
+on:
+  push:
+    branches:
+      - fix/bookkeys-optional-section-classification-20261102
+    paths:
+      - .github/workflows/bookkeys-classification-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/bookkeys-optional-section-classification-20261102
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Patch, syntax-check, and regression-test Bookkeys
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const path = 'tools/typing/bookkeys.html';
+          let html = fs.readFileSync(path, 'utf8');
+          const oldList = '  "acknowledgements", "acknowledgments", "introduction", "prologue", "epilogue", "afterword",';
+          const newList = '  "acknowledgements", "acknowledgments", "afterword",';
+          const oldBoundary = '    if (forms.some(function (f) { return f === w || f.indexOf(w + " ") === 0 || f.indexOf(w + ":") === 0 || f.indexOf(w + ",") === 0; })) return false;';
+          const newBoundary = '    if (forms.some(function (f) { return f === w || (f.indexOf(w) === 0 && /[\\s:;,.!?–—-]/.test(f.charAt(w.length))); })) return false;';
+          if (html.split(oldList).length !== 2) throw new Error('Expected optional-label list not found exactly once');
+          if (html.split(oldBoundary).length !== 2) throw new Error('Expected heading-boundary rule not found exactly once');
+          html = html.replace(oldList, newList).replace(oldBoundary, newBoundary);
+          const bodyStart = html.indexOf('function sectionBody(title)');
+          const regexStart = html.indexOf('  var m = t.match(', bodyStart);
+          const regexEnd = html.indexOf('\\n', regexStart);
+          if (bodyStart < 0 || regexStart < 0 || regexEnd < 0) throw new Error('Chapter heading parser not found');
+          const regexLine = html.slice(regexStart, regexEnd);
+          const dashLine = regexLine.replaceAll('\\\\-]', '\\\\-–—]');
+          if (dashLine === regexLine) throw new Error('Heading separator regex was not updated');
+          html = html.slice(0, regexStart) + dashLine + html.slice(regexEnd);
+          if (html.includes(oldList) || html.includes(oldBoundary) || !html.includes('function openLibBook')) throw new Error('Post-patch source integrity check failed');
+          fs.writeFileSync(path, html);
+
+          const appStart = html.indexOf('/*BLOCKS-START*/');
+          const appEnd = html.indexOf('</script>', appStart);
+          if (appStart < 0 || appEnd < 0) throw new Error('Bookkeys application script boundaries not found');
+          fs.writeFileSync('/tmp/bookkeys-app.js', html.slice(appStart + '/*BLOCKS-START*/'.length, appEnd));
+          const cp = require('child_process');
+          cp.execFileSync(process.execPath, ['--check', '/tmp/bookkeys-app.js']);
+
+          const normStart = html.indexOf('var PUNCT_EXACT = false;');
+          const normEnd = html.indexOf('// Group PDF text items', normStart);
+          const classifyStart = html.indexOf('// ----- required chapters and optional sections -----', normEnd);
+          const classifyEnd = html.indexOf('// ----- game: pure helpers -----', classifyStart);
+          if ([normStart, normEnd, classifyStart, classifyEnd].some(x => x < 0)) throw new Error('Classification helper extraction failed');
+          const context = { PUNCT_EXACT: true };
+          vm.createContext(context);
+          vm.runInContext(html.slice(normStart, normEnd) + html.slice(classifyStart, classifyEnd) + '; globalThis.checkSection = sectionRequired;', context);
+          const cases = [
+            ['Introduction', true], ['Prologue', true], ['Epilogue', true],
+            ['Chapter 3 — Introduction', true], ['Chapter 4 — Prologue', true], ['Chapter 5 — Epilogue', true],
+            ['Acknowledgements', false], ['Acknowledgements — Contributors', false],
+            ['Chapter 2 — Acknowledgements', false], ['Chapter 6 — About the Author', false],
+            ['Chapter 7 — Notes', false], ['Chapter 1 — The Palace', true]
+          ];
+          for (const [heading, expected] of cases) {
+            const actual = context.checkSection(heading);
+            if (actual !== expected) throw new Error(JSON.stringify({ heading, expected, actual }));
+          }
+          console.log('Bookkeys application syntax passed; ' + cases.length + ' classification regressions passed.');
+
+          cp.execFileSync('git', ['config', 'user.name', 'github-actions[bot]']);
+          cp.execFileSync('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
+          cp.execFileSync('git', ['add', path, '.github/workflows/bookkeys-classification-fix.yml']);
+          cp.execFileSync('git', ['rm', '-f', '.github/workflows/bookkeys-classification-fix.yml']);
+          cp.execFileSync('git', ['commit', '-m', 'Fix Bookkeys required chapter and optional section defaults']);
+          cp.execFileSync('git', ['push', 'origin', 'HEAD:fix/bookkeys-optional-section-classification-20261102']);
+          NODE
