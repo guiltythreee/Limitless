@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08070d">
+  <meta name="description" content="A structured 16-week competition preparation and qualification evidence tracker.">
+  <title>Regional Qualification | Limitless</title>
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="competition.css">
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('limitless.site.theme');
+        document.documentElement.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
+      } catch (_) { document.documentElement.setAttribute('data-theme', 'dark'); }
+    })();
+  </script>
+</head>
+<body class="competition-page">
+  <div class="background-art" aria-hidden="true"></div>
+  <header class="competition-nav">
+    <a class="competition-brand" href="../">LIMITLESS</a>
+    <nav aria-label="Competition navigation">
+      <a href="../#tools">All sections</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#subjects">Mastery</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#mock-tests">Assessments</a>
+    </nav>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch theme">Light mode</button>
+  </header>
+
+  <main class="competition-shell" id="dashboard">
+    <section class="competition-heading">
+      <div class="eyebrow">LIMITLESS · COMPETITION TRACKING</div>
+      <p class="competition-kicker">FOUR-MONTH CAMPAIGN</p>
+      <h1>Regional Qualification</h1>
+      <p class="competition-lede">A dedicated preparation campaign for Probability, Combinatorics, Graph Theory, Dynamic Programming and Logical Reasoning. Track what you can actually explain and solve, not just time spent or a target rating.</p>
+      <div class="campaign-meta">
+        <label>Campaign start <input id="start-date" type="date"></label>
+        <label>Target competition date <input id="target-date" type="date"></label>
+      </div>
+    </section>
+
+    <section class="overview-grid" aria-label="Preparation overview">
+      <article class="overview-card overview-primary">
+        <div class="card-label">SYLLABUS MASTERY</div>
+        <div class="metric-line"><strong id="overall-progress">0%</strong><span id="mastery-summary">0 mastered · 0 topics</span></div>
+        <div class="progress-track"><span id="overall-bar"></span></div>
+        <p>Only topics marked Mastered count in this percentage. It is not a probability of qualifying.</p>
+      </article>
+      <article class="overview-card">
+        <div class="card-label">CURRENT CAMPAIGN WEEK</div>
+        <div class="metric-line"><strong id="current-week">—</strong><span id="phase-name">Not started</span></div>
+        <p id="campaign-week">Campaign week not set</p>
+      </article>
+      <article class="overview-card">
+        <div class="card-label">TIME REMAINING</div>
+        <div class="metric-line"><strong id="days-remaining">—</strong><span>days</span></div>
+        <p>Use the roadmap checkpoints to decide whether to advance or revisit a topic.</p>
+      </article>
+    </section>
+
+    <section class="mastery-key" aria-label="Topic mastery definitions">
+      <div><span class="status-dot not-started"></span><strong>Not started</strong><small>Not studied yet</small></div>
+      <div><span class="status-dot learning"></span><strong>Learning</strong><small>Can explain the basic idea and follow worked examples</small></div>
+      <div><span class="status-dot practiced"></span><strong>Practiced</strong><small>Can solve representative problems independently</small></div>
+      <div><span class="status-dot mastered"></span><strong>Mastered</strong><small>Can solve unseen mixed problems under time and explain why the method works</small></div>
+    </section>
+
+    <section class="safety-panel" aria-labelledby="safety-title">
+      <div class="safety-copy">
+        <div class="card-label">QUALIFICATION SAFETY MARGIN</div>
+        <h2 id="safety-title">How far inside the qualifying line are you?</h2>
+        <p>The selection information you supplied describes different qualifying pools: India has a top-600 pool plus 20 reserved places for women; the international rule is written as min(Top 20, 75th percentile), whose exact application should be confirmed with the organiser. Enter the verified rank limit and size of your own selection pool. The tracker compares rank percentiles, not raw rank numbers, and only gives a useful estimate when the mock cohort is representative of that pool. A raw score alone cannot establish a rank safety margin.</p>
+        <div class="safety-result" id="safety-result" aria-live="polite">
+          <strong>Comparable rank evidence needed</strong>
+          <span>Enter the applicable qualifying position and record a mock rank with its cohort size.</span>
+        </div>
+      </div>
+      <div class="safety-controls">
+        <label>Qualifying position (top N)<input id="qualification-cutoff" type="number" min="1" step="1" placeholder="Enter verified rank limit"></label>
+        <label>Size of qualifying pool<input id="qualification-pool-size" type="number" min="1" step="1" placeholder="Official / comparable field size"></label>
+        <label>Safety buffer (rank places)<input id="rank-buffer" type="number" min="0" step="1" placeholder="Optional"></label>
+        <label class="wide-field">Qualification category / cohort<input id="qualification-track" type="text" maxlength="140" placeholder="e.g. India open pool · previous official cutoff"></label>
+        <label class="wide-field">Cutoff source<input id="benchmark-source" type="text" maxlength="180" placeholder="Official rules, published result or comparable mock"></label>
+        <div class="safe-target" id="safe-target">Safe target rank: waiting for verified cutoff</div>
+      </div>
+    </section>
+
+    <section class="section-block" id="subjects">
+      <div class="section-heading-row">
+        <div><div class="card-label">FIVE CORE SUBJECTS</div><h2>Subject mastery</h2></div>
+        <p>Move each topic through the mastery states. Marking a topic mastered requires independent performance, not simply reading its theory.</p>
+      </div>
+      <div class="subject-grid" id="subject-grid"></div>
+    </section>
+
+    <section class="section-block" id="roadmap">
+      <div class="section-heading-row">
+        <div><div class="card-label">16-WEEK CURRICULUM</div><h2>Weekly learning plan</h2></div>
+        <p>Each week contains explicit subject checkpoints and a daily execution plan. Advance based on evidence; carry unfinished topics forward instead of ticking them off to stay on schedule.</p>
+      </div>
+      <div class="phase-legend">
+        <span><i class="legend-dot foundation"></i> Foundations</span>
+        <span><i class="legend-dot core"></i> Core concepts</span>
+        <span><i class="legend-dot integration"></i> Integrated problem-solving</span>
+        <span><i class="legend-dot competition"></i> Competition readiness</span>
+      </div>
+      <div id="week-list" class="week-list"></div>
+    </section>
+
+    <section class="section-block problem-log-section" id="problem-review">
+      <div class="section-heading-row">
+        <div><div class="card-label">PROBLEM-SOLVING EVIDENCE</div><h2>Problem review log</h2></div>
+        <p>Use this for Codeforces, CSES and mathematical exercises. Rating is recorded only as a property of a problem when useful; it is not treated as a qualification target.</p>
+      </div>
+      <form id="problem-form" class="problem-form">
+        <label>Problem / source<input id="problem-name" type="text" maxlength="160" required placeholder="Problem name, ID or link"></label>
+        <label>Subject
+          <select id="problem-subject"><option value="Logical Reasoning">Logical Reasoning</option><option value="Combinatorics">Combinatorics</option><option value="Probability">Probability</option><option value="Graph Theory">Graph Theory</option><option value="Dynamic Programming">Dynamic Programming</option><option value="C++ / Implementation">C++ / Implementation</option></select>
+        </label>
+        <label>Difficulty / rating (optional)<input id="problem-difficulty" type="text" maxlength="30" placeholder="Source's label, if available"></label>
+        <label>First-attempt result
+          <select id="problem-outcome"><option value="independent">Solved independently</option><option value="hint">Solved after a hint</option><option value="editorial">Solved after reading editorial</option><option value="unsolved">Not solved yet</option></select>
+        </label>
+        <label>Time spent (minutes)<input id="problem-time" type="number" min="0" step="1" placeholder="Optional"></label>
+
+        <label>Key observation<input id="problem-observation" type="text" maxlength="240" required placeholder="What unlocked the problem?"></label>
+        <label>Missed insight<input id="problem-missed" type="text" maxlength="240" placeholder="What did you fail to notice?"></label>
+        <label>Underlying concept<input id="problem-concept" type="text" maxlength="120" placeholder="e.g. complement, invariant, BFS"></label>
+        <label class="wide-field">Solution reasoning<input id="problem-approach" type="text" maxlength="300" placeholder="Explain the solution and why it is correct"></label>
+        <label>Can you re-solve without help?
+          <select id="problem-resolve-status"><option value="not-yet">Not tested</option><option value="yes">Yes, independently</option><option value="no">Not yet</option></select>
+        </label>
+        <button type="submit" class="action-button">Save problem review</button>
+      </form>
+      <div id="problem-history" class="problem-history"><p class="empty-state">No problem reviews recorded yet.</p></div>
+    </section>
+
+    <section class="section-block mock-section" id="mock-tests">
+      <div class="section-heading-row">
+        <div><div class="card-label">TIMED PERFORMANCE EVIDENCE</div><h2>Mock test history</h2></div>
+        <p>Record the two parts separately: Test 1 is 60 minutes and Test 2 is 90 minutes. Add rank and cohort size only when the comparison group is meaningful.</p>
+      </div>
+      <form id="mock-form" class="mock-form">
+        <label>Test date<input id="mock-date" type="date" required></label>
+        <label>Assessment type
+          <select id="mock-type"><option value="weekly-diagnostic">Weekly diagnostic</option><option value="subject-test">Subject test</option><option value="full-format">Full 2.5-hour simulation</option></select>
+        </label>
+        <label>Test 1 score (60 min)<input id="mock-one-score" type="number" min="0" step="0.1" placeholder="Score"></label>
+        <label>Test 1 maximum<input id="mock-one-max" type="number" min="0.1" step="0.1" placeholder="Maximum"></label>
+        <label>Test 2 score (90 min)<input id="mock-two-score" type="number" min="0" step="0.1" placeholder="Score"></label>
+        <label>Test 2 maximum<input id="mock-two-max" type="number" min="0.1" step="0.1" placeholder="Maximum"></label>
+        <label>Mock rank / position<input id="mock-rank" type="number" min="1" step="1" placeholder="Optional"></label>
+        <label>Mock cohort size<input id="mock-cohort" type="number" min="1" step="1" placeholder="Optional"></label>
+        <label class="wide-field">Mock cohort / source<input id="mock-cohort-label" type="text" maxlength="160" placeholder="Describe who took this mock and how it compares to the qualifier"></label>
+        <label class="wide-field">Notes<input id="mock-note" type="text" maxlength="180" placeholder="Weak topics, time management, test conditions"></label>
+        <button type="submit" class="action-button">Add assessment</button>
+      </form>
+      <div id="mock-history" class="mock-history"><p class="empty-state">No assessments recorded yet.</p></div>
+    </section>
+
+    <section class="section-block resources-section" id="resources">
+      <div class="section-heading-row"><div><div class="card-label">STUDY REFERENCES</div><h2>Core learning resources</h2></div><p>Use these as primary references alongside the weekly checkpoints. Work through the relevant sections; do not try to finish every book or course.</p></div>
+      <p class="resource-intro">Books: Joseph Blitzstein and Jessica Hwang, Introduction to Probability; Kenneth Rosen, Discrete Mathematics and Its Applications; Daniel Velleman, How to Prove It; Antti Laaksonen, Competitive Programmer’s Handbook. Use the relevant topics for each week, not every chapter.</p>
+      <div class="resource-grid">
+        <article class="resource-card"><h3>Probability</h3><p>Lectures, worked examples and problem sets covering the probability foundations through expectation.</p><a href="https://projects.iq.harvard.edu/stat110/home" target="_blank" rel="noopener noreferrer">Harvard Stat 110</a></article>
+        <article class="resource-card"><h3>Logic &amp; Combinatorics</h3><p>Discrete mathematics, proofs, induction, counting and graph foundations.</p><a href="https://courses.csail.mit.edu/6.042/spring18/mcs.pdf" target="_blank" rel="noopener noreferrer">MIT Mathematics for Computer Science notes</a></article>
+        <article class="resource-card"><h3>Graph Theory &amp; DP</h3><p>Algorithm explanations and a structured problem set for graph algorithms and dynamic programming.</p><a href="https://cses.fi/book/book.pdf" target="_blank" rel="noopener noreferrer">Competitive Programmer’s Handbook</a><a href="https://cp-algorithms.com/" target="_blank" rel="noopener noreferrer">CP-Algorithms reference</a></article>
+        <article class="resource-card"><h3>Problem practice</h3><p>Use topic tags and editorials for practice, but keep an independent problem-solving log.</p><a href="https://codeforces.com/problemset" target="_blank" rel="noopener noreferrer">Codeforces problemset</a><a href="https://cses.fi/problemset/" target="_blank" rel="noopener noreferrer">CSES Problem Set</a></article>
+      </div>
+      <p class="resource-intro">Reading sequence: Weeks 1–4: How to Prove It, Rosen/MIT discrete mathematics notes, Stat 110 foundations and LearnCpp. Weeks 5–8: Rosen/MIT counting, selected Art of Problem Solving exercises, Stat 110 conditional probability and the Handbook’s introductory graph/DP sections. Weeks 9–12: Stat 110 expectation, Competitive Programmer’s Handbook, CP-Algorithms and CSES. Weeks 13–16: revisit weak sections and solve unseen mixed problems; avoid starting large new textbooks.</p>
+    </section>
+    <section class="section-block data-section">
+      <div><div class="card-label">YOUR RECORD</div><h2>Progress data</h2><p>Progress is saved in this browser. Export a JSON backup periodically to preserve your records or move them to another device.</p></div>
+      <div class="data-actions">
+        <button id="export-data" class="action-button" type="button">Export backup</button>
+        <label class="action-button secondary-action" for="import-data">Import backup<input id="import-data" type="file" accept="application/json" hidden></label>
+        <button id="reset-data" class="text-action" type="button">Reset tracker</button>
+      </div>
+      <p class="storage-note" id="storage-note" role="status">Local browser storage · No account sync</p>
+    </section>
+  </main>
+  <script src="competition.js" defer></script>
+</body>
+</html>

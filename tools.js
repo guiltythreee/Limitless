@@ -11,6 +11,8 @@
 const GROUPS = [
   { id: "trainers", title: "Trainers",
     note: "Practice tools to sharpen your mind and your hands." },
+  { id: "competition", title: "Competition",
+    note: "Dedicated preparation campaigns, performance tracking and qualification readiness." },
   { id: "studies", title: "Studies & Disciplines",
     note: "Explore the subjects you are studying and mastering." },
   { id: "next", title: "Coming Next",
@@ -36,6 +38,11 @@ const TOOLS = [
  { group: "trainers", symbol: "✎", name: "Typing Trainer",
   desc: "Type through your own books and PDFs, track your weak keys, and level up.",
   href: "tools/typing/", status: "beta" },
+
+  // ---- Competition campaigns (independent of Studies and Trainers) ----
+  { group: "competition", symbol: "♜", name: "Regional Qualification",
+    desc: "A 16-week campaign for Probability, Combinatorics, Graph Theory, DP and Logical Reasoning. Track weekly work, mock scores and your qualification safety margin.",
+    href: "competition/", status: "beta" },
 
   // ---- Studies & Disciplines (generated from app-owned registrations) ----
   ...(globalThis.LIMITLESS_STUDIES_CATALOG || []).map(study => ({
