@@ -13,11 +13,11 @@ export function Theory({ lesson }: { lesson: Lesson }) {
   return (
     <div className="measure">
       <div className="border-l-2 border-gold/60 bg-gold/4.5 px-4 py-3"><div className="eyebrow text-[9px]!">Learning objective</div><p className="mt-2 text-sm leading-6 text-body"><Rich text={lesson.objective} /></p></div>
-      <div className="theory mt-7 space-y-5">{theoryGroups(lesson.body).map((group, i) => (
-        <section key={`${group.title}-${i}`} className="theory-topic-group">
-          <h3 className="theory-topic-heading">{group.title}</h3>
-          <div className="space-y-4">{group.paragraphs.map((p, j) => <Para key={j} text={p} />)}</div>
-        </section>
+      <div className="theory mt-7 space-y-3">{lesson.body.map((paragraph, index) => (
+        <details key={index} className="theory-topic-group" open={index === 0}>
+          <summary className="theory-topic-heading">{theoryHeading(paragraph, index)}</summary>
+          <div className="pt-3"><Para text={paragraph} /></div>
+        </details>
       ))}</div>
       {lesson.formulas.length > 0 && (
         <div className="subtle-grid mt-8 border border-gold/20 bg-inset/70 px-5 py-6">
