@@ -67,6 +67,8 @@ export interface StudyPathway {
   disciplineId: StudyDisciplineId;
   title: string;
   description?: string;
+  /** Compact human-readable sequence coverage, supplied by the discipline adapter. */
+  sequenceLabel?: string;
   /** Ordered references to canonical content; may overlap other pathways. */
   contentIds: readonly StudyContentId[];
 }
