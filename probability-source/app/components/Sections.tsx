@@ -1,23 +1,12 @@
 import type { Lesson } from "../content";
 import { Display, Para, Rich } from "../lib/rich";
 
-type TheoryGroup = { title: string; paragraphs: string[] };
-
-function theoryGroups(paragraphs: string[]): TheoryGroup[] {
-  const groups: TheoryGroup[] = [];
-  for (const paragraph of paragraphs) {
-    const title = /^(Definition|Theorem|Proposition|Lemma|Corollary)\b/.test(paragraph)
-      ? "Formal statements"
-      : /^(Proof|More proofs)\b/.test(paragraph)
-        ? "Proofs and derivations"
-        : /^(Intuition|Working rule|Example|Application|Quant lens)\b/.test(paragraph)
-          ? "Intuition and applications"
-          : "Core ideas";
-    const current = groups[groups.length - 1];
-    if (current?.title === title) current.paragraphs.push(paragraph);
-    else groups.push({ title, paragraphs: [paragraph] });
-  }
-  return groups;
+function theoryHeading(paragraph: string, index: number): string {
+  const explicit = paragraph.match(/^(Definition|Theorem|Proposition|Lemma|Corollary|Intuition|Proof|Working rule|Example|Application)[^.!?]*[.!?]?/);
+  if (explicit) return explicit[0].replace(/[.!?]$/, "");
+  const firstSentence = paragraph.split(/(?<=[.!?])\\s+/)[0] ?? paragraph;
+  const compact = firstSentence.trim();
+  return compact.length > 76 ? `${compact.slice(0, 73).trimEnd()}…` : compact || `Concept ${index + 1}`;
 }
 
 export function Theory({ lesson }: { lesson: Lesson }) {
