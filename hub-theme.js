@@ -1,7 +1,7 @@
 // Main page theme switch. Follows the device setting until the visitor picks one.
 (function () {
   'use strict';
-  var KEY = 'limitless.hub.theme';
+  var KEY = 'limitless.site.theme';
   var root = document.documentElement;
   var COLORS = { dark: '#08070d', light: '#dfe6ee' };
   var bg = document.getElementById('theme-bg');
@@ -20,7 +20,7 @@
   }
   function apply(name, remember) {
     root.setAttribute('data-theme', name);
-    if (remember) { try { localStorage.setItem(KEY, name); } catch (e) {} }
+    if (remember) { try { sessionStorage.setItem(KEY, name); } catch (e) {} }
     paint();
   }
   if (btn) btn.addEventListener('click', function () {
@@ -29,7 +29,7 @@
   });
   var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)');
   if (mq && mq.addEventListener) mq.addEventListener('change', function (e) {
-    var saved = null; try { saved = localStorage.getItem(KEY); } catch (er) {}
+    var saved = null; try { saved = sessionStorage.getItem(KEY); } catch (er) {}
     if (!saved) apply(e.matches ? 'light' : 'dark', false);
   });
   paint();
