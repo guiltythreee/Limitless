@@ -70,6 +70,14 @@
       return '<article class="subject-card"><h3>' + s.name + '</h3><p>' + s.note + '</p><div class="subject-count"><span>' + done + ' / ' + topics.length + ' complete</span><span>' + pct + '%</span></div><div class="progress-track"><span style="width:' + pct + '%"></span></div><a class="subject-link" href="#roadmap">View checkpoints ↓</a></article>';
     }).join('');
   }
+  var DAILY_PLAN = [
+    { id:'mon', day:'Monday', focus:'Probability + Logical Reasoning', tasks:['Concept study','Guided examples','Codeforces problem set','Secondary-subject practice','Error log and review'] },
+    { id:'tue', day:'Tuesday', focus:'Combinatorics + C++', tasks:['Concept study','Guided examples','Codeforces problem set','C++ implementation practice','Error log and review'] },
+    { id:'wed', day:'Wednesday', focus:'Graph Theory + Combinatorics', tasks:['Concept study','Guided examples','Codeforces problem set','Secondary-subject practice','Error log and review'] },
+    { id:'thu', day:'Thursday', focus:'Dynamic Programming + Logical Reasoning', tasks:['Concept study','Guided examples','Codeforces problem set','Secondary-subject practice','Error log and review'] },
+    { id:'fri', day:'Friday', focus:'Probability + Graph Theory', tasks:['Concept study','Guided examples','Codeforces problem set','Secondary-subject practice','Error log and review'] },
+    { id:'sat', day:'Saturday', focus:'Mixed contest + error analysis', tasks:['Timed mixed contest','Upsolve every missed problem','Record key observations','Identify recurring mistakes'] }
+  ];
   function renderWeeks() {
     var openWeeks = {};
     $('week-list').querySelectorAll('details').forEach(function (d, i) { openWeeks[i] = d.open; });
@@ -80,9 +88,19 @@
         var subject = t[0] === 'coding' ? 'Programming' : SUBJECTS.find(function (s) { return s.id === t[0]; }).name;
         return '<label class="topic-check"><input type="checkbox" data-topic="' + key + '" ' + (checked ? 'checked' : '') + '><span>' + escapeHtml(t[1]) + '<small>' + subject + '</small></span></label>';
       }).join('');
-      return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + w.title + '</span><span class="week-phase">' + w.phase + '</span></span><span class="week-progress">' + done + ' / ' + w.topics.length + ' complete</span></summary><div class="week-content"><p class="week-objective">' + w.objective + '</p><div class="topic-checklist">' + checks + '</div><label class="week-hours">Actual study hours this week <input type="number" min="0" max="100" step="0.5" data-hours-week="' + (wi+1) + '" value="' + Number(state.weekHours[wi+1] || 0) + '"></label></div></details>';
+      return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + w.title + '</span><span class="week-phase">' + w.phase + '</span></span><span class="week-progress">' + done + ' / ' + w.topics.length + ' topics</span></summary><div class="week-content"><p class="week-objective">' + w.objective + '</p><div class="topic-checklist">' + checks + '</div></div></details>'
     }).join('');
-    $('week-list').querySelectorAll('[data-topic]').forEach(function (input) {
+    var dailyMarkup = '<div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Tick the actual work completed each day. Sunday is reserved for rest or light revision.</p>' + DAILY_PLAN.map(function (d) {
+      var key = 'w' + (wi + 1) + '-' + d.id;
+      var checks = d.tasks.map(function (task, ti) {
+        var checkKey = key + '-' + ti;
+        return '<label class="daily-task"><input type="checkbox" data-day-task="' + checkKey + '" ' + (state.dayChecks && state.dayChecks[checkKey] ? 'checked' : '') + '><span>' + escapeHtml(task) + '</span></label>';
+      }).join('');
+      var count = d.tasks.filter(function (_,ti) { return !!(state.dayChecks && state.dayChecks[key + '-' + ti]); }).length;
+      return '<details class="daily-day"><summary><span>' + d.day + '</span><span>' + d.focus + '</span><small>' + count + '/' + d.tasks.length + '</small></summary><div class="daily-task-list">' + checks + '</div></details>';
+    }).join('') + '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div>';
+    $('week-list').querySelectorAll('details').forEach(function (detail) { if (detail.classList.contains('week-card')) { var content = detail.querySelector('.week-content'); if (content && !content.querySelector('.daily-roadmap')) content.insertAdjacentHTML('beforeend', dailyMarkup); } });
+    $('week-list').querySelectorAll('[data-day-task]').forEach(function (input) {
       input.addEventListener('change', function () { state.completed[input.dataset.topic] = input.checked; save(); renderWeeks(); });
     });
   }
