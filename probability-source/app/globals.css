@@ -358,3 +358,10 @@ select.pill { appearance: auto; padding-right: .6rem; }
   .theory-topic-group { padding: .9rem; }
   .theory .para { font-size: .98rem; line-height: 1.78; }
 }
+
+.theory-topic-group > summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.theory-topic-group > summary::-webkit-details-marker { display: none; }
+.theory-topic-group > summary::after { content: "+"; flex: none; color: var(--mutedgold); font: 600 1rem/1 sans-serif; }
+.theory-topic-group[open] > summary::after { content: "−"; }
+.theory-topic-group[open] { background: color-mix(in srgb, var(--panel) 78%, transparent); }
+.theory-topic-group .theory-topic-heading { margin: 0; padding: 0; border: 0; font-size: 1rem; line-height: 1.55; }
