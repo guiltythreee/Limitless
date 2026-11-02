@@ -1,3 +1,4 @@
+# Trigger automatic chapter parser refresh
 name: Bookkeys chapter parser version refresh
 
 on:
