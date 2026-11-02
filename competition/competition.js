@@ -243,7 +243,7 @@
     { value:'practiced', label:'Practiced' },
     { value:'mastered', label:'Mastered' }
   ];
-  var WEIGHTS = { 'not-started':0, learning:0.25, practiced:0.65, mastered:1 };
+  var MASTERY_VALUES = ['not-started','learning','practiced','mastered'];
   var state = load();
   var $ = function (id) { return document.getElementById(id); };
 
@@ -305,7 +305,7 @@
   }
   function statusOf(key) {
     var value = state.mastery[key];
-    return WEIGHTS.hasOwnProperty(value) ? value : 'not-started';
+    return MASTERY_VALUES.indexOf(value) !== -1 ? value : 'not-started';
   }
 
   function renderOverview() {
