@@ -431,6 +431,9 @@ html:is([data-deco="gothic"], [data-deco="garden"]) #home::before { content: "";
 .bk .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bk small, .ch small { color: var(--dim); white-space: nowrap; }
 .ch.opt { border-style: dashed; }
+.ch.part { font-weight: 600; }
+.ch.part input { font-weight: 600; }
+.ch.child { margin-left: 18px; }
 .ch input { flex: 1; min-width: 90px; }
 .reqbtn { flex: 0 0 auto; border: 1px solid var(--line); background: var(--panel); color: var(--dim); border-radius: 6px; padding: 5px 9px; font-size: 12px; }
 .reqbtn.on { color: var(--ink); border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
@@ -1285,11 +1288,12 @@ function epubChapterList(parts, total, extra) {
 }
 
 function epubHeadingIsBoundary(title) {
-  var t = normalize(String(title || "")).trim().toLowerCase();
+  var t = normalize(String(title || "")).trim().toLowerCase(), first;
   if (!t) return false;
   if (CH_RE.test(t)) return true;
   if (/^(?:prologue|epilogue|introduction)(?:$|[\s:;,.!?–—-])/.test(t)) return true;
-  if (new RegExp("^(?:[0-9]{1,4}|[ivxlcdm]{1,7}|" + CH_WORDS + ")(?:$|[\\s.:),–—-])", "i").test(t)) return true;
+  first = t.split(/[\s.:),–—-]/)[0];
+  if (/^\d{1,4}$/.test(first) || /^[ivxlcdm]{1,7}$/i.test(first) || CH_WORDS.split("|").indexOf(first) >= 0) return true;
   return !sectionRequired(t);
 }
 
@@ -2835,8 +2839,13 @@ SCENES.mist = {
     $("chSrc").textContent = CH.busy ? "Still looking for chapters in the background. The list below is temporary." : t;
     $("chStop").hidden = !CH.busy;
   }
+function chapterIsPartHeading(title) {
+  var m = CH_RE.exec(normalize(String(title || "")));
+  return !!(m && /^(?:part|book|volume|vol)$/i.test(m[1]));
+}
+
   function chapRender() {
-    var box = $("chList"), cur = chapAt(S.idx);
+    var box = $("chList"), cur = chapAt(S.idx), inPart = false;
     box.innerHTML = "";
     chapSrcText();
     CH.list.forEach(function (c, i) {
@@ -2844,6 +2853,9 @@ SCENES.mist = {
         info = el("small", "", S.isEpub ? ("Section " + (c.p + 1) + " \u00B7 " + len + (len === 1 ? " section" : " sections")) : ("p. " + (c.p + 1) + " \u00B7 " + len + (len === 1 ? " page" : " pages"))),
         req = el("button", "reqbtn " + (c.req === false ? "opt" : "on"), c.req === false ? "Optional" : "Required"),
         go = el("button", "primary", "Go"), rm = el("button", "", "Remove");
+      if (chapterIsPartHeading(c.title)) { inPart = true; row.classList.add("part"); }
+      else if (inPart && sectionRequired(c.title)) row.classList.add("child");
+      else if (!sectionRequired(c.title)) inPart = false;
       t.type = "text"; t.maxLength = 80; t.value = chapName(i); t.disabled = !!CH.busy;
       t.setAttribute("aria-label", "Chapter " + (i + 1) + " title");
       go.type = "button"; rm.type = "button"; rm.hidden = i === 0; rm.disabled = !!CH.busy;
