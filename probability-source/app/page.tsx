@@ -129,7 +129,7 @@ export default function Home() {
             </div>
           </button>
           <nav aria-label="Main study navigation" className="hidden items-center gap-7 text-xs uppercase tracking-[.15em] text-dim md:flex">
-            <button type="button" aria-current={tab === "archive" ? "page" : undefined} onClick={() => { setTab("archive"); setSection("theory"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "archive" ? "text-gold" : "hover:text-parchment"}>Learn</button>
+            <button type="button" aria-current={tab === "archive" && section !== "practice" ? "page" : undefined} onClick={() => { setTab("archive"); setSection("theory"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "archive" && section !== "practice" ? "text-gold" : "hover:text-parchment"}>Learn</button>
             <button type="button" aria-current={tab === "archive" && section === "practice" ? "page" : undefined} onClick={() => { if (!opened) chooseLesson(visibleLessons.find(l => !completed.includes(l.id))?.id ?? visibleLessons[0]?.id ?? lessons[0].id); setTab("archive"); setSection("practice"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "archive" && section === "practice" ? "text-gold" : "hover:text-parchment"}>Practice</button>
             <button type="button" aria-current={tab === "analysis" ? "page" : undefined} onClick={() => { setTab("analysis"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className={tab === "analysis" ? "text-gold" : "hover:text-parchment"}>Progress</button>
             <a href="/meta/" className="hover:text-parchment">Meta</a>
@@ -151,7 +151,7 @@ export default function Home() {
             <h1 className="serif max-w-3xl text-4xl leading-[1.1] text-parchment sm:text-5xl md:text-7xl">Learn the laws<br/><span className="italic text-gold">of the uncertain.</span></h1>
             <p className="mt-6 max-w-xl text-sm leading-7 text-dim md:text-base">Enter the archive of probability. Begin with outcomes and counting, advance through Bayes and random variables, then approach the deeper machinery of limit theorems and stochastic processes.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <button onClick={() => { chooseLesson(visibleLessons.find(l => !completed.includes(l.id))?.id ?? visibleLessons[0]?.id ?? lessons[0].id); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/70 bg-gold px-5 py-3 text-xs font-bold uppercase tracking-[.15em] text-ongold transition hover:bg-goldhi">Continue the path <span className="ml-2">→</span></button>
+              <button onClick={() => { chooseLesson(visibleLessons.find(l => !completed.includes(l.id))?.id ?? visibleLessons[0]?.id ?? lessons[0].id); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/70 bg-gold px-5 py-3 text-xs font-bold uppercase tracking-[.15em] text-ongold transition hover:bg-goldhi">Continue learning <span className="ml-2">→</span></button>
               <button onClick={() => { setTab("experiment"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/25 bg-ink/55 px-5 py-3 text-xs uppercase tracking-[.15em] text-gold transition hover:bg-gold/10">Explore a simulation</button>
             </div>
           </div>
