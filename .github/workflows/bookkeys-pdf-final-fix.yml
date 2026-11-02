@@ -1,3 +1,4 @@
+# Trigger final PDF detection patch and full tests
 name: Bookkeys PDF chapter detection final patch
 
 on:
