@@ -315,3 +315,46 @@ select.pill { appearance: auto; padding-right: .6rem; }
 .weekcol b { display: block; font-size: 13px; color: var(--soft); }
 .weekcol-met { background: color-mix(in srgb, var(--good) 18%, transparent); }
 .weekcol-today { outline: 1px solid var(--gold); }
+
+
+/* ---------- focused reading groups and worked question solutions ---------- */
+.measure { max-width: 68ch; }
+.theory-topic-group {
+  border: 1px solid var(--panel-line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 58%, transparent);
+  padding: 1.1rem 1.2rem 1.25rem;
+}
+.theory-topic-heading {
+  margin: 0 0 .9rem;
+  padding-bottom: .65rem;
+  border-bottom: 1px solid var(--panel-line);
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  letter-spacing: .01em;
+}
+.theory .para { font-size: 1.015rem; line-height: 1.82; }
+.question-worked-solution {
+  border-top: 1px solid var(--panel-line);
+  margin-top: .9rem;
+  padding-top: .9rem;
+}
+.solution-step-number {
+  display: inline-flex;
+  width: 1.55rem;
+  height: 1.55rem;
+  flex: 0 0 1.55rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: .25rem;
+  border: 1px solid var(--panel-line);
+  border-radius: 999px;
+  color: var(--gold);
+  font-size: .7rem;
+  font-weight: 700;
+}
+@media (max-width: 640px) {
+  .theory-topic-group { padding: .9rem; }
+  .theory .para { font-size: .98rem; line-height: 1.78; }
+}
