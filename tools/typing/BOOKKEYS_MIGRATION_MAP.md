@@ -57,7 +57,7 @@ The repository already uses a static-export pattern for Next.js applications. A 
 | `bookkeys:<book-key>` | Per-book reading position |
 | `bookkeys:lib:<library-id>` | Saved library-book position |
 | `bookkeys:chap:<book-key>` | Chapter segmentation and Required/Optional choices; schema marker v3 |
-| `bookkeys:chap:lib:<library-id>` | Legacy/library chapter lookup |
+| `bookkeys:chap:lib:<library-id>` | Chapter record for a saved library book (`S.key = lib:<id>`) |
 | `bookkeys:draft:<book-key>:<page-index>` | In-progress typing text, timing and accuracy; newest eight drafts per book retained |
 | `bookkeys:bgdef1`, `bookkeys:bgdef2` | Background preferences; exact mapping still to be confirmed |
 
