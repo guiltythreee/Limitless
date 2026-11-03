@@ -61,7 +61,7 @@ export default function MarkdownMath({ source, className }: Props) {
         equation.push(lines[i]);
         i += 1;
       }
-      blocks.push(<div className="mt200-math-block" key={blocks.length}>{inlineParts("$$" + equation.join("\\n") + "$$")}</div>);
+      blocks.push(<div className="mt200-math-block" key={blocks.length}>{inlineParts("$$" + equation.join("\n") + "$$")}</div>);
       continue;
     }
     if (line.startsWith("$$") && line.endsWith("$$") && line.length > 4) {
