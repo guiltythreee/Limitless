@@ -31,7 +31,7 @@ A1 Modulus and theoretical strength from the bond                               
         S0 = −m(m+1)A r0−(m+2) + (n+1)m A r0−(m+2) = m(n − m) A r0−(m+2)
  The bond energy is U0 = −A r0−m + B r0−n = −A r0−m(1 − m/n) = −A r0−m(n − m)/n, so A r0−m(n − m)
  = n|U0|. Hence:
-        S0 = m n |U0| / r02
+        $S_0=\\dfrac{mn|U_0|}{r_0^2}$
  (ii) For a small extension Δr of a bond, F = S0Δr. The stress is F/r02 and the strain is Δr/r0, so E =
  (S0Δr/r02)/(Δr/r0) = S0/r0 = m n|U0|/r03. So E is the bond energy per unit atomic volume (times mn). A
  deep well means a high bond energy, and it also means a high melting point (thermal energy needed to
@@ -39,7 +39,7 @@ A1 Modulus and theoretical strength from the bond                               
  (iii) Theoretical strength. For small x, σ ≈ σth(2πx/λ). Hooke's law for a strain x/r0 gives σ = Ex/r0, so
  σth = Eλ/(2πr0). The work to separate the planes is ∫0λ/2 σ dx = σthλ/π, and this must equal the energy of
  the two new surfaces, 2γ, so λ = 2πγ/σth. Substituting:
-        σth = E(2πγ/σth)/(2πr0) = Eγ/(σth r0) ⇒ σth = √(Eγ/r0)
+        σth = E(2πγ/σth)/(2πr0) = Eγ/(σth r0) ⇒ $\\sigma_{th}=\\sqrt{E\\gamma/r_0}$
  (iv) σth = √(200 × 109 × 1/0.25 × 10−9) = 2.83 × 1010 Pa ≈ 28 GPa, roughly E/7. Compared with a
  yield strength of 250 MPa, that is more than 100 times higher. Real crystals yield far below the ideal
  because plastic flow occurs by dislocation glide (one row of bonds at a time), and fracture starts at
@@ -55,7 +55,7 @@ MT200 Testing of Materials · Paper III Solutions and Marking Scheme            
                                                                              −(m+2)
  Second derivative and elimination of B to get S0 = m(n − m)A r0                                                    1
  S0 = mn|U0|/r02                                                                                                    1
- E = S0/r0 and the link between E, bond energy and melting point                                                    1
+ $E=S_0/r_0$ and the link between E, bond energy and melting point                                                    1
  Sinusoidal law and small-x Hooke's law giving σ           = Eλ/(2πr )                                              1
                                                       th            0
  Work of separation = 2γ leading to σ         = √(Eγ/r )                                                            1
@@ -121,7 +121,7 @@ MT200 Testing of Materials · Paper III Solutions and Marking Scheme            
  gives 2τ r dr. Balancing, and dropping second-order terms:
         h dσr + 2μσz dr = 0 ⇒ dσz/dr = dσr/dr = −2μσz/h (since σz − σr = σ0 is constant)
  (ii) Integrate: σz = C exp(−2μr/h). At the free edge r = a, σr = 0, so σz = σ0, giving C = σ0exp(2μa/h):
-        σz(r) = σ0 exp[2μ(a − r)/h] (the "friction hill": highest at the centre)
+        $\\sigma_z(r)=\\sigma_0\\exp\\left[\\dfrac{2\\mu(a-r)}{h}\\right]$ (the "friction hill": highest at the centre)
  (iii) With k = 2μ/h, the mean pressure is pavg = (2/a2)∫0a σz r dr:
         pavg = σ0 · 2(eka − ka − 1)/(ka)2 ≈ σ0(1 + ka/3) = σ0(1 + 2μa/3h) (small ka)
  (The small-ka result follows by expanding ek(a−r) ≈ 1 + k(a − r): (2/a2)[a2/2 + ka3/6] = 1 + ka/3.)
