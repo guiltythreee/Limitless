@@ -28,3 +28,19 @@
 }
 :global(.mt200-original-reference) { display: flex; align-items: center; flex-wrap: wrap; gap: .6rem; margin: .8rem 0 1rem; }
 :global(.mt200-original-reference span) { color: var(--dim); font-size: .8rem; }
+
+:global(.mt200-markdown) { color: var(--paper); line-height: 1.75; overflow-wrap: anywhere; }
+:global(.mt200-markdown p) { margin: 0 0 .8rem; }
+:global(.mt200-markdown p:last-child) { margin-bottom: 0; }
+:global(.mt200-markdown h1), :global(.mt200-markdown h2), :global(.mt200-markdown h3), :global(.mt200-markdown h4) { color: var(--gold); margin: 1rem 0 .55rem; line-height: 1.3; }
+:global(.mt200-markdown ul) { padding-left: 1.4rem; margin: .45rem 0 .9rem; }
+:global(.mt200-markdown li) { margin: .25rem 0; }
+:global(.mt200-markdown-table-wrap) { overflow-x: auto; margin: .8rem 0; }
+:global(.mt200-markdown-table) { width: 100%; border-collapse: collapse; font-size: .9rem; }
+:global(.mt200-markdown-table th), :global(.mt200-markdown-table td) { border: 1px solid var(--panel-line); padding: .5rem .65rem; text-align: left; }
+:global(.mt200-markdown-table th) { color: var(--gold); background: var(--chip); }
+:global(.mt200-math-display), :global(.mt200-math-block) { display: block; overflow-x: auto; max-width: 100%; padding: .2rem 0; }
+:global(.mt200-math-inline) { display: inline-block; vertical-align: middle; }
+:global(.mt200-solution-content) { color: var(--body); font-size: .92rem; background: var(--inset); border: 1px solid var(--panel-line); border-radius: 10px; padding: 1rem; margin: .8rem 0; }
+:global(.mt200-question-text) { white-space: normal; overflow: visible; font: inherit; color: var(--paper); line-height: 1.72; background: var(--inset); border: 1px solid var(--panel-line); border-radius: 10px; padding: 1rem; }
+:global(.mt200-question-text p) { margin: 0; }
