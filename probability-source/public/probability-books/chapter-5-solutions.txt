@@ -24,8 +24,148 @@ Probability — Chapter 5 Detailed Solutions                                    
 
 --- Source page ---
 
+Chapter 5 — Missing Problems: Supplement
+ These solutions cover Problems 5.1–5.6 from the newly supplied pages. In Problem 5.3, both displayed functions
+ fail the nonnegativity requirement on part of their stated interval, so neither can be made a density by choosing a
+ constant.
 
- Problems 5.23–5.41
+ Problem 5.1
+ Normalize: 1=c∫■■¹(1−x²)dx=c(4/3), so c=3/4. The CDF is F(x)=0 for x≤−1; for −1<x<1, F(x)=(3/4)[x−x³/3+2/3]; and
+ F(x)=1 for x≥1.
+
+ Problem 5.2
+ Normalize: 1=C∫■∞e^(−x/2)dx=2C, so C=1/2. The probability the system functions for at least 5 months is
+ P(X≥5)=∫■∞(1/2)e^(−x/2)dx=e^(−5/2)≈0.0821.
+
+ Problem 5.3
+ First function: C(2x−x³), 0<x<5/2. The factor 2x−x³=x(2−x²) is positive for 0<x<√2 and negative for √2<x<5/2. No
+ nonzero constant C can make it nonnegative throughout the interval. So it is not a probability density for any C.
+ Second function: C(2x−x²), 0<x<5/2. Here 2x−x²=x(2−x) is positive for 0<x<2 and negative for 2<x<5/2. Again, no
+ constant C can make it nonnegative throughout the interval. It is not a probability density for any C. (The negative
+ portion is why merely normalizing its integral would not make it a valid density.)
+
+ Problem 5.4
+ (a) P(X>20)=∫■■∞10x■²dx=1/2.
+ (b) F(x)=0 for x≤10 and F(x)=1−10/x for x>10.
+ (c) For one device, p=P(X≥15)=10/15=2/3. Assuming independent, identically distributed device lifetimes, N~Bin(6,2/3). Thus P(N≥3)=Σ_{k=3}^6 C(6,k)(2/3)^k(1/3)^(6−k)=656/729≈0.8999.
+
+ Problem 5.5
+ The probability weekly sales exceed tank capacity c is P(X>c)=∫c¹5(1−x)■dx=(1−c)■. Set this to 0.01: (1−c)■=0.01, so
+ c=1−0.01^(1/5)=0.6019 thousand gallons, approximately 601.9 gallons.
+
+ Problem 5.6
+ (a) f(x)=(1/4)xe^(−x/2), x>0 is gamma with shape 2 and rate 1/2; E[X]=2/(1/2)=4.
+ (b) Normalize C(1−x²) on (−1,1): C=3/4. Symmetry about zero gives E[X]=0.
+ (c) E[X]=∫■∞x(5/x²)dx=5∫■∞dx/x, which diverges. The expectation is infinite; there is no finite mean.
+
+
+
+
+Probability — Chapter 5 supplement                                                                                Page 1
+
+
+ADDITIONAL DETAILED SOLUTIONS — PROBLEMS 5.7–5.22
+
+--- Source page ---
+
+
+                        Probability — Detailed Solutions
+         Volume 5 · Chapter 5: Continuous Random
+                        Variables
+
+Part I: Problems 5.7–5.22
+ The main question bank begins Chapter 5 at Problem 5.7. Problems 5.1–5.6 are included in a separate supplement above. This installment solves Problems 5.7–5.22.
+
+
+
+
+Probability — Chapter 5, Part I                                                                                   Page 1
+
+
+--- Source page ---
+
+
+ 5.7 — Determine a and b
+ A density requires a+b/3=1. The mean condition gives a/2+b/4=3/5. Solving: a=3/5 and b=6/5. Both are nonnegative, so
+ the density is valid.
+
+ 5.8 — Expected lifetime
+ E[X]=∫■∞x·xe■■dx=∫■∞x²e■■dx=Γ(3)=2. Expected lifetime: 2 hours.
+
+ 5.9 — Optimal stock level
+ For an additional unit of stock, expected marginal gain is b[1−F(s)] and expected marginal loss is ■F(s). Equating gives
+ b[1−F(s*)]=■F(s*), hence F(s*)=b/(b+■). This is the critical-fractile condition.
+
+ 5.10 — Train choice
+ For the first hour, the next train is A for arrivals in (7:05,7:15], (7:20,7:30], (7:35,7:45], and (7:50,8:00): 40 minutes out of 60. Thus (a) P(A)=2/3. Over 7:10–8:10 the A intervals again total 40 minutes, so (b) P(A)=2/3.
+
+ 5.11 — Random point on a segment
+ Let X~Uniform(0,L). The shorter-to-longer ratio is below 1/4 when X<L/5 or X>4L/5. Favourable length is 2L/5, so
+ probability=2/5.
+
+ 5.12 — Service station locations
+ With stations at 25, 50, 75 miles, the distance-to-nearest-station graph has two end triangles of area ½·25·25 and two
+ interior triangles of area ½·25·12.5. Total area=937.5; divide by 100. Expected distance=9.375 miles. With stations at 0,
+ 50, 100, expected distance is 12.5 miles. Therefore the proposed locations are more efficient.
+
+ 5.13 — Uniform bus arrival
+ (a) Wait exceeds 10 minutes when arrival is after 10:10: probability=20/30=2/3. (b) Given no arrival by 10:15, the
+ remaining arrival time is uniform over 10:15–10:30. At least 10 more minutes means arrival after 10:25:
+ probability=5/15=1/3.
+
+ 5.14 — Uniform moments
+ For X~Uniform(0,1), E[X■]=∫■¹x■dx=1/(n+1).
+
+ 5.15 — Normal probabilities
+ X~N(10,36), so Z=(X−10)/6. (a) P(X>5)=Φ(5/6)≈0.7977. (b) P(4<X<16)=P(−1<Z<1)≈0.6827. (c) P(X<8)=Φ(−1/3)≈0.3694.
+ (d) P(X<20)=Φ(5/3)≈0.9522. (e) P(X>16)=1−Φ(1)≈0.1587.
+
+ 5.16 — Waiting for high rainfall
+ For one year, p=P(R>50)=1−Φ((50−40)/4)=1−Φ(2.5)≈0.00621. Assuming independent, identically distributed yearly
+ rainfalls, the waiting time is geometric. P(waiting more than 10 years)=(1−p)¹■≈0.9396.
+
+ 5.17 — Expected score
+ Distance D~Uniform(0,10). Expected score=10(1/10)+5(2/10)+3(2/10)+0(5/10)=2.6 points.
+
+ 5.18 — Find normal variance
+ P(X>9)=0.2 for X~N(5,σ²), so (9−5)/σ=z■.■≈0.8416. Thus σ≈4.754 and Var(X)≈22.60.
+
+ 5.19 — 90th percentile
+ X~N(12,4), so σ=2. P(X>c)=0.10 gives z=1.2816. Hence c=12+2(1.2816)≈14.563.
+
+ 5.20 — Binomial normal approximation
+ X~Bin(100,0.65): µ=65, σ=√22.75≈4.769. With continuity correction: (a) P(X≥50)≈P(Y≥49.5)≈0.9994. (b)
+ P(60≤X≤70)≈P(59.5<Y<70.5)≈0.751. (c) P(X<75)=P(X≤74)≈P(Y<74.5)≈0.977.
+
+
+
+
+Probability — Chapter 5, Part I                                                                                            Page 2
+
+
+--- Source page ---
+
+
+ 5.21 — Height probabilities
+ H~N(71,6.25), σ=2.5 inches. P(H>74)=1−Φ(1.2)≈0.1151 (11.51%). Among men over 72 inches,
+ P(H>77|H>72)=[1−Φ(2.4)]/[1−Φ(0.4)]≈0.00820/0.3446≈0.0238 (2.38%).
+
+ 5.22 — Forging tolerance
+ Limits are 0.9000±0.0050. (a) With σ=0.0030, z=0.005/0.003=1.6667; defective fraction=2[1−Φ(1.6667)]≈0.0956 (9.56%).
+ (b) For at most 1% defective, each tail is at most 0.005. Require 0.005/σ≥z■.■■■≈2.5758, so σ≤0.00194 inches.
+
+
+
+ End of Part I
+ Next: Problems 5.23–5.41, Theoretical Exercises 5.1–5.33, and Self-Test Problems 5.1–5.20. Problems 5.1–5.6 are absent from
+ the uploaded source.
+
+
+
+
+Probability — Chapter 5, Part I                                                                                        Page 3
+
+Problems 5.23–5.41
  5.23
  (a) Let N be the number of sixes. N~Bin(1000,1/6), with mean µ=166.667 and variance 138.889, so σ=11.785. With
  continuity correction,
@@ -129,8 +269,7 @@ Probability — Chapter 5 Detailed Solutions                                    
 
 --- Source page ---
 
-
- Theoretical Exercises 5.1–5.33
+Theoretical Exercises 5.1–5.33
  5.1
  Normalize the density: 1=a∫■∞x²e^(−bx²)dx. Using ∫■∞x²e^(−bx²)dx=√π/(4b^(3/2)), we obtain a=4b^(3/2)/√π.
 
@@ -288,8 +427,7 @@ Probability — Chapter 5 Detailed Solutions                                    
 
 --- Source page ---
 
-
- Self-Test Problems and Exercises 5.1–5.20
+Self-Test Problems and Exercises 5.1–5.20
  5.1
  From the graph, the density is 0.025 on (10,20), 0.050 on (20,30), 0.025 on (30,40), and zero elsewhere. (a)
  P(X>15)=0.025(5)+0.050(10)+0.025(10)=0.875. (b) P(20<X<35)=0.050(10)+0.025(5)=0.625. (c)
@@ -402,7 +540,6 @@ Probability — Chapter 5 Detailed Solutions                                    
 
 --- Source page ---
 
-
 Chapter 5 — Numerical corrections
 The following two entries correct arithmetic errors in the main solution text. Use these corrected values.
 
@@ -426,145 +563,3 @@ corresponding values in the main text are incorrect.
 
 
 --- Source page ---
-
-
- Chapter 5 — Missing Problems: Supplement
- These solutions cover Problems 5.1–5.6 from the newly supplied pages. In Problem 5.3, both displayed functions
- fail the nonnegativity requirement on part of their stated interval, so neither can be made a density by choosing a
- constant.
-
- Problem 5.1
- Normalize: 1=c∫■■¹(1−x²)dx=c(4/3), so c=3/4. The CDF is F(x)=0 for x≤−1; for −1<x<1, F(x)=(3/4)[x−x³/3+2/3]; and
- F(x)=1 for x≥1.
-
- Problem 5.2
- Normalize: 1=C∫■∞e^(−x/2)dx=2C, so C=1/2. The probability the system functions for at least 5 months is
- P(X≥5)=∫■∞(1/2)e^(−x/2)dx=e^(−5/2)≈0.0821.
-
- Problem 5.3
- First function: C(2x−x³), 0<x<5/2. The factor 2x−x³=x(2−x²) is positive for 0<x<√2 and negative for √2<x<5/2. No
- nonzero constant C can make it nonnegative throughout the interval. So it is not a probability density for any C.
- Second function: C(2x−x²), 0<x<5/2. Here 2x−x²=x(2−x) is positive for 0<x<2 and negative for 2<x<5/2. Again, no
- constant C can make it nonnegative throughout the interval. It is not a probability density for any C. (The negative
- portion is why merely normalizing its integral would not make it a valid density.)
-
- Problem 5.4
- (a) P(X>20)=∫■■∞10x■²dx=1/2.
- (b) F(x)=0 for x≤10 and F(x)=1−10/x for x>10.
- (c) For one device, p=P(X≥15)=10/15=2/3. Assuming independent, identically distributed device lifetimes, N~Bin(6,2/3). Thus P(N≥3)=Σ_{k=3}^6 C(6,k)(2/3)^k(1/3)^(6−k)=656/729≈0.8999.
-
- Problem 5.5
- The probability weekly sales exceed tank capacity c is P(X>c)=∫c¹5(1−x)■dx=(1−c)■. Set this to 0.01: (1−c)■=0.01, so
- c=1−0.01^(1/5)=0.6019 thousand gallons, approximately 601.9 gallons.
-
- Problem 5.6
- (a) f(x)=(1/4)xe^(−x/2), x>0 is gamma with shape 2 and rate 1/2; E[X]=2/(1/2)=4.
- (b) Normalize C(1−x²) on (−1,1): C=3/4. Symmetry about zero gives E[X]=0.
- (c) E[X]=∫■∞x(5/x²)dx=5∫■∞dx/x, which diverges. The expectation is infinite; there is no finite mean.
-
-
-
-
-Probability — Chapter 5 supplement                                                                                Page 1
-
-
-ADDITIONAL DETAILED SOLUTIONS — PROBLEMS 5.7–5.22
-
---- Source page ---
-
-
-                        Probability — Detailed Solutions
-         Volume 5 · Chapter 5: Continuous Random
-                        Variables
-
- Part I: Problems 5.7–5.22
- The main question bank begins Chapter 5 at Problem 5.7. Problems 5.1–5.6 are included in a separate supplement above. This installment solves Problems 5.7–5.22.
-
-
-
-
-Probability — Chapter 5, Part I                                                                                   Page 1
-
-
---- Source page ---
-
-
- 5.7 — Determine a and b
- A density requires a+b/3=1. The mean condition gives a/2+b/4=3/5. Solving: a=3/5 and b=6/5. Both are nonnegative, so
- the density is valid.
-
- 5.8 — Expected lifetime
- E[X]=∫■∞x·xe■■dx=∫■∞x²e■■dx=Γ(3)=2. Expected lifetime: 2 hours.
-
- 5.9 — Optimal stock level
- For an additional unit of stock, expected marginal gain is b[1−F(s)] and expected marginal loss is ■F(s). Equating gives
- b[1−F(s*)]=■F(s*), hence F(s*)=b/(b+■). This is the critical-fractile condition.
-
- 5.10 — Train choice
- For the first hour, the next train is A for arrivals in (7:05,7:15], (7:20,7:30], (7:35,7:45], and (7:50,8:00): 40 minutes out of 60. Thus (a) P(A)=2/3. Over 7:10–8:10 the A intervals again total 40 minutes, so (b) P(A)=2/3.
-
- 5.11 — Random point on a segment
- Let X~Uniform(0,L). The shorter-to-longer ratio is below 1/4 when X<L/5 or X>4L/5. Favourable length is 2L/5, so
- probability=2/5.
-
- 5.12 — Service station locations
- With stations at 25, 50, 75 miles, the distance-to-nearest-station graph has two end triangles of area ½·25·25 and two
- interior triangles of area ½·25·12.5. Total area=937.5; divide by 100. Expected distance=9.375 miles. With stations at 0,
- 50, 100, expected distance is 12.5 miles. Therefore the proposed locations are more efficient.
-
- 5.13 — Uniform bus arrival
- (a) Wait exceeds 10 minutes when arrival is after 10:10: probability=20/30=2/3. (b) Given no arrival by 10:15, the
- remaining arrival time is uniform over 10:15–10:30. At least 10 more minutes means arrival after 10:25:
- probability=5/15=1/3.
-
- 5.14 — Uniform moments
- For X~Uniform(0,1), E[X■]=∫■¹x■dx=1/(n+1).
-
- 5.15 — Normal probabilities
- X~N(10,36), so Z=(X−10)/6. (a) P(X>5)=Φ(5/6)≈0.7977. (b) P(4<X<16)=P(−1<Z<1)≈0.6827. (c) P(X<8)=Φ(−1/3)≈0.3694.
- (d) P(X<20)=Φ(5/3)≈0.9522. (e) P(X>16)=1−Φ(1)≈0.1587.
-
- 5.16 — Waiting for high rainfall
- For one year, p=P(R>50)=1−Φ((50−40)/4)=1−Φ(2.5)≈0.00621. Assuming independent, identically distributed yearly
- rainfalls, the waiting time is geometric. P(waiting more than 10 years)=(1−p)¹■≈0.9396.
-
- 5.17 — Expected score
- Distance D~Uniform(0,10). Expected score=10(1/10)+5(2/10)+3(2/10)+0(5/10)=2.6 points.
-
- 5.18 — Find normal variance
- P(X>9)=0.2 for X~N(5,σ²), so (9−5)/σ=z■.■≈0.8416. Thus σ≈4.754 and Var(X)≈22.60.
-
- 5.19 — 90th percentile
- X~N(12,4), so σ=2. P(X>c)=0.10 gives z=1.2816. Hence c=12+2(1.2816)≈14.563.
-
- 5.20 — Binomial normal approximation
- X~Bin(100,0.65): µ=65, σ=√22.75≈4.769. With continuity correction: (a) P(X≥50)≈P(Y≥49.5)≈0.9994. (b)
- P(60≤X≤70)≈P(59.5<Y<70.5)≈0.751. (c) P(X<75)=P(X≤74)≈P(Y<74.5)≈0.977.
-
-
-
-
-Probability — Chapter 5, Part I                                                                                            Page 2
-
-
---- Source page ---
-
-
- 5.21 — Height probabilities
- H~N(71,6.25), σ=2.5 inches. P(H>74)=1−Φ(1.2)≈0.1151 (11.51%). Among men over 72 inches,
- P(H>77|H>72)=[1−Φ(2.4)]/[1−Φ(0.4)]≈0.00820/0.3446≈0.0238 (2.38%).
-
- 5.22 — Forging tolerance
- Limits are 0.9000±0.0050. (a) With σ=0.0030, z=0.005/0.003=1.6667; defective fraction=2[1−Φ(1.6667)]≈0.0956 (9.56%).
- (b) For at most 1% defective, each tail is at most 0.005. Require 0.005/σ≥z■.■■■≈2.5758, so σ≤0.00194 inches.
-
-
-
- End of Part I
- Next: Problems 5.23–5.41, Theoretical Exercises 5.1–5.33, and Self-Test Problems 5.1–5.20. Problems 5.1–5.6 are absent from
- the uploaded source.
-
-
-
-
-Probability — Chapter 5, Part I                                                                                        Page 3
