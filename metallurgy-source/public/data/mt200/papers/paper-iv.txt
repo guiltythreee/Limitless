@@ -1,0 +1,195 @@
+MT200 · TESTING OF MATERIALS
+Exam-Format Practice Paper IV: Statement Evaluation, Matching, Empirical Relations and Applied Curve-Reading Problems
+Department of Metallurgical and Materials Engineering · NITK Surathkal
+Practice paper; not an official examination
+
+Time: 2.5 hours · Maximum marks: 100 · Syllabus: up to hardness
+
+HOW THIS PAPER IS BUILT
+- Section A: statement evaluation, as in midsem Q1.
+- Section B: matching, as in midsem Q2.
+- Section C: empirical relation from data, as in midsem Q3.
+- Section D: applied problems in which a real situation is converted into strain and stress is read from a curve, as in midsem Q4.
+- Section D carries 40 marks. The method is: (1) convert the situation into strain or stress, (2) read the curve, (3) compare with yield and fracture, (4) conclude with numbers.
+- Curves are drawn on grids in the original PDF. Accept readings within about ±3% of the values in the marking scheme.
+- Use SI units. Take 1 ksi = 6.895 MPa, 1 kgf = 9.81 N, and E = 200 GPa for steel unless a curve says otherwise.
+- Suggested time: A 25 min, B 20 min, C 30 min, D 75 min.
+
+MARK DISTRIBUTION
+A · Statement evaluation: 20 marks (10 sets × 2)
+B · Matching: 20 marks (4 sets × 5)
+C · Empirical relations: 20 marks (C1 and C2)
+D · Applied stress–strain problems: 40 marks (D1–D5, 8 each)
+Total: 100 marks
+
+SECTION A · STATEMENT EVALUATION (20 marks)
+For each set, study the statements and choose the most appropriate answer. Each set carries 2 marks. There is no negative marking; one wrong word makes a statement wrong.
+
+A1. Elastic and plastic behaviour of metals.
+(A) Young’s modulus is structure-insensitive: it changes very little with grain size or cold work.
+(B) Yield strength is structure-sensitive: it changes strongly with grain size, solute content and dislocation density.
+(C) Compliance is the reciprocal of Young’s modulus, so its SI unit is Pa⁻¹ (m²/N).
+(D) Elastic deformation of a metal is produced by dislocation glide, and this is why it is fully recoverable.
+Options: (1) A, B and C correct; (2) B and C only; (3) all; (4) A and D only.
+
+A2. True and engineering stress and strain in a tension test.
+(A) Up to onset of necking, true stress is larger than engineering stress.
+(B) For the same elongation in tension, true strain is smaller than engineering strain.
+(C) After necking, engineering stress falls, while true stress of a strain-hardening metal keeps rising.
+(D) Conversion σT = σe(1 + e) remains valid right up to fracture.
+Options: (1) A and B only; (2) A, B and C only; (3) A, C and D only; (4) all.
+
+A3. Resilience and toughness.
+(A) Modulus of resilience is σy²/2E, the area under the elastic part of the curve.
+(B) Of two steels with the same yield strength, the one with lower modulus stores more elastic energy per unit volume.
+(C) A stronger material always has higher toughness.
+(D) Toughness and modulus of resilience both have dimensions of energy per unit volume, the same as stress.
+Options: (1) A, B and D; (2) A and D only; (3) B and C only; (4) all.
+
+A4. Compression testing.
+(A) Barrelling of a compressed cylinder is caused by friction between platens and specimen ends.
+(B) A long, slender specimen is preferred because it gives a more uniform stress state.
+(C) A ductile metal shows an ultimate-strength peak and necking in compression, just as in tension.
+(D) Fracture of a barrelled specimen starts on the bulged outer surface, where a tensile hoop component develops.
+Options: (1) A and D only; (2) A, B and D; (3) B and C only; (4) A, C and D.
+
+A5. Hardness as a concept.
+(A) Hardness is a fundamental property of a material, like density or melting point.
+(B) For metals, hardness is roughly proportional to flow stress, with H ≈ 3σ.
+(C) Mohs scale ranks engineering metals accurately because they span all ten steps.
+(D) A rebound test ranks hardness because a harder material dissipates less energy in plastic deformation.
+Options: (1) A and C only; (2) B and D only; (3) A, B and D; (4) B, C and D.
+
+A6. Indentation hardness tests.
+(A) Brinell hardness is load divided by projected area of the impression.
+(B) Vickers hardness is nearly independent of load because impressions are geometrically similar.
+(C) In a Rockwell test, a smaller permanent depth gives a higher hardness number.
+(D) Rockwell minor load is applied to seat the indenter and remove effects of surface roughness and machine slack.
+Options: (1) B, C and D; (2) all; (3) A and B only; (4) D only.
+
+A7. Strengthening of metals.
+(A) Cold working raises strength and hardness while leaving Young’s modulus essentially unchanged.
+(B) Grain refinement raises yield strength (Hall–Petch) and does not generally reduce toughness.
+(C) Strength gained by cold working is retained after annealing above recrystallisation temperature.
+(D) Solid-solution strengthening arises because solute atoms distort the lattice and hinder dislocation motion.
+Options: (1) A and B only; (2) A, B and D; (3) B, C and D; (4) all.
+
+A8. Ductile and brittle fracture of alloys.
+(A) BCC steel that is ductile at room temperature may fracture in a brittle manner at low temperature.
+(B) FCC metals such as copper and aluminium generally remain ductile at very low temperatures.
+(C) Higher strain rate tends to promote brittle fracture.
+(D) A sharp notch lowers stress-state triaxiality and therefore promotes ductile fracture.
+Options: (1) A, B and C; (2) all; (3) A and C only; (4) B and D only.
+
+A9. Units and conversions.
+(A) 1 ksi is about 6.9 MPa.
+(B) Hardness of 200 kgf/mm² corresponds to about 1960 MPa.
+(C) Strain rate has SI units of s⁻¹.
+(D) Hardness in kgf/mm² and hardness in MPa are numerically the same.
+Options: (1) A, B and C; (2) A and C only; (3) all; (4) B and D only.
+
+A10. Tension-test practice.
+(A) Tensile specimens have enlarged shoulders so failure occurs in the gauge length rather than at grips.
+(B) Percentage elongation is independent of gauge length used.
+(C) 0.2% offset yield strength is found by drawing a line parallel to the elastic slope, starting at 0.2% strain.
+(D) Percentage reduction of area depends strongly on gauge length.
+Options: (1) A and C only; (2) A, B and C; (3) B and D only; (4) A, C and D.
+
+SECTION B · MATCHING (20 marks)
+Match every item in List 2A with the most appropriate item in List 2B. One mark per correct match; every item in 2B is used once.
+
+B1. Quantities and their SI units.
+List 2A: (a) Fracture toughness; (b) Modulus of resilience; (c) Strength coefficient K in σ = Kεⁿ; (d) Compliance; (e) Charpy impact energy.
+List 2B: (i) J; (ii) MPa·m¹ᐟ²; (iii) Pa⁻¹; (iv) MPa; (v) J/m³.
+
+B2. Terms and their meanings.
+List 2A: (a) Malleability; (b) Ductility; (c) Stiffness (rigidity); (d) Resilience; (e) Brittleness.
+List 2B: (i) Ability to undergo large plastic deformation in tension before fracture; (ii) Ability to be deformed in compression (rolling, hammering) into sheets without fracture; (iii) Resistance to elastic deformation, given by slope of elastic line; (iv) Elastic energy absorbed per unit volume up to yielding; (v) Fracture with little or no plastic deformation.
+
+B3. Hardness tests and their characteristics.
+List 2A: (a) Brinell; (b) Vickers; (c) Rockwell C; (d) Knoop; (e) Shore scleroscope.
+List 2B: (i) Elongated rhombic diamond; long diagonal measured; suits thin layers; (ii) 136° square pyramid; hardness almost independent of load; (iii) Hardened steel ball of 10 mm; impression diameter measured; (iv) Height of rebound of a falling hammer; (v) 120° diamond cone; 10 kgf minor load and 150 kgf major load; depth measured.
+
+B4. Materials and their approximate Young’s modulus.
+List 2A: (a) Aluminium; (b) Steel; (c) Molybdenum; (d) Grey cast iron; (e) Rubber.
+List 2B: (i) about 200 GPa; (ii) about 70 GPa; (iii) about 300 GPa; (iv) about 0.01 to 0.1 GPa; (v) about 150 to 170 GPa.
+
+SECTION C · EMPIRICAL RELATIONS FROM DATA (20 marks)
+
+C1. [10] Tensile strength and hardness of 8 steel grades are given below, with an approximate hardness conversion table. Develop a simple empirical relation between tensile strength (MPa) and hardness (BHN), and use it to estimate strength of steel with HRC 33.
+
+Steel data (No.: strength in ksi; hardness):
+1: 58; HRB 68
+2: 75; HRB 80
+3: 91; HRB 90
+4: 108; HRB 97
+5: 126; HRC 25
+6: 141; HRC 30
+7: 178; HRC 38
+8: 208; HRC 45
+
+Approximate conversion table (BHN / HRB / BHN / HRC):
+100 / 56 / 226 / 20
+120 / 68 / 253 / 25
+140 / 78 / 286 / 30
+160 / 85 / 327 / 35
+180 / 90 / 371 / 40
+200 / 94 / 421 / 45
+220 / 97 / 481 / 50
+240 / 100 / 543 / 55
+Conversion table is approximate for steels (Brinell 10 mm ball, 3000 kgf). Interpolate linearly between rows.
+(a) Convert every hardness to BHN and every strength to MPa. [3]
+(b) Compute UTS/BHN for each grade, plot UTS against BHN and draw best line through origin. [3]
+(c) State empirical relation UTS (MPa) = k × BHN with your k, and estimate UTS of steel with HRC 33. [2]
+(d) State hardness range over which you would trust relation, and one reason it cannot be extended to all metals. [2]
+
+C2. [10] Aluminium alloys and tempers were tested for tensile strength and Vickers hardness.
+HV (kgf/mm²): 30, 45, 60, 85, 100, 125, 150
+UTS (MPa): 110, 165, 225, 315, 370, 460, 545
+(a) Compute UTS/HV for each alloy and find best line through origin, UTS = k × HV. Also find best straight line with an intercept, and comment on whether intercept matters. [4]
+(b) Convert HV to MPa (1 kgf/mm² = 9.81 MPa) and express relation as UTS = c × H (both in MPa). Compare 1/c with constraint factor of about 3. [3]
+(c) Compare k with value found for steels. Give one physical reason why they differ. [2]
+(d) Predict UTS of alloy with HV = 110, and say how confident you are. [1]
+
+SECTION D · APPLIED STRESS–STRAIN PROBLEMS (40 marks)
+Each problem gives a real situation and stress–strain curves. Turn the situation into strain, read stress, and decide. Show numbers, not just words.
+
+D1. [8] Ring on a shaft. A ring with a bore of 50.00 mm is to be press-fitted onto a solid steel shaft of diameter 50.20 mm. The ring is a hard, brittle material. Tension curves for both parts are shown (the shaft curve continues beyond 1%). Find out whether ring or shaft would crack or fail during press-fitting.
+(a) Find strain imposed on ring and shaft (ignore change in the other part). [2]
+(b) Read curves, compare with where each curve ends, and state which part (if any) fails and why. [3]
+(c) Instead the ring is heated so it just slips over shaft with 0.04 mm diametral clearance. Find temperature rise needed (αring = 11 × 10⁻⁶ K⁻¹). [2]
+(d) Could shaft alone be cooled in liquid nitrogen (−196 °C, from 20 °C, αshaft = 12 × 10⁻⁶ K⁻¹) to achieve same clearance? [1]
+[Original PDF contains the stress–strain curves for this problem.]
+
+D2. [8] Wire on a mandrel. A hard-drawn steel wire of diameter 2.0 mm is wound tightly around a cylindrical mandrel of diameter 40 mm. Assume neutral axis lies at centre of wire, so strain at outer fibre is distance from neutral axis divided by radius of neutral axis.
+(a) Find maximum tensile strain in wire. [2]
+(b) Read stress at outer fibre and decide whether wire has yielded or fractured. [2]
+(c) After wire is unwound, outer fibre recovers elastically (E = 200 GPa). Find permanent strain left there. [1]
+(d) Find smallest mandrel diameter that wire can be wound on without fracturing. [1]
+(e) Find smallest mandrel diameter for which wire stays completely elastic. What does this tell you about springs and wire-forming? [2]
+[Original PDF contains the stress–strain curve for this problem.]
+
+D3. [8] Cold rolling. An annealed alloy strip of thickness 5.0 mm is cold-rolled in one pass to 3.2 mm (width does not change). True stress–strain curve of annealed alloy was measured in compression, so there is no necking. It follows σ = Kεⁿ. Use the two marked points to find n and K. Take UTS (MPa) ≈ 3.45 × BHN.
+(a) Find percentage reduction and true strain imposed by rolling. [1]
+(b) Find n and K from marked points. [1]
+(c) Estimate yield strength of rolled strip (flow stress at strain reached). [2]
+(d) Will rolled strip show any uniform elongation when tested in tension? Use Considère criterion. [2]
+(e) Estimate hardness (BHN) of annealed and rolled strip. [1]
+(f) What is largest cold reduction that still leaves strip some uniform ductility? [1]
+[Original PDF contains the true stress–strain curve and marked data points.]
+
+D4. [8] Tightening a bolt by turns. An M12 × 1.75 bolt of high-strength steel clamps rigid plates. Grip length (part of bolt that stretches) is 50 mm, tensile stress area is 84.3 mm². Nut is turned a quarter turn beyond snug position. Assume all nut advance stretches bolt uniformly over grip length.
+(a) Find strain in bolt. [2]
+(b) Read stress and find preload (kN). [2]
+(c) Is bolt in elastic or plastic range? Will it fracture? [1]
+(d) If nut is turned by 120° instead of 90°, find new preload and percentage change. Compare with perfectly elastic bolt and explain why some tightening methods deliberately go beyond yield. [2]
+(e) Find number of turns at which idealised bolt reaches fracture strain. [1]
+[Original PDF contains the stress–strain curve for this problem.]
+
+D5. [8] Choosing a material from its curve. Tension curves of four materials A, B, C and D are shown (× marks fracture). A zoom on the first 1% of strain is also given.
+(a) For each material, read E, yield strength (or say there is none), UTS and fracture strain. Present results in a table. [3]
+(b) Compute modulus of resilience of each material and toughness (area under curve, by trapezoids) of each. [3]
+(c) Choose best material for (i) a coil spring, (ii) a crane hook that must give warning before it fails, and (iii) a cutting-tool insert. Justify each choice in one line. [2]
+[Original PDF contains the four stress–strain curves and zoomed inset.]
+
+END OF PAPER
