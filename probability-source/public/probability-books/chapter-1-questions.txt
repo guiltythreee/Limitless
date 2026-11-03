@@ -113,7 +113,6 @@ How many different committees are possible if
 (c) 1 man and 1 woman refuse to serve together?
 <PARSED TEXT FOR PAGE: 2 / 82>
 
-Problems      17
 
 20. A person has 8 friends, of whom 5 will be invited
     to a party.
@@ -142,6 +141,7 @@ A
     to these 6 beds so that each set of twins sleeps
 
 
+Problems      17
 in different beds in the same room, how many
 assignments are possible?
 24. Expand (3x2 + y)5 .
@@ -199,6 +199,7 @@ nity?
 
 18     Chapter 1          Combinatorial Analysis
 
+THEORETICAL EXERCISES
 
       1. Prove the generalized version of the basic counting
          principle.
@@ -238,7 +239,6 @@ nity?
              nonchair committee members and then on
 
 
-THEORETICAL EXERCISES
 the
 ( choice  ) of the chair, argue that there are
 n
@@ -440,6 +440,30 @@ j           i                                            r     r, n − r
 
 
 
+(       )(               )
+∗ 21. Argue that there are exactly             r          n − 1
+k        n − r + k
+)     (                            )
+n                             n − 1                                  solutions of
+=
+(                            )
+n − 1                                           x1 + x2 + · · · + x r = n
++                                 + ···
+n1 , n2 − 1, . . . , nr
+(                            )
+n − 1                             for which exactly k of the xi are equal to 0.
++                                         ∗ 22. Consider a function f (x , . . . , x ) of n variables.
+n1 , n 2 , . . . , n r − 1                                           1         n
+How many different partial derivatives of order r
+does f possess?
+∗ 23. Determine the number of vectors (x , . . . , x ) such
+1        n
+that each xi is a nonnegative integer and
+∑
+n
+xi … k
+i=1
+SELF-TEST PROBLEMS AND EXERCISES
 
       1. How many different linear arrangements are there
          of the letters A, B, C, D, E, F for which
@@ -477,30 +501,6 @@ j           i                                            r     r, n − r
          where the letters or numbers can be placed.
 
 
-(       )(               )
-∗ 21. Argue that there are exactly             r          n − 1
-k        n − r + k
-)     (                            )
-n                             n − 1                                  solutions of
-=
-(                            )
-n − 1                                           x1 + x2 + · · · + x r = n
-+                                 + ···
-n1 , n2 − 1, . . . , nr
-(                            )
-n − 1                             for which exactly k of the xi are equal to 0.
-+                                         ∗ 22. Consider a function f (x , . . . , x ) of n variables.
-n1 , n 2 , . . . , n r − 1                                           1         n
-How many different partial derivatives of order r
-does f possess?
-∗ 23. Determine the number of vectors (x , . . . , x ) such
-1        n
-that each xi is a nonnegative integer and
-∑
-n
-xi … k
-i=1
-SELF-TEST PROBLEMS AND EXERCISES
 7. Give a combinatorial explanation of the identity
 (       )       (            )
 n                 n
