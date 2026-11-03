@@ -137,7 +137,7 @@ receives the second draft pick. (If the ball belongs
 
 174   Chapter 4      Random Variables
 
-      to the team receiving the ﬁrst pick, then it is dis-   4.20. A gambling book recommends the following “win-
+      to the team receiving the ﬁrst pick, then it is dis-
       carded and another one is chosen; this continues
       until the ball of another team is chosen.) Finally,
       another ball is chosen, and the team named on
@@ -173,6 +173,7 @@ receives the second draft pick. (If the ball belongs
 
 
 
+4.20. A gambling book recommends the following “win-
 ning strategy” for the
 ( game of roulette: Bet)$1 on
 red. If red appears which has probability 18 38 , then
@@ -531,7 +532,7 @@ entire package of diskettes if he or she ﬁnds more
            heads, what is the conditional probability that
            exactly 7 of the 10 ﬂips land on heads?
 4.50. Suppose that a biased coin that lands on heads with
-      probability p is ﬂipped 10 times. Given that a total    4.59. If you buy a lottery ticket in 50 lotteries, in each of
+      probability p is ﬂipped 10 times. Given that a total
       of 6 heads results, ﬁnd the conditional probability
       that the ﬁrst 3 outcomes are
       (a) h, t, t (meaning that the ﬁrst ﬂip results in
@@ -587,6 +588,7 @@ rect binomial probability for the following cases:
 (b) P{X = 9} when n = 10, p = .95;
 (c) P{X = 0} when n = 10, p = .1;
 (d) P{X = 4} when n = 9, p = .2.
+4.59. If you buy a lottery ticket in 50 lotteries, in each of
 1
 which your chance of winning a prize is 100      , what
 is the (approximate) probability that you will win
@@ -1101,7 +1103,7 @@ obtain Pk+1 , then Pk+1 , and so on, up to Pn .
       variable with parameter λ = 10. If, in a ﬁxed
       period of time, each deposit is discovered inde-
       pendently with probability 50    , ﬁnd the probability
-      that (a) exactly 1, (b) at least 1, and (c) at most 1    4.32. A jar contains n chips. Suppose that a boy succes-
+      that (a) exactly 1, (b) at least 1, and (c) at most 1
       deposit is discovered during that time.
 4.26. Prove
                   ∑n               ∫
@@ -1151,6 +1153,7 @@ numbers that exceed each of the numbers of those
 remaining, compute the probability mass function
 1
 of X.
+4.32. A jar contains n chips. Suppose that a boy succes-
 sively draws a chip from the jar, each time replac-
 ing the one drawn before drawing another. The
 λi    1 q −x n                             process continues until the boy draws a chip that
