@@ -53,7 +53,18 @@ export default function MarkdownMath({ source, className }: Props) {
     const raw = lines[i];
     const line = raw.trim();
     if (!line) { flushParagraph(); flushList(); flushTable(); continue; }
-    if (line.startsWith("$$") && line.endsWith("$$") && line.length > 4) {
+    if (line === "$") {
+      flushParagraph(); flushList(); flushTable();
+      const equation: string[] = [];
+      i += 1;
+      while (i < lines.length && lines[i].trim() !== "$") {
+        equation.push(lines[i]);
+        i += 1;
+      }
+      blocks.push(<div className="mt200-math-block" key={blocks.length}>{inlineParts("$" + equation.join("\\n") + "$")}</div>);
+      continue;
+    }
+    if (line.startsWith("$") && line.endsWith("$") && line.length > 4) {
       flushParagraph(); flushList(); flushTable();
       blocks.push(<div className="mt200-math-block" key={blocks.length}>{inlineParts(line)}</div>);
       continue;
