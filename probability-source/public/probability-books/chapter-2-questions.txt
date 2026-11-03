@@ -1,0 +1,821 @@
+<PARSED TEXT FOR PAGE: 7 / 82>
+
+50    Chapter 2      Axioms of Probability
+
+
+
+which can be generalized to give
+⎛      ⎞
+⋃n         ∑n          ∑∑             ∑∑∑
+P ⎝      ⎠
+Ai =       P(Ai ) −    P(Ai Aj ) +     P(Ai Aj Ak )
+i=1         i=1               i<j                    i<j<k
+n+1
++ · · · + (−1)         P(A1 · · · An )
+If S is ﬁnite and each one point set is assumed to have equal probability, then
+|A|
+P(A) =
+|S|
+where |E| denotes the number of outcomes in the event E.
+P(A) can be interpreted either as a long-run relative frequency or as a measure of
+one’s degree of belief.
+PROBLEMS
+
+     1. A box contains 3 marbles: 1 red, 1 green, and 1
+        blue. Consider an experiment that consists of tak-
+        ing 1 marble from the box and then replacing it
+        in the box and drawing a second marble from the
+        box. Describe the sample space. Repeat when the
+        second marble is drawn without replacing the ﬁrst
+        marble.
+     2. In an experiment, die is rolled continually until a
+        6 appears, at which point the experiment stops.
+        What is the sample space of this experiment? Let
+        En denote the event that n rolls are necessary to
+        complete the experiment. What points of ( the sam-
+        ple space are contained in En ? What is
+     3. Two dice are thrown. Let E be the event that the
+        sum of the dice is odd, let F be the event that
+        at least one of the dice lands on 1, and let G be
+        the event that the sum is 5. Describe the events
+        EF, E ∪ F, FG, EF c , and EFG.
+     4. A, B, and C take turns ﬂipping a coin. The ﬁrst one
+        to get a head wins. The sample space of this exper-
+        iment can be deﬁned by
+        (a) Interpret the sample space.
+        (b) Deﬁne the following events in terms of S:
+               (i) A wins = A.
+              (ii) B wins = B.
+             (iii) (A ∪ B)c .
+                   Assume that A ﬂips ﬁrst, then B, then C,
+                   then A, and so on.
+     5. A system is comprised of 5 components, each of
+        which is either working or failed. Consider an
+        experiment that consists of observing the status of
+
+
+each component, and let the outcome of the exper-
+iment be given by the vector (x1 , x2 , x3 , x4 , x5 ),
+where xi is equal to 1 if component i is working
+and is equal to 0 if component i is failed.
+(a) How many outcomes are in the sample space
+of this experiment?
+(b) Suppose that the system will work if compo-
+nents 1 and 2 are both working, or if compo-
+nents 3 and 4 are both working, or if compo-
+nents 1, 3, and 5 are all working. Let W be the
+event that the system will work. Specify all the
+)c             outcomes in W.
+⋃
+q               (c) Let A be the event that components 4 and 5
+En ?              are both failed. How many outcomes are con-
+1
+tained in the event A?
+(d) Write out all the outcomes in the event AW.
+6. A hospital administrator codes incoming patients
+suffering gunshot wounds according to whether
+they have insurance (coding 1 if they do and 0
+if they do not) and according to their condition,
+which is rated as good (g), fair (f), or serious (s).
+Consider an experiment that consists of the coding
+of such a patient.
+{                                       (a) Give the sample space of this experiment.
+1, 01, 001, 0001, . . . ,
+S=                                           (b) Let A be the event that the patient is in serious
+0000 · · ·
+condition. Specify the outcomes in A.
+(c) Let B be the event that the patient is unin-
+sured. Specify the outcomes in B.
+(d) Give all the outcomes in the event Bc ∪ A.
+7. Consider an experiment that consists of determin-
+ing the type of job—either blue-collar or white-
+collar—and the political afﬁliation—Republican,
+Democratic, or Independent—of the 15 members
+of an adult soccer team. How many outcomes are
+(a) in the sample space?
+(b) in the event that at least one of the team mem-
+bers is a blue-collar worker?
+<PARSED TEXT FOR PAGE: 8 / 82>
+
+
+    (c) in the event that none of the team members
+          considers himself or herself an Independent?
+ 8. Suppose that A and B are mutually exclusive
+    events for which P(A) = .3 and P(B) = .5. What is
+    the probability that
+    (a) either A or B occurs?
+    (b) A occurs but B does not?
+    (c) both A and B occur?
+ 9. A retail establishment accepts either the American
+    Express or the VISA credit card. A total of 24 per-
+    cent of its customers carry an American Express
+    card, 61 percent carry a VISA card, and 11 per-
+    cent carry both cards. What percentage of its cus-
+    tomers carry a credit card that the establishment
+    will accept?
+10. Sixty percent of the students at a certain school
+    wear neither a ring nor a necklace. Twenty per-
+    cent wear a ring and 30 percent wear a necklace.
+    If one of the students is chosen randomly, what is
+    the probability that this student is wearing
+    (a) a ring or a necklace?
+    (b) a ring and a necklace?
+11. A total of 28 percent of American males smoke
+    cigarettes, 7 percent smoke cigars, and 5 percent
+    smoke both cigars and cigarettes.
+    (a) What percentage of males smokes neither
+          cigars nor cigarettes?
+    (b) What percentage smokes cigars but not
+          cigarettes?
+12. An elementary school is offering 3 language
+    classes: one in Spanish, one in French, and one in
+    German. The classes are open to any of the 100
+    students in the school. There are 28 students in the
+    Spanish class, 26 in the French class, and 16 in the
+    German class. There are 12 students that are in
+    both Spanish and French, 4 that are in both Span-
+    ish and German, and 6 that are in both French and
+    German. In addition, there are 2 students taking
+    all 3 classes.
+    (a) If a student is chosen randomly, what is the
+          probability that he or she is not in any of the
+          language classes?
+    (b) If a student is chosen randomly, what is the
+          probability that he or she is taking exactly one
+          language class?
+    (c) If 2 students are chosen randomly, what is the
+          probability that at least 1 is taking a language
+          class?
+13. A certain town with a population of 100,000 has
+    3 newspapers: I, II, and III. The proportions of
+    townspeople who read these papers are as follows:
+    I: 10 percent   I and II: 8 percent    I and II and
+    II: 30 percent I and III: 2 percent
+    III: 5 percent II and III: 4 percent
+
+
+Problems      51
+(The list tells us, for instance, that 8000 people
+read newspapers I and II.)
+(a) Find the number of people who read only one
+newspaper.
+(b) How many people read at least two
+newspapers?
+(c) If I and III are morning papers and II is an
+evening paper, how many people read at least
+one morning paper plus an evening paper?
+(d) How many people do not read any
+newspapers?
+(e) How many people read only one morning
+paper and one evening paper?
+14. The following data were given in a study of a group
+of 1000 subscribers to a certain magazine: In ref-
+erence to job, marital status, and education, there
+were 312 professionals, 470 married persons, 525
+college graduates, 42 professional college gradu-
+ates, 147 married college graduates, 86 married
+professionals, and 25 married professional college
+graduates. Show that the numbers reported in the
+study must be incorrect.
+Hint: Let M, W, and G denote, respectively, the
+set of professionals, married persons, and college
+graduates. Assume that one of the 1000 persons
+is chosen at random, and use Proposition 4.4 to
+show that if the given numbers are correct, then
+P(M ∪ W ∪ G) > 1. (               )
+52
+15. If it is assumed that all           poker hands are
+5
+equally likely, what is the probability of being dealt
+(a) a ﬂush? (A hand is said to be a ﬂush if all 5
+cards are of the same suit.)
+(b) one pair? (This occurs when the cards have
+denominations a, a, b, c, d, where a, b, c, and
+d are all distinct.)
+(c) two pairs? (This occurs when the cards have
+denominations a, a, b, b, c, where a, b, and c
+are all distinct.)
+(d) three of a kind? (This occurs when the cards
+have denominations a, a, a, b, c, where a, b,
+and c are all distinct.)
+(e) four of a kind? (This occurs when the cards
+have denominations a, a, a, a, b.)
+16. Poker dice is played by simultaneously rolling 5
+dice. Show that
+(a) P{no two alike} = .0926;
+(b) P{one pair} = .4630;
+(c) P{two pair} = .2315;
+(d) P{three alike} = .1543;
+(e) P{full house} = .0386;
+(f) P{four alike} = .0193;
+(g) P{ﬁve alike} = .0008.
+III: 1 percent    17. If 8 rooks (castles) are randomly placed on a
+chessboard, compute the probability that none of
+the rooks can capture any of the others. That is,
+<PARSED TEXT FOR PAGE: 9 / 82>
+
+52     Chapter 2        Axioms of Probability
+
+         compute the probability that no row or ﬁle con-
+         tains more than one rook.
+     18. Two cards are randomly selected from an ordinary
+         playing deck. What is the probability that they
+         form a blackjack? That is, what is the probability
+         that one of the cards is an ace and the other one is
+         either a ten, a jack, a queen, or a king?
+     19. Two symmetric dice have both had two of their
+         sides painted red, two painted black, one painted
+         yellow, and the other painted white. When this
+         pair of dice is rolled, what is the probability that
+         both dice land with the same color face up?
+     20. Suppose that you are playing blackjack against a
+         dealer. In a freshly shufﬂed deck, what is the prob-
+         ability that neither you nor the dealer is dealt a
+         blackjack?
+     21. A small community organization consists of 20
+         families, of which 4 have one child, 8 have two chil-
+         dren, 5 have three children, 2 have four children,
+         and 1 has ﬁve children.
+         (a) If one of these families is chosen at random,
+               what is the probability it has i children, i =
+               1, 2, 3, 4, 5?
+         (b) If one of the children is randomly chosen,
+               what is the probability that child comes from
+               a family having i children, i = 1, 2, 3, 4, 5?
+     22. Consider the following technique for shufﬂing a
+         deck of n cards: For any initial ordering of the
+         cards, go through the deck one card at a time and
+         at each card, ﬂip a fair coin. If the coin comes
+         up heads, then leave the card where it is; if the
+         coin comes up tails, then move that card to the
+         end of the deck. After the coin has been ﬂipped n
+         times, say that one round has been completed. For
+         instance, if n = 4 and the initial ordering is 1, 2, 3,
+         4, then if the successive ﬂips result in the outcome
+         h, t, t, h, then the ordering at the end of the round
+         is 1, 4, 2, 3. Assuming that all possible outcomes of
+         the sequence of n coin ﬂips are equally likely, what
+         is the probability that the ordering after one round
+         is the same as the initial ordering?
+     23. A pair of fair dice is rolled. What is the probabil-
+         ity that the second die lands on a higher value than
+         does the ﬁrst?
+     24. If two dice are rolled, what is the probability that
+         the sum of the upturned faces equals i? Find it for
+         i = 2, 3, . . . , 11, 12.
+     25. A pair of dice is rolled until a sum of either 5 or 7
+         appears. Find the probability that a 5 occurs ﬁrst.
+         Hint: Let En denote the event that a 5 occurs on
+         the nth roll and no 5 or 7 occurs on the ﬁrst n − 1
+         rolls. Compute P(En ) and argue that
+         the desired probability.
+     26. The game of craps is played as follows: A player
+         rolls two dice. If the sum of the dice is either a 2,
+
+
+3, or 12, the player loses; if the sum is either a 7
+or an 11, the player wins. If the outcome is any-
+thing else, the player continues to roll the dice until
+she rolls either the initial outcome or a 7. If the 7
+comes ﬁrst, the player loses, whereas if the initial
+outcome reoccurs before the 7 appears, the player
+wins. Compute the probability of a player winning
+at craps.
+Hint: Let Ei denote the event that the initial out-
+come is i and the player wins. The desired prob-
+∑
+12
+ability is    P(Ei ). To compute P(Ei ), deﬁne the
+i=2
+events Ei,n to be the event that the initial sum is
+i and the player wins on the nth roll. Argue that
+∑
+q
+P(Ei ) =     P(Ei,n ).
+n=1
+27. An urn contains 3 red and 7 black balls. Players A
+and B withdraw balls from the urn consecutively
+until a red ball is selected. Find the probability that
+A selects the red ball. (A draws the ﬁrst ball, then
+B, and so on. There is no replacement of the balls
+drawn.)
+28. An urn contains 5 red, 6 blue, and 8 green balls.
+If a set of 3 balls is randomly selected, what is the
+probability that each of the balls will be (a) of the
+same color? (b) of different colors? Repeat under
+the assumption that whenever a ball is selected, its
+color is noted and it is then replaced in the urn
+before the next selection. This is known as sam-
+pling with replacement.
+29. An urn contains n white and m black balls, where
+n and m are positive numbers.
+(a) If two balls are randomly withdrawn, what is
+the probability that they are the same color?
+(b) If a ball is randomly withdrawn and then
+replaced before the second one is drawn, what
+is the probability that the withdrawn balls are
+the same color?
+(c) Show that the probability in part (b) is always
+larger than the one in part (a).
+30. The chess clubs of two schools consist of, respec-
+tively, 8 and 9 players. Four members from each
+club are randomly chosen to participate in a con-
+test between the two schools. The chosen play-
+ers from one team are then randomly paired with
+those from the other team, and each pairing plays
+a game of chess. Suppose that Rebecca and her sis-
+ter Elise are on the chess clubs at different schools.
+What is the probability that
+∑q                   (a) Rebecca and Elise will be paired?
+P(En ) is       (b) Rebecca and Elise will be chosen to represent
+n=1
+their schools but will not play each other?
+(c) either Rebecca or Elise will be chosen to
+represent her school?
+<PARSED TEXT FOR PAGE: 10 / 82>
+
+
+31. A 3-person basketball team consists of a guard, a
+    forward, and a center.
+    (a) If a person is chosen at random from each of
+          three different such teams, what is the proba-
+          bility of selecting a complete team?
+    (b) What is the probability that all 3 players
+          selected play the same position?                   42. Two dice are thrown n times in succession. Com-
+32. A group of individuals containing b boys and g
+    girls is lined up in random order; that is, each of
+    the (b + g)! permutations is assumed to be equally
+    likely. What is the probability that the person in
+    the ith position, 1 … i … b + g, is a girl?
+33. A forest contains 20 elk, of which 5 are captured,
+    tagged, and then released. A certain time later, 4
+    of the 20 elk are captured. What is the probability
+    that 2 of these 4 have been tagged? What assump-
+    tions are you making?
+34. The second Earl of Yarborough is reported to
+    have bet at odds of 1000 to 1 that a bridge hand
+    of 13 cards would contain at least one card that is
+    ten or higher. (By ten or higher we mean that a
+    card is either a ten, a jack, a queen, a king, or an
+    ace.) Nowadays, we call a hand that has no cards
+    higher than 9 a Yarborough. What is the proba-
+    bility that a randomly selected bridge hand is a
+    Yarborough?
+35. Seven balls are randomly withdrawn from an urn
+    that contains 12 red, 16 blue, and 18 green balls.
+    Find the probability that
+    (a) 3 red, 2 blue, and 2 green balls are withdrawn;
+    (b) at least 2 red balls are withdrawn;
+    (c) all withdrawn balls are the same color;
+    (d) either exactly 3 red balls or exactly 3 blue balls
+          are withdrawn.
+36. Two cards are chosen at random from a deck of 52
+    playing cards. What is the probability that they
+    (a) are both aces?
+    (b) have the same value?
+37. An instructor gives her class a set of 10 problems
+    with the information that the ﬁnal exam will con-
+    sist of a random selection of 5 of them. If a student
+    has ﬁgured out how to do 7 of the problems, what is
+    the probability that he or she will answer correctly
+    (a) all 5 problems?
+    (b) at least 4 of the problems?
+38. There are n socks, 3 of which are red, in a drawer.
+    What is the value of n if, when 2 of the socks
+    are chosen randomly, the probability that they are
+    both red is 12 ?
+39. There are 5 hotels in a certain town. If 3 people
+    check into hotels in a day, what is the probability
+    that they each check into a different hotel? What
+    assumptions are you making?
+40. A town contains 4 people who repair televisions.
+    If 4 sets break down, what is the probability that
+
+
+Problems      53
+exactly i of the repairers are called? Solve the
+problem for i = 1, 2, 3, 4. What assumptions are
+you making?
+41. If a die is rolled 4 times, what is the probability that
+6 comes up at least once?
+pute the probability that double 6 appears at least
+once. How large need n be to make this probability
+at least 12 ?
+43. (a) If N people, including A and B, are randomly
+arranged in a line, what is the probability that
+A and B are next to each other?
+(b) What would the probability be if the people
+were randomly arranged in a circle?
+44. Five people, designated as A, B, C, D, E, are
+arranged in linear order. Assuming that each pos-
+sible order is equally likely, what is the probabil-
+ity that
+(a) there is exactly one person between A and B?
+(b) there are exactly two people between A
+and B?
+(c) there are three people between A and B?
+45. A woman has n keys, of which one will open
+her door.
+(a) If she tries the keys at random, discarding
+those that do not work, what is the probability
+that she will open the door on her kth try?
+(b) What if she does not discard previously tried
+keys?
+46. How many people have to be in a room in order
+that the probability that at least two of them cele-
+brate their birthday in the same month is at least
+1
+2 ? Assume that all possible monthly outcomes are
+equally likely.
+47. If there are 12 strangers in a room, what is the
+probability that no two of them celebrate their
+birthday in the same month?
+48. Given 20 people, what is the probability that,
+among the 12 months in the year, there are 4
+months containing exactly 2 birthdays and 4 con-
+taining exactly 3 birthdays?
+49. A group of 6 men and 6 women is randomly
+divided into 2 groups of size 6 each. What is the
+probability that both groups will have the same
+number of men?
+50. In a hand of bridge, ﬁnd the probability that you
+have 5 spades and your partner has the remain-
+ing 8.
+51. Suppose that n balls are randomly distributed into
+N compartments. Find the probability that m balls
+will fall into the ﬁrst compartment. Assume that all
+N n arrangements are equally likely.
+<PARSED TEXT FOR PAGE: 11 / 82>
+
+54     Chapter 2      Axioms of Probability
+
+     52. A closet contains 10 pairs of shoes. If 8 shoes
+         are randomly selected, what is the probability that
+         there will be
+         (a) no complete pair?
+         (b) exactly 1 complete pair?
+     53. If 4 married couples are arranged in a row, ﬁnd the
+         probability that no husband sits next to his wife.
+     54. Compute the probability that a bridge hand is void
+         in at least one suit. Note that the answer is not
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(Why not?)
+Hint: Use Proposition 4.4.
+55. Compute the probability that a hand of 13 cards
+contains
+(a) the ace and king of at least one suit;
+(b) all 4 of at least 1 of the 13 denominations.
+56. Two players play the following game: Player A
+chooses one of the three spinners pictured in
+Figure 2.6, and then player B chooses one of the
+remaining two spinners. Both players then spin
+( )(        )                            their spinner, and the one that lands on the higher
+4     39                               number is declared the winner. Assuming that
+1     13                               each spinner is equally likely to land in any of its
+(    )
+52                                  3 regions, would you rather be player A or player
+13                                  B? Explain your answer!
+9              5                                      3                   8
+a                                                       b
+1                                                        4
+7                  6
+c
+2
+FIGURE 2.6: Spinners
+THEORETICAL EXERCISES
+     Prove the following relations:
+      1. EF ( E ( E ∪ F.
+      2. If E ( F, then F c ( Ec .
+      3. F = FE ∪ FEc and E ∪ F = E ∪ Ec F.
+
+
+(            )
+⋃
+q              ⋃
+q
+4.           Ei F =         Ei F and
+1              1
+(            )
+⋂
+q                   ⋂
+q
+Ei       ∪ F=          (Ei ∪ F).
+1                      1
+<PARSED TEXT FOR PAGE: 12 / 82>
+
+
+5. For any sequence of events E1 , E2 , . . ., deﬁne a
+   new sequence F1 , F2 , . . . of disjoint events (that is,
+   events such that Fi Fj = Ø whenever i Z j) such
+   that for all n Ú 1,
+
+6. Let E, F, and G be three events. Find expressions
+   for the events so that, of E, F, and G,
+   (a) only E occurs;
+   (b) both E and G, but not F, occur;
+   (c) at least one of the events occurs;
+   (d) at least two of the events occur;
+   (e) all three events occur;
+   (f) none of the events occurs;
+   (g) at most one of the events occurs;
+   (h) at most two of the events occur;
+   (i) exactly two of the events occur;
+   (j) at most three of the events occur.
+7. Find the simplest expression for the following
+   events:
+   (a) (E ∪ F)(E ∪ F c );
+   (b) (E ∪ F)(Ec ∪ F)(E ∪ F c );
+   (c) (E ∪ F)(F ∪ G).
+8. Let S be a given set. If, for some k > 0,
+   S1 , S2 , . . . , Sk are mutually exclusive nonempty
+   subsets of S such that             Si = S, then we
+   call the set {S1 , S2 , . . . , Sk } a partition of S. Let
+   Tn denote the number of different partitions of
+   {1, 2, . . . , n}. Thus, T1 = 1 (the only partition being
+   S1 = {1}) and T2 = 2 (the two partitions being
+   {{1, 2, }}, {{1}, {2}}).
+   (a) Show, by computing all partitions, that T3 =
+         5, T4 = 15.
+   (b) Show that
+                   Tn+1 = 1 +
+          and use this equation to compute T10 .
+   Hint: One way of choosing a partition of n + 1
+   items is to call one of the items special. Then we
+   obtain different partitions by ﬁrst choosing k, k =
+   0, 1, . . . , n, then a subset of size n − k of the non-
+   special items, and then any of the Tk partitions of
+   the remaining k nonspecial items. By adding the
+   special item to the subset of size n − k, we obtain
+   a partition of all n + 1 items.
+9. Suppose that an experiment is performed n times.
+   For any event E of the sample space, let n(E)
+   denote the number of times that event E occurs
+   and deﬁne f (E) = n(E)/n. Show that f (·) satisﬁes
+   Axioms 1, 2, and 3.
+
+
+Theoretical Exercises      55
+10. Prove that P(E ∪ F ∪ G) = P(E) + P(F) +
+P(G) − P(Ec FG) − P(EF c G) − P(EFGc ) −
+2P(EFG).
+11. If P(E) = .9 and P(F) = .8, show that P(EF) Ú .7.
+⋃
+n           ⋃
+n                               In general, prove Bonferroni’s inequality, namely,
+Fi =         Ei
+1           1
+P(EF) Ú P(E) + P(F) − 1
+12. Show that the probability that exactly one of the
+events E or F occurs equals P(E) + P(F) −
+2P(EF).
+13. Prove that P(EF c ) = P(E) − P(EF).
+14. Prove Proposition 4.4 by mathematical induction.
+15. An urn contains M white and N black balls. If a
+random sample of size r is chosen, what is the prob-
+ability that it contains exactly k white balls?
+16. Use induction to generalize Bonferroni’s inequal-
+ity to n events. That is, show that
+P(E1 E2 · · · En ) Ú P(E1 ) + · · · + P(En ) − (n − 1)
+17. Consider the matching problem, Example 5m, and
+deﬁne AN to be the number of ways in which the
+N men can select their hats so that no man selects
+his own. Argue that
+⋃k
+AN = (N − 1)(AN−1 + AN−2 )
+i=1
+This formula, along with the boundary conditions
+A1 = 0, A2 = 1, can then be solved for AN , and
+the desired probability of no matches would be
+AN /N!.
+Hint: After the ﬁrst man selects a hat that is not his
+own, there remain N − 1 men to select among a set
+of N − 1 hats that does not contain the hat of one
+of these men. Thus, there is one extra man and one
+extra hat. Argue that we can get no matches either
+n (
+∑     )
+n                          with the extra man selecting the extra hat or with
+Tk               the extra man not selecting the extra hat.
+k
+k=1
+18. Let fn denote the number of ways of tossing a coin
+n times such that successive heads never appear.
+Argue that
+fn = fn−1 + fn−2       n Ú 2, where f0 K 1, f1 K 2
+Hint: How many outcomes are there that start
+with a head, and how many start with a tail? If
+Pn denotes the probability that successive heads
+never appear when a coin is tossed n times, ﬁnd
+Pn (in terms of fn ) when all possible outcomes of
+the n tosses are assumed equally likely. Compute
+P10 .
+19. An urn contains n red and m blue balls. They are
+withdrawn one at a time until a total of r, r … n,
+<PARSED TEXT FOR PAGE: 13 / 82>
+
+56    Chapter 2       Axioms of Probability
+
+       red balls have been withdrawn. Find the probabil-
+       ity that a total of k balls are withdrawn.
+       Hint: A total of k balls will be withdrawn if there
+       are r − 1 red balls in the ﬁrst k − 1 withdrawals
+       and the kth withdrawal is a red ball.
+   20. Consider an experiment whose sample space con-
+       sists of a countably inﬁnite number of points.
+       Show that not all points can be equally likely.
+       Can all points have a positive probability of
+       occurring?
+ ∗ 21. Consider Example 5o, which is concerned with the
+       number of runs of wins obtained when n wins and
+       m losses are randomly permuted. Now
+
+
+consider the total number of runs—that is, win
+runs plus loss runs—and show that
+(       )(        )
+m − 1     n − 1
+k − 1     k − 1
+P{2k runs} = 2      (        )
+m + n
+n
+P{2k + 1 runs}
+(        )(       )   (       )(       )
+m − 1     n − 1       m − 1    n − 1
++
+k − 1       k           k      k − 1
+=                  (       )
+m + n
+n
+SELF-TEST PROBLEMS AND EXERCISES
+
+     1. A cafeteria offers a three-course meal consisting
+        of an entree, a starch, and a dessert. The possible
+        choices are given in the following table:
+     Course
+     Entree     Chicken or roast beef
+     Starch     Pasta or rice or potatoes
+     Dessert    Ice cream or Jello or apple pie or a peach
+        A person is to choose one course from each cate-
+        gory.
+        (a) How many outcomes are in the sample space?
+        (b) Let A be the event that ice cream is chosen.
+            How many outcomes are in A?
+        (c) Let B be the event that chicken is chosen.
+            How many outcomes are in B?
+        (d) List all the outcomes in the event AB.
+        (e) Let C be the event that rice is chosen. How
+            many outcomes are in C?
+        (f) List all the outcomes in the event ABC.
+     2. A customer visiting the suit department of a cer-
+        tain store will purchase a suit with probability .22,
+        a shirt with probability .30, and a tie with proba-
+        bility .28. The customer will purchase both a suit
+        and a shirt with probability .11, both a suit and a
+        tie with probability .14, and both a shirt and a tie
+        with probability .10. A customer will purchase all 3
+        items with probability .06. What is the probability
+        that a customer purchases
+        (a) none of these items?
+        (b) exactly 1 of these items?
+     3. A deck of cards is dealt out. What is the proba-
+        bility that the 14th card dealt is an ace? What is
+        the probability that the ﬁrst ace occurs on the 14th
+        card?
+
+
+4. Let A denote the event that the midtown temper-
+ature in Los Angeles is 70◦ F, and let B denote the
+event that the midtown temperature in New York
+is 70◦ F. Also, let C denote the event that the max-
+imum of the midtown temperatures in New York
+Choices                           and in Los Angeles is 70◦ F. If P(A) = .3, P(B) =
+.4, and P(C) = .2, ﬁnd the probability that the min-
+imum of the two midtown temperatures is 70◦ F.
+5. An ordinary deck of 52 cards is shufﬂed. What is
+the probability that the top four cards have
+(a) different denominations?
+(b) different suits?
+6. Urn A contains 3 red and 3 black balls, whereas
+urn B contains 4 red and 6 black balls. If a ball is
+randomly selected from each urn, what is the prob-
+ability that the balls will be the same color?
+7. In a state lottery, a player must choose 8 of the
+numbers from 1 to 40. The lottery commission
+then performs an experiment that selects 8 of these
+40 numbers. Assuming that the choice of the lot-
+tery
+( commission
+)           is equally likely to be any of the
+40
+combinations, what is the probability that a
+8
+player has
+(a) all 8 of the numbers selected by the lottery
+commission?
+(b) 7 of the numbers selected by the lottery com-
+mission?
+(c) at least 6 of the numbers selected by the lot-
+tery commission?
+8. From a group of 3 freshmen, 4 sophomores, 4
+juniors, and 3 seniors a committee of size 4 is ran-
+domly selected. Find the probability that the com-
+mittee will consist of
+(a) 1 from each class;
+(b) 2 sophomores and 2 juniors;
+(c) only sophomores or juniors.
+<PARSED TEXT FOR PAGE: 14 / 82>
+
+
+ 9. For a ﬁnite set A, let N(A) denote the number of
+    elements in A.
+    (a) Show that
+           N(A ∪ B) = N(A) + N(B) − N(AB)
+    (b) More generally, show that
+          ⎛     ⎞
+           ⋃n         ∑            ∑∑
+        N ⎝ Ai ⎠ =        N(Ai ) −    N(Ai Aj )
+             i=1            i               i<j
+10. Consider an experiment that consists of six horses,
+    numbered 1 through 6, running a race, and sup-
+    pose that the sample space consists of the 6! pos-
+    sible orders in which the horses ﬁnish. Let A be
+    the event that the number-1 horse is among the
+    top three ﬁnishers, and let B be the event that the
+    number-2 horse comes in second. How many out-
+    comes are in the event A ∪ B?
+11. A 5-card hand is dealt from a well-shufﬂed deck of
+    52 playing cards. What is the probability that the
+    hand contains at least one card from each of the
+    four suits?
+12. A basketball team consists of 6 frontcourt and
+    4 backcourt players. If players are divided into
+    roommates at random, what is the probability that
+    there will be exactly two roommate pairs made up
+    of a backcourt and a frontcourt player?
+13. Suppose that a person chooses a letter at random
+    from R E S E R V E and then chooses one at ran-
+    dom from V E R T I C A L. What is the probability
+    that the same letter is chosen?
+14. Prove Boole’s inequality:
+                  ⎛       ⎞
+                P ⎝ Ai ⎠ …      P(Ai )
+Self -Test Problems and Exercises     57
+15. Show   ) if P(Ai ) = 1 for all i Ú 1, then
+( that
+⋂
+q
+P    Ai = 1.
+i=1
+16. Let Tk (n) denote the number of partitions of the
+set {1, . . . , n} into k nonempty subsets, where 1 …
+k … n. (See Theoretical Exercise 8 for the deﬁni-
+tion of a partition.) Argue that
+Tk (n) = kTk (n − 1) + Tk−1 (n − 1)
+Hint: In how many partitions is {1} a subset, and in
+n+1                         how many is 1 an element of a subset that contains
++ · · · + (−1)      N(A1 · · · An )
+other elements?
+17. Five balls are randomly chosen, without replace-
+ment, from an urn that contains 5 red, 6 white, and
+7 blue balls. Find the probability that at least one
+ball of each color is chosen.
+18. Four red, 8 blue, and 5 green balls are randomly
+arranged in a line.
+(a) What is the probability that the ﬁrst 5 balls are
+blue?
+(b) What is the probability that none of the ﬁrst 5
+balls are blue?
+(c) What is the probability that the ﬁnal 3 balls
+are differently colored.
+(d) What is the probability that all the red balls
+are together?
+19. Ten cards are randomly chosen from a deck of 52
+cards that consists of 13 cards of each of 4 different
+suits. Each of the selected cards is put in one of 4
+piles, depending on the suit of the card.
+(a) What is the probability that the largest pile
+has 4 cards, the next largest has 3, the next
+largest has 2, and the smallest has 1 card?
+(b) What is the probability that two of the piles
+have 3 cards, one has 4 cards, and one has no
+cards?
+20. Balls are randomly removed from an urn initially
+⋃q        q
+∑                                      containing 20 red and 10 blue balls. What is the
+probability that all of the red balls are removed
+i=1           i=1                               before all of the blue ones have been removed?
