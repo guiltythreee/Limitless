@@ -1,10 +1,10 @@
 <PARSED TEXT FOR PAGE: 7 / 82>
-PROBLEMS
 
 50    Chapter 2      Axioms of Probability
 
 
 
+PROBLEMS
 
      1. A box contains 3 marbles: 1 red, 1 green, and 1
         blue. Consider an experiment that consists of tak-
@@ -97,6 +97,7 @@ of an adult soccer team. How many outcomes are
 bers is a blue-collar worker?
 <PARSED TEXT FOR PAGE: 8 / 82>
 
+Problems      51
 
     (c) in the event that none of the team members
           considers himself or herself an Independent?
@@ -154,7 +155,6 @@ bers is a blue-collar worker?
     III: 5 percent II and III: 4 percent
 
 
-Problems      51
 (The list tells us, for instance, that 8000 people
 read newspapers I and II.)
 (a) Find the number of people who read only one
@@ -334,6 +334,7 @@ their schools but will not play each other?
 represent her school?
 <PARSED TEXT FOR PAGE: 10 / 82>
 
+Problems      53
 
 31. A 3-person basketball team consists of a guard, a
     forward, and a center.
@@ -392,7 +393,6 @@ represent her school?
     If 4 sets break down, what is the probability that
 
 
-Problems      53
 exactly i of the repairers are called? Solve the
 problem for i = 1, 2, 3, 4. What assumptions are
 you making?
@@ -446,7 +446,6 @@ N compartments. Find the probability that m balls
 will fall into the ﬁrst compartment. Assume that all
 N n arrangements are equally likely.
 <PARSED TEXT FOR PAGE: 11 / 82>
-THEORETICAL EXERCISES
 
 54     Chapter 2      Axioms of Probability
 
@@ -475,6 +474,7 @@ THEORETICAL EXERCISES
 
 
 
+THEORETICAL EXERCISES
      Prove the following relations:
       1. EF ( E ( E ∪ F.
       2. If E ( F, then F c ( Ec .
@@ -627,7 +627,6 @@ P10 .
 19. An urn contains n red and m blue balls. They are
 withdrawn one at a time until a total of r, r … n,
 <PARSED TEXT FOR PAGE: 13 / 82>
-SELF-TEST PROBLEMS AND EXERCISES
 
 56    Chapter 2       Axioms of Probability
 
@@ -646,6 +645,7 @@ SELF-TEST PROBLEMS AND EXERCISES
        m losses are randomly permuted. Now
 
 
+SELF-TEST PROBLEMS AND EXERCISES
 
      1. A cafeteria offers a three-course meal consisting
         of an entree, a starch, and a dessert. The possible
