@@ -121,12 +121,57 @@ const problems: Problem[] = [
 ];
 
 const CHAPTERS = [
+  { id: 1 as const, title: "Combinatorial Analysis", subtitle: "Problems 1–33 · Theory · Self-test" },
+  { id: 2 as const, title: "Axioms of Probability", subtitle: "Problems 1–56 · Theory · Self-test" },
+  { id: 3 as const, title: "Conditional Probability and Independence", subtitle: "Problems 1–90 · Theory · Self-test" },
   { id: 4 as const, title: "Random Variables", subtitle: "Problems 4.1–4.4" },
   { id: 5 as const, title: "Continuous Random Variables", subtitle: "Problems 5.1–5.6" },
 ];
 
+function SourceChapterPanel({ chapter }: { chapter: 1 | 2 | 3 }) {
+  const [documentType, setDocumentType] = useState<"questions" | "solutions">("questions");
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError("");
+    fetch(`/probability-books/chapter-${chapter}-${documentType}.txt`)
+      .then((response) => {
+        if (!response.ok) throw new Error("The source document could not be loaded.");
+        return response.text();
+      })
+      .then((text) => { if (!cancelled) setContent(text); })
+      .catch((reason: unknown) => {
+        if (!cancelled) setError(reason instanceof Error ? reason.message : "The source document could not be loaded.");
+      })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [chapter, documentType]);
+
+  return (
+    <section className="panel min-w-0 p-5 md:p-8">
+      <div className="eyebrow">Chapter {chapter} · Original source material</div>
+      <h2 className="serif mt-3 text-2xl text-parchment md:text-3xl">{CHAPTERS[chapter - 1].title}</h2>
+      <p className="mt-2 text-sm leading-7 text-dim">The original question set and its corresponding detailed solution manual are reproduced as separate documents. Exercise numbering and source order are retained.</p>
+      <div className="mt-6 flex flex-wrap gap-2 border-b border-gold/15 pb-4">
+        <button onClick={() => setDocumentType("questions")} className={`border px-4 py-2 text-xs uppercase tracking-widest ${documentType === "questions" ? "border-gold bg-gold/10 text-gold" : "border-gold/20 text-dim"}`}>Questions</button>
+        <button onClick={() => setDocumentType("solutions")} className={`border px-4 py-2 text-xs uppercase tracking-widest ${documentType === "solutions" ? "border-gold bg-gold/10 text-gold" : "border-gold/20 text-dim"}`}>Detailed solutions</button>
+      </div>
+      <div className="mt-5 max-h-[72vh] min-h-[28rem] overflow-auto rounded border border-gold/15 bg-black/10 p-4 md:p-6">
+        {loading ? <p className="text-sm text-dim">Loading source document…</p> :
+          error ? <p role="alert" className="text-sm text-red-400">{error}</p> :
+          <pre className="whitespace-pre-wrap break-words font-mono text-xs leading-6 text-body md:text-sm">{content}</pre>}
+      </div>
+      <p className="mt-4 text-xs leading-6 text-faint">Source-derived text extraction. Mathematical symbols and page layout may differ slightly from the PDF, but the wording, numbering, and content are taken from the uploaded source documents.</p>
+    </section>
+  );
+}
+
 export default function BookOne() {
-  const [chapter, setChapter] = useState<4 | 5>(4);
+  const [chapter, setChapter] = useState<1 | 2 | 3 | 4 | 5>(4);
   const [activeId, setActiveId] = useState("4.1");
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
   const [completed, setCompleted] = useState<string[]>([]);
@@ -149,7 +194,7 @@ export default function BookOne() {
   }, [completed, revealed, ready]);
 
   const chapterProblems = useMemo(() => problems.filter((p) => p.chapter === chapter), [chapter]);
-  const active = problems.find((p) => p.id === activeId) ?? chapterProblems[0];
+  const active = problems.find((p) => p.id === activeId) ?? chapterProblems[0] ?? problems[0];
   const setChapterAndProblem = (next: 4 | 5) => {
     setChapter(next);
     setActiveId(next === 4 ? "4.1" : "5.1");
@@ -162,13 +207,13 @@ export default function BookOne() {
         <div>
           <div className="eyebrow mb-3">Probability · Interactive Book</div>
           <h1 className="serif text-4xl text-parchment md:text-5xl">Book Number 1</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-dim">A First Course in Probability — selected problem sets with worked solutions. Open a problem, work through it yourself, then reveal the reasoning.</p>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-dim">Chapters 1–5 with the original question sets and detailed solutions. Chapters 1–3 retain their source exercise numbering; Chapters 4–5 use the interactive problem view.</p>
         </div>
         <div className="panel min-w-44 p-4">
           <div className="text-[10px] uppercase tracking-widest text-faint">Your progress</div>
           <div className="serif mt-1 text-3xl text-gold">{completed.length}/{problems.length}</div>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-track"><div className="h-full bg-gold transition-all" style={{ width: `${completed.length / problems.length * 100}%` }} /></div>
-          <div className="mt-2 text-xs text-dim">Problems marked complete</div>
+          <div className="mt-2 text-xs text-dim">Interactive problems marked complete</div>
         </div>
       </div>
 
@@ -182,7 +227,7 @@ export default function BookOne() {
         ))}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+      {chapter <= 3 ? <SourceChapterPanel chapter={chapter} /> : (\n      <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
         <aside className="panel h-fit p-4">
           <div className="eyebrow mb-3">Chapter {chapter} · Problems</div>
           <div className="space-y-1">
@@ -232,7 +277,7 @@ export default function BookOne() {
           </div>
         </article>
       </div>
-      <p className="mt-6 text-xs leading-6 text-faint">Progress is saved in this browser. These problem-book completions are kept separate from lesson mastery and LSR-1 rewards until a reviewed assessment adapter is added.</p>
+      )}\n      <p className="mt-6 text-xs leading-6 text-faint">Progress is saved in this browser. These problem-book completions are kept separate from lesson mastery and LSR-1 rewards until a reviewed assessment adapter is added.</p>
     </div>
   );
 }
