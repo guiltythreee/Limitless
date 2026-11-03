@@ -27,6 +27,7 @@ const SECTIONS: { id: SectionKey; label: string }[] = [
 ];
 
 const PROGRESS_KEY = "limitless.probability.book-01.interactive.v2";
+const PUBLIC_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 function stripSourceNoise(value: string) {
   return value
@@ -245,11 +246,11 @@ export default function BookOne() {
     setQuestionText("");
     setSolutionText("");
     Promise.all([
-      fetch(`/probability-books/chapter-${chapter}-questions.txt`).then((response) => {
+      fetch(`${PUBLIC_BASE_PATH}/probability-books/chapter-${chapter}-questions.txt`).then((response) => {
         if (!response.ok) throw new Error("The chapter question source could not be loaded.");
         return response.text();
       }),
-      fetch(`/probability-books/chapter-${chapter}-solutions.txt`).then((response) => {
+      fetch(`${PUBLIC_BASE_PATH}/probability-books/chapter-${chapter}-solutions.txt`).then((response) => {
         if (!response.ok) throw new Error("The chapter solution source could not be loaded.");
         return response.text();
       }),
