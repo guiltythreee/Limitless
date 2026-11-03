@@ -69,6 +69,13 @@ export default function MarkdownMath({ source, className }: Props) {
       blocks.push(<div className="mt200-math-block" key={blocks.length}>{inlineParts(line)}</div>);
       continue;
     }
+    const imageMatch = line.match(/^!\\[([^\\]]*)\\]\\((\\/data\\/mt200\\/figures\\/[a-z0-9-]+\\.svg)\\)$/i);
+    if (imageMatch) {
+      flushParagraph(); flushList(); flushTable();
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+      blocks.push(<figure className="mt200-markdown-figure" key={blocks.length}><img src={basePath + imageMatch[2]} alt={imageMatch[1]} /><figcaption>{imageMatch[1]}</figcaption></figure>);
+      continue;
+    }
     if (line.startsWith("#")) {
       flushParagraph(); flushList(); flushTable();
       const level = Math.min(6, line.match(/^#+/)?.[0].length ?? 2);
