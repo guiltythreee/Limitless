@@ -259,6 +259,7 @@ export default function BookOne() {
   const sectionCompleted = items.filter((item) => completed.includes(completionPrefix + item.id)).length;
   const activeKey = active ? completionPrefix + active.id : "";
   const activeIndex = active ? filteredItems.findIndex((item) => item.id === active.id) : -1;
+  const activeKind = section === "problems" ? "Problem" : section === "theory" ? "Theoretical exercise" : "Self-test item";
 
   const changeChapter = (next: Chapter) => {
     setChapter(next);
@@ -346,7 +347,7 @@ export default function BookOne() {
             {active ? (
               <article className="panel min-w-0 p-5 md:p-8">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="eyebrow">{SECTIONS.find((item) => item.id === section)?.label.slice(0, -1)} {active.id}</div>
+                  <div className="eyebrow">{activeKind} {active.id}</div>
                   <button onClick={() => toggleComplete(activeKey)} className={`border px-3 py-2 text-[10px] uppercase tracking-widest ${completed.includes(activeKey) ? "border-ok/50 text-ok" : "border-gold/30 text-gold hover:bg-gold/10"}`}>
                     {completed.includes(activeKey) ? "✓ Completed" : "Mark complete"}
                   </button>
