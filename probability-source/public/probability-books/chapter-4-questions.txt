@@ -1,6 +1,41 @@
 --- Source page ---
 
 
+116   Chapter 3      Conditional Probability and Independence
+
+3.26. Show that if P(A|B) = 1, then P(Bc |Ac ) = 1.           3.29. There are n distinct types of coupons, and
+3.27. An urn initially contains 1 red and 1 blue ball.              each coupon obtained is, independently of prior
+      At each stage, a ball is randomly withdrawn and               types
+                                                                    ∑n collected, of type i with probability pi ,
+      replaced by two other balls of the same color.                  i=1 pi = 1.
+      (For instance, if the red ball is initially chosen,           (a) If n coupons are collected, what is the proba-
+      then there would be 2 red and 1 blue ball in                      bility that one of each type is obtained?
+      the urn when the next selection occurs.) Show                 (b) Now suppose that p1 = p2 = · · · = pn = 1/n.
+      by mathematical induction that the probability                    Let Ei be the event that there are no type
+      that there are exactly i red balls in the urn                     i coupons among the n collected. Apply the
+                                                                        inclusion–exclusion identity for the probabil-
+      after n stages have been completed is n+1   1
+                                                    ,1 …
+                                                                        ity of the union of events to P(∪i Ei ) to prove
+      i … n + 1.
+                                                                        the identity
+3.28. A total of 2n cards, of which 2 are aces, are
+                                                                                        ∑
+                                                                                        n       ( )
+      to be randomly divided among two players, with                                             n
+      each player receiving n cards. Each player is then                         n! =     (−1)k    (n − k)n
+                                                                                                 k
+      to declare, in sequence, whether he or she has                                    k=0
+      received any aces. What is the conditional proba-       3.30. Show that, for any events E and F,
+      bility that the second player has no aces, given that
+      the ﬁrst player declares in the afﬁrmative, when                           P(E|E ∪ F) Ú P(E|F)
+      (a) n = 2? (b) n = 10? (c) n = 100? To what
+      does the probability converge as n goes to inﬁnity?          Hint: Compute P(E|E ∪ F) by conditioning on
+      Why?                                                         whether F occurs.
+
+--- Source page ---
+
+
                                                                                                              Problems     173
 
       if the top-ranked person is female.) Find P{X = i},                (in dollars) equal to the sum of the ﬁngers shown
