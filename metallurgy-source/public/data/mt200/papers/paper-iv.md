@@ -284,6 +284,8 @@ MT200 Testing of Materials · Practice Paper IV (exam format)                   
  decide. Show numbers, not just words.
 
 D1.     Ring on a shaft. A ring with a bore of 50.00 mm is to be press-fitted onto a solid steel                        [8]
+
+![D1 source stress–strain plot, redrawn from the supplied paper; curve readings are approximate](/data/mt200/figures/d1-ring-shaft.svg)
         shaft of diameter 50.20 mm. The ring is a hard, brittle material. Tension curves for both
         parts are shown (the shaft curve continues beyond 1%). Find out whether the ring or the
         shaft would crack or fail during press-fitting.
@@ -305,6 +307,8 @@ D1.     Ring on a shaft. A ring with a bore of 50.00 mm is to be press-fitted on
 MT200 Testing of Materials · Practice Paper IV (exam format)                                                        Page 6
 
 D2.     Wire on a mandrel. A hard-drawn steel wire of diameter 2.0 mm is wound tightly around                  [8]
+
+![D2 source stress–strain plot, redrawn from the supplied paper; curve readings are approximate](/data/mt200/figures/d2-wire-mandrel.svg)
         a cylindrical mandrel of diameter 40 mm. Assume the neutral axis lies at the centre of the
         wire, so the strain at the outer fibre is the distance from the neutral axis divided by the
         radius of the neutral axis.
@@ -320,6 +324,8 @@ D2.     Wire on a mandrel. A hard-drawn steel wire of diameter 2.0 mm is wound t
    (e) Find the smallest mandrel diameter for which the wire stays completely elastic. What does this tell
        you about springs and wire-forming? [2]
 D3.     Cold rolling. An annealed alloy strip of thickness 5.0 mm is cold-rolled in one pass to 3.2            [8]
+
+![D3 source true stress–strain plot; marked points (0.10, 426 MPa) and (0.40, 646 MPa) are retained from the source](/data/mt200/figures/d3-cold-rolling.svg)
         mm (the width does not change). The true stress–strain curve of the annealed alloy was
         measured in a compression test, so there is no necking. It follows σ = Kεn. Use the two
         marked points to find n and K. Take UTS (MPa) ≈ 3.45 × BHN.
@@ -341,6 +347,8 @@ D3.     Cold rolling. An annealed alloy strip of thickness 5.0 mm is cold-rolled
 MT200 Testing of Materials · Practice Paper IV (exam format)                                                 Page 7
 
 D4.     Tightening a bolt by turns. An M12 × 1.75 bolt of high-strength steel clamps rigid                    [8]
+
+![D4 source stress–strain plot, redrawn from the supplied paper; curve readings are approximate](/data/mt200/figures/d4-bolt.svg)
         plates. The grip length (the part of the bolt that stretches) is 50 mm, and the tensile stress
                          2
         area is 84.3 mm . The nut is turned a quarter turn beyond the snug position. Assume all
