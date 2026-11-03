@@ -25,26 +25,26 @@ MT200 · TESTING OF MATERIALS
 
 ## SECTION A · DERIVATIONS (46 marks)
 
-A1.     Derive the torsion formula τ/r = T/J = Gθ/L for a circular shaft. State the assumptions                     [6]
+A1.     Derive the torsion formula $\\dfrac{\\tau}{r}=\\dfrac{T}{J}=\\dfrac{G\\theta}{L}$ for a circular shaft. State the assumptions                     [6]
         clearly, and say why they hold only for circular sections. Evaluate J for a solid shaft and a
-        hollow shaft, and obtain τmax = 16T/(πd3) for the solid case.
+        hollow shaft, and obtain $\\tau_{\\max}=\\dfrac{16T}{\\pi d^3}$ for the solid case.
 
-A2.     Show that G = E / [2(1 + ν)]. (Hint: a state of pure shear is equivalent to tension and                     [5]
+A2.     Show that $G=\\dfrac{E}{2(1+\\nu)}$. (Hint: a state of pure shear is equivalent to tension and                     [5]
         compression of equal magnitude on planes at 45°. Find the strain along the diagonal of a
         sheared square in two ways.)
 
 A3.     For a bar under axial load P (area A), derive the normal stress and shear stress on a plane                 [5]
         whose normal makes an angle φ with the axis. Show that the maximum shear stress is σ/2
-        at 45°. Then derive Schmid's law, τr = σ cosφ cosλ, and state the maximum Schmid factor
+        at 45°. Then derive Schmid's law, $\\tau_r=\\sigma\\cos\\phi\\cos\\lambda$, and state the maximum Schmid factor
         and what it implies for slip in a single crystal.
 
-A4.     Derive the energy absorbed in a Charpy test, E = mgR(cosβ − cosα), from the pendulum                        [6]
+A4.     Derive the energy absorbed in a Charpy test, $E=mgR(\\cos\\beta-\\cos\\alpha)$, from the pendulum                        [6]
         geometry, and obtain the striking velocity. Explain how the friction and windage loss is
         corrected, what the capacity of the machine is, and why the absorbed energy should not
         exceed about 80% of it.
 
 A5.     Fatigue. (i) Define stress amplitude σa, mean stress σm, stress range Δσ and stress ratio R                 [6]
-        in terms of σmax and σmin. (ii) Derive the Goodman relation σa/σe + σm/σUTS = 1 (and with a
+        in terms of σmax and σmin. (ii) Derive the Goodman relation $\\dfrac{\\sigma_a}{\\sigma_e}+\\dfrac{\\sigma_m}{\\sigma_{UTS}}=1$ (and with a
         safety factor n), and express the allowable σmax in terms of R. (iii) From two points on a
         straight-line log–log S–N curve, obtain the Basquin exponent b. (iv) State how Gerber and
         Soderberg lines differ from Goodman.
@@ -59,13 +59,13 @@ A6.     Creep. (i) Write the Arrhenius form of the steady-state creep rate. (ii)
 
 MT200 Testing of Materials · Practice Paper II                                                                    Page 1
 
-A7.     Derive the true fracture strain εf = ln[1/(1 − RA)] from the percentage reduction of area,              [4]
+A7.     Derive the true fracture strain $\\varepsilon_f=\\ln\\left(\\dfrac{1}{1-RA}\\right)$ from the percentage reduction of area,              [4]
         and state the assumption. Explain why %EL depends on the gauge length while %RA does
         not (use Barba's law e = eu + β√A0/L0), and why %RA is the better measure of local
         ductility.
 
 A8.     Write the generalised Hooke's law for a triaxial state. Derive the volumetric strain in terms           [4]
-        of σx + σy + σz, then the bulk modulus K = E/[3(1 − 2ν)]. Why must ν ≤ 0.5? Connect this
+        of σx + σy + σz, then the bulk modulus $K=\\dfrac{E}{3(1-2\\nu)}$. Why must ν ≤ 0.5? Connect this
         to the volume-constancy assumption of the true stress–strain relations.
 
 A9.     For a unidirectional fibre composite (fibre volume fraction Vf), derive the modulus for                 [4]
