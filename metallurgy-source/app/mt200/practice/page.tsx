@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./practice.module.css";
+import MarkdownMath from "./MarkdownMath";
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -144,8 +145,7 @@ export default function Mt200Practice() {
                 <span className="chip chip-gold">Question {index + 1} of {questions.length}</span>
                 <span className="mt200-question-id">{current.id}</span>
               </div>
-              <pre className="mt200-question-text">{current.text}</pre>
-        </div>
+              <MarkdownMath source={current.text} className="mt200-question-text" />
               <label className="mt200-answer-label" htmlFor="mt200-answer">Your working / answer</label>
               <textarea id="mt200-answer" className="mt200-answer" value={answers[answerKey] ?? ""} onChange={(event) => saveAnswer(event.target.value)} placeholder="Write your derivation, assumptions, calculations and final answer here…" rows={9} />
               <div className="mt200-practice-actions">
@@ -156,7 +156,7 @@ export default function Mt200Practice() {
               {revealed ? (
                 <div className="mt200-solution">
                   <h2>Model solution · {current.id}</h2>
-                  {currentSolution ? <pre>{currentSolution}</pre> : <p>The solution file does not use a separate heading for this item. Open the complete companion solution to locate it.</p>}
+                  {currentSolution ? <MarkdownMath source={currentSolution} className="mt200-solution-content" /> : <p>The solution file does not use a separate heading for this item. Open the complete companion solution to locate it.</p>}
                   <a className="btn" href={`${basePath}/data/mt200/${paper.solutions}`} target="_blank" rel="noreferrer">Open complete marking scheme</a>
                 </div>
               ) : null}
