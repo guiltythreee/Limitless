@@ -151,7 +151,11 @@ function makeQuestionItems(text: string, chapter: Chapter) {
     const end = starts[index + 1]?.index ?? clean.length;
     const question = clean.slice(start.index, end).trim();
     return { id: start.id, question, title: "" };
-  }).filter((item) => item.question.length > 5).sort((a, b) => {\n    const left = Number(a.id.split(".").at(-1));\n    const right = Number(b.id.split(".").at(-1));\n    return left - right;\n  });
+  }).filter((item) => item.question.length > 5).sort((a, b) => {
+    const left = Number(a.id.split(".").at(-1));
+    const right = Number(b.id.split(".").at(-1));
+    return left - right;
+  });
 }
 
 function makeSolutionMap(text: string, chapter: Chapter) {
