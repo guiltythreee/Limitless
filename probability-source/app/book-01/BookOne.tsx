@@ -132,7 +132,7 @@ function solutionStarts(text: string, chapter: Chapter) {
   if (chapter <= 2) {
     pattern = /^[ \\t]*(\\d{1,2})\\.[ \\t]+([^\\n]{3,140})$/gm;
   } else if (chapter === 5) {
-    pattern = /^\s*(?:Problem\s+)?5\.(\d{1,2})(?:\.\s*|\s*[—–:-]\s*|\s+|\s*$)([^\n]{0,140})$/gm;
+    pattern = /^\s*(?:(?:Problem|Self-Test)\s+)?5\.(\d{1,2})(?:\.\s*|\s*[—–:-]\s*|\s+|\s*$)([^\n]{0,140})$/gm;
   } else {
     pattern = new RegExp("^[ \\t]*" + chapter + "\\.(\\d{1,2})\\.[ \\t]+([^\\n]{3,140})$", "gm");
   }
