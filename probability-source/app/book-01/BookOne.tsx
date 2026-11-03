@@ -72,16 +72,22 @@ function solutionSections(text: string, chapter: Chapter): Record<SectionKey, st
     const laterProblems = /^\s*Problems 5\.23\s*[–-]\s*5\.41\s*$/im;
     const theory = /^\s*Theoretical Exercises 5\.1\s*[–-]\s*5\.33\s*$/im;
     const self = /^\s*Self-Test Problems and Exercises 5\.1\s*[–-]\s*5\.20\s*$/im;
+    const corrections = /^\s*Chapter 5\s*[—-]\s*Numerical corrections\s*$/im;
     const first = supplement.exec(text);
     const firstAt = first?.index ?? 0;
     const p1 = partOne.exec(text);
     const p2 = laterProblems.exec(text);
     const t = theory.exec(text);
     const st = self.exec(text);
+    const fix = corrections.exec(text);
+    const correctionText = fix ? text.slice(fix.index) : "";
+    const selfFixAt = correctionText.search(/^\s*Self-Test 5\.17\./im);
+    const problemFixes = selfFixAt >= 0 ? correctionText.slice(0, selfFixAt) : correctionText;
+    const selfFixes = selfFixAt >= 0 ? correctionText.slice(selfFixAt) : "";
     return {
-      problems: [text.slice(firstAt, p1?.index ?? firstAt), p1 ? text.slice(p1.index, p2?.index ?? p1.index) : "", p2 ? text.slice(p2.index, t?.index ?? p2.index) : ""].join("\n\n"),
-      theory: t ? text.slice(t.index + t[0].length, st?.index ?? text.length) : "",
-      "self-test": st ? text.slice(st.index + st[0].length) : "",
+      problems: [text.slice(firstAt, p1?.index ?? firstAt), p1 ? text.slice(p1.index, p2?.index ?? p1.index) : "", p2 ? text.slice(p2.index, t?.index ?? p2.index) : "", problemFixes].join("\n\n"),
+      theory: t ? text.slice(t.index + t[0].length, st?.index ?? fix?.index ?? text.length) : "",
+      "self-test": [st ? text.slice(st.index + st[0].length, fix?.index ?? text.length) : "", selfFixes].join("\n\n"),
     };
   }
 
@@ -134,6 +140,12 @@ function solutionStarts(text: string, chapter: Chapter) {
     const id = chapter <= 2 ? match[1] : chapter + "." + match[1];
     const title = (match[2] || "").trim();
     matches.push({ id, title, index: match.index! });
+  }
+  if (chapter === 5) {
+    const additionalSelfTest = /^\s*Additional correction\s*[—-]\s*Self-Test\s+5\.(\d{1,2})\s*$/gm;
+    for (const match of text.matchAll(additionalSelfTest)) {
+      matches.push({ id: "5." + match[1], title: "", index: match.index! });
+    }
   }
   if (chapter === 4) {
     const supplementPattern = /^\s*Problem\s+4\.(\d{1,2})\s*$/gm;
