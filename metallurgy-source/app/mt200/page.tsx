@@ -76,6 +76,17 @@ export default function Mt200Course() {
           </div>
         </section>
 
+        <section className="mt200-section">
+          <div className="eyebrow">Course objectives</div>
+          <h2>What this course develops</h2>
+          <ol>
+            <li>Introduce structural engineering materials and their mechanical properties.</li>
+            <li>Introduce mechanical testing methodology.</li>
+            <li>Develop insight into structure–property correlations for metallic materials.</li>
+            <li>Provide general practice and hands-on training in mechanical testing.</li>
+          </ol>
+        </section>
+
         <section className="mt200-section mt200-outcomes">
           <div className="eyebrow">Learning outcomes</div>
           <h2>By the end of the course</h2>
@@ -86,6 +97,7 @@ export default function Mt200Course() {
             <li>Apply mechanical testing concepts in industry and research laboratories.</li>
           </ol>
           <p className="mt200-note">Evaluation in the supplied course plan: Lab 10% · Quiz 15% · Midterm 25% · End-semester 50%.</p>
+          <p className="mt200-note">References: G. E. Dieter, <em>Mechanical Metallurgy</em>, McGraw Hill (1988); W. D. Callister, <em>Materials Science and Engineering</em>, Wiley-India (2009).</p>
         </section>
         <footer className="site-footer">✧ &nbsp; M&amp;M ENGINEERING ARCHIVE &nbsp;✧</footer>
       </main>
