@@ -26,3 +26,5 @@
   :global(.mt200-practice-actions .btn-gold) { grid-column: 1 / -1; grid-row: 1; }
   :global(.mt200-practice-status) { flex-direction: column; }
 }
+:global(.mt200-original-reference) { display: flex; align-items: center; flex-wrap: wrap; gap: .6rem; margin: .8rem 0 1rem; }
+:global(.mt200-original-reference span) { color: var(--dim); font-size: .8rem; }
