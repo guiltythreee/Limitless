@@ -972,14 +972,8 @@ Let Ei , i = 1, 2, 3 denote the event that judge
 i casts a guilty vote. Are these events inde-
 pendent. Are they conditionally independent?
 Explain.
-3.90. Suppose that n independent trials, each of which
-results in any of the outcomes 0, 1, or 2, with
-∑
-respective probabilities p0 , p1 , and p2 , 2i=0 pi = 1,
-( )n
-3                         are performed. Find the probability that outcomes
-P{A ( B} =                               1 and 2 both occur at least once.
-4
+3.90. Suppose that n independent trials, each of which results in any of the outcomes 0, 1, or 2, with respective probabilities p₀, p₁, and p₂, where p₀ + p₁ + p₂ = 1, are performed. Find the probability that outcomes 1 and 2 both occur at least once.
+
 THEORETICAL EXERCISES
 
  3.1. Show that if P(A) > 0, then
