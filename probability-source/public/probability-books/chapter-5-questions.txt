@@ -24,8 +24,9 @@ TEXTBOOK QUESTION BANK — PROBLEMS 5.7–5.41, THEORETICAL EXERCISES 5.1–5.33
 
 
  5.7. The density function of X is given by
-               f (x) =
-      If E[X] = 35 , ﬁnd a and b.
+               f(x) = a + bx², 0 ≤ x ≤ 1,
+                      0, otherwise.
+      If E[X] = 3/5, find a and b.
  5.8. The lifetime in hours of an electronic tube is a ran-
       dom variable having a probability density function
       given by
