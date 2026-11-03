@@ -109,7 +109,7 @@ function questionStarts(text: string, chapter: Chapter) {
   const matches: { id: string; index: number }[] = [];
   const simple = chapter <= 2;
   const pattern = simple
-    ? /(?:^|\n)[ \t]*(\d{1,2})\.\s+(?=[A-Z(])|[ \t]{3,}(\d{1,2})\.\s+(?=[A-Z(])/gm
+    ? /(?:^|\n)[ \t]*(\d{1,2})\.\s+|[ \t]{3,}(\d{1,2})\.\s+|∗\s*(\d{1,2})\.\s+/gm
     : new RegExp("(?:^|\\n)[ \\t]*(" + chapter + ")\\.(\\d{1,2})\\.\\s+|[ \\t]{3,}(" + chapter + ")\\.(\\d{1,2})\\.\\s+|∗\\s*(" + chapter + ")\\.(\\d{1,2})\\.\\s+", "gm");
   for (const match of text.matchAll(pattern)) {
     const id = simple ? (match[1] || match[2] || match[3]) : (match[2] || match[4] || match[6]);
