@@ -110,9 +110,9 @@ function questionStarts(text: string, chapter: Chapter) {
   const simple = chapter <= 2;
   const pattern = simple
     ? /(?:^|\n)[ \t]*(\d{1,2})\.\s+(?=[A-Z(])|[ \t]{3,}(\d{1,2})\.\s+(?=[A-Z(])/gm
-    : new RegExp("(?:^|\\n)[ \\t]*(" + chapter + ")\\.(\\d{1,2})\\.\\s+(?=[A-Z(])|[ \\t]{3,}(" + chapter + ")\\.(\\d{1,2})\\.\\s+(?=[A-Z(])", "gm");
+    : new RegExp("(?:^|\\n)[ \\t]*(" + chapter + ")\\.(\\d{1,2})\\.\\s+|[ \\t]{3,}(" + chapter + ")\\.(\\d{1,2})\\.\\s+|∗\\s*(" + chapter + ")\\.(\\d{1,2})\\.\\s+", "gm");
   for (const match of text.matchAll(pattern)) {
-    const id = simple ? (match[1] || match[2]) : (match[2] || match[4]);
+    const id = simple ? (match[1] || match[2] || match[3]) : (match[2] || match[4] || match[6]);
     if (!id) continue;
     const raw = simple ? id + "." : chapter + "." + id + ".";
     matches.push({ id: simple ? id : chapter + "." + id, index: match.index! + match[0].lastIndexOf(raw) });
@@ -151,7 +151,7 @@ function makeQuestionItems(text: string, chapter: Chapter) {
     const end = starts[index + 1]?.index ?? clean.length;
     const question = clean.slice(start.index, end).trim();
     return { id: start.id, question, title: "" };
-  }).filter((item) => item.question.length > 5);
+  }).filter((item) => item.question.length > 5).sort((a, b) => {\n    const left = Number(a.id.split(".").at(-1));\n    const right = Number(b.id.split(".").at(-1));\n    return left - right;\n  });
 }
 
 function makeSolutionMap(text: string, chapter: Chapter) {
@@ -168,7 +168,7 @@ function makeSolutionMap(text: string, chapter: Chapter) {
   return map;
 }
 
-function buildItems(questionText: string, solutionText: string, chapter: Chapter, section: SectionKey): SourceItem[] {
+function buildItems(questionText: string, solutionText: string, chapter: Chapter): SourceItem[] {
   const questions = makeQuestionItems(questionText, chapter);
   const solutions = makeSolutionMap(solutionText, chapter);
   return questions.map((item) => {
@@ -246,7 +246,7 @@ export default function BookOne() {
   const questionBySection = useMemo(() => questionSections(questionText, chapter), [questionText, chapter]);
   const solutionBySection = useMemo(() => solutionSections(solutionText, chapter), [solutionText, chapter]);
   const items = useMemo(
-    () => buildItems(questionBySection[section], solutionBySection[section], chapter, section),
+    () => buildItems(questionBySection[section], solutionBySection[section], chapter),
     [questionBySection, solutionBySection, chapter, section],
   );
   const filteredItems = useMemo(() => {
