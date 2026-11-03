@@ -1,0 +1,818 @@
+<PARSED TEXT FOR PAGE: 1 / 14>
+
+                                              PROBABILITY
+                    Detailed Solutions Manual
+                                Volume 2 of 10 | Chapter 2: Axioms of Probability
+
+
+
+
+  Worked solutions to all chapter problems, theoretical exercises, and self-test problems
+                                   in the source chapter.
+ Original question numbering and the textbook's event notation are retained.
+
+
+
+
+ Notation and conventions
+ AB means A intersection B; A union B means that at least one event occurs; A^c means the complement of A. For
+ finite equally likely sample spaces, P(A)=number of outcomes in A divided by the total number of outcomes.
+ Combinations C(n,r) count unordered selections.
+ For physical draws, assume random selection without replacement unless the question explicitly says otherwise.
+ For random assignments or placements, the stated count assumes all outcomes in the described sample space are
+ equally likely.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                    Page 1
+
+<PARSED TEXT FOR PAGE: 2 / 14>
+
+ Chapter 2 - Axioms of Probability
+ This chapter moves from describing sample spaces and events to assigning probabilities. The recurring tools are
+ complements, addition rules, inclusion-exclusion, equally likely counting, and conditioning by partitioning the
+ sample space.
+
+
+ A. Problems
+ 1. Sample space for two marble draws
+ With replacement, each draw can be R, G, or B and the order is recorded. The sample space has 3 x 3 = 9 ordered
+ outcomes:
+    {RR, RG, RB, GR, GG, GB, BR, BG, BB}.
+
+ Without replacement, the same color cannot appear twice. The six ordered outcomes are {RG, RB, GR, GB, BR,
+ BG}. The order matters because the first and second draws are different stages.
+
+ 2. Rolling a die until a six appears
+ An outcome records the actual face shown on each roll up to and including the first 6. The sample space consists
+ of all finite sequences (x1,...,x_(n-1),6), where every earlier xi is in {1,2,3,4,5}, together with all infinite sequences
+ (x1,x2,...) whose entries are always in {1,2,3,4,5} (the die never shows 6).
+ E_n is the set of all sequences that stop at roll n: the first n-1 entries may each be any of 1,2,3,4,5, and the nth
+ entry is 6. Thus E_n contains 5^(n-1) outcomes.
+ E_n^c contains every terminating sequence whose first 6 occurs at a roll other than n, together with every infinite
+ sequence in which no 6 ever occurs. The events E_n are disjoint, and their union is the set of all finite sequences
+ that eventually terminate with a 6; it excludes precisely the infinite sequences with no 6.
+
+ 3. Events for two dice
+ Use ordered pairs (i,j), where i is the first die and j the second. E is the set of pairs with odd sum; F is the set with
+ i=1 or j=1; G is the set with i+j=5.
+ EF consists of pairs in F that have odd sum. These are (1,2),(1,4),(1,6),(2,1),(4,1),(6,1). E union F consists of every
+ odd-sum pair together with every pair having at least one 1.
+ FG consists of outcomes with sum 5 and at least one 1: (1,4),(4,1). EF^c consists of odd-sum outcomes with
+ neither die equal to 1. EFG consists of outcomes in G that also lie in E and F; since every sum-5 outcome has odd
+ sum, this is {(1,4),(4,1)}.
+
+ 4. Three players take turns flipping a coin
+ The sample point 1 means A gets the first head on the first flip; 01 means the first flip is a tail and B gets a head
+ on the second; 001 means A and B get tails and C gets a head on the third; and so on. The point 000... means
+ nobody ever gets a head.
+ Since the order is A,B,C,A,B,C,..., A wins when the first head is on flip 1,4,7,...; B wins on flips 2,5,8,...; C wins on
+ flips 3,6,9,... . In the notation of S:
+    A wins={1,0001,0000001,...}; B wins={01,00001,00000001,...}; (A union
+    B)^c={001,000001,000000001,...,000...}.
+
+ 5. Five-component working system
+ (a) Each component is either 0 (failed) or 1 (working). Therefore there are 2^5=32 possible binary vectors.
+ (b) The system works when x1=x2=1, or x3=x4=1, or x1=x3=x5=1. The 15 working vectors are:
+    {(0,0,1,1,0),(0,0,1,1,1),(0,1,1,1,0),(0,1,1,1,1),(1,0,1,0,1),(1,0,1,1,0),(1,0,1,1,1),(1,1,0,0,0),(1,1,0,0,1),(1,1,0,1,0),(1
+    ,1,0,1,1),(1,1,1,0,0),(1,1,1,0,1),(1,1,1,1,0),(1,1,1,1,1)}.
+
+ (c) A requires x4=x5=0; x1,x2,x3 are free. Thus A has 2^3=8 outcomes.
+ (d) In A, the second working condition is impossible because x4=0, and the third is impossible because x5=0. Thus
+ W and A intersect only when x1=x2=1. The two outcomes are (1,1,0,0,0) and (1,1,1,0,0).
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                                      Page 2
+
+<PARSED TEXT FOR PAGE: 3 / 14>
+
+ 6. Coding insurance and medical condition
+ Record each patient as (insurance code, condition), with insurance code 1 for insured and 0 for uninsured, and
+ condition g, f, or s. The sample space is {(0,g),(0,f),(0,s),(1,g),(1,f),(1,s)}.
+ A={ (0,s),(1,s) }. B={ (0,g),(0,f),(0,s) }. The complement B^c consists of all insured outcomes. Hence B^c union
+ A={(1,g),(1,f),(1,s),(0,s)}.
+
+ 7. Job type and political affiliation for 15 team members
+ Each member has 2 possible job types and 3 possible political affiliations, giving 6 categories per member.
+ Treating the 15 members as distinct, the sample space has 6^15 outcomes.
+ (b) Subtract the outcomes in which every member is white-collar. Each such member has 3 possible affiliations, so
+ there are 3^15 such outcomes. The required count is 6^15-3^15.
+ (c) If nobody is Independent, each member has 2 job types x 2 allowed affiliations =4 choices. The count is 4^15.
+
+ 8. Mutually exclusive events with probabilities 0.3 and 0.5
+ Mutually exclusive means A intersection B is empty, so P(A intersection B)=0.
+ (a) P(A union B)=P(A)+P(B)=0.3+0.5=0.8. (b) A occurring but B not occurring is just A, because A and B cannot
+ occur together, so the probability is 0.3. (c) The probability of both is 0.
+
+ 9. Customers carrying American Express or VISA
+ Let A be carrying American Express and V be carrying VISA. Apply the addition rule, subtracting the overlap so
+ customers with both cards are not counted twice:
+    P(A union V)=0.24+0.61-0.11=0.74.
+
+ Therefore 74 percent of customers carry at least one accepted card.
+
+ 10. Students wearing rings and necklaces
+ Let R be wearing a ring and N be wearing a necklace. Since 60 percent wear neither, P(R union N)=1-0.60=0.40.
+ The addition rule gives P(R intersection N)=P(R)+P(N)-P(R union N)=0.20+0.30-0.40=0.10. Thus (a) 40 percent
+ wear a ring or necklace, and (b) 10 percent wear both.
+
+ 11. Smoking cigarettes and cigars
+ Let C denote smoking cigarettes and G denote smoking cigars. Given P(C)=0.28, P(G)=0.07, and P(C intersection
+ G)=0.05.
+ (a) P(neither)=1-P(C union G)=1-[0.28+0.07-0.05]=0.70, or 70 percent.
+ (b) P(G intersection C^c)=P(G)-P(G intersection C)=0.07-0.05=0.02, or 2 percent.
+
+ 12. Students taking Spanish, French, and German
+ Let S,F,G denote the three language classes. Inclusion-exclusion gives the number taking at least one class:
+ 28+26+16-12-4-6+2=50.
+ (a) Out of 100 students, 50 take none, so the probability is 0.50.
+ (b) The number taking exactly one class is the sum of single-class counts, minus twice the sum of pairwise
+ intersections, plus three times the triple intersection: 28+26+16-2(12+4+6)+3(2)=32. Probability=0.32.
+ (c) A student is outside the union with probability 50/100. For two distinct students sampled without replacement,
+ the probability neither is in a language class is C(50,2)/C(100,2). Therefore the probability at least one is in a
+ language class is 1-C(50,2)/C(100,2)=149/198, approximately 0.7525.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                          Page 3
+
+<PARSED TEXT FOR PAGE: 4 / 14>
+
+ 13. Newspaper readership in a town of 100,000
+ Convert each percentage into a count. I=10,000; II=30,000; III=5,000; I intersection II=8,000; I intersection
+ III=2,000; II intersection III=4,000; all three=1,000.
+ (a) Only I: 10,000-8,000-2,000+1,000=1,000. Only II: 30,000-8,000-4,000+1,000=19,000. Only III:
+ 5,000-2,000-4,000+1,000=0. Total reading only one=20,000.
+ (b) Exactly two = (8,000-1,000)+(2,000-1,000)+(4,000-1,000)=11,000. At least two includes the 1,000 reading all
+ three, so total=12,000.
+ (c) At least one morning paper plus the evening paper means II and (I or III): 8,000+4,000-1,000=11,000.
+ (d) The union is 10,000+30,000+5,000-8,000-2,000-4,000+1,000=32,000. Therefore 68,000 read none.
+ (e) One morning and the evening, but not both morning papers: (I and II but not III)+(III and II but not
+ I)=(8,000-1,000)+(4,000-1,000)=10,000.
+
+ 14. Inconsistent survey data
+ Let M,W,G denote professional, married, and college graduate. The inclusion-exclusion formula gives
+    P(M union W union G)=0.312+0.470+0.525-0.042-0.147-0.086+0.025=1.057.
+
+ A probability cannot exceed 1. The reported counts therefore cannot all be correct.
+
+ 15. Five-card poker hand probabilities
+ All C(52,5) five-card hands are equally likely. Count each hand type and divide by this total.
+ (a) Flush: choose one of 4 suits and 5 of its 13 cards: 4C(13,5)/C(52,5).
+ (b) One pair: choose the pair's denomination (13), its 2 suits C(4,2), the 3 other denominations C(12,3), and one
+ suit for each singleton (4^3). Probability=13C(4,2)C(12,3)4^3/C(52,5).
+ (c) Two pairs: choose 2 denominations C(13,2), choose 2 suits for each pair C(4,2)^2, choose the singleton
+ denomination from the remaining 11 and its suit in 4 ways. Probability=C(13,2)C(4,2)^2(11)(4)/C(52,5).
+ (d) Three of a kind: choose the triple's denomination (13), its 3 suits C(4,3), two other denominations C(12,2), and
+ one suit for each singleton (4^2). Divide the product by C(52,5).
+ (e) Four of a kind: choose the denomination (13); all four suits are forced; choose the fifth card from the other 48
+ cards. Probability=13(48)/C(52,5).
+
+ 16. Poker dice: probabilities of the seven patterns
+ There are 6^5=7,776 equally likely ordered outcomes. Count each pattern.
+ (a) No two alike: all five faces distinct, so 6P5=720 outcomes. Probability=720/7,776=0.0926.
+ (b) One pair: choose the paired face (6), its two positions C(5,2), then choose and order three distinct faces from
+ the other five (5P3). Count=6C(5,2)5P3=3,600; probability=0.4630.
+ (c) Two pair: choose the two paired faces C(6,2), choose the four positions for the two pairs in 5!/(2!2!) ways, and
+ choose the singleton face from the remaining four. Count=1,800; probability=0.2315.
+ (d) Three alike: choose the triple face (6), its positions C(5,3), and an ordered pair of distinct remaining faces
+ (5P2). Count=1,200; probability=0.1543.
+ (e) Full house: choose the triple face (6), pair face (5), and positions of the triple C(5,3). Count=300;
+ probability=0.0386.
+ (f) Four alike: choose the face (6), singleton position (5), and singleton face (5). Count=150; probability=0.0193.
+ (g) Five alike: choose the common face in 6 ways. Probability=6/7,776=0.0008.
+
+ 17. Eight nonattacking rooks
+ The total number of ways to choose 8 distinct squares from 64 is C(64,8). For no two rooks to attack one another,
+ there must be exactly one rook in each row and exactly one in each column. Once the rows are fixed, assign the
+ eight columns to the rows by a permutation, giving 8! favorable placements.
+    P=8!/C(64,8).
+
+ 18. Two-card blackjack
+ A blackjack pair consists of one ace and one ten-valued card (10,J,Q,K). There are 4 aces and 16 ten-valued cards,
+ so there are 4 x 16=64 favorable unordered pairs. The total is C(52,2)=1,326.
+    P=64/C(52,2)=32/663, approximately 0.0483.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                                Page 4
+
+<PARSED TEXT FOR PAGE: 5 / 14>
+
+ 19. Two dice with colored faces
+ Each die has P(red)=2/6, P(black)=2/6, P(yellow)=1/6, and P(white)=1/6. The dice are independent. They match if
+ both are red, both black, both yellow, or both white.
+    P(match)=(2/6)^2+(2/6)^2+(1/6)^2+(1/6)^2=17/18.
+
+ 20. Neither player nor dealer receives blackjack
+ Deal two cards to the player and two to the dealer, without replacement. For either specified two-card hand,
+ P(blackjack)=4 x 16 x 2/(52 x 51)=32/663.
+ Use inclusion-exclusion. The probability both receive blackjack is: player orderings 4 x 16 x 2, then from the
+ remaining deck dealer orderings 3 x 15 x 2. Thus P(both)=4x16x2x3x15x2/(52x51x50x49)=96/54145.
+ Therefore P(neither)=1-P(player BJ)-P(dealer BJ)+P(both)=1-2(32/663)+96/54145=11311/12495, approximately
+ 0.9052.
+
+ 21. Family-size distribution
+ The family-size frequencies are: 4 families with one child, 8 with two, 5 with three, 2 with four, and 1 with five.
+ (a) Selecting a family uniformly from 20 gives probabilities 4/20, 8/20, 5/20, 2/20, and 1/20.
+ (b) The total number of children is 4(1)+8(2)+5(3)+2(4)+1(5)=48. A randomly selected child comes from an
+ i-child family with probability equal to the number of children in those families divided by 48. The five probabilities
+ are 4/48, 16/48, 15/48, 8/48, and 5/48.
+
+ 22. Coin-based deck shuffle
+ For a fixed initial deck order, after one round the cards left in place (heads) retain their original relative order,
+ followed by the cards moved to the end (tails), also in their original relative order. The final deck equals the
+ original order precisely when the flip sequence consists of some number k of heads followed by n-k tails, for
+ k=0,1,...,n. There are n+1 such sequences among 2^n equally likely sequences.
+    P(same order)=(n+1)/2^n.
+
+ 23. Second die exceeds first
+ There are 36 ordered outcomes. For first die 1, the second can be 2 through 6 (5 outcomes); for first die 2 there
+ are 4; continuing gives 5+4+3+2+1=15 favorable outcomes.
+    P=15/36=5/12.
+
+ 24. Distribution of the sum of two dice
+ Among 36 equally likely ordered pairs, the number producing sums 2 through 12 is respectively
+ 1,2,3,4,5,6,5,4,3,2,1. Divide each count by 36.
+    P(sum=i)=(1,2,3,4,5,6,5,4,3,2,1)/36 for i=2,3,...,12, in that order.
+
+ 25. A sum of 5 appears before a sum of 7
+ On any roll, P(sum 5)=4/36 and P(sum 7)=6/36. All other outcomes simply restart the same situation. Let p be the
+ probability that 5 occurs first. Conditioning on the first roll gives p=4/36+(26/36)p. Solving gives (10/36)p=4/36,
+ so p=4/10=2/5.
+
+ 26. Probability of winning at craps
+ An initial sum of 7 or 11 wins immediately: probability (6+2)/36=8/36. An initial 2, 3, or 12 loses immediately. For
+ a point i in {4,5,6,8,9,10}, let a_i be its number of dice outcomes: 3,4,5,5,4,3 respectively. After i becomes the
+ point, each later roll is a repeat of i (a_i ways), a 7 (6 ways), or neither. The probability i appears before 7 is
+ a_i/(a_i+6).
+    P(win)=8/36 + sum over i={4,5,6,8,9,10} of [a_i/36 x a_i/(a_i+6)] = 244/495, approximately 0.49293.
+
+ 27. Alternating draws until a red ball appears
+ The first red ball determines the winner. Since the ten ball positions are equally likely to contain the three red
+ balls, there are C(10,3)=120 possible red-position sets. A wins if the first red position is odd. The earliest red can
+ be at 1, 3, 5, or 7. The corresponding counts are C(9,2), C(7,2), C(5,2), and C(3,2).
+    P(A wins)=[36+21+10+3]/120=70/120=7/12.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                                   Page 5
+
+<PARSED TEXT FOR PAGE: 6 / 14>
+
+ 28. Three balls from an urn with replacement and without
+ The urn has 5 red, 6 blue, and 8 green balls; total 19.
+ Without replacement: (a) all same color has count C(5,3)+C(6,3)+C(8,3)=86, over C(19,3)=969, so
+ probability=86/969. (b) all different colors has 5x6x8=240 selections, so probability=240/969=80/323.
+ With replacement, (a) P(all same)=(5/19)^3+(6/19)^3+(8/19)^3=853/6859. (b) all three colors occur in any of
+ 3!=6 orders, so P(all different)=6(5/19)(6/19)(8/19)=1440/6859.
+
+ 29. Same-color probability for n white and m black balls
+ Let T=n+m. Without replacement, the first two are both white or both black:
+    P_same,no replacement=[n(n-1)+m(m-1)]/[T(T-1)].
+
+ With replacement, the two draws are independent:
+    P_same,with replacement=(n/T)^2+(m/T)^2=(n^2+m^2)/T^2.
+
+ The with-replacement probability exceeds the without-replacement probability by 2nm/[T^2(T-1)], which is
+ positive for n,m>0.
+
+ 30. Two chess teams and pairing
+ Four of 8 players are chosen from Rebecca's school and four of 9 from Elise's school. Conditional on both being
+ selected, their pairing is uniform among 4! matchings; the chance they are paired is 1/4.
+ (a) P(both selected and paired)=(4/8)(4/9)(1/4)=1/18.
+ (b) P(both selected but not paired)=(4/8)(4/9)(3/4)=1/6.
+ (c) P(at least one selected)=P(R selected)+P(E selected)-P(both selected)=1/2+4/9-(1/2)(4/9)=13/18.
+
+ 31. Three players chosen from three basketball teams
+ Each of the three teams has one guard, one forward, and one center. Choosing one person independently from
+ each team gives 3^3=27 equally likely triples.
+ (a) A complete team requires one player at each position. The three positions can be assigned to the three teams
+ in 3!=6 ways, so the probability is 6/27=2/9.
+ (b) All selected players have the same position: choose guard, forward, or center. There are 3 favorable triples, so
+ the probability is 3/27=1/9.
+
+ 32. Probability the person in position i is a girl
+ All (b+g)! permutations are equally likely. By symmetry, every individual is equally likely to occupy position i.
+ There are g girls among b+g people.
+    P(position i is a girl)=g/(b+g), for every i.
+
+ 33. Tag-recapture problem for elk
+ Assume the later sample of four elk is a simple random sample from the 20, with no replacement. Exactly two
+ tagged elk means choose 2 of the 5 tagged and 2 of the 15 untagged.
+    P(exactly 2 tagged)=C(5,2)C(15,2)/C(20,4)=1050/4845=70/323, approximately 0.2167.
+
+ The calculation assumes tags remain identifiable and the recaptured sample is random.
+
+ 34. Probability of a Yarborough bridge hand
+ A Yarborough has no card higher than 9. There are 8 low denominations (2 through 9), each in 4 suits, so 32
+ qualifying cards. A 13-card hand is a uniform selection from C(52,13) hands.
+    P(Yarborough)=C(32,13)/C(52,13).
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                               Page 6
+
+<PARSED TEXT FOR PAGE: 7 / 14>
+
+ 35. Seven balls from an urn
+ The total number of 7-ball selections from 46 balls is C(46,7), with 12 red, 16 blue, and 18 green.
+ (a) Exactly 3 red, 2 blue, 2 green: C(12,3)C(16,2)C(18,2)/C(46,7).
+ (b) At least 2 red: sum for r=2,...,7 of C(12,r)C(34,7-r), divided by C(46,7).
+ (c) All one color: [C(12,7)+C(16,7)+C(18,7)]/C(46,7).
+ (d) Let A be exactly 3 red and B exactly 3 blue. Inclusion-exclusion is needed because both can happen together
+ when the sample has 3 red, 3 blue, and 1 green. Therefore
+    P(A union B)={C(12,3)C(34,4)+C(16,3)C(30,4)-C(12,3)C(16,3)C(18,1)}/C(46,7).
+
+ 36. Two-card selections
+ The total number of unordered pairs is C(52,2)=1,326.
+ (a) Both aces: C(4,2)/C(52,2)=6/1,326=1/221.
+ (b) Same value: choose the denomination in 13 ways and two of its four suits in C(4,2) ways.
+ Probability=13C(4,2)/C(52,2)=78/1,326=1/17.
+
+ 37. Random five-question examination
+ The exam consists of a uniform 5-question subset of 10. The student knows 7 questions and does not know 3.
+ (a) All five known: C(7,5)/C(10,5)=21/252=1/12.
+ (b) At least four known means either four known plus one unknown, or five known:
+ [C(7,4)C(3,1)+C(7,5)]/C(10,5)=(105+21)/252=1/2.
+
+ 38. Find n given the probability of two red socks
+ There are 3 red socks among n total socks. The probability that both selected socks are red is C(3,2)/C(n,2). Set
+ this equal to 1/2:
+    3/[n(n-1)/2]=1/2, so n(n-1)=12. The positive integer solution is n=4.
+
+ 39. Three people check into five hotels
+ Assume each person independently chooses one of the five hotels, with all hotels equally likely and no capacity
+ restriction. There are 5^3 total assignments. For all different hotels, the first person has 5 choices, the second 4,
+ and the third 3.
+    P=5x4x3/5^3=12/25.
+
+ 40. Four television repairers and four breakdowns
+ Assume each of the four broken sets is independently assigned to one of the four repairers, each with probability
+ 1/4. There are 4^4 total assignment functions. Exactly i repairers are called when the four labeled jobs are
+ assigned onto a chosen set of i repairers.
+ Count= C(4,i) x i! x S(4,i), where S(4,i) is a Stirling number of the second kind. The values for i=1,2,3,4 are 4, 84,
+ 144, and 24 assignments out of 256.
+    P(i=1)=1/64; P(i=2)=21/64; P(i=3)=9/16; P(i=4)=3/32.
+
+ The assumptions are equal availability/likelihood for every repairer and independent assignment of each
+ breakdown.
+
+ 41. At least one six in four die rolls
+ It is easier to use the complement. The probability of not rolling a six on one roll is 5/6. By independence, the
+ probability of no six in four rolls is (5/6)^4.
+    P(at least one six)=1-(5/6)^4=671/1296, approximately 0.5177.
+
+ 42. At least one double six in n rolls of two dice
+ On one pair of dice, P(double six)=1/36, so P(no double six)=35/36. Across n independent throws, P(no double six
+ ever)=(35/36)^n.
+    P(at least one double six)=1-(35/36)^n.
+
+ For this to be at least 1/2, require (35/36)^n <= 1/2. Taking logarithms gives n >= ln(1/2)/ln(35/36) = 24.605... .
+ Since n is an integer, at least 25 throws are needed.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                               Page 7
+
+<PARSED TEXT FOR PAGE: 8 / 14>
+
+ 43. Two specified people adjacent in a line or circle
+ (a) In a line, combine A and B into a block. The block plus the other N-2 people form N-1 objects, arranged in (N-1)!
+ ways, and A,B can switch internally in 2 ways. Divide by N! total arrangements: probability=2/N.
+ (b) In a circle, the total number of arrangements is (N-1)!. Treat A,B as a block; the block and remaining N-2
+ people form N-1 circular objects, giving (N-2)! arrangements, times 2 internal orders. Probability=2/(N-1).
+
+ 44. Exactly a specified number of people between A and B
+ In a random linear arrangement of five people, the two positions occupied by A and B are uniformly distributed
+ among C(5,2)=10 unordered position pairs. If there are k people between them, their positions differ by k+1.
+ There are 5-(k+1)=4-k possible pairs.
+ (a) One person between: 3/10. (b) Two people between: 2/10=1/5. (c) Three people between: 1/10.
+
+ 45. Trying n keys
+ (a) When failed keys are discarded, the keys are tried in a random order without replacement. The working key is
+ equally likely to occupy any of the n positions, so P(open on kth try)=1/n for 1<=k<=n.
+ (b) If tried keys are not discarded and she chooses randomly from all n each time, the first k-1 tries must be wrong
+ and the kth correct:
+    P(first success on k)=[(n-1)/n]^(k-1)(1/n).
+
+ 46. How many birthdays to make a shared month at least as likely as not?
+ Assume each person's birth month is independent and uniform over 12 months. For N<=12, the probability all
+ months are distinct is 12x11x...x(12-N+1)/12^N.
+ At N=4, P(all distinct)=12x11x10x9/12^4 approximately 0.5729, so a match is only about 0.4271. At N=5, P(all
+ distinct)=12x11x10x9x8/12^5 approximately 0.3819, so a match has probability about 0.6181. The smallest N is
+ 5.
+
+ 47. Twelve strangers and no shared birth month
+ With 12 people and 12 months, all birthdays must occupy different months. There are 12! assignments of distinct
+ months to the 12 people, out of 12^12 total equally likely month assignments.
+    P(no shared month)=12!/12^12.
+
+ 48. Twenty people with four months of two and four months of three birthdays
+ Choose the four months that contain exactly two birthdays, then four of the remaining eight months to contain
+ exactly three birthdays. The remaining four months contain none. For fixed month counts, assign the 20 distinct
+ people to the month slots in 20!/(2!^4 3!^4) ways. There are 12^20 equally likely month assignments.
+    P=C(12,4)C(8,4) x 20!/(2!^4 3!^4) / 12^20.
+
+ 49. Divide six men and six women into two groups of six
+ Label one of the two groups temporarily. It is a uniformly selected 6-person subset from 12. Both groups have the
+ same number of men precisely when the first group has 3 men and 3 women; the other group then has the
+ remaining 3 of each.
+    P=C(6,3)C(6,3)/C(12,6)=400/924=100/231.
+
+ 50. Your bridge hand has five spades and partner has the other eight
+ Choose the 5 spades in your hand from the 13 spades. Your remaining 8 cards must be nonspades, chosen from
+ the 39 nonspades. The partner then automatically receives the remaining 8 spades and 31 nonspades.
+    P=C(13,5)C(39,8)/C(52,13).
+
+ 51. n balls distributed among N compartments
+ Assume each ball independently chooses one of N compartments uniformly, so there are N^n equally likely
+ assignments. To have exactly m balls in compartment 1, choose which m labeled balls go there, and assign each
+ remaining ball to any of the other N-1 compartments.
+    P=C(n,m)(1/N)^m((N-1)/N)^(n-m), for 0<=m<=n.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                            Page 8
+
+<PARSED TEXT FOR PAGE: 9 / 14>
+
+ 52. Eight shoes selected from ten pairs
+ The total number of 8-shoe selections from 20 shoes is C(20,8).
+ (a) No complete pair: choose 8 of the 10 pairs, then one shoe from each selected pair. Favorable
+ count=C(10,8)2^8. Probability=C(10,8)2^8/C(20,8).
+ (b) Exactly one complete pair: choose the pair in 10 ways, choose 6 other pairs from the remaining 9, and choose
+ one shoe from each of those 6 pairs. Favorable count=10C(9,6)2^6. Divide by C(20,8).
+
+ 53. Four married couples with no spouses adjacent
+ There are 8! total linear arrangements. Let A_i be the event that couple i sits together. If a specified set of k
+ couples sit together, treat each couple as a block: there are (8-k)! objects and 2^k internal orders.
+ Inclusion-exclusion gives the favorable count
+    sum from k=0 to 4 of (-1)^k C(4,k)2^k(8-k)! = 13,824.
+
+ Therefore P(no husband-wife pair adjacent)=13,824/8!=12/35.
+
+ 54. A 13-card bridge hand void in at least one suit
+ For each of the four suits, define the event that the hand contains no card of that suit. Inclusion-exclusion counts
+ hands void in at least one suit.
+ One specified suit absent: C(39,13). Two specified suits absent: C(26,13). Three specified suits absent:
+ C(13,13)=1. Four suits absent is impossible for a 13-card hand.
+    P(void in at least one suit)=[4C(39,13)-6C(26,13)+4C(13,13)]/C(52,13).
+
+ 55. Bridge hands containing specified rank patterns
+ (a) For each suit, consider the event that both its ace and king are in the hand. If k specified suits each have both
+ cards present, 2k cards are fixed and the other 13-2k cards are chosen from the remaining 52-2k.
+ Inclusion-exclusion over the four suits gives
+    [4C(50,11)-6C(48,9)+4C(46,7)-C(44,5)]/C(52,13).
+
+ (b) For each of the 13 denominations, consider the event that all four suits of that denomination are in the hand. If
+ k denominations are specified, 4k cards are fixed. Since only 13 cards are dealt, at most three such denominations
+ can occur. Inclusion-exclusion gives
+    [13C(48,9)-C(13,2)C(44,5)+C(13,3)C(40,1)]/C(52,13).
+
+ 56. Choosing one of three spinners before the other player
+ Read the three spinners as the equally likely value sets A={1,5,9}, B={3,4,8}, and C={2,6,7}. Compare every
+ possible pair of sectors. A beats B in 5 of 9 comparisons; B beats C in 5 of 9; C beats A in 5 of 9. Thus the dice are
+ nontransitive: A beats B, B beats C, and C beats A.
+ Player A must choose first, revealing which spinner player B can counter with. Whatever A chooses, B can choose
+ the spinner that beats it in 5/9 of outcomes. Therefore player B has the advantage; choose second.
+
+
+ B. Theoretical Exercises
+ 1. Basic event inclusions
+ EF means E intersection F. Every outcome in EF is in E, and every outcome in E is in E union F. Hence EF is a
+ subset of E, and E is a subset of E union F.
+
+ 2. Complements reverse set inclusion
+ If E is a subset of F, any outcome not in F cannot be in E. Therefore every element of F^c is also in E^c, so F^c is a
+ subset of E^c.
+
+ 3. Partitioning an event by E
+ Every outcome in F either lies in E or lies in E^c. These parts are disjoint, so F=(F intersection E) union (F
+ intersection E^c). Also E union F = E union (F intersection E^c), because the part of F already in E adds nothing to
+ the union.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                               Page 9
+
+<PARSED TEXT FOR PAGE: 10 / 14>
+
+ 4. Distributive laws for events
+ Intersection distributes over union: an outcome belongs to (union_i E_i) intersection F exactly when it belongs to F
+ and to at least one E_i. This is equivalent to belonging to at least one E_i intersection F, so (union_i E_i)
+ intersection F = union_i(E_i intersection F).
+ For the second identity, an outcome belongs to (intersection_i E_i) union F if either it is in F, or it is in every E_i.
+ This is equivalent to being in every set (E_i union F). Hence (intersection_i E_i) union F = intersection_i(E_i union
+ F).
+
+ 5. Turning a sequence of events into disjoint events
+ Define F1=E1 and, for n>=2, define F_n=E_n intersection (E_1 union ... union E_(n-1))^c. Thus F_n contains the
+ outcomes that enter the union for the first time at index n. The F_n are pairwise disjoint. An outcome belongs to at
+ least one E_i with i<=n exactly when its first such index is some j<=n, which is exactly membership in F_j.
+ Therefore union_{i=1}^n F_i = union_{i=1}^n E_i for every n.
+
+ 6. Expressing combinations of three events
+ (a) Only E: E F^c G^c.
+ (b) E and G but not F: E F^c G.
+ (c) At least one: E union F union G.
+ (d) At least two: EF union EG union FG.
+ (e) All three: EFG.
+ (f) None: E^c F^c G^c.
+ (g) At most one: E F^c G^c union E^c F G^c union E^c F^c G union E^c F^c G^c.
+ (h) At most two: (EFG)^c.
+ (i) Exactly two: EF G^c union E F^c G union E^c FG.
+ (j) At most three: the entire sample space S.
+
+ 7. Simplifying event expressions
+ (a) (E union F)(E union F^c)=E union (F intersection F^c)=E.
+ (b) First (E union F)(E^c union F)=F union (E E^c)=F. Multiplying by (E union F^c) gives F(E union F^c)=EF.
+ (c) Distribute: (E union F)(F union G)=F union EG.
+
+ 8. Partitions and Bell numbers
+ (a) For {1,2,3}, the five partitions are {{1},{2},{3}}, {{1,2},{3}}, {{1,3},{2}}, {{2,3},{1}}, and {{1,2,3}}.
+ For four elements, partitions are counted by block-size types: 1+1+1+1 gives 1; 2+1+1 gives 6; 2+2 gives 3; 3+1
+ gives 4; 4 gives 1. Total T4=15.
+ (b) Mark one element as special. If its block contains all other n elements, there is one partition. Otherwise,
+ suppose k elements remain outside the special element's block. Choose those k elements in C(n,k) ways and
+ partition them into T_k ways; the remaining n-k elements join the special element. Summing gives
+ T_(n+1)=1+sum_{k=1}^n C(n,k)T_k.
+ Applying the recurrence successively gives T0=1, T1=1, T2=2, T3=5, T4=15, T5=52, T6=203, T7=877,
+ T8=4,140, T9=21,147, and T10=115,975.
+
+ 9. Empirical relative frequency satisfies probability axioms
+ Define f(E)=n(E)/n from n repetitions. Since counts are nonnegative, f(E)>=0. The whole sample space occurs in
+ all n trials, so f(S)=n/n=1. If E and F are disjoint, no trial can be counted in both, hence n(E union F)=n(E)+n(F),
+ and f(E union F)=f(E)+f(F). These are the three probability axioms.
+
+ 10. Three-event addition formula in disjoint pieces
+ Partition the union into outcomes belonging to exactly one event, exactly two events, or all three. Standard
+ inclusion-exclusion subtracts the three pairwise intersections and adds the triple intersection once. Each
+ exactly-two region is therefore subtracted once; the all-three region is subtracted three times and added once, so
+ its net coefficient is -2. The exactly-two regions are EFG^c, EF^cG, and E^cFG.
+    P(E union F union G)=P(E)+P(F)+P(G)-P(EFG^c)-P(EF^cG)-P(E^cFG)-2P(EFG).
+
+ 11. Bonferroni inequality for two events
+ By the addition rule, P(EF)=P(E)+P(F)-P(E union F). Since a probability is at most 1, P(E union F)<=1. Hence
+ P(EF)>=P(E)+P(F)-1. With P(E)=0.9 and P(F)=0.8, P(EF)>=0.7.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                                Page 10
+
+<PARSED TEXT FOR PAGE: 11 / 14>
+
+ 12. Probability exactly one of E or F occurs
+ The event is (E F^c) union (E^c F), a disjoint union. Now P(EF^c)=P(E)-P(EF), and P(E^cF)=P(F)-P(EF). Add them:
+    P(exactly one)=P(E)+P(F)-2P(EF).
+
+ 13. Probability of E but not F
+ Partition E into the disjoint parts EF and EF^c. Thus P(E)=P(EF)+P(EF^c), giving P(EF^c)=P(E)-P(EF).
+
+ 14. Prove the finite inclusion-exclusion formula by induction
+ For n=1 the formula is immediate. Assume the formula holds for n events. Write the union of n+1 events as
+ (union_{i=1}^n E_i) union E_(n+1). Apply the two-event addition rule: its probability is P(union_{i=1}^n
+ E_i)+P(E_(n+1))-P(E_(n+1) intersection union_{i=1}^n E_i). Apply the induction hypothesis to the first union, and
+ apply it again to the intersections E_(n+1)E_i (i=1,...,n). The latter terms enter with the opposite sign, producing
+ all pairwise intersections with a minus sign, all triple intersections with a plus sign, and alternating signs through
+ the (n+1)-fold intersection. This is exactly the inclusion-exclusion formula for n+1 events.
+
+ 15. Hypergeometric probability for white balls
+ There are M white and N black balls, and a sample of r is selected without replacement. A sample with exactly k
+ white balls has C(M,k) ways to choose its white balls and C(N,r-k) ways to choose its black balls. The total number
+ of samples is C(M+N,r).
+    P(exactly k white)=C(M,k)C(N,r-k)/C(M+N,r), with impossible binomial terms treated as zero.
+
+ 16. Bonferroni inequality for n events
+ Take complements. By Boole's inequality, P(union_{i=1}^n E_i^c)<=sum_i P(E_i^c). Therefore
+ P(intersection_i E_i)=1-P(union_i E_i^c)>=1-sum_i[1-P(E_i)]=sum_i P(E_i)-(n-1).
+ This proves the stated inequality. The induction version follows by applying the two-event bound to the
+ intersection of the first n-1 events and E_n.
+
+ 17. Recurrence for derangements (no man gets his own hat)
+ Let A_N count permutations of N hats with no fixed point. Fix the first man's choice. He has N-1 wrong hats to
+ choose from; call the owner of the chosen hat person j. There are two cases. If j takes the first man's hat, the
+ remaining N-2 people must derange the remaining N-2 hats, giving A_(N-2). If j does not take the first man's hat,
+ identify the first man's hat as an extra hat available to the remaining N-1 people; the remaining assignment is
+ equivalent to a derangement problem on N-1 people, giving A_(N-1). Each of N-1 initial choices gives these two
+ cases.
+    A_N=(N-1)(A_(N-1)+A_(N-2)), with A_1=0 and A_2=1. The desired probability is A_N/N!.
+
+ 18. Coin tosses with no successive heads
+ Let f_n count length-n toss sequences with no consecutive heads. Sequences beginning with T can be followed by
+ any valid length-(n-1) sequence, giving f_(n-1). Sequences beginning with H must have T second, followed by any
+ valid length-(n-2) sequence, giving f_(n-2). Thus f_n=f_(n-1)+f_(n-2), with f_0=1 and f_1=2.
+ The values are f_2=3, f_3=5, f_4=8, f_5=13, f_6=21, f_7=34, f_8=55, f_9=89, f_10=144. Since there are 2^10
+ equally likely toss sequences:
+    P_10=144/2^10=9/64.
+
+ 19. Number of draws until the rth red ball
+ There are n red and m blue balls, drawn without replacement. Regard the final order as a uniformly random
+ arrangement of n red positions among n+m positions. The total number of red-position subsets is C(n+m,n).
+ The rth red occurs exactly on draw k if (i) exactly r-1 red positions are among the first k-1 positions, (ii) position k
+ is red, and (iii) the remaining n-r red positions are among the last n+m-k positions. The count is
+ C(k-1,r-1)C(n+m-k,n-r).
+    P(total draws=k)=C(k-1,r-1)C(n+m-k,n-r)/C(n+m,n), for r<=k<=m+r.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                              Page 11
+
+<PARSED TEXT FOR PAGE: 12 / 14>
+
+ 20. Countably infinite sample space and equal probabilities
+ If every one of countably infinitely many points had the same positive probability p, the total probability would be
+ the divergent sum p+p+... and could not equal 1. If p=0 for every point, the total would be 0. Thus the points
+ cannot all be equally likely.
+ They can all have positive probabilities: for example, assign point n probability 2^(-n), n=1,2,... . Every probability
+ is positive and the geometric series sums to 1.
+
+ 21. Number of runs in random win-loss sequences
+ A run is a maximal consecutive block of wins or losses. All sequences with n wins and m losses are equally likely,
+ so the total is C(n+m,n).
+ For exactly 2k runs, wins and losses alternate and the sequence starts with one type and ends with the other.
+ There are two possible starting types. Split the n wins into k positive runs in C(n-1,k-1) ways, and the m losses into
+ k positive runs in C(m-1,k-1) ways.
+    P(2k runs)=2 C(n-1,k-1)C(m-1,k-1)/C(n+m,n).
+
+ For exactly 2k+1 runs, the starting and ending types agree. If wins start and end, wins occupy k+1 positive runs
+ and losses k positive runs: C(n-1,k)C(m-1,k-1). If losses start and end, the count is C(n-1,k-1)C(m-1,k). Add these
+ disjoint possibilities:
+    P(2k+1 runs)=[C(n-1,k)C(m-1,k-1)+C(n-1,k-1)C(m-1,k)]/C(n+m,n).
+
+
+ C. Self-Test Problems and Exercises
+ 1. Three-course cafeteria meal
+ The number of outcomes is 2 entrees x 3 starches x 4 desserts=24.
+ (a) Ice cream is fixed, so there are 2x3x1=6 outcomes in A.
+ (b) Chicken is fixed, so there are 1x3x4=12 outcomes in B.
+ (c) AB means chicken and ice cream. The three outcomes are (chicken,pasta,ice cream), (chicken,rice,ice cream),
+ and (chicken,potatoes,ice cream).
+ (d) C is rice, so its size is 2x1x4=8.
+ (e) ABC fixes chicken, rice, and ice cream, so ABC contains the single outcome (chicken,rice,ice cream).
+
+ 2. Probability of purchasing none or exactly one of three items
+ Let S,H,T denote buying a suit, shirt, and tie. Given P(S)=0.22, P(H)=0.30, P(T)=0.28, pairwise intersections
+ 0.11,0.14,0.10, and triple intersection 0.06.
+ First, P(at least one)=0.22+0.30+0.28-0.11-0.14-0.10+0.06=0.51. Thus (a) P(none)=1-0.51=0.49.
+ The probability exactly one occurs equals the sum of the three single-event probabilities, minus twice the pairwise
+ intersection sum, plus three times the triple intersection:
+    P(exactly one)=0.80-2(0.35)+3(0.06)=0.28.
+
+ 3. Fourteenth card is an ace; first ace occurs on card 14
+ By symmetry, each position in a shuffled deck is equally likely to contain any of the 52 cards. The probability the
+ 14th card is an ace is 4/52=1/13.
+ For the first ace to occur on the 14th card, the first 13 cards must all be non-aces and the 14th must be an ace.
+ Equivalently, choose the 13 positions of the non-aces first, or multiply sequential conditional probabilities:
+    P(first ace on 14)=C(48,13)/C(52,13) x 4/39.
+
+ 4. Minimum of two temperatures equals 70 degrees
+ Let A be Los Angeles=70, B be New York=70, and C be max(LA,NY)=70. The event that the minimum is 70 and the
+ event C partition A union B except that their common case is A intersection B; the given relation yields
+ P(min=70)=P(A)+P(B)-P(C).
+    0.3+0.4-0.2=0.5.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                            Page 12
+
+<PARSED TEXT FOR PAGE: 13 / 14>
+
+ 5. Top four cards have different denominations or different suits
+ Work with the unordered set of the top four cards; it is a uniform 4-card subset of 52.
+ (a) Different denominations: choose 4 of the 13 ranks and one of 4 suits for each rank. Favorable
+ hands=C(13,4)4^4. Probability=C(13,4)4^4/C(52,4).
+ (b) Different suits: choose exactly one card from each suit, with 13 choices in each suit. Favorable hands=13^4.
+ Probability=13^4/C(52,4).
+
+ 6. Two urns and probability of matching colors
+ Urn A has P(red)=3/6=1/2 and P(black)=1/2. Urn B has P(red)=4/10=2/5 and P(black)=6/10=3/5. The draws are
+ independent because they come from separate urns.
+    P(same color)=(1/2)(2/5)+(1/2)(3/5)=1/2.
+
+ 7. Eight-number lottery from 1 to 40
+ The commission chooses an unordered 8-number subset from 40, so there are C(40,8) equally likely outcomes.
+ The player has one fixed 8-number selection.
+ (a) All 8 match: 1/C(40,8).
+ (b) Exactly 7 match: choose 7 of the player's 8 and 1 of the 32 numbers not on the ticket, giving
+ C(8,7)C(32,1)/C(40,8).
+ (c) At least 6 match: sum the cases of 6, 7, or 8 matches:
+    [C(8,6)C(32,2)+C(8,7)C(32,1)+1]/C(40,8).
+
+ 8. Committee from four class levels
+ There are 3+4+4+3=14 students, so the total number of four-person committees is C(14,4)=1,001.
+ (a) One from each class: 3x4x4x3=144; probability=144/1,001.
+ (b) Two sophomores and two juniors: C(4,2)C(4,2)=36; probability=36/1,001.
+ (c) Only sophomores or juniors: choose all four from the 8 sophomores/juniors: C(8,4)=70; probability=70/1,001.
+
+ 9. Inclusion-exclusion for finite sets
+ (a) Decompose A union B into disjoint pieces A and B\A. Then N(A union B)=N(A)+N(B\A)=N(A)+N(B)-N(A
+ intersection B).
+ (b) For n sets, inclusion-exclusion follows by counting each element according to how many sets contain it. If an
+ element belongs to exactly r sets, its net coefficient is C(r,1)-C(r,2)+...+(-1)^(r+1)C(r,r)=1, by the binomial
+ theorem. If it belongs to no set, its coefficient is 0. Hence every element of the union is counted exactly once and
+ elements outside it are counted zero times.
+
+ 10. Six-horse race with two specified events
+ All 6! finishing orders are equally likely. A is the event horse 1 is in the top three; horse 1 has 3 possible top-three
+ positions and the other five horses can be ordered in 5! ways, so N(A)=3(5!). B is the event horse 2 finishes
+ second; the other five horses can be ordered in 5! ways, so N(B)=5!.
+ For A intersection B, horse 2 is second and horse 1 must be first or third: 2(4!) outcomes. Thus
+    N(A union B)=3(5!)+5!-2(4!)=432.
+
+ 11. A five-card hand contains at least one card of every suit
+ With four suits and only five cards, the suit counts must be 2,1,1,1. Choose which suit occurs twice (4 ways),
+ choose its two cards C(13,2), and choose one card from each of the other three suits (13^3 ways).
+    P=4C(13,2)13^3/C(52,5).
+
+ 12. Roommate pairing with exactly two mixed pairs
+ There are 6 frontcourt (F) and 4 backcourt (B) players, paired into five unordered roommate pairs. The total
+ number of pairings is 9!!=9x7x5x3x1=945.
+ For exactly two mixed pairs, choose the 2 frontcourt players and 2 backcourt players in C(6,2)C(4,2) ways, pair
+ these across categories in 2! ways, pair the remaining four frontcourt players in 3 ways, and pair the remaining
+ two backcourt players in 1 way. Favorable pairings=15x6x2x3=540.
+    P=540/945=4/7.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                              Page 13
+
+<PARSED TEXT FOR PAGE: 14 / 14>
+
+ 13. Same letter from RESERVE and VERTICAL
+ Treat positions in each word as equally likely. In RESERVE (7 letters), R occurs twice, E three times, and V once. In
+ VERTICAL (8 distinct letters), R,E,V each occur once. The only possible matches are R,E,V.
+    P= (2/7)(1/8)+(3/7)(1/8)+(1/7)(1/8)=6/56=3/28.
+
+ 14. Boole's inequality
+ For two events, P(A union B)<=P(A)+P(B), since P(A union B)=P(A)+P(B)-P(AB). For n events, use induction:
+ assume the bound for n-1, then apply the two-event bound to (union_{i=1}^{n-1} A_i) union A_n. This gives
+ P(union_{i=1}^n A_i)<=sum_{i=1}^n P(A_i).
+
+ 15. Intersection of countably many probability-one events
+ If P(A_i)=1, then P(A_i^c)=0 for each i. The complement of the intersection is the union of the complements:
+ (intersection_i A_i)^c=union_i A_i^c. By countable Boole inequality, its probability is at most sum_i 0=0. Therefore
+ the intersection has probability 1.
+
+ 16. Recurrence for partitions into k nonempty subsets
+ Consider a partition of {1,...,n} into k blocks and focus on element n. If n forms a singleton block, the other n-1
+ elements must form k-1 blocks: T_(k-1)(n-1) possibilities. Otherwise remove n; the remaining elements form k
+ nonempty blocks, counted by T_k(n-1), and n can be inserted into any of those k blocks. This gives kT_k(n-1)
+ possibilities.
+    T_k(n)=kT_k(n-1)+T_(k-1)(n-1).
+
+ 17. At least one ball of each color
+ Five balls are selected without replacement from 5 red, 6 white, and 7 blue (18 total). The total number of samples
+ is C(18,5). To have every color, the positive color-count patterns are permutations of (3,1,1) and (2,2,1).
+    P={C(5,3)C(6,1)C(7,1)+C(5,1)C(6,3)C(7,1)+C(5,1)C(6,1)C(7,3)+C(5,2)C(6,2)C(7,1)+C(5,2)C(6,1)C(7,2)+C(5,1)C(6
+    ,2)C(7,2)}/C(18,5).
+
+ 18. Random arrangement of red, blue, and green balls
+ There are 4 red, 8 blue, and 5 green balls in a uniformly random color arrangement of 17 balls.
+ (a) First five blue: P=(8/17)(7/16)(6/15)(5/14)(4/13).
+ (b) None of first five blue: the first five are selected from the 9 nonblue balls, so P=(9/17)(8/16)(7/15)(6/14)(5/13).
+ (c) Final three all different colors: among the last three positions, there are 3! orders of R,B,G. Probability=3!
+ (4/17)(8/16)(5/15)=4/17.
+ (d) All red together: in the uniform color-sequence model, treat the four red balls as one block. The probability that
+ their four positions are consecutive is 14/ C(17,4)=1/170.
+
+ 19. Ten selected cards divided into suit piles
+ All C(52,10) ten-card subsets are equally likely. Given suit counts, the number of hands with counts (a,b,c,d) is the
+ product C(13,a)C(13,b)C(13,c)C(13,d).
+ (a) Counts are 4,3,2,1 assigned to the four labeled suits in 4! ways.
+ Probability=4!C(13,4)C(13,3)C(13,2)C(13,1)/C(52,10).
+ (b) Counts are 4,3,3,0. Choose the suit with 4 cards in 4 ways and the two suits with 3 cards from the other three
+ in C(3,2) ways. Probability=12C(13,4)C(13,3)^2/C(52,10).
+
+ 20. All red balls removed before all blue balls
+ Consider a uniformly random ordering of the 30 balls. The event that all 20 red balls are removed before all 10
+ blue balls have all been removed is exactly the event that the final ball in the ordering is blue: if the last ball is
+ blue, the last red must have appeared earlier; if the last ball is red, all blue balls were already removed earlier.
+ By symmetry, each of the 30 balls is equally likely to be last, and 10 are blue.
+    P=10/30=1/3.
+
+
+
+
+ End of Volume 2 - Chapter 2
+ Coverage in this volume: Chapter 2 Problems 1-56; Theoretical Exercises 1-21; Self-Test Problems and Exercises 1-20. The next
+ section of the source PDF begins Chapter 3, Conditional Probability and Independence.
+
+
+
+
+Probability - Detailed Solutions | Volume 2: Chapter 2                                                                   Page 14

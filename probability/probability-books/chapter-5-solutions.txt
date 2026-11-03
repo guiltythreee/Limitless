@@ -1,0 +1,564 @@
+--- Source page ---
+
+
+                       Probability — Detailed Solutions
+          Chapter 5: Continuous Random Variables
+                 Complete chapter solution volume • Problems, Theoretical Exercises, and Self-Test
+
+
+
+
+ Scope and source note. This volume follows the uploaded Probability - Questions.pdf. The main question bank begins Chapter 5 at Problem 5.7. Problems 5.1–5.6 are included in the separate supplementary solution section below. Theoretical Exercise
+ 5.4 refers to Corollary 2.1, and Theoretical Exercise 5.33 refers to Theorem 7.1; their statements are not included in the
+ uploaded Chapter 5 pages, so those dependencies are explicitly identified.
+
+ Notation. Φ and φ denote the standard normal CDF and density. Exponential distributions use rate λ, so S(t)=e−λt.
+ Normal parameters are written N(µ,σ²). Approximate numerical answers may vary slightly with rounding.
+
+
+
+
+Probability — Chapter 5 Detailed Solutions                                                                            Page 1
+
+
+--- Source page ---
+
+Chapter 5 — Missing Problems: Supplement
+ These solutions cover Problems 5.1–5.6 from the newly supplied pages. In Problem 5.3, both displayed functions
+ fail the nonnegativity requirement on part of their stated interval, so neither can be made a density by choosing a
+ constant.
+
+ Problem 5.1
+ Normalize: 1=c∫■■¹(1−x²)dx=c(4/3), so c=3/4. The CDF is F(x)=0 for x≤−1; for −1<x<1, F(x)=(3/4)[x−x³/3+2/3]; and
+ F(x)=1 for x≥1.
+
+ Problem 5.2
+ Normalize: 1=C∫■∞e^(−x/2)dx=2C, so C=1/2. The probability the system functions for at least 5 months is
+ P(X≥5)=∫■∞(1/2)e^(−x/2)dx=e^(−5/2)≈0.0821.
+
+ Problem 5.3
+ First function: C(2x−x³), 0<x<5/2. The factor 2x−x³=x(2−x²) is positive for 0<x<√2 and negative for √2<x<5/2. No
+ nonzero constant C can make it nonnegative throughout the interval. So it is not a probability density for any C.
+ Second function: C(2x−x²), 0<x<5/2. Here 2x−x²=x(2−x) is positive for 0<x<2 and negative for 2<x<5/2. Again, no
+ constant C can make it nonnegative throughout the interval. It is not a probability density for any C. (The negative
+ portion is why merely normalizing its integral would not make it a valid density.)
+
+ Problem 5.4
+ (a) P(X>20)=∫■■∞10x■²dx=1/2.
+ (b) F(x)=0 for x≤10 and F(x)=1−10/x for x>10.
+ (c) For one device, p=P(X≥15)=10/15=2/3. Assuming independent, identically distributed device lifetimes, N~Bin(6,2/3). Thus P(N≥3)=Σ_{k=3}^6 C(6,k)(2/3)^k(1/3)^(6−k)=656/729≈0.8999.
+
+ Problem 5.5
+ The probability weekly sales exceed tank capacity c is P(X>c)=∫c¹5(1−x)■dx=(1−c)■. Set this to 0.01: (1−c)■=0.01, so
+ c=1−0.01^(1/5)=0.6019 thousand gallons, approximately 601.9 gallons.
+
+ Problem 5.6
+ (a) f(x)=(1/4)xe^(−x/2), x>0 is gamma with shape 2 and rate 1/2; E[X]=2/(1/2)=4.
+ (b) Normalize C(1−x²) on (−1,1): C=3/4. Symmetry about zero gives E[X]=0.
+ (c) E[X]=∫■∞x(5/x²)dx=5∫■∞dx/x, which diverges. The expectation is infinite; there is no finite mean.
+
+
+
+
+Probability — Chapter 5 supplement                                                                                Page 1
+
+
+ADDITIONAL DETAILED SOLUTIONS — PROBLEMS 5.7–5.22
+
+--- Source page ---
+
+
+                        Probability — Detailed Solutions
+         Volume 5 · Chapter 5: Continuous Random
+                        Variables
+
+Part I: Problems 5.7–5.22
+ The main question bank begins Chapter 5 at Problem 5.7. Problems 5.1–5.6 are included in a separate supplement above. This installment solves Problems 5.7–5.22.
+
+
+
+
+Probability — Chapter 5, Part I                                                                                   Page 1
+
+
+--- Source page ---
+
+
+ 5.7 — Determine a and b
+ A density requires a+b/3=1. The mean condition gives a/2+b/4=3/5. Solving: a=3/5 and b=6/5. Both are nonnegative, so
+ the density is valid.
+
+ 5.8 — Expected lifetime
+ E[X]=∫■∞x·xe■■dx=∫■∞x²e■■dx=Γ(3)=2. Expected lifetime: 2 hours.
+
+ 5.9 — Optimal stock level
+ For an additional unit of stock, expected marginal gain is b[1−F(s)] and expected marginal loss is ■F(s). Equating gives
+ b[1−F(s*)]=■F(s*), hence F(s*)=b/(b+■). This is the critical-fractile condition.
+
+ 5.10 — Train choice
+ For the first hour, the next train is A for arrivals in (7:05,7:15], (7:20,7:30], (7:35,7:45], and (7:50,8:00): 40 minutes out of 60. Thus (a) P(A)=2/3. Over 7:10–8:10 the A intervals again total 40 minutes, so (b) P(A)=2/3.
+
+ 5.11 — Random point on a segment
+ Let X~Uniform(0,L). The shorter-to-longer ratio is below 1/4 when X<L/5 or X>4L/5. Favourable length is 2L/5, so
+ probability=2/5.
+
+ 5.12 — Service station locations
+ With stations at 25, 50, 75 miles, the distance-to-nearest-station graph has two end triangles of area ½·25·25 and two
+ interior triangles of area ½·25·12.5. Total area=937.5; divide by 100. Expected distance=9.375 miles. With stations at 0,
+ 50, 100, expected distance is 12.5 miles. Therefore the proposed locations are more efficient.
+
+ 5.13 — Uniform bus arrival
+ (a) Wait exceeds 10 minutes when arrival is after 10:10: probability=20/30=2/3. (b) Given no arrival by 10:15, the
+ remaining arrival time is uniform over 10:15–10:30. At least 10 more minutes means arrival after 10:25:
+ probability=5/15=1/3.
+
+ 5.14 — Uniform moments
+ For X~Uniform(0,1), E[X■]=∫■¹x■dx=1/(n+1).
+
+ 5.15 — Normal probabilities
+ X~N(10,36), so Z=(X−10)/6. (a) P(X>5)=Φ(5/6)≈0.7977. (b) P(4<X<16)=P(−1<Z<1)≈0.6827. (c) P(X<8)=Φ(−1/3)≈0.3694.
+ (d) P(X<20)=Φ(5/3)≈0.9522. (e) P(X>16)=1−Φ(1)≈0.1587.
+
+ 5.16 — Waiting for high rainfall
+ For one year, p=P(R>50)=1−Φ((50−40)/4)=1−Φ(2.5)≈0.00621. Assuming independent, identically distributed yearly
+ rainfalls, the waiting time is geometric. P(waiting more than 10 years)=(1−p)¹■≈0.9396.
+
+ 5.17 — Expected score
+ Distance D~Uniform(0,10). Expected score=10(1/10)+5(2/10)+3(2/10)+0(5/10)=2.6 points.
+
+ 5.18 — Find normal variance
+ P(X>9)=0.2 for X~N(5,σ²), so (9−5)/σ=z■.■≈0.8416. Thus σ≈4.754 and Var(X)≈22.60.
+
+ 5.19 — 90th percentile
+ X~N(12,4), so σ=2. P(X>c)=0.10 gives z=1.2816. Hence c=12+2(1.2816)≈14.563.
+
+ 5.20 — Binomial normal approximation
+ X~Bin(100,0.65): µ=65, σ=√22.75≈4.769. With continuity correction: (a) P(X≥50)≈P(Y≥49.5)≈0.9994. (b)
+ P(60≤X≤70)≈P(59.5<Y<70.5)≈0.751. (c) P(X<75)=P(X≤74)≈P(Y<74.5)≈0.977.
+
+
+
+
+Probability — Chapter 5, Part I                                                                                            Page 2
+
+
+--- Source page ---
+
+
+ 5.21 — Height probabilities
+ H~N(71,6.25), σ=2.5 inches. P(H>74)=1−Φ(1.2)≈0.1151 (11.51%). Among men over 72 inches,
+ P(H>77|H>72)=[1−Φ(2.4)]/[1−Φ(0.4)]≈0.00820/0.3446≈0.0238 (2.38%).
+
+ 5.22 — Forging tolerance
+ Limits are 0.9000±0.0050. (a) With σ=0.0030, z=0.005/0.003=1.6667; defective fraction=2[1−Φ(1.6667)]≈0.0956 (9.56%).
+ (b) For at most 1% defective, each tail is at most 0.005. Require 0.005/σ≥z■.■■■≈2.5758, so σ≤0.00194 inches.
+
+
+
+ End of Part I
+ Next: Problems 5.23–5.41, Theoretical Exercises 5.1–5.33, and Self-Test Problems 5.1–5.20. Problems 5.1–5.6 are absent from
+ the uploaded source.
+
+
+
+
+Probability — Chapter 5, Part I                                                                                        Page 3
+
+Problems 5.23–5.41
+ 5.23
+ (a) Let N be the number of sixes. N~Bin(1000,1/6), with mean µ=166.667 and variance 138.889, so σ=11.785. With
+ continuity correction,
+ P(150≤N≤200)≈Φ((200.5−166.667)/11.785)−Φ((149.5−166.667)/11.785)≈0.926.
+ (b) Given exactly 200 sixes, the other 800 rolls are equally likely to be any of the five non-six faces. Thus the number of
+ fives is Bin(800,1/5), mean 160, variance 128, σ=11.314. Hence P(M<150)=P(M≤149)≈Φ((149.5−160)/11.314)≈0.176.
+
+ 5.24
+ For one chip, p=P(T<1.8×10■)=Φ((1.8−1.4)/0.3)=Φ(1.3333)≈0.9088. Let N be the number of such chips among 100.
+ Then N~Bin(100,p), with µ≈90.88 and σ≈2.87. We want P(N≥20), which is essentially 1 (the normal approximation gives
+ a z-score below −24). Therefore the probability is indistinguishable from 1 at ordinary precision.
+
+ 5.25
+ Let U be the number unacceptable. U~Bin(150,0.05), so µ=7.5 and σ=√7.125≈2.669.
+ P(U≤10)≈Φ((10.5−7.5)/2.669)=Φ(1.124)≈0.869.
+
+ 5.26
+ The test declares “biased” when H≥525. Fair coin: H~Bin(1000,0.5), µ=500, σ=15.811. False-positive probability
+ ≈P(H≥524.5)=1−Φ(1.549)≈0.0607. Biased coin: H~Bin(1000,0.55), µ=550, σ=15.732. False-negative probability
+ ≈P(H≤524.5)=Φ(−1.621)≈0.0525. The second probability is the chance of wrongly calling the biased coin fair.
+
+ 5.27
+ Under fairness, H~Bin(10000,0.5), µ=5000 and σ=50. The observed 5800 is 16 standard deviations above the mean. A
+ continuity-corrected normal tail is effectively zero. Thus the data provide overwhelming evidence against a fair coin.
+
+ 5.28
+ Let X be the number left-handed. X~Bin(200,0.12), µ=24 and σ=√21.12≈4.596.
+ P(X≥20)≈1−Φ((19.5−24)/4.596)=Φ(0.979)≈0.836. Assumptions: each student’s handedness is an independent Bernoulli
+ outcome with the same probability 0.12.
+
+ 5.29
+ Let K be the number of up movements. Then K~Bin(1000,0.52). The final price ratio is u^K d^(1000−K). Taking logs, the
+ requirement is K ln(1.012)+(1000−K)ln(0.990)≥ln(1.30), which gives K≥approximately 508.9, hence K≥509. Here µ=520,
+ σ=√249.6≈15.799. Thus P(K≥509)≈1−Φ((508.5−520)/15.799)=Φ(0.728)≈0.767.
+
+ 5.30
+ At reading x=5, the likelihoods are fW(5)=φ((5−4)/2)/2 and fB(5)=φ((5−6)/3)/3. Equal error probabilities for the two
+ possible conclusions mean equal posterior probabilities of black and white at this reading: αfB(5)=(1−α)fW(5). Therefore
+ α=fW(5)/(fW(5)+fB(5)). Numerically fW(5)≈0.1760 and fB(5)≈0.0807, giving α≈0.686. (Here σW=2 and σB=3.)
+
+ 5.31
+ (a) For X~Uniform(0,A), E|X−a|=[a²+(A−a)²]/(2A), 0≤a≤A. Differentiating gives (2a−A)/A=0, so the minimum occurs at
+ a=A/2.
+ (b) For a continuous distribution, E|X−a| is minimized at a median. An exponential(rate λ) median m satisfies
+ 1−e^(−λm)=1/2, so m=(ln 2)/λ. Locate the station there.
+
+ 5.32
+ The parameter is λ=1/2 h■¹. (a) P(T>2)=e^(−(1/2)2)=e^(−1)≈0.3679. (b) By memorylessness,
+ P(T≥10|T>9)=P(T>10|T>9)=e^(−λ(10−9))=e^(−1/2)≈0.6065.
+
+ 5.33
+
+Probability — Chapter 5 Detailed Solutions                                                                              Page 2
+
+
+--- Source page ---
+
+
+ The rate is λ=1/8 year■¹. For an exponential lifetime, the remaining life is independent of elapsed age (memorylessness).
+ The probability of functioning for at least 8 additional years is e^(−λ8)=e^(−1)≈0.3679.
+
+ 5.34
+ Exponential model: Total lifetime mileage X (thousands) is exponential with rate 1/20. Given that 10 thousand miles
+ have already been driven, the probability of at least 20 thousand additional miles is
+ P(X>30|X>10)=e^(−(30−10)/20)=e^(−1)≈0.3679.
+ Uniform model: X~Uniform(0,40). Given X>10, P(X≥30|X>10)=(40−30)/(40−10)=1/3.
+
+ 5.35
+ Survival from age 40 to age t is exp(−∫■■■ λ(u)du). Put v=u−40. The cumulative hazard is 0.027(t−40)+0.00025(t−40)³/3.
+ At age 50 it is 0.27+0.083333=0.353333, so S(50)=e^(−0.353333)≈0.7023. At age 60 it is 0.54+0.666667=1.206667, so
+ S(60)≈0.2991.
+
+ 5.36
+ The hazard is λ(t)=t³, so cumulative hazard H(t)=∫■■u³du=t■/4 and S(t)=e^(−t■/4). (a) S(2)=e^(−4)≈0.01832. (b)
+ P(0.4<T<1.4)=S(0.4)−S(1.4)=e^(−0.4■/4)−e^(−1.4■/4)≈0.9590−0.5040=0.4550. (c)
+ P(T>2|T>1)=S(2)/S(1)=e^(−(16−1)/4)=e^(−3.75)≈0.02352.
+
+ 5.37
+ (a) X is uniform on (−1,1), so the total length where |X|>1/2 is 1, out of total length 2. Probability=1/2.
+ (b) Let Y=|X|. For 0<y<1, F■(y)=P(−y≤X≤y)=y. Hence f■(y)=1 for 0<y<1 and 0 otherwise; Y~Uniform(0,1).
+
+ 5.38
+ The quadratic in x has discriminant ∆=(4Y)²−4(4)(Y+2)=16(Y²−Y−2)=16(Y−2)(Y+1). Both roots are real iff ∆≥0. Since
+ Y∈(0,5), this is equivalent to Y≥2. Thus the probability is (5−2)/5=3/5.
+
+ 5.39
+ X has density e^(−x), x>0, and Y=ln X, so x=e■ and dx/dy=e■. By transformation, f■(y)=f■(e■)e■=e^(−e■)e■, −∞<y<∞.
+
+ 5.40
+ X~Uniform(0,1), Y=e■, so y∈(1,e), x=ln y and dx/dy=1/y. Thus f■(y)=1/y for 1<y<e, and 0 otherwise.
+
+ 5.41
+ R=A sinθ with θ uniform on (−π/2,π/2), so θ density is 1/π. For −A<r<A (assuming A>0), θ=arcsin(r/A) and
+ dθ/dr=1/√(A²−r²). Therefore fR(r)=1/[π√(A²−r²)], −A<r<A, and 0 otherwise.
+
+
+
+
+Probability — Chapter 5 Detailed Solutions                                                                           Page 3
+
+
+--- Source page ---
+
+Theoretical Exercises 5.1–5.33
+ 5.1
+ Normalize the density: 1=a∫■∞x²e^(−bx²)dx. Using ∫■∞x²e^(−bx²)dx=√π/(4b^(3/2)), we obtain a=4b^(3/2)/√π.
+
+ 5.2
+ For any real-valued Y, the positive and negative parts satisfy E[Y]=E[Y■]−E[Y■]. The tail-integral identity gives
+ E[Y■]=∫■∞P(Y>y)dy and E[Y■]=∫■∞P(Y<−y)dy. Subtracting yields the required formula.
+
+ 5.3
+ Apply Exercise 5.2 to W=g(X): E[g(X)]=∫■∞P(g(X)>y)dy−∫■∞P(g(X)<−y)dy. Writing each probability as an integral against
+ f and interchanging the order of integration gives ∫g(x)f(x)dx. This is the usual expectation-of-a-function identity.
+
+ 5.4
+ The referenced Corollary 2.1 is not reproduced in the uploaded Chapter 5 pages. Its statement is needed to give a
+ source-faithful proof; it is therefore left as a source-dependent exercise rather than guessing which corollary is intended.
+
+ 5.5
+ For X≥0, E[X■]=∫■∞P(X■>t)dt. Set t=x■, so dt=nx■■¹dx and P(X■>t)=P(X>x). Hence E[X■]=∫■∞nx■■¹P(X>x)dx.
+
+ 5.6
+ Let X~Uniform(0,1) and define E■={X>a} for each 0<a<1. Then P(E■)=1−a, not 1; instead define E■={X≠a}. Each has
+ probability 1, but their intersection over all a∈(0,1) is empty because every X∈(0,1) equals one of the indexed a. Thus
+ P(∩■E■)=0.
+
+ 5.7
+ SD(aX+b)=√Var(aX+b)=√(a²Var(X))=√(a²σ²)=|a|σ.
+
+ 5.8
+ Since 0≤X≤c, X²≤cX, so Var(X)=E[X²]−(E[X])²≤cµ−µ²=µ(c−µ), where µ=E[X]∈[0,c]. The quadratic µ(c−µ) is maximized at
+ µ=c/2, with maximum c²/4.
+
+ 5.9
+ The standard normal density is symmetric about zero, so Z and −Z have the same distribution. Therefore
+ P(Z>x)=P(Z<−x). The two tails are disjoint, giving P(|Z|>x)=2P(Z>x). Also P(|Z|<x)=1−2P(Z>x)=2P(Z<x)−1.
+
+ 5.10
+ For f(x)=(1/σ)φ((x−µ)/σ), f′′(x) is proportional to [((x−µ)²/σ²)−1]φ((x−µ)/σ). Since φ is positive, f′′=0 exactly when (x−µ)²=σ²,
+ i.e. x=µ±σ.
+
+ 5.11
+ (a) Since φ′(z)=−zφ(z), integration by parts gives E[g′(Z)]=∫g′φ=[gφ]■∞∞−∫gφ′=∫zgφ=E[Zg(Z)], assuming boundary terms
+ vanish.
+ (b) Put g(z)=z■: E[nZ■■¹]=E[Z■■¹].
+ (c) E[Z■]=3E[Z²]=3.
+
+ 5.12
+ For X~Exp(λ), P(X>x)=e^(−λx). Exercise 5.5 with n=2 gives E[X²]=∫■∞2xe^(−λx)dx=2/λ², by integration by parts.
+
+ 5.13
+ (a) Uniform(a,b): F(m)=1/2 gives m=(a+b)/2.
+ (b) Normal: symmetry gives median µ.
+
+
+Probability — Chapter 5 Detailed Solutions                                                                                   Page 4
+
+
+--- Source page ---
+
+
+ (c) Exponential: 1−e^(−λm)=1/2, so m=(ln2)/λ.
+
+ 5.14
+ (a) Uniform(a,b): every point in [a,b] has the same density, so every such point is a mode.
+ (b) Normal: maximum at µ.
+ (c) Exponential(rate λ): density λe^(−λx) decreases for x≥0, so mode at 0.
+
+ 5.15
+ For Y=cX, c>0, P(Y>y)=P(X>y/c)=e^(−λy/c). This is exponential with rate λ/c.
+
+ 5.16
+ For X~Uniform(0,a), S(t)=1−t/a for 0≤t<a and f(t)=1/a. Hazard h(t)=f(t)/S(t)=1/(a−t), for 0≤t<a.
+
+ 5.17
+ For Y=aX, a>0, S■(t)=S■(t/a). Differentiating gives f■(t)=f■(t/a)/a. Thus h■(t)=f■/S■=(1/a)h■(t/a).
+
+ 5.18
+ The gamma density is f(x)=λ■x^(α−1)e^(−λx)/Γ(α), x>0. Substitute u=λx: its integral becomes
+ [1/Γ(α)]∫■∞u^(α−1)e^(−u)du=1 by the definition of Γ(α).
+
+ 5.19
+ For X~Exp(λ), its density is λe^(−λx). Then E[X■]=λ∫■∞x■e^(−λx)dx. With u=λx this is
+ λ/λ^(k+1)∫■∞u■e^(−u)du=Γ(k+1)/λ■=k!/λ■.
+
+ 5.20
+ For a gamma(α,λ) variable, E[X]=α/λ and E[X²]=α(α+1)/λ². Hence Var(X)=E[X²]−E[X]²=[α(α+1)−α²]/λ²=α/λ².
+
+ 5.21
+ Γ(1/2)=∫■∞e^(−x)x^(−1/2)dx. Put x=u², dx=2u du, to obtain 2∫■∞e^(−u²)du=√π, using the Gaussian integral.
+
+ 5.22
+ For gamma(α,λ), h(t)=f(t)/S(t), where f(t)=λ■t^(α−1)e^(−λt)/Γ(α) and S(t)=Γ(α,λt)/Γ(α) (upper incomplete gamma). Thus
+ h(t)=λ■t^(α−1)e^(−λt)/Γ(α,λt). The gamma hazard is increasing for α≥1 and decreasing for 0<α≤1; the monotonicity
+ follows from the corresponding monotone likelihood/hazard property of the gamma family.
+
+ 5.23
+ For Weibull(α,β) with survival S(x)=exp[−(x/α)^β], density is f(x)=(β/α)(x/α)^(β−1)exp[−(x/α)^β]. Therefore
+ h(x)=f/S=(β/α)(x/α)^(β−1). It increases if β>1, is constant if β=1, and decreases if 0<β<1.
+
+ 5.24
+ For Weibull with location ν=0, F(x)=1−exp[−(x/α)^β]. Thus log{−log[1−F(x)]}=βlog x−βlogα, a straight line against log x
+ with slope β. At x=α, F(α)=1−e^(−1)≈0.632, so about 63.2% lie below α.
+
+ 5.25
+ Let Y=((X−ν)/α)^β. For a Weibull(ν,α,β), P(Y>y)=P(X>ν+αy^(1/β))=exp(−y), y≥0. Thus Y~Exp(1). Conversely, if Y~Exp(1),
+ X=ν+αY^(1/β) has the stated Weibull distribution.
+
+ 5.26
+ For Beta(a,b), the beta integral gives E[X]=B(a+1,b)/B(a,b)=a/(a+b). Similarly E[X²]=a(a+1)/[(a+b)(a+b+1)]. Subtracting
+ the square of the mean yields Var(X)=ab/[(a+b)²(a+b+1)].
+
+ 5.27
+
+Probability — Chapter 5 Detailed Solutions                                                                             Page 5
+
+
+--- Source page ---
+
+
+ Set Y=(X−a)/(b−a). For a<X<b, 0<Y<1. A positive affine transformation of a uniform variable has constant density:
+ fY(y)=(b−a)·[1/(b−a)]=1, 0<y<1. Hence Y~Uniform(0,1).
+
+ 5.28
+ The beta density is proportional to x^(a−1)(1−x)^(b−1). Its log derivative is (a−1)/x−(b−1)/(1−x), which vanishes at
+ x=(a−1)/(a+b−2). For a,b>1 this is the unique interior mode. If a,b≤1 with a+b<2, the density is endpoint-peaked
+ (U-shaped when both are below 1; one endpoint mode in the boundary cases). If a=b=1, the density is constant and
+ every point is a mode.
+
+ 5.29
+ For continuous F, P(F(X)≤u)=P(X≤F■¹(u))=F(F■¹(u))=u for 0<u<1. Therefore F(X)~Uniform(0,1).
+
+ 5.30
+ If Y=aX+b and a≠0, then x=(y−b)/a and |dx/dy|=1/|a|. Therefore fY(y)=(1/|a|)fX((y−b)/a). If a=0, Y is the constant b and
+ has a point mass there.
+
+ 5.31
+ If X~N(µ,σ²) and Y=e■, then y>0, x=ln y, and dx/dy=1/y. Hence fY(y)=[1/(yσ√(2π))]exp{−(ln y−µ)²/(2σ²)}, y>0; zero
+ otherwise. This is the lognormal density.
+
+ 5.32
+ (a) For large independent uniform integers, the heuristic probability that both are divisible by k is 1/k²; conditional on
+ dividing by k, their quotients are relatively prime with probability Q■. Hence Q■=Q■/k².
+ (b) Since the events D=k partition all outcomes, 1=ΣQ■=Q■Σ1/k². Using Σ1/k²=π²/6 gives Q■=6/π².
+ (c) The probability of no common prime divisor is the product over primes p of (1−1/p²), which equals 1/Σ1/k²=6/π² by the
+ Euler product.
+
+ 5.33
+ Theorem 7.1 is not stated in the uploaded Chapter 5 source pages. The exercise asks for its decreasing-g(x) case, but
+ without the theorem statement the exact claim and assumptions cannot be verified. This item is therefore marked
+ source-dependent rather than supplying a guessed proof.
+
+
+
+
+Probability — Chapter 5 Detailed Solutions                                                                              Page 6
+
+
+--- Source page ---
+
+Self-Test Problems and Exercises 5.1–5.20
+ 5.1
+ From the graph, the density is 0.025 on (10,20), 0.050 on (20,30), 0.025 on (30,40), and zero elsewhere. (a)
+ P(X>15)=0.025(5)+0.050(10)+0.025(10)=0.875. (b) P(20<X<35)=0.050(10)+0.025(5)=0.625. (c)
+ P(X<30)=0.025(10)+0.050(10)=0.75. (d) P(X>36)=0.025(4)=0.10.
+
+ 5.2
+ Normalize: 1=c∫■¹x■dx=c/(n+1), so c=n+1 (assuming n>−1). For 0<x<1, P(X>x)=∫■¹(n+1)t■dt=1−x^(n+1).
+
+ 5.3
+ f(x)=cx■ on (0,2). Normalization gives c·2■/5=1, so c=5/32. E[X]=c∫■²x■dx=(5/32)(64/6)=5/3.
+ E[X²]=c∫■²x■dx=(5/32)(128/7)=20/7. Var=20/7−25/9=5/63.
+
+ 5.4
+ Normalization gives a/2+b/3=1. The mean condition gives a/3+b/4=0.6. Solving: a=0.8 and b=1.8. Then
+ P(X<1/2)=∫■^(1/2)(0.8x+1.8x²)dx=0.1+0.075=0.175. E[X²]=a/4+b/5=0.2+0.36=0.56, so Var=0.56−0.36=0.20.
+
+ 5.5
+ For i=1,…,n, X=Int(nU)+1=i exactly when (i−1)/n≤U<i/n. Since U is uniform on (0,1), this interval has length 1/n. Thus
+ P(X=i)=1/n for every i, so X is discrete uniform on {1,…,n}.
+
+ 5.6
+ Let the competitor’s lowest bid be M~Uniform(70,140), and let our bid be b. We win when M>b; profit if we win is b−100
+ (thousand dollars). Expected profit is (b−100)(140−b)/70 for 70≤b≤140. Differentiating gives (240−2b)/70=0, so the
+ maximizing bid is b=120 thousand dollars. Expected profit is (20)(20)/70≈5.714 thousand dollars.
+
+ 5.7
+ (a) P(round 1)=P(U>0.1)=0.9.
+ (b) Since U>0.2 implies U>0.1, P(round 2|round 1)=0.8/0.9=8/9.
+ (c) Similarly P(round 3|rounds 1 and 2)=0.7/0.8=7/8.
+ (d) Winning requires U>0.3, so P(winner)=0.7.
+
+ 5.8
+ For IQ X~N(100,15²). (a) P(X>125)=1−Φ(25/15)=1−Φ(1.667)≈0.0478. (b)
+ P(90<X<110)=Φ(10/15)−Φ(−10/15)=2Φ(0.667)−1≈0.495.
+
+ 5.9
+ Let T~N(40,7²). To be on time with probability 0.95, require P(T≤t)=0.95, so t=40+1.645(7)=51.515 minutes. Leave 51.5
+ minutes before 1:00 p.m., i.e. at approximately 12:08:29 p.m.
+
+ 5.10
+ T~N(34000,4000²). (a) P(T>40000)=1−Φ(1.5)≈0.0668. (b) P(30000<T<35000)=Φ(0.25)−Φ(−1)≈0.4400. (c)
+ P(T>40000|T>30000)=[1−Φ(1.5)]/[1−Φ(−1)]≈0.0668/0.8413≈0.0794.
+
+ 5.11
+ For annual rainfall X~N(40.2,8.4²), p=P(X>44)=1−Φ(3.8/8.4)=1−Φ(0.4524)≈0.3255. (a) Answer p≈0.326. (b) With
+ independent years, the number of exceedances in 7 years is Bin(7,p); P(exactly 3)=C(7,3)p³(1−p)■≈0.258.
+
+ 5.12
+ From the table: female salary ≥$25,000 has pF=0.292+0.048=0.34; male salary ≥$25,000 has pM=0.415+0.172=0.587.
+ Salary ≥$20,000 probabilities are 0.534 for women and 0.745 for men.
+
+
+
+Probability — Chapter 5 Detailed Solutions                                                                            Page 7
+
+
+--- Source page ---
+
+
+ (a) W~Bin(200,0.34), µ=68, σ≈6.70. P(W≥70)≈1−Φ((69.5−68)/6.70)≈0.411.
+ (b) M~Bin(200,0.587), µ=117.4, σ≈7.01. “At most 60%” means M≤120; P≈Φ((120.5−117.4)/7.01)≈0.671.
+ (c) Men count ≥150 with p=.745: µ=149, σ≈6.19; probability ≈1−Φ((149.5−149)/6.19)=0.468. Women count ≥100 with
+ p=.534: µ=106.8, σ≈7.06; probability ≈1−Φ((99.5−106.8)/7.06)=0.849. Independent samples, so joint probability
+ ≈0.468×0.849≈0.397.
+
+ 5.13
+ An exponential service time is memoryless. Mean 5 minutes means λ=1/5. Given the customer is still in service now, the
+ probability of at least 4 more minutes is e^(−4/5)≈0.4493.
+
+ 5.14
+ F(x)=1−e^(−x²), x>0. (a) P(X>2)=e^(−4)≈0.01832. (b) P(1<X<3)=e^(−1)−e^(−9)≈0.36776. (c) f(x)=2xe^(−x²), S=e^(−x²), so
+ h(x)=2x. (d) E[X]=∫■∞S(x)dx=∫■∞e^(−x²)dx=√π/2. (e) E[X²]=∫■∞2xe^(−x²)dx=1, so Var=1−π/4≈0.2146.
+
+ 5.15
+ Survival is S(t)=exp(−∫■■h(u)du). (a) Cumulative hazard to 6 is
+ 0.2(2)+∫■■[0.2+0.3(t−2)]dt+1.1(1)=0.4+(0.6+1.35)+1.1=3.45. Thus S(6)=e^(−3.45)≈0.03175.
+ (b) Conditional survival from 6 to 8 is exp(−1.1×2)=e^(−2.2). Hence conditional failure within 2 years is
+ 1−e^(−2.2)≈0.8892.
+
+ 5.16
+ For Y=1/X and y≠0, x=1/y and |dx/dy|=1/y². Thus fY(y)=fX(1/y)/y²=[1/(π(1+1/y²))]/y²=1/[π(1+y²)]. This is the standard
+ Cauchy density, so 1/X is standard Cauchy.
+
+ 5.17
+ Let W be net winnings per bet: +35 with probability 1/38 and −1 with probability 37/38. E[W]=35/38−37/38=−2/38=−1/19;
+ E[W²]=1225/38+37/38=33.2105, so Var(W)=E[W²]−(1/19)²≈33.2077. After n bets, total S■ has mean −n/19 and
+ SD≈√(33.2077n). Approximate P(S■>0) with continuity correction P(S■≥0.5)≈1−Φ((0.5+n/19)/[√(33.2077n)]). For n=34
+ this is ≈0.38; n=1000 ≈0.0029; n=100000 is effectively 0 (z≈22.4).
+
+ 5.18
+ Let T be the battery type. Given survival to t, Bayes’ rule gives P(T=i|alive at t)=p■e^(−λ■t)/[Σ■p■e^(−λ■t)]. Conditional
+ on type i, memorylessness gives probability e^(−λ■s) of surviving an additional s. Therefore the requested probability is
+ [Σ■p■e^(−λ■(t+s))]/[Σ■p■e^(−λ■t)].
+
+ 5.19
+ (a) For an innocent defendant, X~Exp(rate 1) because the mean is 1. Require P(X>c)=e^(−c)=0.05, so
+ c=−ln(0.05)=ln20≈2.996.
+ (b) For a guilty defendant, mean 2 means rate 1/2. Conviction probability is P(X>c)=e^(−c/2)=e^(−ln20/2)=1/√20≈0.2236.
+
+ 5.20
+ (a) For Z~N(0,1), E[(Z−c)■]=∫c∞(z−c)φ(z)dz=∫c∞zφ(z)dz−c[1−Φ(c)]. Since φ′(z)=−zφ(z), the first integral is φ(c). Hence
+ E[(Z−c)■]=φ(c)−c[1−Φ(c)]=e^(−c²/2)/√(2π)−c[1−Φ(c)].
+ (b) If X=µ+σZ, then (X−c)■=σ(Z−(c−µ)/σ)■ for σ>0. Thus E[(X−c)■]=σ{φ(d)−d[1−Φ(d)]}, where d=(c−µ)/σ.
+
+
+
+
+Probability — Chapter 5 Detailed Solutions                                                                               Page 8
+
+
+--- Source page ---
+
+Chapter 5 — Numerical corrections
+The following two entries correct arithmetic errors in the main solution text. Use these corrected values.
+
+Problem 5.30. At x=5, the white-region density is fW(5)=φ(0.5)/2≈0.1760. The black-region density is
+fB(5)=φ(1/3)/3≈0.1258 (not 0.0807). Equating the posterior probabilities gives αfB=(1−α)fW, hence
+α=fW/(fW+fB)≈0.583.
+
+Self-Test 5.17. With one-bet mean −1/19 and variance approximately 33.2077, the continuity-corrected
+approximation is P(Sn>0)≈1−Φ((0.5+n/19)/√(33.2077n)). The corrected values are: (a) n=34:
+approximately 0.473; (b) n=1,000: approximately 0.385; (c) n=100,000: approximately 0.0019. The
+corresponding figures in the main text are incorrect.
+
+
+--- Source page ---
+
+
+Additional correction — Self-Test 5.4
+The normalization and mean equations are a/2+b/3=1 and a/3+b/4=0.6. Solving gives a=3.6 and b=−2.4.
+Therefore P(X<1/2)=∫■¹■²(3.6x−2.4x²)dx=0.35. Also E[X²]=a/4+b/5=0.42, so Var(X)=0.42−0.6²=0.06. The
+corresponding values in the main text are incorrect.
+
+
+--- Source page ---

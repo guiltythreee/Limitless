@@ -1,0 +1,978 @@
+<PARSED TEXT FOR PAGE: 1 / 16>
+
+                                     PROBABILITY
+                                       Detailed Solutions Manual
+
+
+   Volume 3 of 10 | Chapter 3: Conditional Probability and Independence
+
+
+
+
+ Worked solutions to the chapter problems, theoretical exercises, and self-test questions.
+
+
+
+
+  Notation and conventions
+  AB means A intersection B; A union B means at least one event occurs; A^c means the complement.
+  Conditional probabilities are used only when the conditioning event has positive probability. For draws without
+  replacement, probabilities change after each draw. Independence is distinguished from conditional
+  independence throughout.
+
+
+
+
+Prepared from the uploaded question-bank PDF. Questions that depend on missing textbook examples or unavailable figure
+data are explicitly identified.
+
+<PARSED TEXT FOR PAGE: 2 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ Chapter 3 - Conditional Probability and
+ Independence
+ The central tools are the multiplication rule, Bayes’ rule, the law of total probability, independence, and
+ conditioning on partitions. For sequential experiments, identify what has been observed before updating
+ probabilities.
+
+ A. Problems
+ 3.1. Two dice: at least one six given different faces
+ There are 30 ordered outcomes with different faces. Exactly 10 have a six (six in the first position with the
+ second non-six, or vice versa). Thus P(at least one 6 | different) = 10/30 = 1/3.
+
+ 3.2. First die is six given the sum
+ For sums i=2,...,12, the number of ordered pairs is 1,2,3,4,5,6,5,4,3,2,1. A pair with first die 6 is possible only
+ for i=7,...,12, and is unique for each such sum. The answers for i=2,...,12 are 0, 0, 0, 0, 0, 1/6, 1/5, 1/4, 1/3,
+ 1/2, 1.
+
+ 3.3. Bridge: East has three spades
+ Given North and South together hold 8 spades, the remaining 5 spades are distributed among East and West’s
+ 26 cards. The conditional probability East has 3 is C(13,3)C(13,2)/C(26,5).
+
+ 3.4. At least one six given the sum
+ Count ordered pairs for each sum. The answers for sums 2 through 12 are 0, 0, 0, 0, 0, 1/3, 2/5, 1/2, 2/3, 1, 1.
+ For example, at sum 8 there are five pairs and two contain a six.
+
+ 3.5. Urn: first two white, last two black
+ Without replacement, the required ordered sequence has probability (6/15)(5/14)(9/13)(8/12) = 6/91.
+
+ 3.6. Exactly three whites: first and third white
+ Conditional on exactly three whites among four positions, the unique black position is equally likely to be any
+ of the four positions. It must be position 2 or 4, so the conditional probability is 2/4 = 1/2. The same answer
+ holds with or without replacement.
+
+ 3.7. King’s sibling
+ Assuming each child is independently equally likely to be a boy or girl, conditioning on one child being the king
+ leaves the other child equally likely to be either sex. Probability the sibling is a sister = 1/2.
+
+ 3.8. Two children: older is a girl
+ The older child is already known to be a girl. The younger child is independently a girl with probability 1/2, so
+ the probability both are girls is 1/2.
+
+ 3.9. Three urns: urn A ball white given exactly two whites
+ Let W_A denote a white from A. P(W_A and exactly two whites) = (1/3)[(2/3)(3/4)+(1/3)(1/4)] = 7/36. The
+ probability exactly two whites with A red is (2/3)(2/3)(1/4)=1/9=4/36. Hence the required probability is
+ (7/36)/(11/36)=7/11.
+
+ 3.10. First card is a spade given second and third are spades
+ Given the second and third cards are spades, 11 spades remain among the 50 possible first-card identities
+ after those two positions are fixed. Thus the probability is 11/50.
+
+
+
+
+                                                                                                                 Page 2
+
+<PARSED TEXT FOR PAGE: 3 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.11. Two cards and ace events
+ (a) Given the ace of spades is one of the two cards, the other is an ace with probability 3/51=1/17. (b) Given at
+ least one ace, P(two aces | at least one ace)=C(4,2)/[C(52,2)-C(48,2)]=6/198=1/33.
+
+ 3.12. Sequential actuarial exams
+ (a) Passing all three has probability 0.9(0.8)(0.7)=0.504. (b) Failing the second requires passing the first and
+ then failing the second: 0.9(0.2)=0.18. Divide by P(not all three pass)=1-0.504=0.496. Answer
+ =0.18/0.496=45/124.
+
+ 3.13. Four hands each receive exactly one ace
+ The four ace positions are uniformly distributed among the 52 card positions. Each hand must receive one ace,
+ giving 13 choices in each hand. Thus p=13^4/C(52,4). This is also obtained by multiplying the successive
+ conditional probabilities that hands 1, 2, and 3 each receive exactly one ace.
+
+ 3.14. Polya urn: two black then two white
+ (a) With 5 white, 7 black and reinforcement of two balls of the drawn colour: (7/12)(9/14)(5/16)(7/18)=35/768.
+ (b) Any specified order with two black and two white has probability (7·8)(5·6)/(12·13·14·15); there are C(4,2)
+ such orders. Therefore the answer is 6(7·8·5·6)/(12·13·14·15).
+
+ 3.15. Ectopic pregnancy and smoking
+ Let the ectopic-pregnancy rate for nonsmokers be r; the smoker rate is 2r. Bayes’ rule gives P(smoker |
+ ectopic)=0.32(2r)/[0.32(2r)+0.68r]=16/33, approximately 48.5%.
+
+ 3.16. Cesarean section and survival
+ Let S be survival and C be Cesarean. P(S)=0.98, P(C)=0.15, P(S|C)=0.96. Then
+ P(S|C^c)=[0.98-0.15(0.96)]/0.85=0.983529..., approximately 98.35%.
+
+ 3.17. Dog and cat ownership
+ P(dog and cat)=0.36(0.22)=0.0792. Then P(dog | cat)=0.0792/0.30=0.264.
+
+ 3.18. Voter affiliation given voting
+ The joint probabilities of voting are 0.46(0.35)=0.161 for Independents, 0.30(0.62)=0.186 for Liberals, and
+ 0.24(0.58)=0.1392 for Conservatives. Total turnout is 0.4862. Divide each joint probability by 0.4862:
+ Independent 0.3311, Liberal 0.3826, Conservative 0.2863. Turnout fraction =48.62%.
+
+ 3.19. Quit-smoking class attendance
+ Women are 38% of the class and 48% of women remain nonsmokers; men are 62% and 37% remain
+ nonsmokers. The party proportions are women 0.38(0.48)=0.1824 and men 0.62(0.37)=0.2294. (a) Women’s
+ share =0.1824/(0.1824+0.2294)=0.4429, about 44.3%. (b) Total attendance =0.4118, or 41.18% of the
+ original class.
+
+ 3.20. Computer science and gender
+ P(female | CS)=P(female and CS)/P(CS)=0.02/0.05=0.40. P(CS | female)=0.02/0.52=1/26≈0.03846.
+
+ 3.21. Married couples’ salaries
+ There are 500 couples. (a) Husband earns under $25,000 in 212+36=248 cases: 248/500=0.496. (b) Given
+ husband over $25,000, wife over $25,000 in 54 of 252 cases: 54/252=3/14. (c) Given husband under $25,000,
+ wife over $25,000 in 36 of 248 cases: 36/248=9/62.
+
+ 3.22. Three dice: ordering and distinct faces
+ (a) Distinct faces: 6·5·4/6^3=5/9. (b) Given all distinct, the six possible relative orderings are symmetric, so
+ P(B<Y<R | all distinct)=1/6. (c) Strictly increasing triples correspond to choosing 3 distinct faces from 6, in one
+ order: C(6,3)/216=5/54.
+
+
+
+
+                                                                                                                Page 3
+
+<PARSED TEXT FOR PAGE: 4 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.23. Transfer between urns
+ A white is transferred with probability 2/6=1/3; then urn II has 2W,1R and its white probability is 2/3. A red
+ transfer has probability 2/3 and leaves urn II with 1W,2R, giving white probability 1/3. Total P(white from
+ II)=4/9. Posterior transfer-white probability =[(1/3)(2/3)]/(4/9)=1/2.
+
+ 3.24. Two balls painted black or gold
+ (a) Given at least one gold, the possible unordered configurations are GG, GB, BG; the probability both gold is
+ (1/4)/(3/4)=1/3. (b) If a randomly selected ball is observed gold, the likelihood is 1 under GG and 1/2 under a
+ mixed pair. Bayes’ rule gives (1/4)/[(1/4)+(1/2)(1/2)]=1/2. The observation mechanism differs from merely
+ knowing at least one gold exists.
+
+ 3.25. Street sampling and age estimate
+ The method samples people in proportion to time spent in the streets. If p is the population fraction over 50
+ and α1, α2 are the street-time fractions for under-50 and over-50 people, the observed fraction is
+ pα2/[pα2+(1-p)α1]. It equals p when α1=α2; otherwise the estimate is length-biased.
+
+ 3.26. Color blindness and sex
+ With equal numbers of men and women, P(male | color-blind)=0.05/(0.05+0.0025)=20/21≈95.24%. With twice
+ as many men, prior odds are 2:1, so the posterior is (2·0.05)/(2·0.05+0.0025)=40/41≈97.56%.
+
+ 3.27. Estimating workers per car
+ Sampling workers weights each car in proportion to its occupancy. The mean observed is E[K^2]/E[K], not the
+ average occupancy E[K]. Sampling cars uniformly and averaging the number of occupants estimates E[K]
+ directly. Thus method 2 is appropriate for average workers per car.
+
+ 3.28. First ace is card 20
+ After the first ace at position 20, 32 cards remain, including three aces. (a) The ace of spades is among the
+ remaining cards with probability 3/4, so the probability the next card is it is (3/4)(1/32)=3/128. (b) The two of
+ clubs is a particular non-ace among the 32 remaining cards, so probability 1/32.
+
+ 3.29. Tennis balls played and returned
+ After the first sample is played, any selected ball becomes used. If X of the first three were initially unused,
+ then 9-X unused balls remain. Average over X~Hypergeometric(15,9,3): Σ_x [C(9,x)C(6,3-x)/C(15,3)]
+ [C(9-x,3)/C(15,3)] =528/5915≈0.08926.
+
+ 3.30. Two boxes and a black marble
+ P(black)=0.5(1/2)+0.5(2/3)=7/12. P(box 1 and white)=0.5(1/2)=1/4 and P(white)=0.5(1/2)+0.5(1/3)=5/12.
+ Thus P(box 1 | white)=(1/4)/(5/12)=3/5.
+
+ 3.31. Biopsy and the doctor’s coin
+ If the tumor is cancerous, the doctor never calls under the rule described, so P(no call | cancer)=1. If it is not
+ cancerous, the doctor calls only on heads, so P(no call | not cancer)=1/2. Therefore β=P(cancer | no
+ call)=α/[α+(1-α)/2]=2α/(1+α), which exceeds α for 0<α<1.
+
+ 3.32. Family size given selected child is eldest
+ Selecting one family uniformly, then a child, gives likelihood 1/j that the selected child is eldest in a j-child
+ family. Weights are p_j/j: 0.10, 0.125, 0.116667, 0.075, with total 5/12. Hence posterior family-size probabilities
+ are 0.24, 0.30, 0.28, 0.18. Asked values: (a) 0.24; (b) 0.18. The same answers apply when selecting the
+ youngest child because its selection probability is also 1/j.
+
+ 3.33. Joe late and rain
+ P(early)=0.7(0.7)+0.3(0.9)=0.76. P(rain | early)=0.7(0.7)/0.76=49/76≈0.6447.
+
+
+
+
+                                                                                                                  Page 4
+
+<PARSED TEXT FOR PAGE: 5 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.34. Evidence is 90% likely given characteristic
+ Let G mean guilty, C mean the suspect has the characteristic, and E mean the new evidence. The answer is
+ P(G|E)=P(E|G)P(G)/[P(E|G)P(G)+P(E|G^c)P(G^c)]. The supplied question refers back to Example 3f for the prior
+ and characteristic probabilities, which are not included in the uploaded question-only PDF; a numerical answer
+ cannot be determined from this file alone.
+
+ 3.35. Where the present is hidden
+ P(upstairs)=0.6(0.7)+0.4(0.5)=0.62. Given downstairs, P(dad |
+ downstairs)=0.4(0.5)/[0.6(0.3)+0.4(0.5)]=10/19≈0.5263.
+
+ 3.36. Woman employee resigns
+ Women counts are A:25, B:45, C:70. Resignations are equally likely among women, so P(C | woman
+ resigns)=70/(25+45+70)=1/2.
+
+ 3.37. Fair coin and two-headed coin
+ (a) After one head, posterior fair-coin probability is (1/2)(1/2)/[(1/2)(1/2)+(1/2)(1)]=1/3. (b) After two heads, it
+ is (1/4)/(1/4+1)=1/5. (c) A tail is impossible for the two-headed coin, so the posterior probability of the fair coin
+ is 1.
+
+ 3.38. Urn selected by a coin
+ P(white from A)=5/12 and P(white from B)=3/15=1/5. Thus P(tails |
+ white)=[(1/2)(1/5)]/[(1/2)(5/12)+(1/2)(1/5)]=12/37.
+
+ 3.39. No first-year accident: second-year accident
+ This refers to Example 3a, whose accident model and parameter are absent from the uploaded question-only
+ PDF. Under the usual assumption of independent yearly accident events with constant probability p, the
+ conditional probability is p; if the example specifies a latent risk class or changing rates, the answer instead
+ requires that model.
+
+ 3.40. Reinforced urn: sample of three
+ Starting with 8 white and 7 red, and adding one ball of the drawn colour, a specified sequence with w whites
+ and 3-w reds has probability (8)_w(7)_(3-w)/(15)_3. Multiply by C(3,w). Results: (a) zero white =21/170; (b) one
+ white =28/85; (c) three whites =3/17; (d) two whites =63/170. They sum to 1.
+
+ 3.41. Ace moved between half-decks
+ After the first half-deck yields an ace, three aces remain among the other 51 cards. The second half originally
+ contains 26 of those 51 cards, so its expected number of original aces is 26(3/51)=26/17. It receives the
+ transferred ace and has 27 cards. The probability its next card is an ace is [1+26/17]/27=43/459. This
+ conditions on the random split and on the first observed ace.
+
+ 3.42. Cake failures by cook
+ Failure contributions are A:0.50(0.02)=0.010, B:0.30(0.03)=0.009, C:0.20(0.05)=0.010. Thus the fraction of
+ failures caused by A is 0.010/0.029=10/29≈34.48%.
+
+ 3.43. Three coins and an observed head
+ The three coins have equal prior probabilities. Their head likelihoods are 1, 1/2, and 3/4. Bayes’ rule gives
+ P(two-headed coin | head)=1/[1+1/2+3/4]=4/9.
+
+ 3.44. Prisoner and jailer information
+ The jailer’s answer is not a random sample from the two other prisoners unless a specific answer protocol is
+ stated. Knowing that one other prisoner will be freed does not by itself change A’s original 1/3 execution
+ probability. If the jailer names a particular person, the posterior depends on how he chooses whom to name
+ when both others are free; without that rule, the question has no unique numerical answer.
+
+
+
+
+                                                                                                                 Page 5
+
+<PARSED TEXT FOR PAGE: 6 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.45. Ten biased coins: posterior coin 5
+ Each coin has prior probability 1/10. Given a head, P(coin 5 |
+ head)=(1/10)(5/10)/[(1/10)Σ(i/10)]=0.05/0.55=1/11.
+
+ 3.46. Claim rates by sex
+ Let male fraction be α and claim rates be p_m,p_f. Assuming yearly claim events are independent conditional
+ on sex, P(A1)=αp_m+(1-α)p_f and P(A2|A1)=[αp_m²+(1-α)p_f²]/[αp_m+(1-α)p_f]. The difference is
+ α(1-α)(p_f-p_m)²/[αp_m+(1-α)p_f]≥0, strictly positive when both sexes occur and rates differ. Conditioning on a
+ claim over-represents the higher-risk group.
+
+ 3.47. Die chooses number of balls
+ The probability all selected balls are white is (1/6)Σ(k=1 to 5) C(5,k)/C(15,k)=5/66. Given all are white, the
+ probability the die showed 3 is [(1/6)C(5,3)/C(15,3)]/(5/66)=22/455.
+
+ 3.48. Two cabinets and a silver coin
+ Cabinet A always reveals silver; cabinet B reveals silver with probability 1/2. With equal cabinet priors, P(A |
+ observed silver)=(1/2)/[(1/2)+(1/2)(1/2)]=2/3. The other drawer is silver exactly when cabinet A was selected,
+ so the required probability is 2/3.
+
+ 3.49. PSA test and prostate cancer
+ For prior cancer probability 0.70: elevated PSA gives
+ 0.70(0.268)/[0.70(0.268)+0.30(0.135)]=1876/2281≈0.8224; no elevation gives
+ 0.70(0.732)/[0.70(0.732)+0.30(0.865)]=1708/2573≈0.6638. For prior 0.30: elevated gives 268/583≈0.4597;
+ no elevation gives 2196/8251≈0.2661.
+
+ 3.50. Insurance risk classes
+ Accident probability =0.20(0.05)+0.50(0.15)+0.30(0.30)=0.175. Given no accident, P(good or
+ average)=[0.20(0.95)+0.50(0.85)]/[0.20(0.95)+0.50(0.85)+0.30(0.70)]=0.615/0.825=41/55.
+
+ 3.51. Recommendation and job offer
+ (a) P(offer)=0.7(0.8)+0.2(0.4)+0.1(0.1)=0.65. (b) Given an offer, posterior probabilities for strong, moderate,
+ weak are 0.56/0.65=56/65, 0.08/0.65=8/65, 0.01/0.65=1/65. (c) Given no offer, the unnormalised weights are
+ 0.14,0.12,0.09, total 0.35; posteriors are 0.40, 12/35≈0.3429, and 9/35≈0.2571.
+
+ 3.52. College mail and acceptance
+ Assume daily mail events are conditionally independent given acceptance/rejection. (a) Monday mail:
+ 0.6(0.15)+0.4(0.05)=0.11. (b) Tuesday mail and no Monday, divided by P(no Monday):
+ [0.6(0.20)(0.85)+0.4(0.10)(0.95)]/0.89=0.14/0.89≈0.1573. (c) No mail through Wednesday:
+ [0.6(0.85)(0.80)(0.75)] divided by that plus [0.4(0.95)(0.90)(0.90)] ≈0.4985. (d) Given Thursday mail alone, the
+ likelihood is 0.15 under either status, so posterior acceptance remains 0.6. (e) No mail all week gives 0.5430.
+
+ 3.53. Parallel system with fair components
+ The system works if at least one component works. P(system works)=1-2^(-n). P(component 1 works and
+ system works)=P(component 1 works)=1/2. Conditional probability = [1/2]/[1-2^(-n)].
+
+ 3.54. Are the described events independent?
+ (a) Eye colours of unrelated people may be treated as approximately independent in a simplified model, but
+ shared ancestry can induce dependence. (b) Car ownership and telephone listing are plausibly dependent
+ through income, location, and access to a phone. (c) Height and weight are dependent. (d) Living in the United
+ States implies living in the Western Hemisphere, so the events are dependent. (e) Rain on consecutive days is
+ usually dependent because weather systems persist.
+
+ 3.55. Independent sex and class in a class
+ Freshman girls are 6 of 10 freshmen, so the female fraction among sophomores must also be 6/10. If x
+ sophomore girls are present, x/(x+6)=3/5, giving x=9.
+
+
+                                                                                                                  Page 6
+
+<PARSED TEXT FOR PAGE: 7 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.56. Coupon collector: nth coupon is new
+ Condition on its type i. The nth coupon is new of type i exactly when none of the first n-1 coupons was type i,
+ with probability p_i(1-p_i)^(n-1). Sum over i: P(new at draw n)=Σ_i p_i(1-p_i)^(n-1).
+
+ 3.57. Stock random walk
+ (a) Return to original after two days requires one up and one down: 2p(1-p). (b) A net increase of one after
+ three days means two up and one down: 3p²(1-p). (c) Conditional on this net increase, the three possible
+ positions of the down move are equally likely; the first move is up in two of them. Answer 2/3.
+
+ 3.58. Fair coin from unknown biased coin
+ (a) The accepted pairs are HT and TH, each with probability p(1-p); their final flips are tails and heads
+ respectively, so each reported side has probability 1/2. (b) The simpler method of tossing until two consecutive
+ flips differ also works: accepted pairs HT and TH have equal probability, and the final flip is equally likely H or T.
+
+ 3.59. Coin patterns HHHH and THHH
+ (a) P(HHHH)=p^4. (b) P(THHH)=q p^3. (c) The pattern HHHH occurs first only if the first four tosses are H. If
+ the first four are not all H, the first eventual run of three heads is preceded by a tail and produces THHH first.
+ Thus P(THHH before HHHH)=1-p^4.
+
+ 3.60. Brown-eyed Smith and recessive gene
+ Brown-eyed parents with a blue-eyed child must both be heterozygous. Conditional on Smith being
+ brown-eyed, his genotype is BB with probability 1/3 and Bb with probability 2/3. (a) He carries a blue allele with
+ probability 2/3. (b) With a blue-eyed wife bb, first child blue requires Smith to be Bb and transmit b:
+ (2/3)(1/2)=1/3. (c) If first child is brown, posterior P(BB)= (1/3)/[(1/3)+(2/3)(1/2)]=1/2; next child brown
+ probability =1/2(1)+1/2(1/2)=3/4.
+
+ 3.61. Albinism carriers
+ The normal couple with an albino child must both be Aa. Given the other child is normal, that child is AA with
+ probability 1/3 and Aa with probability 2/3. (a) Mated with a known carrier Aa, albino probability is
+ (2/3)(1/4)=1/6. (b) Given the first child is not albino, posterior that the nonalbino parent is Aa is [ (2/3)(3/4) ]/[
+ (1/3)(1)+(2/3)(3/4) ]=3/5. The second child’s albino probability is (3/5)(1/4)=3/20.
+
+ 3.62. Two simultaneous shots
+ Assume the shots are independent. Knockdown probability is p1+p2-p1p2. (a) P(both hit |
+ knockdown)=p1p2/(p1+p2-p1p2). (b) P(Barbara hits | knockdown)=p1/(p1+p2-p1p2).
+
+ 3.63. Duel with repeated simultaneous shots
+ Put q_A=1-p_A, q_B=1-p_B and s=1-q_Aq_B=p_A+p_B-p_Ap_B. A round ends the duel unless both miss. (a) P(A
+ never hit)=p_A q_B/s. (b) P(both hit)=p_Ap_B/s. (c) P(duel ends in round n)=(q_Aq_B)^(n-1)s. (d) Given A is not
+ hit, P(end in round n)=s(q_Aq_B)^(n-1). (e) Given both are hit, the same expression applies.
+
+ 3.64. Husband-and-wife quiz strategy
+ Choosing one respondent has probability p of being correct. If both answer and agree, their common answer is
+ correct with probability p²/[p²+(1-p)²]; if they disagree, exactly one is correct and a fair coin selects the correct
+ answer with probability 1/2. Overall probability =p²+(1/2)(2p(1-p))=p. The strategies are equally good.
+
+ 3.65. Numerical quiz strategy when p=0.6
+ Given agreement, the probability the common answer is correct is p²/[p²+(1-p)²]=0.36/0.52=9/13. Given
+ disagreement, one is right and one wrong, and the fair coin chooses correctly with probability 1/2.
+
+
+
+
+                                                                                                                    Page 7
+
+<PARSED TEXT FOR PAGE: 8 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.66. Relay circuits
+ Circuit (a) has two series branches (1-2) and (3-4) in parallel, followed by relay 5 in series. Thus
+ R_a=p5[p1p2+p3p4-p1p2p3p4]. Circuit (b) is the five-edge diamond. Conditioning on relay 3: if it is open, the
+ paths 1-4 and 2-5 are parallel; if it is closed, the top and bottom vertices are joined, so both an input
+ connection (relay 1 or 2) and an output connection (relay 4 or 5) are required. Hence
+ R_b=(1-p3)(p1p4+p2p5-p1p2p4p5)+p3(p1+p2-p1p2)(p4+p5-p4p5).
+
+ 3.67. k-out-of-n systems
+ (a) For 2-out-of-4, sum the probabilities of all subsets of working components of size at least 2: Σ_{S subset
+ {1,2,3,4}, |S|≥2} ∏_{i∈S}P_i∏_{j notin S}(1-P_j). (b) For 3-out-of-5 use the same expression with |S|≥3. (c) If
+ each works with probability p, the answer is Σ_{j=k}^n C(n,j)p^j(1-p)^(n-j).
+
+ 3.68. Conditional relay probability
+ The text appears to cross-reference Problem 3.65a, but the relay diagram is Problem 3.66a. For circuit (a),
+ current flows when relay 5 is closed and either branch 1-2 or branch 3-4 is complete. Therefore P(1 and 2
+ closed | current)=p1p2p5/[p5(p1p2+p3p4-p1p2p3p4)]=p1p2/(p1p2+p3p4-p1p2p3p4).
+
+ 3.69. Five-locus offspring genetics
+ At each locus the parental transmissions are independent. For phenotype matching either parent, multiply the
+ locus-wise probabilities of expressing that parent’s dominant/recessive phenotype. For the two given
+ genotypes, both phenotype-match probabilities are (1/2)(3/4)(1/2)(3/4)(1/2)=9/128. Exact genotype matching
+ requires the specified allele pair at all five loci, each with probability 1/2, giving 1/32 for either parent.
+
+ 3.70. Queen and hemophilia
+ Prior carrier probability is 1/2. If a carrier, each unaffected prince has probability 1/2; if not a carrier, unaffected
+ probability is 1. After three unaffected princes, posterior carrier probability
+ =[(1/2)(1/2)^3]/[(1/2)(1/2)^3+(1/2)(1)]=1/9. A fourth prince has hemophilia with probability (1/9)(1/2)=1/18.
+
+ 3.71. Baseball division title
+ Let b be Braves’ wins in their three games and x be Giants’ wins against the Dodgers. Then final win totals are
+ Braves 87+b, Giants 86+x, Dodgers 89-x. Enumerating independent Binomial(3,1/2) values of b and x, with a
+ tied first-place team receiving one-half chance in the playoff, gives P(Braves title)=19/32 and P(Giants
+ title)=P(Dodgers title)=13/64.
+
+ 3.72. Steering committee decisive vote
+ For a committee member, the other two committee votes must split 1-1, probability 2p(1-p), and at least two of
+ the four noncommittee members must approve, probability Σ_{j=2}^4 C(4,j)p^j(1-p)^(4-j). Multiply these
+ probabilities. For a noncommittee member, the committee must pass and the other three noncommittee votes
+ must make the full council’s total exactly three before that member votes: probability
+ C(3,2)p²(1-p)·C(3,1)p(1-p)² + p³(1-p)³ =10p³(1-p)³.
+
+ 3.73. Five children: sex patterns
+ (a) All same sex: 2/2^5=1/16. (b) First three boys, last two girls: 1/32. (c) Exactly three boys: C(5,3)/32=5/16.
+ (d) Two oldest girls: 1/4. (e) At least one girl: 1-1/32=31/32.
+
+ 3.74. Alternating dice rolls
+ A succeeds on a roll with probability 4/36=1/9; B succeeds with probability 5/36. A eventually makes the final
+ roll with probability a/[1-(1-a)(1-b)] = (1/9)/[1-(8/9)(31/36)]=9/19.
+
+ 3.75. Older sons
+ With two children, the expected number of older sons per family is 1/2 and the expected total number of sons
+ is 1, so the proportion is 1/2. With three children, expected eldest sons per family is 1/2 and expected total
+ sons is 3/2, so the proportion is 1/3.
+
+
+
+
+                                                                                                                    Page 8
+
+<PARSED TEXT FOR PAGE: 9 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.76. First of two mutually exclusive events
+ On each trial, the first occurrence among E and F is E with probability P(E), F with P(F), and neither with the
+ remaining probability. Summing the geometric series gives P(E before F)=P(E)/[P(E)+P(F)].
+
+ 3.77. Three outcomes: 3 is last to appear
+ By symmetry, given 3 is last among the three labels, the first label is equally likely to be 1 or 2: probability 1/2.
+ For the first two trials both to be 1, the first trial must be 1 (probability 1/2 under the conditioning), and the
+ second trial must again be 1 before the first 2 appears; the relative race between 1 and 2 gives probability 1/3.
+ Thus the conditional probability is 1/6.
+
+ 3.78. Series: stop at a two-win lead
+ Let q=1-p. This is a biased random walk on score difference -2,-1,0,1,2, starting at 0. (a) Exactly four games
+ occur when the first two wins split and the last two go to the same player: probability 2pq(p²+q²). (b)
+ Gambler’s-ruin recurrence gives P(A wins)=p²/(p²+q²).
+
+ 3.79. Two sevens before six even sums
+ Ignore rolls that are neither a seven nor an even sum. Among decisive rolls, P(seven)= (1/6)/(1/6+1/2)=1/4 and
+ P(even)=3/4. Two sevens occur before six even sums if the second seven occurs after k=0,...,5 even sums.
+ Probability =Σ_{k=0}^5 (k+1)(1/4)^2(3/4)^k =4547/8192≈0.5551.
+
+ 3.80. Random knockout tournament
+ A plays exactly i games with probability 2^-i for 1≤i<n and 2^{-(n-1)} for i=n: A must win the first i-1 contests
+ and then either lose (if i<n) or reach the final. Let M_n be the probability A and B meet in a 2^n-player
+ tournament. They meet in round 1 with probability 1/(2^n-1). Otherwise, both must win their first-round games
+ (probability 1/4), after which the remaining tournament has 2^(n-1) players. Thus
+ M_n=1/(2^n-1)+[(2^n-2)/(2^n-1)](1/4)M_(n-1), M_1=1. Solving gives M_n=2^{-(n-1)}, so P(E)=1-2^{-(n-1)}.
+ This also supplies the requested recurrence for P_n=1-M_n.
+
+ 3.81. Stock: gambler’s ruin
+ Shift the lower boundary 10 to 0 and upper 40 to 30. The investor starts at 15, with up probability p=0.55 and
+ down probability q=0.45. For p≠q, the probability of reaching 30 before 0 is [1-(q/p)^15]/[1-(q/p)^30].
+
+ 3.82. Alternating runs of heads: winner probabilities
+ For (a) two consecutive heads and (c) three consecutive heads, let s=2 or 3. A’s run on a turn reaches s with
+ probability p1^s; B’s reaches s with probability p2^s. Repeated unsuccessful turns give P(A
+ wins)=p1^s/[1-(1-p1^s)(1-p2^s)]. For (b) total two heads and (d) total three heads, use the finite-state
+ recursion below. Let F_s(a,b) be A’s winning probability at the start of A’s turn when cumulative head totals are
+ a,b<s. Then F_s(a,b)=p1^(s-a)+Σ_{k=0}^{s-a-1} (1-p1)p1^k Σ_{l=0}^{s-b-1}(1-p2)p2^l F_s(a+k,b+l). This
+ is a finite linear system for s=2 or 3 and completely determines the requested probability.
+
+ 3.83. Die A or B selected once
+ P(red on any throw)=1/2[(2/3)+(1/3)]=1/2. After two reds, posterior P(A)=
+ [(1/2)(2/3)^2]/[(1/2)(2/3)^2+(1/2)(1/3)^2]=4/5. Therefore P(third red | first two
+ red)=(4/5)(2/3)+(1/5)(1/3)=3/5.
+
+ 3.84. Three players draw from one urn
+ With replacement, each draw is white with probability 1/3 independently. First white position is geometric. In
+ cyclic order A,B,C, the winning probabilities are 9/19, 6/19, and 4/19 respectively. Without replacement, the
+ first white position t has probability C(12-t,3)/C(12,4), for t=1,...,9. Sum these terms for t congruent to 1,2,0
+ modulo 3 to obtain A,B,C respectively.
+
+
+
+
+                                                                                                                 Page 9
+
+<PARSED TEXT FOR PAGE: 10 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.85. Three players each have a separate urn
+ Each separate urn is sampled without replacement. Let S_k=C(8,k)/C(12,k), the probability a player’s first k
+ personal draws are all black, and f_k=S_(k-1)·4/(13-k), the probability that player’s first white is on personal
+ draw k. Then P(A)=Σ_(k=1)^9 f_k S_(k-1)^2=6476548/13476375≈0.48059; P(B)=Σ f_k S_k
+ S_(k-1)=6994/22275≈0.31398; P(C)=Σ f_k S_k^2=922819/4492125≈0.20543. The three probabilities sum to
+ 1.
+
+ 3.86. Subsets of an n-set
+ For each element of S, the pair of membership indicators (in A,in B) has four equally likely states. A⊆B excludes
+ only (1,0), leaving 3 of 4 states per element, so P(A⊆B)=(3/4)^n. Similarly, A∩B=empty excludes only (1,1),
+ giving (3/4)^n.
+
+ 3.87. Coin selected then n heads
+ If coin i is selected with prior probability q_i and has head probability p_i, Bayes’ rule gives P(C_i | n heads)=q_i
+ p_i^n/Σ_j q_j p_j^n. For equal selection probabilities this reduces to p_i^n/Σ_j p_j^n. The numerical values from
+ Example 5e are not included in the uploaded question-only PDF.
+
+ 3.88. Are Laplace-rule flips independent?
+ No. With a uniform prior p on [0,1], P(H1)=∫p dp=1/2, while P(H1H2)=∫p²dp=1/3, not 1/4. More generally, after
+ n heads, the predictive probability of the next head is (n+1)/(n+2). Marginal dependence arises because all
+ flips share the same unknown p.
+
+ 3.89. Three-judge panel
+ Let G mean defendant guilty. Prior P(G)=0.7; each vote is conditionally independent given G, with guilty-vote
+ probabilities 0.7 under G and 0.2 under G^c. (a) Given two guilty votes, posterior guilt is proportional to
+ 0.7(0.7)^2 versus 0.3(0.2)^2; the third judge’s guilty probability is then the weighted predictive probability,
+ 97/142≈0.6831. (b) For one guilty and one not guilty, the corresponding posterior predictive probability is
+ 15/26≈0.5769. (c) Given two not-guilty votes it is 11/34≈0.3235. The votes are conditionally independent
+ given guilt status, but not marginally independent because they share the latent guilt variable.
+
+ 3.90. Three-outcome trials: outcomes 1 and 2 both appear
+ Use inclusion-exclusion. Subtract the event no 1 occurs, probability (p0+p2)^n, and the event no 2 occurs,
+ probability (p0+p1)^n, then add back the event neither occurs, probability p0^n. Answer:
+ 1-(p0+p2)^n-(p0+p1)^n+p0^n.
+
+ B. Theoretical Exercises
+ 3.1. Conditional probability inequality
+ P(AB|A)=P(AB)/P(A), while P(AB|A∪B)=P(AB)/P(A∪B). Since A⊆A∪B, P(A)≤P(A∪B); the common nonnegative
+ numerator divided by the smaller denominator is at least as large.
+
+ 3.2. A is a subset of B
+ P(A|B)=P(A)/P(B). P(A|B^c)=0. P(B|A)=1. P(B|A^c)=[P(B)-P(A)]/[1-P(A)], provided P(A)<1.
+
+ 3.3. Choosing a child from families
+ Method 1 selects a family uniformly and then a child; its probability of selecting a firstborn is (1/m)Σ_i n_i/i.
+ Method 2 chooses uniformly among all children and has probability m/Σ_i i n_i. The first is at least the second
+ by Cauchy-Schwarz: (Σ n_i)(Σ i n_i)≥(Σ√(i n_i·n_i))², equivalently the weighted comparison in the problem.
+ Equality holds when family sizes represented in the community are effectively constant.
+
+ 3.4. Search among boxes
+ Let F mean box i was searched and the ball was not found. P(F)=1-α_iP_i. For j≠i, P(ball in j and F)=P_j; for j=i it
+ is (1-α_i)P_i. Divide by P(F): posterior is P_j/(1-α_iP_i) for j≠i and (1-α_i)P_i/(1-α_iP_i) for j=i.
+
+
+
+
+                                                                                                                Page 10
+
+<PARSED TEXT FOR PAGE: 11 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.5. Negative and positive information
+ For either R or Q, (a) symmetry is true: P(E|F)≤P(E) is equivalent to P(EF)≤P(E)P(F), which is equivalent to
+ P(F|E)≤P(F); the same equivalence holds with ≥. (b) Transitivity is false. For R, take Ω={1,2}, E={1},
+ F=G={2}: F R E and E R G, but F R G fails. For Q, on four equally likely states take F={1}, G={2}, E={1,2}: F
+ Q E and E Q G, but F Q G fails. (c) Combining two pieces of information can reverse the inequality. For R, take
+ probabilities 0.2 on EFG, 0.3 on E only, 0.1 on F∩G∩E^c, 0.2 on F only, and 0.2 on G only. Then
+ P(E|F)=P(E|G)=0.4≤0.5, but P(E|FG)=2/3>0.5. For Q, on states 00,10,01,11 with probabilities 0.5,0.2,0.2,0.1,
+ let E={10,01}, F={10,11}, G={01,11}. Each of F and G raises the probability of E to 2/3, but P(E|FG)=0.
+
+ 3.6. Union of independent events
+ The complements E_i^c are independent. Thus P(no E_i occurs)=Π_i P(E_i^c)=Π_i[1-P(E_i)]. Taking the
+ complement gives P(∪E_i)=1-Π_i[1-P(E_i)].
+
+ 3.7. Urn and fish extinction
+ (a) The last ball in a random ordering is equally likely to be any of the n+m balls. The remaining colour is white
+ exactly when the last ball is white, probability n/(n+m). (b) Red is first extinct when its last appearance
+ precedes the last appearances of blue and green. Partition according to which of blue or green is last: P(R
+ first)=bg/(r+b+g)[1/(r+b)+1/(r+g)].
+
+ 3.8. Conditioning on C and C-complement
+ (a) By total probability, P(A)-P(B)=P(C)[P(A|C)-P(B|C)]+P(C^c)[P(A|C^c)-P(B|C^c)]>0. (b) The suggested
+ implication for AB is false. With two fair dice, take C={sum=10}, A={first die=6}, B={second die=6}.
+ P(A|C)=P(B|C)=1/3, while P(A|C^c)=P(B|C^c)=1/6. Yet P(AB|C)=0 while P(AB|C^c)=1/35.
+
+ 3.9. Pairwise but not mutual independence
+ For two fair tosses, A={first is H}, B={second is H}, C={the tosses match}. Each has probability 1/2; every
+ pair intersection has probability 1/4, so pairs are independent. But P(ABC)=1/4 whereas P(A)P(B)P(C)=1/8, so
+ the three are not mutually independent.
+
+ 3.10. Birthday pair events
+ If two pairs of people are disjoint, their matching-birthday events are independent. If they overlap, e.g. A12 and
+ A13, both occur exactly when persons 1,2,3 share a birthday; probability 1/365², equal to (1/365)², so they too
+ are pairwise independent. However, A12,A13,A23 together have probability 1/365², not 1/365³; the whole
+ collection is not mutually independent.
+
+ 3.11. At least one head
+ P(no heads)=(1-p)^n. Require 1-(1-p)^n≥1/2, so for 0<p<1, n≥ln(1/2)/ln(1-p). The smallest integer is the
+ ceiling of this expression.
+
+ 3.12. First head identity
+ The i-th summand is the probability that the first head occurs on toss i: a_i Π_{j<i}(1-a_j). The final product is
+ the probability no head occurs in the first q tosses. These disjoint events exhaust all possibilities, so their
+ probabilities sum to 1.
+
+ 3.13. Alternating runs of heads: recursion
+ Condition on A’s first flip. If it is head (probability p), A has one head and the state becomes (n-1,m). If it is tail,
+ B takes over; A wins before m heads are accumulated by B exactly when B fails to reach m before A reaches n,
+ which by swapping the players is 1-P_{m,n}. Therefore P_{n,m}=pP_{n-1,m}+(1-p)(1-P_{m,n}).
+
+ 3.14. Gambler against an infinitely rich adversary
+ Let u_i be the probability of eventual ruin from fortune i. Then u_i=pu_{i+1}+qu_{i-1}, u_0=1, and u_i→0 as
+ i→∞ when p>q. Solving the recurrence gives u_i=(q/p)^i for p>q. If p≤q, the random walk is recurrent or drifts
+ downward, so ruin occurs with probability 1.
+
+
+
+
+                                                                                                                   Page 11
+
+<PARSED TEXT FOR PAGE: 12 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.15. Negative binomial waiting time
+ For exactly n trials to obtain r successes, the first n-1 trials must contain exactly r-1 successes and trial n must
+ be a success. Choose the r-1 success positions among n-1: P(N=n)=C(n-1,r-1)p^r(1-p)^(n-r). The referenced
+ points example 4j is not contained in the uploaded question-only PDF, so its numerical application is
+ unavailable.
+
+ 3.16. Even number of Bernoulli successes
+ Let P_n be the probability of an even number of successes. The nth trial must either be a success after an odd
+ count (probability p(1-P_{n-1})) or a failure after an even count ((1-p)P_{n-1}). This yields the stated recursion.
+ The closed form P_n=[1+(1-2p)^n]/2 satisfies P_0=1 and the recursion, hence follows by induction.
+
+ 3.17. Odd successes with p_i=1/(2i+1)
+ For independent Bernoulli variables, P(odd number of successes)=[1-Π_i(1-2p_i)]/2. Here 1-2p_i=(2i-1)/(2i+1),
+ so the product telescopes to 1/(2n+1). Thus P_n=n/(2n+1). For n=1,...,5 the values are 1/3, 2/5, 3/7, 4/9, 5/11.
+
+ 3.18. No run of three heads
+ Condition on the first tail. The run before that tail can contain 0, 1, or 2 initial heads, with probabilities
+ 1/2,1/4,1/8. After it, the remaining suffix problem has length n-1,n-2,n-3. Hence
+ Q_n=(1/2)Q_(n-1)+(1/4)Q_(n-2)+(1/8)Q_(n-3), with Q0=Q1=Q2=1. Iteration gives
+ Q3=7/8,Q4=13/16,Q5=3/4,Q6=11/16,Q7=105/128,Q8=173/256≈0.6758.
+
+ 3.19. Finite-horizon gambler’s ruin
+ For interior fortunes, P_(n,i)=pP_(n-1,i+1)+qP_(n-1,i-1), with P_(n,0)=0, P_(n,N)=1 and P_(0,i)=0 for 0<i<N. The
+ general expression from the recursion is P_(7,3)=p^2(5p^4-10p^3+3p^2+2p+1). For a fair game (p=1/2),
+ this is 29/64. If the textbook intended a different p, substitute it into this polynomial; the question-only PDF
+ does not give a value of p.
+
+ 3.20. Two urns with switching on black
+ The urn-I selection probability satisfies α_(n+1)=α_n(p+p′-1)+1-p′. Solving the first-order recurrence, with
+ α_1=α, gives α_n=(1-p′)/(2-p-p′)+[α-(1-p′)/(2-p-p′)](p+p′-1)^(n-1), provided 2-p-p′≠0. The nth-ball white
+ probability is P_n=pα_n+p′(1-α_n). The limits follow by letting n→∞; when |p+p′-1|<1, α_n→(1-p′)/(2-p-p′) and
+ P_n→[p(1-p′)+p′(1-p)]/(2-p-p′).
+
+ 3.21. Ballot problem
+ The ballot theorem gives P_(n,m)=(n-m)/(n+m) for n>m. Thus P2,1=1/3, P3,1=1/2, P3,2=1/5, P4,1=3/5,
+ P4,2=1/3, P4,3=1/7. Conditioning on the last vote gives P_(n,m)=[n/(n+m)]P_(n-1,m)+[m/(n+m)]P_(n,m-1),
+ with boundary P_(n,0)=1 and P_(n,m)=0 for m≥n. Substitution verifies the closed form by induction.
+
+ 3.22. Weather Markov chain
+ Let P_n be dry probability n days after a known dry day. A dry day follows a dry day with p, and follows wet with
+ 1-p. Thus P_n=pP_(n-1)+(1-p)(1-P_(n-1))=(2p-1)P_(n-1)+(1-p), P_0=1. Solving gives P_n=1/2+(1/2)(2p-1)^n.
+
+ 3.23. Last ball in a two-colour bag
+ Let P_(a,b) be the probability the final ball is white. The process removes same-colour pairs until a colour
+ change causes the second ball to be returned. Conditioning on the first two colours and using induction on a+b
+ shows the two colours are equally likely to be the final remaining colour; hence P_(a,b)=1/2 for a,b>0.
+ Boundary cases with one colour absent are degenerate and are excluded by the intended setup.
+
+ 3.24. Round-robin tournament existence
+ Choose each game winner independently with probability 1/2. For a fixed k-set, an outside player beats all k
+ members with probability 2^-k; each of the n-k outside players independently fails to do so with probability
+ 1-2^-k. Thus probability this k-set has no dominator is (1-2^-k)^(n-k). By the union bound, probability any
+ k-set has no dominator is at most C(n,k)(1-2^-k)^(n-k). If this is <1, some tournament outcome has no bad
+ k-set, proving existence.
+
+
+
+
+                                                                                                                  Page 12
+
+<PARSED TEXT FOR PAGE: 13 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.25. Conditional total probability
+ Since FG and FG^c partition F, P(E|F)=P(E∩G|F)+P(E∩G^c|F)=P(E|FG)P(G|F)+P(E|FG^c)P(G^c|F).
+
+ 3.26. Equivalence of equations (5.11) and (5.12)
+ The two referenced equations are not reproduced in the uploaded question-only PDF. Their exact statements
+ are needed to prove equivalence without guessing the textbook’s notation. This item is therefore flagged as
+ source-incomplete.
+
+ 3.27. Conditional independence of multiple events
+ Events E1,...,En are conditionally independent given F when, for every nonempty subset I of {1,...,n}, P(∩_(i∈I)
+ E_i | F)=Π_(i∈I)P(E_i|F). Checking only the full intersection is not sufficient; all subcollections must satisfy the
+ factorization.
+
+ 3.28. Independence does not imply conditional independence
+ Counterexample: two independent fair tosses. Let E1={first toss H}, E2={second toss H}, and F={both tosses
+ match}. Given F, E1 and E2 are the same event, so P(E1∩E2|F)=1/2, whereas P(E1|F)P(E2|F)=1/4. Thus they
+ are not conditionally independent given F.
+
+ 3.29. Laplace succession: next m flips heads
+ Under a uniform prior for the unknown head probability p, after n heads the posterior density is (n+1)p^n on
+ [0,1]. The probability the next m flips are all heads is E[p^m|n heads]=(n+1)∫_0^1
+ p^(n+m)dp=(n+1)/(n+m+1).
+
+ 3.30. Laplace succession with r heads and n-r tails
+ The posterior density is proportional to p^r(1-p)^(n-r). The predictive probability of a head is the ratio
+ ∫p^(r+1)(1-p)^(n-r)dp / ∫p^r(1-p)^(n-r)dp=(r+1)/(n+2). The beta-integral identity follows by repeated
+ integration by parts.
+
+ 3.31. Responding to the survival-age objection
+ Laplace’s rule is a probability calculation under a specific model: an unknown constant survival probability p
+ with a uniform prior, and exchangeable observations. It does not claim that a 10-year-old and an 80-year-old
+ have identical biological survival probabilities. Age, health, and actuarial data alter the model and prior; the
+ comparison in the objection changes the information set, so it is not a contradiction.
+
+ C. Self-Test Problems and Exercises
+ 3.1. Bridge hand and West has no aces
+ West’s 13 cards contain no aces, so 39 cards remain with all 4 aces. Partner’s 13-card hand: (a) no aces
+ =C(35,13)/C(39,13); (b) two or more =1-[C(35,13)+4C(35,12)]/C(39,13). If West has exactly one ace, 3 aces
+ remain among 39: replace 4 by 3 and 35 by 36 in the corresponding expressions.
+
+ 3.2. Battery life and residual life
+ (a) P(T>20,000 | T>10,000)=0.4/0.8=1/2. (b) Additional 20,000 miles means total life >30,000, so 0.1/0.8=1/8.
+
+ 3.3. Optimal arrangement of 20 balls
+ Put one white ball alone in one urn, and the remaining 9 white plus 10 black in the other. The chance of white is
+ 1/2(1)+1/2(9/19)=14/19. No arrangement can do better: each urn contributes at most one half, and isolating
+ one white makes the other urn’s white fraction as large as possible.
+
+ 3.4. Transfer from A to B
+ A transfers white with probability 2/3; then B has 2 white and 5 black and a white draw probability 2/7. A
+ transfers black with probability 1/3; then B has 1 white and 6 black and a white draw probability 1/7. Overall
+ white probability =5/21. Given a white draw from B, transferred ball was white with probability
+ (2/3·2/7)/(5/21)=4/5.
+
+
+
+
+                                                                                                                Page 13
+
+<PARSED TEXT FOR PAGE: 14 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.5. Red ball positions without replacement
+ Each position is exchangeable, so P(R_i)=r/(r+w). Conditional on R_3, the remaining urn has r-1 red and r+w-1
+ total, so P(R_5|R_3)=(r-1)/(r+w-1). By symmetry and exchangeability, P(R_3|R_5) has the same value.
+
+ 3.6. Reinforcement after first draw
+ If the first ball was black, the second red probability is r/(b+r+c); if the first was red, the second red probability
+ is (r+c)/(b+r+c). Hence P(first black and second red)=br/[(b+r)(b+r+c)] and P(second red)=r/(b+r). Dividing
+ gives P(first black | second red)=b/(b+r+c), as required.
+
+ 3.7. Two-card ace questions
+ (a) Given the ace of spades is one of the cards, the other card is an ace with probability 3/51=1/17. (b) Given
+ the first card is an ace, the second is one of 51 cards with 3 aces: 1/17. (c) Same by symmetry: 1/17. (d) Given
+ at least one ace, probability both are aces is C(4,2)/[C(52,2)-C(48,2)]=1/33.
+
+ 3.8. Posterior odds after new evidence
+ Bayes’ rule in odds form is posterior H:G odds = prior H:G odds × P(E|H)/P(E|G). Prior odds are 3:1 and
+ evidence is twice as likely under G, so likelihood ratio is 1/2. Posterior odds are 3:2; H remains more likely.
+
+ 3.9. Plant watered by neighbour
+ P(alive)=0.9(0.85)+0.1(0.20)=0.785. P(forgot |
+ dead)=0.1(0.8)/[0.1(0.8)+0.9(0.15)]=0.08/0.215=16/43≈0.3721.
+
+ 3.10. Six balls, no red condition
+ (a) P(at least one red)=1-C(22,6)/C(30,6). (b) Given no red, choose six from 10 green and 12 blue. Exactly two
+ green has probability C(10,2)C(12,4)/C(22,6).
+
+ 3.11. Type C and D batteries
+ P(works)=(8/14)(0.7)+(6/14)(0.4)=4/7. Given failure, P(C | failure)=[(8/14)(0.3)]/[(8/14)(0.3)+(6/14)(0.6)]=0.4.
+
+ 3.12. Two books liked
+ P(like book 2 and not book 1)=0.5-0.4=0.1. Divide by P(not like book 1)=0.4. Answer =0.25.
+
+ 3.13. Urn depletion order
+ (a) With only red and blue, the last ball is red with probability 20/30; all red balls are removed before all blue
+ exactly when the last ball is blue, giving 10/30=1/3. (b) Adding green does not alter the relative random order
+ of the red and blue balls, so the probability remains 1/3. (c) Blue, red, green depletion means max position of
+ blue < max position of red < max position of green. Its probability is (8/38)(20/30)=8/57: the last overall ball
+ must be green, and among the red/blue subsequence the last ball must be red. (d) Blue is first depleted when
+ its last position is earlier than both the last red and last green positions. Sum over the last blue position m:
+ [Σ_(m=10)^36 C(m-1,9){C(28,20)-C(m-10,20)-C(m-10,28-m)}]/[C(38,10)C(28,20)] =64/171≈0.37427 (with
+ impossible binomial coefficients interpreted as zero).
+
+ 3.14. Biased coin and forgetful messenger
+ Let H denote the actual first flip being heads and Tails similarly. A remembers with probability 0.6; if he forgets,
+ his message is random. (a) P(message H)=0.8(0.6)+0.5(0.4)=0.68. (b) P(message
+ correct)=0.6+0.4(0.5)=0.80. (c) P(actual H | message H)=[0.8(0.6)+0.5(0.4)(0.8)]/0.68=0.64/0.68=16/17.
+
+ 3.15. Black rat genotype
+ Black parents with a brown sibling must both be heterozygous. Given the rat is black, its genotype is BB with
+ probability 1/3 and Bb with probability 2/3. (a) Pure black probability 1/3. (b) If hybrid, all five offspring black
+ when each receives black allele from the hybrid parent, probability (1/2)^5. Bayes gives pure probability
+ (1/3)/[(1/3)+(2/3)(1/32)]=16/17.
+
+
+
+
+                                                                                                                  Page 14
+
+<PARSED TEXT FOR PAGE: 15 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.16. Relays and conditional current
+ The question says Problem 3.65b, but the relay circuits are in Problem 3.66b. Let R_b be the circuit-(b)
+ reliability from Problem 3.66. Conditioning on relay 1: if it closes, reliability is p4+(1-p4)p5(p2+p3-p2p3); if it is
+ open, reliability is p2[p5+(1-p5)p3p4]. Thus
+ P(current)=p1[p4+(1-p4)p5(p2+p3-p2p3)]+(1-p1)p2[p5+(1-p5)p3p4], equal to R_b. Also P(relay 3 closed |
+ current)=p3(p1+p2-p1p2)(p4+p5-p4p5)/R_b. The cross-reference number appears to be a typo.
+
+ 3.17. k-out-of-n with component reliability 1/2
+ (a) For 1-out-of-2, component 1 works and the system works if component 1 works; conditional probability =
+ (1/2)/(3/4)=2/3. (b) For 2-out-of-3, P(system works)=1/2. P(component 1 works and system
+ works)=(1/2)[1-(1/2)^2]=3/8. Conditional probability =3/4.
+
+ 3.18. Roulette betting system
+ Roulette spins are independent. Ten previous black outcomes do not change the probability of red on the next
+ spin. The gambler’s system does not increase the expected chance of winning; it only conditions the bet on an
+ irrelevant past sequence.
+
+ 3.19. Three players: odd man out
+ In one round, A is odd exactly when A’s result differs from the matching outcomes of B and C:
+ r_A=p1(1-p2)(1-p3)+(1-p1)p2p3. Define r_B and r_C cyclically. If all three match, the round is repeated. Thus
+ P(A eventually odd)=r_A/(r_A+r_B+r_C).
+
+ 3.20. Second independent trial exceeds first
+ For outcomes 1,...,n with probabilities p_i, P(second>first)=Σ_{i<j}p_i p_j=[1-Σ_i p_i²]/2.
+
+ 3.21. A tosses n+1, B tosses n fair coins
+ Let X and Y be the heads in A’s first n flips and B’s n flips. By symmetry P(X>Y)=P(Y>X). A wins if X>Y, or if
+ X=Y and A’s extra flip is a head. Therefore P(A>B)=P(X>Y)+(1/2)P(X=Y)=1/2.
+
+ 3.22. Independence and unions
+ (a) False. Example: on four equally likely outcomes, E={1,2}, F={1,3}, G={2,3}. E is independent of F and of
+ G, but not of F∪G. (b) True: if F and G are disjoint, P(E∩(F∪G))=P(E)P(F)+P(E)P(G)=P(E)P(F∪G). (c) True:
+ P(EFG)=P(E)P(FG)=P(E)P(F)P(G)=P(EF)P(G), so G is independent of EF.
+
+ 3.23. Classifying independence statements
+ (a) Mutually exclusive events with positive probabilities cannot be independent, so necessarily false. (b)
+ Independent events with positive probabilities cannot be mutually exclusive, so necessarily false. (c)
+ P(A)=P(B)=0.6 and mutual exclusivity is impossible because their sum exceeds 1, so necessarily false. (d)
+ P(A)=P(B)=0.6 and independence is possible (intersection 0.36), so possibly true.
+
+ 3.24. Ranking all-success events
+ The probabilities are: fair coin head =0.5; three successes with p=0.8 gives 0.8^3=0.512; seven successes
+ with p=0.9 gives 0.9^7≈0.4783. Ranking: event 2, then event 1, then event 3.
+
+ 3.25. Two radios from same factory
+ Given first radio defective, P(factory A | defective)=0.05/(0.05+0.01)=5/6. The second radio is conditionally
+ independent given factory, so P(second defective | first defective)=(5/6)(0.05)+(1/6)(0.01)=13/300≈0.04333.
+
+ 3.26. Conditional probability one implies set inclusion
+ P(A|B)=1 means P(A∩B)=P(B), so P(B∩A^c)=0. Hence B^c∪A^c has complement B∩A of zero? More directly,
+ P(B^c|A^c)=P(A^c∩B^c)/P(A^c)=P(A^c)/P(A^c)=1, since B∩A^c has probability zero.
+
+
+
+
+                                                                                                                 Page 15
+
+<PARSED TEXT FOR PAGE: 16 / 16>
+
+Probability - Detailed Solutions | Volume 3: Chapter 3
+
+
+
+
+ 3.27. Polya urn induction
+ Starting with one red and one blue, after n selections the total is n+2. The probability of any specified
+ sequence with r red draws and n-r blue draws is r!(n-r)!/(n+1)!, independent of the order. There are C(n,r)
+ sequences, so the probability of r red additions is 1/(n+1). The urn then has i=r+1 red balls; therefore
+ P(exactly i red balls)=1/(n+1), i=1,...,n+1. This is the induction result.
+
+ 3.28. Two aces dealt between two players
+ Given first player has at least one ace, the second has no aces exactly when first has both. The probability is
+ C(2n-2,n-2)/[2C(2n-2,n-1)+C(2n-2,n-2)]=(n-1)/(3n-1). Values: n=2 gives 1/5; n=10 gives 9/29; n=100 gives
+ 99/299. The limit is 1/3. Intuitively, as n grows, the first player’s hand contains each of the two aces with
+ probability close to 1/2, and conditioning on at least one ace leaves the probability both are with the first
+ player approaching 1/3.
+
+ 3.29. Coupon collector inclusion-exclusion
+ The event that all n types occur in n draws is the complement of the union of missing-type events E_i. By
+ inclusion-exclusion, P(all types) = Σ_{k=0}^n (-1)^k C(n,k)((n-k)/n)^n. But all n types in n draws means each
+ appears exactly once, giving n!/n^n. Multiply by n^n to obtain n!=Σ(-1)^k C(n,k)(n-k)^n.
+
+ 3.30. Another conditional-probability inequality
+ Compute P(E|E∪F) by splitting on F: P(E|E∪F)=P(E∩F)/P(E∪F)+P(E∩F^c)/P(E∪F). A direct simplification gives
+ P(E|E∪F)-P(E|F)=P(E∩F^c)P(F∩E^c)/[P(E∪F)P(F)]≥0. Thus P(E|E∪F)≥P(E|F), whenever the denominators are
+ positive.
+
+
+    Coverage and source limitations. The PDF covers all 90 numbered Problems, all 31 Theoretical Exercises,
+    and all 30 Self-Test items in the uploaded Chapter 3 question pages. The question bank does not include the
+    textbook’s Example 3a, Example 3f, Example 4j, Example 5e, or equations (5.11)-(5.12). For those referenced
+    items, the solution gives the supported general method and identifies what is missing. Cross-references to relay
+    Problems 3.65a/3.65b appear inconsistent with the actual relay diagrams in Problem 3.66; the solutions use the
+    displayed circuits and flag that numbering mismatch.
+
+
+
+
+                                                                                                                 Page 16

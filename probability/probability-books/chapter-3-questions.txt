@@ -1,0 +1,1613 @@
+<PARSED TEXT FOR PAGE: 15 / 82>
+
+102   Chapter 3       Conditional Probability and Independence
+
+PROBLEMS
+
+ 3.1. Two fair dice are rolled. What is the conditional
+      probability that at least one lands on 6 given that
+      the dice land on different numbers?
+ 3.2. If two fair dice are rolled, what is the conditional
+      probability that the ﬁrst one lands on 6 given that
+      the sum of the dice is i? Compute for all values of
+      i between 2 and 12.
+ 3.3. Use Equation (2.1) to compute, in a hand of
+      bridge, the conditional probability that East has
+      3 spades given that North and South have a com-
+      bined total of 8 spades.
+ 3.4. What is the probability that at least one of a pair of
+      fair dice lands on 6, given that the sum of the dice
+      is i, i = 2, 3, . . . , 12?
+ 3.5. An urn contains 6 white and 9 black balls. If 4 balls
+      are to be randomly selected without replacement,
+      what is the probability that the ﬁrst 2 selected are
+      white and the last 2 black?
+ 3.6. Consider an urn containing 12 balls, of which 8
+      are white. A sample of size 4 is to be drawn with
+      replacement (without replacement). What is the
+      conditional probability (in each case) that the ﬁrst
+      and third balls drawn will be white given that the
+      sample drawn contains exactly 3 white balls?
+ 3.7. The king comes from a family of 2 children. What
+      is the probability that the other child is his sister?
+ 3.8. A couple has 2 children. What is the probability
+      that both are girls if the older of the two is a girl?
+ 3.9. Consider 3 urns. Urn A contains 2 white and 4 red
+      balls, urn B contains 8 white and 4 red balls, and
+      urn C contains 1 white and 3 red balls. If 1 ball is
+      selected from each urn, what is the probability that
+      the ball chosen from urn A was white given that
+      exactly 2 white balls were selected?
+3.10. Three cards are randomly selected, without
+      replacement, from an ordinary deck of 52 playing
+      cards. Compute the conditional probability that
+      the ﬁrst card selected is a spade given that the sec-
+      ond and third cards are spades.
+3.11. Two cards are randomly chosen without replace-
+      ment from an ordinary deck of 52 cards. Let B be
+      the event that both cards are aces, let As be the
+      event that the ace of spades is chosen, and let A be
+      the event that at least one ace is chosen. Find
+      (a) P(B|As )
+      (b) P(B|A)
+3.12. A recent college graduate is planning to take the
+      ﬁrst three actuarial examinations in the coming
+      summer. She will take the ﬁrst actuarial exam in
+      June. If she passes that exam, then she will take
+      the second exam in July, and if she also passes that
+      one, then she will take the third exam in Septem-
+      ber. If she fails an exam, then she is not allowed
+
+
+to take any others. The probability that she passes
+the ﬁrst exam is .9. If she passes the ﬁrst exam, then
+the conditional probability that she passes the sec-
+ond one is .8, and if she passes both the ﬁrst and
+the second exams, then the conditional probability
+that she passes the third exam is .7.
+(a) What is the probability that she passes all
+three exams?
+(b) Given that she did not pass all three exams,
+what is the conditional probability that she
+failed the second exam?
+3.13. Suppose that an ordinary deck of 52 cards (which
+contains 4 aces) is randomly divided into 4 hands
+of 13 cards each. We are interested in determining
+p, the probability that each hand has an ace. Let Ei
+be the event that the ith hand has exactly one ace.
+Determine p = P(E1 E2 E3 E4 ) by using the multi-
+plication rule.
+3.14. An urn initially contains 5 white and 7 black balls.
+Each time a ball is selected, its color is noted and
+it is replaced in the urn along with 2 other balls of
+the same color. Compute the probability that
+(a) the ﬁrst 2 balls selected are black and the next
+2 are white;
+(b) of the ﬁrst 4 balls selected, exactly 2 are black.
+3.15. An ectopic pregnancy is twice as likely to develop
+when the pregnant woman is a smoker as it is when
+she is a nonsmoker. If 32 percent of women of
+childbearing age are smokers, what percentage of
+women having ectopic pregnancies are smokers?
+3.16. Ninety-eight percent of all babies survive delivery.
+However, 15 percent of all births involve Cesarean
+(C) sections, and when a C section is performed,
+the baby survives 96 percent of the time. If a ran-
+domly chosen pregnant woman does not have a
+C section, what is the probability that her baby
+survives?
+3.17. In a certain community, 36 percent of the families
+own a dog and 22 percent of the families that own
+a dog also own a cat. In addition, 30 percent of the
+families own a cat. What is
+(a) the probability that a randomly selected fam-
+ily owns both a dog and a cat?
+(b) the conditional probability that a randomly
+selected family owns a dog given that it owns
+a cat?
+3.18. A total of 46 percent of the voters in a certain city
+classify themselves as Independents, whereas 30
+percent classify themselves as Liberals and 24 per-
+cent say that they are Conservatives. In a recent
+local election, 35 percent of the Independents, 62
+percent of the Liberals, and 58 percent of the Con-
+servatives voted. A voter is chosen at random.
+<PARSED TEXT FOR PAGE: 16 / 82>
+
+
+      Given that this person voted in the local election,
+      what is the probability that he or she is
+      (a) an Independent?
+      (b) a Liberal?
+      (c) a Conservative?
+      (d) What fraction of voters participated in the
+            local election?
+3.19. A total of 48 percent of the women and 37 percent
+      of the men that took a certain “quit smoking” class
+      remained nonsmokers for at least one year after
+      completing the class. These people then attended
+      a success party at the end of a year. If 62 percent
+      of the original class was male,
+      (a) what percentage of those attending the party
+            were women?
+      (b) what percentage of the original class attended
+            the party?
+3.20. Fifty-two percent of the students at a certain col-
+      lege are females. Five percent of the students in
+      this college are majoring in computer science. Two
+      percent of the students are women majoring in
+      computer science. If a student is selected at ran-
+      dom, ﬁnd the conditional probability that
+      (a) the student is female given that the student is
+            majoring in computer science;
+      (b) this student is majoring in computer science
+            given that the student is female.
+3.21. A total of 500 married working couples were
+      polled about their annual salaries, with the follow-
+      ing information resulting:
+     Wife
+     Less than $25,000           212             198
+     More than $25,000            36              54
+      For instance, in 36 of the couples, the wife earned
+      more and the husband earned less than $25,000. If
+      one of the couples is randomly chosen, what is
+      (a) the probability that the husband earns less
+            than $25,000?
+      (b) the conditional probability that the wife earns
+            more than $25,000 given that the husband
+            earns more than this amount?
+      (c) the conditional probability that the wife earns
+            more than $25,000 given that the husband
+            earns less than this amount?
+3.22. A red die, a blue die, and a yellow die (all six
+      sided) are rolled. We are interested in the prob-
+      ability that the number appearing on the blue die
+      is less than that appearing on the yellow die, which
+      is less than that appearing on the red die. That is,
+
+
+Problems     103
+with B, Y, and R denoting, respectively, the num-
+ber appearing on the blue, yellow, and red die, we
+are interested in P(B < Y < R).
+(a) What is the probability that no two of the dice
+land on the same number?
+(b) Given that no two of the dice land on the same
+number, what is the conditional probability
+that B < Y < R?
+(c) What is P(B < Y < R)?
+3.23. Urn I contains 2 white and 4 red balls, whereas urn
+II contains 1 white and 1 red ball. A ball is ran-
+domly chosen from urn I and put into urn II, and a
+ball is then randomly selected from urn II. What is
+(a) the probability that the ball selected from urn
+II is white?
+(b) the conditional probability that the trans-
+ferred ball was white given that a white ball
+is selected from urn II?
+3.24. Each of 2 balls is painted either black or gold and
+then placed in an urn. Suppose that each ball is col-
+ored black with probability 12 and that these events
+are independent.
+(a) Suppose that you obtain information that the
+gold paint has been used (and thus at least
+one of the balls is painted gold). Compute
+the conditional probability that both balls are
+painted gold.
+(b) Suppose now that the urn tips over and 1 ball
+falls out. It is painted gold. What is the prob-
+ability that both balls are gold in this case?
+Explain.
+3.25. The following method was proposed to estimate
+Husband
+the number of people over the age of 50 who reside
+Less than      More than             in a town of known population 100,000: “As you
+$25,000        $25,000              walk along the streets, keep a running count of the
+percentage of people you encounter who are over
+50. Do this for a few days; then multiply the per-
+centage you obtain by 100,000 to obtain the esti-
+mate.” Comment on this method.
+Hint: Let p denote the proportion of people in the
+town who are over 50. Furthermore, let α1 denote
+the proportion of time that a person under the age
+of 50 spends in the streets, and let α2 be the cor-
+responding value for those over 50. What quantity
+does the method suggested estimate? When is the
+estimate approximately equal to p?
+3.26. Suppose that 5 percent of men and .25 percent
+of women are color blind. A color-blind person
+is chosen at random. What is the probability of
+this person being male? Assume that there are an
+equal number of males and females. What if the
+population consisted of twice as many males as
+females?
+3.27. All the workers at a certain company drive to
+work and park in the company’s lot. The company
+<PARSED TEXT FOR PAGE: 17 / 82>
+
+104   Chapter 3       Conditional Probability and Independence
+
+      is interested in estimating the average number of
+      workers in a car. Which of the following methods
+      will enable the company to estimate this quantity?
+      Explain your answer.
+      1. Randomly choose n workers, ﬁnd out how
+         many were in the cars in which they were
+         driven, and take the average of the n values.
+      2. Randomly choose n cars in the lot, ﬁnd out how
+         many were driven in those cars, and take the
+         average of the n values.
+3.28. Suppose that an ordinary deck of 52 cards is shuf-
+      ﬂed and the cards are then turned over one at a
+      time until the ﬁrst ace appears. Given that the ﬁrst
+      ace is the 20th card to appear, what is the condi-
+      tional probability that the card following it is the
+      (a) ace of spades?
+      (b) two of clubs?
+3.29. There are 15 tennis balls in a box, of which 9 have
+      not previously been used. Three of the balls are
+      randomly chosen, played with, and then returned
+      to the box. Later, another 3 balls are randomly
+      chosen from the box. Find the probability that
+      none of these balls has ever been used.
+3.30. Consider two boxes, one containing 1 black and 1
+      white marble, the other 2 black and 1 white mar-
+      ble. A box is selected at random, and a marble is
+      drawn from it at random. What is the probability
+      that the marble is black? What is the probability
+      that the ﬁrst box was the one selected given that
+      the marble is white?
+3.31. Ms. Aquina has just had a biopsy on a possibly can-
+      cerous tumor. Not wanting to spoil a weekend fam-
+      ily event, she does not want to hear any bad news
+      in the next few days. But if she tells the doctor to
+      call only if the news is good, then if the doctor does
+      not call, Ms. Aquina can conclude that the news is
+      bad. So, being a student of probability, Ms. Aquina
+      instructs the doctor to ﬂip a coin. If it comes up
+      heads, the doctor is to call if the news is good and
+      not call if the news is bad. If the coin comes up
+      tails, the doctor is not to call. In this way, even if
+      the doctor doesn’t call, the news is not necessarily
+      bad. Let α be the probability that the tumor is can-
+      cerous; let β be the conditional probability that the
+      tumor is cancerous given that the doctor does not
+      call.
+      (a) Which should be larger, α or β?
+      (b) Find β in terms of α, and prove your answer
+            in part (a).
+3.32. A family has j children with probability pj , where
+      p1 = .1, p2 = .25, p3 = .35, p4 = .3. A child
+      from this family is randomly chosen. Given that
+      this child is the eldest child in the family, ﬁnd the
+      conditional probability that the family has
+
+
+(a) only 1 child;
+(b) 4 children.
+Redo (a) and (b) when the randomly selected child
+is the youngest child of the family.
+3.33. On rainy days, Joe is late to work with probability
+.3; on nonrainy days, he is late with probability .1.
+With probability .7, it will rain tomorrow.
+(a) Find the probability that Joe is early tomor-
+row.
+(b) Given that Joe was early, what is the condi-
+tional probability that it rained?
+3.34. In Example 3f, suppose that the new evidence is
+subject to different possible interpretations and in
+fact shows only that it is 90 percent likely that the
+criminal possesses the characteristic in question. In
+this case, how likely would it be that the suspect is
+guilty (assuming, as before, that he has the charac-
+teristic)?
+3.35. With probability .6, the present was hidden by
+mom; with probability .4, it was hidden by dad.
+When mom hides the present, she hides it upstairs
+70 percent of the time and downstairs 30 percent
+of the time. Dad is equally likely to hide it upstairs
+or downstairs.
+(a) What is the probability that the present is
+upstairs?
+(b) Given that it is downstairs, what is the proba-
+bility it was hidden by dad?
+3.36. Stores A, B, and C have 50, 75, and 100 employees,
+respectively, and 50, 60, and 70 percent of them
+respectively are women. Resignations are equally
+likely among all employees, regardless of sex. One
+woman employee resigns. What is the probability
+that she works in store C?
+3.37. (a) A gambler has a fair coin and a two-headed
+coin in his pocket. He selects one of the coins
+at random; when he ﬂips it, it shows heads.
+What is the probability that it is the fair coin?
+(b) Suppose that he ﬂips the same coin a second
+time and, again, it shows heads. Now what is
+the probability that it is the fair coin?
+(c) Suppose that he ﬂips the same coin a third
+time and it shows tails. Now what is the prob-
+ability that it is the fair coin?
+3.38. Urn A has 5 white and 7 black balls. Urn B has
+3 white and 12 black balls. We ﬂip a fair coin. If
+the outcome is heads, then a ball from urn A is
+selected, whereas if the outcome is tails, then a ball
+from urn B is selected. Suppose that a white ball
+is selected. What is the probability that the coin
+landed tails?
+3.39. In Example 3a, what is the probability that some-
+one has an accident in the second year given that
+he or she had no accidents in the ﬁrst year?
+3.40. Consider a sample of size 3 drawn in the following
+manner: We start with an urn containing 5 white
+<PARSED TEXT FOR PAGE: 18 / 82>
+
+
+      and 7 red balls. At each stage, a ball is drawn
+      and its color is noted. The ball is then returned
+      to the urn, along with an additional ball of the
+      same color. Find the probability that the sample
+      will contain exactly
+      (a) 0 white balls;
+      (b) 1 white ball;
+      (c) 3 white balls;
+      (d) 2 white balls.
+3.41. A deck of cards is shufﬂed and then divided into
+      two halves of 26 cards each. A card is drawn from
+      one of the halves; it turns out to be an ace. The ace
+      is then placed in the second half-deck. The half is
+      then shufﬂed, and a card is drawn from it. Com-
+      pute the probability that this drawn card is an ace.
+      Hint: Condition on whether or not the inter-
+      changed card is selected.
+3.42. Three cooks, A, B, and C, bake a special kind of
+      cake, and with respective probabilities .02, .03, and
+      .05, it fails to rise. In the restaurant where they
+      work, A bakes 50 percent of these cakes, B 30 per-
+      cent, and C 20 percent. What proportion of “fail-
+      ures” is caused by A?
+3.43. There are 3 coins in a box. One is a two-headed
+      coin, another is a fair coin, and the third is a biased
+      coin that comes up heads 75 percent of the time.
+      When one of the 3 coins is selected at random and
+      ﬂipped, it shows heads. What is the probability that
+      it was the two-headed coin?
+3.44. Three prisoners are informed by their jailer that
+      one of them has been chosen at random to be
+      executed and the other two are to be freed. Pris-
+      oner A asks the jailer to tell him privately which of
+      his fellow prisoners will be set free, claiming that
+      there would be no harm in divulging this informa-
+      tion because he already knows that at least one of
+      the two will go free. The jailer refuses to answer
+      the question, pointing out that if A knew which
+      of his fellow prisoners were to be set free, then
+      his own probability of being executed would rise
+      from 13 to 12 because he would then be one of two
+      prisoners. What do you think of the jailer’s
+      reasoning?
+3.45. Suppose we have 10 coins such that if the ith
+      coin is ﬂipped, heads will appear with probabil-
+      ity i/10, i = 1, 2, . . . , 10. When one of the coins
+      is randomly selected and ﬂipped, it shows heads.
+      What is the conditional probability that it was the
+      ﬁfth coin?
+3.46. In any given year, a male automobile policyholder
+      will make a claim with probability pm and a female
+      policyholder will make a claim with probability pf ,
+      where pf Z pm . The fraction of the policyholders
+      that are male is α, 0 < α < 1. A policyholder is
+      randomly chosen. If Ai denotes the event that this
+
+
+Problems     105
+policyholder will make a claim in year i, show that
+P(A2 |A1 ) > P(A1 )
+Give an intuitive explanation of why the preceding
+inequality is true.
+3.47. An urn contains 5 white and 10 black balls. A fair
+die is rolled and that number of balls is randomly
+chosen from the urn. What is the probability that
+all of the balls selected are white? What is the con-
+ditional probability that the die landed on 3 if all
+the balls selected are white?
+3.48. Each of 2 cabinets identical in appearance has 2
+drawers. Cabinet A contains a silver coin in each
+drawer, and cabinet B contains a silver coin in
+one of its drawers and a gold coin in the other.
+A cabinet is randomly selected, one of its drawers
+is opened, and a silver coin is found. What is the
+probability that there is a silver coin in the other
+drawer?
+3.49. Prostate cancer is the most common type of can-
+cer found in males. As an indicator of whether a
+male has prostate cancer, doctors often perform
+a test that measures the level of the prostate-
+speciﬁc antigen (PSA) that is produced only by the
+prostate gland. Although PSA levels are indica-
+tive of cancer, the test is notoriously unreli-
+able. Indeed, the probability that a noncancerous
+man will have an elevated PSA level is approx-
+imately .135, increasing to approximately .268 if
+the man does have cancer. If, on the basis of other
+factors, a physician is 70 percent certain that a
+male has prostate cancer, what is the conditional
+probability that he has the cancer given that
+(a) the test indicated an elevated PSA level?
+(b) the test did not indicate an elevated PSA
+level?
+Repeat the preceding calculation, this time assum-
+ing that the physician initially believes that there
+is a 30 percent chance that the man has prostate
+cancer.
+3.50. Suppose that an insurance company classiﬁes peo-
+ple into one of three classes: good risks, average
+risks, and bad risks. The company’s records indi-
+cate that the probabilities that good-, average-, and
+bad-risk persons will be involved in an accident
+over a 1-year span are, respectively, .05, .15, and
+.30. If 20 percent of the population is a good risk,
+50 percent an average risk, and 30 percent a bad
+risk, what proportion of people have accidents in
+a ﬁxed year? If policyholder A had no accidents
+in 1997, what is the probability that he or she is a
+good or average risk?
+3.51. A worker has asked her supervisor for a letter of
+recommendation for a new job. She estimates that
+there is an 80 percent chance that she will get the
+<PARSED TEXT FOR PAGE: 19 / 82>
+
+106   Chapter 3      Conditional Probability and Independence
+
+      job if she receives a strong recommendation, a 40
+      percent chance if she receives a moderately good
+      recommendation, and a 10 percent chance if she
+      receives a weak recommendation. She further esti-
+      mates that the probabilities that the recommenda-
+      tion will be strong, moderate, and weak are .7, .2,
+      and .1, respectively.
+      (a) How certain is she that she will receive the
+           new job offer?
+      (b) Given that she does receive the offer, how
+           likely should she feel that she received a
+           strong recommendation? a moderate recom-
+           mendation? a weak recommendation?
+      (c) Given that she does not receive the job offer,
+           how likely should she feel that she received a
+           strong recommendation? a moderate recom-
+           mendation? a weak recommendation?
+3.52. A high school student is anxiously waiting to
+      receive mail telling her whether she has been
+      accepted to a certain college. She estimates that
+      the conditional probabilities of receiving notiﬁca-
+      tion on each day of next week, given that she is
+      accepted and that she is rejected, are as follows:
+      Day           P(mail|accepted)    P(mail|rejected)
+      Monday               .15                 .05
+      Tuesday              .20                 .10
+      Wednesday            .25                 .10
+      Thursday             .15                 .15
+      Friday               .10                 .20
+      She estimates that her probability of being
+      accepted is .6.
+      (a) What is the probability that she receives mail
+          on Monday?
+      (b) What is the conditional probability that she
+          received mail on Tuesday given that she does
+          not receive mail on Monday?
+      (c) If there is no mail through Wednesday, what
+          is the conditional probability that she will be
+          accepted?
+      (d) What is the conditional probability that she
+          will be accepted if mail comes on Thursday?
+      (e) What is the conditional probability that she
+          will be accepted if no mail arrives that week?
+3.53. A parallel system functions whenever at least one
+      of its components works. Consider a parallel sys-
+      tem of n components, and suppose that each com-
+      ponent works independently with probability 12 .
+      Find the conditional probability that component 1
+      works given that the system is functioning.
+3.54. If you had to construct a mathematical model for
+      events E and F, as described in parts (a) through
+
+
+(e), would you assume that they were independent
+events? Explain your reasoning.
+(a) E is the event that a businesswoman has blue
+eyes, and F is the event that her secretary has
+blue eyes.
+(b) E is the event that a professor owns a car,
+and F is the event that he is listed in the tele-
+phone book.
+(c) E is the event that a man is under 6 feet tall,
+and F is the event that he weighs over 200
+pounds.
+(d) E is the event that a woman lives in the United
+States, and F is the event that she lives in the
+Western Hemisphere.
+(e) E is the event that it will rain tomorrow, and
+F is the event that it will rain the day after
+tomorrow.
+3.55. In a class, there are 4 freshman boys, 6 freshman
+girls, and 6 sophomore boys. How many sopho-
+more girls must be present if sex and class are to
+be independent when a student is selected at ran-
+dom?
+3.56. Suppose that you continually collect coupons and
+that there are m different types. Suppose also that
+each time a new coupon is obtained, it is a type
+i coupon with probability pi , i = 1, . . . , m. Suppose
+that you have just collected your nth coupon. What
+is the probability that it is a new type?
+Hint: Condition on the type of this coupon.
+3.57. A simpliﬁed model for the movement of the price
+of a stock supposes that on each day the stock’s
+price either moves up 1 unit with probability p or
+moves down 1 unit with probability 1 − p. The
+changes on different days are assumed to be inde-
+pendent.
+(a) What is the probability that after 2 days the
+stock will be at its original price?
+(b) What is the probability that after 3 days the
+stock’s price will have increased by 1 unit?
+(c) Given that after 3 days the stock’s price has
+increased by 1 unit, what is the probability
+that it went up on the ﬁrst day?
+3.58. Suppose that we want to generate the outcome
+of the ﬂip of a fair coin, but that all we have at
+our disposal is a biased coin which lands on heads
+with some unknown probability p that need not be
+equal to 12 . Consider the following procedure for
+accomplishing our task:
+1. Flip the coin.
+2. Flip the coin again.
+3. If both ﬂips land on heads or both land on tails,
+return to step 1.
+4. Let the result of the last ﬂip be the result of the
+experiment.
+<PARSED TEXT FOR PAGE: 20 / 82>
+
+
+      (a) Show that the result is equally likely to be
+            either heads or tails.
+      (b) Could we use a simpler procedure that contin-
+            ues to ﬂip the coin until the last two ﬂips are
+            different and then lets the result be the out-
+            come of the ﬁnal ﬂip?
+3.59. Independent ﬂips of a coin that lands on heads
+      with probability p are made. What is the proba-
+      bility that the ﬁrst four outcomes are
+      (a) H, H, H, H?
+      (b) T, H, H, H?
+      (c) What is the probability that the pattern T, H,
+            H, H occurs before the pattern H, H, H, H?
+      Hint for part (c): How can the pattern H, H, H, H
+      occur ﬁrst?
+3.60. The color of a person’s eyes is determined by a sin-
+      gle pair of genes. If they are both blue-eyed genes,
+      then the person will have blue eyes; if they are
+      both brown-eyed genes, then the person will have
+      brown eyes; and if one of them is a blue-eyed gene
+      and the other a brown-eyed gene, then the per-
+      son will have brown eyes. (Because of the latter
+      fact, we say that the brown-eyed gene is dominant
+      over the blue-eyed one.) A newborn child inde-
+      pendently receives one eye gene from each of its
+      parents, and the gene it receives from a parent is
+      equally likely to be either of the two eye genes of
+      that parent. Suppose that Smith and both of his
+      parents have brown eyes, but Smith’s sister has
+      blue eyes.
+      (a) What is the probability that Smith possesses a
+            blue-eyed gene?
+      (b) Suppose that Smith’s wife has blue eyes. What
+            is the probability that their ﬁrst child will have
+            blue eyes?
+      (c) If their ﬁrst child has brown eyes, what is the
+            probability that their next child will also have
+            brown eyes?
+3.61. Genes relating to albinism are denoted by A and
+      a. Only those people who receive the a gene from
+      both parents will be albino. Persons having the
+      gene pair A, a are normal in appearance and,
+      because they can pass on the trait to their off-
+      spring, are called carriers. Suppose that a normal
+      couple has two children, exactly one of whom is
+      an albino. Suppose that the nonalbino child mates
+      with a person who is known to be a carrier for
+      albinism.
+      (a) What is the probability that their ﬁrst off-
+            spring is an albino?
+      (b) What is the conditional probability that their
+            second offspring is an albino given that their
+            ﬁrstborn is not?
+3.62. Barbara and Dianne go target shooting. Suppose
+      that each of Barbara’s shots hits a wooden duck
+      target with probability p1 , while each shot of
+
+
+Problems     107
+Dianne’s hits it with probability p2 . Suppose that
+they shoot simultaneously at the same target. If
+the wooden duck is knocked over (indicating that
+it was hit), what is the probability that
+(a) both shots hit the duck?
+(b) Barbara’s shot hit the duck?
+What independence assumptions have you made?
+3.63. A and B are involved in a duel. The rules of the
+duel are that they are to pick up their guns and
+shoot at each other simultaneously. If one or both
+are hit, then the duel is over. If both shots miss,
+then they repeat the process. Suppose that the
+results of the shots are independent and that each
+shot of A will hit B with probability pA , and each
+shot of B will hit A with probability pB . What is
+(a) the probability that A is not hit?
+(b) the probability that both duelists are hit?
+(c) the probability that the duel ends after the nth
+round of shots?
+(d) the conditional probability that the duel ends
+after the nth round of shots given that A is
+not hit?
+(e) the conditional probability that the duel ends
+after the nth round of shots given that both
+duelists are hit?
+3.64. A true–false question is to be posed to a husband-
+and-wife team on a quiz show. Both the husband
+and the wife will independently give the correct
+answer with probability p. Which of the following
+is a better strategy for the couple?
+(a) Choose one of them and let that person
+answer the question.
+(b) Have them both consider the question, and
+then either give the common answer if they
+agree or, if they disagree, ﬂip a coin to deter-
+mine which answer to give.
+3.65. In Problem 3.5, if p = .6 and the couple uses the
+strategy in part (b), what is the conditional prob-
+ability that the couple gives the correct answer
+given that the husband and wife (a) agree? (b) dis-
+agree?
+3.66. The probability of the closing of the ith relay in the
+circuits shown in Figure 3.4 is given by pi , i = 1, 2,
+3, 4, 5. If all relays function independently, what is
+the probability that a current ﬂows between A and
+B for the respective circuits?
+Hint for (b): Condition on whether relay 3 closes.
+3.67. An engineering system consisting of n compo-
+nents is said to be a k-out-of-n system (k … n)
+if the system functions if and only if at least
+k of the n components function. Suppose that
+all components function independently of each
+other.
+(a) If the ith component functions with probabil-
+ity Pi , i = 1, 2, 3, 4, compute the probability
+that a 2-out-of-4 system functions.
+<PARSED TEXT FOR PAGE: 21 / 82>
+
+108   Chapter 3      Conditional Probability and Independence
+
+
+
+
+
+
+
+
+
+
+
+
+
+      (b) Repeat part (a) for a 3-out-of-5 system.
+      (c) Repeat for a k-out-of-n system when all the Pi
+           equal p (that is, Pi = p, i = 1, 2, . . . , n).
+3.68. In Problem 3.65a, ﬁnd the conditional probability
+      that relays 1 and 2 are both closed given that a cur-
+      rent ﬂows from A to B.
+3.69. A certain organism possesses a pair of each of 5
+      different genes (which we will designate by the
+      ﬁrst 5 letters of the English alphabet). Each gene
+      appears in 2 forms (which we designate by low-
+      ercase and capital letters). The capital letter will
+      be assumed to be the dominant gene, in the sense
+      that if an organism possesses the gene pair xX,
+      then it will outwardly have the appearance of the
+      X gene. For instance, if X stands for brown eyes
+      and x for blue eyes, then an individual having
+      either gene pair XX or xX will have brown eyes,
+      whereas one having gene pair xx will have blue
+      eyes. The characteristic appearance of an organ-
+      ism is called its phenotype, whereas its genetic
+      constitution is called its genotype. (Thus, 2 organ-
+      isms with respective genotypes aA, bB, cc, dD,
+      ee and AA, BB, cc, DD, ee would have different
+      genotypes but the same phenotype.) In a mating
+      between 2 organisms, each one contributes, at ran-
+      dom, one of its gene pairs of each type. The 5
+      contributions of an organism (one of each of the
+      5 types) are assumed to be independent and are
+      also independent of the contributions of the organ-
+      ism’s mate. In a mating between organisms hav-
+      ing genotypes aA, bB, cC, dD, eE and aa, bB, cc,
+      Dd, ee what is the probability that the progeny
+      will (i) phenotypically and (ii) genotypically
+      resemble
+      (a) the ﬁrst parent?
+      (b) the second parent?
+
+
+(a)
+1                2
+A                                                   B
+5
+3                4
+(b)
+1            4
+A                        3                          B
+2                5
+FIGURE 3.4: Circuits for Problem 3.66
+(c) either parent?
+(d) neither parent?
+3.70. There is a 50–50 chance that the queen carries the
+gene for hemophilia. If she is a carrier, then each
+prince has a 50–50 chance of having hemophilia. If
+the queen has had three princes without the dis-
+ease, what is the probability that the queen is a
+carrier? If there is a fourth prince, what is the prob-
+ability that he will have hemophilia?
+3.71. On the morning of September 30, 1982, the won–
+lost records of the three leading baseball teams in
+the Western Division of the National League were
+as follows:
+Team                            Won            Lost
+Atlanta Braves                   87             72
+San Francisco Giants             86             73
+Los Angeles Dodgers              86             73
+Each team had 3 games remaining. All 3 of the
+Giants’ games were with the Dodgers, and the 3
+remaining games of the Braves were against the
+San Diego Padres. Suppose that the outcomes of
+all remaining games are independent and each
+game is equally likely to be won by either partic-
+ipant. For each team, what is the probability that it
+will win the division title? If two teams tie for ﬁrst
+place, they have a playoff game, which each team
+has an equal chance of winning.
+3.72. A town council of 7 members contains a steering
+committee of size 3. New ideas for legislation go
+ﬁrst to the steering committee and then on to the
+council as a whole if at least 2 of the 3 commit-
+tee members approve the legislation. Once at the
+full council, the legislation requires a majority vote
+<PARSED TEXT FOR PAGE: 22 / 82>
+
+
+      (of at least 4) to pass. Consider a new piece of
+      legislation, and suppose that each town council
+      member will approve it, independently, with prob-
+      ability p. What is the probability that a given steer-
+      ing committee member’s vote is decisive in the
+      sense that if that person’s vote were reversed,
+      then the ﬁnal fate of the legislation would be
+      reversed? What is the corresponding probability
+      for a given council member not on the steering
+      committee?
+3.73. Suppose that each child born to a couple is equally
+      likely to be a boy or a girl, independently of the
+      sex distribution of the other children in the fam-
+      ily. For a couple having 5 children, compute the
+      probabilities of the following events:
+      (a) All children are of the same sex.
+      (b) The 3 eldest are boys and the others girls.
+      (c) Exactly 3 are boys.
+      (d) The 2 oldest are girls.
+      (e) There is at least 1 girl.
+3.74. A and B alternate rolling a pair of dice, stopping
+      either when A rolls the sum 9 or when B rolls the
+      sum 6. Assuming that A rolls ﬁrst, ﬁnd the proba-
+      bility that the ﬁnal roll is made by A.
+3.75. In a certain village, it is traditional for the eldest
+      son (or the older son in a two-son family) and
+      his wife to be responsible for taking care of his
+      parents as they age. In recent years, however, the
+      women of this village, not wanting that responsi-
+      bility, have not looked favorably upon marrying an
+      eldest son.
+      (a) If every family in the village has two children,
+            what proportion of all sons are older sons?
+      (b) If every family in the village has three chil-
+            dren, what proportion of all sons are eldest
+            sons?
+      Assume that each child is, independently, equally
+      likely to be either a boy or a girl.
+3.76. Suppose that E and F are mutually exclusive
+      events of an experiment. Show that if independent
+      trials of this experiment are performed, then E
+      will occur before F with probability P(E)/[P(E) +
+      P(F)].
+3.77. Consider an unending sequence of independent
+      trials, where each trial is equally likely to result in
+      any of the outcomes 1, 2, or 3. Given that outcome
+      3 is the last of the three outcomes to occur, ﬁnd the
+      conditional probability that
+      (a) the ﬁrst trial results in outcome 1;
+      (b) the ﬁrst two trials both result in outcome 1.
+3.78. A and B play a series of games. Each game is inde-
+      pendently won by A with probability p and by B
+      with probability 1 − p. They stop when the total
+      number of wins of one of the players is two greater
+      than that of the other player. The player with the
+
+
+Problems       109
+greater number of total wins is declared the winner
+of the series.
+(a) Find the probability that a total of 4 games are
+played.
+(b) Find the probability that A is the winner of
+the series.
+3.79. In successive rolls of a pair of fair dice, what is the
+probability of getting 2 sevens before 6 even num-
+bers?
+3.80. In a certain contest, the players are of equal skill
+and the probability is 12 that a speciﬁed one of
+the two contestants will be the victor. In a group
+of 2n players, the players are paired off against
+each other at random. The 2n−1 winners are again
+paired off randomly, and so on, until a single win-
+ner remains. Consider two speciﬁed contestants, A
+and B, and deﬁne the events Ai , i … n, E by
+Ai :     A plays in exactly i contests:
+E:      A and B never play each other.
+(a) Find P(Ai ), i = 1, . . . , n.
+(b) Find P(E).
+(c) Let Pn = P(E). Show that
+( )2
+1    2n − 2         1
+Pn =          + n                  Pn−1
+2 − 1
+n      2 − 1          2
+and use this formula to check the answer you
+obtained in part (b).
+Hint: Find P(E) by conditioning on which of
+the events Ai , i = 1, . . . , n occur. In simplifying
+your answer, use the algebraic identity
+∑
+n−1
+1 − nxn−1 + (n − 1)xn
+ixi−1 =
+(1 − x)2
+i=1
+For another approach to solving this problem,
+note that there are a total of 2n − 1 games
+played.
+(d) Explain why 2n − 1 games are played.
+Number these games, and let Bi denote the
+event that A and B play each other in game
+i, i = 1, . . . , 2n − 1.
+(e) What is P(Bi )?
+(f) Use part (e) to ﬁnd P(E).
+3.81. An investor owns shares in a stock whose present
+value is 25. She has decided that she must sell her
+stock if it goes either down to 10 or up to 40. If each
+change of price is either up 1 point with probabil-
+ity .55 or down 1 point with probability .45, and
+the successive changes are independent, what is
+the probability that the investor retires a winner?
+3.82. A and B ﬂip coins. A starts and continues ﬂipping
+until a tail occurs, at which point B starts ﬂipping
+and continues until there is a tail. Then A takes
+<PARSED TEXT FOR PAGE: 23 / 82>
+
+110   Chapter 3       Conditional Probability and Independence
+
+      over, and so on. Let P1 be the probability of the
+      coin’s landing on heads when A ﬂips and P2 when
+      B ﬂips. The winner of the game is the ﬁrst one
+      to get
+      (a) 2 heads in a row;
+      (b) a total of 2 heads;
+      (c) 3 heads in a row;
+      (d) a total of 3 heads.
+      In each case, ﬁnd the probability that A wins.
+3.83. Die A has 4 red and 2 white faces, whereas die B
+      has 2 red and 4 white faces. A fair coin is ﬂipped
+      once. If it lands on heads, the game continues with
+      die A; if it lands on tails, then die B is to be used.
+      (a) Show that the probability of red at any throw
+           is 12 .
+      (b) If the ﬁrst two throws result in red, what is the
+           probability of red at the third throw?
+      (c) If red turns up at the ﬁrst two throws, what
+           is the probability that it is die A that is being
+           used?
+3.84. An urn contains 12 balls, of which 4 are white.
+      Three players—A, B, and C—successively draw
+      from the urn, A ﬁrst, then B, then C, then A, and so
+      on. The winner is the ﬁrst one to draw a white ball.
+      Find the probability of winning for each player if
+      (a) each ball is replaced after it is drawn;
+      (b) the balls that are withdrawn are not replaced.
+3.85. Repeat Problem 3.84 when each of the 3 players
+      selects from his own urn. That is, suppose that
+      there are 3 different urns of 12 balls with 4 white
+      balls in each urn.
+3.86. Let S = {1, 2, . . . , n} and suppose that A and B are,
+      independently, equally likely to be any of the 2n
+      subsets (including the null set and S itself) of S.
+      (a) Show that
+
+
+
+Hint: Let N(B) denote the number of ele-
+ments in B. Use
+∑
+n
+P{A ( B} =                P{A ( B|N(B) = i}P{N(B) = i}
+i=0
+( )n
+Show that P{AB = Ø} =                     3
+4     .
+3.87. In Example 5e, what is the conditional probability
+that the ith coin was selected given that the ﬁrst n
+trials all result in heads?
+3.88. In Laplace’s rule of succession (Example 5e), are
+the outcomes of the successive ﬂips independent?
+Explain.
+3.89. A person tried by a 3-judge panel is declared guilty
+if at least 2 judges cast votes of guilty. Suppose
+that when the defendant is in fact guilty, each
+judge will independently vote guilty with proba-
+bility .7, whereas when the defendant is in fact
+innocent, this probability drops to .2. If 70 per-
+cent of defendants are guilty, compute the condi-
+tional probability that judge number 3 votes guilty
+given that
+(a) judges 1 and 2 vote guilty;
+(b) judges 1 and 2 cast 1 guilty and 1 not
+guilty vote;
+(c) judges 1 and 2 both cast not guilty votes.
+Let Ei , i = 1, 2, 3 denote the event that judge
+i casts a guilty vote. Are these events inde-
+pendent. Are they conditionally independent?
+Explain.
+3.90. Suppose that n independent trials, each of which results in any of the outcomes 0, 1, or 2, with respective probabilities p₀, p₁, and p₂, where p₀ + p₁ + p₂ = 1, are performed. Find the probability that outcomes 1 and 2 both occur at least once.
+
+THEORETICAL EXERCISES
+
+ 3.1. Show that if P(A) > 0, then
+                  P(AB|A) Ú P(AB|A ∪ B)
+ 3.2. Let A ( B. Express the following probabilities as
+      simply as possible:
+           P(A|B),    P(A|Bc ),    P(B|A),     P(B|Ac )
+ 3.3. Consider a school community of m families, with ni
+      of them having i children, i = 1, . . . , k,
+      Consider the following two methods for choosing
+      a child:
+
+
+1. Choose one of the m families at random and
+then randomly choose a child from that family.
+∑
+k
+2. Choose one of the   ini children at random.
+i=1
+Show that method 1 is more likely than method 2
+to result in the choice of a ﬁrstborn child.
+Hint: In solving this problem, you will need to
+show that
+∑
+k
+ni = m.
+i=1                               ∑
+k            ∑
+k
+nj            ∑
+k          ∑
+k
+ini               Ú         ni         nj
+j
+i=1         j=1             i=1        j=1
+<PARSED TEXT FOR PAGE: 24 / 82>
+
+
+     To do so, multiply the sums and show that, for all
+     pairs i, j, the coefﬁcient of the term ni nj is greater
+     in the expression on the left than in the one on the
+     right.
+3.4. A ball is in any one of n boxes and is in the ith box
+     with probability Pi . If the ball is in box i, a search of
+     that box will uncover it with probability αi . Show
+     that the conditional probability that the ball is in
+     box j, given that a search of box i did not uncover
+     it, is
+3.5. An event F is said to carry negative information
+     about an event E, and we write F R E, if
+     Prove or give counterexamples to the following
+     assertions:
+     (a) If F R E, then E R F.
+     (b) If F R E and E R G, then F R G.
+     (c) If F R E and G R E, then FG R E.
+     Repeat parts (a), (b), and (c) when R is replaced
+     by Q, where we say that F carries positive informa-
+     tion about E, written F Q E, when P(E|F) Ú P(E).
+3.6. Prove that if E1 , E2 , . . . , En are independent
+     events, then
+      P(E1 ∪ E2 ∪ · · · ∪ En ) = 1 −              [1 − P(Ei )]
+3.7. (a) An urn contains n white and m black balls.
+         The balls are withdrawn one at a time until
+         only those of the same color are left. Show
+         that, with probability n/(n + m), they are all
+         white.
+         Hint: Imagine that the experiment continues
+         until all the balls are removed, and consider
+         the last ball withdrawn.
+     (b) A pond contains 3 distinct species of ﬁsh,
+         which we will call the Red, Blue, and Green
+         ﬁsh. There are r Red, b Blue, and g Green ﬁsh.
+         Suppose that the ﬁsh are removed from the
+         pond in a random order. (That is, each selec-
+         tion is equally likely to be any of the remain-
+         ing ﬁsh.) What is the probability that the Red
+         ﬁsh are the ﬁrst species to become extinct in
+         the pond?
+         Hint: Write P{R} = P{RBG} + P{RGB},
+         and compute the probabilities on the right
+         by ﬁrst conditioning on the last species to be
+         removed.
+
+
+Theoretical Exercises        111
+3.8. Let A, B, and C be events relating to the experi-
+ment of rolling a pair of dice.
+(a) If
+P(A|C) > P(B|C)        and P(A|Cc ) > P(B|Cc )
+either prove that P(A) > P(B) or give a coun-
+terexample by deﬁning events A, B, and C for
+which that relationship is not true.
+(b) If
+Pj
+if j Z i                                P(A|C) > P(A|Cc )       and P(B|C) > P(B|Cc )
+1 − αi Pi
+(1 − αi )Pi                                           either prove that P(AB|C) > P(AB|Cc ) or
+if j = i                                  give a counterexample by deﬁning events
+1 − αi Pi
+A, B, and C for which that relationship is not
+true.
+Hint: Let C be the event that the sum of a pair of
+dice is 10; let A be the event that the ﬁrst die lands
+P(E|F) … P(E)                                  on 6; let B be the event that the second die lands
+on 6.
+3.9. Consider two independent tosses of a fair coin. Let
+A be the event that the ﬁrst toss results in heads, let
+B be the event that the second toss results in heads,
+and let C be the event that in both tosses the coin
+lands on the same side. Show that the events A, B,
+and C are pairwise independent—that is, A and B
+are independent, A and C are independent, and B
+and C are independent—but not independent.
+3.10. Consider a collection of n individuals. Assume that
+each person’s birthday is equally likely to be any of
+the 365 days of the year and also that the birthdays
+∏
+n
+are independent. Let Ai,j , i Z j, denote the event
+that persons i and j have the same birthday. Show
+i=1                         that these events are pairwise independent, but not
+independent. That is,(show    ) that Ai,j and Ar,s are
+n
+independent, but the           events Ai,j , i Z j are not
+2
+independent.
+3.11. In each of n independent tosses of a coin, the coin
+lands on heads with probability p. How large need
+n be so that the probability of obtaining at least
+one head is at least 12 ?
+3.12. Show that 0 … ai … 1, i = 1, 2, . . ., then
+⎡                 ⎤
+∑q       ∏
+i−1               ∏q
+⎢                 ⎥
+⎣ i
+a      (1 − a  )
+j ⎦  +    (1 − ai ) = 1
+i=1      j=1                i=1
+Hint: Suppose that an inﬁnite number of coins are
+to be ﬂipped. Let ai be the probability that the ith
+coin lands on heads, and consider when the ﬁrst
+head occurs.
+3.13. The probability of getting a head on a single toss
+of a coin is p. Suppose that A starts and continues
+to ﬂip the coin until a tail shows up, at which point
+<PARSED TEXT FOR PAGE: 25 / 82>
+
+112    Chapter 3       Conditional Probability and Independence
+
+       B starts ﬂipping. Then B continues to ﬂip until a
+       tail comes up, at which point A takes over, and so
+       on. Let Pn,m denote the probability that A accu-
+       mulates a total of n heads before B accumulates
+       m. Show that
+             Pn,m = pPn−1,m + (1 − p)(1 − Pm,n )
+
+∗ 3.14. Suppose that you are gambling against an inﬁnitely
+       rich adversary and at each stage you either win
+       or lose 1 unit with respective probabilities p and
+       1 − p. Show that the probability that you eventu-
+       ally go broke is
+       where q = 1 − p and where i is your initial fortune.
+ 3.15. Independent trials that result in a success with
+       probability p are successively performed until a
+       total of r successes is obtained. Show that the prob-
+       ability that exactly n trials are required is
+       Use this result to solve the problem of the points
+       (Example 4j).
+       Hint: In order for it to take n trials to obtain r suc-
+       cesses, how many successes must occur in the ﬁrst
+       n − 1 trials?
+ 3.16. Independent trials that result in a success with
+       probability p and a failure with probability 1 −
+       p are called Bernoulli trials. Let Pn denote the
+       probability that n Bernoulli trials result in an even
+       number of successes (0 being considered an even
+       number). Show that
+          Pn = p(1 − Pn−1 ) + (1 − p)Pn−1          n Ú 1
+
+       and use this formula to prove (by induction) that
+ 3.17. Suppose that n independent trials are performed,
+       with trial i being a success with probability 1/(2i +
+       1). Let Pn denote the probability that the total
+       number of successes that result is an odd number.
+       (a) Find Pn for n = 1, 2, 3, 4, 5.
+       (b) Conjecture a general formula for Pn .
+       (c) Derive a formula for Pn in terms of Pn−1 .
+       (d) Verify that your conjecture in part (b) satisﬁes
+            the recursive formula in part (d). Because the
+            recursive formula has a unique solution, this
+            then proves that your conjecture is correct.
+
+
+3.18. Let Qn denote the probability that no run of 3 con-
+secutive heads appears in n tosses of a fair coin.
+Show that
+1          1   1
+Qn =   Qn−1 + Qn−2 + Qn−3
+2          4   8
+Q0 = Q 1 = Q 2 = 1
+Find Q8 .
+Hint: Condition on the ﬁrst tail.
+3.19. Consider the gambler’s ruin problem, with the
+exception that A and B agree to play no more than
+n games. Let Pn,i denote the probability that A
+winds up with all the money when A starts with
+1   if p … 12                             i and B starts with N − i. Derive an equation
+for Pn,i in terms of Pn−1, i+1 and Pn−1, i−1 , and
+(q/p)i if p > 12                              compute P7, 3 , N = 5.
+3.20. Consider two urns, each containing both white
+and black balls. The probabilities of drawing white
+balls from the ﬁrst and second urns are, respec-
+tively, p and p′ . Balls are sequentially selected with
+replacement as follows: With probability α, a ball
+is initially chosen from the ﬁrst urn, and with prob-
+(         )                                      ability 1 − α, it is chosen from the second urn. The
+n − 1
+pr (1 − p)n−r                        subsequent selections are then made according to
+r − 1
+the rule that whenever a white ball is drawn (and
+replaced), the next ball is drawn from the same
+urn, but when a black ball is drawn, the next ball is
+taken from the other urn. Let αn denote the prob-
+ability that the nth ball is chosen from the ﬁrst urn.
+Show that
+αn+1 = αn (p + p′ − 1) + 1 − p′          n Ú 1
+and use this formula to prove that
+(                 )
+1 − p′                 1 − p′
+αn =                + α −
+2 − p − p′              2 − p − p′
+* (p + p′ − 1)n−1
+Let Pn denote the probability that the nth
+ball selected is white. Find Pn . Also, compute
+1 + (1 − 2p)n                             limn→q αn and limn→q Pn .
+Pn =
+2                             3.21. The Ballot Problem. In an election, candidate A
+receives n votes and candidate B receives m votes,
+where n > m. Assuming that all of the (n +
+m)!/n! m! orderings of the votes are equally likely,
+let Pn,m denote the probability that A is always
+ahead in the counting of the votes.
+(a) Compute P2,1 , P3,1 , P3,2 , P4,1 , P4,2 , P4,3 .
+(b) Find Pn,1 , Pn,2 .
+(c) On the basis of your results in parts (a) and
+(b), conjecture the value of Pn,m .
+(d) Derive a recursion for Pn,m in terms of Pn−1,m
+and Pn,m−1 by conditioning on who receives
+the last vote.
+<PARSED TEXT FOR PAGE: 26 / 82>
+
+       (e) Use part (d) to verify your conjecture in part
+           (c) by an induction proof on n + m.
+ 3.22. As a simpliﬁed model for weather forecasting, sup-
+       pose that the weather (either wet or dry) tomor-
+       row will be the same as the weather today with
+       probability p. Show that the weather is dry on Jan-
+       uary 1, then Pn , the probability that it will be dry n
+       days later, satisﬁes
+           Pn = (2p − 1)Pn−1 + (1 − p)             n Ú 1
+           P0 = 1
+       Prove that
+               Pn =     + (2p − 1)n           n Ú 0
+ 3.23. A bag contains a white and b black balls. Balls
+       are chosen from the bag according to the following
+       method:
+      1. A ball is chosen at random and is discarded.
+      2. A second ball is then chosen. If its color is
+         different from that of the preceding ball, it is
+         replaced in the bag and the process is repeated
+         from the beginning. If its color is the same, it is
+         discarded and we start from step 2.
+       In other words, balls are sampled and discarded
+       until a change in color occurs, at which point the
+       last ball is returned to the urn and the process
+       starts anew. Let Pa,b denote the probability that
+       the last ball in the bag is white. Prove that
+
+       Hint: Use induction on k K a + b.
+∗ 3.24. A round-robin tournament of n contestants is a
+       tournament in which each of the              pairs of
+       contestants play each other exactly once, with the
+       outcome of any play being that one of the contes-
+       tants wins and the other loses. For a ﬁxed integer
+       k, k < n, a question of interest is whether it is pos-
+       sible that the tournament outcome is such that, for
+       every set of k players, there is a player who beat
+       each member of that set. Show that if
+                   ( )[        ( )k ]n−k
+       then such an outcome is possible.
+       Hint: Suppose that the results of the games are
+       independent and that each game is equally likely
+
+
+Theoretical Exercises       113
+( )
+n
+to be won by either contestant. Number the
+k
+sets of k contestants, and let Bi denote the event
+that no contestant beat all of the k players in
+the
+( ith set.
+) Then use Boole’s inequality to bound
+⋃
+P      Bi .
+i
+3.25. Prove directly that
+P(E|F) = P(E|FG)P(G|F) + P(E|FGc )P(Gc |F)
+3.26. Prove the equivalence of Equations (5.11) and
+(5.12).
+1  1                                       3.27. Extend the deﬁnition of conditional independence
+to more than 2 events.
+2  2
+3.28. Prove or give a counterexample. If E1 and E2 are
+independent, then they are conditionally indepen-
+dent given F.
+3.29. In Laplace’s rule of succession (Example 5e),
+show that if the ﬁrst n ﬂips all result in heads,
+then the conditional probability that the next m
+ﬂips also result in all heads is (n + 1)/(n +
+m + 1).
+3.30. In Laplace’s rule of succession (Example 5e), sup-
+pose that the ﬁrst n ﬂips resulted in r heads and
+n − r tails. Show that the probability that the
+(n + 1)st ﬂip turns up heads is (r + 1)/(n + 2). To
+do so, you will have to prove and use the identity
+∫ 1
+n!m!
+yn (1 − y)m dy =
+0                   (n + m + 1)!
+1                               Hint: To prove the identity, let C(n, m)            =
+Pa,b =                                   ∫1 n
+0 y (1 − y) dy. Integrating by parts yields
+2                                           m
+m
+C(n, m) =         C(n + 1, m − 1)
+( )                                            n + 1
+n
+2                       Starting with C(n, 0) = 1/(n + 1), prove the iden-
+tity by induction on m.
+3.31. Suppose that a nonmathematical, but philosophi-
+cally minded, friend of yours claims that Laplace’s
+rule of succession must be incorrect because it can
+lead to ridiculous conclusions. “For instance,” says
+he, “the rule states that if a boy is 10 years old,
+having lived 10 years, the boy has probability 11
+12 of
+living another year. On the other hand, if the boy
+n           1                                     has an 80-year-old grandfather, then, by Laplace’s
+1 −               < 1
+k           2                                     rule, the grandfather has probability 81  82 of sur-
+viving another year. However, this is ridiculous.
+Clearly, the boy is more likely to survive an addi-
+tional year than the grandfather is.” How would
+you answer your friend?
+<PARSED TEXT FOR PAGE: 27 / 82>
+
+114   Chapter 3        Conditional Probability and Independence
+
+SELF-TEST PROBLEMS AND EXERCISES
+
+ 3.1. In a game of bridge, West has no aces. What is the
+      probability of his partner’s having (a) no aces? (b)
+      2 or more aces? (c) What would the probabilities
+      be if West had exactly 1 ace?
+ 3.2. The probability that a new car battery functions
+      for over 10,000 miles is .8, the probability that it
+      functions for over 20,000 miles is .4, and the prob-
+      ability that it functions for over 30,000 miles is .1. If
+      a new car battery is still working after 10,000 miles,
+      what is the probability that
+      (a) its total life will exceed 20,000 miles?
+      (b) its additional life will exceed 20,000 miles?
+ 3.3. How can 20 balls, 10 white and 10 black, be put
+      into two urns so as to maximize the probability of
+      drawing a white ball if an urn is selected at random
+      and a ball is drawn at random from it?
+ 3.4. Urn A contains 2 white balls and 1 black ball,
+      whereas urn B contains 1 white ball and 5 black
+      balls. A ball is drawn at random from urn A and
+      placed in urn B. A ball is then drawn from urn B.
+      It happens to be white. What is the probability that
+      the ball transferred was white?
+ 3.5. An urn has r red and w white balls that are ran-
+      domly removed one at a time. Let Ri be the event
+      that the ith ball removed is red. Find
+      (a) P(Ri )
+      (b) P(R5 |R3 )
+      (c) P(R3 |R5 )
+ 3.6. An urn contains b black balls and r red balls. One
+      of the balls is drawn at random, but when it is
+      put back in the urn, c additional balls of the same
+      color are put in with it. Now, suppose that we
+      draw another ball. Show that the probability that
+      the ﬁrst ball was black, given that the second ball
+      drawn was red, is b/(b + r + c).
+ 3.7. A friend randomly chooses two cards, without
+      replacement, from an ordinary deck of 52 playing
+      cards. In each of the following situations, deter-
+      mine the conditional probability that both cards
+      are aces.
+      (a) You ask your friend if one of the cards is the
+           ace of spades, and your friend answers in the
+           afﬁrmative.
+      (b) You ask your friend if the ﬁrst card selected
+           is an ace, and your friend answers in the afﬁr-
+           mative.
+      (c) You ask your friend if the second card
+           selected is an ace, and your friend answers in
+           the afﬁrmative.
+      (d) You ask your friend if either of the cards
+           selected is an ace, and your friend answers in
+           the afﬁrmative.
+
+
+3.8. Show that
+P(H|E)   P(H) P(E|H)
+=
+P(G|E)   P(G) P(E|G)
+Suppose that, before new evidence is observed, the
+hypothesis H is three times as likely to be true as
+is the hypothesis G. If the new evidence is twice
+as likely when G is true than it is when H is true,
+which hypothesis is more likely after the evidence
+has been observed?
+3.9. You ask your neighbor to water a sickly plant
+while you are on vacation. Without water, it will
+die with probability .8; with water, it will die with
+probability .15. You are 90 percent certain that
+your neighbor will remember to water the plant.
+(a) What is the probability that the plant will be
+alive when you return?
+(b) If the plant is dead upon your return, what is
+the probability that your neighbor forgot to
+water it?
+3.10. Six balls are to be randomly chosen from an urn
+containing 8 red, 10 green, and 12 blue balls.
+(a) What is the probability at least one red ball is
+chosen?
+(b) Given that no red balls are chosen, what is the
+conditional probability that there are exactly
+2 green balls among the 6 chosen?
+3.11. A type C battery is in working condition with prob-
+ability .7, whereas a type D battery is in work-
+ing condition with probability .4. A battery is ran-
+domly chosen from a bin consisting of 8 type C and
+6 type D batteries.
+(a) What is the probability that the battery
+works?
+(b) Given that the battery does not work, what is
+the conditional probability that it was a type
+C battery?
+3.12. Maria will take two books with her on a trip. Sup-
+pose that the probability that she will like book 1
+is .6, the probability that she will like book 2 is .5,
+and the probability that she will like both books
+is .4. Find the conditional probability that she will
+like book 2 given that she did not like book 1.
+3.13. Balls are randomly removed from an urn that ini-
+tially contains 20 red and 10 blue balls.
+(a) What is the probability that all of the red balls
+are removed before all of the blue ones have
+been removed?
+Now suppose that the urn initially contains 20
+red, 10 blue, and 8 green balls.
+(b) Now what is the probability that all of the red
+balls are removed before all of the blue ones
+have been removed?
+<PARSED TEXT FOR PAGE: 28 / 82>
+
+
+      (c) What is the probability that the colors are
+            depleted in the order blue, red, green?
+      (d) What is the probability that the group of blue
+            balls is the ﬁrst of the three groups to be
+            removed?
+3.14. A coin having probability .8 of landing on heads
+      is ﬂipped. A observes the result—either heads or
+      tails—and rushes off to tell B. However, with prob-
+      ability .4, A will have forgotten the result by the
+      time he reaches B. If A has forgotten, then, rather
+      than admitting this to B, he is equally likely to tell
+      B that the coin landed on heads or that it landed
+      tails. (If he does remember, then he tells B the cor-
+      rect result.)
+      (a) What is the probability that B is told that the
+            coin landed on heads?
+      (b) What is the probability that B is told the cor-
+            rect result?
+      (c) Given that B is told that the coin landed on
+            heads, what is the probability that it did in fact
+            land on heads?
+3.15. In a certain species of rats, black dominates over
+      brown. Suppose that a black rat with two black
+      parents has a brown sibling.
+      (a) What is the probability that this rat is a pure
+            black rat (as opposed to being a hybrid with
+            one black and one brown gene)?
+      (b) Suppose that when the black rat is mated with
+            a brown rat, all 5 of their offspring are black.
+            Now what is the probability that the rat is a
+            pure black rat?
+3.16. (a) In Problem 3.65b, ﬁnd the probability that a
+            current ﬂows from A to B, by conditioning on
+            whether relay 1 closes.
+      (b) Find the conditional probability that relay 3 is
+            closed given that a current ﬂows from A to B.
+3.17. For the k-out-of-n system described in
+      Problem 3.67, assume that each component
+      independently works with probability 12 . Find the
+      conditional probability that component 1 is work-
+      ing, given that the system works, when
+      (a) k = 1, n = 2;
+      (b) k = 2, n = 3.
+3.18. Mr. Jones has devised a gambling system for win-
+      ning at roulette. When he bets, he bets on red and
+      places a bet only when the 10 previous spins of
+      the roulette have landed on a black number. He
+      reasons that his chance of winning is quite large
+      because the probability of 11 consecutive spins
+      resulting in black is quite small. What do you think
+      of this system?
+3.19. Three players simultaneously toss coins. The coin
+      tossed by A(B)[C] turns up heads with probability
+      P1 (P2 )[P3 ]. If one person gets an outcome differ-
+      ent from those of the other two, then he is the odd
+
+
+Self-Test Problems and Exercises         115
+man out. If there is no odd man out, the players ﬂip
+again and continue to do so until they get an odd
+man out. What is the probability that A will be the
+odd man?
+3.20. Suppose that there are n possible outcomes of
+a trial, with outcome i resulting with probability
+∑
+n
+pi , i = 1, . . . , n,   pi = 1. If two independent tri-
+i=1
+als are observed, what is the probability that the
+result of the second trial is larger than that of the
+ﬁrst?
+3.21. If A ﬂips n + 1 and B ﬂips n fair coins, show that
+the probability that A gets more heads than B is 12 .
+Hint: Condition on which player has more heads
+after each has ﬂipped n coins. (There are three
+possibilities.)
+3.22. Prove or give counterexamples to the following
+statements:
+(a) If E is independent of F and E is independent
+of G, then E is independent of F ∪ G.
+(b) If E is independent of F, and E is independent
+of G, and FG = Ø, then E is independent of
+F ∪ G.
+(c) If E is independent of F, and F is independent
+of G, and E is independent of FG, then G is
+independent of EF.
+3.23. Let A and B be events having positive probabil-
+ity. State whether each of the following statements
+is (i) necessarily true, (ii) necessarily false, or (iii)
+possibly true.
+(a) If A and B are mutually exclusive, then they
+are independent.
+(b) If A and B are independent, then they are
+mutually exclusive.
+(c) P(A) = P(B) = .6, and A and B are mutually
+exclusive.
+(d) P(A) = P(B) = .6, and A and B are indepen-
+dent.
+3.24. Rank the following from most likely to least likely
+to occur:
+1. A fair coin lands on heads.
+2. Three independent trials, each of which is a suc-
+cess with probability .8, all result in successes.
+3. Seven independent trials, each of which is a suc-
+cess with probability .9, all result in successes.
+3.25. Two local factories, A and B, produce radios. Each
+radio produced at factory A is defective with prob-
+ability .05, whereas each one produced at factory B
+is defective with probability .01. Suppose you pur-
+chase two radios that were produced at the same
+factory, which is equally likely to have been either
+factory A or factory B. If the ﬁrst radio that you
+check is defective, what is the conditional proba-
+bility that the other one is also defective?
+<PARSED TEXT FOR PAGE: 29 / 82>
+
+116   Chapter 3      Conditional Probability and Independence
+
+3.26. Show that if P(A|B) = 1, then P(Bc |Ac ) = 1.
+3.27. An urn initially contains 1 red and 1 blue ball.
+      At each stage, a ball is randomly withdrawn and
+      replaced by two other balls of the same color.
+      (For instance, if the red ball is initially chosen,
+      then there would be 2 red and 1 blue ball in
+      the urn when the next selection occurs.) Show
+      by mathematical induction that the probability
+      that there are exactly i red balls in the urn
+      after n stages have been completed is n+1
+      i … n + 1.
+3.28. A total of 2n cards, of which 2 are aces, are
+      to be randomly divided among two players, with
+      each player receiving n cards. Each player is then
+      to declare, in sequence, whether he or she has
+      received any aces. What is the conditional proba-
+      bility that the second player has no aces, given that
+      the ﬁrst player declares in the afﬁrmative, when
+      (a) n = 2? (b) n = 10? (c) n = 100? To what
+      does the probability converge as n goes to inﬁnity?
+      Why?
+3.29. There are n distinct types of coupons, and
+each coupon obtained is, independently of prior
+types
+∑n collected, of type i with probability pi ,
+i=1 pi = 1.
+(a) If n coupons are collected, what is the proba-
+bility that one of each type is obtained?
+(b) Now suppose that p1 = p2 = · · · = pn = 1/n.
+Let Ei be the event that there are no type
+i coupons among the n collected. Apply the
+inclusion–exclusion identity for the probabil-
+1
+,1 …
+ity of the union of events to P(∪i Ei ) to prove
+the identity
+∑
+n       ( )
+n
+n! =     (−1)k    (n − k)n
+k
+k=0
+3.30. Show that, for any events E and F,
+P(E|E ∪ F) Ú P(E|F)
+Hint: Compute P(E|E ∪ F) by conditioning on
+whether F occurs.
