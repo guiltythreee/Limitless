@@ -6,10 +6,10 @@ import { loadTheme, saveTheme } from "../lib/progress";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const papers = [
-  { id: "I", originalSolution: "MT200_Solutions_and_Marking_Scheme.pdf", original: "MT200_Rigorous_Practice_Paper.pdf", title: "Rigorous Practice Paper", file: "papers/paper-i.txt", solution: "solutions/paper-i.txt", scope: "Full-course foundations; derivations, theory and numericals", duration: "3 hours", marks: "100 + 8 bonus" },
-  { id: "II", originalSolution: "MT200_Paper_II_Solutions_and_Marking_Scheme.pdf", original: "MT200_Practice_Paper_II.pdf", title: "Rigorous Practice Paper II", file: "papers/paper-ii.txt", solution: "solutions/paper-ii.txt", scope: "Torsion, impact, fatigue, creep, materials classification and mechanical behaviour", duration: "3 hours", marks: "100 + 8 bonus" },
-  { id: "III", originalSolution: "MT200_Paper_III_Solutions_and_Marking_Scheme.pdf", original: "MT200_Practice_Paper_III.pdf", title: "Rigorous Practice Paper III", file: "papers/paper-iii.txt", solution: "solutions/paper-iii.txt", scope: "Modules 1–3: materials world, tension/compression and hardness", duration: "3 hours", marks: "100 + 8 bonus" },
-  { id: "IV", originalSolution: "MT200_Paper_IV_Solutions_and_Marking_Scheme.pdf", original: "MT200_Practice_Paper_IV_Exam_Format.pdf", title: "Exam-Format Practice Paper IV", file: "papers/paper-iv.txt", solution: "solutions/paper-iv.txt", scope: "Midsem-style statements, matching, empirical relations and applied curve-reading", duration: "2.5 hours", marks: "100" },
+  { id: "I", title: "Rigorous Practice Paper", file: "papers/paper-i.md", solution: "solutions/paper-i.md", scope: "Full-course foundations; derivations, theory and numericals", duration: "3 hours", marks: "100 + 8 bonus" },
+  { id: "II", title: "Rigorous Practice Paper II", file: "papers/paper-ii.md", solution: "solutions/paper-ii.md", scope: "Torsion, impact, fatigue, creep, materials classification and mechanical behaviour", duration: "3 hours", marks: "100 + 8 bonus" },
+  { id: "III", title: "Rigorous Practice Paper III", file: "papers/paper-iii.md", solution: "solutions/paper-iii.md", scope: "Modules 1–3: materials world, tension/compression and hardness", duration: "3 hours", marks: "100 + 8 bonus" },
+  { id: "IV", title: "Exam-Format Practice Paper IV", file: "papers/paper-iv.md", solution: "solutions/paper-iv.md", scope: "Midsem-style statements, matching, empirical relations and applied curve-reading", duration: "2.5 hours", marks: "100" },
 ];
 
 const modules = [
@@ -63,7 +63,7 @@ export default function Mt200Course() {
           <div className="eyebrow">Practice library</div>
           <h2>Practice papers and solutions</h2>
           <p><Link className="btn btn-gold" href="/mt200/practice">Open question-by-question practice workspace</Link></p>
-          <p className="mt200-note">Attempt each paper before opening its companion model solutions and marking scheme. These text editions preserve the question and solution text extracted from the supplied PDFs. Some questions refer to stress–strain curves or diagrams that are present in the original PDFs but are not reproduced in the text edition.</p>
+          <p className="mt200-note">Attempt each paper before opening its companion model solutions and marking scheme. The questions and model solutions are maintained as Markdown learning resources. Mathematical expressions are being standardized in LaTeX; any source-referenced figures are identified in the relevant question text.</p>
           <div className="mt200-papers">
             {papers.map((p) => <article className="panel mt200-paper" key={p.id}>
               <div className="mt200-paper-top"><span className="chip chip-gold">Paper {p.id}</span><span className="mt200-paper-meta">{p.duration} · {p.marks}</span></div>
@@ -72,8 +72,6 @@ export default function Mt200Course() {
               <div className="mt200-actions">
                 <a className="btn btn-gold" href={asset(p.file)} target="_blank" rel="noreferrer">Open questions</a>
                 <a className="btn" href={asset(p.solution)} target="_blank" rel="noreferrer">Open solutions</a>
-                <a className="btn" href={asset(`originals/${p.original}`)} target="_blank" rel="noreferrer">Original paper PDF</a>
-                <a className="btn" href={asset(`originals/${p.originalSolution}`)} target="_blank" rel="noreferrer">Original solutions PDF</a>
               </div>
             </article>)}
           </div>
