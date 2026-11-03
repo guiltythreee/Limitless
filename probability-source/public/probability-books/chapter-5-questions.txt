@@ -18,483 +18,721 @@ These six problems were supplied separately from the main question-bank PDF and 
 
 TEXTBOOK QUESTION BANK — PROBLEMS 5.7–5.41, THEORETICAL EXERCISES 5.1–5.33, AND SELF-TEST PROBLEMS AND EXERCISES 5.1–5.20
 
+
 --- Source page ---
+Problems      225
 
 
-                                                                                                          Problems      225
 
- 5.7. The density function of X is given by                         (b) If, at 10:15, the bus has not yet arrived, what
-                       {                                                is the probability that you will have to wait at
-                         a + bx2 0 … x … 1                              least an additional 10 minutes?
+ 5.7. The density function of X is given by
                f (x) =
-                         0          otherwise                 5.14. Let X be a uniform (0, 1) random variable. Com-
-                                                                    pute E[X n ] by using Proposition 2.1, and then
-      If E[X] = 35 , ﬁnd a and b.                                   check the result by using the deﬁnition of expec-
- 5.8. The lifetime in hours of an electronic tube is a ran-         tation.
-      dom variable having a probability density function      5.15. If X is a normal random variable with parameters
-      given by                                                      μ = 10 and σ 2 = 36, compute
-                      f (x) = xe−x   x Ú 0                          (a) P{X > 5};
-                                                                    (b) P{4 < X < 16};
-      Compute the expected lifetime of such a tube.                 (c) P{X < 8};
- 5.9. Consider Example 4b of Chapter 4, but now sup-                (d) P{X < 20};
-      pose that the seasonal demand is a continuous ran-            (e) P{X > 16}.
+      If E[X] = 35 , ﬁnd a and b.
+ 5.8. The lifetime in hours of an electronic tube is a ran-
+      dom variable having a probability density function
+      given by
+      Compute the expected lifetime of such a tube.
+ 5.9. Consider Example 4b of Chapter 4, but now sup-
+      pose that the seasonal demand is a continuous ran-
       dom variable having probability density function f .    5.16. The annual rainfall (in inches) in a certain region is
-      Show that the optimal amount to stock is the value            normally distributed with μ = 40 and σ = 4. What
-      s∗ that satisﬁes                                              is the probability that, starting with this year, it will
-                                     b                              take over 10 years before a year occurs having a
-                        F(s∗ ) =                                    rainfall of over 50 inches? What assumptions are
-                                   b +                             you making?
+      Show that the optimal amount to stock is the value
+      s∗ that satisﬁes
       where b is net proﬁt per unit sale,  is the net loss   5.17. A man aiming at a target receives 10 points if his
-      per unit unsold, and F is the cumulative distribu-            shot is within 1 inch of the target, 5 points if it is
-      tion function of the seasonal demand.                         between 1 and 3 inches of the target, and 3 points if
-5.10. Trains headed for destination A arrive at the train           it is between 3 and 5 inches of the target. Find the
-      station at 15-minute intervals starting at 7 A . M .,         expected number of points scored if the distance
-      whereas trains headed for destination B arrive at             from the shot to the target is uniformly distributed
-      15-minute intervals starting at 7:05 A . M .                  between 0 and 10.
+      per unit unsold, and F is the cumulative distribu-
+      tion function of the seasonal demand.
+5.10. Trains headed for destination A arrive at the train
+      station at 15-minute intervals starting at 7 A . M .,
+      whereas trains headed for destination B arrive at
+      15-minute intervals starting at 7:05 A . M .
       (a) If a certain passenger arrives at the station at    5.18. Suppose that X is a normal random variable with
-           a time uniformly distributed between 7 and               mean 5. If P{X > 9} = .2, approximately what is
-           8 A . M . and then gets on the ﬁrst train that           Var(X)?
+           a time uniformly distributed between 7 and
+           8 A . M . and then gets on the ﬁrst train that
            arrives, what proportion of time does he or
-           she go to destination A?                           5.19. Let X be a normal random variable with mean
-      (b) What if the passenger arrives at a time uni-              12 and variance 4. Find the value of c such that
-           formly distributed between 7:10 and 8:10                 P{X > c} = .10.
-           A . M .?                                           5.20. If 65 percent of the population of a large commu-
-5.11. A point is chosen at random on a line segment                 nity is in favor of a proposed rise in school taxes,
-      of length L. Interpret this statement, and ﬁnd the            approximate the probability that a random sample
-      probability that the ratio of the shorter to the              of 100 people will contain
-      longer segment is less than 14 .                              (a) at least 50 who are in favor of the proposition;
-                                                                    (b) between 60 and 70 inclusive who are in favor;
+           she go to destination A?
+      (b) What if the passenger arrives at a time uni-
+           formly distributed between 7:10 and 8:10
+           A . M .?
+5.11. A point is chosen at random on a line segment
+      of length L. Interpret this statement, and ﬁnd the
+      probability that the ratio of the shorter to the
+      longer segment is less than 14 .
 5.12. A bus travels between the two cities A and B,
-                                                                    (c) fewer than 75 in favor.
       which are 100 miles apart. If the bus has a break-
-      down, the distance from the breakdown to city A         5.21. Suppose that the height, in inches, of a 25-year-old
-      has a uniform distribution over (0, 100). There is a          man is a normal random variable with parameters
-      bus service station in city A, in B, and in the cen-          μ = 71 and σ 2 = 6.25. What percentage of 25-
-      ter of the route between A and B. It is suggested             year-old men are over 6 feet, 2 inches tall? What
-      that it would be more efﬁcient to have the three              percentage of men in the 6-footer club are over 6
-      stations located 25, 50, and 75 miles, respectively,          feet, 5 inches?
-      from A. Do you agree? Why?                              5.22. The width of a slot of a duralumin forging is (in
-5.13. You arrive at a bus stop at 10 o’clock, knowing               inches) normally distributed with μ = .9000 and
-      that the bus will arrive at some time uniformly dis-          σ = .0030. The speciﬁcation limits were given as
-      tributed between 10 and 10:30.                                .9000 ; .0050.
-      (a) What is the probability that you will have to             (a) What percentage of forgings will be defec-
-           wait longer than 10 minutes?                                 tive?
+      down, the distance from the breakdown to city A
+      has a uniform distribution over (0, 100). There is a
+      bus service station in city A, in B, and in the cen-
+      ter of the route between A and B. It is suggested
+      that it would be more efﬁcient to have the three
+      stations located 25, 50, and 75 miles, respectively,
+      from A. Do you agree? Why?
+5.13. You arrive at a bus stop at 10 o’clock, knowing
+      that the bus will arrive at some time uniformly dis-
+      tributed between 10 and 10:30.
+      (a) What is the probability that you will have to
+           wait longer than 10 minutes?
 
 
+
+(b) If, at 10:15, the bus has not yet arrived, what
+{                                                is the probability that you will have to wait at
+a + bx2 0 … x … 1                              least an additional 10 minutes?
+0          otherwise                 5.14. Let X be a uniform (0, 1) random variable. Com-
+pute E[X n ] by using Proposition 2.1, and then
+check the result by using the deﬁnition of expec-
+tation.
+5.15. If X is a normal random variable with parameters
+μ = 10 and σ 2 = 36, compute
+f (x) = xe−x   x Ú 0                          (a) P{X > 5};
+(b) P{4 < X < 16};
+(c) P{X < 8};
+(d) P{X < 20};
+(e) P{X > 16}.
+normally distributed with μ = 40 and σ = 4. What
+is the probability that, starting with this year, it will
+b                              take over 10 years before a year occurs having a
+F(s∗ ) =                                    rainfall of over 50 inches? What assumptions are
+b +                             you making?
+shot is within 1 inch of the target, 5 points if it is
+between 1 and 3 inches of the target, and 3 points if
+it is between 3 and 5 inches of the target. Find the
+expected number of points scored if the distance
+from the shot to the target is uniformly distributed
+between 0 and 10.
+mean 5. If P{X > 9} = .2, approximately what is
+Var(X)?
+5.19. Let X be a normal random variable with mean
+12 and variance 4. Find the value of c such that
+P{X > c} = .10.
+5.20. If 65 percent of the population of a large commu-
+nity is in favor of a proposed rise in school taxes,
+approximate the probability that a random sample
+of 100 people will contain
+(a) at least 50 who are in favor of the proposition;
+(b) between 60 and 70 inclusive who are in favor;
+(c) fewer than 75 in favor.
+5.21. Suppose that the height, in inches, of a 25-year-old
+man is a normal random variable with parameters
+μ = 71 and σ 2 = 6.25. What percentage of 25-
+year-old men are over 6 feet, 2 inches tall? What
+percentage of men in the 6-footer club are over 6
+feet, 5 inches?
+5.22. The width of a slot of a duralumin forging is (in
+inches) normally distributed with μ = .9000 and
+σ = .0030. The speciﬁcation limits were given as
+.9000 ; .0050.
+(a) What percentage of forgings will be defec-
+tive?
 --- Source page ---
 
 
 226   Chapter 5        Continuous Random Variables
 
-      (b) What is the maximum allowable value of σ                      chosen point in the black region will have a nor-
-            that will permit no more than 1 in 100 defec-               mally distributed reading with parameters (6, 9).
-            tives when the widths are normally distributed              A point is randomly chosen on the image and has
-            with μ = .9000 and σ ?                                      a reading of 5. If the fraction of the image that is
-5.23. One thousand independent rolls of a fair die will                 black is α, for what value of α would the probabil-
-      be made. Compute an approximation to the prob-                    ity of making an error be the same, regardless of
-      ability that the number 6 will appear between 150                 whether one concluded that the point was in the
-      and 200 times inclusively. If the number 6 appears                black region or in the white region?
-      exactly 200 times, ﬁnd the probability that the             5.31. (a) A ﬁre station is to be located along a road of
-      number 5 will appear less than 150 times.                              length A, A < q. If ﬁres occur at points uni-
-5.24. The lifetimes of interactive computer chips pro-                       formly chosen on (0, A), where should the sta-
-      duced by a certain semiconductor manufacturer                          tion be located so as to minimize the expected
-      are normally distributed with parameters μ =                           distance from the ﬁre? That is, choose a so
-      1.4 * 106 hours and σ = 3 * 105 hours. What is the                     as to
-      approximate probability that a batch of 100 chips                                   minimize E[|X − a|]
+      (b) What is the maximum allowable value of σ
+            that will permit no more than 1 in 100 defec-
+            tives when the widths are normally distributed
+            with μ = .9000 and σ ?
+5.23. One thousand independent rolls of a fair die will
+      be made. Compute an approximation to the prob-
+      ability that the number 6 will appear between 150
+      and 200 times inclusively. If the number 6 appears
+      exactly 200 times, ﬁnd the probability that the
+      number 5 will appear less than 150 times.
+5.24. The lifetimes of interactive computer chips pro-
+      duced by a certain semiconductor manufacturer
+      are normally distributed with parameters μ =
+      1.4 * 106 hours and σ = 3 * 105 hours. What is the
+      approximate probability that a batch of 100 chips
       will contain at least 20 whose lifetimes are less than
-      1.8 * 106 ?                                                             when X is uniformly distributed over (0, A).
-                                                                        (b) Now suppose that the road is of inﬁnite
+      1.8 * 106 ?
 5.25. Each item produced by a certain manufacturer is,
-                                                                              length—stretching from point 0 outward to q.
       independently, of acceptable quality with proba-
-                                                                              If the distance of a ﬁre from point 0 is expo-
       bility .95. Approximate the probability that at most
-                                                                              nentially distributed with rate λ, where should
       10 of the next 150 items produced are unaccept-
-                                                                              the ﬁre station now be located? That is, we
       able.
-                                                                              want to minimize E[|X − a|], where X is now
-5.26. Two types of coins are produced at a factory: a fair                    exponential with rate λ.
+5.26. Two types of coins are produced at a factory: a fair
       coin and a biased one that comes up heads 55 per-
-                                                                  5.32. The time (in hours) required to repair a machine is
       cent of the time. We have one of these coins, but
-                                                                        an exponentially distributed random variable with
       do not know whether it is a fair coin or a biased
-                                                                        parameter λ = 12 . What is
       one. In order to ascertain which type of coin we
-                                                                        (a) the probability that a repair time exceeds 2
       have, we shall perform the following statistical test:
-                                                                              hours?
       We shall toss the coin 1000 times. If the coin lands
-                                                                        (b) the conditional probability that a repair takes
       on heads 525 or more times, then we shall conclude
-                                                                              at least 10 hours, given that its duration
       that it is a biased coin, whereas if it lands on heads
-                                                                              exceeds 9 hours?
       less than 525 times, then we shall conclude that it
       is a fair coin. If the coin is actually fair, what is the   5.33. The number of years a radio functions is exponen-
-      probability that we shall reach a false conclusion?               tially distributed with parameter λ = 18 . If Jones
-      What would it be if the coin were biased?                         buys a used radio, what is the probability that it
-                                                                        will be working after an additional 8 years?
+      probability that we shall reach a false conclusion?
+      What would it be if the coin were biased?
 5.27. In 10,000 independent tosses of a coin, the coin
-      landed on heads 5800 times. Is it reasonable to             5.34. Jones ﬁgures that the total number of thousands
-      assume that the coin is not fair? Explain.                        of miles that an auto can be driven before it would
-                                                                        need to be junked is an exponential random vari-
-5.28. Twelve percent of the population is left handed.                                          1
-                                                                        able with parameter 20    . Smith has a used car that
+      landed on heads 5800 times. Is it reasonable to
+      assume that the coin is not fair? Explain.
+5.28. Twelve percent of the population is left handed.
       Approximate the probability that there are at least
-                                                                        he claims has been driven only 10,000 miles. If
       20 left-handers in a school of 200 students. State
-                                                                        Jones purchases the car, what is the probability
       your assumptions.
-                                                                        that she would get at least 20,000 additional miles
-5.29. A model for the movement of a stock supposes                      out of it? Repeat under the assumption that the
-      that if the present price of the stock is s, then, after          lifetime mileage of the car is not exponentially dis-
-      one period, it will be either us with probability p               tributed, but rather is (in thousands of miles) uni-
-      or ds with probability 1 − p. Assuming that suc-                  formly distributed over (0, 40).
+5.29. A model for the movement of a stock supposes
+      that if the present price of the stock is s, then, after
+      one period, it will be either us with probability p
+      or ds with probability 1 − p. Assuming that suc-
       cessive movements are independent, approximate
-                                                                  5.35. The lung cancer hazard rate λ(t) of a t-year-old
       the probability that the stock’s price will be up
-                                                                        male smoker is such that
       at least 30 percent after the next 1000 periods if
-      u = 1.012, d = 0.990, and p = .52.                                    λ(t) = .027 + .00025(t − 40)2        t Ú 40
+      u = 1.012, d = 0.990, and p = .52.
 5.30. An image is partitioned into two regions, one
-      white and the other black. A reading taken from                   Assuming that a 40-year-old male smoker survives
-      a randomly chosen point in the white section will                 all other hazards, what is the probability that he
-      give a reading that is normally distributed with μ =              survives to (a) age 50 and (b) age 60 without con-
-      4 and σ 2 = 4, whereas one taken from a randomly                  tracting lung cancer?
+      white and the other black. A reading taken from
+      a randomly chosen point in the white section will
+      give a reading that is normally distributed with μ =
+      4 and σ 2 = 4, whereas one taken from a randomly
 
 
+
+chosen point in the black region will have a nor-
+mally distributed reading with parameters (6, 9).
+A point is randomly chosen on the image and has
+a reading of 5. If the fraction of the image that is
+black is α, for what value of α would the probabil-
+ity of making an error be the same, regardless of
+whether one concluded that the point was in the
+black region or in the white region?
+5.31. (a) A ﬁre station is to be located along a road of
+length A, A < q. If ﬁres occur at points uni-
+formly chosen on (0, A), where should the sta-
+tion be located so as to minimize the expected
+distance from the ﬁre? That is, choose a so
+as to
+minimize E[|X − a|]
+when X is uniformly distributed over (0, A).
+(b) Now suppose that the road is of inﬁnite
+length—stretching from point 0 outward to q.
+If the distance of a ﬁre from point 0 is expo-
+nentially distributed with rate λ, where should
+the ﬁre station now be located? That is, we
+want to minimize E[|X − a|], where X is now
+exponential with rate λ.
+5.32. The time (in hours) required to repair a machine is
+an exponentially distributed random variable with
+parameter λ = 12 . What is
+(a) the probability that a repair time exceeds 2
+hours?
+(b) the conditional probability that a repair takes
+at least 10 hours, given that its duration
+exceeds 9 hours?
+tially distributed with parameter λ = 18 . If Jones
+buys a used radio, what is the probability that it
+will be working after an additional 8 years?
+5.34. Jones ﬁgures that the total number of thousands
+of miles that an auto can be driven before it would
+need to be junked is an exponential random vari-
+1
+able with parameter 20    . Smith has a used car that
+he claims has been driven only 10,000 miles. If
+Jones purchases the car, what is the probability
+that she would get at least 20,000 additional miles
+out of it? Repeat under the assumption that the
+lifetime mileage of the car is not exponentially dis-
+tributed, but rather is (in thousands of miles) uni-
+formly distributed over (0, 40).
+5.35. The lung cancer hazard rate λ(t) of a t-year-old
+male smoker is such that
+λ(t) = .027 + .00025(t − 40)2        t Ú 40
+Assuming that a 40-year-old male smoker survives
+all other hazards, what is the probability that he
+survives to (a) age 50 and (b) age 60 without con-
+tracting lung cancer?
 --- Source page ---
+THEORETICAL EXERCISES
 
 
-                                                                                             Theoretical Exercises   227
 
 5.36. Suppose that the life distribution of an item has the   5.39. If X is an exponential random variable with
-      hazard rate function λ(t) = t3 , t > 0. What is the           parameter λ = 1, compute the probability den-
-      probability that                                              sity function of the random variable Y deﬁned by
-      (a) the item survives to age 2?                               Y = log X.
-      (b) the item’s lifetime is between .4 and 1.4?          5.40. If X is uniformly distributed over (0, 1), ﬁnd the
-      (c) a 1-year-old item will survive to age 2?                  density function of Y = eX .
-                                                              5.41. Find the distribution of R = A sin θ , where A is
-5.37. If X is uniformly distributed over (−1, 1), ﬁnd               a ﬁxed constant and θ is uniformly distributed on
-      (a) P{|X| > 12 };                                             (−π/2, π/2). Such a random variable R arises in
-      (b) the density function of the random variable               the theory of ballistics. If a projectile is ﬁred from
-           |X|.                                                     the origin at an angle α from the earth with a speed
-                                                                    ν, then the point R at which it returns to the earth
-5.38. If Y is uniformly distributed over (0, 5), what               can be expressed as R = (v2 /g) sin 2α, where g is
-      is the probability that the roots of the equation             the gravitational constant, equal to 980 centime-
-      4x2 + 4xY + Y + 2 = 0 are both real?                          ters per second squared.
+      hazard rate function λ(t) = t3 , t > 0. What is the
+      probability that
+      (a) the item survives to age 2?
+      (b) the item’s lifetime is between .4 and 1.4?
+      (c) a 1-year-old item will survive to age 2?
+5.37. If X is uniformly distributed over (−1, 1), ﬁnd
+      (a) P{|X| > 12 };
+      (b) the density function of the random variable
+           |X|.
+5.38. If Y is uniformly distributed over (0, 5), what
+      is the probability that the roots of the equation
+      4x2 + 4xY + Y + 2 = 0 are both real?
 
 
-                                             THEORETICAL EXERCISES
 
- 5.1. The speed of a molecule in a uniform gas at equi-        5.5. Use the result that, for a nonnegative random vari-
-      librium is a random variable whose probability                able Y,                ∫     q
+ 5.1. The speed of a molecule in a uniform gas at equi-
+      librium is a random variable whose probability
       density function is given by
-                                                                                 E[Y] =              P{Y > t} dt
-                           {                                                                 0
-                               2 −bx2 x Ú 0
-                   f (x) = ax e                                     to show that, for a nonnegative random vari-
-                             0        x < 0
-                                                                    able X,
-      where b = m/2kT and k, T, and m denote, respec-                               ∫ q
-                                                                               n
-      tively, Boltzmann’s constant, the absolute temper-                    E[X ] =     nxn−1 P{X > x} dx
-                                                                                         0
+                   f (x) = ax e
+      where b = m/2kT and k, T, and m denote, respec-
+      tively, Boltzmann’s constant, the absolute temper-
       ature of the gas, and the mass of the molecule.
-      Evaluate a in terms of b.                                     Hint: Start with
- 5.2. Show that                                                                              ∫ q
-                ∫ q                  ∫ q                                        E[X n ] =            P{X n > t} dt
-                                                                                             0
+      Evaluate a in terms of b.
+ 5.2. Show that
+                ∫ q                  ∫ q
        E[Y] =       P{Y > y} dy −        P{Y < −y} dy
-                   0                     0
-                                                                    and make the change of variables t = xn .
-      Hint: Show that                                          5.6. Deﬁne a collection of events Ea , 0 < a < 1, hav-
-            ∫ q                   ∫ 0                               ing( the property
-                                                                             )        that P(Ea ) = 1 for all a but
-                P{Y < −y} dy = −      xfY (x) dx                        ⋂
-                                                                    P      Ea = 0.
+                   0
+      Hint: Show that
+            ∫ q                   ∫ 0
+                P{Y < −y} dy = −      xfY (x) dx
              0
-              ∫ q               ∫ q−q                                   a
-                  P{Y > y} dy =     xfY (x) dx                      Hint: Let X be uniform over (0, 1) and deﬁne each
-               0                     0                              Ea in terms of X.
-                                                               5.7. The standard deviation of X, denoted SD(X), is
- 5.3. Show that if X has density function f , then                  given by
-                            ∫ q                                                             √
-                                                                                   SD(X) = Var(X)
+              ∫ q               ∫ q−q
+                  P{Y > y} dy =     xfY (x) dx
+               0
+ 5.3. Show that if X has density function f , then
                   E[g(X)] =       g(x)f (x) dx
-                               −q                                Find SD(aX + b) if X has variance σ 2 .
-      Hint: Using Theoretical Exercise 2, start with        5.8. Let X be a random variable that takes on values
-                 ∫ q                  ∫ q                        between 0 and c. That is, P{0 … X … c} = 1.
-                                                                 Show that
+      Hint: Using Theoretical Exercise 2, start with
+                 ∫ q                  ∫ q
       E[g(X)] =      P{g(X) > y} dy −       P{g(X) < −y} dy
-                                                                                               c2
-                  0                     0                                        Var(X) …
-                                                                                               4
+                  0
       and then proceed as in the proof given in the text
-      when g(X) Ú 0.                                             Hint: One approach is to ﬁrst argue that
+      when g(X) Ú 0.
  5.4. Prove Corollary 2.1.
-                                                                                       E[X 2 ] … cE[X]
 
 
+
+Theoretical Exercises   227
+parameter λ = 1, compute the probability den-
+sity function of the random variable Y deﬁned by
+Y = log X.
+5.40. If X is uniformly distributed over (0, 1), ﬁnd the
+density function of Y = eX .
+5.41. Find the distribution of R = A sin θ , where A is
+a ﬁxed constant and θ is uniformly distributed on
+(−π/2, π/2). Such a random variable R arises in
+the theory of ballistics. If a projectile is ﬁred from
+the origin at an angle α from the earth with a speed
+ν, then the point R at which it returns to the earth
+can be expressed as R = (v2 /g) sin 2α, where g is
+the gravitational constant, equal to 980 centime-
+ters per second squared.
+5.5. Use the result that, for a nonnegative random vari-
+able Y,                ∫     q
+E[Y] =              P{Y > t} dt
+{                                                                 0
+2 −bx2 x Ú 0
+to show that, for a nonnegative random vari-
+0        x < 0
+able X,
+∫ q
+n
+E[X ] =     nxn−1 P{X > x} dx
+0
+Hint: Start with
+∫ q
+E[X n ] =            P{X n > t} dt
+0
+0
+and make the change of variables t = xn .
+5.6. Deﬁne a collection of events Ea , 0 < a < 1, hav-
+ing( the property
+)        that P(Ea ) = 1 for all a but
+⋂
+P      Ea = 0.
+a
+Hint: Let X be uniform over (0, 1) and deﬁne each
+0                              Ea in terms of X.
+5.7. The standard deviation of X, denoted SD(X), is
+given by
+∫ q                                                             √
+SD(X) = Var(X)
+−q                                Find SD(aX + b) if X has variance σ 2 .
+5.8. Let X be a random variable that takes on values
+between 0 and c. That is, P{0 … X … c} = 1.
+Show that
+c2
+0                                        Var(X) …
+4
+Hint: One approach is to ﬁrst argue that
+E[X 2 ] … cE[X]
 --- Source page ---
 
 
 228   Chapter 5       Continuous Random Variables
 
-      and then use this inequality to show that                       when X is a gamma random variable with param-
-                                                                      eters α and λ.( )
-                                                      E[X]                                √
-         Var(X) … c2 [α(1 − α)]       where α =                 5.21. Show that Γ 12 = π.
-                                                        c                      ( )     ∫q
-                                                                      Hint: Γ 12 = 0 e−x x−1/2 dx. Make the change
- 5.9. Show that Z is a standard normal random variable,                                 √
-      then, for x > 0,                                                of variables y = 2x and then relate the resulting
-      (a) P{Z > x} = P{Z < −x};                                       expression to the normal distribution.
-      (b) P{|Z| > x} = 2P{Z > x};                               5.22. Compute the hazard rate function of a gamma ran-
-      (c) P{|Z| < x} = 2P{Z < x} − 1.                                 dom variable with parameters (α, λ) and show it is
-5.10. Let f (x) denote the probability density function of            increasing when α Ú 1 and decreasing when α … 1.
-      a normal random variable with mean μ and vari-            5.23. Compute the hazard rate function of a Weibull
-      ance σ 2 . Show that μ − σ and μ + σ are points                 random variable and show it is increasing when
-      of inﬂection of this function. That is, show that               β Ú 1 and decreasing when β … 1.
-      f ′′ (x) = 0 when x = μ − σ or x = μ + σ .                5.24. Show that a plot of log(log(1 − F(x))−1 ) against
-5.11. Let Z be a standard normal random variable Z,                   log x will be a straight line with slope β when
-      and let g be a differentiable function with deriva-             F(·) is a Weibull distribution function. Show also
-      tive g′ .                                                       that approximately 63.2 percent of all observa-
-      (a) Show that E[g′ (Z)] = E[Zg(Z)]                              tions from such a distribution will be less than α.
-      (b) Show that E[Zn+1 ] = nE[Zn−1 ]                              Assume that v = 0.
+      and then use this inequality to show that
+         Var(X) … c2 [α(1 − α)]       where α =
+ 5.9. Show that Z is a standard normal random variable,
+      then, for x > 0,
+      (a) P{Z > x} = P{Z < −x};
+      (b) P{|Z| > x} = 2P{Z > x};
+      (c) P{|Z| < x} = 2P{Z < x} − 1.
+5.10. Let f (x) denote the probability density function of
+      a normal random variable with mean μ and vari-
+      ance σ 2 . Show that μ − σ and μ + σ are points
+      of inﬂection of this function. That is, show that
+      f ′′ (x) = 0 when x = μ − σ or x = μ + σ .
+5.11. Let Z be a standard normal random variable Z,
+      and let g be a differentiable function with deriva-
+      tive g′ .
+      (a) Show that E[g′ (Z)] = E[Zg(Z)]
+      (b) Show that E[Zn+1 ] = nE[Zn−1 ]
       (c) Find E[Z4 ].
-                                                                5.25. Let
-5.12. Use the identity of Theoretical Exercise 5 to derive                                  (         )
-                                                                                              X − ν β
-      E[X 2 ] when X is an exponential random variable                                  Y=
-      with parameter λ.                                                                          α
+5.12. Use the identity of Theoretical Exercise 5 to derive
+      E[X 2 ] when X is an exponential random variable
+      with parameter λ.
 5.13. The median of a continuous random variable hav-
-                                                                      Show that if X is a Weibull random variable with
       ing distribution function F is that value m such that
-                                                                      parameters ν, α, and β, then Y is an exponential
-      F(m) = 12 . That is, a random variable is just as               random variable with parameter λ = 1 and vice
+      F(m) = 12 . That is, a random variable is just as
       likely to be larger than its median as it is to be
-                                                                      versa.
       smaller. Find the median of X if X is
-      (a) uniformly distributed over (a, b);                    5.26. If X is a beta random variable with parameters a
-      (b) normal with parameters μ, σ 2 ;                             and b, show that
-      (c) exponential with rate λ.                                                          a
-5.14. The mode of a continuous random variable having                            E[X] =
-                                                                                          a + b
-      density f is the value of x for which f (x) attains its                                       ab
-      maximum. Compute the mode of X in cases (a),                            Var(X) =
-                                                                                          (a + b)2 (a + b + 1)
+      (a) uniformly distributed over (a, b);
+      (b) normal with parameters μ, σ 2 ;
+      (c) exponential with rate λ.
+5.14. The mode of a continuous random variable having
+      density f is the value of x for which f (x) attains its
+      maximum. Compute the mode of X in cases (a),
       (b), and (c) of Theoretical Exercise 5.13.
-5.15. If X is an exponential random variable with               5.27. If X is uniformly distributed over (a, b), what ran-
-      parameter λ, and c > 0, show that cX is exponen-                dom variable, having a linear relation with X, is
-      tial with parameter λ/c.                                        uniformly distributed over (0, 1)?
+5.15. If X is an exponential random variable with
+      parameter λ, and c > 0, show that cX is exponen-
+      tial with parameter λ/c.
 5.16. Compute the hazard rate function of X when X is
-                                                                5.28. Consider the beta distribution with parameters
       uniformly distributed over (0, a).
-                                                                      (a, b). Show that
 5.17. If X has hazard rate function λX (t), compute the
-                                                                      (a) when a > 1 and b > 1, the density is uni-
       hazard rate function of aX where a is a positive
-                                                                           modal (that is, it has a unique mode) with
       constant.
-                                                                           mode equal to (a − 1)/(a + b − 2);
 5.18. Verify that the gamma density function integrates
-                                                                      (b) when a … 1, b … 1, and a + b < 2, the den-
       to 1.
-                                                                           sity is either unimodal with mode at 0 or 1 or
-5.19. If X is an exponential random variable with mean                     U-shaped with modes at both 0 and 1;
+5.19. If X is an exponential random variable with mean
       1/λ, show that
-                                                                      (c) when a = 1 = b, all points in [0, 1] are modes.
-                              k!                                5.29. Let X be a continuous random variable having
-                  E[X k ] =         k = 1, 2, . . .                   cumulative distribution function F. Deﬁne the ran-
-                              λk
-                                                                      dom variable Y by Y = F(X). Show that Y is
-      Hint: Make use of the gamma density function to                 uniformly distributed over (0, 1).
+                  E[X k ] =         k = 1, 2, . . .
+      Hint: Make use of the gamma density function to
       evaluate the preceding.
-                                                                5.30. Let X have probability density fX . Find the prob-
-5.20. Verify that                                                     ability density function of the random variable Y
-                                 α
-                        Var(X) = 2                                    deﬁned by Y = aX + b.
-                                λ
+5.20. Verify that
 
 
+
+when X is a gamma random variable with param-
+eters α and λ.( )
+E[X]                                √
+5.21. Show that Γ 12 = π.
+c                      ( )     ∫q
+Hint: Γ 12 = 0 e−x x−1/2 dx. Make the change
+√
+of variables y = 2x and then relate the resulting
+expression to the normal distribution.
+5.22. Compute the hazard rate function of a gamma ran-
+dom variable with parameters (α, λ) and show it is
+increasing when α Ú 1 and decreasing when α … 1.
+5.23. Compute the hazard rate function of a Weibull
+random variable and show it is increasing when
+β Ú 1 and decreasing when β … 1.
+5.24. Show that a plot of log(log(1 − F(x))−1 ) against
+log x will be a straight line with slope β when
+F(·) is a Weibull distribution function. Show also
+that approximately 63.2 percent of all observa-
+tions from such a distribution will be less than α.
+Assume that v = 0.
+5.25. Let
+(         )
+X − ν β
+Y=
+α
+Show that if X is a Weibull random variable with
+parameters ν, α, and β, then Y is an exponential
+random variable with parameter λ = 1 and vice
+versa.
+5.26. If X is a beta random variable with parameters a
+and b, show that
+a
+E[X] =
+a + b
+ab
+Var(X) =
+(a + b)2 (a + b + 1)
+5.27. If X is uniformly distributed over (a, b), what ran-
+dom variable, having a linear relation with X, is
+uniformly distributed over (0, 1)?
+5.28. Consider the beta distribution with parameters
+(a, b). Show that
+(a) when a > 1 and b > 1, the density is uni-
+modal (that is, it has a unique mode) with
+mode equal to (a − 1)/(a + b − 2);
+(b) when a … 1, b … 1, and a + b < 2, the den-
+sity is either unimodal with mode at 0 or 1 or
+U-shaped with modes at both 0 and 1;
+(c) when a = 1 = b, all points in [0, 1] are modes.
+k!                                5.29. Let X be a continuous random variable having
+cumulative distribution function F. Deﬁne the ran-
+λk
+dom variable Y by Y = F(X). Show that Y is
+uniformly distributed over (0, 1).
+5.30. Let X have probability density fX . Find the prob-
+ability density function of the random variable Y
+α
+Var(X) = 2                                    deﬁned by Y = aX + b.
+λ
 --- Source page ---
+SELF-TEST PROBLEMS AND EXERCISES
 
 
-                                                                                  Self-Test Problems and Exercises                229
 
-5.31. Find the probability density function of Y = eX                                                                  ∑
-                                                                                                                       q
-                                                                             It is a well-known identity that                  1/k2 =
-      when X is normally distributed with parameters μ                                                                     1
-      and σ 2 . The random variable Y is said to have a                     π 2 /6, so Q1 = 6/π 2 . (In number theory, this
-      lognormal distribution (since log Y has a normal                      is known as the Legendre theorem.)
-      distribution) with parameters μ and σ 2 .                         (c) Now argue that
+5.31. Find the probability density function of Y = eX
+      when X is normally distributed with parameters μ
+      and σ 2 . The random variable Y is said to have a
+      lognormal distribution (since log Y has a normal
+      distribution) with parameters μ and σ 2 .
 5.32. Let X and Y be independent random vari-
-                                                                                                q
-                                                                                                    (         )
-      ables that are both equally likely to be either                                          ∏      Pi2 − 1
-      1, 2, . . . , (10)N , where N is very large. Let D denote                           Q1 =
-                                                                                               i=1
-                                                                                                         Pi2
+      ables that are both equally likely to be either
+      1, 2, . . . , (10)N , where N is very large. Let D denote
       the greatest common divisor of X and Y, and let
-      Qk = P{D = k}.                                                         where Pi is the ith-smallest prime greater
-      (a) Give a heuristic argument that Qk = k12 Q1 .                       than 1.
-             Hint: Note that in order for D to equal k, k                    Hint: X and Y will be relatively prime if they
-             must divide both X and Y and also X/k, and                      have no common prime factors. Hence, from
-             Y/k must be relatively prime. (That is, X/k,                    part (b), we see that
-             and Y/k must have a greatest common divisor                                     (          )
-                                                                                          ∏q
-             equal to 1.)                                                                       Pi2 − 1     6
-                                                                                                          = 2
-       (b) Use part (a) to show that                                                               Pi2     π
-                                                                                          i=1
+      Qk = P{D = k}.
+      (a) Give a heuristic argument that Qk = k12 Q1 .
+             Hint: Note that in order for D to equal k, k
+             must divide both X and Y and also X/k, and
+             Y/k must be relatively prime. (That is, X/k,
+             and Y/k must have a greatest common divisor
+             equal to 1.)
+       (b) Use part (a) to show that
 
-                                                                              which was noted without explanation in
-               Q1 = P{X and Y are relatively prime}                           Problem 11 of Chapter 4. (The relationship
-                                                                              between this problem and Problem 11 of
-                              1                                               Chapter 4 is that X and Y are relatively prime
-                    =   q
-                        ∑                                                     if XY has no multiple prime factors.)
-                              1/k2                                5.33. Prove Theorem 7.1 when g(x) is a decreasing func-
-                        k=1                                             tion.
+               Q1 = P{X and Y are relatively prime}
 
 
 
 
-                                       SELF-TEST PROBLEMS AND EXERCISES
 
- 5.1. The number of minutes of playing time of a certain           5.3. For some constant c, the random variable X has
-      high school basketball player in a randomly cho-                  the probability density function
-      sen game is a random variable whose probability                                      {
-      density function is given in the following ﬁgure:                                      cx4 0 < x < 2
-                                                                                   f (x) =
-                                                                                             0     otherwise
+ 5.1. The number of minutes of playing time of a certain
+      high school basketball player in a randomly cho-
+      sen game is a random variable whose probability
+      density function is given in the following ﬁgure:
 .050
-                                                                        Find (a) E[X] and (b) Var(X).
-.025                                                               5.4. The random variable X has the probability density
-                                                                        function
-                                                                                         {
-               10                 20         30             40                             ax + bx2 0 < x < 1
-                                                                                 f (x) =
-                                                                                           0        otherwise
+.025
+               10                 20         30
       Find the probability that the player plays
-      (a) over 15 minutes;                                              If E[X] = .6, ﬁnd (a) P{X < 12 } and (b) Var(X).
-      (b) between 20 and 35 minutes;                               5.5. The random variable X is said to be a discrete uni-
-      (c) less than 30 minutes;                                         form random variable on the integers 1, 2, . . . , n if
+      (a) over 15 minutes;
+      (b) between 20 and 35 minutes;
+      (c) less than 30 minutes;
       (d) more than 36 minutes.
- 5.2. For some constant c, the random variable X has                                            1
-                                                                                   P{X = i} =        i = 1, 2, . . . , n
-      the probability density function                                                          n
-                          { n
-                           cx 0 < x < 1                                 For any nonnegative real number x, let Int(x)
-                  f (x) =                                               (sometimes written as [x]) be the largest inte-
-                           0     otherwise
-                                                                        ger that is less than or equal to x. Show that
-       Find (a) c and (b) P{X > x}, 0 < x < 1.                          U is a uniform random variable on (0, 1), fain
+ 5.2. For some constant c, the random variable X has
+      the probability density function
+                  f (x) =
+       Find (a) c and (b) P{X > x}, 0 < x < 1.
 
 
+
+Self-Test Problems and Exercises                229
+∑
+q
+It is a well-known identity that                  1/k2 =
+1
+π 2 /6, so Q1 = 6/π 2 . (In number theory, this
+is known as the Legendre theorem.)
+(c) Now argue that
+q
+(         )
+∏      Pi2 − 1
+Q1 =
+i=1
+Pi2
+where Pi is the ith-smallest prime greater
+than 1.
+Hint: X and Y will be relatively prime if they
+have no common prime factors. Hence, from
+part (b), we see that
+(          )
+∏q
+Pi2 − 1     6
+= 2
+Pi2     π
+i=1
+which was noted without explanation in
+Problem 11 of Chapter 4. (The relationship
+between this problem and Problem 11 of
+1                                               Chapter 4 is that X and Y are relatively prime
+=   q
+∑                                                     if XY has no multiple prime factors.)
+1/k2                                5.33. Prove Theorem 7.1 when g(x) is a decreasing func-
+k=1                                             tion.
+5.3. For some constant c, the random variable X has
+the probability density function
+{
+cx4 0 < x < 2
+f (x) =
+0     otherwise
+Find (a) E[X] and (b) Var(X).
+5.4. The random variable X has the probability density
+function
+{
+40                             ax + bx2 0 < x < 1
+f (x) =
+0        otherwise
+If E[X] = .6, ﬁnd (a) P{X < 12 } and (b) Var(X).
+5.5. The random variable X is said to be a discrete uni-
+form random variable on the integers 1, 2, . . . , n if
+1
+P{X = i} =        i = 1, 2, . . . , n
+n
+{ n
+cx 0 < x < 1                                 For any nonnegative real number x, let Int(x)
+(sometimes written as [x]) be the largest inte-
+0     otherwise
+ger that is less than or equal to x. Show that
+U is a uniform random variable on (0, 1), fain
 --- Source page ---
 
 
 230   Chapter 5       Continuous Random Variables
 
-      X = Int(nU) + 1 is a discrete uniform random                    Assume that if Ai is the event that the rainfall
-      variable on 1, . . . , n.                                       exceeds 44 inches in year i (from now), then the
- 5.6. Your company must make a sealed bid for a con-                  events Ai , i Ú 1, are independent.
-      struction project. If you succeed in winning the          5.12. The following table uses 1992 data concerning the
-      contract (by having the lowest bid), then you plan              percentages of male and female full-time workers
-      to pay another ﬁrm 100 thousand dollars to do                   whose annual salaries fall into different ranges:
+      X = Int(nU) + 1 is a discrete uniform random
+      variable on 1, . . . , n.
+ 5.6. Your company must make a sealed bid for a con-
+      struction project. If you succeed in winning the
+      contract (by having the lowest bid), then you plan
+      to pay another ﬁrm 100 thousand dollars to do
       the work. If you believe that the minimum bid
-      (in thousands of dollars) of the other participating               Earnings range       Percentage      Percentage
-      companies can be modeled as the value of a ran-                                         of females       of males
+      (in thousands of dollars) of the other participating
+      companies can be modeled as the value of a ran-
       dom variable that is uniformly distributed on (70,
-      140), how much should you bid to maximize your                    …9999                        8.6            4.4
-      expected proﬁt?                                                   10,000–19,999               38.0           21.1
- 5.7. To be a winner in a certain game, you must be                     20,000–24,999               19.4           15.8
-      successful in three successive rounds. The game                   25,000–49,999               29.2           41.5
-      depends on the value of U, a uniform random vari-                 Ú50,000                      4.8           17.2
+      140), how much should you bid to maximize your
+      expected proﬁt?
+ 5.7. To be a winner in a certain game, you must be
+      successful in three successive rounds. The game
+      depends on the value of U, a uniform random vari-
       able on (0, 1). If U > .1, then you are successful
-      in round 1; if U > .2, then you are successful in               Suppose that random samples of 200 male and 200
-      round 2; and if U > .3, then you are successful in              female full-time workers are chosen. Approximate
-      round 3.                                                        the probability that
-      (a) Find the probability that you are successful in             (a) at least 70 of the women earn $25,000 or more;
-            round 1.                                                  (b) at most 60 percent of the men earn $25,000
-      (b) Find the conditional probability that you are                    or more;
-            successful in round 2 given that you were suc-            (c) at least three-fourths of the men and at least
-            cessful in round 1.                                            half the women earn $20,000 or more.
-      (c) Find the conditional probability that you are         5.13. At a certain bank, the amount of time that a cus-
-            successful in round 3 given that you were suc-            tomer spends being served by a teller is an expo-
-            cessful in rounds 1 and 2.                                nential random variable with mean 5 minutes. If
-      (d) Find the probability that you are a winner.                 there is a customer in service when you enter the
- 5.8. A randomly chosen IQ test taker obtains a score                 bank, what is the probability that he or she will still
-      that is approximately a normal random variable                  be with the teller after an additional 4 minutes?
-      with mean 100 and standard deviation 15. What is          5.14. Suppose that the cumulative distribution function
-      the probability that the score of such a person is              of the random variable X is given by
+      in round 1; if U > .2, then you are successful in
+      round 2; and if U > .3, then you are successful in
+      round 3.
+      (a) Find the probability that you are successful in
+            round 1.
+      (b) Find the conditional probability that you are
+            successful in round 2 given that you were suc-
+            cessful in round 1.
+      (c) Find the conditional probability that you are
+            successful in round 3 given that you were suc-
+            cessful in rounds 1 and 2.
+      (d) Find the probability that you are a winner.
+ 5.8. A randomly chosen IQ test taker obtains a score
+      that is approximately a normal random variable
+      with mean 100 and standard deviation 15. What is
+      the probability that the score of such a person is
       (a) above 125; (b) between 90 and 110?
-                                                                                   F(x) = 1 − e−x
-                                                                                                       2
- 5.9. Suppose that the travel time from your home to                                                       x > 0
+ 5.9. Suppose that the travel time from your home to
       your ofﬁce is normally distributed with mean 40
-      minutes and standard deviation 7 minutes. If you                Evaluate (a) P{X > 2}; (b) P{1 < X < 3}; (c) the
-      want to be 95 percent certain that you will not be              hazard rate function of F; (d) E[X]; (e) Var(X).
-      late for an ofﬁce appointment at 1 P . M ., what is the         Hint: For parts (d) and (e), you might want to
-      latest time that you should leave home?                         make use of the results of Theoretical Exercise 5.
-5.10. The life of a certain type of automobile tire is nor-     5.15. The number of years that a washing machine func-
-      mally distributed with mean 34,000 miles and stan-              tions is a random variable whose hazard rate func-
-      dard deviation 4000 miles.                                      tion is given by
-      (a) What is the probability that such a tire lasts                            ⎧
-            over 40,000 miles?                                                      ⎨ .2               0 < t < 2
-      (b) What is the probability that it lasts between                      λ(t) = .2 + .3(t − 2) 2 … t < 5
-                                                                                    ⎩ 1.1              t > 5
+      minutes and standard deviation 7 minutes. If you
+      want to be 95 percent certain that you will not be
+      late for an ofﬁce appointment at 1 P . M ., what is the
+      latest time that you should leave home?
+5.10. The life of a certain type of automobile tire is nor-
+      mally distributed with mean 34,000 miles and stan-
+      dard deviation 4000 miles.
+      (a) What is the probability that such a tire lasts
+            over 40,000 miles?
+      (b) What is the probability that it lasts between
             30,000 and 35,000 miles?
       (c) Given that it has survived 30,000 miles, what
-            is the conditional probability that the tire sur-         (a) What is the probability that the machine will
-            vives another 10,000 miles?                                   still be working 6 years after being purchased?
-5.11. The annual rainfall in Cleveland, Ohio is approx-               (b) If it is still working 6 years after being pur-
-      imately a normal random variable with mean 40.2                     chased, what is the conditional probability
-      inches and standard deviation 8.4 inches. What is                   that it will fail within the next 2 years?
-      the probability that                                      5.16. A standard Cauchy random variable has density
-      (a) next year’s rainfall will exceed 44 inches?                 function
-      (b) the yearly rainfalls in exactly 3 of the next 7                                  1
-            years will exceed 44 inches?                                     f (x) =                  − q < x < q
-                                                                                       π(1 + x2 )
+            is the conditional probability that the tire sur-
+            vives another 10,000 miles?
+5.11. The annual rainfall in Cleveland, Ohio is approx-
+      imately a normal random variable with mean 40.2
+      inches and standard deviation 8.4 inches. What is
+      the probability that
+      (a) next year’s rainfall will exceed 44 inches?
+      (b) the yearly rainfalls in exactly 3 of the next 7
+            years will exceed 44 inches?
 
 
+
+Assume that if Ai is the event that the rainfall
+exceeds 44 inches in year i (from now), then the
+events Ai , i Ú 1, are independent.
+5.12. The following table uses 1992 data concerning the
+percentages of male and female full-time workers
+whose annual salaries fall into different ranges:
+Earnings range       Percentage      Percentage
+of females       of males
+…9999                        8.6            4.4
+10,000–19,999               38.0           21.1
+20,000–24,999               19.4           15.8
+25,000–49,999               29.2           41.5
+Ú50,000                      4.8           17.2
+Suppose that random samples of 200 male and 200
+female full-time workers are chosen. Approximate
+the probability that
+(a) at least 70 of the women earn $25,000 or more;
+(b) at most 60 percent of the men earn $25,000
+or more;
+(c) at least three-fourths of the men and at least
+half the women earn $20,000 or more.
+5.13. At a certain bank, the amount of time that a cus-
+tomer spends being served by a teller is an expo-
+nential random variable with mean 5 minutes. If
+there is a customer in service when you enter the
+bank, what is the probability that he or she will still
+be with the teller after an additional 4 minutes?
+5.14. Suppose that the cumulative distribution function
+of the random variable X is given by
+F(x) = 1 − e−x
+2
+x > 0
+Evaluate (a) P{X > 2}; (b) P{1 < X < 3}; (c) the
+hazard rate function of F; (d) E[X]; (e) Var(X).
+Hint: For parts (d) and (e), you might want to
+make use of the results of Theoretical Exercise 5.
+5.15. The number of years that a washing machine func-
+tions is a random variable whose hazard rate func-
+tion is given by
+⎧
+⎨ .2               0 < t < 2
+λ(t) = .2 + .3(t − 2) 2 … t < 5
+⎩ 1.1              t > 5
+(a) What is the probability that the machine will
+still be working 6 years after being purchased?
+(b) If it is still working 6 years after being pur-
+chased, what is the conditional probability
+that it will fail within the next 2 years?
+5.16. A standard Cauchy random variable has density
+function
+1
+f (x) =                  − q < x < q
+π(1 + x2 )
 --- Source page ---
 
 
-                                                                             Self-Test Problems and Exercises       231
 
-      Show that X is a standard Cauchy random                       variable X whose mean μ depends on whether the
-      variable, then 1/X is also a standard Cauchy ran-             defendant is guilty. If innocent, μ = 1; if guilty,
-      dom variable.                                                 μ = 2. The deciding judge will rule the defen-
-5.17. A roulette wheel has 38 slots, numbered 0, 00, and            dant guilty if X > c for some suitably chosen
-      1 through 36. If you bet 1 on a speciﬁed num-                 value of c.
-      ber then you either win 35 if the roulette ball               (a) If the judge wants to be 95 percent certain
-      lands on that number or lose 1 if it does not.                     that an innocent man will not be convicted,
-      If you continually make such bets, approximate                     what should be the value of c?
-      the probability that                                          (b) Using the value of c found in part (a), what is
-      (a) you are winning after 34 bets;                                 the probability that a guilty defendant will be
-      (b) you are winning after 1000 bets;                               convicted?
+      Show that X is a standard Cauchy random
+      variable, then 1/X is also a standard Cauchy ran-
+      dom variable.
+5.17. A roulette wheel has 38 slots, numbered 0, 00, and
+      1 through 36. If you bet 1 on a speciﬁed num-
+      ber then you either win 35 if the roulette ball
+      lands on that number or lose 1 if it does not.
+      If you continually make such bets, approximate
+      the probability that
+      (a) you are winning after 34 bets;
+      (b) you are winning after 1000 bets;
       (c) you are winning after 100,000 bets.
       Assume that each roll of the roulette ball is equally    5.20. For any real number y, deﬁne y+ by
       likely to land on any of the 38 numbers.
-5.18. There are two types of batteries in a bin. When in                                   y, if y Ú 0
-                                                                                   y+ =
-      use, type i batteries last (in hours) an exponentially                               0, if y < 0
+5.18. There are two types of batteries in a bin. When in
+      use, type i batteries last (in hours) an exponentially
       distributed time with rate λi , i = 1, 2. A battery
-      that is randomly chosen from the bin will be a type           Let c be a constant.
-                                       ∑2                           (a) Show that
+      that is randomly chosen from the bin will be a type
       i battery with probability pi ,     pi = 1. If a ran-
-                                     i=1                                                  1
-                                                                          E[(Z − c)+ ] = √ e−c /2 − c(1 − Φ(c))
-                                                                                              2
       domly chosen battery is still operating after t hours
-      of use, what is the probability that it will still be                               2π
+      of use, what is the probability that it will still be
       operating after an additional s hours?
-5.19. Evidence concerning the guilt or innocence of a                   when Z is a standard normal random variable.
-      defendant in a criminal investigation can be sum-             (b) Find E[(X − c)+ ] when X is normal with
-      marized by the value of an exponential random                     mean μ and variance σ 2 .
+5.19. Evidence concerning the guilt or innocence of a
+      defendant in a criminal investigation can be sum-
+      marized by the value of an exponential random
+Self-Test Problems and Exercises       231
+variable X whose mean μ depends on whether the
+defendant is guilty. If innocent, μ = 1; if guilty,
+μ = 2. The deciding judge will rule the defen-
+dant guilty if X > c for some suitably chosen
+value of c.
+(a) If the judge wants to be 95 percent certain
+that an innocent man will not be convicted,
+what should be the value of c?
+(b) Using the value of c found in part (a), what is
+the probability that a guilty defendant will be
+convicted?
+y, if y Ú 0
+y+ =
+0, if y < 0
+Let c be a constant.
+∑2                           (a) Show that
+i=1                                                  1
+E[(Z − c)+ ] = √ e−c /2 − c(1 − Φ(c))
+2
+2π
+when Z is a standard normal random variable.
+(b) Find E[(X − c)+ ] when X is normal with
+mean μ and variance σ 2 .
