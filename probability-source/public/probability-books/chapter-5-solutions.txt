@@ -8,8 +8,7 @@
 
 
 
- Scope and source note. This volume follows the uploaded Probability - Questions.pdf. The source begins the Chapter 5
- problem set at Problem 5.7; Problems 5.1–5.6 are not present and are therefore not reconstructed. Theoretical Exercise
+ Scope and source note. This volume follows the uploaded Probability - Questions.pdf. The main question bank begins Chapter 5 at Problem 5.7. Problems 5.1–5.6 are included in the separate supplementary solution section below. Theoretical Exercise
  5.4 refers to Corollary 2.1, and Theoretical Exercise 5.33 refers to Theorem 7.1; their statements are not included in the
  uploaded Chapter 5 pages, so those dependencies are explicitly identified.
 
