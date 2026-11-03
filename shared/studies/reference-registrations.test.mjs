@@ -24,7 +24,9 @@ assert.ok(probabilityUnique < probabilityAppearances, "overlapping pathways must
 
 const metallurgy = METALLURGY_STUDIES_REGISTRATION;
 const courses = metallurgy.content.filter((item) => item.kind === "course");
-assert.deepEqual(courses.map((item) => item.id), ["mt201", "mt202", "mt203"]);
+assert.deepEqual(courses.map((item) => item.id), ["mt200", "mt201", "mt202", "mt203"]);
+const mt200 = courses.find((item) => item.id === "mt200");
+assert.deepEqual(mt200.capabilities, [], "MT200 is a document-backed course library, not an interactive question player yet");
 const mt201 = courses.find((item) => item.id === "mt201");
 const mt202 = courses.find((item) => item.id === "mt202");
 const mt203 = courses.find((item) => item.id === "mt203");
