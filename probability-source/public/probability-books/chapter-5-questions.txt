@@ -22,7 +22,6 @@ TEXTBOOK QUESTION BANK — PROBLEMS 5.7–5.41, THEORETICAL EXERCISES 5.1–5.33
 --- Source page ---
 
 
-Problems      225
 
  5.7. The density function of X is given by
                f (x) =
@@ -72,6 +71,7 @@ Problems      225
 
 
 
+Problems      225
 (b) If, at 10:15, the bus has not yet arrived, what
 {                                                is the probability that you will have to wait at
 a + bx2 0 … x … 1                              least an additional 10 minutes?
@@ -256,6 +256,21 @@ tracting lung cancer?
       4x2 + 4xY + Y + 2 = 0 are both real?
 
 
+Theoretical Exercises   227
+parameter λ = 1, compute the probability den-
+sity function of the random variable Y deﬁned by
+Y = log X.
+5.40. If X is uniformly distributed over (0, 1), ﬁnd the
+density function of Y = eX .
+5.41. Find the distribution of R = A sin θ , where A is
+a ﬁxed constant and θ is uniformly distributed on
+(−π/2, π/2). Such a random variable R arises in
+the theory of ballistics. If a projectile is ﬁred from
+the origin at an angle α from the earth with a speed
+ν, then the point R at which it returns to the earth
+can be expressed as R = (v2 /g) sin 2α, where g is
+the gravitational constant, equal to 980 centime-
+ters per second squared.
 THEORETICAL EXERCISES
 
  5.1. The speed of a molecule in a uniform gas at equi-
@@ -289,21 +304,6 @@ THEORETICAL EXERCISES
 
 
 
-Theoretical Exercises   227
-parameter λ = 1, compute the probability den-
-sity function of the random variable Y deﬁned by
-Y = log X.
-5.40. If X is uniformly distributed over (0, 1), ﬁnd the
-density function of Y = eX .
-5.41. Find the distribution of R = A sin θ , where A is
-a ﬁxed constant and θ is uniformly distributed on
-(−π/2, π/2). Such a random variable R arises in
-the theory of ballistics. If a projectile is ﬁred from
-the origin at an angle α from the earth with a speed
-ν, then the point R at which it returns to the earth
-can be expressed as R = (v2 /g) sin 2α, where g is
-the gravitational constant, equal to 980 centime-
-ters per second squared.
 5.5. Use the result that, for a nonnegative random vari-
 able Y,                ∫     q
 E[Y] =              P{Y > t} dt
@@ -487,27 +487,6 @@ Var(X) = 2                                    deﬁned by Y = aX + b.
 
 
 
-SELF-TEST PROBLEMS AND EXERCISES
-
- 5.1. The number of minutes of playing time of a certain
-      high school basketball player in a randomly cho-
-      sen game is a random variable whose probability
-      density function is given in the following ﬁgure:
-.050
-.025
-               10                 20         30
-      Find the probability that the player plays
-      (a) over 15 minutes;
-      (b) between 20 and 35 minutes;
-      (c) less than 30 minutes;
-      (d) more than 36 minutes.
- 5.2. For some constant c, the random variable X has
-      the probability density function
-                  f (x) =
-       Find (a) c and (b) P{X > x}, 0 < x < 1.
-
-
-
 Self-Test Problems and Exercises                229
 ∑
 q
@@ -541,6 +520,27 @@ between this problem and Problem 11 of
 ∑                                                     if XY has no multiple prime factors.)
 1/k2                                5.33. Prove Theorem 7.1 when g(x) is a decreasing func-
 k=1                                             tion.
+SELF-TEST PROBLEMS AND EXERCISES
+
+ 5.1. The number of minutes of playing time of a certain
+      high school basketball player in a randomly cho-
+      sen game is a random variable whose probability
+      density function is given in the following ﬁgure:
+.050
+.025
+               10                 20         30
+      Find the probability that the player plays
+      (a) over 15 minutes;
+      (b) between 20 and 35 minutes;
+      (c) less than 30 minutes;
+      (d) more than 36 minutes.
+ 5.2. For some constant c, the random variable X has
+      the probability density function
+                  f (x) =
+       Find (a) c and (b) P{X > x}, 0 < x < 1.
+
+
+
 5.3. For some constant c, the random variable X has
 the probability density function
 {
