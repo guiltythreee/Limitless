@@ -4,6 +4,21 @@
 
 
 
+which can be generalized to give
+⎛      ⎞
+⋃n         ∑n          ∑∑             ∑∑∑
+P ⎝      ⎠
+Ai =       P(Ai ) −    P(Ai Aj ) +     P(Ai Aj Ak )
+i=1         i=1               i<j                    i<j<k
+n+1
++ · · · + (−1)         P(A1 · · · An )
+If S is ﬁnite and each one point set is assumed to have equal probability, then
+|A|
+P(A) =
+|S|
+where |E| denotes the number of outcomes in the event E.
+P(A) can be interpreted either as a long-run relative frequency or as a measure of
+one’s degree of belief.
 PROBLEMS
 
      1. A box contains 3 marbles: 1 red, 1 green, and 1
@@ -39,21 +54,6 @@ PROBLEMS
         experiment that consists of observing the status of
 
 
-which can be generalized to give
-⎛      ⎞
-⋃n         ∑n          ∑∑             ∑∑∑
-P ⎝      ⎠
-Ai =       P(Ai ) −    P(Ai Aj ) +     P(Ai Aj Ak )
-i=1         i=1               i<j                    i<j<k
-n+1
-+ · · · + (−1)         P(A1 · · · An )
-If S is ﬁnite and each one point set is assumed to have equal probability, then
-|A|
-P(A) =
-|S|
-where |E| denotes the number of outcomes in the event E.
-P(A) can be interpreted either as a long-run relative frequency or as a measure of
-one’s degree of belief.
 each component, and let the outcome of the exper-
 iment be given by the vector (x1 , x2 , x3 , x4 , x5 ),
 where xi is equal to 1 if component i is working
@@ -97,7 +97,6 @@ of an adult soccer team. How many outcomes are
 bers is a blue-collar worker?
 <PARSED TEXT FOR PAGE: 8 / 82>
 
-Problems      51
 
     (c) in the event that none of the team members
           considers himself or herself an Independent?
@@ -155,6 +154,7 @@ Problems      51
     III: 5 percent II and III: 4 percent
 
 
+Problems      51
 (The list tells us, for instance, that 8000 people
 read newspapers I and II.)
 (a) Find the number of people who read only one
@@ -334,7 +334,6 @@ their schools but will not play each other?
 represent her school?
 <PARSED TEXT FOR PAGE: 10 / 82>
 
-Problems      53
 
 31. A 3-person basketball team consists of a guard, a
     forward, and a center.
@@ -393,6 +392,7 @@ Problems      53
     If 4 sets break down, what is the probability that
 
 
+Problems      53
 exactly i of the repairers are called? Solve the
 problem for i = 1, 2, 3, 4. What assumptions are
 you making?
@@ -474,13 +474,6 @@ N n arrangements are equally likely.
 
 
 
-THEORETICAL EXERCISES
-     Prove the following relations:
-      1. EF ( E ( E ∪ F.
-      2. If E ( F, then F c ( Ec .
-      3. F = FE ∪ FEc and E ∪ F = E ∪ Ec F.
-
-
 (Why not?)
 Hint: Use Proposition 4.4.
 55. Compute the probability that a hand of 13 cards
@@ -504,6 +497,13 @@ a                                                       b
 c
 2
 FIGURE 2.6: Spinners
+THEORETICAL EXERCISES
+     Prove the following relations:
+      1. EF ( E ( E ∪ F.
+      2. If E ( F, then F c ( Ec .
+      3. F = FE ∪ FEc and E ∪ F = E ∪ Ec F.
+
+
 (            )
 ⋃
 q              ⋃
@@ -645,6 +645,22 @@ withdrawn one at a time until a total of r, r … n,
        m losses are randomly permuted. Now
 
 
+consider the total number of runs—that is, win
+runs plus loss runs—and show that
+(       )(        )
+m − 1     n − 1
+k − 1     k − 1
+P{2k runs} = 2      (        )
+m + n
+n
+P{2k + 1 runs}
+(        )(       )   (       )(       )
+m − 1     n − 1       m − 1    n − 1
++
+k − 1       k           k      k − 1
+=                  (       )
+m + n
+n
 SELF-TEST PROBLEMS AND EXERCISES
 
      1. A cafeteria offers a three-course meal consisting
@@ -682,22 +698,6 @@ SELF-TEST PROBLEMS AND EXERCISES
         card?
 
 
-consider the total number of runs—that is, win
-runs plus loss runs—and show that
-(       )(        )
-m − 1     n − 1
-k − 1     k − 1
-P{2k runs} = 2      (        )
-m + n
-n
-P{2k + 1 runs}
-(        )(       )   (       )(       )
-m − 1     n − 1       m − 1    n − 1
-+
-k − 1       k           k      k − 1
-=                  (       )
-m + n
-n
 4. Let A denote the event that the midtown temper-
 ature in Los Angeles is 70◦ F, and let B denote the
 event that the midtown temperature in New York
