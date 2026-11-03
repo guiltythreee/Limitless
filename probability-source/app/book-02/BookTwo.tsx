@@ -3,29 +3,49 @@
 import { Fragment, useEffect, useState } from "react";
 import { Rich } from "../lib/rich";
 
-const chapters = [
-  ["Probability and Counting", 1],
-  ["Conditional Probability", 45],
-  ["Random Variables and Their Distributions", 103],
-  ["Expectation", 149],
-  ["Continuous Random Variables", 213],
-  ["Moments", 267],
-  ["Joint Distributions", 303],
-  ["Transformations", 367],
-  ["Conditional Expectation", 411],
-  ["Inequalities and Limit Theorems", 453],
-  ["Markov Chains", 499],
-  ["Markov Chain Monte Carlo", 533],
-  ["Poisson Processes", 559],
-] as const;
+type BookChapter = {
+  id: number;
+  title: string;
+  file: string;
+  solutions: string;
+  printedStartPage: number;
+};
+
+const fallbackChapters: BookChapter[] = [
+  { id: 1, title: "Probability and Counting", file: "chapters/chapter-01.md", solutions: "solutions/chapter-01-solutions.md", printedStartPage: 1 },
+  { id: 2, title: "Conditional Probability", file: "chapters/chapter-02.md", solutions: "solutions/chapter-02-solutions.md", printedStartPage: 45 },
+  { id: 3, title: "Random Variables and Their Distributions", file: "chapters/chapter-03.md", solutions: "solutions/chapter-03-solutions.md", printedStartPage: 103 },
+  { id: 4, title: "Expectation", file: "chapters/chapter-04.md", solutions: "solutions/chapter-04-solutions.md", printedStartPage: 149 },
+  { id: 5, title: "Continuous Random Variables", file: "chapters/chapter-05.md", solutions: "solutions/chapter-05-solutions.md", printedStartPage: 213 },
+  { id: 6, title: "Moments", file: "chapters/chapter-06.md", solutions: "solutions/chapter-06-solutions.md", printedStartPage: 267 },
+  { id: 7, title: "Joint Distributions", file: "chapters/chapter-07.md", solutions: "solutions/chapter-07-solutions.md", printedStartPage: 303 },
+  { id: 8, title: "Transformations", file: "chapters/chapter-08.md", solutions: "solutions/chapter-08-solutions.md", printedStartPage: 367 },
+  { id: 9, title: "Conditional Expectation", file: "chapters/chapter-09.md", solutions: "solutions/chapter-09-solutions.md", printedStartPage: 411 },
+  { id: 10, title: "Inequalities and Limit Theorems", file: "chapters/chapter-10.md", solutions: "solutions/chapter-10-solutions.md", printedStartPage: 453 },
+  { id: 11, title: "Markov Chains", file: "chapters/chapter-11.md", solutions: "solutions/chapter-11-solutions.md", printedStartPage: 499 },
+  { id: 12, title: "Markov Chain Monte Carlo", file: "chapters/chapter-12.md", solutions: "solutions/chapter-12-solutions.md", printedStartPage: 533 },
+  { id: 13, title: "Poisson Processes", file: "chapters/chapter-13.md", solutions: "solutions/chapter-13-solutions.md", printedStartPage: 559 },
+];
 
 const base = (process.env.NEXT_PUBLIC_BASE_PATH ?? "") + "/probability-books/book-02";
 const progressKey = "limitless.probability.book-02.reader.v1";
 
+function isBookChapter(value: unknown): value is BookChapter {
+  if (!value || typeof value !== "object") return false;
+  const item = value as Record<string, unknown>;
+  return Number.isInteger(item.id)
+    && typeof item.title === "string"
+    && typeof item.file === "string"
+    && typeof item.solutions === "string"
+    && Number.isInteger(item.printedStartPage);
+}
+
 function extractSourceText(markdown: string) {
   // The PDF extraction deliberately places the page-preserving transcription
   // in a fenced text block. Render its contents, not the Markdown fence itself.
-  const match = markdown.match(/^```text\s*\r?\n([\s\S]*?)\r?\n```[ \t]*$/m);
+  const fence = String.fromCharCode(96).repeat(3);
+  const pattern = new RegExp("^" + fence + "text\\s*\\r?\\n([\\s\\S]*?)\\r?\\n" + fence + "[ \\t]*$", "m");
+  const match = markdown.match(pattern);
   if (match) return match[1];
   return markdown.replace(/^# .*\r?\n+/, "").trim();
 }
@@ -45,6 +65,7 @@ function SourceTranscription({ text }: { text: string }) {
 }
 
 export default function BookTwo() {
+  const [catalogue, setCatalogue] = useState<BookChapter[]>(fallbackChapters);
   const [chapter, setChapter] = useState(1);
   const [completed, setCompleted] = useState<number[]>([]);
   const [solutions, setSolutions] = useState(false);
@@ -52,6 +73,29 @@ export default function BookTwo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(base + "/book.json")
+      .then((response) => {
+        if (!response.ok) throw new Error("Book catalogue unavailable.");
+        return response.json();
+      })
+      .then((data: unknown) => {
+        const entries = data && typeof data === "object"
+          ? (data as { chapters?: unknown }).chapters
+          : null;
+        if (!Array.isArray(entries)) return;
+        const valid = entries.filter(isBookChapter).sort((a, b) => a.id - b.id);
+        if (!cancelled && valid.length === 13) setCatalogue(valid);
+      })
+      .catch(() => {
+        // Keep the local fallback catalogue if the index cannot be loaded.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     try {
@@ -77,11 +121,11 @@ export default function BookTwo() {
     }
   }, [chapter, completed, solutions, hydrated]);
 
+  const selected = catalogue.find((item) => item.id === chapter) ?? fallbackChapters[chapter - 1];
+
   useEffect(() => {
     let cancelled = false;
-    const file = solutions
-      ? "solutions/chapter-" + String(chapter).padStart(2, "0") + "-solutions.md"
-      : "chapters/chapter-" + String(chapter).padStart(2, "0") + ".md";
+    const file = solutions ? selected.solutions : selected.file;
 
     setLoading(true);
     setError("");
@@ -103,10 +147,9 @@ export default function BookTwo() {
     return () => {
       cancelled = true;
     };
-  }, [chapter, solutions]);
+  }, [selected, solutions]);
 
-  const [title, page] = chapters[chapter - 1];
-  const percent = Math.round((completed.length / chapters.length) * 100);
+  const percent = Math.round((completed.length / catalogue.length) * 100);
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -119,7 +162,7 @@ export default function BookTwo() {
       <section className="panel mb-6 p-4">
         <div className="flex justify-between text-xs">
           <span className="uppercase tracking-widest text-gold">Reading progress</span>
-          <span className="text-dim">{completed.length}/13 · {percent}%</span>
+          <span className="text-dim">{completed.length}/{catalogue.length} · {percent}%</span>
         </div>
         <div className="mt-3 h-1.5 bg-gold/10">
           <div className="h-full bg-gold" style={{ width: percent + "%" }} />
@@ -127,28 +170,28 @@ export default function BookTwo() {
       </section>
 
       <nav className="mb-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Chapters">
-        {chapters.map(([name], index) => (
+        {catalogue.map((item) => (
           <button
-            key={index}
+            key={item.id}
             onClick={() => {
-              setChapter(index + 1);
+              setChapter(item.id);
               setSolutions(false);
             }}
-            aria-current={chapter === index + 1 ? "page" : undefined}
-            className={"border p-4 text-left " + (chapter === index + 1 ? "border-gold bg-gold/10" : "border-gold/20 hover:border-gold/50")}
+            aria-current={chapter === item.id ? "page" : undefined}
+            className={"border p-4 text-left " + (chapter === item.id ? "border-gold bg-gold/10" : "border-gold/20 hover:border-gold/50")}
           >
             <span className="block text-[10px] uppercase tracking-widest text-gold">
-              Chapter {index + 1}{completed.includes(index + 1) ? " · Complete" : ""}
+              Chapter {item.id}{completed.includes(item.id) ? " · Complete" : ""}
             </span>
-            <span className="serif mt-1 block text-lg text-parchment">{name}</span>
+            <span className="serif mt-1 block text-lg text-parchment">{item.title}</span>
           </button>
         ))}
       </nav>
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-gold/20 pb-4">
         <div>
-          <div className="eyebrow">Chapter {chapter} · {title}</div>
-          <p className="mt-1 text-xs text-dim">Printed page {page}</p>
+          <div className="eyebrow">Chapter {chapter} · {selected.title}</div>
+          <p className="mt-1 text-xs text-dim">Printed page {selected.printedStartPage}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button
@@ -176,7 +219,7 @@ export default function BookTwo() {
 
       <article className="panel min-h-[60vh] overflow-hidden">
         <header className="border-b border-gold/15 p-4 text-sm text-parchment">
-          {solutions ? "Chapter " + chapter + " — Detailed Solutions" : "Chapter " + chapter + " — " + title}
+          {solutions ? "Chapter " + chapter + " — Detailed Solutions" : "Chapter " + chapter + " — " + selected.title}
         </header>
         <div className="min-w-0 overflow-x-hidden p-5 md:p-8">
           {loading ? (
@@ -201,7 +244,7 @@ export default function BookTwo() {
           ← Previous
         </button>
         <button
-          disabled={chapter === 13}
+          disabled={chapter === catalogue.length}
           onClick={() => {
             setChapter((value) => value + 1);
             setSolutions(false);
