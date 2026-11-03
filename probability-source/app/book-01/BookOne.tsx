@@ -131,7 +131,7 @@ function solutionStarts(text: string, chapter: Chapter) {
   const matches: { id: string; title: string; index: number }[] = [];
   let pattern: RegExp;
   if (chapter <= 2) {
-    pattern = /^[ \\t]*(\\d{1,2})\\.[ \\t]+([^\\n]{3,140})$/gm;
+    pattern = /^[ \t]*(\d{1,2})\.[ \t]+([^\n]{3,140})$/gm;
   } else if (chapter === 5) {
     pattern = /^\s*(?:(?:Problem|Self-Test)\s+)?5\.(\d{1,2})(?:\.\s*|\s*[—–:-]\s*|\s+|\s*$)([^\n]{0,140})$/gm;
   } else {
