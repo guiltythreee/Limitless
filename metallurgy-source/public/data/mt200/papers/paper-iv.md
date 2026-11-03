@@ -367,6 +367,8 @@ D4.     Tightening a bolt by turns. An M12 × 1.75 bolt of high-strength steel c
 D5.     Choosing a material from its curve. Tension curves of four materials A, B, C and D are                [8]
         shown (× marks fracture). A zoom on the first 1% of strain is also given.
 
+![D5 tensile curves for materials A–D, redrawn from the supplied paper; readings are approximate](/data/mt200/figures/d5-material-selection.svg)
+
 
 
 
