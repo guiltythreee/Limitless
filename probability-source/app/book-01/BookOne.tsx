@@ -195,9 +195,10 @@ export default function BookOne() {
 
   const chapterProblems = useMemo(() => problems.filter((p) => p.chapter === chapter), [chapter]);
   const active = problems.find((p) => p.id === activeId) ?? chapterProblems[0] ?? problems[0];
-  const setChapterAndProblem = (next: 4 | 5) => {
+  const setChapterAndProblem = (next: 1 | 2 | 3 | 4 | 5) => {
     setChapter(next);
-    setActiveId(next === 4 ? "4.1" : "5.1");
+    if (next === 4) setActiveId("4.1");
+    if (next === 5) setActiveId("5.1");
   };
   const toggleComplete = (id: string) => setCompleted((old) => old.includes(id) ? old.filter((x) => x !== id) : [...old, id]);
 
@@ -227,7 +228,8 @@ export default function BookOne() {
         ))}
       </div>
 
-      {chapter <= 3 ? <SourceChapterPanel chapter={chapter} /> : (\n      <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+      {chapter <= 3 ? <SourceChapterPanel chapter={chapter} /> : (
+      <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
         <aside className="panel h-fit p-4">
           <div className="eyebrow mb-3">Chapter {chapter} · Problems</div>
           <div className="space-y-1">
@@ -277,7 +279,8 @@ export default function BookOne() {
           </div>
         </article>
       </div>
-      )}\n      <p className="mt-6 text-xs leading-6 text-faint">Progress is saved in this browser. These problem-book completions are kept separate from lesson mastery and LSR-1 rewards until a reviewed assessment adapter is added.</p>
+      )}
+      <p className="mt-6 text-xs leading-6 text-faint">Progress is saved in this browser. These problem-book completions are kept separate from lesson mastery and LSR-1 rewards until a reviewed assessment adapter is added.</p>
     </div>
   );
 }
