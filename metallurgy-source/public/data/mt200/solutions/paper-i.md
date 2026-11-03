@@ -45,7 +45,7 @@ A1 True strain as ln(L/L₀) and additivity                                     
  Marking scheme                                                                                                Marks
  Incremental strains defined against the current length (series written)                                             1
  Limit to the integral ∫dL/L                                                                                         1
- Evaluation: εT = ln(L/L0)                                                                                           1
+ Evaluation: $\\varepsilon_T=\\ln(L/L_0)$                                                                                           1
  Additivity of ln shown algebraically, and failure for engineering strain explained                                  1
  Numerical example: true strains 0.0953 + 0.0953 = ln 1.21                                                           1
  Numerical example: engineering 10% + 10% = 20% ≠ 21%                                                                1
@@ -101,7 +101,7 @@ A4 Considère criterion and UTS                                                 
  The load is P = σTA. Necking starts at maximum load, where dP = 0:
         dP = A dσT + σT dA = 0 ⇒ dσT/σT = −dA/A
  Volume constancy gives dA/A = −dL/L = −dεT. Hence:
-        dσT/dεT = σT      (Considère criterion)
+        $\\dfrac{d\\sigma_T}{d\\varepsilon_T}=\\sigma_T$      (Considère criterion)
  With σT = KεT : dσT/dεT = nKεTn−1. Setting this equal to KεTn gives εT = n. The engineering UTS is the
                    n
 
@@ -134,8 +134,8 @@ A5 Toughness up to necking and resilience                                       
 
  Equality of areas. Since σT = σe(1 + e) and dεT = de/(1 + e), we get σT dεT = σe de. So the area under
  the engineering curve equals ∫σTdεT (work per unit volume). Up to necking (εT = n):
-         W = ∫0n Kεn dε = K nn+1/(n + 1) (plastic part; add σy2/2E for the elastic part)
- Resilience. The elastic area is a triangle: Ur = ½ σyεy. With εy = σy/E this gives Ur = σy2/2E.
+         $W=\\int_0^n K\\varepsilon^n\\,d\\varepsilon=\\dfrac{Kn^{n+1}}{n+1}$ (plastic part; add σy2/2E for the elastic part)
+ Resilience. The elastic area is a triangle: Ur = ½ σyεy. With εy = σy/E this gives $U_r=\\sigma_y^2/(2E)$.
  Quality of σuεr. The engineering stress never exceeds σu, so the rectangle σuεr is always an upper
  bound on the area. The size of the overestimate depends on the curve shape: a brittle solid (a straight
  line to fracture) has area ½σuεr, so the estimate is out by a factor of 2; a parabolic-hardening metal has
