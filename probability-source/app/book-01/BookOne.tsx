@@ -94,9 +94,9 @@ const problems: Problem[] = [
       "(a) P(X>20)=∫₂₀∞10x⁻²dx=10/20=1/2.",
       "(b) F(x)=0 for x≤10. For x>10, F(x)=∫₁₀ˣ10t⁻²dt=1−10/x.",
       "(c) For one device, p=P(X≥15)=10/15=2/3. If the six lifetimes are independent and identically distributed, N, the number lasting at least 15 hours, is Binomial(6,2/3).",
-      "Thus P(N≥3)=1−Σₖ₌₀² C(6,k)(2/3)^k(1/3)^(6−k)= गुर."
+      "Thus P(N≥3)=1−[1+12+60]/729=656/729≈0.8999."
     ],
-    answer: "(a) 1/2. (b) F(x)=0 for x≤10 and 1−10/x for x>10. (c) 592/729≈0.8121, assuming independent lifetimes with the stated common distribution."
+    answer: "(a) 1/2. (b) F(x)=0 for x≤10 and 1−10/x for x>10. (c) 656/729≈0.8999, assuming independent lifetimes with the stated common distribution."
   },
   {
     id: "5.5", chapter: 5, title: "Tank capacity and a 1% exhaustion risk",
