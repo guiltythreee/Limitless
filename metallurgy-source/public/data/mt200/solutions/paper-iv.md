@@ -32,15 +32,15 @@ MT200 · TESTING OF MATERIALS
      0.32%, so it cracks."
 
  Situation                            Strain or stress to compute                                 Used in
- Press or shrink fit                  ε = (difference in diameters) / (diameter)                  D1
+ Press or shrink fit                  $\\varepsilon = \\dfrac{\\text{difference in diameters}}{\\text{original diameter}}$                  D1
  Wire or sheet bent around a
-                                      εmax = (half thickness) / (radius of neutral axis)          D2
+                                      $\\varepsilon_{\\max} = \\dfrac{t/2}{R_n}$          D2
  radius
- Rolling, forging, drawing            e = (h0 − h)/h0, εT = ln(h0/h)                              D3
- Bolt tightened by turning the nut    ε = (turns × pitch) / (grip length)                         D4
- Rod held rigid while heated          ε = αΔT                                                     (extra practice)
- Hanging or lifting a load            σ = W/A (stress, not strain)                                (extra practice)
- Deep water or fluid pressure         σ = p = ρgh (then consider stress concentration)            Aug 2026 quiz Q2
+ Rolling, forging, drawing            $e = \\dfrac{h_0-h}{h_0}, \\quad \\varepsilon_T = \\ln\\left(\\dfrac{h_0}{h}\\right)$                              D3
+ Bolt tightened by turning the nut    $\\varepsilon = \\dfrac{N p}{L_g}$                         D4
+ Rod held rigid while heated          $\\varepsilon = \\alpha\\Delta T$                                                     (extra practice)
+ Hanging or lifting a load            $\\sigma = \\dfrac{W}{A}$ (stress, not strain)                                (extra practice)
+ Deep water or fluid pressure         $\\sigma = p = \\rho g h$ (then consider stress concentration)            Aug 2026 quiz Q2
 
  Traps that cost marks. (1) Comparing a strain with a stress. (2) Forgetting where the curve ends. (3) Using
  engineering values after necking. (4) Mixing ksi, MPa and kgf/mm2 (1 ksi = 6.895 MPa, 1 kgf/mm2 = 9.81 MPa). (5)
@@ -225,7 +225,7 @@ MT200 Testing of Materials · Paper IV Solutions and Marking Scheme             
 
 D1 Ring on a shaft                                                                                                      [8]
 
- (a) Strains. Ring (bore stretched, tension): ε = (50.20 − 50.00)/50.00 = 0.40%. Shaft (squeezed,
+ (a) Strains. Ring (bore stretched, tension): $\\varepsilon = \\dfrac{50.20-50.00}{50.00}=0.40\\%$. Shaft (squeezed,
  compression; the curve is taken as the same in compression): ε = 0.20/50.20 = 0.40%.
  (b) Reading. The ring curve ends (fracture) at 0.32%, at about 385 MPa. The ring must stretch to
  0.40%, which is beyond that, so the ring cracks. It is brittle, so it has no plastic strain to spare. The
@@ -252,7 +252,7 @@ D1 Ring on a shaft                                                              
 
 D2 Wire on a mandrel                                                                                                    [8]
 
- (a) Radius of the wire's neutral axis: Rc = 40/2 + 2/2 = 21 mm. Outer-fibre strain: ε = (d/2)/Rc = 1/21 =
+ (a) Radius of the wire's neutral axis: $R_c=40/2+2/2=21\\,\\mathrm{mm}$. Outer-fibre strain: $\\varepsilon=(d/2)/R_c=1/21=
  4.76%.
  (b) Between 4% (1200 MPa) and 6% (1270 MPa): σ ≈ 1227 MPa. The elastic limit is about 900 MPa (at
  0.45%), and the wire fractures at 9%, so the wire has yielded but not fractured.
@@ -275,13 +275,13 @@ D2 Wire on a mandrel                                                            
 
 D3 Cold rolling                                                                                                         [8]
 
- (a) Reduction = (5.0 − 3.2)/5.0 = 36%. True strain ε = ln(5.0/3.2) = 0.446.
- (b) n = ln(646/426)/ln(0.40/0.10) = ln(1.516)/ln 4 = 0.30. K = 426/0.100.30 = 850 MPa.
+ (a) Reduction = $(5.0-3.2)/5.0=36\\%$. True strain $\\varepsilon=\\ln(5.0/3.2)=0.446$.
+ (b) $n=\\dfrac{\\ln(646/426)}{\\ln(0.40/0.10)}=0.30$. $K=426/0.10^{0.30}=850\\,\\mathrm{MPa}$.
 
 
 MT200 Testing of Materials · Paper IV Solutions and Marking Scheme                                                    Page 5
 
- (c) The strip has been strained to ε = 0.446, so on reloading it starts to flow at about the stress it
+ (c) The strip has been strained to $\\varepsilon=0.446$, so on reloading it starts to flow at about the stress it
  reached: σ = 850 × 0.4460.30 = 667 MPa.
  (d) Necking begins where dσ/dε = σ. For the power law, dσ/dε = nσ/ε = 0.30 × 667/0.446 = 449 MPa,
  which is less than σ = 667 MPa. So the necking condition is already satisfied at the moment of
