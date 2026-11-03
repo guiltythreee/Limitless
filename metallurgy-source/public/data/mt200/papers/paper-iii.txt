@@ -1,0 +1,92 @@
+MT200 · TESTING OF MATERIALS
+Rigorous Practice Paper III: Modules 1–3 (Materials World, Tension and Compression, Hardness)
+Department of Metallurgical and Materials Engineering · NITK Surathkal
+Practice paper; not an official examination
+
+Time: 3 hours · Maximum marks: 100 · Attempt all questions
+Scope: Modules 1–3 only; excludes torsion, impact, fatigue and creep. Questions are new and do not repeat Papers I and II.
+
+INSTRUCTIONS
+- Show every derivation step by step and state all assumptions. A bare final formula earns only the final-line mark.
+- Use SI units. Take g = 9.81 m/s², NA = 6.022 × 10²³ mol⁻¹, 1 kgf = 9.81 N.
+
+MARK DISTRIBUTION
+A · Derivations (A1–A9): 44 marks
+B · Hard conceptual and theory questions (B1–B8): 32 marks
+C · Numericals and data analysis (C1–C3): 24 marks
+Total: 100 marks
+D · Bonus (D1–D2): +8 marks, not counted in the 100
+
+SECTION A · DERIVATIONS (44 marks)
+
+A1. [7] Where modulus and theoretical strength come from. Two atoms interact through U(r) = −A/rᵐ + B/rⁿ (n > m).
+(i) Find equilibrium spacing r₀ (in terms of A, B, m, n) and show bond stiffness S₀ = (d²U/dr²) at r₀ equals mn|U₀|/r₀², where U₀ is bond energy.
+(ii) Taking each atom to occupy an area r₀², show E ≈ S₀/r₀. What does this say about the link between E and melting point?
+(iii) Assume stress needed to separate two atomic planes is σ = σth sin(2πx/λ). Using Hooke's law for small x and requiring work of separation per unit area to equal 2γ (γ = surface energy), show σth = √(Eγ/r₀).
+(iv) Evaluate σth for iron (E = 200 GPa, γ = 1 J/m², r₀ = 0.25 nm) and compare with typical yield strength of 250 MPa. What does the gap tell you?
+
+A2. [5] Brinell versus Meyer hardness. Meyer hardness is mean contact pressure, P divided by projected area of the impression. Show BHN/Meyer = ½[1 + √(1 − (d/D)²)]. Evaluate at d/D = 0.25, 0.375 and 0.5, and explain which is the more fundamental measure of resistance to plastic flow.
+
+A3. [5] Vickers geometry. For the 136° pyramid, show diagonal d ≈ 7.0h, where h is indentation depth. Hence find projected area and surface area in terms of h. Use your result to justify the usual rule that the specimen must be at least 1.5d thick.
+
+A4. [6] The friction hill in compression. A thin cylindrical disc (radius a, height h) is compressed between rough platens with Coulomb friction (coefficient μ). Take axial stress σz and radial stress σr (both compressive) with σz − σr = σ₀, a constant flow stress.
+(i) Consider radial force balance on a ring element and show dσz/dr = −2μσz/h.
+(ii) Integrate with the free-edge condition at r = a to obtain σz(r).
+(iii) Find mean pressure pavg and show that for small 2μa/h it is pavg ≈ σ₀(1 + 2μa/3h).
+(iv) What does this tell you about specimen proportions and lubrication?
+
+A5. [5] Rebound hardness. A hammer is dropped from height h₀ onto a specimen and rebounds to hr. Using coefficient of restitution e, show hr = e²h₀ and find fraction of energy dissipated. Explain how this links to hardness, and why rebound height is not a pure measure of hardness.
+
+A6. [5] Necking for a saturating hardening law. A metal follows the Voce law σT = σs − (σs − σ₀) exp(−εT/εc). Using the Considère criterion, derive true stress and true strain at necking. Evaluate them, and engineering UTS, for σ₀ = 200 MPa, σs = 600 MPa, εc = 0.5. Compare with the Hollomon law.
+
+A7. [4] Machine compliance. A specimen (area A, gauge length L, modulus E) is tested in a machine of stiffness km, with strain computed from crosshead displacement. Derive apparent modulus Eapp. Evaluate for a 10 mm diameter, 50 mm long steel specimen (E = 200 GPa) in a machine of stiffness 100 kN/mm. Which measured quantities are corrupted, and which are not?
+
+A8. [3] Meyer’s law and strain hardening. Meyer’s law states P = k dᵐ. Assuming mean pressure equals a constant C times flow stress at representative strain εr = 0.2 d/D, and σ = Kεⁿ, show m = 2 + n. What does m = 2 mean physically?
+
+A9. [4] Error propagation in hardness. Show relative error in Vickers hardness is δHV/HV = −2δd/d. For Brinell, derive δBHN/BHN in terms of δd, D and d, and evaluate for D = 10 mm, d = 4.0 mm, δd = 0.05 mm. Which measurement is more sensitive to reading errors, and why?
+
+SECTION B · HARD CONCEPTUAL AND THEORY QUESTIONS (32 marks)
+
+B1. [4] Count slip systems in FCC, BCC and HCP crystals. Explain why FCC metals are inherently ductile, why BCC metals are strongly temperature-dependent in strength, and why HCP metals such as Zn and Mg are often brittle. State the von Mises requirement on independent slip systems.
+
+B2. [4] Using the shape of the interatomic potential well, explain why materials with high melting points also tend to have high modulus and low thermal expansion. Contrast moduli of steel, alumina and a polymer in terms of bonding.
+
+B3. [4] Name the four main strengthening mechanisms in metals. For each, give the governing relation and physical origin. Which does not sacrifice toughness, and why?
+
+B4. [4] List all strength, stiffness and ductility parameters that a tensile test yields, and say how each is obtained from the curve. Compare elastic and plastic deformation at atomic level. Why is yield strength, not UTS, the design parameter for ductile metals, and what does yield ratio σy/σu tell you?
+
+B5. [4] Why can no single stress–strain equation describe a tensile test past necking? Explain stress state in the neck and Bridgman correction (what must be measured). Describe stages of cup-and-cone fracture.
+
+B6. [4] Why is compressive strength of cast iron, concrete or a ceramic several times tensile strength? Explain using flaws, and explain why fracture plane in compression is at about 45° or more, while in tension it is flat and perpendicular to axis. Compare methods and outcomes of tension and compression tests for a ductile metal.
+
+B7. [4] Explain why hardness is about 3 times yield stress (constraint idea) and why relevant flow stress is at representative strain of about 8%. State two limitations of H ≈ 3σ correlation. What are pile-up and sink-in, and how do they affect indentation results?
+
+B8. [4] Discuss microhardness and nanoindentation: loads, specimen preparation, spacing rules, indentation size effect, and how a nanoindenter obtains hardness and modulus from a load–displacement curve.
+
+SECTION C · NUMERICALS AND DATA ANALYSIS (24 marks)
+
+C1. [8] Crystal-structure calculations.
+(a) Derive atomic packing factor of FCC and BCC lattices.
+(b) Compute theoretical density of copper (FCC, a = 0.3615 nm, atomic mass 63.55 g/mol) and iron (BCC, a = 0.2866 nm, atomic mass 55.85 g/mol).
+(c) Compute planar density of FCC (111) plane of copper and BCC (110) plane of iron (atoms/nm²). Comment on what this says about slip.
+
+C2. [8] Analysing tension data. The following engineering data were obtained in the plastic region of a tension test on a metal (neglect elastic strain):
+Engineering strain (%): 2, 5, 10, 15, 18
+Engineering stress (MPa): 358, 416, 454, 469, 473
+(a) Convert each point to true stress and true strain.
+(b) By a log–log fit, find n and K in σT = KεTⁿ.
+(c) Predict true strain and engineering strain at necking, and engineering UTS.
+(d) Estimate energy absorbed per unit volume up to necking. Is the 18% point safely before necking?
+
+C3. [8] Hardness calculations.
+(a) Two Brinell tests (D = 10 mm) on a metal gave d = 3.50 mm at 1000 kgf and d = 4.80 mm at 2000 kgf. Find BHN and Meyer hardness for each, check d/D, and find Meyer’s index m and strain-hardening exponent n.
+(b) A Vickers microhardness test at 100 gf gave diagonals of 48 µm and 50 µm. Find HV (in kgf/mm²). What is uncertainty in HV from a ±1 µm reading error?
+(c) Find depth (in mm) under minor load for hardened steel with HRC 55, and brass with HRB 90 (use HR = 100 − e/0.002 mm for scale C and HR = 130 − e/0.002 mm for scale B). What depth difference corresponds to one Rockwell unit?
+
+SECTION D · BONUS (+8, not counted in the 100)
+
+D1. [4] A cylinder (radius 10 mm, height 30 mm, σ₀ = 300 MPa) is compressed with μ = 0.15. Using exact mean pressure pavg = σ₀ · 2(eᵏᵃ − ka − 1)/(ka)² with k = 2μ/h, find compressive force at start, and when height has been halved (assume constant volume). By what percentage does friction raise force in second case?
+
+D2. [4] Compare steel (ρ = 7.85 g/cm³, E = 210 GPa, σy = 400 MPa), 6061-T6 aluminium (2.70, 69, 275), Ti-6Al-4V (4.43, 114, 880) and unidirectional CFRP along fibres (1.6, 135, 1500). Compute E/ρ, σy/ρ and E¹ᐟ²/ρ. Derive last index for a light, stiff beam of square section, and rank materials for (i) a light stiff tie, (ii) a light strong tie and (iii) a light stiff beam.
+
+END OF PAPER
