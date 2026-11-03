@@ -9,10 +9,10 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const STORAGE_KEY = "mm-mt200-practice-v1";
 
 const papers = [
-  { id: "I", title: "Rigorous Practice Paper", questions: "papers/paper-i.txt", solutions: "solutions/paper-i.txt", duration: "3 hours", marks: "100 + 8 bonus" },
-  { id: "II", title: "Rigorous Practice Paper II", questions: "papers/paper-ii.txt", solutions: "solutions/paper-ii.txt", duration: "3 hours", marks: "100 + 8 bonus" },
-  { id: "III", title: "Rigorous Practice Paper III", questions: "papers/paper-iii.txt", solutions: "solutions/paper-iii.txt", duration: "3 hours", marks: "100 + 8 bonus" },
-  { id: "IV", title: "Exam-Format Practice Paper IV", questions: "papers/paper-iv.txt", solutions: "solutions/paper-iv.txt", duration: "2.5 hours", marks: "100" },
+  { id: "I", originalPdf: "MT200_Rigorous_Practice_Paper.pdf", title: "Rigorous Practice Paper", questions: "papers/paper-i.txt", solutions: "solutions/paper-i.txt", duration: "3 hours", marks: "100 + 8 bonus" },
+  { id: "II", originalPdf: "MT200_Practice_Paper_II.pdf", title: "Rigorous Practice Paper II", questions: "papers/paper-ii.txt", solutions: "solutions/paper-ii.txt", duration: "3 hours", marks: "100 + 8 bonus" },
+  { id: "III", originalPdf: "MT200_Practice_Paper_III.pdf", title: "Rigorous Practice Paper III", questions: "papers/paper-iii.txt", solutions: "solutions/paper-iii.txt", duration: "3 hours", marks: "100 + 8 bonus" },
+  { id: "IV", originalPdf: "MT200_Practice_Paper_IV_Exam_Format.pdf", title: "Exam-Format Practice Paper IV", questions: "papers/paper-iv.txt", solutions: "solutions/paper-iv.txt", duration: "2.5 hours", marks: "100" },
 ];
 
 type Question = { id: string; text: string };
@@ -145,6 +145,10 @@ export default function Mt200Practice() {
                 <span className="mt200-question-id">{current.id}</span>
               </div>
               <pre className="mt200-question-text">{current.text}</pre>
+              <div className="mt200-original-reference">
+                <a className="btn" href={`${basePath}/data/mt200/originals/${paper.originalPdf}#page={paper.id === "IV" ? ({ D1: 6, D2: 6, D3: 7, D4: 7, D5: 8 } as Record<string, number>)[current.id] ?? 1 : 1}`} target="_blank" rel="noreferrer">View original paper{paper.id === "IV" && current.id.startsWith("D") ? ` · page ${({ D1: 6, D2: 6, D3: 7, D4: 7, D5: 8 } as Record<string, number>)[current.id]}` : ""}</a>
+                {paper.id === "IV" && current.id.startsWith("D") ? <span>Graph/curve for this applied problem is on the linked page.</span> : null}
+              </div>
               <label className="mt200-answer-label" htmlFor="mt200-answer">Your working / answer</label>
               <textarea id="mt200-answer" className="mt200-answer" value={answers[answerKey] ?? ""} onChange={(event) => saveAnswer(event.target.value)} placeholder="Write your derivation, assumptions, calculations and final answer here…" rows={9} />
               <div className="mt200-practice-actions">
