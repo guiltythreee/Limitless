@@ -20,9 +20,9 @@ TEXTBOOK QUESTION BANK — PROBLEMS 5.7–5.41, THEORETICAL EXERCISES 5.1–5.33
 
 
 --- Source page ---
+
+
 Problems      225
-
-
 
  5.7. The density function of X is given by
                f (x) =
@@ -238,7 +238,6 @@ all other hazards, what is the probability that he
 survives to (a) age 50 and (b) age 60 without con-
 tracting lung cancer?
 --- Source page ---
-THEORETICAL EXERCISES
 
 
 
@@ -257,6 +256,7 @@ THEORETICAL EXERCISES
       4x2 + 4xY + Y + 2 = 0 are both real?
 
 
+THEORETICAL EXERCISES
 
  5.1. The speed of a molecule in a uniform gas at equi-
       librium is a random variable whose probability
@@ -461,7 +461,6 @@ ability density function of the random variable Y
 Var(X) = 2                                    deﬁned by Y = aX + b.
 λ
 --- Source page ---
-SELF-TEST PROBLEMS AND EXERCISES
 
 
 
@@ -488,6 +487,7 @@ SELF-TEST PROBLEMS AND EXERCISES
 
 
 
+SELF-TEST PROBLEMS AND EXERCISES
 
  5.1. The number of minutes of playing time of a certain
       high school basketball player in a randomly cho-
