@@ -61,7 +61,12 @@ export default function Mt200Practice() {
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) setAnswers(JSON.parse(raw) as SavedAnswers);
+      if (raw) {
+        const parsed: unknown = JSON.parse(raw);
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+          setAnswers(parsed as SavedAnswers);
+        }
+      }
     } catch {
       // A malformed local record is ignored; the course never touches other keys.
     }
