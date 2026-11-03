@@ -1,0 +1,27 @@
+{
+  "id": "probability-book-02",
+  "bookNumber": 2,
+  "title": "Introduction to Probability",
+  "subtitle": "Second Edition",
+  "authors": [
+    "Joseph K. Blitzstein",
+    "Jessica Hwang"
+  ],
+  "chapterCount": 13,
+  "contentFormat": "Markdown with source-preserving text blocks",
+  "chapters": [
+    { "id": 1, "title": "Probability and Counting", "file": "chapters/chapter-01.md", "solutions": "solutions/chapter-01-solutions.md", "printedStartPage": 1 },
+    { "id": 2, "title": "Conditional Probability", "file": "chapters/chapter-02.md", "solutions": "solutions/chapter-02-solutions.md", "printedStartPage": 45 },
+    { "id": 3, "title": "Random Variables and Their Distributions", "file": "chapters/chapter-03.md", "solutions": "solutions/chapter-03-solutions.md", "printedStartPage": 103 },
+    { "id": 4, "title": "Expectation", "file": "chapters/chapter-04.md", "solutions": "solutions/chapter-04-solutions.md", "printedStartPage": 149 },
+    { "id": 5, "title": "Continuous Random Variables", "file": "chapters/chapter-05.md", "solutions": "solutions/chapter-05-solutions.md", "printedStartPage": 213 },
+    { "id": 6, "title": "Moments", "file": "chapters/chapter-06.md", "solutions": "solutions/chapter-06-solutions.md", "printedStartPage": 267 },
+    { "id": 7, "title": "Joint Distributions", "file": "chapters/chapter-07.md", "solutions": "solutions/chapter-07-solutions.md", "printedStartPage": 303 },
+    { "id": 8, "title": "Transformations", "file": "chapters/chapter-08.md", "solutions": "solutions/chapter-08-solutions.md", "printedStartPage": 367 },
+    { "id": 9, "title": "Conditional Expectation", "file": "chapters/chapter-09.md", "solutions": "solutions/chapter-09-solutions.md", "printedStartPage": 411 },
+    { "id": 10, "title": "Inequalities and Limit Theorems", "file": "chapters/chapter-10.md", "solutions": "solutions/chapter-10-solutions.md", "printedStartPage": 453 },
+    { "id": 11, "title": "Markov Chains", "file": "chapters/chapter-11.md", "solutions": "solutions/chapter-11-solutions.md", "printedStartPage": 499 },
+    { "id": 12, "title": "Markov Chain Monte Carlo", "file": "chapters/chapter-12.md", "solutions": "solutions/chapter-12-solutions.md", "printedStartPage": 533 },
+    { "id": 13, "title": "Poisson Processes", "file": "chapters/chapter-13.md", "solutions": "solutions/chapter-13-solutions.md", "printedStartPage": 559 }
+  ]
+}
