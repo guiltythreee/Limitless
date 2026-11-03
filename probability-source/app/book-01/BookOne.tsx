@@ -244,12 +244,15 @@ export default function BookOne() {
     setError("");
     setQuestionText("");
     setSolutionText("");
+    // Static exports are deployed under /probability in production.
+    // Include Next.js basePath when requesting files from the public directory.
+    const sourceBase = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
     Promise.all([
-      fetch(`/probability-books/chapter-${chapter}-questions.txt`).then((response) => {
+      fetch(`${sourceBase}/probability-books/chapter-${chapter}-questions.txt`).then((response) => {
         if (!response.ok) throw new Error("The chapter question source could not be loaded.");
         return response.text();
       }),
-      fetch(`/probability-books/chapter-${chapter}-solutions.txt`).then((response) => {
+      fetch(`${sourceBase}/probability-books/chapter-${chapter}-solutions.txt`).then((response) => {
         if (!response.ok) throw new Error("The chapter solution source could not be loaded.");
         return response.text();
       }),
