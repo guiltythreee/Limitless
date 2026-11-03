@@ -6,10 +6,10 @@ import { loadTheme, saveTheme } from "../lib/progress";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const papers = [
-  { id: "I", original: "MT200_Rigorous_Practice_Paper.pdf", title: "Rigorous Practice Paper", file: "papers/paper-i.txt", solution: "solutions/paper-i.txt", scope: "Full-course foundations; derivations, theory and numericals", duration: "3 hours", marks: "100 + 8 bonus" },
-  { id: "II", original: "MT200_Practice_Paper_II.pdf", title: "Rigorous Practice Paper II", file: "papers/paper-ii.txt", solution: "solutions/paper-ii.txt", scope: "Torsion, impact, fatigue, creep, materials classification and mechanical behaviour", duration: "3 hours", marks: "100 + 8 bonus" },
-  { id: "III", original: "MT200_Practice_Paper_III.pdf", title: "Rigorous Practice Paper III", file: "papers/paper-iii.txt", solution: "solutions/paper-iii.txt", scope: "Modules 1–3: materials world, tension/compression and hardness", duration: "3 hours", marks: "100 + 8 bonus" },
-  { id: "IV", original: "MT200_Practice_Paper_IV_Exam_Format.pdf", title: "Exam-Format Practice Paper IV", file: "papers/paper-iv.txt", solution: "solutions/paper-iv.txt", scope: "Midsem-style statements, matching, empirical relations and applied curve-reading", duration: "2.5 hours", marks: "100" },
+  { id: "I", originalSolution: "MT200_Solutions_and_Marking_Scheme.pdf", original: "MT200_Rigorous_Practice_Paper.pdf", title: "Rigorous Practice Paper", file: "papers/paper-i.txt", solution: "solutions/paper-i.txt", scope: "Full-course foundations; derivations, theory and numericals", duration: "3 hours", marks: "100 + 8 bonus" },
+  { id: "II", originalSolution: "MT200_Paper_II_Solutions_and_Marking_Scheme.pdf", original: "MT200_Practice_Paper_II.pdf", title: "Rigorous Practice Paper II", file: "papers/paper-ii.txt", solution: "solutions/paper-ii.txt", scope: "Torsion, impact, fatigue, creep, materials classification and mechanical behaviour", duration: "3 hours", marks: "100 + 8 bonus" },
+  { id: "III", originalSolution: "MT200_Paper_III_Solutions_and_Marking_Scheme.pdf", original: "MT200_Practice_Paper_III.pdf", title: "Rigorous Practice Paper III", file: "papers/paper-iii.txt", solution: "solutions/paper-iii.txt", scope: "Modules 1–3: materials world, tension/compression and hardness", duration: "3 hours", marks: "100 + 8 bonus" },
+  { id: "IV", originalSolution: "MT200_Paper_IV_Solutions_and_Marking_Scheme.pdf", original: "MT200_Practice_Paper_IV_Exam_Format.pdf", title: "Exam-Format Practice Paper IV", file: "papers/paper-iv.txt", solution: "solutions/paper-iv.txt", scope: "Midsem-style statements, matching, empirical relations and applied curve-reading", duration: "2.5 hours", marks: "100" },
 ];
 
 const modules = [
@@ -72,7 +72,8 @@ export default function Mt200Course() {
               <div className="mt200-actions">
                 <a className="btn btn-gold" href={asset(p.file)} target="_blank" rel="noreferrer">Open questions</a>
                 <a className="btn" href={asset(p.solution)} target="_blank" rel="noreferrer">Open solutions</a>
-                <a className="btn" href={asset(`originals/${p.original}`)} target="_blank" rel="noreferrer">Original PDF</a>
+                <a className="btn" href={asset(`originals/${p.original}`)} target="_blank" rel="noreferrer">Original paper PDF</a>
+                <a className="btn" href={asset(`originals/${p.originalSolution}`)} target="_blank" rel="noreferrer">Original solutions PDF</a>
               </div>
             </article>)}
           </div>
