@@ -1,0 +1,909 @@
+--- Source page ---
+
+
+                                                                                                             Problems     173
+
+      if the top-ranked person is female.) Find P{X = i},                (in dollars) equal to the sum of the ﬁngers shown
+      i = 1, 2, 3, . . . , 8, 9, 10.                                     by him and his opponent. If both players guess
+ 4.5. Let X represent the difference between the num-                    correctly or if neither guesses correctly, then no
+      ber of heads and the number of tails obtained                      money is exchanged. Consider a speciﬁed player,
+      when a coin is tossed n times. What are the pos-                   and denote by X the amount of money he wins in
+      sible values of X?                                                 a single game of Two-Finger Morra.
+ 4.6. In Problem 5, for n = 3, if the coin is assumed fair,              (a) If each player acts independently of the other,
+      what are the probabilities associated with the val-                     and if each player makes his choice of the
+      ues that X can take on?                                                 number of ﬁngers he will hold up and the
+ 4.7. Suppose that a die is rolled twice. What are the                        number he will guess that his opponent will
+      possible values that the following random vari-                         hold up in such a way that each of the 4 pos-
+      ables can take on:                                                      sibilities is equally likely, what are the possi-
+      (a) the maximum value to appear in the two rolls;                       ble values of X and what are their associated
+      (b) the minimum value to appear in the two rolls;                       probabilities?
+      (c) the sum of the two rolls;                                      (b) Suppose that each player acts independently
+      (d) the value of the ﬁrst roll minus the value of                       of the other. If each player decides to hold up
+           the second roll?                                                   the same number of ﬁngers that he guesses his
+ 4.8. If the die in Problem 7 is assumed fair, calculate                      opponent will hold up, and if each player is
+      the probabilities associated with the random vari-                      equally likely to hold up 1 or 2 ﬁngers, what
+      ables in parts (a) through (d).                                         are the possible values of X and their associ-
+ 4.9. Repeat Example 1b when the balls are selected                           ated probabilities?
+      with replacement.                                            4.13. A salesman has scheduled two appointments to
+4.10. In Example 1d, compute the conditional probabil-                   sell encyclopedias. His ﬁrst appointment will lead
+      ity that we win i dollars, given that we win some-                 to a sale with probability .3, and his second will
+      thing; compute it for i = 1, 2, 3.                                 lead independently to a sale with probability .6.
+4.11. (a) An integer N is to be selected at random from                  Any sale made is equally likely to be either for the
+           {1, 2, . . . , (10)3 } in the sense that each integer         deluxe model, which costs $1000, or the standard
+           has the same probability of being selected.                   model, which costs $500. Determine the probabil-
+           What is the probability that N will be divis-                 ity mass function of X, the total dollar value of all
+           ible by 3? by 5? by 7? by 15? by 105? How                     sales.
+           would your answer change if (10)3 is replaced           4.14. Five distinct numbers are randomly distributed
+           by (10)k as k became larger and larger?                       to players numbered 1 through 5. Whenever two
+      (b) An important function in number theory—                        players compare their numbers, the one with the
+           one whose properties can be shown to be                       higher one is declared the winner. Initially, players
+           related to what is probably the most impor-                   1 and 2 compare their numbers; the winner then
+           tant unsolved problem of mathematics, the                     compares her number with that of player 3, and so
+           Riemann hypothesis—is the Möbius function                    on. Let X denote the number of times player 1 is a
+           μ(n), deﬁned for all positive integral values n               winner. Find P{X = i}, i = 0, 1, 2, 3, 4.
+           as follows: Factor n into its prime factors. If         4.15. The National Basketball Association (NBA) draft
+           there is a repeated prime factor, as in 12 =                  lottery involves the 11 teams that had the worst
+           2 · 2 · 3 or 49 = 7 · 7, then μ(n) is deﬁned                  won–lost records during the year. A total of 66
+           to equal 0. Now let N be chosen at random                     balls are placed in an urn. Each of these balls is
+           from {1, 2, . . . (10)k }, where k is large. Deter-           inscribed with the name of a team: Eleven have
+           mine P{μ(N) = 0} as k→q.                                      the name of the team with the worst record, 10
+      Hint: To compute P{μ(N) Z 0}, use the identity                     have the name of the team with the second-worst
+        q
+        ∏                   ( )( )( )( )                                 record, 9 have the name of the team with the third-
+          P2 − 1
+              i              3  8  24 48       6
+                        =                ··· = 2                         worst record, and so on (with 1 ball having the
+                  Pi2        4  9  25 49      π                          name of the team with the 11th-worst record).
+        i=1
+                                                                         A ball is then chosen at random, and the team
+      where Pi is the ith-smallest prime. (The number 1                  whose name is on the ball is given the ﬁrst pick
+      is not a prime.)                                                   in the draft of players about to enter the league.
+4.12. In the game of Two-Finger Morra, 2 players show                    Another ball is then chosen, and if it “belongs”
+      1 or 2 ﬁngers and simultaneously guess the number                  to a team different from the one that received the
+      of ﬁngers their opponent will show. If only one of                 ﬁrst draft pick, then the team to which it belongs
+      the players guesses correctly, he wins an amount                   receives the second draft pick. (If the ball belongs
+
+
+--- Source page ---
+
+
+174   Chapter 4      Random Variables
+
+      to the team receiving the ﬁrst pick, then it is dis-   4.20. A gambling book recommends the following “win-
+      carded and another one is chosen; this continues             ning strategy” for the
+                                                                                        ( game of roulette: Bet)$1 on
+      until the ball of another team is chosen.) Finally,          red. If red appears which has probability 18 38 , then
+      another ball is chosen, and the team named on                take the $1 proﬁt and(quit. If red does not appear
+      the ball (provided that it is different from the                                                              20
+                                                                   and you lose
+                                                                              ) this bet which has probability 38 of
+      previous two teams) receives the third draft pick.           occurring , make additional $1 bets on red on each
+      The remaining draft picks 4 through 11 are then              of the next two spins of the roulette wheel and then
+      awarded to the 8 teams that did not “win the lot-            quit. Let X denote your winnings when you quit.
+      tery,” in inverse order of their won–lost records.           (a) Find P{X > 0}.
+      For instance, if the team with the worst record did          (b) Are you convinced that the strategy is indeed
+      not receive any of the 3 lottery picks, then that                  a “winning” strategy? Explain your answer!
+      team would receive the fourth draft pick. Let X              (c) Find E[X].
+      denote the draft pick of the team with the worst
+                                                             4.21. Four buses carrying 148 students from the same
+      record. Find the probability mass function of X.
+                                                                   school arrive at a football stadium. The buses
+4.16. In Problem 15, let team number 1 be the team                 carry, respectively, 40, 33, 25, and 50 students. One
+      with the worst record, let team number 2 be the              of the students is randomly selected. Let X denote
+      team with the second-worst record, and so on. Let            the number of students that were on the bus car-
+      Yi denote the team that gets draft pick number i.            rying the randomly selected student. One of the 4
+      (Thus, Y1 = 3 if the ﬁrst ball chosen belongs to             bus drivers is also randomly selected. Let Y denote
+      team number 3.) Find the probability mass func-              the number of students on her bus.
+      tion of (a) Y1 , (b) Y2 , and (c) Y3 .                       (a) Which of E[X] or E[Y] do you think is larger?
+4.17. Suppose that the distribution function of X is                     Why?
+      given by                                                     (b) Compute E[X] and E[Y].
+                       ⎧
+                       ⎪                                     4.22. Suppose that two teams play a series of games that
+                       ⎪
+                       ⎪ 0                b < 0
+                       ⎪
+                       ⎪                                           ends when one of them has won i games. Suppose
+                       ⎪
+                       ⎪ b
+                       ⎪
+                       ⎪                  0 … b < 1                that each game played is, independently, won by
+                       ⎪
+                       ⎪ 4
+                       ⎪
+                       ⎪                                           team A with probability p. Find the expected num-
+                       ⎨1       b − 1                              ber of games that are played when (a) i = 2 and (b)
+              F(b) =        +             1 … b < 2                i = 3. Also, show in both cases that this number is
+                       ⎪2
+                       ⎪          4
+                       ⎪
+                       ⎪                                           maximized when p = 12 .
+                       ⎪
+                       ⎪ 11
+                       ⎪
+                       ⎪                  2 … b < 3
+                       ⎪
+                       ⎪                                     4.23. You have $1000, and a certain commodity
+                       ⎪
+                       ⎪
+                         12
+                       ⎪
+                       ⎩1                                          presently sells for $2 per ounce. Suppose that after
+                                          3 … b                    one week the commodity will sell for either $1
+                                                                   or $4 an ounce, with these two possibilities being
+      (a) Find P{X = i}, i = 1, 2, 3.                              equally likely.
+      (b) Find P{ 12 < X < 32 }.                                   (a) If your objective is to maximize the expected
+4.18. Four independent ﬂips of a fair coin are made. Let                 amount of money that you possess at the
+      X denote the number of heads obtained. Plot the                    end of the week, what strategy should you
+      probability mass function of the random variable                   employ?
+      X − 2.                                                       (b) If your objective is to maximize the expected
+4.19. If the distribution function of X is given by                      amount of the commodity that you possess at
+                          ⎧                                              the end of the week, what strategy should you
+                          ⎪
+                          ⎪ 0     b < 0
+                          ⎪
+                          ⎪                                              employ?
+                          ⎪
+                          ⎪ 1
+                          ⎪
+                          ⎪       0 … b < 1                  4.24. A and B play the following game: A writes down
+                          ⎪
+                          ⎪
+                          ⎪
+                          ⎪ 2                                      either number 1 or number 2, and B must guess
+                          ⎪
+                          ⎪
+                          ⎪3
+                          ⎪                                        which one. If the number that A has written down
+                          ⎪
+                          ⎨5      1 … b < 2                        is i and B has guessed correctly, B receives i units
+                   F(b) =                                          from A. If B makes a wrong guess, B pays 34 unit to
+                          ⎪
+                          ⎪ 4
+                          ⎪
+                          ⎪       2 … b < 3                        A. If B randomizes his decision by guessing 1 with
+                          ⎪
+                          ⎪5
+                          ⎪
+                          ⎪                                        probability p and 2 with probability 1 − p, deter-
+                          ⎪
+                          ⎪9
+                          ⎪
+                          ⎪       3 … b < 3.5                      mine his expected gain if (a) A has written down
+                          ⎪
+                          ⎪
+                          ⎪
+                          ⎪ 10                                     number 1 and (b) A has written down number 2.
+                          ⎪
+                          ⎩1      b Ú 3.5                             What value of p maximizes the minimum pos-
+                                                                   sible value of B’s expected gain, and what is
+      calculate the probability mass function of X.                this maximin value? (Note that B’s expected
+
+
+--- Source page ---
+
+
+                                                                                                            Problems     175
+
+      gain depends not only on p, but also on what                      Note: If the ﬁrst check is negative, we must still
+      A does.)                                                          check the other possibility.
+         Consider now player A. Suppose that she also             4.30. A person tosses a fair coin until a tail appears for
+      randomizes her decision, writing down number 1                    the ﬁrst time. If the tail appears on the nth ﬂip, the
+      with probability q. What is A’s expected loss if (c)              person wins 2n dollars. Let X denote the player’s
+      B chooses number 1 and (d) B chooses number 2?                    winnings. Show that E[X] = +q. This problem is
+         What value of q minimizes A’s maximum                          known as the St. Petersburg paradox.
+      expected loss? Show that the minimum of A’s max-                  (a) Would you be willing to pay $1 million to play
+      imum expected loss is equal to the maximum of B’s                      this game once?
+      minimum expected gain. This result, known as the                  (b) Would you be willing to pay $1 million for
+      minimax theorem, was ﬁrst established in general-                      each game if you could play for as long as
+      ity by the mathematician John von Neumann and                          you liked and only had to settle up when you
+      is the fundamental result in the mathematical disci-                   stopped playing?
+      pline known as the theory of games. The common              4.31. Each night different meteorologists give us the
+      value is called the value of the game to player B.                probability that it will rain the next day. To judge
+4.25. Two coins are to be ﬂipped. The ﬁrst coin will land               how well these people predict, we will score each
+      on heads with probability .6, the second with prob-               of them as follows: If a meteorologist says that it
+      ability .7. Assume that the results of the ﬂips are               will rain with probability p, then he or she will
+      independent, and let X equal the total number of                  receive a score of
+      heads that result.
+      (a) Find P{X = 1}.                                                        1 − (1 − p)2       if it does rain
+      (b) Determine E[X].                                                       1 − p2             if it does not rain
+4.26. One of the numbers 1 through 10 is randomly cho-
+      sen. You are to try to guess the number chosen by                 We will then keep track of scores over a cer-
+      asking questions with “yes–no” answers. Compute                   tain time span and conclude that the meteorologist
+      the expected number of questions you will need to                 with the highest average score is the best predictor
+      ask in each of the following two cases:                           of weather. Suppose now that a given meteorolo-
+      (a) Your ith question is to be “Is it i?” i =                     gist is aware of our scoring mechanism and wants
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10.                              to maximize his or her expected score. If this per-
+      (b) With each question you try to eliminate one-                  son truly believes that it will rain tomorrow with
+            half of the remaining numbers, as nearly as                 probability p∗ , what value of p should he or she
+            possible.                                                   assert so as to maximize the expected score?
+4.27. An insurance company writes a policy to the effect          4.32. To determine whether they have a certain dis-
+      that an amount of money A must be paid if some                    ease, 100 people are to have their blood tested.
+      event E occurs within a year. If the company esti-                However, rather than testing each individual sepa-
+      mates that E will occur within a year with probabil-              rately, it has been decided ﬁrst to place the peo-
+      ity p, what should it charge the customer in order                ple into groups of 10. The blood samples of the
+      that its expected proﬁt will be 10 percent of A?                  10 people in each group will be pooled and ana-
+4.28. A sample of 3 items is selected at random from a                  lyzed together. If the test is negative, one test will
+      box containing 20 items of which 4 are defective.                 sufﬁce for the 10 people, whereas if the test is posi-
+      Find the expected number of defective items in the                tive, each of the 10 people will also be individually
+      sample.                                                           tested and, in all, 11 tests will be made on this
+4.29. There are two possible causes for a breakdown of                  group. Assume that the probability that a person
+      a machine. To check the ﬁrst possibility would cost               has the disease is .1 for all people, independently
+      C1 dollars, and, if that were the cause of the break-             of each other, and compute the expected number
+      down, the trouble could be repaired at a cost of R1               of tests necessary for each group. (Note that we are
+      dollars. Similarly, there are costs C2 and R2 asso-               assuming that the pooled test will be positive if at
+      ciated with the second possibility. Let p and 1 −                 least one person in the pool has the disease.)
+      p denote, respectively, the probabilities that the          4.33. A newsboy purchases papers at 10 cents and sells
+      breakdown is caused by the ﬁrst and second possi-                 them at 15 cents. However, he is not allowed to
+      bilities. Under what conditions on p, Ci , Ri , i = 1, 2,         return unsold papers. If his daily demand is a bino-
+      should we check the ﬁrst possible cause of break-                 mial random variable with n = 10, p = 13 , approxi-
+      down and then the second, as opposed to reversing                 mately how many papers should he purchase so as
+      the checking order, so as to minimize the expected                to maximize his expected proﬁt?
+      cost involved in returning the machine to working           4.34. In Example 4b, suppose that the department store
+      order?                                                            incurs an additional cost of c for each unit of unmet
+
+
+--- Source page ---
+
+
+176   Chapter 4       Random Variables
+
+      demand. (This type of cost is often referred to as             each of the components independently functions
+      a goodwill cost because the store loses the good-              with probability p1 , whereas on a dry day they each
+      will of those customers whose demands it can-                  independently function with probability p2 . If the
+      not meet.) Compute the expected proﬁt when the                 probability of rain tomorrow is α, what is the prob-
+      store stocks s units, and determine the value of s             ability that the satellite system will function?
+      that maximizes the expected proﬁt.                       4.45. A student is getting ready to take an important
+4.35. A box contains 5 red and 5 blue marbles. Two mar-              oral examination and is concerned about the pos-
+      bles are withdrawn randomly. If they are the same              sibility of having an “on” day or an “off” day. He
+      color, then you win $1.10; if they are different col-          ﬁgures that if he has an on day, then each of his
+      ors, then you win −$1.00. (That is, you lose $1.00.)           examiners will pass him, independently of each
+      Calculate                                                      other, with probability .8, whereas if he has an off
+      (a) the expected value of the amount you win;                  day, this probability will be reduced to .4. Sup-
+      (b) the variance of the amount you win.                        pose that the student will pass the examination if a
+4.36. Consider Problem 22 with i = 2. Find the variance              majority of the examiners pass him. If the student
+      of the number of games played, and show that this              feels that he is twice as likely to have an off day as
+      number is maximized when p = 12 .                              he is to have an on day, should he request an exam-
+4.37. Find Var(X) and Var(Y) for X and Y as given in                 ination with 3 examiners or with 5 examiners?
+      Problem 21.                                              4.46. Suppose that it takes at least 9 votes from a 12-
+4.38. If E[X] = 1 and Var(X) = 5, ﬁnd                                member jury to convict a defendant. Suppose also
+      (a) E[(2 + X)2 ];                                              that the probability that a juror votes a guilty per-
+      (b) Var(4 + 3X).                                               son innocent is .2, whereas the probability that the
+4.39. A ball is drawn from an urn containing 3 white and             juror votes an innocent person guilty is .1. If each
+      3 black balls. After the ball is drawn, it is replaced         juror acts independently and if 65 percent of the
+      and another ball is drawn. This process goes on                defendants are guilty, ﬁnd the probability that the
+      indeﬁnitely. What is the probability that, of the              jury renders a correct decision. What percentage
+      ﬁrst 4 balls drawn, exactly 2 are white?                       of defendants is convicted?
+4.40. On a multiple-choice exam with 3 possible answers        4.47. In some military courts, 9 judges are appointed.
+      for each of the 5 questions, what is the probability           However, both the prosecution and the defense
+      that a student will get 4 or more correct answers              attorneys are entitled to a peremptory challenge
+      just by guessing?                                              of any judge, in which case that judge is removed
+4.41. A man claims to have extrasensory perception. As               from the case and is not replaced. A defendant is
+      a test, a fair coin is ﬂipped 10 times and the man is          declared guilty if the majority of judges cast votes
+      asked to predict the outcome in advance. He gets               of guilty, and he or she is declared innocent other-
+      7 out of 10 correct. What is the probability that              wise. Suppose that when the defendant is, in fact,
+      he would have done at least this well if he had no             guilty, each judge will (independently) vote guilty
+      ESP?                                                           with probability .7, whereas when the defendant is,
+4.42. Suppose that, in ﬂight, airplane engines will fail             in fact, innocent, this probability drops to .3.
+      with probability 1 − p, independently from engine              (a) What is the probability that a guilty defendant
+      to engine. If an airplane needs a majority of its                   is declared guilty when there are (i) 9, (ii) 8,
+      engines operative to complete a successful ﬂight,                   and (iii) 7 judges?
+      for what values of p is a 5-engine plane preferable            (b) Repeat part (a) for an innocent defendant.
+      to a 3-engine plane?                                           (c) If the prosecution attorney does not exercise
+4.43. A communications channel transmits the digits 0                     the right to a peremptory challenge of a judge,
+      and 1. However, due to static, the digit transmitted                and if the defense is limited to at most two
+      is incorrectly received with probability .2. Suppose                such challenges, how many challenges should
+      that we want to transmit an important message                       the defense attorney make if he or she is 60
+      consisting of one binary digit. To reduce the                       percent certain that the client is guilty?
+      chance of error, we transmit 00000 instead of 0 and      4.48. It is known that diskettes produced by a cer-
+      11111 instead of 1. If the receiver of the message             tain company will be defective with probability
+      uses “majority” decoding, what is the probability              .01, independently of each other. The company
+      that the message will be wrong when decoded?                   sells the diskettes in packages of size 10 and
+      What independence assumptions are you making?                  offers a money-back guarantee that at most 1 of
+4.44. A satellite system consists of n components and                the 10 diskettes in the package will be defective.
+      functions on any given day if at least k of the n              The guarantee is that the customer can return the
+      components function on that day. On a rainy day                entire package of diskettes if he or she ﬁnds more
+
+
+--- Source page ---
+
+
+                                                                                                         Problems      177
+
+      than one defective diskette in it. If someone buys      4.57. Suppose that the number of accidents occurring on
+      3 packages, what is the probability that he or she            a highway each day is a Poisson random variable
+      will return exactly 1 of them?                                with parameter λ = 3.
+                                                                    (a) Find the probability that 3 or more accidents
+4.49. When coin 1 is ﬂipped, it lands on heads with prob-
+                                                                         occur today.
+      ability .4; when coin 2 is ﬂipped, it lands on heads
+      with probability .7. One of these coins is randomly           (b) Repeat part (a) under the assumption that at
+      chosen and ﬂipped 10 times.                                        least 1 accident occurs today.
+      (a) What is the probability that the coin lands on      4.58. Compare the Poisson approximation with the cor-
+           heads on exactly 7 of the 10 ﬂips?                       rect binomial probability for the following cases:
+      (b) Given that the ﬁrst of these ten ﬂips lands               (a) P{X = 2} when n = 8, p = .1;
+           heads, what is the conditional probability that          (b) P{X = 9} when n = 10, p = .95;
+           exactly 7 of the 10 ﬂips land on heads?                  (c) P{X = 0} when n = 10, p = .1;
+4.50. Suppose that a biased coin that lands on heads with           (d) P{X = 4} when n = 9, p = .2.
+      probability p is ﬂipped 10 times. Given that a total    4.59. If you buy a lottery ticket in 50 lotteries, in each of
+                                                                                                                   1
+      of 6 heads results, ﬁnd the conditional probability           which your chance of winning a prize is 100      , what
+      that the ﬁrst 3 outcomes are                                  is the (approximate) probability that you will win
+      (a) h, t, t (meaning that the ﬁrst ﬂip results in             a prize
+           heads, the second in tails, and the third in             (a) at least once?
+           tails);                                                  (b) exactly once?
+      (b) t, h, t.                                                  (c) at least twice?
+4.51. The expected number of typographical errors on a        4.60. The number of times that a person contracts a cold
+      page of a certain magazine is .2. What is the prob-           in a given year is a Poisson random variable with
+      ability that the next page you read contains (a) 0            parameter λ = 5. Suppose that a new wonder drug
+      and (b) 2 or more typographical errors? Explain               (based on large quantities of vitamin C) has just
+      your reasoning!                                               been marketed that reduces the Poisson parame-
+                                                                    ter to λ = 3 for 75 percent of the population. For
+4.52. The monthly worldwide average number of air-
+                                                                    the other 25 percent of the population, the drug
+      plane crashes of commercial airlines is 3.5. What
+                                                                    has no appreciable effect on colds. If an individ-
+      is the probability that there will be
+                                                                    ual tries the drug for a year and has 2 colds in that
+      (a) at least 2 such accidents in the next month;
+                                                                    time, how likely is it that the drug is beneﬁcial for
+      (b) at most 1 accident in the next month?
+                                                                    him or her?
+      Explain your reasoning!
+                                                              4.61. The probability of being dealt a full house in a
+4.53. Approximately 80,000 marriages took place in the              hand of poker is approximately .0014. Find an
+      state of New York last year. Estimate the proba-              approximation for the probability that, in 1000
+      bility that, for at least one of these couples,               hands of poker, you will be dealt at least 2 full
+      (a) both partners were born on April 30;                      houses.
+      (b) both partners celebrated their birthday on the
+            same day of the year.                             4.62. Consider n independent trials, each of which
+                                                                    results in one of the outcomes 1, . . . , k with respec-
+      State your assumptions.                                                                            ∑k
+                                                                    tive probabilities p1 , . . . , pk ,  i=1 pi = 1. Show
+4.54. Suppose that the average number of cars aban-                 that if all the pi are small, then the probability that
+      doned weekly on a certain highway is 2.2. Approx-             no trial outcome occurs more than
+      imate the probability that there will be                                                             ∑once is approx-
+                                                                    imately equal to exp(−n(n − 1) i p2i /2).
+      (a) no abandoned cars in the next week;
+                                                              4.63. People enter a gambling casino at a rate of 1 every
+      (b) at least 2 abandoned cars in the next week.
+                                                                    2 minutes.
+4.55. A certain typing agency employs 2 typists. The                (a) What is the probability that no one enters
+      average number of errors per article is 3 when                    between 12:00 and 12:05?
+      typed by the ﬁrst typist and 4.2 when typed by the            (b) What is the probability that at least 4 people
+      second. If your article is equally likely to be typed             enter the casino during that time?
+      by either typist, approximate the probability that it
+                                                              4.64. The suicide rate in a certain state is 1 suicide per
+      will have no errors.
+                                                                    100,000 inhabitants per month.
+4.56. How many people are needed so that the probabil-              (a) Find the probability that, in a city of 400,000
+      ity that at least one of them has the same birthday               inhabitants within this state, there will be 8 or
+      as you is greater than 12 ?                                       more suicides in a given month.
+
+
+--- Source page ---
+
+
+178   Chapter 4       Random Variables
+
+      (b) What is the probability that there will be at          4.69. A fair coin is ﬂipped 10 times. Find the probability
+          least 2 months during the year that will have 8              that there is a string of 4 consecutive heads by
+          or more suicides?                                            (a) using the formula derived in the text;
+      (c) Counting the present month as month num-                     (b) using the recursive equations derived in the
+          ber 1, what is the probability that the ﬁrst                       text.
+          month to have 8 or more suicides will be                     (c) Compare your answer with that given by the
+          month number i, i Ú 1?                                             Poisson approximation.
+      What assumptions are you making?                           4.70. At time 0, a coin that comes up heads with prob-
+4.65. Each of 500 soldiers in an army company indepen-                 ability p is ﬂipped and falls to the ground. Sup-
+      dently has a certain disease with probability 1/103 .            pose it lands on heads. At times chosen accord-
+      This disease will show up in a blood test, and to                ing to a Poisson process with rate λ, the coin is
+      facilitate matters, blood samples from all 500 sol-              picked up and ﬂipped. (Between these times the
+      diers are pooled and tested.                                     coin remains on the ground.) What is the proba-
+      (a) What is the (approximate) probability that                   bility that the coin is on its head side at time t?
+            the blood test will be positive (that is, at least         Hint What would be the conditional probability
+            one person has the disease)?                               if there were no additional ﬂips by time t, and
+      Suppose now that the blood test yields a positive                what would it be if there were additional ﬂips by
+      result.                                                          time t?
+      (b) What is the probability, under this circum-            4.71. Consider a roulette wheel consisting of 38 num-
+            stance, that more than one person has the dis-             bers 1 through 36, 0, and double 0. If Smith always
+            ease?                                                      bets that the outcome will be one of the numbers 1
+      One of the 500 people is Jones, who knows that he                through 12, what is the probability that
+      has the disease.                                                 (a) Smith will lose his ﬁrst 5 bets;
+      (c) What does Jones think is the probability that                (b) his ﬁrst win will occur on his fourth bet?
+            more than one person has the disease?                4.72. Two athletic teams play a series of games; the ﬁrst
+      Because the pooled test was positive, the author-                team to win 4 games is declared the overall win-
+      ities have decided to test each individual sepa-                 ner. Suppose that one of the teams is stronger than
+      rately. The ﬁrst i − 1 of these tests were negative,             the other and wins each game with probability .6,
+      and the ith one—which was on Jones—was posi-                     independently of the outcomes of the other games.
+      tive.                                                            Find the probability, for i = 4, 5, 6, 7, that the
+      (d) Given the preceding, scenario, what is the                   stronger team wins the series in exactly i games.
+            probability, as a function of i, that any of the           Compare the probability that the stronger team
+            remaining people have the disease?                         wins with the probability that it would win a 2-out-
+4.66. A total of 2n people, consisting of n married cou-               of-3 series.
+      ples, are randomly seated (all possible orderings          4.73. Suppose in Problem 72 that the two teams are
+      being equally likely) at a round table. Let Ci                   evenly matched and each has probability 12 of win-
+      denote the event that the members of couple i are                ning each game. Find the expected number of
+      seated next to each other, i = 1, . . . , n.                     games played.
+      (a) Find P(Ci ).                                           4.74. An interviewer is given a list of people she can
+      (b) For j Z i, ﬁnd P(Cj |Ci ).                                   interview. If the interviewer needs to interview 5
+      (c) Approximate the probability, for n large, that               people, and if each person (independently) agrees
+           there are no married couples who are seated                 to be interviewed with probability 23 , what is the
+           next to each other.                                         probability that her list of people will enable her
+4.67. Repeat the preceding problem when the seating is                 to obtain her necessary number of interviews if
+      random but subject to the constraint that the men                the list consists of (a) 5 people and (b) 8 people?
+      and women alternate.                                             For part (b), what is the probability that the inter-
+                                                                       viewer will speak to exactly (c) 6 people and (d) 7
+4.68. In response to an attack of 10 missiles, 500 antibal-
+                                                                       people on the list?
+      listic missiles are launched. The missile targets of
+      the antiballistic missiles are independent, and each       4.75. A fair coin is continually ﬂipped until heads
+      antiballstic missile is equally likely to go towards             appears for the 10th time. Let X denote the num-
+      any of the target missiles. If each antiballistic mis-           ber of tails that occur. Compute the probability
+      sile independently hits its target with probability              mass function of X.
+      .1, use the Poisson paradigm to approximate the            4.76. Solve the Banach match problem (Example 8e)
+      probability that all missiles are hit.                           when the left-hand matchbox originally contained
+
+
+--- Source page ---
+
+
+                                                                                         Theoretical Exercises     179
+
+      N1 matches and the right-hand box contained N2
+      matches.                                                               Keno Payoffs in 10 Number Bets
+4.77. In the Banach matchbox problem, ﬁnd the prob-
+                                                                    Number of matches Dollars won for each $1 bet
+      ability that, at the moment when the ﬁrst box is
+      emptied (as opposed to being found empty), the                  0–4                              -1
+      other box contains exactly k matches.                             5                               1
+4.78. An urn contains 4 white and 4 black balls. We ran-                6                              17
+      domly choose 4 balls. If 2 of them are white and                  7                             179
+      2 are black, we stop. If not, we replace the balls                8                          1, 299
+      in the urn and again randomly select 4 balls. This                9                          2, 599
+      continues until exactly 2 of the 4 chosen are white.             10                         24, 999
+      What is the probability that we shall make exactly
+      n selections?
+4.79. Suppose that a batch of 100 items contains 6 that       4.81. In Example 8i, what percentage of i defective lots
+      are defective and 94 that are not defective. If X             does the purchaser reject? Find it for i = 1, 4.
+      is the number of defective items in a randomly                Given that a lot is rejected, what is the condi-
+      drawn sample of 10 items from the batch, ﬁnd (a)              tional probability that it contained 4 defective
+      P{X = 0} and (b) P{X > 2}.                                    components?
+4.80. A game popular in Nevada gambling casinos is            4.82. A purchaser of transistors buys them in lots of 20.
+      Keno, which is played as follows: Twenty num-                 It is his policy to randomly inspect 4 components
+      bers are selected at random by the casino from the            from a lot and to accept the lot only if all 4 are
+      set of numbers 1 through 80. A player can select              nondefective. If each component in a lot is, inde-
+      from 1 to 15 numbers; a win occurs if some frac-              pendently, defective with probability .1, what pro-
+      tion of the player’s chosen subset matches any of             portion of lots is rejected?
+      the 20 numbers drawn by the house. The payoff is a      4.83. There are three highways in the county. The num-
+      function of the number of elements in the player’s            ber of daily accidents that occur on these high-
+      selection and the number of matches. For instance,            ways are Poisson random variables with respective
+      if the player selects only 1 number, then he or she           parameters .3, .5, and .7. Find the expected num-
+      wins if this number is among the set of 20, and               ber of accidents that will happen on any of these
+      the payoff is $2.2 won for every dollar bet. (As              highways today.
+      the player’s probability of winning in this case is     4.84. Suppose that 10 balls are put into 5 boxes, with
+      1                                                             each ball independently being put in box i with
+      4 , it is clear that the “fair” payoff should be $3                            ∑
+      won for every $1 bet.) When the player selects 2              probability pi , 5i=1 pi = 1.
+      numbers, a payoff (of odds) of $12 won for every              (a) Find the expected number of boxes that do
+      $1 bet is made when both numbers are among                          not have any balls.
+      the 20,                                                       (b) Find the expected number of boxes that have
+      (a) What would be the fair payoff in this case?                     exactly 1 ball.
+            Let Pn, k denote the probability that exactly     4.85. There are k types of coupons. Independently of
+            k of the n numbers chosen by the player are             the types of previously collected coupons, each
+            among the 20 selected by the house.                     new coupon collected is of type i with probability
+                                                                         ∑k
+      (b) Compute Pn, k                                             pi ,    i=1 pi = 1. If n coupons are collected, ﬁnd
+      (c) The most typical wager at Keno consists of                the expected number of distinct types that appear
+            selecting 10 numbers. For such a bet the                in this set. (That is, ﬁnd the expected number of
+            casino pays off as shown in the following               types of coupons that appear at least once in the
+            table. Compute the expected payoff:                     set of n coupons.)
+
+
+
+
+                                            THEORETICAL EXERCISES
+
+ 4.1. There are N distinct types of coupons, and each              to obtain at least one of each type. Compute
+      time one is obtained it will, independently of               P{T = n}.
+      past choices, be of type i with probability Pi , i =         Hint: Use an argument similar to the one used in
+      1, . . . , N. Let T denote the number one need select        Example 1e.
+
+
+--- Source page ---
+
+
+180   Chapter 4         Random Variables
+
+ 4.2. If X has distribution function F, what is the distri-        4.11. Consider n independent sequential trials, each of
+      bution function of eX ?                                            which is successful with probability p. If there
+ 4.3. If X has distribution function F, what is the distri-              is a total of k successes, show that each of the
+      bution function of the random variable αX + β,                     n!/[k!(n − k)!] possible arrangements of the k suc-
+      where α and β are constants, α Z 0?                                cesses and n − k failures is equally likely.
+ 4.4. For a nonnegative integer-valued random vari-                4.12. There are n components lined up in a linear
+      able N, show that                                                  arrangement. Suppose that each component inde-
+                                 q                                       pendently functions with probability p. What is the
+                                 ∑
+                        E[N] =          P{N Ú i}                         probability that no 2 neighboring components are
+                                  i=1
+                                                                         both nonfunctional?
+                                                                         Hint: Condition on the number of defective com-
+              ∑
+              q                  ∑
+                                 q ∑
+                                   q                                     ponents and use the results of Example 4c of
+      Hint:         P{N Ú i} =              P{N = k}. Now inter-
+              i=1                i=1 k=i
+                                                                         Chapter 1.
+      change the order of summation.                               4.13. Let X be a binomial random variable with param-
+ 4.5. For a nonnegative integer-valued random variable                   eters (n, p). What value of p maximizes P{X =
+      N, show that                                                       k}, k = 0, 1, . . . , n? This is an example of a sta-
+               q
+               ∑                                                         tistical method used to estimate p when a bino-
+                                    1                                    mial (n, p) random variable is observed to equal
+                     iP{N > i} =      (E[N 2 ] − E[N])
+                                    2                                    k. If we assume that n is known, then we estimate
+               i=0
+                                                                         p by choosing that value of p which maximizes
+              ∑
+              q                    ∑
+                                   q         ∑
+                                             q
+                                                                         P{X = k}. This is known as the method of maxi-
+      Hint:         iP{N > i} =         i         P{N = k}. Now
+              i=0                  i=0 k=i+1                             mum likelihood estimation.
+      interchange the order of summation.                          4.14. A family has n children with probability αpn , n Ú 1,
+ 4.6. Let X be such that                                                 where α … (1 − p)/p.
+                                                                         (a) What proportion of families has no children?
+                  P{X = 1} = p = 1 − P{X = −1}
+                                                                         (b) If each child is equally likely to be a boy or a
+      Find c Z 1 such that E[cX ] = 1.                                       girl (independently of each other), what pro-
+ 4.7. Let X be a random variable having expected value                       portion of families consists of k boys (and any
+      μ and variance σ 2 . Find the expected value and                       number of girls)?
+      variance of                                                  4.15. Suppose that n independent tosses of a coin having
+                              X − μ                                      probability p of coming up heads are made. Show
+                        Y=
+                                 σ                                       that the probability that an even number of heads
+ 4.8. Find Var(X) if                                                     results is 12 [1 + (q − p)n ], where q = 1 − p. Do
+                                                                         this by proving and then utilizing the identity
+                    P(X = a) = p = 1 − P(X = b)
+                                                                          [n/2] (        )
+                                                                          ∑         n                      1[                    ]
+ 4.9. Show how the derivation of the binomial probabil-                                      p2i qn−2i =     (p + q)n + (q − p)n
+                                                                                    2i                     2
+      ities                                                               i=0
+                     ( )
+                      n i                                                where [n/2] is the largest integer less than or equal
+          P{X = i} =    p (1 − p)n−i , i = 0, . . . , n
+                      i                                                  to n/2. Compare this exercise with Theoretical
+                                                                         Exercise 3.5 of Chapter 3.
+      leads to a proof of the binomial theorem
+                                                                   4.16. Let X be a Poisson random variable with parame-
+                                   n ( )
+                                   ∑                                     ter λ. Show that P{X = i} increases monotonically
+                                      n
+                      (x + y)n =                 xi yn−i                 and then decreases monotonically as i increases,
+                                             i
+                                   i=0                                   reaching its maximum when i is the largest integer
+                                                                         not exceeding λ.
+      when x and y are nonnegative.                                      Hint: Consider P{X = i}/P{X = i − 1}.
+      Hint: Let p = x+yx
+                         .
+4.10. Let X be a binomial random variable with param-              4.17. Let X be a Poisson random variable with
+      eters n and p. Show that                                           parameter λ.
+                                                                         (a) Show that
+                 [         ]
+                      1        1 − (1 − p)n+1
+               E             =                                                                                 1[         ]
+                   X + 1          (n + 1)p                                                   P{X is even} =      1 + e−2λ
+                                                                                                               2
+
+
+--- Source page ---
+
+
+                                                                                          Theoretical Exercises      181
+
+           by using the result of Theoretical Exercise              What can you conclude from your answers     ( to)
+           15 and the relationship between Poisson and                                                            n
+                                                                    parts (a)–(c) about the independence of the
+           binomial random variables.                                                                             2
+      (b) Verify the formula in part (a) directly by mak-           events Eij ?
+           ing use of the expansion of e−λ + eλ .             4.22. An urn contains 2n balls, of which 2 are numbered
+4.18. Let X be a Poisson random variable with parame-               1, 2 are numbered 2, . . . , and 2 are numbered n.
+      ter λ. What value of λ maximizes P{X = k}, k Ú 0?             Balls are successively withdrawn 2 at a time with-
+4.19. Show that X is a Poisson random variable with                 out replacement. Let T denote the ﬁrst selection
+      parameter λ, then                                             in which the balls withdrawn have the same num-
+                                                                    ber (and let it equal inﬁnity if none of the pairs
+                  E[X n ] = λE[(X + 1)n−1 ]                         withdrawn has the same number). We want to
+                                                                    show that, for 0 < α < 1,
+      Now use this result to compute E[X 3 ].
+                                                                                 lim P{T > αn} = e−α/2
+4.20. Consider n coins, each of which independently                                n
+      comes up heads with probability p. Suppose that               To verify the preceding formula, let Mk denote the
+      n is large and p is small, and let λ = np. Suppose            number of pairs withdrawn in the ﬁrst k selections,
+      that all n coins are tossed; if at least one comes            k = 1, . . . , n.
+      up heads, the experiment ends; if not, we again               (a) Argue that when n is large, Mk can be
+      toss all n coins, and so on. That is, we stop the                  regarded as the number of successes in k
+      ﬁrst time that at least one of the n coins come up                 (approximately) independent trials.
+      heads. Let X denote the total number of heads that            (b) Approximate P{Mk = 0} when n is large.
+      appear. Which of the following reasonings con-                (c) Write the event {T > αn} in terms of the value
+      cerned with approximating P{X = 1} is correct                      of one of the variables Mk .
+      (in all cases, Y is a Poisson random variable with            (d) Verify the limiting probability given for
+      parameter λ)?                                                      P{T > αn}.
+      (a) Because the total number of heads that occur        4.23. Consider a random collection of n individuals. In
+            when all n coins are rolled is approximately a          approximating the probability that no 3 of these
+            Poisson random variable with parameter λ,               individuals share the same birthday, a better Pois-
+                                                                    son approximation than that obtained in the text
+                   P{X = 1} L P{Y = 1} = λe−λ                       (at least for values of n between 80 and 90) is
+                                                                    obtained by letting Ei be the event that there are
+      (b) Because the total number of heads that occur
+                                                                    at least 3 birthdays on day i, i = 1, . . . , 365.
+          when all n coins are rolled is approximately
+                                                                    (a) Find P(Ei ).
+          a Poisson random variable with parameter λ,
+                                                                    (b) Give an approximation for the probability
+          and because we stop only when this number is
+                                                                         that no 3 individuals share the same birthday.
+          positive,
+                                                                    (c) Evaluate the preceding when n = 88 (which
+                                                 λe−λ                    can be shown to be the smallest value of n for
+            P{X = 1} L P{Y = 1|Y > 0} =                                  which the probability exceeds .5).
+                                               1 − e−λ        4.24. Here is another way to obtain a set of recur-
+      (c) Because at least one coin comes up heads, X               sive equations for determining Pn , the probability
+          will equal 1 if none of the other n − 1 coins             that there is a string of k consecutive heads in a
+          come up heads. Because the number of heads                sequence of n ﬂips of a fair coin that comes up
+          resulting from these n − 1 coins is approxi-              heads with probability p:
+          mately Poisson with mean (n − 1)p L λ,                    (a) Argue that, for k < n, there will be a string of
+                                                                         k consecutive heads if either
+                   P{X = 1} L P{Y = 0} = e−λ                               1. there is a string of k consecutive heads
+                                                                              within the ﬁrst n − 1 ﬂips, or
+4.21. From a set of n randomly chosen people, let Eij                      2. there is no string of k consecutive heads
+      denote the event that persons i and j have the same                     within the ﬁrst n − k − 1 ﬂips, ﬂip n − k
+      birthday. Assume that each person is equally likely                     is a tail, and ﬂips n − k + 1, . . . , n are
+      to have any of the 365 days of the year as his or her                   all heads.
+      birthday. Find
+      (a) P(E3,4 |E1,2 );                                          (b) Using the preceding, relate Pn to Pn−1 . Start-
+      (b) P(E1,3 |E1,2 );                                              ing with Pk = pk , the recursion can be used to
+      (c) P(E2,3 |E1,2 ∩ E1,3 ).                                       obtain Pk+1 , then Pk+1 , and so on, up to Pn .
+
+
+--- Source page ---
+
+
+182   Chapter 4         Random Variables
+
+4.25. Suppose that the number of events that occur                   without replacement. Let Y denote the largest
+      in a speciﬁed time is a Poisson random variable                number selected.
+      with parameter λ. If each event is counted with                (a) Find the probability mass function of Y.
+      probability p, independently of every other event,             (b) Derive an expression for E[Y] and then use
+      show that the number of events that are counted                       Fermat’s combinatorial identity (see Theoret-
+      is a Poisson random variable with parameter λp.                       ical Exercise 11 of Chapter 1) to simplify the
+      Also, give an intuitive argument as to why this                       expression.
+      should be so. As an application of the preceding         4.31. A jar contains m + n chips, numbered
+      result, suppose that the number of distinct ura-               1, 2, . . . , n + m. A set of size n is drawn. If we
+      nium deposits in a given area is a Poisson random              let X denote the number of chips drawn having
+      variable with parameter λ = 10. If, in a ﬁxed                  numbers that exceed each of the numbers of those
+      period of time, each deposit is discovered inde-               remaining, compute the probability mass function
+                                     1
+      pendently with probability 50    , ﬁnd the probability         of X.
+      that (a) exactly 1, (b) at least 1, and (c) at most 1    4.32. A jar contains n chips. Suppose that a boy succes-
+      deposit is discovered during that time.                        sively draws a chip from the jar, each time replac-
+4.26. Prove                                                          ing the one drawn before drawing another. The
+                  ∑n               ∫
+                          λi    1 q −x n                             process continues until the boy draws a chip that
+                      e−λ =              e x dx
+                          i!    n! λ                                 he has previously drawn. Let X denote the num-
+                  i=0
+                                                                     ber of draws, and compute its probability mass
+      Hint: Use integration by parts.                                function.
+4.27. If X is a geometric random variable, show analyti-       4.33. Show that Equation (8.6) follows from Equation
+      cally that                                                     (8.5).
+                                                               4.34. From a set of n elements, a nonempty subset is
+               P{X = n + k|X > n} = P{X = k}                         chosen at random in the sense that all of the
+                                                                     nonempty subsets are equally likely to be selected.
+      Using the interpretation of a geometric random                 Let X denote the number of elements in the cho-
+      variable, give a verbal argument as to why the pre-            sen subset. Using the identities given in Theoreti-
+      ceding equation is true.                                       cal Exercise 12 of Chapter 1, show that
+4.28. Let X be a negative binomial random variable with
+                                                                                            n
+      parameters r and p, and let Y be a binomial ran-                       E[X] =         ( )n−1
+      dom variable with parameters n and p. Show that                                 2 −    1
+                                                                                             2
+                    P{X > n} = P{Y < r}                                               n · 22n−2 − n(n + 1)2n−2
+                                                                           Var(X) =
+                                                                                              (2n − 1)2
+      Hint: Either one could attempt an analytical proof
+      of the preceding equation, which is equivalent to              Show also that, for n large,
+      proving the identity
+                                                                                                     n
+        q (       )                         r−1 (   )                                   Var(X) 
+        ∑   i − 1                           ∑     n                                                  4
+                          pr (1 − p)i−r =
+                r − 1                             i                  in the sense that the ratio Var(X) to n/4
+       i=n+1                                i=0
+                                                                     approaches 1 as n approaches q. Compare this
+                                            * pi (1 − p)n−i          formula with the limiting form of Var(Y) when
+                                                                     P{Y = i} = 1/n, i = 1, . . . , n.
+      or one could attempt a proof that uses the prob-
+      abilistic interpretation of these random variables.      4.35. An urn initially contains one red and one blue ball.
+      That is, in the latter case, start by considering a            At each stage, a ball is randomly chosen and then
+      sequence of independent trials having a common                 replaced along with another of the same color. Let
+      probability p of success. Then try to express the              X denote the selection number of the ﬁrst chosen
+      events {X > n} and {Y < r} in terms of the out-                ball that is blue. For instance, if the ﬁrst selec-
+      comes of this sequence.                                        tion is red and the second blue, then X is equal
+                                                                     to 2.
+4.29. For a hypergeometric random variable, determine
+                                                                     (a) Find P{X > i}, i Ú 1.
+                   P{X = k + 1}/P{X = k}                             (b) Show that, with probability 1, a blue ball is
+                                                                           eventually chosen. (That is, show that P{X <
+4.30. Balls numbered 1 through N are in an urn. Sup-                       q} = 1.)
+      pose that n, n … N, of them are randomly selected              (c) Find E[X].
+
+
+--- Source page ---
+
+
+                                                                                  Self-Test Problems and Exercises              183
+
+4.36. Suppose the possible values of X are {xi }, the pos-              (c) Using the formula from part (b), argue that
+      sible values of Y are {yj }, and the possible values                                 ∑∑
+      of X + Y are {zk }. Let Ak denote the set of all                        E[X + Y] =          (xi + yj )P{X = xi ,
+      pairs of indices (i, j) such that xi + yj = zk ; that is,                                  i       j
+      Ak = {(i, j) : xi + yj = zk }.                                                           Y = yj }
+      (a) Argue that
+                                    ∑                                   (d) Show that
+            P{X + Y = zk } =                 P{X = xi , Y = yj }                                 ∑
+                                  (i,j)∈Ak                                        P(X = xi ) =           P(X = xi , Y = yj ),
+                                                                                                     j
+                                                                                                 ∑
+      (b) Show that                                                               P(Y = yj ) =           P{X = xi , Y = yj }
+                            ∑ ∑                                                                      i
+             E[X + Y] =                    (xi + yj )P{X = xi ,
+                                                                        (e) Prove that
+                              k (i,j)∈Ak
+                            Y = yj }                                                  E[X + Y] = E[X] + E[Y]
+
+
+                                       SELF-TEST PROBLEMS AND EXERCISES
+
+ 4.1. Suppose that the random variable X is equal to                    it and then bet x, you will end up either winning
+      the number of hits obtained by a certain base-                    x − C or −x − C (that is, losing x + C in the lat-
+      ball player in his next 3 at bats. If P{X = 1} =                  ter case). Also, for what values of C does it pay to
+      .3, P{X = 2} = .2, and P{X = 0} = 3P{X = 3},                      purchase the information?
+      ﬁnd E[X].                                                    4.7. A philanthropist writes a positive number x on a
+ 4.2. Suppose that X takes on one of the values 0, 1,                   piece of red paper, shows the paper to an impar-
+      and 2. If for some constant c, P{X = i} = cP{X =                  tial observer, and then turns it face down on the
+      i − 1}, i = 1, 2, ﬁnd E[X].                                       table. The observer then ﬂips a fair coin. If it shows
+ 4.3. A coin that, when ﬂipped, comes up heads with                     heads, she writes the value 2x and, if tails, the value
+      probability p is ﬂipped until either heads or tails               x/2, on a piece of blue paper, which she then turns
+      has occurred twice. Find the expected number of                   face down on the table. Without knowing either
+      ﬂips.                                                             the value x or the result of the coin ﬂip, you have
+ 4.4. A certain community is composed of m families,                    the option of turning over either the red or the
+                                    ∑r
+                                                                        blue piece of paper. After doing so and observing
+      ni of which have i children,     ni = m. If one of
+                                       i=1                              the number written on that paper, you may elect
+      the families is randomly chosen, let X denote the                 to receive as a reward either that amount or the
+      number of children in that family. If one of the                  (unknown) amount written on the other piece of
+      ∑r
+                                                                        paper. For instance, if you elect to turn over the
+         ini children is randomly chosen, let Y denote
+      i=1                                                               blue paper and observe the value 100, then you
+      the total number of children in the family of that                can elect either to accept 100 as your reward or
+      child. Show that E[Y] Ú E[X].                                     to take the amount (either 200 or 50) on the red
+ 4.5. Suppose that P{X = 0} = 1 − P{X = 1}. If                          paper. Suppose that you would like your expected
+      E[X] = 3Var(X), ﬁnd P{X = 0}.                                     reward to be large.
+ 4.6. There are 2 coins in a bin. When one of them is                   (a) Argue that there is no reason to turn over the
+      ﬂipped, it lands on heads with probability .6, and                     red paper ﬁrst, because if you do so, then no
+      when the other is ﬂipped, it lands on heads with                       matter what value you observe, it is always
+      probability .3. One of these coins is to be randomly                   better to switch to the blue paper.
+      chosen and then ﬂipped. Without knowing which                     (b) Let y be a ﬁxed nonnegative value, and con-
+      coin is chosen, you can bet any amount up to 10                        sider the following strategy: Turn over the
+      dollars, and you then either win that amount if the                    blue paper, and if its value is at least y, then
+      coin comes up heads or lose it if it comes up tails.                   accept that amount. If it is less than y, then
+      Suppose, however, that an insider is willing to sell                   switch to the red paper. Let Ry (x) denote the
+      you, for an amount C, the information as to which                      reward obtained if the philanthropist writes
+      coin was selected. What is your expected payoff                        the amount x and you employ this strat-
+      if you buy this information? Note that if you buy                      egy. Find E[Ry (x)]. Note that E[R0 (x)] is the
+
+
+--- Source page ---
+
+
+184   Chapter 4       Random Variables
+
+          expected reward if the philanthropist writes                          P{Y = i} = P{X = i|X > 0}
+          the amount x when you employ the strategy
+          of always choosing the blue paper.                         where X is Poisson with parameter λ. Find E[Y].
+ 4.8. Let B(n, p) represent a binomial random variable         4.16. Each of n boys and n girls, independently and ran-
+      with parameters n and p. Argue that                            domly, chooses a member of the other sex. If a
+                                                                     boy and girl choose each other, they become a
+      P{B(n, p) … i} = 1 − P{B(n, 1 − p) … n − i − 1}                couple. Number the girls, and let Gi be the event
+                                                                     that girl number i is part of a couple. Let P0 =
+      Hint: The number of successes less than or equal to            1 − P(∪ni=1 Gi ) be the probability that no couples
+      i is equivalent to what statement about the number             are formed.
+      of failures?                                                   (a) What is P(Gi )?
+ 4.9. If X is a binomial random variable with expected               (b) What is P(Gi |Gj )?
+      value 6 and variance 2.4, ﬁnd P{X = 5}.                        (c) When n is large, approximate P0 .
+                                                                     (d) When n is large, approximate Pk , the proba-
+4.10. An urn contains n balls numbered 1 through n. If
+                                                                          bility that exactly k couples are formed.
+      you withdraw m balls randomly in sequence, each
+                                                                     (e) Use the inclusion–exclusion identity to evalu-
+      time replacing the ball selected previously, ﬁnd
+                                                                          ate P0 .
+      P{X = k}, k = 1, . . . , m, where X is the maximum
+                                                               4.17. A total of 2n people, consisting of n married cou-
+      of the m chosen numbers.
+                                                                     ples, are randomly divided into n pairs. Arbitrarily
+      Hint: First ﬁnd P{X … k}.
+                                                                     number the women, and let Wi denote the event
+4.11. Teams A and B play a series of games, with the                 that woman i is paired with her husband.
+      ﬁrst team to win 3 games being declared the winner             (a) Find P(Wi ).
+      of the series. Suppose that team A independently               (b) For i Z j, ﬁnd P(Wi |Wj ).
+      wins each game with probability p. Find the condi-             (c) When n is large, approximate the probability
+      tional probability that team A wins                                 that no wife is paired with her husband.
+      (a) the series given that it wins the ﬁrst game;               (d) If each pairing must consist of a man and a
+      (b) the ﬁrst game given that it wins the series.                    woman, what does the problem reduce to?
+4.12. A local soccer team has 5 more games left to play.       4.18. A casino patron will continue to make $5 bets on
+      If it wins its game this weekend, then it will play            red in roulette until she has won 4 of these bets.
+      its ﬁnal 4 games in the upper bracket of its league,           (a) What is the probability that she places a total
+      and if it loses, then it will play its ﬁnal games in                of 9 bets?
+      the lower bracket. If it plays in the upper bracket,           (b) What is her expected winnings when she
+      then it will independently win each of its games in                 stops?
+      this bracket with probability .4, and if it plays in           Remark: On each bet, she will either win $5 with
+      the lower bracket, then it will independently win              probability 18                               20
+                                                                                   38 or lose $5 with probability 38 .
+      each of its games with probability .7. If the proba-     4.19. When three friends go for coffee, they decide who
+      bility that the team wins its game this weekend is             will pay the check by each ﬂipping a coin and then
+      .5, what is the probability that it wins at least 3 of         letting the “odd person” pay. If all three ﬂips pro-
+      its ﬁnal 4 games?                                              duce the same result (so that there is no odd per-
+4.13. Each of the members of a 7-judge panel inde-                   son), then they make a second round of ﬂips, and
+      pendently makes a correct decision with probabil-              they continue to do so until there is an odd person.
+      ity .7. If the panel’s decision is made by majority            What is the probability that
+      rule, what is the probability that the panel makes             (a) exactly 3 rounds of ﬂips are made?
+      the correct decision? Given that 4 of the judges               (b) more than 4 rounds are needed?
+      agreed, what is the probability that the panel made      4.20. Show that if X is a geometric random variable with
+      the correct decision?                                          parameter p, then
+4.14. On average, 5.2 hurricanes hit a certain region in a
+                                                                                               −p log(p)
+      year. What is the probability that there will be 3 or                         E[1/X] =
+      fewer hurricanes hitting this year?                                                       1 − p
+4.15. The number of eggs laid on a tree leaf by an insect           Hint: You will need to evaluate an expression of
+      of a certain type is a Poisson random variable with                    ∑
+                                                                             q                               ∫a
+      parameter λ. However, such a random variable                  the form   ai /i. To do so, write ai /i = 0 xi−1 dx,
+                                                                              i=1
+      can be observed only if it is positive, since if it is         and then interchange the sum and the integral.
+      0 then we cannot know that such an insect was on         4.21. Suppose that
+      the leaf. If we let Y denote the observed number
+      of eggs, then                                                         P{X = a} = p,     P{X = b} = 1 − p
+
+
+--- Source page ---
+
+
+                                                                         Self-Test Problems and Exercises     185
+
+      (a) Show that X−b                                         balls that go into urn i. Assume that events cor-
+                         a−b is a Bernoulli random vari-        responding to the locations of different balls are
+            able.
+      (b) Find Var(X).                                          independent.
+4.22. Each game you play is a win with probability p.           (a) What type of random variable is Xi ? Be as
+      You plan to play 5 games, but if you win the ﬁfth              speciﬁc as possible.
+      game, then you will keep on playing until you             (b) For i Z j, what type of random variable is
+      lose.                                                          Xi + Xj ?
+      (a) Find the expected number of games that                (c) Find P{X1 + X2 + X3 = 7}.
+            you play.                                      4.25. For the match problem (Example 5m              in
+      (b) Find the expected number of games that                 Chapter 2), ﬁnd
+            you lose.                                            (a) the expected number of matches.
+4.23. Balls are randomly withdrawn, one at a time with-          (b) the variance of the number of matches.
+      out replacement, from an urn that initially has
+      N white and M black balls. Find the probability      4.26. Let α be the probability that a geometric random
+      that n white balls are drawn before m black balls,         variable X with parameter p is an even number.
+                                                                                                             ∑q
+      n … N, m … M.                                              (a) Find α by using the identity α =          i=1
+4.24. Ten balls are to be distributed among 5 urns,                   P{X = 2i}.
+      with each ball going into urn i with probabil-             (b) Find α by conditioning on whether X = 1 or
+               ∑5
+      ity pi ,   i=1 pi = 1. Let Xi denote the number of
+                                                                      X > 1.
