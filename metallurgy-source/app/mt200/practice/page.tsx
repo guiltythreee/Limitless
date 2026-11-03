@@ -1,5 +1,7 @@
 "use client";
 
+import "./practice.css";
+
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
