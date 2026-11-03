@@ -228,7 +228,7 @@ export default function BookOne() {
         ))}
       </div>
 
-      {chapter <= 3 ? <SourceChapterPanel chapter={chapter} /> : (
+      {(chapter === 1 || chapter === 2 || chapter === 3) ? <SourceChapterPanel chapter={chapter} /> : (
       <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
         <aside className="panel h-fit p-4">
           <div className="eyebrow mb-3">Chapter {chapter} · Problems</div>
