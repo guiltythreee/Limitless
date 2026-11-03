@@ -25,14 +25,14 @@ MT200 · TESTING OF MATERIALS
 ## SECTION A · DERIVATIONS (44 marks)
 
 A1.     Where modulus and theoretical strength come from. Two atoms interact through                                [7]
-        U(r) = −A/rm + B/rn (n > m).
+        $U(r)=-\\dfrac{A}{r^m}+\\dfrac{B}{r^n}$ (n > m).
            (i) Find the equilibrium spacing r0 (in terms of A, B, m, n) and show that the bond
                stiffness S0 = (d2U/dr2) at r0 equals m·n·|U0|/r02, where U0 is the bond energy.
-           (ii) Taking each atom to occupy an area r02, show that E ≈ S0/r0. What does this say
+           (ii) Taking each atom to occupy an area r02, show that $E\\approx S_0/r_0$. What does this say
                 about the link between E and melting point?
            (iii) Assume the stress needed to separate two atomic planes is σ = σth sin(2πx/λ). Using
                 Hooke's law for small x and the requirement that the work of separation per unit area
-                equals 2γ (γ = surface energy), show that σth = √(Eγ/r0).
+                equals 2γ (γ = surface energy), show that $\\sigma_{th}=\\sqrt{E\\gamma/r_0}$.
            (iv) Evaluate σth for iron (E = 200 GPa, γ = 1 J/m2, r0 = 0.25 nm) and compare it with a
                typical yield strength of 250 MPa. What does the gap tell you?
 
@@ -48,7 +48,7 @@ A3.     Vickers geometry. For the 136° pyramid, show that the diagonal d ≈ 7.
 A4.     The friction hill in compression. A thin cylindrical disc (radius a, height h) is                           [6]
         compressed between rough platens with Coulomb friction (coefficient μ). Take the axial
         stress σz and radial stress σr (both compressive) with σz − σr = σ0, a constant flow stress.
-           (i) Consider the radial force balance on a ring element and show that dσz/dr = −2μσz/h.
+           (i) Consider the radial force balance on a ring element and show that $\\dfrac{d\\sigma_z}{dr}=-\\dfrac{2\\mu\\sigma_z}{h}$.
            (ii) Integrate with the free-edge condition at r = a to obtain σz(r).
            (iii) Find the mean pressure pavg and show that for small 2μa/h it is pavg ≈ σ0(1 +
                 2μa/3h).
@@ -76,7 +76,7 @@ A7.     Machine compliance. A specimen (area A, gauge length L, modulus E) is te
 
 A8.     Meyer's law and strain hardening. Meyer's law states P = k dm. Assuming the mean                     [3]
         pressure equals a constant C times the flow stress at a representative strain εr = 0.2 d/D,
-        and that σ = Kεn, show that m = 2 + n. What does m = 2 mean physically?
+        and that σ = Kεn, show that $m=2+n$. What does m = 2 mean physically?
 
 A9.     Error propagation in hardness. Show that the relative error in Vickers hardness is                   [4]
         δHV/HV = −2 δd/d. For Brinell, derive δBHN/BHN in terms of δd, D and d, and evaluate it for
@@ -144,7 +144,7 @@ C2.     Analysing tension data. The following engineering data were obtained in 
       Engineering stress (MPa)               358                   416         454           469              473
 
    (a) Convert each point to true stress and true strain.
-   (b) By a log–log fit, find n and K in σT = KεTn.
+   (b) By a log–log fit, find n and K in $\\sigma_T=K\\varepsilon_T^n$.
    (c) Predict the true strain and engineering strain at necking, and the engineering UTS.
    (d) Estimate the energy absorbed per unit volume up to necking. Is the 18% point safely before
        necking?
