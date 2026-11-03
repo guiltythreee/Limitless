@@ -15,7 +15,6 @@ These four opening problems were supplied separately from the main question-bank
 --- Source page ---
 
 
-Problems     173
 
       if the top-ranked person is female.) Find P{X = i},
       i = 1, 2, 3, . . . , 8, 9, 10.
@@ -77,6 +76,7 @@ Problems     173
 
 
 
+Problems     173
 (in dollars) equal to the sum of the ﬁngers shown
 by him and his opponent. If both players guess
 correctly or if neither guesses correctly, then no
@@ -281,7 +281,6 @@ this maximin value? (Note that B’s expected
 --- Source page ---
 
 
-Problems     175
 
       gain depends not only on p, but also on what
       A does.)
@@ -342,6 +341,7 @@ Problems     175
 
 
 
+Problems     175
 Note: If the ﬁrst check is negative, we must still
 check the other possibility.
 4.30. A person tosses a fair coin until a tail appears for
@@ -517,7 +517,6 @@ entire package of diskettes if he or she ﬁnds more
 --- Source page ---
 
 
-Problems      177
 
       than one defective diskette in it. If someone buys
       3 packages, what is the probability that he or she
@@ -574,6 +573,7 @@ Problems      177
 
 
 
+Problems      177
 4.57. Suppose that the number of accidents occurring on
 a highway each day is a Poisson random variable
 with parameter λ = 3.
@@ -799,15 +799,6 @@ when the left-hand matchbox originally contained
 
 
 
-THEORETICAL EXERCISES
-
- 4.1. There are N distinct types of coupons, and each
-      time one is obtained it will, independently of
-      past choices, be of type i with probability Pi , i =
-      1, . . . , N. Let T denote the number one need select
-
-
-
 Theoretical Exercises     179
 Keno Payoffs in 10 Number Bets
 Number of matches Dollars won for each $1 bet
@@ -852,6 +843,15 @@ the expected number of distinct types that appear
 in this set. (That is, ﬁnd the expected number of
 types of coupons that appear at least once in the
 set of n coupons.)
+THEORETICAL EXERCISES
+
+ 4.1. There are N distinct types of coupons, and each
+      time one is obtained it will, independently of
+      past choices, be of type i with probability Pi , i =
+      1, . . . , N. Let T denote the number one need select
+
+
+
 to obtain at least one of each type. Compute
 P{T = n}.
 Hint: Use an argument similar to the one used in
@@ -1210,6 +1210,23 @@ q} = 1.)
              E[X + Y] =
 
 
+Self-Test Problems and Exercises              183
+(c) Using the formula from part (b), argue that
+∑∑
+E[X + Y] =          (xi + yj )P{X = xi ,
+i       j
+Y = yj }
+∑                                   (d) Show that
+∑
+(i,j)∈Ak                                        P(X = xi ) =           P(X = xi , Y = yj ),
+j
+∑
+P(Y = yj ) =           P{X = xi , Y = yj }
+∑ ∑                                                                      i
+(xi + yj )P{X = xi ,
+(e) Prove that
+k (i,j)∈Ak
+Y = yj }                                                  E[X + Y] = E[X] + E[Y]
 SELF-TEST PROBLEMS AND EXERCISES
 
  4.1. Suppose that the random variable X is equal to
@@ -1250,23 +1267,6 @@ SELF-TEST PROBLEMS AND EXERCISES
 
 
 
-Self-Test Problems and Exercises              183
-(c) Using the formula from part (b), argue that
-∑∑
-E[X + Y] =          (xi + yj )P{X = xi ,
-i       j
-Y = yj }
-∑                                   (d) Show that
-∑
-(i,j)∈Ak                                        P(X = xi ) =           P(X = xi , Y = yj ),
-j
-∑
-P(Y = yj ) =           P{X = xi , Y = yj }
-∑ ∑                                                                      i
-(xi + yj )P{X = xi ,
-(e) Prove that
-k (i,j)∈Ak
-Y = yj }                                                  E[X + Y] = E[X] + E[Y]
 it and then bet x, you will end up either winning
 x − C or −x − C (that is, losing x + C in the lat-
 ter case). Also, for what values of C does it pay to
