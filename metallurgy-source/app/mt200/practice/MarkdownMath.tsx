@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, type ReactNode } from "react";
+import { Fragment, type ElementType, type ReactNode } from "react";
 import katex from "katex";
 
 type Props = { source: string; className?: string };
@@ -62,7 +62,7 @@ export default function MarkdownMath({ source, className }: Props) {
       flushParagraph(); flushList(); flushTable();
       const level = Math.min(6, line.match(/^#+/)?.[0].length ?? 2);
       const title = line.replace(/^#+\s*/, "");
-      const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+      const Tag = `h${level}` as ElementType;
       blocks.push(<Tag key={blocks.length}>{inlineParts(title)}</Tag>);
       continue;
     }
