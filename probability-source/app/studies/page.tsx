@@ -48,7 +48,7 @@ export default function ProbabilityStudiesLanding() {
             <span className="text-gold transition group-hover:translate-x-1">→</span>
           </div>
           <h3 className="serif mt-4 text-2xl text-parchment">A First Course in Probability</h3>
-          <p className="mt-2 text-sm leading-6 text-dim">Interactive problem book · Chapters 4 and 5 starter set · Worked solutions</p>
+          <p className="mt-2 text-sm leading-6 text-dim">Chapters 1–5 · Original questions and detailed solutions</p>
         </Link>
       </section>
     </>
