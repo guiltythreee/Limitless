@@ -1,6 +1,6 @@
 "use client";
 
-import "./practice.css";
+import styles from "./practice.module.css";
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -114,7 +114,7 @@ export default function Mt200Practice() {
         <Link className="brand" href="/mt200">MT200 · Testing of Materials</Link>
         <nav className="nav-links"><Link href="/mt200">Course overview</Link></nav>
       </header>
-      <main className="mt200-page">
+      <main className={`${styles.root} mt200-page`}>
         <div className="mt200-practice-head">
           <div className="eyebrow">MT200 · Practice workspace</div>
           <h1>Work through the papers</h1>
