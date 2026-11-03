@@ -1,8 +1,8 @@
 <PARSED TEXT FOR PAGE: 15 / 82>
-PROBLEMS
 
 102   Chapter 3       Conditional Probability and Independence
 
+PROBLEMS
 
  3.1. Two fair dice are rolled. What is the conditional
       probability that at least one lands on 6 given that
@@ -111,6 +111,7 @@ percent of the Liberals, and 58 percent of the Con-
 servatives voted. A voter is chosen at random.
 <PARSED TEXT FOR PAGE: 16 / 82>
 
+Problems     103
 
       Given that this person voted in the local election,
       what is the probability that he or she is
@@ -163,7 +164,6 @@ servatives voted. A voter is chosen at random.
       is less than that appearing on the red die. That is,
 
 
-Problems     103
 with B, Y, and R denoting, respectively, the num-
 ber appearing on the blue, yellow, and red die, we
 are interested in P(B < Y < R).
@@ -336,6 +336,7 @@ he or she had no accidents in the ﬁrst year?
 manner: We start with an urn containing 5 white
 <PARSED TEXT FOR PAGE: 18 / 82>
 
+Problems     105
 
       and 7 red balls. At each stage, a ball is drawn
       and its color is noted. The ball is then returned
@@ -394,7 +395,6 @@ manner: We start with an urn containing 5 white
       randomly chosen. If Ai denotes the event that this
 
 
-Problems     105
 policyholder will make a claim in year i, show that
 P(A2 |A1 ) > P(A1 )
 Give an intuitive explanation of why the preceding
@@ -561,6 +561,7 @@ return to step 1.
 experiment.
 <PARSED TEXT FOR PAGE: 20 / 82>
 
+Problems     107
 
       (a) Show that the result is equally likely to be
             either heads or tails.
@@ -620,7 +621,6 @@ experiment.
       target with probability p1 , while each shot of
 
 
-Problems     107
 Dianne’s hits it with probability p2 . Suppose that
 they shoot simultaneously at the same target. If
 the wooden duck is knocked over (indicating that
@@ -775,6 +775,7 @@ tee members approve the legislation. Once at the
 full council, the legislation requires a majority vote
 <PARSED TEXT FOR PAGE: 22 / 82>
 
+Problems       109
 
       (of at least 4) to pass. Consider a new piece of
       legislation, and suppose that each town council
@@ -833,7 +834,6 @@ full council, the legislation requires a majority vote
       than that of the other player. The player with the
 
 
-Problems       109
 greater number of total wins is declared the winner
 of the series.
 (a) Find the probability that a total of 4 games are
@@ -892,7 +892,6 @@ the probability that the investor retires a winner?
 until a tail occurs, at which point B starts ﬂipping
 and continues until there is a tail. Then A takes
 <PARSED TEXT FOR PAGE: 23 / 82>
-THEORETICAL EXERCISES
 
 110   Chapter 3       Conditional Probability and Independence
 
@@ -934,6 +933,7 @@ THEORETICAL EXERCISES
 
 
 
+THEORETICAL EXERCISES
 
  3.1. Show that if P(A) > 0, then
                   P(AB|A) Ú P(AB|A ∪ B)
@@ -1329,10 +1329,10 @@ Clearly, the boy is more likely to survive an addi-
 tional year than the grandfather is.” How would
 you answer your friend?
 <PARSED TEXT FOR PAGE: 27 / 82>
-SELF-TEST PROBLEMS AND EXERCISES
 
 114   Chapter 3        Conditional Probability and Independence
 
+SELF-TEST PROBLEMS AND EXERCISES
 
  3.1. In a game of bridge, West has no aces. What is the
       probability of his partner’s having (a) no aces? (b)
