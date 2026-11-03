@@ -13,9 +13,9 @@ These four opening problems were supplied separately from the main question-bank
 
 
 --- Source page ---
+
+
 Problems     173
-
-
 
       if the top-ranked person is female.) Find P{X = i},
       i = 1, 2, 3, . . . , 8, 9, 10.
@@ -279,9 +279,9 @@ from A. If B makes a wrong guess, B pays 34 unit to
 sible value of B’s expected gain, and what is
 this maximin value? (Note that B’s expected
 --- Source page ---
+
+
 Problems     175
-
-
 
       gain depends not only on p, but also on what
       A does.)
@@ -515,9 +515,9 @@ the 10 diskettes in the package will be defective.
 The guarantee is that the customer can return the
 entire package of diskettes if he or she ﬁnds more
 --- Source page ---
+
+
 Problems      177
-
-
 
       than one defective diskette in it. If someone buys
       3 packages, what is the probability that he or she
@@ -746,7 +746,6 @@ mass function of X.
 4.76. Solve the Banach match problem (Example 8e)
 when the left-hand matchbox originally contained
 --- Source page ---
-THEORETICAL EXERCISES
 
 
 
@@ -800,6 +799,7 @@ THEORETICAL EXERCISES
 
 
 
+THEORETICAL EXERCISES
 
  4.1. There are N distinct types of coupons, and each
       time one is obtained it will, independently of
@@ -1196,7 +1196,6 @@ eventually chosen. (That is, show that P{X <
 q} = 1.)
 (c) Find E[X].
 --- Source page ---
-SELF-TEST PROBLEMS AND EXERCISES
 
 
 
@@ -1211,6 +1210,7 @@ SELF-TEST PROBLEMS AND EXERCISES
              E[X + Y] =
 
 
+SELF-TEST PROBLEMS AND EXERCISES
 
  4.1. Suppose that the random variable X is equal to
       the number of hits obtained by a certain base-
