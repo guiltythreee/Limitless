@@ -1,8 +1,8 @@
 <PARSED TEXT FOR PAGE: 1 / 82>
-PROBLEMS
 
 16    Chapter 1        Combinatorial Analysis
 
+PROBLEMS
 
      1. (a) How many different 7-place license plates are
               possible if the ﬁrst 2 places are for letters and
@@ -113,6 +113,7 @@ How many different committees are possible if
 (c) 1 man and 1 woman refuse to serve together?
 <PARSED TEXT FOR PAGE: 2 / 82>
 
+Problems      17
 
 20. A person has 8 friends, of whom 5 will be invited
     to a party.
@@ -141,7 +142,6 @@ A
     to these 6 beds so that each set of twins sleeps
 
 
-Problems      17
 in different beds in the same room, how many
 assignments are possible?
 24. Expand (3x2 + y)5 .
@@ -196,7 +196,6 @@ nity?
 (b) investments must be made in at least 3 of the
 4 opportunities?
 <PARSED TEXT FOR PAGE: 3 / 82>
-THEORETICAL EXERCISES
 
 18     Chapter 1          Combinatorial Analysis
 
@@ -239,6 +238,7 @@ THEORETICAL EXERCISES
              nonchair committee members and then on
 
 
+THEORETICAL EXERCISES
 the
 ( choice  ) of the chair, argue that there are
 n
@@ -423,7 +423,6 @@ n−j
 (−1)            =0 i < n                 =            .
 j           i                                            r     r, n − r
 <PARSED TEXT FOR PAGE: 5 / 82>
-SELF-TEST PROBLEMS AND EXERCISES
 
 20     Chapter 1                 Combinatorial Analysis
      18. Argue that
@@ -501,6 +500,7 @@ that each xi is a nonnegative integer and
 n
 xi … k
 i=1
+SELF-TEST PROBLEMS AND EXERCISES
 7. Give a combinatorial explanation of the identity
 (       )       (            )
 n                 n
