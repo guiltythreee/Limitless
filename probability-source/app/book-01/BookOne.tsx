@@ -124,11 +124,11 @@ const CHAPTERS = [
   { id: 1 as const, title: "Combinatorial Analysis", subtitle: "Problems 1–33 · Theory · Self-test" },
   { id: 2 as const, title: "Axioms of Probability", subtitle: "Problems 1–56 · Theory · Self-test" },
   { id: 3 as const, title: "Conditional Probability and Independence", subtitle: "Problems 1–90 · Theory · Self-test" },
-  { id: 4 as const, title: "Random Variables", subtitle: "Problems 4.1–4.4" },
-  { id: 5 as const, title: "Continuous Random Variables", subtitle: "Problems 5.1–5.6" },
+  { id: 4 as const, title: "Random Variables", subtitle: "Problems 4.1–4.85 · Theory · Self-test" },
+  { id: 5 as const, title: "Continuous Random Variables", subtitle: "Problems 5.1–5.41 · Theory · Self-test" },
 ];
 
-function SourceChapterPanel({ chapter }: { chapter: 1 | 2 | 3 }) {
+function SourceChapterPanel({ chapter }: { chapter: 1 | 2 | 3 | 4 | 5 }) {
   const [documentType, setDocumentType] = useState<"questions" | "solutions">("questions");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
@@ -176,6 +176,7 @@ export default function BookOne() {
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
   const [completed, setCompleted] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
+  const [showPractice, setShowPractice] = useState(false);
 
   useEffect(() => {
     try {
@@ -197,6 +198,7 @@ export default function BookOne() {
   const active = problems.find((p) => p.id === activeId) ?? chapterProblems[0] ?? problems[0];
   const setChapterAndProblem = (next: 1 | 2 | 3 | 4 | 5) => {
     setChapter(next);
+    setShowPractice(false);
     if (next === 4) setActiveId("4.1");
     if (next === 5) setActiveId("5.1");
   };
@@ -208,13 +210,13 @@ export default function BookOne() {
         <div>
           <div className="eyebrow mb-3">Probability · Interactive Book</div>
           <h1 className="serif text-4xl text-parchment md:text-5xl">Book Number 1</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-dim">Chapters 1–5 with the original question sets and detailed solutions. Chapters 1–3 retain their source exercise numbering; Chapters 4–5 use the interactive problem view.</p>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-dim">Chapters 1–5 with complete question sets, detailed solutions, theoretical exercises, and self-test material. Open a chapter and switch between its questions and worked solutions.</p>
         </div>
         <div className="panel min-w-44 p-4">
           <div className="text-[10px] uppercase tracking-widest text-faint">Your progress</div>
           <div className="serif mt-1 text-3xl text-gold">{completed.length}/{problems.length}</div>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-track"><div className="h-full bg-gold transition-all" style={{ width: `${completed.length / problems.length * 100}%` }} /></div>
-          <div className="mt-2 text-xs text-dim">Interactive problems marked complete</div>
+          <div className="mt-2 text-xs text-dim">Selected practice problems marked complete</div>
         </div>
       </div>
 
@@ -228,50 +230,59 @@ export default function BookOne() {
         ))}
       </div>
 
-      {(chapter === 1 || chapter === 2 || chapter === 3) ? <SourceChapterPanel chapter={chapter} /> : (
-      <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-        <aside className="panel h-fit p-4">
-          <div className="eyebrow mb-3">Chapter {chapter} · Problems</div>
-          <div className="space-y-1">
-            {chapterProblems.map((problem) => (
-              <button key={problem.id} onClick={() => setActiveId(problem.id)} className={`flex w-full items-center gap-3 border px-3 py-3 text-left text-sm transition ${activeId === problem.id ? "border-gold/60 bg-gold/10 text-parchment" : "border-transparent text-dim hover:border-gold/20 hover:bg-gold/5"}`}>
-                <span className="serif text-gold">{problem.id}</span>
-                <span className="min-w-0 flex-1">{problem.title}</span>
-                {completed.includes(problem.id) && <span className="text-ok" aria-label="Completed">✓</span>}
+      <SourceChapterPanel chapter={chapter} />
+      {(chapter === 4 || chapter === 5) && (
+        <div className="mt-6">
+          <button onClick={() => setShowPractice((value) => !value)} className="border border-gold/30 px-4 py-3 text-xs uppercase tracking-widest text-gold hover:bg-gold/10">
+            {showPractice ? "Hide selected interactive practice" : "Open selected interactive practice"}
+          </button>
+          <p className="mt-2 text-xs text-faint">This is a small interactive practice subset. The complete chapter problem sets and solution manuals are in the source tabs above.</p>
+          {showPractice && (
+        <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+          <aside className="panel h-fit p-4">
+            <div className="eyebrow mb-3">Chapter {chapter} · Problems</div>
+            <div className="space-y-1">
+              {chapterProblems.map((problem) => (
+                <button key={problem.id} onClick={() => setActiveId(problem.id)} className={`flex w-full items-center gap-3 border px-3 py-3 text-left text-sm transition ${activeId === problem.id ? "border-gold/60 bg-gold/10 text-parchment" : "border-transparent text-dim hover:border-gold/20 hover:bg-gold/5"}`}>
+                  <span className="serif text-gold">{problem.id}</span>
+                  <span className="min-w-0 flex-1">{problem.title}</span>
+                  {completed.includes(problem.id) && <span className="text-ok" aria-label="Completed">✓</span>}
+                </button>
+              ))}
+            </div>
+          </aside>
+  
+          <article className="panel min-w-0 p-5 md:p-8">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="eyebrow">Problem {active.id}</div>
+              <button onClick={() => toggleComplete(active.id)} className={`border px-3 py-2 text-[10px] uppercase tracking-widest ${completed.includes(active.id) ? "border-ok/50 text-ok" : "border-gold/30 text-gold hover:bg-gold/10"}`}>
+                {completed.includes(active.id) ? "✓ Completed" : "Mark complete"}
               </button>
-            ))}
-          </div>
-        </aside>
-
-        <article className="panel min-w-0 p-5 md:p-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="eyebrow">Problem {active.id}</div>
-            <button onClick={() => toggleComplete(active.id)} className={`border px-3 py-2 text-[10px] uppercase tracking-widest ${completed.includes(active.id) ? "border-ok/50 text-ok" : "border-gold/30 text-gold hover:bg-gold/10"}`}>
-              {completed.includes(active.id) ? "✓ Completed" : "Mark complete"}
-            </button>
-          </div>
-          <h2 className="serif mt-3 text-2xl text-parchment md:text-3xl">{active.title}</h2>
-          <div className="mt-6 border-l-2 border-gold/50 pl-4 text-sm leading-8 text-body">{active.prompt}</div>
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-gold/15 pt-5">
-            <div>
-              <div className="serif text-lg text-parchment">Worked solution</div>
-              <p className="mt-1 text-xs text-dim">Try the problem before revealing the steps.</p>
             </div>
-            <button onClick={() => setRevealed((old) => ({ ...old, [active.id]: !old[active.id] }))} className="btn-gold">
-              {revealed[active.id] ? "Hide solution" : "Reveal solution"}
-            </button>
-          </div>
-          {revealed[active.id] && (
-            <div className="mt-5 space-y-4">
-              <ol className="space-y-3">
-                {active.solution.map((step, index) => <li key={index} className="grid grid-cols-[2rem_1fr] gap-3 text-sm leading-7 text-body"><span className="serif text-gold">{index + 1}.</span><span>{step}</span></li>)}
-              </ol>
-              <div className="border border-gold/25 bg-gold/5 p-4">
-                <div className="text-[10px] uppercase tracking-widest text-gold">Final answer</div>
-                <p className="mt-2 text-sm leading-7 text-parchment">{active.answer}</p>
+            <h2 className="serif mt-3 text-2xl text-parchment md:text-3xl">{active.title}</h2>
+            <div className="mt-6 border-l-2 border-gold/50 pl-4 text-sm leading-8 text-body">{active.prompt}</div>
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-gold/15 pt-5">
+              <div>
+                <div className="serif text-lg text-parchment">Worked solution</div>
+                <p className="mt-1 text-xs text-dim">Try the problem before revealing the steps.</p>
               </div>
+              <button onClick={() => setRevealed((old) => ({ ...old, [active.id]: !old[active.id] }))} className="btn-gold">
+                {revealed[active.id] ? "Hide solution" : "Reveal solution"}
+              </button>
             </div>
+            {revealed[active.id] && (
+              <div className="mt-5 space-y-4">
+                <ol className="space-y-3">
+                  {active.solution.map((step, index) => <li key={index} className="grid grid-cols-[2rem_1fr] gap-3 text-sm leading-7 text-body"><span className="serif text-gold">{index + 1}.</span><span>{step}</span></li>)}
+                </ol>
+                <div className="border border-gold/25 bg-gold/5 p-4">
+                  <div className="text-[10px] uppercase tracking-widest text-gold">Final answer</div>
+                  <p className="mt-2 text-sm leading-7 text-parchment">{active.answer}</p>
+                </div>
+              </div>
           )}
+        </div>
+      )}
           <div className="mt-8 flex items-center justify-between border-t border-gold/15 pt-5">
             <button disabled={chapterProblems[0].id === active.id} onClick={() => { const i = chapterProblems.findIndex((p) => p.id === active.id); setActiveId(chapterProblems[Math.max(0, i - 1)].id); }} className="btn-ghost">← Previous</button>
             <span className="text-xs text-faint">{chapterProblems.findIndex((p) => p.id === active.id) + 1} of {chapterProblems.length}</span>
