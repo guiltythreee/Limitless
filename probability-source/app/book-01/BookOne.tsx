@@ -165,8 +165,14 @@ function makeSolutionMap(text: string, chapter: Chapter) {
   starts.forEach((start, index) => {
     const end = starts[index + 1]?.index ?? clean.length;
     const solution = clean.slice(start.index, end).trim();
-    if (!map.has(start.id) || (map.get(start.id)?.solution.length ?? 0) < solution.length) {
+    const existing = map.get(start.id);
+    if (!existing) {
       map.set(start.id, { title: start.title, solution });
+    } else {
+      map.set(start.id, {
+        title: existing.title || start.title,
+        solution: existing.solution + "\n\nAdditional source note or correction:\n" + solution,
+      });
     }
   });
   return map;
