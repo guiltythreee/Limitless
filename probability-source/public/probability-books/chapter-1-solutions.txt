@@ -1,0 +1,731 @@
+<PARSED TEXT FOR PAGE: 1 / 13>
+
+                                         PROBABILITY
+                Detailed Solutions Manual
+                        Volume 1 of 10 | Chapter 1: Combinatorial Analysis
+
+
+
+
+  Complete worked solutions to the chapter problems, theoretical exercises, and
+                               self-test exercises.
+
+ Prepared from the uploaded 82-page question set. Original exercise numbering is retained.
+
+
+
+
+ How to use this volume
+ Each solution identifies the counting model first, then sets up the appropriate product, permutation,
+ combination, multinomial, or stars-and-bars count. Algebraic identities are proved by counting the same
+ objects in two ways whenever that is the natural method.
+
+ Notation: nPr = n!/(n-r)!; C(n,r) = n!/[r!(n-r)!]. A committee is unordered unless the question assigns roles
+ or otherwise makes order relevant.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                    Page 1
+
+<PARSED TEXT FOR PAGE: 2 / 13>
+
+ Chapter 1 - Combinatorial Analysis
+ The central decision in this chapter is whether order matters. Use permutations when positions or roles
+ distinguish outcomes, combinations when only the selected set matters, and multinomial coefficients
+ when repeated or indistinguishable categories occur.
+
+
+ A. Problems
+ 1. License plates: two letters followed by five digits
+ Each position is filled independently. With repetition, there are 26 choices for each letter and 10 for each
+ digit, so the multiplication principle gives 26^2 x 10^5 = 67,600,000.
+
+ Without repetition, the two letter positions have 26 and then 25 choices. The digit positions have 10, 9, 8,
+ 7, and 6 choices.
+
+    (26 x 25)(10 x 9 x 8 x 7 x 6) = 19,656,000.
+
+ 2. Four rolls of a die
+ Each of the four rolls has six possible results, and the order of the results matters. Thus the number of
+ sequences is 6 x 6 x 6 x 6 = 6^4 = 1,296.
+
+ 3. Assigning 20 workers to 20 distinct jobs
+ Choose the worker for the first job in 20 ways, the second in 19 ways, and continue down to one way for
+ the final job. This is a permutation of 20 distinct workers.
+
+    20! = 2,432,902,008,176,640,000.
+
+ 4. Assigning four band members to four instruments
+ If everyone can play every instrument, assign the four distinct instruments to the four distinct boys in 4! =
+ 24 ways.
+
+ In the restricted case, Jay and Jack must take piano and drums. They can be assigned those two
+ instruments in 2! ways. John and Jim then take the remaining two instruments in 2! ways. Total = 2! x 2! =
+ 4.
+
+ 5. Telephone area codes
+ The first digit has 8 choices (2 through 9), the second has 2 choices (0 or 1), and the third has 9 choices (1
+ through 9). Hence there are 8 x 2 x 9 = 144 codes.
+
+ If the first digit is fixed as 4, only the second and third positions vary: 2 x 9 = 18 codes.
+
+ 6. The St. Ives nursery rhyme
+ The number multiplies by seven at each level: 7 wives, 7 sacks per wife, 7 cats per sack, and 7 kittens per
+ cat. The traveler therefore meets 7^4 = 2,401 kittens.
+
+ 7. Seating three boys and three girls
+ (a) All six people are distinct, so there are 6! = 720 arrangements.
+
+ (b) Treat the three boys as one block and the three girls as another. The two blocks can be ordered in 2!
+ ways; people within the blocks can be ordered in 3! ways each. Total = 2! x 3! x 3! = 72.
+
+ (c) Treat the boys as one block. The boy-block and the three individual girls form four objects, giving 4!
+ orders; the boys can be permuted internally in 3! ways. Total = 4! x 3! = 144.
+
+ (d) The sexes must alternate. There are two possible gender patterns (BGBGBG or GBGBGB). For each, the
+ boys can be arranged in 3! ways and the girls in 3! ways. Total = 2 x 3! x 3! = 72.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                    Page 2
+
+<PARSED TEXT FOR PAGE: 3 / 13>
+
+ 8. Arrangements of letters with repetitions
+ (a) FLUKE has five distinct letters: 5! = 120.
+
+ (b) PROPOSE has seven letters, with P repeated twice and O repeated twice. Divide 7! by the two
+ factorials for indistinguishable repeated letters: 7!/(2!2!) = 1,260.
+
+ (c) MISSISSIPPI has 11 letters: I occurs 4 times, S occurs 4 times, and P occurs 2 times. The number is
+ 11!/(4!4!2!) = 34,650.
+
+ (d) ARRANGE has seven letters, with A twice and R twice. The number is 7!/(2!2!) = 1,260.
+
+ 9. Arranging 12 colored blocks
+ Blocks of the same color are indistinguishable. There are 12 positions, with 6 black, 4 red, 1 white, and 1
+ blue block. The multinomial count is
+
+    12!/(6!4!1!1!) = 27,720.
+
+ 10. Seating eight people
+ (a) With no restrictions, 8! = 40,320.
+
+ (b) Treat A and B as one block. The block plus the other six people gives seven objects; A and B can switch
+ places within their block. Count = 7! x 2 = 10,080.
+
+ (c) The sexes must alternate. The first seat can be occupied by either a man or a woman, after which the
+ pattern is forced. The four men can be ordered in 4! ways and the four women in 4! ways. Count = 2 x 4! x
+ 4! = 1,152.
+
+ (d) Treat the five men as one block. This block plus the three other people can be ordered in 4! ways, and
+ the men can be ordered internally in 5! ways. Count = 4! x 5! = 2,880.
+
+ (e) Treat each married couple as a block. The four blocks can be ordered in 4! ways; each couple can
+ switch seats in 2 ways. Count = 4! x 2^4 = 384.
+
+ 11. Arranging novels, mathematics books, and a chemistry book
+ Assume that all six individual books are distinct.
+
+ (a) Any order: 6! = 720.
+
+ (b) Keep the two mathematics books together as one block and the three novels together as another
+ block. Along with the chemistry book, there are 3 objects. The internal orders are 2! and 3!, so the count is
+ 3! x 2! x 3! = 72.
+
+ (c) Keep only the three novels together. The novel block and the other three individual books form four
+ objects, with 3! internal novel orders. Count = 4! x 3! = 144.
+
+ 12. Five distinct awards for 30 students
+ (a) Each of the five distinct awards can be assigned independently to any of 30 students. A student may
+ receive more than one, so the count is 30^5 = 24,300,000.
+
+ (b) No student may receive more than one award. Assign distinct students to the five distinct awards:
+ 30P5 = 30 x 29 x 28 x 27 x 26 = 17,100,720.
+
+ 13. Handshakes among 20 people
+ A handshake is determined by an unordered pair of people. Each pair shakes once, so the number is
+ C(20,2) = 20 x 19 / 2 = 190.
+
+ 14. Five-card poker hands
+ A hand is an unordered selection of five cards from 52. Therefore the number is C(52,5) = 2,598,960.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                     Page 3
+
+<PARSED TEXT FOR PAGE: 4 / 13>
+
+ 15. Choosing and pairing five men with five women
+ First choose five of the 12 men and five of the 10 women. Then pair the chosen men with the chosen
+ women; there are 5! bijections between the two selected groups.
+
+    C(12,5) x C(10,5) x 5! = 792 x 252 x 120 = 23,950,080.
+
+ 16. Selling two books from three subject groups
+ (a) The books must be from the same subject. Choose both from mathematics, both from science, or both
+ from economics:
+
+    C(6,2) + C(7,2) + C(4,2) = 15 + 21 + 6 = 42.
+
+ (b) For different subjects, choose one book from each of a pair of subjects: mathematics/science,
+ mathematics/economics, or science/economics.
+
+    (6 x 7) + (6 x 4) + (7 x 4) = 42 + 24 + 28 = 94.
+
+ 17. Seven distinct gifts to ten children, at most one each
+ Assign a different child to each of the seven distinct gifts. The assignment is an ordered selection of seven
+ distinct children: 10P7 = 10! / 3! = 604,800.
+
+ 18. Committee with fixed numbers by political affiliation
+ Choose 2 of the 5 Republicans, 2 of the 6 Democrats, and 3 of the 4 Independents. The three selections
+ are independent.
+
+    C(5,2) x C(6,2) x C(4,3) = 10 x 15 x 4 = 600.
+
+ 19. A committee of three men and three women with a forbidden pair
+ Without restrictions, the count is C(6,3)C(8,3) = 20 x 56 = 1,120.
+
+ (a) If two specified men refuse to serve together, subtract committees containing both. If both are
+ included, the third man is chosen from the other four, and the women are chosen in C(8,3) ways.
+ Forbidden count = 4 x 56 = 224. Valid count = 1,120 - 224 = 896.
+
+ (b) If two specified women refuse to serve together, forbidden committees contain both women, one more
+ woman from the other six, and three men from six. Forbidden count = 6 x 20 = 120. Valid count = 1,120 -
+ 120 = 1,000.
+
+ (c) If one specified man and one specified woman refuse to serve together, committees containing both
+ are formed by choosing two of the other five men and two of the other seven women: C(5,2)C(7,2) = 10 x
+ 21 = 210. Valid count = 1,120 - 210 = 910.
+
+ 20. Inviting five of eight friends
+ (a) Two specified friends feud. Start with all C(8,5) = 56 groups and subtract groups containing both
+ feuding friends. If both are invited, choose three of the remaining six: C(6,3) = 20. Valid groups = 56 - 20
+ = 36.
+
+ (b) Two specified friends must attend together or both be absent. Groups containing both: choose three of
+ the other six, giving C(6,3) = 20. Groups containing neither: choose all five from the other six, giving
+ C(6,5) = 6. Total = 20 + 6 = 26.
+
+ 21. Monotone lattice paths from A to B
+ Every path contains exactly four right moves and three upward moves, for seven moves total. A path is
+ determined by the locations of the three upward moves (or the four right moves).
+
+    C(7,3) = 35 paths.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                   Page 4
+
+<PARSED TEXT FOR PAGE: 5 / 13>
+
+ 22. Lattice paths through the circled point
+ The circled point is two steps right and two steps up from A. The first segment therefore has four moves,
+ with two right and two up: C(4,2) = 6 paths. From that point to B, the remaining moves are two right and
+ one up: C(3,1) = 3 paths. By the multiplication principle, the total is 6 x 3 = 18.
+
+ 23. Assigning three identical-twin pairs to six beds
+ Each pair must occupy the two beds in one room, so the three pairs must be assigned one pair per room.
+ The three pairs are distinct as sets, so they can be assigned to the three rooms in 3! = 6 ways. Within a
+ pair, swapping the identical twins does not create a new assignment. Therefore the answer is 6. If the
+ twins were individually distinguishable, the count would instead be 3! x 2^3 = 48.
+
+ 24. Expand (3x^2 + y)^5
+ Apply the binomial theorem: sum over k = 0,...,5 of C(5,k)(3x^2)^k y^(5-k).
+
+    y^5 + 15x^2y^4 + 90x^4y^3 + 270x^6y^2 + 405x^8y + 243x^10.
+
+ 25. Bridge deals
+ A bridge deal distributes 52 distinct cards into four named hands of 13 cards each. Choose 13 cards for
+ the first hand, 13 of the remaining 39 for the second, 13 of the remaining 26 for the third, and the last 13
+ go to the fourth.
+
+    C(52,13)C(39,13)C(26,13) = 52!/(13!)^4.
+
+ 26. Expand (x1 + 2x2 + 3x3)^4
+ Use the multinomial theorem. For nonnegative a,b,c with a+b+c=4, the term is [4!/(a!b!c!)] 2^b 3^c
+ x1^a x2^b x3^c. Listing the 15 triples gives:
+
+ x1^4 + 8x1^3x2 + 12x1^3x3 + 24x1^2x2^2 + 72x1^2x2x3 + 54x1^2x3^2 + 32x1x2^3 +
+ 144x1x2^2x3 + 216x1x2x3^2 + 108x1x3^3 + 16x2^4 + 96x2^3x3 + 216x2^2x3^2 + 216x2x3^3 +
+ 81x3^4.
+
+ 27. Dividing 12 people into committees of sizes 3, 4, and 5
+ The committees are distinguished by their specified sizes. Choose 3 people, then 4 from the remaining 9;
+ the remaining 5 form the last committee.
+
+    C(12,3)C(9,4) = 12!/(3!4!5!) = 27,720.
+
+ 28. Assigning eight new teachers to four schools
+ If there is no size restriction, each of the eight distinct teachers independently chooses one of four
+ schools. Count = 4^8 = 65,536.
+
+ If each school must receive exactly two teachers, divide the eight distinct teachers into four labeled pairs.
+ Count = 8!/(2!2!2!2!) = 2,520.
+
+ 29. Weightlifting results recorded only by country
+ Treat the ten ranking positions as ordered, but treat competitors from the same country as
+ indistinguishable. With 3 U.S., 4 Russian, 2 Chinese, and 1 Canadian competitor, the number of country
+ sequences is
+
+    10!/(3!4!2!) = 12,600.
+
+ For exactly one U.S. competitor in the top three and two in the bottom three, choose the U.S. position in
+ the top three in C(3,1) ways and the two U.S. positions in the bottom three in C(3,2) ways. The other
+ seven positions contain 4 R, 2 C, and 1 Canadian entry, arranged in 7!/(4!2!) = 105 ways. Total = 3 x 3 x
+ 105 = 945.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                    Page 5
+
+<PARSED TEXT FOR PAGE: 6 / 13>
+
+ 30. Ten delegates: French-English together, Russian-U.S. apart
+ First count arrangements with France (F) and England (E) adjacent. Treat them as one block, with two
+ possible internal orders. Together with the other eight delegates this gives 9 objects: 2 x 9! arrangements.
+
+ Now subtract arrangements in which F-E are adjacent and Russia-U.S. (R-U) are also adjacent. Treat both
+ pairs as blocks. There are 8 objects and 2 internal orders for each block: 2 x 2 x 8! arrangements.
+    2(9!) - 4(8!) = 564,480.
+
+ 31. Eight identical blackboards divided among four schools
+ Let xi be the number sent to school i. The xi are nonnegative integers and x1+x2+x3+x4=8. By stars and
+ bars, the count is C(8+4-1,4-1) = C(11,3) = 165.
+
+ If every school must receive at least one, give one to each first. Four blackboards remain for four schools:
+ C(4+4-1,3) = C(7,3) = 35.
+
+ 32. Eight people leaving an elevator at six floors
+ If all people look alike, an outcome is determined only by how many leave at each of the six floors. This is
+ a nonnegative integer solution of x1+...+x6=8, so the count is C(8+6-1,6-1) = C(13,5) = 1,287.
+
+ If the operator can distinguish five men from three women but cannot distinguish individuals within a
+ gender, specify a distribution of five men over six floors and independently a distribution of three women
+ over six floors. The count is C(10,5)C(8,5) = 252 x 56 = 14,112.
+
+ 33. Investing $20,000 in four opportunities with minimums
+ Measure investments in thousands of dollars. Let x1,...,x4 be the four nonnegative integer allocations,
+ with sum 20 and minimums 2,2,3,4 when an opportunity is used.
+
+ (a) All four must be used. Write x1=2+y1, x2=2+y2, x3=3+y3, x4=4+y4, where each yi is nonnegative.
+ Then y1+y2+y3+y4=9. Stars and bars gives C(9+4-1,3)=C(12,3)=220.
+
+ (b) At least three opportunities must be used. Exactly four used gives the 220 outcomes above. For
+ exactly three used, omit one opportunity. If the omitted minimum is m, the residual amount after funding
+ the other three at their minimums is 9+m, to be distributed among those three. The four omission cases
+ give C(13,2)=78, C(13,2)=78, C(14,2)=91, and C(15,2)=105. Their sum is 352. Add the all-four case:
+ 352+220=572.
+
+
+ B. Theoretical Exercises
+ 1. Generalized multiplication principle
+ For a fixed sequence of stages, suppose stage 1 has n1 choices, stage 2 has n2 choices for every outcome
+ of stage 1, and so on through stage k. Every complete outcome corresponds to one choice at each stage.
+ Pair each first-stage choice with each second-stage choice, and continue. Induction gives n1n2...nk
+ complete outcomes. The key condition is that the stated number of choices at a stage is available for
+ every preceding history. If later choice counts depend on the history, count the branches separately and
+ add them.
+
+ 2. Two experiments with a history-dependent second experiment
+ If the first experiment has outcome i, the second experiment has ni possible outcomes. Outcomes from
+ different first-stage values are disjoint, because their first coordinates differ. For first-stage result i there
+ are ni ordered pairs. Adding over i gives
+
+    n1+n2+...+nm = sum(i=1 to m) ni.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                         Page 6
+
+<PARSED TEXT FOR PAGE: 7 / 13>
+
+ 3. Selecting r objects when order matters
+ Choose the first object in n ways, the second in n-1 ways, and continue until r objects have been selected.
+ The product is n(n-1)...(n-r+1), which is
+
+    nPr = n!/(n-r)!.
+
+ 4. Arrangements of r black and n-r white balls
+ Choose the r positions that will contain black balls. Once those positions are fixed, all remaining positions
+ contain white balls. Thus each arrangement corresponds to exactly one r-element subset of the n
+ positions, and vice versa. The number is C(n,r).
+
+ 5. Binary vectors with at least k ones
+ A vector with entries 0 or 1 is determined by the set of coordinates equal to 1. If exactly j coordinates
+ equal 1, choose those coordinates in C(n,j) ways. The possible values j are k,k+1,...,n. Therefore the
+ number is
+
+    sum(j=k to n) C(n,j).
+
+ This assumes 0 <= k <= n.
+
+ 6. Strictly increasing positive integer vectors
+ Because x1<x2<...<xk, all k entries are distinct members of {1,...,n}. Choosing the k values determines
+ their order uniquely: they must be listed increasingly. Hence the number is C(n,k).
+
+ 7. Analytic proof of the binomial coefficient formula
+ Selecting r objects in order gives nPr=n!/(n-r)! ordered lists. Each unordered r-element subset is counted
+ exactly r! times, once for each ordering of its selected elements. Divide by r!:
+
+    C(n,r) = nPr/r! = n!/[r!(n-r)!].
+
+ 8. Vandermonde's identity
+ Choose an r-person group from n men and m women. Count directly: C(n+m,r). Alternatively, partition the
+ selection by the number j of men chosen. For that case, choose j of the n men and r-j of the m women,
+ giving C(n,j)C(m,r-j). Sum over j from 0 to r (with impossible binomial terms interpreted as zero).
+
+    C(n+m,r) = sum(j=0 to r) C(n,j)C(m,r-j).
+
+ 9. Sum of squares of binomial coefficients
+ Apply the preceding identity with m=n and r=n:
+
+ C(2n,n) = sum(j=0 to n) C(n,j)C(n,n-j).
+
+ Since C(n,n-j)=C(n,j), this becomes C(2n,n)=sum(j=0 to n) C(n,j)^2.
+
+ 10. Counting a committee and its chairperson in three ways
+ (a) Choose a committee of size k in C(n,k) ways, then choose its chair in k ways. Total: kC(n,k).
+
+ (b) Choose the k-1 nonchair members first in C(n,k-1) ways. The chair must be one of the remaining n-k+1
+ people. Total: (n-k+1)C(n,k-1).
+
+ (c) Choose the chair first in n ways, then choose the other k-1 committee members from the remaining
+ n-1 people. Total: nC(n-1,k-1).
+
+ All three methods count the same committee-chair pair. Thus kC(n,k)=(n-k+1)C(n,k-1)=nC(n-1,k-1).
+ Substituting factorial definitions verifies each equality algebraically.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                       Page 7
+
+<PARSED TEXT FOR PAGE: 8 / 13>
+
+ 11. Fermat's combinatorial identity
+ Count k-element subsets of {1,...,n} by their largest element i. If the largest element is i, then i must be
+ selected and the other k-1 elements are chosen from {1,...,i-1}. There are C(i-1,k-1) such subsets. The
+ largest element can be k,k+1,...,n. Therefore
+
+    C(n,k) = sum(i=k to n) C(i-1,k-1).
+
+ 12. Sums of k, k-squared, and k-cubed times C(n,k)
+ (a) Count a committee of any positive size together with one designated chairperson. If the committee has
+ size k, there are kC(n,k) choices, giving the sum over k. Alternatively, choose the chair first (n choices),
+ then choose any subset of the other n-1 people to join the committee (2^(n-1) choices). Thus
+ sum(kC(n,k), k=1..n)=n2^(n-1).
+
+ (b) Count a committee with a chair and a secretary, allowing the same person to hold both roles. For each
+ committee of size k there are k^2 ordered choices for the two roles, so the count is sum(k^2 C(n,k)).
+ Alternatively, choose the chair and secretary as the same person in n2^(n-1) ways, or choose distinct
+ people in n(n-1)2^(n-2) ways. Total = n2^(n-1)+n(n-1)2^(n-2)=n(n+1)2^(n-2).
+
+ (c) For a committee with three ordered designated roles, there are k^3 role assignments for a size-k
+ committee. Count instead by equality patterns among the three role holders. All three the same:
+ n2^(n-1). Exactly two the same: 3n(n-1)2^(n-2), because any of the three pairs can coincide. All distinct:
+ n(n-1)(n-2)2^(n-3). Adding and simplifying yields 2^(n-3)n^2(n+3).
+
+ 13. Alternating binomial sum
+ By the binomial theorem,
+
+    sum(i=0 to n) (-1)^i C(n,i) = (1-1)^n = 0
+
+ for n>0.
+
+ 14. Choosing a committee and a subcommittee
+ (a) Choose the committee of size j first, then its subcommittee of size i: C(n,j)C(j,i). Alternatively choose
+ the subcommittee first, then the remaining j-i committee members: C(n,i)C(n-i,j-i). Hence these products
+ are equal.
+
+ (b) Sum over j=i,...,n. Using the identity from (a),
+
+ sum C(n,j)C(j,i) = C(n,i) sum(j=i to n) C(n-i,j-i) = C(n,i)2^(n-i).
+
+ (c) Multiply the identity from (a) by (-1)^(n-j) and sum over j. The result is C(n,i) times the alternating
+ binomial sum for n-i. If i<n, then n-i>0, so the sum is (1-1)^(n-i)=0. Therefore the requested alternating
+ sum is zero.
+
+ 15. Nondecreasing vectors counted by H_k(n)
+ (a) For k=1, the vector consists of one integer from 1 to n, so H1(n)=n. For k>1, condition on the last
+ coordinate xk=j. The first k-1 coordinates must be nondecreasing positive integers no greater than j; there
+ are H_(k-1)(j) choices. Sum over j=1,...,n:
+
+    Hk(n)=sum(j=1 to n) H_(k-1)(j).
+
+ (b) H2(n)=sum(j=1 to n) H1(j)=1+2+...+n=n(n+1)/2. Thus H3(5)=H2(1)+...+H2(5)=1+3+6+10+15=35.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                     Page 8
+
+<PARSED TEXT FOR PAGE: 9 / 13>
+
+ 16. Number of possible tournament outcomes when ties are allowed
+ (a) The 13 outcomes for three contestants are listed below. Write X>Y>Z to mean X finishes ahead of Y,
+ who finishes ahead of Z; braces denote a tie group.
+
+ All distinct: 1>2>3; 1>3>2; 2>1>3; 2>3>1; 3>1>2; 3>2>1.
+
+ Exactly one tied pair: {1,2}>3; 3>{1,2}; {1,3}>2; 2>{1,3}; {2,3}>1; 1>{2,3}.
+
+ All three tied: {1,2,3}.
+
+ Thus there are 6+6+1=13 outcomes.
+
+ (b) Classify an outcome by the set of i players tied for last place. Choose those i players in C(n,i) ways,
+ then arrange the remaining n-i players in N(n-i) possible tied rankings. Thus N(n)=sum(i=1 to n)
+ C(n,i)N(n-i), with N(0)=1.
+
+ (c) Substitute j=n-i. Since C(n,i)=C(n,j), the recurrence becomes N(n)=sum(j=0 to n-1) C(n,j)N(j).
+
+ (d) N(1)=1 and N(2)=3. Then N(3)=3(3)+3(1)+1(1)=13. N(4)=4(13)+6(3)+4(1)+1(1)=75.
+
+ 17. Symmetry of binomial coefficients
+ An r-element subset of an n-element set is uniquely determined by its complement, which has n-r
+ elements. Taking complements is a bijection between r-element subsets and (n-r)-element subsets.
+ Therefore C(n,r)=C(n,n-r).
+
+ 18. Multinomial Pascal identity
+ Count arrangements of n objects divided into r categories of sizes n1,...,nr. The total is the multinomial
+ coefficient n!/(n1!...nr!). Alternatively, identify the category of the final object. If that object belongs to
+ category i, arrange the remaining n-1 objects, whose category counts are unchanged except that ni is
+ reduced by one. Sum these r disjoint cases:
+
+    n!/(n1!...nr!) = sum over i of (n-1)!/[n1!... (ni-1)! ... nr!].
+
+ 19. Multinomial theorem
+ Expand (x1+...+xr)^n as a product of n identical sums. To form a term x1^n1...xr^nr, choose which n1
+ factors contribute x1, which n2 of the remaining factors contribute x2, and so on, where n1+...+nr=n. The
+ number of choices is the multinomial coefficient n!/(n1!...nr!). Summing over all nonnegative n1,...,nr with
+ total n gives
+
+    (x1+...+xr)^n = sum [n!/(n1!...nr!)] x1^n1...xr^nr.
+
+ 20. Identical balls with minimum allocations to urns
+ First put mi balls into urn i. This uses M=sum(mi) balls. The remaining n-M identical balls may be
+ distributed freely among r urns. If yi is the number of extra balls in urn i, then y1+...+yr=n-M with all yi
+ nonnegative. Stars and bars gives
+
+    C((n-M)+r-1,r-1), where M=sum(i=1 to r) mi.
+
+ 21. Nonnegative solutions with exactly k zero coordinates
+ Choose the k coordinates that are zero: C(r,k) choices. The remaining r-k coordinates must be positive
+ integers whose sum is n. The number of positive solutions of a sum of r-k positive integers equal to n is
+ C(n-1,(r-k)-1). Hence
+
+    C(r,k)C(n-1,r-k-1) = C(r,k)C(n-1,n-r+k).
+
+ The expression is valid when 0 <= k <= r-1 and n >= r-k; otherwise the count is zero.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                         Page 9
+
+<PARSED TEXT FOR PAGE: 10 / 13>
+
+ 22. Number of partial derivatives of total order r
+ A mixed partial derivative is specified by nonnegative integers a1,...,an, where ai is the number of
+ differentiations with respect to variable xi and a1+...+an=r. The number of such nonnegative integer
+ solutions is given by stars and bars:
+
+    C(n+r-1,r).
+
+ 23. Nonnegative vectors whose coordinate sum is at most k
+ Count vectors x1,...,xn with nonnegative coordinates and sum at most k. Introduce a slack coordinate
+ x_(n+1)=k-(x1+...+xn), which is nonnegative. This gives a one-to-one correspondence with nonnegative
+ solutions of x1+...+x_(n+1)=k. Stars and bars therefore gives
+
+    C(k+n,n).
+
+
+ C. Self-Test Problems and Exercises
+ 1. Arrangements of A, B, C, D, E, F
+ (a) Treat AB as a block; the block and four other letters give 5! orders, and AB can be internally ordered in
+ 2 ways: 2 x 5! = 240.
+
+ (b) Exactly half of all 6! arrangements place A before B, by the symmetry that swaps A and B: 6!/2 = 360.
+
+ (c) Each relative order of A, B, C occurs equally often. Of 3! relative orders, only one is A before B before
+ C. Count = 6!/3! = 120.
+
+ (d) The relative order of A,B is independent of the relative order of C,D. Each required order has
+ probability 1/2, so count = 6!/4 = 180.
+
+ (e) Treat AB and CD as two blocks, along with E and F. Four objects can be arranged in 4! ways, and each
+ pair has 2 internal orders: 4! x 2 x 2 = 96.
+
+ (f) E must occupy one of the first five positions. Choose that position in 5 ways and arrange the other five
+ letters in 5! ways: 5 x 5! = 600.
+
+ 2. Nationalities seated in consecutive blocks
+ Treat the four Americans as one block, the three French people as one block, and the three British people
+ as one block. The three blocks can be ordered in 3! ways. Internal orders are 4!, 3!, and 3!. Total =
+ 3!4!3!3! = 5,184.
+
+ 3. Choosing president, treasurer, and secretary
+ The three offices are distinct, so order matters.
+
+ (a) No restrictions: 10P3 = 10 x 9 x 8 = 720.
+
+ (b) A and B cannot both serve. Start with 720. If both serve, assign A and B to two of the three offices in
+ 3P2=6 ways and choose the third officer from the other eight: 48 forbidden assignments. Valid =
+ 720-48=672.
+
+ (c) C and D either both serve or neither serves. If both serve, assign them to two offices in 3P2=6 ways
+ and choose the third officer from the other eight: 48. If neither serves, assign three of the other eight
+ people to the offices: 8P3=336. Total = 384.
+
+ (d) E must hold one of the offices. Choose E's office in 3 ways and fill the remaining two offices with two of
+ the other nine people in order: 3 x 9P2 = 216.
+
+ (e) F may serve only as president. Either F is absent, leaving 9P3=504 assignments, or F is president and
+ the other two offices are filled from the remaining nine in 9P2=72 ways. Total = 576.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                    Page 10
+
+<PARSED TEXT FOR PAGE: 11 / 13>
+
+ 4. Selecting seven examination questions
+ Without restrictions, choose any seven of the ten: C(10,7)=120.
+
+ If at least three of the first five must be answered, let j be the number selected from the first five. Then
+ j=3,4,5, and the remaining 7-j come from the last five:
+    C(5,3)C(5,4)+C(5,4)C(5,3)+C(5,5)C(5,2)=50+50+10=110.
+
+ 5. Seven gifts divided among three children
+ Choose the three gifts for the eldest child in C(7,3) ways. Then choose two of the four remaining gifts for
+ the second child in C(4,2) ways. The final two go to the third child. Since the children are distinct, total =
+ C(7,3)C(4,2)=35 x 6=210.
+
+ 6. Seven-position license plates with three letters and four digits
+ Choose which three of the seven positions contain letters: C(7,3). Each letter position has 26 choices and
+ each digit position has 10 choices; repetition is allowed. Count = C(7,3)26^3 10^4.
+
+ 7. Combinatorial explanation of C(n,r)=C(n,n-r)
+ Choose r objects from n, or equivalently choose the n-r objects left out. Taking the complement gives a
+ bijection between the two kinds of selections, so the counts are equal.
+
+ 8. n-digit numbers and the number of zero digits
+ (a) The first digit has 9 choices (1,...,9). Each later digit has 9 choices because it may be any digit except
+ the immediately preceding digit. Count = 9^n.
+
+ (b) A genuine n-digit number cannot begin with zero. If zero occurs exactly i times, choose its i positions
+ from the final n-1 places: C(n-1,i). Each of the other n-i positions has 9 nonzero choices. Thus, for 0 <= i
+ <= n-1, the count is C(n-1,i)9^(n-i). For i=n the count is zero because the leading digit cannot be zero.
+
+ 9. Selecting three students from three classes of n
+ (a) Any three from 3n: C(3n,3).
+
+ (b) All from one class: choose the class in 3 ways and then three students from its n members: 3C(n,3).
+
+ (c) Exactly two from one class and the third from another: choose the class containing the pair in 3 ways,
+ the pair in C(n,2) ways, the other class in 2 ways, and that student in n ways. Count = 6nC(n,2).
+
+ (d) One from each class: n^3.
+
+ (e) These four cases are disjoint and exhaustive, so C(3n,3)=3C(n,3)+6nC(n,2)+n^3.
+
+ 10. Five-digit numbers from 1 through 9, with no digit used more than twice
+ Possible multiplicity patterns for five positions are 2+2+1, 2+1+1+1, and 1+1+1+1+1.
+
+ Pattern 2+2+1: choose two digits to be repeated, then a different singleton digit, and arrange the
+ multiset: C(9,2) x 7 x 5!/(2!2!) = 7,560.
+
+ Pattern 2+1+1+1: choose the repeated digit, choose three other distinct digits, then arrange: 9 x C(8,3) x
+ 5!/2! = 30,240.
+
+ All distinct: 9P5 = 15,120.
+
+ Total = 7,560+30,240+15,120 = 52,920.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                    Page 11
+
+<PARSED TEXT FOR PAGE: 12 / 13>
+
+ 11. Six people from ten married couples, with no married couple included
+ (a) Choose six of the ten couples, then choose exactly one spouse from each selected couple. Count =
+ C(10,6)2^6 = 13,440.
+
+ (b) To obtain three men and three women with no married couple, choose three couples and select one
+ spouse from each. The three selected spouses must include either 2 men and 1 woman? That would not
+ give 3M3W. Instead, directly choose three men from three distinct couples and three women from three
+ other distinct couples. Choose the three couples supplying men, then three of the remaining seven
+ couples supplying women, then the spouse of each type is fixed. Count = C(10,3)C(7,3)=120 x 35=4,200.
+
+ Equivalent check: choose 3 men from 10 and then 3 women from the 7 couples not represented among
+ those men: C(10,3)C(7,3)=4,200.
+
+ 12. A six-person committee with at least three women and two men
+ The committee must have either 3 women and 3 men, or 4 women and 2 men. The count is
+
+    C(8,3)C(7,3)+C(8,4)C(7,2)=56 x 35 +70 x 21 = 3,430.
+
+ 13. Auction outcomes recorded only as category counts per collector
+ Collectors are distinct, but individual works within a category are not distinguished in the report.
+ Distribute four Dalis among five collectors: C(4+5-1,5-1)=C(8,4). Independently distribute five van Goghs:
+ C(9,4). Distribute six Picassos: C(10,4). Total = C(8,4)C(9,4)C(10,4)=70 x126 x210 = 1,852,200.
+
+ 14. Positive integer vectors with sum at most k
+ Let yi=xi-1. Then each yi is nonnegative and sum yi <= k-n. Add a nonnegative slack variable
+ y_(n+1)=k-n-sum(yi). Now n+1 nonnegative integers sum to k-n. Stars and bars gives
+ C((k-n)+(n+1)-1,n)=C(k,n).
+
+ 15. Ordered examination results with distinct scores
+ If exactly j students pass, choose the j students and order their names by decreasing score. There are
+ C(n,j)j! = n!/(n-j)! possible lists. Include j=0 for the case that nobody passes. Total = sum(j=0 to n)
+ n!/(n-j)!.
+
+ 16. Four-element subsets containing at least one of 1,2,3,4,5
+ Count all four-element subsets and subtract those avoiding the five specified elements. Total =
+ C(20,4)-C(15,4)=4,845-1,365=3,480.
+
+ 17. Identity for choosing a pair from two groups
+ Partition a set of n people into a group of k and a group of n-k. A pair can have both members in the first
+ group, one in each group, or both in the second group. These disjoint cases have counts C(k,2), k(n-k), and
+ C(n-k,2). Thus C(n,2)=C(k,2)+k(n-k)+C(n-k,2). The factorial expansion verifies the same identity
+ algebraically.
+
+ 18. Choosing a parent and child from the same family
+ For each family, the number of eligible parent-child pairs is (number of parents)(number of children). Add
+ over family types:
+
+ 3(1x1)+3(1x2)+5(2x1)+7(2x2)+6(2x3)=3+6+10+28+36=83.
+
+ 19. Eight-position plates with five letters and three digits, without repetition
+ If positions are unrestricted, choose the three digit positions in C(8,3) ways, arrange three distinct digits in
+ 10P3 ways, and arrange five distinct letters in 26P5 ways. Count = C(8,3)10P3 26P5.
+
+ If the three digits must be consecutive, regard them as one block. The block can start in any of six
+ positions. Arrange its digits in 10P3 ways and fill the remaining five positions with 26P5 letter
+ arrangements. Count = 6 x 10P3 x 26P5.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                     Page 12
+
+<PARSED TEXT FOR PAGE: 13 / 13>
+
+ End of Volume 1 - Chapter 1
+ Coverage in this volume: Chapter 1 Problems 1-33; Theoretical Exercises 1-23; Self-Test Problems and Exercises 1-19.
+ The source file continues through Chapters 2-10; those chapters are not included in this volume.
+
+
+
+
+Probability - Detailed Solutions | Volume 1: Chapter 1                                                          Page 13
