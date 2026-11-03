@@ -1,0 +1,407 @@
+<PARSED TEXT FOR PAGE: 1 / 82>
+
+16    Chapter 1        Combinatorial Analysis
+
+                                                         PROBLEMS
+
+     1. (a) How many different 7-place license plates are         10. In how many ways can 8 people be seated in a
+              possible if the ﬁrst 2 places are for letters and       row if
+              the other 5 for numbers?                                (a) there are no restrictions on the seating
+        (b) Repeat part (a) under the assumption that no                   arrangement?
+              letter or number can be repeated in a single            (b) persons A and B must sit next to each other?
+              license plate.                                          (c) there are 4 men and 4 women and no 2 men
+     2. How many outcome sequences are possible when a                     or 2 women can sit next to each other?
+        die is rolled four times, where we say, for instance,         (d) there are 5 men and they must sit next to each
+        that the outcome is 3, 4, 3, 1 if the ﬁrst roll landed             other?
+        on 3, the second on 4, the third on 3, and the fourth         (e) there are 4 married couples and each couple
+        on 1?                                                              must sit together?
+     3. Twenty workers are to be assigned to 20 different         11. In how many ways can 3 novels, 2 mathematics
+        jobs, one to each job. How many different assign-             books, and 1 chemistry book be arranged on a
+        ments are possible?                                           bookshelf if
+     4. John, Jim, Jay, and Jack have formed a band con-              (a) the books can be arranged in any order?
+        sisting of 4 instruments. If each of the boys can play        (b) the mathematics books must be together and
+        all 4 instruments, how many different arrange-                     the novels must be together?
+        ments are possible? What if John and Jim can play             (c) the novels must be together, but the other
+        all 4 instruments, but Jay and Jack can each play                  books can be arranged in any order?
+        only piano and drums?                                     12. Five separate awards (best scholarship, best lead-
+     5. For years, telephone area codes in the United                 ership qualities, and so on) are to be presented to
+        States and Canada consisted of a sequence of three            selected students from a class of 30. How many dif-
+        digits. The ﬁrst digit was an integer between 2 and           ferent outcomes are possible if
+        9, the second digit was either 0 or 1, and the third          (a) a student can receive any number of awards?
+        digit was any integer from 1 to 9. How many area              (b) each student can receive at most 1 award?
+        codes were possible? How many area codes start-
+                                                                  13. Consider a group of 20 people. If everyone shakes
+        ing with a 4 were possible?
+     6. A well-known nursery rhyme starts as follows:                 hands with everyone else, how many handshakes
+              “As I was going to St. Ives                             take place?
+              I met a man with 7 wives.                           14. How many 5-card poker hands are there?
+              Each wife had 7 sacks.                              15. A dance class consists of 22 students, of which 10
+                                                                      are women and 12 are men. If 5 men and 5 women
+              Each sack had 7 cats.
+                                                                      are to be chosen and then paired off, how many
+              Each cat had 7 kittens. . .”                            results are possible?
+              How many kittens did the traveler meet?             16. A student has to sell 2 books from a collection of
+     7. (a) In how many ways can 3 boys and 3 girls sit in            6 math, 7 science, and 4 economics books. How
+              a row?                                                  many choices are possible if
+        (b) In how many ways can 3 boys and 3 girls sit in            (a) both books are to be on the same subject?
+              a row if the boys and the girls are each to sit         (b) the books are to be on different subjects?
+              together?
+                                                                  17. Seven different gifts are to be distributed among
+        (c) In how many ways if only the boys must sit
+                                                                      10 children. How many distinct results are possible
+              together?
+                                                                      if no child is to receive more than one gift?
+        (d) In how many ways if no two people of the
+              same sex are allowed to sit together?               18. A committee of 7, consisting of 2 Republicans,
+     8. How many different letter arrangements can be                 2 Democrats, and 3 Independents, is to be cho-
+        made from the letters                                         sen from a group of 5 Republicans, 6 Democrats,
+        (a) Fluke?                                                    and 4 Independents. How many committees are
+        (b) Propose?                                                  possible?
+        (c) Mississippi?                                          19. From a group of 8 women and 6 men, a committee
+        (d) Arrange?                                                  consisting of 3 men and 3 women is to be formed.
+     9. A child has 12 blocks, of which 6 are black, 4 are            How many different committees are possible if
+        red, 1 is white, and 1 is blue. If the child puts the         (a) 2 of the men refuse to serve together?
+        blocks in a line, how many arrangements are pos-              (b) 2 of the women refuse to serve together?
+        sible?                                                        (c) 1 man and 1 woman refuse to serve together?
+
+<PARSED TEXT FOR PAGE: 2 / 82>
+
+                                                                                                       Problems      17
+
+20. A person has 8 friends, of whom 5 will be invited             in different beds in the same room, how many
+    to a party.                                                   assignments are possible?
+    (a) How many choices are there if 2 of the friends        24. Expand (3x2 + y)5 .
+         are feuding and will not attend together?            25. The game of bridge is played by 4 players, each of
+    (b) How many choices if 2 of the friends will only            whom is dealt 13 cards. How many bridge deals are
+         attend together?                                         possible?
+21. Consider the grid of points shown here. Suppose           26. Expand (x1 + 2x2 + 3x3 )4 .
+    that, starting at the point labeled A, you can go one     27. If 12 people are to be divided into 3 committees of
+    step up or one step to the right at each move. This           respective sizes 3, 4, and 5, how many divisions are
+    procedure is continued until the point labeled B is           possible?
+    reached. How many different paths from A to B             28. If 8 new teachers are to be divided among 4
+    are possible?                                                 schools, how many divisions are possible? What if
+    Hint: Note that to reach B from A, you must take              each school must receive 2 teachers?
+    4 steps to the right and 3 steps upward.                  29. Ten weight lifters are competing in a team weight-
+                                                                  lifting contest. Of the lifters, 3 are from the United
+                                                                  States, 4 are from Russia, 2 are from China, and 1
+                                                       B          is from Canada. If the scoring takes account of the
+                                                                  countries that the lifters represent, but not their
+                                                                  individual identities, how many different outcomes
+                                                                  are possible from the point of view of scores? How
+                                                                  many different outcomes correspond to results in
+                                                                  which the United States has 1 competitor in the
+                                                                  top three and 2 in the bottom three?
+                                                              30. Delegates from 10 countries, including Russia,
+                                                                  France, England, and the United States, are to
+                                                                  be seated in a row. How many different seat-
+                                                                  ing arrangements are possible if the French and
+A
+                                                                  English delegates are to be seated next to each
+                                                                  other and the Russian and U.S. delegates are not
+                                                                  to be next to each other?
+                                                            ∗ 31. If 8 identical blackboards are to be divided among
+22. In Problem 21, how many different paths are there
+    from A to B that go through the point circled in              4 schools, how many divisions are possible? How
+    the following lattice?                                        many if each school must receive at least 1 black-
+                                                                  board?
+                                                            ∗ 32. An elevator starts at the basement with 8 peo-
+
+                                                                  ple (not including the elevator operator) and dis-
+                                                       B          charges them all by the time it reaches the top
+                                                                  ﬂoor, number 6. In how many ways could the oper-
+                                                                  ator have perceived the people leaving the eleva-
+                                                                  tor if all people look alike to him? What if the 8
+                                                                  people consisted of 5 men and 3 women and the
+                                                                  operator could tell a man from a woman?
+                                                            ∗ 33. We have 20 thousand dollars that must be invested
+
+                                                                  among 4 possible opportunities. Each investment
+                                                                  must be integral in units of 1 thousand dollars,
+                                                                  and there are minimal investments that need to be
+A                                                                 made if one is to invest in these opportunities. The
+                                                                  minimal investments are 2, 2, 3, and 4 thousand
+                                                                  dollars. How many different investment strategies
+                                                                  are available if
+23. A psychology laboratory conducting dream                      (a) an investment must be made in each opportu-
+    research contains 3 rooms, with 2 beds in each                      nity?
+    room. If 3 sets of identical twins are to be assigned         (b) investments must be made in at least 3 of the
+    to these 6 beds so that each set of twins sleeps                    4 opportunities?
+
+<PARSED TEXT FOR PAGE: 3 / 82>
+
+18     Chapter 1          Combinatorial Analysis
+
+                                                                   THEORETICAL EXERCISES
+
+      1. Prove the generalized version of the basic counting                                the
+                                                                                            ( choice  ) of the chair, argue that there are
+         principle.                                                                              n
+                                                                                                        (n − k + 1) possible choices.
+      2. Two experiments are to be performed. The ﬁrst                                        k − 1
+         can result in any one of m possible outcomes. If                               (c) By focusing ﬁrst on the choice of the chair
+         the ﬁrst experiment results in outcome i, then the                                 and then on the choice of the other (
+                                                                                                                                committee)
+         second experiment can result in any of ni possible                                                                       n − 1
+                                                                                            members, argue that there are n
+         outcomes, i = 1, 2, . . . , m. What is the number of                                                                     k − 1
+         possible outcomes of the two experiments?                                          possible choices.
+                                                                                        (d) Conclude from parts (a), (b), and (c) that
+      3. In how many ways can r objects be selected from a
+         set of n objects if the order of selection is consid-                                  (       )                   (           )        (           )
+         ered relevant?
+                    ( )                                                                             n                             n                  n − 1
+                                                                                            k               = (n − k + 1)                   =n
+                       n                                                                            k                           k − 1                k − 1
+      4. There are          different linear arrangements of n
+                       r
+         balls of which r are black and n − r are white. Give                                                                           (       )
+         a combinatorial explanation of this fact.                                                                                          m
+                                                                                        (e) Use the factorial deﬁnition of                          to verify
+                                                                                                                                            r
+      5. Determine the number of vectors (x1 , . . . , xn ), such
+         that each xi is either 0 or 1 and                                                  the identity in part (d).
+                                                                                    11. The following identity is known as Fermat’s com-
+                                                                                        binatorial identity:
+                                      ∑
+                                      n
+                                            xi Ú k                                                  (       )       n (       )
+                                      i=1                                                               n           ∑   i − 1
+                                                                                                                =                       n Ú k
+                                                                                                        k                 k − 1
+                                                                                                                    i=k
+      6. How many vectors x1 , . . . , xk are there for which
+         each xi is a positive integer such that 1 … xi … n                             Give a combinatorial argument (no computations
+         and x1 < x2 < · · · < xk ?                                                     are needed) to establish this identity.
+      7. Give an analytic proof of Equation (4.1).                                      Hint: Consider the set of numbers 1 through n.
+      8. Prove that                                                                     How many subsets of size k have i as their highest-
+                                                                                        numbered member?
+          (           )       (       )(          )        (       )(           )
+              n + m               n           m                n          m         12. Consider the following combinatorial identity:
+                          =                           +
+                r                 0           r                1        r − 1
+                                                                                                             ∑
+                                                                                                             n   ( )
+                                              (       )(       )                                               k
+                                                                                                                  n
+                                                                                                                     = n · 2n−1
+                                                  n        m                                                      k
+                              +··· +                                                                         k=1
+                                                  r        0
+
+                                                                                        (a) Present a combinatorial argument for this
+         Hint: Consider a group of n men and m women.                                       identity by considering a set of n people and
+         How many groups of size r are possible?                                            determining, in two ways, the number of pos-
+      9. Use Theoretical Exercise 8 to prove that                                           sible selections of a committee of any size and
+                                                                                            a chairperson for the committee.
+                           (          )       n (
+                                              ∑     )2                                      Hint:
+                               2n                 n
+                                          =                                                    (i) How many possible selections are there
+                                n                      k
+                                              k=0                                                   of a committee of size k and its chairper-
+                                                                                                    son?
+     10. From a group of n people, suppose that we want to                                    (ii) How many possible selections are there
+         choose a committee of k, k … n, one of whom is to                                          of a chairperson and the other commit-
+         be designated as chairperson.                                                              tee members?
+         (a) By focusing ﬁrst on the choice of the commit-                              (b) Verify the following identity for n =
+             tee and then on( the) choice of the chair, argue                               1, 2, 3, 4, 5:
+                              n
+             that there are        k possible choices.
+                              k                                                                             n (
+                                                                                                            ∑     )
+         (b) By focusing ﬁrst on the choice of the                                                              n
+                                                                                                                          k2 = 2n−2 n(n + 1)
+             nonchair committee members and then on                                                                  k
+                                                                                                            k=1
+
+<PARSED TEXT FOR PAGE: 4 / 82>
+
+                                                                                                            Theoretical Exercises     19
+
+         For a combinatorial proof of the preceding,                         15. Let Hk (n) be the number of vectors x1 , . . . , xk for
+         consider a set of n people and argue that both                          which each xi is a positive integer satisfying 1 …
+         sides of the identity represent the number of                           xi … n and x1 … x2 … · · · … xk .
+         different selections of a committee, its chair-                         (a) Without any computations, argue that
+         person, and its secretary (possibly the same as
+         the chairperson).
+         Hint:                                                                              H1 (n) = n
+            (i) How many different selections result in                                              ∑n
+
+                the committee containing exactly k peo-                                     Hk (n) =    Hk−1 (j)            k > 1
+                ple?                                                                                  j=1
+
+           (ii) How many different selections are there
+                in which the chairperson and the secre-                              Hint: How many vectors are there in which
+                tary are the same? (ANSWER: n2n−1 .)                                 xk = j?
+          (iii) How many different selections result in
+                                                                                 (b) Use the preceding recursion to compute
+                the chairperson and the secretary being
+                                                                                     H3 (5).
+                different?
+                                                                                     Hint: First compute H2 (n) for n = 1, 2, 3, 4, 5.
+    (c) Now argue that
+                                                                             16. Consider a tournament of n contestants in which
+                    n (
+                    ∑     )
+                        n                 3           n−3 2                      the outcome is an ordering of these contestants,
+                                      k =2                n (n + 3)              with ties allowed. That is, the outcome partitions
+                              k
+                    k=1                                                          the players into groups, with the ﬁrst group consist-
+                                                                                 ing of the players that tied for ﬁrst place, the next
+13. Show that, for n > 0,                                                        group being those that tied for the next-best posi-
+                                                                                 tion, and so on. Let N(n) denote the number of dif-
+                      ∑
+                      n       ( )                                                ferent possible outcomes. For instance, N(2) = 3,
+                               n
+                        (−1)i     =0                                             since, in a tournament with 2 contestants, player 1
+                               i
+                          i=0                                                    could be uniquely ﬁrst, player 2 could be uniquely
+                                                                                 ﬁrst, or they could tie for ﬁrst.
+    Hint: Use the binomial theorem.                                              (a) List all the possible outcomes when n = 3.
+14. From a set of n people, a committee of size j is to be                       (b) With N(0) deﬁned to equal 1, argue, without
+    chosen, and from this committee, a subcommittee                                   any computations, that
+    of size i, i … j, is also to be chosen.
+    (a) Derive a combinatorial identity by comput-
+         ing, in two ways, the number of possible                                                        n (
+                                                                                                         ∑     )
+                                                                                                             n
+         choices of the committee and subcommittee—                                             N(n) =                     N(n − i)
+                                                                                                                   i
+         ﬁrst by supposing that the committee is                                                         i=1
+         chosen ﬁrst and then the subcommittee is
+         chosen, and second by supposing that the
+                                                                                     Hint: How many outcomes are there in
+         subcommittee is chosen ﬁrst and then the
+                                                                                     which i players tie for last place?
+         remaining members of the committee are
+         chosen.                                                                 (c) Show that the formula of part (b) is equivalent
+    (b) Use part (a) to prove the following combina-                                 to the following:
+         torial identity:
+                                                                                                             n−1 (
+                                                                                                             ∑       )
+             n (
+             ∑     )( )                           (       )                                                        n
+                 n   j                                n                                            N(n) =                    N(i)
+                                              =               2n−i   i … n                                             i
+                      j           i                   i                                                      i=0
+              j=i
+
+
+    (c) Use part (a) and Theoretical Exercise 13 to                              (d) Use the recursion to ﬁnd N(3) and N(4).
+        show that
+
+              n (   )( )                                                     17. Present
+                                                                                 ( ) (a combinatorial
+                                                                                                  )   explanation of why
+              ∑   n   j                                                            n         n
+                                                      n−j
+                                              (−1)            =0 i < n                 =            .
+                          j           i                                            r     r, n − r
+               j=i
+
+<PARSED TEXT FOR PAGE: 5 / 82>
+
+20     Chapter 1                 Combinatorial Analysis
+                                                                                                                                 (       )(               )
+     18. Argue that                                                                   ∗ 21. Argue that there are exactly             r          n − 1
+                                                                                                                                     k        n − r + k
+         (                            )     (                            )
+                      n                             n − 1                                  solutions of
+                                          =
+             n1 , n 2 , . . . , n r           n1 − 1, n2 , . . . , nr
+                                               (                            )
+                                                          n − 1                                           x1 + x2 + · · · + x r = n
+                                            +                                 + ···
+                                                 n1 , n2 − 1, . . . , nr
+                                               (                            )
+                                                          n − 1                             for which exactly k of the xi are equal to 0.
+                                            +                                         ∗ 22. Consider a function f (x , . . . , x ) of n variables.
+                                                 n1 , n 2 , . . . , n r − 1                                           1         n
+                                                                                            How many different partial derivatives of order r
+       Hint: Use an argument similar to the one used to                                     does f possess?
+                                                                                      ∗ 23. Determine the number of vectors (x , . . . , x ) such
+       establish Equation (4.1).                                                                                                 1        n
+   19. Prove the multinomial theorem.                                                       that each xi is a nonnegative integer and
+ ∗ 20. In how many ways can n identical balls be dis-
+
+       tributed into r urns so that the ith urn contains at                                                         ∑
+                                                                                                                    n
+             mi balls, for each i = 1, . . . , r? Assume that
+       least ∑                                                                                                            xi … k
+       n Ú ri=1 mi .                                                                                                i=1
+
+
+
+                                                       SELF-TEST PROBLEMS AND EXERCISES
+
+      1. How many different linear arrangements are there                               7. Give a combinatorial explanation of the identity
+         of the letters A, B, C, D, E, F for which
+         (a) A and B are next to each other?                                                                (       )       (            )
+                                                                                                                n                 n
+         (b) A is before B?                                                                                             =
+                                                                                                                r               n − r
+         (c) A is before B and B is before C?
+         (d) A is before B and C is before D?
+         (e) A and B are next to each other and C and D                                 8. Consider n-digit numbers where each digit is one
+              are also next to each other?                                                 of the 10 integers 0, 1, . . . , 9. How many such num-
+         (f) E is not last in line?                                                        bers are there for which
+      2. If 4 Americans, 3 French people, and 3 British                                    (a) no two consecutive digits are equal?
+         people are to be seated in a row, how many seat-                                  (b) 0 appears as a digit a total of i times, i =
+         ing arrangements are possible when people of the                                       0, . . . , n?
+         same nationality must sit next to each other?                                  9. Consider three classes, each consisting of n stu-
+      3. A president, treasurer, and secretary, all different,                             dents. From this group of 3n students, a group of 3
+         are to be chosen from a club consisting of 10 peo-                                students is to be chosen.
+         ple. How many different choices of ofﬁcers are                                    (a) How many choices are possible?
+         possible if                                                                       (b) How many choices are there in which all 3 stu-
+         (a) there are no restrictions?                                                         dents are in the same class?
+         (b) A and B will not serve together?                                              (c) How many choices are there in which 2 of the
+         (c) C and D will serve together or not at all?                                         3 students are in the same class and the other
+         (d) E must be an ofﬁcer?                                                               student is in a different class?
+         (e) F will serve only if he is president?                                         (d) How many choices are there in which all 3 stu-
+      4. A student is to answer 7 out of 10 questions in                                        dents are in different classes?
+         an examination. How many choices has she? How                                     (e) Using the results of parts (a) through (d),
+         many if she must answer at least 3 of the ﬁrst 5                                       write a combinatorial identity.
+         questions?                                                                    10. How many 5-digit numbers can be formed from
+      5. In how many ways can a man divide 7 gifts among                                   the integers 1, 2, . . . , 9 if no digit can appear more
+         his 3 children if the eldest is to receive 3 gifts and                            than twice? (For instance, 41434 is not allowed.)
+         the others 2 each?                                                            11. From 10 married couples, we want to select a
+      6. How many different 7-place license plates are pos-                                group of 6 people that is not allowed to contain
+         sible when 3 of the entries are letters and 4 are                                 a married couple.
+         digits? Assume that repetition of letters and num-                                (a) How many choices are there?
+         bers is allowed and that there is no restriction on                               (b) How many choices are there if the group must
+         where the letters or numbers can be placed.                                            also consist of 3 men and 3 women?
+
+<PARSED TEXT FOR PAGE: 6 / 82>
+
+                                                                              Self-Test Problems and Exercises        21
+
+  12. A committee of 6 people is to be chosen from a              Assuming that all scores are distinct (no ties), how
+      group consisting of 7 men and 8 women. If the               many posted results are possible?
+      committee must consist of at least 3 women and          16. How many subsets of size 4 of the set S =
+      at least 2 men, how many different committees are           {1, 2, . . . , 20} contain at least one of the elements
+      possible?                                                   1, 2, 3, 4, 5?
+∗ 13. An art collection on auction consisted of 4 Dalis, 5
+                                                              17. Give an analytic veriﬁcation of
+      van Goghs, and 6 Picassos. At the auction were 5
+      art collectors. If a reporter noted only the number         ( ) ( )              (      )
+                                                                   n   k                n − k
+      of Dalis, van Goghs, and Picassos acquired by each             =    + k(n − k) +          ,             1…k…n
+      collector, how many different results could have             2   2                  2
+      been recorded if all of the works were sold?
+∗ 14. Determine the number of vectors (x , . . . , x ) such
+                                             1      n             Now, give a combinatorial argument for this
+      that each xi is a positive integer and                      identity.
+                                                              18. In a certain community, there are 3 families con-
+                          ∑
+                          n                                       sisting of a single parent and 1 child, 3 families
+                                xi … k                            consisting of a single parent and 2 children, 5 fam-
+                          i=1                                     ilies consisting of 2 parents and a single child, 7
+                                                                  families consisting of 2 parents and 2 children, and
+     where k Ú n.                                                 6 families consisting of 2 parents and 3 children. If
+ 15. A total of n students are enrolled in a review               a parent and child from the same family are to be
+     course for the actuarial examination in probability.         chosen, how many possible choices are there?
+     The posted results of the examination will list the      19. If there are no restrictions on where the digits and
+     names of those who passed, in decreasing order of            letters are placed, how many 8-place license plates
+     their scores. For instance, the posted result will be        consisting of 5 letters and 3 digits are possible if no
+     “Brown, Cho” if Brown and Cho are the only ones              repetitions of letters or digits are allowed. What if
+     to pass, with Brown receiving the higher score.              the 3 digits must be consecutive?
