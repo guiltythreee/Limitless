@@ -171,7 +171,7 @@ function SourceChapterPanel({ chapter }: { chapter: 1 | 2 | 3 }) {
 }
 
 export default function BookOne() {
-  const [chapter, setChapter] = useState<1 | 2 | 3 | 4 | 5>(4);
+  const [chapter, setChapter] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [activeId, setActiveId] = useState("4.1");
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
   const [completed, setCompleted] = useState<string[]>([]);
