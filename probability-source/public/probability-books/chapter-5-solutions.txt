@@ -451,8 +451,7 @@ corresponding values in the main text are incorrect.
  Problem 5.4
  (a) P(X>20)=∫■■∞10x■²dx=1/2.
  (b) F(x)=0 for x≤10 and F(x)=1−10/x for x>10.
- (c) For one device, p=P(X≥15)=10/15=2/3. Assuming independent, identically distributed device lifetimes,
- N~Bin(6,2/3). Thus P(N≥3)=Σ■■■■C(6,k)(2/3)^k(1/3)^(6−k)={p54:.6f}.
+ (c) For one device, p=P(X≥15)=10/15=2/3. Assuming independent, identically distributed device lifetimes, N~Bin(6,2/3). Thus P(N≥3)=Σ_{k=3}^6 C(6,k)(2/3)^k(1/3)^(6−k)=656/729≈0.8999.
 
  Problem 5.5
  The probability weekly sales exceed tank capacity c is P(X>c)=∫c¹5(1−x)■dx=(1−c)■. Set this to 0.01: (1−c)■=0.01, so
