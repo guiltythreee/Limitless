@@ -32,17 +32,17 @@ TEXTBOOK QUESTION BANK — PROBLEMS 5.7–5.41, THEORETICAL EXERCISES 5.1–5.33
       Compute the expected lifetime of such a tube.
  5.9. Consider Example 4b of Chapter 4, but now sup-
       pose that the seasonal demand is a continuous ran-
-      dom variable having probability density function f .    5.16. The annual rainfall (in inches) in a certain region is
+      dom variable having probability density function f .
       Show that the optimal amount to stock is the value
       s∗ that satisﬁes
-      where b is net proﬁt per unit sale,  is the net loss   5.17. A man aiming at a target receives 10 points if his
+      where b is net proﬁt per unit sale,  is the net loss
       per unit unsold, and F is the cumulative distribu-
       tion function of the seasonal demand.
 5.10. Trains headed for destination A arrive at the train
       station at 15-minute intervals starting at 7 A . M .,
       whereas trains headed for destination B arrive at
       15-minute intervals starting at 7:05 A . M .
-      (a) If a certain passenger arrives at the station at    5.18. Suppose that X is a normal random variable with
+      (a) If a certain passenger arrives at the station at
            a time uniformly distributed between 7 and
            8 A . M . and then gets on the ﬁrst train that
            arrives, what proportion of time does he or
@@ -86,17 +86,20 @@ f (x) = xe−x   x Ú 0                          (a) P{X > 5};
 (c) P{X < 8};
 (d) P{X < 20};
 (e) P{X > 16}.
+5.16. The annual rainfall (in inches) in a certain region is
 normally distributed with μ = 40 and σ = 4. What
 is the probability that, starting with this year, it will
 b                              take over 10 years before a year occurs having a
 F(s∗ ) =                                    rainfall of over 50 inches? What assumptions are
 b +                             you making?
+5.17. A man aiming at a target receives 10 points if his
 shot is within 1 inch of the target, 5 points if it is
 between 1 and 3 inches of the target, and 3 points if
 it is between 3 and 5 inches of the target. Find the
 expected number of points scored if the distance
 from the shot to the target is uniformly distributed
 between 0 and 10.
+5.18. Suppose that X is a normal random variable with
 mean 5. If P{X > 9} = .2, approximately what is
 Var(X)?
 5.19. Let X be a normal random variable with mean
@@ -158,7 +161,7 @@ tive?
       on heads 525 or more times, then we shall conclude
       that it is a biased coin, whereas if it lands on heads
       less than 525 times, then we shall conclude that it
-      is a fair coin. If the coin is actually fair, what is the   5.33. The number of years a radio functions is exponen-
+      is a fair coin. If the coin is actually fair, what is the
       probability that we shall reach a false conclusion?
       What would it be if the coin were biased?
 5.27. In 10,000 independent tosses of a coin, the coin
@@ -215,6 +218,7 @@ hours?
 (b) the conditional probability that a repair takes
 at least 10 hours, given that its duration
 exceeds 9 hours?
+5.33. The number of years a radio functions is exponen-
 tially distributed with parameter λ = 18 . If Jones
 buys a used radio, what is the probability that it
 will be working after an additional 8 years?
@@ -241,7 +245,7 @@ tracting lung cancer?
 
 
 
-5.36. Suppose that the life distribution of an item has the   5.39. If X is an exponential random variable with
+5.36. Suppose that the life distribution of an item has the
       hazard rate function λ(t) = t3 , t > 0. What is the
       probability that
       (a) the item survives to age 2?
@@ -257,6 +261,7 @@ tracting lung cancer?
 
 
 Theoretical Exercises   227
+5.39. If X is an exponential random variable with
 parameter λ = 1, compute the probability den-
 sity function of the random variable Y deﬁned by
 Y = log X.
@@ -699,7 +704,7 @@ f (x) =                  − q < x < q
       (a) you are winning after 34 bets;
       (b) you are winning after 1000 bets;
       (c) you are winning after 100,000 bets.
-      Assume that each roll of the roulette ball is equally    5.20. For any real number y, deﬁne y+ by
+      Assume that each roll of the roulette ball is equally
       likely to land on any of the 38 numbers.
 5.18. There are two types of batteries in a bin. When in
       use, type i batteries last (in hours) an exponentially
@@ -724,6 +729,7 @@ what should be the value of c?
 (b) Using the value of c found in part (a), what is
 the probability that a guilty defendant will be
 convicted?
+5.20. For any real number y, deﬁne y+ by
 y, if y Ú 0
 y+ =
 0, if y < 0
