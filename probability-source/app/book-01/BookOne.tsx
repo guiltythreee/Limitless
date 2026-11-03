@@ -124,11 +124,11 @@ function solutionStarts(text: string, chapter: Chapter) {
   const matches: { id: string; title: string; index: number }[] = [];
   let pattern: RegExp;
   if (chapter <= 2) {
-    pattern = /^\s*(\d{1,2})\.\s+([^\n]{3,140})$/gm;
+    pattern = /^[ \\t]*(\\d{1,2})\\.[ \\t]+([^\\n]{3,140})$/gm;
   } else if (chapter === 5) {
     pattern = /^\s*(?:Problem\s+)?5\.(\d{1,2})(?:\.\s*|\s*[—–:-]\s*|\s+|\s*$)([^\n]{0,140})$/gm;
   } else {
-    pattern = new RegExp("^\\s*" + chapter + "\\.(\\d{1,2})\\.\\s+([^\\n]{3,140})$", "gm");
+    pattern = new RegExp("^[ \\t]*" + chapter + "\\.(\\d{1,2})\\.[ \\t]+([^\\n]{3,140})$", "gm");
   }
   for (const match of text.matchAll(pattern)) {
     const id = chapter <= 2 ? match[1] : chapter + "." + match[1];
