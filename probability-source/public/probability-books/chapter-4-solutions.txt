@@ -1,0 +1,816 @@
+--- Source page ---
+
+
+                                                  PROBABILITY
+                                                     Detailed Solutions Manual
+
+
+                                Volume 4 of 10 | Chapter 4: Random Variables
+
+
+
+
+                   Worked solutions to the supplied Chapter 4 problems, theoretical exercises, and self-test exercises.
+
+
+      Original exercise numbering is retained. Solutions emphasize the distribution model, the calculation, and the interpretation.
+
+
+
+
+ Source limitations
+    The uploaded excerpt begins Chapter 4 at Problem 4.5, so Problems 4.1-4.4 are not present. Problems 4.9, 4.10, 4.34, and
+    4.81 refer to missing textbook examples; Theoretical Exercise 4.33 refers to missing equations. Those limitations are
+    identified in place. The referenced Example 8e in Problems 4.76-4.77 is also absent, so the matchbox derivation states its
+    counting convention.
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                            Page 1
+
+
+--- Source page ---
+
+
+ Chapter 4 - Random Variables
+ A random variable assigns a numerical value to each outcome. The core work in this chapter is to identify its support and
+ distribution, then use the pmf or cdf to calculate probabilities, moments, and conditional expectations. For binomial and Poisson
+ counts, check independence and the appropriate approximation conditions before applying a formula.
+
+ A. Problems
+ 4.5. Difference between heads and tails
+ If H heads and n-H tails occur, X=H-(n-H)=2H-n. Since H can be 0,1,...,n, the possible values are -n,-n+2,...,n.
+
+ 4.6. Distribution for three fair tosses
+ X=2H-3 where H is Binomial(3,1/2). Thus P(X=-3)=1/8, P(X=-1)=3/8, P(X=1)=3/8, and P(X=3)=1/8.
+
+ 4.7. Possible values from two die rolls
+ (a) Maximum: 1,2,3,4,5,6. (b) Minimum: 1,2,3,4,5,6. (c) Sum: 2 through 12. (d) First minus second: -5,-4,...,4,5.
+
+ 4.8. Distributions for two fair die rolls
+ Let the two results be independent uniform values 1,...,6. For the maximum M, P(M=k)=(2k-1)/36. For the minimum L,
+ P(L=k)=(13-2k)/36. For the sum S=s, the number of ordered pairs is s-1 for s=2,...,7 and 13-s for s=8,...,12, divided by 36. For
+ D=first-second, P(D=0)=1/6 and P(D=+j)=P(D=-j)=(6-j)/36 for j=1,...,5.
+
+ 4.9. Repeat Example 1b with replacement
+ The referenced Example 1b is not included in the uploaded question-bank excerpt, so its experiment and random variable are
+ unavailable. The replacement version cannot be determined uniquely from this file alone.
+
+ 4.10. Conditional winnings in Example 1d
+ The referenced Example 1d and its payoff distribution are absent from the upload. The requested conditional probabilities are P(X=i
+ | X>0)=P(X=i)/P(X>0), for i=1,2,3, but the numerical masses must come from the missing example.
+
+ 4.11. Divisibility and the Mobius function
+ (a) For N uniform on {1,...,1000}, P(d divides N)=floor(1000/d)/1000. The requested values for d=3,5,7,15,105 are respectively
+ 333/1000, 200/1000, 142/1000, 66/1000, and 9/1000. As the upper limit 10^k grows, the proportions tend to 1/d. (b) The natural
+ density of square-free integers is 6/pi^2. Since mu(N)=0 exactly when N has a repeated prime factor, P(mu(N)=0) tends to 1-6/pi^2,
+ approximately 0.3921.
+
+ 4.12. Two-Finger Morra
+ (a) Each player independently chooses one of four equally likely (show, guess) pairs. Enumerating the 16 joint choices gives
+ P(X=-4)=1/16, P(X=-3)=2/16, P(X=-2)=1/16, P(X=0)=8/16, P(X=2)=1/16, P(X=3)=2/16, and P(X=4)=1/16. (b) If each player guesses
+ the number equal to the number he or she shows, then either both guesses are correct (when the shown numbers match) or both
+ are wrong. No one wins, so X=0 with probability 1.
+
+ 4.13. Two encyclopedia appointments
+ Appointment 1 produces 0, $500, $1000 with probabilities 0.7, 0.15, 0.15. Appointment 2 produces these values with probabilities
+ 0.4, 0.3, 0.3. Independence and convolution give P(X=0)=0.28, P(X=500)=0.27, P(X=1000)=0.315, P(X=1500)=0.09, and
+ P(X=2000)=0.045.
+
+ 4.14. Sequential tournament comparison
+ The player-1 value is equally likely to have any rank, but the game stops at the first opponent with a higher number. Among the four
+ later players, the relative order of the higher values is random. The resulting probabilities are P(X=0)=1/2, P(X=1)=1/6, P(X=2)=1/12,
+ P(X=3)=1/20, and P(X=4)=1/5. For i=0,1,2,3 the pattern is P(X=i)=1/[(i+1)(i+2)]; X=4 occurs exactly when player 1 has the largest
+ number.
+
+ 4.15. Draft lottery: pick of the worst team
+ Let team j have weight w_j=12-j, j=1,...,11, and total weight 66. Distinct teams appear in the order of size-biased sampling: after
+ teams in set S have been selected, the next new team j has probability w_j/(66-sum_{r in S}w_r). For X, the pick of team 1:
+ P(X=1)=11/66=1/6; P(X=2)=sum_{j=2}^{11}(w_j/66)(11/(66-w_j)); P(X=3)=sum_{j=2}^{11}
+ sum_{k=2,k!=j}^{11}(w_j/66)(w_k/(66-w_j))(11/(66-w_j-w_k)). Numerically these are about 0.16667, 0.15563, and 0.14348.
+ P(X>=4)=1 minus their sum, about 0.53423.
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                              Page 2
+
+
+--- Source page ---
+
+
+ 4.16. Team receiving each of the first three picks
+ With w_j=12-j and W=66: P(Y_1=j)=w_j/W. For pick 2, P(Y_2=j)=sum_{i!=j}(w_i/W)(w_j/(W-w_i)). For pick 3,
+ P(Y_3=j)=sum_{i!=j}sum_{k!=i,j}(w_i/W)(w_k/(W-w_i))(w_j/(W-w_i-w_k)). These formulas give the requested pmfs for each team
+ j=1,...,11 and account for repeated balls of an already-selected team being skipped.
+
+ 4.17. Recovering a pmf from a distribution function
+ The cdf has continuous slope 1/4 on (0,1) and (1,2), and jumps at 1, 2, and 3. The jumps are P(X=1)=1/4, P(X=2)=1/6, and
+ P(X=3)=1/12. The continuous part has density 1/4 on 0<x<2 (total mass 1/2). For part (b), the interval (1/2,3/2) contains continuous
+ mass (1)(1/4)=1/4 plus the atom at 1 of size 1/4, so the probability is 1/2.
+
+ 4.18. Four fair tosses: X-2
+ If H is the number of heads, H~Binomial(4,1/2) and X-2=H-2. The values -2,-1,0,1,2 have probabilities 1/16,4/16,6/16,4/16,1/16.
+
+ 4.19. Another cdf-to-pmf conversion
+ Read the jumps of the given cdf: P(X=0)=1/2, P(X=1)=1/10, P(X=2)=1/5, P(X=3)=1/10, and P(X=3.5)=1/10. These masses sum to 1.
+
+ 4.20. Roulette betting system
+ Let p=18/38 and q=20/38. A positive net win occurs either on the first spin (probability p) or after losing the first bet and winning both
+ additional bets (probability qp^2). Thus P(X>0)=p+qp^2=0.59178. The expected winnings are
+ p(1)+q[-1+2(p-q)]=p+q(4p-3)=-0.10803 dollars per play. A high chance of a small win does not make this a positive-expectation
+ strategy.
+
+ 4.21. Student-weighted versus bus-weighted bus size
+ For a randomly selected student, P(X=s_i)=s_i/148, so E[X]=sum s_i^2/148=(40^2+33^2+25^2+50^2)/148=39.2838. A randomly
+ selected driver gives each bus probability 1/4, so E[Y]=(40+33+25+50)/4=37. The student sample is size-biased toward larger
+ buses.
+
+ 4.22. Expected length of a first-to-i series
+ For i=2 the series lasts 2 games, with a third game exactly when the first two are split. Hence E[N]=2+2p(1-p), maximized at p=1/2.
+ For i=3, the series ends in 4 games with probability 3pq(p^2+q^2), and in 5 games with probability 6p^2q^2. Thus
+ E[N]=3+3pq+6p^2q^2, also maximized at p=q=1/2.
+
+ 4.23. Invest in a commodity
+ Let x ounces be purchased now at $2 per ounce, leaving $1000-2x cash. The final price is $1 or $4 with equal probability. Expected
+ final money is 1000-2x+2.5x=1000+0.5x, maximized at x=500 (invest all cash). Expected final ounces are
+ x+(1000-2x)(1/2)(1+1/4)=625-0.25x, maximized at x=0 (keep the money and buy no commodity now).
+
+ 4.24. Two-action zero-sum game
+ If B guesses 1 with probability p, B's expected gain is 1.75p-0.75 when A wrote 1, and 2-2.75p when A wrote 2. Equating these gives
+ p=11/18 and guaranteed gain 23/72. By symmetry of the minimax calculation, A minimizes her maximum expected loss by writing 1
+ with probability q=11/18; the value is again 23/72.
+
+ 4.25. Sum of two independent coin tosses
+ P(X=1)=0.6(0.3)+0.4(0.7)=0.46. By linearity of expectation, E[X]=0.6+0.7=1.3.
+
+ 4.26. Expected number of yes-no questions
+ (a) Asking “Is it i?” in order requires N questions when the chosen number is N, so E[N]=(1+...+10)/10=5.5. (b) A nearly balanced
+ binary decision tree for 10 equally likely labels can put 6 labels at depth 3 and 4 at depth 4. The expected number is
+ (6*3+4*4)/10=3.4 questions.
+
+ 4.27. Insurance premium for a 10% expected margin
+ If the premium is C and the insurer pays A with probability p, expected profit is C-pA. Set this equal to 0.1A: C=(p+0.1)A.
+
+ 4.28. Expected defective items in a sample
+ By linearity of expectation, each of the three sampled items is defective with probability 4/20. Thus E[X]=3(4/20)=0.6.
+
+ 4.29. Optimal order for checking two causes
+ Order 1 then 2 costs C1+pR1+(1-p)(C2+R2). Order 2 then 1 costs C2+(1-p)R2+p(C1+R1). The expected repair cost is the same in
+ either order and cancels. Check cause 1 first exactly when (1-p)C1<pC2, equivalently p>C1/(C1+C2).
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                               Page 3
+
+
+--- Source page ---
+
+
+ 4.30. St. Petersburg paradox
+ P(X=2^n)=2^-n, so E[X]=sum_{n>=1}2^n 2^-n=sum_{n>=1}1=infinity. This infinite theoretical mean does not imply that a single play
+ is likely to produce a huge payoff; the very large prizes have extremely small probabilities. Practical willingness to pay depends on
+ wealth, risk, and the number of plays, not the expectation alone.
+
+ 4.31. Proper scoring rule for rain forecasts
+ If the true rain probability is p* and the forecast is p, expected score is p*[1-(1-p)^2]+(1-p)[1-p^2]=1-p*+2p*p*-p^2. This quadratic is
+ maximized at p=p*. The scoring rule rewards honest probability assessment.
+
+ 4.32. Pooled blood testing
+ A group test is positive with probability 1-(0.9)^10. One test is always used, and 10 extra individual tests are used only when the
+ pooled test is positive. Expected tests per group =1+10[1-(0.9)^10]=7.5132.
+
+ 4.33. Newsboy purchase quantity
+ Demand D~Binomial(10,1/3). The (s+1)st paper should be stocked only if the expected benefit 0.15 P(D>=s+1) exceeds its 0.10
+ cost. Equivalently, keep stocking while P(D>=s+1)>2/3. Here P(D>=3)=0.7009 but P(D>=4)=0.4407, so the optimal stock is s=3
+ papers.
+
+ 4.34. Store stocking with a goodwill penalty
+ The referenced Example 4b is not included, so its sale price, purchase cost, demand distribution, and any salvage value are
+ unavailable. In the standard model with selling price r, unit cost c, per-unit shortage penalty g, demand D, and no salvage, expected
+ profit at stock s is r E[min(D,s)]-cs-g E[(D-s)^+]. The marginal value of the s-th unit is (r+g)P(D>=s)-c; choose s while this is
+ nonnegative. Numerical values require Example 4b.
+
+ 4.35. Two marbles: expected win and variance
+ The probability of matching colors is 2*C(5,2)/C(10,2)=4/9; different colors has probability 5/9. X=1.10 with probability 4/9 and X=-1
+ with probability 5/9. E[X]=-1/15 dollars. E[X^2]=(1.21)(4/9)+5/9, so Var(X)=49/45 dollars squared.
+
+ 4.36. Variance of the i=2 series length
+ The length is 2 with probability 1-2pq and 3 with probability 2pq. Therefore Var(N)=2pq(1-2pq). Since 2pq is maximized at p=1/2 and
+ lies in [0,1/2], this variance is maximized at p=1/2.
+
+ 4.37. Variances for the bus-size variables
+ For X, E[X^2]=sum s_i^3/148=240562/148, and E[X]=5814/148. Thus Var(X)=82.2033. For Y, E[Y]=37 and
+ E[Y^2]=(40^2+33^2+25^2+50^2)/4=1453.5, so Var(Y)=1453.5-37^2=84.5.
+
+ 4.38. Moments of an affine transform
+ E[X^2]=Var(X)+E[X]^2=5+1=6. Hence E[(2+X)^2]=E[X^2]+4E[X]+4=14. Also Var(4+3X)=9Var(X)=45.
+
+ 4.39. Exactly two white balls in four draws with replacement
+ Each draw is independently white with probability 1/2. Thus X~Binomial(4,1/2), and P(X=2)=C(4,2)/2^4=3/8.
+
+ 4.40. Guessing on a five-question test
+ The number correct is Binomial(5,1/3). Therefore P(X>=4)=C(5,4)(1/3)^4(2/3)+(1/3)^5=11/243.
+
+ 4.41. ESP claim
+ Under no ESP, each prediction is correct independently with probability 1/2. P(at least 7
+ correct)=sum_{k=7}^{10}C(10,k)/2^10=176/1024=11/64.
+
+ 4.42. Three-engine versus five-engine aircraft
+ For n engines, all independent with reliability p, the success probability is the binomial upper tail at the required majority. For 3
+ engines: 3p^2-2p^3. For 5: 10p^3-15p^4+6p^5. Their difference is 3p^2(1-p)^2(2p-1). The 5-engine aircraft is better for p>1/2, the
+ 3-engine aircraft for p<1/2; they tie at p=0, p=1/2, and p=1.
+
+ 4.43. Repetition code with majority decoding
+ A transmitted bit is wrong after decoding if at least 3 of the 5 independent received bits are flipped. With error probability 0.2,
+ P(error)=C(5,3)(0.2)^3(0.8)^2+C(5,4)(0.2)^4(0.8)+(0.2)^5=0.05792. Independence of channel errors is assumed.
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                                 Page 4
+
+
+--- Source page ---
+
+
+ 4.44. Satellite reliability on rainy and dry days
+ Let B(n,k,p)=sum_{j=k}^n C(n,j)p^j(1-p)^(n-j). Conditional on rain the system works with probability B(n,k,p1); on a dry day it works
+ with probability B(n,k,p2). By total probability, P(works)=alpha B(n,k,p1)+(1-alpha)B(n,k,p2).
+
+ 4.45. Oral examination: three or five examiners
+ The student is on with probability 1/3 and off with probability 2/3. With n examiners, passing probability conditional on pass
+ probability r is the binomial majority tail. For 3: h(r)=3r^2-2r^3; overall probability = [h(0.8)+2h(0.4)]/3=0.53333. For 5:
+ h5(r)=10r^3-15r^4+6r^5; overall probability =[h5(0.8)+2h5(0.4)]/3=0.52565. The 3-examiner examination is slightly better.
+
+ 4.46. Twelve-member jury
+ A guilty defendant is convicted with probability sum_{k=9}^{12}C(12,k)(0.8)^k(0.2)^(12-k)=0.79456895. An innocent defendant is
+ wrongly convicted with probability sum_{k=9}^{12}C(12,k)(0.1)^k(0.9)^(12-k)=0.000000165835. With prior guilt probability 0.65, the
+ probability of a correct decision is 0.65(1-0.000000165835? Wait correct guilty decision is the guilty-conviction probability)
+ +0.35(1-false-conviction probability)=0.86646976. The overall conviction percentage is
+ 0.65(0.79456895)+0.35(0.000000165835)=0.51646988, or about 51.65%.
+
+ 4.47. Peremptory challenges
+ With m judges remaining, the conviction threshold is floor(m/2)+1. The guilty-defendant conviction probabilities for m=9,8,7 are
+ 0.901191, 0.805896, 0.873964; the innocent-defendant false-conviction probabilities are 0.098809, 0.057968, 0.126036. Weighting
+ by prior guilt 0.6 gives overall conviction probabilities 0.580238, 0.506724, 0.574793. The defense should make one challenge,
+ leaving 8 judges.
+
+ 4.48. Diskette package returns
+ A package is returned if it has at least 2 defective diskettes. For a package, r=1-(0.99)^10-10(0.01)(0.99)^9=0.00426620. For three
+ independent packages, the probability of returning exactly one is C(3,1)r(1-r)^2=0.0126896.
+
+ 4.49. A randomly selected coin, flipped ten times
+ (a) The coin is fair-selected, so P(exactly 7 heads)=0.5*C(10,7)(0.4)^7(0.6)^3+0.5*C(10,7)(0.7)^7(0.3)^3=0.154648. (b) Given the
+ first flip is H, Bayes gives P(coin 1|H)=0.4/(0.4+0.7)=4/11 and P(coin 2|H)=7/11. Given the first H, six further heads are needed
+ among the remaining nine: probability=(4/11)C(9,6)(0.4)^6(0.6)^3+(7/11)C(9,6)(0.7)^6(0.3)^3=0.196824.
+
+ 4.50. First three outcomes given six heads total
+ Conditional on exactly six heads in ten tosses, all placements of the six heads are equally likely. For either specified pattern H,T,T or
+ T,H,T, the remaining seven positions must contain five heads. Thus the conditional probability is C(7,5)/C(10,6)=21/210=1/10.
+
+ 4.51. Typographical errors
+ Use a Poisson model with lambda=0.2. P(0 errors)=e^-0.2=0.81873. P(at least 2)=1-e^-0.2(1+0.2)=0.01752.
+
+ 4.52. Monthly airline crashes
+ Model the monthly count as Poisson(lambda=3.5). P(at least 2)=1-e^-3.5(1+3.5)=0.86411. P(at most 1)=e^-3.5(1+3.5)=0.13589.
+
+ 4.53. Birthday coincidences in 80,000 marriages
+ (a) A specified couple are both born on April 30 with probability 1/365^2. Assuming independent couples, probability at least one
+ such couple is 1-(1-1/365^2)^80000, about 0.451. (b) A couple share a birthday with probability 1/365, so probability at least one
+ shared birthday is 1-(364/365)^80000, essentially 1. Assumes birthdays are uniform and independent.
+
+ 4.54. Abandoned cars
+ With Poisson mean lambda=2.2, P(0)=e^-2.2=0.11080 and P(at least 2)=1-e^-2.2(1+2.2)=0.64543.
+
+ 4.55. Mixture of two typists
+ Conditional on typist 1, P(0 errors)=e^-3; for typist 2 it is e^-4.2. Since either is equally likely, P(0 errors)=0.5(e^-3+e^-4.2).
+
+ 4.56. Same birthday as you
+ For n other people, P(at least one match)=1-(364/365)^n. Require this to exceed 1/2: n>ln(1/2)/ln(364/365)=252.652. The smallest
+ integer is 253.
+
+ 4.57. At least three accidents
+ (a) For Poisson(lambda=3), P(N>=3)=1-e^-3(1+3+3^2/2)=0.57681. (b) Given N>=1, divide by 1-e^-3: P(N>=3|N>=1)=0.60703.
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                                 Page 5
+
+
+--- Source page ---
+
+
+ 4.58. Poisson versus binomial probabilities
+ (a) n=8,p=0.1,k=2: exact 0.148803; Poisson(lambda=0.8) 0.143785. (b) n=10,p=0.95,k=9: exact 0.315125; Poisson(lambda=9.5)
+ 0.130003, a poor approximation because p is not small. (c) n=10,p=0.1,k=0: exact 0.348678; Poisson(lambda=1) 0.367879. (d)
+ n=9,p=0.2,k=4: exact 0.0660603; Poisson(lambda=1.8) 0.0723017.
+
+ 4.59. Fifty lottery tickets
+ The number of wins is approximately Poisson with lambda=50(1/100)=0.5. (a) P(at least one)=1-e^-0.5=0.39347. (b) P(exactly
+ one)=0.5e^-0.5=0.30327. (c) P(at least two)=1-e^-0.5(1+0.5)=0.09020.
+
+ 4.60. Effect of a wonder drug
+ Prior probability the drug is beneficial is 0.75. Given benefit, the count is Poisson(3); given no benefit, it is Poisson(5). For two colds,
+ Bayes gives [0.75 e^-3 3^2/2]/[0.75 e^-3 3^2/2+0.25 e^-5 5^2/2]=0.88864.
+
+ 4.61. At least two full houses in 1000 hands
+ Use Poisson approximation with lambda=1000(0.0014)=1.4. The required probability is 1-e^-1.4(1+1.4)=0.40817.
+
+ 4.62. No outcome occurs more than once
+ Let N_i count occurrences of category i. For small p_i, collisions are rare. The expected number of matching pairs is C(n,2)sum_i
+ p_i^2. A Poisson approximation for the number of collisions gives P(no repeated category) approximately exp[-n(n-1)sum_i p_i^2/2].
+
+ 4.63. Casino arrivals
+ Rate is 1 per 2 minutes, so over 5 minutes lambda=2.5. (a) P(no arrivals)=e^-2.5=0.082085. (b) P(at least
+ 4)=1-e^-2.5[1+2.5+2.5^2/2+2.5^3/6]=0.24242.
+
+ 4.64. Monthly suicides
+ For 400,000 residents, the monthly mean is lambda=4. Let r=P(Poisson(4)>=8)=1-e^-4 sum_{k=0}^7 4^k/k!=0.05113. (b) Assuming
+ independent months, P(at least 2 qualifying months in 12)=1-(1-r)^12-12r(1-r)^11=0.12286. (c) The first such month has geometric
+ distribution: P(T=i)=(1-r)^(i-1)r. These calculations assume independent monthly counts.
+
+ 4.65. Pooled test for 500 soldiers
+ (a) With p=0.001, P(positive)=1-(0.999)^500=0.39362. (b) Given positive, P(more than one
+ diseased)=[1-(0.999)^500-500(0.001)(0.999)^499]/[1-(0.999)^500]=0.22897. (c) Jones knows he is diseased; the chance at least
+ one of the other 499 is diseased is 1-(0.999)^499=0.39301. (d) If the first i-1 individual tests are negative and the ith test is Jones
+ and positive, there are 500-i untested others; the chance any of them is diseased is 1-(0.999)^(500-i).
+
+ 4.66. Married couples at a round table
+ (a) Fix one person; the spouse has 2 adjacent seats among 2n-1 possible seats, so P(C_i)=2/(2n-1). (b) Given one couple is
+ adjacent and treated as a block, there are 2n-1 units around the circle; P(C_j|C_i)=2/(2n-2)=1/(n-1). (c) The expected number of
+ adjacent couples tends to 1. A Poisson approximation gives P(no adjacent couples) approximately e^-1 for large n.
+
+ 4.67. Alternating men and women
+ With strict alternation, a specified wife has two neighboring male seats among n men, so P(C_i)=2/n. Given one couple is adjacent,
+ the remaining alternating arrangement is a linear alternating sequence of 2n-2 people; for another specified couple,
+ P(C_j|C_i)=(2n-3)/(n-1)^2. The expected number of adjacent couples tends to 2, giving the Poisson approximation P(no couples
+ adjacent) approximately e^-2.
+
+ 4.68. Antiballistic missiles
+ For each incoming missile, the number of successful hits is approximately Poisson with mean 500(1/10)(0.1)=5. The chance that a
+ given incoming missile is hit is about 1-e^-5. Treating target counts as approximately independent, the probability all ten are hit is
+ (1-e^-5)^10=0.93463.
+
+ 4.69. Four consecutive heads in ten tosses
+ Let Q_n be the probability of no run of four heads. For fair tosses, Q_n=(1/2)Q_{n-1}+(1/4)Q_{n-2}+(1/8)Q_{n-3}+(1/16)Q_{n-4}, with
+ Q_0=Q_1=Q_2=Q_3=1. Iteration gives Q_10=0.7548828125, so P(a run)=1-Q_10=0.2451171875. A crude Poisson count of the 7
+ possible four-head windows gives 1-exp(-7/16)=0.354; the discrepancy reflects strong overlap between windows.
+
+ 4.70. Coin flipped at Poisson times
+ Let N_t be Poisson(lambda t). If N_t=0, the initial head remains. If N_t>=1, the last flip determines the side and is heads with
+ probability p. Thus P(head at t)=P(N_t=0)+pP(N_t>=1)=e^-lambda t+p(1-e^-lambda t).
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                                 Page 6
+
+
+--- Source page ---
+
+
+ 4.71. Roulette: numbers 1 through 12
+ The chance of winning one bet is 12/38 and losing is 26/38. (a) P(first five lost)=(26/38)^5=0.14995. (b) P(first win on bet
+ 4)=(26/38)^3(12/38)=0.10115.
+
+ 4.72. First-to-four championship
+ If the stronger team has per-game win probability p=0.6 and q=0.4, it wins in exactly i games with probability C(i-1,3)p^4q^(i-4),
+ i=4,5,6,7. These values are 0.12960, 0.20736, 0.20736, 0.165888. Total series-win probability is 0.710208. A best-of-three series
+ win probability is p^2(3-2p)=0.648.
+
+ 4.73. Expected length of a fair first-to-four series
+ The series can last 4,...,7 games. P(N>=5)=6/16=3/8 (the first four are split 2-2); P(N>=6)=20/32=5/8; P(N>=7)=20/64=5/16.
+ Therefore E[N]=4+3/8+5/8+5/16=5.3125 games.
+
+ 4.74. Interview list
+ Each person agrees independently with probability 2/3. (a) With five names, all five must agree: (2/3)^5=32/243. (b) With eight
+ names, success probability is sum_{k=5}^8 C(8,k)(2/3)^k(1/3)^(8-k)=0.74135. (c) P(exactly 6)=C(8,6)(2/3)^6(1/3)^2=0.27313. (d)
+ P(exactly 7)=C(8,7)(2/3)^7(1/3)=0.15607.
+
+ 4.75. Tails before the tenth head
+ If X is the number of tails before the tenth head, X has negative-binomial pmf P(X=k)=C(k+9,9)(1/2)^(k+10), k=0,1,2,... .
+
+ 4.76. General Banach matchboxes
+ For the usual Banach experiment, a box is discovered empty only when it is selected again after its last match was used. The
+ probability the left box is found empty with k matches still in the right box is C(N1+N2-k,N1)2^-(N1+N2-k+1), k=0,...,N2. The
+ probability the right box is found empty with k matches in the left is C(N1+N2-k,N2)2^-(N1+N2-k+1), k=0,...,N1. Add the applicable
+ terms to obtain the pmf of the number remaining in the nonempty box. This differs from the instant of depletion asked about in 4.77.
+
+ 4.77. Other box contents when the first box is emptied
+ At the instant of first depletion, the other box must still contain at least one match, so k>=1. The probability the left box is first
+ emptied with k matches still in the right is C(N1+N2-k-1,N1-1)2^-(N1+N2-k), k=1,...,N2. The probability the right box is first emptied
+ with k left in the left is C(N1+N2-k-1,N2-1)2^-(N1+N2-k), k=1,...,N1. Add the applicable terms for the distribution of the number left at
+ that instant.
+
+ 4.78. Repeated four-ball selections
+ The probability one selection contains exactly 2 white and 2 black balls is C(4,2)C(4,2)/C(8,4)=18/35. Independent repetitions
+ continue until success, so the number N of selections is geometric: P(N=n)=(17/35)^(n-1)(18/35), n>=1.
+
+ 4.79. Hypergeometric sample from a batch
+ With 6 defective and 94 good items, sample size 10, X is Hypergeometric(100,6,10). P(X=0)=C(94,10)/C(100,10).
+ P(X>2)=sum_{k=3}^6 C(6,k)C(94,10-k)/C(100,10).
+
+ 4.80. Keno with ten selected numbers
+ (a) With n=2 selected numbers, the chance both are among the 20 drawn is C(20,2)/C(80,2)=19/316. A fair net-profit payoff for a $1
+ bet is (1-P)/P=297/19=$15.6316. (b) In general P_{n,k}=C(20,k)C(60,n-k)/C(80,n). (c) For n=10, multiply these probabilities by the
+ listed net payoffs (-1 for 0-4 matches, then 1,17,179,1299,2599,24999 for 5,...,10). The expected net payoff is approximately
+ -$0.20575 per $1 bet.
+
+ 4.81. Inspection example
+ This question refers to Example 8i, which is not included in the uploaded excerpt. The sampling plan, lot size, and rejection rule are
+ needed to calculate the percentages and the posterior probability for a rejected lot. No numerical answer can be supported from the
+ supplied pages alone.
+
+ 4.82. Transistor lot acceptance
+ A lot is accepted only if all four inspected transistors are nondefective. With independent defect probability 0.1,
+ P(accept)=0.9^4=0.6561. Therefore the proportion rejected is 1-0.9^4=0.3439.
+
+ 4.83. Total accidents on three highways
+ Independent Poisson counts add to a Poisson count with parameter 0.3+0.5+0.7=1.5. The expected total number of accidents is
+ 1.5.
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                               Page 7
+
+
+--- Source page ---
+
+
+ 4.84. Occupancy of five boxes
+ For box i, P(empty)=(1-p_i)^10, so the expected number empty is sum_{i=1}^5(1-p_i)^10. P(box i contains exactly one
+ ball)=10p_i(1-p_i)^9, so the expected number containing exactly one is sum_{i=1}^5 10p_i(1-p_i)^9.
+
+ 4.85. Expected number of distinct coupon types
+ Let I_i=1 if type i appears at least once. P(I_i=1)=1-(1-p_i)^n. The number of distinct types is sum I_i, so its expectation is
+ sum_{i=1}^k[1-(1-p_i)^n].
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                             Page 8
+
+
+--- Source page ---
+
+
+ B. Theoretical Exercises
+ 4.1. Coupon collector completion time
+ For nonempty S subset of {1,...,N}, let p(S)=sum_{i in S}P_i. Inclusion-exclusion gives F(n)=P(T<=n)=sum_{S
+ subset}(-1)^|S|(1-p(S))^n, with the empty-set term equal to 1. Hence P(T=n)=F(n)-F(n-1). This assumes all P_i are positive.
+
+ 4.2. Distribution of e^X
+ For y<=0, P(e^X<=y)=0. For y>0, F_{e^X}(y)=P(X<=ln y)=F(ln y).
+
+ 4.3. Distribution of alpha X+beta
+ If alpha>0, F_Y(y)=F_X((y-beta)/alpha). If alpha<0, F_Y(y)=P(X>=(y-beta)/alpha)=1-F_X(((y-beta)/alpha)-), where F(x-) is the left
+ limit; this handles atoms correctly.
+
+ 4.4. Tail-sum formula for a nonnegative integer variable
+ E[N]=sum_{k>=0}kP(N=k)=sum_{k>=1}sum_{i=1}^k P(N=k). Interchanging the nonnegative sums gives E[N]=sum_{i>=1}P(N>=i).
+
+ 4.5. Second-moment tail identity
+ Interchanging sums: sum_{i>=0} iP(N>i)=sum_{k>=1}P(N=k)sum_{i=0}^{k-1}i=sum_k P(N=k)k(k-1)/2. Since E[N^2]-E[N]=E[N(N-1)],
+ the result is one-half of that difference.
+
+ 4.6. Finding c with E[c^X]=1
+ Here X=1 with probability p and X=-1 with probability q=1-p. The equation is pc+q/c=1, or pc^2-c+q=0=(c-1)(pc-q). Thus c=1 or
+ c=q/p. The required c not equal to 1 is q/p when p is not 1/2; if p=1/2 no such c exists.
+
+ 4.7. Standardizing a random variable
+ For Y=(X-mu)/sigma, E[Y]=(E[X]-mu)/sigma=0 and Var(Y)=Var(X)/sigma^2=1.
+
+ 4.8. Variance of a two-point variable
+ If X=a with probability p and b with probability q, Var(X)=pq(a-b)^2. This follows from E[X]=pa+qb and E[X^2]=pa^2+qb^2.
+
+ 4.9. Binomial theorem from binomial probabilities
+ Since the binomial probabilities sum to 1, sum_{i=0}^n C(n,i)p^i(1-p)^(n-i)=1. Set p=x/(x+y) and 1-p=y/(x+y), then multiply by (x+y)^n
+ to obtain (x+y)^n=sum C(n,i)x^i y^(n-i).
+
+ 4.10. E[1/(X+1)] for a binomial variable
+ With X~Binomial(n,p), use C(n,k)/(k+1)=C(n+1,k+1)/(n+1). Then E[1/(X+1)]=[1-(1-p)^(n+1)]/[(n+1)p].
+
+ 4.11. Arrangements conditional on k successes
+ Every particular sequence with k successes and n-k failures has probability p^k(1-p)^(n-k). Since this probability is identical for all
+ arrangements, conditional on exactly k successes the C(n,k) arrangements are equally likely.
+
+ 4.12. No neighboring defective components
+ Condition on k defective components. Their k positions are uniformly selected from n positions. The number of k-subsets with no
+ adjacent positions is C(n-k+1,k). Therefore P(no adjacent failures)=sum_{k=0}^{floor(n/2)} C(n-k+1,k)(1-p)^k p^(n-k), where p is the
+ probability a component works.
+
+ 4.13. Maximum likelihood for a binomial parameter
+ For 0<k<n, maximize log P(X=k)=constant+k log p+(n-k)log(1-p). Differentiation gives k/p-(n-k)/(1-p)=0, so p=k/n. At the endpoints,
+ k=0 gives p=0 and k=n gives p=1.
+
+ 4.14. Random family size and number of boys
+ P(N=n)=alpha p^n for n>=1. The probability a family has no children is 1-alpha p/(1-p). For k>=1 boys, sum_{n=k}^infinity alpha p^n
+ C(n,k)2^-n=alpha(p/2)^k/(1-p/2)^(k+1). For k=0 boys, n starts at 1, giving alpha p/(2-p).
+
+ 4.15. Even number of heads
+ Let H be the number of heads in n tosses. Since E[(-1)^H]=(q-p)^n and also equals P(H even)-P(H odd), combine with the
+ probabilities summing to 1 to obtain P(H even)=[1+(q-p)^n]/2.
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                                Page 9
+
+
+--- Source page ---
+
+
+ 4.16. Mode of a Poisson distribution
+ The ratio P(X=i)/P(X=i-1)=lambda/i. The probabilities increase while i<lambda and decrease when i>lambda. If lambda is not
+ integer, the unique mode is floor(lambda). If lambda is an integer, lambda-1 and lambda tie as modes.
+
+ 4.17. Even Poisson counts
+ (a) If X~Poisson(lambda), E[(-1)^X]=exp(lambda(-1-1))=e^-2lambda. As above, P(X even)-P(X odd)=e^-2lambda, so P(X
+ even)=[1+e^-2lambda]/2. (b) Expanding e^-lambda and e^lambda and adding cancels odd powers; the remaining even-power series
+ equals twice the even-count probability.
+
+ 4.18. Poisson parameter maximizing P(X=k)
+ For k>0, e^-lambda lambda^k/k! is maximized at lambda=k by differentiating its log. For k=0, P(X=0)=e^-lambda decreases with
+ lambda, so its supremum is 1 as lambda decreases to 0.
+
+ 4.19. Third moment of a Poisson variable
+ From the Poisson pmf, E[X^n]=lambda E[(X+1)^(n-1)]. For n=3 this gives E[X^3]=lambda E[X^2+2X+1]. Using E[X]=lambda and
+ E[X^2]=lambda^2+lambda, E[X^3]=lambda^3+3lambda^2+lambda.
+
+ 4.20. Repeated batches of n coins
+ Let Y be the number of heads in one batch; for large n and small p with np=lambda, Y is approximately Poisson(lambda). The
+ experiment repeats batches until Y>0, so the final batch count has the conditional law Y given Y>0. Therefore P(X=1) is
+ approximated by P(Y=1|Y>0)=lambda e^-lambda/(1-e^-lambda). Reasoning (b) is correct; (a) forgets the conditioning on stopping,
+ and (c) gives the probability of one head in an unconditioned batch.
+
+ 4.21. Pairwise birthday-event relationships
+ (a) For disjoint pairs, conditioning on one pair sharing a birthday does not change the other pair: P(E34|E12)=1/365. (b) For
+ overlapping pairs, P(E13|E12)=1/365. (c) If E12 and E13 both hold, persons 1,2,3 share a birthday, so P(E23|E12 intersect E13)=1.
+ Thus the events are pairwise independent but not mutually independent.
+
+ 4.22. First repeated pair among paired-number balls
+ There are n pairs among 2n balls. In one draw of two balls, the chance of matching numbers is n/C(2n,2)=1/(2n-1), approximately
+ 1/(2n). Among about alpha n selections, the number of matches is approximately Poisson with mean alpha/2, so P(T>alpha n), the
+ probability of no match, tends to e^-alpha/2.
+
+ 4.23. No triple birthday
+ For a fixed day i, P(E_i)=sum_{j=3}^n C(n,j)(1/365)^j(364/365)^(n-j). The expected number of days with at least three birthdays is
+ lambda=365P(E_i). A Poisson approximation gives P(no triple)=approximately e^-lambda. For n=88, P(E_i)≈0.00189663,
+ lambda≈0.692271, and P(no triple)≈e^-0.692271≈0.50044.
+
+ 4.24. Recursion for a run of k heads
+ Let Q_n=P(no run of k heads in n tosses). A sequence with no run in n-1 remains run-free unless its last k flips are H and the
+ preceding flip is T, with a run-free prefix of length n-k-1. Thus, for n>k, Q_n=Q_{n-1}-(1-p)p^k Q_{n-k-1}. Then P_n=1-Q_n. Initial
+ values are Q_0=...=Q_{k-1}=1 and Q_k=1-p^k.
+
+ 4.25. Thinning a Poisson count
+ If N~Poisson(lambda) events occur and each is retained independently with probability p, then M|N~Binomial(N,p). Summing over N
+ or using the pgf gives M~Poisson(lambda p). With lambda=10 and p=1/50, the discovered deposits have mean 0.2: P(exactly
+ 1)=0.2e^-0.2, P(at least 1)=1-e^-0.2, and P(at most 1)=1.2e^-0.2.
+
+ 4.26. Poisson tail/incomplete-gamma identity
+ Let I_n(lambda)=integral from lambda to infinity of e^-x x^n/n! dx. Integration by parts gives I_n(lambda)=e^-lambda
+ lambda^n/n!+I_{n-1}(lambda). Starting with I_0(lambda)=e^-lambda and iterating yields I_n(lambda)=e^-lambda sum_{i=0}^n
+ lambda^i/i!, which is the stated identity.
+
+ 4.27. Memorylessness of the geometric distribution
+ For a geometric variable with support 1,2,..., P(X=n+k|X>n)=P(X=n+k)/P(X>n)=p q^(n+k-1)/q^n=pq^(k-1)=P(X=k). After n failures,
+ the remaining waiting time has the original geometric law.
+
+ 4.28. Negative-binomial/binomial identity
+ Let X be the trial number of the rth success and Y the number of successes in the first n trials. The event X>n means fewer than r
+ successes among the first n trials, which is exactly Y<r. Hence P(X>n)=P(Y<r).
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                           Page 10
+
+
+--- Source page ---
+
+
+ 4.29. Adjacent hypergeometric probabilities
+ For X~Hypergeometric(N,K,n), P(X=k)=C(K,k)C(N-K,n-k)/C(N,n). Dividing consecutive terms gives
+ P(X=k+1)/P(X=k)=[(K-k)/(k+1)]*[(n-k)/(N-K-n+k+1)].
+
+ 4.30. Maximum of a sample without replacement
+ For n numbers selected from {1,...,N}, P(Y=j)=C(j-1,n-1)/C(N,n), j=n,...,N: the maximum must be j and the other n-1 values lie below
+ it. Summing the tail probabilities, or using the order-statistic identity, gives E[Y]=n(N+1)/(n+1).
+
+ 4.31. Sampled chips exceeding every unselected chip
+ Let N=m+n. X=x means the top x labels N-x+1,...,N are selected, label N-x is not selected, and the remaining m-1 unselected labels
+ are chosen from the N-x-1 lower labels. Thus P(X=x)=C(N-x-1,m-1)/C(N,m), x=0,...,n.
+
+ 4.32. Sampling with replacement until a repeat
+ For X=k, the first k-1 draws must all be distinct and draw k must match one of them. Thus P(X=k)=[n(n-1)...(n-k+2)/n^(k-1)](k-1)/n,
+ for k=2,...,n+1; equivalently (n)_{k-1}(k-1)/n^k.
+
+ 4.33. Referenced equations
+ Equations (8.5) and (8.6) are not included in the uploaded question-bank pages. Their statements are needed to prove the
+ requested equivalence without guessing what the textbook denotes by them.
+
+ 4.34. Uniformly selected nonempty subset
+ A uniformly selected subset is equivalent to n independent fair inclusion indicators, conditioned on at least one element being
+ selected. Hence E[X]=(n/2)/(1-2^-n)=n*2^(n-1)/(2^n-1). Also E[X^2]=(n(n+1)/4)/(1-2^-n). Subtracting the square of the mean gives
+ Var(X)=n*2^(n-2)(2^n-n-1)/(2^n-1)^2. This is asymptotic to n/4.
+
+ 4.35. Pólya urn: first blue draw
+ With one red and one blue initially, the probability the first i draws are all red is (1/2)(2/3)...(i/(i+1))=1/(i+1). Therefore P(X>i)=1/(i+1),
+ and P(X=i)=1/i-1/(i+1)=1/[i(i+1)]. Since P(X<infinity)=lim_i[1-P(X>i)]=1, a blue ball is eventually drawn almost surely. But
+ E[X]=sum_{i>=0}P(X>i) diverges (harmonic series).
+
+ 4.36. Linearity of expectation from the joint pmf
+ (a) The event X+Y=z_k is the disjoint union of the joint events {(X=x_i,Y=y_j)} with (i,j) in A_k, so its probability is their sum. (b)
+ Multiply by z_k=x_i+y_j and sum over k and the corresponding pairs to obtain E[X+Y]=sum_i sum_j (x_i+y_j)P(X=x_i,Y=y_j). (c)-(d)
+ Marginal probabilities are obtained by summing the joint pmf over the other index. Substituting these marginals separates the double
+ sum into E[X]+E[Y], proving linearity.
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                                    Page 11
+
+
+--- Source page ---
+
+
+ C. Self-Test Problems and Exercises
+ 4.1. Expected hits in three at-bats
+ Let P(X=3)=a and P(X=0)=3a. Total probability gives 3a+a+0.3+0.2=1, so a=0.125 and P(X=0)=0.375.
+ E[X]=0.3+2(0.2)+3(0.125)=1.075.
+
+ 4.2. Three-point geometric probabilities
+ Let P(X=0)=a. Then P(X=1)=ca and P(X=2)=c^2a, so a=1/(1+c+c^2). Therefore E[X]=(c+2c^2)/(1+c+c^2).
+
+ 4.3. Toss until two consecutive equal outcomes
+ Let q=1-p. If the last toss was H, the expected additional flips E_H satisfies E_H=1+qE_T; E_T=1+pE_H. Solving gives
+ E_H=(1+q)/(1-pq), E_T=(1+p)/(1-pq). Including the first toss, E[N]=1+pE_H+qE_T=(2+pq)/(1-pq).
+
+ 4.4. Size-biased family size
+ If a family is selected uniformly, P(X=i)=n_i/m, so E[X]=sum i n_i/m. If a child is selected uniformly, P(Y=i)=i n_i/sum_j jn_j, so
+ E[Y]=sum i^2 n_i/sum i n_i. Cauchy-Schwarz gives (sum i n_i)^2<=m sum i^2n_i, hence E[Y]>=E[X].
+
+ 4.5. Bernoulli variable with E[X]=3Var(X)
+ Let p=P(X=1). Then E[X]=p and Var(X)=p(1-p). Equation p=3p(1-p) gives p=0 or p=2/3. Thus P(X=0)=1 or 1/3, respectively. If the
+ problem intends a nondegenerate variable, the answer is 1/3.
+
+ 4.6. Value of insider information
+ If the fair coin (heads probability 0.6) is selected, a $10 heads bet has expected gain $2. If the other coin (heads probability 0.3) is
+ selected, the best choice is not to bet, giving $0. Since each coin is equally likely, information raises the maximum expected payoff
+ to $1 before its cost. Net expected payoff after paying C is $1-C; buy when C<1.
+
+ 4.7. Red and blue paper strategy
+ (a) If red shows x, blue is either 2x or x/2; switching has expected value (2x+x/2)/2=1.25x, so taking red first is never better. (b) For
+ the strategy “accept blue if its value is at least y, otherwise switch,” E[R_y(x)]=5x/4 if y<=x/2; 3x/2 if x/2<y<=2x; and x if y>2x. This is
+ conditional on the fixed red value x and the fair-coin choice.
+
+ 4.8. Binomial cdf symmetry
+ If X~Binomial(n,p), then n-X~Binomial(n,1-p). The event X<=i is equivalent to n-X>=n-i. Therefore
+ P(X<=i)=1-P(Binomial(n,1-p)<=n-i-1).
+
+ 4.9. Binomial parameter from mean and variance
+ For X~Binomial(n,p), np=6 and np(1-p)=2.4. Dividing gives 1-p=0.4, so p=0.6 and n=10. Thus
+ P(X=5)=C(10,5)(0.6)^5(0.4)^5=0.200658.
+
+ 4.10. Maximum of m draws with replacement
+ For k=1,...,n, P(X<=k)=(k/n)^m. Taking successive differences gives P(X=k)=(k/n)^m-((k-1)/n)^m.
+
+ 4.11. Best-of-five series
+ (a) After A wins game 1, A needs 2 more wins before B wins 3. This probability is p^2(1+2q+3q^2), q=1-p. (b) P(A wins the
+ series)=p^3(1+3q+6q^2). The joint probability that A wins game 1 and the series is p^3(1+2q+3q^2). Hence P(first game A | A wins
+ series)=(1+2q+3q^2)/(1+3q+6q^2).
+
+ 4.12. Soccer team final four games
+ With probability 1/2 it enters the upper bracket, where p=0.4; otherwise p=0.7. For four independent games, P(at least 3
+ wins)=4p^3(1-p)+p^4. Therefore the answer is 0.5[4(0.4)^3(0.6)+(0.4)^4]+0.5[4(0.7)^3(0.3)+(0.7)^4]=0.41545.
+
+ 4.13. Seven-judge panel
+ The probability the majority is correct is P(Binomial(7,0.7)>=4)=0.873964. If exactly four judges support one decision, then the
+ likelihood that those four are the correct judges versus the three is in the ratio 0.7^4 0.3^3 : 0.3^4 0.7^3, giving posterior probability
+ 0.7 that the four-vote majority is correct.
+
+ 4.14. Hurricane count
+ For Poisson(lambda=5.2), P(X<=3)=e^-5.2[1+5.2+5.2^2/2+5.2^3/6].
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                                 Page 12
+
+
+--- Source page ---
+
+
+ 4.15. Positive Poisson count observed
+ Y is X conditional on X>0, where X~Poisson(lambda). Thus P(Y=i)=P(X=i)/(1-e^-lambda), i>=1. Its expectation is
+ E[X]/P(X>0)=lambda/(1-e^-lambda).
+
+ 4.16. Reciprocal choices by boys and girls
+ (a) A specified girl is in a mutual pair with probability 1/n: condition on whom she chooses; that boy chooses her with probability 1/n.
+ Thus P(G_i)=1/n. (b) For distinct i,j, the two girls must be chosen by two distinct boys, giving P(G_i intersect
+ G_j)=n(n-1)/n^4=(n-1)/n^3. Hence P(G_i|G_j)=(n-1)/n^2. (c) The expected number of mutual pairs is 1, so a Poisson approximation
+ gives P_0 approximately e^-1 and P_k approximately e^-1/k!. (e) Inclusion-exclusion gives P_0=sum_{k=0}^n (-1)^k
+ C(n,k)(n)_k/n^(2k).
+
+ 4.17. Random pairing of married couples
+ (a) A specified wife has 2n-1 possible partners, so P(W_i)=1/(2n-1). (b) Given one couple is paired, there are 2n-3 possible partners
+ left for another specified wife, so P(W_i|W_j)=1/(2n-3). (c) The expected number of married pairs tends to 1/2; a Poisson
+ approximation gives P(no married couple together) approximately e^-1/2. (d) If every pair must contain one man and one woman, it
+ is a random permutation matching, and the no-fixed-point probability tends to e^-1.
+
+ 4.18. Roulette until four wins
+ Let p=18/38 and q=20/38. The number N of bets has negative-binomial distribution: P(N=9)=C(8,3)p^4q^5. The number of losses
+ before four wins has mean 4q/p, so expected net winnings are $5(4-4q/p)=-$20/9, about -$2.22.
+
+ 4.19. Three friends flip coins
+ In each round, an odd person occurs unless all three flips match. P(odd person)=6/8=3/4; P(no odd person)=1/4. (a) Exactly three
+ rounds: (1/4)^2(3/4)=3/64. (b) More than four rounds: first four rounds all tie, probability (1/4)^4=1/256.
+
+ 4.20. Reciprocal of a geometric variable
+ For X~Geometric(p) on 1,2,..., E[1/X]=sum_{i>=1}p(1-p)^(i-1)/i. Use sum_{i>=1}a^i/i=-ln(1-a), with a=1-p, to obtain -p ln(p)/(1-p).
+
+ 4.21. Two-point variance
+ (a) Z=(X-b)/(a-b) is 1 when X=a and 0 when X=b, so Z is Bernoulli(p). (b) Since X=b+(a-b)Z, Var(X)=(a-b)^2Var(Z)=p(1-p)(a-b)^2.
+
+ 4.22. Games with a continuation after game five
+ (a) The first five games are always played. Continuation depends only on the fifth game, which is a win with probability p (the first
+ four results do not matter). Given that win, the additional number of games through the first subsequent loss has mean 1/(1-p). Thus
+ E[N]=5+p/(1-p). (b) Expected losses in the first five equal 5(1-p); if game 5 is a win, exactly one further loss eventually ends the
+ continuation. Thus E[losses]=5(1-p)+p.
+
+ 4.23. White balls before black balls
+ The event is that the nth white appears before the mth black. If j black balls appear before the nth white, j=0,...,m-1. Count
+ sequences whose first n+j-1 draws contain n-1 whites and j blacks, followed by a white: C(n+j-1,j). The remaining draws can be
+ arranged in C(N+M-n-j,N-n) ways. Divide the sum over j by C(N+M,N): P=sum_{j=0}^{m-1} C(n+j-1,j)C(N+M-n-j,N-n)/C(N+M,N),
+ omitting terms with impossible indices.
+
+ 4.24. Balls into five urns
+ (a) Each X_i~Binomial(10,p_i). (b) By grouping urns i and j as “success,” X_i+X_j~Binomial(10,p_i+p_j). (c) Let s=p_1+p_2+p_3.
+ Then P(X_1+X_2+X_3=7)=C(10,7)s^7(1-s)^3.
+
+ 4.25. Number of matches in a random permutation
+ (a) Let I_i indicate card i is in position i. P(I_i=1)=1/n, so E[X]=sum E[I_i]=1. (b) For i!=j, P(I_i=I_j=1)=1/[n(n-1)]. Summing variances
+ and covariances yields Var(X)=1 for n>=2.
+
+ 4.26. Probability a geometric variable is even
+ (a) With q=1-p, alpha=sum_{i>=1}p q^(2i-1)=pq/(1-q^2)=q/(1+q)=(1-p)/(2-p). (b) Conditioning on X=1 or X>1 gives alpha=p*0+q
+ P(X-1 is even)=q(1-alpha), so alpha=q/(1+q), the same result.
+
+
+
+                                                         End of Volume 4 - Chapter 4
+
+
+
+
+Probability - Detailed Solutions | Volume 4: Chapter 4                                                                               Page 13
+
+
+--- Source page ---
+
+
+ Chapter 4 — Missing Problems: Supplement
+ These are the solutions to Problems 4.1–4.4 from the newly supplied textbook pages. They are appended as a
+ supplement so the existing Chapter 4 solutions remain intact.
+
+ Problem 4.1
+ There are C(14,2)=91 equally likely pairs. Let B, W, O denote black, white, and orange. The winnings are X=2B−W.
+ The possible outcomes are:
+ X=−2: two white balls, C(8,2)=28 ways.
+ X=−1: one white and one orange, 8×2=16 ways.
+ X=0: two orange, C(2,2)=1 way.
+ X=1: one black and one white, 4×8=32 ways.
+ X=2: one black and one orange, 4×2=8 ways.
+ X=4: two black, C(4,2)=6 ways.
+ Therefore the probabilities, in the same order, are 28/91, 16/91, 1/91, 32/91, 8/91, and 6/91.
+
+ Problem 4.2
+ The 36 ordered dice outcomes are equally likely. For each product i, count the ordered factor pairs (a,b) with
+ a,b∈{1,…,6} and ab=i. The nonzero probabilities are:
+ P(X=1)=1/36; P(X=2)=2/36; P(X=3)=2/36; P(X=4)=3/36; P(X=5)=2/36; P(X=6)=4/36; P(X=8)=2/36; P(X=9)=1/36;
+ P(X=10)=2/36; P(X=12)=4/36; P(X=15)=2/36; P(X=16)=1/36; P(X=18)=2/36; P(X=20)=2/36; P(X=24)=2/36;
+ P(X=25)=1/36; P(X=30)=2/36; P(X=36)=1/36. All other i from 1 to 36 have probability 0.
+
+ Problem 4.3
+ There are 6³=216 equally likely ordered outcomes. Counting triples with each sum gives the distribution below:
+ Sum x: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18.
+ Number of outcomes: 1, 3, 6, 10, 15, 21, 25, 27, 27, 25, 21, 15, 10, 6, 3, 1.
+ Thus P(X=x) is the corresponding count divided by 216.
+
+ Problem 4.4
+ X is the position of the first woman in the ranking (rank 1 is highest). For X=i, the first i−1 positions must be men and
+ position i must be a woman. There can be at most five men first, so P(X=i)=0 for i≥7. The probabilities are:
+ P(X=1)=1/2; P(X=2)=5/18; P(X=3)=5/36; P(X=4)=5/84; P(X=5)=5/252; P(X=6)=1/252; and
+ P(X=7)=P(X=8)=P(X=9)=P(X=10)=0.
+ In general, for 1≤i≤6, P(X=i)=[(5·4·…·(6−i+1))/(10·9·…·(11−i))]·[5/(11−i)].
+
+
+
+
+Probability — Chapter 4 supplement                                                                                     Page 1
