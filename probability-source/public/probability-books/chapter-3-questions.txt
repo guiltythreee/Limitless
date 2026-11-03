@@ -15,7 +15,7 @@ PROBLEMS
       bridge, the conditional probability that East has
       3 spades given that North and South have a com-
       bined total of 8 spades.
- 3.4. What is the probability that at least one of a pair of   3.13. Suppose that an ordinary deck of 52 cards (which
+ 3.4. What is the probability that at least one of a pair of
       fair dice lands on 6, given that the sum of the dice
       is i, i = 2, 3, . . . , 12?
  3.5. An urn contains 6 white and 9 black balls. If 4 balls
@@ -29,7 +29,7 @@ PROBLEMS
       and third balls drawn will be white given that the
       sample drawn contains exactly 3 white balls?
  3.7. The king comes from a family of 2 children. What
-      is the probability that the other child is his sister?   3.15. An ectopic pregnancy is twice as likely to develop
+      is the probability that the other child is his sister?
  3.8. A couple has 2 children. What is the probability
       that both are girls if the older of the two is a girl?
  3.9. Consider 3 urns. Urn A contains 2 white and 4 red
@@ -41,7 +41,7 @@ PROBLEMS
 3.10. Three cards are randomly selected, without
       replacement, from an ordinary deck of 52 playing
       cards. Compute the conditional probability that
-      the ﬁrst card selected is a spade given that the sec-    3.17. In a certain community, 36 percent of the families
+      the ﬁrst card selected is a spade given that the sec-
       ond and third cards are spades.
 3.11. Two cards are randomly chosen without replace-
       ment from an ordinary deck of 52 cards. Let B be
@@ -70,6 +70,7 @@ three exams?
 (b) Given that she did not pass all three exams,
 what is the conditional probability that she
 failed the second exam?
+3.13. Suppose that an ordinary deck of 52 cards (which
 contains 4 aces) is randomly divided into 4 hands
 of 13 cards each. We are interested in determining
 p, the probability that each hand has an ace. Let Ei
@@ -83,6 +84,7 @@ the same color. Compute the probability that
 (a) the ﬁrst 2 balls selected are black and the next
 2 are white;
 (b) of the ﬁrst 4 balls selected, exactly 2 are black.
+3.15. An ectopic pregnancy is twice as likely to develop
 when the pregnant woman is a smoker as it is when
 she is a nonsmoker. If 32 percent of women of
 childbearing age are smokers, what percentage of
@@ -94,6 +96,7 @@ the baby survives 96 percent of the time. If a ran-
 domly chosen pregnant woman does not have a
 C section, what is the probability that her baby
 survives?
+3.17. In a certain community, 36 percent of the families
 own a dog and 22 percent of the families that own
 a dog also own a cat. In addition, 30 percent of the
 families own a cat. What is
@@ -159,7 +162,7 @@ servatives voted. A voter is chosen at random.
 3.22. A red die, a blue die, and a yellow die (all six
       sided) are rolled. We are interested in the prob-
       ability that the number appearing on the blue die
-      is less than that appearing on the yellow die, which   3.27. All the workers at a certain company drive to
+      is less than that appearing on the yellow die, which
       is less than that appearing on the red die. That is,
 
 
@@ -218,6 +221,7 @@ this person being male? Assume that there are an
 equal number of males and females. What if the
 population consisted of twice as many males as
 females?
+3.27. All the workers at a certain company drive to
 work and park in the company’s lot. The company
 <PARSED TEXT FOR PAGE: 17 / 82>
 
@@ -275,7 +279,7 @@ work and park in the company’s lot. The company
 3.32. A family has j children with probability pj , where
       p1 = .1, p2 = .25, p3 = .35, p4 = .3. A child
       from this family is randomly chosen. Given that
-      this child is the eldest child in the family, ﬁnd the    3.40. Consider a sample of size 3 drawn in the following
+      this child is the eldest child in the family, ﬁnd the
       conditional probability that the family has
 
 
@@ -333,6 +337,7 @@ landed tails?
 3.39. In Example 3a, what is the probability that some-
 one has an accident in the second year given that
 he or she had no accidents in the ﬁrst year?
+3.40. Consider a sample of size 3 drawn in the following
 manner: We start with an urn containing 5 white
 <PARSED TEXT FOR PAGE: 18 / 82>
 
@@ -475,7 +480,7 @@ there is an 80 percent chance that she will get the
       accepted to a certain college. She estimates that
       the conditional probabilities of receiving notiﬁca-
       tion on each day of next week, given that she is
-      accepted and that she is rejected, are as follows:    3.56. Suppose that you continually collect coupons and
+      accepted and that she is rejected, are as follows:
       Day           P(mail|accepted)    P(mail|rejected)
       Monday               .15                 .05
       Tuesday              .20                 .10
@@ -528,6 +533,7 @@ girls, and 6 sophomore boys. How many sopho-
 more girls must be present if sex and class are to
 be independent when a student is selected at ran-
 dom?
+3.56. Suppose that you continually collect coupons and
 that there are m different types. Suppose also that
 each time a new coupon is obtained, it is a type
 i coupon with probability pi , i = 1, . . . , m. Suppose
@@ -695,7 +701,7 @@ that a 2-out-of-4 system functions.
 
       (b) Repeat part (a) for a 3-out-of-5 system.
       (c) Repeat for a k-out-of-n system when all the Pi
-           equal p (that is, Pi = p, i = 1, 2, . . . , n).    3.70. There is a 50–50 chance that the queen carries the
+           equal p (that is, Pi = p, i = 1, 2, . . . , n).
 3.68. In Problem 3.65a, ﬁnd the conditional probability
       that relays 1 and 2 are both closed given that a cur-
       rent ﬂows from A to B.
@@ -743,6 +749,7 @@ A                        3                          B
 FIGURE 3.4: Circuits for Problem 3.66
 (c) either parent?
 (d) neither parent?
+3.70. There is a 50–50 chance that the queen carries the
 gene for hemophilia. If she is a carrier, then each
 prince has a 50–50 chance of having hemophilia. If
 the queen has had three princes without the dis-
@@ -907,7 +914,7 @@ and continues until there is a tail. Then A takes
 3.83. Die A has 4 red and 2 white faces, whereas die B
       has 2 red and 4 white faces. A fair coin is ﬂipped
       once. If it lands on heads, the game continues with
-      die A; if it lands on tails, then die B is to be used.    3.88. In Laplace’s rule of succession (Example 5e), are
+      die A; if it lands on tails, then die B is to be used.
       (a) Show that the probability of red at any throw
            is 12 .
       (b) If the ﬁrst two throws result in red, what is the
@@ -945,6 +952,7 @@ Show that P{AB = Ø} =                     3
 3.87. In Example 5e, what is the conditional probability
 that the ith coin was selected given that the ﬁrst n
 trials all result in heads?
+3.88. In Laplace’s rule of succession (Example 5e), are
 the outcomes of the successive ﬂips independent?
 Explain.
 3.89. A person tried by a 3-judge panel is declared guilty
@@ -980,7 +988,7 @@ THEORETICAL EXERCISES
       simply as possible:
            P(A|B),    P(A|Bc ),    P(B|A),     P(B|Ac )
  3.3. Consider a school community of m families, with ni
-      of them having i children, i = 1, . . . , k,   ni = m.
+      of them having i children, i = 1, . . . , k,
       Consider the following two methods for choosing
       a child:
 
@@ -997,6 +1005,7 @@ Hint: In solving this problem, you will need to
 show that
 ∑
 k
+ni = m.
 i=1                               ∑
 k            ∑
 k
@@ -1571,7 +1580,7 @@ bility that the other one is also defective?
       the urn when the next selection occurs.) Show
       by mathematical induction that the probability
       that there are exactly i red balls in the urn
-      after n stages have been completed is n+1   1
+      after n stages have been completed is n+1
       i … n + 1.
 3.28. A total of 2n cards, of which 2 are aces, are
       to be randomly divided among two players, with
@@ -1594,6 +1603,7 @@ bility that one of each type is obtained?
 Let Ei be the event that there are no type
 i coupons among the n collected. Apply the
 inclusion–exclusion identity for the probabil-
+1
 ,1 …
 ity of the union of events to P(∪i Ei ) to prove
 the identity
