@@ -62,6 +62,7 @@ export default function Mt200Course() {
         <section className="mt200-section">
           <div className="eyebrow">Practice library</div>
           <h2>Practice papers and solutions</h2>
+          <p><Link className="btn btn-gold" href="/mt200/practice">Open question-by-question practice workspace</Link></p>
           <p className="mt200-note">Attempt each paper before opening its companion model solutions and marking scheme. These text editions preserve the question and solution text extracted from the supplied PDFs. Some questions refer to stress–strain curves or diagrams that are present in the original PDFs but are not reproduced in the text edition.</p>
           <div className="mt200-papers">
             {papers.map((p) => <article className="panel mt200-paper" key={p.id}>
