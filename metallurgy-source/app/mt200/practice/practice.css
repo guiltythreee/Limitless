@@ -1,0 +1,23 @@
+.mt200-practice-head { max-width: 850px; margin: 1rem auto 2rem; }
+.mt200-practice-head h1 { color: var(--gold); font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 4vw, 3rem); margin: .4rem 0 .6rem; }
+.mt200-practice-head p { color: var(--dim); }
+.mt200-paper-select { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.2rem; }
+.mt200-practice-status { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; color: var(--dim); font-size: .82rem; margin: 1rem 0 .45rem; }
+.mt200-progress-track { height: 5px; border-radius: 9px; background: var(--track); overflow: hidden; margin-bottom: 1rem; }
+.mt200-progress-track span { display: block; height: 100%; background: linear-gradient(90deg, var(--mutedgold), var(--gold)); transition: width .2s ease; }
+.mt200-practice-panel { padding: clamp(1rem, 3vw, 1.7rem); }
+.mt200-question-head { display: flex; align-items: center; gap: .65rem; margin-bottom: 1rem; }
+.mt200-question-id { color: var(--faint); font-size: .82rem; }
+.mt200-question-text, .mt200-solution pre { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; color: var(--paper); line-height: 1.72; background: var(--inset); border: 1px solid var(--panel-line); border-radius: 10px; padding: 1rem; max-height: none; overflow-x: auto; }
+.mt200-answer-label { display: block; color: var(--gold); font-size: .86rem; font-weight: 650; margin: 1.3rem 0 .45rem; }
+.mt200-answer { width: 100%; min-height: 190px; resize: vertical; background: var(--inset); border: 1px solid var(--panel-line); border-radius: 10px; color: var(--body); padding: .9rem 1rem; font: inherit; line-height: 1.65; }
+.mt200-answer:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.mt200-practice-actions { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .55rem; margin-top: 1rem; }
+.mt200-solution { border-top: 1px solid var(--panel-line); margin-top: 1.4rem; padding-top: 1rem; }
+.mt200-solution h2 { color: var(--gold); font-family: Georgia, "Times New Roman", serif; font-size: 1.35rem; }
+.mt200-solution pre { color: var(--body); font-size: .9rem; }
+.mt200-question-jump { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0; }
+.mt200-question-jump button { min-width: 42px; border: 1px solid var(--panel-line); border-radius: 7px; background: var(--chip); color: var(--dim); padding: .35rem .5rem; cursor: pointer; font-size: .78rem; }
+.mt200-question-jump button.active { border-color: var(--gold); color: var(--gold); outline: 1px solid var(--gold); }
+.mt200-question-jump button.answered { background: color-mix(in srgb, var(--ok) 15%, var(--chip)); color: var(--ok); }
+@media(max-width:600px) { .mt200-practice-actions { display: grid; grid-template-columns: 1fr 1fr; } .mt200-practice-actions .btn-gold { grid-column: 1 / -1; grid-row: 1; } .mt200-practice-status { flex-direction: column; } }
