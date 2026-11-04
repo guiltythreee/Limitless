@@ -32,15 +32,15 @@ MT200 · TESTING OF MATERIALS
      0.32%, so it cracks."
 
  Situation                            Strain or stress to compute                                 Used in
- Press or shrink fit                  $\\varepsilon = \\dfrac{\\text{difference in diameters}}{\\text{original diameter}}$                  D1
+ Press or shrink fit                  $\varepsilon = \dfrac{\text{difference in diameters}}{\text{original diameter}}$                  D1
  Wire or sheet bent around a
-                                      $\\varepsilon_{\\max} = \\dfrac{t/2}{R_n}$          D2
+                                      $\varepsilon_{\max} = \dfrac{t/2}{R_n}$          D2
  radius
- Rolling, forging, drawing            $e = \\dfrac{h_0-h}{h_0}, \\quad \\varepsilon_T = \\ln\\left(\\dfrac{h_0}{h}\\right)$                              D3
- Bolt tightened by turning the nut    $\\varepsilon = \\dfrac{N p}{L_g}$                         D4
- Rod held rigid while heated          $\\varepsilon = \\alpha\\Delta T$                                                     (extra practice)
- Hanging or lifting a load            $\\sigma = \\dfrac{W}{A}$ (stress, not strain)                                (extra practice)
- Deep water or fluid pressure         $\\sigma = p = \\rho g h$ (then consider stress concentration)            Aug 2026 quiz Q2
+ Rolling, forging, drawing            $e = \dfrac{h_0-h}{h_0}, \quad \varepsilon_T = \ln\left(\dfrac{h_0}{h}\right)$                              D3
+ Bolt tightened by turning the nut    $\varepsilon = \dfrac{N p}{L_g}$                         D4
+ Rod held rigid while heated          $\varepsilon = \alpha\Delta T$                                                     (extra practice)
+ Hanging or lifting a load            $\sigma = \dfrac{W}{A}$ (stress, not strain)                                (extra practice)
+ Deep water or fluid pressure         $\sigma = p = \rho g h$ (then consider stress concentration)            Aug 2026 quiz Q2
 
  Traps that cost marks. (1) Comparing a strain with a stress. (2) Forgetting where the curve ends. (3) Using
  engineering values after necking. (4) Mixing ksi, M$\mathrm{Pa}$ and kgf/mm2 ($1\,\mathrm{ksi}=6.895\,\mathrm{M$\mathrm{Pa}$}$, $1\,\mathrm{kgf/mm^2}=9.81\,\mathrm{M$\mathrm{Pa}$}$). (5)
@@ -225,7 +225,7 @@ MT200 Testing of Materials · $\mathrm{Pa}$per IV Solutions and Marking Scheme  
 
 D1 Ring on a shaft                                                                                                      [8]
 
- (a) Strains. Ring (bore stretched, tension): $\\varepsilon = \\dfrac{50.20-50.00}{50.00}=0.40\\%$. Shaft (squeezed,
+ (a) Strains. Ring (bore stretched, tension): $\varepsilon = \dfrac{50.20-50.00}{50.00}=0.40\\%$. Shaft (squeezed,
  compression; the curve is taken as the same in compression): ε = 0.20/50.20 = 0.40%.
  (b) Reading. The ring curve ends (fracture) at 0.32%, at about 385 M$\mathrm{$\mathrm{Pa}$}$.  The ring must stretch to
  0.40%, which is beyond that, so the ring cracks. It is brittle, so it has no plastic strain to spare. The
@@ -252,7 +252,7 @@ D1 Ring on a shaft                                                              
 
 D2 Wire on a mandrel                                                                                                    [8]
 
- (a) Radius of the wire's neutral axis: $R_c=40/2+2/2=21\\,\\mathrm{mm}$. Outer-fibre strain: $\\varepsilon=(d/2)/R_c=1/21=
+ (a) Radius of the wire's neutral axis: $R_c=40/2+2/2=21\\,\mathrm{mm}$. Outer-fibre strain: $\varepsilon=(d/2)/R_c=1/21=
  4.76%.
  (b) Between 4% (1200 M$\mathrm{Pa}$) and 6% (1270 M$\mathrm{Pa}$): σ ≈ 1227 M$\mathrm{$\mathrm{Pa}$}$.  The elastic limit is about 900 M$\mathrm{Pa}$ (at
  0.45%), and the wire fractures at 9%, so the wire has yielded but not fractured.
