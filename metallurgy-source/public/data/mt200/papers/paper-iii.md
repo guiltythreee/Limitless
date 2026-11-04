@@ -10,7 +10,7 @@ MT200 · TESTING OF MATERIALS
        cover torsion, impact, fatigue or creep.
    • Show every derivation step by step and state all assumptions. A bare final formula earns only the
       final-line mark.
-   • Use SI units unless told otherwise. Take g = 9.81 m/s², NA = 6.022 × 1023 mol−1, 1 kgf = 9.81 N.
+   • Use SI units unless told otherwise. Take $g=9.81\,\mathrm{m/s^2}$, $N_A=6.022\times10^{23}\,\mathrm{mol^{-1}}$, 1 kgf = 9.81 N.
    • The questions are new: they do not repeat those in Papers I and II, although they build on the same
        ideas.
 
@@ -30,14 +30,14 @@ A1.     Where modulus and theoretical strength come from. Two atoms interact thr
                stiffness S0 = (d2U/dr2) at r0 equals m·n·|U0|/r02, where U0 is the bond energy.
            (ii) Taking each atom to occupy an area r02, show that $E\\approx S_0/r_0$. What does this say
                 about the link between E and melting point?
-           (iii) Assume the stress needed to separate two atomic planes is σ = σth sin(2πx/λ). Using
+           (iii) Assume the stress needed to separate two atomic planes is $\sigma=\sigma_{th}\sin(2\pi x/\lambda)$. Using
                 Hooke's law for small x and the requirement that the work of separation per unit area
-                equals 2γ (γ = surface energy), show that $\\sigma_{th}=\\sqrt{E\\gamma/r_0}$.
-           (iv) Evaluate σth for iron (E = 200 GPa, γ = 1 J/m2, r0 = 0.25 nm) and compare it with a
+                equals 2γ ($\gamma$ = surface energy), show that $\\sigma_{th}=\\sqrt{E\\gamma/r_0}$.
+           (iv) Evaluate $\sigma_{th}$ for iron ($E=200\,\mathrm{GPa}$, $\gamma=1\,\mathrm{J/m^2}$, $r_0=0.25\,\mathrm{nm}$) and compare it with a
                typical yield strength of 250 MPa. What does the gap tell you?
 
 A2.     Brinell versus Meyer hardness. Meyer hardness is the mean contact pressure, P divided                       [5]
-        by the projected area of the impression. Show that BHN/Meyer = ½[1 + √(1 − (d/D)2)].
+        by the projected area of the impression. Show that $\mathrm{BHN/Meyer}=\dfrac{1}{2}\left[1+\sqrt{1-(d/D)^2}\right]$.
         Evaluate it at d/D = 0.25, 0.375 and 0.5, and explain which of the two is the more
         fundamental measure of the material's resistance to plastic flow.
 
@@ -47,11 +47,11 @@ A3.     Vickers geometry. For the 136° pyramid, show that the diagonal d ≈ 7.
 
 A4.     The friction hill in compression. A thin cylindrical disc (radius a, height h) is                           [6]
         compressed between rough platens with Coulomb friction (coefficient μ). Take the axial
-        stress σz and radial stress σr (both compressive) with σz − σr = σ0, a constant flow stress.
+        stress σz and radial stress σr (both compressive) with $\sigma_z-\sigma_r=\sigma_0$, a constant flow stress.
            (i) Consider the radial force balance on a ring element and show that $\\dfrac{d\\sigma_z}{dr}=-\\dfrac{2\\mu\\sigma_z}{h}$.
-           (ii) Integrate with the free-edge condition at r = a to obtain σz(r).
-           (iii) Find the mean pressure pavg and show that for small 2μa/h it is pavg ≈ σ0(1 +
-                2μa/3h).
+           (ii) Integrate with the free-edge condition at r = a to obtain $\sigma_z(r)$.
+           (iii) Find the mean pressure pavg and show that for small 2μa/h it is $p_{\mathrm{avg}}\approx\sigma_0\left(1+$
+                $\dfrac{2\mu a}{3h}\right)$. 
            (iv) What does this tell you about specimen proportions and lubrication?
 
 
@@ -63,8 +63,8 @@ A5.     Rebound hardness. A hammer is dropped from height h0 onto a specimen and
         energy dissipated. Explain how this links to hardness, and why rebound height is not a pure
         measure of hardness.
 
-A6.     Necking for a saturating hardening law. A metal follows the Voce law σT = σs − (σs −                 [5]
-        σ0) exp(−εT/εc). Using the Considère criterion, derive the true stress and true strain at
+A6.     Necking for a saturating hardening law. A metal follows the Voce law $\sigma_T=\sigma_s-(\sigma_s-$                 [5]
+        $\sigma_0)\exp(-\varepsilon_T/\varepsilon_c)$. Using the Considère criterion, derive the true stress and true strain at
         necking. Evaluate them, and the engineering UTS, for σ0 = 200 MPa, σs = 600 MPa, εc =
         0.5. Compare with the Hollomon law.
 
@@ -75,11 +75,11 @@ A7.     Machine compliance. A specimen (area A, gauge length L, modulus E) is te
         and which are not?
 
 A8.     Meyer's law and strain hardening. Meyer's law states P = k dm. Assuming the mean                     [3]
-        pressure equals a constant C times the flow stress at a representative strain εr = 0.2 d/D,
-        and that σ = Kεn, show that $m=2+n$. What does m = 2 mean physically?
+        pressure equals a constant C times the flow stress at a representative strain $\varepsilon_r=0.2\,d/D$,
+        and that $\sigma=K\varepsilon^n$, show that $m=2+n$. What does m = 2 mean physically?
 
 A9.     Error propagation in hardness. Show that the relative error in Vickers hardness is                   [4]
-        δHV/HV = −2 δd/d. For Brinell, derive δBHN/BHN in terms of δd, D and d, and evaluate it for
+        $\dfrac{\delta HV}{HV}=-2\dfrac{\delta d}{d}$. For Brinell, derive δBHN/BHN in terms of δd, D and d, and evaluate it for
         D = 10 mm, d = 4.0 mm, δd = 0.05 mm. Which measurement is more sensitive to reading
         errors, and why?
 
@@ -102,7 +102,7 @@ B3.     Name the four main strengthening mechanisms in metals. For each, give th
 B4.     List all the strength, stiffness and ductility parameters that a tensile test yields, and say        [4]
         how each is obtained from the curve. Compare elastic and plastic deformation at the
         atomic level. Why is yield strength, not UTS, the design parameter for ductile metals, and
-        what does the yield ratio σy/σu tell you?
+        what does the yield ratio $\sigma_y/\sigma_u$ tell you?
 
 B5.     Why can no single stress–strain equation describe a tensile test past necking? Explain the           [4]
         stress state in the neck and the Bridgman correction (what must be measured). Describe
@@ -115,7 +115,7 @@ B6.     Why is the compressive strength of cast iron, concrete or a ceramic seve
 
 B7.     Explain why hardness is about 3 times the yield stress (the constraint idea) and why the             [4]
         flow stress relevant to it is that at a representative strain of about 8%. State two limitations
-        of the H ≈ 3σ correlation. What are pile-up and sink-in, and how do they affect indentation
+        of the $H\approx3\sigma$ correlation. What are pile-up and sink-in, and how do they affect indentation
         results?
 
 
@@ -162,14 +162,14 @@ C3.     Hardness calculations.                                                  
 
 ## SECTION D · BONUS (+8, not counted in the 100)
 
-D1.     A cylinder (radius 10 mm, height 30 mm, σ0 = 300 MPa) is compressed with μ = 0.15.                            [4]
-        Using the exact mean pressure pavg = σ0 · 2(eka − ka − 1)/(ka)2 with k = 2μ/h, find the
+D1.     A cylinder (radius 10 mm, height 30 mm, $\sigma_0=300\,\mathrm{MPa}$) is compressed with $\mu=0.15$.                            [4]
+        Using the exact mean pressure $p_{\mathrm{avg}}=\sigma_0\,\dfrac{2(e^{ka}-ka-1)}{(ka)^2}$ with $k=2\mu/h$, find the
         compressive force at the start, and when the height has been halved (assume constant
         volume). By what percentage does friction raise the force in the second case?
 
-D2.     Compare steel (ρ = 7.85 g/cm3, E = 210 GPa, σy = 400 MPa), 6061-T6 aluminium (2.70, 69,                       [4]
+D2.     Compare steel ($\rho=7.85\,\mathrm{g/cm^3}$, E = 210 GPa, σy = 400 MPa), 6061-T6 aluminium (2.70, 69,                       [4]
         275), Ti-6Al-4V (4.43, 114, 880) and unidirectional CFRP along the fibres (1.6, 135, 1500).
-        Compute E/ρ, σy/ρ and E1/2/ρ. Derive the last index for a light, stiff beam of square section,
+        Compute $E/\rho$, $\sigma_y/\rho$ and $E^{1/2}/\rho$. Derive the last index for a light, stiff beam of square section,
         and rank the materials for (i) a light stiff tie, (ii) a light strong tie and (iii) a light stiff beam.
 
 ---
