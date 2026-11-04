@@ -25,14 +25,14 @@ MT200 · TESTING OF MATERIALS
 ## SECTION A · DERIVATIONS (44 marks)
 
 A1.     Where modulus and theoretical strength come from. Two atoms interact through                                [7]
-        $U(r)=-\\dfrac{A}{r^m}+\\dfrac{B}{r^n}$ (n > m).
+        $U(r)=-\dfrac{A}{r^m}+\dfrac{B}{r^n}$ (n > m).
            (i) Find the equilibrium spacing r0 (in terms of A, B, m, n) and show that the bond
                stiffness S0 = (d2U/dr2) at r0 equals m·n·|U0|/r02, where U0 is the bond energy.
-           (ii) Taking each atom to occupy an area r02, show that $E\\approx S_0/r_0$. What does this say
+           (ii) Taking each atom to occupy an area r02, show that $E\approx S_0/r_0$. What does this say
                 about the link between E and melting point?
            (iii) Assume the stress needed to separate two atomic planes is $\sigma=\sigma_{th}\sin(2\pi x/\lambda)$. Using
                 Hooke's law for small x and the requirement that the work of separation per unit area
-                equals 2γ ($\gamma$ = surface energy), show that $\\sigma_{th}=\\sqrt{E\\gamma/r_0}$.
+                equals 2γ ($\gamma$ = surface energy), show that $\sigma_{th}=\sqrt{E\gamma/r_0}$.
            (iv) Evaluate $\sigma_{th}$ for iron ($E=200\,\mathrm{GPa}$, $\gamma=1\,\mathrm{J/m^2}$, $r_0=0.25\,\mathrm{nm}$) and compare it with a
                typical yield strength of 250 MPa. What does the gap tell you?
 
@@ -48,7 +48,7 @@ A3.     Vickers geometry. For the 136° pyramid, show that the diagonal d ≈ 7.
 A4.     The friction hill in compression. A thin cylindrical disc (radius a, height h) is                           [6]
         compressed between rough platens with Coulomb friction (coefficient μ). Take the axial
         stress σz and radial stress σr (both compressive) with $\sigma_z-\sigma_r=\sigma_0$, a constant flow stress.
-           (i) Consider the radial force balance on a ring element and show that $\\dfrac{d\\sigma_z}{dr}=-\\dfrac{2\\mu\\sigma_z}{h}$.
+           (i) Consider the radial force balance on a ring element and show that $\dfrac{d\sigma_z}{dr}=-\dfrac{2\mu\sigma_z}{h}$.
            (ii) Integrate with the free-edge condition at r = a to obtain $\sigma_z(r)$.
            (iii) Find the mean pressure pavg and show that for small 2μa/h it is $p_{\mathrm{avg}}\approx\sigma_0\left(1+$
                 $\dfrac{2\mu a}{3h}\right)$. 
@@ -144,7 +144,7 @@ C2.     Analysing tension data. The following engineering data were obtained in 
       Engineering stress (MPa)               358                   416         454           469              473
 
    (a) Convert each point to true stress and true strain.
-   (b) By a log–log fit, find n and K in $\\sigma_T=K\\varepsilon_T^n$.
+   (b) By a log–log fit, find n and K in $\sigma_T=K\varepsilon_T^n$.
    (c) Predict the true strain and engineering strain at necking, and the engineering UTS.
    (d) Estimate the energy absorbed per unit volume up to necking. Is the 18% point safely before
        necking?
