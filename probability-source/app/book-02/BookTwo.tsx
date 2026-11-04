@@ -44,9 +44,9 @@ function normalizeExtractedGlyphs(text: string) {
   // Repair only glyphs whose meaning is unambiguous in this PDF text layer.
   // Unknown control characters become visible replacement marks instead of
   // silently disappearing inside mathematical expressions.
-  return text.replace(/[\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F\\u007F]/g, (glyph) => {
-    if (glyph === "\\u000F") return "ε";
-    if (glyph === "\\u0003" || glyph === "\\u0004") return "∎";
+  return text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, (glyph) => {
+    if (glyph === "\u000F") return "ε";
+    if (glyph === "\u0003" || glyph === "\u0004") return "∎";
     return "�";
   });
 }
