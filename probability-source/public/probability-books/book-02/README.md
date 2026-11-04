@@ -11,11 +11,11 @@ This folder is the source location for Book 02 in the Limitless Probability arch
 
 ## Source archive
 
-The original Markdown bundle is expected at:
+The source bundle is committed at:
 
 `probability-source/book-02-markdown-source.zip`
 
-The repository's Probability build workflow unpacks the archive into this folder before building the static site. The archive root contains `book2-markdown/`; the workflow validates all 13 chapter files and all 13 matching solution files before the build can succeed with the complete book.
+The repository's Probability build workflow unpacks the archive into this folder before building the static site. The archive root contains `book2-markdown/`; the workflow validates all 13 chapter files and all 13 matching solution files before copying the content into the public reader path.
 
 The supplied PDF text layer was extracted into Markdown with page-preserving text blocks. Mathematical glyphs are retained as extracted; this is not yet a semantic LaTeX transcription. Check ambiguous characters and equations against the source PDFs before treating them as verified.
 
