@@ -51,6 +51,21 @@ function normalizeExtractedGlyphs(text: string) {
   });
 }
 
+function repairKnownChapterOneFormulas(text: string) {
+  // These two displayed equations were split into stacked glyph rows by the
+  // supplied PDF text layer. Rebuild only the exact, uniquely anchored formulas
+  // after checking them against the printed textbook pages 15–16.
+  return text
+    .replace(
+      /(For k ≤ n, we have)\n[\s\S]*?(?=\n\n\n16\s+Introduction to Probability)/,
+      "$1\nC(n, k) = n(n − 1) ··· (n − k + 1)/k! = n!/((n − k)!k!).",
+    )
+    .replace(
+      /(The binomial theorem states that)\n[\s\S]*?(?=\n\n\nProbability and counting\s+17)/,
+      "$1\n(x + y)^n = Σ_{k=0}^{n} C(n, k)x^k y^{n−k}.",
+    );
+}
+
 function extractSourceText(markdown: string) {
   // The PDF extraction deliberately places the page-preserving transcription
   // in a fenced text block. Render its contents, not the Markdown fence itself.
@@ -58,7 +73,7 @@ function extractSourceText(markdown: string) {
   const pattern = new RegExp("^" + fence + "text\\s*\\r?\\n([\\s\\S]*?)\\r?\\n" + fence + "[ \\t]*$", "m");
   const match = markdown.match(pattern);
   const source = match ? match[1] : markdown.replace(/^# .*\\r?\\n+/, "").trim();
-  return normalizeExtractedGlyphs(source);
+  return repairKnownChapterOneFormulas(normalizeExtractedGlyphs(source));
 }
 
 function SourceTranscription({ text }: { text: string }) {
