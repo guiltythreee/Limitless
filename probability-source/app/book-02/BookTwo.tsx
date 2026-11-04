@@ -40,14 +40,25 @@ function isBookChapter(value: unknown): value is BookChapter {
     && Number.isInteger(item.printedStartPage);
 }
 
+function normalizeExtractedGlyphs(text: string) {
+  // Repair only glyphs whose meaning is unambiguous in this PDF text layer.
+  // Unknown control characters become visible replacement marks instead of
+  // silently disappearing inside mathematical expressions.
+  return text.replace(/[\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F\\u007F]/g, (glyph) => {
+    if (glyph === "\\u000F") return "ε";
+    if (glyph === "\\u0003" || glyph === "\\u0004") return "∎";
+    return "�";
+  });
+}
+
 function extractSourceText(markdown: string) {
   // The PDF extraction deliberately places the page-preserving transcription
   // in a fenced text block. Render its contents, not the Markdown fence itself.
   const fence = String.fromCharCode(96).repeat(3);
   const pattern = new RegExp("^" + fence + "text\\s*\\r?\\n([\\s\\S]*?)\\r?\\n" + fence + "[ \\t]*$", "m");
   const match = markdown.match(pattern);
-  if (match) return match[1];
-  return markdown.replace(/^# .*\r?\n+/, "").trim();
+  const source = match ? match[1] : markdown.replace(/^# .*\\r?\\n+/, "").trim();
+  return normalizeExtractedGlyphs(source);
 }
 
 function SourceTranscription({ text }: { text: string }) {
@@ -257,7 +268,7 @@ export default function BookTwo() {
 
       <p className="mt-6 text-xs leading-6 text-dim">
         Book 02 progress is stored separately and does not modify Book 01 or Probability course progress.
-        Mathematical notation follows the extracted source transcription; ambiguous PDF glyphs may need manual verification.
+        Mathematical notation follows the extracted source transcription. Known epsilon and proof-end glyphs are repaired; unresolved extraction glyphs are shown as � and must be checked against the source.
       </p>
     </div>
   );
