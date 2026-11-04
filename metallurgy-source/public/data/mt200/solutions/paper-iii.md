@@ -34,7 +34,8 @@ A1 Modulus and theoretical strength from the bond                               
  (ii) For a small extension \(\Delta r\) of a bond, \(F=S_0\Delta r\). The stress is \(F/r_0^2\) and the strain is \(\Delta r/r_0\), so \(E=(S_0\Delta r/r_0^2)/ (\Delta r/r_0)=S_0/r_0=mn|U_0|/r_0^3\). So E is the bond energy per unit atomic volume (times mn). A
  deep well means a high bond energy, and it also means a high melting point (thermal energy needed to
  loosen the bonds). So high melting point goes with high E.
- (iii) Theoretical strength. For small \(x\), \(\sigma\approx\sigma_{th}(2\pi x/\lambda)\). Hooke's law for a strain \(x/r_0\) gives \(\sigma=Ex/r_0\), so \(\sigma_{th}=E\lambda/(2\pi r_0)\). The work to separate the planes is \(\int_0^{\lambda/2}\sigma\,dx=\sigma_{th}\lambda/\pi\), and this must equal the energy of the two new surfaces, \(2\gamma\), so \(\lambda=2\pi\gamma/\sigma_{th}\). Substituting:\n\[\sigma_{th}=\frac{E(2\pi\gamma/\sigma_{th})}{2\pi r_0}=\frac{E\gamma}{\sigma_{th}r_0},\qquad \therefore\quad \sigma_{th}=\sqrt{\frac{E\gamma}{r_0}}.\]
+ (iii) Theoretical strength. For small \(x\), \(\sigma\approx\sigma_{th}(2\pi x/\lambda)\). Hooke's law for a strain \(x/r_0\) gives \(\sigma=Ex/r_0\), so \(\sigma_{th}=E\lambda/(2\pi r_0)\). The work to separate the planes is \(\int_0^{\lambda/2}\sigma\,dx=\sigma_{th}\lambda/\pi\), and this must equal the energy of the two new surfaces, \(2\gamma\), so \(\lambda=2\pi\gamma/\sigma_{th}\). Substituting:
+\[\sigma_{th}=\frac{E(2\pi\gamma/\sigma_{th})}{2\pi r_0}=\frac{E\gamma}{\sigma_{th}r_0},\qquad \therefore\quad \sigma_{th}=\sqrt{\frac{E\gamma}{r_0}}.\]
  (iv) σth = √(200 × 109 × 1/0.25 × 10−9) = 2.83 × 1010 Pa ≈ 28 GPa, roughly E/7. Compared with a
  yield strength of 250 MPa, that is more than 100 times higher. Real crystals yield far below the ideal
  because plastic flow occurs by dislocation glide (one row of bonds at a time), and fracture starts at
