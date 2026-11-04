@@ -80,6 +80,19 @@ function repairKnownChapterOneFormulas(text: string) {
     .replace(
       /(Example 1\.4\.20 \(Full house in poker\)\.[\s\S]*?Thus,)[\s\S]*?(?=\n\nThe decimal approximation)/,
       "$1 P(full house) = [13 C(4, 3) 12 C(4, 2)]/C(52, 5) = 3744/2598960 ≈ 0.00144.",
+    )
+    // Newton–Pepys expressions checked against printed textbook pages 17–18.
+    .replace(
+      /(A: Instead of counting[\\s\\S]*?Thus)\\s*[\\s\\S]*?(?=\\n\\nB:)/,
+      "$1\\nP(A) = 1 − 5^6/6^6 ≈ 0.67.",
+    )
+    .replace(
+      /(Then)\\s*[\\s\\S]*?(?=\\n\\nC: We count)/,
+      "$1\\nP(B) = 1 − (5^12 + 12·5^11)/6^12 ≈ 0.62.",
+    )
+    .replace(
+      /(C: We count the outcomes in C\\s*c[\\s\\S]*?Then)\\s*[\\s\\S]*?(?=\\nTherefore A has the highest probability)/,
+      "$1\\nP(C) = 1 − [5^18 + 18·5^17 + C(18, 2)·5^16]/6^18 ≈ 0.60.",
     );
 }
 
