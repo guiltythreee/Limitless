@@ -67,7 +67,18 @@ function SourceTranscription({ text }: { text: string }) {
     <pre className="m-0 min-w-0 whitespace-pre-wrap break-words font-serif text-[15px] leading-8 text-parchment [overflow-wrap:anywhere]">
       {lines.map((line, index) => (
         <Fragment key={index}>
-          {line ? <Rich text={line} /> : ""}
+          {line ? line.split("�").map((part, partIndex, parts) => (
+            <Fragment key={partIndex}>
+              {part ? <Rich text={part} /> : ""}
+              {partIndex < parts.length - 1 ? (
+                <span
+                  className="mx-0.5 rounded bg-red-500/15 px-1 font-sans text-sm font-semibold text-red-300 ring-1 ring-red-400/40"
+                  title="Unresolved character from the PDF text extraction; verify this formula against the source."
+                  aria-label="Unresolved PDF extraction character"
+                >�</span>
+              ) : ""}
+            </Fragment>
+          )) : ""}
           {index < lines.length - 1 ? "\n" : ""}
         </Fragment>
       ))}
