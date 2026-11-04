@@ -36,7 +36,7 @@ A1. Elastic and plastic behaviour of metals.
  (A) Young's modulus is structure-insensitive: it changes very little with grain size or cold work.
  (B) Yield strength is structure-sensitive: it changes strongly with grain size, solute content and
      dislocation density.
- (C) Compliance is the reciprocal of Young's modulus, so its SI unit is Pa−1 (m2/N).
+ (C) Compliance is the reciprocal of Young's modulus, so its SI unit is $\mathrm{Pa}^{-1}$ ($\mathrm{m^2/N}$).
  (D) Elastic deformation of a metal is produced by dislocation glide, and this is why it is fully
     recoverable.
     (1) Statements (A), (B) and (C) are correct
@@ -54,14 +54,14 @@ A2. True and engineering stress and strain in a tension test.
  (B) For the same elongation in tension, the true strain is smaller than the engineering strain.
  (C) After necking, the engineering stress falls, while the true stress of a strain-hardening metal keeps
      rising.
- (D) The conversion σT = σe(1 + e) remains valid right up to the fracture point.
+ (D) The conversion $\sigma_T = \sigma_e(1+e)$ remains valid right up to the fracture point.
     (1) (A) and (B) only are correct
     (2) (A), (B) and (C) only are correct
     (3) (A), (C) and (D) only are correct
     (4) All the statements are correct
 
 A3. Resilience and toughness.
- (A) The modulus of resilience is σy2/2E, the area under the elastic part of the curve.
+ (A) The modulus of resilience is $\dfrac{\sigma_y^2}{2E}$, the area under the elastic part of the curve.
  (B) Of two steels with the same yield strength, the one with the lower modulus stores more elastic
      energy per unit volume.
  (C) A stronger material always has a higher toughness.
@@ -87,7 +87,7 @@ A4. Compression testing.
 
 A5. Hardness as a concept.
  (A) Hardness is a fundamental property of a material, like density or melting point.
- (B) For metals, hardness is roughly proportional to the flow stress, with H ≈ 3σ.
+ (B) For metals, hardness is roughly proportional to the flow stress, with $H \approx 3\sigma$.
  (C) The Mohs scale ranks engineering metals accurately because they span all ten of its steps.
  (D) A rebound test ranks hardness because a harder material dissipates less energy in plastic
     deformation.
@@ -139,9 +139,9 @@ A8. Ductile and brittle fracture of alloys.
 
 A9. Units and conversions.
  (A) 1 ksi is about 6.9 MPa.
- (B) A hardness of 200 kgf/mm2 corresponds to about 1960 MPa.
- (C) Strain rate has SI units of s−1.
- (D) Hardness in kgf/mm2 and hardness in MPa are numerically the same.
+ (B) A hardness of $200\,\mathrm{kgf/mm^2}$ corresponds to about 1960 MPa.
+ (C) Strain rate has SI units of $\mathrm{s^{-1}}$.
+ (D) Hardness in $\mathrm{kgf/mm^2}$ and hardness in MPa are numerically the same.
     (1) (A), (B) and (C) are correct
     (2) (A) and (C) only are correct
     (3) All the statements are correct
@@ -172,10 +172,10 @@ A10. Tension-test practice.
  B1. Quantities and their SI units.
  List 2A                                                       List 2B
  a) Fracture toughness                                         (i) J
- b) Modulus of resilience                                      (ii) MPa·m1/2
- c) Strength coefficient K in σ = Kεn                          (iii) Pa−1
+ b) Modulus of resilience                                      (ii) $\mathrm{MPa}\cdot\mathrm{m}^{1/2}$
+ c) Strength coefficient K in $\sigma = K\varepsilon^n$                          (iii) Pa−1
  d) Compliance                                                 (iv) MPa
- e) Charpy impact energy                                       (v) J/m3
+ e) Charpy impact energy                                       (v) $\mathrm{J/m^3}$
 
  B2. Terms and their meanings.
  List 2A                                                       List 2B
@@ -263,12 +263,12 @@ C1.     Tensile strength and hardness of 8 steel grades are given below, with an
 C2.     A set of aluminium alloys and tempers was tested for tensile strength and Vickers                            [10]
         hardness:
 
- HV (kgf/mm²)           30             45             60            85           100               125     150
+ HV ($\mathrm{kgf/mm^2}$)           30             45             60            85           100               125     150
        UTS (MPa)             110            165            225            315          370           460      545
 
    (a) Compute UTS/HV for each alloy and find the best line through the origin, UTS = k × HV. Also find
        the best straight line with an intercept, and comment on whether the intercept matters. [4]
-   (b) Convert HV to megapascals (1 kgf/mm2 = 9.81 MPa) and express the relation as UTS = c × H (both
+   (b) Convert HV to megapascals (1 $\mathrm{kgf/mm^2}$ = 9.81 MPa) and express the relation as UTS = c × H (both
        in MPa). Compare 1/c with the constraint factor of about 3. [3]
    (c) Compare your k with the value you found for steels. Give one physical reason why the two differ.
        [2]
@@ -297,8 +297,8 @@ D1.     Ring on a shaft. A ring with a bore of 50.00 mm is to be press-fitted on
    (b) Read the curves, compare with where each curve ends, and state which part (if any) fails and why.
        [3]
    (c) Instead the ring is heated so that it just slips over the shaft with 0.04 mm of diametral clearance.
-       Find the temperature rise needed (αring = 11 × 10−6 K−1). [2]
-   (d) Could the shaft alone be cooled in liquid nitrogen (−196 °C, from 20 °C, αshaft = 12 × 10−6 K−1) to
+       Find the temperature rise needed ($\alpha_{\mathrm{ring}}=11\times10^{-6}\,\mathrm{K^{-1}}$). [2]
+   (d) Could the shaft alone be cooled in liquid nitrogen (−196 °C, from 20 °C, $\alpha_{\mathrm{shaft}}=12\times10^{-6}\,\mathrm{K^{-1}}$) to
        achieve the same clearance? [1]
 
 
@@ -327,8 +327,8 @@ D3.     Cold rolling. An annealed alloy strip of thickness 5.0 mm is cold-rolled
 
 ![D3 source true stress–strain plot; marked points (0.10, 426 MPa) and (0.40, 646 MPa) are retained from the source](/data/mt200/figures/d3-cold-rolling.svg)
         mm (the width does not change). The true stress–strain curve of the annealed alloy was
-        measured in a compression test, so there is no necking. It follows σ = Kεn. Use the two
-        marked points to find n and K. Take UTS (MPa) ≈ 3.45 × BHN.
+        measured in a compression test, so there is no necking. It follows $\sigma = K\varepsilon^n$. Use the two
+        marked points to find n and K. Take $\mathrm{UTS\ (MPa)}\approx3.45\times\mathrm{BHN}$.
 
 
 
