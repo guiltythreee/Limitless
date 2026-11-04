@@ -26,20 +26,15 @@ A1 Modulus and theoretical strength from the bond                               
  (i) Equilibrium and stiffness. The force is dU/dr = mA r−(m+1) − nB r−(n+1). At equilibrium this is
  zero:
         mA r0−(m+1) = nB r0−(n+1) ⇒ r0n−m = nB/(mA) ⇒ r0 = [nB/(mA)]1/(n−m)
- The second derivative is d2U/dr2 = −m(m+1)A r−(m+2) + n(n+1)B r−(n+2). Using B r0−n = (m/n) A r0−m
- to eliminate B at r0:
+ The second derivative is \(\dfrac{d^2U}{dr^2}=-m(m+1)Ar^{-(m+2)}+n(n+1)Br^{-(n+2)}\). Using \(Br_0^{-n}=(m/n)Ar_0^{-m}\) to eliminate \(B\) at \(r_0\):
 \[S_0=-m(m+1)Ar_0^{-(m+2)}+(n+1)mAr_0^{-(m+2)}=m(n-m)Ar_0^{-(m+2)}.\]
  The bond energy is U0 = −A r0−m + B r0−n = −A r0−m(1 − m/n) = −A r0−m(n − m)/n, so A r0−m(n − m)
  = n|U0|. Hence:
         $S_0=\dfrac{mn|U_0|}{r_0^2}$
- (ii) For a small extension Δr of a bond, F = S0Δr. The stress is F/r02 and the strain is Δr/r0, so E =
- (S0Δr/r02)/(Δr/r0) = S0/r0 = m n|U0|/r03. So E is the bond energy per unit atomic volume (times mn). A
+ (ii) For a small extension \(\Delta r\) of a bond, \(F=S_0\Delta r\). The stress is \(F/r_0^2\) and the strain is \(\Delta r/r_0\), so \(E=(S_0\Delta r/r_0^2)/ (\Delta r/r_0)=S_0/r_0=mn|U_0|/r_0^3\). So E is the bond energy per unit atomic volume (times mn). A
  deep well means a high bond energy, and it also means a high melting point (thermal energy needed to
  loosen the bonds). So high melting point goes with high E.
- (iii) Theoretical strength. For small x, σ ≈ σth(2πx/λ). Hooke's law for a strain x/r0 gives σ = Ex/r0, so
- σth = Eλ/(2πr0). The work to separate the planes is ∫0λ/2 σ dx = σthλ/π, and this must equal the energy of
- the two new surfaces, 2γ, so λ = 2πγ/σth. Substituting:
-        σth = E(2πγ/σth)/(2πr0) = Eγ/(σth r0) ⇒ $\sigma_{th}=\sqrt{E\gamma/r_0}$
+ (iii) Theoretical strength. For small \(x\), \(\sigma\approx\sigma_{th}(2\pi x/\lambda)\). Hooke's law for a strain \(x/r_0\) gives \(\sigma=Ex/r_0\), so \(\sigma_{th}=E\lambda/(2\pi r_0)\). The work to separate the planes is \(\int_0^{\lambda/2}\sigma\,dx=\sigma_{th}\lambda/\pi\), and this must equal the energy of the two new surfaces, \(2\gamma\), so \(\lambda=2\pi\gamma/\sigma_{th}\). Substituting:\n\[\sigma_{th}=\frac{E(2\pi\gamma/\sigma_{th})}{2\pi r_0}=\frac{E\gamma}{\sigma_{th}r_0},\qquad \therefore\quad \sigma_{th}=\sqrt{\frac{E\gamma}{r_0}}.\]
  (iv) σth = √(200 × 109 × 1/0.25 × 10−9) = 2.83 × 1010 Pa ≈ 28 GPa, roughly E/7. Compared with a
  yield strength of 250 MPa, that is more than 100 times higher. Real crystals yield far below the ideal
  because plastic flow occurs by dislocation glide (one row of bonds at a time), and fracture starts at
@@ -115,14 +110,10 @@ A4 Friction hill in compression                                                 
 
 MT200 Testing of Materials · Paper III Solutions and Marking Scheme                                              Page 2
 
- (i) Force balance on a ring of thickness dr at radius r, height h, per unit angle: the radial forces are (σr
- + dσ )(r + dr)h − σ r h − σ h dr (from the hoop component), and the friction on top and bottom faces
-      r              r       r
- gives 2τ r dr. Balancing, and dropping second-order terms:
-        h dσr + 2μσz dr = 0 ⇒ dσz/dr = dσr/dr = −2μσz/h (since σz − σr = σ0 is constant)
+ (i) Force balance on a ring of thickness \(dr\) at radius \(r\), height \(h\), per unit angle gives, after dropping second-order terms, \(h\,d\sigma_r+2\mu\sigma_z\,dr=0\). Thus \(d\sigma_z/dr=d\sigma_r/dr=-2\mu\sigma_z/h\), since \(\sigma_z-\sigma_r=\sigma_0\) is constant.
  (ii) Integrate: σz = C exp(−2μr/h). At the free edge r = a, σr = 0, so σz = σ0, giving C = σ0exp(2μa/h):
         $\sigma_z(r)=\sigma_0\exp\left[\dfrac{2\mu(a-r)}{h}\right]$ (the "friction hill": highest at the centre)
- (iii) With k = 2μ/h, the mean pressure is pavg = (2/a2)∫0a σz r dr:
+ (iii) With \(k=2\mu/h\), the mean pressure is \(p_{\mathrm{avg}}=(2/a^2)\int_0^a\sigma_z r\,dr\):
 \[p_{\mathrm{avg}}=\sigma_0\frac{2(e^{ka}-ka-1)}{(ka)^2}\approx\sigma_0\left(1+\frac{ka}{3}\right)=\sigma_0\left(1+\frac{2\mu a}{3h}\right).\]
  (The small-ka result follows by expanding ek(a−r) ≈ 1 + k(a − r): (2/a2)[a2/2 + ka3/6] = 1 + ka/3.)
  (iv) The measured pressure exceeds the true flow stress by a factor that grows with a/h (a squat, wide
@@ -163,8 +154,7 @@ A5 Rebound and the coefficient of restitution                                   
 
 A6 Necking for the Voce law                                                                                 [5]
 
- Differentiate: dσT/dεT = (σs − σ0) exp(−ε/εc)/εc = (σs − σT)/εc. The Considère criterion dσT/dεT = σT
- gives:
+ Differentiate: \(d\sigma_T/d\varepsilon_T=(\sigma_s-\sigma_0)\exp(-\varepsilon_T/\varepsilon_c)/\varepsilon_c=(\sigma_s-\sigma_T)/\varepsilon_c\). The Considère criterion \(d\sigma_T/d\varepsilon_T=\sigma_T\) gives:
 \[\frac{\sigma_s-\sigma_u}{\varepsilon_c}=\sigma_u,\qquad \therefore\quad \sigma_u=\frac{\sigma_s}{1+\varepsilon_c}.\]
  Then σs − σu = σsεc/(1 + εc) = (σs − σ0) exp(−εu/εc), so:
 \[\varepsilon_u=\varepsilon_c\ln\left(\frac{(\sigma_s-\sigma_0)(1+\varepsilon_c)}{\sigma_s\varepsilon_c}\right),\qquad \sigma_{UTS}=\sigma_u e^{-\varepsilon_u}.\]
