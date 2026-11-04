@@ -64,7 +64,7 @@ MT200 Testing of Materials · Paper IV Solutions and Marking Scheme             
    A2          (2)       A true: $\sigma_T=\sigma_e(1+e)$. B true: $\ln(1+e)$ < e. C true: after the UTS the area loss outweighs
                          hardening for the engineering curve only. D false: valid only up to necking.
    A3          (1)       A true. B true: U = $\dfrac{\sigma_y^2}{2E}$, so a lower E gives more. C false: a strong but brittle ceramic has
-                         tiny toughness; toughness needs strength and ductility. D true: $\mathrm{J/m^3}$ = $\mathrm{N\cdot m/m^3}$ = $\mathrm{$\mathrm{Pa}$}$. 
+                         tiny toughness; toughness needs strength and ductility. D true: $\mathrm{J/m^3}$ = $\mathrm{N\cdot m/m^3}$ = $\mathrm{Pa}$$. 
    A4          (1)       A true. B false: slender specimens buckle; a short cylinder (d : h ≈ 2 : 3) is used. C false: no
                          necking in compression; stress keeps rising as the area grows. D true: hoop tension on the
                          bulged surface.
@@ -95,8 +95,8 @@ MT200 Testing of Materials · Paper IV Solutions and Marking Scheme             
     B3 · tests           (iii) 10 mm ball    (ii) 136° pyramid                                                     (iv) rebound
                                                                          150 kgf               diamond
                                                                                             (v) 150 to 170        (iv) 0.01 to 0.1
-  B4 · modulus             (ii) 70 G$\mathrm{Pa}$           (i) 200 G$\mathrm{Pa}$           (iii) 300 G$\mathrm{Pa}$
-                                                                                                 G$\mathrm{Pa}$                    G$\mathrm{Pa}$
+  B4 · modulus             (ii) 70 $\mathrm{GPa}$           (i) 200 $\mathrm{GPa}$           (iii) 300 $\mathrm{GPa}$
+                                                                                                 $\mathrm{GPa}$                    $\mathrm{GPa}$
 
  Unit drill (this is where matching questions are usually lost). Work each unit out from its
  definition instead of memorising it:
@@ -328,28 +328,28 @@ D4 Tightening a bolt by turns                                                   
 D5 Choosing a material from its curve                                                                          [8]
 
                                                            Fracture strain     Resilience        Toughness
-        E (G$\mathrm{Pa}$)        Yield (MPa)        UTS (MPa)
+        E ($\mathrm{GPa}$)        Yield (MPa)        UTS (MPa)
                                                            (%)                 (MJ/m³)           (MJ/m³)
   A         200             1800               2000                   6              8.10            106.7
   B         200              300               450                   30              0.23            119.3
   C         375         none (brittle)         300                   0.08            0.12             0.1
   D          69              250               380                   20              0.45             68.1
 
- Method. E is read from the zoom: for A, 1800/0.009 = 200 G$\mathrm{Pa}$; for B, 300/0.0015 = 200 G$\mathrm{Pa}$; for C,
- 300/0.0008 = 375 G$\mathrm{Pa}$; for D, 250/0.0036 = 69 G$\mathrm{$\mathrm{Pa}$}$.  Resilience = $\dfrac{\sigma_y^2}{2E}$ (for the brittle C, σf2/2E).
+ Method. E is read from the zoom: for A, 1800/0.009 = 200 $\mathrm{GPa}$; for B, 300/0.0015 = 200 $\mathrm{GPa}$; for C,
+ 300/0.0008 = 375 $\mathrm{GPa}$; for D, 250/0.0036 = 69 $\mathrm{GPa}$$.  Resilience = $\dfrac{\sigma_y^2}{2E}$ (for the brittle C, σf2/2E).
  Toughness is found with trapezoids between the vertices. For example, for A: 0.5(0.009)(1800) +
 
 
 
 MT200 Testing of Materials · Paper IV Solutions and Marking Scheme                                           Page 6
 
- ½(1800 + 1950)(0.021) + ½(1950 + 2000)(0.030) ≈ 8.1 + 39.4 + 59.3 ≈ 107 M$\mathrm{J/m^3}$.
- (c) Choices. (i) Spring: A. Its resilience is 8.1 M$\mathrm{J/m^3}$, about 18 times that of the next best, because
+ ½(1800 + 1950)(0.021) + ½(1950 + 2000)(0.030) ≈ 8.1 + 39.4 + 59.3 ≈ 107 $\mathrm{MJ/m^3}$.
+ (c) Choices. (i) Spring: A. Its resilience is 8.1 $\mathrm{MJ/m^3}$, about 18 times that of the next best, because
  the yield strength is very high while E is unchanged. (ii) Crane hook: B. It has the highest toughness
                   3
  (about 119 MJ/m ), a fracture strain of 30% and a clear yield plateau at 300 MPa, so it deforms visibly
  and gives warning before it fails. A is stronger but has only 6% ductility. (iii) Cutting-tool insert: C. It
- has the highest stiffness (375 G$\mathrm{Pa}$) and, as a ceramic, high hardness and wear resistance. Its brittleness
+ has the highest stiffness (375 $\mathrm{GPa}$) and, as a ceramic, high hardness and wear resistance. Its brittleness
  is tolerable because it is loaded mostly in compression and held rigidly.
 
  Marking scheme                                                                                       Marks
