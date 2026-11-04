@@ -25,29 +25,29 @@ MT200 · TESTING OF MATERIALS
 ## SECTION A · DERIVATIONS (48 marks)
 
 A1.     Starting from the idea that true strain is a sum of small strain increments, each measured                 [6]
-        against the current length, derive $\\varepsilon_T=\\ln(L/L_0)$. Then show that true strains are additive
+        against the current length, derive $\varepsilon_T=\ln(L/L_0)$. Then show that true strains are additive
         over successive deformation steps but engineering strains are not. Use a bar stretched
         from 100 mm to 110 mm and then to 121 mm as your numerical example.
 
-A2.     Assuming volume constancy, derive $\\sigma_T=\\sigma_e(1+\\varepsilon_e)$ and $\\varepsilon_T=\\ln(1+\\varepsilon_e)$. Hence show that                     [6]
-        $\\sigma_T=\\sigma_e e^{\\varepsilon_T}$. State exactly where these relations stop being valid, and why.
+A2.     Assuming volume constancy, derive $\sigma_T=\sigma_e(1+\varepsilon_e)$ and $\varepsilon_T=\ln(1+\varepsilon_e)$. Hence show that                     [6]
+        $\sigma_T=\sigma_e e^{\varepsilon_T}$. State exactly where these relations stop being valid, and why.
 
 A3.     In a compression test the specimen shortens from h0 to h under a measured load P. Derive                   [4]
         σT and εT in terms of P, A0, h0 and h. Explain why the true stress is smaller than the
         engineering stress in compression but larger in tension, and how the sign convention
         enters when you take the logarithm.
 
-A4.     Using the Hollomon relation $\\sigma_T=K\\varepsilon_T^n$, derive the Considère criterion for the onset of                     [7]
+A4.     Using the Hollomon relation $\sigma_T=K\varepsilon_T^n$, derive the Considère criterion for the onset of                     [7]
         necking. Show that the true strain at necking equals n. Then derive the engineering UTS as
-        $\\sigma_{UTS}=K(n/e)^n$. Explain physically why necking begins when the strain-hardening rate
+        $\sigma_{UTS}=K(n/e)^n$. Explain physically why necking begins when the strain-hardening rate
         equals the current true stress.
 
 A5.     For a material that obeys σT = KεTn up to necking, derive the energy absorbed per unit                     [6]
-        volume up to the onset of necking. Also derive the modulus of resilience $U_r=\\sigma_y^2/(2E)$.
+        volume up to the onset of necking. Also derive the modulus of resilience $U_r=\sigma_y^2/(2E)$.
         Discuss how good the estimate "toughness ≈ σu × εr" is for a brittle solid, a
         parabolic-hardening metal and a nearly perfectly plastic metal.
 
-A6.     Derive the Brinell hardness formula $\\mathrm{BHN}=\\dfrac{2P}{\\pi D\\left(D-\\sqrt{D^2-d^2}\\right)}$. In your derivation:                  [8]
+A6.     Derive the Brinell hardness formula $\mathrm{BHN}=\dfrac{2P}{\pi D\left(D-\sqrt{D^2-d^2}\right)}$. In your derivation:                  [8]
            (a) find the curved surface area of a spherical cap by integrating ring elements over the
                sphere;
            (b) relate the cap depth h to D and d using geometry;
@@ -62,11 +62,11 @@ A7.     Show that Brinell hardness can be written in terms of the included angle
         [πD2(1 − cos(φ/2))]. Hence prove that two tests with different ball diameters give the same
         BHN when P/D2 and d/D are the same. Explain why the valid range is 0.25 < d/D < 0.5.
 
-A8.     Derive the Vickers formula $\\mathrm{HV}=1.8544\\dfrac{P}{d^2}$ for a 136° square-based diamond pyramid,               [4]
+A8.     Derive the Vickers formula $\mathrm{HV}=1.8544\dfrac{P}{d^2}$ for a 136° square-based diamond pyramid,               [4]
         where d is the mean diagonal. Explain why 136° was chosen (hint: consider tangents to a
         Brinell ball at the rim of the impression, with d/D = 0.375).
 
-A9.     Derive the Knoop constant $\\mathrm{HK}=14.229\\dfrac{P}{l^2}$ from the projected area of the impression,              [3]
+A9.     Derive the Knoop constant $\mathrm{HK}=14.229\dfrac{P}{l^2}$ from the projected area of the impression,              [3]
         given a long-to-short diagonal ratio of about 7.11 and edge angles of 172.5° and 130°.
         Explain why the Knoop indenter suits thin layers and brittle materials.
 
