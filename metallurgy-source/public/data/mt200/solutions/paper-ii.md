@@ -43,7 +43,7 @@ A1 Torsion formula                                                              
                                               3
  J for solid and hollow, and τmax = 16T/(πd )                                                                       1
 
-A2 $G=\\dfrac{E}{2(1+\\nu)}$                                                                                                [5]
+A2 $G=\dfrac{E}{2(1+\nu)}$                                                                                                [5]
 
  Step 1. Pure shear τ on the faces of a square element is equivalent (Mohr's circle) to tension σ1 = +τ
  and compression σ3 = −τ on planes at 45°, that is, along the diagonals.
@@ -107,7 +107,7 @@ A4 Charpy energy                                                                
  Marking scheme                                                                                       Marks
  Energy conservation set-up with heights h1 and h2                                                           1
  h = R(1 − cos angle) for both                                                                               1
- $E=mgR(\\cos\\beta-\\cos\\alpha)$                                                                                        1
+ $E=mgR(\cos\beta-\cos\alpha)$                                                                                        1
  Striking velocity                                                                                           1
  Friction and windage correction by a free swing                                                             1
  Capacity mgR(1 − cosα) and the 80% rule with a reason                                                       1
@@ -124,7 +124,7 @@ A5 Fatigue: parameters, Goodman, Basquin                                        
  the UTS on the σ axis (σ = 0), because a static load at the UTS fails at once. The straight line joining
                   m      a
  these intercepts is:
-        $\\dfrac{\\sigma_a}{\\sigma_e}+\\dfrac{\\sigma_m}{\\sigma_{UTS}}=1$ (with safety factor n: σa/σe + σm/σUTS = 1/n)
+        $\dfrac{\sigma_a}{\sigma_e}+\dfrac{\sigma_m}{\sigma_{UTS}}=1$ (with safety factor n: σa/σe + σm/σUTS = 1/n)
  With σa = σmax(1 − R)/2 and σm = σmax(1 + R)/2:
         σmax = 1 / { n[(1 − R)/(2σe) + (1 + R)/(2σUTS)] }
  (iii) Basquin. Over the finite-life region, log σa is linear in log N. For points (N1, σ1) and (N2, σ2): σ =
