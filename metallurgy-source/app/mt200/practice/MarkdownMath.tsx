@@ -69,7 +69,7 @@ export default function MarkdownMath({ source, className }: Props) {
       blocks.push(<div className="mt200-math-block" key={blocks.length}>{inlineParts(line)}</div>);
       continue;
     }
-    const imageMatch = line.match(/^!\\[([^\\]]*)\\]\\((\\/data\\/mt200\\/figures\\/[a-z0-9-]+\\.svg)\\)$/i);
+    const imageMatch = line.match(/^!\[([^\]]*)\]\((\/data\/mt200\/figures\/[a-z0-9-]+\.svg)\)$/i);
     if (imageMatch) {
       flushParagraph(); flushList(); flushTable();
       const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
