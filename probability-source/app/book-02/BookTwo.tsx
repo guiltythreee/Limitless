@@ -63,6 +63,23 @@ function repairKnownChapterOneFormulas(text: string) {
     .replace(
       /(The binomial theorem states that)\n[\s\S]*?(?=\n\n\nProbability and counting\s+17)/,
       "$1\n(x + y)^n = Σ_{k=0}^{n} C(n, k)x^k y^{n−k}.",
+    )
+    // Counting examples below were checked against printed textbook pages 16–18.
+    .replace(
+      /(Example 1\.4\.17 \(Club officers\)\.[\s\S]*?and there are)\n[\s\S]*?(?=ways to choose 3 officers without predetermined titles\.)/,
+      "$1\nC(n, 3) = n(n − 1)(n − 2)/3!\n",
+    )
+    .replace(
+      /(Example 1\.4\.18 \(Permutations of a word\)\.[\s\S]*?So there\nare)[\s\S]*?(?= permutations\.)/,
+      "$1 C(8, 5) = C(8, 3) = 8·7·6/3! = 56",
+    )
+    .replace(
+      /(How many ways are there to permute the letters in the word STATISTICS\?[\s\S]*?This\ngives)[\s\S]*?(?= possibilities\.)/,
+      "$1 C(10, 3)C(7, 3)C(4, 2)C(2, 1) = 10!/(3!3!2!) = 50400",
+    )
+    .replace(
+      /(Example 1\.4\.20 \(Full house in poker\)\.[\s\S]*?Thus,)[\s\S]*?(?=\n\nThe decimal approximation)/,
+      "$1 P(full house) = [13 C(4, 3) 12 C(4, 2)]/C(52, 5) = 3744/2598960 ≈ 0.00144.",
     );
 }
 
