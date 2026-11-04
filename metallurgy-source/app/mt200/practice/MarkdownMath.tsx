@@ -27,6 +27,7 @@ export default function MarkdownMath({ source, className }: Props) {
   const blocks: ReactNode[] = [];
   let paragraph: string[] = [];
   let list: string[] = [];
+  let listKind: "ol" | "ul" | null = null;
   let table: string[][] = [];
 
   const flushParagraph = () => {
@@ -37,8 +38,10 @@ export default function MarkdownMath({ source, className }: Props) {
   };
   const flushList = () => {
     if (list.length) {
-      blocks.push(<ul key={blocks.length}>{list.map((item, i) => <li key={i}>{inlineParts(item)}</li>)}</ul>);
+      const ListTag = listKind === "ol" ? "ol" : "ul";
+      blocks.push(<ListTag key={blocks.length}>{list.map((item, i) => <li key={i}>{inlineParts(item)}</li>)}</ListTag>);
       list = [];
+      listKind = null;
     }
   };
   const flushTable = () => {
@@ -91,6 +94,9 @@ export default function MarkdownMath({ source, className }: Props) {
     }
     if (/^(?:[-*•])\s+/.test(line) || /^\d+[.)]\s+/.test(line)) {
       flushParagraph(); flushTable();
+      const kind = /^\d+[.)]\s+/.test(line) ? "ol" : "ul";
+      if (list.length && listKind !== kind) flushList();
+      listKind = kind;
       list.push(line.replace(/^(?:[-*•]|\d+[.)])\s+/, ""));
       continue;
     }
