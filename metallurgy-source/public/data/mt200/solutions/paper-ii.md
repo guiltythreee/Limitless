@@ -28,11 +28,10 @@ A1 Torsion formula                                                              
  non-circular sections warp (planes do not stay plane), so the simple formula fails.
  Geometry. Over length L, one end twists by θ relative to the other. A point at radius r moves along an
  arc rθ, so the shear strain of a longitudinal fibre is:
-        γ = rθ/L (small angle) so τ = Gγ = G r θ/L, linear in r
+\(\gamma=\dfrac{r\theta}{L}\) (small angle), so \(\tau=G\gamma=\dfrac{Gr\theta}{L}\), linear in \(r\).
  Equilibrium. The torque is the moment of the shear stress over the section:
-        T = ∫ r τ dA = (Gθ/L) ∫ r2 dA = GθJ/L, J = ∫ r2 dA ⇒ Gθ/L = T/J ⇒ τ/r = T/J = Gθ/L
- J. Solid: J = ∫0R r2(2πr dr) = πR4/2 = πd4/32. Hollow: J = π(do4 − di4)/32. The maximum stress is at the
- surface, τmax = T(d/2)/(πd4/32) = 16T/(πd3). The angle of twist is θ = TL/(GJ).
+\[T=\int_A r\tau\,dA=\frac{G\theta}{L}\int_A r^2\,dA=\frac{G\theta J}{L},\qquad J=\int_A r^2\,dA\]\[\therefore\quad \frac{G\theta}{L}=\frac{T}{J},\qquad \frac{\tau}{r}=\frac{T}{J}=\frac{G\theta}{L}.\]
+ J. Solid: \(J=\int_0^R r^2(2\pi r\,dr)=\pi R^4/2=\pi d^4/32\). Hollow: \(J=\pi(d_o^4-d_i^4)/32\). The maximum stress is at the surface, \(\tau_{\max}=T(d/2)/(\pi d^4/32)=16T/(\pi d^3)\). The angle of twist is \(\theta=TL/(GJ)\).
 
  Marking scheme                                                                                             Marks
  Assumptions stated, with the reason they hold only for circular sections                                           1
@@ -48,10 +47,10 @@ A2 $G=\dfrac{E}{2(1+\nu)}$                                                      
  Step 1. Pure shear τ on the faces of a square element is equivalent (Mohr's circle) to tension σ1 = +τ
  and compression σ3 = −τ on planes at 45°, that is, along the diagonals.
  Step 2. Along the diagonal in the tension direction, by Hooke's law:
-        εd = [σ1 − ν σ3]/E = [τ + ντ]/E = τ(1 + ν)/E
+\[\varepsilon_d=\frac{\sigma_1-\nu\sigma_3}{E}=\frac{\tau+\nu\tau}{E}=\frac{\tau(1+\nu)}{E}.\]
  Step 3. Geometry of a sheared square of side a. The top edge moves γa sideways, so the diagonal
  vector (a, a) becomes (a + γa, a). Its length is:
-        a√[(1 + γ)2 + 1] = a√(2 + 2γ + γ2) ≈ √2 a (1 + γ/2) ⇒ εd = γ/2
+\[a\sqrt{(1+\gamma)^2+1}=a\sqrt{2+2\gamma+\gamma^2}\approx\sqrt{2}a\left(1+\frac{\gamma}{2}\right),\quad \therefore\ \varepsilon_d=\frac{\gamma}{2}.\]
  Equating: γ/2 = τ(1 + ν)/E, so G = τ/γ = E/[2(1 + ν)].
 
 
@@ -68,12 +67,12 @@ A3 Stresses on an oblique plane; Schmid's law                                   
 
  An oblique plane whose normal makes angle φ with the axis has area A/cosφ. The axial force P resolves
  into P cosφ normal to the plane and P sinφ along it:
-        σn = P cosφ/(A/cosφ) = σ cos2φ τ = P sinφ/(A/cosφ) = σ sinφ cosφ = (σ/2) sin 2φ
+\[\sigma_n=\frac{P\cos\phi}{A/\cos\phi}=\sigma\cos^2\phi,\qquad \tau=\frac{P\sin\phi}{A/\cos\phi}=\sigma\sin\phi\cos\phi=\frac{\sigma}{2}\sin2\phi.\]
  The shear stress is largest at φ = 45°, where τmax = σ/2. This is the basis of the Tresca criterion (σy =
  2τy) and of the 45° shear lips on tensile fractures.
  Schmid's law. Let the slip-plane normal make angle φ, and the slip direction make angle λ, with the
  axis. The force along the slip direction is P cosλ, and the area of the slip plane is A/cosφ:
-        τr = P cosλ cosφ/A = σ cosφ cosλ
+\[\tau_r=\frac{P\cos\lambda\cos\phi}{A}=\sigma\cos\phi\cos\lambda.\]
  The Schmid factor cosφ cosλ has a maximum of 0.5 (φ = λ = 45°). Slip starts when τr reaches the
  critical resolved shear stress, so σy = τCRSS/(cosφ cosλ). A single crystal's yield stress therefore depends
  on orientation (lowest at a Schmid factor of 0.5, highest when the axis is nearly parallel or perpendicular
@@ -93,7 +92,7 @@ A4 Charpy energy                                                                
  downward vertical. The height of the centre of mass above the lowest point is h1 = R(1 − cosα). After
  breaking the specimen the pendulum rises to angle β on the far side, so h2 = R(1 − cosβ). By energy
  conservation, the absorbed energy is the loss of potential energy:
-        E = mg(h1 − h2) = mgR(cosβ − cosα)
+\[E=mg(h_1-h_2)=mgR(\cos\beta-\cos\alpha).\]
  Striking velocity. At the lowest point all of the initial potential energy is kinetic: ½mv2 = mgR(1 −
  cosα), so v = √[2gR(1 − cosα)] (about 5 to 5.5 m/s in standard machines).
  Friction and windage. Bearing friction and air drag remove some energy. The loss is measured by a
@@ -193,9 +192,9 @@ MT200 Testing of Materials · Paper II Solutions and Marking Scheme             
 
 A8 Generalised Hooke's law and bulk modulus                                                                [4]
 
-        εx = [σx − ν(σy + σz)]/E, and cyclic permutations for εy and εz
+\[\varepsilon_x=\frac{\sigma_x-\nu(\sigma_y+\sigma_z)}{E},\]\nand cyclic permutations for \(\varepsilon_y\) and \(\varepsilon_z\).
  Adding the three, for small strains, the volumetric strain is Δ = εx + εy + εz:
-        Δ = [(σx + σy + σz) − 2ν(σx + σy + σz)]/E = (1 − 2ν)(σx + σy + σz)/E
+\[\Delta=\varepsilon_x+\varepsilon_y+\varepsilon_z=\frac{(1-2\nu)(\sigma_x+\sigma_y+\sigma_z)}{E}.\]
  For hydrostatic pressure p, σx = σy = σz = −p, so Δ = −3(1 − 2ν)p/E and K = −p/Δ = E/[3(1 − 2ν)]. K
  must be positive (a body cannot expand when compressed), so 1 − 2ν > 0, that is, ν < 0.5. At ν = 0.5, K
  → ∞ (incompressible, as for rubber). Plastic flow conserves volume, which is equivalent to an effective ν
