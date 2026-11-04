@@ -28,7 +28,7 @@ A1 Modulus and theoretical strength from the bond                               
         mA r0−(m+1) = nB r0−(n+1) ⇒ r0n−m = nB/(mA) ⇒ r0 = [nB/(mA)]1/(n−m)
  The second derivative is d2U/dr2 = −m(m+1)A r−(m+2) + n(n+1)B r−(n+2). Using B r0−n = (m/n) A r0−m
  to eliminate B at r0:
-        S0 = −m(m+1)A r0−(m+2) + (n+1)m A r0−(m+2) = m(n − m) A r0−(m+2)
+\[S_0=-m(m+1)Ar_0^{-(m+2)}+(n+1)mAr_0^{-(m+2)}=m(n-m)Ar_0^{-(m+2)}.\]
  The bond energy is U0 = −A r0−m + B r0−n = −A r0−m(1 − m/n) = −A r0−m(n − m)/n, so A r0−m(n − m)
  = n|U0|. Hence:
         $S_0=\dfrac{mn|U_0|}{r_0^2}$
@@ -66,7 +66,7 @@ A2 Brinell vs Meyer hardness                                                    
                                                                          2               2          2    2
  Meyer hardness is the mean contact pressure: pm = P/(πd /4) = 4P/(πd ). With s = √(D − d ) the Brinell
  number is BHN = 2P/[πD(D − s)]. The ratio is:
-        BHN/pm = [2P/(πD(D − s))]·[πd2/(4P)] = d2/[2D(D − s)]
+\[\frac{\mathrm{BHN}}{p_m}=\frac{2P}{\pi D(D-s)}\cdot\frac{\pi d^2}{4P}=\frac{d^2}{2D(D-s)}.\]
  Since d2 = D2 − s2 = (D − s)(D + s), this becomes (D + s)/(2D) = ½[1 + √(1 − (d/D)2)].
  d/D                             0.25                             0.375                      0.50
          BHN / Meyer                          0.984                              0.964                  0.933
@@ -89,7 +89,7 @@ A3 Vickers geometry: d ≈ 7h                                                   
 
  The square base has side a. The faces make 68° with the axis (half of 136°). Half the side is a/2 = h tan
  68°, so a = 2h tan 68° = 4.95h. The diagonal is:
-        d = √2 a = 2√2 tan 68° · h = 7.00 h
+\[d=\sqrt{2}a=2\sqrt{2}\tan68^\circ\,h=7.00h.\]
  Projected area = a2 = d2/2 = 24.5 h2. Surface area = d2/(2 sin 68°) = d2/1.8544 = 26.4 h2. So HV =
  P/(26.4h2) using the surface area.
  Thickness rule. The plastic zone under an indenter extends to several times the depth. If the
@@ -123,7 +123,7 @@ MT200 Testing of Materials · Paper III Solutions and Marking Scheme            
  (ii) Integrate: σz = C exp(−2μr/h). At the free edge r = a, σr = 0, so σz = σ0, giving C = σ0exp(2μa/h):
         $\sigma_z(r)=\sigma_0\exp\left[\dfrac{2\mu(a-r)}{h}\right]$ (the "friction hill": highest at the centre)
  (iii) With k = 2μ/h, the mean pressure is pavg = (2/a2)∫0a σz r dr:
-        pavg = σ0 · 2(eka − ka − 1)/(ka)2 ≈ σ0(1 + ka/3) = σ0(1 + 2μa/3h) (small ka)
+\[p_{\mathrm{avg}}=\sigma_0\frac{2(e^{ka}-ka-1)}{(ka)^2}\approx\sigma_0\left(1+\frac{ka}{3}\right)=\sigma_0\left(1+\frac{2\mu a}{3h}\right).\]
  (The small-ka result follows by expanding ek(a−r) ≈ 1 + k(a − r): (2/a2)[a2/2 + ka3/6] = 1 + ka/3.)
  (iv) The measured pressure exceeds the true flow stress by a factor that grows with a/h (a squat, wide
  specimen) and with μ. So specimens should not be too squat (a moderate d:h, as in the 2:3 rule, keeps
@@ -143,7 +143,7 @@ A5 Rebound and the coefficient of restitution                                   
                                                                                                   2
  The hammer reaches the specimen at v1 = √(2gh0) and leaves at v2 = e v1. It rises to hr = v2 /2g =
  e2v12/2g:
-        hr = e2 h0     fraction dissipated = (mgh0 − mghr)/mgh0 = 1 − e2
+\[h_r=e^2h_0,\qquad \text{fraction dissipated}=\frac{mgh_0-mgh_r}{mgh_0}=1-e^2.\]
  Link to hardness. If e = 1 the collision is perfectly elastic and the hammer returns to full height. If
  plastic flow occurs, energy is used in plastic work and lost (as well as some as heat and sound), so e
  drops. In a harder material (higher yield strength) the same impact produces less plastic deformation,
@@ -165,9 +165,9 @@ A6 Necking for the Voce law                                                     
 
  Differentiate: dσT/dεT = (σs − σ0) exp(−ε/εc)/εc = (σs − σT)/εc. The Considère criterion dσT/dεT = σT
  gives:
-        (σs − σu)/εc = σu ⇒ σu = σs/(1 + εc)
+\[\frac{\sigma_s-\sigma_u}{\varepsilon_c}=\sigma_u,\qquad \therefore\quad \sigma_u=\frac{\sigma_s}{1+\varepsilon_c}.\]
  Then σs − σu = σsεc/(1 + εc) = (σs − σ0) exp(−εu/εc), so:
-        εu = εc ln[(σs − σ0)(1 + εc)/(σsεc)] σUTS = σue−εu
+\[\varepsilon_u=\varepsilon_c\ln\left(\frac{(\sigma_s-\sigma_0)(1+\varepsilon_c)}{\sigma_s\varepsilon_c}\right),\qquad \sigma_{UTS}=\sigma_u e^{-\varepsilon_u}.\]
  Numbers. σu = 600/1.5 = 400 MPa. εu = 0.5 ln[400 × 1.5/(600 × 0.5)] = 0.5 ln 2 = 0.347
  (engineering strain e0.347 − 1 = 41.4%). σUTS = 400e−0.347 = 283 MPa. (Check: σ(0.347) = 600 −
  400e−0.693 = 400 MPa ✓.)
@@ -194,7 +194,7 @@ A7 Machine compliance                                                           
  The specimen and machine act as springs in series. The specimen stiffness is ks = AE/L. For a load F,
  the crosshead displacement is δ = F/ks + F/km. The apparent modulus, using stress F/A and strain δ/L,
  is:
-        Eapp = (F/A)/(δ/L) = E/(1 + ks/km) = E/(1 + AE/(Lkm))
+\[E_{\mathrm{app}}=\frac{F/A}{\delta/L}=\frac{E}{1+k_s/k_m}=\frac{E}{1+AE/(Lk_m)}.\]
  Numbers. A = π(10)2/4 = 78.5 mm2; ks = 78.5 × 200,000/50 = 314 kN/mm; ks/km = 3.14, so Eapp =
  200/4.14 = 48 GPa, less than a quarter of the true value.
  Consequences. The elastic slope (E), the yield strain and any elastic strain read from the crosshead
@@ -213,7 +213,7 @@ A7 Machine compliance                                                           
 A8 Meyer's index and the strain-hardening exponent                                                          [3]
 
  The mean pressure is pm = 4P/(πd2) = Cσr = C K (0.2 d/D)n. Solving for the load:
-        P = (π/4)d2 C K 0.2n D−n dn = k d2+n ⇒ m = 2 + n
+\[P=\frac{\pi}{4}d^2CK(0.2)^nD^{-n}d^n=kd^{2+n},\qquad \therefore\quad m=2+n.\]
  m = 2 means n = 0: a perfectly plastic material with a constant flow stress. The mean pressure is then
  independent of the indentation size (P ∝ d2, so the hardness is independent of the load). Annealed
  metals with strong hardening give m up to about 2.5, and heavily cold-worked ones give m close to 2.
@@ -227,7 +227,7 @@ A9 Error propagation                                                            
 
  Vickers: HV = 1.8544 P/d2, so ln HV = const − 2 ln d and δHV/HV = −2 δd/d.
  Brinell: BHN = 2P/[πD(D − s)], s = √(D2 − d2). Then δBHN/BHN = δs/(D − s), and since ds/dd = −d/s:
-        δBHN/BHN = −[d/(s(D − s))] δd = −[d2/(s(D − s))] (δd/d)
+\[\frac{\delta\mathrm{BHN}}{\mathrm{BHN}}=-\frac{d}{s(D-s)}\,\delta d=-\frac{d^2}{s(D-s)}\frac{\delta d}{d}.\]
  Numbers. D = 10, d = 4.0: s = 9.165, D − s = 0.835, so d/(s(D − s)) = 0.523 mm−1. With δd = 0.05
  mm, δBHN/BHN = 2.6% (in the direction opposite to the error in d). The factor d2/(s(D − s)) is 2.09
  here, and tends to 2 for small d/D, so both tests double the relative error in d, since hardness varies as
