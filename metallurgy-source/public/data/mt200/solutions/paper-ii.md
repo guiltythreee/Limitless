@@ -117,18 +117,20 @@ MT200 Testing of Materials · Paper II Solutions and Marking Scheme             
 
 A5 Fatigue: parameters, Goodman, Basquin                                                                        [6]
 
- (i) σa = (σmax − σmin)/2 = Δσ/2; σm = (σmax + σmin)/2; Δσ = σmax − σmin; R = σmin/σmax.
+ (i) The fatigue parameters are:
+\[\sigma_a=\frac{\sigma_{\max}-\sigma_{\min}}{2}=\frac{\Delta\sigma}{2},\qquad \sigma_m=\frac{\sigma_{\max}+\sigma_{\min}}{2},\qquad \Delta\sigma=\sigma_{\max}-\sigma_{\min},\qquad R=\frac{\sigma_{\min}}{\sigma_{\max}}.\]
  (ii) Goodman. On a σ –σ plot, the fully reversed endurance limit σ lies on the σ axis (σ = 0), and
                       a m                                            e             a        m
  the UTS on the σ axis (σ = 0), because a static load at the UTS fails at once. The straight line joining
                   m      a
  these intercepts is:
-        $\dfrac{\sigma_a}{\sigma_e}+\dfrac{\sigma_m}{\sigma_{UTS}}=1$ (with safety factor n: σa/σe + σm/σUTS = 1/n)
+\[\frac{\sigma_a}{\sigma_e}+\frac{\sigma_m}{\sigma_{UTS}}=1,\qquad \text{with safety factor }n:\quad \frac{\sigma_a}{\sigma_e}+\frac{\sigma_m}{\sigma_{UTS}}=\frac{1}{n}.\]
  With σa = σmax(1 − R)/2 and σm = σmax(1 + R)/2:
-        σmax = 1 / { n[(1 − R)/(2σe) + (1 + R)/(2σUTS)] }
- (iii) Basquin. Over the finite-life region, log σa is linear in log N. For points (N1, σ1) and (N2, σ2): σ =
- σf′(2N)b, so b = log(σ1/σ2) / log(N1/N2) (negative, typically −0.05 to −0.12).
- (iv) Gerber uses a parabola, σa/σe + (σm/σUTS)2 = 1, and fits ductile-metal data best (less conservative).
+\[\sigma_{\max}=\frac{1}{n\left[\dfrac{1-R}{2\sigma_e}+\dfrac{1+R}{2\sigma_{UTS}}\right]}.\]
+ (iii) Basquin. Over the finite-life region, \(\log\sigma_a\) is linear in \(\log N\). For points \((N_1,\sigma_1)\) and \((N_2,\sigma_2)\):
+\[\sigma_a=\sigma_f'(2N)^b,\qquad b=\frac{\log(\sigma_1/\sigma_2)}{\log(N_1/N_2)}\]
+(the exponent is negative, typically −0.05 to −0.12).
+ (iv) Gerber uses a parabola, \[\frac{\sigma_a}{\sigma_e}+\left(\frac{\sigma_m}{\sigma_{UTS}}\right)^2=1,\] and fits ductile-metal data best (less conservative).
  Soderberg uses the yield strength in place of the UTS, and is the most conservative. Goodman (linear)
  lies between them and is the usual design choice.
 
@@ -141,15 +143,16 @@ A5 Fatigue: parameters, Goodman, Basquin                                        
  Gerber and Soderberg compared with Goodman                                                                     1
 
 A6 Creep: Arrhenius, activation energy, Larson–Miller                                                           [6]
-                  n
- (i) dε/dt = A σ exp(−Q/RT). Q is the activation energy of the rate-controlling process (self-diffusion for
- pure metals), A and n are constants of the material and mechanism.
+ (i) The creep-rate law is:
+\[\dot{\varepsilon}=A\sigma^n\exp\left(-\frac{Q}{RT}\right).\]
+Here Q is the activation energy of the rate-controlling process (self-diffusion for pure metals), and A and n are constants of the material and mechanism.
  (ii) At constant σ, take the ratio of rates at T1 and T2 and take logs:
-        ln[(dε/dt)2/(dε/dt)1] = (Q/R)(1/T1 − 1/T2) ⇒ Q = R ln(ratio) / (1/T1 − 1/T2)
- (iii) Monkman–Grant: (dε/dt)ss · tr = CMG, so tr = CMG/[Aσn] · exp(Q/RT). At fixed stress, ln tr = ln C′(σ) +
- Q/(RT). Rearranging, T(ln tr − ln C′) = Q/R, which is constant at a given stress. Writing C = −log10C′
- (found empirically, about 20 for tr in hours):
-        LMP = T(C + log10 tr) = f(σ) (a function of stress only)
+\[\ln\left(\frac{\dot{\varepsilon}_2}{\dot{\varepsilon}_1}\right)=\frac{Q}{R}\left(\frac{1}{T_1}-\frac{1}{T_2}\right),\qquad Q=\frac{R\ln(\text{ratio})}{1/T_1-1/T_2}.\]
+ (iii) Monkman–Grant:
+\[\dot{\varepsilon}_{ss}\,t_r=C_{MG},\qquad t_r=\frac{C_{MG}}{A\sigma^n}\exp\left(\frac{Q}{RT}\right).\]
+At fixed stress, \(\ln t_r=\ln C'(\sigma)+Q/(RT)\). Rearranging, \(T(\ln t_r-\ln C')=Q/R\), which is constant at a given stress. Writing \(C=-\log_{10}C'\) (found empirically, about 20 for \(t_r\) in hours):
+\[\mathrm{LMP}=T(C+\log_{10}t_r)=f(\sigma),\]
+a function of stress only.
  Use. Short, high-temperature tests give the LMP at a stress, and the same LMP predicts long rupture
  times at lower temperatures (or the allowable temperature for a given life). Limits. It assumes the
  same mechanism and the same value of Q throughout, and fails if the microstructure changes
@@ -165,9 +168,8 @@ A6 Creep: Arrhenius, activation energy, Larson–Miller                         
 
 A7 True fracture strain and ductility measures                                                                  [4]
 
- With volume constancy in the neck, AfLf = A0L0. The true fracture strain is εf = ln(Lf/L0) = ln(A0/Af). With
- RA = (A0 − Af)/A0, we get Af/A0 = 1 − RA, so:
-        εf = ln[1/(1 − RA)]
+ With volume constancy in the neck, \(A_fL_f=A_0L_0\). The true fracture strain is \(\varepsilon_f=\ln(L_f/L_0)=\ln(A_0/A_f)\). With \(RA=(A_0-A_f)/A_0\), we get \(A_f/A_0=1-RA\), so:
+\[\varepsilon_f=\ln\left(\frac{1}{1-RA}\right).\]
  (The assumption is constant volume in the necked region, and that the fracture-surface diameter
  reflects the neck.) Gauge-length dependence. Elongation has two parts: a uniform part, eu, and a
 
@@ -208,13 +210,12 @@ A8 Generalised Hooke's law and bulk modulus                                     
 
 A9 Rule of mixtures                                                                                        [4]
 
- (i) Parallel loading (isostrain). Fibres and matrix stretch equally: εf = εm = εc. The load is shared:
- σcAc = σfAf + σmAm. For fibres running the full length, area fractions equal volume fractions, so σc =
- Vfσf + Vmσm. Dividing by ε and using σ = Eε:
-        Ec = VfEf + VmEm (upper bound)            Load fraction on fibres: Pf/Pc = VfEf/(VfEf + VmEm)
- (ii) Transverse loading (isostress). Both carry the same stress: σf = σm = σ. Extensions add, so εc =
- Vfεf + Vmεm = σ(Vf/Ef + Vm/Em). Since εc = σ/Ec:
-        1/Ec = Vf/Ef + Vm/Em (lower bound)
+ (i) Parallel loading (isostrain). Fibres and matrix stretch equally: \(\varepsilon_f=\varepsilon_m=\varepsilon_c\). The load is shared:
+\[\sigma_cA_c=\sigma_fA_f+\sigma_mA_m.\]
+For fibres running the full length, area fractions equal volume fractions, so \(\sigma_c=V_f\sigma_f+V_m\sigma_m\). Dividing by strain and using \(\sigma=E\varepsilon\):
+\[E_c=V_fE_f+V_mE_m\quad\text{(upper bound)},\qquad \frac{P_f}{P_c}=\frac{V_fE_f}{V_fE_f+V_mE_m}.\]
+(ii) Transverse loading (isostress). Both carry the same stress: \(\sigma_f=\sigma_m=\sigma\). Extensions add, so \(\varepsilon_c=V_f\varepsilon_f+V_m\varepsilon_m=\sigma\left(\frac{V_f}{E_f}+\frac{V_m}{E_m}\right)\). Since \(\varepsilon_c=\sigma/E_c\):
+\[\frac{1}{E_c}=\frac{V_f}{E_f}+\frac{V_m}{E_m}\quad\text{(lower bound)}.\]
 
  Marking scheme                                                                                         Marks
  Isostrain condition and load sharing                                                                       1
