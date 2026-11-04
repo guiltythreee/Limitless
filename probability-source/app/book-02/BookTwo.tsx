@@ -91,8 +91,8 @@ function repairKnownChapterOneFormulas(text: string) {
       "$1\nP(B) = 1 − (5^12 + 12·5^11)/6^12 ≈ 0.62.",
     )
     .replace(
-      /(C: We count the outcomes in C c[\\s\\S]*?decide how the other 16 dice will land\\.)[\\s\\S]*?(?=\\nTherefore A has the highest probability)/,
-      "$1\\n\\nP(C) = 1 − [5^18 + 18·5^17 + C(18, 2)·5^16]/6^18 ≈ 0.60.",
+      /(C: We count the outcomes in C[\\s\\S]*?)(?=\\nTherefore A has the highest probability)/,
+      "C: The complement consists of zero, one, or two sixes.\\nP(C) = 1 − [5^18 + 18·5^17 + C(18, 2)·5^16]/6^18 ≈ 0.60.",
     );
 }
 
