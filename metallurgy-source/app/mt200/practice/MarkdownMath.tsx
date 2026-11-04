@@ -6,13 +6,13 @@ import katex from "katex";
 type Props = { source: string; className?: string };
 
 function inlineParts(text: string): ReactNode[] {
-  const parts = text.split(/(\$\$[\s\S]+?\$\$|\\\([\s\S]+?\\\)|\$[^$\n]+\$)/g);
+  const parts = text.split(/(\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$[^$\n]+\$)/g);
   return parts.map((part, index) => {
-    const display = part.startsWith("$$") && part.endsWith("$$");
+    const display = (part.startsWith("$") && part.endsWith("$")) || (part.startsWith("\\[") && part.endsWith("\\]"));
     const bracket = part.startsWith("\\(") && part.endsWith("\\)");
     const inline = part.startsWith("$") && part.endsWith("$") && !display;
     if (!display && !bracket && !inline) return <Fragment key={index}>{part}</Fragment>;
-    const expression = display ? part.slice(2, -2) : bracket ? part.slice(2, -2) : part.slice(1, -1);
+    const expression = part.startsWith("$") || display ? part.slice(2, -2) : bracket ? part.slice(2, -2) : part.slice(1, -1);
     try {
       const html = katex.renderToString(expression, { displayMode: display, throwOnError: false, strict: "ignore", trust: false });
       return <span key={index} className={display ? "mt200-math-display" : "mt200-math-inline"} dangerouslySetInnerHTML={{ __html: html }} />;
