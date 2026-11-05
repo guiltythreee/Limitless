@@ -115,26 +115,87 @@ function repairKnownChapterOneFormulas(text: string) {
       /(Theorem 2\.4\.3 \(LOTP with extra conditioning\)[\s\S]*?P \(Ai ∩ E\) > 0 for all i, we have)\s*[\s\S]*?(?=The extra conditioning forms)/,
       "$1\nP(B|E) = Σ_{i=1}^{n} P(B|Ai, E)P(Ai|E).\n\n",
     )
-    // Chapters 2–5: rebuild high-value PMF, expectation, and Normal/Rayleigh identities.
+    // Chapters 3–5: rebuild selected PMF, expectation, and continuous-distribution formulas.
     .replace(
-      /(Example 3\.4\.4 \(Aces in a poker hand\)\.[\s\S]*?has exactly three aces is)\s*[\s\S]*?(?=The following table)/,
-      "$1\nP(X = 3) = [C(4, 3)C(48, 2)]/C(52, 5) ≈ 0.0017.\n",
+      /(Example 3\.4\.4 \(Aces in a poker hand\)\.[\s\S]*?has exactly three aces is)\s*[\s\S]*?(?=Theorem 3\.4\.5|The following table)/,
+      "$1\nP(X = 3) = C(4, 3)C(48, 2)/C(52, 5) ≈ 0.0017.\n",
+    )
+    .replace(
+      /(Theorem 3\.7\.3 \(PMF of g\(X\)\)\.[\s\S]*?and the PMF of g\(X\) is)\s*[\s\S]*?(?=Theorem 3\.8\.5|Definition 3\.8\.6)/,
+      "$1\nP(g(X) = y) = Σ_{x:g(x)=y} P(X = x).\n",
     )
     .replace(
       /(Theorem 4\.5\.1 \(LOTUS\)\.[\s\S]*?then)\s*[\s\S]*?(?=where the sum is taken)/,
       "$1\nE(g(X)) = Σ_x g(x)P(X = x),\n",
     )
     .replace(
-      /(Theorem 5\.4\.4 \(Normal CDF and PDF\)[\s\S]*?is)\s*[\s\S]*?(?=Proof\. For the CDF)/,
-      "$1\nF(x) = Φ((x − μ)/σ),\nf(x) = (1/σ)φ((x − μ)/σ).\n\n",
+      /(Theorem 4\.6\.2\. For any r\.v\. X,)\s*[\s\S]*?(?=Proof\.)/,
+      "$1\nVar(X) = E(X²) − (E(X))².\n",
     )
     .replace(
       /(Example 5\.3\.5 \(Universality with Rayleigh\)\. The Rayleigh CDF is)\s*[\s\S]*?(?=The quantile function)/,
-      "$1\nF(x) = 1 − e^(−x²/2),  x > 0.\n\n",
+      "$1\nF(x) = 1 − e^(−x²/2),  x > 0.\n",
     )
     .replace(
-      /(The quantile function \(the inverse of the CDF\) is)\s*[\s\S]*?(?=so if U)/,
-      "$1\nF⁻¹(u) = √(−2 log(1 − u)),\n",
+      /(Theorem 5\.4\.4 \(Normal CDF and PDF\)\.[\s\S]*?Then the CDF of X is)\s*[\s\S]*?(?=Proof\.)/,
+      "$1\nF(x) = Φ((x − μ)/σ),\nf(x) = (1/σ)φ((x − μ)/σ).\n",
+    )
+    .replace(
+      /(Theorem 5\.4\.5 \(68-95-99\.7% rule\)\.[\s\S]*?then)\s*[\s\S]*?(?=We can use this rule)/,
+      "$1\nP(|X − μ| < σ) ≈ 0.68,\nP(|X − μ| < 2σ) ≈ 0.95,\nP(|X − μ| < 3σ) ≈ 0.997.\n",
+    )
+    // Chapters 6–10: core MGF, joint-distribution, conditioning, and limit identities.
+    .replace(
+      /(Theorem 6\.4\.7 \(MGF of a sum of independent r\.v\.s\)\.[\s\S]*?individual MGFs:)\s*[\s\S]*?(?=This is true because)/,
+      "$1\nM_{X+Y}(t) = M_X(t)M_Y(t).\n",
+    )
+    .replace(
+      /(Example 6\.4\.12 \(Normal MGF\)\.[\s\S]*?Thus, the MGF of X = μ \+ σZ ∼ N \(μ, σ²\) is)\s*[\s\S]*?(?=Example 6\.4\.13)/,
+      "$1\nM_X(t) = exp(μt + σ²t²/2).\n",
+    )
+    .replace(
+      /(Example 6\.6\.3 \(Sum of independent Normals\)\.[\s\S]*?then)\s*[\s\S]*?(?=Thus the sum of independent Normals)/,
+      "$1\nX₁ + X₂ ∼ N(μ₁ + μ₂, σ₁² + σ₂²).\n",
+    )
+    .replace(
+      /(Theorem 7\.3\.5 \(Correlation bounds\)\.[\s\S]*?For any r\.v\.s X and Y,)\s*[\s\S]*?(?=Proof\.)/,
+      "$1\n−1 ≤ Corr(X, Y) ≤ 1.\n",
+    )
+    .replace(
+      /(Theorem 7\.4\.2 \(Multinomial joint PMF\)\.[\s\S]*?then the joint PMF of X is)\s*[\s\S]*?(?=Proof\.)/,
+      "$1\nP(X₁=n₁,…,Xₖ=nₖ) = [n!/(n₁!···nₖ!)]p₁ⁿ¹···pₖⁿᵏ,  Σnᵢ=n.\n",
+    )
+    .replace(
+      /(Theorem 8\.4\.3\. Let X₁,?\s*\.\.\.,?\s*Xₙ be i\.i\.d\. Expo\(λ\)\. Then)\s*[\s\S]*?(?=Proof\.)/,
+      "$1\nX₁ + ··· + Xₙ ∼ Gamma(n, λ).\n",
+    )
+    .replace(
+      /(Example 8\.5\.3 \(Beta-Binomial PMF\)\.[\s\S]*?Find the marginal distribution of X\.)[\s\S]*?(?=8\.6\s+Order statistics)/,
+      "$1\nP(X = k) = C(n, k) B(a + k, b + n − k)/B(a, b),  k = 0,…,n.\n\n",
+    )
+    .replace(
+      /(Theorem 8\.6\.3 \(CDF of order statistic\)\.[\s\S]*?Then the CDF of the jth order statistic X\(j\) is)\s*[\s\S]*?(?=To get the PDF)/,
+      "$1\nP(X_(j) ≤ x) = Σ_{k=j}^{n} C(n, k)F(x)^k[1 − F(x)]^(n−k).\n",
+    )
+    .replace(
+      /(Theorem 9\.3\.7 \(Adam’s law\)\.[\s\S]*?For any r\.v\.s X and Y,)\s*[\s\S]*?(?=Proof\.)/,
+      "$1\nE(E(Y|X)) = E(Y).\n",
+    )
+    .replace(
+      /(Theorem 9\.5\.5 \(Eve’s law\)\.[\s\S]*?For any r\.v\.s X and Y,)\s*[\s\S]*?(?=The ordering of E’s)/,
+      "$1\nVar(Y) = E(Var(Y|X)) + Var(E(Y|X)).\n",
+    )
+    .replace(
+      /(Theorem 10\.2\.2 \(Weak law of large numbers\)\.[\s\S]*?For all ε > 0,)\s*[\s\S]*?(?=Proof\.)/,
+      "$1\nP(|X̄ₙ − μ| > ε) → 0 as n → ∞.\n",
+    )
+    .replace(
+      /(Theorem 10\.3\.1 \(Central limit theorem\)\.[\s\S]*?As n → ∞,)\s*[\s\S]*?(?=In words,)/,
+      "$1\n√n(X̄ₙ − μ)/σ → N(0, 1) in distribution.\n",
+    )
+    .replace(
+      /(Theorem 10\.4\.2\. The χ²ₙ distribution is)\s*[\s\S]*?(?=Proof\.)/,
+      "$1 Gamma(n/2, 1/2).\n",
     )
     // Newton–Pepys expressions checked against printed textbook pages 17–18.
     .replace(
