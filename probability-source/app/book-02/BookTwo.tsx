@@ -83,49 +83,49 @@ function repairKnownChapterOneFormulas(text: string) {
     )
     // Bose–Einstein and story-proof identities checked against printed pages 19–21.
     .replace(
-      /(Thus, the answer to the original question\\s+is also)[\\s\\S]*?(?=Another isomorphic problem)/,
+      /(Thus, the answer to the original question\s+is also)[\s\S]*?(?=Another isomorphic problem)/,
       "$1 C(n + k − 1, k). ",
     )
     .replace(
-      /(By Bose-Einstein, the number of lists is)[\\s\\S]*?(?=But the\\s+ordered birthday lists)/,
+      /(By Bose-Einstein, the number of lists is)[\s\S]*?(?=But the\s+ordered birthday lists)/,
       "$1 C(n + k − 1, k) ",
     )
     .replace(
-      /(Example 1\\.5\\.1 \\(Choosing the complement\\)\\.[\\s\\S]*?we have)\\s*[\\s\\S]*?(?=This is easy to check algebraically)/,
-      "$1 C(n, k) = C(n, n − k).\\n",
+      /(Example 1\.5\.1 \(Choosing the complement\)\.[\s\S]*?we have)\s*[\s\S]*?(?=This is easy to check algebraically)/,
+      "$1 C(n, k) = C(n, n − k).\n",
     )
     .replace(
-      /(Example 1\\.5\\.2 \\(The team captain\\)\\.[\\s\\S]*?k ≤ n,)\\s*[\\s\\S]*?(?=This is again easy to check algebraically)/,
-      "$1\\nn C(n − 1, k − 1) = k C(n, k).\\n",
+      /(Example 1\.5\.2 \(The team captain\)\.[\s\S]*?k ≤ n,)\s*[\s\S]*?(?=This is again easy to check algebraically)/,
+      "$1\nn C(n − 1, k − 1) = k C(n, k).\n",
     )
     .replace(
-      /(Vandermonde’s identity,2 says that)\\s*[\\s\\S]*?(?=This identity will come up)/,
-      "$1\\nC(m + n, k) = Σ_{j=0}^{k} C(m, j)C(n, k − j).\\n",
+      /(Vandermonde’s identity,2 says that)\s*[\s\S]*?(?=This identity will come up)/,
+      "$1\nC(m + n, k) = Σ_{j=0}^{k} C(m, j)C(n, k − j).\n",
     )
     .replace(
-      /(Example 1\\.5\\.4 \\(Partnerships\\)\\.[\\s\\S]*?show that)\\s*[\\s\\S]*?(?=Story proof)/,
-      "$1\\n(2n)!/(2^n n!) = (2n − 1)(2n − 3) ··· 3 · 1.\\n\\n",
+      /(Example 1\.5\.4 \(Partnerships\)\.[\s\S]*?show that)\s*[\s\S]*?(?=Story proof)/,
+      "$1\n(2n)!/(2^n n!) = (2n − 1)(2n − 3) ··· 3 · 1.\n\n",
     )
     // Chapters 2–5: rebuild high-value PMF, expectation, and Normal/Rayleigh identities.
     .replace(
-      /(Example 3\\.4\\.4 \\(Aces in a poker hand\\)\\.[\\s\\S]*?has exactly three aces is)\\s*[\\s\\S]*?(?=The following table)/,
-      "$1\\nP(X = 3) = [C(4, 3)C(48, 2)]/C(52, 5) ≈ 0.0017.\\n",
+      /(Example 3\.4\.4 \(Aces in a poker hand\)\.[\s\S]*?has exactly three aces is)\s*[\s\S]*?(?=The following table)/,
+      "$1\nP(X = 3) = [C(4, 3)C(48, 2)]/C(52, 5) ≈ 0.0017.\n",
     )
     .replace(
-      /(Theorem 4\\.5\\.1 \\(LOTUS\\)\\.[\\s\\S]*?then)\\s*[\\s\\S]*?(?=where the sum is taken)/,
-      "$1\\nE(g(X)) = Σ_x g(x)P(X = x),\\n",
+      /(Theorem 4\.5\.1 \(LOTUS\)\.[\s\S]*?then)\s*[\s\S]*?(?=where the sum is taken)/,
+      "$1\nE(g(X)) = Σ_x g(x)P(X = x),\n",
     )
     .replace(
-      /(Theorem 5\\.4\\.4 \\(Normal CDF and PDF\\)[\\s\\S]*?is)\\s*[\\s\\S]*?(?=Proof\\. For the CDF)/,
-      "$1\\nF(x) = Φ((x − μ)/σ),\\nf(x) = (1/σ)φ((x − μ)/σ).\\n\\n",
+      /(Theorem 5\.4\.4 \(Normal CDF and PDF\)[\s\S]*?is)\s*[\s\S]*?(?=Proof\. For the CDF)/,
+      "$1\nF(x) = Φ((x − μ)/σ),\nf(x) = (1/σ)φ((x − μ)/σ).\n\n",
     )
     .replace(
-      /(Example 5\\.3\\.5 \\(Universality with Rayleigh\\)\\. The Rayleigh CDF is)\\s*[\\s\\S]*?(?=The quantile function)/,
-      "$1\\nF(x) = 1 − e^(−x²/2),  x > 0.\\n\\n",
+      /(Example 5\.3\.5 \(Universality with Rayleigh\)\. The Rayleigh CDF is)\s*[\s\S]*?(?=The quantile function)/,
+      "$1\nF(x) = 1 − e^(−x²/2),  x > 0.\n\n",
     )
     .replace(
-      /(The quantile function \\(the inverse of the CDF\\) is)\\s*[\\s\\S]*?(?=so if U)/,
-      "$1\\nF⁻¹(u) = √(−2 log(1 − u)),\\n",
+      /(The quantile function \(the inverse of the CDF\) is)\s*[\s\S]*?(?=so if U)/,
+      "$1\nF⁻¹(u) = √(−2 log(1 − u)),\n",
     )
     // Newton–Pepys expressions checked against printed textbook pages 17–18.
     .replace(
