@@ -228,13 +228,45 @@
     }
   ];
 
+  // Each day's tasks are built from the topics of the week being viewed, so
+  // "Monday" always names that week's actual probability topic.
+  // Task counts per day are fixed, because saved checkbox keys use the task index.
   var DAILY_PLAN = [
-    { id:'mon', day:'Monday', focus:'Probability + Logical Reasoning', tasks:['Probability: learn the week’s concept (about 60 min)','Probability: work through examples and derive steps (about 40 min)','Logical reasoning: one focused exercise set (about 35 min)','Independent problems and error review (about 65 min)'] },
-    { id:'tue', day:'Tuesday', focus:'Combinatorics + C++ implementation', tasks:['Combinatorics: learn the week’s counting method (about 60 min)','Combinatorics: guided examples and small-case checks (about 40 min)','C++ implementation or complexity practice (about 35 min)','Independent problems and error review (about 65 min)'] },
-    { id:'wed', day:'Wednesday', focus:'Graph Theory + Combinatorics', tasks:['Graph theory: learn the week’s structure/algorithm (about 60 min)','Trace the algorithm on hand-worked examples (about 35 min)','Implement and test the graph algorithm (about 45 min)','Independent graph/counting problems and review (about 60 min)'] },
-    { id:'thu', day:'Thursday', focus:'Dynamic Programming + Logical Reasoning', tasks:['DP: define state, base case and transition (about 60 min)','Dry-run recurrence on small inputs (about 35 min)','Implement and test DP solutions (about 50 min)','Logical reasoning and error review (about 55 min)'] },
-    { id:'fri', day:'Friday', focus:'Probability + Graph Theory integration', tasks:['Probability: independent problem set (about 55 min)','Graph theory: independent problem set (about 55 min)','Mixed problem requiring a key observation (about 50 min)','Review mistakes and write concise notes (about 40 min)'] },
-    { id:'sat', day:'Saturday', focus:'Mixed contest + upsolving', tasks:['Timed mixed contest or weekly assessment (up to 150 min)','Upsolve missed problems without copying the editorial (about 40 min)','Update problem review log and next-week repair list (about 20 min)'] }
+    { id:'mon', day:'Monday', focus:'Probability + Logical Reasoning', tasks:function (t) { return [
+      'Probability: learn — ' + t('probability') + ' (about 60 min)',
+      'Probability: worked examples and derivations on the same topic (about 40 min)',
+      'Logical reasoning: ' + t('logic') + ' (about 35 min)',
+      'Independent problems and error review (about 65 min)'
+    ]; } },
+    { id:'tue', day:'Tuesday', focus:'Combinatorics + C++ implementation', tasks:function (t) { return [
+      'Combinatorics: learn — ' + t('combinatorics') + ' (about 60 min)',
+      'Combinatorics: guided examples and small-case checks (about 40 min)',
+      'C++: ' + t('coding') + ' (about 35 min)',
+      'Independent problems and error review (about 65 min)'
+    ]; } },
+    { id:'wed', day:'Wednesday', focus:'Graph Theory + Combinatorics', tasks:function (t) { return [
+      'Graph theory: learn — ' + t('graphs') + ' (about 60 min)',
+      'Trace it on hand-worked examples (about 35 min)',
+      'Implement and test it in C++ (about 45 min)',
+      'Independent graph and counting problems, then review (about 60 min)'
+    ]; } },
+    { id:'thu', day:'Thursday', focus:'Dynamic Programming + Logical Reasoning', tasks:function (t) { return [
+      'DP: learn — ' + t('dp') + ' (about 60 min)',
+      'Work the idea by hand on small inputs; write state, base case and transition where they apply (about 35 min)',
+      'Implement and test DP solutions (about 50 min)',
+      'Logical reasoning: more problems on ' + t('logic') + ', then error review (about 55 min)'
+    ]; } },
+    { id:'fri', day:'Friday', focus:'Probability + Graph Theory integration', tasks:function (t) { return [
+      'Probability: independent problem set — ' + t('probability') + ' (about 55 min)',
+      'Graph theory: independent problem set — ' + t('graphs') + ' (about 55 min)',
+      'Mixed problem requiring a key observation (about 50 min)',
+      'Review mistakes and write concise notes (about 40 min)'
+    ]; } },
+    { id:'sat', day:'Saturday', focus:'Mixed contest + upsolving', tasks:function () { return [
+      'Timed mixed contest or weekly checkpoint (up to 150 min)',
+      'Upsolve missed problems without copying the editorial (about 40 min)',
+      'Update the problem review log and next week’s repair list (about 20 min)'
+    ]; } }
   ];
 
   var MASTERY = [
@@ -346,7 +378,7 @@
         '<div class="subject-count"><span>' + counts.mastered + ' / ' + total + ' mastered</span><span>' + pct + '% mastery</span></div>' +
         '<div class="progress-track"><span style="width:' + pct + '%"></span></div>' +
         '<div class="subject-breakdown"><span>' + counts.learning + ' learning</span><span>' + counts.practiced + ' practiced</span><span>' + counts['not-started'] + ' not started</span></div>' +
-        '<a class="subject-link" href="#roadmap">Open roadmap ↓</a></article>';
+        '<a class="subject-link" href="#roadmap">See this week ↓</a></article>';
     }).join('');
   }
 
@@ -390,53 +422,97 @@
     }).join('<span class="resource-separator">·</span>');
   }
 
-  function renderWeeks() {
-    var openWeeks = {};
-    $('week-list').querySelectorAll('.week-card').forEach(function (details, index) { openWeeks[index] = details.open; });
-    $('week-list').innerHTML = WEEKS.map(function (week, wi) {
-      var statusOptions = function (key) {
-        return MASTERY.map(function (option) {
-          return '<option value="' + option.value + '" ' + (statusOf(key) === option.value ? 'selected' : '') + '>' + option.label + '</option>';
-        }).join('');
-      };
-      var topics = week.topics.map(function (topic, ti) {
-        var key = topicKey(wi,ti);
-        var subjectName = topic[0] === 'coding' ? 'C++ / Implementation' : SUBJECTS.find(function (s) { return s.id === topic[0]; }).name;
-        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small><span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span></div>' +
-          '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
-      }).join('');
-      var days = DAILY_PLAN.map(function (day) {
-        var dayKey = 'w' + (wi + 1) + '-' + day.id;
-        var tasks = day.tasks.map(function (task, ti) {
-          var key = dayKey + '-' + ti;
-          var checked = !!state.dayChecks[key];
-          return '<label class="daily-task"><input type="checkbox" data-day-task="' + key + '" ' + (checked ? 'checked' : '') + '><span>' + esc(task) + '</span></label>';
-        }).join('');
-        var done = day.tasks.filter(function (_, ti) { return !!state.dayChecks[dayKey + '-' + ti]; }).length;
-        return '<details class="daily-day"><summary><span>' + day.day + '</span><span>' + day.focus + '</span><small>' + done + '/' + day.tasks.length + '</small></summary><div class="daily-task-list">' + tasks + '</div></details>';
-      }).join('');
-      var weekStatuses = week.topics.map(function (_,ti) { return statusOf(topicKey(wi,ti)); });
-      var mastered = weekStatuses.filter(function (x) { return x === 'mastered'; }).length;
-      var assessment = week.assessment ? '<div class="assessment-note"><strong>Checkpoint</strong><p>' + esc(week.assessment) + '</p></div>' : '';
-      return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + '</span></span><span class="week-progress">' + mastered + ' / ' + week.topics.length + ' mastered</span></summary>' +
-        '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment +
-        '<div class="topic-status-guide">Choose <b>Learning</b> when you can explain the idea; <b>Practiced</b> when you solve representative problems independently; <b>Mastered</b> when you solve unseen mixed problems under time and can justify the method.</div>' +
-        '<div class="roadmap-topic-list">' + topics + '</div>' +
-        '<div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Complete the actual work for each day. Adjust the topic content to the current week’s syllabus above. Sunday is rest or light revision.</p>' + days +
-        '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div></div></details>';
-    }).join('');
+  function topicText(wi) {
+    return function (id) {
+      var hit = WEEKS[wi].topics.filter(function (topic) { return topic[0] === id; })[0];
+      return hit ? hit[1] : 'this week’s topic';
+    };
+  }
+  function dayTaskKey(wi, day, ti) { return 'w' + (wi + 1) + '-' + day.id + '-' + ti; }
+  var DAY_IDS = [null, 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']; // Date#getDay(): Sunday = 0
 
-    $('week-list').querySelectorAll('[data-mastery]').forEach(function (select) {
-      select.addEventListener('change', function () {
-        state.mastery[select.dataset.mastery] = select.value;
-        saveAndRender();
-        renderWeeks();
-      });
-    });
-    $('week-list').querySelectorAll('[data-day-task]').forEach(function (input) {
+  function renderToday() {
+    var el = $('today-panel');
+    var today = new Date(); today.setHours(0,0,0,0);
+    var start = new Date(state.startDate + 'T00:00:00');
+    var target = new Date(state.targetDate + 'T00:00:00');
+    var dateLabel = today.toLocaleDateString(undefined, { weekday:'long', day:'numeric', month:'long' });
+    var note = function (title, text) {
+      el.innerHTML = '<div class="today-head"><span class="today-label">TODAY · ' + esc(dateLabel.toUpperCase()) + '</span><h3>' + esc(title) + '</h3></div><p class="today-note">' + esc(text) + '</p>';
+    };
+    if (Number.isFinite(start.getTime()) && today < start) {
+      return note('Campaign has not started', 'Daily tasks begin on ' + start.toLocaleDateString(undefined, { weekday:'long', day:'numeric', month:'long' }) + '. Week 1 is shown below.');
+    }
+    if (Number.isFinite(target.getTime()) && today > target) {
+      return note('Target date has passed', 'Change the target date above if the competition has moved.');
+    }
+    var wi = currentWeekIndex();
+    var dayId = DAY_IDS[today.getDay()];
+    if (!dayId) return note('Rest day', 'Sunday is rest or light revision. There is no completion target today.');
+    var day = DAILY_PLAN.filter(function (d) { return d.id === dayId; })[0];
+    var tasks = day.tasks(topicText(wi));
+    var done = tasks.filter(function (_, ti) { return !!state.dayChecks[dayTaskKey(wi, day, ti)]; }).length;
+    el.innerHTML = '<div class="today-head"><span class="today-label">TODAY · ' + esc(dateLabel.toUpperCase()) + ' · WEEK ' + (wi + 1) + '</span>' +
+      '<h3>' + esc(day.focus) + '</h3><span class="today-count">' + done + ' / ' + tasks.length + ' done</span></div>' +
+      '<div class="progress-track"><span style="width:' + Math.round(done / tasks.length * 100) + '%"></span></div>' +
+      '<div class="today-task-list">' + tasks.map(function (task, ti) {
+        var key = dayTaskKey(wi, day, ti);
+        return '<label class="daily-task"><input type="checkbox" data-day-task="' + key + '" ' + (state.dayChecks[key] ? 'checked' : '') + '><span>' + esc(task) + '</span></label>';
+      }).join('') + '</div>';
+    el.querySelectorAll('[data-day-task]').forEach(function (input) {
       input.addEventListener('change', function () {
         state.dayChecks[input.dataset.dayTask] = input.checked;
         persist();
+        renderToday();
+      });
+    });
+  }
+
+  // null = follow the real current week; a number = the week being browsed
+  var viewWeek = null;
+
+  function renderWeeks() {
+    var current = currentWeekIndex();
+    var wi = viewWeek === null ? current : viewWeek;
+    var week = WEEKS[wi];
+    var statusOptions = function (key) {
+      return MASTERY.map(function (option) {
+        return '<option value="' + option.value + '" ' + (statusOf(key) === option.value ? 'selected' : '') + '>' + option.label + '</option>';
+      }).join('');
+    };
+    var topics = week.topics.map(function (topic, ti) {
+      var key = topicKey(wi, ti);
+      var subjectName = topic[0] === 'coding' ? 'C++ / Implementation' : SUBJECTS.find(function (s) { return s.id === topic[0]; }).name;
+      return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small><span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span></div>' +
+        '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
+    }).join('');
+    var mastered = week.topics.filter(function (_, ti) { return statusOf(topicKey(wi, ti)) === 'mastered'; }).length;
+    var assessment = week.assessment ? '<div class="assessment-note"><strong>Checkpoint</strong><p>' + esc(week.assessment) + '</p></div>' : '';
+    $('week-list').innerHTML =
+      '<div class="week-stepper">' +
+        '<button type="button" class="step-button" data-step="-1" ' + (wi === 0 ? 'disabled' : '') + ' aria-label="Previous week">‹</button>' +
+        '<div class="week-stepper-title"><span class="week-number">WEEK ' + String(wi + 1).padStart(2, '0') + ' OF ' + WEEKS.length + (wi === current ? ' · THIS WEEK' : '') + '</span>' +
+        '<span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + ' · ' + mastered + ' / ' + week.topics.length + ' mastered</span></div>' +
+        '<button type="button" class="step-button" data-step="1" ' + (wi === WEEKS.length - 1 ? 'disabled' : '') + ' aria-label="Next week">›</button>' +
+      '</div>' +
+      (wi !== current ? '<button type="button" class="text-action back-to-current" data-step="current">← Back to this week (Week ' + (current + 1) + ')</button>' : '') +
+      '<p class="week-objective">' + esc(week.objective) + '</p>' + assessment +
+      '<div class="roadmap-topic-list">' + topics + '</div>';
+
+    $('week-list').querySelectorAll('[data-step]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        var step = button.dataset.step;
+        var next = step === 'current' ? current : wi + Number(step);
+        viewWeek = next === current ? null : Math.max(0, Math.min(WEEKS.length - 1, next));
+        renderWeeks();
+      });
+    });
+    $('week-list').querySelectorAll('[data-mastery]').forEach(function (select) {
+      select.addEventListener('change', function () {
+        state.mastery[select.dataset.mastery] = select.value;
+        persist();
+        renderOverview();
+        renderSubjects();
         renderWeeks();
       });
     });
@@ -563,11 +639,12 @@
     bindInput('rank-buffer','rankBuffer');
     bindInput('qualification-track','qualificationTrack');
     bindInput('benchmark-source','benchmarkSource');
-    ['start-date','target-date'].forEach(function (id) { $(id).addEventListener('change', renderOverview); });
+    ['start-date','target-date'].forEach(function (id) { $(id).addEventListener('change', function () { viewWeek = null; renderOverview(); renderToday(); renderWeeks(); }); });
     ['qualification-cutoff','qualification-pool-size','rank-buffer','qualification-track','benchmark-source'].forEach(function (id) { $(id).addEventListener('change', renderSafety); });
 
     renderOverview();
     renderSubjects();
+    renderToday();
     renderWeeks();
     renderSafety();
     renderProblemHistory();

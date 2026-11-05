@@ -25,7 +25,7 @@
       <a href="../#tools">All sections</a>
       <a href="#dashboard">Dashboard</a>
       <a href="#subjects">Mastery</a>
-      <a href="#roadmap">Roadmap</a>
+      <a href="#roadmap">Today &amp; Week</a>
       <a href="#mock-tests">Assessments</a>
     </nav>
     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch theme">Light mode</button>
@@ -99,16 +99,11 @@
 
     <section class="section-block" id="roadmap">
       <div class="section-heading-row">
-        <div><div class="card-label">16-WEEK CURRICULUM</div><h2>Weekly learning plan</h2></div>
-        <p>Each week contains explicit subject checkpoints and a daily execution plan. Advance based on evidence; carry unfinished topics forward instead of ticking them off to stay on schedule.</p>
+        <div><div class="card-label">YOUR FOCUS</div><h2>Today &amp; this week</h2></div>
+        <p>Do today’s tasks, then use this week’s topics to decide what is Learning, Practiced or Mastered. If a topic is not solid yet, carry it forward instead of ticking it off.</p>
       </div>
-      <div class="phase-legend">
-        <span><i class="legend-dot foundation"></i> Foundations</span>
-        <span><i class="legend-dot core"></i> Core concepts</span>
-        <span><i class="legend-dot integration"></i> Integrated problem-solving</span>
-        <span><i class="legend-dot competition"></i> Competition readiness</span>
-      </div>
-      <div id="week-list" class="week-list"></div>
+      <div id="today-panel" class="today-panel" aria-live="polite"></div>
+      <div id="week-list" class="week-current"></div>
     </section>
 
     <section class="section-block problem-log-section" id="problem-review">
