@@ -96,7 +96,7 @@ function repairKnownChapterOneFormulas(text: string) {
     )
     .replace(
       /(Example 1\\.5\\.2 \\(The team captain\\)\\.[\\s\\S]*?k ≤ n,)\\s*[\\s\\S]*?(?=This is again easy to check algebraically)/,
-      "$1\\n n C(n − 1, k − 1) = k C(n, k).\\n",
+      "$1\\nn C(n − 1, k − 1) = k C(n, k).\\n",
     )
     .replace(
       /(Vandermonde’s identity,2 says that)\\s*[\\s\\S]*?(?=This identity will come up)/,
