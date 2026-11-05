@@ -106,6 +106,27 @@ function repairKnownChapterOneFormulas(text: string) {
       /(Example 1\\.5\\.4 \\(Partnerships\\)\\.[\\s\\S]*?show that)\\s*[\\s\\S]*?(?=Story proof)/,
       "$1\\n(2n)!/(2^n n!) = (2n − 1)(2n − 3) ··· 3 · 1.\\n\\n",
     )
+    // Chapters 2–5: rebuild high-value PMF, expectation, and Normal/Rayleigh identities.
+    .replace(
+      /(Example 3\\.4\\.4 \\(Aces in a poker hand\\)\\.[\\s\\S]*?has exactly three aces is)\\s*[\\s\\S]*?(?=The following table)/,
+      "$1\\nP(X = 3) = [C(4, 3)C(48, 2)]/C(52, 5) ≈ 0.0017.\\n",
+    )
+    .replace(
+      /(Theorem 4\\.5\\.1 \\(LOTUS\\)\\.[\\s\\S]*?then)\\s*[\\s\\S]*?(?=where the sum is taken)/,
+      "$1\\nE(g(X)) = Σ_x g(x)P(X = x),\\n",
+    )
+    .replace(
+      /(Theorem 5\\.4\\.4 \\(Normal CDF and PDF\\)[\\s\\S]*?is)\\s*[\\s\\S]*?(?=Proof\\. For the CDF)/,
+      "$1\\nF(x) = Φ((x − μ)/σ),\\nf(x) = (1/σ)φ((x − μ)/σ).\\n\\n",
+    )
+    .replace(
+      /(Example 5\\.3\\.5 \\(Universality with Rayleigh\\)\\. The Rayleigh CDF is)\\s*[\\s\\S]*?(?=The quantile function)/,
+      "$1\\nF(x) = 1 − e^(−x²/2),  x > 0.\\n\\n",
+    )
+    .replace(
+      /(The quantile function \\(the inverse of the CDF\\) is)\\s*[\\s\\S]*?(?=so if U)/,
+      "$1\\nF⁻¹(u) = √(−2 log(1 − u)),\\n",
+    )
     // Newton–Pepys expressions checked against printed textbook pages 17–18.
     .replace(
       /(A: Instead of counting[\s\S]*?Thus)\s*[\s\S]*?(?=\n\nB:)/,
