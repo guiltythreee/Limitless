@@ -197,6 +197,43 @@ function repairKnownChapterOneFormulas(text: string) {
       /(Theorem 10\.4\.2\. The χ²ₙ distribution is)\s*[\s\S]*?(?=Proof\.)/,
       "$1 Gamma(n/2, 1/2).\n",
     )
+    // Tighten patterns where PDF extraction split a theorem statement across lines.
+    .replace(
+      /(Theorem 5\.4\.4 \(Normal CDF and PDF\)\.[\s\S]*?Then the CDF of X\s+is)[\s\S]*?(?=Proof\.)/,
+      "$1\nF(x) = Φ((x − μ)/σ),\nf(x) = (1/σ)φ((x − μ)/σ).\n",
+    )
+    .replace(
+      /(Thus, the MGF of X = µ \+ σZ ∼ N \(µ, σ 2 \)\s+is)[\s\S]*?(?=Example 6\.4\.13)/,
+      "$1\nM_X(t) = exp(µt + σ²t²/2).\n",
+    )
+    .replace(
+      /(Example 6\.6\.3 \(Sum of independent Normals\)\.[\s\S]*?then the MGF of X1 \+ X2 is)[\s\S]*?(?=Thus the sum of independent Normals)/,
+      "$1\nM_{X₁+X₂}(t) = exp((µ₁+µ₂)t + (σ₁²+σ₂²)t²/2),\nX₁ + X₂ ∼ N(µ₁+µ₂, σ₁²+σ₂²).\n",
+    )
+    .replace(
+      /(Theorem 7\.3\.5 \(Correlation bounds\)\. For any r\.v\.s X and Y ,)[\s\S]*?(?=Proof\.)/,
+      "$1\n−1 ≤ Corr(X, Y) ≤ 1.\n",
+    )
+    .replace(
+      /(Theorem 7\.4\.2 \(Multinomial joint PMF\)\.[\s\S]*?then the joint PMF\s+of X is)[\s\S]*?(?=Proof\.)/,
+      "$1\nP(X₁=n₁,…,Xₖ=nₖ) = [n!/(n₁!···nₖ!)]p₁ⁿ¹···pₖⁿᵏ,  Σnᵢ=n.\n",
+    )
+    .replace(
+      /(Example 8\.5\.3 \(Beta-Binomial PMF\)\.[\s\S]*?Find the marginal distribution of X\.)[\s\S]*?(?=8\.6\s+Order statistics)/,
+      "$1\nP(X = k) = C(n, k) B(a + k, b + n − k)/B(a, b),  k = 0,…,n.\n\n",
+    )
+    .replace(
+      /(Theorem 9\.3\.7 \(Adam’s law\)\. For any r\.v\.s X and Y ,)[\s\S]*?(?=Proof\.)/,
+      "$1\nE(E(Y|X)) = E(Y).\n",
+    )
+    .replace(
+      /(Theorem 9\.5\.5 \(Eve’s law\)\. For any r\.v\.s X and Y ,)[\s\S]*?(?=The ordering of E’s)/,
+      "$1\nVar(Y) = E(Var(Y|X)) + Var(E(Y|X)).\n",
+    )
+    .replace(
+      /(Theorem 10\.4\.2\. The χ2n distribution is)[\s\S]*?(?=Proof\.)/,
+      "$1 Gamma(n/2, 1/2).\n",
+    )
     // Newton–Pepys expressions checked against printed textbook pages 17–18.
     .replace(
       /(A: Instead of counting[\s\S]*?Thus)\s*[\s\S]*?(?=\n\nB:)/,
