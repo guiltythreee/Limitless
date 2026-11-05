@@ -24,7 +24,8 @@ export default function ProbabilityStudiesLanding() {
     snapshots,
     ready: progressReady,
     showPathways: true,
-    pathwayHref: (pathwayId) => `/probability/?pathway=${encodeURIComponent(pathwayId)}#study`,
+    // next/link adds the /probability base path itself, so the href must not include it.
+    pathwayHref: (pathwayId) => `/?pathway=${encodeURIComponent(pathwayId)}#study`,
   });
 
   return (
