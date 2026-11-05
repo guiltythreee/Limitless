@@ -24,8 +24,7 @@ export default function ProbabilityStudiesLanding() {
     snapshots,
     ready: progressReady,
     showPathways: true,
-    // Next.js applies the configured production basePath (/probability) to Link hrefs.
-    // Keep this route base-path-relative or it becomes /probability/probability/.
+    // next/link adds the /probability base path itself, so the href must not include it.
     pathwayHref: (pathwayId) => `/?pathway=${encodeURIComponent(pathwayId)}#study`,
   });
 
@@ -38,6 +37,21 @@ export default function ProbabilityStudiesLanding() {
         </div>
       </header>
       {landing}
+      <section className="mx-auto mb-16 mt-8 max-w-[1440px] px-5 md:px-10" aria-labelledby="probability-books-title">
+        <div className="mb-5">
+          <div className="eyebrow">Reference library</div>
+          <h2 id="probability-books-title" className="serif mt-2 text-3xl text-parchment">Books</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-dim">Work through source-based problem books with saved question progress and detailed solutions.</p>
+        </div>
+        <Link href="/book-01/" className="panel group block max-w-xl p-6 transition hover:border-gold/50">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase tracking-[.18em] text-gold">Book 01</span>
+            <span className="text-gold transition group-hover:translate-x-1">→</span>
+          </div>
+          <h3 className="serif mt-4 text-2xl text-parchment">A First Course in Probability</h3>
+          <p className="mt-2 text-sm leading-6 text-dim">Chapters 1–5 · Original questions and detailed solutions</p>
+        </Link>
+      </section>
     </>
   );
 }
