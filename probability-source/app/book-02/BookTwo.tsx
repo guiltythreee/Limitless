@@ -234,6 +234,14 @@ function repairKnownChapterOneFormulas(text: string) {
       /(Theorem 10\.4\.2\. The χ2n distribution is)[\s\S]*?(?=Proof\.)/,
       "$1 Gamma(n/2, 1/2).\n",
     )
+    .replace(
+      /(Example 6\.6\.3 \(Sum of independent Normals\)\.[\s\S]*?then the MGF of X1 \+ X2 is)[\s\S]*?(?=Example 6\.6\.4)/,
+      "$1\nM_{X₁+X₂}(t) = exp((µ₁+µ₂)t + (σ₁²+σ₂²)t²/2),\nX₁ + X₂ ∼ N(µ₁+µ₂, σ₁²+σ₂²).\n",
+    )
+    .replace(
+      /(Example 8\.5\.3 \(Beta-Binomial PMF\)\.[\s\S]*?Find the marginal distribution of X\.)[\s\S]*?(?=8\.6\s+Order statistics)/,
+      "$1\nP(X = k) = C(n, k) B(a + k, b + n − k)/B(a, b),  k = 0,…,n.\n\n",
+    )
     // Newton–Pepys expressions checked against printed textbook pages 17–18.
     .replace(
       /(A: Instead of counting[\s\S]*?Thus)\s*[\s\S]*?(?=\n\nB:)/,
