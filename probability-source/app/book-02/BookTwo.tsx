@@ -108,12 +108,12 @@ function repairKnownChapterOneFormulas(text: string) {
     )
     // Chapter 2: conditional Bayes and total-probability identities.
     .replace(
-      /(Theorem 2\\.4\\.2 \\(Bayes’ rule with extra conditioning\\)\\.[\\s\\S]*?and P \\(B ∩ E\\) > 0, we have)\\s*[\\s\\S]*?(?=Theorem 2\\.4\\.3)/,
-      "$1\\nP(A|B, E) = P(B|A, E)P(A|E)/P(B|E).\\n\\n",
+      /(Theorem 2\.4\.2 \(Bayes’ rule with extra conditioning\)\.[\s\S]*?and P \(B ∩ E\) > 0, we have)\s*[\s\S]*?(?=Theorem 2\.4\.3)/,
+      "$1\nP(A|B, E) = P(B|A, E)P(A|E)/P(B|E).\n\n",
     )
     .replace(
-      /(Theorem 2\\.4\\.3 \\(LOTP with extra conditioning\\)[\\s\\S]*?P \\(Ai ∩ E\\) > 0 for all i, we have)\\s*[\\s\\S]*?(?=The extra conditioning forms)/,
-      "$1\\nP(B|E) = Σ_{i=1}^{n} P(B|Ai, E)P(Ai|E).\\n\\n",
+      /(Theorem 2\.4\.3 \(LOTP with extra conditioning\)[\s\S]*?P \(Ai ∩ E\) > 0 for all i, we have)\s*[\s\S]*?(?=The extra conditioning forms)/,
+      "$1\nP(B|E) = Σ_{i=1}^{n} P(B|Ai, E)P(Ai|E).\n\n",
     )
     // Chapters 2–5: rebuild high-value PMF, expectation, and Normal/Rayleigh identities.
     .replace(
