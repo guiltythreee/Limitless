@@ -170,7 +170,7 @@ function repairKnownChapterOneFormulas(text: string) {
       "$1\nX₁ + ··· + Xₙ ∼ Gamma(n, λ).\n",
     )
     .replace(
-      /(Example 8\.5\.3 \(Beta-Binomial PMF\)\.[\s\S]*?Find the marginal distribution of X\.)[\s\S]*?(?=8\.6\s+Order statistics)/,
+      /(Example 8\.5\.3 \(Beta-Binomial PMF\)\.[\s\S]*?Find the marginal\\s+distribution of X\.)[\s\S]*?(?=8\.6\s+Order statistics)/,
       "$1\nP(X = k) = C(n, k) B(a + k, b + n − k)/B(a, b),  k = 0,…,n.\n\n",
     )
     .replace(
