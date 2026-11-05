@@ -106,6 +106,15 @@ function repairKnownChapterOneFormulas(text: string) {
       /(Example 1\.5\.4 \(Partnerships\)\.[\s\S]*?show that)\s*[\s\S]*?(?=Story proof)/,
       "$1\n(2n)!/(2^n n!) = (2n − 1)(2n − 3) ··· 3 · 1.\n\n",
     )
+    // Chapter 2: conditional Bayes and total-probability identities.
+    .replace(
+      /(Theorem 2\\.4\\.2 \\(Bayes’ rule with extra conditioning\\)\\.[\\s\\S]*?and P \\(B ∩ E\\) > 0, we have)\\s*[\\s\\S]*?(?=Theorem 2\\.4\\.3)/,
+      "$1\\nP(A|B, E) = P(B|A, E)P(A|E)/P(B|E).\\n\\n",
+    )
+    .replace(
+      /(Theorem 2\\.4\\.3 \\(LOTP with extra conditioning\\)[\\s\\S]*?P \\(Ai ∩ E\\) > 0 for all i, we have)\\s*[\\s\\S]*?(?=The extra conditioning forms)/,
+      "$1\\nP(B|E) = Σ_{i=1}^{n} P(B|Ai, E)P(Ai|E).\\n\\n",
+    )
     // Chapters 2–5: rebuild high-value PMF, expectation, and Normal/Rayleigh identities.
     .replace(
       /(Example 3\.4\.4 \(Aces in a poker hand\)\.[\s\S]*?has exactly three aces is)\s*[\s\S]*?(?=The following table)/,
