@@ -81,6 +81,31 @@ function repairKnownChapterOneFormulas(text: string) {
       /(Example 1\.4\.20 \(Full house in poker\)\.[\s\S]*?Thus,)[\s\S]*?(?=\n\nThe decimal approximation)/,
       "$1 P(full house) = [13 C(4, 3) 12 C(4, 2)]/C(52, 5) = 3744/2598960 ≈ 0.00144.",
     )
+    // Bose–Einstein and story-proof identities checked against printed pages 19–21.
+    .replace(
+      /(Thus, the answer to the original question\\s+is also)[\\s\\S]*?(?=Another isomorphic problem)/,
+      "$1 C(n + k − 1, k). ",
+    )
+    .replace(
+      /(By Bose-Einstein, the number of lists is)[\\s\\S]*?(?=But the\\s+ordered birthday lists)/,
+      "$1 C(n + k − 1, k) ",
+    )
+    .replace(
+      /(Example 1\\.5\\.1 \\(Choosing the complement\\)\\.[\\s\\S]*?we have)\\s*[\\s\\S]*?(?=This is easy to check algebraically)/,
+      "$1 C(n, k) = C(n, n − k).\\n",
+    )
+    .replace(
+      /(Example 1\\.5\\.2 \\(The team captain\\)\\.[\\s\\S]*?k ≤ n,)\\s*[\\s\\S]*?(?=This is again easy to check algebraically)/,
+      "$1\\n n C(n − 1, k − 1) = k C(n, k).\\n",
+    )
+    .replace(
+      /(Vandermonde’s identity,2 says that)\\s*[\\s\\S]*?(?=This identity will come up)/,
+      "$1\\nC(m + n, k) = Σ_{j=0}^{k} C(m, j)C(n, k − j).\\n",
+    )
+    .replace(
+      /(Example 1\\.5\\.4 \\(Partnerships\\)\\.[\\s\\S]*?show that)\\s*[\\s\\S]*?(?=Story proof)/,
+      "$1\\n(2n)!/(2^n n!) = (2n − 1)(2n − 3) ··· 3 · 1.\\n\\n",
+    )
     // Newton–Pepys expressions checked against printed textbook pages 17–18.
     .replace(
       /(A: Instead of counting[\s\S]*?Thus)\s*[\s\S]*?(?=\n\nB:)/,
