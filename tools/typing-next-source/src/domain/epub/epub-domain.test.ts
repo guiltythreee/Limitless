@@ -13,7 +13,7 @@ const xml = (body: string) => parser.parseFromString(
   `<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml"><body>${body}</body></html>`,
   "application/xhtml+xml",
 );
-const blocks = (body: string) => epubBlocksFromRoot(xml(body));
+const blocks = (body: string) => epubBlocksFromRoot(xml(body)) ?? [];
 
 test("normalization preserves unicode while cleaning typography", () => {
   assert.equal(normalize("Café — déjà vu, ﬁne.\u00a0"), "Café - déjà vu, fine.");
