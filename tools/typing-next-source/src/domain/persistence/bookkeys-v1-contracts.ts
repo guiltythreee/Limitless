@@ -79,7 +79,7 @@ export interface BookkeysGameProgress {
 export interface BookkeysBackupV1 {
   app: "bookkeys";
   v: 1;
-  exportedAt: number;
+  exportedAt?: number;
   /** Values are serialized localStorage strings, not parsed application records. */
   keys: Record<string, string>;
 }
@@ -111,7 +111,8 @@ export function isBookkeysBackupV1(value: unknown): value is BookkeysBackupV1 {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
   const candidate = value as Record<string, unknown>;
   if (candidate.app !== "bookkeys" || candidate.v !== 1 ||
-      typeof candidate.exportedAt !== "number" || !Number.isFinite(candidate.exportedAt) ||
+      (candidate.exportedAt !== undefined &&
+        (typeof candidate.exportedAt !== "number" || !Number.isFinite(candidate.exportedAt))) ||
       typeof candidate.keys !== "object" || candidate.keys === null || Array.isArray(candidate.keys)) {
     return false;
   }
