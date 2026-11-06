@@ -27,3 +27,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
           wranglerVersion: "4"
+
+# A push to main triggers deployment; workflow_dispatch is also enabled for manual runs.
