@@ -7,7 +7,7 @@ import { readEpub } from "../domain/epub/epub-importer";
 import type { EpubBlock, EpubChapter } from "../domain/epub/epub-domain";
 import { readPdf } from "../domain/pdf/pdf-importer";
 import {
-  completeBookkeysPage, createPageDraft, emptyBookkeysGame, pageSignature,
+  completeBookkeysPage, createPageDraft, emptyBookkeysGame,
   readPageDraft,
 } from "../domain/reading/bookkeys-reading-session";
 import { typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
@@ -160,7 +160,7 @@ export default function BookkeysApp() {
       setStatus("Choose a PDF or EPUB file.");
       return;
     }
-    const format: BookFormat = extension;
+    const format: BookFormat = extension === "epub" ? "epub" : "pdf";
     setBusy(true);
     setStatus("Reading book locally…");
     try {
