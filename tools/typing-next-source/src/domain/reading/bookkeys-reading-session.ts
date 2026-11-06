@@ -1,0 +1,176 @@
+import { epubHash, normalize } from "../epub/epub-domain";
+
+export interface BookkeysGameBook {
+  readonly p?: readonly number[];
+  readonly x?: readonly number[];
+  readonly c?: readonly number[];
+  readonly done?: number;
+  readonly [extension: string]: unknown;
+}
+
+export interface BookkeysGameState {
+  readonly xp?: number;
+  readonly words?: number;
+  readonly chars?: number;
+  readonly pages?: number;
+  readonly chapters?: number;
+  readonly books?: number;
+  readonly paid?: Readonly<Record<string, number>>;
+  readonly check?: { key: string; page: number } | null;
+  readonly book?: Readonly<Record<string, BookkeysGameBook>>;
+  readonly [extension: string]: unknown;
+}
+
+export interface PageDraftV1 {
+  readonly v: 1;
+  readonly page: number;
+  readonly sig: string;
+  readonly typed: string;
+  readonly ok: number;
+  readonly all: number;
+  readonly spent: number;
+  readonly t: number;
+}
+
+export interface TypingAccuracy {
+  readonly correct: number;
+  readonly total: number;
+  readonly percent: number;
+}
+
+export interface PageCompletion {
+  readonly game: BookkeysGameState;
+  readonly accuracy: TypingAccuracy;
+  readonly xpAwarded: number;
+  readonly alreadyCompleted: boolean;
+  readonly eligibleForXp: boolean;
+}
+
+export function typingAccuracy(target: string, typed: string): TypingAccuracy {
+  const total = target.length;
+  const length = Math.min(total, typed.length);
+  let correct = 0;
+  for (let index = 0; index < length; index += 1) {
+    if (target[index] === typed[index]) correct += 1;
+  }
+  const percent = total === 0 ? 100 : Math.floor((correct * 100 + total / 2) / total);
+  return { correct, total, percent };
+}
+
+export function pageSignature(value: string): string {
+  return epubHash(new TextEncoder().encode(normalize(value)));
+}
+
+export function createPageDraft(
+  page: number,
+  target: string,
+  typed: string,
+  startedAt: number,
+  now = Date.now(),
+): PageDraftV1 {
+  const accuracy = typingAccuracy(target, typed);
+  return {
+    v: 1,
+    page,
+    sig: pageSignature(target),
+    typed,
+    ok: accuracy.correct,
+    all: accuracy.total,
+    spent: Math.max(0, now - startedAt),
+    t: Math.round(now),
+  };
+}
+
+export function readPageDraft(raw: string | null, page: number, target: string): PageDraftV1 | null {
+  if (!raw) return null;
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (typeof value !== "object" || value === null || Array.isArray(value)) return null;
+    const draft = value as Record<string, unknown>;
+    if (draft.v !== 1 || draft.page !== page || draft.sig !== pageSignature(target) ||
+        typeof draft.typed !== "string" || typeof draft.ok !== "number" ||
+        typeof draft.all !== "number" || typeof draft.spent !== "number" ||
+        typeof draft.t !== "number") return null;
+    return draft as unknown as PageDraftV1;
+  } catch {
+    return null;
+  }
+}
+
+export function accuracyMultiplier(accuracy: number): number {
+  if (accuracy >= 98) return 125;
+  if (accuracy >= 95) return 110;
+  if (accuracy >= 85) return 100;
+  return 80;
+}
+
+export function pageXp(characters: number, accuracy: number): number {
+  const count = Math.max(0, Math.floor(characters));
+  return Math.floor((count * accuracyMultiplier(accuracy) + 50) / 100);
+}
+
+/** Records one completed page using the legacy Bookkeys game keys and pay-once rule. */
+export function completeBookkeysPage(
+  previous: BookkeysGameState,
+  bookKey: string,
+  page: number,
+  target: string,
+  typed: string,
+  elapsedMs: number,
+): PageCompletion {
+  const accuracy = typingAccuracy(target, typed);
+  const previousBooks = previous.book && typeof previous.book === "object" ? previous.book : {};
+  const previousBook = previousBooks[bookKey] ?? {};
+  const typedPages = new Set(Array.isArray(previousBook.p) ? previousBook.p : []);
+  const exactPages = new Set(Array.isArray(previousBook.x) ? previousBook.x : []);
+  const alreadyCompleted = typedPages.has(page);
+  if (alreadyCompleted || !target.length) {
+    return { game: previous, accuracy, xpAwarded: 0, alreadyCompleted, eligibleForXp: false };
+  }
+
+  const eligibleForXp = elapsedMs >= target.length * 30;
+  const earned = eligibleForXp ? pageXp(target.length, accuracy.percent) : 0;
+  const paid = { ...(previous.paid ?? {}) };
+  const rewardId = `p:${bookKey}:${page}`;
+  if (Object.prototype.hasOwnProperty.call(paid, rewardId)) {
+    return { game: previous, accuracy, xpAwarded: 0, alreadyCompleted: true, eligibleForXp };
+  }
+  paid[rewardId] = earned;
+
+  typedPages.add(page);
+  if (accuracy.percent === 100) exactPages.add(page);
+  const book = {
+    ...previousBook,
+    p: [...typedPages].sort((a, b) => a - b),
+    x: [...exactPages].sort((a, b) => a - b),
+  };
+  const next: BookkeysGameState = {
+    ...previous,
+    xp: Math.max(0, Number(previous.xp ?? 0)) + earned,
+    chars: Math.max(0, Number(previous.chars ?? 0)) + target.length,
+    words: Math.max(0, Number(previous.words ?? 0)) + normalize(target).split(" ").filter(Boolean).length,
+    pages: Math.max(0, Number(previous.pages ?? 0)) + 1,
+    paid,
+    check: { key: bookKey, page },
+    book: { ...previousBooks, [bookKey]: book },
+  };
+  return { game: next, accuracy, xpAwarded: earned, alreadyCompleted: false, eligibleForXp };
+}
+
+export function emptyBookkeysGame(): BookkeysGameState {
+  return {
+    paid: {},
+    check: null,
+    base: 0,
+    xp: 0,
+    words: 0,
+    chars: 0,
+    pages: 0,
+    chapters: 0,
+    books: 0,
+    streak: { cur: 0, best: 0, last: "" },
+    day: { d: "", w: 0 },
+    ach: {},
+    book: {},
+  };
+}
