@@ -42,3 +42,9 @@ jobs:
       - name: Build static export
         working-directory: tools/typing-next-source
         run: npm run build
+      - name: Install Chromium for browser regressions
+        working-directory: tools/typing-next-source
+        run: npx playwright install --with-deps chromium
+      - name: Browser regression tests
+        working-directory: tools/typing-next-source
+        run: npm run e2e
