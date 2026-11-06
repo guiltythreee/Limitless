@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/domain/persistence/bookkeys-v1-database.test.ts src/domain/epub/epub-domain.test.ts src/domain/epub/epub-importer.test.ts src/domain/pdf/pdf-domain.test.ts src/domain/pdf/pdf-importer.test.ts src/domain/reading/bookkeys-reading-session.test.ts src/domain/reading/bookkeys-chapters.test.ts src/domain/reading/bookkeys-backup.test.ts src/domain/reading/bookkeys-shelves.test.ts src/domain/rewards/bookkeys-reward-bridge.test.ts src/domain/rewards/shared-rewards-parity.test.ts src/domain/rewards/bookkeys-reward-adapter.test.ts"
+    "test": "tsx --test src/domain/persistence/bookkeys-v1-database.test.ts src/domain/epub/epub-domain.test.ts src/domain/epub/epub-importer.test.ts src/domain/pdf/pdf-domain.test.ts src/domain/pdf/pdf-importer.test.ts src/domain/reading/bookkeys-reading-session.test.ts src/domain/reading/bookkeys-chapters.test.ts src/domain/reading/bookkeys-backup.test.ts src/domain/reading/bookkeys-shelves.test.ts src/domain/rewards/bookkeys-reward-bridge.test.ts src/domain/rewards/shared-rewards-parity.test.ts src/domain/rewards/bookkeys-reward-adapter.test.ts",
+    "e2e": "playwright test"
   },
   "dependencies": {
     "next": "^16.0.0",
@@ -24,6 +25,7 @@
     "fake-indexeddb": "^6.2.4",
     "tsx": "^4.20.6",
     "jsdom": "^26.1.0",
-    "@types/jsdom": "^21.1.7"
+    "@types/jsdom": "^21.1.7",
+    "@playwright/test": "^1.56.1"
   }
 }
