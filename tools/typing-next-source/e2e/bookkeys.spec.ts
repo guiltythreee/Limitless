@@ -39,6 +39,30 @@ async function makeFixtureEpub(): Promise<Buffer> {
   return zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" });
 }
 
+async function makeFixturePdf(): Promise<Buffer> {
+  const text = "PDF import regression text for Bookkeys. ".repeat(8);
+  const stream = `BT /F1 12 Tf 72 720 Td (${text}) Tj ET`;
+  const objects = [
+    "<< /Type /Catalog /Pages 2 0 R >>",
+    "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+    "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>",
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+    `<< /Length ${Buffer.byteLength(stream)} >>\\nstream\\n${stream}\\nendstream`,
+    "<< /Title (Bookkeys PDF Fixture) >>",
+  ];
+  let pdf = "%PDF-1.4\\n";
+  const offsets = [0];
+  for (let index = 0; index < objects.length; index += 1) {
+    offsets.push(Buffer.byteLength(pdf));
+    pdf += `${index + 1} 0 obj\\n${objects[index]}\\nendobj\\n`;
+  }
+  const xrefOffset = Buffer.byteLength(pdf);
+  pdf += `xref\\n0 ${objects.length + 1}\\n0000000000 65535 f \\n`;
+  for (const offset of offsets.slice(1)) pdf += `${String(offset).padStart(10, "0")} 00000 n \\n`;
+  pdf += `trailer\\n<< /Size ${objects.length + 1} /Root 1 0 R /Info 6 0 R >>\\nstartxref\\n${xrefOffset}\\n%%EOF`;
+  return Buffer.from(pdf, "ascii");
+}
+
 test("EPUB import, typing progress, cloud-independent local persistence and reward ledger survive reload", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   await expect(page.getByRole("heading", { name: "Bookkeys" })).toBeVisible();
@@ -97,4 +121,24 @@ test("theme and reader settings are interactive and persist", async ({ page }) =
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.getByRole("button", { name: "Settings" }).click();
   await expect(page.getByRole("dialog").locator('input[type="range"]').first()).toHaveValue("22");
+});
+
+test("PDF import extracts readable text and records page completion", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const pdf = await makeFixturePdf();
+  await page.locator('input[type="file"][accept*=".pdf"]').setInputFiles({
+    name: "bookkeys-pdf-fixture.pdf",
+    mimeType: "application/pdf",
+    buffer: pdf,
+  });
+
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys PDF Fixture");
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  expect(source!.length).toBeGreaterThan(150);
+  await page.locator("#bk-typing").fill(source!);
+  await expect.poll(async () => page.evaluate(() => {
+    const value = localStorage.getItem("bookkeys-lsr1-v1");
+    return value ? JSON.parse(value).rewardLedger?.length ?? 0 : 0;
+  })).toBe(1);
 });
