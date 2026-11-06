@@ -13,7 +13,8 @@
     mastery: {},
     dayChecks: {},
     mocks: [],
-    problemLog: []
+    problemLog: [],
+    linkedAccounts: { codeforcesHandle: 'Unwonted_contriver', csesUserId: '386335' }
   };
 
   var SUBJECTS = [
@@ -257,6 +258,8 @@
       if (!merged.dayChecks || typeof merged.dayChecks !== 'object') merged.dayChecks = {};
       if (!Array.isArray(merged.mocks)) merged.mocks = [];
       if (!Array.isArray(merged.problemLog)) merged.problemLog = [];
+      if (!merged.linkedAccounts || typeof merged.linkedAccounts !== 'object') merged.linkedAccounts = cloneDefaults().linkedAccounts;
+      merged.linkedAccounts = Object.assign(cloneDefaults().linkedAccounts, merged.linkedAccounts);
       // Migrate the old binary checklist conservatively: a checked topic becomes
       // "practiced", never "mastered", because the old tracker had no mastery test.
       if (saved.completed && typeof saved.completed === 'object') {
@@ -548,6 +551,97 @@
     }
   }
 
+  function renderCodeforcesStats(message, isError) {
+    var target = $('cf-account-stats');
+    target.textContent = message;
+    target.classList.toggle('account-stats-error', !!isError);
+  }
+
+  function updateLinkedProfileLinks() {
+    var handle = $('cf-handle').value.trim();
+    var userId = $('cses-user-id').value.trim();
+    $('cf-profile-link').href = 'https://codeforces.com/profile/' + encodeURIComponent(handle || 'Unwonted_contriver');
+    $('cses-profile-link').href = 'https://cses.fi/user/' + encodeURIComponent(userId || '386335');
+  }
+
+  async function refreshCodeforces(handle) {
+    renderCodeforcesStats('Fetching public Codeforces contest statistics…', false);
+    try {
+      var base = 'https://codeforces.com/api/';
+      var responses = await Promise.all([
+        fetch(base + 'user.info?handles=' + encodeURIComponent(handle)),
+        fetch(base + 'user.rating?handle=' + encodeURIComponent(handle))
+      ]);
+      if (!responses[0].ok || !responses[1].ok) throw new Error('Codeforces API request failed. Try again shortly.');
+      var payloads = await Promise.all(responses.map(function (response) { return response.json(); }));
+      if (payloads[0].status !== 'OK' || payloads[1].status !== 'OK') {
+        throw new Error((payloads[0].comment || payloads[1].comment || 'Codeforces could not find that handle.'));
+      }
+      var user = payloads[0].result[0];
+      var contests = payloads[1].result || [];
+      var bestPlace = contests.reduce(function (best, contest) {
+        return Math.min(best, Number(contest.rank) || Infinity);
+      }, Infinity);
+      var latest = contests.length ? contests[contests.length - 1] : null;
+      var rank = user.rank || 'Unrated';
+      var peakRank = user.maxRank || '—';
+      var currentRating = Number.isFinite(user.rating) ? user.rating : 'Unrated';
+      var peakRating = Number.isFinite(user.maxRating) ? user.maxRating : '—';
+      var latestChange = latest ? (latest.newRating - latest.oldRating) : null;
+      var changeText = latestChange === null ? 'No rated contests yet' : (latestChange > 0 ? '+' : '') + latestChange + ' in latest contest';
+      var bestText = Number.isFinite(bestPlace) ? '#' + bestPlace : '—';
+      var contestText = contests.length + (contests.length === 1 ? ' contest' : ' contests');
+      var updated = latest ? new Date(latest.ratingUpdateTimeSeconds * 1000).toLocaleDateString() : '—';
+      $('cf-account-stats').innerHTML =
+        '<div class="account-stat-grid">' +
+          '<span><small>Current rating</small><strong>' + esc(currentRating) + '</strong></span>' +
+          '<span><small>Peak rating</small><strong>' + esc(peakRating) + '</strong></span>' +
+          '<span><small>Current rank</small><strong>' + esc(rank) + '</strong></span>' +
+          '<span><small>Peak rank</small><strong>' + esc(peakRank) + '</strong></span>' +
+          '<span><small>Contests</small><strong>' + esc(contestText) + '</strong></span>' +
+          '<span><small>Best place</small><strong>' + esc(bestText) + '</strong></span>' +
+        '</div><p class="account-stat-foot">' + esc(changeText) + ' · Last rated contest: ' + esc(updated) + '</p>';
+      $('cf-link-state').textContent = 'Connected · refreshed';
+      $('cf-link-state').classList.remove('account-state-error');
+    } catch (error) {
+      $('cf-link-state').textContent = 'Refresh failed';
+      $('cf-link-state').classList.add('account-state-error');
+      renderCodeforcesStats(error && error.message ? error.message : 'Could not load Codeforces statistics.', true);
+    }
+  }
+
+  function initLinkedAccounts() {
+    $('cf-handle').value = state.linkedAccounts.codeforcesHandle;
+    $('cses-user-id').value = state.linkedAccounts.csesUserId;
+    updateLinkedProfileLinks();
+    $('cf-handle').addEventListener('input', updateLinkedProfileLinks);
+    $('cses-user-id').addEventListener('input', updateLinkedProfileLinks);
+    $('save-linked-accounts').addEventListener('click', function () {
+      var handle = $('cf-handle').value.trim();
+      var userId = $('cses-user-id').value.trim();
+      if (!handle) {
+        $('cf-link-state').textContent = 'Enter a handle';
+        $('cf-link-state').classList.add('account-state-error');
+        $('cf-handle').focus();
+        return;
+      }
+      if (!/^\\d+$/.test(userId)) {
+        $('cses-link-state').textContent = 'Enter a numeric profile ID';
+        $('cses-link-state').classList.add('account-state-error');
+        $('cses-user-id').focus();
+        return;
+      }
+      state.linkedAccounts = { codeforcesHandle: handle, csesUserId: userId };
+      persist();
+      updateLinkedProfileLinks();
+      $('accounts-sync-note').textContent = 'Handles saved in this browser. Codeforces statistics are refreshed from its public API; CSES opens its public profile.';
+      $('cses-link-state').textContent = 'Profile ID saved';
+      $('cses-link-state').classList.remove('account-state-error');
+      $('cses-account-stats').textContent = 'Profile ID saved. Open the public CSES profile to view total submissions, last activity and language breakdown.';
+      refreshCodeforces(handle);
+    });
+  }
+
   function init() {
     $('start-date').value = state.startDate;
     $('target-date').value = state.targetDate;
@@ -563,6 +657,7 @@
     bindInput('rank-buffer','rankBuffer');
     bindInput('qualification-track','qualificationTrack');
     bindInput('benchmark-source','benchmarkSource');
+    initLinkedAccounts();
     ['start-date','target-date'].forEach(function (id) { $(id).addEventListener('change', renderOverview); });
     ['qualification-cutoff','qualification-pool-size','rank-buffer','qualification-track','benchmark-source'].forEach(function (id) { $(id).addEventListener('change', renderSafety); });
 
