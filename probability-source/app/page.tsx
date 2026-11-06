@@ -58,8 +58,18 @@ export default function Home() {
     if (requestedPathway && pathways.some((pathway) => pathway.id === requestedPathway)) {
       setPathwayId(requestedPathway);
     }
-    if (params.get("mode") === "practice") {
-      const requestedLesson = params.get("lesson");
+    const requestedMode = params.get("mode");
+    const requestedLesson = params.get("lesson");
+    if (requestedLesson) {
+      const selectedLesson = lessons.find((lesson) => lesson.id === requestedLesson);
+      if (selectedLesson) {
+        setActiveId(selectedLesson.id);
+        setOpened(true);
+        setTab("archive");
+        setSection(requestedMode === "practice" ? "practice" : "theory");
+      }
+    }
+    if (requestedMode === "practice") {
       const targetLesson = lessons.find((lesson) => lesson.id === requestedLesson)
         ?? lessons.find((lesson) => !completed.includes(lesson.id))
         ?? lessons[0];
