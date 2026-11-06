@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   typingAccuracy, pageSignature, createPageDraft, readPageDraft,
-  accuracyMultiplier, pageXp, completeBookkeysPage, emptyBookkeysGame,
+  accuracyMultiplier, pageXp, chapterXp, bookXp, completeBookkeysPage, emptyBookkeysGame,
 } from "./bookkeys-reading-session";
 
 test("typing accuracy counts matching positions and rounds percentage", () => {
@@ -46,6 +46,45 @@ test("fast paste is recorded as progress but earns no XP", () => {
   assert.equal(result.eligibleForXp, false);
   assert.equal(result.xpAwarded, 0);
   assert.deepEqual(result.game.book?.["f:book"]?.p, [1]);
+});
+
+
+test("chapter and book bonuses retain legacy caps and minimums", () => {
+  assert.equal(chapterXp(2), 90);
+  assert.equal(chapterXp(1000), 1500);
+  assert.equal(bookXp(10), 700);
+  assert.equal(bookXp(100000), 25000);
+});
+
+test("required chapter and book milestones pay once when their ranges finish", () => {
+  const chapters = [{ p: 0, title: "Chapter One", req: true }];
+  const result = completeBookkeysPage(
+    emptyBookkeysGame(), "f:novel", 0, "abcdefghij", "abcdefghij", 1000, chapters, 1,
+  );
+  assert.equal(result.xpAwarded, pageXp(10, 100) + chapterXp(10) + bookXp(10));
+  assert.equal(result.game.chapters, 1);
+  assert.equal(result.game.books, 1);
+  assert.equal(result.game.paid?.["c:f:novel:0"], chapterXp(10));
+  assert.equal(result.game.paid?.["b:f:novel"], bookXp(10));
+  const repeat = completeBookkeysPage(result.game, "f:novel", 0, "abcdefghij", "abcdefghij", 1000, chapters, 1);
+  assert.equal(repeat.xpAwarded, 0);
+});
+
+test("optional sections do not block required-book completion and all-optional books pay no book bonus", () => {
+  const chapters = [
+    { p: 0, title: "Beginning", req: false },
+    { p: 1, title: "Chapter One", req: true },
+  ];
+  const first = completeBookkeysPage(
+    emptyBookkeysGame(), "f:optional", 1, "required", "required", 1000, chapters, 2,
+  );
+  assert.equal(first.game.books, 1);
+  const allOptional = completeBookkeysPage(
+    emptyBookkeysGame(), "f:all-optional", 0, "notes", "notes", 1000,
+    [{ p: 0, title: "Contents", req: false }], 1,
+  );
+  assert.equal(allOptional.game.books, 0);
+  assert.equal(allOptional.game.paid?.["b:f:all-optional"], undefined);
 });
 
 test("different pages in one book have independent reward identities", () => {
