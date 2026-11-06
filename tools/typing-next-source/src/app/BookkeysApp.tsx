@@ -95,6 +95,7 @@ export default function BookkeysApp() {
   const [busy, setBusy] = useState(false);
   const [chaptersOpen, setChaptersOpen] = useState(false);
   const [gameXp, setGameXp] = useState(0);
+  const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const startedAt = useRef(Date.now());
   const completedThisPage = useRef(false);
@@ -124,6 +125,8 @@ export default function BookkeysApp() {
     () => book?.sections[pageIndex]?.map((block) => block.text).join("\n") ?? "",
     [book, pageIndex],
   );
+  const requiredPageIndexes = useMemo(() => book ? requiredSections(book.chapters, book.sections.length) : [], [book]);
+  const requiredCompletedCount = requiredPageIndexes.filter((page) => completedPageIndexes.includes(page)).length;
   const currentChapter = useMemo(() => {
     if (!book) return null;
     let selected: EpubChapter | null = null;
@@ -161,6 +164,8 @@ export default function BookkeysApp() {
       const format: BookFormat = entry.fmt === "epub" ? "epub" : "pdf";
       const parsed = await parseBook(entry.id, format, await file.arrayBuffer(), entry.name);
       setBook({ ...parsed, chapters: loadChapterSettings(parsed.bookKey, parsed.chapters, parsed.sections.length) });
+      const savedPages = readGame().book?.[parsed.bookKey]?.p ?? [];
+      setCompletedPageIndexes([...savedPages]);
       setPageIndex(0);
       await database.putBook({ ...entry, opened: Date.now() }, file);
       setLibrary(await database.listMetadata());
@@ -206,6 +211,8 @@ export default function BookkeysApp() {
         setLibrary(await database.listMetadata());
       }
       setBook({ ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, savedBook.chapters, savedBook.sections.length) });
+      const savedPages = readGame().book?.[savedBook.bookKey]?.p ?? [];
+      setCompletedPageIndexes([...savedPages]);
       setPageIndex(0);
       setStatus(database
         ? "Imported and saved to this browser's library."
@@ -237,6 +244,7 @@ export default function BookkeysApp() {
     try {
       window.localStorage.setItem("bookkeys:game", JSON.stringify(result.game));
       setGameXp(Number(result.game.xp ?? 0));
+      setCompletedPageIndexes([...(result.game.book?.[book.bookKey]?.p ?? [])]);
     } catch {
       setStatus("Page completed, but the game progress could not be saved.");
       return;
@@ -371,8 +379,9 @@ export default function BookkeysApp() {
           )}
           <div className="bk-reader-meta">
             <span>{currentChapter?.title ?? "Beginning"}</span>
-            <span>{Math.round(((pageIndex + 1) / book.sections.length) * 100)}% through book</span>
+            <span>{Math.round(((pageIndex + 1) / book.sections.length) * 100)}% through book · {requiredCompletedCount}/{requiredPageIndexes.length} required complete</span>
           </div>
+          <div className="bk-progress-track"><span style={{ width: (requiredPageIndexes.length ? requiredCompletedCount / requiredPageIndexes.length * 100 : 0) + "%" }} /></div>
           <article className="bk-source-text">{target}</article>
           <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
           <textarea
