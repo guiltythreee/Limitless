@@ -113,7 +113,8 @@ export function requiredSectionsComplete(
   chapters: readonly BookkeysChapter[],
   total: number,
   typedPages: readonly number[],
+  emptyPages: readonly number[] = [],
 ): boolean {
   const required = requiredSections(chapters, total);
-  return required.length > 0 && required.every((page) => typedPages.includes(page));
+  return required.length > 0 && required.every((page) => typedPages.includes(page) || emptyPages.includes(page));
 }
