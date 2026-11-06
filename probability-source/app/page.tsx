@@ -117,7 +117,13 @@ export default function Home() {
     setActiveId(id);
     setOpened(true);
     setTab("archive");
-    if (!keepSection) setSection("theory");
+    if (keepSection) {
+      setSection("practice");
+      setPracticeView("all");
+      setPracticeDifficulty("all");
+    } else {
+      setSection("theory");
+    }
   }
   function changePathway(id: string) {
     const route = pathways.find((pathway) => pathway.id === id);
