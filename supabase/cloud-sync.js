@@ -53,7 +53,7 @@
   }
 
   function queueWrite(key, value, deleted) {
-    if (suppress || !ready || !activeUserId || !isSyncable(key)) return;
+    if (suppress || !activeUserId || !isSyncable(key)) return;
     pending.set(key, { storage_key: key, value_text: deleted ? null : value, is_deleted: !!deleted });
     if (timer) clearTimeout(timer);
     timer = setTimeout(flush, DEBOUNCE_MS);
@@ -95,6 +95,7 @@
       if (previousOwner && previousOwner !== userId) {
         for (const key of snapshotLocal().keys()) original.removeItem.call(localStorage, key);
       }
+      suppress = false;
 
       const { data: rows, error } = await client
         .from(TABLE)
@@ -104,17 +105,25 @@
       if (activeUserId !== userId) { suppress = false; return; }
 
       const remote = new Map((rows || []).map(row => [row.storage_key, row]));
+      suppress = true;
       for (const [key, row] of remote) {
         if (!isSyncable(key)) continue;
         if (row.is_deleted) original.removeItem.call(localStorage, key);
         else if (typeof row.value_text === "string") original.setItem.call(localStorage, key, row.value_text);
       }
 
-      // Upload local-only keys. Existing cloud rows always win during initial
-      // hydration; keys changed after readiness are queued by the write hook.
+      // A local edit made while the cloud read was in flight wins over the
+      // snapshot being hydrated and is then uploaded as the newest change.
+      for (const [key, row] of pending) {
+        if (row.is_deleted) original.removeItem.call(localStorage, key);
+        else original.setItem.call(localStorage, key, row.value_text);
+      }
+
+      // Upload local-only keys. Cloud values win unless a concurrent local
+      // write was captured above.
       const local = snapshotLocal();
       for (const [key, value] of local) {
-        if (!remote.has(key)) pending.set(key, {
+        if (!remote.has(key) && !pending.has(key)) pending.set(key, {
           storage_key: key, value_text: value, is_deleted: false, user_id: userId
         });
       }
