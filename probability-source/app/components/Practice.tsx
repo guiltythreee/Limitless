@@ -40,11 +40,11 @@ const NAV: { id: View; label: string; icon: string }[] = [
   { id: "mistakes", label: "My Mistakes", icon: "⚠" },
 ];
 
-export default function Practice({ lessonId, onSelectLesson }: { lessonId: string; onSelectLesson: (id: string, keepSection?: boolean) => void }) {
+export default function Practice({ lessonId, onSelectLesson, initialView = "overview", initialDifficulty = "all" }: { lessonId: string; onSelectLesson: (id: string, keepSection?: boolean) => void; initialView?: Exclude<View, "question">; initialDifficulty?: Difficulty | "all" }) {
   const store = useStore();
   const lesson = lessons.find((l) => l.id === lessonId)!;
-  const [scopeKind, setScopeKind] = useState<ScopeKind>("topic");
-  const [view, setView] = useState<View>("overview");
+  const [scopeKind, setScopeKind] = useState<ScopeKind>(initialView === "overview" ? "topic" : "all");
+  const [view, setView] = useState<View>(initialView);
   const [back, setBack] = useState<View>("all");
   const [session, setSession] = useState<LearningPlayerSession<Q, ProbabilityPlayerAnswer>>(
     () => createLearningPlayerSession<Q, ProbabilityPlayerAnswer>([]),
@@ -114,13 +114,13 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
           </div>
         )}
 
-        {view === "all" && <QuestionList pool={pool} title={scopeLabel} onOpen={(k, i) => open(k, i, "all")} onAnalysis={() => setView("overview")} />}
+        {view === "all" && <QuestionList pool={pool} title={scopeLabel} initialDifficulty={initialDifficulty} onOpen={(k, i) => open(k, i, "all")} onAnalysis={() => setView("overview")} />}
         {view === "saved" && <QuestionList pool={pool.filter((q) => store.bookmarks.includes(q.key))} title="Bookmarked questions" empty="Nothing saved yet. Tap ☆ on a question to keep it here." onOpen={(k, i) => open(k, i, "saved")} onAnalysis={() => setView("overview")} />}
         {view === "mistakes" && <QuestionList pool={pool.filter((q) => ["incorrect", "partial"].includes(statusOf(q.key)))} title="My mistakes (latest attempt not fully correct)" empty="No mistakes right now. Keep going." onOpen={(k, i) => open(k, i, "mistakes")} onAnalysis={() => setView("overview")} />}
 
         {view === "topics" && (
           <div className="grid gap-3 sm:grid-cols-2">
-            {lessons.filter((l) => l.rank === lesson.rank && l.quiz.length).map((l) => {
+            {lessons.filter((l) => l.quiz.length).map((l) => {
               const qs = allQuestions.filter((q) => q.lessonId === l.id);
               const done = qs.filter((q) => statusOf(q.key) !== "unattempted");
               const s = summarize(done.map((q) => latest[q.key]));
@@ -154,13 +154,13 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
 }
 
 // ---------- list with filters ----------
-function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; title: string; empty?: string; onOpen: (keys: string[], i: number) => void; onAnalysis: () => void }) {
+function QuestionList({ pool, title, empty, onOpen, onAnalysis, initialDifficulty = "all" }: { pool: Q[]; title: string; empty?: string; onOpen: (keys: string[], i: number) => void; onAnalysis: () => void; initialDifficulty?: Difficulty | "all" }) {
   const store = useStore();
   const latest = useMemo(() => latestByQuestion(store.attempts), [store.attempts]);
   const [hide, setHide] = useState(false);
   const [topic, setTopic] = useState("all");
   const [status, setStatus] = useState<Status | "all">("all");
-  const [diff, setDiff] = useState<Difficulty | "all">("all");
+  const [diff, setDiff] = useState<Difficulty | "all">(initialDifficulty);
   const [sort, setSort] = useState<Sort>("order");
 
   const topics = [...new Set(pool.map((q) => q.lessonId))];
