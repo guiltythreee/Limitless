@@ -5,6 +5,7 @@ import { requiredSectionsComplete } from "./bookkeys-chapters";
 export interface BookkeysGameBook {
   readonly p?: readonly number[];
   readonly x?: readonly number[];
+  readonly e?: readonly number[];
   readonly c?: readonly number[];
   readonly done?: number;
   readonly pageLengths?: Readonly<Record<string, number>>;
@@ -130,37 +131,49 @@ export function completeBookkeysPage(
   elapsedMs: number,
   chapters: readonly BookkeysChapter[] = [],
   totalSections = 0,
+  emptyPageIndexes: readonly number[] = [],
 ): PageCompletion {
   const accuracy = typingAccuracy(target, typed);
   const previousBooks = previous.book && typeof previous.book === "object" ? previous.book : {};
   const previousBook: BookkeysGameBook = previousBooks[bookKey] ?? {};
   const typedPages = new Set(Array.isArray(previousBook.p) ? previousBook.p : []);
   const exactPages = new Set(Array.isArray(previousBook.x) ? previousBook.x : []);
-  const alreadyCompleted = typedPages.has(page);
-  if (alreadyCompleted || !target.length) {
-    return { game: previous, accuracy, xpAwarded: 0, alreadyCompleted, eligibleForXp: false };
+  const emptyPages = new Set(Array.isArray(previousBook.e) ? previousBook.e : []);
+  const alreadyCompleted = typedPages.has(page) || emptyPages.has(page);
+  if (alreadyCompleted) {
+    return { game: previous, accuracy, xpAwarded: 0, alreadyCompleted: true, eligibleForXp: false };
   }
 
-  const eligibleForXp = elapsedMs >= target.length * 30;
+  const isTextPage = target.length > 0;
+  const eligibleForXp = isTextPage && elapsedMs >= target.length * 30;
   let earned = eligibleForXp ? pageXp(target.length, accuracy.percent) : 0;
   const paid = { ...(previous.paid ?? {}) };
-  const rewardId = "p:" + bookKey + ":" + page;
-  if (Object.prototype.hasOwnProperty.call(paid, rewardId)) {
-    return { game: previous, accuracy, xpAwarded: 0, alreadyCompleted: true, eligibleForXp };
+  if (isTextPage) {
+    const rewardId = "p:" + bookKey + ":" + page;
+    if (Object.prototype.hasOwnProperty.call(paid, rewardId)) {
+      return { game: previous, accuracy, xpAwarded: 0, alreadyCompleted: true, eligibleForXp };
+    }
+    paid[rewardId] = earned;
+    typedPages.add(page);
+    if (accuracy.percent === 100) exactPages.add(page);
+  } else {
+    emptyPages.add(page);
   }
-  paid[rewardId] = earned;
 
-  typedPages.add(page);
-  if (accuracy.percent === 100) exactPages.add(page);
+  for (const emptyPage of emptyPageIndexes) {
+    if (Number.isInteger(emptyPage) && emptyPage >= 0 && emptyPage < totalSections) emptyPages.add(emptyPage);
+  }
+
   const pageLengths = {
     ...(previousBook.pageLengths ?? {}),
-    [String(page)]: target.length,
+    ...(isTextPage ? { [String(page)]: target.length } : {}),
   };
   const completedChapters = new Set(Array.isArray(previousBook.c) ? previousBook.c : []);
   let chapterCount = 0;
   let bookCount = 0;
+  const canCompleteMilestones = eligibleForXp || !isTextPage;
 
-  if (eligibleForXp && totalSections > 0 && chapters.length) {
+  if (canCompleteMilestones && totalSections > 0 && chapters.length) {
     const ordered = [...chapters].sort((a, b) => a.p - b.p);
     for (let index = 0; index < ordered.length; index += 1) {
       const chapter = ordered[index];
@@ -171,7 +184,7 @@ export function completeBookkeysPage(
       let complete = true;
       let characters = 0;
       for (let section = startPage; section <= endPage; section += 1) {
-        if (!typedPages.has(section)) { complete = false; break; }
+        if (!typedPages.has(section) && !emptyPages.has(section)) { complete = false; break; }
         characters += Number(pageLengths[String(section)] ?? 0);
       }
       if (!complete || characters <= 0) continue;
@@ -185,31 +198,38 @@ export function completeBookkeysPage(
       completedChapters.add(startPage);
     }
 
-    if (requiredSectionsComplete(chapters, totalSections, [...typedPages])) {
+    if (requiredSectionsComplete(chapters, totalSections, [...typedPages], [...emptyPages])) {
       const bookRewardId = "b:" + bookKey;
       if (!Object.prototype.hasOwnProperty.call(paid, bookRewardId)) {
         const characters = Object.values(pageLengths).reduce((sum, value) => sum + Number(value || 0), 0);
-        const bonus = bookXp(characters);
-        paid[bookRewardId] = bonus;
-        earned += bonus;
-        bookCount = 1;
+        if (characters > 0) {
+          const bonus = bookXp(characters);
+          paid[bookRewardId] = bonus;
+          earned += bonus;
+          bookCount = 1;
+        }
       }
     }
   }
 
+  const isBookDone = chapters.length > 0 &&
+    totalSections > 0 &&
+    requiredSectionsComplete(chapters, totalSections, [...typedPages], [...emptyPages]);
   const book = {
     ...previousBook,
     p: [...typedPages].sort((a, b) => a - b),
     x: [...exactPages].sort((a, b) => a - b),
+    e: [...emptyPages].sort((a, b) => a - b),
     c: [...completedChapters].sort((a, b) => a - b),
+    done: isBookDone ? 1 : Number(previousBook.done ?? 0),
     pageLengths,
   };
   const next: BookkeysGameState = {
     ...previous,
     xp: Math.max(0, Number(previous.xp ?? 0)) + earned,
-    chars: Math.max(0, Number(previous.chars ?? 0)) + target.length,
-    words: Math.max(0, Number(previous.words ?? 0)) + normalize(target).split(" ").filter(Boolean).length,
-    pages: Math.max(0, Number(previous.pages ?? 0)) + 1,
+    chars: Math.max(0, Number(previous.chars ?? 0)) + (isTextPage ? target.length : 0),
+    words: Math.max(0, Number(previous.words ?? 0)) + (isTextPage ? normalize(target).split(" ").filter(Boolean).length : 0),
+    pages: Math.max(0, Number(previous.pages ?? 0)) + (isTextPage ? 1 : 0),
     chapters: Math.max(0, Number(previous.chapters ?? 0)) + chapterCount,
     books: Math.max(0, Number(previous.books ?? 0)) + bookCount,
     paid,
