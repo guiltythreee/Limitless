@@ -21,6 +21,7 @@ import { createShelf, deleteShelf, readShelves, renameShelf } from "../domain/re
 
 type BookFormat = "pdf" | "epub";
 interface ReaderBook {
+  readonly isSample?: boolean;
   readonly libraryId: string;
   readonly bookKey: string;
   readonly format: BookFormat;
@@ -31,6 +32,7 @@ interface ReaderBook {
   readonly chapters: BookkeysChapter[];
 }
 interface LibraryEntry extends BookkeysLibraryMetadata {}
+const SAMPLE_PASSAGE = "Reading is a deliberate kind of attention. A page gives the mind a small place to pause, follow an idea, and connect it with something already understood. The aim of practice is not speed alone: it is to build a steady rhythm, notice mistakes, and return to the sentence with greater precision. A short session repeated thoughtfully can become a lasting habit.";
 interface BookkeysSettings {
   readonly bg: string;
   readonly size: number;
@@ -221,6 +223,12 @@ export default function BookkeysApp() {
     if (!book) return;
     completedThisPage.current = false;
     startedAt.current = Date.now();
+    if (book.isSample) {
+      setTyped("");
+      setCompletedPageIndexes([]);
+      setStatus("Sample passage ready. Typing here never earns XP or saves book progress.");
+      return;
+    }
     try {
       const key = typingDraftKey(book.bookKey, pageIndex);
       const draft = readPageDraft(window.localStorage.getItem(key), pageIndex, target);
@@ -327,6 +335,13 @@ export default function BookkeysApp() {
   function onTyping(value: string) {
     setTyped(value);
     if (!book) return;
+    if (book.isSample) {
+      if (!completedThisPage.current && target.length > 0 && value.length >= target.length) {
+        completedThisPage.current = true;
+        setStatus("Sample page complete · no XP awarded and no book progress saved.");
+      }
+      return;
+    }
     try {
       const draft = createPageDraft(pageIndex, target, value, startedAt.current);
       window.localStorage.setItem(typingDraftKey(book.bookKey, pageIndex), JSON.stringify(draft));
@@ -398,6 +413,27 @@ export default function BookkeysApp() {
       return;
     }
     persistShelves(next);
+  }
+
+  function startSample() {
+    const sample: ReaderBook = {
+      isSample: true,
+      libraryId: "sample",
+      bookKey: "sample",
+      format: "epub",
+      title: "Sample Passage",
+      author: "Limitless",
+      fingerprint: "sample",
+      sections: [[{ t: "p", text: SAMPLE_PASSAGE }]],
+      chapters: [],
+    };
+    bookCache.current[sample.bookKey] = sample;
+    setBook(sample);
+    setCompletedPageIndexes([]);
+    setPageIndex(0);
+    setTyped("");
+    navTo("book", sample.bookKey, 0);
+    setStatus("Sample passage ready. Typing here never earns XP or saves book progress.");
   }
 
   async function removeShelf() {
@@ -506,7 +542,7 @@ export default function BookkeysApp() {
   }
 
   function navTo(nextView: "home" | "book", bookKey?: string, page = 0) {
-    if (nextView === "home" && book) {
+    if (nextView === "home" && book && !book.isSample) {
       try { writeBookkeysPosition(window.localStorage, book.bookKey, book.libraryId, pageIndex); }
       catch { setStatus("Reading position could not be saved in this browser."); }
     }
@@ -617,6 +653,7 @@ export default function BookkeysApp() {
               <button className="bk-quiet" onClick={addShelf}>New shelf</button>
               <button className="bk-quiet" onClick={editShelfName}>Rename</button>
               <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "default"}>Delete</button>
+              <button className="bk-quiet" onClick={startSample}>Try sample text</button>
               <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
               <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>
               <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
