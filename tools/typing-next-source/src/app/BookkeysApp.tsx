@@ -8,8 +8,11 @@ import type { EpubBlock, EpubChapter } from "../domain/epub/epub-domain";
 import { readPdf } from "../domain/pdf/pdf-importer";
 import {
   completeBookkeysPage, createPageDraft, emptyBookkeysGame,
-  readPageDraft,
+  pageSignature, readPageDraft,
 } from "../domain/reading/bookkeys-reading-session";
+import { createBookkeysRewardAdapter } from "../domain/rewards/bookkeys-reward-adapter";
+import { installBookkeysRewardBridge } from "../domain/rewards/bookkeys-reward-bridge";
+import { bookkeysRewardPolicy } from "../domain/rewards/bookkeys-reward-policy";
 import { chapterRecordKey, typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
 import { requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
 import { createBookkeysBackupV1, parseBookkeysBackup, restoreBookkeysBackup } from "../domain/reading/bookkeys-backup";
@@ -136,6 +139,26 @@ export default function BookkeysApp() {
   const backupInput = useRef<HTMLInputElement>(null);
   const startedAt = useRef(Date.now());
   const completedThisPage = useRef(false);
+
+  // Keep reward verification tied to the actual parsed page content. The
+  // bridge stores only a stable signature and character count, never book text.
+  useEffect(() => {
+    const adapter = createBookkeysRewardAdapter(window.localStorage, bookkeysRewardPolicy);
+    return installBookkeysRewardBridge(window, adapter, {
+      getPageEvidence: (check) => {
+        const currentBook = bookCache.current[check.key];
+        const section = currentBook?.sections[check.page];
+        if (!section) return null;
+        const raw = section.map((block) => block.text).join("\\n");
+        const normalized = raw.replace(/\\u00a0/g, " ").replace(/\\s+/g, " ").trim().toLowerCase();
+        if (normalized.length < 150) return null;
+        return {
+          contentSignature: pageSignature(raw),
+          characterCount: normalized.length,
+        };
+      },
+    });
+  }, []);
 
   useEffect(() => {
     const savedSettings = readSettings();
@@ -315,13 +338,24 @@ export default function BookkeysApp() {
 
     if (completedThisPage.current || !target || value.length < target.length) return;
     completedThisPage.current = true;
+    const previousGame = readGame();
     const result = completeBookkeysPage(
-      readGame(), book.bookKey, pageIndex, target, value, Date.now() - startedAt.current,
+      previousGame, book.bookKey, pageIndex, target, value, Date.now() - startedAt.current,
       book.chapters, book.sections.length,
       book.sections.flatMap((section, index) => section.some((block) => block.text) ? [] : [index]),
     );
     try {
-      window.localStorage.setItem("bookkeys:game", JSON.stringify(result.game));
+      const oldGameRaw = window.localStorage.getItem("bookkeys:game");
+      const newGameRaw = JSON.stringify(result.game);
+      window.localStorage.setItem("bookkeys:game", newGameRaw);
+      // Storage events do not fire in the same document for localStorage writes.
+      // Dispatch the exact before/after snapshot only after the save succeeds.
+      window.dispatchEvent(new StorageEvent("storage", {
+        key: "bookkeys:game",
+        oldValue: oldGameRaw,
+        newValue: newGameRaw,
+        storageArea: window.localStorage,
+      }));
       setGameXp(Number(result.game.xp ?? 0));
       const savedBook = result.game.book?.[book.bookKey];
       setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
