@@ -80,6 +80,27 @@ test("merge validates settings types and preserves local typed pages while mergi
   assert.deepEqual(game.book["backup-only-book"].x, [1, 9]);
 });
 
+test("merges backup-only shelves without overwriting local shelf names", () => {
+  const storage = new MemoryStorage();
+  storage.setItem("bookkeys:shelves", JSON.stringify([
+    { id: "default", name: "Library" }, { id: "s1", name: "My Shelf" },
+  ]));
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:shelves": JSON.stringify([
+        { id: "default", name: "Renamed in backup" }, { id: "s2", name: "Backup Shelf" },
+      ]),
+    },
+  }));
+  restoreBookkeysBackup(storage, backup, "merge");
+  assert.deepEqual(JSON.parse(storage.getItem("bookkeys:shelves") ?? "[]"), [
+    { id: "default", name: "Library" },
+    { id: "s1", name: "My Shelf" },
+    { id: "s2", name: "Backup Shelf" },
+  ]);
+});
+
 test("merge counts only successful writes and leaves a failed key untouched", () => {
   const storage = new MemoryStorage();
   storage.setItem("bookkeys:settings", JSON.stringify({ size: 10, celebrate: false, lineH: 1 }));
