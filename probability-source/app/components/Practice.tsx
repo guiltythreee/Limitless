@@ -25,7 +25,7 @@ const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>
   createLearningPlayerShell(createElement, props);
 
 type ScopeKind = "topic" | "rank" | "all";
-type View = "overview" | "all" | "topics" | "saved" | "mistakes" | "question";
+type View = "overview" | "all" | "topics" | "saved" | "mistakes" | "history" | "question";
 type Sort = "order" | "last-first" | "first-first";
 const MARK: Record<Status, string> = { correct: "✓", incorrect: "×", partial: "◐", unattempted: "" };
 const MARKCLS: Record<Status, string> = { correct: "text-emerald-500", incorrect: "text-red-500", partial: "text-amber-500", unattempted: "" };
@@ -38,6 +38,7 @@ const NAV: { id: View; label: string; icon: string }[] = [
   { id: "topics", label: "Topic-wise", icon: "☰" },
   { id: "saved", label: "Bookmarked Qs", icon: "★" },
   { id: "mistakes", label: "My Mistakes", icon: "⚠" },
+  { id: "history", label: "Test History", icon: "◷" },
 ];
 
 export default function Practice({ lessonId, onSelectLesson, initialView = "overview", initialDifficulty = "all" }: { lessonId: string; onSelectLesson: (id: string, keepSection?: boolean) => void; initialView?: Exclude<View, "question">; initialDifficulty?: Difficulty | "all" }) {
@@ -117,6 +118,20 @@ export default function Practice({ lessonId, onSelectLesson, initialView = "over
         {view === "all" && <QuestionList pool={pool} title={scopeLabel} initialDifficulty={initialDifficulty} onOpen={(k, i) => open(k, i, "all")} onAnalysis={() => setView("overview")} />}
         {view === "saved" && <QuestionList pool={pool.filter((q) => store.bookmarks.includes(q.key))} title="Bookmarked questions" empty="Nothing saved yet. Tap ☆ on a question to keep it here." onOpen={(k, i) => open(k, i, "saved")} onAnalysis={() => setView("overview")} />}
         {view === "mistakes" && <QuestionList pool={pool.filter((q) => ["incorrect", "partial"].includes(statusOf(q.key)))} title="My mistakes (latest attempt not fully correct)" empty="No mistakes right now. Keep going." onOpen={(k, i) => open(k, i, "mistakes")} onAnalysis={() => setView("overview")} />}
+
+        {view === "history" && (
+          <section className="study-utility-panel">
+            <header className="study-utility-panel__header"><div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Test History</h2><p className="study-utility-panel__description">Previous assessments saved in this Probability workspace.</p></div><span className="study-utility-panel__count">{store.tests.length} tests</span></header>
+            <div className="study-utility-panel__content">
+              {store.tests.length === 0 ? <p className="py-8 text-center text-sm text-dim">No completed tests yet. Your finished assessments will appear here.</p> : [...store.tests].sort((a, b) => b.ts - a.ts).map((test) => (
+                <div key={test.id} className="flex flex-wrap items-center justify-between gap-3 border-t border-gold/10 py-4">
+                  <div><strong className="block text-sm text-parchment">{test.label}</strong><span className="mt-1 block text-[11px] text-dim">{new Date(test.ts).toLocaleString()} · {test.answered}/{test.total} answered</span></div>
+                  <div className="text-right"><strong className="serif text-xl text-gold">{test.score}/{test.total}</strong><span className="mt-1 block text-[10px] text-dim">{test.correct} fully correct</span></div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {view === "topics" && (
           <div className="grid gap-3 sm:grid-cols-2">
