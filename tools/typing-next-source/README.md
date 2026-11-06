@@ -9,7 +9,7 @@ This is an isolated Next.js/React/TypeScript source project, separate from the a
 - The mainline branch is based directly on the latest `main` checkpoint and contains the migration workspace as an additive change.
 - The original standalone reader remains at `tools/typing/bookkeys.html`; the production shell remains at `tools/typing/index.html`.
 - The current CI checkpoint passes 79 unit tests, 4 Playwright browser regressions, TypeScript type-checking and the Next.js static production build.
-- The TypeScript reader now uses the shared LSR-1 Bookkeys reward adapter and evidence bridge. Its local policy mirror is checked against the canonical `shared/rewards.mjs` implementation by parity tests. Adapter and bridge tests cover persisted awards, page/chapter/book milestones, idempotency, invalid evidence and daily repeat caps. Browser regressions exercise PDF/EPUB import, typing progress across reloads, reward persistence, backup export, browser Back/Forward, theme switching, reader settings and phone-width overflow.
+- The TypeScript reader now uses the shared LSR-1 Bookkeys reward adapter and evidence bridge. Its local policy mirror is checked against the canonical `shared/rewards.mjs` implementation by parity tests. Adapter and bridge tests cover persisted awards, page/chapter/book milestones, idempotency, invalid evidence and daily repeat caps. Browser regressions exercise PDF/EPUB import, typing progress across reloads, reward persistence, backup export/import round-trip, browser Back/Forward, theme switching, reader settings and phone-width overflow.
 
 ## Safety boundary
 
