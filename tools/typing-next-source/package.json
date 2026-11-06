@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/domain/persistence/bookkeys-v1-database.test.ts src/domain/epub/epub-domain.test.ts src/domain/epub/epub-importer.test.ts src/domain/pdf/pdf-domain.test.ts src/domain/pdf/pdf-importer.test.ts src/domain/reading/bookkeys-reading-session.test.ts src/domain/reading/bookkeys-chapters.test.ts src/domain/reading/bookkeys-backup.test.ts src/domain/reading/bookkeys-shelves.test.ts src/domain/rewards/bookkeys-reward-bridge.test.ts src/domain/rewards/shared-rewards-parity.test.ts"
+    "test": "tsx --test src/domain/persistence/bookkeys-v1-database.test.ts src/domain/epub/epub-domain.test.ts src/domain/epub/epub-importer.test.ts src/domain/pdf/pdf-domain.test.ts src/domain/pdf/pdf-importer.test.ts src/domain/reading/bookkeys-reading-session.test.ts src/domain/reading/bookkeys-chapters.test.ts src/domain/reading/bookkeys-backup.test.ts src/domain/reading/bookkeys-shelves.test.ts src/domain/rewards/bookkeys-reward-bridge.test.ts src/domain/rewards/shared-rewards-parity.test.ts src/domain/rewards/bookkeys-reward-adapter.test.ts"
   },
   "dependencies": {
     "next": "^16.0.0",
