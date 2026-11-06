@@ -44,7 +44,7 @@ jobs:
         run: npm run build
       - name: Install Chromium for browser regressions
         working-directory: tools/typing-next-source
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
       - name: Browser regression tests
         working-directory: tools/typing-next-source
         run: npm run e2e
