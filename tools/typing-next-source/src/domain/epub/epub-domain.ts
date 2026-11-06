@@ -160,18 +160,38 @@ export function epubLongPieces(value: string, maxLength: number): string[] {
   const text = normalize(value);
   const limit = Math.max(1, Math.floor(maxLength));
   if (text.length <= limit) return text ? [text] : [];
-  const words = text.split(" ");
-  const pieces: string[] = [];
-  let current = "";
-  for (const word of words) {
-    if (word.length > limit) {
-      if (current) { pieces.push(current); current = ""; }
-      for (let i = 0; i < word.length; i += limit) pieces.push(word.slice(i, i + limit));
+
+  // Prefer complete sentence boundaries. Only split a sentence at word boundaries
+  // when that sentence itself cannot fit in one section.
+  const sentences = text.split(/(?<=[.!?])\\s+/).filter(Boolean);
+  const units: string[] = [];
+  for (const sentence of sentences) {
+    if (sentence.length <= limit) {
+      units.push(sentence);
       continue;
     }
-    const candidate = current ? current + " " + word : word;
-    if (candidate.length > limit) { pieces.push(current); current = word; }
-    else current = candidate;
+    let part = "";
+    for (const word of sentence.split(" ")) {
+      if (word.length > limit) {
+        if (part) { units.push(part); part = ""; }
+        for (let i = 0; i < word.length; i += limit) units.push(word.slice(i, i + limit));
+        continue;
+      }
+      const next = part ? part + " " + word : word;
+      if (next.length > limit) { units.push(part); part = word; }
+      else part = next;
+    }
+    if (part) units.push(part);
+  }
+
+  const pieces: string[] = [];
+  let current = "";
+  for (const unit of units) {
+    const next = current ? current + " " + unit : unit;
+    if (next.length > limit) {
+      if (current) pieces.push(current);
+      current = unit;
+    } else current = next;
   }
   if (current) pieces.push(current);
   return pieces;
