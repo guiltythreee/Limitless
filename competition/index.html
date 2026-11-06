@@ -120,6 +120,29 @@
       <div id="week-list" class="week-list"></div>
     </section>
 
+
+    <section class="section-block account-link-section" id="linked-accounts">
+      <div class="section-heading-row">
+        <div><div class="card-label">LIVE ACCOUNT DATA</div><h2>Linked platforms</h2></div>
+        <p>Track only competition-relevant statistics. Handles are saved with your Limitless progress; no platform passwords or individual submissions are collected.</p>
+      </div>
+      <div class="linked-account-grid">
+        <article class="linked-account-card">
+          <div class="linked-account-top"><div><span class="account-platform">CODEFORCES</span><h3>Codeforces</h3></div><span class="account-state" id="cf-link-state">Not checked</span></div>
+          <label>Handle<input id="cf-handle" type="text" value="Unwonted_contriver" autocomplete="off" spellcheck="false"></label>
+          <div class="account-stats" id="cf-account-stats"><p>Load current and peak rating, rank, contest count, best contest place and latest rating change.</p></div>
+          <a id="cf-profile-link" href="https://codeforces.com/profile/Unwonted_contriver" target="_blank" rel="noopener noreferrer">Open Codeforces profile ↗</a>
+        </article>
+        <article class="linked-account-card">
+          <div class="linked-account-top"><div><span class="account-platform">CSES</span><h3>CSES</h3></div><span class="account-state" id="cses-link-state">Profile identified</span></div>
+          <label>Profile ID<input id="cses-user-id" type="text" value="386335" inputmode="numeric" autocomplete="off"></label>
+          <div class="account-stats" id="cses-account-stats"><p>Track the public profile's submission count and last activity when the profile can be read.</p></div>
+          <a id="cses-profile-link" href="https://cses.fi/user/386335" target="_blank" rel="noopener noreferrer">Open CSES profile ↗</a>
+        </article>
+      </div>
+      <div class="account-actions"><button id="save-linked-accounts" class="action-button" type="button">Save accounts &amp; refresh</button><span id="accounts-sync-note" role="status">Account details are saved with Limitless progress when signed in.</span></div>
+    </section>
+
     <section class="section-block problem-log-section" id="problem-review">
       <div class="section-heading-row">
         <div><div class="card-label">PROBLEM-SOLVING EVIDENCE</div><h2>Problem review log</h2></div>
@@ -193,6 +216,8 @@
     </section>
   </main>
   <script src="competition.js" defer></script>
+  <script src="accounts.js" defer></script>
+  <link rel="stylesheet" href="accounts.css">
 
   <!-- Limitless account + Supabase foundation -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
