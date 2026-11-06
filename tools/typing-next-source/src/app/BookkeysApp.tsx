@@ -27,6 +27,30 @@ interface ReaderBook {
   readonly chapters: BookkeysChapter[];
 }
 interface LibraryEntry extends BookkeysLibraryMetadata {}
+interface BookkeysSettings {
+  readonly bg: string;
+  readonly size: number;
+  readonly lineH: number;
+  readonly celebrate: boolean;
+  readonly [extension: string]: unknown;
+}
+
+function readSettings(): BookkeysSettings {
+  const defaults: BookkeysSettings = { bg: "dark", size: 17, lineH: 1.8, celebrate: true };
+  try {
+    const value: unknown = JSON.parse(window.localStorage.getItem("bookkeys:settings") ?? "{}");
+    if (!value || typeof value !== "object" || Array.isArray(value)) return defaults;
+    const record = value as Record<string, unknown>;
+    return {
+      ...defaults,
+      ...record,
+      bg: typeof record.bg === "string" ? record.bg : defaults.bg,
+      size: typeof record.size === "number" && Number.isFinite(record.size) ? record.size : defaults.size,
+      lineH: typeof record.lineH === "number" && Number.isFinite(record.lineH) ? record.lineH : defaults.lineH,
+      celebrate: typeof record.celebrate === "boolean" ? record.celebrate : defaults.celebrate,
+    };
+  } catch { return defaults; }
+}
 
 function readGame(): ReturnType<typeof emptyBookkeysGame> {
   try {
@@ -100,6 +124,9 @@ export default function BookkeysApp() {
   const [typed, setTyped] = useState("");
   const [status, setStatus] = useState("Import a PDF or EPUB to begin.");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [settings, setSettings] = useState<BookkeysSettings>({ bg: "dark", size: 17, lineH: 1.8, celebrate: true });
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsTab, setSettingsTab] = useState<"appearance" | "data">("appearance");
   const [themeReady, setThemeReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [chaptersOpen, setChaptersOpen] = useState(false);
@@ -111,16 +138,21 @@ export default function BookkeysApp() {
   const completedThisPage = useRef(false);
 
   useEffect(() => {
-    const saved = window.localStorage.getItem("limitless.typing.v1.theme");
-    setTheme(saved === "light" ? "light" : "dark");
+    const savedSettings = readSettings();
+    const savedTheme = window.localStorage.getItem("limitless.typing.v1.theme");
+    const initialTheme = savedSettings.bg === "light" || savedTheme === "light" ? "light" : "dark";
+    setSettings({ ...savedSettings, bg: initialTheme });
+    setTheme(initialTheme);
     setThemeReady(true);
   }, []);
 
   useEffect(() => {
     if (!themeReady) return;
     document.documentElement.dataset.theme = theme;
+    document.documentElement.style.setProperty("--tsize", settings.size + "px");
+    document.documentElement.style.setProperty("--lineH", String(settings.lineH));
     try { window.localStorage.setItem("limitless.typing.v1.theme", theme); } catch { /* theme is a preference */ }
-  }, [theme, themeReady]);
+  }, [theme, themeReady, settings.size, settings.lineH]);
 
   useEffect(() => {
     let active = true;
@@ -389,6 +421,19 @@ export default function BookkeysApp() {
     ));
   }
 
+  function persistSettings(next: BookkeysSettings) {
+    setSettings(next);
+    try { window.localStorage.setItem("bookkeys:settings", JSON.stringify(next)); } catch {
+      setStatus("Settings could not be saved in this browser.");
+    }
+  }
+
+  function toggleTheme() {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    persistSettings({ ...settings, bg: nextTheme });
+  }
+
   function exportBackup() {
     try {
       const backup = createBookkeysBackupV1(window.localStorage);
@@ -412,6 +457,9 @@ export default function BookkeysApp() {
       const game = readGame();
       setGameXp(Number(game.xp ?? 0));
       setShelves(readShelves(window.localStorage.getItem("bookkeys:shelves")));
+      const restoredSettings = readSettings();
+      setSettings(restoredSettings);
+      setTheme(restoredSettings.bg === "light" ? "light" : "dark");
       if (book) {
         const progress = game.book?.[book.bookKey];
         setCompletedPageIndexes([...new Set([...(progress?.p ?? []), ...(progress?.e ?? [])])]);
@@ -503,7 +551,10 @@ export default function BookkeysApp() {
           <h1>Bookkeys</h1>
         </div>
         <div className="bk-header-actions">
-          <button className="bk-quiet bk-theme-toggle" onClick={() => setTheme((current) => current === "dark" ? "light" : "dark")} aria-label="Toggle light and dark theme">
+          <button id="openSettings" className="bk-quiet bk-settings-button" onClick={() => setSettingsOpen(true)} aria-label="Settings" title="Settings" aria-haspopup="dialog" aria-expanded={settingsOpen}>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 15 .1.1a1.8 1.8 0 0 1-2.5 2.5l-.1-.1a1.8 1.8 0 0 0-3 .9v.2a1.8 1.8 0 0 1-3.6 0v-.2a1.8 1.8 0 0 0-3-.9l-.1.1a1.8 1.8 0 0 1-2.5-2.5l.1-.1a1.8 1.8 0 0 0-.9-3h-.2a1.8 1.8 0 0 1 0-3.6h.2a1.8 1.8 0 0 0 .9-3l-.1-.1a1.8 1.8 0 0 1 2.5-2.5l.1.1a1.8 1.8 0 0 0 3-.9v-.2a1.8 1.8 0 0 1 3.6 0v.2a1.8 1.8 0 0 0 3 .9l.1-.1a1.8 1.8 0 0 1 2.5 2.5l-.1.1a1.8 1.8 0 0 0 .9 3h.2a1.8 1.8 0 0 1 0 3.6h-.2a1.8 1.8 0 0 0-.9 3Z"/></svg>
+          </button>
+          <button className="bk-quiet bk-theme-toggle" onClick={toggleTheme} aria-label="Toggle light and dark theme">
             {theme === "dark" ? "Light mode" : "Dark mode"}
           </button>
           <div className="bk-xp"><span>Bookkeys XP</span><strong>{gameXp.toLocaleString()}</strong></div>
