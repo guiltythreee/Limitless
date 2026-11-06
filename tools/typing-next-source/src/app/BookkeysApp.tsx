@@ -149,8 +149,8 @@ export default function BookkeysApp() {
         const currentBook = bookCache.current[check.key];
         const section = currentBook?.sections[check.page];
         if (!section) return null;
-        const raw = section.map((block) => block.text).join("\\n");
-        const normalized = raw.replace(/\\u00a0/g, " ").replace(/\\s+/g, " ").trim().toLowerCase();
+        const raw = section.map((block) => block.text).join("\n");
+        const normalized = raw.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
         if (normalized.length < 150) return null;
         return {
           contentSignature: pageSignature(raw),
