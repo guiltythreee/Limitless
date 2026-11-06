@@ -1,0 +1,72 @@
+/* Dedicated competition dashboard skin. Keeps the existing competition tracker DOM, local data model and shared Limitless artwork intact. */
+.competition-page { --comp-panel:rgba(8,20,36,.84); --comp-border:rgba(101,166,226,.22); --comp-muted:#a8bfd7; --comp-ink:#eaf3ff; --comp-accent:#67b6ff; color:var(--comp-ink); font-family:Arial,sans-serif; }
+.competition-page::after { background:linear-gradient(180deg,rgba(3,9,18,.45),rgba(3,9,18,.38) 55%,rgba(3,9,18,.7)); }
+.competition-nav { height:62px; padding:0 25px 0 270px; background:rgba(4,12,23,.91); border-bottom:1px solid var(--comp-border); }
+.competition-brand { display:flex; align-items:center; gap:9px; color:#eaf4ff; font-size:16px; letter-spacing:3px; }
+.competition-brand::before { content:"∞"; display:grid; place-items:center; width:29px; height:29px; border-radius:50%; background:linear-gradient(135deg,#1685ef,#174d9b); color:#fff; font-size:24px; letter-spacing:0; }
+.competition-nav nav { gap:18px; color:#b1c9e2; font-size:11px; }
+.competition-nav nav a:hover { color:#75bdff; }
+.competition-nav .theme-toggle { border:1px solid var(--comp-border); border-radius:20px; background:rgba(16,37,60,.9); color:#bcdcff; }
+.competition-sidebar { position:fixed; z-index:30; top:62px; bottom:0; left:0; width:245px; display:flex; flex-direction:column; gap:7px; padding:23px 13px; border-right:1px solid var(--comp-border); background:rgba(5,14,26,.76); backdrop-filter:blur(14px); }
+.competition-sidebar-label { margin:0 11px 8px; color:#7896b6; font:700 9px Arial,sans-serif; letter-spacing:2px; }
+.competition-side-link { display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:9px; color:#b9cde2; font:12px Arial,sans-serif; transition:background .2s,color .2s; }
+.competition-side-link span { width:20px; color:#8bc6ff; font-size:18px; text-align:center; }
+.competition-side-link:hover,.competition-side-link.active { color:#f2f8ff; background:linear-gradient(100deg,rgba(27,112,203,.32),rgba(27,112,203,.07)); }
+.competition-side-link.active { box-shadow:inset 2px 0 #64b4ff; }
+.competition-sidebar-note { margin-top:auto; padding:16px 12px 0; border-top:1px solid var(--comp-border); }
+.competition-sidebar-note span { color:#e8b94d; font:700 8px Arial,sans-serif; letter-spacing:1.5px; }
+.competition-sidebar-note p { color:#9eb5ce; font:italic 11px/1.65 Georgia,serif; }
+.competition-shell { width:min(1480px,calc(100% - 295px)); max-width:none; margin:0 25px 0 270px; padding:28px 0 65px; }
+.competition-heading { padding:5px 0 20px; }
+.competition-heading .eyebrow,.competition-kicker,.card-label { color:#77baff; font:700 9px Arial,sans-serif; letter-spacing:1.8px; }
+.competition-kicker { margin:13px 0 6px; color:#9fc8ed; }
+.competition-heading h1 { color:#edf6ff; font:600 clamp(28px,3vw,38px)/1.2 Arial,sans-serif; letter-spacing:-.5px; text-shadow:none; }
+.competition-lede { max-width:900px; margin:9px 0 0; color:var(--comp-muted); font:12px/1.7 Arial,sans-serif; }
+.campaign-meta { margin-top:15px; gap:10px; }
+.campaign-meta label,.safety-controls label,.mock-form label { color:var(--comp-muted); font:10px Arial,sans-serif; }
+.competition-page input,.competition-page select { border:1px solid var(--comp-border); border-radius:8px; background:rgba(7,19,34,.86); color:var(--comp-ink); }
+.competition-page input:focus,.competition-page select:focus { outline:2px solid rgba(95,177,255,.4); }
+.overview-grid { gap:12px; }
+.overview-card,.safety-panel,.subject-card,.week-card,.mock-history,.data-section,.mock-form,.resource-card,.volume-card,.rating-panel { border:1px solid var(--comp-border); border-radius:13px; background:var(--comp-panel); backdrop-filter:blur(13px); }
+.overview-card { min-height:132px; padding:17px; }
+.metric-line strong { color:#8bc9ff; font:600 30px Arial,sans-serif; }
+.metric-line span,.overview-card p { color:var(--comp-muted); font:10px Arial,sans-serif; }
+.progress-track { height:6px; background:rgba(106,164,220,.16); }
+.progress-track span { background:linear-gradient(90deg,#2c89df,#80c7ff); }
+.mastery-key { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; margin-top:12px; padding:13px; border:1px solid var(--comp-border); border-radius:12px; background:rgba(8,20,36,.72); }
+.mastery-key>div { display:grid; grid-template-columns:10px 1fr; gap:4px 8px; align-items:center; }
+.mastery-key strong { color:#dcecff; font:11px Arial,sans-serif; }.mastery-key small { grid-column:2; color:#91abc6; font:9px/1.45 Arial,sans-serif; }
+.status-dot { width:8px; height:8px; border-radius:50%; }.status-dot.not-started { background:#6c829a; }.status-dot.learning { background:#e7b84d; }.status-dot.practiced { background:#6e9fe7; }.status-dot.mastered { background:#35c895; }
+.safety-panel { gap:22px; margin-top:12px; padding:20px; border-color:rgba(99,174,244,.32); }
+.safety-copy h2,.section-heading-row h2,.data-section h2 { color:#e8f3ff; font:600 19px Arial,sans-serif; }
+.safety-copy>p,.section-heading-row>p,.data-section p { color:var(--comp-muted); font:10px/1.7 Arial,sans-serif; }
+.safety-result { border-left-color:#65b5ff; border-radius:0 8px 8px 0; background:rgba(63,145,220,.1); }.safety-result strong { color:#a6d5ff; font:600 13px Arial,sans-serif; }.safety-result span { color:#a9bfd7; font:10px/1.6 Arial,sans-serif; }
+.safe-target { color:#91cbff; }
+.section-block { margin-top:36px; scroll-margin-top:80px; }
+.section-heading-row { align-items:center; margin-bottom:14px; }
+.section-heading-row h2 { margin:6px 0 0; }
+.section-heading-row>p { max-width:470px; }
+.subject-grid { gap:10px; }
+.subject-card { padding:15px; }.subject-card h3 { color:#dceeff; font:600 13px Arial,sans-serif; }.subject-card p { color:#9eb5ce; font:9px/1.5 Arial,sans-serif; }
+.subject-link { color:#83c3ff; }
+.week-list { gap:8px; }.week-card { overflow:hidden; }.week-summary { padding:13px 16px; }.week-number { color:#81c4ff; }.week-title { color:#e8f3ff; font:600 12px Arial,sans-serif; }.week-phase,.week-progress { color:#9db6d1; font:9px Arial,sans-serif; }.week-content { border-top-color:var(--comp-border); }.week-objective { color:#adc2d9; font:10px/1.6 Arial,sans-serif; }.topic-check { color:#dcecff; font:10px/1.5 Arial,sans-serif; }.topic-check small { color:#91a9c3; }.topic-check input { accent-color:#4ca9f4; }
+.problem-form,.mock-form { border-radius:13px; background:var(--comp-panel); }.problem-form label { color:var(--comp-muted); font:10px Arial,sans-serif; }
+.action-button { min-height:36px; padding:8px 13px; border:1px solid rgba(97,177,246,.5); border-radius:8px; background:rgba(52,139,216,.16); color:#a9d7ff; font:10px Arial,sans-serif; }.action-button:hover { background:rgba(52,139,216,.27); }
+.mock-history { padding:0 15px; }.mock-row { color:#a9bfd7; font:10px Arial,sans-serif; }.mock-row strong { color:#9bd0ff; font:600 14px Arial,sans-serif; }.mock-delete,.text-action { color:#a5bad0; }
+.resource-card { padding:16px; }.resource-card h3 { color:#e5f2ff; font:600 13px Arial,sans-serif; }.resource-card p,.resource-intro { color:#a9bfd7; font:10px/1.65 Arial,sans-serif; }.resource-card a { color:#83c5ff; font:10px Arial,sans-serif; }
+.data-section { padding:18px; }.data-section h2 { font-size:18px; }.storage-note { color:#8faac6; }
+.volume-card,.rating-panel { background:var(--comp-panel); }.volume-value strong,.rating-panel strong { color:#91ccff; }.volume-card small,.volume-card p,.rating-panel p { color:#9fb8d2; }
+html[data-theme="light"] .competition-page { --comp-panel:rgba(248,252,255,.86); --comp-border:rgba(64,112,157,.23); --comp-muted:#526b83; --comp-ink:#1c3045; --comp-accent:#276da9; }
+html[data-theme="light"] .competition-page::after { background:linear-gradient(180deg,rgba(244,249,255,.18),rgba(232,242,252,.2)); }
+html[data-theme="light"] .competition-nav { background:rgba(244,249,255,.94); }
+html[data-theme="light"] .competition-brand,html[data-theme="light"] .competition-heading h1,html[data-theme="light"] .safety-copy h2,html[data-theme="light"] .section-heading-row h2,html[data-theme="light"] .data-section h2,html[data-theme="light"] .subject-card h3,html[data-theme="light"] .week-title,html[data-theme="light"] .resource-card h3 { color:#1e3c5a; }
+html[data-theme="light"] .competition-sidebar { background:rgba(241,248,255,.88); }
+html[data-theme="light"] .competition-side-link { color:#385572; }
+html[data-theme="light"] .competition-sidebar-note p { color:#526b83; }
+html[data-theme="light"] .competition-page input,html[data-theme="light"] .competition-page select { background:rgba(255,255,255,.9); color:#243c54; color-scheme:light; }
+html[data-theme="light"] .mastery-key { background:rgba(248,252,255,.8); }
+html[data-theme="light"] .mastery-key strong { color:#294761; }
+html[data-theme="light"] .mastery-key small { color:#617991; }
+@media(max-width:1000px) { .competition-shell { width:calc(100% - 270px); margin-left:250px; margin-right:20px; }.competition-sidebar { width:225px; }.competition-nav { padding-left:245px; }.subject-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:720px) { .competition-nav { height:auto; min-height:60px; padding:10px 14px; flex-wrap:wrap; }.competition-nav nav { order:3; width:100%; gap:13px; }.competition-sidebar { position:sticky; top:0; width:100%; height:auto; flex-direction:row; overflow-x:auto; gap:4px; padding:7px 9px; border-right:0; border-bottom:1px solid var(--comp-border); }.competition-sidebar-label,.competition-sidebar-note { display:none; }.competition-side-link { flex:0 0 auto; padding:9px 10px; font-size:10px; }.competition-shell { width:calc(100% - 26px); margin:0 13px; padding-top:20px; }.overview-grid { grid-template-columns:1fr 1fr; }.overview-card:last-child { grid-column:1/-1; }.mastery-key { grid-template-columns:1fr 1fr; }.subject-grid { grid-template-columns:1fr 1fr; } }
+@media(max-width:460px) { .overview-grid,.subject-grid { grid-template-columns:1fr 1fr; }.safety-controls { grid-template-columns:1fr; }.safety-controls .wide-field,.safe-target { grid-column:1; }.campaign-meta { display:grid; grid-template-columns:1fr 1fr; }.competition-heading h1 { font-size:28px; }.section-heading-row { display:block; }.section-heading-row>p { margin-top:8px; }.mastery-key { grid-template-columns:1fr 1fr; } }
