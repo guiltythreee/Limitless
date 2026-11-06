@@ -46,6 +46,16 @@ test("stores and retrieves metadata and original file bytes", async () => {
   db.close();
 });
 
+test("lists library metadata without reading or changing original files", async () => {
+  const db = await openBookkeysDatabase(new IDBFactory());
+  await db.putBook(metadata("book-b"), new Blob(["b"]));
+  await db.putBook(metadata("book-a"), new Blob(["a"]));
+  const listed = await db.listMetadata();
+  assert.deepEqual(listed.map((item) => item.id).sort(), ["book-a", "book-b"]);
+  assert.equal(await db.getFile("book-a").then((file) => file?.text()), "a");
+  db.close();
+});
+
 test("deletes metadata and file together", async () => {
   const db = await openBookkeysDatabase(new IDBFactory());
   await db.putBook(metadata("book-2"), new Blob(["data"]));
