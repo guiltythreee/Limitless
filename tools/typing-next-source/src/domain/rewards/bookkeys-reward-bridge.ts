@@ -86,6 +86,25 @@ function pageSet(book: unknown, field: "p" | "x"): Set<number> {
   ));
 }
 
+/** Stable, privacy-preserving page fingerprint compatible with the legacy shell bridge. */
+export function bookkeysPageEvidenceFromText(value: string): BookkeysPageEvidence | null {
+  const normalized = String(value ?? "")
+    .replace(/\\u00a0/g, " ")
+    .replace(/\\s+/g, " ")
+    .trim()
+    .toLowerCase();
+  if (normalized.length < 150) return null;
+  let h1 = 2166136261;
+  let h2 = 5381;
+  for (let index = 0; index < normalized.length; index += 1) {
+    const code = normalized.charCodeAt(index);
+    h1 = Math.imul(h1 ^ code, 16777619) >>> 0;
+    h2 = (Math.imul(h2, 33) ^ code) >>> 0;
+  }
+  const hex = (hash: number) => ("00000000" + hash.toString(16)).slice(-8);
+  return { contentSignature: hex(h1) + hex(h2), characterCount: normalized.length };
+}
+
 function renderedPageEvidence(
   target: BookkeysRewardBridgeTarget,
   check: GameCheck,
@@ -103,17 +122,7 @@ function renderedPageEvidence(
     if (!characters.length) return null;
     let raw = "";
     for (const character of characters) raw += character.textContent || "";
-    const normalized = raw.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
-    if (normalized.length < 150) return null;
-    let h1 = 2166136261;
-    let h2 = 5381;
-    for (let index = 0; index < normalized.length; index += 1) {
-      const code = normalized.charCodeAt(index);
-      h1 = Math.imul(h1 ^ code, 16777619) >>> 0;
-      h2 = (Math.imul(h2, 33) ^ code) >>> 0;
-    }
-    const hex = (value: number) => ("00000000" + value.toString(16)).slice(-8);
-    return { contentSignature: hex(h1) + hex(h2), characterCount: normalized.length };
+    return bookkeysPageEvidenceFromText(raw);
   } catch {
     return null;
   }
