@@ -82,8 +82,9 @@ test("awards a verified chapter milestone only after the completion marker clear
 });
 
 test("page fingerprints normalize case and whitespace consistently", () => {
-  const first = bookkeysPageEvidenceFromText("A long passage with  " + "mixed words ".repeat(20));
-  const second = bookkeysPageEvidenceFromText("a long passage with mixed words ".repeat(20));
+  const words = "mixed words ".repeat(20);
+  const first = bookkeysPageEvidenceFromText("A long passage with  " + words.toUpperCase());
+  const second = bookkeysPageEvidenceFromText("a long passage with " + words);
   assert.ok(first);
   assert.ok(second);
   assert.equal(first.contentSignature, second.contentSignature);
