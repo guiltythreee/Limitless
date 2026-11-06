@@ -9,7 +9,10 @@ export const bookkeysRewardPolicy: RewardPolicy = {
   // The adapter injects validated activityClass/difficulty from its evidence
   // rule immediately before calling the shared policy.
   buildRewardRecords: (activity, prior) =>
-    buildRewardRecords(activity as Parameters<typeof buildRewardRecords>[0], prior),
+    buildRewardRecords(
+      activity as Parameters<typeof buildRewardRecords>[0],
+      prior as Parameters<typeof buildRewardRecords>[1],
+    ),
   sanitiseRewardRecords: (raw) => sanitiseRewardRecords(raw),
   dispatchRewardUpdate: () => dispatchRewardUpdate(),
 };
