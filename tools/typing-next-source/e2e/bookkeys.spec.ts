@@ -257,3 +257,27 @@ test("last section and unfinished typing draft restore after reopening a book", 
   await expect(page.locator("#bk-typing")).toHaveValue(partialDraft);
   await expect(page.locator(".bk-reader-meta")).toContainText("1/2 required complete");
 });
+
+test("sample text is typable but never writes XP, reward or book progress", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Try sample text" }).click();
+  await expect(page.getByRole("heading", { name: "Sample Passage" })).toBeVisible();
+
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  expect(source!.length).toBeGreaterThan(150);
+  await page.locator("#bk-typing").fill(source!);
+  await expect(page.getByRole("status")).toContainText("no XP awarded");
+
+  const saved = await page.evaluate(() => ({
+    game: localStorage.getItem("bookkeys:game"),
+    rewards: localStorage.getItem("bookkeys-lsr1-v1"),
+    sampleDrafts: Object.keys(localStorage).filter((key) => key.includes("sample")),
+  }));
+  expect(saved.game).toBeNull();
+  expect(saved.rewards).toBeNull();
+  expect(saved.sampleDrafts).toEqual([]);
+
+  await page.getByRole("button", { name: /Library/ }).click();
+  await expect(page.locator(".bk-empty")).toBeVisible();
+});
