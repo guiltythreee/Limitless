@@ -344,9 +344,24 @@ export default function BookkeysApp() {
               <h2>Your library</h2>
               <p>Books are parsed locally. Original files and typing drafts stay in this browser.</p>
             </div>
-            <div className="bk-library-actions">\n              <button className="bk-quiet" onClick={exportBackup}>Export backup</button>\n              <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>\n              <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
-              {busy ? "Working…" : "Import PDF / EPUB"}
-            </button>
+            <div className="bk-library-actions">
+              <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
+              <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>
+              <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
+                {busy ? "Working…" : "Import PDF / EPUB"}
+              </button>
+            </div>
+            <input
+              ref={backupInput}
+              className="bk-hidden"
+              type="file"
+              accept="application/json,.json"
+              aria-label="Import Bookkeys backup"
+              onChange={(event) => {
+                const file = event.currentTarget.files?.[0];
+                if (file) void importBackup(file);
+              }}
+            />
             <input
               ref={fileInput}
               className="bk-hidden"
