@@ -130,3 +130,6 @@ html[data-theme="light"] .promo-copy p { color: #67512b; }
 html[data-theme="light"] .competition-promo>a { color: #805500; }
 html[data-theme="light"] .promo-icon { background: #ffedc4; color: #805500; }
 html[data-theme="light"] .home-footer { color: #526d86; }
+
+/* Respect search filtering on cards whose layout sets an explicit display value. */
+.home-dashboard-page [hidden] { display: none !important; }
