@@ -163,7 +163,7 @@ export function epubLongPieces(value: string, maxLength: number): string[] {
 
   // Prefer complete sentence boundaries. Only split a sentence at word boundaries
   // when that sentence itself cannot fit in one section.
-  const sentences = text.split(/(?<=[.!?])\\s+/).filter(Boolean);
+  const sentences = text.split(/(?<=[.!?])\s+/).filter(Boolean);
   const units: string[] = [];
   for (const sentence of sentences) {
     if (sentence.length <= limit) {
