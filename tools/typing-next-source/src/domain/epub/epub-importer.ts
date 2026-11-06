@@ -163,11 +163,25 @@ export async function readEpub(
       const blocks = epubExpandBlocks(rawBlocks, BLOCK_LIMIT);
       if (!blocks.length) continue;
 
-      const packed = epubPackSections(blocks, SECTION_TARGET);
+      const links = tocForItem(toc, tocPath, item.href);
+      const anchorEntries: { blockIndex: number; title: string }[] = [];
+      for (const link of links) {
+        const hashAt = link.href.indexOf("#");
+        if (hashAt < 0 || !link.label) continue;
+        let anchor = link.href.slice(hashAt + 1).split("?")[0];
+        try { anchor = decodeURIComponent(anchor); } catch { /* keep source fragment */ }
+        const blockIndex = blocks.findIndex((block) => block.id === anchor);
+        if (blockIndex > 0) anchorEntries.push({ blockIndex, title: link.label });
+      }
+      // A TOC anchor must land at the start of a section, not halfway through one.
+      const packed = epubPackSections(
+        blocks,
+        SECTION_TARGET,
+        new Set(anchorEntries.map((entry) => entry.blockIndex)),
+      );
       const baseSection = sections.length;
       sections.push(...packed.sections);
 
-      const links = tocForItem(toc, tocPath, item.href);
       const mainLabel = links.find((link) => !link.href.includes("#") && link.label)?.label;
       const heading = blocks.find((block) => block.t === "h")?.text ?? "";
       chapterStarts.push({
@@ -176,15 +190,9 @@ export async function readEpub(
         title: mainLabel || heading || title,
       });
 
-      for (const link of links) {
-        const hashAt = link.href.indexOf("#");
-        if (hashAt < 0 || !link.label) continue;
-        let anchor = link.href.slice(hashAt + 1).split("?")[0];
-        try { anchor = decodeURIComponent(anchor); } catch { /* keep source fragment */ }
-        const blockIndex = blocks.findIndex((block) => block.id === anchor);
-        if (blockIndex < 0) continue;
-        const localSection = packed.secOf[blockIndex];
-        if (localSection !== undefined) anchorPositions.push({ p: baseSection + localSection, title: link.label });
+      for (const entry of anchorEntries) {
+        const localSection = packed.secOf[entry.blockIndex];
+        if (localSection !== undefined) anchorPositions.push({ p: baseSection + localSection, title: entry.title });
       }
     }
 
