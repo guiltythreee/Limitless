@@ -30,6 +30,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Legacy Bookkeys preservation tests
+        working-directory: tools/typing/tests
+        run: npm ci --no-audit --no-fund && npm test
       - name: Install dependencies
         working-directory: tools/typing-next-source
         run: npm install --no-audit --no-fund
