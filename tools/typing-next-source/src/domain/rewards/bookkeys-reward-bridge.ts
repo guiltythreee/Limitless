@@ -89,8 +89,8 @@ function pageSet(book: unknown, field: "p" | "x"): Set<number> {
 /** Stable, privacy-preserving page fingerprint compatible with the legacy shell bridge. */
 export function bookkeysPageEvidenceFromText(value: string): BookkeysPageEvidence | null {
   const normalized = String(value ?? "")
-    .replace(/\\u00a0/g, " ")
-    .replace(/\\s+/g, " ")
+    .replace(/\u00a0/g, " ")
+    .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();
   if (normalized.length < 150) return null;
