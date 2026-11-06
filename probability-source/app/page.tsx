@@ -44,7 +44,7 @@ export default function Home() {
   const [rollCount, setRollCount] = useState(100);
   const [tab, setTab] = useState<"archive" | "analysis" | "experiment" | "coverage">("archive");
   const [pathwayId, setPathwayId] = useState<string>("all");
-  const [practiceView, setPracticeView] = useState<"overview" | "all" | "topics" | "saved" | "mistakes">("overview");
+  const [practiceView, setPracticeView] = useState<"overview" | "all" | "topics" | "saved" | "mistakes" | "history">("overview");
   const [practiceDifficulty, setPracticeDifficulty] = useState<Difficulty | "all">("all");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const articleRef = useRef<HTMLElement>(null);
@@ -67,8 +67,8 @@ export default function Home() {
       setTab("archive");
       setSection("practice");
       const requestedView = params.get("view");
-      setPracticeView(["all", "topics", "saved", "mistakes"].includes(requestedView ?? "")
-        ? requestedView as "all" | "topics" | "saved" | "mistakes"
+      setPracticeView(["all", "topics", "saved", "mistakes", "history"].includes(requestedView ?? "")
+        ? requestedView as "all" | "topics" | "saved" | "mistakes" | "history"
         : "overview");
       const requestedDifficulty = params.get("difficulty");
       setPracticeDifficulty(["easy", "medium", "hard"].includes(requestedDifficulty ?? "")
