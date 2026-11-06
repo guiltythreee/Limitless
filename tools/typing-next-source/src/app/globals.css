@@ -120,3 +120,6 @@ html[data-theme="light"] .bk-chapter-list { background: #faf7f0; border-color: #
 html[data-theme="light"] .bk-chapter-row { border-color: #e5ddd1; }
 html[data-theme="light"] .bk-optional { color: #746d63; background: #f5f0e7; border-color: #cfc5b5; }
 html[data-theme="light"] .bk-progress-track { background: #e0d8ca; }
+
+.bk-shelf-select { min-height: 36px; min-width: 110px; padding: 0 10px; color: #e9dfcf; background: #1a1722; border: 1px solid #494153; border-radius: 4px; }
+html[data-theme="light"] .bk-shelf-select { color: #30281d; background: #f5f0e7; border-color: #cfc5b5; }
