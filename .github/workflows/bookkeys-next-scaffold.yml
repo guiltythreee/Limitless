@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "tools/typing-next-source/**"
+      - "tools/typing/**"
+      - "shared/rewards.mjs"
       - ".github/workflows/bookkeys-next-scaffold.yml"
   push:
     branches:
@@ -11,6 +13,8 @@ on:
       - work/bookkeys-typescript-mainline-20261107
     paths:
       - "tools/typing-next-source/**"
+      - "tools/typing/**"
+      - "shared/rewards.mjs"
       - ".github/workflows/bookkeys-next-scaffold.yml"
   workflow_dispatch:
 
