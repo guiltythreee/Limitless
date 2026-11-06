@@ -57,6 +57,38 @@ test("returns a friendly empty-text error for scanned or blank PDFs", async () =
   assert.equal(fake.wasDestroyed(), true);
 });
 
+
+function minimalPdf(text: string): Uint8Array {
+  const stream = `BT /F1 12 Tf 72 700 Td (${text.replace(/[\\\\()]/g, "\\\\$1")}) Tj ET`;
+  const objects = [
+    "<< /Type /Catalog /Pages 2 0 R >>",
+    "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+    "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>",
+    null,
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+  ];
+  let source = "%PDF-1.4\\n";
+  const offsets: number[] = [];
+  objects.forEach((object, index) => {
+    offsets[index] = source.length;
+    source += index === 3
+      ? `4 0 obj\\n<< /Length ${stream.length} >>\\nstream\\n${stream}\\nendstream\\nendobj\\n`
+      : `${index + 1} 0 obj\\n${object}\\nendobj\\n`;
+  });
+  const xref = source.length;
+  source += "xref\\n0 6\\n0000000000 65535 f \\n";
+  offsets.forEach((offset) => { source += String(offset).padStart(10, "0") + " 00000 n \\n"; });
+  source += `trailer\\n<< /Size 6 /Root 1 0 R >>\\nstartxref\\n${xref}\\n%%EOF\\n`;
+  return new TextEncoder().encode(source);
+}
+
+test("the default PDF.js runtime can read a real local PDF byte stream", async () => {
+  const result = await readPdf(minimalPdf("Hello from the PDF world."));
+  assert.equal(result.pages.length, 1);
+  assert.ok(result.pages[0].some((block) => block.text.includes("Hello from the PDF world.")));
+  assert.ok(result.fingerprint.length > 0);
+});
+
 test("normalizes parser failures into an invalid-PDF error", async () => {
   const adapter: PdfJsAdapter = {
     getDocument: () => ({ promise: Promise.reject(new Error("broken xref")) }),
