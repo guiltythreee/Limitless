@@ -160,6 +160,7 @@ test("theme and reader settings are interactive and persist", async ({ page }) =
   await size.focus();
   for (let step = 0; step < 5; step += 1) await size.press("ArrowRight");
   await expect(dialog.locator(".bk-setting").first()).toContainText("22px");
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("bookkeys:size"))).toBe("22");
   await dialog.getByRole("button", { name: "Close Settings" }).click();
 
   await page.reload();
