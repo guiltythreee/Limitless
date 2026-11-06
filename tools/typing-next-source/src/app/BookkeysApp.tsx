@@ -92,6 +92,7 @@ export default function BookkeysApp() {
   const [book, setBook] = useState<ReaderBook | null>(null);
   const [view, setView] = useState<"home" | "book">("home");
   const navState = useRef({ i: 0, max: 0 });
+  const bookCache = useRef<Record<string, ReaderBook>>({});
   const [pageIndex, setPageIndex] = useState(0);
   const [typed, setTyped] = useState("");
   const [status, setStatus] = useState("Import a PDF or EPUB to begin.");
@@ -192,7 +193,9 @@ export default function BookkeysApp() {
       if (!file) throw new Error("The original file is missing from this browser's library.");
       const format: BookFormat = entry.fmt === "epub" ? "epub" : "pdf";
       const parsed = await parseBook(entry.id, format, await file.arrayBuffer(), entry.name);
-      setBook({ ...parsed, chapters: loadChapterSettings(parsed.bookKey, parsed.chapters, parsed.sections.length) });
+      const openedBook = { ...parsed, chapters: loadChapterSettings(parsed.bookKey, parsed.chapters, parsed.sections.length) };
+      bookCache.current[openedBook.bookKey] = openedBook;
+      setBook(openedBook);
       navTo("book", parsed.bookKey);
       const savedBook = readGame().book?.[parsed.bookKey];
       setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
@@ -240,7 +243,9 @@ export default function BookkeysApp() {
         await database.putBook(metadata, file);
         setLibrary(await database.listMetadata());
       }
-      setBook({ ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, savedBook.chapters, savedBook.sections.length) });
+      const openedBook = { ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, savedBook.chapters, savedBook.sections.length) };
+      bookCache.current[openedBook.bookKey] = openedBook;
+      setBook(openedBook);
       navTo("book", savedBook.bookKey);
       const savedProgress = readGame().book?.[savedBook.bookKey];
       setCompletedPageIndexes([...new Set([...(savedProgress?.p ?? []), ...(savedProgress?.e ?? [])])]);
@@ -386,6 +391,9 @@ export default function BookkeysApp() {
 
   useEffect(() => {
     window.history.replaceState({ i: 0, v: "home" }, "", "#home");
+  }, []);
+
+  useEffect(() => {
     const onPopState = (event: PopStateEvent) => {
       const state = event.state as { i?: unknown; v?: unknown; bookKey?: unknown; page?: unknown } | null;
       if (!state || !Number.isInteger(state.i)) {
@@ -394,17 +402,20 @@ export default function BookkeysApp() {
         return;
       }
       navState.current.i = state.i as number;
-      if (state.v === "book" && book && state.bookKey === book.bookKey) {
+      if (state.v === "book" && typeof state.bookKey === "string") {
+        const restored = bookCache.current[state.bookKey];
+        if (!restored) { setView("home"); return; }
+        setBook(restored);
         setView("book");
         if (Number.isInteger(state.page)) {
           const next = state.page as number;
-          if (next >= 0 && next < book.sections.length) setPageIndex(next);
+          if (next >= 0 && next < restored.sections.length) setPageIndex(next);
         }
       } else setView("home");
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
-  }, [book]);
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
