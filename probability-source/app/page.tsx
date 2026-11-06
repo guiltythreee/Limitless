@@ -46,6 +46,7 @@ export default function Home() {
   const [pathwayId, setPathwayId] = useState<string>("all");
   const [practiceView, setPracticeView] = useState<"overview" | "all" | "topics" | "saved" | "mistakes" | "history">("overview");
   const [practiceDifficulty, setPracticeDifficulty] = useState<Difficulty | "all">("all");
+  const [practiceScope, setPracticeScope] = useState<"topic" | "rank" | "all">("topic");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const articleRef = useRef<HTMLElement>(null);
   const firstRender = useRef(true);
@@ -70,6 +71,7 @@ export default function Home() {
       setPracticeView(["all", "topics", "saved", "mistakes", "history"].includes(requestedView ?? "")
         ? requestedView as "all" | "topics" | "saved" | "mistakes" | "history"
         : "overview");
+      setPracticeScope(requestedView === "overview" || !requestedView ? "topic" : "all");
       const requestedDifficulty = params.get("difficulty");
       setPracticeDifficulty(["easy", "medium", "hard"].includes(requestedDifficulty ?? "")
         ? requestedDifficulty as Difficulty
@@ -121,6 +123,7 @@ export default function Home() {
       setSection("practice");
       setPracticeView("all");
       setPracticeDifficulty("all");
+      setPracticeScope("topic");
     } else {
       setSection("theory");
     }
@@ -271,7 +274,7 @@ export default function Home() {
 
               <div className="mt-7">
                 {section === "theory" && <Theory lesson={activeLesson} />}
-                {section === "practice" && (activeLesson.quiz.length ? <Practice key={activeLesson.id} lessonId={activeLesson.id} onSelectLesson={chooseLesson} initialView={practiceView} initialDifficulty={practiceDifficulty} /> : <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">No practice questions for this topic yet.</div>)}
+                {section === "practice" && (activeLesson.quiz.length ? <Practice key={activeLesson.id} lessonId={activeLesson.id} onSelectLesson={chooseLesson} initialView={practiceView} initialDifficulty={practiceDifficulty} initialScope={practiceScope} /> : <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">No practice questions for this topic yet.</div>)}
                 <div hidden={section !== "test"}><Test currentLessonId={activeLesson.id} pathwayId={pathwayId} /></div>
                 {section === "illustration" && <Illustration lesson={activeLesson} />}
               </div>
