@@ -297,8 +297,36 @@ export default function BookOne() {
     setSearch("");
     setSourceView("closed");
   };
-  const toggleComplete = (key: string) => setCompleted((old) => old.includes(key) ? old.filter((value) => value !== key) : [...old, key]);
-  const toggleReveal = (key: string) => setRevealed((old) => ({ ...old, [key]: !old[key] }));
+  // Persist directly inside the user action as well as through the state effect.
+  // This makes a completion durable before navigation/unmount and explicitly
+  // asks the account sync adapter to flush the updated book record.
+  const persistBookProgress = (nextCompleted: string[], nextRevealed: Record<string, boolean>) => {
+    try {
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify({
+        completed: nextCompleted,
+        revealed: nextRevealed,
+      }));
+      const sync = (window as Window & {
+        LimitlessCloudSync?: { flush?: () => Promise<unknown> };
+      }).LimitlessCloudSync;
+      void sync?.flush?.();
+    } catch {
+      // The state effect below remains a second persistence attempt.
+    }
+  };
+
+  const toggleComplete = (key: string) => {
+    const next = completed.includes(key)
+      ? completed.filter((value) => value !== key)
+      : [...completed, key];
+    setCompleted(next);
+    persistBookProgress(next, revealed);
+  };
+  const toggleReveal = (key: string) => {
+    const next = { ...revealed, [key]: !revealed[key] };
+    setRevealed(next);
+    persistBookProgress(completed, next);
+  };
 
   return (
     <div className="mx-auto max-w-6xl">
