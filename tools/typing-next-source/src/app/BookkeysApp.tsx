@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { BookkeysChapter, BookkeysLibraryMetadata } from "../domain/persistence/bookkeys-v1-contracts";
+import type { BookkeysChapter, BookkeysLibraryMetadata, BookkeysShelf } from "../domain/persistence/bookkeys-v1-contracts";
 import { openBookkeysDatabase, type BookkeysDatabase } from "../domain/persistence/bookkeys-v1-database";
 import { readEpub } from "../domain/epub/epub-importer";
 import type { EpubBlock, EpubChapter } from "../domain/epub/epub-domain";
@@ -13,6 +13,7 @@ import {
 import { chapterRecordKey, typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
 import { requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
 import { createBookkeysBackupV1, parseBookkeysBackup, restoreBookkeysBackup } from "../domain/reading/bookkeys-backup";
+import { createShelf, deleteShelf, readShelves, renameShelf } from "../domain/reading/bookkeys-shelves";
 
 type BookFormat = "pdf" | "epub";
 interface ReaderBook {
@@ -89,6 +90,8 @@ async function parseBook(
 export default function BookkeysApp() {
   const [database, setDatabase] = useState<BookkeysDatabase | null>(null);
   const [library, setLibrary] = useState<LibraryEntry[]>([]);
+  const [shelves, setShelves] = useState<BookkeysShelf[]>([{ id: "default", name: "Library" }]);
+  const [selectedShelf, setSelectedShelf] = useState("default");
   const [book, setBook] = useState<ReaderBook | null>(null);
   const [view, setView] = useState<"home" | "book">("home");
   const navState = useRef({ i: 0, max: 0 });
@@ -129,6 +132,12 @@ export default function BookkeysApp() {
         if (!active) { opened.close(); return; }
         setDatabase(opened);
         setLibrary(entries.sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
+        const loadedShelves = readShelves(window.localStorage.getItem("bookkeys:shelves"));
+        const known = new Set(loadedShelves.map((shelf) => shelf.id));
+        for (const entry of entries) {
+          if (entry.shelf && !known.has(entry.shelf)) loadedShelves.push({ id: entry.shelf, name: entry.shelf });
+        }
+        setShelves(loadedShelves);
         setGameXp(Number(readGame().xp ?? 0));
       } catch {
         if (active) setStatus("Browser storage is unavailable. You can still import a book for this session.");
@@ -140,6 +149,7 @@ export default function BookkeysApp() {
     };
   }, []);
 
+  const visibleLibrary = useMemo(() => library.filter((entry) => entry.shelf === selectedShelf), [library, selectedShelf]);
   const target = useMemo(
     () => book?.sections[pageIndex]?.map((block) => block.text).join("\n") ?? "",
     [book, pageIndex],
@@ -230,7 +240,7 @@ export default function BookkeysApp() {
       if (database) {
         const metadata: LibraryEntry = {
           id: libraryId,
-          shelf: existing?.shelf ?? "default",
+          shelf: existing?.shelf ?? selectedShelf,
           name: parsed.title,
           size: file.size,
           pages: parsed.sections.length,
@@ -292,6 +302,59 @@ export default function BookkeysApp() {
       : result.xpAwarded > 0
         ? `Page complete · +${result.xpAwarded} XP · ${result.accuracy.percent}% accuracy`
         : "Page complete · no XP because the typing was too fast.");
+  }
+
+  function persistShelves(next: BookkeysShelf[]) {
+    setShelves(next);
+    try { window.localStorage.setItem("bookkeys:shelves", JSON.stringify(next)); } catch {
+      setStatus("Shelf changes could not be saved in this browser.");
+    }
+  }
+
+  function addShelf() {
+    const name = window.prompt("Name this shelf");
+    if (!name?.trim()) return;
+    const next = createShelf(shelves, name, "shelf-" + window.crypto.randomUUID());
+    if (next.length === shelves.length) {
+      setStatus("A shelf with that name already exists.");
+      return;
+    }
+    persistShelves(next);
+    setSelectedShelf(next[next.length - 1].id);
+  }
+
+  function editShelfName() {
+    const current = shelves.find((shelf) => shelf.id === selectedShelf);
+    if (!current) return;
+    const name = window.prompt("Rename shelf", current.name);
+    if (!name?.trim()) return;
+    const next = renameShelf(shelves, selectedShelf, name);
+    if (next.every((shelf, index) => shelf.name === shelves[index]?.name)) {
+      setStatus("That shelf name is already in use.");
+      return;
+    }
+    persistShelves(next);
+  }
+
+  async function removeShelf() {
+    if (!database || selectedShelf === "default") return;
+    const current = shelves.find((shelf) => shelf.id === selectedShelf);
+    if (!window.confirm("Delete " + (current?.name ?? "this shelf") + " and move its books to Library?")) return;
+    setBusy(true);
+    try {
+      for (const entry of library.filter((item) => item.shelf === selectedShelf)) {
+        const file = await database.getFile(entry.id);
+        if (file) await database.putBook({ ...entry, shelf: "default" }, file);
+      }
+      setLibrary(await database.listMetadata());
+      persistShelves(deleteShelf(shelves, selectedShelf));
+      setSelectedShelf("default");
+      setStatus("Shelf deleted. Its books were moved to Library.");
+    } catch {
+      setStatus("Could not move every book out of that shelf.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   function saveChapters(next: BookkeysChapter[]) {
@@ -451,7 +514,7 @@ export default function BookkeysApp() {
               <p>Books are parsed locally. Original files and typing drafts stay in this browser.</p>
             </div>
             <div className="bk-library-actions">
-              <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
+              <select className="bk-shelf-select" value={selectedShelf} onChange={(event) => setSelectedShelf(event.currentTarget.value)} aria-label="Choose shelf">\n                {shelves.map((shelf) => <option key={shelf.id} value={shelf.id}>{shelf.name}</option>)}\n              </select>\n              <button className="bk-quiet" onClick={addShelf}>New shelf</button>\n              <button className="bk-quiet" onClick={editShelfName}>Rename</button>\n              <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "default"}>Delete</button>\n              <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
               <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>
               <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
                 {busy ? "Working…" : "Import PDF / EPUB"}
@@ -479,9 +542,9 @@ export default function BookkeysApp() {
               }}
             />
           </div>
-          {library.length ? (
+          {visibleLibrary.length ? (
             <div className="bk-book-grid">
-              {library.map((entry) => (
+              {visibleLibrary.map((entry) => (
                 <button className="bk-book" key={entry.id} onClick={() => void loadEntry(entry)} disabled={busy}>
                   <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : "PDF"}</span>
                   <strong>{entry.name}</strong>
