@@ -323,9 +323,26 @@ export default function BookkeysApp() {
   }
 
   function changePage(next: number) {
-    if (!book || next < 0 || next >= book.sections.length) return;
+    if (!book || next < 0 || next >= book.sections.length || next === pageIndex) return;
+    window.history.pushState(
+      { bookkeysBook: book.bookKey, bookkeysPage: next },
+      "",
+      "#bookkeys-" + encodeURIComponent(book.bookKey) + "-" + (next + 1),
+    );
     setPageIndex(next);
   }
+
+  useEffect(() => {
+    if (!book) return;
+    const onPopState = (event: PopStateEvent) => {
+      const state = event.state as { bookkeysBook?: unknown; bookkeysPage?: unknown } | null;
+      if (state?.bookkeysBook !== book.bookKey || !Number.isInteger(state.bookkeysPage)) return;
+      const next = state.bookkeysPage as number;
+      if (next >= 0 && next < book.sections.length) setPageIndex(next);
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [book]);
 
   return (
     <main className="bk-shell">
