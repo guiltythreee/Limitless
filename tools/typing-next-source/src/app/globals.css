@@ -152,6 +152,7 @@ html[data-theme="light"] .bk-setting { color: #30281d; }
 html[data-theme="light"] .bk-setting strong { color: #8a652d; }
 html[data-theme="light"] .bk-settings-note { color: #746d63; }
 @media (max-width: 640px) {
-  .bk-header-actions { gap: 6px; }
+  .bk-header { align-items: flex-start; flex-wrap: wrap; }
+  .bk-header-actions { width: 100%; justify-content: flex-end; flex-wrap: wrap; gap: 6px; }
   .bk-settings-data-actions { flex-direction: column; }
 }
