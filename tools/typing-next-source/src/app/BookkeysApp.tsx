@@ -42,21 +42,37 @@ interface BookkeysSettings {
   readonly [extension: string]: unknown;
 }
 
+function readLegacySize(fallback: number): number {
+  try {
+    const raw = window.localStorage.getItem("bookkeys:size");
+    if (raw === null) return fallback;
+    let value: unknown;
+    try { value = JSON.parse(raw); } catch { value = raw; }
+    const size = typeof value === "number" ? value : Number(value);
+    return Number.isFinite(size) && size > 0 ? size : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function readSettings(): BookkeysSettings {
   const defaults: BookkeysSettings = { bg: "dark", size: 17, lineH: 1.8, celebrate: true };
+  const legacySize = readLegacySize(defaults.size);
   try {
     const value: unknown = JSON.parse(window.localStorage.getItem("bookkeys:settings") ?? "{}");
-    if (!value || typeof value !== "object" || Array.isArray(value)) return defaults;
+    if (!value || typeof value !== "object" || Array.isArray(value)) {
+      return { ...defaults, size: legacySize };
+    }
     const record = value as Record<string, unknown>;
     return {
       ...defaults,
       ...record,
       bg: typeof record.bg === "string" ? record.bg : defaults.bg,
-      size: typeof record.size === "number" && Number.isFinite(record.size) ? record.size : defaults.size,
+      size: typeof record.size === "number" && Number.isFinite(record.size) ? record.size : legacySize,
       lineH: typeof record.lineH === "number" && Number.isFinite(record.lineH) ? record.lineH : defaults.lineH,
       celebrate: typeof record.celebrate === "boolean" ? record.celebrate : defaults.celebrate,
     };
-  } catch { return defaults; }
+  } catch { return { ...defaults, size: legacySize }; }
 }
 
 function readGame(): ReturnType<typeof emptyBookkeysGame> {
