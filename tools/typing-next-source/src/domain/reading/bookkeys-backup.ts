@@ -77,7 +77,7 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
 }
 
 function mergeSettings(local: Record<string, unknown> | null, incoming: Record<string, unknown>): string {
-  if (!local) return JSON.stringify({});
+  if (!local) return JSON.stringify(incoming);
   const merged = { ...local };
   for (const [key, value] of Object.entries(incoming)) {
     if (!Object.prototype.hasOwnProperty.call(local, key)) continue;
