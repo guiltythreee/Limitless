@@ -14,7 +14,7 @@ The TypeScript/React reader is an isolated migration implementation. It is not t
 The latest successful workflow run includes:
 
 - 79 unit tests covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, backups, shelves and reward logic.
-- The original 91-test suite in tools/typing/tests is also rerun in CI against the preserved standalone HTML implementation. Its historical 91/91 baseline is recorded in tools/typing/BOOKKEYS_TEST_BASELINE.md.
+- The current 98-test legacy suite in tools/typing/tests is also rerun in CI against the preserved standalone HTML implementation. The archived 91-test baseline and current 98/98 result are recorded in tools/typing/BOOKKEYS_TEST_BASELINE.md.
 - TypeScript type-check.
 - Next.js static production build.
 - 4 Playwright browser regressions:
