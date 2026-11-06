@@ -12,6 +12,7 @@ import {
 } from "../domain/reading/bookkeys-reading-session";
 import { chapterRecordKey, typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
 import { requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
+import { createBookkeysBackupV1, parseBookkeysBackup, restoreBookkeysBackup } from "../domain/reading/bookkeys-backup";
 
 type BookFormat = "pdf" | "epub";
 interface ReaderBook {
@@ -97,6 +98,7 @@ export default function BookkeysApp() {
   const [gameXp, setGameXp] = useState(0);
   const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
+  const backupInput = useRef<HTMLInputElement>(null);
   const startedAt = useRef(Date.now());
   const completedThisPage = useRef(false);
 
@@ -288,6 +290,38 @@ export default function BookkeysApp() {
     ));
   }
 
+  function exportBackup() {
+    try {
+      const backup = createBookkeysBackupV1(window.localStorage);
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "bookkeys-backup-" + new Date().toISOString().slice(0, 10) + ".json";
+      anchor.click();
+      URL.revokeObjectURL(url);
+      setStatus("Backup exported. Original PDF/EPUB files remain in this browser and are not included.");
+    } catch {
+      setStatus("Could not export the Bookkeys backup.");
+    }
+  }
+
+  async function importBackup(file: File) {
+    try {
+      const backup = parseBookkeysBackup(await file.text());
+      const result = restoreBookkeysBackup(window.localStorage, backup, "merge");
+      const game = readGame();
+      setGameXp(Number(game.xp ?? 0));
+      if (book) setCompletedPageIndexes([...(game.book?.[book.bookKey]?.p ?? [])]);
+      setStatus("Backup merged · " + result.written + " entries brought in · " +
+        result.unchanged + " left as they already are here.");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Could not import this backup.");
+    } finally {
+      if (backupInput.current) backupInput.current.value = "";
+    }
+  }
+
   function changePage(next: number) {
     if (!book || next < 0 || next >= book.sections.length) return;
     setPageIndex(next);
@@ -310,7 +344,7 @@ export default function BookkeysApp() {
               <h2>Your library</h2>
               <p>Books are parsed locally. Original files and typing drafts stay in this browser.</p>
             </div>
-            <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
+            <div className="bk-library-actions">\n              <button className="bk-quiet" onClick={exportBackup}>Export backup</button>\n              <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>\n              <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
               {busy ? "Working…" : "Import PDF / EPUB"}
             </button>
             <input
