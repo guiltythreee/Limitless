@@ -213,6 +213,7 @@ export default function BookkeysApp() {
   }, []);
 
   const visibleLibrary = useMemo(() => library.filter((entry) => entry.shelf === selectedShelf), [library, selectedShelf]);
+  const continueEntry = visibleLibrary[0];
   const target = useMemo(
     () => book?.sections[pageIndex]?.map((block) => block.text).join("\n") ?? "",
     [book, pageIndex],
@@ -281,7 +282,7 @@ export default function BookkeysApp() {
       setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
       setPageIndex(savedPage);
       await database.putBook({ ...entry, opened: Date.now() }, file);
-      setLibrary(await database.listMetadata());
+      setLibrary((await database.listMetadata()).sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
       setStatus("Book opened. Your typing drafts are saved in this browser.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Could not open this book.");
@@ -321,7 +322,7 @@ export default function BookkeysApp() {
           ...(parsed.author ? { author: parsed.author } : {}),
         };
         await database.putBook(metadata, file);
-        setLibrary(await database.listMetadata());
+        setLibrary((await database.listMetadata()).sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
       }
       const openedBook = { ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, libraryId, savedBook.chapters, savedBook.sections.length) };
       const savedPage = readBookkeysPosition(window.localStorage, savedBook.bookKey, libraryId, savedBook.sections.length);
@@ -664,6 +665,7 @@ export default function BookkeysApp() {
               <button className="bk-quiet" onClick={addShelf}>New shelf</button>
               <button className="bk-quiet" onClick={editShelfName}>Rename</button>
               <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "default"}>Delete</button>
+              {continueEntry && <button className="bk-primary" onClick={() => void loadEntry(continueEntry)}>Continue reading</button>}
               <button className="bk-quiet" onClick={startSample}>Try sample text</button>
               <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
               <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>
