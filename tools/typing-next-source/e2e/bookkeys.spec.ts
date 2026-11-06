@@ -314,3 +314,29 @@ test("removing a book deletes its local library entry but retains typing progres
   });
   expect(retainedProgress).toBe(true);
 });
+
+test("manual chapter edits save to both legacy keys and restore after reload", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub(true);
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "chapter-editor-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await page.getByRole("button", { name: "Edit" }).click();
+  await page.getByRole("button", { name: "Remove Chapter One" }).click();
+  page.once("dialog", (dialog) => dialog.accept("Custom Opening"));
+  await page.getByRole("button", { name: "Add chapter" }).click();
+  await expect(page.locator(".bk-chapter-list")).toContainText("Custom Opening");
+
+  const chapterKeys = await page.evaluate(() =>
+    Object.keys(localStorage).filter((key) => key.startsWith("bookkeys:chap:"))
+  );
+  expect(chapterKeys).toHaveLength(2);
+
+  await page.reload();
+  await page.getByRole("button", { name: "Continue reading" }).click();
+  await page.getByRole("button", { name: "Edit" }).click();
+  await expect(page.locator(".bk-chapter-list")).toContainText("Custom Opening");
+});
