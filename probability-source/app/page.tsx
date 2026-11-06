@@ -1,7 +1,7 @@
 "use client";
 
 import { createElement, useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
-import { lessons, pathways, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND } from "./content";
+import { lessons, pathways, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND, type Difficulty } from "./content";
 import { Illustration, Theory } from "./components/Sections";
 import Practice from "./components/Practice";
 import Analysis from "./components/Analysis";
@@ -44,15 +44,36 @@ export default function Home() {
   const [rollCount, setRollCount] = useState(100);
   const [tab, setTab] = useState<"archive" | "analysis" | "experiment" | "coverage">("archive");
   const [pathwayId, setPathwayId] = useState<string>("all");
+  const [practiceView, setPracticeView] = useState<"overview" | "all" | "topics" | "saved" | "mistakes">("overview");
+  const [practiceDifficulty, setPracticeDifficulty] = useState<Difficulty | "all">("all");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const articleRef = useRef<HTMLElement>(null);
   const firstRender = useRef(true);
 
   useEffect(() => {
     setTheme(document.documentElement.dataset.theme === "light" ? "light" : "dark");
-    const requestedPathway = new URLSearchParams(window.location.search).get("pathway");
+    const params = new URLSearchParams(window.location.search);
+    const requestedPathway = params.get("pathway");
     if (requestedPathway && pathways.some((pathway) => pathway.id === requestedPathway)) {
       setPathwayId(requestedPathway);
+    }
+    if (params.get("mode") === "practice") {
+      const requestedLesson = params.get("lesson");
+      const targetLesson = lessons.find((lesson) => lesson.id === requestedLesson)
+        ?? lessons.find((lesson) => !completed.includes(lesson.id))
+        ?? lessons[0];
+      setActiveId(targetLesson.id);
+      setOpened(true);
+      setTab("archive");
+      setSection("practice");
+      const requestedView = params.get("view");
+      setPracticeView(["all", "topics", "saved", "mistakes"].includes(requestedView ?? "")
+        ? requestedView as "all" | "topics" | "saved" | "mistakes"
+        : "overview");
+      const requestedDifficulty = params.get("difficulty");
+      setPracticeDifficulty(["easy", "medium", "hard"].includes(requestedDifficulty ?? "")
+        ? requestedDifficulty as Difficulty
+        : "all");
     }
   }, []);
 
@@ -244,7 +265,7 @@ export default function Home() {
 
               <div className="mt-7">
                 {section === "theory" && <Theory lesson={activeLesson} />}
-                {section === "practice" && (activeLesson.quiz.length ? <Practice key={activeLesson.id} lessonId={activeLesson.id} onSelectLesson={chooseLesson} /> : <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">No practice questions for this topic yet.</div>)}
+                {section === "practice" && (activeLesson.quiz.length ? <Practice key={activeLesson.id} lessonId={activeLesson.id} onSelectLesson={chooseLesson} initialView={practiceView} initialDifficulty={practiceDifficulty} /> : <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">No practice questions for this topic yet.</div>)}
                 <div hidden={section !== "test"}><Test currentLessonId={activeLesson.id} pathwayId={pathwayId} /></div>
                 {section === "illustration" && <Illustration lesson={activeLesson} />}
               </div>
