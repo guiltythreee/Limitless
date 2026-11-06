@@ -2,7 +2,7 @@ import {
   buildRewardRecords,
   sanitiseRewardRecords,
   dispatchRewardUpdate,
-} from "../../../../../shared/rewards.mjs";
+} from "./shared-rewards.mjs";
 import type { RewardPolicy } from "./bookkeys-reward-adapter";
 
 export const bookkeysRewardPolicy: RewardPolicy = {
