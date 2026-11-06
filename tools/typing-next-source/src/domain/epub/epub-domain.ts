@@ -124,9 +124,9 @@ export function epubBlocksFromRoot(doc: Document | null, clean: (value: unknown)
   // EPUB chapter documents are XHTML/XML, not HTML documents. In XML mode
   // document.body and getElementsByTagName("body") are not consistently set;
   // resolve the body by local name so the XHTML namespace is handled too.
-  const body = doc.body
+  const body = doc.getElementsByTagNameNS("*", "body")[0]
     ?? doc.getElementsByTagName("body")[0]
-    ?? doc.getElementsByTagNameNS("*", "body")[0]
+    ?? doc.body
     ?? (doc.documentElement.localName.toLowerCase() === "body" ? doc.documentElement : null);
   if (!body) return null;
   const out: EpubBlock[] = [];
@@ -135,15 +135,17 @@ export function epubBlocksFromRoot(doc: Document | null, clean: (value: unknown)
   const visit = (node: Node): void => {
     if (node.nodeType !== 1) return;
     const element = node as Element;
-    if (ignored.has(element.tagName)) return;
-    if (blockTags.has(element.tagName)) {
-      const nestedLists = Array.from(element.children).filter(
-        (child) => child.tagName === "UL" || child.tagName === "OL",
-      );
+    const tag = (element.localName || element.tagName).toUpperCase();
+    if (ignored.has(tag)) return;
+    if (blockTags.has(tag)) {
+      const nestedLists = Array.from(element.children).filter((child) => {
+        const childTag = (child.localName || child.tagName).toUpperCase();
+        return childTag === "UL" || childTag === "OL";
+      });
       const clone = element.cloneNode(true) as Element;
       clone.querySelectorAll("ul,ol").forEach((list) => list.remove());
       const text = clean(clone.textContent);
-      if (text) out.push({ t: /^H[1-6]$/.test(element.tagName) ? "h" : "p", text, ...(element.id ? { id: element.id } : {}) });
+      if (text) out.push({ t: /^H[1-6]$/.test(tag) ? "h" : "p", text, ...(element.id ? { id: element.id } : {}) });
       // Nested list items are separate reading blocks, not duplicated in their parent.
       for (const child of nestedLists) visit(child);
       return;
