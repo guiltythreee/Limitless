@@ -17,12 +17,13 @@ The latest successful workflow run includes:
 - The current 98-test legacy suite in tools/typing/tests is also rerun in CI against the preserved standalone HTML implementation. The archived 91-test baseline and current 98/98 result are recorded in tools/typing/BOOKKEYS_TEST_BASELINE.md.
 - TypeScript type-check.
 - Next.js static production build.
-- 5 Playwright browser regressions:
+- 6 Playwright browser regressions:
   1. Import an EPUB, type a page, persist progress and reward records, reload, reopen, export a backup, import it into a fresh browser context and restore settings.
   2. Import a PDF, extract readable text and complete a page.
   3. Switch themes and change reader settings, then verify persistence after reload.
   4. Use the reader at a 390 px phone viewport and verify no horizontal overflow.
   5. Navigate to a second section, reload, reopen the book and restore both the saved position and unfinished typing draft.
+  6. Type the sample passage and verify that no XP, reward ledger or book progress is written.
 
 The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical shared/rewards.mjs implementation.
 
@@ -30,7 +31,7 @@ The shared LSR-1 reward policy is mirrored inside this isolated Next.js project 
 
 - The original Bookkeys HTML reader remains untouched.
 - The migration opens the existing bookkeys-lib IndexedDB v1 database and keeps its existing store names and version.
-- Existing Bookkeys localStorage keys, per-book/library reading-position keys and backup v1 formats are retained.
+- Existing Bookkeys localStorage keys, per-book/library reading-position keys and backup v1 formats are retained. The sample passage is typable but excluded from XP, rewards and saved book progress.
 - Original PDF/EPUB files and artwork remain browser-local; the reward ledger stores only page fingerprints and character counts, not book text.
 - The TypeScript preview does not sync original book files to the cloud.
 - No production cutover or live deployment has been performed.
