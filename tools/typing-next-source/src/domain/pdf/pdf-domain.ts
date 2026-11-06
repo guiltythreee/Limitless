@@ -111,7 +111,7 @@ export function blocksFromLines(lines: readonly PdfLine[], medianSize: number, p
 }
 
 export function pagesFromText(value: string, target = 900): PdfBlock[][] {
-  const paragraphs = normalize(value).split(/\n\s*\n/).map(normalize).filter(Boolean);
+  const paragraphs = String(value ?? "").replace(/\r\n?/g, "\n").split(/\n\s*\n/).map(normalize).filter(Boolean);
   const blocks = paragraphs.map((text) => ({ t: "p" as const, text }));
   const pages: PdfBlock[][] = [];
   let page: PdfBlock[] = [];
