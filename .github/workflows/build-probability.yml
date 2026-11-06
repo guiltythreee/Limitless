@@ -39,6 +39,29 @@ jobs:
           cache: npm
           cache-dependency-path: probability-source/package-lock.json
 
+      - name: Materialize Book 02 Markdown source
+        shell: bash
+        run: |
+          archive="probability-source/book-02-markdown-source.zip"
+          target="probability-source/public/probability-books/book-02"
+          if [ -f "$archive" ]; then
+            rm -rf /tmp/limitless-book-02
+            mkdir -p /tmp/limitless-book-02 "$target"
+            unzip -q -o "$archive" -d /tmp/limitless-book-02
+            source="/tmp/limitless-book-02/book2-markdown"
+            test -f "$source/book.json"
+            test -d "$source/chapters"
+            test -d "$source/solutions"
+            chapters=$(find "$source/chapters" -maxdepth 1 -type f -name 'chapter-*.md' | wc -l)
+            solutions=$(find "$source/solutions" -maxdepth 1 -type f -name 'chapter-*-solutions.md' | wc -l)
+            test "$chapters" -eq 13
+            test "$solutions" -eq 13
+            rsync -a "$source/" "$target/"
+            echo "Book 02 source loaded: $chapters chapters and $solutions solution files."
+          else
+            echo "::notice::Book 02 source archive is not present yet; the Book 02 reader will show its missing-content state."
+          fi
+
       - name: Install dependencies
         working-directory: probability-source
         run: npm ci
@@ -69,6 +92,11 @@ jobs:
           test -f shared/rewards.mjs
           test -f meta/index.html
           test -f meta/meta.js
+          if [ -f probability-source/book-02-markdown-source.zip ]; then
+            test -f probability-source/out/probability-books/book-02/book.json
+            test "$(find probability-source/out/probability-books/book-02/chapters -maxdepth 1 -type f -name 'chapter-*.md' | wc -l)" -eq 13
+            test "$(find probability-source/out/probability-books/book-02/solutions -maxdepth 1 -type f -name 'chapter-*-solutions.md' | wc -l)" -eq 13
+          fi
           echo "Probability export and shared Meta assets verified."
 
       - name: Update deployed Probability files
