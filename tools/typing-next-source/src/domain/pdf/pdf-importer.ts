@@ -35,7 +35,7 @@ function pdfError(message: string, flag: "pdfInvalid" | "pdfEmpty"): Error {
 async function defaultPdfJs(): Promise<PdfJsAdapter> {
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    "pdfjs-dist/legacy/build/pdf.worker.mjs",
+    "../../../node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs",
     import.meta.url,
   ).toString();
   return pdfjs as unknown as PdfJsAdapter;
