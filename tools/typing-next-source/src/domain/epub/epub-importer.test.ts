@@ -67,6 +67,28 @@ test("skips unreadable chapters but keeps readable chapters", async () => {
   assert.equal(result.sections[0][0].text, "Good chapter");
 });
 
+
+test("maps a TOC anchor to the section containing its heading", async () => {
+  const body = "<h1>Part One</h1>" +
+    "<p>" + "amber lantern river quiet copper meadow harbour winter ".repeat(30) + "</p>" +
+    "<h2 id='part-two'>Part Two</h2>" +
+    "<p>" + "signal clover ember thicket marble anchor willow cinder ".repeat(30) + "</p>";
+  const bytes = await makeEpub({
+    chapters: [{ file: "long.xhtml", label: "Part One", body }],
+  });
+  const zip = await JSZip.loadAsync(bytes);
+  zip.file("OEBPS/toc.ncx",
+    '<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/"><navMap>' +
+    '<navPoint><navLabel><text>Part One</text></navLabel><content src="long.xhtml"/></navPoint>' +
+    '<navPoint><navLabel><text>Part Two</text></navLabel><content src="long.xhtml#part-two"/></navPoint>' +
+    '</navMap></ncx>');
+  const result = await readEpub(await zip.generateAsync({ type: "uint8array" }), new parser());
+  const partTwo = result.chapters.find((chapter) => chapter.title === "Part Two");
+  assert.ok(partTwo);
+  assert.ok(partTwo.p > 0);
+  assert.equal(result.sections[partTwo.p][0].text, "Part Two");
+});
+
 test("rejects ZIP files that are not EPUBs with a friendly error flag", async () => {
   const zip = new JSZip();
   zip.file("hello.txt", "not an epub");
