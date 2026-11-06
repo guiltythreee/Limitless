@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  bookkeysPageEvidenceFromText,
   installBookkeysRewardBridge,
   type BookkeysRewardBridgeAdapter,
 } from "./bookkeys-reward-bridge";
@@ -78,4 +79,14 @@ test("awards a verified chapter milestone only after the completion marker clear
   assert.equal(activities[1].completionEvidence, "completed-book-chapter");
   assert.equal(activities[1].itemId, "bookkeys:chapter:c:bookA:chapter-1");
   stop();
+});
+
+test("page fingerprints normalize case and whitespace consistently", () => {
+  const first = bookkeysPageEvidenceFromText("A long passage with  " + "mixed words ".repeat(20));
+  const second = bookkeysPageEvidenceFromText("a long passage with mixed words ".repeat(20));
+  assert.ok(first);
+  assert.ok(second);
+  assert.equal(first.contentSignature, second.contentSignature);
+  assert.equal(first.characterCount, second.characterCount);
+  assert.match(first.contentSignature, /^[a-f0-9]{16}$/);
 });
