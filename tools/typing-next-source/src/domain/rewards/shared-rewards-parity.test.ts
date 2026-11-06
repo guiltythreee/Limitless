@@ -16,7 +16,7 @@ test("isolated Bookkeys build uses the same LSR-1 award calculation as Limitless
     quality: 0.95,
     contentSignature: "0123456789abcdef",
     characterCount: 240,
-  };
+  } as const;
   assert.deepEqual(
     bundled.buildRewardRecords(activity, []),
     canonical.buildRewardRecords(activity, []),
