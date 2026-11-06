@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { BookkeysLibraryMetadata } from "../domain/persistence/bookkeys-v1-contracts";
+import type { BookkeysChapter, BookkeysLibraryMetadata } from "../domain/persistence/bookkeys-v1-contracts";
 import { openBookkeysDatabase, type BookkeysDatabase } from "../domain/persistence/bookkeys-v1-database";
 import { readEpub } from "../domain/epub/epub-importer";
 import type { EpubBlock, EpubChapter } from "../domain/epub/epub-domain";
@@ -10,7 +10,8 @@ import {
   completeBookkeysPage, createPageDraft, emptyBookkeysGame,
   readPageDraft,
 } from "../domain/reading/bookkeys-reading-session";
-import { typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
+import { chapterRecordKey, typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
+import { requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
 
 type BookFormat = "pdf" | "epub";
 interface ReaderBook {
@@ -21,7 +22,7 @@ interface ReaderBook {
   readonly author: string;
   readonly fingerprint: string;
   readonly sections: EpubBlock[][];
-  readonly chapters: EpubChapter[];
+  readonly chapters: BookkeysChapter[];
 }
 interface LibraryEntry extends BookkeysLibraryMetadata {}
 
@@ -34,6 +35,22 @@ function readGame(): ReturnType<typeof emptyBookkeysGame> {
   } catch {
     return emptyBookkeysGame();
   }
+}
+
+function loadChapterSettings(bookKey: string, defaults: readonly EpubChapter[], total: number): BookkeysChapter[] {
+  try {
+    const raw = window.localStorage.getItem(chapterRecordKey(bookKey));
+    if (raw) {
+      const value: unknown = JSON.parse(raw);
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        const record = value as Record<string, unknown>;
+        if (record.v === 3 && Array.isArray(record.list)) {
+          return tidyChapters(withRequirements(record.list as (EpubChapter & { req?: boolean })[]), total);
+        }
+      }
+    }
+  } catch { /* malformed or unavailable chapter preferences use defaults */ }
+  return tidyChapters(withRequirements(defaults), total);
 }
 
 async function parseBook(
@@ -52,7 +69,7 @@ async function parseBook(
       author: result.author,
       fingerprint: result.hash,
       sections: result.sections,
-      chapters: result.chapters,
+      chapters: tidyChapters(withRequirements(result.chapters), result.sections.length),
     };
   }
   const result = await readPdf(bytes);
@@ -64,7 +81,7 @@ async function parseBook(
     author: "",
     fingerprint: result.fingerprint,
     sections: result.pages,
-    chapters: result.chapters,
+    chapters: tidyChapters(withRequirements(result.chapters), result.pages.length),
   };
 }
 
@@ -76,6 +93,7 @@ export default function BookkeysApp() {
   const [typed, setTyped] = useState("");
   const [status, setStatus] = useState("Import a PDF or EPUB to begin.");
   const [busy, setBusy] = useState(false);
+  const [chaptersOpen, setChaptersOpen] = useState(false);
   const [gameXp, setGameXp] = useState(0);
   const fileInput = useRef<HTMLInputElement>(null);
   const startedAt = useRef(Date.now());
@@ -142,7 +160,7 @@ export default function BookkeysApp() {
       if (!file) throw new Error("The original file is missing from this browser's library.");
       const format: BookFormat = entry.fmt === "epub" ? "epub" : "pdf";
       const parsed = await parseBook(entry.id, format, await file.arrayBuffer(), entry.name);
-      setBook(parsed);
+      setBook({ ...parsed, chapters: loadChapterSettings(parsed.bookKey, parsed.chapters, parsed.sections.length) });
       setPageIndex(0);
       await database.putBook({ ...entry, opened: Date.now() }, file);
       setLibrary(await database.listMetadata());
@@ -187,7 +205,7 @@ export default function BookkeysApp() {
         await database.putBook(metadata, file);
         setLibrary(await database.listMetadata());
       }
-      setBook(savedBook);
+      setBook({ ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, savedBook.chapters, savedBook.sections.length) });
       setPageIndex(0);
       setStatus(database
         ? "Imported and saved to this browser's library."
@@ -227,6 +245,38 @@ export default function BookkeysApp() {
       : result.xpAwarded > 0
         ? `Page complete · +${result.xpAwarded} XP · ${result.accuracy.percent}% accuracy`
         : "Page complete · no XP because the typing was too fast.");
+  }
+
+  function saveChapters(next: BookkeysChapter[]) {
+    if (!book) return;
+    const cleaned = tidyChapters(next, book.sections.length);
+    setBook({ ...book, chapters: cleaned });
+    try {
+      window.localStorage.setItem(chapterRecordKey(book.bookKey), JSON.stringify({
+        v: 3,
+        src: "edited",
+        list: cleaned,
+      }));
+    } catch {
+      setStatus("Chapter choices could not be saved in this browser.");
+    }
+  }
+
+  function setAllChapterRequirements(required: boolean) {
+    if (!book) return;
+    saveChapters(book.chapters.map((chapter) => ({ ...chapter, req: required })));
+  }
+
+  function resetChapterRequirements() {
+    if (!book) return;
+    saveChapters(withRequirements(book.chapters.map(({ p, title }) => ({ p, title }))));
+  }
+
+  function toggleChapterRequirement(index: number) {
+    if (!book) return;
+    saveChapters(book.chapters.map((chapter, itemIndex) =>
+      itemIndex === index ? { ...chapter, req: !chapter.req } : chapter,
+    ));
   }
 
   function changePage(next: number) {
@@ -292,6 +342,32 @@ export default function BookkeysApp() {
             </div>
             <div className="bk-counter">{book.format === "epub" ? "Section" : "Page"} {pageIndex + 1} / {book.sections.length}</div>
           </div>
+          <div className="bk-chapter-tools">
+            <div>
+              <strong>Chapters</strong>
+              <span>{requiredSections(book.chapters, book.sections.length).length} required sections</span>
+            </div>
+            <div className="bk-chapter-actions">
+              <button className="bk-quiet" onClick={() => setAllChapterRequirements(true)}>All required</button>
+              <button className="bk-quiet" onClick={() => setAllChapterRequirements(false)}>All optional</button>
+              <button className="bk-quiet" onClick={resetChapterRequirements}>Use defaults</button>
+              <button className="bk-quiet" onClick={() => setChaptersOpen((open) => !open)}>{chaptersOpen ? "Hide" : "Edit"}</button>
+            </div>
+          </div>
+          {chaptersOpen && (
+            <div className="bk-chapter-list">
+              {book.chapters.map((chapter, index) => (
+                <div className="bk-chapter-row" key={chapter.p + ":" + index}>
+                  <span>{chapter.title}</span>
+                  <button
+                    className={chapter.req ? "bk-required" : "bk-optional"}
+                    aria-pressed={chapter.req}
+                    onClick={() => toggleChapterRequirement(index)}
+                  >{chapter.req ? "Required" : "Optional"}</button>
+                </div>
+              ))}
+            </div>
+          )}
           <div className="bk-reader-meta">
             <span>{currentChapter?.title ?? "Beginning"}</span>
             <span>{Math.round(((pageIndex + 1) / book.sections.length) * 100)}% through book</span>
