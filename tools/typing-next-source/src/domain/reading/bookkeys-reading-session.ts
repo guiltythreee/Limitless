@@ -1,10 +1,13 @@
 import { epubHash, normalize } from "../epub/epub-domain";
+import type { BookkeysChapter } from "../persistence/bookkeys-v1-contracts";
+import { requiredSectionsComplete } from "./bookkeys-chapters";
 
 export interface BookkeysGameBook {
   readonly p?: readonly number[];
   readonly x?: readonly number[];
   readonly c?: readonly number[];
   readonly done?: number;
+  readonly pageLengths?: Readonly<Record<string, number>>;
   readonly [extension: string]: unknown;
 }
 
@@ -109,6 +112,14 @@ export function pageXp(characters: number, accuracy: number): number {
   return Math.floor((count * accuracyMultiplier(accuracy) + 50) / 100);
 }
 
+export function chapterXp(characters: number): number {
+  return Math.min(1500, Math.max(90, Math.floor(Math.max(0, characters) * 1.5)));
+}
+
+export function bookXp(characters: number): number {
+  return Math.min(25000, Math.max(0, Math.floor(characters) * 70));
+}
+
 /** Records one completed page using the legacy Bookkeys game keys and pay-once rule. */
 export function completeBookkeysPage(
   previous: BookkeysGameState,
@@ -129,9 +140,9 @@ export function completeBookkeysPage(
   }
 
   const eligibleForXp = elapsedMs >= target.length * 30;
-  const earned = eligibleForXp ? pageXp(target.length, accuracy.percent) : 0;
+  let earned = eligibleForXp ? pageXp(target.length, accuracy.percent) : 0;
   const paid = { ...(previous.paid ?? {}) };
-  const rewardId = `p:${bookKey}:${page}`;
+  const rewardId = "p:" + bookKey + ":" + page;
   if (Object.prototype.hasOwnProperty.call(paid, rewardId)) {
     return { game: previous, accuracy, xpAwarded: 0, alreadyCompleted: true, eligibleForXp };
   }
@@ -139,10 +150,57 @@ export function completeBookkeysPage(
 
   typedPages.add(page);
   if (accuracy.percent === 100) exactPages.add(page);
+  const pageLengths = {
+    ...(previousBook.pageLengths ?? {}),
+    [String(page)]: target.length,
+  };
+  const completedChapters = new Set(Array.isArray(previousBook.c) ? previousBook.c : []);
+  let chapterCount = 0;
+  let bookCount = 0;
+
+  if (eligibleForXp && totalSections > 0 && chapters.length) {
+    const ordered = [...chapters].sort((a, b) => a.p - b.p);
+    for (let index = 0; index < ordered.length; index += 1) {
+      const chapter = ordered[index];
+      const nextChapter = ordered[index + 1];
+      const startPage = chapter.p;
+      const endPage = Math.min(totalSections - 1, (nextChapter?.p ?? totalSections) - 1);
+      if (startPage > endPage || completedChapters.has(startPage)) continue;
+      let complete = true;
+      let characters = 0;
+      for (let section = startPage; section <= endPage; section += 1) {
+        if (!typedPages.has(section)) { complete = false; break; }
+        characters += Number(pageLengths[String(section)] ?? 0);
+      }
+      if (!complete || characters <= 0) continue;
+      const chapterRewardId = "c:" + bookKey + ":" + startPage;
+      if (!Object.prototype.hasOwnProperty.call(paid, chapterRewardId)) {
+        const bonus = chapterXp(characters);
+        paid[chapterRewardId] = bonus;
+        earned += bonus;
+        chapterCount += 1;
+      }
+      completedChapters.add(startPage);
+    }
+
+    if (requiredSectionsComplete(chapters, totalSections, [...typedPages])) {
+      const bookRewardId = "b:" + bookKey;
+      if (!Object.prototype.hasOwnProperty.call(paid, bookRewardId)) {
+        const characters = Object.values(pageLengths).reduce((sum, value) => sum + Number(value || 0), 0);
+        const bonus = bookXp(characters);
+        paid[bookRewardId] = bonus;
+        earned += bonus;
+        bookCount = 1;
+      }
+    }
+  }
+
   const book = {
     ...previousBook,
     p: [...typedPages].sort((a, b) => a - b),
     x: [...exactPages].sort((a, b) => a - b),
+    c: [...completedChapters].sort((a, b) => a - b),
+    pageLengths,
   };
   const next: BookkeysGameState = {
     ...previous,
@@ -150,6 +208,8 @@ export function completeBookkeysPage(
     chars: Math.max(0, Number(previous.chars ?? 0)) + target.length,
     words: Math.max(0, Number(previous.words ?? 0)) + normalize(target).split(" ").filter(Boolean).length,
     pages: Math.max(0, Number(previous.pages ?? 0)) + 1,
+    chapters: Math.max(0, Number(previous.chapters ?? 0)) + chapterCount,
+    books: Math.max(0, Number(previous.books ?? 0)) + bookCount,
     paid,
     check: { key: bookKey, page },
     book: { ...previousBooks, [bookKey]: book },
