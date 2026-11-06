@@ -133,3 +133,18 @@ html[data-theme="light"] .home-footer { color: #526d86; }
 
 /* Respect search filtering on cards whose layout sets an explicit display value. */
 .home-dashboard-page [hidden] { display: none !important; }
+
+
+/* Keep the injected account control inside the Home header action row. */
+.home-topbar .topbar-actions { min-width:0; flex-wrap:nowrap; }
+.home-topbar .ll-account { flex:0 0 auto; margin-left:0; }
+.home-topbar .ll-account button { padding:6px 10px; border-radius:18px; font:11px Arial,sans-serif; white-space:nowrap; }
+@media (max-width:420px) {
+  .home-topbar { padding:8px 10px; gap:7px; }
+  .home-topbar .brand { gap:6px; font-size:12px; letter-spacing:1.5px; }
+  .home-topbar .topbar-actions { gap:6px; }
+  .home-topbar .icon-action { min-width:65px; height:32px; padding:0 7px; font-size:9px; }
+  .home-topbar .profile-chip { gap:0; padding:3px; }
+  .home-topbar .profile-chip > span:last-child { display:none; }
+  .home-topbar .ll-account button { padding:6px 7px; font-size:10px; }
+}
