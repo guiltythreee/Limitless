@@ -325,7 +325,8 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
   });
 
   await page.getByRole("button", { name: "Edit" }).click();
-  await page.getByRole("button", { name: "Remove Chapter One" }).click();
+  await page.getByRole("button", { name: "Remove Chapter Two" }).click();
+  await page.getByRole("button", { name: "Next section" }).click();
   page.once("dialog", (dialog) => dialog.accept("Custom Opening"));
   await page.getByRole("button", { name: "Add chapter" }).click();
   await expect(page.locator(".bk-chapter-list")).toContainText("Custom Opening");
