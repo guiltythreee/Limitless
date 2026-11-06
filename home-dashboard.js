@@ -1,21 +1,18 @@
 (function () {
   'use strict';
   var search = document.getElementById('module-search');
-  var mount = document.getElementById('tool-groups');
-  if (!search || !mount) return;
+  if (!search) return;
   var searchResultsFocused = false;
+  var searchableCards = '.shortcut-card, .learning-card, .competition-promo';
   function filterModules() {
     var query = search.value.trim().toLowerCase();
-    mount.querySelectorAll('.card').forEach(function (card) {
+    document.querySelectorAll(searchableCards).forEach(function (card) {
       card.hidden = !!query && !card.textContent.toLowerCase().includes(query);
-    });
-    mount.querySelectorAll('.group').forEach(function (group) {
-      var visible = Array.from(group.querySelectorAll('.card')).some(function (card) { return !card.hidden; });
-      group.hidden = !!query && !visible;
     });
     if (query && !searchResultsFocused) {
       searchResultsFocused = true;
-      document.getElementById('all-modules').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var firstMatch = document.querySelector(searchableCards + ':not([hidden])');
+      if (firstMatch) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     if (!query) searchResultsFocused = false;
   }
