@@ -41,10 +41,10 @@ const NAV: { id: View; label: string; icon: string }[] = [
   { id: "history", label: "Test History", icon: "◷" },
 ];
 
-export default function Practice({ lessonId, onSelectLesson, initialView = "overview", initialDifficulty = "all" }: { lessonId: string; onSelectLesson: (id: string, keepSection?: boolean) => void; initialView?: Exclude<View, "question">; initialDifficulty?: Difficulty | "all" }) {
+export default function Practice({ lessonId, onSelectLesson, initialView = "overview", initialDifficulty = "all", initialScope }: { lessonId: string; onSelectLesson: (id: string, keepSection?: boolean) => void; initialView?: Exclude<View, "question">; initialDifficulty?: Difficulty | "all"; initialScope?: ScopeKind }) {
   const store = useStore();
   const lesson = lessons.find((l) => l.id === lessonId)!;
-  const [scopeKind, setScopeKind] = useState<ScopeKind>(initialView === "overview" ? "topic" : "all");
+  const [scopeKind, setScopeKind] = useState<ScopeKind>(initialScope ?? (initialView === "overview" ? "topic" : "all"));
   const [view, setView] = useState<View>(initialView);
   const [back, setBack] = useState<View>("all");
   const [session, setSession] = useState<LearningPlayerSession<Q, ProbabilityPlayerAnswer>>(
