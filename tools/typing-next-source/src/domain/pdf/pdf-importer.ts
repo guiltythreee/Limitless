@@ -61,16 +61,23 @@ export async function readPdf(
     const pages: PdfBlock[][] = [];
     const headsByPage: { key: string; title: string }[][] = [];
     for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber++) {
-      const page = await document.getPage(pageNumber);
-      const viewport = page.getViewport({ scale: 1 });
-      const content = await page.getTextContent();
-      const items = content.items.filter((item): item is PdfTextItem =>
-        typeof item === "object" && item !== null && typeof (item as PdfTextItem).str === "string",
-      );
-      const lines = extractLines(items, viewport.width);
-      const medianSize = median(lines.map((line) => line.size));
-      pages.push(blocksFromLines(lines, medianSize, viewport.height));
-      headsByPage.push(chapterHeadsOnPage(lines, medianSize, viewport.height));
+      try {
+        const page = await document.getPage(pageNumber);
+        const viewport = page.getViewport({ scale: 1 });
+        const content = await page.getTextContent();
+        const items = content.items.filter((item): item is PdfTextItem =>
+          typeof item === "object" && item !== null && typeof (item as PdfTextItem).str === "string",
+        );
+        const lines = extractLines(items, viewport.width);
+        const medianSize = median(lines.map((line) => line.size));
+        pages.push(blocksFromLines(lines, medianSize, viewport.height));
+        headsByPage.push(chapterHeadsOnPage(lines, medianSize, viewport.height));
+      } catch {
+        // Preserve the original page slot. The reader records it as empty so
+        // a damaged page cannot strand navigation or book completion.
+        pages.push([]);
+        headsByPage.push([]);
+      }
     }
 
     if (!pages.some((page) => page.some((block) => block.text))) {
