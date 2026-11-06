@@ -90,6 +90,8 @@ export default function BookkeysApp() {
   const [database, setDatabase] = useState<BookkeysDatabase | null>(null);
   const [library, setLibrary] = useState<LibraryEntry[]>([]);
   const [book, setBook] = useState<ReaderBook | null>(null);
+  const [view, setView] = useState<"home" | "book">("home");
+  const navState = useRef({ i: 0, max: 0 });
   const [pageIndex, setPageIndex] = useState(0);
   const [typed, setTyped] = useState("");
   const [status, setStatus] = useState("Import a PDF or EPUB to begin.");
@@ -191,6 +193,7 @@ export default function BookkeysApp() {
       const format: BookFormat = entry.fmt === "epub" ? "epub" : "pdf";
       const parsed = await parseBook(entry.id, format, await file.arrayBuffer(), entry.name);
       setBook({ ...parsed, chapters: loadChapterSettings(parsed.bookKey, parsed.chapters, parsed.sections.length) });
+      navTo("book", parsed.bookKey);
       const savedBook = readGame().book?.[parsed.bookKey];
       setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
       setPageIndex(0);
@@ -238,6 +241,7 @@ export default function BookkeysApp() {
         setLibrary(await database.listMetadata());
       }
       setBook({ ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, savedBook.chapters, savedBook.sections.length) });
+      navTo("book", savedBook.bookKey);
       const savedProgress = readGame().book?.[savedBook.bookKey];
       setCompletedPageIndexes([...new Set([...(savedProgress?.p ?? []), ...(savedProgress?.e ?? [])])]);
       setPageIndex(0);
@@ -349,27 +353,69 @@ export default function BookkeysApp() {
     }
   }
 
+  function navTo(nextView: "home" | "book", bookKey?: string, page = 0) {
+    const nextIndex = navState.current.i + 1;
+    navState.current = { i: nextIndex, max: nextIndex };
+    window.history.pushState(
+      { i: nextIndex, v: nextView, bookKey, page },
+      "",
+      nextView === "home" ? "#home" : "#book-" + (page + 1),
+    );
+    setView(nextView);
+  }
+
+  function navBack() {
+    if (navState.current.i > 0) window.history.back();
+  }
+
+  function navForward() {
+    if (navState.current.i < navState.current.max) window.history.forward();
+  }
+
   function changePage(next: number) {
     if (!book || next < 0 || next >= book.sections.length || next === pageIndex) return;
+    const nextIndex = navState.current.i + 1;
+    navState.current = { i: nextIndex, max: nextIndex };
     window.history.pushState(
-      { bookkeysBook: book.bookKey, bookkeysPage: next },
+      { i: nextIndex, v: "book", bookKey: book.bookKey, page: next },
       "",
-      "#bookkeys-" + encodeURIComponent(book.bookKey) + "-" + (next + 1),
+      "#book-" + (next + 1),
     );
     setPageIndex(next);
   }
 
   useEffect(() => {
-    if (!book) return;
+    window.history.replaceState({ i: 0, v: "home" }, "", "#home");
     const onPopState = (event: PopStateEvent) => {
-      const state = event.state as { bookkeysBook?: unknown; bookkeysPage?: unknown } | null;
-      if (state?.bookkeysBook !== book.bookKey || !Number.isInteger(state.bookkeysPage)) return;
-      const next = state.bookkeysPage as number;
-      if (next >= 0 && next < book.sections.length) setPageIndex(next);
+      const state = event.state as { i?: unknown; v?: unknown; bookKey?: unknown; page?: unknown } | null;
+      if (!state || !Number.isInteger(state.i)) {
+        navState.current.i = 0;
+        setView("home");
+        return;
+      }
+      navState.current.i = state.i as number;
+      if (state.v === "book" && book && state.bookKey === book.bookKey) {
+        setView("book");
+        if (Number.isInteger(state.page)) {
+          const next = state.page as number;
+          if (next >= 0 && next < book.sections.length) setPageIndex(next);
+        }
+      } else setView("home");
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, [book]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!event.altKey) return;
+      if (event.key === "ArrowLeft") { event.preventDefault(); navBack(); }
+      else if (event.key === "ArrowRight") { event.preventDefault(); navForward(); }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
 
   return (
     <main className="bk-shell">
@@ -386,7 +432,7 @@ export default function BookkeysApp() {
         </div>
       </header>
 
-      {!book ? (
+      {view === "home" || !book ? (
         <section className="bk-library">
           <div className="bk-intro">
             <div>
@@ -442,7 +488,7 @@ export default function BookkeysApp() {
       ) : (
         <section className="bk-reader">
           <div className="bk-reader-top">
-            <button className="bk-quiet" onClick={() => { setBook(null); setTyped(""); }}>← Library</button>
+            <button className="bk-quiet" onClick={() => { navTo("home"); setTyped(""); }}>← Library</button>
             <div className="bk-book-title">
               <strong>{book.title}</strong>
               <span>{book.author || (book.format === "epub" ? "EPUB" : "PDF")}</span>
