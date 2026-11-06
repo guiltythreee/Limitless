@@ -6,7 +6,9 @@ on:
       - "tools/typing-next-source/**"
       - ".github/workflows/bookkeys-next-scaffold.yml"
   push:
-    branches: [work/bookkeys-typescript-migration-20261107]
+    branches:
+      - work/bookkeys-typescript-migration-20261107
+      - work/bookkeys-typescript-mainline-20261107
     paths:
       - "tools/typing-next-source/**"
       - ".github/workflows/bookkeys-next-scaffold.yml"
