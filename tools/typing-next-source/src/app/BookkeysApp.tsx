@@ -582,17 +582,6 @@ export default function BookkeysApp() {
               </button>
             </div>
             <input
-              ref={backupInput}
-              className="bk-hidden"
-              type="file"
-              accept="application/json,.json"
-              aria-label="Import Bookkeys backup"
-              onChange={(event) => {
-                const file = event.currentTarget.files?.[0];
-                if (file) void importBackup(file);
-              }}
-            />
-            <input
               ref={fileInput}
               className="bk-hidden"
               type="file"
@@ -687,6 +676,62 @@ export default function BookkeysApp() {
             </div>
           </div>
         </section>
+      )}
+      <input
+        ref={backupInput}
+        className="bk-hidden"
+        type="file"
+        accept="application/json,.json"
+        aria-label="Import Bookkeys backup"
+        onChange={(event) => {
+          const file = event.currentTarget.files?.[0];
+          if (file) void importBackup(file);
+        }}
+      />
+      {settingsOpen && (
+        <div className="bk-modal-backdrop" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) setSettingsOpen(false);
+        }}>
+          <section className="bk-settings-panel" role="dialog" aria-modal="true" aria-labelledby="bk-settings-title">
+            <header className="bk-settings-header">
+              <h2 id="bk-settings-title">Settings</h2>
+              <button id="closeSettings" className="bk-quiet" onClick={() => setSettingsOpen(false)} aria-label="Close Settings">Close</button>
+            </header>
+            <nav className="bk-settings-tabs" aria-label="Settings sections">
+              <button className={settingsTab === "appearance" ? "active" : ""} onClick={() => setSettingsTab("appearance")}>Appearance</button>
+              <button className={settingsTab === "data" ? "active" : ""} onClick={() => setSettingsTab("data")}>Data</button>
+            </nav>
+            {settingsTab === "appearance" ? (
+              <div className="bk-settings-content">
+                <label className="bk-setting">
+                  <span>Reading text size <strong>{settings.size}px</strong></span>
+                  <input type="range" min="12" max="28" step="1" value={settings.size}
+                    onChange={(event) => persistSettings({ ...settings, size: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting">
+                  <span>Line spacing <strong>{settings.lineH.toFixed(1)}</strong></span>
+                  <input type="range" min="1.2" max="2.4" step="0.1" value={settings.lineH}
+                    onChange={(event) => persistSettings({ ...settings, lineH: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Completion celebrations</span>
+                  <input type="checkbox" checked={settings.celebrate}
+                    onChange={(event) => persistSettings({ ...settings, celebrate: event.currentTarget.checked })} />
+                </label>
+                <p className="bk-settings-note">Theme can also be changed using the sun/moon control in the header.</p>
+              </div>
+            ) : (
+              <div className="bk-settings-content">
+                <h3>Backup and restore</h3>
+                <p className="bk-settings-note">A v1 backup contains Bookkeys settings, typing progress, drafts, shelves and chapter choices. Original PDF/EPUB files and custom artwork stay in browser storage and are not included.</p>
+                <div className="bk-settings-data-actions">
+                  <button className="bk-primary" onClick={exportBackup}>Export backup</button>
+                  <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import and merge backup</button>
+                </div>
+              </div>
+            )}
+          </section>
+        </div>
       )}
       <p className="bk-status" role="status">{status}</p>
     </main>
