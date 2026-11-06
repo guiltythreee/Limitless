@@ -128,10 +128,12 @@ export function completeBookkeysPage(
   target: string,
   typed: string,
   elapsedMs: number,
+  chapters: readonly BookkeysChapter[] = [],
+  totalSections = 0,
 ): PageCompletion {
   const accuracy = typingAccuracy(target, typed);
   const previousBooks = previous.book && typeof previous.book === "object" ? previous.book : {};
-  const previousBook = previousBooks[bookKey] ?? {};
+  const previousBook: BookkeysGameBook = previousBooks[bookKey] ?? {};
   const typedPages = new Set(Array.isArray(previousBook.p) ? previousBook.p : []);
   const exactPages = new Set(Array.isArray(previousBook.x) ? previousBook.x : []);
   const alreadyCompleted = typedPages.has(page);
