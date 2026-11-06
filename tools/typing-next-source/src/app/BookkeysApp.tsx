@@ -232,6 +232,7 @@ export default function BookkeysApp() {
     completedThisPage.current = true;
     const result = completeBookkeysPage(
       readGame(), book.bookKey, pageIndex, target, value, Date.now() - startedAt.current,
+      book.chapters, book.sections.length,
     );
     try {
       window.localStorage.setItem("bookkeys:game", JSON.stringify(result.game));
