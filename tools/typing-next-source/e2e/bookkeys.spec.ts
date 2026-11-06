@@ -281,3 +281,11 @@ test("sample text is typable but never writes XP, reward or book progress", asyn
   await page.getByRole("button", { name: /Library/ }).click();
   await expect(page.locator(".bk-empty")).toBeVisible();
 });
+
+test("legacy bookkeys:size is used when the settings object has no size", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("bookkeys:size", "22"));
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Settings" }).click();
+  await expect(page.getByRole("dialog", { name: "Settings" }).locator('input[type="range"]').first())
+    .toHaveValue("22");
+});
