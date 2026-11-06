@@ -447,6 +447,25 @@ export default function BookkeysApp() {
     setStatus("Sample passage ready. Typing here never earns XP or saves book progress.");
   }
 
+  async function removeCurrentBook() {
+    if (!book || book.isSample || !database) return;
+    if (!window.confirm("Remove " + book.title + " from this browser's library? The original file will be deleted here, but saved typing progress and backups will remain.")) return;
+    setBusy(true);
+    try {
+      await database.deleteBook(book.libraryId);
+      setLibrary((await database.listMetadata()).sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
+      delete bookCache.current[book.bookKey];
+      setBook(null);
+      setView("home");
+      setTyped("");
+      setStatus("Book removed from this browser's library. Saved typing progress was retained.");
+    } catch {
+      setStatus("Could not remove this book from the browser library.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function removeShelf() {
     if (!database || selectedShelf === "default") return;
     const current = shelves.find((shelf) => shelf.id === selectedShelf);
@@ -705,6 +724,7 @@ export default function BookkeysApp() {
         <section className="bk-reader">
           <div className="bk-reader-top">
             <button className="bk-quiet" onClick={() => { navTo("home"); setTyped(""); }}>← Library</button>
+            {!book.isSample && <button className="bk-quiet" onClick={() => void removeCurrentBook()} disabled={busy}>Remove book</button>}
             <div className="bk-book-title">
               <strong>{book.title}</strong>
               <span>{book.author || (book.format === "epub" ? "EPUB" : "PDF")}</span>
