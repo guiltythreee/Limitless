@@ -2,11 +2,14 @@ import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import JSZip from "jszip";
 
-async function makeFixtureEpub(): Promise<Buffer> {
+async function makeFixtureEpub(twoChapters = false): Promise<Buffer> {
   const zip = new JSZip();
   const paragraph = (
     "This is a browser regression fixture for the Bookkeys reading and typing migration. " +
     "The text is intentionally long enough to qualify for verified page rewards. "
+  ).repeat(4);
+  const secondParagraph = (
+    "This is the second chapter used to verify saved reading position and unfinished typing drafts. "
   ).repeat(4);
 
   zip.file("mimetype", "application/epub+zip", { compression: "STORE" });
@@ -25,18 +28,29 @@ async function makeFixtureEpub(): Promise<Buffer> {
   <manifest>
     <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
     <item id="chapter" href="chapter.xhtml" media-type="application/xhtml+xml"/>
+    ${twoChapters ? '<item id="chapter-two" href="chapter-two.xhtml" media-type="application/xhtml+xml"/>' : ''}
   </manifest>
-  <spine><itemref idref="chapter"/></spine>
+  <spine><itemref idref="chapter"/>${twoChapters ? '<itemref idref="chapter-two"/>' : ''}</spine>
 </package>`);
   zip.file("OEBPS/nav.xhtml", `<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-  <body><nav epub:type="toc"><ol><li><a href="chapter.xhtml#chapter-start">Chapter One</a></li></ol></nav></body>
+  <body><nav epub:type="toc"><ol>
+    <li><a href="chapter.xhtml#chapter-start">Chapter One</a></li>
+    ${twoChapters ? '<li><a href="chapter-two.xhtml#chapter-two-start">Chapter Two</a></li>' : ''}
+  </ol></nav></body>
 </html>`);
   zip.file("OEBPS/chapter.xhtml", `<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head><title>Chapter One</title></head>
   <body><section><h1 id="chapter-start">Chapter One</h1><p>${paragraph}</p></section></body>
 </html>`);
+  if (twoChapters) {
+    zip.file("OEBPS/chapter-two.xhtml", `<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head><title>Chapter Two</title></head>
+  <body><section><h1 id="chapter-two-start">Chapter Two</h1><p>${secondParagraph}</p></section></body>
+</html>`);
+  }
   return zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" });
 }
 
@@ -206,4 +220,40 @@ test("reader remains usable without horizontal overflow on a phone viewport", as
   }));
   expect(dimensions.document, JSON.stringify(dimensions.offenders))
     .toBeLessThanOrEqual(dimensions.viewport + 1);
+});
+
+test("last section and unfinished typing draft restore after reopening a book", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub(true);
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "two-chapter-position-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 2");
+  const firstText = await page.locator(".bk-source-text").textContent();
+  expect(firstText).toBeTruthy();
+  await page.locator("#bk-typing").fill(firstText!);
+  await expect(page.locator(".bk-reader-meta")).toContainText("1/2 required complete");
+
+  await page.getByRole("button", { name: "Next section" }).click();
+  await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
+  const secondText = await page.locator(".bk-source-text").textContent();
+  expect(secondText).toBeTruthy();
+  const partialDraft = secondText!.slice(0, 55);
+  await page.locator("#bk-typing").fill(partialDraft);
+
+  const savedPosition = await page.evaluate(() =>
+    Object.entries(localStorage).some(([key, value]) =>
+      (key.startsWith("bookkeys:f:") || key.startsWith("bookkeys:lib:")) && value === "1"
+    )
+  );
+  expect(savedPosition).toBe(true);
+
+  await page.reload();
+  await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
+  await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
+  await expect(page.locator("#bk-typing")).toHaveValue(partialDraft);
+  await expect(page.locator(".bk-reader-meta")).toContainText("1/2 required complete");
 });
