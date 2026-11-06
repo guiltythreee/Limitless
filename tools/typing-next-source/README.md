@@ -8,8 +8,8 @@ This is an isolated Next.js/React/TypeScript source project, separate from the a
 - Legacy migration branch retained as a backup: `work/bookkeys-typescript-migration-20261107`
 - The mainline branch is based directly on the latest `main` checkpoint and contains the migration workspace as an additive change.
 - The original standalone reader remains at `tools/typing/bookkeys.html`; the production shell remains at `tools/typing/index.html`.
-- The current CI checkpoint passes 73 automated tests, TypeScript type-checking and the Next.js static production build.
-- The TypeScript reader now uses the shared LSR-1 Bookkeys reward adapter and evidence bridge. Its local policy mirror is checked against the canonical `shared/rewards.mjs` implementation by parity tests.
+- The current CI checkpoint passes 78 automated tests, TypeScript type-checking and the Next.js static production build.
+- The TypeScript reader now uses the shared LSR-1 Bookkeys reward adapter and evidence bridge. Its local policy mirror is checked against the canonical `shared/rewards.mjs` implementation by parity tests. Adapter tests cover persisted awards, idempotency, invalid evidence and daily repeat caps.
 
 ## Safety boundary
 
