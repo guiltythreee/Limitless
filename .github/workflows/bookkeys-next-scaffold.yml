@@ -1,0 +1,39 @@
+name: Bookkeys TypeScript Migration
+
+on:
+  pull_request:
+    paths:
+      - "tools/typing-next-source/**"
+      - ".github/workflows/bookkeys-next-scaffold.yml"
+  push:
+    branches: [work/bookkeys-typescript-migration-20261107]
+    paths:
+      - "tools/typing-next-source/**"
+      - ".github/workflows/bookkeys-next-scaffold.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bookkeys-typescript-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        working-directory: tools/typing-next-source
+        run: npm install --no-audit --no-fund
+      - name: Type-check
+        working-directory: tools/typing-next-source
+        run: npm run typecheck
+      - name: Build static export
+        working-directory: tools/typing-next-source
+        run: npm run build
