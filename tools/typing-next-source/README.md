@@ -8,9 +8,9 @@ This is an isolated Next.js/React/TypeScript source project, separate from the a
 - Legacy migration branch retained as a backup: `work/bookkeys-typescript-migration-20261107`
 - The mainline branch is based directly on the latest `main` checkpoint and contains the migration workspace as an additive change.
 - The original standalone reader remains at `tools/typing/bookkeys.html`; the production shell remains at `tools/typing/index.html`.
-- The current CI checkpoint passes 83 unit tests, 6 Playwright browser regressions, TypeScript type-checking and the Next.js static production build.
+- The current CI checkpoint passes 87 unit tests, 7 Playwright browser regressions, TypeScript type-checking and the Next.js static production build.
 - CI also reruns the current original 98-test preservation suite from tools/typing/tests against the untouched standalone Bookkeys implementation. The archived 91-test baseline and current 98-test result are recorded in tools/typing/BOOKKEYS_TEST_BASELINE.md.
-- The TypeScript reader now uses the shared LSR-1 Bookkeys reward adapter and evidence bridge. Its local policy mirror is checked against the canonical `shared/rewards.mjs` implementation by parity tests. Adapter and bridge tests cover persisted awards, page/chapter/book milestones, idempotency, invalid evidence and daily repeat caps. Browser regressions exercise PDF/EPUB import, typing progress across reloads, reward persistence, backup export/import round-trip, browser Back/Forward, saved reading-position recovery, theme switching, reader settings, phone-width overflow and non-rewarding sample practice.
+- The TypeScript reader now uses the shared LSR-1 Bookkeys reward adapter and evidence bridge. Its local policy mirror is checked against the canonical `shared/rewards.mjs` implementation by parity tests. Adapter and bridge tests cover persisted awards, page/chapter/book milestones, idempotency, invalid evidence and daily repeat caps. Browser regressions exercise PDF/EPUB import, typing progress across reloads, reward persistence, backup export/import round-trip, browser Back/Forward, saved reading-position recovery, theme switching, reader settings, phone-width overflow and non-rewarding sample practice and legacy size fallback.
 
 ## Safety boundary
 
