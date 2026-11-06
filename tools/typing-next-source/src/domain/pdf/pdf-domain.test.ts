@@ -77,7 +77,11 @@ test("even chapter fallback creates five balanced parts for long books", () => {
   assert.deepEqual(evenChapters(10).map((chapter) => chapter.p), [0]);
 });
 
-test("chapter detection falls back to balanced parts when no headings are found", () => {\n  assert.deepEqual(pickChapters([[], []], 100).map((chapter) => chapter.p), [0, 20, 40, 60, 80]);\n});\n\ntest("chapter detection keeps the first occurrence of a repeated heading", () => {
+test("chapter detection falls back to balanced parts when no headings are found", () => {
+  assert.deepEqual(pickChapters([[], []], 100).map((chapter) => chapter.p), [0, 20, 40, 60, 80]);
+});
+
+test("chapter detection keeps the first occurrence of a repeated heading", () => {
   const chapters = pickChapters([
     [{ key: "chapter 1", title: "Chapter 1" }],
     [],
