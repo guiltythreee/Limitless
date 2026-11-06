@@ -208,12 +208,19 @@ export function epubExpandBlocks(blocks: readonly EpubBlock[], maxLength: number
   return out;
 }
 
-export function epubPackSections(blocks: readonly EpubBlock[], target: number): EpubSection {
+export function epubPackSections(blocks: readonly EpubBlock[], target: number, breakBefore: ReadonlySet<number> = new Set()): EpubSection {
   const sections: EpubBlock[][] = [];
   const secOf: number[] = [];
   let current: EpubBlock[] = [];
   let length = 0;
-  for (const block of blocks) {
+  for (let index = 0; index < blocks.length; index++) {
+    const block = blocks[index];
+    if (current.length && breakBefore.has(index)) {
+      sections.push(current);
+      secOf.push(...current.map(() => sections.length - 1));
+      current = [];
+      length = 0;
+    }
     current.push(block);
     length += block.text.length;
     if (length >= target) {
