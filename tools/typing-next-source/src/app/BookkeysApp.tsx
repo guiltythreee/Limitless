@@ -14,6 +14,7 @@ import { createBookkeysRewardAdapter } from "../domain/rewards/bookkeys-reward-a
 import { bookkeysPageEvidenceFromText, installBookkeysRewardBridge } from "../domain/rewards/bookkeys-reward-bridge";
 import { bookkeysRewardPolicy } from "../domain/rewards/bookkeys-reward-policy";
 import { chapterRecordKey, typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
+import { readBookkeysPosition, writeBookkeysPosition } from "../domain/reading/bookkeys-position";
 import { requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
 import { createBookkeysBackupV1, parseBookkeysBackup, restoreBookkeysBackup } from "../domain/reading/bookkeys-backup";
 import { createShelf, deleteShelf, readShelves, renameShelf } from "../domain/reading/bookkeys-shelves";
@@ -254,12 +255,13 @@ export default function BookkeysApp() {
       const format: BookFormat = entry.fmt === "epub" ? "epub" : "pdf";
       const parsed = await parseBook(entry.id, format, await file.arrayBuffer(), entry.name);
       const openedBook = { ...parsed, chapters: loadChapterSettings(parsed.bookKey, parsed.chapters, parsed.sections.length) };
+      const savedPage = readBookkeysPosition(window.localStorage, parsed.bookKey, entry.id, parsed.sections.length);
       bookCache.current[openedBook.bookKey] = openedBook;
       setBook(openedBook);
-      navTo("book", parsed.bookKey);
+      navTo("book", parsed.bookKey, savedPage);
       const savedBook = readGame().book?.[parsed.bookKey];
       setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
-      setPageIndex(0);
+      setPageIndex(savedPage);
       await database.putBook({ ...entry, opened: Date.now() }, file);
       setLibrary(await database.listMetadata());
       setStatus("Book opened. Your typing drafts are saved in this browser.");
@@ -304,12 +306,13 @@ export default function BookkeysApp() {
         setLibrary(await database.listMetadata());
       }
       const openedBook = { ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, savedBook.chapters, savedBook.sections.length) };
+      const savedPage = readBookkeysPosition(window.localStorage, savedBook.bookKey, libraryId, savedBook.sections.length);
       bookCache.current[openedBook.bookKey] = openedBook;
       setBook(openedBook);
-      navTo("book", savedBook.bookKey);
+      navTo("book", savedBook.bookKey, savedPage);
       const savedProgress = readGame().book?.[savedBook.bookKey];
       setCompletedPageIndexes([...new Set([...(savedProgress?.p ?? []), ...(savedProgress?.e ?? [])])]);
-      setPageIndex(0);
+      setPageIndex(savedPage);
       setStatus(database
         ? "Imported and saved to this browser's library."
         : "Imported for this session. Browser library storage is unavailable.");
@@ -503,6 +506,10 @@ export default function BookkeysApp() {
   }
 
   function navTo(nextView: "home" | "book", bookKey?: string, page = 0) {
+    if (nextView === "home" && book) {
+      try { writeBookkeysPosition(window.localStorage, book.bookKey, book.libraryId, pageIndex); }
+      catch { setStatus("Reading position could not be saved in this browser."); }
+    }
     const nextIndex = navState.current.i + 1;
     navState.current = { i: nextIndex, max: nextIndex };
     window.history.pushState(
@@ -530,6 +537,8 @@ export default function BookkeysApp() {
       "",
       "#book-" + (next + 1),
     );
+    try { writeBookkeysPosition(window.localStorage, book.bookKey, book.libraryId, next); }
+    catch { setStatus("Reading position could not be saved in this browser."); }
     setPageIndex(next);
   }
 
@@ -553,7 +562,11 @@ export default function BookkeysApp() {
         setView("book");
         if (Number.isInteger(state.page)) {
           const next = state.page as number;
-          if (next >= 0 && next < restored.sections.length) setPageIndex(next);
+          if (next >= 0 && next < restored.sections.length) {
+            setPageIndex(next);
+            try { writeBookkeysPosition(window.localStorage, restored.bookKey, restored.libraryId, next); }
+            catch { /* history navigation must still work when storage is unavailable */ }
+          }
         }
       } else setView("home");
     };
