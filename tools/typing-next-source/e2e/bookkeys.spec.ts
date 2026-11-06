@@ -253,7 +253,7 @@ test("last section and unfinished typing draft restore after reopening a book", 
   expect(savedPosition).toBe(true);
 
   await page.reload();
-  await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
+  await page.getByRole("button", { name: "Continue reading" }).click();
   await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
   await expect(page.locator("#bk-typing")).toHaveValue(partialDraft);
   await expect(page.locator(".bk-reader-meta")).toContainText("1/2 required complete");
