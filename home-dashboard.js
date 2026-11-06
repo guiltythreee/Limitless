@@ -3,6 +3,7 @@
   var search = document.getElementById('module-search');
   var mount = document.getElementById('tool-groups');
   if (!search || !mount) return;
+  var searchResultsFocused = false;
   function filterModules() {
     var query = search.value.trim().toLowerCase();
     mount.querySelectorAll('.card').forEach(function (card) {
@@ -12,7 +13,11 @@
       var visible = Array.from(group.querySelectorAll('.card')).some(function (card) { return !card.hidden; });
       group.hidden = !!query && !visible;
     });
-    if (query) document.getElementById('all-modules').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (query && !searchResultsFocused) {
+      searchResultsFocused = true;
+      document.getElementById('all-modules').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (!query) searchResultsFocused = false;
   }
   search.addEventListener('input', filterModules);
   document.addEventListener('keydown', function (event) {
