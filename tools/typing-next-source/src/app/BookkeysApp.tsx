@@ -500,6 +500,25 @@ export default function BookkeysApp() {
     }
   }
 
+  function addChapter() {
+    if (!book) return;
+    const title = window.prompt("Name this chapter", "Chapter " + (book.chapters.length + 1));
+    if (!title?.trim()) return;
+    const next = tidyChapters([...book.chapters, { p: pageIndex, title: title.trim(), req: true }], book.sections.length);
+    if (next.length === book.chapters.length) {
+      setStatus("A chapter already begins on this section.");
+      return;
+    }
+    saveChapters(next);
+    setStatus("Chapter added at section " + (pageIndex + 1) + ".");
+  }
+
+  function removeChapter(index: number) {
+    if (!book) return;
+    saveChapters(book.chapters.filter((_, chapterIndex) => chapterIndex !== index));
+    setStatus("Chapter removed. Reading progress was retained.");
+  }
+
   function setAllChapterRequirements(required: boolean) {
     if (!book) return;
     saveChapters(book.chapters.map((chapter) => ({ ...chapter, req: required })));
@@ -741,6 +760,7 @@ export default function BookkeysApp() {
               <button className="bk-quiet" onClick={() => setAllChapterRequirements(false)}>All optional</button>
               <button className="bk-quiet" onClick={resetChapterRequirements}>Use defaults</button>
               <button className="bk-quiet" onClick={() => setChaptersOpen((open) => !open)}>{chaptersOpen ? "Hide" : "Edit"}</button>
+              {chaptersOpen && <button className="bk-quiet" onClick={addChapter}>Add chapter</button>}
             </div>
           </div>
           {chaptersOpen && (
@@ -748,11 +768,14 @@ export default function BookkeysApp() {
               {book.chapters.map((chapter, index) => (
                 <div className="bk-chapter-row" key={chapter.p + ":" + index}>
                   <span>{chapter.title}</span>
-                  <button
-                    className={chapter.req ? "bk-required" : "bk-optional"}
-                    aria-pressed={chapter.req}
-                    onClick={() => toggleChapterRequirement(index)}
-                  >{chapter.req ? "Required" : "Optional"}</button>
+                  <div className="bk-chapter-row-actions">
+                    <button
+                      className={chapter.req ? "bk-required" : "bk-optional"}
+                      aria-pressed={chapter.req}
+                      onClick={() => toggleChapterRequirement(index)}
+                    >{chapter.req ? "Required" : "Optional"}</button>
+                    <button className="bk-quiet" onClick={() => removeChapter(index)} aria-label={"Remove " + chapter.title}>Remove</button>
+                  </div>
                 </div>
               ))}
             </div>
