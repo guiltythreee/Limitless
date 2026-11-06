@@ -25,7 +25,7 @@ const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>
   createLearningPlayerShell(createElement, props);
 
 type ScopeKind = "topic" | "rank" | "all";
-type View = "overview" | "all" | "topics" | "saved" | "mistakes" | "question";
+type View = "overview" | "all" | "topics" | "saved" | "mistakes" | "history" | "question";
 type Sort = "order" | "last-first" | "first-first";
 const MARK: Record<Status, string> = { correct: "✓", incorrect: "×", partial: "◐", unattempted: "" };
 const MARKCLS: Record<Status, string> = { correct: "text-emerald-500", incorrect: "text-red-500", partial: "text-amber-500", unattempted: "" };
@@ -38,13 +38,14 @@ const NAV: { id: View; label: string; icon: string }[] = [
   { id: "topics", label: "Topic-wise", icon: "☰" },
   { id: "saved", label: "Bookmarked Qs", icon: "★" },
   { id: "mistakes", label: "My Mistakes", icon: "⚠" },
+  { id: "history", label: "Test History", icon: "◷" },
 ];
 
-export default function Practice({ lessonId, onSelectLesson }: { lessonId: string; onSelectLesson: (id: string, keepSection?: boolean) => void }) {
+export default function Practice({ lessonId, onSelectLesson, initialView = "overview", initialDifficulty = "all", initialScope }: { lessonId: string; onSelectLesson: (id: string, keepSection?: boolean) => void; initialView?: Exclude<View, "question">; initialDifficulty?: Difficulty | "all"; initialScope?: ScopeKind }) {
   const store = useStore();
   const lesson = lessons.find((l) => l.id === lessonId)!;
-  const [scopeKind, setScopeKind] = useState<ScopeKind>("topic");
-  const [view, setView] = useState<View>("overview");
+  const [scopeKind, setScopeKind] = useState<ScopeKind>(initialScope ?? (initialView === "overview" ? "topic" : "all"));
+  const [view, setView] = useState<View>(initialView);
   const [back, setBack] = useState<View>("all");
   const [session, setSession] = useState<LearningPlayerSession<Q, ProbabilityPlayerAnswer>>(
     () => createLearningPlayerSession<Q, ProbabilityPlayerAnswer>([]),
@@ -114,13 +115,27 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
           </div>
         )}
 
-        {view === "all" && <QuestionList pool={pool} title={scopeLabel} onOpen={(k, i) => open(k, i, "all")} onAnalysis={() => setView("overview")} />}
+        {view === "all" && <QuestionList pool={pool} title={scopeLabel} initialDifficulty={initialDifficulty} onOpen={(k, i) => open(k, i, "all")} onAnalysis={() => setView("overview")} />}
         {view === "saved" && <QuestionList pool={pool.filter((q) => store.bookmarks.includes(q.key))} title="Bookmarked questions" empty="Nothing saved yet. Tap ☆ on a question to keep it here." onOpen={(k, i) => open(k, i, "saved")} onAnalysis={() => setView("overview")} />}
         {view === "mistakes" && <QuestionList pool={pool.filter((q) => ["incorrect", "partial"].includes(statusOf(q.key)))} title="My mistakes (latest attempt not fully correct)" empty="No mistakes right now. Keep going." onOpen={(k, i) => open(k, i, "mistakes")} onAnalysis={() => setView("overview")} />}
 
+        {view === "history" && (
+          <section className="study-utility-panel">
+            <header className="study-utility-panel__header"><div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Test History</h2><p className="study-utility-panel__description">Previous assessments saved in this Probability workspace.</p></div><span className="study-utility-panel__count">{store.tests.length} tests</span></header>
+            <div className="study-utility-panel__content">
+              {store.tests.length === 0 ? <p className="py-8 text-center text-sm text-dim">No completed tests yet. Your finished assessments will appear here.</p> : [...store.tests].sort((a, b) => b.ts - a.ts).map((test) => (
+                <div key={test.id} className="flex flex-wrap items-center justify-between gap-3 border-t border-gold/10 py-4">
+                  <div><strong className="block text-sm text-parchment">{test.label}</strong><span className="mt-1 block text-[11px] text-dim">{new Date(test.ts).toLocaleString()} · {test.answered}/{test.total} answered</span></div>
+                  <div className="text-right"><strong className="serif text-xl text-gold">{test.score}/{test.total}</strong><span className="mt-1 block text-[10px] text-dim">{test.correct} fully correct</span></div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         {view === "topics" && (
           <div className="grid gap-3 sm:grid-cols-2">
-            {lessons.filter((l) => l.rank === lesson.rank && l.quiz.length).map((l) => {
+            {lessons.filter((l) => l.quiz.length).map((l) => {
               const qs = allQuestions.filter((q) => q.lessonId === l.id);
               const done = qs.filter((q) => statusOf(q.key) !== "unattempted");
               const s = summarize(done.map((q) => latest[q.key]));
@@ -154,13 +169,13 @@ export default function Practice({ lessonId, onSelectLesson }: { lessonId: strin
 }
 
 // ---------- list with filters ----------
-function QuestionList({ pool, title, empty, onOpen, onAnalysis }: { pool: Q[]; title: string; empty?: string; onOpen: (keys: string[], i: number) => void; onAnalysis: () => void }) {
+function QuestionList({ pool, title, empty, onOpen, onAnalysis, initialDifficulty = "all" }: { pool: Q[]; title: string; empty?: string; onOpen: (keys: string[], i: number) => void; onAnalysis: () => void; initialDifficulty?: Difficulty | "all" }) {
   const store = useStore();
   const latest = useMemo(() => latestByQuestion(store.attempts), [store.attempts]);
   const [hide, setHide] = useState(false);
   const [topic, setTopic] = useState("all");
   const [status, setStatus] = useState<Status | "all">("all");
-  const [diff, setDiff] = useState<Difficulty | "all">("all");
+  const [diff, setDiff] = useState<Difficulty | "all">(initialDifficulty);
   const [sort, setSort] = useState<Sort>("order");
 
   const topics = [...new Set(pool.map((q) => q.lessonId))];

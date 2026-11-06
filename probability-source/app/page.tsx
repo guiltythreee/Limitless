@@ -1,7 +1,7 @@
 "use client";
 
 import { createElement, useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
-import { lessons, pathways, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND } from "./content";
+import { lessons, pathways, ranks, unitOf, pad2, backgroundStyle, EXPERIMENT_BACKGROUND, type Difficulty } from "./content";
 import { Illustration, Theory } from "./components/Sections";
 import Practice from "./components/Practice";
 import Analysis from "./components/Analysis";
@@ -44,15 +44,48 @@ export default function Home() {
   const [rollCount, setRollCount] = useState(100);
   const [tab, setTab] = useState<"archive" | "analysis" | "experiment" | "coverage">("archive");
   const [pathwayId, setPathwayId] = useState<string>("all");
+  const [practiceView, setPracticeView] = useState<"overview" | "all" | "topics" | "saved" | "mistakes" | "history">("overview");
+  const [practiceDifficulty, setPracticeDifficulty] = useState<Difficulty | "all">("all");
+  const [practiceScope, setPracticeScope] = useState<"topic" | "rank" | "all">("topic");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const articleRef = useRef<HTMLElement>(null);
   const firstRender = useRef(true);
 
   useEffect(() => {
     setTheme(document.documentElement.dataset.theme === "light" ? "light" : "dark");
-    const requestedPathway = new URLSearchParams(window.location.search).get("pathway");
+    const params = new URLSearchParams(window.location.search);
+    const requestedPathway = params.get("pathway");
     if (requestedPathway && pathways.some((pathway) => pathway.id === requestedPathway)) {
       setPathwayId(requestedPathway);
+    }
+    const requestedMode = params.get("mode");
+    const requestedLesson = params.get("lesson");
+    if (requestedLesson) {
+      const selectedLesson = lessons.find((lesson) => lesson.id === requestedLesson);
+      if (selectedLesson) {
+        setActiveId(selectedLesson.id);
+        setOpened(true);
+        setTab("archive");
+        setSection(requestedMode === "practice" ? "practice" : "theory");
+      }
+    }
+    if (requestedMode === "practice") {
+      const targetLesson = lessons.find((lesson) => lesson.id === requestedLesson)
+        ?? lessons.find((lesson) => !completed.includes(lesson.id))
+        ?? lessons[0];
+      setActiveId(targetLesson.id);
+      setOpened(true);
+      setTab("archive");
+      setSection("practice");
+      const requestedView = params.get("view");
+      setPracticeView(["all", "topics", "saved", "mistakes", "history"].includes(requestedView ?? "")
+        ? requestedView as "all" | "topics" | "saved" | "mistakes" | "history"
+        : "overview");
+      setPracticeScope(requestedView === "overview" || !requestedView ? "topic" : "all");
+      const requestedDifficulty = params.get("difficulty");
+      setPracticeDifficulty(["easy", "medium", "hard"].includes(requestedDifficulty ?? "")
+        ? requestedDifficulty as Difficulty
+        : "all");
     }
   }, []);
 
@@ -96,7 +129,14 @@ export default function Home() {
     setActiveId(id);
     setOpened(true);
     setTab("archive");
-    if (!keepSection) setSection("theory");
+    if (keepSection) {
+      setSection("practice");
+      setPracticeView("all");
+      setPracticeDifficulty("all");
+      setPracticeScope("topic");
+    } else {
+      setSection("theory");
+    }
   }
   function changePathway(id: string) {
     const route = pathways.find((pathway) => pathway.id === id);
@@ -244,7 +284,7 @@ export default function Home() {
 
               <div className="mt-7">
                 {section === "theory" && <Theory lesson={activeLesson} />}
-                {section === "practice" && (activeLesson.quiz.length ? <Practice key={activeLesson.id} lessonId={activeLesson.id} onSelectLesson={chooseLesson} /> : <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">No practice questions for this topic yet.</div>)}
+                {section === "practice" && (activeLesson.quiz.length ? <Practice key={activeLesson.id} lessonId={activeLesson.id} onSelectLesson={chooseLesson} initialView={practiceView} initialDifficulty={practiceDifficulty} initialScope={practiceScope} /> : <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">No practice questions for this topic yet.</div>)}
                 <div hidden={section !== "test"}><Test currentLessonId={activeLesson.id} pathwayId={pathwayId} /></div>
                 {section === "illustration" && <Illustration lesson={activeLesson} />}
               </div>
