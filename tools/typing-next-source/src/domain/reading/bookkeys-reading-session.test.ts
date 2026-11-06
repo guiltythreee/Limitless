@@ -87,6 +87,30 @@ test("optional sections do not block required-book completion and all-optional b
   assert.equal(allOptional.game.paid?.["b:f:all-optional"], undefined);
 });
 
+
+test("an unreadable required PDF page counts as empty and cannot block book completion", () => {
+  const chapters = [{ p: 0, title: "Beginning", req: true }];
+  const result = completeBookkeysPage(
+    emptyBookkeysGame(), "pdf-fingerprint", 0, "readable page", "readable page", 1000,
+    chapters, 2, [1],
+  );
+  assert.deepEqual(result.game.book?.["pdf-fingerprint"]?.p, [0]);
+  assert.deepEqual(result.game.book?.["pdf-fingerprint"]?.e, [1]);
+  assert.equal(result.game.book?.["pdf-fingerprint"]?.done, 1);
+  assert.equal(result.game.books, 1);
+  assert.ok((result.game.paid?.["b:pdf-fingerprint"] ?? 0) > 0);
+});
+
+test("an empty PDF page can be recorded without page XP", () => {
+  const result = completeBookkeysPage(
+    emptyBookkeysGame(), "pdf-fingerprint", 1, "", "", 0,
+    [{ p: 0, title: "Beginning", req: true }], 2, [1],
+  );
+  assert.equal(result.xpAwarded, 0);
+  assert.deepEqual(result.game.book?.["pdf-fingerprint"]?.e, [1]);
+  assert.deepEqual(result.game.book?.["pdf-fingerprint"]?.p, []);
+});
+
 test("different pages in one book have independent reward identities", () => {
   const first = completeBookkeysPage(emptyBookkeysGame(), "f:book", 0, "a".repeat(10), "a".repeat(10), 1000);
   const second = completeBookkeysPage(first.game, "f:book", 1, "b".repeat(10), "b".repeat(10), 1000);
