@@ -71,6 +71,7 @@
       if (error) {
         for (const row of batch) if (!pending.has(row.storage_key)) pending.set(row.storage_key, row);
         setState("error", error.message);
+        if (!timer) timer = setTimeout(flush, 3000);
         throw error;
       }
       setState("synced");
