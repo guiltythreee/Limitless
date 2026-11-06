@@ -8,10 +8,10 @@ import type { EpubBlock, EpubChapter } from "../domain/epub/epub-domain";
 import { readPdf } from "../domain/pdf/pdf-importer";
 import {
   completeBookkeysPage, createPageDraft, emptyBookkeysGame,
-  pageSignature, readPageDraft,
+  readPageDraft,
 } from "../domain/reading/bookkeys-reading-session";
 import { createBookkeysRewardAdapter } from "../domain/rewards/bookkeys-reward-adapter";
-import { installBookkeysRewardBridge } from "../domain/rewards/bookkeys-reward-bridge";
+import { bookkeysPageEvidenceFromText, installBookkeysRewardBridge } from "../domain/rewards/bookkeys-reward-bridge";
 import { bookkeysRewardPolicy } from "../domain/rewards/bookkeys-reward-policy";
 import { chapterRecordKey, typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
 import { requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
@@ -150,12 +150,7 @@ export default function BookkeysApp() {
         const section = currentBook?.sections[check.page];
         if (!section) return null;
         const raw = section.map((block) => block.text).join("\n");
-        const normalized = raw.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
-        if (normalized.length < 150) return null;
-        return {
-          contentSignature: pageSignature(raw),
-          characterCount: normalized.length,
-        };
+        return bookkeysPageEvidenceFromText(raw);
       },
     });
   }, []);
