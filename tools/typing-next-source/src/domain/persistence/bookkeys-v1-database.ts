@@ -18,6 +18,7 @@ export interface BookkeysDatabase {
   readonly raw: IDBDatabase;
   close(): void;
   getMetadata(id: string): Promise<BookkeysLibraryMetadata | undefined>;
+  listMetadata(): Promise<BookkeysLibraryMetadata[]>;
   getFile(id: string): Promise<Blob | undefined>;
   putBook(metadata: BookkeysLibraryMetadata, file: Blob): Promise<void>;
   deleteBook(id: string): Promise<void>;
@@ -79,6 +80,12 @@ export async function openBookkeysDatabase(factory: IndexedDbFactory): Promise<B
     raw,
     close: () => raw.close(),
     getMetadata: (id) => get<BookkeysLibraryMetadata>(BOOKKEYS_META_STORE, id),
+    async listMetadata() {
+      const transaction = raw.transaction(BOOKKEYS_META_STORE, "readonly");
+      const done = transactionDone(transaction);
+      const result = requestResult(transaction.objectStore(BOOKKEYS_META_STORE).getAll()) as Promise<BookkeysLibraryMetadata[]>;
+      return Promise.all([result, done]).then(([value]) => value);
+    },
     getFile: (id) => get<Blob>(BOOKKEYS_FILES_STORE, id),
     async putBook(metadata, file) {
       const transaction = raw.transaction(
