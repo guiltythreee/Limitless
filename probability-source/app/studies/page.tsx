@@ -128,6 +128,7 @@ export default function ProbabilityStudiesLanding() {
                 ["Topic-wise questions", "topics", "☷"],
                 ["Bookmarked questions", "saved", "☆"],
                 ["My mistakes", "mistakes", "⚠"],
+                ["Test history", "history", "◷"],
               ].map(([label, view, symbol]) => <Link key={view} href={practiceHref(view)} className="flex items-center gap-3 border-t border-gold/10 py-3 text-sm text-body transition hover:bg-gold/5"><span className="w-5 text-gold">{symbol}</span><span className="flex-1">{label}</span><span className="text-gold">→</span></Link>)}
             </div>
             <div className="mt-4 border-t border-gold/15 pt-4">
