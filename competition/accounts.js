@@ -42,34 +42,29 @@
   async function loadCodeforces(handle) {
     const state = $("cf-link-state"), target = $("cf-account-stats");
     state.textContent = "Loading…";
-    message(target, "Fetching public Codeforces data…");
+    message(target, "Fetching rating and contest statistics…");
     try {
       const base = "https://codeforces.com/api/";
       const urls = [
         base + "user.info?handles=" + encodeURIComponent(handle),
-        base + "user.status?handle=" + encodeURIComponent(handle) + "&from=1&count=10000",
         base + "user.rating?handle=" + encodeURIComponent(handle)
       ];
       const responses = await Promise.all(urls.map(url => fetch(url)));
       if (responses.some(r => !r.ok)) throw new Error("Codeforces API request failed.");
-      const [info, submissions, contests] = await Promise.all(responses.map(r => r.json()));
+      const [info, contests] = await Promise.all(responses.map(r => r.json()));
       if (info.status !== "OK") throw new Error(info.comment || "Handle not found.");
-      if (submissions.status !== "OK" || contests.status !== "OK") throw new Error("Codeforces returned incomplete profile data.");
-      const user = info.result[0], solved = new Set();
-      for (const sub of submissions.result) {
-        if (sub.verdict === "OK" && sub.problem) {
-          solved.add((sub.problem.contestId || "gym") + "-" + (sub.problem.index || sub.problem.name));
-        }
-      }
-      const latest = contests.result.length ? contests.result[contests.result.length - 1] : null;
+      if (contests.status !== "OK") throw new Error(contests.comment || "Could not load contest history.");
+      const user = info.result[0], history = contests.result;
+      const latest = history.length ? history[history.length - 1] : null;
+      const bestPlace = history.length ? Math.min(...history.map(item => item.rank).filter(Number.isFinite)) : null;
       const stats = document.createDocumentFragment();
       stats.append(
         stat("Current rating", user.rating == null ? "Unrated" : String(user.rating)),
         stat("Maximum rating", user.maxRating == null ? "—" : String(user.maxRating)),
-        stat("Rank", user.rank || "Unrated"),
-        stat("Unique solved", String(solved.size)),
-        stat("Contests", String(contests.result.length)),
-        stat("Latest contest change", latest ? (latest.newRating >= latest.oldRating ? "+" : "") + (latest.newRating - latest.oldRating) : "—")
+        stat("Current rank", user.rank || "Unrated"),
+        stat("Contests entered", String(history.length)),
+        stat("Best contest place", bestPlace == null ? "—" : String(bestPlace)),
+        stat("Latest rating change", latest ? (latest.newRating >= latest.oldRating ? "+" : "") + (latest.newRating - latest.oldRating) : "—")
       );
       target.replaceChildren(stats);
       state.textContent = "Connected";
