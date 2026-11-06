@@ -1,22 +1,47 @@
 # Limitless + Supabase
 
 ## Current scope
-This first integration adds the Supabase browser client and account sign-in/sign-up/sign-out UI to the Limitless hub, Meta Progression, Competition Tracker, and Math Trainer shell. It does not yet move each module's local progress into cloud tables; that migration is a separate, module-by-module step so existing Bookkeys and trainer data are not overwritten.
+Limitless authentication and account-scoped cloud progress are provided by the browser Supabase client. The cloud adapter mirrors first-party `localStorage` records without changing the modules' existing storage formats or reward calculations.
 
-## Configure the database
-1. Open the Supabase project dashboard.
-2. Go to **SQL Editor**, create a new query, paste the complete contents of **schema.sql**, and run it.
-3. In **Authentication → URL Configuration**, set the Site URL to the deployed Limitless origin and add the local development origin to Redirect URLs if needed.
-4. In **Authentication → Providers → Email**, choose whether email confirmation is required.
+Covered entry points:
+- Limitless hub and Meta Progression
+- Competition Tracker
+- Math Trainer
+- Probability and Metallurgy landing applications
+- Bookkeys shell (the standalone Bookkeys document remains intact; its same-origin storage changes are observed by the shell)
+
+The sync layer keeps the existing module APIs local-first. When signed in, writes are mirrored to `public.user_progress`; after sign-in on another device, cloud values hydrate the same storage keys. The Supabase auth session keys and the site's theme preference are excluded.
+
+## Database setup
+Run the **complete current** `schema.sql` in Supabase Dashboard → SQL Editor. It creates:
+- `profiles`, populated by the auth-user trigger
+- `user_progress`, a per-user key/value mirror protected by Row Level Security
+
+If you previously ran an earlier version of `schema.sql`, running the updated file again is safe: table and trigger creation are idempotent, and policies are recreated.
+
+## Authentication configuration
+1. In Authentication → URL Configuration, set the Site URL to the deployed Limitless origin.
+2. Add any local development origin to Redirect URLs.
+3. In Authentication → Providers → Email, choose whether email confirmation is required.
 
 ## Browser configuration
-**config.js** contains the project URL and publishable key. A publishable key is intended for browser clients; never put a service-role or secret key in this repository. Database access is controlled by Row Level Security.
+`config.js` contains the project URL and publishable key. A publishable key is intended for browser clients; never put a service-role or secret key in this repository. Database access is controlled by Row Level Security.
+
+## Sync behaviour and boundaries
+- The cloud is authoritative for keys already present in the signed-in account.
+- Local-only keys are uploaded on first sync, so offline work is not discarded.
+- A browser remembers which account last hydrated it; switching accounts clears the previous account's mirrored local keys before loading the new account.
+- Deletes are represented by tombstones so they propagate to other devices.
+- Local writes are batched and sent after a short debounce. A failed write remains queued for retry while the page stays open.
+- The bridge intentionally excludes Supabase auth tokens, internal test keys, and the theme preference.
+- The adapter mirrors `localStorage`. Bookkeys' current primary book data is stored under `bookkeys:game`, which is mirrored via the same-origin shell's storage event. IndexedDB-only or server-side storage is not covered by this generic adapter.
 
 ## Verification
-After running the SQL, open Limitless, create an account, confirm the email if requested, sign in, refresh, and verify the account remains signed in. Check the profiles table in Supabase: a profile row should be created automatically for each new user.
+1. Run the current `schema.sql` in Supabase SQL Editor.
+2. Sign in to Limitless.
+3. Open Meta Progression, Competition, Math Trainer and Bookkeys; create a small test record in each module.
+4. In Supabase Table Editor, confirm rows appear in `user_progress`.
+5. Open the site in another browser/device, sign in to the same account, and confirm the records hydrate.
+6. Delete a disposable test record and verify the deletion propagates on the other device.
 
-## Next migration stages
-- Create per-user progress tables with RLS and versioned payload validation.
-- Add an export/backup-first migration for existing local progress.
-- Migrate Meta shared EXP and reward state before module-specific records.
-- Integrate Math Trainer, Competition, Probability, Metallurgy, and Bookkeys independently; retain local-first fallback until each migration passes regression tests.
+The cloud adapter does not rewrite reward rules, award historical EXP, or replace the standalone Bookkeys implementation.
