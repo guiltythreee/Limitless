@@ -69,7 +69,7 @@ export default function ProbabilityStudiesLanding() {
             <h1 className="serif mt-3 text-5xl leading-none tracking-tight text-parchment md:text-7xl">Probability</h1>
             <p className="mt-5 max-w-2xl text-sm leading-7 text-dim md:text-base">A structured probability curriculum from foundations and counting through distributions, inference, stochastic processes and simulation.</p>
             <div className="mt-7 flex flex-wrap gap-2">
-              <Link href={`/probability/?lesson=${encodeURIComponent(nextLesson.id)}&mode=practice&view=overview#study`} className="inline-flex items-center gap-2 border border-gold bg-gold px-5 py-3 text-xs font-semibold text-ongold transition hover:bg-goldhi">▶ Continue learning</Link>
+              <Link href={`/probability/?lesson=${encodeURIComponent(nextLesson.id)}#study`} className="inline-flex items-center gap-2 border border-gold bg-gold px-5 py-3 text-xs font-semibold text-ongold transition hover:bg-goldhi">▶ Continue learning</Link>
               <Link href="/probability/" className="border border-gold/35 px-4 py-3 text-xs text-parchment transition hover:bg-gold/10">Course overview</Link>
               <a href="#pathways" className="border border-gold/35 px-4 py-3 text-xs text-parchment transition hover:bg-gold/10">Learning routes</a>
               <a href="#practice" className="border border-gold/35 px-4 py-3 text-xs text-parchment transition hover:bg-gold/10">Practice questions</a>
@@ -108,7 +108,7 @@ export default function ProbabilityStudiesLanding() {
           <article className="border border-gold/35 bg-[linear-gradient(135deg,rgba(65,48,47,.72),rgba(28,22,31,.95))] p-5">
             <div className="eyebrow">Pick up where you left off</div>
             <h2 className="serif mt-3 text-2xl text-parchment">Continue learning</h2>
-            <Link href={`/probability/?lesson=${encodeURIComponent(nextLesson.id)}&mode=practice&view=overview#study`} className="mt-5 flex items-center justify-between gap-3 border border-gold/30 p-4 transition hover:border-gold/70 hover:bg-gold/5">
+            <Link href={`/probability/?lesson=${encodeURIComponent(nextLesson.id)}#study`} className="mt-5 flex items-center justify-between gap-3 border border-gold/30 p-4 transition hover:border-gold/70 hover:bg-gold/5">
               <span><span className="block text-[10px] text-dim">Next chapter</span><strong className="serif mt-1 block text-lg text-parchment">{nextLesson.title}</strong><span className="mt-2 block text-[10px] text-dim">Sequence {String(nextLesson.rank).padStart(2, "0")} · {nextLesson.minutes} min</span></span><span className="text-xl text-gold">→</span>
             </Link>
           </article>
