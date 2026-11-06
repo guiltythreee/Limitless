@@ -411,7 +411,11 @@ export default function BookkeysApp() {
       const result = restoreBookkeysBackup(window.localStorage, backup, "merge");
       const game = readGame();
       setGameXp(Number(game.xp ?? 0));
-      if (book) setCompletedPageIndexes([...(game.book?.[book.bookKey]?.p ?? [])]);
+      setShelves(readShelves(window.localStorage.getItem("bookkeys:shelves")));
+      if (book) {
+        const progress = game.book?.[book.bookKey];
+        setCompletedPageIndexes([...new Set([...(progress?.p ?? []), ...(progress?.e ?? [])])]);
+      }
       setStatus("Backup merged · " + result.written + " entries brought in · " +
         result.unchanged + " left as they already are here.");
     } catch (error) {
