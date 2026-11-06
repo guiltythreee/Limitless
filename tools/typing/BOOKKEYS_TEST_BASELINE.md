@@ -8,6 +8,8 @@ Date: 2026-11-02
 
 This is a fresh execution of the existing Bookkeys test package against the preserved standalone implementation. It replaces the earlier historical 86-pass figure as the current baseline.
 
+The 91-test count below is the archived 2026-11-02 baseline. The current main branch has since grown the same legacy suite to 98 tests; migration CI passed all 98 on 2026-11-06 (run 42302665616).
+
 ## Exact execution
 
 | Item | Value |
