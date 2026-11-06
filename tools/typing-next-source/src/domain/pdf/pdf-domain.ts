@@ -69,8 +69,6 @@ export function extractLines(items: readonly PdfTextItem[], pageWidth: number): 
     line.right = Math.max(line.right, run.right);
     line.size = Math.max(line.size, run.size);
     line.y = (line.y + run.y) / 2;
-    void before;
-    void chunks;
   }
   return lines.map((line) => ({ ...line, text: normalize(line.text) }))
     .sort((a, b) => b.y - a.y || a.x - b.x);
