@@ -180,7 +180,7 @@ export function pickChapters(headsByPage: readonly (readonly PdfChapterHead[])[]
       found.push({ p: page, title: head.title });
     }
   });
-  return tidyChapters(found, total);
+  return found.length ? tidyChapters(found, total) : evenChapters(total);
 }
 
 export function evenChapters(total: number): PdfChapter[] {
