@@ -5,11 +5,6 @@
 
 export type BookkeysFormat = "pdf" | "epub";
 
-export interface BookkeysShelf {
-  readonly id: string;
-  readonly name: string;
-}
-
 export interface BookkeysLibraryMetadata {
   id: string;
   shelf: string;
