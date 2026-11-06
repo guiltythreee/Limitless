@@ -191,8 +191,8 @@ export default function BookkeysApp() {
       const format: BookFormat = entry.fmt === "epub" ? "epub" : "pdf";
       const parsed = await parseBook(entry.id, format, await file.arrayBuffer(), entry.name);
       setBook({ ...parsed, chapters: loadChapterSettings(parsed.bookKey, parsed.chapters, parsed.sections.length) });
-      const savedPages = readGame().book?.[parsed.bookKey]?.p ?? [];
-      setCompletedPageIndexes([...savedPages]);
+      const savedBook = readGame().book?.[parsed.bookKey];
+      setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
       setPageIndex(0);
       await database.putBook({ ...entry, opened: Date.now() }, file);
       setLibrary(await database.listMetadata());
@@ -238,8 +238,8 @@ export default function BookkeysApp() {
         setLibrary(await database.listMetadata());
       }
       setBook({ ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, savedBook.chapters, savedBook.sections.length) });
-      const savedPages = readGame().book?.[savedBook.bookKey]?.p ?? [];
-      setCompletedPageIndexes([...savedPages]);
+      const savedProgress = readGame().book?.[savedBook.bookKey];
+      setCompletedPageIndexes([...new Set([...(savedProgress?.p ?? []), ...(savedProgress?.e ?? [])])]);
       setPageIndex(0);
       setStatus(database
         ? "Imported and saved to this browser's library."
