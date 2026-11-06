@@ -100,6 +100,10 @@ test("EPUB import, typing progress, cloud-independent local persistence and rewa
     page.getByRole("button", { name: "Export backup" }).click(),
   ]);
   expect(download.suggestedFilename()).toMatch(/^bookkeys-backup-.*\.json$/);
+  await page.goBack();
+  await expect(page.locator("#bk-typing")).toBeVisible();
+  await page.goForward();
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
 });
 
 test("theme and reader settings are interactive and persist", async ({ page }) => {
