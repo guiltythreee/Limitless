@@ -22,7 +22,7 @@ The latest successful workflow run includes:
   2. Import a PDF, extract readable text and complete a page.
   3. Switch themes and change reader settings, then verify persistence after reload.
   4. Use the reader at a 390 px phone viewport and verify no horizontal overflow.
-  5. Navigate to a second section, reload, reopen the book and restore both the saved position and unfinished typing draft.
+  5. Navigate to a second section, reload, use Continue reading and restore both the saved position and unfinished typing draft.
   6. Type the sample passage and verify that no XP, reward ledger or book progress is written.
   7. Load the legacy bookkeys:size setting when the newer settings object has no size.
 
