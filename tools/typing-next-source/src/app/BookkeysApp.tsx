@@ -13,8 +13,9 @@ import {
 import { createBookkeysRewardAdapter } from "../domain/rewards/bookkeys-reward-adapter";
 import { bookkeysPageEvidenceFromText, installBookkeysRewardBridge } from "../domain/rewards/bookkeys-reward-bridge";
 import { bookkeysRewardPolicy } from "../domain/rewards/bookkeys-reward-policy";
-import { chapterRecordKey, typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
+import { typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
 import { readBookkeysPosition, writeBookkeysPosition } from "../domain/reading/bookkeys-position";
+import { readBookkeysChapterSettings, writeBookkeysChapterSettings } from "../domain/reading/bookkeys-chapter-storage";
 import { requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
 import { createBookkeysBackupV1, parseBookkeysBackup, restoreBookkeysBackup } from "../domain/reading/bookkeys-backup";
 import { createShelf, deleteShelf, readShelves, renameShelf } from "../domain/reading/bookkeys-shelves";
@@ -69,20 +70,13 @@ function readGame(): ReturnType<typeof emptyBookkeysGame> {
   }
 }
 
-function loadChapterSettings(bookKey: string, defaults: readonly EpubChapter[], total: number): BookkeysChapter[] {
-  try {
-    const raw = window.localStorage.getItem(chapterRecordKey(bookKey));
-    if (raw) {
-      const value: unknown = JSON.parse(raw);
-      if (value && typeof value === "object" && !Array.isArray(value)) {
-        const record = value as Record<string, unknown>;
-        if (record.v === 3 && Array.isArray(record.list)) {
-          return tidyChapters(withRequirements(record.list as (EpubChapter & { req?: boolean })[]), total);
-        }
-      }
-    }
-  } catch { /* malformed or unavailable chapter preferences use defaults */ }
-  return tidyChapters(withRequirements(defaults), total);
+function loadChapterSettings(
+  bookKey: string,
+  libraryId: string,
+  defaults: readonly EpubChapter[],
+  total: number,
+): BookkeysChapter[] {
+  return readBookkeysChapterSettings(window.localStorage, bookKey, libraryId, defaults, total);
 }
 
 async function parseBook(
@@ -262,7 +256,7 @@ export default function BookkeysApp() {
       if (!file) throw new Error("The original file is missing from this browser's library.");
       const format: BookFormat = entry.fmt === "epub" ? "epub" : "pdf";
       const parsed = await parseBook(entry.id, format, await file.arrayBuffer(), entry.name);
-      const openedBook = { ...parsed, chapters: loadChapterSettings(parsed.bookKey, parsed.chapters, parsed.sections.length) };
+      const openedBook = { ...parsed, chapters: loadChapterSettings(parsed.bookKey, entry.id, parsed.chapters, parsed.sections.length) };
       const savedPage = readBookkeysPosition(window.localStorage, parsed.bookKey, entry.id, parsed.sections.length);
       bookCache.current[openedBook.bookKey] = openedBook;
       setBook(openedBook);
@@ -313,7 +307,7 @@ export default function BookkeysApp() {
         await database.putBook(metadata, file);
         setLibrary(await database.listMetadata());
       }
-      const openedBook = { ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, savedBook.chapters, savedBook.sections.length) };
+      const openedBook = { ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, libraryId, savedBook.chapters, savedBook.sections.length) };
       const savedPage = readBookkeysPosition(window.localStorage, savedBook.bookKey, libraryId, savedBook.sections.length);
       bookCache.current[openedBook.bookKey] = openedBook;
       setBook(openedBook);
@@ -462,11 +456,7 @@ export default function BookkeysApp() {
     const cleaned = tidyChapters(next, book.sections.length);
     setBook({ ...book, chapters: cleaned });
     try {
-      window.localStorage.setItem(chapterRecordKey(book.bookKey), JSON.stringify({
-        v: 3,
-        src: "edited",
-        list: cleaned,
-      }));
+      writeBookkeysChapterSettings(window.localStorage, book.bookKey, book.libraryId, cleaned);
     } catch {
       setStatus("Chapter choices could not be saved in this browser.");
     }
