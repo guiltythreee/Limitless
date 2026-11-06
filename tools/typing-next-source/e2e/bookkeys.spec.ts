@@ -261,7 +261,7 @@ test("last section and unfinished typing draft restore after reopening a book", 
 test("sample text is typable but never writes XP, reward or book progress", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Try sample text" }).click();
-  await expect(page.getByRole("heading", { name: "Sample Passage" })).toBeVisible();
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Sample Passage");
 
   const source = await page.locator(".bk-source-text").textContent();
   expect(source).toBeTruthy();
