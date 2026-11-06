@@ -131,12 +131,15 @@ export function epubBlocksFromRoot(doc: Document | null, clean: (value: unknown)
     const element = node as Element;
     if (ignored.has(element.tagName)) return;
     if (blockTags.has(element.tagName)) {
-      const text = clean(element.textContent);
+      const nestedLists = Array.from(element.children).filter(
+        (child) => child.tagName === "UL" || child.tagName === "OL",
+      );
+      const clone = element.cloneNode(true) as Element;
+      clone.querySelectorAll("ul,ol").forEach((list) => list.remove());
+      const text = clean(clone.textContent);
       if (text) out.push({ t: /^H[1-6]$/.test(element.tagName) ? "h" : "p", text, ...(element.id ? { id: element.id } : {}) });
-      // Visit nested lists separately, but do not repeat text from nested paragraphs.
-      for (const child of Array.from(element.children)) {
-        if (child.tagName === "UL" || child.tagName === "OL") visit(child);
-      }
+      // Nested list items are separate reading blocks, not duplicated in their parent.
+      for (const child of nestedLists) visit(child);
       return;
     }
     for (const child of Array.from(element.children)) visit(child);
@@ -207,11 +210,11 @@ export function epubChapterList(
 ): EpubChapter[] {
   const candidates: EpubChapter[] = [];
   for (const part of parts) candidates.push({ p: part.start, title: part.title });
-  for (const item of toc) if (item.p >= 0 && item.p < total) candidates.push(item);
-  const tidy = tidyChapters(candidates);
-  // Explicit TOC titles override generated part titles at the same section.
-  const labels = new Map(toc.map((item) => [item.p, normalize(item.title)]));
-  return tidy.map((item) => ({ ...item, title: labels.get(item.p) || item.title }));
+  const partStarts = new Set(parts.map((part) => part.start));
+  for (const item of toc) {
+    if (item.p >= 0 && item.p < total && !partStarts.has(item.p)) candidates.push(item);
+  }
+  return tidyChapters(candidates);
 }
 
 export function epubNavDir(path: string): string {
