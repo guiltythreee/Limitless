@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Bookkeys Migration Preview",
-  description: "Isolated TypeScript migration workspace for Limitless Bookkeys.",
+  title: "Bookkeys",
+  description: "A local-first reading and typing workspace.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
