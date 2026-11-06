@@ -164,6 +164,21 @@ test("reader remains usable without horizontal overflow on a phone viewport", as
   const dimensions = await page.evaluate(() => ({
     viewport: window.innerWidth,
     document: document.documentElement.scrollWidth,
+    offenders: Array.from(document.querySelectorAll<HTMLElement>("body *"))
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          tag: element.tagName,
+          className: String(element.className).slice(0, 80),
+          left: Math.round(rect.left),
+          right: Math.round(rect.right),
+          width: Math.round(rect.width),
+          scrollWidth: element.scrollWidth,
+        };
+      })
+      .filter((element) => element.right > window.innerWidth + 1 || element.left < -1)
+      .slice(0, 15),
   }));
-  expect(dimensions.document).toBeLessThanOrEqual(dimensions.viewport + 1);
+  expect(dimensions.document, JSON.stringify(dimensions.offenders))
+    .toBeLessThanOrEqual(dimensions.viewport + 1);
 });
