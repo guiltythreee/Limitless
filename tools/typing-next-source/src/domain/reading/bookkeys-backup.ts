@@ -100,11 +100,12 @@ function mergeDraft(localRaw: string | null, incomingRaw: string): string {
 
 function mergeShelves(localRaw: string | null, incomingRaw: string): string {
   if (!localRaw) return incomingRaw;
-  const local = parseRecord(localRaw);
-  const incoming = parseRecord(incomingRaw);
-  if (Array.isArray(JSON.parse(localRaw)) && Array.isArray(JSON.parse(incomingRaw))) {
-    const current = JSON.parse(localRaw) as unknown[];
-    const backup = JSON.parse(incomingRaw) as unknown[];
+  let localValue: unknown;
+  let incomingValue: unknown;
+  try { localValue = JSON.parse(localRaw); incomingValue = JSON.parse(incomingRaw); } catch { return localRaw; }
+  if (Array.isArray(localValue) && Array.isArray(incomingValue)) {
+    const current = localValue as unknown[];
+    const backup = incomingValue as unknown[];
     const merged = [...current];
     const seen = new Set(current.flatMap((item) =>
       item && typeof item === "object" && typeof (item as Record<string, unknown>).id === "string"
@@ -116,7 +117,7 @@ function mergeShelves(localRaw: string | null, incomingRaw: string): string {
     }
     return JSON.stringify(merged);
   }
-  if (local && incoming) return localRaw;
+  if (localValue && incomingValue) return localRaw;
   return localRaw;
 }
 
