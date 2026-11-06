@@ -40,8 +40,10 @@ async function makeFixtureEpub(): Promise<Buffer> {
 }
 
 async function makeFixturePdf(): Promise<Buffer> {
-  const text = "PDF import regression text for Bookkeys. ".repeat(8);
-  const stream = `BT /F1 12 Tf 72 720 Td (${text}) Tj ET`;
+  const lines = Array.from({ length: 8 }, () => "PDF import regression text for Bookkeys.");
+  const stream = `BT /F1 12 Tf 72 720 Td ${lines.map((line, index) =>
+    (index ? "0 -18 Td " : "") + "(" + line + ") Tj"
+  ).join(" ")} ET`;
   const objects = [
     "<< /Type /Catalog /Pages 2 0 R >>",
     "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
