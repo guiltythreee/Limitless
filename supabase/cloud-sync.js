@@ -18,6 +18,7 @@
   };
 
   let activeUserId = null;
+  let syncingUserId = null;
   let ready = false;
   let suppress = false;
   let timer = null;
@@ -80,8 +81,9 @@
   }
 
   async function syncUser(userId) {
-    if (!userId || activeUserId === userId && ready) return;
+    if (!userId || (activeUserId === userId && (ready || syncingUserId === userId))) return;
     activeUserId = userId;
+    syncingUserId = userId;
     ready = false;
     pending.clear();
     setState("syncing");
@@ -98,6 +100,7 @@
         .select("storage_key,value_text,is_deleted")
         .eq("user_id", userId);
       if (error) throw error;
+      if (activeUserId !== userId) { suppress = false; return; }
 
       const remote = new Map((rows || []).map(row => [row.storage_key, row]));
       for (const [key, row] of remote) {
@@ -125,6 +128,8 @@
       ready = false;
       setState("error", error.message || "Cloud sync failed");
       console.error("Limitless cloud sync failed:", error);
+    } finally {
+      if (syncingUserId === userId) syncingUserId = null;
     }
   }
 
