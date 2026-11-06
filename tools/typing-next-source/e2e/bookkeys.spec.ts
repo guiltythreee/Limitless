@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 import JSZip from "jszip";
 
 async function makeFixtureEpub(): Promise<Buffer> {
@@ -65,7 +66,7 @@ async function makeFixturePdf(): Promise<Buffer> {
   return Buffer.from(pdf, "ascii");
 }
 
-test("EPUB import, typing progress, cloud-independent local persistence and reward ledger survive reload", async ({ page }) => {
+test("EPUB import, progress, rewards and backup round-trip survive reload", async ({ page, browser }) => {
   await page.goto("/tools/typing-next-preview/");
   await expect(page.getByRole("heading", { name: "Bookkeys" })).toBeVisible();
 
@@ -95,11 +96,35 @@ test("EPUB import, typing progress, cloud-independent local persistence and rewa
   await expect(page.locator(".bk-reader-meta")).toContainText("1/1 required complete");
 
   await page.getByRole("button", { name: /Library/ }).click();
+  await page.getByRole("button", { name: "Settings" }).click();
+  const sourceSettings = page.getByRole("dialog", { name: "Settings" });
+  const sourceSize = sourceSettings.locator('input[type="range"]').first();
+  await sourceSize.focus();
+  for (let step = 0; step < 5; step += 1) await sourceSize.press("ArrowRight");
+  await sourceSettings.getByRole("button", { name: "Close Settings" }).click();
+
   const [download] = await Promise.all([
     page.waitForEvent("download"),
     page.getByRole("button", { name: "Export backup" }).click(),
   ]);
   expect(download.suggestedFilename()).toMatch(/^bookkeys-backup-.*\.json$/);
+  const backupPath = await download.path();
+  expect(backupPath).toBeTruthy();
+  const backupBytes = await readFile(backupPath!);
+
+  const restoreContext = await browser.newContext();
+  const restorePage = await restoreContext.newPage();
+  await restorePage.goto("/tools/typing-next-preview/");
+  await restorePage.locator('input[type="file"][accept="application/json,.json"]').setInputFiles({
+    name: "bookkeys-backup.json",
+    mimeType: "application/json",
+    buffer: backupBytes,
+  });
+  await restorePage.getByRole("button", { name: "Settings" }).click();
+  const restoredSettings = restorePage.getByRole("dialog", { name: "Settings" });
+  await expect(restoredSettings.locator('input[type="range"]').first()).toHaveValue("22");
+  await restoreContext.close();
+
   await page.goBack();
   await expect(page.locator("#bk-typing")).toBeVisible();
   await page.goForward();
