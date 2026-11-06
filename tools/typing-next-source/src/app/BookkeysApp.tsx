@@ -93,6 +93,8 @@ export default function BookkeysApp() {
   const [pageIndex, setPageIndex] = useState(0);
   const [typed, setTyped] = useState("");
   const [status, setStatus] = useState("Import a PDF or EPUB to begin.");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [themeReady, setThemeReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [chaptersOpen, setChaptersOpen] = useState(false);
   const [gameXp, setGameXp] = useState(0);
@@ -101,6 +103,18 @@ export default function BookkeysApp() {
   const backupInput = useRef<HTMLInputElement>(null);
   const startedAt = useRef(Date.now());
   const completedThisPage = useRef(false);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("limitless.typing.v1.theme");
+    setTheme(saved === "light" ? "light" : "dark");
+    setThemeReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!themeReady) return;
+    document.documentElement.dataset.theme = theme;
+    try { window.localStorage.setItem("limitless.typing.v1.theme", theme); } catch { /* theme is a preference */ }
+  }, [theme, themeReady]);
 
   useEffect(() => {
     let active = true;
@@ -351,7 +365,12 @@ export default function BookkeysApp() {
           <p className="bk-eyebrow">LIMITLESS / BOOKKEYS PREVIEW</p>
           <h1>Bookkeys</h1>
         </div>
-        <div className="bk-xp"><span>Bookkeys XP</span><strong>{gameXp.toLocaleString()}</strong></div>
+        <div className="bk-header-actions">
+          <button className="bk-quiet bk-theme-toggle" onClick={() => setTheme((current) => current === "dark" ? "light" : "dark")} aria-label="Toggle light and dark theme">
+            {theme === "dark" ? "Light mode" : "Dark mode"}
+          </button>
+          <div className="bk-xp"><span>Bookkeys XP</span><strong>{gameXp.toLocaleString()}</strong></div>
+        </div>
       </header>
 
       {!book ? (
