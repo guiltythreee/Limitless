@@ -98,6 +98,28 @@ function mergeDraft(localRaw: string | null, incomingRaw: string): string {
   return Number(incoming.t ?? 0) > Number(local.t ?? 0) ? incomingRaw : localRaw;
 }
 
+function mergeShelves(localRaw: string | null, incomingRaw: string): string {
+  if (!localRaw) return incomingRaw;
+  const local = parseRecord(localRaw);
+  const incoming = parseRecord(incomingRaw);
+  if (Array.isArray(JSON.parse(localRaw)) && Array.isArray(JSON.parse(incomingRaw))) {
+    const current = JSON.parse(localRaw) as unknown[];
+    const backup = JSON.parse(incomingRaw) as unknown[];
+    const merged = [...current];
+    const seen = new Set(current.flatMap((item) =>
+      item && typeof item === "object" && typeof (item as Record<string, unknown>).id === "string"
+        ? [(item as Record<string, unknown>).id as string] : [],
+    ));
+    for (const item of backup) {
+      const id = item && typeof item === "object" ? (item as Record<string, unknown>).id : null;
+      if (typeof id === "string" && !seen.has(id)) { merged.push(item); seen.add(id); }
+    }
+    return JSON.stringify(merged);
+  }
+  if (local && incoming) return localRaw;
+  return localRaw;
+}
+
 function mergedValue(key: string, localRaw: string | null, incomingRaw: string): string {
   if (key === "bookkeys:game") {
     return mergeGame(parseRecord(localRaw), parseRecord(incomingRaw) ?? {});
@@ -106,7 +128,7 @@ function mergedValue(key: string, localRaw: string | null, incomingRaw: string):
     return mergeSettings(parseRecord(localRaw), parseRecord(incomingRaw) ?? {});
   }
   if (key.startsWith("bookkeys:draft:")) return mergeDraft(localRaw, incomingRaw);
-  if (key === "bookkeys:shelves" && !localRaw) return incomingRaw;
+  if (key === "bookkeys:shelves") return mergeShelves(localRaw, incomingRaw);
   // Existing chapter choices, positions, and other local-only preferences win.
   return localRaw ?? incomingRaw;
 }
