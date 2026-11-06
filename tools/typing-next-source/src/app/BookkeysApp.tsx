@@ -470,7 +470,9 @@ export default function BookkeysApp() {
   function saveChapters(next: BookkeysChapter[]) {
     if (!book) return;
     const cleaned = tidyChapters(next, book.sections.length);
-    setBook({ ...book, chapters: cleaned });
+    const updatedBook = { ...book, chapters: cleaned };
+    bookCache.current[book.bookKey] = updatedBook;
+    setBook(updatedBook);
     try {
       writeBookkeysChapterSettings(window.localStorage, book.bookKey, book.libraryId, cleaned);
     } catch {
@@ -497,7 +499,10 @@ export default function BookkeysApp() {
 
   function persistSettings(next: BookkeysSettings) {
     setSettings(next);
-    try { window.localStorage.setItem("bookkeys:settings", JSON.stringify(next)); } catch {
+    try {
+      window.localStorage.setItem("bookkeys:settings", JSON.stringify(next));
+      window.localStorage.setItem("bookkeys:size", JSON.stringify(next.size));
+    } catch {
       setStatus("Settings could not be saved in this browser.");
     }
   }
