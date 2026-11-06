@@ -8,14 +8,15 @@ This is an isolated Next.js/React/TypeScript source project, separate from the a
 - Legacy migration branch retained as a backup: `work/bookkeys-typescript-migration-20261107`
 - The mainline branch is based directly on the latest `main` checkpoint and contains the migration workspace as an additive change.
 - The original standalone reader remains at `tools/typing/bookkeys.html`; the production shell remains at `tools/typing/index.html`.
-- The earlier migration checkpoint passed persistence tests, TypeScript type-checking and the static production build in GitHub Actions.
+- The current CI checkpoint passes 73 automated tests, TypeScript type-checking and the Next.js static production build.
+- The TypeScript reader now uses the shared LSR-1 Bookkeys reward adapter and evidence bridge. Its local policy mirror is checked against the canonical `shared/rewards.mjs` implementation by parity tests.
 
 ## Safety boundary
 
 - Do not rewrite production Bookkeys until browser parity gates are complete.
 - Do not change `tools/typing/index.html` or `tools/typing/bookkeys.html` as part of this migration.
 - Preserve localStorage keys, `bookkeys-lib` IndexedDB v1, backup v1 and shared theme integration.
-- Book files and artwork remain browser-local.
+- Book files and artwork remain browser-local; reward records store only verified page fingerprints and character counts, never book text.
 - Keep browser Back/Forward and native touch/trackpad navigation browser-owned.
 - Future preview path: `/tools/typing-next-preview/`; not wired into production.
 
