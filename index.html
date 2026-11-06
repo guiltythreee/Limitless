@@ -3,82 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#08070d">
-  <meta name="description" content="Limitless — a domain of tools, creations, and endless possibilities.">
-  <title>Limitless — Hail the Lord</title>
+  <meta name="theme-color" content="#080d18">
+  <meta name="description" content="Limitless — your personal learning and training workspace.">
+  <title>Limitless — Home</title>
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="hub-theme.css">
+  <link rel="stylesheet" href="home-dashboard.css">
   <script>
-    /* choose the theme before first paint so there is no flash */
     (function () {
-      var t = null;
-      try { var nav = performance.getEntriesByType('navigation')[0]; t = localStorage.getItem('limitless.site.theme'); } catch (e) {}
-      if (t !== 'dark' && t !== 'light') t = 'dark';
-      document.documentElement.setAttribute('data-theme', t);
+      var theme = 'dark';
+      try { theme = localStorage.getItem('limitless.site.theme') === 'light' ? 'light' : 'dark'; } catch (_) {}
+      document.documentElement.setAttribute('data-theme', theme);
     })();
   </script>
 </head>
-<body>
+<body class="home-dashboard-page">
   <div class="background-art theme-bg" id="theme-bg" aria-hidden="true"></div>
   <div class="particle-layer" id="particles" aria-hidden="true"></div>
 
-  <header class="navbar">
-    <a class="brand" href="#home">Limitless</a>
-    <nav class="nav-links" aria-label="Main navigation">
-      <a href="#home">Home</a>
-      <a href="#tools">Tools</a>
-      <a href="#competition">Competition</a>
-      <a href="#studies">Studies</a>
-      <a href="#misc">More</a>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme"></button>
-    </nav>
+  <header class="home-topbar">
+    <a class="brand" href="./" aria-label="Limitless home"><span class="brand-mark">∞</span> LIMITLESS</a>
+    <label class="global-search" aria-label="Search modules">
+      <span aria-hidden="true">⌕</span>
+      <input id="module-search" type="search" placeholder="Search modules, books, or topics…" autocomplete="off">
+      <kbd>Ctrl K</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-action" type="button" aria-label="Toggle theme" id="theme-toggle">◐</button>
+      <a class="profile-chip" href="meta/" aria-label="Open profile and progression"><span class="profile-avatar">L</span><span>My space</span></a>
+    </div>
   </header>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="hero-content">
-        <div class="eyebrow">Beyond the boundaries of the ordinary</div>
-        <div class="ornament" aria-hidden="true">✧</div>
-        <div class="front-praise">PRAISE OVER</div>
-        <h1>Lord Limitless</h1>
-        <p class="subtitle">Hail the Lord. Beyond all limits.</p>
-        <p class="description">
-          A place for useful tools, ambitious ideas, and new creations.
-          Explore what exists, discover what is possible, and watch
-          the domain grow beyond its limits.
-        </p>
-        <div class="actions">
-          <a class="button button-primary" href="#studies">Explore Studies</a>
-          <a class="button button-secondary" href="#tools">Explore Tools</a>
-          <a class="button button-secondary" href="#competition">Competition Tracker</a>
-          <a class="button button-secondary" href="#misc">Discover More</a>
+  <div class="home-layout">
+    <aside class="home-sidebar" aria-label="Main navigation">
+      <nav>
+        <a class="side-link active" href="#home"><span>⌂</span> Home</a>
+        <a class="side-link" href="#continue-learning"><span>▤</span> Study</a>
+        <a class="side-link" href="tools/typing/"><span>⌨</span> Bookkeys</a>
+        <a class="side-link" href="competition/"><span>♜</span> Competition</a>
+        <a class="side-link" href="meta/"><span>✧</span> Progression</a>
+      </nav>
+      <div class="sidebar-art-note">
+        <span>✧</span>
+        <p>Small steps every day create massive results.</p>
+      </div>
+    </aside>
+
+    <main class="home-main" id="home">
+      <section class="welcome-banner">
+        <div class="welcome-copy">
+          <div class="dashboard-eyebrow">YOUR PERSONAL LEARNING SPACE</div>
+          <h1>Welcome back.</h1>
+          <p>Keep building your future. One skill at a time.</p>
+          <div class="welcome-actions">
+            <a class="primary-link" href="#continue-learning">Continue learning <span>→</span></a>
+            <a class="subtle-link" href="meta/">View progression</a>
+          </div>
         </div>
-      </div>
-    </section>
+        <div class="welcome-emblem" aria-hidden="true">∞</div>
+      </section>
 
-    <section class="section" id="tools">
-      <div class="section-inner">
-        <h2 class="section-heading">The Domain</h2>
-        <p class="section-description">
-          Explore the creations of Limitless. Tools open as they are
-          completed, and new chambers are being prepared.
-        </p>
-        <div id="tool-groups"></div>
-        <noscript>
-          <p class="section-description">Please enable JavaScript to see the tools.</p>
-        </noscript>
-      </div>
-    </section>
-  </main>
+      <section class="module-shortcuts" aria-label="Featured modules">
+        <a class="shortcut-card shortcut-bookkeys" href="tools/typing/">
+          <span class="shortcut-icon">▤</span><span><strong>Bookkeys</strong><small>Type while you read</small></span><b>›</b>
+        </a>
+        <a class="shortcut-card shortcut-math" href="tools/math-refactored/index.html">
+          <span class="shortcut-icon">∑</span><span><strong>Math Trainer</strong><small>Sharpen your mind</small></span><b>›</b>
+        </a>
+        <a class="shortcut-card shortcut-probability" href="probability/studies/">
+          <span class="shortcut-icon">◇</span><span><strong>Probability</strong><small>Think in possibilities</small></span><b>›</b>
+        </a>
+        <a class="shortcut-card shortcut-more" href="#continue-learning">
+          <span class="shortcut-icon">▦</span><span><strong>My learning</strong><small>See your active modules</small></span><b>›</b>
+        </a>
+      </section>
 
-  <footer>
-    <span>✧</span>&nbsp; LIMITLESS &nbsp; · &nbsp; HAIL THE LORD &nbsp;<span>✧</span>
-  </footer>
+      <section class="dashboard-panel" id="continue-learning">
+        <div class="panel-heading">
+          <div><span class="panel-icon">◫</span><h2>Continue learning</h2><p>Pick up where you want to work next.</p></div>
+          <a href="#all-modules">Browse all <span>→</span></a>
+        </div>
+        <div class="learning-grid">
+          <a class="learning-card learning-blue" href="probability/studies/"><span class="learning-symbol">◇</span><span class="learning-label">STUDY</span><strong>Probability</strong><small>Build your foundations and problem-solving skills</small><span class="card-open">Open module →</span></a>
+          <a class="learning-card learning-violet" href="metallurgy/"><span class="learning-symbol">⚗</span><span class="learning-label">STUDY</span><strong>Metallurgy</strong><small>Thermodynamics, physical metallurgy and polymers</small><span class="card-open">Open module →</span></a>
+          <a class="learning-card learning-green" href="tools/math-refactored/index.html"><span class="learning-symbol">∑</span><span class="learning-label">TRAINER</span><strong>Math Trainer</strong><small>Practice mental arithmetic and build speed</small><span class="card-open">Open trainer →</span></a>
+        </div>
+      </section>
+
+      <section class="competition-promo">
+        <div class="promo-icon">♜</div>
+        <div class="promo-copy"><span>SEPARATE COMPETITION WORKSPACE</span><h2>Regional Qualification</h2><p>Track Codeforces, CSES, mathematics, mock tests and your 16-week preparation roadmap.</p></div>
+        <a href="competition/">Open competition dashboard <b>→</b></a>
+      </section>
+
+      <footer class="home-footer"><span>∞</span> LIMITLESS <i>·</i> Learn without limits</footer>
+    </main>
+  </div>
 
   <script src="hub-theme.js" defer></script>
   <script src="limitless.js" defer></script>
-  <script src="studies-catalog.js" defer></script>
-  <script src="tools.js" defer></script>
+  <script src="home-dashboard.js" defer></script>
 
   <!-- Limitless account + Supabase foundation -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
