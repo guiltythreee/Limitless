@@ -514,7 +514,13 @@ export default function BookkeysApp() {
               <p>Books are parsed locally. Original files and typing drafts stay in this browser.</p>
             </div>
             <div className="bk-library-actions">
-              <select className="bk-shelf-select" value={selectedShelf} onChange={(event) => setSelectedShelf(event.currentTarget.value)} aria-label="Choose shelf">\n                {shelves.map((shelf) => <option key={shelf.id} value={shelf.id}>{shelf.name}</option>)}\n              </select>\n              <button className="bk-quiet" onClick={addShelf}>New shelf</button>\n              <button className="bk-quiet" onClick={editShelfName}>Rename</button>\n              <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "default"}>Delete</button>\n              <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
+              <select className="bk-shelf-select" value={selectedShelf} onChange={(event) => setSelectedShelf(event.currentTarget.value)} aria-label="Choose shelf">
+                {shelves.map((shelf) => <option key={shelf.id} value={shelf.id}>{shelf.name}</option>)}
+              </select>
+              <button className="bk-quiet" onClick={addShelf}>New shelf</button>
+              <button className="bk-quiet" onClick={editShelfName}>Rename</button>
+              <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "default"}>Delete</button>
+              <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
               <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>
               <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
                 {busy ? "Working…" : "Import PDF / EPUB"}
