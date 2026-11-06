@@ -160,6 +160,17 @@ export default function BookkeysApp() {
     try {
       const key = typingDraftKey(book.bookKey, pageIndex);
       const draft = readPageDraft(window.localStorage.getItem(key), pageIndex, target);
+      if (book.format === "pdf" && !target) {
+        const emptyIndexes = book.sections.flatMap((section, index) => section.some((block) => block.text) ? [] : [index]);
+        const result = completeBookkeysPage(
+          readGame(), book.bookKey, pageIndex, "", "", 0, book.chapters, book.sections.length, emptyIndexes,
+        );
+        window.localStorage.setItem("bookkeys:game", JSON.stringify(result.game));
+        const savedBook = result.game.book?.[book.bookKey];
+        setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
+        setGameXp(Number(result.game.xp ?? 0));
+        setStatus("No selectable text found on this PDF page. It is recorded as empty and will not block completion.");
+      }
       if (draft) {
         setTyped(draft.typed);
         startedAt.current = Date.now() - draft.spent;
@@ -256,11 +267,13 @@ export default function BookkeysApp() {
     const result = completeBookkeysPage(
       readGame(), book.bookKey, pageIndex, target, value, Date.now() - startedAt.current,
       book.chapters, book.sections.length,
+      book.sections.flatMap((section, index) => section.some((block) => block.text) ? [] : [index]),
     );
     try {
       window.localStorage.setItem("bookkeys:game", JSON.stringify(result.game));
       setGameXp(Number(result.game.xp ?? 0));
-      setCompletedPageIndexes([...(result.game.book?.[book.bookKey]?.p ?? [])]);
+      const savedBook = result.game.book?.[book.bookKey];
+      setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
     } catch {
       setStatus("Page completed, but the game progress could not be saved.");
       return;
@@ -467,18 +480,24 @@ export default function BookkeysApp() {
             <span>{Math.round(((pageIndex + 1) / book.sections.length) * 100)}% through book · {requiredCompletedCount}/{requiredPageIndexes.length} required complete</span>
           </div>
           <div className="bk-progress-track"><span style={{ width: (requiredPageIndexes.length ? requiredCompletedCount / requiredPageIndexes.length * 100 : 0) + "%" }} /></div>
-          <article className="bk-source-text">{target}</article>
-          <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
-          <textarea
-            id="bk-typing"
-            className="bk-typing"
-            value={typed}
-            onChange={(event) => onTyping(event.currentTarget.value)}
-            placeholder="Start typing here…"
-            spellCheck={false}
-            autoCapitalize="off"
-            autoCorrect="off"
-          />
+          {target ? (
+            <>
+              <article className="bk-source-text">{target}</article>
+              <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
+              <textarea
+                id="bk-typing"
+                className="bk-typing"
+                value={typed}
+                onChange={(event) => onTyping(event.currentTarget.value)}
+                placeholder="Start typing here…"
+                spellCheck={false}
+                autoCapitalize="off"
+                autoCorrect="off"
+              />
+            </>
+          ) : (
+            <div className="bk-empty-page">No selectable text found on this page. It has been recorded as empty and will not block finishing the book.</div>
+          )}
           <div className="bk-reader-bottom">
             <span>{typed.length} / {target.length} characters</span>
             <div>
