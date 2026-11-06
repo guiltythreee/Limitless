@@ -290,3 +290,27 @@ test("legacy bookkeys:size is used when the settings object has no size", async 
   await expect(page.getByRole("dialog", { name: "Settings" }).locator('input[type="range"]').first())
     .toHaveValue("22");
 });
+
+test("removing a book deletes its local library entry but retains typing progress", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "remove-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  await page.locator("#bk-typing").fill(source!);
+
+  page.on("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Remove book" }).click();
+  await expect(page.locator(".bk-empty")).toBeVisible();
+  const retainedProgress = await page.evaluate(() => {
+    const raw = localStorage.getItem("bookkeys:game");
+    if (!raw) return false;
+    const game = JSON.parse(raw);
+    return Object.values(game.book ?? {}).some((record: any) => Array.isArray(record.p) && record.p.length > 0);
+  });
+  expect(retainedProgress).toBe(true);
+});
