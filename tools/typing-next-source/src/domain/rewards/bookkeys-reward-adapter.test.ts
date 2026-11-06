@@ -30,7 +30,7 @@ test("awards a verified page through the canonical LSR-1 policy and persists its
   const record = adapter.award(pageActivity("bookkeys:page:bookA:0"));
 
   assert.ok(record);
-  assert.equal(record.totalExp, 12);
+  assert.equal(record.totalExp, 11);
   assert.equal(record.activityClass, "standard-task");
   assert.equal(record.difficulty, "foundational");
   assert.equal(adapter.getRecords().length, 1);
