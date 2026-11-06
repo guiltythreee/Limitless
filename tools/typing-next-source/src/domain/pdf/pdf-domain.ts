@@ -1,4 +1,4 @@
-import { normalize } from "./epub-domain";
+import { normalize } from "../epub/epub-domain";
 
 export interface PdfTextItem {
   readonly str: string;
