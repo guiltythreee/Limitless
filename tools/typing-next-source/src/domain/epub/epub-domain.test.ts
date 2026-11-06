@@ -45,7 +45,15 @@ test("XHTML becomes ordered, nonduplicated reading blocks", () => {
   assert.equal(epubBlocksFromRoot(parser.parseFromString("<html><body><p>broken","application/xhtml+xml")), null);
 });
 
-test("long paragraphs prefer sentence endings over word-only cuts", () => {\n  const text = "A complete sentence. ".repeat(100).trim();\n  const pieces = epubLongPieces(text, 100);\n  assert.ok(pieces.length > 1);\n  assert.ok(pieces.slice(0, -1).every(piece => /[.!?]$/.test(piece)));\n  assert.equal(pieces.join(" "), text);\n});\n\ntest("long paragraphs split at safe boundaries and reassemble", () => {
+test("long paragraphs prefer sentence endings over word-only cuts", () => {
+  const text = "A complete sentence. ".repeat(100).trim();
+  const pieces = epubLongPieces(text, 100);
+  assert.ok(pieces.length > 1);
+  assert.ok(pieces.slice(0, -1).every(piece => /[.!?]$/.test(piece)));
+  assert.equal(pieces.join(" "), text);
+});
+
+test("long paragraphs split at safe boundaries and reassemble", () => {
   const text = "Sentence one is here. ".repeat(80).trim();
   const pieces = epubLongPieces(text, 1600);
   assert.ok(pieces.length > 1);
