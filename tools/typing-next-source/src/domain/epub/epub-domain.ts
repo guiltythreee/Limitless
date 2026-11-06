@@ -121,7 +121,13 @@ export function epubHasBlockChild(element: Element): boolean {
 
 export function epubBlocksFromRoot(doc: Document | null, clean: (value: unknown) => string = normalize): EpubBlock[] | null {
   if (!doc?.documentElement || doc.querySelector("parsererror")) return null;
-  const body = doc.body ?? doc.getElementsByTagName("body")[0];
+  // EPUB chapter documents are XHTML/XML, not HTML documents. In XML mode
+  // document.body and getElementsByTagName("body") are not consistently set;
+  // resolve the body by local name so the XHTML namespace is handled too.
+  const body = doc.body
+    ?? doc.getElementsByTagName("body")[0]
+    ?? doc.getElementsByTagNameNS("*", "body")[0]
+    ?? (doc.documentElement.localName.toLowerCase() === "body" ? doc.documentElement : null);
   if (!body) return null;
   const out: EpubBlock[] = [];
   const ignored = new Set(["SCRIPT", "STYLE", "SVG", "NAV", "NOSCRIPT"]);
