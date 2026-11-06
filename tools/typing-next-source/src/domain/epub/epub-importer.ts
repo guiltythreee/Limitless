@@ -23,7 +23,7 @@ interface ManifestItem {
 
 interface TocLink { href: string; label: string; }
 
-const SECTION_TARGET = 1800;
+const SECTION_TARGET = 900;
 const BLOCK_LIMIT = 1600;
 const EPUB_NS = "http://www.idpf.org/2007/ops";
 const DC_NS = "http://purl.org/dc/elements/1.1/";
