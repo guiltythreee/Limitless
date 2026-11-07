@@ -608,6 +608,23 @@ export default function BookkeysApp() {
     setStatus("Chapter removed. Reading progress was retained.");
   }
 
+  function renameChapter(index: number) {
+    if (!book) return;
+    const chapter = book.chapters[index];
+    if (!chapter) return;
+    const title = window.prompt("Rename chapter", chapter.title);
+    if (title === null) return;
+    const cleaned = title.trim().slice(0, 80);
+    if (!cleaned) {
+      setStatus("Chapter names cannot be empty.");
+      return;
+    }
+    saveChapters(book.chapters.map((item, itemIndex) =>
+      itemIndex === index ? { ...item, title: cleaned } : item,
+    ));
+    setStatus("Chapter renamed.");
+  }
+
   function setAllChapterRequirements(required: boolean) {
     if (!book) return;
     saveChapters(book.chapters.map((chapter) => ({ ...chapter, req: required })));
@@ -915,6 +932,7 @@ export default function BookkeysApp() {
                       aria-pressed={chapter.req}
                       onClick={() => toggleChapterRequirement(index)}
                     >{chapter.req ? "Required" : "Optional"}</button>
+                    <button className="bk-quiet" onClick={() => renameChapter(index)} aria-label={"Rename " + chapter.title}>Rename</button>
                     <button className="bk-quiet" onClick={() => removeChapter(index)} aria-label={"Remove " + chapter.title}>Remove</button>
                   </div>
                 </div>

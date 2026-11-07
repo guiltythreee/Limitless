@@ -340,6 +340,9 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
   page.once("dialog", (dialog) => dialog.accept("Custom Opening"));
   await page.getByRole("button", { name: "Add chapter" }).click();
   await expect(page.locator(".bk-chapter-list")).toContainText("Custom Opening");
+  page.once("dialog", (dialog) => dialog.accept("Renamed Opening"));
+  await page.getByRole("button", { name: "Rename Custom Opening" }).click();
+  await expect(page.locator(".bk-chapter-list")).toContainText("Renamed Opening");
 
   const chapterKeys = await page.evaluate(() =>
     Object.keys(localStorage).filter((key) => key.startsWith("bookkeys:chap:"))
