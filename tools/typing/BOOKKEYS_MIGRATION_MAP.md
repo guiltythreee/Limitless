@@ -115,3 +115,22 @@ The isolated Next.js/React/TypeScript scaffold now exists at `tools/typing-next-
 - No production Cloudflare configuration changes during migration.
 - No active-route cutover before full parity.
 - Preserve current shared theme integration and native browser navigation.
+
+## 11. First TypeScript-workspace extraction checkpoint (2026-11-07)
+
+The migration workspace has been restored on a branch created from current `main`; the old migration branch history was not merged because it had diverged substantially. The active Bookkeys reader remains untouched.
+
+The first extraction is deliberately limited to deterministic, state-free logic copied verbatim from the preserved source blob `310da8014c6c1ca9c80a75bce89b4ff1b2aa1e28`:
+- `tools/typing-next-source/src/lib/bookkeys/blocks.mjs`: text normalization, text block/page shaping, chapter detection and required/optional classification, local XP/rank calculations, streak updates, page signatures, new-game defaults and achievement catalogue.
+- `tools/typing-next-source/src/lib/bookkeys/epub.mjs`: EPUB byte identity, TOC flattening, relative path resolution, DOM text/block extraction, long-paragraph splitting, section packing, chapter-list mapping and user-facing EPUB errors. It imports the shared `tidyChapters` helper so EPUB and PDF chapter boundaries follow one rule set.
+- `tools/typing-next-source/tests/bookkeys-pure.test.mjs`: focused regression tests for the extracted interfaces.
+
+Validation on PR #111 head `c07e252ee5356f8ba895174726b34d3c8e13f95f`:
+- New extracted-helper test step: PASS.
+- TypeScript scaffold type-check: PASS.
+- Next.js static export build: PASS.
+- Existing production Bookkeys regression workflow: PASS (98 tests, 0 failures, 0 skipped).
+
+Workflow runs: [scaffold build and extracted tests](https://github.com/guiltythreee/Limitless/actions/runs/42370755780) and [production Bookkeys regression](https://github.com/guiltythreee/Limitless/actions/runs/42370755774).
+
+Important boundary: the extracted modules are not wired into production and no production route, book data, storage schema, import/export format, settings, or rewards have changed. Next extraction should target the persistence contract only after its IndexedDB/localStorage adapters and backup-merge invariants are represented by tests.
