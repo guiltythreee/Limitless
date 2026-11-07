@@ -1,7 +1,10 @@
 (function () {
   'use strict';
   const API = 'https://codeforces.com/api/';
-  const STORAGE = 'limitless.competition.codeforces-problemset.v1';
+  const STORAGE = 'limitless.competition.codeforces-problemset.v2';
+  const CACHE_KEY = 'limitless.codeforces-curated-catalogue.v1';
+  const CACHE_TTL = 86400000;
+  const MAX_PER_RATING = 250;
   const $ = id => document.getElementById(id);
   const state = { problems: [], solved: new Set(), saved: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
   const CATEGORIES = {
@@ -35,18 +38,56 @@
     if (data.status !== 'OK') throw new Error(data.comment || 'Codeforces API returned an error.');
     return data.result;
   }
-  async function loadProblemset() {
-    if (state.loading) return;
-    state.loading = true; $('cf-refresh-problems').disabled = true; status('Loading the official Codeforces problem catalogue…');
+  function curateProblemset(result) {
+    const problems = result.problems || [], stats = result.problemStatistics || [];
+    const buckets = new Map();
+    problems.forEach((problem, index) => {
+      if (!Number.isFinite(problem.rating)) return;
+      const solvedCount = Number(stats[index] && stats[index].solvedCount) || 0;
+      const row = {...problem, catalogueSolvedCount: solvedCount};
+      if (!buckets.has(problem.rating)) buckets.set(problem.rating, []);
+      buckets.get(problem.rating).push(row);
+    });
+    const curated = [];
+    [...buckets.keys()].sort((a,b)=>a-b).forEach(rating => {
+      const best = buckets.get(rating).sort((a,b)=>b.catalogueSolvedCount-a.catalogueSolvedCount || (a.name||'').localeCompare(b.name||'')).slice(0,MAX_PER_RATING);
+      curated.push(...best);
+    });
+    return curated;
+  }
+  function readCatalogueCache() {
     try {
-      const result = await api('problemset.problems');
-      state.problems = result.problems || [];
-      state.loaded = true;
+      const cache=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+      if(cache && Date.now()-cache.savedAt<CACHE_TTL && Array.isArray(cache.problems)) return cache.problems;
+    } catch (_) {}
+    return null;
+  }
+  function saveCatalogueCache(problems) {
+    try { localStorage.setItem(CACHE_KEY,JSON.stringify({savedAt:Date.now(),problems})); } catch (_) {}
+  }
+  async function loadProblemset(forceRefresh) {
+    if (state.loading) return;
+    state.loading = true; $('cf-refresh-problems').disabled = true;
+    try {
+      const cached = forceRefresh ? null : readCatalogueCache();
+      if (cached) {
+        state.problems=cached; state.loaded=true;
+        status('Loaded curated catalogue from cache ('+cached.length.toLocaleString()+' problems).');
+      } else {
+        status('Selecting the 250 most-solved problems for each rating from Codeforces…');
+        const result = await api('problemset.problems');
+        state.problems=curateProblemset(result);
+        saveCatalogueCache(state.problems);
+        state.loaded=true;
+        status('Curated '+state.problems.length.toLocaleString()+' problems · up to 250 per rating · ranked by accepted-solution count.');
+      }
       populateFilters();
       await loadSolved();
-      status('Loaded ' + state.problems.length.toLocaleString() + ' problems from Codeforces. Solved status checks up to the latest 10,000 submissions.');
+      if (!/unavailable|failed|error|could not/i.test($('cf-problem-status').textContent)) {
+        status('Curated catalogue · '+state.problems.length.toLocaleString()+' problems · maximum 250 per rating · solved status checks latest 10,000 submissions.');
+      }
       render();
-    } catch (error) { status(error.message + ' You can retry; the filters and saved list remain available.'); }
+    } catch (error) { status(error.message + ' You can retry; your saved list remains available.'); }
     finally { state.loading = false; $('cf-refresh-problems').disabled = false; }
   }
   async function loadSolved() {
@@ -138,7 +179,7 @@
     ['cf-rating-min','cf-rating-max'].forEach(id => $(id).addEventListener('change', () => { $('cf-rating-preset').value = 'custom'; }));
     $('cf-prev-page').addEventListener('click', () => { state.page--; render(); });
     $('cf-next-page').addEventListener('click', () => { state.page++; render(); });
-    $('cf-refresh-problems').addEventListener('click', loadProblemset);
+    $('cf-refresh-problems').addEventListener('click', () => loadProblemset(true));
     $('cf-refresh-solved').addEventListener('click', async () => { status('Refreshing solved submissions…'); await loadSolved(); render(); });
     $('cf-clear-filters').addEventListener('click', () => {
       $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
@@ -147,7 +188,7 @@
   }
   function init() {
     readSaved(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
-    bindFilters(); loadProblemset();
+    bindFilters(); loadProblemset(false);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
