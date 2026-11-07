@@ -189,6 +189,11 @@ test("theme and reader settings are interactive and persist", async ({ page }) =
   await restored.getByRole("button", { name: "Remove Gothic" }).click();
   await expect(restored.getByRole("option", { name: "Gothic" })).toHaveCount(0);
   await expect(restored.getByLabel("Reader background")).toHaveValue("none");
+  await restored.getByLabel("Reader background").selectOption("nebula");
+  await restored.getByRole("button", { name: "Close Settings" }).click();
+  await page.reload();
+  await page.getByRole("button", { name: "Settings" }).click();
+  await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("nebula");
 });
 
 test("PDF import extracts readable text and records page completion", async ({ page }) => {
