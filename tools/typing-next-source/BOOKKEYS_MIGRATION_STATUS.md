@@ -39,6 +39,7 @@ PDF, EPUB and plain-text/TXT imports are supported, including a paste-text workf
 - The original Bookkeys HTML reader remains untouched.
 - The migration opens the existing bookkeys-lib IndexedDB v1 database and keeps its existing store names and version.
 - Existing Bookkeys localStorage keys, per-book/library reading-position keys, both chapter-record lookup paths, the legacy bookkeys:size fallback and backup v1 formats are retained. The sample passage is typable but excluded from XP, rewards and saved book progress.
+- The legacy `bookkeys:settings.bg` remains the original reader-scene identifier; the new light/dark UI theme is stored separately and never overwrites that field. Unknown legacy settings fields and IndexedDB metadata extensions are retained when settings or existing books are updated.
 - Original PDF/EPUB files and artwork remain browser-local; the reward ledger stores only page fingerprints and character counts, not book text.
 - The TypeScript preview does not sync original book files to the cloud.
 - Removing a book deletes its local library file/metadata but intentionally retains the progress ledger and backup data.
