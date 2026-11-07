@@ -128,7 +128,7 @@ export default function Home() {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
     document.documentElement.dataset.theme = next;
-    try { sessionStorage.setItem("limitless.site.theme", next); } catch { /* Ignore storage errors. */ }
+    try { localStorage.setItem("limitless.site.theme", next); } catch { /* Ignore storage errors. */ }
   }
   // The picture behind the page follows the open lesson (or the experiment tab).
   const bgId = tab === "experiment" ? EXPERIMENT_BACKGROUND : activeLesson.id;
