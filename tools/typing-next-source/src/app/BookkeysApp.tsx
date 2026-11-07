@@ -152,6 +152,7 @@ export default function BookkeysApp() {
   const [busy, setBusy] = useState(false);
   const [chaptersOpen, setChaptersOpen] = useState(false);
   const [globalExp, setGlobalExp] = useState(0);
+  const [gameProgress, setGameProgress] = useState<ReturnType<typeof emptyBookkeysGame>>(() => emptyBookkeysGame());
   const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const backupInput = useRef<HTMLInputElement>(null);
@@ -182,6 +183,16 @@ export default function BookkeysApp() {
       window.removeEventListener("limitless:rewards-updated", refreshGlobalExp);
       window.removeEventListener("storage", refreshGlobalExp);
     };
+  }, []);
+
+  useEffect(() => {
+    const refreshProgress = () => setGameProgress(readGame());
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === "bookkeys:game") refreshProgress();
+    };
+    refreshProgress();
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   useEffect(() => {
@@ -265,7 +276,8 @@ export default function BookkeysApp() {
           readGame(), book.bookKey, pageIndex, "", "", 0, book.chapters, book.sections.length, emptyIndexes,
         );
         window.localStorage.setItem("bookkeys:game", JSON.stringify(result.game));
-        const savedBook = result.game.book?.[book.bookKey];
+        setGameProgress(result.game);
+      const savedBook = result.game.book?.[book.bookKey];
         setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
         
         setStatus("No selectable text found on this PDF page. It is recorded as empty and will not block completion.");
@@ -588,6 +600,7 @@ export default function BookkeysApp() {
       const backup = parseBookkeysBackup(await file.text());
       const result = restoreBookkeysBackup(window.localStorage, backup, "merge");
       const game = readGame();
+      setGameProgress(game);
       
       setShelves(readShelves(window.localStorage.getItem("bookkeys:shelves")));
       const restoredSettings = readSettings();
@@ -737,6 +750,19 @@ export default function BookkeysApp() {
               }}
             />
           </div>
+          <section className="bk-progress-overview" aria-label="Bookkeys progress">
+            <div className="bk-progress-heading">
+              <strong>Reading progress</strong>
+              <span>Saved in this browser</span>
+            </div>
+            <div className="bk-progress-stats">
+              <div className="bk-progress-stat"><strong>{Number(gameProgress.pages ?? 0).toLocaleString()}</strong><span>Pages typed</span></div>
+              <div className="bk-progress-stat"><strong>{Number(gameProgress.chapters ?? 0).toLocaleString()}</strong><span>Chapters completed</span></div>
+              <div className="bk-progress-stat"><strong>{Number(gameProgress.books ?? 0).toLocaleString()}</strong><span>Books completed</span></div>
+              <div className="bk-progress-stat"><strong>{Number(gameProgress.words ?? 0).toLocaleString()}</strong><span>Words typed</span></div>
+              <div className="bk-progress-stat"><strong>{Number(gameProgress.chars ?? 0).toLocaleString()}</strong><span>Characters typed</span></div>
+            </div>
+          </section>
           {visibleLibrary.length ? (
             <div className="bk-book-grid">
               {visibleLibrary.map((entry) => (
