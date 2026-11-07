@@ -12,7 +12,7 @@
     /* set the shell theme before first paint so there is no flash (same pattern as Math Trainer) */
     (function () {
       var t = null;
-      try { var nav = performance.getEntriesByType('navigation')[0]; if (nav && nav.type === 'reload') sessionStorage.removeItem('limitless.site.theme'); t = sessionStorage.getItem('limitless.site.theme'); } catch (e) {}
+      try { var nav = performance.getEntriesByType('navigation')[0]; t = localStorage.getItem('limitless.site.theme'); } catch (e) {}
       if (t !== 'dark' && t !== 'light') t = 'dark';
       document.documentElement.setAttribute('data-theme', t);
     })();
@@ -57,7 +57,7 @@
       .theme-toggle { padding: 6px 9px; font-size: 11px; letter-spacing: .5px; }
     }
   </style>
-</head>
+<script src="/site-theme.js" defer></script></head>
 <body>
   <header class="navbar">
     <a class="brand" href="../../">Limitless</a>
@@ -109,6 +109,7 @@
         } catch (e) { /* The standalone frame remains usable if same-origin access is unavailable. */ }
       }
       if (frame) frame.addEventListener('load', syncBookkeys);
+      document.addEventListener('limitless:themechange', syncBookkeys);
       function current() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
       function paint() {
         var other = current() === 'light' ? 'dark' : 'light';
@@ -120,7 +121,7 @@
       btn.addEventListener('click', function () {
         var next = current() === 'light' ? 'dark' : 'light';
         root.setAttribute('data-theme', next);
-        try { sessionStorage.setItem('limitless.site.theme', next); } catch (e) {}
+        try { localStorage.setItem('limitless.site.theme', next); } catch (e) {}
         paint();
       });
       paint();
