@@ -63,6 +63,7 @@ export default function StandalonePracticePage() {
             initialView={view}
             initialDifficulty={difficulty}
             initialScope="all"
+            standalone
           />
         ) : (
           <div className="study-utility-panel p-8 text-sm text-dim" aria-live="polite">Loading question bank…</div>
