@@ -134,3 +134,17 @@ Validation on PR #111 head `c07e252ee5356f8ba895174726b34d3c8e13f95f`:
 Workflow runs: [scaffold build and extracted tests](https://github.com/guiltythreee/Limitless/actions/runs/42370755780) and [production Bookkeys regression](https://github.com/guiltythreee/Limitless/actions/runs/42370755774).
 
 Important boundary: the extracted modules are not wired into production and no production route, book data, storage schema, import/export format, settings, or rewards have changed. Next extraction should target the persistence contract only after its IndexedDB/localStorage adapters and backup-merge invariants are represented by tests.
+
+## 12. IndexedDB adapter extraction checkpoint (2026-11-07)
+
+A second isolated subsystem has been extracted: `tools/typing-next-source/src/lib/bookkeys/database.mjs`. It preserves the production `bookkeys-lib` version-1 contract and its two stores (`meta`, key path `id`; `files`, out-of-line keys) with the existing operation surface: `all`, `file`, `setFile`, `delFile`, `add`, `put`, and `del`.
+
+The adapter accepts an IndexedDB implementation as a dependency so the migration tests can use `fake-indexeddb` rather than touching browser/user data. `bookkeys-database.test.mjs` covers metadata+Blob atomic writes, metadata updates, artwork/file operations, paired deletion, and missing IndexedDB. It does not change the database name, version, store names, key paths, or production reader.
+
+CI on commit `4d3c3094ecdc615500627b384dcc32611a7423d0`:
+- Extracted helper + IndexedDB tests: PASS.
+- TypeScript type-check: PASS.
+- Static export build: PASS.
+- Existing production Bookkeys regression suite: PASS.
+
+The extracted database adapter is not yet wired into production. Next work must migrate and test the localStorage compatibility layer, library metadata schema and specialized backup merge rules before attempting a reader integration.
