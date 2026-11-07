@@ -13,6 +13,7 @@ import {
 import { createBookkeysRewardAdapter } from "../domain/rewards/bookkeys-reward-adapter";
 import { bookkeysPageEvidenceFromText, installBookkeysRewardBridge } from "../domain/rewards/bookkeys-reward-bridge";
 import { bookkeysRewardPolicy } from "../domain/rewards/bookkeys-reward-policy";
+import { readGlobalRewardSummary } from "../domain/rewards/shared-rewards.mjs";
 import { typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
 import { readBookkeysPosition, writeBookkeysPosition } from "../domain/reading/bookkeys-position";
 import { readBookkeysChapterSettings, writeBookkeysChapterSettings } from "../domain/reading/bookkeys-chapter-storage";
@@ -86,10 +87,8 @@ function readGame(): ReturnType<typeof emptyBookkeysGame> {
   }
 }
 
-function readBookkeysRewardExp(): number {
-  const adapter = createBookkeysRewardAdapter(window.localStorage, bookkeysRewardPolicy);
-  return adapter.getRecords().reduce((total, record) =>
-    total + (record.eligible === true && typeof record.totalExp === "number" ? record.totalExp : 0), 0);
+function readGlobalExp(): number {
+  return readGlobalRewardSummary(window.localStorage).totalExp;
 }
 
 function loadChapterSettings(
@@ -152,7 +151,7 @@ export default function BookkeysApp() {
   const [themeReady, setThemeReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [chaptersOpen, setChaptersOpen] = useState(false);
-  const [bookkeysExp, setBookkeysExp] = useState(0);
+  const [globalExp, setGlobalExp] = useState(0);
   const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const backupInput = useRef<HTMLInputElement>(null);
@@ -175,7 +174,7 @@ export default function BookkeysApp() {
   }, []);
 
   useEffect(() => {
-    const refreshBookkeysExp = () => setBookkeysExp(readBookkeysRewardExp());
+    const refreshBookkeysExp = () => setBookkeysExp(readGlobalExp());
     refreshBookkeysExp();
     window.addEventListener("limitless:rewards-updated", refreshBookkeysExp);
     return () => window.removeEventListener("limitless:rewards-updated", refreshBookkeysExp);
