@@ -170,21 +170,57 @@ export function restoreBookkeysBackup(
   if (!isBookkeysBackupV1(backup)) throw new TypeError("A valid Bookkeys v1 backup is required.");
   let written = 0;
   let failed = 0;
+
   if (mode === "replace") {
-    const existing: string[] = [];
+    // Snapshot first and write the replacement before deleting anything.
+    // If quota or storage errors interrupt the write, restore overwritten
+    // values and remove newly-created keys so the previous data survives.
+    const existing = new Map<string, string>();
     for (let index = 0; index < storage.length; index += 1) {
       const key = storage.key(index);
-      if (key && isBookkeysBackupKey(key)) existing.push(key);
+      if (!key || !isBookkeysBackupKey(key)) continue;
+      const value = storage.getItem(key);
+      if (value !== null) existing.set(key, value);
     }
-    for (const key of existing) {
+
+    for (const [key, incomingRaw] of Object.entries(backup.keys)) {
+      if (!isBookkeysBackupKey(key) || typeof incomingRaw !== "string") continue;
+      try {
+        storage.setItem(key, incomingRaw);
+        written += 1;
+      } catch {
+        failed += 1;
+        break;
+      }
+    }
+
+    if (failed > 0) {
+      for (const [key, previousRaw] of existing) {
+        try { storage.setItem(key, previousRaw); } catch { failed += 1; }
+      }
+      for (const key of Object.keys(backup.keys)) {
+        if (!isBookkeysBackupKey(key) || existing.has(key)) continue;
+        try { storage.removeItem(key); } catch { failed += 1; }
+      }
+      return { written: 0, unchanged: Object.keys(backup.keys).length, failed };
+    }
+
+    const incomingKeys = new Set(Object.keys(backup.keys).filter(isBookkeysBackupKey));
+    for (const key of existing.keys()) {
+      if (incomingKeys.has(key)) continue;
       try { storage.removeItem(key); } catch { failed += 1; }
     }
+    return {
+      written,
+      unchanged: Object.keys(backup.keys).length - written,
+      failed,
+    };
   }
 
   for (const [key, incomingRaw] of Object.entries(backup.keys)) {
     if (!isBookkeysBackupKey(key) || typeof incomingRaw !== "string") continue;
     const localRaw = storage.getItem(key);
-    const next = mode === "replace" ? incomingRaw : mergedValue(key, localRaw, incomingRaw);
+    const next = mergedValue(key, localRaw, incomingRaw);
     if (next === localRaw) continue;
     try {
       storage.setItem(key, next);
