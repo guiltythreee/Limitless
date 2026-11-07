@@ -150,7 +150,11 @@ function ensureLoaded() {
     loaded = true;
     rewardActivatedAt = setRewardActivationBaseline();
     state = read();
-    persist();
+    // Do not mirror a startup snapshot while the signed-in account is still
+    // being hydrated. The cloud adapter treats localStorage writes during
+    // that window as edits, which could otherwise replace newer remote data.
+    const cloudSync = (window as Window & { LimitlessCloudSync?: { isReady?: () => boolean } }).LimitlessCloudSync;
+    if (!cloudSync || cloudSync.isReady?.() !== false) persist();
     window.addEventListener("storage", (e) => {
       if (e.key === STORAGE_KEY) { state = read(); listeners.forEach((l) => l()); }
     });
@@ -172,6 +176,9 @@ function ensureLoaded() {
         rewardActivatedAt = Date.now();
       }
       state = read();
+      // If this account has no canonical Probability record yet, finish any
+      // deferred legacy migration now that cloud hydration has completed.
+      if (localStorage.getItem(STORAGE_KEY) === null) persist();
       listeners.forEach((listener) => listener());
     });
   }
