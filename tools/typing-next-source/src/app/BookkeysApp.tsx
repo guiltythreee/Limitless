@@ -393,7 +393,6 @@ export default function BookkeysApp() {
         newValue: newGameRaw,
         storageArea: window.localStorage,
       }));
-      setGameXp(Number(result.game.xp ?? 0));
       const savedBook = result.game.book?.[book.bookKey];
       setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
     } catch {
