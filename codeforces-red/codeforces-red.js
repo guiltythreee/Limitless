@@ -75,9 +75,9 @@
       'Long-term review: track rating variance, recurring mistakes, implementation bugs and topic weaknesses.'
     ]}
   ];
-  let roadmapState = {checks:{},weekly:{solved:0,contests:0},active:0,ready:[]};
+  let roadmapState = {checks:{},weekly:{solved:0,contests:0},weeklyManual:{solved:0,contests:0},active:0,ready:[]};
   function loadRoadmap() {
-    try { const saved=JSON.parse(localStorage.getItem(ROADMAP_KEY)||'{}'); roadmapState={...roadmapState,...saved,checks:saved.checks||{},weekly:saved.weekly||{solved:0,contests:0},ready:saved.ready||[],nextBandCounts:saved.nextBandCounts||{}}; if(roadmapState.taskSchemaVersion!==2){roadmapState.legacyChecks=roadmapState.checks;roadmapState.checks={};roadmapState.taskSchemaVersion=2;saveRoadmap();} } catch (_) {}
+    try { const saved=JSON.parse(localStorage.getItem(ROADMAP_KEY)||'{}'); roadmapState={...roadmapState,...saved,checks:saved.checks||{},weekly:saved.weekly||{solved:0,contests:0},weeklyManual:saved.weeklyManual||{solved:0,contests:0},ready:saved.ready||[],nextBandCounts:saved.nextBandCounts||{}}; if(roadmapState.taskSchemaVersion!==2){roadmapState.legacyChecks=roadmapState.checks;roadmapState.checks={};roadmapState.taskSchemaVersion=2;saveRoadmap();} } catch (_) {}
   }
   function saveRoadmap() { try { localStorage.setItem(ROADMAP_KEY,JSON.stringify(roadmapState)); } catch (_) {} }
   function renderRoadmap(peak) {
@@ -118,7 +118,8 @@
     });
     $('weekly-plus').addEventListener('click',()=>{roadmapState.weekly.solved=Math.min(999,(roadmapState.weekly.solved||0)+1);saveRoadmap();renderRoadmap(lastPeak);});
     $('weekly-minus').addEventListener('click',()=>{roadmapState.weekly.solved=Math.max(0,(roadmapState.weekly.solved||0)-1);saveRoadmap();renderRoadmap(lastPeak);});
-    $('contest-log').addEventListener('click',()=>{roadmapState.weekly.contests=Math.min(99,(roadmapState.weekly.contests||0)+1);saveRoadmap();renderRoadmap(lastPeak);});
+    $('contest-log').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};roadmapState.weeklyManual.contests=Math.min(99,(roadmapState.weeklyManual.contests||0)+1);roadmapState.weekly.contests=(roadmapState.weekly.contests||0)+1;saveRoadmap();renderRoadmap(lastPeak);});
+    $('contest-unlog').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};if((roadmapState.weeklyManual.contests||0)>0){roadmapState.weeklyManual.contests--;roadmapState.weekly.contests=Math.max(0,(roadmapState.weekly.contests||0)-1);saveRoadmap();renderRoadmap(lastPeak);}});
     $('next-band-count').addEventListener('change',()=>{roadmapState.nextBandCounts=roadmapState.nextBandCounts||{};roadmapState.nextBandCounts[roadmapState.active]=Math.max(0,Number($('next-band-count').value||0));saveRoadmap();});
     $('mark-stage-done').addEventListener('click',()=>{
       const count=Number($('next-band-count').value||0);
@@ -156,22 +157,28 @@
     const timeoutId = setTimeout(() => controller.abort(), 15000);
     try {
       const base = 'https://codeforces.com/api/';
-      const [infoResponse, ratingResponse] = await Promise.all([
+      const [infoResponse, ratingResponse, statusResponse] = await Promise.all([
         fetch(base + 'user.info?handles=' + encodeURIComponent(handle), {signal: controller.signal}),
-        fetch(base + 'user.rating?handle=' + encodeURIComponent(handle), {signal: controller.signal})
+        fetch(base + 'user.rating?handle=' + encodeURIComponent(handle), {signal: controller.signal}),
+        fetch(base + 'user.status?handle=' + encodeURIComponent(handle) + '&from=1&count=1000', {signal: controller.signal})
       ]);
-      if (!infoResponse.ok || !ratingResponse.ok) throw new Error('Codeforces API request failed.');
-      const [info, ratings] = await Promise.all([infoResponse.json(), ratingResponse.json()]);
+      if (!infoResponse.ok || !ratingResponse.ok || !statusResponse.ok) throw new Error('Codeforces API request failed.');
+      const [info, ratings, submissions] = await Promise.all([infoResponse.json(), ratingResponse.json(), statusResponse.json()]);
       if (info.status !== 'OK') throw new Error(info.comment || 'Codeforces handle not found.');
       if (ratings.status !== 'OK') throw new Error(ratings.comment || 'Could not load contest history.');
-      const user = info.result[0], history = ratings.result;
+      if (submissions.status !== 'OK') throw new Error(submissions.comment || 'Could not load accepted submissions.');
+      const user = info.result[0], history = ratings.result, accepted=submissions.result.filter(x=>x.verdict==='OK'&&x.problem&&x.problem.contestId!=null);
+      const weekStart=new Date();weekStart.setHours(0,0,0,0);weekStart.setDate(weekStart.getDate()-((weekStart.getDay()+6)%7));const weekStartSec=Math.floor(weekStart.getTime()/1000);
+      const weekProblems=new Set(accepted.filter(x=>x.creationTimeSeconds>=weekStartSec).map(x=>x.problem.contestId+'-'+(x.problem.index||'')+'-'+(x.problem.name||'')));
+      const weekContests=history.filter(x=>x.ratingUpdateTimeSeconds>=weekStartSec).length;
       const peak = Number.isFinite(user.maxRating) ? user.maxRating : (Number.isFinite(user.rating) ? user.rating : 0);
       $('peak-rating').textContent = user.maxRating == null ? 'Unrated' : String(user.maxRating);
       $('current-rating').textContent = user.rating == null ? 'Unrated' : String(user.rating);
       $('current-rank').textContent = user.rank || 'Unrated';
       $('contest-count').textContent = String(history.length);
+      roadmapState.weekly={solved:weekProblems.size+(roadmapState.weeklyManual?.solved||0),contests:weekContests+(roadmapState.weeklyManual?.contests||0)};saveRoadmap();
       render(peak);
-      $('sync-status').textContent = 'Live data · updated just now · peak rating determines milestone completion.';
+      $('sync-status').textContent = 'Live Codeforces data · rating, accepted problems and contest participation synced.';
     } catch (error) {
       $('sync-status').textContent = (error.name === 'AbortError' ? 'Codeforces API timed out after 15 seconds.' : (error.message || 'Unable to connect to Codeforces.')) + ' Check the handle in Competition and retry.';
       $('milestone-list').innerHTML = '<p class="cr-loading">Rating data is unavailable right now. Milestones will appear when Codeforces responds.</p>';
