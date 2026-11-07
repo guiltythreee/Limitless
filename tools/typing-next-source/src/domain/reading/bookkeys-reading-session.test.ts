@@ -46,6 +46,8 @@ test("fast paste is recorded as progress but earns no XP", () => {
   assert.equal(result.eligibleForXp, false);
   assert.equal(result.xpAwarded, 0);
   assert.deepEqual(result.game.book?.["f:book"]?.p, [1]);
+  assert.deepEqual(result.game.book?.["f:book"]?.x, []);
+  assert.equal(result.game.perfect, 0);
 });
 
 
