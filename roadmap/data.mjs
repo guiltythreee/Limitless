@@ -41,6 +41,25 @@ export const TRACKS = [
     ],
   },
   {
+    id: "cf-red",
+    title: "Road to Codeforces Red",
+    goal: "Reach Grandmaster (red, rating 2400) on Codeforces. Every rung is an official rank boundary, so it works from any starting rating.",
+    symbol: "♛",
+    startDate: null, // a multi-year climb: no calendar, the rungs are the milestones
+    stages: [
+      { id: "cf-basics", title: "Pupil & Specialist", targetDate: null,
+        objective: "Official ranks at 1200 and 1400. If you are already past a rung it simply shows as done." },
+      { id: "cf-expert", title: "Expert", targetDate: null,
+        objective: "1600: the first rank that needs real algorithm breadth (graphs, DP, number theory, data structures)." },
+      { id: "cf-cm", title: "Candidate Master", targetDate: null,
+        objective: "1900: consistent div1-style thinking and fast, correct implementation." },
+      { id: "cf-master", title: "Master", targetDate: null,
+        objective: "2100 and 2300: hard constructive and mathematical problems, few wasted attempts." },
+      { id: "cf-red", title: "Red (Grandmaster)", targetDate: null,
+        objective: "2400: the top of this track. Red begins at Grandmaster." },
+    ],
+  },
+  {
     id: "metallurgy",
     title: "B.Tech Metallurgy",
     goal: "Finish the degree on schedule with a strong CGPA and a clear exit route: the respectable fallback.",
@@ -179,6 +198,31 @@ export const NODES = [
     manualNumber("Interviews completed", "", 0, 5), { prereqs: ["q-mocks", "q-applications"] }),
   n("quant", "quant-apply", "q-offer", "Secure an internship offer",
     "The goal of this track.", check, { weight: 3, prereqs: ["q-interviews"] }),
+
+  // ================= CODEFORCES RED · rating ladder =================
+  // Each rung starts where the previous one ends (the first starts at 800), so progress is measured
+  // from the rung below and a rating you already have completes every rung beneath it.
+  n("cf-red", "cf-basics", "r-pupil", "Pupil: rating 1200",
+    "Official rank boundary. Peak rating is read from your linked Codeforces account.",
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 800, target: 1200 }),
+  n("cf-red", "cf-basics", "r-specialist", "Specialist: rating 1400",
+    "Official rank boundary: reliable on div2 A–C.",
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 1200, target: 1400 }, { prereqs: ["r-pupil"] }),
+  n("cf-red", "cf-expert", "r-expert", "Expert: rating 1600",
+    "Official rank boundary. Needs breadth: graphs, DP, number theory and data structures.",
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 1400, target: 1600 }, { weight: 2, prereqs: ["r-specialist"] }),
+  n("cf-red", "cf-cm", "r-candidate-master", "Candidate Master: rating 1900",
+    "Official rank boundary. Div1-level thinking starts here.",
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 1600, target: 1900 }, { weight: 2, prereqs: ["r-expert"] }),
+  n("cf-red", "cf-master", "r-master", "Master: rating 2100",
+    "Official rank boundary.",
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 1900, target: 2100 }, { weight: 2, prereqs: ["r-candidate-master"] }),
+  n("cf-red", "cf-master", "r-international-master", "International Master: rating 2300",
+    "Official rank boundary, one step below red.",
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 2100, target: 2300 }, { weight: 2, prereqs: ["r-master"] }),
+  n("cf-red", "cf-red", "r-grandmaster", "Grandmaster (red): rating 2400",
+    "The goal of this track. Red begins at Grandmaster.",
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 2300, target: 2400 }, { weight: 3, prereqs: ["r-international-master"] }),
 
   // ================= METALLURGY · Semester 3 =================
   n("metallurgy", "met-sem3", "m-mt201-coverage", "MT201 Thermodynamics: 80% of questions correct",
