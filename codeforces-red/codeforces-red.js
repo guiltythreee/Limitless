@@ -77,7 +77,7 @@
   ];
   let roadmapState = {checks:{},weekly:{solved:0,contests:0},active:0,ready:[]};
   function loadRoadmap() {
-    try { const saved=JSON.parse(localStorage.getItem(ROADMAP_KEY)||'{}'); roadmapState={...roadmapState,...saved,checks:saved.checks||{},weekly:saved.weekly||{solved:0,contests:0},ready:saved.ready||[]}; } catch (_) {}
+    try { const saved=JSON.parse(localStorage.getItem(ROADMAP_KEY)||'{}'); roadmapState={...roadmapState,...saved,checks:saved.checks||{},weekly:saved.weekly||{solved:0,contests:0},ready:saved.ready||[],nextBandCounts:saved.nextBandCounts||{}}; if(roadmapState.taskSchemaVersion!==2){roadmapState.legacyChecks=roadmapState.checks;roadmapState.checks={};roadmapState.taskSchemaVersion=2;saveRoadmap();} } catch (_) {}
   }
   function saveRoadmap() { try { localStorage.setItem(ROADMAP_KEY,JSON.stringify(roadmapState)); } catch (_) {} }
   function renderRoadmap(peak) {
@@ -102,7 +102,7 @@
     $('weekly-solved').textContent=roadmapState.weekly.solved||0;
     $('weekly-contests').textContent=roadmapState.weekly.contests||0;
     $('mark-stage-done').textContent=roadmapState.ready.includes(roadmapState.active)?'Stage marked ready':'Mark stage ready';
-    if($('next-band-count')) $('next-band-count').value=roadmapState.nextBandCount||0;
+    if($('next-band-count')) $('next-band-count').value=(roadmapState.nextBandCounts||{})[roadmapState.active]||0;
   }
   function bindRoadmap() {
     loadRoadmap();
@@ -119,7 +119,7 @@
     $('weekly-plus').addEventListener('click',()=>{roadmapState.weekly.solved=Math.min(999,(roadmapState.weekly.solved||0)+1);saveRoadmap();renderRoadmap(lastPeak);});
     $('weekly-minus').addEventListener('click',()=>{roadmapState.weekly.solved=Math.max(0,(roadmapState.weekly.solved||0)-1);saveRoadmap();renderRoadmap(lastPeak);});
     $('contest-log').addEventListener('click',()=>{roadmapState.weekly.contests=Math.min(99,(roadmapState.weekly.contests||0)+1);saveRoadmap();renderRoadmap(lastPeak);});
-    $('next-band-count').addEventListener('change',()=>{roadmapState.nextBandCount=Math.max(0,Number($('next-band-count').value||0));saveRoadmap();});
+    $('next-band-count').addEventListener('change',()=>{roadmapState.nextBandCounts=roadmapState.nextBandCounts||{};roadmapState.nextBandCounts[roadmapState.active]=Math.max(0,Number($('next-band-count').value||0));saveRoadmap();});
     $('mark-stage-done').addEventListener('click',()=>{
       const count=Number($('next-band-count').value||0);
       if(count<10){$('readiness-status').textContent='Solve at least 10 problems from the next rating band independently before marking this stage ready.';return;}
