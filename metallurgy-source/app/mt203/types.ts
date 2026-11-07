@@ -111,7 +111,7 @@ export type ModuleData = {
 
 export const MODULE_IDS = ["m1", "m2", "m3", "m4"] as const;
 export const TOPIC_IDS = [
-  "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10", "t11",
+  "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t15", "t10", "t12", "t11", "t13", "t14",
 ] as const;
 
 export type TopicId = (typeof TOPIC_IDS)[number];
@@ -128,6 +128,10 @@ const IMPORTS: Record<TopicId, () => Promise<{ default: unknown }>> = {
   t9: () => import("../data/qbank/t9"),
   t10: () => import("../data/qbank/t10"),
   t11: () => import("../data/qbank/t11"),
+  t12: () => import("../data/qbank/t12"),
+  t13: () => import("../data/qbank/t13"),
+  t14: () => import("../data/qbank/t14"),
+  t15: () => import("../data/qbank/t15"),
 };
 
 const topicCache = new Map<string, Promise<TopicData>>();
