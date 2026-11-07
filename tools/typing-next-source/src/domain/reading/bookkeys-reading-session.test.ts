@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   typingAccuracy, pageSignature, createPageDraft, readPageDraft,
-  accuracyMultiplier, pageXp, chapterXp, bookXp, completeBookkeysPage, emptyBookkeysGame,
+  accuracyMultiplier, pageXp, chapterXp, bookXp, completeBookkeysPage, emptyBookkeysGame, updateBookkeysKeyStats,
 } from "./bookkeys-reading-session";
 
 test("typing accuracy counts matching positions and rounds percentage", () => {
