@@ -41,7 +41,7 @@ const NAV: { id: View; label: string; icon: string }[] = [
   { id: "history", label: "Test History", icon: "◷" },
 ];
 
-export default function Practice({ lessonId, onSelectLesson, initialView = "overview", initialDifficulty = "all", initialScope }: { lessonId: string; onSelectLesson: (id: string, keepSection?: boolean) => void; initialView?: Exclude<View, "question">; initialDifficulty?: Difficulty | "all"; initialScope?: ScopeKind }) {
+export default function Practice({ lessonId, onSelectLesson, initialView = "overview", initialDifficulty = "all", initialScope, standalone = false }: { lessonId: string; onSelectLesson: (id: string, keepSection?: boolean) => void; initialView?: Exclude<View, "question">; initialDifficulty?: Difficulty | "all"; initialScope?: ScopeKind; standalone?: boolean }) {
   const store = useStore();
   const lesson = lessons.find((l) => l.id === lessonId)!;
   const [scopeKind, setScopeKind] = useState<ScopeKind>(initialScope ?? (initialView === "overview" ? "topic" : "all"));
@@ -97,7 +97,13 @@ export default function Practice({ lessonId, onSelectLesson, initialView = "over
               count: item.id === "saved" ? store.bookmarks.length : undefined,
               active: nav === item.id,
             })),
-            onSelect: (id) => setView(id as View),
+            onSelect: (id) => {
+              const nextView = id as View;
+              if (standalone && ["all", "topics", "saved", "mistakes", "history"].includes(nextView)) {
+                setScopeKind("all");
+              }
+              setView(nextView);
+            },
           })}
         </div>
       )}
