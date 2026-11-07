@@ -79,8 +79,12 @@
     const state = $("cses-link-state"), target = $("cses-account-stats");
     state.textContent = "Checking…";
     try {
-      const response = await fetch("https://cses.fi/user/" + encodeURIComponent(userId), { credentials: "omit" });
-      if (!response.ok) throw new Error("CSES profile returned HTTP " + response.status + ".");
+      const response = await fetch("/api/cses-profile/" + encodeURIComponent(userId), { credentials: "same-origin", headers: { "Accept": "text/html" } });
+      if (!response.ok) {
+        let detail = "HTTP " + response.status;
+        try { const problem = await response.clone().json(); if (problem.error) detail = problem.error; } catch (_) {}
+        throw new Error(detail);
+      }
       const html = await response.text();
       const doc = new DOMParser().parseFromString(html, "text/html");
       const title = (doc.querySelector("h1") || {}).textContent || "";
@@ -99,9 +103,9 @@
       state.textContent = "Profile verified";
       state.classList.add("is-connected");
     } catch (error) {
-      state.textContent = "Profile saved";
+      state.textContent = "Profile saved · fetch unavailable";
       state.classList.remove("is-connected");
-      message(target, "CSES profile ID " + userId + " is saved. Automatic profile reading was blocked or unavailable in this browser (" + error.message + "). The public profile link still works.");
+      message(target, "CSES profile ID " + userId + " is saved, but the server could not read the public profile (" + error.message + "). The public profile link still works; retry later.");
     }
   }
   async function refresh(data) {
