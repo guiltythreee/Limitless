@@ -18,3 +18,13 @@ This is an isolated Next.js/React/TypeScript source project. It is deliberately 
 - `npm run build`
 
 The first scaffold intentionally contains no Bookkeys reader, persistence, import, typing, reward, or settings implementation.
+
+## First extraction checkpoint
+
+The first isolated extraction now lives under `src/lib/bookkeys/`:
+
+- `blocks.mjs` — original text normalization, PDF text block/page shaping, chapter detection and requirement classification, local rank/XP helpers, streak helpers, and achievement catalogue.
+- `epub.mjs` — original EPUB TOC/path helpers, DOM-to-block extraction, paragraph splitting, section packing, chapter mapping, and EPUB error handling. Chapter normalization is imported from `blocks.mjs` so PDF and EPUB use the same chapter rules.
+- `tests/bookkeys-pure.test.mjs` — deterministic parity checks for normalization, text pagination, chapter boundaries, XP/rank calculations, streaks, signatures, EPUB identity, TOC/path handling, block splitting and section mapping.
+
+These modules are not yet imported by the active production reader. The original HTML remains the runtime source until the remaining subsystems are migrated and the complete parity gate passes.
