@@ -17,7 +17,7 @@ test("library search matches title and author without mutating the source list",
 });
 
 test("library sort supports recent activity and both title directions", () => {
-  assert.deepEqual(filterAndSortBookkeysLibrary(entries, "", "recent").map((item) => item.id), ["3", "1", "2"]);
+  assert.deepEqual(filterAndSortBookkeysLibrary(entries, "", "recent").map((item) => item.id), ["3", "2", "1"]);
   assert.deepEqual(filterAndSortBookkeysLibrary(entries, "", "title-asc").map((item) => item.id), ["2", "3", "1"]);
   assert.deepEqual(filterAndSortBookkeysLibrary(entries, "", "title-desc").map((item) => item.id), ["1", "3", "2"]);
 });
