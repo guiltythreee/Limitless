@@ -30,19 +30,27 @@ export const MODULE_META: ModuleMeta[] = [
     topics: [
       { id: "t8", title: "Industrial Polymers", count: 30 },
       { id: "t9", title: "Blends, Composites & Degradation", count: 24 },
+      { id: "t15", title: "Degradation, Biodegradation & Recycling", count: 17 },
     ],
   },
   {
     id: "m3",
     num: 3,
     title: "Properties of Polymers",
-    topics: [{ id: "t10", title: "Mechanical & Viscoelastic Properties", count: 28 }],
+    topics: [
+      { id: "t10", title: "Mechanical & Viscoelastic Properties", count: 28 },
+      { id: "t12", title: "Polymer Rheology & Flow Behaviour", count: 26 },
+    ],
   },
   {
     id: "m4",
     num: 4,
     title: "Compounding & Processing",
-    topics: [{ id: "t11", title: "Compounding & Processing", count: 26 }],
+    topics: [
+      { id: "t11", title: "Compounding & Processing", count: 26 },
+      { id: "t13", title: "Rubber Technology & Compounding", count: 34 },
+      { id: "t14", title: "Extrusion & Screw Technology", count: 29 },
+    ],
   },
 ];
 
