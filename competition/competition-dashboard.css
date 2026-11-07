@@ -246,3 +246,122 @@ html[data-theme="light"] .cf-chip.solved { color:#16845f; }
   .account-edit-details { margin-top:8px; }
   .settings-card .campaign-meta { display:grid; grid-template-columns:1fr 1fr; }
 }
+
+
+/* Regional qualification overview — visual refinement */
+.competition-page {
+  --comp-panel: rgba(255,255,255,.94);
+  --comp-border: #dce5ee;
+  --comp-muted: #64778a;
+  --comp-ink: #1d344b;
+  --comp-accent: #397db5;
+}
+html[data-theme="light"] .competition-page { --comp-panel:rgba(255,255,255,.96); --comp-border:#dce5ee; --comp-muted:#64778a; --comp-ink:#1d344b; --comp-accent:#397db5; }
+.competition-page::after { background:rgba(229,237,245,.72) !important; }
+.competition-page .background-art { opacity:.045 !important; filter:blur(2px); }
+.competition-shell { width:min(1460px,calc(100% - 320px)); margin:0 28px 0 270px; padding:28px 0 64px; }
+.competition-heading {
+  padding:26px 28px 22px;
+  border:1px solid #d8e3ed;
+  border-radius:18px;
+  background:rgba(250,252,254,.96);
+  box-shadow:0 12px 34px rgba(30,55,78,.07);
+}
+.competition-heading .eyebrow { color:#3678ae; font-size:10px; letter-spacing:2px; }
+.competition-heading .competition-kicker { margin:17px 0 7px; color:#54738e; font-size:11px; letter-spacing:1.7px; }
+.competition-heading h1 { margin:0; color:#183b5c; font-size:clamp(34px,3.2vw,48px); line-height:1.08; letter-spacing:-1.3px; }
+.competition-heading .competition-lede { max-width:900px; margin:14px 0 0; color:#506b84; font-size:16px; line-height:1.65; }
+.overview-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:18px 0 0; padding-top:18px; border-top:1px solid #dce5ee; }
+.overview-card { min-width:0; min-height:112px; padding:15px 16px; border:1px solid #e2eaf1; border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(28,52,75,.045); }
+.overview-card .card-label { color:#5684aa; font-size:10px; letter-spacing:1.4px; }
+.metric-line { display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; margin-top:12px; }
+.metric-line strong { color:#347eb9; font-size:29px; font-weight:700; letter-spacing:-.8px; }
+.metric-line span { color:#5c748c; font-size:14px; }
+.overview-card p { display:block; margin:8px 0 0; color:#6c8093; font-size:11px; line-height:1.5; }
+.progress-track { height:5px; margin-top:12px; border-radius:99px; background:#e8eff5; }
+.progress-track span { border-radius:99px; background:linear-gradient(90deg,#4d94ca,#82b7dc); }
+.today-panel,.recent-activity { margin-top:18px; padding:18px 22px; border:1px solid #d9e4ed; border-radius:15px; background:#fff; box-shadow:0 5px 18px rgba(28,52,75,.04); }
+.today-panel .card-label,.recent-activity .card-label { color:#5d89ad; font-size:10px; letter-spacing:1.6px; }
+.today-panel h2,.recent-activity h2 { margin:7px 0 10px; color:#294963; font-size:21px; }
+.today-task-row { border-top:1px solid #edf1f5; color:#405d76; font-size:13px; }
+.today-roadmap-link { color:#2876b3; font-size:14px; }
+.today-rest,.recent-activity p,.activity-row { color:#63798e; font-size:12px; }
+.activity-row { border-top:1px solid #edf1f5; }
+.section-block { margin-top:34px; }
+.section-heading-row h2 { color:#203f5a; }
+.section-heading-row>p { color:#62788c; }
+.settings-card,.subject-card,.week-card,.resource-card,.problem-entry,.mock-row,.cf-problem-card.cf-problem-row {
+  border-color:#dce5ee;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 4px 14px rgba(30,55,78,.035);
+}
+.settings-card>summary { color:#294963; }
+.settings-card>summary span { color:#70859a; }
+.competition-page input,.competition-page select { border-color:#d7e2ec; background:#fff; color:#263f56; }
+.action-button { border-color:#c4d9ea; background:#edf5fb; color:#286c9f; }
+.action-button:hover { background:#e1eff9; }
+@media(max-width:1000px) {
+  .competition-shell { width:calc(100% - 280px); margin-left:250px; margin-right:20px; }
+}
+@media(max-width:720px) {
+  .competition-shell { width:calc(100% - 26px); margin:0 13px; padding-top:18px; }
+  .competition-heading { padding:20px 17px 18px; }
+  .competition-heading h1 { font-size:32px; }
+  .competition-heading .competition-lede { font-size:14px; }
+  .overview-grid { grid-template-columns:1fr 1fr; gap:10px; }
+  .overview-card:last-child { grid-column:1/-1; }
+}
+@media(max-width:460px) {
+  .overview-grid { grid-template-columns:1fr; }
+  .overview-card:last-child { grid-column:auto; }
+  .metric-line strong { font-size:26px; }
+}
+
+
+html[data-theme="dark"] .competition-page {
+  --comp-panel:rgba(12,25,41,.96);
+  --comp-border:rgba(119,157,194,.2);
+  --comp-muted:#a9bdd1;
+  --comp-ink:#e7f0f8;
+  --comp-accent:#80bff0;
+}
+html[data-theme="dark"] .competition-page::after { background:rgba(3,9,17,.78) !important; }
+html[data-theme="dark"] .competition-page .background-art { opacity:.1 !important; }
+html[data-theme="dark"] .competition-heading {
+  border-color:rgba(119,157,194,.2);
+  background:rgba(12,25,41,.96);
+  box-shadow:0 12px 34px rgba(0,0,0,.18);
+}
+html[data-theme="dark"] .competition-heading .eyebrow { color:#9bd0ff; }
+html[data-theme="dark"] .competition-heading .competition-kicker { color:#c0ddf7; }
+html[data-theme="dark"] .competition-heading h1 { color:#edf6ff; }
+html[data-theme="dark"] .competition-heading .competition-lede { color:#c0d0e0; }
+html[data-theme="dark"] .overview-grid { border-top-color:rgba(119,157,194,.2); }
+html[data-theme="dark"] .overview-card {
+  border-color:rgba(119,157,194,.2);
+  background:rgba(17,34,53,.94);
+  box-shadow:0 5px 16px rgba(0,0,0,.12);
+}
+html[data-theme="dark"] .overview-card .card-label { color:#9ac8ee; }
+html[data-theme="dark"] .metric-line strong { color:#8bc9ff; }
+html[data-theme="dark"] .metric-line span,html[data-theme="dark"] .overview-card p { color:#a9bdd1; }
+html[data-theme="dark"] .progress-track { background:rgba(106,164,220,.16); }
+html[data-theme="dark"] .today-panel,html[data-theme="dark"] .recent-activity {
+  border-color:rgba(119,157,194,.2);
+  background:rgba(12,25,41,.96);
+  box-shadow:0 5px 18px rgba(0,0,0,.12);
+}
+html[data-theme="dark"] .today-panel h2,html[data-theme="dark"] .recent-activity h2 { color:#e8f3ff; }
+html[data-theme="dark"] .today-task-row { border-top-color:rgba(119,157,194,.16); color:#dcecff; }
+html[data-theme="dark"] .today-roadmap-link { color:#8bc9ff; }
+html[data-theme="dark"] .today-rest,html[data-theme="dark"] .recent-activity p,html[data-theme="dark"] .activity-row { color:#c0d0e0; }
+html[data-theme="dark"] .activity-row { border-top-color:rgba(119,157,194,.16); }
+html[data-theme="dark"] .settings-card,html[data-theme="dark"] .subject-card,html[data-theme="dark"] .week-card,html[data-theme="dark"] .resource-card,html[data-theme="dark"] .problem-entry,html[data-theme="dark"] .mock-row,html[data-theme="dark"] .cf-problem-card.cf-problem-row {
+  border-color:rgba(119,157,194,.2);
+  background:rgba(12,25,41,.96);
+}
+html[data-theme="dark"] .settings-card>summary { color:#e4f0fc; }
+html[data-theme="dark"] .settings-card>summary span { color:#a9bdd1; }
+html[data-theme="dark"] .competition-page input,html[data-theme="dark"] .competition-page select { border-color:rgba(119,157,194,.25); background:rgba(7,19,34,.86); color:#e7f0f8; }
+html[data-theme="dark"] .action-button { border-color:rgba(97,177,246,.5); background:rgba(52,139,216,.16); color:#a9d7ff; }
+html[data-theme="dark"] .action-button:hover { background:rgba(52,139,216,.27); }
