@@ -109,7 +109,9 @@
     const batch = [...pending.entries()];
     inFlight = inFlight.then(async () => {
       if (activeUserId !== userId) return;
-      const payload = batch.map(([, row]) => ({ ...row, user_id: userId }));
+      const currentBatch = batch.filter(([key, row]) => pending.get(key) === row);
+      if (!currentBatch.length) return;
+      const payload = currentBatch.map(([, row]) => ({ ...row, user_id: userId }));
       const { error } = await client.from(TABLE).upsert(payload, { onConflict: "user_id,storage_key" });
       if (error) {
         setState("error", error.message);
@@ -118,7 +120,7 @@
       }
       // Remove only the exact versions sent. A newer write to the same key
       // made during the request must remain queued for the next batch.
-      for (const [key, row] of batch) if (pending.get(key) === row) pending.delete(key);
+      for (const [key, row] of currentBatch) if (pending.get(key) === row) pending.delete(key);
       persistPending(userId);
       setState("synced");
     }).catch(error => {
