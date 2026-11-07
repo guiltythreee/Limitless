@@ -194,6 +194,11 @@ test("theme and reader settings are interactive and persist", async ({ page }) =
   await page.reload();
   await page.getByRole("button", { name: "Settings" }).click();
   await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("nebula");
+  await page.getByRole("dialog").getByLabel("Reader background").selectOption("pic-night");
+  await page.getByRole("dialog").getByRole("button", { name: "Close Settings" }).click();
+  await page.reload();
+  await page.getByRole("button", { name: "Settings" }).click();
+  await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("pic-night");
 });
 
 test("PDF import extracts readable text and records page completion", async ({ page }) => {

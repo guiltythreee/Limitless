@@ -26,6 +26,9 @@ import { filterAndSortBookkeysLibrary, type BookkeysLibrarySort } from "../domai
 
 
 const READER_BACKGROUND_PRESETS = [
+  { id: "pic-morning", label: "Morning picture", image: "/tools/typing-next-preview/backgrounds/morning.webp", mobileImage: "/tools/typing-next-preview/backgrounds/morning-mobile.webp", background: "linear-gradient(#6b5140,#c18a58)" },
+  { id: "pic-evening", label: "Evening picture", image: "/tools/typing-next-preview/backgrounds/evening.webp", mobileImage: "/tools/typing-next-preview/backgrounds/evening-mobile.webp", background: "linear-gradient(#30213c,#a65e50)" },
+  { id: "pic-night", label: "Night picture", image: "/tools/typing-next-preview/backgrounds/night.webp", mobileImage: "/tools/typing-next-preview/backgrounds/night-mobile.webp", background: "linear-gradient(#10172b,#34446a)" },
   { id: "morning", label: "Morning glow", background: "radial-gradient(circle at 78% 15%, rgba(255,226,165,.45), transparent 34%), linear-gradient(155deg,#2c2634,#70513d 58%,#c18a58)" },
   { id: "evening", label: "Evening glow", background: "radial-gradient(circle at 75% 20%, rgba(245,156,105,.35), transparent 36%), linear-gradient(160deg,#17142c,#4d294c 62%,#a65e50)" },
   { id: "night", label: "Night sky", background: "radial-gradient(circle at 82% 17%,#e9efff 0 5px,transparent 6px), radial-gradient(circle at 82% 17%,rgba(190,210,255,.24),transparent 90px), linear-gradient(#04081a,#0e1a3d 60%,#1d2c57)" },
@@ -1061,11 +1064,13 @@ export default function BookkeysApp() {
             <>
               <article
                 className="bk-source-text"
+                data-reader-background={settings.readerBackground ?? "none"}
                 style={(() => {
                   const selected = settings.readerBackground === "gothic" ? artwork.gothic
                     : settings.readerBackground === "garden" ? artwork.garden : undefined;
                   const safe = safeArtworkDataUrl(selected);
                   const preset = READER_BACKGROUND_PRESETS.find((item) => item.id === settings.readerBackground);
+                  if (preset?.image) return undefined;
                   if (safe) return {
                     backgroundImage: `linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("${safe}")`,
                     backgroundSize: "cover",

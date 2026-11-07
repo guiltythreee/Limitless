@@ -284,3 +284,31 @@ html[data-theme="light"] .bk-library-search input, html[data-theme="light"] .bk-
   font: inherit;
   font-size: 0.82rem;
 }
+
+/* Original Bookkeys photo presets, including the dedicated tall-screen crops. */
+.bk-source-text[data-reader-background="pic-morning"] {
+  background-image: linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("/tools/typing-next-preview/backgrounds/morning.webp");
+  background-size: cover;
+  background-position: center;
+}
+.bk-source-text[data-reader-background="pic-evening"] {
+  background-image: linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("/tools/typing-next-preview/backgrounds/evening.webp");
+  background-size: cover;
+  background-position: center;
+}
+.bk-source-text[data-reader-background="pic-night"] {
+  background-image: linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("/tools/typing-next-preview/backgrounds/night.webp");
+  background-size: cover;
+  background-position: center;
+}
+@media (max-aspect-ratio: 1/1) {
+  .bk-source-text[data-reader-background="pic-morning"] {
+    background-image: linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("/tools/typing-next-preview/backgrounds/morning-mobile.webp");
+  }
+  .bk-source-text[data-reader-background="pic-evening"] {
+    background-image: linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("/tools/typing-next-preview/backgrounds/evening-mobile.webp");
+  }
+  .bk-source-text[data-reader-background="pic-night"] {
+    background-image: linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("/tools/typing-next-preview/backgrounds/night-mobile.webp");
+  }
+}
