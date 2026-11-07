@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../theme.css">
   <link rel="stylesheet" href="competition.css">
   <link rel="stylesheet" href="competition-dashboard.css">
+  <link rel="stylesheet" href="codeforces-problems.css">
   <script>
     (function () {
       try {
@@ -34,6 +35,7 @@
     <a class="competition-side-link active" href="#dashboard"><span>▦</span> Overview</a>
     <a class="competition-side-link" href="#subjects"><span>◎</span> Skill mastery</a>
     <a class="competition-side-link" href="#roadmap"><span>⌁</span> 16-week roadmap</a>
+    <a class="competition-side-link" href="#codeforces-problems"><span>⌕</span> Problem explorer</a>
     <a class="competition-side-link" href="#problem-review"><span>⌘</span> Problem log</a>
     <a class="competition-side-link" href="#mock-tests"><span>♜</span> Mock tests</a>
     <a class="competition-side-link" href="#resources"><span>▤</span> Resources</a>
@@ -143,6 +145,34 @@
       <div class="account-actions"><button id="save-linked-accounts" class="action-button" type="button">Save accounts &amp; refresh</button><span id="accounts-sync-note" role="status">Account details are saved with Limitless progress when signed in.</span></div>
     </section>
 
+    <section class="section-block" id="codeforces-problems">
+      <div class="section-heading-row">
+        <div><div class="card-label">OFFICIAL PROBLEMSET</div><h2>Codeforces problem explorer</h2></div>
+        <p>Browse the live Codeforces catalogue by rating, tags, topic category and your solved status. Save problems to a personal shortlist.</p>
+      </div>
+      <div class="cf-explorer">
+        <div class="cf-explorer-toolbar">
+          <p id="cf-problem-status" role="status">Connecting to the Codeforces API…</p>
+          <div class="cf-explorer-actions">
+            <button id="cf-refresh-solved" class="action-button" type="button">Refresh solved status</button>
+            <button id="cf-refresh-problems" class="action-button" type="button">Refresh catalogue</button>
+          </div>
+        </div>
+        <div class="cf-filter-grid">
+          <label>Search by problem name or ID<input id="cf-search" type="search" placeholder="e.g. 4A or Watermelon"></label>
+          <label>Category<select id="cf-category-filter"><option value="">All categories</option></select></label>
+          <label>Minimum rating<input id="cf-rating-min" type="number" min="800" max="3500" step="100" value="800"></label>
+          <label>Maximum rating<input id="cf-rating-max" type="number" min="800" max="3500" step="100" value="3500"></label>
+          <label class="cf-wide">Tags (Ctrl/Cmd-click to select multiple)<select id="cf-tag-filter" class="cf-tag-select" multiple></select></label>
+          <label>Problem status<select id="cf-status-filter"><option value="all">All problems</option><option value="unsolved">Unsolved</option><option value="solved">Solved</option><option value="saved">Bookmarked</option></select></label>
+          <label>Sort by<select id="cf-sort"><option value="rating-asc">Rating: easiest first</option><option value="rating-desc">Rating: hardest first</option><option value="name">Problem name</option></select></label>
+        </div>
+        <div class="cf-filter-meta"><span id="cf-result-count">Waiting for catalogue…</span><button id="cf-clear-filters" class="action-button" type="button">Clear filters</button></div>
+        <div id="cf-problem-list" class="cf-problem-list"><p class="cf-empty">The official problem catalogue will appear here.</p></div>
+        <div class="cf-pagination"><button id="cf-prev-page" type="button" disabled>Previous</button><span id="cf-page-label">Page 1</span><button id="cf-next-page" type="button" disabled>Next</button></div>
+      </div>
+    </section>
+
     <section class="section-block problem-log-section" id="problem-review">
       <div class="section-heading-row">
         <div><div class="card-label">PROBLEM-SOLVING EVIDENCE</div><h2>Problem review log</h2></div>
@@ -217,6 +247,7 @@
   </main>
   <script src="competition.js" defer></script>
   <script src="accounts.js" defer></script>
+  <script src="codeforces-problems.js" defer></script>
   <link rel="stylesheet" href="accounts.css">
 
   <!-- Limitless account + Supabase foundation -->
