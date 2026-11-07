@@ -1,6 +1,7 @@
 import { epubHash, normalize } from "../epub/epub-domain";
 import type { BookkeysChapter } from "../persistence/bookkeys-v1-contracts";
 import { requiredSectionsComplete } from "./bookkeys-chapters";
+import { BOOKKEYS_ACHIEVEMENTS, bookkeysAchievementValue } from "./bookkeys-achievements";
 
 export interface BookkeysGameBook {
   readonly p?: readonly number[];
@@ -19,6 +20,15 @@ export interface BookkeysGameState {
   readonly pages?: number;
   readonly chapters?: number;
   readonly books?: number;
+  readonly bestWpm?: number; readonly bestPct?: number; readonly perfect?: number; readonly run?: number; readonly bestRun?: number;
+  readonly days?: number; readonly bestDay?: number; readonly night?: number; readonly early?: number;
+  readonly beat5?: number; readonly up20?: number; readonly pro60?: number; readonly vir80?: number; readonly recs?: number; readonly hund?: number;
+  readonly sessMax?: number;
+  readonly base?: { readonly n: number; readonly sum: number };
+  readonly streak?: { readonly cur: number; readonly best: number; readonly last: string };
+  readonly day?: { readonly d: string; readonly w: number };
+  readonly session?: { readonly n: number; readonly t: number };
+  readonly ach?: Readonly<Record<string, number>>;
   readonly paid?: Readonly<Record<string, number>>;
   readonly check?: { key: string; page: number } | null;
   readonly book?: Readonly<Record<string, BookkeysGameBook>>;
@@ -132,6 +142,7 @@ export function completeBookkeysPage(
   chapters: readonly BookkeysChapter[] = [],
   totalSections = 0,
   emptyPageIndexes: readonly number[] = [],
+  now = Date.now(),
 ): PageCompletion {
   const accuracy = typingAccuracy(target, typed);
   const previousBooks = previous.book && typeof previous.book === "object" ? previous.book : {};
@@ -224,19 +235,67 @@ export function completeBookkeysPage(
     done: isBookDone ? 1 : Number(previousBook.done ?? 0),
     pageLengths,
   };
+  const correctChars = accuracy.correct;
+  const words = Math.max(0, Math.round(correctChars / 5));
+  const date = new Date(now);
+  const today = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
+  const yesterdayDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1);
+  const yesterday = yesterdayDate.getFullYear() + "-" + String(yesterdayDate.getMonth() + 1).padStart(2, "0") + "-" + String(yesterdayDate.getDate()).padStart(2, "0");
+  const priorStreak = previous.streak ?? { cur: 0, best: 0, last: "" };
+  const streakCount = priorStreak.last === today ? priorStreak.cur : priorStreak.last === yesterday ? priorStreak.cur + 1 : 1;
+  const streak = { cur: streakCount, best: Math.max(priorStreak.best, streakCount), last: today };
+  const priorDay = previous.day ?? { d: "", w: 0 };
+  const day = { d: today, w: (priorDay.d === today ? priorDay.w : 0) + words };
+  const priorSession = previous.session ?? { n: 0, t: 0 };
+  const sessionCount = now - priorSession.t > 30 * 60 * 1000 ? 1 : priorSession.n + 1;
+  const session = { n: sessionCount, t: now };
+  const priorBase = previous.base ?? { n: 0, sum: 0 };
+  const wpm = elapsedMs > 0 ? Math.min(999, Math.round((correctChars / 5) / (elapsedMs / 60000))) : 0;
+  const hasSpeedSample = eligibleForXp && target.length >= 200;
+  const priorBestWpm = Number(previous.bestWpm ?? 0);
+  const priorBestPct = Number(previous.bestPct ?? 0);
+  const stats: Partial<BookkeysGameState> = eligibleForXp ? {
+    streak,
+    days: Number(previous.days ?? 0) + (priorStreak.last === today ? 0 : 1),
+    day,
+    bestDay: Math.max(Number(previous.bestDay ?? 0), day.w),
+    session,
+    sessMax: Math.max(Number(previous.sessMax ?? 0), sessionCount),
+    perfect: Number(previous.perfect ?? 0) + (accuracy.percent === 100 && target.length >= 250 ? 1 : 0),
+    run: accuracy.percent >= 98 ? Number(previous.run ?? 0) + 1 : 0,
+    bestRun: Math.max(Number(previous.bestRun ?? 0), accuracy.percent >= 98 ? Number(previous.run ?? 0) + 1 : 0),
+    night: Number(previous.night ?? 0) + (date.getHours() < 5 ? 1 : 0),
+    early: Number(previous.early ?? 0) + (date.getHours() >= 5 && date.getHours() < 8 ? 1 : 0),
+    ...(hasSpeedSample ? {
+      bestWpm: Math.max(priorBestWpm, wpm),
+      bestPct: Math.max(priorBestPct, accuracy.percent),
+      beat5: Number(previous.beat5 ?? 0) || (priorBestWpm > 0 && wpm >= priorBestWpm + 5 ? 1 : 0),
+      up20: Number(previous.up20 ?? 0) || (priorBase.n >= 5 && wpm >= priorBase.sum / priorBase.n + 20 ? 1 : 0),
+      pro60: Number(previous.pro60 ?? 0) || (accuracy.percent >= 98 && wpm >= 60 ? 1 : 0),
+      vir80: Number(previous.vir80 ?? 0) || (accuracy.percent === 100 && wpm >= 80 ? 1 : 0),
+      hund: Number(previous.hund ?? 0) || (accuracy.percent === 100 && wpm >= 100 ? 1 : 0),
+      recs: Number(previous.recs ?? 0) || (priorBestWpm > 0 && priorBestPct > 0 && wpm > priorBestWpm && accuracy.percent > priorBestPct ? 1 : 0),
+      base: priorBase.n < 5 ? { n: priorBase.n + 1, sum: priorBase.sum + wpm } : priorBase,
+    } : {}),
+  } : {};
   const next: BookkeysGameState = {
-    ...previous,
+    ...previous, ...stats,
     xp: Math.max(0, Number(previous.xp ?? 0)) + earned,
-    chars: Math.max(0, Number(previous.chars ?? 0)) + (isTextPage ? target.length : 0),
-    words: Math.max(0, Number(previous.words ?? 0)) + (isTextPage ? normalize(target).split(" ").filter(Boolean).length : 0),
+    chars: Math.max(0, Number(previous.chars ?? 0)) + (isTextPage ? correctChars : 0),
+    words: Math.max(0, Number(previous.words ?? 0)) + (isTextPage ? words : 0),
     pages: Math.max(0, Number(previous.pages ?? 0)) + (isTextPage ? 1 : 0),
     chapters: Math.max(0, Number(previous.chapters ?? 0)) + chapterCount,
     books: Math.max(0, Number(previous.books ?? 0)) + bookCount,
-    paid,
-    check: { key: bookKey, page },
-    book: { ...previousBooks, [bookKey]: book },
+    paid, check: { key: bookKey, page }, book: { ...previousBooks, [bookKey]: book },
   };
-  return { game: next, accuracy, xpAwarded: earned, alreadyCompleted: false, eligibleForXp };
+  const achievements = { ...(previous.ach ?? {}) };
+  for (const achievement of BOOKKEYS_ACHIEVEMENTS) {
+    if (achievements[achievement.id] === undefined &&
+        bookkeysAchievementValue(next as Readonly<Record<string, unknown>>, achievement.metric) >= achievement.target) {
+      achievements[achievement.id] = now;
+    }
+  }
+  return { game: { ...next, ach: achievements }, accuracy, xpAwarded: earned, alreadyCompleted: false, eligibleForXp };;
 }
 
 export function emptyBookkeysGame(): BookkeysGameState {
@@ -250,6 +309,9 @@ export function emptyBookkeysGame(): BookkeysGameState {
     pages: 0,
     chapters: 0,
     books: 0,
+    bestWpm: 0, bestPct: 0, perfect: 0, run: 0, bestRun: 0, days: 0, bestDay: 0, night: 0, early: 0,
+    beat5: 0, up20: 0, pro60: 0, vir80: 0, recs: 0, hund: 0, sessMax: 0,
+    base: { n: 0, sum: 0 }, session: { n: 0, t: 0 },
     streak: { cur: 0, best: 0, last: "" },
     day: { d: "", w: 0 },
     ach: {},
