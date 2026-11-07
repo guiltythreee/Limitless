@@ -5,19 +5,19 @@ import {
 } from "./bookkeys-shelves";
 
 test("loads shelf arrays and always preserves the default library", () => {
-  assert.deepEqual(readShelves(null), [{ id: "default", name: "Library" }]);
+  assert.deepEqual(readShelves(null), [{ id: "main", name: "Library" }]);
   assert.deepEqual(readShelves(JSON.stringify([{ id: "fiction", name: "Fiction" }])), [
-    { id: "default", name: "Library" }, { id: "fiction", name: "Fiction" },
+    { id: "main", name: "Library" }, { id: "fiction", name: "Fiction" },
   ]);
 });
 
 test("normalizes legacy object-shaped shelf collections", () => {
   assert.deepEqual(normalizeShelves({
-    default: "Library",
+    main: "Library",
     classics: { name: "Classics" },
     empty: "",
   }), [
-    { id: "default", name: "Library" },
+    { id: "main", name: "Library" },
     { id: "classics", name: "Classics" },
   ]);
 });
@@ -31,13 +31,13 @@ test("creates shelves without duplicate names or IDs", () => {
 });
 
 test("renames shelves and prevents duplicate names", () => {
-  const base = [{ id: "default", name: "Library" }, { id: "s1", name: "Fantasy" }];
+  const base = [{ id: "main", name: "Library" }, { id: "s1", name: "Fantasy" }];
   assert.equal(renameShelf(base, "s1", "Speculative").find((shelf) => shelf.id === "s1")?.name, "Speculative");
   assert.deepEqual(renameShelf(base, "s1", "Library"), base);
 });
 
 test("cannot delete the default shelf and removes a custom shelf", () => {
-  const base = [{ id: "default", name: "Library" }, { id: "s1", name: "Fantasy" }];
-  assert.deepEqual(deleteShelf(base, "default"), base);
-  assert.deepEqual(deleteShelf(base, "s1"), [{ id: "default", name: "Library" }]);
+  const base = [{ id: "main", name: "Library" }, { id: "s1", name: "Fantasy" }];
+  assert.deepEqual(deleteShelf(base, "main"), base);
+  assert.deepEqual(deleteShelf(base, "s1"), [{ id: "main", name: "Library" }]);
 });
