@@ -114,6 +114,7 @@ export default function Landing() {
                   <span className="semester-course-copy">
                     <strong>{course.code} · {course.title}</strong>
                     <small>{course.topics.length} chapters · {totalFor(course).toLocaleString("en-IN")} questions</small>
+                    {course.id === "mt202" && <small>522 chapter-wise MCQs</small>}
                     <span className="semester-course-progress">
                       <i style={{ width: `${course.topics.length ? (stats.completed / course.topics.length) * 100 : 0}%` }} />
                     </span>
