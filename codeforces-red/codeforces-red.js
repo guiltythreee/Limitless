@@ -102,7 +102,6 @@
     $('weekly-solved').textContent=roadmapState.weekly.solved||0;
     $('weekly-contests').textContent=roadmapState.weekly.contests||0;
     $('mark-stage-done').textContent=roadmapState.ready.includes(roadmapState.active)?'Stage marked ready':'Mark stage ready';
-    if($('next-band-count')) $('next-band-count').value=(roadmapState.nextBandCounts||{})[roadmapState.active]||0;
   }
   function bindRoadmap() {
     loadRoadmap();
@@ -120,13 +119,10 @@
     $('weekly-minus').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};if((roadmapState.weeklyManual.solved||0)>0){roadmapState.weeklyManual.solved--;roadmapState.weekly.solved=Math.max(0,(roadmapState.weekly.solved||0)-1);saveRoadmap();renderRoadmap(lastPeak);}});
     $('contest-log').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};roadmapState.weeklyManual.contests=Math.min(99,(roadmapState.weeklyManual.contests||0)+1);roadmapState.weekly.contests=(roadmapState.weekly.contests||0)+1;saveRoadmap();renderRoadmap(lastPeak);});
     $('contest-unlog').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};if((roadmapState.weeklyManual.contests||0)>0){roadmapState.weeklyManual.contests--;roadmapState.weekly.contests=Math.max(0,(roadmapState.weekly.contests||0)-1);saveRoadmap();renderRoadmap(lastPeak);}});
-    $('next-band-count').addEventListener('change',()=>{roadmapState.nextBandCounts=roadmapState.nextBandCounts||{};roadmapState.nextBandCounts[roadmapState.active]=Math.max(0,Number($('next-band-count').value||0));saveRoadmap();});
     $('mark-stage-done').addEventListener('click',()=>{
-      const count=Number($('next-band-count').value||0);
-      if(count<10){$('readiness-status').textContent='Solve at least 10 problems from the next rating band independently before marking this stage ready.';return;}
-      if((roadmapState.checks[roadmapState.active]||[]).length<stages[roadmapState.active].tasks.length){$('readiness-status').textContent='Complete every skill checklist item before marking this stage ready.';return;}
-      if(!roadmapState.ready.includes(roadmapState.active))roadmapState.ready.push(roadmapState.active);
-      $('readiness-status').textContent='Readiness criteria met. Stage marked ready.';
+      const index=roadmapState.active;
+      if(roadmapState.ready.includes(index)) roadmapState.ready=roadmapState.ready.filter(x=>x!==index);
+      else roadmapState.ready.push(index);
       saveRoadmap();renderRoadmap(lastPeak);
     });
     renderRoadmap(lastPeak);
