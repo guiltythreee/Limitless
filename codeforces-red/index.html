@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d18">
+  <meta name="description" content="A dedicated Codeforces rating progression from your current level to Grandmaster red.">
+  <title>Road to Codeforces Red | Limitless</title>
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="../hub-theme.css">
+  <link rel="stylesheet" href="./codeforces-red.css">
+  <script>
+    (function () {
+      try { document.documentElement.setAttribute('data-theme', localStorage.getItem('limitless.site.theme') === 'light' ? 'light' : 'dark'); }
+      catch (_) { document.documentElement.setAttribute('data-theme', 'dark'); }
+    })();
+  </script>
+  <script src="/site-theme.js" defer></script>
+</head>
+<body class="cf-red-page">
+  <div class="background-art theme-bg" aria-hidden="true"></div>
+  <div class="particle-layer" aria-hidden="true"></div>
+  <header class="cr-topbar">
+    <a class="cr-brand" href="../">∞ LIMITLESS</a>
+    <nav aria-label="Main navigation">
+      <a href="../">Home</a>
+      <a href="../competition/">Competition</a>
+      <a href="../meta/">Progression</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme">Theme</button>
+  </header>
+
+  <main class="cr-main">
+    <a class="cr-back" href="../">← All modules</a>
+    <section class="cr-hero">
+      <div class="cr-eyebrow">A LONG-TERM RATING CAMPAIGN</div>
+      <div class="cr-title-row"><div><h1>Road to Codeforces Red</h1><p>One ladder. Seven official rating milestones. The destination is Grandmaster.</p></div><div class="cr-emblem" aria-hidden="true">♛</div></div>
+      <div class="cr-stats" aria-live="polite">
+        <article><span>PEAK RATING</span><strong id="peak-rating">—</strong></article>
+        <article><span>CURRENT RATING</span><strong id="current-rating">—</strong></article>
+        <article><span>CODEFORCES RANK</span><strong id="current-rank">—</strong></article>
+        <article><span>CONTESTS</span><strong id="contest-count">—</strong></article>
+      </div>
+      <div class="cr-progress-head"><span>Overall climb</span><strong id="overall-percent">—</strong></div>
+      <div class="cr-progress"><span id="overall-bar"></span></div>
+      <p class="cr-sync" id="sync-status" role="status">Connecting to Codeforces…</p>
+    </section>
+
+    <section class="cr-ladder-section">
+      <div class="cr-section-head"><div><div class="cr-eyebrow">THE RATING LADDER</div><h2>Milestones</h2></div><a href="https://codeforces.com/" target="_blank" rel="noopener noreferrer">Official Codeforces ↗</a></div>
+      <div id="milestone-list" class="cr-milestones">
+        <p class="cr-loading">Loading your rating milestones…</p>
+      </div>
+    </section>
+
+    <section class="cr-account">
+      <div><div class="cr-eyebrow">ACCOUNT CONNECTION</div><h2>Use your linked Codeforces handle</h2><p>This page reads the handle saved in your Competition workspace and refreshes your public rating data. It does not ask for your password.</p></div>
+      <div class="cr-account-actions"><strong id="linked-handle">—</strong><a href="../competition/#linked-accounts">Change linked handle in Competition ↗</a><button id="refresh-rating" type="button">Refresh rating</button></div>
+    </section>
+    <p class="cr-footnote">Milestones use peak rating, not current rating. Reaching 2400 peak is the Grandmaster threshold; a rating of 2399 is not red. Progress is read-only and does not award EXP.</p>
+  </main>
+
+  <script src="../hub-theme.js" defer></script>
+  <script src="./codeforces-red.js" defer></script>
+  <script src="../supabase/config.js"></script>
+  <script src="../supabase/client.js"></script>
+  <script src="../supabase/cloud-sync.js"></script>
+  <script src="../supabase/auth.js"></script>
+</body>
+</html>
