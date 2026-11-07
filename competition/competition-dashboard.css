@@ -319,3 +319,12 @@ html[data-theme="light"] .roadmap-controls select {
   .roadmap-controls { align-items:stretch; flex-direction:column; gap:10px; }
   .roadmap-controls label { min-width:0; width:100%; }
 }
+
+
+/* The global light-theme hero heading adds a glow; keep this page title crisp. */
+.competition-page .competition-heading h1,
+html[data-theme="light"] .competition-page .competition-heading h1 {
+  text-shadow: none !important;
+  filter: none !important;
+  animation: none !important;
+}
