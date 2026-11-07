@@ -76,17 +76,9 @@
     renderRoadmap(lastPeak);
   }
   let lastPeak=0;
-  function updateRoadmap(peak) {
-    const phases = Array.from(document.querySelectorAll('[data-phase-min]'));
-    const current = phases.find(node => peak >= Number(node.dataset.phaseMin) && peak <= Number(node.dataset.phaseMax)) || phases[0];
-    phases.forEach(node => node.classList.toggle('is-current', node === current));
-    const heading = current.querySelector('h3');
-    const copy = current.querySelector('.cr-phase-goal');
-    $('roadmap-current-stage').textContent = heading ? 'Current focus: ' + heading.textContent : 'Current focus';
-    $('roadmap-current-copy').textContent = copy ? copy.textContent : 'Follow the next stage of the roadmap.';
-  }
   function render(peak) {
-    updateRoadmap(peak);
+    lastPeak=peak;
+    renderRoadmap(peak);
     const max = Math.max(0, Math.min(100, ((peak - 800) / (2400 - 800)) * 100));
     $('overall-percent').textContent = Math.round(max) + '%';
     $('overall-bar').style.width = max + '%';
@@ -105,11 +97,13 @@
     readHandle();
     $('sync-status').textContent = 'Refreshing public Codeforces rating data…';
     $('refresh-rating').disabled = true;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
     try {
       const base = 'https://codeforces.com/api/';
       const [infoResponse, ratingResponse] = await Promise.all([
-        fetch(base + 'user.info?handles=' + encodeURIComponent(handle)),
-        fetch(base + 'user.rating?handle=' + encodeURIComponent(handle))
+        fetch(base + 'user.info?handles=' + encodeURIComponent(handle), {signal: controller.signal}),
+        fetch(base + 'user.rating?handle=' + encodeURIComponent(handle), {signal: controller.signal})
       ]);
       if (!infoResponse.ok || !ratingResponse.ok) throw new Error('Codeforces API request failed.');
       const [info, ratings] = await Promise.all([infoResponse.json(), ratingResponse.json()]);
@@ -124,7 +118,7 @@
       render(peak);
       $('sync-status').textContent = 'Live data · updated just now · peak rating determines milestone completion.';
     } catch (error) {
-      $('sync-status').textContent = error.message + ' Check the handle in Competition and retry.';
+      $('sync-status').textContent = (error.name === 'AbortError' ? 'Codeforces API timed out after 15 seconds.' : (error.message || 'Unable to connect to Codeforces.')) + ' Check the handle in Competition and retry.';
       $('milestone-list').innerHTML = '<p class="cr-loading">Rating data is unavailable right now. Milestones will appear when Codeforces responds.</p>';
       $('peak-rating').textContent = '—';
       $('current-rating').textContent = '—';
@@ -132,8 +126,8 @@
       $('contest-count').textContent = '—';
       $('overall-percent').textContent = '—';
       $('overall-bar').style.width = '0';
-      updateRoadmap(0);
     } finally {
+      clearTimeout(timeoutId);
       $('refresh-rating').disabled = false;
     }
   }
