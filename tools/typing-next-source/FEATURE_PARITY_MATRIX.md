@@ -15,7 +15,7 @@ Status meanings:
 | Legacy feature group | TypeScript preview status | Current evidence / remaining work |
 |---|---|---|
 | Home and library | Partial | Local library, Continue reading, sample passage, shelf create/rename/delete and PDF/EPUB import are present. Exact legacy card actions, cover artwork, search/sort and every shelf interaction still need a side-by-side check. |
-| PDF / EPUB import | Partial | Local PDF text extraction and EPUB section parsing are implemented. Fixture-based PDF and EPUB browser tests pass; representative long, malformed, unusual, image-only and real-world files remain a manual gate. |
+| PDF / EPUB / TXT / paste import | Partial | Local PDF text extraction, EPUB section parsing, TXT import and paste-text-to-library creation are implemented. Fixture-based PDF and EPUB browser tests pass; representative long, malformed, unusual, image-only and real-world files remain a manual gate. |
 | Reading and typing | Partial | Text display, typing, page/section navigation, draft recovery, saved position, required-section progress and sample mode are implemented. Legacy typing metrics, feedback detail, paste/drop handling, page lifecycle saves and all keyboard interactions still need a complete inventory. |
 | Chapter management | Partial | TOC-derived headings, required/optional choices, defaults, add/remove, persistence and progress are covered. Full editing/reordering parity and unusual TOC structures remain to be checked. |
 | Progress and achievements | Partial | Existing legacy progress remains stored; the preview shows required-section completion and shared Limitless EXP. The library now surfaces saved page, chapter, book, word and character counters. Streak UI, achievement collection and Hall of Fame are not yet surfaced. |
