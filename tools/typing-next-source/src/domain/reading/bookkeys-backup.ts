@@ -56,7 +56,7 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
       ...current,
       // Typed-page history is local authority. A backup may contribute flawless
       // markers and chapter/empty markers, but cannot invent typed progress.
-      p: unionNumbers(current.p, backup.p),
+      p: numberArray(current.p),
       x: unionNumbers(current.x, backup.x),
       e: unionNumbers(current.e, backup.e),
       c: unionNumbers(current.c, backup.c),
