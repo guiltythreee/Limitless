@@ -105,12 +105,14 @@ test("merge counts only successful writes and leaves a failed key untouched", ()
   const storage = new MemoryStorage();
   storage.setItem("bookkeys:settings", JSON.stringify({ size: 10, celebrate: false, lineH: 1 }));
   storage.setItem("bookkeys:game", JSON.stringify({ xp: 500, book: {} }));
+  storage.setItem("bookkeys:keep", "same");
   storage.failKey = "bookkeys:probe";
   const backup = parseBookkeysBackup(JSON.stringify({
     app: "bookkeys", v: 1,
     keys: {
       "bookkeys:settings": JSON.stringify({ size: 13, celebrate: "yes", lineH: "wide" }),
       "bookkeys:game": JSON.stringify({ xp: 1, book: { "backup-only": { p: [0], x: [0] } } }),
+      "bookkeys:keep": "same",
       "bookkeys:probe": "written-only-if-storage-works",
     },
   }));
