@@ -171,3 +171,24 @@ test("rounded 100 percent accuracy is not treated as an exact page", () => {
   assert.equal(result.game.perfect, 0);
   assert.equal(result.game.vir80, 0);
 });
+
+
+test("drafts preserve legacy key-event accuracy counters when supplied", () => {
+  const draft = createPageDraft(0, "abcdef", "abcdef", 1000, 2000, { ok: 5, all: 8 });
+  assert.equal(draft.ok, 5);
+  assert.equal(draft.all, 8);
+  assert.deepEqual(readPageDraft(JSON.stringify(draft), 0, "abcdef"), draft);
+});
+
+test("completed pages use key-event accuracy while retaining final-text character counts", () => {
+  const result = completeBookkeysPage(
+    emptyBookkeysGame(), "event-accuracy", 0, "abcdefghij", "abcdefghij", 1000,
+    [], 0, [], new Date(2026, 10, 7, 12).getTime(), { ok: 8, all: 10 },
+  );
+  assert.equal(result.accuracy.percent, 80);
+  assert.equal(result.accuracy.correct, 10);
+  assert.equal(result.xpAwarded, pageXp(10, 80));
+  assert.equal(result.game.chars, 10);
+  assert.equal(result.game.perfect, 0);
+  assert.deepEqual(result.game.book?.["event-accuracy"]?.x, []);
+});

@@ -82,6 +82,7 @@ export function createPageDraft(
   typed: string,
   startedAt: number,
   now = Date.now(),
+  keystrokes?: { readonly ok: number; readonly all: number },
 ): PageDraftV1 {
   const accuracy = typingAccuracy(target, typed);
   return {
@@ -89,8 +90,8 @@ export function createPageDraft(
     page,
     sig: pageSignature(target),
     typed,
-    ok: accuracy.correct,
-    all: accuracy.total,
+    ok: Math.max(0, Math.min(Number(keystrokes?.all ?? accuracy.total), Number(keystrokes?.ok ?? accuracy.correct))),
+    all: Math.max(0, Number(keystrokes?.all ?? accuracy.total)),
     spent: Math.max(0, now - startedAt),
     t: Math.round(now),
   };
@@ -144,9 +145,15 @@ export function completeBookkeysPage(
   totalSections = 0,
   emptyPageIndexes: readonly number[] = [],
   now = Date.now(),
+  keystrokes?: { readonly ok: number; readonly all: number },
 ): PageCompletion {
-  const accuracy = typingAccuracy(target, typed);
-  const exact = typed === target;
+  const textAccuracy = typingAccuracy(target, typed);
+  const eventTotal = Math.max(0, Number(keystrokes?.all ?? 0));
+  const eventCorrect = Math.max(0, Math.min(eventTotal, Number(keystrokes?.ok ?? 0)));
+  const accuracy: TypingAccuracy = eventTotal > 0
+    ? { ...textAccuracy, total: eventTotal, percent: Math.floor((eventCorrect * 100 + eventTotal / 2) / eventTotal) }
+    : textAccuracy;
+  const exact = eventTotal > 0 ? eventCorrect === eventTotal : typed === target;
   const previousBooks = previous.book && typeof previous.book === "object" ? previous.book : {};
   const previousBook: BookkeysGameBook = previousBooks[bookKey] ?? {};
   const typedPages = new Set(Array.isArray(previousBook.p) ? previousBook.p : []);
@@ -239,7 +246,7 @@ export function completeBookkeysPage(
     done: isBookDone ? 1 : Number(previousBook.done ?? 0),
     pageLengths,
   };
-  const correctChars = accuracy.correct;
+  const correctChars = textAccuracy.correct;
   const words = Math.max(0, Math.round(correctChars / 5));
   const date = new Date(now);
   const today = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");

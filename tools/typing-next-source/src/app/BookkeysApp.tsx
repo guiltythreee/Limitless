@@ -189,6 +189,8 @@ export default function BookkeysApp() {
   const backupInput = useRef<HTMLInputElement>(null);
   const startedAt = useRef(Date.now());
   const completedThisPage = useRef(false);
+  const keyStatsRef = useRef({ ok: 0, all: 0, lastTyped: "" });
+  const [keyStats, setKeyStats] = useState({ ok: 0, all: 0 });
 
   // Keep reward verification tied to the actual parsed page content. The
   // bridge stores only a stable signature and character count, never book text.
@@ -290,7 +292,12 @@ export default function BookkeysApp() {
     () => book?.sections[pageIndex]?.map((block) => block.text).join("\n") ?? "",
     [book, pageIndex],
   );
-  const liveAccuracy = typingAccuracy(target, typed);
+  const textAccuracy = typingAccuracy(target, typed);
+  const liveAccuracy = {
+    ...textAccuracy,
+    total: keyStats.all,
+    percent: keyStats.all > 0 ? Math.floor((keyStats.ok * 100 + keyStats.all / 2) / keyStats.all) : 100,
+  };
   const elapsedMs = Math.max(1000, Date.now() - startedAt.current);
   const liveWpm = typed.length
     ? Math.round((liveAccuracy.correct / 5) / (elapsedMs / 60_000))
@@ -311,6 +318,8 @@ export default function BookkeysApp() {
     if (!book) return;
     completedThisPage.current = false;
     startedAt.current = Date.now();
+    keyStatsRef.current = { ok: 0, all: 0, lastTyped: "" };
+    setKeyStats({ ok: 0, all: 0 });
     if (book.isSample) {
       setTyped("");
       setCompletedPageIndexes([]);
@@ -333,6 +342,8 @@ export default function BookkeysApp() {
         setStatus("No selectable text found on this PDF page. It is recorded as empty and will not block completion.");
       }
       if (draft) {
+        keyStatsRef.current = { ok: draft.ok, all: draft.all, lastTyped: draft.typed };
+        setKeyStats({ ok: draft.ok, all: draft.all });
         setTyped(draft.typed);
         startedAt.current = Date.now() - draft.spent;
         if (draft.typed.length >= target.length && target.length > 0) completedThisPage.current = true;
@@ -431,8 +442,19 @@ export default function BookkeysApp() {
       }
       return;
     }
+    const priorKeys = keyStatsRef.current;
+    let keyOk = priorKeys.ok;
+    let keyAll = priorKeys.all;
+    if (value.length >= priorKeys.lastTyped.length) {
+      for (let index = priorKeys.lastTyped.length; index < value.length; index += 1) {
+        keyAll += 1;
+        if (value[index] === target[index]) keyOk += 1;
+      }
+    }
+    keyStatsRef.current = { ok: keyOk, all: keyAll, lastTyped: value };
+    setKeyStats({ ok: keyOk, all: keyAll });
     try {
-      const draft = createPageDraft(pageIndex, target, value, startedAt.current);
+      const draft = createPageDraft(pageIndex, target, value, startedAt.current, Date.now(), keyStatsRef.current);
       window.localStorage.setItem(typingDraftKey(book.bookKey, pageIndex), JSON.stringify(draft));
     } catch {
       setStatus("Typing is active, but this browser could not save the draft.");
@@ -445,6 +467,7 @@ export default function BookkeysApp() {
       previousGame, book.bookKey, pageIndex, target, value, Date.now() - startedAt.current,
       book.chapters, book.sections.length,
       book.sections.flatMap((section, index) => section.some((block) => block.text) ? [] : [index]),
+      Date.now(), keyStatsRef.current,
     );
     try {
       const oldGameRaw = window.localStorage.getItem("bookkeys:game");
