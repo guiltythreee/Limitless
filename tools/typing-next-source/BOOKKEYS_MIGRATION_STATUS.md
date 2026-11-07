@@ -17,7 +17,7 @@ The latest successful workflow run [42368472242](https://github.com/guiltythreee
 - The current 98-test legacy suite in tools/typing/tests is also rerun in CI against the preserved standalone HTML implementation. The archived 91-test baseline and current 98/98 result are recorded in tools/typing/BOOKKEYS_TEST_BASELINE.md.
 - TypeScript type-check.
 - Next.js static production build.
-- 10 Playwright browser regressions:
+- 11 Playwright browser regressions:
   1. Import an EPUB, type a page, persist progress and reward records, reload, reopen, export a backup, import it into a fresh browser context and restore settings.
   2. Import a PDF, extract readable text and complete a page.
   3. Switch themes and change reader settings, then verify persistence after reload.
@@ -28,8 +28,9 @@ The latest successful workflow run [42368472242](https://github.com/guiltythreee
   8. Remove a local book file and library entry while retaining completed typing progress.
   9. Add/remove chapter headings, persist both legacy chapter keys and restore edits after reload.
   10. Verify the shared Limitless EXP display aggregates Probability, Metallurgy and Bookkeys ledgers, updates when another tab awards EXP, and excludes legacy `bookkeys:game.xp`.
+  11. Open a pre-populated `bookkeys-lib` IndexedDB v1 library with existing metadata and a local EPUB blob, then confirm the schema remains v1.
 
-The Bookkeys header displays global Limitless EXP from the canonical LSR-1 source registry, including awards from other disciplines and updates from other tabs. Legacy `bookkeys:game.xp` is retained for data compatibility but is never counted as global EXP. The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical shared/rewards.mjs implementation.
+The library also displays persisted Bookkeys page, chapter, book, word and character counters. A populated IndexedDB v1 fixture is now opened in-browser without a version upgrade; actual user libraries still require a backup-first manual acceptance run. The Bookkeys header displays global Limitless EXP from the canonical LSR-1 source registry, including awards from other disciplines and updates from other tabs. Legacy `bookkeys:game.xp` is retained for data compatibility but is never counted as global EXP. The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical shared/rewards.mjs implementation.
 
 ## Safety and data compatibility
 
@@ -45,7 +46,7 @@ The Bookkeys header displays global Limitless EXP from the canonical LSR-1 sourc
 
 - Complete a side-by-side inventory of every legacy Bookkeys screen, action, setting and keyboard interaction; port anything not represented in the new reader.
 - Test representative real-world PDFs and EPUBs, including long books, unusual chapter structures, malformed files and scanned/image-only PDFs.
-- Verify opening an existing user's populated IndexedDB library and existing backup files without data loss.
+- Verify opening representative real user IndexedDB libraries and existing backup files without data loss.
 - Test on real mobile browsers, not only a desktop Chromium viewport.
 - Deploy a separate preview route and complete manual acceptance before considering production cutover.
 
