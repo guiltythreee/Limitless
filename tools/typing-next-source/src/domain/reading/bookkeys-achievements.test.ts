@@ -15,6 +15,7 @@ test("legacy level thresholds and rank bands are preserved", () => {
   assert.equal(bookkeysLevelForXp(900), 3);
   assert.equal(bookkeysRankForLevel(1), "Novice Typist");
   assert.equal(bookkeysRankForLevel(6), "Page Turner");
+  assert.equal(bookkeysRankForLevel(3), "Novice Typist");
   assert.equal(bookkeysRankForLevel(50), "Typing Legend");
 });
 

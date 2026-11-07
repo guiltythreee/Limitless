@@ -539,7 +539,7 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
   await page.getByRole("button", { name: "Archive · Lv 3" }).click();
   const archive = page.getByRole("dialog", { name: "The Akashic Archive" });
   await expect(archive).toBeVisible();
-  await expect(archive.getByText("Page Turner")).toBeVisible();
+  await expect(archive.getByText("Novice Typist")).toBeVisible();
   await expect(archive.getByText("1 of 60 unlocked")).toBeVisible();
   await expect(archive.getByText("First Inscription")).toBeVisible();
   await expect(archive.getByText("Unlocked", { exact: true })).toBeVisible();
