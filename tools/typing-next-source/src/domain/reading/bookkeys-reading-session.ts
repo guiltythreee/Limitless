@@ -146,6 +146,7 @@ export function completeBookkeysPage(
   now = Date.now(),
 ): PageCompletion {
   const accuracy = typingAccuracy(target, typed);
+  const exact = typed === target;
   const previousBooks = previous.book && typeof previous.book === "object" ? previous.book : {};
   const previousBook: BookkeysGameBook = previousBooks[bookKey] ?? {};
   const typedPages = new Set(Array.isArray(previousBook.p) ? previousBook.p : []);
