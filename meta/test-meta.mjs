@@ -23,8 +23,12 @@ for (const moduleId of ["metallurgy-mt201", "metallurgy-mt202", "metallurgy-mt20
 }
 assert.ok(metaSource.includes("Metallurgy MT201–MT203"),
   "Meta empty state describes the Metallurgy integrations");
-assert.ok(pageSource.includes('<a href="../metallurgy/">Metallurgy</a>'),
-  "Meta navigation links to the Metallurgy application");
+assert.ok(
+  pageSource.includes('<nav class="nav-links" aria-label="Display settings">') &&
+  pageSource.includes('id="theme-toggle"') &&
+  !pageSource.includes('<a href="../metallurgy/">Metallurgy</a>'),
+  "Meta navigation keeps the brand/home link and theme control without the removed app links",
+);
 assert.ok(pageSource.includes("<h1 class=\"meta-title\">Progress &amp; Rewards</h1>"),
   "the page uses a plain-language progress and rewards title");
 assert.ok(pageSource.includes("<summary>Personal learning goals</summary>"),
