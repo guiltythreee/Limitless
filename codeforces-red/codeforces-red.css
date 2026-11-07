@@ -207,3 +207,22 @@ html[data-theme="light"] .cr-week-foot #contest-log:hover {
   background: #0d5797 !important;
   border-color: #0d5797 !important;
 }
+
+/* Expanded Road to Red curriculum, routine and readiness */
+.cr-training-routine,.cr-book-references{margin-top:18px;padding:20px;border:1px solid rgba(105,158,213,.2);border-radius:14px;background:rgba(8,20,36,.65)}
+.cr-training-routine h3,.cr-book-references h3{margin:5px 0;color:#e8f1fc;font-size:18px}
+.cr-training-routine>p,.cr-book-grid span{color:#a9bfd7;font-size:11px;line-height:1.6}
+.cr-routine-grid,.cr-book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px}
+.cr-routine-grid article,.cr-book-grid article{display:grid;align-content:start;gap:7px;padding:12px;border:1px solid rgba(105,158,213,.18);border-radius:9px;background:rgba(13,31,52,.65)}
+.cr-routine-grid b,.cr-book-grid b{color:#dcecff;font-size:11px}.cr-routine-grid span{color:#a9bfd7;font-size:10px;line-height:1.55}
+.cr-book-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.cr-book-grid a{color:#8fcaff;font-size:10px;text-decoration:none}
+.cr-readiness{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:8px 16px;margin-top:14px;padding:13px;border:1px solid rgba(105,158,213,.25);border-radius:10px;background:rgba(40,91,137,.12)}
+.cr-readiness b{color:#dcecff;font-size:12px}.cr-readiness p{margin:5px 0 0;color:#a9bfd7;font-size:10px;line-height:1.55}
+.cr-readiness label{display:grid;gap:6px;color:#a9bfd7;font-size:10px}.cr-readiness input{width:100%;padding:8px;border:1px solid rgba(105,158,213,.35);border-radius:7px;background:rgba(7,19,34,.8);color:#e8f1fc}.cr-readiness #readiness-status{grid-column:1/-1}
+html[data-theme="light"] .cr-training-routine,html[data-theme="light"] .cr-book-references,html[data-theme="light"] .cr-routine-grid article,html[data-theme="light"] .cr-book-grid article{background:#f7fbff;border-color:#cbdbe9}
+html[data-theme="light"] .cr-training-routine h3,html[data-theme="light"] .cr-book-references h3,html[data-theme="light"] .cr-routine-grid b,html[data-theme="light"] .cr-book-grid b,html[data-theme="light"] .cr-readiness b{color:#1c3d5c}
+html[data-theme="light"] .cr-training-routine>p,html[data-theme="light"] .cr-routine-grid span,html[data-theme="light"] .cr-book-grid span,html[data-theme="light"] .cr-readiness p,html[data-theme="light"] .cr-readiness label{color:#526d87}
+html[data-theme="light"] .cr-readiness input{background:#fff;color:#243c54;border-color:#c6d6e5}
+html[data-theme="light"] .cr-book-grid a{color:#1769a8}
+@media(max-width:760px){.cr-routine-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cr-readiness{grid-template-columns:1fr}.cr-book-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.cr-routine-grid{grid-template-columns:1fr}}
