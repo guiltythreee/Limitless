@@ -168,7 +168,7 @@ export function completeBookkeysPage(
     }
     paid[rewardId] = earned;
     typedPages.add(page);
-    if (exact) exactPages.add(page);
+    if (eligibleForXp && exact) exactPages.add(page);
   } else {
     emptyPages.add(page);
   }
