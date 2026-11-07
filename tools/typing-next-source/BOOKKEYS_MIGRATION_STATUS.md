@@ -37,6 +37,7 @@ PDF, EPUB and plain-text/TXT imports are supported, including a paste-text workf
 ## Safety and data compatibility
 
 - The original Bookkeys HTML reader remains untouched.
+- The default Library shelf retains the legacy ID `main`; existing books assigned to that shelf remain visible, and it cannot be deleted.
 - The migration opens the existing bookkeys-lib IndexedDB v1 database and keeps its existing store names and version.
 - Existing Bookkeys localStorage keys, per-book/library reading-position keys, both chapter-record lookup paths, the legacy bookkeys:size fallback and backup v1 formats are retained. The sample passage is typable but excluded from XP, rewards and saved book progress.
 - Original PDF/EPUB files and artwork remain browser-local; the reward ledger stores only page fingerprints and character counts, not book text.
