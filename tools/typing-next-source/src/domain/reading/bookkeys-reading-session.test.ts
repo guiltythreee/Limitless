@@ -142,7 +142,7 @@ test("live archive metrics update with legacy streak, daily, session and perfect
   assert.equal(second.game.streak?.best, 2);
   assert.equal(second.game.days, 2);
   assert.equal(second.game.bestDay, 50);
-  assert.equal(second.game.sessMax, 2);
+  assert.equal(second.game.sessMax, 1); // sessions expire after 30 minutes without a completed page
 
   const third = completeBookkeysPage(second.game, "metrics", 2, page, page, 50_000, [], 0, [], day3);
   assert.equal(third.game.streak?.cur, 3);
