@@ -20,7 +20,17 @@
     } catch (_) {}
     $('linked-handle').textContent = handle;
   }
+  function updateRoadmap(peak) {
+    const phases = Array.from(document.querySelectorAll('[data-phase-min]'));
+    const current = phases.find(node => peak >= Number(node.dataset.phaseMin) && peak <= Number(node.dataset.phaseMax)) || phases[0];
+    phases.forEach(node => node.classList.toggle('is-current', node === current));
+    const heading = current.querySelector('h3');
+    const copy = current.querySelector('.cr-phase-goal');
+    $('roadmap-current-stage').textContent = heading ? 'Current focus: ' + heading.textContent : 'Current focus';
+    $('roadmap-current-copy').textContent = copy ? copy.textContent : 'Follow the next stage of the roadmap.';
+  }
   function render(peak) {
+    updateRoadmap(peak);
     const max = Math.max(0, Math.min(100, ((peak - 800) / (2400 - 800)) * 100));
     $('overall-percent').textContent = Math.round(max) + '%';
     $('overall-bar').style.width = max + '%';
@@ -66,6 +76,7 @@
       $('contest-count').textContent = '—';
       $('overall-percent').textContent = '—';
       $('overall-bar').style.width = '0';
+      updateRoadmap(0);
     } finally {
       $('refresh-rating').disabled = false;
     }
