@@ -9,9 +9,9 @@ import { summarizeStudyProgress } from "../../../shared/studies/registry";
 import { PROBABILITY_STUDIES_REGISTRATION } from "./registration";
 
 const practiceHref = (view: string, difficulty?: string) => {
-  const params = new URLSearchParams({ mode: "practice", view });
+  const params = new URLSearchParams({ view });
   if (difficulty) params.set("difficulty", difficulty);
-  return `/?${params.toString()}#study`;
+  return `/practice/?${params.toString()}`;
 };
 
 export default function ProbabilityStudiesLanding() {
