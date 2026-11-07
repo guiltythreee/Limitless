@@ -458,9 +458,16 @@
       ['Playlist','Towers','Traffic Lights']
     ]
   };
-  function referenceFor(subjectId, weekIndex) {
-    var guide = REFERENCE_GUIDE[subjectId];
-    var section = guide.sections[Math.min(guide.sections.length - 1, Math.floor(weekIndex / 4))];
+  function referenceFor(subjectId, weekIndex, topicTitle) {
+    var guide = REFERENCE_GUIDE[subjectId], title = String(topicTitle || '').toLowerCase();
+    var sectionIndex = Math.min(guide.sections.length - 1, Math.floor(weekIndex / 4));
+    if (subjectId === 'logic') {
+      sectionIndex = /induction/.test(title) ? 1 : /pigeonhole|counting/.test(title) ? 2 : /graph/.test(title) ? 3 : 0;
+    } else if (subjectId === 'combinatorics') {
+      sectionIndex = /recurrence/.test(title) ? 1 : 0;
+    } else if (subjectId === 'probability') {
+      sectionIndex = /conditional|bayes|partition/.test(title) ? 1 : /expectation|indicator|random variable/.test(title) ? 3 : /variance|joint/.test(title) ? 4 : 0;
+    }
     var items = [];
     if (subjectId === 'graphs' || subjectId === 'dp' || subjectId === 'coding') {
       var bank = CSES_TASKS[subjectId], group = bank[Math.min(bank.length - 1, Math.floor(weekIndex / 3))];
@@ -475,7 +482,7 @@
     return { guide:guide, section:section, items:items };
   }
   function renderTopicAssignments(topic, wi, ti) {
-    var subjectId = topic[0], ref = referenceFor(subjectId, wi), baseKey = 'w' + (wi + 1) + '-ref-' + ti;
+    var subjectId = topic[0], ref = referenceFor(subjectId, wi, topic[1]), baseKey = 'w' + (wi + 1) + '-ref-' + ti;
     var chapterKey = baseKey + '-read';
     var reading = '<label class="reference-task"><input type="checkbox" data-day-task="' + chapterKey + '" ' + (state.dayChecks[chapterKey] ? 'checked' : '') + '><span><b>Read:</b> ' + esc(ref.guide.book) + ' — ' + esc(ref.section) + '</span></label>';
     var tasks = ref.items.map(function (item, index) {
