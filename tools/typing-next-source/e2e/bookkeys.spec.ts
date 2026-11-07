@@ -373,6 +373,35 @@ test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP tot
   const display = page.locator(".bk-xp strong");
   await expect(display).toHaveText("10");
 
+  // A different Limitless module can award EXP in another tab while Bookkeys is open.
+  const otherTab = await page.context().newPage();
+  await otherTab.goto("/tools/typing-next-preview/");
+  await otherTab.evaluate(() => localStorage.setItem("mm-mt201-v1", JSON.stringify({
+    rewardLedger: [{
+      policyVersion: "LSR-1",
+      eventId: "metallurgy:existing-award",
+      moduleId: "metallurgy-mt201",
+      itemId: "metallurgy:existing-item",
+      ts: 1800000000000,
+      activityClass: "focused-practice",
+      difficulty: "foundational",
+      completionEvidence: "completed-exercise",
+      completed: true,
+      eligible: true,
+      reason: "awarded",
+      countsTowardRepeatCap: true,
+      repeatOrdinal: 1,
+      baseExp: 20,
+      difficultyMultiplier: 1,
+      qualityBonus: 0,
+      passBonus: 0,
+      totalExp: 20,
+      checkpointId: null,
+    }],
+  })));
+  await expect(display).toHaveText("30");
+  await otherTab.close();
+
   const epub = await makeFixtureEpub();
   await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
     name: "reward-ledger-fixture.epub",
@@ -384,6 +413,6 @@ test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP tot
   await page.locator("#bk-typing").fill(source!);
   await expect.poll(async () => Number((await display.textContent())?.replace(/,/g, "")))
     .toBeGreaterThan(0);
-  expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeGreaterThan(10);
+  expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeGreaterThan(30);
   expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeLessThan(987654);
 });
