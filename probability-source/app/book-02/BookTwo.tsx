@@ -574,8 +574,8 @@ export default function BookTwo() {
           onClick={() => {
             const nextChapter = chapter + 1;
             setChapter(nextChapter);
-            setSolutions(false);
-            persistProgress(nextChapter, completed, false);
+            setSection("textbook");
+            persistProgress(nextChapter, completed, "textbook");
           }}
           className="border border-gold/30 px-4 py-2 text-xs text-gold disabled:opacity-30"
         >
