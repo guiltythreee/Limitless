@@ -493,7 +493,7 @@
   function renderProblemHistory() {
     var rows = state.problemLog.slice().reverse();
     $('problem-history').innerHTML = rows.length ? rows.map(function (problem) {
-      return '<article class="problem-entry"><div class="problem-entry-head"><strong>' + esc(problem.name) + '</strong><span>' + esc(problem.subject) + '</span><small>' + esc(problem.date) + '</small><button type="button" data-delete-problem="' + esc(problem.id) + '">Remove</button></div>' +
+      return '<article class="problem-entry" data-result="' + esc(problem.outcome || 'independent') + '"><div class="problem-entry-head"><strong>' + esc(problem.name) + '</strong><span>' + esc(problem.subject) + '</span><small>' + esc(problem.date) + '</small><button type="button" data-delete-problem="' + esc(problem.id) + '">Remove</button></div>' +
         (problem.difficulty ? '<p><b>Source difficulty:</b> ' + esc(problem.difficulty) + '</p>' : '') +
         '<p><b>Key observation:</b> ' + esc(problem.observation) + '</p>' +
         (problem.missed ? '<p><b>Missed insight:</b> ' + esc(problem.missed) + '</p>' : '') +
@@ -582,6 +582,8 @@
         name:$('problem-name').value.trim(),
         subject:$('problem-subject').value,
         difficulty:$('problem-difficulty').value.trim(),
+        outcome:$('problem-outcome').value,
+        time:$('problem-time').value,
         observation:$('problem-observation').value.trim(),
         missed:$('problem-missed').value.trim(),
         concept:$('problem-concept').value.trim(),
