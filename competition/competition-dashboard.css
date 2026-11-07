@@ -286,8 +286,23 @@ html[data-theme="light"] .cf-chip.solved { color:#16845f; }
   line-height:1.5;
 }
 .roadmap-empty { padding:14px; color:var(--comp-muted); }
-.subject-link { display:inline-flex; align-items:center; gap:6px; }
-.subject-card .subject-link { text-decoration-thickness:1px; text-underline-offset:3px; }
+.subject-card-link {
+  display:block;
+  color:inherit;
+  text-decoration:none;
+  cursor:pointer;
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+.subject-card-link:hover {
+  transform:translateY(-2px);
+  border-color:rgba(95,177,255,.62);
+  box-shadow:0 8px 24px rgba(0,0,0,.16);
+}
+.subject-card-link:focus-visible {
+  outline:3px solid #65b5ff;
+  outline-offset:3px;
+}
+.subject-card-link h3,.subject-card-link p { text-decoration:none; }
 html[data-theme="light"] .roadmap-controls {
   background:rgba(248,252,255,.97);
   border-color:rgba(64,112,157,.24);
