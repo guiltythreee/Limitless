@@ -28,7 +28,7 @@ export interface BookkeysGameState {
   readonly streak?: { readonly cur: number; readonly best: number; readonly last: string };
   readonly day?: { readonly d: string; readonly w: number };
   readonly session?: { readonly n: number; readonly t: number };
-  readonly ach?: Readonly<Record<string, number>>;
+  readonly ach?: Readonly<Record<string, number | false | null>>;
   readonly paid?: Readonly<Record<string, number>>;
   readonly check?: { key: string; page: number } | null;
   readonly book?: Readonly<Record<string, BookkeysGameBook>>;
@@ -294,8 +294,10 @@ export function completeBookkeysPage(
   };
   const achievements = { ...(previous.ach ?? {}) };
   if (eligibleForXp) for (const achievement of BOOKKEYS_ACHIEVEMENTS) {
-    if (achievements[achievement.id] === undefined &&
-        bookkeysAchievementValue(next as Readonly<Record<string, unknown>>, achievement.metric) >= achievement.target) {
+    const previousValue = bookkeysAchievementValue(previous as Readonly<Record<string, unknown>>, achievement.metric);
+    const nextValue = bookkeysAchievementValue(next as Readonly<Record<string, unknown>>, achievement.metric);
+    const isLocked = achievements[achievement.id] === undefined || achievements[achievement.id] === null || achievements[achievement.id] === false;
+    if (isLocked && previousValue < achievement.target && nextValue >= achievement.target) {
       achievements[achievement.id] = now;
     }
   }
