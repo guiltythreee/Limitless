@@ -817,7 +817,7 @@ export default function BookkeysApp() {
                 <button className="bk-book" key={entry.id} onClick={() => void loadEntry(entry)} disabled={busy}>
                   <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
                   <strong>{entry.name}</strong>
-                  <span>{entry.pages} {entry.fmt === "pdf" || !entry.fmt ? "pages" : "sections"}</span>
+                  <span>{entry.pages} {entry.fmt ? "sections" : "pages"}</span>
                 </button>
               ))}
             </div>
