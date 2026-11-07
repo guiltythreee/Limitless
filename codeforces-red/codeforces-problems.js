@@ -91,7 +91,7 @@
       populateFilters();
       await loadSolved();
       if (!/unavailable|failed|error|could not/i.test($('cf-problem-status').textContent)) {
-        status('Curated catalogue · '+state.problems.length.toLocaleString()+' problems · maximum 250 per rating · solved status checks latest 10,000 submissions.');
+        status('Curated '+state.problems.length.toLocaleString()+' problems · '+state.solved.size.toLocaleString()+' solved · '+state.wrong.size.toLocaleString()+' with failed submissions · based on latest 10,000 submissions.');
       }
       render();
     } catch (error) { status(error.message + ' You can retry; your saved list remains available.'); }
