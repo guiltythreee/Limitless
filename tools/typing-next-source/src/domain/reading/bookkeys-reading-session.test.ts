@@ -158,3 +158,14 @@ test("short eligible pages update totals and unlock page achievements without cr
   assert.equal(game.bestWpm, 0);
   assert.ok(game.ach?.["pages10"]);
 });
+
+
+test("rounded 100 percent accuracy is not treated as an exact page", () => {
+  const target = "a".repeat(250);
+  const typed = "b" + "a".repeat(249);
+  const result = completeBookkeysPage(emptyBookkeysGame(), "near-perfect", 0, target, typed, 50_000, [], 0, [], new Date(2026, 10, 7, 12).getTime());
+  assert.equal(result.accuracy.percent, 100);
+  assert.deepEqual(result.game.book?.["near-perfect"]?.x, []);
+  assert.equal(result.game.perfect, 0);
+  assert.equal(result.game.vir80, 0);
+});
