@@ -345,10 +345,33 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
 test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP total", async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem("bookkeys:game", JSON.stringify({ xp: 987654, book: {}, paid: {} }));
+    localStorage.setItem("hc3-progress-v3", JSON.stringify({
+      rewardLedger: [{
+        policyVersion: "LSR-1",
+        eventId: "probability:existing-award",
+        moduleId: "probability",
+        itemId: "probability:existing-item",
+        ts: 1800000000000,
+        activityClass: "standard-task",
+        difficulty: "foundational",
+        completionEvidence: "completed-problem",
+        completed: true,
+        eligible: true,
+        reason: "awarded",
+        countsTowardRepeatCap: true,
+        repeatOrdinal: 1,
+        baseExp: 10,
+        difficultyMultiplier: 1,
+        qualityBonus: 0,
+        passBonus: 0,
+        totalExp: 10,
+        checkpointId: null,
+      }],
+    }));
   });
   await page.goto("/tools/typing-next-preview/");
   const display = page.locator(".bk-xp strong");
-  await expect(display).toHaveText("0");
+  await expect(display).toHaveText("10");
 
   const epub = await makeFixtureEpub();
   await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
@@ -361,5 +384,6 @@ test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP tot
   await page.locator("#bk-typing").fill(source!);
   await expect.poll(async () => Number((await display.textContent())?.replace(/,/g, "")))
     .toBeGreaterThan(0);
+  expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeGreaterThan(10);
   expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeLessThan(987654);
 });
