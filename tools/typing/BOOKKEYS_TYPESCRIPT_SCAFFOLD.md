@@ -50,3 +50,9 @@ CI on the current PR head passed:
 - Existing production Bookkeys regression suite: 98/98 passing.
 
 The extraction remains non-production. Do not switch the active reader until persistence, PDF/EPUB import, typing state, chapter editing, settings/themes, backups, achievements/rewards and offline behaviour have each passed parity checks, followed by a rollback review.
+
+### IndexedDB adapter checkpoint — 2026-11-07
+
+Added an isolated adapter for the existing `bookkeys-lib` IndexedDB v1 schema and a `fake-indexeddb` test suite covering metadata/blob writes, metadata updates, artwork file operations, paired deletion and unavailable IndexedDB. No production data or reader code is accessed by these tests.
+
+The latest CI run passed the extracted helper/database tests, type-check and static export build. The existing production Bookkeys suite also passed. See [migration PR #111](https://github.com/guiltythreee/Limitless/pull/111).
