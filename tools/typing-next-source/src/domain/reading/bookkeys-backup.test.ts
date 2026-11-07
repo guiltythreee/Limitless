@@ -47,7 +47,7 @@ test("accepts older v1 backup envelopes without exportedAt and rejects foreign k
   })), /not a supported Bookkeys backup/);
 });
 
-test("merge validates settings types and unions completed pages and flawless markers", () => {
+test("merge validates settings, preserves local typed pages and merges flawless markers", () => {
   const storage = new MemoryStorage();
   storage.setItem("bookkeys:settings", JSON.stringify({ size: 10, celebrate: false, lineH: 1.5 }));
   storage.setItem("bookkeys:game", JSON.stringify({
