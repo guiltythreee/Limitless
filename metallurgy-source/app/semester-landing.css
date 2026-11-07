@@ -1,0 +1,51 @@
+.semester-hub{min-height:100vh;background:var(--page-bg);color:var(--body)}
+.semester-hub .navbar{position:sticky;top:0;z-index:20}
+.semester-layout{display:grid;grid-template-columns:minmax(250px,310px) minmax(0,1fr);min-height:calc(100vh - 64px);width:min(1540px,100%);margin:0 auto}
+.semester-sidebar{position:sticky;top:64px;align-self:start;height:calc(100vh - 64px);overflow:auto;padding:1.5rem 1.15rem;border-right:1px solid var(--line);background:color-mix(in srgb,var(--panel) 82%,transparent)}
+.semester-back{display:inline-flex;gap:.6rem;align-items:center;color:var(--dim);font-size:.78rem;text-decoration:none;margin-bottom:1.5rem}
+.semester-back:hover{color:var(--gold)}
+.semester-brand{display:flex;align-items:center;gap:.8rem;padding:.3rem .25rem 1.5rem;border-bottom:1px solid var(--line)}
+.semester-brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:color-mix(in srgb,var(--gold) 12%,transparent);color:var(--gold);font-size:1.35rem}
+.semester-brand strong,.semester-brand small{display:block}.semester-brand strong{color:var(--paper);font:500 1.15rem Georgia,serif}.semester-brand small{margin-top:.2rem;color:var(--dim);font-size:.7rem}
+.semester-sidebar-label{margin:1.45rem .35rem .65rem;color:var(--faint);font-size:.62rem;font-weight:750;letter-spacing:.16em}
+.semester-course-list{display:grid;gap:.45rem}
+.semester-course{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:.7rem;align-items:center;width:100%;padding:.8rem .7rem;border:1px solid transparent;border-radius:9px;background:transparent;color:inherit;text-align:left;cursor:pointer;transition:background .15s,border-color .15s}
+.semester-course:hover{background:color-mix(in srgb,var(--gold) 6%,transparent);border-color:var(--line)}
+.semester-course.is-active{background:color-mix(in srgb,var(--gold) 12%,var(--panel));border-color:color-mix(in srgb,var(--gold) 48%,transparent)}
+.semester-course-symbol{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:color-mix(in srgb,var(--gold) 13%,transparent);color:var(--gold);font-size:1.1rem}
+.semester-course-copy{min-width:0}.semester-course-copy strong{display:block;color:var(--paper);font-size:.78rem;line-height:1.4}.semester-course-copy small{display:block;margin-top:.25rem;color:var(--dim);font-size:.65rem}
+.semester-course-index{align-self:start;color:var(--faint);font-size:.6rem;letter-spacing:.1em}
+.semester-course-progress{display:block;height:3px;margin-top:.55rem;overflow:hidden;border-radius:10px;background:var(--track)}.semester-course-progress i{display:block;height:100%;background:var(--gold)}
+.semester-sidebar-note{display:grid;gap:.35rem;margin-top:2rem;padding:1rem;border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--gold) 4%,transparent)}
+.semester-sidebar-note span{color:var(--faint);font-size:.58rem;letter-spacing:.15em}.semester-sidebar-note strong{color:var(--paper);font:500 1.05rem Georgia,serif}.semester-sidebar-note small{color:var(--dim);font-size:.68rem;line-height:1.55}
+.semester-main{min-width:0;padding:clamp(1.25rem,3vw,2.5rem)}
+.semester-main-heading{max-width:1160px;margin:0 auto 1.25rem;padding:1.5rem 1.65rem;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--panel) 82%,transparent)}
+.semester-breadcrumb{color:var(--faint);font-size:.61rem;letter-spacing:.13em}.semester-breadcrumb span{padding:0 .45rem;color:var(--gold)}
+.semester-title-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.5rem 0 1.15rem}
+.semester-eyebrow{color:var(--gold);font-size:.62rem;font-weight:750;letter-spacing:.17em}
+.semester-title-row h1{margin:.45rem 0 .3rem;color:var(--paper);font:500 clamp(1.7rem,3.5vw,2.7rem)/1.15 Georgia,serif}
+.semester-title-row p{margin:0;color:var(--dim);font-size:.82rem;line-height:1.6}
+.semester-title-symbol{display:grid;place-items:center;flex:none;width:66px;height:66px;border:1px solid var(--line);border-radius:50%;color:var(--gold);font-size:2rem}
+.semester-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem;padding-top:1rem;border-top:1px solid var(--line)}
+.semester-summary div{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;padding:.35rem .45rem}.semester-summary strong{color:var(--paper);font:500 1.35rem Georgia,serif}.semester-summary span{color:var(--dim);font-size:.66rem}
+.semester-chapter-panel{max-width:1160px;margin:0 auto;padding:1.4rem 1.5rem;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--panel) 82%,transparent)}
+.semester-panel-heading{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:1.2rem}.semester-panel-heading h2{margin:.35rem 0 0;color:var(--paper);font:500 1.55rem Georgia,serif}
+.semester-tag{padding:.4rem .65rem;border:1px solid var(--line);border-radius:99px;color:var(--gold);font-size:.62rem;letter-spacing:.1em}
+.semester-toolbar{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.75rem 0;border-bottom:1px solid var(--line)}
+.semester-search{display:flex;align-items:center;gap:.55rem;min-width:190px;max-width:300px;flex:1;padding:.6rem .75rem;border:1px solid var(--line);border-radius:8px;background:var(--inset);color:var(--dim)}
+.semester-search span{font-size:1.3rem}.semester-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--paper);font:inherit;font-size:.75rem}.semester-search input::placeholder{color:var(--faint)}
+.semester-filters{display:flex;flex-wrap:wrap;gap:.45rem}.semester-filters select{max-width:190px;padding:.58rem .65rem;border:1px solid var(--line);border-radius:8px;background:var(--chip);color:var(--body);font:inherit;font-size:.68rem}
+.semester-list-head{display:flex;justify-content:space-between;gap:1rem;padding:.9rem .2rem;color:var(--dim);font-size:.68rem}.semester-list-head i{padding:0 .2rem;color:var(--gold)}
+.semester-chapters{display:grid}
+.semester-chapter{display:grid;grid-template-columns:42px minmax(0,1fr) 85px 115px 18px;gap:.8rem;align-items:center;padding:.85rem .65rem;border-bottom:1px solid color-mix(in srgb,var(--line) 65%,transparent);border-radius:6px;color:inherit;text-decoration:none;transition:background .15s}
+.semester-chapter:hover{background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.semester-chapter-number{display:grid;place-items:center;width:30px;height:30px;border-radius:6px;background:color-mix(in srgb,var(--gold) 13%,transparent);color:var(--gold);font-size:.72rem;font-weight:750}
+.semester-chapter-name{min-width:0}.semester-chapter-name strong{display:block;overflow:hidden;color:var(--paper);font-size:.83rem;font-weight:650;text-overflow:ellipsis;white-space:nowrap}.semester-chapter-name small{display:block;margin-top:.22rem;color:var(--faint);font-size:.62rem}
+.semester-chapter-count{color:var(--body);font-size:.75rem;text-align:right}.semester-chapter-count small{color:var(--dim);font-size:.63rem}
+.semester-chapter-status{font-size:.65rem;text-align:right}.status-not-started{color:var(--dim)}.status-in-progress{color:#e2c078}.status-completed{color:#9cc9a4}
+.semester-chapter-arrow{color:var(--gold);font-size:1rem;text-align:right}
+.semester-empty{padding:2rem 1rem;color:var(--dim);text-align:center;font-size:.8rem}
+.semester-panel-footer{display:flex;justify-content:space-between;gap:1rem;padding-top:1rem;color:var(--faint);font-size:.62rem}
+@media(max-width:850px){.semester-layout{grid-template-columns:220px minmax(0,1fr)}.semester-sidebar{padding:1rem .7rem}.semester-course{grid-template-columns:30px minmax(0,1fr)}.semester-course-index{display:none}.semester-toolbar{align-items:stretch;flex-direction:column}.semester-search{max-width:none}.semester-filters select{flex:1;max-width:none}}
+@media(max-width:620px){.semester-layout{display:block}.semester-sidebar{position:static;height:auto;max-height:none;border-right:0;border-bottom:1px solid var(--line);padding:.8rem}.semester-back{margin-bottom:.7rem}.semester-brand{padding:.2rem .2rem .8rem}.semester-sidebar-label{margin:.8rem .25rem .5rem}.semester-course-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:.35rem}.semester-course{display:flex;flex-direction:column;align-items:flex-start;gap:.35rem;padding:.55rem}.semester-course-symbol{width:28px;height:28px}.semester-course-copy strong{font-size:.65rem}.semester-course-copy small{font-size:.58rem;line-height:1.4}.semester-course-progress{margin-top:.35rem}.semester-sidebar-note{display:none}.semester-main{padding:.75rem}.semester-main-heading,.semester-chapter-panel{padding:1rem}.semester-title-symbol{width:46px;height:46px;font-size:1.35rem}.semester-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.semester-chapter{grid-template-columns:32px minmax(0,1fr) 58px 16px;gap:.45rem;padding:.7rem .2rem}.semester-chapter-status{display:none}.semester-chapter-name strong{font-size:.72rem}.semester-chapter-count{font-size:.68rem}.semester-list-head span:last-child{display:none}.semester-panel-footer{flex-direction:column;gap:.3rem}}
+@media(prefers-reduced-motion:reduce){.semester-course,.semester-chapter{transition:none}}
