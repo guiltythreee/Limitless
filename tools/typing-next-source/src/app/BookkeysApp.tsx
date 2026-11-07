@@ -277,7 +277,7 @@ export default function BookkeysApp() {
         );
         window.localStorage.setItem("bookkeys:game", JSON.stringify(result.game));
         setGameProgress(result.game);
-      const savedBook = result.game.book?.[book.bookKey];
+        const savedBook = result.game.book?.[book.bookKey];
         setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
         
         setStatus("No selectable text found on this PDF page. It is recorded as empty and will not block completion.");
@@ -408,6 +408,7 @@ export default function BookkeysApp() {
         newValue: newGameRaw,
         storageArea: window.localStorage,
       }));
+      setGameProgress(result.game);
       const savedBook = result.game.book?.[book.bookKey];
       setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
     } catch {
