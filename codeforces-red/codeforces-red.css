@@ -226,3 +226,74 @@ html[data-theme="light"] .cr-readiness input{background:#fff;color:#243c54;borde
 html[data-theme="light"] .cr-book-grid a{color:#1769a8}
 @media(max-width:760px){.cr-routine-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cr-readiness{grid-template-columns:1fr}.cr-book-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.cr-routine-grid{grid-template-columns:1fr}}
+
+
+/* Compact book-reference cards; reveal one description on hover or keyboard focus. */
+.cr-book-grid {
+  align-items: start;
+}
+.cr-book-grid article {
+  min-width: 0;
+  min-height: 58px;
+  align-content: center;
+  gap: 0;
+  overflow: hidden;
+  transition:
+    min-height .22s ease,
+    padding .22s ease,
+    transform .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
+  transform-origin: center top;
+}
+.cr-book-grid article > span,
+.cr-book-grid article > a {
+  display: block;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    max-height .28s ease,
+    margin .22s ease,
+    opacity .18s ease;
+}
+.cr-book-grid article:hover,
+.cr-book-grid article:focus-within {
+  position: relative;
+  z-index: 3;
+  min-height: 210px;
+  padding: 16px;
+  gap: 8px;
+  overflow: visible;
+  transform: scale(1.035);
+  border-color: rgba(105,158,213,.55);
+  box-shadow: 0 14px 30px rgba(0,0,0,.2);
+}
+.cr-book-grid article:hover > span,
+.cr-book-grid article:focus-within > span {
+  max-height: 260px;
+  margin-top: 2px;
+  opacity: 1;
+  pointer-events: auto;
+}
+.cr-book-grid article:hover > a,
+.cr-book-grid article:focus-within > a {
+  max-height: 32px;
+  margin-top: 2px;
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cr-book-grid article,
+  .cr-book-grid article > span,
+  .cr-book-grid article > a {
+    transition: none;
+  }
+}
+html[data-theme="light"] .cr-book-grid article:hover,
+html[data-theme="light"] .cr-book-grid article:focus-within {
+  background: #fff;
+  box-shadow: 0 14px 30px rgba(37,75,112,.18);
+}
