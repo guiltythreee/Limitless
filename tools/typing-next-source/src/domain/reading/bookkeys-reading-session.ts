@@ -281,15 +281,15 @@ export function completeBookkeysPage(
   const next: BookkeysGameState = {
     ...previous, ...stats,
     xp: Math.max(0, Number(previous.xp ?? 0)) + earned,
-    chars: Math.max(0, Number(previous.chars ?? 0)) + (isTextPage ? correctChars : 0),
-    words: Math.max(0, Number(previous.words ?? 0)) + (isTextPage ? words : 0),
-    pages: Math.max(0, Number(previous.pages ?? 0)) + (isTextPage ? 1 : 0),
+    chars: Math.max(0, Number(previous.chars ?? 0)) + (eligibleForXp ? correctChars : 0),
+    words: Math.max(0, Number(previous.words ?? 0)) + (eligibleForXp ? words : 0),
+    pages: Math.max(0, Number(previous.pages ?? 0)) + (eligibleForXp ? 1 : 0),
     chapters: Math.max(0, Number(previous.chapters ?? 0)) + chapterCount,
     books: Math.max(0, Number(previous.books ?? 0)) + bookCount,
     paid, check: { key: bookKey, page }, book: { ...previousBooks, [bookKey]: book },
   };
   const achievements = { ...(previous.ach ?? {}) };
-  for (const achievement of BOOKKEYS_ACHIEVEMENTS) {
+  if (eligibleForXp) for (const achievement of BOOKKEYS_ACHIEVEMENTS) {
     if (achievements[achievement.id] === undefined &&
         bookkeysAchievementValue(next as Readonly<Record<string, unknown>>, achievement.metric) >= achievement.target) {
       achievements[achievement.id] = now;
