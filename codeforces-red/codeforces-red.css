@@ -46,3 +46,62 @@ html[data-theme="light"] .cr-phase ul,html[data-theme="light"] .cr-roadmap-panel
 html[data-theme="light"] .cr-phase-work{border-top-color:#d5e1eb}html[data-theme="light"] .cr-phase-work b{color:#1d456b}
 html[data-theme="light"] .cr-phase-final{background:linear-gradient(145deg,#fff0f3,#f5f8fc);border-color:#e2bdc7}
 @media(max-width:760px){.cr-phase-grid,.cr-roadmap-columns{grid-template-columns:1fr}.cr-roadmap{padding:16px}.cr-roadmap .cr-section-head{align-items:flex-start;flex-direction:column}}
+
+
+/* Refined linked-account panel: a clear identity block and a separate refresh action. */
+.cr-account { gap:clamp(18px,3vw,34px); }
+.cr-account > div:first-child { flex:1 1 460px; min-width:0; }
+.cr-account-actions {
+  flex:0 1 490px;
+  min-width:min(100%,390px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:15px 16px;
+  border:1px solid rgba(112,177,235,.35);
+  border-radius:14px;
+  background:linear-gradient(115deg,rgba(30,77,121,.96),rgba(12,37,64,.98));
+  box-shadow:0 8px 24px rgba(13,55,98,.16);
+}
+.cr-account-identity { display:flex; align-items:center; gap:13px; min-width:0; }
+.cr-account-avatar {
+  display:grid;
+  place-items:center;
+  flex:0 0 46px;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#397fda,#3155b8);
+  color:#fff;
+  font-size:25px;
+  box-shadow:inset 0 1px 5px rgba(255,255,255,.2);
+}
+.cr-account-meta { display:grid; gap:5px; min-width:0; }
+.cr-account-meta strong {
+  overflow:hidden;
+  color:#f4f8ff;
+  font-size:14px;
+  font-weight:700;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.cr-account-connected { display:flex; align-items:center; gap:5px; color:#b9d8f4; font-size:10px; }
+.cr-account-connected span { color:#8fc8ff; font-size:16px; line-height:1; }
+.cr-account-meta a { color:#9ed0ff; font-size:10px; text-decoration:none; }
+.cr-account-meta a:hover { color:#fff; text-decoration:underline; text-underline-offset:3px; }
+.cr-account-actions .cr-refresh-button { flex:0 0 auto; min-width:142px; }
+html[data-theme="light"] .cr-account-actions {
+  background:linear-gradient(115deg,#245a8b,#153c62);
+  border-color:rgba(54,112,169,.45);
+}
+html[data-theme="light"] .cr-account-meta strong { color:#fff; }
+html[data-theme="light"] .cr-account-connected { color:#d1e6fa; }
+html[data-theme="light"] .cr-account-meta a { color:#b5dcff; }
+@media(max-width:700px) {
+  .cr-account-actions { width:100%; min-width:0; flex:1 1 auto; }
+}
+@media(max-width:480px) {
+  .cr-account-actions { align-items:stretch; flex-direction:column; }
+  .cr-account-actions .cr-refresh-button { width:100%; }
+}
