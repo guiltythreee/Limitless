@@ -169,6 +169,7 @@ export function restoreBookkeysBackup(
 ): BackupRestoreResult {
   if (!isBookkeysBackupV1(backup)) throw new TypeError("A valid Bookkeys v1 backup is required.");
   let written = 0;
+  let unchanged = 0;
   let failed = 0;
 
   if (mode === "replace") {
@@ -202,7 +203,7 @@ export function restoreBookkeysBackup(
         if (!isBookkeysBackupKey(key) || existing.has(key)) continue;
         try { storage.removeItem(key); } catch { failed += 1; }
       }
-      return { written: 0, unchanged: Object.keys(backup.keys).length, failed };
+      return { written: 0, unchanged: 0, failed };
     }
 
     const incomingKeys = new Set(Object.keys(backup.keys).filter(isBookkeysBackupKey));
@@ -221,7 +222,7 @@ export function restoreBookkeysBackup(
     if (!isBookkeysBackupKey(key) || typeof incomingRaw !== "string") continue;
     const localRaw = storage.getItem(key);
     const next = mergedValue(key, localRaw, incomingRaw);
-    if (next === localRaw) continue;
+    if (next === localRaw) { unchanged += 1; continue; }
     try {
       storage.setItem(key, next);
       written += 1;
@@ -231,7 +232,7 @@ export function restoreBookkeysBackup(
   }
   return {
     written,
-    unchanged: Object.keys(backup.keys).length - written,
+    unchanged,
     failed,
   };
 }
