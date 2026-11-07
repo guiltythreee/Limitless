@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../theme.css">
   <link rel="stylesheet" href="../hub-theme.css">
   <link rel="stylesheet" href="./codeforces-red.css">
+  <link rel="stylesheet" href="./codeforces-problems.css">
   <script>
     (function () {
       try { document.documentElement.setAttribute('data-theme', localStorage.getItem('limitless.site.theme') === 'light' ? 'light' : 'dark'); }
@@ -77,7 +78,42 @@
       </div>
       <p class="cr-roadmap-disclaimer">Your checklist and weekly counters are saved in this browser. Rating milestones remain based on live Codeforces peak rating; checklist completion does not artificially change your rating or unlock a rank.</p>
     </section>
-<section class="cr-account">
+    <section class="cr-problem-explorer-section" id="codeforces-problems">
+      <div class="cr-section-head">
+        <div><div class="cr-eyebrow">OFFICIAL PROBLEMSET</div><h2>Codeforces problem explorer</h2></div>
+        <p>Browse the live Codeforces catalogue by rating, tags, topic category and your solved status. Save problems to a personal shortlist.</p>
+      </div>
+      <div class="cf-explorer">
+        <div class="cf-explorer-toolbar">
+          <p id="cf-problem-status" role="status">Connecting to the Codeforces API…</p>
+          <div class="cf-explorer-actions">
+            <button id="cf-refresh-solved" class="action-button" type="button">Refresh solved status</button>
+            <button id="cf-refresh-problems" class="action-button" type="button">Refresh catalogue</button>
+          </div>
+        </div>
+        <div class="cf-quick-toolbar">
+          <label class="cf-search-field">Search<input id="cf-search" type="search" placeholder="Problem name or ID"></label>
+          <label>Rating<select id="cf-rating-preset"><option value="800-1200">800–1200</option><option value="1200-1600">1200–1600</option><option value="1600-2000">1600–2000</option><option value="2000-3500">2000+</option><option value="any">Any rating</option><option value="custom" disabled>Custom</option></select></label>
+        </div>
+        <details class="cf-advanced-filters">
+          <summary>Advanced filters</summary>
+          <div class="cf-filter-grid">
+            <label>Category<select id="cf-category-filter"><option value="">All categories</option></select></label>
+            <label>Minimum rating<input id="cf-rating-min" type="number" min="800" max="3500" step="100" value="800"></label>
+            <label>Maximum rating<input id="cf-rating-max" type="number" min="800" max="3500" step="100" value="1200"></label>
+            <label class="cf-check-label"><span>Include unrated problems</span><input id="cf-include-unrated" type="checkbox"></label>
+            <label class="cf-wide">Tags (Ctrl/Cmd-click to select multiple)<select id="cf-tag-filter" class="cf-tag-select" multiple></select></label>
+            <label>Problem status<select id="cf-status-filter"><option value="all">All problems</option><option value="unsolved">Unsolved</option><option value="solved">Solved</option><option value="saved">Bookmarked</option></select></label>
+            <label>Sort by<select id="cf-sort"><option value="rating-asc">Rating: easiest first</option><option value="rating-desc">Rating: hardest first</option><option value="name">Problem name</option></select></label>
+          </div>
+        </details>
+        <div class="cf-filter-meta"><span id="cf-result-count">Waiting for catalogue…</span><button id="cf-clear-filters" class="action-button" type="button">Clear filters</button></div>
+        <div id="cf-problem-list" class="cf-problem-list"><p class="cf-empty">The official problem catalogue will appear here.</p></div>
+        <div class="cf-pagination"><button id="cf-prev-page" type="button" disabled>Previous</button><span id="cf-page-label">Page 1</span><button id="cf-next-page" type="button" disabled>Next</button></div>
+      </div>
+    </section>
+
+    <section class="cr-account">
       <div><div class="cr-eyebrow">ACCOUNT CONNECTION</div><h2>Use your linked Codeforces handle</h2><p>This page reads the handle saved in your Competition workspace and refreshes your public rating data. It does not ask for your password.</p></div>
       <div class="cr-account-actions">
         <div class="cr-account-identity">
@@ -96,6 +132,7 @@
 
   <script src="../hub-theme.js" defer></script>
   <script src="./codeforces-red.js" defer></script>
+  <script src="./codeforces-problems.js" defer></script>
   <script src="../supabase/config.js"></script>
   <script src="../supabase/client.js"></script>
   <script src="../supabase/cloud-sync.js"></script>

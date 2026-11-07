@@ -50,7 +50,10 @@
     finally { state.loading = false; $('cf-refresh-problems').disabled = false; }
   }
   async function loadSolved() {
-    const handle = $('cf-handle').value.trim();
+    let handle = $('linked-handle') ? $('linked-handle').textContent.trim() : '';
+    if (!handle || handle === '—') {
+      try { const linked = JSON.parse(localStorage.getItem('limitless.competition.linked-accounts.v1') || '{}'); handle = (linked.codeforcesHandle || '').trim(); } catch (_) {}
+    }
     if (!handle) { status('Catalogue loaded. Add a Codeforces handle above to include your solved status.'); return; }
     try {
       const submissions = await api('user.status', { handle, from:1, count:10000 });
@@ -102,7 +105,7 @@
       const tagsDisclosure = tags ? '<details class="cf-problem-tags"><summary>Tags</summary><div>' + tags + '</div></details>' : '';
       const isGym = Number(p.contestId) >= 100000;
       const url = p.contestId ? (isGym ? 'https://codeforces.com/gym/' + p.contestId + '/problem/' : 'https://codeforces.com/problemset/problem/' + p.contestId + '/') + encodeURIComponent(p.index || '') : 'https://codeforces.com/problemset';
-      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + (solved ? 'solved' : 'unsolved') + '">' + (solved ? 'Solved' : 'Unsolved') + '</span>' + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-log-problem" type="button" data-log-problem="' + esc(key) + '">Log</button><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
+      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + (solved ? 'solved' : 'unsolved') + '">' + (solved ? 'Solved' : 'Unsolved') + '</span>' + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-log-problem" type="button" data-log-problem="' + esc(key) + '">+1 weekly</button><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
     }).join('') || '<p class="cf-empty">No problems match these filters. Try widening the rating range or removing a tag.</p>';
     $('cf-page-label').textContent = 'Page ' + (state.page + 1) + ' of ' + pages;
     $('cf-prev-page').disabled = state.page === 0;
@@ -115,16 +118,10 @@
     $('cf-problem-list').querySelectorAll('[data-log-problem]').forEach(button => button.addEventListener('click', () => {
       const problem = state.problems.find(p => (p.contestId || 'gym') + '-' + (p.index || '') === button.dataset.logProblem);
       if (!problem) return;
-      const form = $('problem-form');
-      $('problem-name').value = (problem.contestId || 'Gym') + (problem.index || '') + ' · ' + (problem.name || 'Codeforces problem');
-      $('problem-difficulty').value = Number.isFinite(problem.rating) ? String(problem.rating) : '';
-      $('problem-concept').value = (problem.tags || []).join(', ');
-      $('problem-outcome').value = 'independent';
-      $('problem-time').value = '';
-      $('problem-observation').value = '';
-      const drawer = form.closest('.entry-drawer');
-      if (drawer) drawer.open = true;
-      form.scrollIntoView({ behavior:'smooth', block:'center' });
+      const weeklyPlus = $('weekly-plus');
+      if (weeklyPlus) weeklyPlus.click();
+      button.textContent = 'Logged this week';
+      button.disabled = true;
     }));
   }
   function bindFilters() {
