@@ -148,3 +148,19 @@ CI on commit `4d3c3094ecdc615500627b384dcc32611a7423d0`:
 - Existing production Bookkeys regression suite: PASS.
 
 The extracted database adapter is not yet wired into production. Next work must migrate and test the localStorage compatibility layer, library metadata schema and specialized backup merge rules before attempting a reader integration.
+
+## 13. Local storage and backup-record extraction checkpoint (2026-11-07)
+
+`tools/typing-next-source/src/lib/bookkeys/storage.mjs` now isolates the guarded localStorage adapter and record-level compatibility rules: built-in shelf normalization, additive shelf merge, type-checked settings merge, and normalized per-book progress arrays. The adapter is injectable, and the helpers do not access the production DOM or user profile.
+
+`tests/bookkeys-storage.test.mjs` covers unavailable storage and write warnings, shelf restoration and merge validation, settings type validation (including non-finite numbers), and progress-array normalization. The migration workspace now has 23 focused tests across pure text/chapter/XP helpers, EPUB helpers, IndexedDB and local persistence records.
+
+CI on commit `a0f7d32eb4f871c6824c952c3487d6f3f6008adb`:
+- Extracted helper/storage/IndexedDB tests: PASS.
+- TypeScript type-check: PASS.
+- Static export build: PASS.
+- Existing production Bookkeys regression suite: PASS.
+
+Workflow runs: [migration scaffold and tests](https://github.com/guiltythreee/Limitless/actions/runs/42370995565) and [production Bookkeys regression](https://github.com/guiltythreee/Limitless/actions/runs/42370995608).
+
+The local persistence adapter is not wired into production. Backup envelope parsing, game/achievement merge, chapter merge, draft recovery and library metadata migration remain separate extraction gates.
