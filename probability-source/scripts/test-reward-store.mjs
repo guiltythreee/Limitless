@@ -46,8 +46,11 @@ function boot(seed, options = {}) {
   };
   const events = [];
   const listeners = [];
+  let cloudReady = options.cloudSyncReady ?? true;
   const fakeWindow = {
     localStorage: storage,
+    LimitlessCloudSync: options.cloudSync ? { isReady: () => cloudReady } : undefined,
+    setCloudReady(value) { cloudReady = value; },
     addEventListener(name, callback) { listeners.push({ name, callback }); },
     dispatchEvent(event) { events.push(event.type); return true; },
   };
@@ -88,11 +91,44 @@ function boot(seed, options = {}) {
   return {
     api, storage, events,
     emit(name, event = {}) { for (const listener of listeners) if (listener.name === name) listener.callback(event); },
+    setCloudReady(value) { fakeWindow.setCloudReady(value); },
     get writes() { return storage.writeCount(); }
   };
 }
 
 const extension = { owner: "another-module", nested: { schema: 4, flags: ["keep", "all"] } };
+
+{
+  const local = {
+    completed: ["lesson-a"], tests: [], attempts: [], rewardLedger: [],
+    bookmarks: [], drafts: {}, goal: 10, goalByDay: {},
+  };
+  const { api, storage, emit, setCloudReady, writes } = boot({
+    "hc3-progress-v3": JSON.stringify(local),
+  }, { cloudSync: true, cloudSyncReady: false });
+  api.useStore();
+  assert.equal(writes, 1, "only the activation baseline is written while cloud hydration is pending");
+  const remote = {
+    completed: ["lesson-b"], tests: [], attempts: [], rewardLedger: [],
+    bookmarks: ["lesson-b:0"], drafts: {}, goal: 12, goalByDay: {},
+  };
+  storage.setItem("hc3-progress-v3", JSON.stringify(remote));
+  setCloudReady(true);
+  emit("limitless:cloud-sync-hydrated", { detail: { userId: "account-b" } });
+  assert.equal(api.useStore().completed.join(","), "lesson-b", "startup does not overwrite the hydrated cloud record");
+}
+
+{
+  const { api, storage, emit, setCloudReady } = boot({
+    "hc3-progress-v2": JSON.stringify({ completed: ["lesson-a"], answered: {} }),
+  }, { cloudSync: true, cloudSyncReady: false });
+  api.useStore();
+  assert.equal(storage.getItem("hc3-progress-v3"), null, "legacy migration write is deferred while cloud hydration is pending");
+  setCloudReady(true);
+  emit("limitless:cloud-sync-hydrated", { detail: { userId: "account-b" } });
+  const migrated = JSON.parse(storage.getItem("hc3-progress-v3"));
+  assert.equal(migrated.completed.join(","), "lesson-a", "local legacy progress is migrated after the cloud read");
+}
 
 {
   const { api, storage, emit } = boot({
