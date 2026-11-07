@@ -806,7 +806,7 @@ export default function BookkeysApp() {
         setCompletedPageIndexes([...new Set([...(progress?.p ?? []), ...(progress?.e ?? [])])]);
       }
       setStatus("Backup merged · " + result.written + " entries brought in · " +
-        result.unchanged + " left as they already are here.");
+        result.unchanged + " already up to date · " + result.failed + " could not be restored.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Could not import this backup.");
     } finally {
