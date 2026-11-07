@@ -165,10 +165,38 @@ test("theme and reader settings are interactive and persist without overwriting 
     localStorage.setItem("bookkeys:settings", JSON.stringify({
       bg: "pic-night",
       skin: "sepia",
+      accent: "custom",
+      accentCustom: "#123456",
+      fontColor: "custom",
+      fontColorCustom: "#654321",
       bgMatch: true,
+      deco: "off",
+      bgDensity: 0.8,
+      bgAnim: false,
+      backdrop: 2,
+      picVeil: 0.25,
+      picBlur: 3,
+      font: "newsreader",
       size: 17,
       lineH: 1.7,
+      spacing: 0.2,
+      punct: "simplify",
+      lglow: false,
+      tfx: "none",
+      fxInt: 2,
+      efx: "flash",
+      sparks: "off",
+      sound: "off",
+      volume: 35,
+      errSound: false,
+      centered: true,
       celebrate: true,
+      motion: "system",
+      cstyle: "block",
+      cblink: "blink",
+      csmooth: false,
+      cglow: true,
+      ccolor: "accent",
     }));
     localStorage.setItem("bookkeys:bgdef1", "1");
     localStorage.setItem("bookkeys:bgdef2", "1");
@@ -184,7 +212,15 @@ test("theme and reader settings are interactive and persist without overwriting 
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-night");
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").bg)).toBe("pic-night");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"))).toMatchObject({
+    bg: "pic-night", skin: "sepia", accent: "custom", accentCustom: "#123456",
+    fontColor: "custom", fontColorCustom: "#654321", bgMatch: true, deco: "off",
+    bgDensity: 0.8, bgAnim: false, backdrop: 2, picVeil: 0.25, picBlur: 3,
+    font: "newsreader", spacing: 0.2, punct: "simplify", lglow: false,
+    tfx: "none", fxInt: 2, efx: "flash", sparks: "off", sound: "off",
+    volume: 35, errSound: false, centered: true, celebrate: true, motion: "system",
+    cstyle: "block", cblink: "blink", csmooth: false, cglow: true, ccolor: "accent",
+  });
 
   const artwork = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#d2ae5c"/></svg>');
   const upload = dialog.getByLabel("Upload Gothic artwork");
