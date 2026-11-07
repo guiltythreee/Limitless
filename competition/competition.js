@@ -342,11 +342,12 @@
       });
       var total = counts['not-started'] + counts.learning + counts.practiced + counts.mastered;
       var pct = total ? Math.round(counts.mastered / total * 100) : 0;
-      return '<article class="subject-card"><h3>' + subject.name + '</h3><p>' + subject.note + '</p>' +
+      return '<a class="subject-card subject-card-link" href="#roadmap" data-subject-roadmap="' + subject.id + '" aria-label="Open ' + esc(subject.name) + ' roadmap">' +
+        '<h3>' + esc(subject.name) + '</h3><p>' + esc(subject.note) + '</p>' +
         '<div class="subject-count"><span>' + counts.mastered + ' / ' + total + ' mastered</span><span>' + pct + '% mastery</span></div>' +
         '<div class="progress-track"><span style="width:' + pct + '%"></span></div>' +
         '<div class="subject-breakdown"><span>' + counts.learning + ' learning</span><span>' + counts.practiced + ' practiced</span><span>' + counts['not-started'] + ' not started</span></div>' +
-        '<a class="subject-link" href="#roadmap" data-subject-roadmap="' + subject.id + '">Open ' + esc(subject.name) + ' roadmap ↓</a></article>';
+        '</a>';
     }).join('');
   }
 
