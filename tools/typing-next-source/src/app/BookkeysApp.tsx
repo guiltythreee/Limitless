@@ -160,7 +160,7 @@ export default function BookkeysApp() {
   const bookCache = useRef<Record<string, ReaderBook>>({});
   const [pageIndex, setPageIndex] = useState(0);
   const [typed, setTyped] = useState("");
-  const [status, setStatus] = useState("Import a PDF or EPUB to begin.");
+  const [status, setStatus] = useState("Import a PDF, EPUB or text file, or paste text to begin.");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [settings, setSettings] = useState<BookkeysSettings>({ bg: "dark", size: 17, lineH: 1.8, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
