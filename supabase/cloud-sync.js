@@ -132,6 +132,13 @@
       suppress = false;
       ready = true;
       setState("synced");
+      // Notify local-first module stores that cloud values have replaced or
+      // merged their persisted records. Storage.prototype writes are bypassed
+      // intentionally during hydration, so the browser will not emit a
+      // same-tab "storage" event for these changes.
+      window.dispatchEvent(new CustomEvent("limitless:cloud-sync-hydrated", {
+        detail: { userId }
+      }));
       if (pending.size) await flush();
     } catch (error) {
       suppress = false;
