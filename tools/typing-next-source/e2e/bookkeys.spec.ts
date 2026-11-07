@@ -596,3 +596,45 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
   await archive.getByRole("button", { name: "Close Archive" }).click();
   expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBe(saved);
 });
+
+
+test("IME composition commits once, saves the draft and does not count intermediate composition input", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "ime-composition-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const typing = page.locator("#bk-typing");
+  await expect(typing).toBeVisible();
+
+  await typing.evaluate((element) => {
+    const input = element as HTMLTextAreaElement;
+    input.dispatchEvent(new CompositionEvent("compositionstart", { bubbles: true }));
+    input.value = "T";
+    input.dispatchEvent(new InputEvent("input", {
+      bubbles: true,
+      inputType: "insertCompositionText",
+      data: "T",
+      isComposing: true,
+    }));
+    input.dispatchEvent(new CompositionEvent("compositionend", { bubbles: true, data: "T" }));
+    // Browsers may emit a final non-composing input event after compositionend.
+    input.dispatchEvent(new InputEvent("input", {
+      bubbles: true,
+      inputType: "insertText",
+      data: "T",
+    }));
+  });
+
+  await expect(typing).toHaveValue("T");
+  await expect(page.locator(".bk-typing-metrics")).toContainText("1");
+  const savedDraft = await page.evaluate(() => {
+    const key = Object.keys(localStorage).find((item) => item.startsWith("bookkeys:draft:"));
+    return key ? JSON.parse(localStorage.getItem(key) ?? "null") as { typed?: string; all?: number } : null;
+  });
+  expect(savedDraft?.typed).toBe("T");
+  expect(savedDraft?.all).toBe(1);
+  expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBeNull();
+});
