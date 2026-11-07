@@ -124,3 +124,21 @@ html[data-theme="light"] .mastery-key small { color:#617991; }
 @media(max-width:1050px) { .subject-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
 @media(max-width:720px) { .subject-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .mock-row { grid-template-columns:1fr 1fr; } .settings-card>summary span { display:block; margin:5px 0 0; } }
 @media(max-width:460px) { .resource-grid,.subject-grid { grid-template-columns:1fr; } }
+
+
+/* Final usability pass: forms stay closed until requested; all body copy meets 12px minimum. */
+.settings-card .campaign-meta { display:flex; flex-wrap:wrap; margin:0 0 16px; }
+.settings-card .campaign-meta label { min-width:190px; font-size:12px; }
+.settings-card .campaign-meta input { display:block; margin-top:6px; }
+.entry-drawer { margin:12px 0; border:1px solid var(--comp-border); border-radius:10px; background:#0b1726; padding:12px 14px; }
+.entry-drawer>summary { cursor:pointer; color:#a9d7ff; font-size:13px; font-weight:600; }
+.entry-drawer .problem-form,.entry-drawer .mock-form { display:grid !important; margin-top:12px; }
+.problem-entry p { display:none; }
+.problem-entry-head small { color:#a9bdd1; font-size:12px; }
+.problem-entry-head button,.mock-row button { margin-left:auto; }
+.recent-activity { margin-top:24px; padding:18px; border:1px solid var(--comp-border); border-radius:13px; background:#0b1726; }
+.recent-activity h2 { margin:7px 0 12px; color:#e8f3ff; font-size:18px; }
+.recent-activity p,.activity-row { color:#c0d0e0; font-size:13px; }
+.activity-row { display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-top:1px solid var(--comp-border); }
+.activity-row span { color:#91b9df; }
+.competition-page :is(.competition-sidebar-note p,.competition-side-link,.competition-nav nav a,.card-label,.week-phase,.week-progress,.week-objective,.topic-check,.daily-task,.daily-day,.assessment-note,.topic-status-guide,.campaign-meta label,.safety-copy>p,.safety-controls label,.resource-intro,.storage-note,.problem-form label,.mock-form label,.empty-state,.subject-card p,.subject-count,.subject-breakdown,.resource-card p,.resource-card a,.problem-entry-head,.mock-row,.overview-card p,.metric-line span) { font-size:max(12px,1em); }
