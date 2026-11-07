@@ -160,6 +160,16 @@
   compactForm(problemForm, ['problem-name', 'problem-outcome', 'problem-time'], 'More details');
   compactForm(mockForm, ['mock-date', 'mock-one-score', 'mock-one-max', 'mock-two-score', 'mock-two-max', 'mock-note'], 'More details');
 
+  document.querySelectorAll('#linked-accounts .linked-account-card > label').forEach(function (label) {
+    var details = document.createElement('details');
+    details.className = 'account-edit-details';
+    var summary = document.createElement('summary');
+    summary.textContent = 'Change account';
+    details.appendChild(summary);
+    label.parentNode.insertBefore(details, label);
+    details.appendChild(label);
+  });
+
   var activity = document.createElement('section');
   activity.className = 'recent-activity';
   activity.setAttribute('data-screen', 'overview');
