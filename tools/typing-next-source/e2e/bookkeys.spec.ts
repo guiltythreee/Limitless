@@ -97,6 +97,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   expect(source!.length).toBeGreaterThan(150);
   await page.locator("#bk-typing").fill(source!);
 
+  await expect(page.locator(".bk-typing-metrics")).toContainText("100%");
   await expect(page.locator(".bk-reader-meta")).toContainText("1/1 required complete");
   await expect.poll(async () => page.evaluate(() => {
     const value = localStorage.getItem("bookkeys-lsr1-v1");
