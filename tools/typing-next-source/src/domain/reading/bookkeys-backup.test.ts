@@ -135,3 +135,26 @@ test("replace mode removes existing Bookkeys keys before restoring the backup", 
   assert.equal(storage.getItem("bookkeys:settings"), null);
   assert.equal(storage.getItem("limitless.typing.v1.theme"), "dark");
 });
+
+
+test("restores backup-only settings fields introduced by a newer reader version", () => {
+  const storage = new MemoryStorage();
+  storage.setItem("bookkeys:settings", JSON.stringify({ size: 12, celebrate: true }));
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:settings": JSON.stringify({
+        size: 15,
+        celebrate: false,
+        readerBackground: "aurora",
+        customPreference: { enabled: true, intensity: 2 },
+      }),
+    },
+  }));
+  restoreBookkeysBackup(storage, backup, "merge");
+  const settings = JSON.parse(storage.getItem("bookkeys:settings") ?? "{}");
+  assert.equal(settings.size, 15);
+  assert.equal(settings.celebrate, false);
+  assert.equal(settings.readerBackground, "aurora");
+  assert.deepEqual(settings.customPreference, { enabled: true, intensity: 2 });
+});
