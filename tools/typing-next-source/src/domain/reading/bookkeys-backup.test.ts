@@ -83,19 +83,19 @@ test("merge validates settings, preserves local typed pages and merges flawless 
 test("merges backup-only shelves without overwriting local shelf names", () => {
   const storage = new MemoryStorage();
   storage.setItem("bookkeys:shelves", JSON.stringify([
-    { id: "default", name: "Library" }, { id: "s1", name: "My Shelf" },
+    { id: "main", name: "Library" }, { id: "s1", name: "My Shelf" },
   ]));
   const backup = parseBookkeysBackup(JSON.stringify({
     app: "bookkeys", v: 1,
     keys: {
       "bookkeys:shelves": JSON.stringify([
-        { id: "default", name: "Renamed in backup" }, { id: "s2", name: "Backup Shelf" },
+        { id: "main", name: "Renamed in backup" }, { id: "s2", name: "Backup Shelf" },
       ]),
     },
   }));
   restoreBookkeysBackup(storage, backup, "merge");
   assert.deepEqual(JSON.parse(storage.getItem("bookkeys:shelves") ?? "[]"), [
-    { id: "default", name: "Library" },
+    { id: "main", name: "Library" },
     { id: "s1", name: "My Shelf" },
     { id: "s2", name: "Backup Shelf" },
   ]);
