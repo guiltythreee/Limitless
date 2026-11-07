@@ -479,6 +479,8 @@
       items.push('Re-solve 3 previously missed questions without notes; write a one-paragraph justification for each');
     }
     if (weekIndex >= 12) items.push('Complete a 45–60 minute unseen mixed set and log every error');
+    var section = guide.sections[sectionIndex];
+    if (!section) throw new Error('Missing reference section for subject: ' + subjectId);
     return { guide:guide, section:section, items:items };
   }
   function renderTopicAssignments(topic, wi, ti) {
