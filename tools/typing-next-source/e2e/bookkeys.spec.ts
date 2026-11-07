@@ -419,3 +419,60 @@ test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP tot
   expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeGreaterThan(30);
   expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeLessThan(987654);
 });
+
+test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its schema", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
+
+  const epub = await makeFixtureEpub();
+  const bytes = Array.from(epub);
+  await page.evaluate(async ({ bytes }) => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open("bookkeys-lib", 1);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    if (database.version !== 1) throw new Error("Unexpected IndexedDB version");
+    if (!database.objectStoreNames.contains("meta") || !database.objectStoreNames.contains("files")) {
+      throw new Error("The existing v1 stores were not preserved");
+    }
+
+    const transaction = database.transaction(["meta", "files"], "readwrite");
+    const id = "pre-existing-library-book";
+    transaction.objectStore("meta").put({
+      id,
+      shelf: "default",
+      name: "Existing v1 Book",
+      size: bytes.length,
+      pages: 1,
+      added: 1_800_000_000_000,
+      fp: "existing-v1-fingerprint",
+      cover: "",
+      fmt: "epub",
+    });
+    transaction.objectStore("files").put(
+      new Blob([new Uint8Array(bytes)], { type: "application/epub+zip" }),
+      id,
+    );
+    await new Promise<void>((resolve, reject) => {
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+    });
+    database.close();
+    localStorage.setItem("bookkeys:lib:" + id, "0");
+  }, { bytes });
+
+  await page.reload();
+  await expect(page.getByRole("button", { name: /Existing v1 Book/ })).toBeVisible();
+  await page.getByRole("button", { name: /Existing v1 Book/ }).click();
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
+  await expect(page.locator(".bk-source-text")).toContainText("browser regression fixture");
+  await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 1");
+  const version = await page.evaluate(async () => new Promise<number>((resolve, reject) => {
+    const request = indexedDB.open("bookkeys-lib");
+    request.onsuccess = () => { resolve(request.result.version); request.result.close(); };
+    request.onerror = () => reject(request.error);
+  }));
+  expect(version).toBe(1);
+});
