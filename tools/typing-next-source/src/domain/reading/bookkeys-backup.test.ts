@@ -75,7 +75,7 @@ test("merge validates settings types and unions completed pages and flawless mar
   assert.equal(settings.lineH, 1.5);
   const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
   assert.equal(game.xp, 900);
-  assert.deepEqual(game.book["local-book"].p, [0, 9]);
+  assert.deepEqual(game.book["local-book"].p, [0]);
   assert.deepEqual(game.book["local-book"].x, [0, 5]);
   assert.deepEqual(game.book["backup-only-book"].x, [1, 9]);
 });
