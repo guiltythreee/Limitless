@@ -1,3 +1,5 @@
+import { tidyChapters } from "./blocks.mjs";
+
 /**
  * Pure EPUB parsing and section-shaping helpers.
  * Extracted verbatim from the preserved production source blob 310da8014c6c1ca9c80a75bce89b4ff1b2aa1e28.
