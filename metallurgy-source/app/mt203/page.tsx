@@ -45,6 +45,7 @@ import ActivityHistoryPanel from "../courses/ActivityHistoryPanel";
 import CourseChapterBrowser from "../courses/CourseChapterBrowser";
 
 type View =
+  | { kind: "overview" }
   | { kind: "dashboard" }
   | { kind: "study"; topic: string; tab: "lesson" | "quiz"; questionId?: string }
   | { kind: "bookmarks" }
