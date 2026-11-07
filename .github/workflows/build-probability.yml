@@ -8,6 +8,7 @@ on:
       - main
     paths:
       - "probability-source/**"
+      - "supabase/**"
       - "shared/**"
       - "meta/**"
       - "tools.js"
@@ -15,6 +16,7 @@ on:
   pull_request:
     paths:
       - "probability-source/**"
+      - "supabase/**"
       - "shared/**"
       - "meta/**"
       - "tools.js"
