@@ -144,8 +144,7 @@ html[data-theme="light"] .home-footer { color: #526d86; }
   .home-topbar .brand { gap:6px; font-size:12px; letter-spacing:1.5px; }
   .home-topbar .topbar-actions { gap:6px; }
   .home-topbar .icon-action { min-width:65px; height:32px; padding:0 7px; font-size:9px; }
-  .home-topbar .profile-chip { gap:0; padding:3px; }
-  .home-topbar .profile-chip > span:last-child { display:none; }
+  .home-topbar .profile-chip { display:none; }
   .home-topbar .ll-account button { padding:6px 7px; font-size:10px; }
 }
 
@@ -166,4 +165,14 @@ html[data-theme="light"] .home-topbar .icon-action:hover {
 html[data-theme="light"] .home-topbar .icon-action:focus-visible {
   outline: 2px solid #4387c3;
   outline-offset: 2px;
+}
+
+
+/* Keep the theme and account actions side by side on very narrow screens. */
+@media (max-width:420px) {
+  .home-topbar { grid-template-columns:minmax(0,1fr) auto; padding-left:8px; padding-right:8px; gap:5px; }
+  .home-topbar .brand { min-width:0; gap:5px; font-size:11px; letter-spacing:1.2px; }
+  .home-topbar .topbar-actions { min-width:0; gap:5px; }
+  .home-topbar .icon-action { min-width:62px; padding:0 6px; font-size:9px; }
+  .home-topbar .ll-account button { padding:6px 6px; font-size:9px; }
 }
