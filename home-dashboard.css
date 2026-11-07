@@ -207,3 +207,11 @@ a.competition-promo:focus-visible {
 html[data-theme="light"] a.competition-promo:hover {
   background: linear-gradient(105deg,rgba(255,242,211,.99),rgba(255,253,246,.99));
 }
+
+/* Dedicated long-term Codeforces Red track */
+.red-promo { display:flex; align-items:center; gap:17px; margin-top:12px; padding:18px 20px; border:1px solid rgba(111,157,238,.36); border-radius:13px; background:linear-gradient(100deg,rgba(43,69,133,.27),rgba(12,25,45,.92)); }
+.red-promo-icon { display:grid; place-items:center; flex:0 0 43px; height:43px; border-radius:12px; background:rgba(112,139,232,.16); color:#a9baff; font-size:24px; }
+.red-promo-copy { flex:1; min-width:0; }.red-promo-copy>span { color:#a8b8ff; font-size:8px; font-weight:700; letter-spacing:2px; }.red-promo-copy h2 { margin:5px 0; color:#f0f2ff; font:600 15px Arial,sans-serif; }.red-promo-copy p { margin:0; color:#b1bfd8; font:10px/1.5 Arial,sans-serif; }.red-promo-open { color:#b6c4ff; font-size:10px; white-space:nowrap; }
+html[data-theme="light"] .red-promo { border-color:rgba(82,112,180,.28); background:linear-gradient(100deg,rgba(227,235,255,.96),rgba(241,246,255,.96)); }
+html[data-theme="light"] .red-promo-copy h2 { color:#243c68; } html[data-theme="light"] .red-promo-copy p { color:#526886; } html[data-theme="light"] .red-promo-open,html[data-theme="light"] .red-promo-copy>span { color:#4b62a5; }
+@media(max-width:600px) { .red-promo { align-items:flex-start; flex-wrap:wrap; }.red-promo-open { margin-left:60px; } }
