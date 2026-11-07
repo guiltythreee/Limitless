@@ -20,7 +20,9 @@ export type Lesson = {
   memorise: string[];
 };
 
-export const LESSONS: Record<string, Lesson> = {
+import { LESSONS_EXT } from "./lessons-mt203-ext";
+
+const LESSONS_BASE: Record<string, Lesson> = {
   // ===================================================== MODULE 1
   t1: {
     id: "t1",
@@ -480,5 +482,7 @@ export const LESSONS: Record<string, Lesson> = {
     ],
   },
 };
+
+export const LESSONS: Record<string, Lesson> = { ...LESSONS_BASE, ...LESSONS_EXT };
 
 export const TOPIC_IDS = Object.keys(LESSONS);
