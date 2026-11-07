@@ -893,3 +893,27 @@ li { margin: 0.22rem 0; }
 .mt203 .qtext { line-height: 1.66; text-wrap: pretty; }
 .mt203 .opt { line-height: 1.55; }
 .mt203 .reveal .concise { line-height: 1.68; }
+
+/* MT200 — Testing of Materials */
+.mt200-page { max-width: 1120px; margin: 0 auto; padding: 2.5rem clamp(1rem, 4vw, 2rem) 1rem; }
+.mt200-hero { max-width: 820px; margin: 0 auto 3rem; text-align: center; padding: 2.5rem 1rem 1.8rem; }
+.mt200-hero h1 { color: var(--gold); font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.1rem, 5vw, 3.5rem); margin: .55rem 0 .8rem; }
+.mt200-hero p { color: var(--dim); font-size: 1.05rem; max-width: 700px; margin: 0 auto; }
+.mt200-meta { display:flex; flex-wrap:wrap; justify-content:center; gap:.65rem; margin-top:1.5rem; }
+.mt200-meta span { border:1px solid var(--panel-line); border-radius:999px; padding:.3rem .8rem; color:var(--dim); font-size:.82rem; }
+.mt200-section { margin: 2.7rem 0; }
+.mt200-section h2 { font-family: Georgia, "Times New Roman", serif; color:var(--gold); font-size:1.65rem; margin:.3rem 0 1rem; }
+.mt200-modules { display:grid; gap:.85rem; }
+.mt200-module { display:grid; grid-template-columns:52px minmax(0,1fr); gap:1rem; padding:1.15rem 1.3rem; }
+.mt200-module-number { color:var(--gold); font-family:Georgia,serif; font-size:1.35rem; padding-top:.05rem; }
+.mt200-module h3,.mt200-paper h3 { margin:.05rem 0 .35rem; color:var(--paper); font-size:1.05rem; }
+.mt200-module ul { margin:.25rem 0 0; color:var(--dim); font-size:.91rem; }
+.mt200-papers { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; margin-top:1rem; }
+.mt200-paper { padding:1.2rem; display:flex; flex-direction:column; min-height:220px; }
+.mt200-paper-top { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+.mt200-paper-meta { color:var(--faint); font-size:.76rem; text-align:right; }
+.mt200-paper p,.mt200-note { color:var(--dim); font-size:.9rem; }
+.mt200-actions { display:flex; flex-wrap:wrap; gap:.55rem; margin-top:auto; padding-top:.9rem; }
+.mt200-actions .btn { font-size:.83rem; padding:.45rem .75rem; }
+.mt200-outcomes ol { color:var(--dim); }
+@media(max-width:600px) { .mt200-module { grid-template-columns:36px minmax(0,1fr); padding:1rem; } .mt200-paper-top { align-items:flex-start; flex-direction:column; } }

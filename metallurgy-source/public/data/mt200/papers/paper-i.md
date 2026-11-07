@@ -1,0 +1,181 @@
+MT200 · TESTING OF MATERIALS
+                          Rigorous Practice Paper: Derivations, Theory and Numericals
+      Department of Metallurgical and Materials Engineering · NITK Surathkal (practice paper, not an
+                                         official examination)
+
+ Time: 3 hours                              Maximum marks: 100                    Attempt: all questions
+
+## Instructions
+   • Every derivation must be shown step by step. A correct final formula with no working earns marks
+       only for the final line.
+   • State every assumption you use (for example, volume constancy, uniform deformation, frictionless
+       platens).
+   • Use SI units in calculations unless told otherwise. Take 1 kgf = 9.81 N, g = 9.81 m/s², 1 ksi = 6.895
+      MPa. Wherever a load is given in "kg", it means kgf.
+   • Sketches should be neat and labelled. A good labelled sketch can replace a paragraph of text.
+
+ Section        Nature                                                                                Marks
+       A                                          Derivations (A1 to A9)                                   48
+       B                           Hard conceptual and theory questions (B1 to B8)                         30
+       C                                Numericals and data analysis (C1 to C3)                            22
+                                                          Total                                            100
+       D                                     Bonus (not counted in the 100)                                +8
+
+
+## SECTION A · DERIVATIONS (48 marks)
+
+A1.     Starting from the idea that true strain is a sum of small strain increments, each measured                 [6]
+        against the current length, derive $\varepsilon_T=\ln(L/L_0)$. Then show that true strains are additive
+        over successive deformation steps but engineering strains are not. Use a bar stretched
+        from 100 mm to 110 mm and then to 121 mm as your numerical example.
+
+A2.     Assuming volume constancy, derive $\sigma_T=\sigma_e(1+\varepsilon_e)$ and $\varepsilon_T=\ln(1+\varepsilon_e)$. Hence show that                     [6]
+        $\sigma_T=\sigma_e e^{\varepsilon_T}$. State exactly where these relations stop being valid, and why.
+
+A3.     In a compression test the specimen shortens from h0 to h under a measured load P. Derive                   [4]
+        σT and εT in terms of P, A0, h0 and h. Explain why the true stress is smaller than the
+        engineering stress in compression but larger in tension, and how the sign convention
+        enters when you take the logarithm.
+
+A4.     Using the Hollomon relation $\sigma_T=K\varepsilon_T^n$, derive the Considère criterion for the onset of                     [7]
+        necking. Show that the true strain at necking equals n. Then derive the engineering UTS as
+        $\sigma_{UTS}=K(n/e)^n$. Explain physically why necking begins when the strain-hardening rate
+        equals the current true stress.
+
+A5.     For a material that obeys σT = KεTn up to necking, derive the energy absorbed per unit                     [6]
+        volume up to the onset of necking. Also derive the modulus of resilience $U_r=\sigma_y^2/(2E)$.
+        Discuss how good the estimate "toughness ≈ σu × εr" is for a brittle solid, a
+        parabolic-hardening metal and a nearly perfectly plastic metal.
+
+A6.     Derive the Brinell hardness formula $\mathrm{BHN}=\dfrac{2P}{\pi D\left(D-\sqrt{D^2-d^2}\right)}$. In your derivation:                  [8]
+           (a) find the curved surface area of a spherical cap by integrating ring elements over the
+               sphere;
+           (b) relate the cap depth h to D and d using geometry;
+           (c) explain why the curved contact area is used and not the projected area πd2/4.
+
+
+
+
+MT200 Testing of Materials · Rigorous Practice Paper                                                             Page 1
+
+A7.     Show that Brinell hardness can be written in terms of the included angle φ as BHN = 2P /           [4]
+        [πD2(1 − cos(φ/2))]. Hence prove that two tests with different ball diameters give the same
+        BHN when P/D2 and d/D are the same. Explain why the valid range is 0.25 < d/D < 0.5.
+
+A8.     Derive the Vickers formula $\mathrm{HV}=1.8544\dfrac{P}{d^2}$ for a 136° square-based diamond pyramid,               [4]
+        where d is the mean diagonal. Explain why 136° was chosen (hint: consider tangents to a
+        Brinell ball at the rim of the impression, with d/D = 0.375).
+
+A9.     Derive the Knoop constant $\mathrm{HK}=14.229\dfrac{P}{l^2}$ from the projected area of the impression,              [3]
+        given a long-to-short diagonal ratio of about 7.11 and edge angles of 172.5° and 130°.
+        Explain why the Knoop indenter suits thin layers and brittle materials.
+
+
+## SECTION B · HARD CONCEPTUAL AND THEORY QUESTIONS (30 marks)
+
+B1.     A ceramic and a metal have the same Young's modulus. Does the ceramic also have the                [4]
+        same strength? Does stiffness imply strength? Use stiffness, strength, toughness,
+        resilience and brittleness in your answer, with sketches. Comment critically on the
+        statement "brittle materials with high stiffness are strong".
+
+B2.     Explain, in terms of dislocation behaviour, why strain hardening increases strength but            [4]
+        reduces ductility. Why does the true stress–strain curve keep rising while the engineering
+        curve falls after the UTS?
+
+B3.     Why can a tensile specimen not be used for a compression test? Give two independent                [4]
+        reasons and justify a d : h ratio of about 2 : 3. Explain how a solid lubricant such as MoS2
+        reduces barrelling, why liquid lubricants are avoided, and why cracks in a compression
+        specimen start on the barrelled surface.
+
+B4.     Distinguish strength from hardness. Explain why the Mohs (scratch) scale cannot rank               [4]
+        engineering metals. Why do rebound hardness and indentation hardness both measure
+        resistance to plastic deformation, and what is the energy argument linking them? State
+        one limitation of each.
+
+B5.     Rockwell testing applies a minor load before the major load and reads a depth difference.          [4]
+         (a) What error does the minor load remove?
+         (b) Why is the scale "reversed" (a harder material gives a higher number)?
+         (c) State the indenter and major load for scales A, B and C, with a typical material for
+             each.
+         (d) Why is Rockwell preferred in industry but Vickers in research?
+
+B6.     For a Rockwell B test on a soft material (Al, Cu or brass), a student sets the small needle to     [4]
+        the red mark, applies the load, waits 30 s, and then reads the outer scale. Explain the
+        purpose of each step. What goes wrong if the dwell time is too short?
+
+B7.     Compare the Brinell, Vickers, Rockwell and Knoop tests on indenter, load range, measured           [4]
+        quantity, suitable materials and limitations. Why is Brinell unsuitable for very hard steels?
+
+B8.     Why does the empirical relation UTS ≈ 3.45 × BHN (MPa) work reasonably for steels and              [2]
+        fail for strongly work-hardening alloys? (Think of the representative strain of an
+        indentation.)
+
+
+## SECTION C · NUMERICALS AND DATA ANALYSIS (22 marks)
+
+C1.     A nickel-based alloy was cold-rolled to various reductions and tested for hardness and             [8]
+        tension. Values read from the quiz figures (approximate) are:
+
+            Cold reduction (%)               0         10         30          50          70
+                   Hardness (BHN)                220        270        325         405         445
+                      UTS (MPa)                  620        690        820         1020        1060
+
+
+
+MT200 Testing of Materials · Rigorous Practice Paper                                                     Page 2
+
+   (a) Compute UTS/BHN for each row. Develop a single conversion factor k in UTS (MPa) = k × BHN, and
+       justify your method of fitting.
+   (b) Explain why the ratio UTS/BHN changes with the amount of cold work.
+   (c) What does the scatter say about the reliability of a single factor for this alloy?
+
+C2.     Three hollow metallic balls (A, B, C), each of 5" outer diameter with a central spherical                                 [8]
+        cavity of ¼" diameter, are dropped into the Arabian Sea at a spot where the depth is 7 km.
+        Take the seawater specific gravity as 1.1 and neglect the weight of the balls and the
+        compressibility of water.
+
+ Material              Sp. gravity           E (GPa)                  Yield (ksi)       UTS (ksi)              Ductility (%)
+          A                  1.75                      45                    30                    38                     15
+          B                   4.5                   105                      25                    35                     30
+          C                  10.5                      75                    17                    25                     45
+
+   (a) Compute the hydrostatic pressure at the sea-bed, in MPa and in ksi.
+   (b) For a thick-walled sphere (inner radius a, outer radius b) under external pressure p, the largest
+       stress is at the cavity wall: σθ = −3pb3 / [2(b3 − a3)]. Compute it.
+   (c) Using the Tresca or von Mises criterion, decide which balls deform (yield) before reaching the
+       sea-bed. Note that a purely hydrostatic stress does not cause yielding.
+   (d) Which of the tabulated properties are irrelevant to this question, and why?
+
+C3.     A solid metallic cylinder (height 2.25 cm, diameter 1.55 cm) is compressed in a UTM.                                      [6]
+        Extensometer readings (ΔL is the shortening) are:
+
+ Data point       1           2          3             4          5          6          7          8           9           10
+   Load (kg)          386         964        1925          2885       3847       4809       5670        6732       7694        8656
+    ΔL (mm)           0.02        0.04       0.08          0.13       0.18       0.24       0.33        0.75       1.49        2.65
+
+   (a) Convert to engineering stress (MPa) and strain (%).
+   (b) Convert to true stress and true strain, stating the assumption you make.
+   (c) Plot both curves (MPa vs %) on the same axes.
+   (d) Estimate the 0.2% offset yield stress. Fit σT = Kεpn to the plastic points (εp = true plastic strain)
+       and comment on whether the data show any friction (barrelling) effect at large strain.
+
+## SECTION D · BONUS (+8, not counted in the 100)
+
+D1.     A Brinell test with a 10 mm ball at 3000 kgf gives d = 4.3 mm. Compute BHN, check                                         [4]
+        whether d/D is in the valid range, and estimate the UTS. Compare this with a Vickers test at
+        50 kgf on cast iron with d1 = 0.68 mm and d2 = 0.69 mm. Why do the numbers differ in
+        units, and how are they related?
+
+D2.     Explain why a Charpy test measures notch toughness and not fracture toughness. Why do                                     [4]
+        BCC steels show a ductile-to-brittle transition while FCC metals do not? Sketch an S–N
+        curve and label the endurance limit, and sketch the three stages of creep, explaining why
+        the minimum creep rate is a design parameter.
+
+---
+
+End of paper.
+
+
+
+
+MT200 Testing of Materials · Rigorous Practice Paper                                                                            Page 3
