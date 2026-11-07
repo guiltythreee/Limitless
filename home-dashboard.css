@@ -181,3 +181,7 @@ html[data-theme="light"] .home-topbar .icon-action:focus-visible {
   .home-topbar .profile-chip { display:none; }
   .home-topbar .ll-account button { padding:6px 6px; font-size:9px; }
 }
+
+
+/* Keep the welcome hero out of the way while the user is searching modules. */
+.home-main.is-searching .welcome-banner { display: none; }
