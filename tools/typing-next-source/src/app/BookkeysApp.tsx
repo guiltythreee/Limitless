@@ -41,7 +41,12 @@ interface BookkeysSettings {
   readonly size: number;
   readonly lineH: number;
   readonly celebrate: boolean;
+  readonly readerBackground?: "none" | "gothic" | "garden";
   readonly [extension: string]: unknown;
+}
+
+function safeArtworkDataUrl(value: string | undefined): string | undefined {
+  return value && /^data:image\/[a-z0-9.+-]+;base64,[a-z0-9+/=]+$/i.test(value) ? value : undefined;
 }
 
 function readLegacySize(fallback: number): number {
@@ -171,6 +176,7 @@ export default function BookkeysApp() {
   const [pasteOpen, setPasteOpen] = useState(false);
   const [pasteText, setPasteText] = useState("");
   const [globalExp, setGlobalExp] = useState(0);
+  const [artwork, setArtwork] = useState<{ gothic?: string; garden?: string }>({});
   const [gameProgress, setGameProgress] = useState<ReturnType<typeof emptyBookkeysGame>>(() => emptyBookkeysGame());
   const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -218,7 +224,12 @@ export default function BookkeysApp() {
     const savedSettings = readSettings();
     const savedTheme = window.localStorage.getItem("limitless.typing.v1.theme");
     const initialTheme = savedSettings.bg === "light" || savedTheme === "light" ? "light" : "dark";
-    setSettings({ ...savedSettings, bg: initialTheme });
+    setSettings({
+      ...savedSettings,
+      bg: initialTheme,
+      readerBackground: savedSettings.readerBackground === "gothic" || savedSettings.readerBackground === "garden"
+        ? savedSettings.readerBackground : "none",
+    });
     setTheme(initialTheme);
     setThemeReady(true);
   }, []);
@@ -238,7 +249,15 @@ export default function BookkeysApp() {
       try {
         opened = await openBookkeysDatabase(window.indexedDB);
         const entries = await opened.listMetadata();
+        const [gothic, garden] = await Promise.all([
+          opened.getArtwork("art:gothic"),
+          opened.getArtwork("art:garden"),
+        ]);
         if (!active) { opened.close(); return; }
+        setArtwork({
+          ...(safeArtworkDataUrl(gothic) ? { gothic } : {}),
+          ...(safeArtworkDataUrl(garden) ? { garden } : {}),
+        });
         setDatabase(opened);
         setLibrary(entries.sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
         const loadedShelves = readShelves(window.localStorage.getItem("bookkeys:shelves"));
@@ -876,7 +895,19 @@ export default function BookkeysApp() {
           <div className="bk-progress-track"><span style={{ width: (requiredPageIndexes.length ? requiredCompletedCount / requiredPageIndexes.length * 100 : 0) + "%" }} /></div>
           {target ? (
             <>
-              <article className="bk-source-text">{target}</article>
+              <article
+                className="bk-source-text"
+                style={(() => {
+                  const selected = settings.readerBackground === "gothic" ? artwork.gothic
+                    : settings.readerBackground === "garden" ? artwork.garden : undefined;
+                  const safe = safeArtworkDataUrl(selected);
+                  return safe ? {
+                    backgroundImage: `linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("${safe}")`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  } : undefined;
+                })()}
+              >{target}</article>
               <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
               <textarea
                 id="bk-typing"
@@ -927,6 +958,24 @@ export default function BookkeysApp() {
             </nav>
             {settingsTab === "appearance" ? (
               <div className="bk-settings-content">
+                <label className="bk-setting">
+                  <span>Reading background</span>
+                  <select
+                    aria-label="Reader background"
+                    value={settings.readerBackground ?? "none"}
+                    onChange={(event) => persistSettings({
+                      ...settings,
+                      readerBackground: event.currentTarget.value as "none" | "gothic" | "garden",
+                    })}
+                  >
+                    <option value="none">Plain</option>
+                    {artwork.gothic && <option value="gothic">Gothic</option>}
+                    {artwork.garden && <option value="garden">Garden</option>}
+                  </select>
+                  {!artwork.gothic && !artwork.garden && (
+                    <span className="bk-settings-note">No saved Bookkeys artwork was found in this browser.</span>
+                  )}
+                </label>
                 <label className="bk-setting">
                   <span>Reading text size <strong>{settings.size}px</strong></span>
                   <input type="range" min="12" max="28" step="1" value={settings.size}
