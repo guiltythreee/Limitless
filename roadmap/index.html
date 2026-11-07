@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08070d">
+  <meta name="description" content="A stage-by-stage progression map for your quant internship goal and your B.Tech Metallurgy degree, with live progress from every Limitless module.">
+  <title>Progression Map — Limitless</title>
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="../hub-theme.css">
+  <link rel="stylesheet" href="./roadmap.css">
+</head>
+<body>
+  <div class="background-art theme-bg" id="theme-bg" aria-hidden="true"></div>
+  <div class="particle-layer" id="particles" aria-hidden="true"></div>
+  <header class="navbar">
+    <a class="brand" href="../">Limitless</a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="../">Home</a>
+      <a href="../meta/">Progress</a>
+      <a href="../competition/">Competition</a>
+      <a href="../metallurgy/">Metallurgy</a>
+      <a href="../probability/">Probability</a>
+      <a href="../tools/math-refactored/">Math Trainer</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme"></button>
+    </nav>
+  </header>
+
+  <main class="rm-page">
+    <div class="rm-eyebrow">WHERE YOU ARE, AND WHAT COMES NEXT</div>
+    <h1 class="rm-title">Progression Map</h1>
+    <p class="rm-lede">Two goals, one map: a quant internship, and a strong B.Tech Metallurgy degree as the dependable fallback. Each checkpoint reads your real progress from Limitless where it can, and from you where it cannot.</p>
+
+    <p id="rm-error" class="rm-error" role="alert" hidden></p>
+
+    <section aria-labelledby="rm-tracks-heading">
+      <h2 id="rm-tracks-heading" class="rm-visually-hidden">Choose a track</h2>
+      <div id="rm-tracks" class="rm-tracks"></div>
+    </section>
+
+    <section class="rm-section" aria-labelledby="rm-next-heading">
+      <h2 id="rm-next-heading" class="rm-h2">Do this next</h2>
+      <p class="rm-muted">Overdue stages first, then the earliest stage, then whatever unlocks the most later work. Locked checkpoints are never suggested.</p>
+      <div id="rm-next" class="rm-next"></div>
+    </section>
+
+    <section class="rm-section" aria-labelledby="rm-map-heading">
+      <div class="rm-map-head">
+        <div>
+          <h2 id="rm-map-heading" class="rm-h2"><span id="rm-map-title">Map</span></h2>
+          <p id="rm-map-goal" class="rm-muted"></p>
+        </div>
+        <ul class="rm-legend" aria-label="Legend">
+          <li><span class="rm-dot rm-s-done" aria-hidden="true"></span>Done</li>
+          <li><span class="rm-dot rm-s-active" aria-hidden="true"></span>In progress</li>
+          <li><span class="rm-dot rm-s-ready" aria-hidden="true"></span>Ready</li>
+          <li><span class="rm-dot rm-s-locked" aria-hidden="true"></span>Locked</li>
+        </ul>
+      </div>
+      <div id="rm-timeline" class="rm-timeline" hidden></div>
+      <p class="rm-muted rm-hint">Select a checkpoint to see what it needs (solid line) and what it unlocks (dashed line).</p>
+      <p id="rm-status" class="rm-muted" role="status" aria-live="polite"></p>
+      <div class="rm-map-scroll" id="rm-map-scroll" tabindex="-1">
+        <div class="rm-canvas" id="rm-canvas">
+          <svg class="rm-edges" id="rm-edges" aria-hidden="true"></svg>
+          <div class="rm-stages" id="rm-stages"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rm-section rm-notes" aria-labelledby="rm-notes-heading">
+      <h2 id="rm-notes-heading" class="rm-h2">How to read this</h2>
+      <ul class="rm-notelist">
+        <li><strong>Automatic checkpoints</strong> read Probability lessons, your Competition mastery marks, MT201 to MT203 answers and your Math Trainer runs. They never change those modules' data.</li>
+        <li><strong>Practice coverage is not an exam result.</strong> Metallurgy coverage counts questions you answered correctly; it does not prove mastery. Pair it with the exam simulator checkpoint.</li>
+        <li><strong>Your own checkpoints</strong> (ratings, applications, semester results) are things only you can report. They are saved in this browser under one small record and follow your other Limitless data if you are signed in.</li>
+        <li><strong>Targets are starting suggestions</strong>, not requirements set by any firm. Edit <code>roadmap/data.mjs</code> to match your real baseline, add your semester 4 to 8 courses, and run <code>node roadmap/test-roadmap.mjs</code> to check the edit.</li>
+        <li><strong>No EXP is awarded here.</strong> The map shows progress; global EXP and levels stay on the Progress page.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="../hub-theme.js" defer></script>
+  <script src="../limitless.js" defer></script>
+  <script type="module" src="./roadmap.js"></script>
+
+  <!-- Limitless account + Supabase foundation (keeps this page's saved checkpoints in sync like other progress) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../supabase/config.js"></script>
+  <script src="../supabase/client.js"></script>
+  <script src="../supabase/cloud-sync.js"></script>
+  <script src="../supabase/auth.js"></script>
+</body>
+</html>

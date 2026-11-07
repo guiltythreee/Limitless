@@ -24,6 +24,7 @@ export const TRACKS = [
     title: "Quant internship",
     goal: "Land an off-campus quant internship (India or abroad) within about six months of 2 Nov 2026.",
     symbol: "♜",
+    startDate: "2026-11-02", // matches the Regional Qualification campaign start; used for the timeline bar
     stages: [
       { id: "quant-foundations", title: "Foundations", targetDate: "2026-11-29",
         objective: "Fluent basics: C++ on easy problems, counting and probability vocabulary, quick arithmetic." },
@@ -42,6 +43,7 @@ export const TRACKS = [
     title: "B.Tech Metallurgy",
     goal: "Finish the degree on schedule with a strong CGPA and a clear exit route: the respectable fallback.",
     symbol: "⚗",
+    startDate: null, // semester dates are not known here, so this track shows no timeline
     stages: [
       { id: "met-sem3", title: "Semester 3 (now)", targetDate: null,
         objective: "Know MT201, MT202, MT203 and WO200 well enough to clear them comfortably." },
