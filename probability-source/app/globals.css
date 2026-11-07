@@ -315,3 +315,22 @@ select.pill { appearance: auto; padding-right: .6rem; }
 .weekcol b { display: block; font-size: 13px; color: var(--soft); }
 .weekcol-met { background: color-mix(in srgb, var(--good) 18%, transparent); }
 .weekcol-today { outline: 1px solid var(--gold); }
+
+
+/* Fixed dark panels on the Studies landing page must not inherit light-theme ink. */
+.study-dark-surface {
+  color: #d7c9a8;
+}
+.study-dark-surface .eyebrow,
+.study-dark-surface .text-gold {
+  color: #dfc27b;
+}
+.study-dark-surface .text-parchment {
+  color: #f1e5c5;
+}
+.study-dark-surface .text-dim {
+  color: #c3b69d;
+}
+.study-dark-surface .text-body {
+  color: #d7c9a8;
+}
