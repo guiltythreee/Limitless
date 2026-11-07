@@ -31,17 +31,17 @@
 
   <aside class="competition-sidebar" aria-label="Competition workspace navigation">
     <div class="competition-sidebar-label">WORKSPACE</div>
-    <a class="competition-side-link active" href="#dashboard"><span>▦</span> Overview</a>
-    <a class="competition-side-link" href="#subjects"><span>◎</span> Skill mastery</a>
-    <a class="competition-side-link" href="#roadmap"><span>⌁</span> 16-week roadmap</a>
-    <a class="competition-side-link" href="#problem-review"><span>⌘</span> Problem log</a>
-    <a class="competition-side-link" href="#mock-tests"><span>♜</span> Mock tests</a>
-    <a class="competition-side-link" href="#resources"><span>▤</span> Resources</a>
+    <a class="competition-side-link active" href="#dashboard" data-screen-link="overview"><span>▦</span> Overview</a>
+    <a class="competition-side-link" href="#roadmap" data-screen-link="roadmap"><span>⌁</span> Roadmap</a>
+    <a class="competition-side-link" href="#problem-review" data-screen-link="problems"><span>⌕</span> Problems</a>
+    <a class="competition-side-link" href="#mock-tests" data-screen-link="mocks"><span>♜</span> Mock tests</a>
+    <a class="competition-side-link" href="#resources" data-screen-link="resources"><span>▤</span> Resources</a>
+    <a class="competition-side-link settings-link" href="#settings" data-screen-link="settings"><span>⚙</span> Settings</a>
     <div class="competition-sidebar-note"><span>REGIONALS CAMPAIGN</span><p>Build evidence of independent problem-solving, one week at a time.</p></div>
   </aside>
 
   <main class="competition-shell" id="dashboard">
-    <section class="competition-heading">
+    <section class="competition-heading" data-screen="overview">
       <div class="eyebrow">LIMITLESS · COMPETITION TRACKING</div>
       <p class="competition-kicker">FOUR-MONTH CAMPAIGN</p>
       <h1>Regional Qualification</h1>
@@ -52,7 +52,7 @@
       </div>
     </section>
 
-    <section class="overview-grid" aria-label="Preparation overview">
+    <section class="overview-grid" aria-label="Preparation overview" data-screen="overview">
       <article class="overview-card overview-primary">
         <div class="card-label">SYLLABUS MASTERY</div>
         <div class="metric-line"><strong id="overall-progress">0%</strong><span id="mastery-summary">0 mastered · 0 topics</span></div>
@@ -71,14 +71,14 @@
       </article>
     </section>
 
-    <section class="mastery-key" aria-label="Topic mastery definitions">
+    <section class="mastery-key" aria-label="Topic mastery definitions" data-screen="overview">
       <div><span class="status-dot not-started"></span><strong>Not started</strong><small>Not studied yet</small></div>
       <div><span class="status-dot learning"></span><strong>Learning</strong><small>Can explain the basic idea and follow worked examples</small></div>
       <div><span class="status-dot practiced"></span><strong>Practiced</strong><small>Can solve representative problems independently</small></div>
       <div><span class="status-dot mastered"></span><strong>Mastered</strong><small>Can solve unseen mixed problems under time and explain why the method works</small></div>
     </section>
 
-    <section class="safety-panel" aria-labelledby="safety-title">
+    <details class="settings-card" id="settings" data-screen="settings"><summary>Settings <span>Campaign dates, qualification cutoff and data backup</span></summary><div class="settings-card-content"><section class="safety-panel" aria-labelledby="safety-title">
       <div class="safety-copy">
         <div class="card-label">QUALIFICATION SAFETY MARGIN</div>
         <h2 id="safety-title">How far inside the qualifying line are you?</h2>
@@ -96,9 +96,9 @@
         <label class="wide-field">Cutoff source<input id="benchmark-source" type="text" maxlength="180" placeholder="Official rules, published result or comparable mock"></label>
         <div class="safe-target" id="safe-target">Safe target rank: waiting for verified cutoff</div>
       </div>
-    </section>
+    </section></div></details>
 
-    <section class="section-block" id="subjects">
+    <section class="section-block" id="subjects" data-screen="overview">
       <div class="section-heading-row">
         <div><div class="card-label">FIVE CORE SUBJECTS</div><h2>Subject mastery</h2></div>
         <p>Move each topic through the mastery states. Marking a topic mastered requires independent performance, not simply reading its theory.</p>
@@ -106,7 +106,7 @@
       <div class="subject-grid" id="subject-grid"></div>
     </section>
 
-    <section class="section-block" id="roadmap">
+    <section class="section-block" id="roadmap" data-screen="roadmap">
       <div class="section-heading-row">
         <div><div class="card-label">16-WEEK CURRICULUM</div><h2>Weekly learning plan</h2></div>
         <p>Each week contains explicit subject checkpoints and a daily execution plan. Advance based on evidence; carry unfinished topics forward instead of ticking them off to stay on schedule.</p>
@@ -120,7 +120,7 @@
       <div id="week-list" class="week-list"></div>
     </section>
 
-    <section class="section-block problem-log-section" id="problem-review">
+    <section class="section-block problem-log-section" id="problem-review" data-screen="problems">
       <div class="section-heading-row">
         <div><div class="card-label">PROBLEM-SOLVING EVIDENCE</div><h2>Problem review log</h2></div>
         <p>Use this for Codeforces, CSES and mathematical exercises. Rating is recorded only as a property of a problem when useful; it is not treated as a qualification target.</p>
@@ -148,7 +148,7 @@
       <div id="problem-history" class="problem-history"><p class="empty-state">No problem reviews recorded yet.</p></div>
     </section>
 
-    <section class="section-block mock-section" id="mock-tests">
+    <section class="section-block mock-section" id="mock-tests" data-screen="mocks">
       <div class="section-heading-row">
         <div><div class="card-label">TIMED PERFORMANCE EVIDENCE</div><h2>Mock test history</h2></div>
         <p>Record the two parts separately: Test 1 is 60 minutes and Test 2 is 90 minutes. Add rank and cohort size only when the comparison group is meaningful.</p>
@@ -171,7 +171,7 @@
       <div id="mock-history" class="mock-history"><p class="empty-state">No assessments recorded yet.</p></div>
     </section>
 
-    <section class="section-block resources-section" id="resources">
+    <section class="section-block resources-section" id="resources" data-screen="resources">
       <div class="section-heading-row"><div><div class="card-label">STUDY REFERENCES</div><h2>Core learning resources</h2></div><p>Use these as primary references alongside the weekly checkpoints. Work through the relevant sections; do not try to finish every book or course.</p></div>
       <p class="resource-intro">Books: Joseph Blitzstein and Jessica Hwang, Introduction to Probability; Kenneth Rosen, Discrete Mathematics and Its Applications; Daniel Velleman, How to Prove It; Antti Laaksonen, Competitive Programmer’s Handbook. Use the relevant topics for each week, not every chapter.</p>
       <div class="resource-grid">
@@ -182,7 +182,7 @@
       </div>
       <p class="resource-intro">Reading sequence: Weeks 1–4: How to Prove It, Rosen/MIT discrete mathematics notes, Stat 110 foundations and LearnCpp. Weeks 5–8: Rosen/MIT counting, selected Art of Problem Solving exercises, Stat 110 conditional probability and the Handbook’s introductory graph/DP sections. Weeks 9–12: Stat 110 expectation, Competitive Programmer’s Handbook, CP-Algorithms and CSES. Weeks 13–16: revisit weak sections and solve unseen mixed problems; avoid starting large new textbooks.</p>
     </section>
-    <section class="section-block data-section">
+    <section class="section-block data-section" data-screen="settings">
       <div><div class="card-label">YOUR RECORD</div><h2>Progress data</h2><p>Progress is saved in this browser. Export a JSON backup periodically to preserve your records or move them to another device.</p></div>
       <div class="data-actions">
         <button id="export-data" class="action-button" type="button">Export backup</button>
@@ -193,6 +193,7 @@
     </section>
   </main>
   <script src="competition.js" defer></script>
+  <script src="competition-ui.js" defer></script>
 
   <!-- Limitless account + Supabase foundation -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
