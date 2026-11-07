@@ -113,6 +113,10 @@
       if (!currentBatch.length) return;
       const payload = currentBatch.map(([, row]) => ({ ...row, user_id: userId }));
       const { error } = await client.from(TABLE).upsert(payload, { onConflict: "user_id,storage_key" });
+      // The user may have signed out or switched accounts while the request
+      // was in flight. Never write the new account's queue into the old
+      // account's outbox or change the new account's sync status.
+      if (activeUserId !== userId) return;
       if (error) {
         setState("error", error.message);
         if (!timer) timer = setTimeout(flush, 3000);
