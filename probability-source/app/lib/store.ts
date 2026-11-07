@@ -154,6 +154,26 @@ function ensureLoaded() {
     window.addEventListener("storage", (e) => {
       if (e.key === STORAGE_KEY) { state = read(); listeners.forEach((l) => l()); }
     });
+    // Supabase hydrates the same localStorage key through its original Storage
+    // methods, so no native same-tab "storage" event is emitted. Refresh the
+    // in-memory snapshot once the account's cloud records have been applied.
+    window.addEventListener("limitless:cloud-sync-hydrated", () => {
+      // The reward activation timestamp is module state as well as a storage
+      // key. Refresh it with the account snapshot so a new device does not
+      // keep a later, locally-generated baseline after cloud hydration.
+      try {
+        const rawBaseline = localStorage.getItem(REWARD_ACTIVATED_AT_KEY);
+        if (rawBaseline !== null && Number.isFinite(Number(rawBaseline)) && Number(rawBaseline) > 0) {
+          rewardActivatedAt = Number(rawBaseline);
+        } else {
+          rewardActivatedAt = setRewardActivationBaseline();
+        }
+      } catch {
+        rewardActivatedAt = Date.now();
+      }
+      state = read();
+      listeners.forEach((listener) => listener());
+    });
   }
 }
 
