@@ -476,3 +476,32 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
   }));
   expect(version).toBe(1);
 });
+
+test("pasted text becomes a persistent local text book with reading progress", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Paste text" }).click();
+  const pasted = [
+    "Pasted-text import regression. This passage checks that plain text can be turned into a local Bookkeys reading session.",
+    "A second paragraph verifies paragraph boundaries, Unicode punctuation, and local persistence. The original text remains in this browser.",
+  ].join("\n\n");
+  await page.locator("#bk-paste-text").fill(pasted);
+  await page.getByRole("button", { name: "Create text book" }).click();
+
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Pasted text");
+  await expect(page.locator(".bk-source-text")).toContainText("Pasted-text import regression");
+  await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 1");
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  await page.locator("#bk-typing").fill(source!);
+  await page.getByRole("button", { name: /Library/ }).click();
+
+  const textBook = page.getByRole("button", { name: /Pasted text/ });
+  await expect(textBook).toBeVisible();
+  await expect(textBook).toContainText("TXT");
+  await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
+
+  await page.reload();
+  await page.getByRole("button", { name: /Pasted text/ }).click();
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Pasted text");
+  await expect(page.locator("#bk-typing")).toHaveValue(source!);
+});
