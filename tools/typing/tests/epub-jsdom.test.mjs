@@ -43,6 +43,33 @@ test("a plain two-chapter book: one section per chapter, chapters and metadata f
   assert.deepEqual(r.chapters.map((c) => [c.p, c.title]), [[0, "The Start"], [1, "The End"]]);
 });
 
+test("one EPUB spine document is segmented by its internal Part and Chapter headings without a TOC", async () => {
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
+    <html xmlns="http://www.w3.org/1999/xhtml"><head><title>Whole Book</title></head><body>
+      <h1>Part I - The Beginning</h1><p>Opening material for the first part.</p>
+      <h2>Chapter 1 - The Palace</h2><p>The first chapter begins.</p>
+      <h2>Chapter 2 - The Journey</h2><p>The second chapter begins.</p>
+      <h1>Part II - The Return</h1><h2>Chapter 1 - A New Dawn</h2>
+      <p>The repeated chapter number belongs to the second part.</p>
+      <h1>Acknowledgements</h1><p>Thanks to everyone who helped.</p>
+    </body></html>`;
+  const bytes = buildEpub({
+    chapters: [{ file: "whole.xhtml", label: "Whole Book", body }],
+    tocEntries: [],
+  });
+  const r = await read(bytes);
+  assert.deepEqual(r.chapters.map((c) => c.title), [
+    "Part I - The Beginning", "Chapter 1 - The Palace", "Chapter 2 - The Journey",
+    "Part II - The Return", "Chapter 1 - A New Dawn", "Acknowledgements",
+  ]);
+  assert.deepEqual(r.chapters.map((c) => c.req), [true, true, true, true, true, false]);
+  assert.equal(r.chapters.filter((c) => /^Chapter 1/.test(c.title)).length, 2,
+    "repeated chapter numbers in different Parts are both retained");
+  assert.ok(r.chapters[3].p > r.chapters[2].p, "Part II follows the chapters in Part I");
+  assert.ok(r.sections[r.chapters[4].p][0].text.startsWith("Chapter 1 - A New Dawn"),
+    "the repeated chapter starts its own typing section");
+});
+
 test("spine order, not file order, decides reading order", async () => {
   const chapters = [
     plainChapter("a-second.xhtml", "Second", "Second", "text two"),
@@ -69,7 +96,7 @@ test("a long chapter becomes several sections; every character survives in order
 });
 
 test("unicode, smart punctuation and ligatures survive the whole pipeline", async () => {
-  const text = "Café ﬁne — naïve déjà vu, 中文也有, plus A+B ﬀlow.";
+  const text = "Café ﬁne - naïve déjà vu, 中文也有, plus A+B ﬀlow.";
   const bytes = buildEpub({ chapters: [plainChapter("u.xhtml", "Uni", "Étude", text)] });
   const r = await read(bytes);
   const joined = r.sections.flat().map((b) => b.text).join(" ");
