@@ -199,3 +199,50 @@ html[data-theme="light"] .competition-heading .campaign-meta label { color: #365
 }
 @media(max-width:520px) { .resource-grid,.subject-grid { grid-template-columns:1fr; }.cf-quick-toolbar { grid-template-columns:1fr; }.cf-problem-card.cf-problem-row { grid-template-columns:1fr; }.cf-problem-right { justify-content:flex-end; } }
 @media(max-width:460px) { .settings-card>summary span { display:block; margin:5px 0 0; } }
+
+
+/* Settings-only campaign fields and light-theme counterparts */
+.settings-card .campaign-meta { display:flex; flex-wrap:wrap; margin:0 0 16px; }
+.settings-card .campaign-meta label { min-width:190px; font-size:12px; }
+.settings-card .campaign-meta input { display:block; margin-top:6px; }
+.account-edit-details { margin:10px 0; }
+.account-edit-details>summary { cursor:pointer; color:#8fcaff; font-size:12px; }
+html[data-theme="light"] .competition-page::after { background:rgba(244,249,255,.84) !important; }
+html[data-theme="light"] .competition-nav { background:rgba(244,249,255,.96); }
+html[data-theme="light"] .competition-sidebar { background:rgba(241,248,255,.96); }
+html[data-theme="light"] .competition-heading,
+html[data-theme="light"] .subject-card,
+html[data-theme="light"] .settings-card,
+html[data-theme="light"] .today-panel,
+html[data-theme="light"] .recent-activity,
+html[data-theme="light"] .entry-drawer,
+html[data-theme="light"] .resource-card,
+html[data-theme="light"] .cf-advanced-filters,
+html[data-theme="light"] .cf-problem-card.cf-problem-row {
+  background:rgba(248,252,255,.97);
+  border-color:rgba(64,112,157,.24);
+}
+html[data-theme="light"] .today-panel h2,
+html[data-theme="light"] .recent-activity h2,
+html[data-theme="light"] .settings-card>summary,
+html[data-theme="light"] .today-task-row,
+html[data-theme="light"] .today-rest,
+html[data-theme="light"] .recent-activity p,
+html[data-theme="light"] .activity-row,
+html[data-theme="light"] .problem-entry-head strong,
+html[data-theme="light"] .cf-problem-tags { color:#294761; }
+html[data-theme="light"] .settings-card>summary span,
+html[data-theme="light"] .today-subject,
+html[data-theme="light"] .activity-row span { color:#58728b; }
+html[data-theme="light"] .entry-drawer>summary,
+html[data-theme="light"] .form-more-details>summary,
+html[data-theme="light"] .today-roadmap-link,
+html[data-theme="light"] .cf-advanced-filters>summary,
+html[data-theme="light"] .cf-problem-tags summary { color:#236da8; }
+html[data-theme="light"] .cf-log-problem { background:rgba(52,139,216,.09); color:#236da8; }
+html[data-theme="light"] .cf-chip.unsolved { color:#526b83; }
+html[data-theme="light"] .cf-chip.solved { color:#16845f; }
+@media(max-width:720px) {
+  .account-edit-details { margin-top:8px; }
+  .settings-card .campaign-meta { display:grid; grid-template-columns:1fr 1fr; }
+}
