@@ -105,6 +105,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
 
   await page.reload();
   await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
+  await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
   await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
   await expect(page.locator("#bk-typing")).toHaveValue(source!);
   await expect(page.locator(".bk-reader-meta")).toContainText("1/1 required complete");
