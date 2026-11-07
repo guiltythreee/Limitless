@@ -43,19 +43,21 @@
       state.problems = result.problems || [];
       state.loaded = true;
       populateFilters();
-      await loadSolved();
-      status('Loaded ' + state.problems.length.toLocaleString() + ' problems from Codeforces. Solved status checks up to the latest 10,000 submissions.');
+      const solvedLoaded = await loadSolved();
+      status('Loaded ' + state.problems.length.toLocaleString() + ' problems from Codeforces.' +
+        (solvedLoaded ? ' Solved status checks up to the latest 10,000 submissions.' : ' Solved status is unavailable; refresh it after checking your handle or API access.'));
       render();
     } catch (error) { status(error.message + ' You can retry; the filters and saved list remain available.'); }
     finally { state.loading = false; $('cf-refresh-problems').disabled = false; }
   }
   async function loadSolved() {
     const handle = $('cf-handle').value.trim();
-    if (!handle) { status('Catalogue loaded. Add a Codeforces handle above to include your solved status.'); return; }
+    if (!handle) { state.solved = new Set(); status('Catalogue loaded. Add a Codeforces handle above to include your solved status.'); return false; }
     try {
       const submissions = await api('user.status', { handle, from:1, count:10000 });
       state.solved = new Set(submissions.filter(s => s.verdict === 'OK' && s.problem).map(s => (s.problem.contestId || 'gym') + '-' + (s.problem.index || '')));
-    } catch (error) { status('Problem catalogue loaded; solved status unavailable: ' + error.message); }
+      return true;
+    } catch (error) { status('Problem catalogue loaded; solved status unavailable: ' + error.message); return false; }
   }
   function populateFilters() {
     const tags = [...new Set(state.problems.flatMap(p => p.tags || []))].sort((a,b) => a.localeCompare(b));
@@ -98,10 +100,10 @@
     $('cf-problem-list').innerHTML = slice.map(p => {
       const key = (p.contestId || 'gym') + '-' + (p.index || ''), solved = state.solved.has(key), saved = state.saved.has(key);
       const tags = (p.tags || []).map(tag => '<span class="cf-chip">' + esc(tag) + '</span>').join('');
-      const ratingLabel = Number.isFinite(p.rating) ? p.rating : 'Unrated';
+      const ratingLabel = Number.isFinite(p.rating) ? String(p.rating) : 'Unrated';
       const isGym = Number(p.contestId) >= 100000;
       const url = p.contestId ? (isGym ? 'https://codeforces.com/gym/' + p.contestId + '/problem/' : 'https://codeforces.com/problemset/problem/' + p.contestId + '/') + encodeURIComponent(p.index || '') : 'https://codeforces.com/problemset';
-      return '<article class="cf-problem-card"><div><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + p.rating + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span>' + (solved ? '<span class="cf-chip solved">Solved</span>' : '') + tags + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
+      return '<article class="cf-problem-card"><div><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span>' + (solved ? '<span class="cf-chip solved">Solved</span>' : '') + tags + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
     }).join('') || '<p class="cf-empty">No problems match these filters. Try widening the rating range or removing a tag.</p>';
     $('cf-page-label').textContent = 'Page ' + (state.page + 1) + ' of ' + pages;
     $('cf-prev-page').disabled = state.page === 0;
