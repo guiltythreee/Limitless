@@ -170,7 +170,7 @@ test("theme and reader settings are interactive and persist", async ({ page }) =
   const upload = dialog.getByLabel("Upload Gothic artwork");
   await expect(upload).toBeEnabled();
   await upload.setInputFiles({ name: "gothic-art.svg", mimeType: "image/svg+xml", buffer: artwork });
-  await expect(dialog.getByRole("option", { name: "Gothic" })).toBeAttached();
+  await expect(dialog.getByRole("option", { name: "Gothic artwork" })).toBeAttached();
   await dialog.getByLabel("Reader background").selectOption("gothic");
 
   const size = dialog.locator('input[type="range"]').first();
