@@ -158,3 +158,22 @@ html[data-theme="light"] .mastery-key small { color:#617991; }
 .today-subject { margin-left:auto; color:#9ebbd8; font-size:12px; }
 .today-roadmap-link { display:inline-block; margin-top:10px; color:#8bc9ff; font-size:13px; }
 @media(max-width:720px){.competition-heading .overview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.competition-heading .metric-line{display:block}.competition-heading .metric-line span{display:block;margin-top:4px}}
+
+
+.problem-explorer { margin:12px 0 20px; padding:14px; border:1px solid var(--comp-border); border-radius:12px; background:#0b1726; }
+.explorer-toolbar { display:grid; grid-template-columns:minmax(180px,1fr) 170px 190px auto; gap:9px; }
+.explorer-toolbar input,.explorer-toolbar select { min-height:40px; padding:8px 11px; font-size:13px; }
+.cf-problem-list { margin-top:10px; }
+.cf-problem-row { display:grid; grid-template-columns:minmax(180px,1fr) 65px 100px auto 68px; align-items:center; gap:12px; min-height:52px; padding:8px 10px; border-top:1px solid var(--comp-border); }
+.cf-problem-name { color:#dcecff; font-size:14px; text-decoration:none; }
+.cf-problem-name:hover { color:#8bc9ff; }
+.cf-rating { color:#b5c9dd; font-size:13px; font-variant-numeric:tabular-nums; }
+.cf-status { width:max-content; padding:5px 8px; border-radius:20px; background:rgba(135,155,178,.13); color:#b6c6d7; font-size:12px; }
+.cf-status.is-solved { background:rgba(49,191,140,.13); color:#55d6a6; }
+.cf-pagination { display:flex; justify-content:center; align-items:center; gap:14px; margin-top:14px; color:#b7c9dc; font-size:13px; }
+.cf-pagination button:disabled { opacity:.35; cursor:not-allowed; }
+.cf-tags { color:#9ebbd8; font-size:12px; }
+.cf-tags summary { cursor:pointer; }
+.cf-tags i { display:inline-block; margin:5px 4px 0 0; padding:3px 6px; border:1px solid var(--comp-border); border-radius:5px; font-style:normal; }
+@media(max-width:850px){.explorer-toolbar{grid-template-columns:1fr 1fr}.cf-problem-row{grid-template-columns:minmax(130px,1fr) 50px 90px 60px}.cf-tags{grid-column:1/-1}}
+@media(max-width:520px){.explorer-toolbar{grid-template-columns:1fr}.cf-problem-row{grid-template-columns:minmax(0,1fr) 48px 78px 58px;gap:6px;padding:9px 2px}.cf-problem-name{font-size:12px}.cf-problem-row .action-button{padding:6px}.cf-pagination{font-size:12px}}
