@@ -182,6 +182,7 @@ export function completeBookkeysPage(
   const completedChapters = new Set(Array.isArray(previousBook.c) ? previousBook.c : []);
   let chapterCount = 0;
   let bookCount = 0;
+  let flawlessChapter = false;
   const canCompleteMilestones = eligibleForXp || !isTextPage;
 
   if (canCompleteMilestones && totalSections > 0 && chapters.length) {
@@ -199,6 +200,7 @@ export function completeBookkeysPage(
         characters += Number(pageLengths[String(section)] ?? 0);
       }
       if (!complete || characters <= 0) continue;
+      if ([...typedPages].filter((section) => section >= startPage && section <= endPage).every((section) => exactPages.has(section))) flawlessChapter = true;
       const chapterRewardId = "c:" + bookKey + ":" + startPage;
       if (!Object.prototype.hasOwnProperty.call(paid, chapterRewardId)) {
         const bonus = chapterXp(characters);
@@ -286,6 +288,8 @@ export function completeBookkeysPage(
     pages: Math.max(0, Number(previous.pages ?? 0)) + (eligibleForXp ? 1 : 0),
     chapters: Math.max(0, Number(previous.chapters ?? 0)) + chapterCount,
     books: Math.max(0, Number(previous.books ?? 0)) + bookCount,
+    flawlessCh: Number(previous.flawlessCh ?? 0) || (flawlessChapter ? 1 : 0),
+    bigBook: Number(previous.bigBook ?? 0) || (bookCount > 0 && totalSections >= 100 ? 1 : 0),
     paid, check: { key: bookKey, page }, book: { ...previousBooks, [bookKey]: book },
   };
   const achievements = { ...(previous.ach ?? {}) };
@@ -309,7 +313,7 @@ export function emptyBookkeysGame(): BookkeysGameState {
     chapters: 0,
     books: 0,
     bestWpm: 0, bestPct: 0, perfect: 0, run: 0, bestRun: 0, days: 0, bestDay: 0, night: 0, early: 0,
-    beat5: 0, up20: 0, pro60: 0, vir80: 0, recs: 0, hund: 0, sessMax: 0,
+    beat5: 0, up20: 0, pro60: 0, vir80: 0, recs: 0, hund: 0, bigBook: 0, flawlessCh: 0, sessMax: 0,
     base: { n: 0, sum: 0 }, session: { n: 0, t: 0 },
     streak: { cur: 0, best: 0, last: "" },
     day: { d: "", w: 0 },
