@@ -123,6 +123,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   await page.getByRole("button", { name: "Settings" }).click();
   const sourceSettings = page.getByRole("dialog", { name: "Settings" });
   const sourceSize = sourceSettings.locator('input[type="range"]').first();
+  await expect(sourceSize).toHaveValue("20");
   await sourceSize.focus();
   for (let step = 0; step < 5; step += 1) await sourceSize.press("ArrowRight");
   await sourceSettings.getByRole("button", { name: "Close Settings" }).click();
@@ -139,14 +140,17 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   const restoreContext = await browser.newContext();
   const restorePage = await restoreContext.newPage();
   await restorePage.goto("/tools/typing-next-preview/");
+  await restorePage.getByRole("button", { name: "Toggle light and dark theme" }).click();
+  await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
   await restorePage.locator('input[type="file"][accept="application/json,.json"]').setInputFiles({
     name: "bookkeys-backup.json",
     mimeType: "application/json",
     buffer: backupBytes,
   });
+  await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
   await restorePage.getByRole("button", { name: "Settings" }).click();
   const restoredSettings = restorePage.getByRole("dialog", { name: "Settings" });
-  await expect(restoredSettings.locator('input[type="range"]').first()).toHaveValue("22");
+  await expect(restoredSettings.locator('input[type="range"]').first()).toHaveValue("25");
   await restoreContext.close();
 
   await page.goBack();
