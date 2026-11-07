@@ -18,7 +18,7 @@ Status meanings:
 | PDF / EPUB / TXT / paste import | Partial | Local PDF text extraction, EPUB section parsing, TXT import and paste-text-to-library creation are implemented. Fixture-based PDF and EPUB browser tests pass; representative long, malformed, unusual, image-only and real-world files remain a manual gate. |
 | Reading and typing | Partial | Text display, typing, page/section navigation, draft recovery, saved position, required-section progress and sample mode are implemented. Legacy typing metrics, feedback detail, paste/drop handling, page lifecycle saves and all keyboard interactions still need a complete inventory. |
 | Chapter management | Partial | TOC-derived headings, required/optional choices, defaults, add/remove, persistence and progress are covered. Full editing/reordering parity and unusual TOC structures remain to be checked. |
-| Progress and achievements | Partial | Existing legacy progress remains stored; the preview shows required-section completion and shared Limitless EXP. The library now surfaces saved page, chapter, book, word and character counters. Streak UI, achievement collection and Hall of Fame are not yet surfaced. |
+| Progress and achievements | Partial | The preview now restores a read-only Akashic Archive with the original 60 achievement definitions, legacy level/rank thresholds, progress bars, historical unlock records and streak/best-speed summary. It never writes or resets achievement records. Current-session achievement awarding, live streak updates, and full legacy typing metrics still need parity work. |
 | Rewards and EXP | Implemented for shared EXP | Verified page/chapter/book evidence enters the LSR-1 ledger. The preview reads the global registered-module total, refreshes on same-tab and cross-tab reward updates, and excludes legacy `bookkeys:game.xp`. Legacy Bookkeys XP remains in storage for compatibility, not as global EXP. |
 | Settings and appearance | Partial | Dark/light theme, reading text size, line spacing and completion-celebration preference persist. Legacy background presets, custom artwork, offline fonts, exact `bgdef1`/`bgdef2` mapping and all settings controls remain to be inventoried. |
 | Backup and restore | Partial | Backup v1 export/import and merge are implemented and a browser round-trip passes. Existing populated user backups and conflict-heavy merges need testing with real copies. IndexedDB book files/artwork are intentionally excluded, as in the legacy format. |
@@ -29,7 +29,7 @@ Status meanings:
 
 ## Next implementation priorities
 
-1. Port the legacy progress/achievement surface without treating legacy module XP as global EXP.
+1. Port the remaining legacy achievement counters and daily/session streak updates without treating legacy module XP as global EXP.
 2. Complete the exact settings/background/custom-artwork inventory before adding appearance controls; do not guess what the old background keys mean.
 3. Finish the library and chapter-editor action inventory, then implement only confirmed missing actions.
 4. Run the existing-data acceptance tests against copies of real IndexedDB and backup data.

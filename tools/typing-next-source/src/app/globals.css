@@ -196,3 +196,56 @@ html[data-theme="light"] .bk-setting select { color: #30281d; background: #f5f0e
 html[data-theme="light"] .bk-typing-metrics { background: #faf7f0; border-color: #ded6ca; }
 html[data-theme="light"] .bk-typing-metrics strong { color: #8a652d; }
 html[data-theme="light"] .bk-typing-metrics span { color: #746d63; }
+
+.bk-archive-button { min-height: 38px; }
+.bk-archive-panel { width: min(820px, 100%); max-height: min(88vh, 900px); overflow: auto; color: #f4ead6; background: #111019; border: 1px solid #494153; box-shadow: 0 24px 80px rgba(0,0,0,.45); }
+.bk-archive-panel .bk-settings-header { position: sticky; top: 0; z-index: 2; background: #111019; }
+.bk-archive-panel .bk-settings-header h2 { margin: 0; font-size: 22px; }
+.bk-archive-level { display: grid; gap: 9px; padding: 20px 22px; border-bottom: 1px solid #302b38; }
+.bk-archive-level > div:first-child { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.bk-archive-level > div:first-child span { color: #e7c985; font-size: 25px; font-weight: 700; }
+.bk-archive-level > div:first-child strong { color: #d8b978; }
+.bk-archive-level > strong { font-size: 18px; font-variant-numeric: tabular-nums; }
+.bk-archive-level small, .bk-archive-level p { color: #a9a0b1; font-size: 11px; }
+.bk-archive-level p { margin: 0; line-height: 1.5; }
+.bk-archive-track { height: 7px; overflow: hidden; background: #302b38; border-radius: 5px; }
+.bk-archive-track span { display: block; height: 100%; background: #d8b978; border-radius: inherit; }
+.bk-archive-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: #302b38; border-bottom: 1px solid #302b38; }
+.bk-archive-stats > div { display: grid; gap: 4px; padding: 14px 18px; background: #17141f; }
+.bk-archive-stats strong { color: #e7c985; font-size: 19px; font-variant-numeric: tabular-nums; }
+.bk-archive-stats span { color: #a9a0b1; font-size: 11px; }
+.bk-archive-achievement-heading { display: flex; justify-content: space-between; gap: 12px; padding: 20px 22px 10px; }
+.bk-archive-achievement-heading span { color: #a9a0b1; font-size: 12px; }
+.bk-archive-achievements { display: grid; gap: 8px; padding: 8px 22px 18px; }
+.bk-archive-achievement { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 12px 14px; border: 1px solid #302b38; background: #17141f; }
+.bk-archive-achievement > div:first-child { min-width: 0; display: grid; gap: 4px; }
+.bk-archive-achievement > div:first-child strong { font-size: 13px; }
+.bk-archive-achievement > div:first-child span { color: #a9a0b1; font-size: 11px; line-height: 1.4; }
+.bk-archive-achievement-progress { flex: 0 0 min(190px, 32%); display: grid; gap: 6px; }
+.bk-archive-achievement-progress strong { color: #a9a0b1; font-size: 10px; text-align: right; }
+.bk-archive-achievement.is-unlocked { border-color: #8c7448; }
+.bk-archive-achievement.is-unlocked > div:first-child strong { color: #e7c985; }
+.bk-archive-panel > .bk-settings-note { margin: 0; padding: 0 22px 22px; }
+html[data-theme="light"] .bk-archive-panel { color: #211d19; background: #fffdf8; border-color: #d8d0c3; }
+html[data-theme="light"] .bk-archive-panel .bk-settings-header { background: #fffdf8; }
+html[data-theme="light"] .bk-archive-level { border-color: #d8d0c3; }
+html[data-theme="light"] .bk-archive-level > div:first-child span,
+html[data-theme="light"] .bk-archive-level > div:first-child strong,
+html[data-theme="light"] .bk-archive-stats strong,
+html[data-theme="light"] .bk-archive-achievement.is-unlocked > div:first-child strong { color: #8a652d; }
+html[data-theme="light"] .bk-archive-level small,
+html[data-theme="light"] .bk-archive-level p,
+html[data-theme="light"] .bk-archive-stats span,
+html[data-theme="light"] .bk-archive-achievement > div:first-child span,
+html[data-theme="light"] .bk-archive-achievement-progress strong,
+html[data-theme="light"] .bk-archive-achievement-heading span { color: #746d63; }
+html[data-theme="light"] .bk-archive-stats { background: #ded6ca; border-color: #ded6ca; }
+html[data-theme="light"] .bk-archive-stats > div,
+html[data-theme="light"] .bk-archive-achievement { background: #faf7f0; border-color: #ded6ca; }
+html[data-theme="light"] .bk-archive-track { background: #e0d8ca; }
+@media (max-width: 640px) {
+  .bk-archive-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bk-archive-achievement { align-items: stretch; flex-direction: column; gap: 10px; }
+  .bk-archive-achievement-progress { flex-basis: auto; }
+  .bk-archive-achievement-progress strong { text-align: left; }
+}

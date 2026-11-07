@@ -21,6 +21,7 @@ import { readBookkeysChapterSettings, writeBookkeysChapterSettings } from "../do
 import { requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
 import { createBookkeysBackupV1, parseBookkeysBackup, restoreBookkeysBackup } from "../domain/reading/bookkeys-backup";
 import { createShelf, deleteShelf, readShelves, renameShelf } from "../domain/reading/bookkeys-shelves";
+import { bookkeysArchiveSummary } from "../domain/reading/bookkeys-achievements";
 
 type BookFormat = "pdf" | "epub" | "text";
 interface ReaderBook {
@@ -169,6 +170,7 @@ export default function BookkeysApp() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [settings, setSettings] = useState<BookkeysSettings>({ bg: "dark", size: 17, lineH: 1.8, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [archiveOpen, setArchiveOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState<"appearance" | "data">("appearance");
   const [themeReady, setThemeReady] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -179,6 +181,7 @@ export default function BookkeysApp() {
   const [artwork, setArtwork] = useState<{ gothic?: string; garden?: string }>({});
   const [gameProgress, setGameProgress] = useState<ReturnType<typeof emptyBookkeysGame>>(() => emptyBookkeysGame());
   const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
+  const archive = useMemo(() => bookkeysArchiveSummary(gameProgress as Readonly<Record<string, unknown>>), [gameProgress]);
   const fileInput = useRef<HTMLInputElement>(null);
   const backupInput = useRef<HTMLInputElement>(null);
   const startedAt = useRef(Date.now());
@@ -762,6 +765,7 @@ export default function BookkeysApp() {
           <h1>Bookkeys</h1>
         </div>
         <div className="bk-header-actions">
+          <button className="bk-quiet bk-archive-button" onClick={() => setArchiveOpen(true)} aria-haspopup="dialog">Archive · Lv {archive.level}</button>
           <button id="openSettings" className="bk-quiet bk-settings-button" onClick={() => setSettingsOpen(true)} aria-label="Settings" title="Settings" aria-haspopup="dialog" aria-expanded={settingsOpen}>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 15 .1.1a1.8 1.8 0 0 1-2.5 2.5l-.1-.1a1.8 1.8 0 0 0-3 .9v.2a1.8 1.8 0 0 1-3.6 0v-.2a1.8 1.8 0 0 0-3-.9l-.1.1a1.8 1.8 0 0 1-2.5-2.5l.1-.1a1.8 1.8 0 0 0-.9-3h-.2a1.8 1.8 0 0 1 0-3.6h.2a1.8 1.8 0 0 0 .9-3l-.1-.1a1.8 1.8 0 0 1 2.5-2.5l.1.1a1.8 1.8 0 0 0 3-.9v-.2a1.8 1.8 0 0 1 3.6 0v.2a1.8 1.8 0 0 0 3 .9l.1-.1a1.8 1.8 0 0 1 2.5 2.5l-.1.1a1.8 1.8 0 0 0 .9 3h.2a1.8 1.8 0 0 1 0 3.6h-.2a1.8 1.8 0 0 0-.9 3Z"/></svg>
           </button>
@@ -953,6 +957,58 @@ export default function BookkeysApp() {
           if (file) void importBackup(file);
         }}
       />
+      {archiveOpen && (
+        <div className="bk-modal-backdrop" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) setArchiveOpen(false);
+        }}>
+          <section className="bk-archive-panel" role="dialog" aria-modal="true" aria-labelledby="bk-archive-title">
+            <header className="bk-settings-header">
+              <div>
+                <p className="bk-eyebrow">BOOKKEYS · PERSONAL RECORD</p>
+                <h2 id="bk-archive-title">The Akashic Archive</h2>
+              </div>
+              <button className="bk-quiet" onClick={() => setArchiveOpen(false)} aria-label="Close Archive">Close</button>
+            </header>
+            <div className="bk-archive-level">
+              <div><span>Level {archive.level}</span><strong>{archive.rank}</strong></div>
+              <strong>{archive.xp.toLocaleString()} legacy XP</strong>
+              <div className="bk-archive-track"><span style={{ width: archive.levelProgress + "%" }} /></div>
+              <small>{archive.xpIntoLevel.toLocaleString()} / {archive.xpForNextLevel.toLocaleString()} XP to level {archive.level + 1}</small>
+              <p>Historical Bookkeys progression. This is kept separate from shared Limitless EXP.</p>
+            </div>
+            <div className="bk-archive-stats">
+              <div><strong>{Number(gameProgress.books ?? 0).toLocaleString()}</strong><span>Books finished</span></div>
+              <div><strong>{Number(gameProgress.chapters ?? 0).toLocaleString()}</strong><span>Chapters finished</span></div>
+              <div><strong>{Number(gameProgress.pages ?? 0).toLocaleString()}</strong><span>Pages typed</span></div>
+              <div><strong>{Number(gameProgress.words ?? 0).toLocaleString()}</strong><span>Words</span></div>
+              <div><strong>{Number(gameProgress.chars ?? 0).toLocaleString()}</strong><span>Letters</span></div>
+              <div><strong>{archive.bestWpm.toLocaleString()} WPM</strong><span>Best speed</span></div>
+              <div><strong>{archive.perfectPages.toLocaleString()}</strong><span>Perfect pages</span></div>
+              <div><strong>{archive.currentStreak} / {archive.bestStreak}</strong><span>Current / best streak</span></div>
+              <div><strong>{archive.days.toLocaleString()}</strong><span>Days practised</span></div>
+            </div>
+            <div className="bk-archive-achievement-heading">
+              <strong>Achievements</strong>
+              <span>{archive.unlocked} of {archive.totalAchievements} unlocked</span>
+            </div>
+            <div className="bk-archive-achievements">
+              {archive.achievements.map((achievement) => (
+                <article className={"bk-archive-achievement" + (achievement.unlocked ? " is-unlocked" : "")} key={achievement.id}>
+                  <div>
+                    <strong>{theme === "light" && achievement.lightName ? achievement.lightName : achievement.name}</strong>
+                    <span>{achievement.description}</span>
+                  </div>
+                  <div className="bk-archive-achievement-progress">
+                    <strong>{achievement.unlocked ? "Unlocked" : achievement.value.toLocaleString() + " / " + achievement.target.toLocaleString()}</strong>
+                    <div className="bk-archive-track"><span style={{ width: (achievement.value / achievement.target * 100) + "%" }} /></div>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <p className="bk-settings-note">This archive is read-only in the migration preview. Achievement unlock records are preserved as stored; missing historical records are not recreated automatically.</p>
+          </section>
+        </div>
+      )}
       {settingsOpen && (
         <div className="bk-modal-backdrop" onMouseDown={(event) => {
           if (event.target === event.currentTarget) setSettingsOpen(false);
