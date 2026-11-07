@@ -60,8 +60,10 @@
   var cfItems=[],cfPage=0,cfTags=[],cfAdvanced=false;
   function localProblemState(problem){
     var id=String(problem.contestId||'')+(problem.index||'');
-    var found=[].slice.call(document.querySelectorAll('#problem-history .problem-entry strong')).some(function(node){return node.textContent===id||node.textContent===problem.name||node.textContent===id+' · '+problem.name;});
-    return found?'Solved':'Unsolved';
+    var entries=[].slice.call(document.querySelectorAll('#problem-history .problem-entry'));
+    var found=entries.find(function(entry){var node=entry.querySelector('strong');return node&&(node.textContent===id||node.textContent===problem.name||node.textContent===id+' · '+problem.name);});
+    if(!found)return 'Unsolved';
+    return found.getAttribute('data-result')==='independent'?'Solved':'Reviewed';
   }
   function renderCF(){
     var q=(document.getElementById('cf-search').value||'').toLowerCase();
