@@ -1,0 +1,31 @@
+{
+  "name": "bookkeys-next-source",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Isolated Next.js and TypeScript workspace for the preservation-first Bookkeys migration.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/domain/persistence/bookkeys-v1-database.test.ts src/domain/epub/epub-domain.test.ts src/domain/epub/epub-importer.test.ts src/domain/pdf/pdf-domain.test.ts src/domain/pdf/pdf-importer.test.ts src/domain/reading/bookkeys-reading-session.test.ts src/domain/reading/bookkeys-chapters.test.ts src/domain/reading/bookkeys-backup.test.ts src/domain/reading/bookkeys-shelves.test.ts src/domain/rewards/bookkeys-reward-bridge.test.ts src/domain/rewards/shared-rewards-parity.test.ts src/domain/rewards/bookkeys-reward-adapter.test.ts src/domain/reading/bookkeys-position.test.ts src/domain/reading/bookkeys-chapter-storage.test.ts",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "jszip": "^3.10.1",
+    "pdfjs-dist": "^4.10.38"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^5.9.3",
+    "fake-indexeddb": "^6.2.4",
+    "tsx": "^4.20.6",
+    "jsdom": "^26.1.0",
+    "@types/jsdom": "^21.1.7",
+    "@playwright/test": "^1.56.1"
+  }
+}
