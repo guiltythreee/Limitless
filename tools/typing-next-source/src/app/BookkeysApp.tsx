@@ -177,7 +177,11 @@ export default function BookkeysApp() {
     const refreshGlobalExp = () => setGlobalExp(readGlobalExp());
     refreshGlobalExp();
     window.addEventListener("limitless:rewards-updated", refreshGlobalExp);
-    return () => window.removeEventListener("limitless:rewards-updated", refreshGlobalExp);
+    window.addEventListener("storage", refreshGlobalExp);
+    return () => {
+      window.removeEventListener("limitless:rewards-updated", refreshGlobalExp);
+      window.removeEventListener("storage", refreshGlobalExp);
+    };
   }, []);
 
   useEffect(() => {
