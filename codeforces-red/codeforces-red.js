@@ -116,8 +116,8 @@
       roadmapState.checks[roadmapState.active]=e.target.checked?[...new Set([...list,id])]:list.filter(x=>x!==id);
       saveRoadmap();renderRoadmap(lastPeak);
     });
-    $('weekly-plus').addEventListener('click',()=>{roadmapState.weekly.solved=Math.min(999,(roadmapState.weekly.solved||0)+1);saveRoadmap();renderRoadmap(lastPeak);});
-    $('weekly-minus').addEventListener('click',()=>{roadmapState.weekly.solved=Math.max(0,(roadmapState.weekly.solved||0)-1);saveRoadmap();renderRoadmap(lastPeak);});
+    $('weekly-plus').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};roadmapState.weeklyManual.solved=Math.min(999,(roadmapState.weeklyManual.solved||0)+1);roadmapState.weekly.solved=(roadmapState.weekly.solved||0)+1;saveRoadmap();renderRoadmap(lastPeak);});
+    $('weekly-minus').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};if((roadmapState.weeklyManual.solved||0)>0){roadmapState.weeklyManual.solved--;roadmapState.weekly.solved=Math.max(0,(roadmapState.weekly.solved||0)-1);saveRoadmap();renderRoadmap(lastPeak);}});
     $('contest-log').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};roadmapState.weeklyManual.contests=Math.min(99,(roadmapState.weeklyManual.contests||0)+1);roadmapState.weekly.contests=(roadmapState.weekly.contests||0)+1;saveRoadmap();renderRoadmap(lastPeak);});
     $('contest-unlog').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};if((roadmapState.weeklyManual.contests||0)>0){roadmapState.weeklyManual.contests--;roadmapState.weekly.contests=Math.max(0,(roadmapState.weekly.contests||0)-1);saveRoadmap();renderRoadmap(lastPeak);}});
     $('next-band-count').addEventListener('change',()=>{roadmapState.nextBandCounts=roadmapState.nextBandCounts||{};roadmapState.nextBandCounts[roadmapState.active]=Math.max(0,Number($('next-band-count').value||0));saveRoadmap();});
@@ -169,7 +169,7 @@
       if (submissions.status !== 'OK') throw new Error(submissions.comment || 'Could not load accepted submissions.');
       const user = info.result[0], history = ratings.result, accepted=submissions.result.filter(x=>x.verdict==='OK'&&x.problem&&x.problem.contestId!=null);
       const weekStart=new Date();weekStart.setHours(0,0,0,0);weekStart.setDate(weekStart.getDate()-((weekStart.getDay()+6)%7));const weekStartSec=Math.floor(weekStart.getTime()/1000);
-      const weekProblems=new Set(accepted.filter(x=>x.creationTimeSeconds>=weekStartSec).map(x=>x.problem.contestId+'-'+(x.problem.index||'')+'-'+(x.problem.name||'')));
+      const weekProblems=new Set(accepted.filter(x=>x.creationTimeSeconds>=weekStartSec).map(x=>x.problem.contestId+'-'+(x.problem.index||'')));
       const weekContests=history.filter(x=>x.ratingUpdateTimeSeconds>=weekStartSec).length;
       const peak = Number.isFinite(user.maxRating) ? user.maxRating : (Number.isFinite(user.rating) ? user.rating : 0);
       $('peak-rating').textContent = user.maxRating == null ? 'Unrated' : String(user.maxRating);
