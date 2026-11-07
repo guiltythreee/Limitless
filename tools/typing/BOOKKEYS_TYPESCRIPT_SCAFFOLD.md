@@ -38,3 +38,15 @@ The active production application at `tools/typing/` remains untouched. The futu
 1. Complete the remaining browser parity checks: deletion, backup restore/merge, offline resources, CSP, browser navigation and custom artwork.
 2. Build a subsystem-by-subsystem extraction plan tied to the source inventory and existing 98-test suite.
 3. Implement the first subsystem only after its contract and parity tests are explicit; keep the original implementation as rollback.
+
+## Extraction checkpoint — 2026-11-07
+
+The isolated workspace now contains the first two pure helper modules (`blocks.mjs` and `epub.mjs`) plus 13 focused parity tests. The module source is copied from the preserved production source and does not replace or modify it.
+
+CI on the current PR head passed:
+- Extracted Bookkeys helper tests.
+- TypeScript type-check.
+- Next.js static export build.
+- Existing production Bookkeys regression suite: 98/98 passing.
+
+The extraction remains non-production. Do not switch the active reader until persistence, PDF/EPUB import, typing state, chapter editing, settings/themes, backups, achievements/rewards and offline behaviour have each passed parity checks, followed by a rollback review.
