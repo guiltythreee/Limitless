@@ -242,7 +242,6 @@ function QuestionList({ pool, title, empty, onOpen, onAnalysis, initialDifficult
               <span className="min-w-0">
                 <span className="clamp2 block text-[15px] leading-6 text-body"><Rich text={q.item.question} /></span>
                 <span className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-faint">
-                  {q.item.source && <span className="tracking-widest">{q.item.source}</span>}
                   <span>{lessonTitle(q.lessonId)}</span>
                   <span className={`dbadge dbadge-${q.difficulty}`}>{DIFF_LABEL[q.difficulty]}</span>
                   {n > 0 && <span>{n} attempt{n > 1 ? "s" : ""}</span>}
@@ -457,7 +456,7 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
                 )}>
       <div className="learning-player-meta">
         <div>
-          <div className="text-sm text-body">Q {index + 1} <span className="text-faint">• {q.item.source ?? ""}</span> <span className={`dbadge dbadge-${q.difficulty} ml-1`}>{DIFF_LABEL[q.difficulty]}</span></div>
+          <div className="text-sm text-body">Q {index + 1} <span className={`dbadge dbadge-${q.difficulty} ml-1`}>{DIFF_LABEL[q.difficulty]}</span></div>
           {showTopic && <div className="mt-1 text-xs text-dim">{lessonTitle(q.lessonId)}</div>}
         </div>
         <div className="flex flex-col items-center gap-1">
