@@ -142,3 +142,19 @@ html[data-theme="light"] .mastery-key small { color:#617991; }
 .activity-row { display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-top:1px solid var(--comp-border); }
 .activity-row span { color:#91b9df; }
 .competition-page :is(.competition-sidebar-note p,.competition-side-link,.competition-nav nav a,.card-label,.week-phase,.week-progress,.week-objective,.topic-check,.daily-task,.daily-day,.assessment-note,.topic-status-guide,.campaign-meta label,.safety-copy>p,.safety-controls label,.resource-intro,.storage-note,.problem-form label,.mock-form label,.empty-state,.subject-card p,.subject-count,.subject-breakdown,.resource-card p,.resource-card a,.problem-entry-head,.mock-row,.overview-card p,.metric-line span) { font-size:max(12px,1em); }
+
+
+.competition-heading { background:#0b1726; }
+.competition-heading .overview-grid { display:flex; align-items:center; gap:24px; margin:18px 0 0; padding-top:14px; border-top:1px solid var(--comp-border); }
+.competition-heading .overview-card { flex:1; min-height:0; padding:0; border:0; background:transparent; }
+.competition-heading .overview-card p { display:none; }
+.competition-heading .overview-card .card-label { font-size:11px; }
+.competition-heading .metric-line strong { font-size:22px; }
+.competition-heading .progress-track { max-width:280px; }
+.today-panel { margin-top:16px; padding:18px 20px; border:1px solid var(--comp-border); border-radius:13px; background:#0b1726; }
+.today-panel h2 { margin:7px 0 12px; color:#e8f3ff; font-size:19px; }
+.today-task-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-top:1px solid var(--comp-border); color:#dcecff; font-size:14px; }
+.today-check { color:#8299b1; font-size:17px; }
+.today-subject { margin-left:auto; color:#9ebbd8; font-size:12px; }
+.today-roadmap-link { display:inline-block; margin-top:10px; color:#8bc9ff; font-size:13px; }
+@media(max-width:720px){.competition-heading .overview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.competition-heading .metric-line{display:block}.competition-heading .metric-line span{display:block;margin-top:4px}}
