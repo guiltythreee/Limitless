@@ -177,3 +177,17 @@ html[data-theme="light"] .mastery-key small { color:#617991; }
 .cf-tags i { display:inline-block; margin:5px 4px 0 0; padding:3px 6px; border:1px solid var(--comp-border); border-radius:5px; font-style:normal; }
 @media(max-width:850px){.explorer-toolbar{grid-template-columns:1fr 1fr}.cf-problem-row{grid-template-columns:minmax(130px,1fr) 50px 90px 60px}.cf-tags{grid-column:1/-1}}
 @media(max-width:520px){.explorer-toolbar{grid-template-columns:1fr}.cf-problem-row{grid-template-columns:minmax(0,1fr) 48px 78px 58px;gap:6px;padding:9px 2px}.cf-problem-name{font-size:12px}.cf-problem-row .action-button{padding:6px}.cf-pagination{font-size:12px}}
+
+
+/* Compact, usable entry drawers and Codeforces explorer refinements */
+.form-more-details { grid-column:1/-1; margin:2px 0 8px; padding-top:8px; border-top:1px solid var(--comp-border); }
+.form-more-details>summary { cursor:pointer; color:#8fcaff; font-size:13px; padding:5px 0 10px; }
+.form-more-details[open] { display:contents; }
+.form-more-details[open]>summary { display:block; grid-column:1/-1; }
+.entry-drawer .problem-form,.entry-drawer .mock-form { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.entry-drawer .problem-form>label,.entry-drawer .mock-form>label { display:flex; flex-direction:column; gap:6px; font-size:12px; }
+.entry-drawer .problem-form input,.entry-drawer .problem-form select,.entry-drawer .mock-form input,.entry-drawer .mock-form select { min-height:38px; padding:8px 10px; font-size:13px; }
+.entry-drawer .problem-form>button,.entry-drawer .mock-form>button { justify-self:start; }
+.cf-tag-placeholder { display:block; min-width:1px; }
+@media(max-width:720px){.entry-drawer .problem-form,.entry-drawer .mock-form{grid-template-columns:1fr}.form-more-details[open]{display:block}.form-more-details[open]>summary{display:block}}
+@media(max-width:850px){.cf-tag-placeholder{display:none}}
