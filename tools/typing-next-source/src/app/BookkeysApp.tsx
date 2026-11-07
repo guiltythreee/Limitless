@@ -128,7 +128,7 @@ function readLegacySize(fallback: number): number {
 }
 
 function readSettings(): BookkeysSettings {
-  const defaults: BookkeysSettings = { bg: "pic-morning", size: 17, lineH: 1.8, celebrate: true };
+  const defaults: BookkeysSettings = { bg: "pic-morning", size: 20, lineH: 1.7, celebrate: true };
   const legacySize = readLegacySize(defaults.size);
   try {
     const value: unknown = JSON.parse(window.localStorage.getItem("bookkeys:settings") ?? "{}");
@@ -234,7 +234,7 @@ export default function BookkeysApp() {
   const [typed, setTyped] = useState("");
   const [status, setStatus] = useState("Import a PDF, EPUB or text file, or paste text to begin.");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 17, lineH: 1.8, celebrate: true });
+  const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 20, lineH: 1.7, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState<"appearance" | "data">("appearance");
@@ -808,7 +808,6 @@ export default function BookkeysApp() {
       setShelves(readShelves(window.localStorage.getItem("bookkeys:shelves")));
       const restoredSettings = readSettings();
       setSettings(restoredSettings);
-      setTheme(restoredSettings.bg === "light" ? "light" : "dark");
       if (book) {
         const progress = game.book?.[book.bookKey];
         setCompletedPageIndexes([...new Set([...(progress?.p ?? []), ...(progress?.e ?? [])])]);
