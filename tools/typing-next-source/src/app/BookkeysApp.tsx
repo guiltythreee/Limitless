@@ -128,7 +128,7 @@ function readLegacySize(fallback: number): number {
 }
 
 function readSettings(): BookkeysSettings {
-  const defaults: BookkeysSettings = { bg: "dark", size: 17, lineH: 1.8, celebrate: true };
+  const defaults: BookkeysSettings = { bg: "pic-morning", size: 17, lineH: 1.8, celebrate: true };
   const legacySize = readLegacySize(defaults.size);
   try {
     const value: unknown = JSON.parse(window.localStorage.getItem("bookkeys:settings") ?? "{}");
@@ -234,7 +234,7 @@ export default function BookkeysApp() {
   const [typed, setTyped] = useState("");
   const [status, setStatus] = useState("Import a PDF, EPUB or text file, or paste text to begin.");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [settings, setSettings] = useState<BookkeysSettings>({ bg: "dark", size: 17, lineH: 1.8, celebrate: true });
+  const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 17, lineH: 1.8, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState<"appearance" | "data">("appearance");
@@ -296,11 +296,20 @@ export default function BookkeysApp() {
   useEffect(() => {
     const savedSettings = readSettings();
     const savedTheme = window.localStorage.getItem("limitless.typing.v1.theme");
-    const initialTheme = savedSettings.bg === "light" || savedTheme === "light" ? "light" : "dark";
+    // The legacy "bg" field is the reader scene (for example "pic-morning"),
+    // not the light/dark UI theme. Keep it untouched in the persisted settings.
+    const initialTheme = savedTheme === "light" ? "light" : "dark";
+    const legacyScene = savedSettings.bg;
+    const mappedScene: ReaderBackgroundId =
+      legacyScene === "pic-morning" ? "morning" :
+      legacyScene === "pic-evening" ? "evening" :
+      legacyScene === "pic-night" ? "night" :
+      isReaderBackgroundId(legacyScene) ? legacyScene : "none";
     setSettings({
       ...savedSettings,
-      bg: initialTheme,
-      readerBackground: isReaderBackgroundId(savedSettings.readerBackground) ? savedSettings.readerBackground : "none",
+      readerBackground: isReaderBackgroundId(savedSettings.readerBackground)
+        ? savedSettings.readerBackground
+        : mappedScene,
     });
     setTheme(initialTheme);
     setThemeReady(true);
@@ -774,7 +783,6 @@ export default function BookkeysApp() {
   function toggleTheme() {
     const nextTheme = theme === "dark" ? "light" : "dark";
     setTheme(nextTheme);
-    persistSettings({ ...settings, bg: nextTheme });
   }
 
   function exportBackup() {
