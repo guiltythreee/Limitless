@@ -28,8 +28,27 @@
     if(!weekNode||!list)return;
     var weekLabel=weekNode.querySelector('.week-title');
     if(title)title.textContent=(document.getElementById('current-week')||{}).textContent+' · '+(weekLabel?weekLabel.textContent:'Foundations');
-    var rows=[].slice.call(weekNode.querySelectorAll('.roadmap-topic')).slice(0,3);
-    list.innerHTML=rows.map(function(row){var name=row.querySelector('strong'),subject=row.querySelector('small');return '<div class="today-task-row"><span class="today-check">○</span><strong>'+ (name?name.textContent:'') +'</strong><span class="today-subject">'+(subject?subject.textContent:'')+'</span></div>';}).join('');
+    var dayNames=['sunday','mon','tue','wed','thu','fri','sat'];
+    var dayKey=dayNames[new Date().getDay()];
+    var dayNode=dayKey==='sunday'?weekNode.querySelector('.daily-day.sunday'):weekNode.querySelector('.daily-day details, .daily-day');
+    if(dayKey!=='sunday'){
+      dayNode=[].slice.call(weekNode.querySelectorAll('.daily-day')).find(function(node){var summary=node.querySelector('summary');return summary&&summary.textContent.toLowerCase().indexOf(dayKey)>=0;});
+    }
+    if(dayKey==='sunday'||!dayNode){
+      list.innerHTML='<p class="today-rest">Rest or light revision today.</p>';
+      return;
+    }
+    var tasks=[].slice.call(dayNode.querySelectorAll('[data-day-task]'));
+    list.innerHTML=tasks.length?tasks.map(function(input){
+      var label=input.closest('label'),copy=label?label.querySelector('span'):null;
+      return '<label class="today-task-row"><input type="checkbox" data-overview-task="'+escapeHTML(input.dataset.dayTask)+'" '+(input.checked?'checked':'')+'><span>'+(copy?escapeHTML(copy.textContent):'Study task')+'</span></label>';
+    }).join(''):'<p class="today-rest">No tasks scheduled for today.</p>';
+    list.querySelectorAll('[data-overview-task]').forEach(function(box){
+      box.addEventListener('change',function(){
+        var original=weekNode.querySelector('[data-day-task="'+box.dataset.overviewTask+'"]');
+        if(original){original.checked=box.checked;original.dispatchEvent(new Event('change',{bubbles:true}));}
+      });
+    });
   }
   var roadmapJump=todayPanel.querySelector('[data-screen-link="roadmap"]');
   if(roadmapJump)roadmapJump.addEventListener('click',function(event){event.preventDefault();activate('roadmap',true);});
