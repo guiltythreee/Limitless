@@ -6,6 +6,7 @@ import { openBookkeysDatabase, type BookkeysDatabase } from "../domain/persisten
 import { readEpub } from "../domain/epub/epub-importer";
 import type { EpubBlock, EpubChapter } from "../domain/epub/epub-domain";
 import { readPdf } from "../domain/pdf/pdf-importer";
+import { pagesFromText, textFingerprint } from "../domain/text/bookkeys-text-importer";
 import {
   completeBookkeysPage, createPageDraft, emptyBookkeysGame,
   readPageDraft,
@@ -21,7 +22,7 @@ import { requiredSections, tidyChapters, withRequirements } from "../domain/read
 import { createBookkeysBackupV1, parseBookkeysBackup, restoreBookkeysBackup } from "../domain/reading/bookkeys-backup";
 import { createShelf, deleteShelf, readShelves, renameShelf } from "../domain/reading/bookkeys-shelves";
 
-type BookFormat = "pdf" | "epub";
+type BookFormat = "pdf" | "epub" | "text";
 interface ReaderBook {
   readonly isSample?: boolean;
   readonly libraryId: string;
@@ -106,6 +107,22 @@ async function parseBook(
   bytes: ArrayBuffer,
   fallbackTitle: string,
 ): Promise<ReaderBook> {
+  if (format === "text") {
+    const source = new TextDecoder("utf-8").decode(bytes);
+    const sections = pagesFromText(source);
+    if (!sections.length) throw new Error("This text file is empty.");
+    const fingerprint = textFingerprint(source);
+    return {
+      libraryId,
+      bookKey: "f:" + fingerprint,
+      format,
+      title: fallbackTitle || "Pasted text",
+      author: "Plain text",
+      fingerprint,
+      sections,
+      chapters: tidyChapters(withRequirements([{ p: 0, title: "Beginning" }]), sections.length),
+    };
+  }
   if (format === "epub") {
     const result = await readEpub(bytes, new DOMParser());
     return {
@@ -151,6 +168,8 @@ export default function BookkeysApp() {
   const [themeReady, setThemeReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [chaptersOpen, setChaptersOpen] = useState(false);
+  const [pasteOpen, setPasteOpen] = useState(false);
+  const [pasteText, setPasteText] = useState("");
   const [globalExp, setGlobalExp] = useState(0);
   const [gameProgress, setGameProgress] = useState<ReturnType<typeof emptyBookkeysGame>>(() => emptyBookkeysGame());
   const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
@@ -299,7 +318,7 @@ export default function BookkeysApp() {
     try {
       const file = await database.getFile(entry.id);
       if (!file) throw new Error("The original file is missing from this browser's library.");
-      const format: BookFormat = entry.fmt === "epub" ? "epub" : "pdf";
+      const format: BookFormat = entry.fmt === "epub" ? "epub" : entry.fmt === "text" ? "text" : "pdf";
       const parsed = await parseBook(entry.id, format, await file.arrayBuffer(), entry.name);
       const openedBook = { ...parsed, chapters: loadChapterSettings(parsed.bookKey, entry.id, parsed.chapters, parsed.sections.length) };
       const savedPage = readBookkeysPosition(window.localStorage, parsed.bookKey, entry.id, parsed.sections.length);
@@ -321,19 +340,19 @@ export default function BookkeysApp() {
 
   async function importFile(file: File) {
     const extension = file.name.toLowerCase().split(".").pop();
-    if (extension !== "pdf" && extension !== "epub") {
-      setStatus("Choose a PDF or EPUB file.");
+    if (extension !== "pdf" && extension !== "epub" && extension !== "txt") {
+      setStatus("Choose a PDF, EPUB or plain-text file.");
       return;
     }
-    const format: BookFormat = extension === "epub" ? "epub" : "pdf";
+    const format: BookFormat = extension === "epub" ? "epub" : extension === "txt" ? "text" : "pdf";
     setBusy(true);
     setStatus("Reading book locally…");
     try {
       const bytes = await file.arrayBuffer();
       const temporaryId = window.crypto.randomUUID();
-      const parsed = await parseBook(temporaryId, format, bytes, file.name.replace(/\.(pdf|epub)$/i, ""));
+      const parsed = await parseBook(temporaryId, format, bytes, file.name.replace(/\.(pdf|epub|txt)$/i, ""));
       const existing = library.find((entry) => entry.fp === parsed.fingerprint &&
-        (entry.fmt === "epub" ? "epub" : "pdf") === format);
+        (entry.fmt === "epub" ? "epub" : entry.fmt === "text" ? "text" : "pdf") === format);
       const libraryId = existing?.id ?? temporaryId;
       const savedBook = { ...parsed, libraryId };
       if (database) {
@@ -346,7 +365,7 @@ export default function BookkeysApp() {
           added: existing?.added ?? Date.now(),
           fp: parsed.fingerprint,
           cover: existing?.cover ?? "",
-          ...(format === "epub" ? { fmt: "epub" as const } : {}),
+          ...(format !== "pdf" ? { fmt: format } : {}),
           ...(parsed.author ? { author: parsed.author } : {}),
         };
         await database.putBook(metadata, file);
@@ -452,6 +471,17 @@ export default function BookkeysApp() {
       return;
     }
     persistShelves(next);
+  }
+
+  function startPastedText() {
+    const source = pasteText.trim();
+    if (!source) {
+      setStatus("Paste some text before creating a book.");
+      return;
+    }
+    setPasteOpen(false);
+    setPasteText("");
+    void importFile(new File([source], "Pasted text.txt", { type: "text/plain" }));
   }
 
   function startSample() {
@@ -733,24 +763,41 @@ export default function BookkeysApp() {
               <button className="bk-quiet" onClick={editShelfName}>Rename</button>
               <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "default"}>Delete</button>
               {continueEntry && <button className="bk-primary" onClick={() => void loadEntry(continueEntry)}>Continue reading</button>}
+              <button className="bk-quiet" onClick={() => setPasteOpen((open) => !open)}>Paste text</button>
               <button className="bk-quiet" onClick={startSample}>Try sample text</button>
               <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
               <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>
               <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
-                {busy ? "Working…" : "Import PDF / EPUB"}
+                {busy ? "Working…" : "Import PDF / EPUB / TXT"}
               </button>
             </div>
             <input
               ref={fileInput}
               className="bk-hidden"
               type="file"
-              accept=".pdf,.epub,application/pdf,application/epub+zip"
+              accept=".pdf,.epub,.txt,application/pdf,application/epub+zip,text/plain"
               onChange={(event) => {
                 const file = event.currentTarget.files?.[0];
                 if (file) void importFile(file);
               }}
             />
           </div>
+          {pasteOpen && (
+            <section className="bk-paste-panel" aria-label="Paste book text">
+              <label htmlFor="bk-paste-text">Paste a passage or a longer text</label>
+              <textarea
+                id="bk-paste-text"
+                value={pasteText}
+                onChange={(event) => setPasteText(event.currentTarget.value)}
+                placeholder="Paste text here. Blank lines separate paragraphs."
+                rows={7}
+              />
+              <div>
+                <button className="bk-primary" onClick={startPastedText} disabled={busy || !pasteText.trim()}>Create text book</button>
+                <button className="bk-quiet" onClick={() => setPasteOpen(false)}>Cancel</button>
+              </div>
+            </section>
+          )}
           <section className="bk-progress-overview" aria-label="Bookkeys progress">
             <div className="bk-progress-heading">
               <strong>Reading progress</strong>
@@ -768,16 +815,16 @@ export default function BookkeysApp() {
             <div className="bk-book-grid">
               {visibleLibrary.map((entry) => (
                 <button className="bk-book" key={entry.id} onClick={() => void loadEntry(entry)} disabled={busy}>
-                  <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : "PDF"}</span>
+                  <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
                   <strong>{entry.name}</strong>
-                  <span>{entry.pages} {entry.fmt === "epub" ? "sections" : "pages"}</span>
+                  <span>{entry.pages} {entry.fmt === "pdf" || !entry.fmt ? "pages" : "sections"}</span>
                 </button>
               ))}
             </div>
           ) : (
             <div className="bk-empty">
               <strong>No books yet</strong>
-              <span>Import a PDF or EPUB to create your local library.</span>
+              <span>Import a PDF, EPUB or text file, or paste text to create your local library.</span>
             </div>
           )}
         </section>
@@ -788,9 +835,9 @@ export default function BookkeysApp() {
             {!book.isSample && <button className="bk-quiet" onClick={() => void removeCurrentBook()} disabled={busy}>Remove book</button>}
             <div className="bk-book-title">
               <strong>{book.title}</strong>
-              <span>{book.author || (book.format === "epub" ? "EPUB" : "PDF")}</span>
+              <span>{book.author || (book.format === "pdf" ? "PDF" : book.format === "epub" ? "EPUB" : "Plain text")}</span>
             </div>
-            <div className="bk-counter">{book.format === "epub" ? "Section" : "Page"} {pageIndex + 1} / {book.sections.length}</div>
+            <div className="bk-counter">{book.format === "pdf" ? "Page" : "Section"} {pageIndex + 1} / {book.sections.length}</div>
           </div>
           <div className="bk-chapter-tools">
             <div>
