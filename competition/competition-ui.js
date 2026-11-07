@@ -11,6 +11,10 @@
   links.forEach(function(link){link.addEventListener('click',function(event){event.preventDefault();activate(link.getAttribute('data-screen-link'),true);});});
   var initial=(location.hash==='#roadmap'?'roadmap':location.hash==='#problem-review'?'problems':location.hash==='#mock-tests'?'mocks':location.hash==='#resources'?'resources':location.hash==='#settings'?'settings':'overview');
   activate(initial,false);
+
+  var campaignMeta=document.querySelector('.campaign-meta');
+  var settingsContent=document.querySelector('.settings-card-content');
+  if(campaignMeta&&settingsContent)settingsContent.insertBefore(campaignMeta,settingsContent.firstChild);
   var problemForm=document.getElementById('problem-form');
   var mockForm=document.getElementById('mock-form');
   function addAction(section,form,label){
