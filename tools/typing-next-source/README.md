@@ -28,3 +28,9 @@ The first isolated extraction now lives under `src/lib/bookkeys/`:
 - `tests/bookkeys-pure.test.mjs` — deterministic parity checks for normalization, text pagination, chapter boundaries, XP/rank calculations, streaks, signatures, EPUB identity, TOC/path handling, block splitting and section mapping.
 
 These modules are not yet imported by the active production reader. The original HTML remains the runtime source until the remaining subsystems are migrated and the complete parity gate passes.
+
+### Second extraction checkpoint: IndexedDB adapter
+
+`src/lib/bookkeys/database.mjs` now isolates the existing `bookkeys-lib` v1 IndexedDB contract behind `createBookkeysDatabase(indexedDBImpl)`. It preserves the `meta` store (`keyPath: id`), `files` store (out-of-line keys), and the existing `all`, `file`, `setFile`, `delFile`, `add`, `put`, and `del` operations. The injectable IndexedDB implementation lets tests exercise the real adapter without touching a user's browser data.
+
+`tests/bookkeys-database.test.mjs` uses `fake-indexeddb` to check paired metadata/blob writes, metadata updates, artwork/file operations, deletion of both library records, and the unavailable-IndexedDB failure path. This adapter is still isolated from production.
