@@ -1,11 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f4d78f"/>
-      <stop offset="0.52" stop-color="#c8942e"/>
-      <stop offset="1" stop-color="#f0d28a"/>
-    </linearGradient>
+    <radialGradient id="gold" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#fff8d8"/>
+      <stop offset=".34" stop-color="#f5d987"/>
+      <stop offset="1" stop-color="#b98225"/>
+    </radialGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2.1" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
-  <path d="M32 32 C24 23 19 17 12.5 17 C5.5 17 2 23 2 32 s5.5 15 12 15 c7 0 11.5-6 18-15 s11-15 18-15 c7 0 12 6 12 15 s-5 15-12 15 c-6.5 0-11.5-6-18-15Z"
-        fill="none" stroke="url(#gold)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="27" fill="none" stroke="#d7ad55" stroke-width="1.5" opacity=".75"/>
+  <circle cx="32" cy="32" r="21" fill="none" stroke="#e7c575" stroke-width="1" opacity=".8"/>
+  <g fill="url(#gold)" stroke="#c18a2c" stroke-width=".7" stroke-linejoin="round" filter="url(#glow)">
+    <path d="M32 3 L36 27 L61 32 L36 37 L32 61 L28 37 L3 32 L28 27 Z"/>
+    <path d="M32 14 L35 29 L50 32 L35 35 L32 50 L29 35 L14 32 L29 29 Z" opacity=".95"/>
+  </g>
+  <circle cx="32" cy="32" r="4.2" fill="#fff4c5" stroke="#c18a2c" stroke-width="1"/>
 </svg>
