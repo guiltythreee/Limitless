@@ -166,6 +166,13 @@ test("theme and reader settings are interactive and persist", async ({ page }) =
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
 
+  const artwork = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#d2ae5c"/></svg>');
+  const upload = dialog.getByLabel("Upload Gothic artwork");
+  await expect(upload).toBeEnabled();
+  await upload.setInputFiles({ name: "gothic-art.svg", mimeType: "image/svg+xml", buffer: artwork });
+  await expect(dialog.getByRole("option", { name: "Gothic" })).toBeAttached();
+  await dialog.getByLabel("Reader background").selectOption("gothic");
+
   const size = dialog.locator('input[type="range"]').first();
   await size.focus();
   for (let step = 0; step < 5; step += 1) await size.press("ArrowRight");
@@ -176,7 +183,12 @@ test("theme and reader settings are interactive and persist", async ({ page }) =
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.getByRole("button", { name: "Settings" }).click();
-  await expect(page.getByRole("dialog").locator('input[type="range"]').first()).toHaveValue("22");
+  const restored = page.getByRole("dialog", { name: "Settings" });
+  await expect(restored.locator('input[type="range"]').first()).toHaveValue("22");
+  await expect(restored.getByLabel("Reader background")).toHaveValue("gothic");
+  await restored.getByRole("button", { name: "Remove Gothic" }).click();
+  await expect(restored.getByRole("option", { name: "Gothic" })).toHaveCount(0);
+  await expect(restored.getByLabel("Reader background")).toHaveValue("none");
 });
 
 test("PDF import extracts readable text and records page completion", async ({ page }) => {
