@@ -109,7 +109,7 @@ export default function Mt201() {
 
           <button className={`ch-item ${view.kind === "overview" ? "active" : ""}`} aria-current={view.kind === "overview" ? "page" : undefined} onClick={() => setView({ kind: "overview" })}><span className="ch-num">⌂</span><span className="ch-title">Course overview</span></button>
           <div className="ch-list">
-            {TOPICS.map((t) => {
+            {view.kind !== "overview" && TOPICS.map((t) => {
               const s = chStats(t.id);
               const pct = s.total ? Math.round((s.done / s.total) * 100) : 0;
               return (
