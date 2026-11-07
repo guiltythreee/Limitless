@@ -288,9 +288,14 @@ function installProjectForm() {
     const status = byId("project-form-status");
     const title = byId("project-title").value.trim();
     const template = GOAL_TEMPLATES[selectedTemplate];
-    if (!title || !template) {
-      status.textContent = "Choose a goal type and enter what you want to accomplish.";
+    if (title.length < 5 || title.length > 120 || !template) {
+      status.textContent = title.length < 5
+        ? "Enter a goal using at least 5 characters."
+        : title.length > 120
+          ? "Keep the goal title to 120 characters or fewer."
+          : "Choose a goal type before adding your goal.";
       status.className = "meta-error";
+      byId("project-title").focus();
       return;
     }
     const slug = title.toLowerCase()
