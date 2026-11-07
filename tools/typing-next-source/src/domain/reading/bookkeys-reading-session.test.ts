@@ -118,3 +118,43 @@ test("different pages in one book have independent reward identities", () => {
   assert.equal(second.xpAwarded, pageXp(10, 100));
   assert.equal(pageSignature("same"), pageSignature("same"));
 });
+
+
+test("live archive metrics update with legacy streak, daily, session and perfect-page rules", () => {
+  const day1 = new Date(2026, 10, 7, 12).getTime();
+  const day2 = new Date(2026, 10, 8, 12).getTime();
+  const day3 = new Date(2026, 10, 9, 12).getTime();
+  const page = "a".repeat(250);
+  const first = completeBookkeysPage(emptyBookkeysGame(), "metrics", 0, page, page, 50_000, [], 0, [], day1);
+  assert.equal(first.game.bestWpm, 60);
+  assert.equal(first.game.bestPct, 100);
+  assert.equal(first.game.perfect, 1);
+  assert.equal(first.game.run, 1);
+  assert.equal(first.game.bestRun, 1);
+  assert.equal(first.game.words, 50);
+  assert.equal(first.game.chars, 250);
+  assert.equal(first.game.days, 1);
+  assert.equal(first.game.streak?.cur, 1);
+  assert.ok(first.game.ach?.["perfect1"]);
+
+  const second = completeBookkeysPage(first.game, "metrics", 1, page, page, 50_000, [], 0, [], day2);
+  assert.equal(second.game.streak?.cur, 2);
+  assert.equal(second.game.streak?.best, 2);
+  assert.equal(second.game.days, 2);
+  assert.equal(second.game.bestDay, 50);
+  assert.equal(second.game.sessMax, 2);
+
+  const third = completeBookkeysPage(second.game, "metrics", 2, page, page, 50_000, [], 0, [], day3);
+  assert.equal(third.game.streak?.cur, 3);
+  assert.ok(third.game.ach?.["streak3"]);
+});
+
+test("short eligible pages update totals and unlock page achievements without creating speed samples", () => {
+  let game = emptyBookkeysGame();
+  for (let page = 0; page < 10; page += 1) {
+    game = completeBookkeysPage(game, "ten-pages", page, "abcdefghij", "abcdefghij", 1000, [], 0, [], new Date(2026, 10, 7, 12).getTime()).game;
+  }
+  assert.equal(game.pages, 10);
+  assert.equal(game.bestWpm, 0);
+  assert.ok(game.ach?.["pages10"]);
+});
