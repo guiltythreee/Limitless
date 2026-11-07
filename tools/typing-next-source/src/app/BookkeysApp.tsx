@@ -86,6 +86,12 @@ function readGame(): ReturnType<typeof emptyBookkeysGame> {
   }
 }
 
+function readBookkeysRewardExp(): number {
+  const adapter = createBookkeysRewardAdapter(window.localStorage, bookkeysRewardPolicy);
+  return adapter.getRecords().reduce((total, record) =>
+    total + (record.eligible === true && typeof record.totalExp === "number" ? record.totalExp : 0), 0);
+}
+
 function loadChapterSettings(
   bookKey: string,
   libraryId: string,
@@ -146,7 +152,7 @@ export default function BookkeysApp() {
   const [themeReady, setThemeReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [chaptersOpen, setChaptersOpen] = useState(false);
-  const [gameXp, setGameXp] = useState(0);
+  const [bookkeysExp, setBookkeysExp] = useState(0);
   const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const backupInput = useRef<HTMLInputElement>(null);
@@ -166,6 +172,13 @@ export default function BookkeysApp() {
         return bookkeysPageEvidenceFromText(raw);
       },
     });
+  }, []);
+
+  useEffect(() => {
+    const refreshBookkeysExp = () => setBookkeysExp(readBookkeysRewardExp());
+    refreshBookkeysExp();
+    window.addEventListener("limitless:rewards-updated", refreshBookkeysExp);
+    return () => window.removeEventListener("limitless:rewards-updated", refreshBookkeysExp);
   }, []);
 
   useEffect(() => {
@@ -201,7 +214,7 @@ export default function BookkeysApp() {
           if (entry.shelf && !known.has(entry.shelf)) loadedShelves.push({ id: entry.shelf, name: entry.shelf });
         }
         setShelves(loadedShelves);
-        setGameXp(Number(readGame().xp ?? 0));
+        
       } catch {
         if (active) setStatus("Browser storage is unavailable. You can still import a book for this session.");
       }
@@ -251,7 +264,7 @@ export default function BookkeysApp() {
         window.localStorage.setItem("bookkeys:game", JSON.stringify(result.game));
         const savedBook = result.game.book?.[book.bookKey];
         setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
-        setGameXp(Number(result.game.xp ?? 0));
+        
         setStatus("No selectable text found on this PDF page. It is recorded as empty and will not block completion.");
       }
       if (draft) {
@@ -573,7 +586,7 @@ export default function BookkeysApp() {
       const backup = parseBookkeysBackup(await file.text());
       const result = restoreBookkeysBackup(window.localStorage, backup, "merge");
       const game = readGame();
-      setGameXp(Number(game.xp ?? 0));
+      
       setShelves(readShelves(window.localStorage.getItem("bookkeys:shelves")));
       const restoredSettings = readSettings();
       setSettings(restoredSettings);
@@ -685,7 +698,7 @@ export default function BookkeysApp() {
           <button className="bk-quiet bk-theme-toggle" onClick={toggleTheme} aria-label="Toggle light and dark theme">
             {theme === "dark" ? "Light mode" : "Dark mode"}
           </button>
-          <div className="bk-xp"><span>Bookkeys XP</span><strong>{gameXp.toLocaleString()}</strong></div>
+          <div className="bk-xp"><span>Bookkeys EXP</span><strong>{bookkeysExp.toLocaleString()}</strong></div>
         </div>
       </header>
 
