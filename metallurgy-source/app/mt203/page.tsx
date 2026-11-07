@@ -42,6 +42,7 @@ import Practice, { PracticeMode } from "./practice";
 import { settleModuleBonuses } from "./rewards";
 import BookmarksPanel from "../courses/BookmarksPanel";
 import ActivityHistoryPanel from "../courses/ActivityHistoryPanel";
+import CourseChapterBrowser from "../courses/CourseChapterBrowser";
 
 type View =
   | { kind: "dashboard" }
@@ -65,7 +66,7 @@ const countOf = (id: string) => TOPIC_BY_ID[id]?.count ?? 0;
 export default function Mt203() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [progress, setProgress] = useState<Progress | null>(null);
-  const [view, setView] = useState<View>({ kind: "dashboard" });
+  const [view, setView] = useState<View>({ kind: "overview" });
   const [topic, setTopic] = useState<TopicContent | null>(null);
   const [error, setError] = useState("");
 
@@ -142,6 +143,7 @@ export default function Mt203() {
   const lesson = activeTopic ? MT203_LESSONS[activeTopic] : null;
 
   const title = (() => {
+    if (view.kind === "overview") return "Course overview";
     if (view.kind === "dashboard") return "Dashboard";
     if (view.kind === "exam") return "Exam Simulator";
     if (view.kind === "bookmarks") return "Bookmarked questions";
@@ -289,7 +291,7 @@ export default function Mt203() {
         </aside>
 
         {/* ---------------- main ---------------- */}
-        <main className="main mt203">
+        <main className="main mt203">\n          {view.kind === "overview" && <CourseChapterBrowser code={MANIFEST.code} title={MANIFEST.title} description={MANIFEST.description} topics={TOPICS} units={UNITS} totalQuestions={TOPICS.reduce((sum, t) => sum + t.count, 0)} statsFor={(id) => { const a = byTopic[id]; return a ? { done: a.done, right: a.right, total: a.total } : { done: 0, right: 0, total: countOf(id) }; }} onSelect={(id) => setView({ kind: "study", topic: id, tab: "lesson" })} />}
           {progress && (view.kind === "history" || view.kind === "mistakes") && (
             <ActivityHistoryPanel
               activities={toActivities(progress.attempts, { courseId: "mt203", topicOf: (questionId) => TOPIC_OF[questionId] })}
