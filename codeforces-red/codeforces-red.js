@@ -137,7 +137,8 @@
       $('refresh-rating').disabled = false;
     }
   }
-  document.addEventListener('DOMContentLoaded', () => {\n    bindRoadmap();
+  document.addEventListener('DOMContentLoaded', () => {
+    bindRoadmap();
     $('refresh-rating').addEventListener('click', refresh);
     refresh();
   });
