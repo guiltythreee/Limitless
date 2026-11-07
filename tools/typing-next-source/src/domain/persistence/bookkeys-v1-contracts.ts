@@ -3,7 +3,7 @@
  * No storage reads, writes, migrations or route wiring live in this file.
  */
 
-export type BookkeysFormat = "pdf" | "epub";
+export type BookkeysFormat = "pdf" | "epub" | "text";
 
 export interface BookkeysLibraryMetadata {
   id: string;
@@ -15,7 +15,7 @@ export interface BookkeysLibraryMetadata {
   fp: string;
   cover: string;
   author?: string;
-  fmt?: "epub";
+  fmt?: "epub" | "text";
   opened?: number;
   /** Preserve metadata extensions written by older or future reader versions. */
   [extension: string]: unknown;
