@@ -48,3 +48,4 @@ jobs:
           wranglerVersion: "4"
 
 # Retry deployment after refreshing the Cloudflare API token.
+# Manual production deployments can also be started with workflow_dispatch.
