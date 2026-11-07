@@ -299,12 +299,8 @@ export default function BookkeysApp() {
     // The legacy "bg" field is the reader scene (for example "pic-morning"),
     // not the light/dark UI theme. Keep it untouched in the persisted settings.
     const initialTheme = savedTheme === "light" ? "light" : "dark";
-    const legacyScene = savedSettings.bg;
     const mappedScene: ReaderBackgroundId =
-      legacyScene === "pic-morning" ? "morning" :
-      legacyScene === "pic-evening" ? "evening" :
-      legacyScene === "pic-night" ? "night" :
-      isReaderBackgroundId(legacyScene) ? legacyScene : "none";
+      isReaderBackgroundId(savedSettings.bg) ? savedSettings.bg : "none";
     setSettings({
       ...savedSettings,
       readerBackground: isReaderBackgroundId(savedSettings.readerBackground)
