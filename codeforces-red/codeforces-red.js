@@ -22,12 +22,58 @@
   }
   const ROADMAP_KEY = 'limitless.codeforces-red.training.v1';
   const stages = [
-    {name:'Foundations',range:'Below 1200',min:0,max:1199,goal:'Reach and stabilise at Pupil (1200).',tasks:['Write clean C++ using arrays, strings, vectors, functions and sorting.','Estimate time and memory complexity before coding.','Solve implementation and simulation problems independently.','Use frequency maps, prefix sums and two pointers.','Apply basic greedy reasoning and test counterexamples.','Practise gcd, primes, parity, modulo and integer overflow.'],tags:'800–1100'},
-    {name:'Specialist toolkit',range:'1200–1399',min:1200,max:1399,goal:'Reach Specialist (1400).',tasks:['Prove simple greedy choices using invariants or exchange arguments.','Solve binary search on answer problems.','Use maps, sets, stacks, queues and priority queues confidently.','Learn DSU and its basic applications.','Practise string frequency, hashing concepts and prefix functions.','Apply counting, combinations and modular arithmetic basics.'],tags:'1000–1400'},
-    {name:'Core algorithms',range:'1400–1599',min:1400,max:1599,goal:'Reach Expert (1600).',tasks:['Implement BFS, DFS and connected components.','Solve shortest path and topological sorting problems.','Build DP states and transitions; practise knapsack, LIS and grid DP.','Use sieve, factorisation and modular exponentiation.','Implement Fenwick tree and segment tree fundamentals.','Solve constructive problems with clear invariants.'],tags:'1200–1600'},
-    {name:'Advanced reasoning',range:'1600–1899',min:1600,max:1899,goal:'Reach Candidate Master (1900).',tasks:['Practise DP optimisation and less obvious state design.','Study SCC, bridges, articulation points and Dijkstra variants.','Apply inclusion–exclusion and pigeonhole arguments.','Use lazy segment trees and offline query techniques.','Solve multi-step greedy and constructive problems.','Explain proofs and complexity before implementation.'],tags:'1500–1900'},
-    {name:'Mastery',range:'1900–2399',min:1900,max:2399,goal:'Reach Master (2100), then International Master (2300).',tasks:['Combine multiple algorithms in unfamiliar problems.','Develop advanced DP, tree and graph problem-solving depth.','Study flows, matching and advanced data structures as needed.','Strengthen combinatorics, probability and algebraic reasoning.','Complete virtual contests and deep upsolves consistently.','Review recurring weaknesses and improve contest decisions.'],tags:'1700–2400+'},
-    {name:'Grandmaster',range:'2400+',min:2400,max:9999,goal:'Reach a peak rating of at least 2400.',tasks:['Maintain performance across varied contest formats.','Close remaining gaps in advanced algorithms and mathematics.','Improve accuracy, problem selection and implementation speed.','Review difficult rounds and turn mistakes into focused practice.'],tags:'2400+'}
+    {name:'Foundations',range:'Below 1200',min:0,max:1199,goal:'Build reliable implementation and core reasoning; stabilise at Pupil (1200).',tasks:[
+      'C++ implementation: arrays, strings, vectors, functions, sorting, frequency counting and careful input/output.',
+      'Complexity: estimate time and memory from constraints; recognise O(n), O(n log n), O(n²), and integer overflow.',
+      'Complete search and simulation: enumerate small spaces, simulate operations and validate ideas with brute force.',
+      'Sorting, prefix sums and two pointers: sorting invariants, prefix/range sums and sliding windows.',
+      'Greedy fundamentals: prove local choices with an exchange argument or invariant; test counterexamples.',
+      'Elementary number theory: GCD, LCM, primes, parity, divisibility, modulo arithmetic and safe multiplication.'
+    ]},
+    {name:'Specialist toolkit',range:'1200–1399',min:1200,max:1399,goal:'Develop standard data-structure and search techniques; reach Specialist (1400).',tasks:[
+      'Binary search: monotonic predicates, binary search on the answer and proof of the search invariant.',
+      'STL and ordered structures: map, set, multiset, stack, queue, deque, priority_queue and coordinate compression.',
+      'Disjoint Set Union: path compression, union by size/rank, connectivity and Kruskal applications.',
+      'String basics and hashing: prefix/suffix frequency, rolling hash, collision caveats and applications.',
+      'Prefix function and KMP: compute the prefix function; solve pattern matching and border problems.',
+      'Counting and modular arithmetic: combinations, binomial coefficients, modular inverses and counting arguments.'
+    ]},
+    {name:'Core algorithms',range:'1400–1599',min:1400,max:1599,goal:'Combine graph traversal, dynamic programming and range-query structures; reach Expert (1600).',tasks:[
+      'BFS and DFS: connected components, grid traversal, bipartite checking, tree traversal and iterative DFS.',
+      'Shortest paths and topological sorting: unweighted BFS, Dijkstra, DAG order and cycle detection.',
+      'Dynamic programming foundations: define state, transition, base case and order; practise knapsack, LIS and grid DP.',
+      'Number theory toolkit: sieve, prime factorisation, divisor counting, modular exponentiation and congruences.',
+      'Fenwick and segment trees: point updates, prefix/range queries, range minimum/sum and structure selection.',
+      'Constructive algorithms: build objects satisfying constraints; state invariants and verify edge cases.'
+    ]},
+    {name:'Advanced reasoning',range:'1600–1899',min:1600,max:1899,goal:'Handle multi-step problems and advanced graph, tree, DP and string techniques; reach Candidate Master (1900).',tasks:[
+      'Bitmask DP: subset states, assignment DP, subset transitions and SOS-style reasoning.',
+      'Tree algorithms: LCA and binary lifting; ancestor tables, kth ancestor and path queries.',
+      'Tree rerooting: derive answers for every root using down/up DP and contribution techniques.',
+      'Advanced graphs: SCC, bridges, articulation points, condensation DAGs and Dijkstra variants.',
+      'DP optimisation: stronger state design, divide-and-conquer optimisation and convex-hull trick when applicable.',
+      'Lazy propagation and offline queries: lazy segment trees, sweep line, coordinate compression and Mo’s algorithm.',
+      'String algorithms: Z-function, tries, prefix-function applications and Aho–Corasick concepts.',
+      'Game theory: winning/losing states, impartial games, Grundy numbers, mex and Sprague–Grundy theorem.'
+    ]},
+    {name:'Mastery',range:'1900–2399',min:1900,max:2399,goal:'Build depth across advanced algorithms and mathematics; progress through Master (2100) and International Master (2300).',tasks:[
+      'Advanced DP: bitmask/profile DP, digit DP, tree DP, rerooting, optimisation proofs and state compression.',
+      'Flows and cuts: residual graphs, max-flow/min-cut, Dinic and modelling constraints as flow.',
+      'Matching: bipartite matching, Kuhn, Hopcroft–Karp concepts and assignment modelling.',
+      'FFT and NTT: polynomial multiplication, convolution, roots of unity and number-theoretic transform.',
+      'Computational geometry: orientation, cross products, segment intersection, convex hull and precision.',
+      'Advanced strings: suffix array/automaton concepts, Aho–Corasick, Z-function applications and string DP.',
+      'Combinatorics and probability: inclusion–exclusion, generating functions, expectation and counting bijections.',
+      'Sprague–Grundy: Nim, mex, Grundy values, disjoint sums and game-state reductions.',
+      'Advanced data structures: persistent structures, DSU rollback, sqrt decomposition and range-query trade-offs.',
+      'Contest integration: solve unfamiliar 1900–2400 problems, write proofs and analyse failed approaches.'
+    ]},
+    {name:'Grandmaster',range:'2400+',min:2400,max:9999,goal:'Reach and sustain a peak rating of at least 2400; continually refine breadth, speed and judgement.',tasks:[
+      'Contest performance: full rounds, deliberate problem ordering, time management and accuracy.',
+      'Advanced algorithm and mathematics depth: identify personal gaps from hard rounds and study exact techniques.',
+      'Editorial-to-independent-solve loop: understand the idea, close the editorial, then re-derive and implement.',
+      'Long-term review: track rating variance, recurring mistakes, implementation bugs and topic weaknesses.'
+    ]}
   ];
   let roadmapState = {checks:{},weekly:{solved:0,contests:0},active:0,ready:[]};
   function loadRoadmap() {
@@ -56,6 +102,7 @@
     $('weekly-solved').textContent=roadmapState.weekly.solved||0;
     $('weekly-contests').textContent=roadmapState.weekly.contests||0;
     $('mark-stage-done').textContent=roadmapState.ready.includes(roadmapState.active)?'Stage marked ready':'Mark stage ready';
+    if($('next-band-count')) $('next-band-count').value=roadmapState.nextBandCount||0;
   }
   function bindRoadmap() {
     loadRoadmap();
@@ -72,7 +119,15 @@
     $('weekly-plus').addEventListener('click',()=>{roadmapState.weekly.solved=Math.min(999,(roadmapState.weekly.solved||0)+1);saveRoadmap();renderRoadmap(lastPeak);});
     $('weekly-minus').addEventListener('click',()=>{roadmapState.weekly.solved=Math.max(0,(roadmapState.weekly.solved||0)-1);saveRoadmap();renderRoadmap(lastPeak);});
     $('contest-log').addEventListener('click',()=>{roadmapState.weekly.contests=Math.min(99,(roadmapState.weekly.contests||0)+1);saveRoadmap();renderRoadmap(lastPeak);});
-    $('mark-stage-done').addEventListener('click',()=>{if(!roadmapState.ready.includes(roadmapState.active))roadmapState.ready.push(roadmapState.active);saveRoadmap();renderRoadmap(lastPeak);});
+    $('next-band-count').addEventListener('change',()=>{roadmapState.nextBandCount=Math.max(0,Number($('next-band-count').value||0));saveRoadmap();});
+    $('mark-stage-done').addEventListener('click',()=>{
+      const count=Number($('next-band-count').value||0);
+      if(count<10){$('readiness-status').textContent='Solve at least 10 problems from the next rating band independently before marking this stage ready.';return;}
+      if((roadmapState.checks[roadmapState.active]||[]).length<stages[roadmapState.active].tasks.length){$('readiness-status').textContent='Complete every skill checklist item before marking this stage ready.';return;}
+      if(!roadmapState.ready.includes(roadmapState.active))roadmapState.ready.push(roadmapState.active);
+      $('readiness-status').textContent='Readiness criteria met. Stage marked ready.';
+      saveRoadmap();renderRoadmap(lastPeak);
+    });
     renderRoadmap(lastPeak);
   }
   let lastPeak=0;
