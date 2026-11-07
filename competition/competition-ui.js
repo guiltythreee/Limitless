@@ -102,7 +102,7 @@
       .then(function(response){if(!response.ok)throw new Error('Codeforces is unavailable');return response.json();})
       .then(function(data){
         if(data.status!=='OK')throw new Error('Codeforces did not return a problem set');
-        cfItems=(data.result.problems||[]).filter(function(p){return Number.isFinite(Number(p.rating));});
+        cfItems=(data.result.problems||[]).filter(function(p){return !!p.name;});
         cfTags=Array.from(new Set(cfItems.reduce(function(all,p){return all.concat(p.tags||[]);},[]))).sort();
         var tagSelect=document.getElementById('cf-tag');
         tagSelect.innerHTML='<option value="">All tags</option>'+cfTags.map(function(t){return '<option value="'+t+'">'+t+'</option>';}).join('');
