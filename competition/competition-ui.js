@@ -12,6 +12,23 @@
   var initial=(location.hash==='#roadmap'?'roadmap':location.hash==='#problem-review'?'problems':location.hash==='#mock-tests'?'mocks':location.hash==='#resources'?'resources':location.hash==='#settings'?'settings':'overview');
   activate(initial,false);
 
+  var overviewGrid=document.querySelector('.overview-grid');
+  var hero=document.querySelector('.competition-heading');
+  if(overviewGrid&&hero)hero.appendChild(overviewGrid);
+  var todayPanel=document.createElement('section');todayPanel.className='today-panel';todayPanel.setAttribute('data-screen','overview');
+  todayPanel.innerHTML='<div class="card-label">TODAY / THIS WEEK</div><h2 id="today-week-title">This week</h2><div id="today-task-list"></div><a href="#roadmap" class="today-roadmap-link" data-screen-link="roadmap">Open full roadmap →</a>';
+  if(overviewGrid)overviewGrid.parentNode.insertBefore(todayPanel,overviewGrid.nextSibling);
+  function renderToday(){
+    var weekNode=document.querySelector('.week-card[open]')||document.querySelector('.week-card');
+    var title=document.getElementById('today-week-title'),list=document.getElementById('today-task-list');
+    if(!weekNode||!list)return;
+    var weekLabel=weekNode.querySelector('.week-title');
+    if(title)title.textContent=(document.getElementById('current-week')||{}).textContent+' · '+(weekLabel?weekLabel.textContent:'Foundations');
+    var rows=[].slice.call(weekNode.querySelectorAll('.roadmap-topic')).slice(0,3);
+    list.innerHTML=rows.map(function(row){var name=row.querySelector('strong'),subject=row.querySelector('small');return '<div class="today-task-row"><span class="today-check">○</span><strong>'+ (name?name.textContent:'') +'</strong><span class="today-subject">'+(subject?subject.textContent:'')+'</span></div>';}).join('');
+  }
+  renderToday();
+  var roadmap=document.getElementById('week-list');if(roadmap){var roadmapObserver=new MutationObserver(renderToday);roadmapObserver.observe(roadmap,{childList:true,subtree:true,attributes:true,attributeFilter:['open']});}
   var campaignMeta=document.querySelector('.campaign-meta');
   var settingsContent=document.querySelector('.settings-card-content');
   if(campaignMeta&&settingsContent)settingsContent.insertBefore(campaignMeta,settingsContent.firstChild);
