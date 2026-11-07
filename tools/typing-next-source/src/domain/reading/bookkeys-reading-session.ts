@@ -83,7 +83,6 @@ export function createPageDraft(
   now = Date.now(),
 ): PageDraftV1 {
   const accuracy = typingAccuracy(target, typed);
-  const exact = typed === target;
   return {
     v: 1,
     page,
