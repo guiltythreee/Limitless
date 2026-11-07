@@ -169,6 +169,14 @@
     queueWrite(event.key, event.newValue, event.newValue === null);
   });
 
+  // Flush debounced progress when the page is backgrounded or closed. The
+  // localStorage write remains durable even if the browser cancels the request;
+  // this is a best-effort attempt to finish the cloud mirror before teardown.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") void flush();
+  });
+  window.addEventListener("pagehide", () => { void flush(); });
+
   client.auth.onAuthStateChange((event, session) => {
     if (session?.user) {
       if (event === "SIGNED_IN" || event === "INITIAL_SESSION" || event === "TOKEN_REFRESHED") {
