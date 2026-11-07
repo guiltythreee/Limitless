@@ -99,9 +99,10 @@
       const key = (p.contestId || 'gym') + '-' + (p.index || ''), solved = state.solved.has(key), saved = state.saved.has(key);
       const tags = (p.tags || []).map(tag => '<span class="cf-chip">' + esc(tag) + '</span>').join('');
       const ratingLabel = Number.isFinite(p.rating) ? p.rating : 'Unrated';
+      const tagsDisclosure = tags ? '<details class="cf-problem-tags"><summary>Tags</summary><div>' + tags + '</div></details>' : '';
       const isGym = Number(p.contestId) >= 100000;
       const url = p.contestId ? (isGym ? 'https://codeforces.com/gym/' + p.contestId + '/problem/' : 'https://codeforces.com/problemset/problem/' + p.contestId + '/') + encodeURIComponent(p.index || '') : 'https://codeforces.com/problemset';
-      return '<article class="cf-problem-card"><div><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + p.rating + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span>' + (solved ? '<span class="cf-chip solved">Solved</span>' : '') + tags + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
+      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + (solved ? 'solved' : 'unsolved') + '">' + (solved ? 'Solved' : 'Unsolved') + '</span>' + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-log-problem" type="button" data-log-problem="' + esc(key) + '">Log</button><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
     }).join('') || '<p class="cf-empty">No problems match these filters. Try widening the rating range or removing a tag.</p>';
     $('cf-page-label').textContent = 'Page ' + (state.page + 1) + ' of ' + pages;
     $('cf-prev-page').disabled = state.page === 0;
@@ -111,20 +112,43 @@
       if (state.saved.has(key)) state.saved.delete(key); else state.saved.add(key);
       persistSaved(); render();
     }));
+    $('cf-problem-list').querySelectorAll('[data-log-problem]').forEach(button => button.addEventListener('click', () => {
+      const problem = state.problems.find(p => (p.contestId || 'gym') + '-' + (p.index || '') === button.dataset.logProblem);
+      if (!problem) return;
+      const form = $('problem-form');
+      $('problem-name').value = (problem.contestId || 'Gym') + (problem.index || '') + ' · ' + (problem.name || 'Codeforces problem');
+      $('problem-difficulty').value = Number.isFinite(problem.rating) ? String(problem.rating) : '';
+      $('problem-concept').value = (problem.tags || []).join(', ');
+      $('problem-outcome').value = 'independent';
+      $('problem-time').value = '';
+      $('problem-observation').value = '';
+      const drawer = form.closest('.entry-drawer');
+      if (drawer) drawer.open = true;
+      form.scrollIntoView({ behavior:'smooth', block:'center' });
+    }));
   }
   function bindFilters() {
     ['cf-rating-min','cf-rating-max','cf-include-unrated','cf-tag-filter','cf-category-filter','cf-search','cf-status-filter','cf-sort'].forEach(id => $(id).addEventListener(id === 'cf-search' ? 'input' : 'change', () => { state.page = 0; render(); }));
+    $('cf-rating-preset').addEventListener('change', () => {
+      const preset = $('cf-rating-preset').value;
+      const bounds = preset === 'any' ? ['', ''] : preset === '2000-3500' ? ['2000', '3500'] : preset.split('-');
+      $('cf-rating-min').value = bounds[0];
+      $('cf-rating-max').value = bounds[1];
+      $('cf-include-unrated').checked = preset === 'any';
+      state.page = 0; render();
+    });
+    ['cf-rating-min','cf-rating-max'].forEach(id => $(id).addEventListener('change', () => { $('cf-rating-preset').value = 'custom'; }));
     $('cf-prev-page').addEventListener('click', () => { state.page--; render(); });
     $('cf-next-page').addEventListener('click', () => { state.page++; render(); });
     $('cf-refresh-problems').addEventListener('click', loadProblemset);
     $('cf-refresh-solved').addEventListener('click', async () => { status('Refreshing solved submissions…'); await loadSolved(); render(); });
     $('cf-clear-filters').addEventListener('click', () => {
-      $('cf-rating-min').value = '800'; $('cf-rating-max').value = '3500'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
+      $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
       $('cf-tag-filter').selectedIndex = -1; $('cf-category-filter').value = ''; $('cf-status-filter').value = 'all'; $('cf-sort').value = 'rating-asc'; state.page = 0; render();
     });
   }
   function init() {
-    readSaved(); $('cf-rating-min').value = '800'; $('cf-rating-max').value = '3500';
+    readSaved(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
     bindFilters(); loadProblemset();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
