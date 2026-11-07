@@ -191,3 +191,19 @@ html[data-theme="light"] .mastery-key small { color:#617991; }
 .cf-tag-placeholder { display:block; min-width:1px; }
 @media(max-width:720px){.entry-drawer .problem-form,.entry-drawer .mock-form{grid-template-columns:1fr}.form-more-details[open]{display:block}.form-more-details[open]>summary{display:block}}
 @media(max-width:850px){.cf-tag-placeholder{display:none}}
+
+
+/* Detailed Regionals assignments and compact week navigation */
+.week-display-controls{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:12px 0 14px;padding:10px 13px;border:1px solid var(--comp-border);border-radius:10px;background:var(--comp-panel);color:var(--comp-muted);font-size:12px}
+.week-display-controls .action-button{white-space:nowrap}
+.roadmap-topic{align-items:flex-start}
+.roadmap-topic-copy{min-width:0;flex:1}
+.topic-assignment{margin-top:10px;padding:11px 12px;border:1px solid var(--comp-border);border-radius:9px;background:rgba(5,15,27,.42)}
+.assignment-heading{color:var(--comp-ink);font-size:12px;font-weight:700;margin-bottom:5px}
+.assignment-source{margin-bottom:8px;font-size:12px}
+.assignment-source a{color:#83c5ff}
+.reference-task{display:flex;align-items:flex-start;gap:8px;margin:7px 0;color:var(--comp-muted);font-size:12px;line-height:1.5}
+.reference-task input{flex:0 0 auto;margin-top:3px;accent-color:#4ca9f4}
+.reference-task b{color:var(--comp-ink)}
+@media(max-width:720px){.week-display-controls{align-items:flex-start;flex-direction:column}.roadmap-topic{display:block}.mastery-select{margin-top:10px}}
+html[data-theme="light"] .topic-assignment{background:rgba(255,255,255,.7)}
