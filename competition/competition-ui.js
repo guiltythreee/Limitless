@@ -3,6 +3,8 @@
   var links=[].slice.call(document.querySelectorAll('[data-screen-link]'));
   var screens=[].slice.call(document.querySelectorAll('[data-screen]'));
   function activate(name,updateHash){
+    var settingsCard=document.getElementById('settings');
+    if(settingsCard)settingsCard.open=name==='settings';
     screens.forEach(function(node){node.hidden=node.getAttribute('data-screen')!==name;});
     links.forEach(function(link){var active=link.getAttribute('data-screen-link')===name;link.classList.toggle('active',active);if(active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
     if(updateHash){var target=links.find(function(link){return link.getAttribute('data-screen-link')===name;});if(target)history.replaceState(null,'',target.getAttribute('href'));}
@@ -50,6 +52,22 @@
   }
   addAction(document.getElementById('problem-review'),problemForm,'Log problem');
   addAction(document.getElementById('mock-tests'),mockForm,'Add test');
+  function compactForm(form,keepIds,label){
+    if(!form)return;
+    var labels=[].slice.call(form.querySelectorAll(':scope > label'));
+    var more=document.createElement('details');more.className='form-more-details';
+    var summary=document.createElement('summary');summary.textContent=label;more.appendChild(summary);
+    labels.forEach(function(field){
+      var control=field.querySelector('input,select,textarea');
+      if(control&&keepIds.indexOf(control.id)!==-1)return;
+      if(control&&control.id==='problem-observation')control.required=false;
+      more.appendChild(field);
+    });
+    var submit=form.querySelector('button[type="submit"]');
+    form.insertBefore(more,submit);
+  }
+  compactForm(problemForm,['problem-name','problem-outcome','problem-time'],'More details');
+  compactForm(mockForm,['mock-date','mock-one-score','mock-two-score','mock-note'],'More details');
 
   /* Live Codeforces problem explorer with local review status. */
   var problemSection=document.getElementById('problem-review');
@@ -58,12 +76,14 @@
   explorer.innerHTML='<div class="explorer-toolbar"><input id="cf-search" type="search" placeholder="Search problems..." aria-label="Search problems"><select id="cf-rating" aria-label="Filter by rating"><option value="">Any rating</option><option value="800-1200">800–1200</option><option value="800">800</option><option value="900">900</option><option value="1000">1000</option><option value="1100">1100</option><option value="1200">1200</option></select><select id="cf-tag" aria-label="Filter by tag"><option value="">All tags</option></select><button type="button" id="cf-advanced" class="action-button">Advanced</button></div><div id="cf-problems" class="cf-problem-list"><p>Loading Codeforces problems…</p></div><div class="cf-pagination"><button type="button" id="cf-prev" class="action-button">‹ Prev</button><span id="cf-page">Page 1</span><button type="button" id="cf-next" class="action-button">Next ›</button></div>';
   if(problemSection&&historyNode)problemSection.insertBefore(explorer,historyNode);
   var cfItems=[],cfPage=0,cfTags=[],cfAdvanced=false;
+  function escapeHTML(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function localProblemState(problem){
     var id=String(problem.contestId||'')+(problem.index||'');
     var entries=[].slice.call(document.querySelectorAll('#problem-history .problem-entry'));
     var found=entries.find(function(entry){var node=entry.querySelector('strong');return node&&(node.textContent===id||node.textContent===problem.name||node.textContent===id+' · '+problem.name);});
     if(!found)return 'Unsolved';
-    return found.getAttribute('data-result')==='independent'?'Solved':'Reviewed';
+    var result=found.getAttribute('data-result');
+    return result==='independent'?'Solved':result==='unsolved'?'Unsolved':'Reviewed';
   }
   function renderCF(){
     var q=(document.getElementById('cf-search').value||'').toLowerCase();
@@ -80,8 +100,8 @@
     document.getElementById('cf-problems').innerHTML=pageItems.length?pageItems.map(function(p){
       var id=String(p.contestId||'')+(p.index||'');
       var tags=p.tags||[];
-      var tagHtml=cfAdvanced?'<details class="cf-tags"><summary>Show tags</summary><span>'+tags.map(function(t){return '<i>'+t+'</i>';}).join(' ')+'</span></details>':'';
-      return '<article class="cf-problem-row"><a class="cf-problem-name" href="https://codeforces.com/problemset/problem/'+p.contestId+'/'+p.index+'" target="_blank" rel="noopener noreferrer">'+p.name+'</a><span class="cf-rating">'+(p.rating||'—')+'</span><span class="cf-status '+(localProblemState(p)==='Solved'?'is-solved':'')+'">'+localProblemState(p)+'</span>'+tagHtml+'<button type="button" class="action-button" data-cf-log="'+id+'">Log</button></article>';
+      var tagHtml=cfAdvanced?'<details class="cf-tags"><summary>Show tags</summary><span>'+tags.map(function(t){return '<i>'+escapeHTML(t)+'</i>';}).join(' ')+'</span></details>':'';
+      return '<article class="cf-problem-row"><a class="cf-problem-name" href="https://codeforces.com/problemset/problem/'+encodeURIComponent(p.contestId)+'/'+encodeURIComponent(p.index)+'" target="_blank" rel="noopener noreferrer">'+escapeHTML(p.name)+'</a><span class="cf-rating">'+(p.rating||'—')+'</span><span class="cf-status '+(localProblemState(p)==='Solved'?'is-solved':'')+'">'+localProblemState(p)+'</span>'+tagHtml+'<button type="button" class="action-button" data-cf-log="'+escapeHTML(id)+'">Log</button></article>';
     }).join(''):'<p class="empty-state">No problems match these filters.</p>';
     document.getElementById('cf-page').textContent='Page '+(cfPage+1)+' · '+filtered.length+' problems';
     document.getElementById('cf-prev').disabled=cfPage===0;
@@ -108,7 +128,7 @@
         cfItems=(data.result.problems||[]).filter(function(p){return !!p.name;});
         cfTags=Array.from(new Set(cfItems.reduce(function(all,p){return all.concat(p.tags||[]);},[]))).sort();
         var tagSelect=document.getElementById('cf-tag');
-        tagSelect.innerHTML='<option value="">All tags</option>'+cfTags.map(function(t){return '<option value="'+t+'">'+t+'</option>';}).join('');
+        tagSelect.innerHTML='<option value="">All tags</option>'+cfTags.map(function(t){return '<option value="'+escapeHTML(t)+'">'+escapeHTML(t)+'</option>';}).join('');
         renderCF();
       }).catch(function(){document.getElementById('cf-problems').innerHTML='<p class="empty-state">Could not load Codeforces right now. You can still log a problem manually below.</p>';});
   }
@@ -127,7 +147,7 @@
     target.innerHTML=entries.length?entries.map(function(entry){return '<div class="activity-row">'+entry.querySelector('.problem-entry-head strong').textContent+'<span>'+entry.querySelector('.problem-entry-head span').textContent+'</span></div>';}).join(''):'<p>Nothing yet. Open Problems to log your first review.</p>';
   }
   refreshActivity();
-  var observer=new MutationObserver(refreshActivity);var history=document.getElementById('problem-history');if(history)observer.observe(history,{childList:true,subtree:true});
+  var observer=new MutationObserver(function(){refreshActivity();if(cfItems.length)renderCF();});var history=document.getElementById('problem-history');if(history)observer.observe(history,{childList:true,subtree:true});
   var week=document.getElementById('current-week');
-  if(week){var current=Number((week.textContent.match(/\\d+/)||[])[0]||1)-1;var cards=[].slice.call(document.querySelectorAll('.week-card'));cards.forEach(function(card,index){card.open=index===current;});}
+  if(week){var current=Number((week.textContent.match(/\\d+/)||[])[0]||1)-1;var cards=[].slice.call(document.querySelectorAll('.week-card'));cards.forEach(function(card,index){card.open=index===current;});renderToday();}
 })();
