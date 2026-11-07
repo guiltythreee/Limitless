@@ -36,7 +36,7 @@
   function saveRoadmap() { try { localStorage.setItem(ROADMAP_KEY,JSON.stringify(roadmapState)); } catch (_) {} }
   function renderRoadmap(peak) {
     const activeByRating=stages.findIndex(s=>peak>=s.min&&peak<=s.max);
-    if(activeByRating>=0) roadmapState.active=Math.max(roadmapState.active,activeByRating);
+    if(activeByRating>=0 && !roadmapState.userSelected) roadmapState.active=activeByRating;
     roadmapState.active=Math.min(stages.length-1,Math.max(0,roadmapState.active));
     const active=stages[roadmapState.active], done=roadmapState.checks[roadmapState.active]||[];
     $('roadmap-current-stage').textContent=active.name;
@@ -61,7 +61,7 @@
     loadRoadmap();
     document.addEventListener('click',e=>{
       const tab=e.target.closest('[data-stage]');
-      if(tab){roadmapState.active=Number(tab.dataset.stage);saveRoadmap();renderRoadmap(lastPeak);return;}
+      if(tab){roadmapState.active=Number(tab.dataset.stage);roadmapState.userSelected=true;saveRoadmap();renderRoadmap(lastPeak);return;}
     });
     $('stage-task-list').addEventListener('change',e=>{
       if(!e.target.matches('[data-task]'))return;
