@@ -70,8 +70,18 @@ export default function Home() {
       }
     }
     if (requestedMode === "practice") {
-      const targetLesson = lessons.find((lesson) => lesson.id === requestedLesson)
-        ?? lessons.find((lesson) => !completed.includes(lesson.id))
+      // A practice deep link must always land on a lesson that can render the
+      // question player. Some theory lessons have no local quiz of their own,
+      // even though the archive-wide question bank is populated.
+      const practiceLessons = requestedPathway
+        ? pathways.find((pathway) => pathway.id === requestedPathway)?.lessonIds
+            .map((id) => lessons.find((lesson) => lesson.id === id))
+            .filter((lesson): lesson is (typeof lessons)[number] => Boolean(lesson?.quiz.length))
+          ?? lessons.filter((lesson) => lesson.quiz.length > 0)
+        : lessons.filter((lesson) => lesson.quiz.length > 0);
+      const targetLesson = practiceLessons.find((lesson) => lesson.id === requestedLesson)
+        ?? practiceLessons.find((lesson) => !completed.includes(lesson.id))
+        ?? practiceLessons[0]
         ?? lessons[0];
       setActiveId(targetLesson.id);
       setOpened(true);
@@ -118,7 +128,7 @@ export default function Home() {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
     document.documentElement.dataset.theme = next;
-    try { sessionStorage.setItem("limitless.site.theme", next); } catch { /* Ignore storage errors. */ }
+    try { localStorage.setItem("limitless.site.theme", next); } catch { /* Ignore storage errors. */ }
   }
   // The picture behind the page follows the open lesson (or the experiment tab).
   const bgId = tab === "experiment" ? EXPERIMENT_BACKGROUND : activeLesson.id;
