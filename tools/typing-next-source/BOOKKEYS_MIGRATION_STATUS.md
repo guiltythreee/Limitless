@@ -11,13 +11,13 @@ The TypeScript/React reader is an isolated migration implementation. It is not t
 
 ## Verified in CI
 
-The latest successful workflow run includes:
+The latest successful workflow run [42368472242](https://github.com/guiltythreee/Limitless/actions/runs/42368472242) includes:
 
 - 87 unit tests covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, backups, shelves and reward logic.
 - The current 98-test legacy suite in tools/typing/tests is also rerun in CI against the preserved standalone HTML implementation. The archived 91-test baseline and current 98/98 result are recorded in tools/typing/BOOKKEYS_TEST_BASELINE.md.
 - TypeScript type-check.
 - Next.js static production build.
-- 9 Playwright browser regressions:
+- 10 Playwright browser regressions:
   1. Import an EPUB, type a page, persist progress and reward records, reload, reopen, export a backup, import it into a fresh browser context and restore settings.
   2. Import a PDF, extract readable text and complete a page.
   3. Switch themes and change reader settings, then verify persistence after reload.
@@ -27,8 +27,9 @@ The latest successful workflow run includes:
   7. Load the legacy bookkeys:size setting when the newer settings object has no size.
   8. Remove a local book file and library entry while retaining completed typing progress.
   9. Add/remove chapter headings, persist both legacy chapter keys and restore edits after reload.
+  10. Verify the shared Limitless EXP display aggregates Probability, Metallurgy and Bookkeys ledgers, updates when another tab awards EXP, and excludes legacy `bookkeys:game.xp`.
 
-The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical shared/rewards.mjs implementation.
+The Bookkeys header displays global Limitless EXP from the canonical LSR-1 source registry, including awards from other disciplines and updates from other tabs. Legacy `bookkeys:game.xp` is retained for data compatibility but is never counted as global EXP. The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical shared/rewards.mjs implementation.
 
 ## Safety and data compatibility
 
