@@ -933,7 +933,7 @@ export default function BookkeysApp() {
               </select>
               <button className="bk-quiet" onClick={addShelf}>New shelf</button>
               <button className="bk-quiet" onClick={editShelfName}>Rename</button>
-              <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "default"}>Delete</button>
+              <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "main"}>Delete</button>
               {continueEntry && <button className="bk-primary" onClick={() => void loadEntry(continueEntry)}>Continue reading</button>}
               <button className="bk-quiet" onClick={() => setPasteOpen((open) => !open)}>Paste text</button>
               <button className="bk-quiet" onClick={startSample}>Try sample text</button>
