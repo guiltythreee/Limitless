@@ -59,7 +59,7 @@ export default function ProbabilityStudiesLanding() {
           <Link href="/" className="hover:text-gold">← Limitless</Link><span>/</span><span>Studies &amp; Disciplines</span><span>/</span><span className="text-gold">Probability</span>
         </nav>
 
-        <section id="overview" className="relative isolate overflow-hidden border border-gold/25 bg-[linear-gradient(120deg,rgba(39,31,43,.96),rgba(20,16,25,.94))] px-7 py-9 md:px-12 md:py-12">
+        <section id="overview" className="study-dark-surface relative isolate overflow-hidden border border-gold/25 bg-[linear-gradient(120deg,rgba(39,31,43,.96),rgba(20,16,25,.94))] px-7 py-9 md:px-12 md:py-12">
           <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-28 h-[430px] w-[430px] rounded-full border border-gold/15 shadow-[0_0_0_28px_rgba(223,194,123,.025),0_0_0_62px_rgba(223,194,123,.02)]" />
           <div aria-hidden="true" className="pointer-events-none absolute right-10 top-1/2 hidden h-56 w-56 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-gold/20 bg-gold/[.025] lg:flex">
             <span className="serif text-7xl leading-none text-gold">◇</span><span className="mt-3 text-[9px] tracking-[.35em] text-gold">LIMITLESS</span>
@@ -105,7 +105,7 @@ export default function ProbabilityStudiesLanding() {
         </section>
 
         <section className="mt-7 grid gap-4 xl:grid-cols-[1.05fr_1fr_1fr_1fr]">
-          <article className="border border-gold/35 bg-[linear-gradient(135deg,rgba(65,48,47,.72),rgba(28,22,31,.95))] p-5">
+          <article className="study-dark-surface border border-gold/35 bg-[linear-gradient(135deg,rgba(65,48,47,.72),rgba(28,22,31,.95))] p-5">
             <div className="eyebrow">Pick up where you left off</div>
             <h2 className="serif mt-3 text-2xl text-parchment">Continue learning</h2>
             <Link href={`/?lesson=${encodeURIComponent(nextLesson.id)}#study`} className="mt-5 flex items-center justify-between gap-3 border border-gold/30 p-4 transition hover:border-gold/70 hover:bg-gold/5">
