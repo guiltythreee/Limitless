@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useState } from "react";
 import { Rich } from "../lib/rich";
+import { chapterContent, type Step } from "./chapter-content";
 
 type BookChapter = {
   id: number;
@@ -29,6 +30,25 @@ const fallbackChapters: BookChapter[] = [
 
 const base = (process.env.NEXT_PUBLIC_BASE_PATH ?? "") + "/probability-books/book-02";
 const progressKey = "limitless.probability.book-02.reader.v1";
+type Section = "textbook" | "solutions" | "illustrations" | "problems";
+
+function Steps({ steps }: { steps: Step[] }) {
+  return (
+    <ol className="mt-3 space-y-3">
+      {steps.map((step, index) => (
+        <li key={index} className="flex gap-3">
+          <span className="mt-1 text-xs text-gold">{index + 1}.</span>
+          <div className="min-w-0">
+            <p className="text-[15px] leading-7 text-parchment"><Rich text={step.note} /></p>
+            {step.work ? (
+              <p className="mt-1 border-l-2 border-gold/40 pl-3 font-serif text-[15px] leading-8 text-parchment"><Rich text={step.work} /></p>
+            ) : null}
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
 function isBookChapter(value: unknown): value is BookChapter {
   if (!value || typeof value !== "object") return false;
@@ -296,18 +316,20 @@ export default function BookTwo() {
   const [catalogue, setCatalogue] = useState<BookChapter[]>(fallbackChapters);
   const [chapter, setChapter] = useState(1);
   const [completed, setCompleted] = useState<number[]>([]);
-  const [solutions, setSolutions] = useState(false);
+  const [section, setSection] = useState<Section>("textbook");
+  const [open, setOpen] = useState<Record<string, boolean>>({});
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [hydrated, setHydrated] = useState(false);
 
-  const persistProgress = (nextChapter: number, nextCompleted: number[], nextSolutions: boolean) => {
+  const persistProgress = (nextChapter: number, nextCompleted: number[], nextSection: Section) => {
     try {
       localStorage.setItem(progressKey, JSON.stringify({
         chapter: nextChapter,
         completed: nextCompleted,
-        solutions: nextSolutions,
+        section: nextSection,
+        solutions: nextSection === "solutions",
       }));
     } catch {
       // Keep the reader usable when browser storage is unavailable.
@@ -345,7 +367,8 @@ export default function BookTwo() {
         if (Array.isArray(saved.completed)) {
           setCompleted(saved.completed.filter((n: unknown) => Number.isInteger(n) && Number(n) >= 1 && Number(n) <= 13));
         }
-        if (typeof saved.solutions === "boolean") setSolutions(saved.solutions);
+        if (typeof saved.solutions === "boolean") setSection(saved.solutions ? "solutions" : "textbook");
+        if (saved.section === "textbook" || saved.section === "solutions" || saved.section === "illustrations" || saved.section === "problems") setSection(saved.section);
       } catch {
         // Local progress is optional; a malformed value must not block reading.
       } finally {
@@ -361,14 +384,19 @@ export default function BookTwo() {
     if (!hydrated) return;
     const sync = (window as Window & { LimitlessCloudSync?: { isReady?: () => boolean } }).LimitlessCloudSync;
     if (sync?.isReady?.() === false) return;
-    persistProgress(chapter, completed, solutions);
-  }, [chapter, completed, solutions, hydrated]);
+    persistProgress(chapter, completed, section);
+  }, [chapter, completed, section, hydrated]);
 
   const selected = catalogue.find((item) => item.id === chapter) ?? fallbackChapters[chapter - 1];
 
   useEffect(() => {
     let cancelled = false;
-    const file = solutions ? selected.solutions : selected.file;
+    if (section === "illustrations" || section === "problems") {
+      setLoading(false);
+      setError("");
+      return () => { cancelled = true; };
+    }
+    const file = section === "solutions" ? selected.solutions : selected.file;
 
     setLoading(true);
     setError("");
@@ -390,9 +418,12 @@ export default function BookTwo() {
     return () => {
       cancelled = true;
     };
-  }, [selected, solutions]);
+  }, [selected, section]);
 
   const percent = Math.round((completed.length / catalogue.length) * 100);
+  const practice = chapterContent[chapter];
+  const toggle = (key: string) => setOpen((old) => ({ ...old, [key]: !old[key] }));
+  const tabClass = (active: boolean) => "border px-4 py-2 text-xs uppercase tracking-widest " + (active ? "border-gold text-gold" : "border-gold/20 text-dim");
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -418,8 +449,8 @@ export default function BookTwo() {
             key={item.id}
             onClick={() => {
               setChapter(item.id);
-              setSolutions(false);
-              persistProgress(item.id, completed, false);
+              setSection("textbook");
+              persistProgress(item.id, completed, "textbook");
             }}
             aria-current={chapter === item.id ? "page" : undefined}
             className={"border p-4 text-left " + (chapter === item.id ? "border-gold bg-gold/10" : "border-gold/20 hover:border-gold/50")}
@@ -438,25 +469,21 @@ export default function BookTwo() {
           <p className="mt-1 text-xs text-dim">Printed page {selected.printedStartPage}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => { setSolutions(false); persistProgress(chapter, completed, false); }}
-            aria-pressed={!solutions}
-            className={"border px-4 py-2 text-xs uppercase tracking-widest " + (!solutions ? "border-gold text-gold" : "border-gold/20 text-dim")}
-          >
-            Textbook
-          </button>
-          <button
-            onClick={() => { setSolutions(true); persistProgress(chapter, completed, true); }}
-            aria-pressed={solutions}
-            className={"border px-4 py-2 text-xs uppercase tracking-widest " + (solutions ? "border-gold text-gold" : "border-gold/20 text-dim")}
-          >
-            Solutions
-          </button>
+          {([
+            ["textbook", "Textbook"],
+            ["solutions", "Solutions"],
+            ["illustrations", "Illustrations"],
+            ["problems", "Problems"],
+          ] as const).map(([value, label]) => (
+            <button key={value} onClick={() => setSection(value)} aria-pressed={section === value} className={tabClass(section === value)}>
+              {label}
+            </button>
+          ))}
           <button
             onClick={() => {
               const next = completed.includes(chapter) ? completed.filter((n) => n !== chapter) : [...completed, chapter].sort((a, b) => a - b);
               setCompleted(next);
-              persistProgress(chapter, next, solutions);
+              persistProgress(chapter, next, section);
             }}
             className="border border-gold/30 px-4 py-2 text-xs text-gold"
           >
@@ -467,17 +494,66 @@ export default function BookTwo() {
 
       <article className="panel min-h-[60vh] overflow-hidden">
         <header className="border-b border-gold/15 p-4 text-sm text-parchment">
-          {solutions ? "Chapter " + chapter + " — Detailed Solutions" : "Chapter " + chapter + " — " + selected.title}
+          {section === "textbook" ? "Chapter " + chapter + " — " + selected.title
+            : section === "solutions" ? "Chapter " + chapter + " — Detailed Solutions"
+            : section === "illustrations" ? "Chapter " + chapter + " — Worked Illustrations"
+            : "Chapter " + chapter + " — Practice Problems"}
         </header>
-        <div className="min-w-0 overflow-x-hidden p-5 md:p-8">
-          {loading ? (
-            <p className="py-16 text-center text-sm text-dim">Loading…</p>
-          ) : error ? (
-            <p role="alert" className="py-16 text-center text-sm text-red-300">{error}</p>
-          ) : (
-            <SourceTranscription text={content} />
-          )}
-        </div>
+        {section === "textbook" || section === "solutions" ? (
+          <div className="min-w-0 overflow-x-hidden p-5 md:p-8">
+            {loading ? (
+              <p className="py-16 text-center text-sm text-dim">Loading…</p>
+            ) : error ? (
+              <p role="alert" className="py-16 text-center text-sm text-red-300">{error}</p>
+            ) : (
+              <SourceTranscription text={content} />
+            )}
+          </div>
+        ) : (
+          <div className="min-w-0 space-y-8 p-5 md:p-8">
+            {!practice ? (
+              <p className="py-16 text-center text-sm text-dim">Illustrations and problems for this chapter are coming soon.</p>
+            ) : section === "illustrations" ? (
+              practice.illustrations.map((item, index) => (
+                <section key={index} className="border-b border-gold/10 pb-8 last:border-0 last:pb-0">
+                  <div className="eyebrow">Example {chapter}.{index + 1}</div>
+                  <h2 className="serif mt-1 text-2xl text-parchment">{item.title}</h2>
+                  <p className="mt-3 text-[15px] leading-7 text-parchment"><Rich text={item.setup} /></p>
+                  <Steps steps={item.steps} />
+                  <p className="mt-4 border border-gold/20 bg-gold/5 p-3 text-sm leading-7 text-dim">
+                    <span className="text-gold">Takeaway. </span><Rich text={item.takeaway} />
+                  </p>
+                </section>
+              ))
+            ) : (
+              practice.problems.map((item, index) => {
+                const hintKey = chapter + ":h:" + index;
+                const solKey = chapter + ":s:" + index;
+                return (
+                  <section key={index} className="border-b border-gold/10 pb-8 last:border-0 last:pb-0">
+                    <div className="eyebrow">Problem {chapter}.{index + 1} · {item.level}</div>
+                    <p className="mt-2 text-[15px] leading-7 text-parchment"><Rich text={item.statement} /></p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <button onClick={() => toggle(hintKey)} aria-expanded={!!open[hintKey]} className="border border-gold/20 px-3 py-1.5 text-xs text-dim">
+                        {open[hintKey] ? "Hide hint" : "Show hint"}
+                      </button>
+                      <button onClick={() => toggle(solKey)} aria-expanded={!!open[solKey]} className="border border-gold/30 px-3 py-1.5 text-xs text-gold">
+                        {open[solKey] ? "Hide solution" : "Show solution"}
+                      </button>
+                    </div>
+                    {open[hintKey] ? <p className="mt-3 text-sm leading-7 text-dim"><span className="text-gold">Hint. </span><Rich text={item.hint} /></p> : null}
+                    {open[solKey] ? (
+                      <div className="mt-3">
+                        <Steps steps={item.solution} />
+                        <p className="mt-3 text-sm text-parchment"><span className="text-gold">Answer. </span><Rich text={item.answer} /></p>
+                      </div>
+                    ) : null}
+                  </section>
+                );
+              })
+            )}
+          </div>
+        )}
       </article>
 
       <div className="mt-4 flex justify-between">
@@ -486,8 +562,8 @@ export default function BookTwo() {
           onClick={() => {
             const nextChapter = chapter - 1;
             setChapter(nextChapter);
-            setSolutions(false);
-            persistProgress(nextChapter, completed, false);
+            setSection("textbook");
+            persistProgress(nextChapter, completed, "textbook");
           }}
           className="border border-gold/20 px-4 py-2 text-xs text-dim disabled:opacity-30"
         >
@@ -498,8 +574,8 @@ export default function BookTwo() {
           onClick={() => {
             const nextChapter = chapter + 1;
             setChapter(nextChapter);
-            setSolutions(false);
-            persistProgress(nextChapter, completed, false);
+            setSection("textbook");
+            persistProgress(nextChapter, completed, "textbook");
           }}
           className="border border-gold/30 px-4 py-2 text-xs text-gold disabled:opacity-30"
         >
