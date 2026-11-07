@@ -390,6 +390,101 @@
     }).join('<span class="resource-separator">·</span>');
   }
 
+
+  // Chapter-level assignments: the weekly topic is tied to a named source chapter
+  // and a concrete set of exercises/problems. Checkboxes use the existing persisted
+  // dayChecks store, so progress survives reloads and remains backward-compatible.
+  var REFERENCE_GUIDE = {
+    logic: {
+      book:'Kenneth Rosen, Discrete Mathematics and Its Applications (8th ed.)',
+      sections:['Ch. 1: §1.1–1.8 Logic and proofs','Ch. 5: §5.1–5.4 Mathematical induction','Ch. 6: §6.1–6.5 Counting','Ch. 9–10: Relations and graph theory'],
+      link:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf',
+      practice:['MIT 6.042J Mathematics for Computer Science: read the matching lecture notes and complete its associated problem set','Write a complete proof for each selected claim; check counterexamples and edge cases']
+    },
+    combinatorics: {
+      book:'Kenneth Rosen, Discrete Mathematics and Its Applications (8th ed.)',
+      sections:['Ch. 6: §6.1–6.5 Basic counting, permutations and combinations','Ch. 8: §8.1–8.5 Recurrence relations and advanced counting'],
+      link:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf',
+      practice:['MIT 6.042J: complete the counting / pigeonhole / recurrence problem set matching this week','For every count, state whether order matters and explain why there is no overcounting']
+    },
+    probability: {
+      book:'Blitzstein & Hwang, Introduction to Probability (2nd ed.)',
+      sections:['Ch. 1: Probability and counting','Ch. 2: Conditional probability','Ch. 3: Random variables and distributions','Ch. 4: Expectation','Ch. 5: Variance and joint distributions'],
+      link:'https://projects.iq.harvard.edu/stat110/home',
+      practice:['Harvard STAT 110: solve the end-of-chapter problems for the chapter listed here','Use the matching STAT 110 lecture and problem set; show the sample space / conditioning event / random variable explicitly']
+    },
+    graphs: {
+      book:'Competitive Programmer’s Handbook (Antti Laaksonen)',
+      sections:['Ch. 5: Graph algorithms — representations, traversal, components, paths and trees','CP-Algorithms: BFS, DFS, topological sorting, shortest paths, DSU and spanning trees'],
+      link:'https://cses.fi/book/book.pdf',
+      practice:['CSES Graph Algorithms: solve the named tasks listed for this topic below','Implement the algorithm from a blank file and state its time complexity']
+    },
+    dp: {
+      book:'Competitive Programmer’s Handbook (Antti Laaksonen)',
+      sections:['Ch. 6: Dynamic programming — introductory, grid, knapsack and optimization patterns','CP-Algorithms: Dynamic Programming'],
+      link:'https://cses.fi/book/book.pdf',
+      practice:['CSES Dynamic Programming: solve the named tasks listed for this topic below','For every problem, write state, transition, base case, iteration order and complexity before coding']
+    },
+    coding: {
+      book:'Competitive Programmer’s Handbook (Antti Laaksonen) + LearnCpp',
+      sections:['Ch. 2: Programming techniques','Ch. 3: Data structures','Ch. 4: Sorting and searching'],
+      link:'https://cses.fi/book/book.pdf',
+      practice:['Implement the week’s data structure / algorithm without copying a template','Compile with warnings; test minimum, maximum, duplicate and boundary inputs']
+    }
+  };
+  var CSES_TASKS = {
+    graphs:[
+      ['Building Roads','Message Route','Building Teams'],
+      ['Counting Rooms','Labyrinth','Round Trip'],
+      ['Course Schedule','Course Schedule II','Longest Flight Route'],
+      ['Shortest Routes I','Shortest Routes II','High Score'],
+      ['Road Reparation','Road Construction','Flight Routes'],
+      ['Planets and Kingdoms','Flight Routes Check','Road Construction']
+    ],
+    dp:[
+      ['Dice Combinations','Minimizing Coins','Coin Combinations I'],
+      ['Coin Combinations II','Removing Digits','Grid Paths'],
+      ['Book Shop','Array Description','Counting Towers'],
+      ['Edit Distance','Rectangle Cutting','Money Sums'],
+      ['Removal Game','Two Sets II','Projects'],
+      ['Elevator Rides','Counting Tilings','Increasing Subsequence']
+    ],
+    coding:[
+      ['Weird Algorithm','Missing Number','Repetitions'],
+      ['Increasing Array','Permutations','Number Spiral'],
+      ['Distinct Numbers','Apartments','Ferris Wheel'],
+      ['Concert Tickets','Restaurant Customers','Movie Festival'],
+      ['Sum of Two Values','Maximum Subarray Sum','Stick Lengths'],
+      ['Playlist','Towers','Traffic Lights']
+    ]
+  };
+  function referenceFor(subjectId, weekIndex) {
+    var guide = REFERENCE_GUIDE[subjectId];
+    var section = guide.sections[Math.min(guide.sections.length - 1, Math.floor(weekIndex / 4))];
+    var items = [];
+    if (subjectId === 'graphs' || subjectId === 'dp' || subjectId === 'coding') {
+      var bank = CSES_TASKS[subjectId], group = bank[Math.min(bank.length - 1, Math.floor(weekIndex / 3))];
+      items = group.map(function (name) { return 'CSES: ' + name; });
+    } else {
+      items = guide.practice.slice();
+    }
+    if (weekIndex >= 8 && (subjectId === 'logic' || subjectId === 'combinatorics' || subjectId === 'probability')) {
+      items.push('Re-solve 3 previously missed questions without notes; write a one-paragraph justification for each');
+    }
+    if (weekIndex >= 12) items.push('Complete a 45–60 minute unseen mixed set and log every error');
+    return { guide:guide, section:section, items:items };
+  }
+  function renderTopicAssignments(topic, wi, ti) {
+    var subjectId = topic[0], ref = referenceFor(subjectId, wi), baseKey = 'w' + (wi + 1) + '-ref-' + ti;
+    var chapterKey = baseKey + '-read';
+    var reading = '<label class="reference-task"><input type="checkbox" data-day-task="' + chapterKey + '" ' + (state.dayChecks[chapterKey] ? 'checked' : '') + '><span><b>Read:</b> ' + esc(ref.guide.book) + ' — ' + esc(ref.section) + '</span></label>';
+    var tasks = ref.items.map(function (item, index) {
+      var key = baseKey + '-q' + index;
+      return '<label class="reference-task"><input type="checkbox" data-day-task="' + key + '" ' + (state.dayChecks[key] ? 'checked' : '') + '><span>' + esc(item) + '</span></label>';
+    }).join('');
+    return '<div class="topic-assignment"><div class="assignment-heading">Assigned reading & problems</div><div class="assignment-source"><a href="' + ref.guide.link + '" target="_blank" rel="noopener noreferrer">Open source material ↗</a></div>' + reading + tasks + '</div>';
+  }
+
   function renderWeeks() {
     var openWeeks = {};
     $('week-list').querySelectorAll('.week-card').forEach(function (details, index) { openWeeks[index] = details.open; });
@@ -402,7 +497,7 @@
       var topics = week.topics.map(function (topic, ti) {
         var key = topicKey(wi,ti);
         var subjectName = topic[0] === 'coding' ? 'C++ / Implementation' : SUBJECTS.find(function (s) { return s.id === topic[0]; }).name;
-        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small><span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span></div>' +
+        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small><span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span>' + renderTopicAssignments(topic, wi, ti) + '</div>' +
           '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
       }).join('');
       var days = DAILY_PLAN.map(function (day) {
