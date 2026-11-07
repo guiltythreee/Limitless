@@ -463,6 +463,9 @@ export default function BookkeysApp() {
       const savedBook = { ...parsed, libraryId };
       if (database) {
         const metadata: LibraryEntry = {
+          // Preserve metadata fields written by the legacy reader or future
+          // versions when an existing local book is imported again.
+          ...(existing ?? {}),
           id: libraryId,
           shelf: existing?.shelf ?? selectedShelf,
           name: parsed.title,
