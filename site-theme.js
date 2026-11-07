@@ -10,7 +10,7 @@
 
   function buttons() {
     return document.querySelectorAll(
-      '#theme-toggle, .theme-toggle, .icon-action[aria-label*="theme" i], button[aria-label*="theme" i]'
+      '#theme-toggle, #ll-site-theme-toggle, .theme-toggle, .icon-action[aria-label*="theme" i], button[aria-label*="theme" i]'
     );
   }
 
@@ -18,7 +18,13 @@
     var theme = current();
     var next = theme === 'dark' ? 'light' : 'dark';
     buttons().forEach(function (button) {
-      if (button.id === injectedId) return;
+      if (button.id === injectedId) {
+        button.textContent = next === 'light' ? 'Light mode' : 'Dark mode';
+        button.setAttribute('aria-label', 'Switch to ' + next + ' mode');
+        button.setAttribute('title', 'Switch to ' + next + ' mode');
+        button.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+        return;
+      }
       button.textContent = next === 'light' ? 'Light mode' : 'Dark mode';
       button.setAttribute('aria-label', 'Switch to ' + next + ' mode');
       button.setAttribute('title', 'Switch to ' + next + ' mode');
