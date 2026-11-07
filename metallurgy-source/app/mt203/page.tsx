@@ -42,8 +42,10 @@ import Practice, { PracticeMode } from "./practice";
 import { settleModuleBonuses } from "./rewards";
 import BookmarksPanel from "../courses/BookmarksPanel";
 import ActivityHistoryPanel from "../courses/ActivityHistoryPanel";
+import CourseChapterBrowser from "../courses/CourseChapterBrowser";
 
 type View =
+  | { kind: "overview" }
   | { kind: "dashboard" }
   | { kind: "study"; topic: string; tab: "lesson" | "quiz"; questionId?: string }
   | { kind: "bookmarks" }
@@ -65,7 +67,7 @@ const countOf = (id: string) => TOPIC_BY_ID[id]?.count ?? 0;
 export default function Mt203() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [progress, setProgress] = useState<Progress | null>(null);
-  const [view, setView] = useState<View>({ kind: "dashboard" });
+  const [view, setView] = useState<View>({ kind: "overview" });
   const [topic, setTopic] = useState<TopicContent | null>(null);
   const [error, setError] = useState("");
 
@@ -142,6 +144,7 @@ export default function Mt203() {
   const lesson = activeTopic ? MT203_LESSONS[activeTopic] : null;
 
   const title = (() => {
+    if (view.kind === "overview") return "Course overview";
     if (view.kind === "dashboard") return "Dashboard";
     if (view.kind === "exam") return "Exam Simulator";
     if (view.kind === "bookmarks") return "Bookmarked questions";
@@ -174,6 +177,15 @@ export default function Mt203() {
           </div>
 
           <button
+            aria-current={view.kind === "overview" ? "location" : undefined}
+            className={`ch-item ${view.kind === "overview" ? "active" : ""}`}
+            onClick={() => setView({ kind: "overview" })}
+          >
+            <span className="ch-num">⌂</span>
+            <span className="ch-title">Course overview</span>
+          </button>
+
+          <button
             aria-current={view.kind === "dashboard" ? "location" : undefined}
             className={`ch-item ${view.kind === "dashboard" ? "active" : ""}`}
             onClick={() => setView({ kind: "dashboard" })}
@@ -193,7 +205,7 @@ export default function Mt203() {
           })}
 
           <div className="ch-list" style={{ marginTop: "0.5rem" }}>
-            {UNITS.map((u) => (
+            {view.kind !== "overview" && UNITS.map((u) => (
               <div key={u.id}>
                 <div className="side-group">
                   Module {u.num} · {u.title}
@@ -290,6 +302,7 @@ export default function Mt203() {
 
         {/* ---------------- main ---------------- */}
         <main className="main mt203">
+          {view.kind === "overview" && <CourseChapterBrowser code={MANIFEST.code} title={MANIFEST.title} description={MANIFEST.description} topics={TOPICS} units={UNITS} totalQuestions={TOPICS.reduce((sum, t) => sum + t.count, 0)} statsFor={(id) => { const a = byTopic[id]; return a ? { done: a.done, right: a.right, total: a.total } : { done: 0, right: 0, total: countOf(id) }; }} onSelect={(id) => setView({ kind: "study", topic: id, tab: "lesson" })} />}
           {progress && (view.kind === "history" || view.kind === "mistakes") && (
             <ActivityHistoryPanel
               activities={toActivities(progress.attempts, { courseId: "mt203", topicOf: (questionId) => TOPIC_OF[questionId] })}

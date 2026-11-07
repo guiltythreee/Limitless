@@ -20,6 +20,7 @@ import DailyGoalsPanel from "../courses/DailyGoalsPanel";
 import Exam from "./exam";
 import Quiz from "./quiz";
 import { MT201_ENTRY } from "../courses/entries/mt201";
+import CourseChapterBrowser from "../courses/CourseChapterBrowser";
 import type { TopicContent } from "../courses/types";
 
 const MANIFEST = MT201_ENTRY.manifest;
@@ -28,12 +29,12 @@ const TOTAL = TOPICS.reduce((sum, t) => sum + t.count, 0);
 const titleOf = (id: string) => TOPICS.find((t) => t.id === id)?.title ?? id;
 const topicOfBookmark = (id: string) => /^(ch\d+)-q\d+$/.exec(id)?.[1];
 
-type View = { kind: "study"; ch: string; questionId?: string } | { kind: "exam" } | { kind: "bookmarks" } | { kind: "history" } | { kind: "mistakes" } | { kind: "goals" };
+type View = { kind: "overview" } | { kind: "study"; ch: string; questionId?: string } | { kind: "exam" } | { kind: "bookmarks" } | { kind: "history" } | { kind: "mistakes" } | { kind: "goals" };
 
 export default function Mt201() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [progress, setProgress] = useState<Progress | null>(null);
-  const [view, setView] = useState<View>({ kind: "study", ch: TOPICS[0].id });
+  const [view, setView] = useState<View>({ kind: "overview" });
   const [chapter, setChapter] = useState<TopicContent | null>(null);
   const [error, setError] = useState("");
 
@@ -106,8 +107,9 @@ export default function Mt201() {
             <div className="t2">{TOTAL} questions · {TOPICS.length} chambers</div>
           </div>
 
+          <button className={`ch-item ${view.kind === "overview" ? "active" : ""}`} aria-current={view.kind === "overview" ? "page" : undefined} onClick={() => setView({ kind: "overview" })}><span className="ch-num">⌂</span><span className="ch-title">Course overview</span></button>
           <div className="ch-list">
-            {TOPICS.map((t) => {
+            {view.kind !== "overview" && TOPICS.map((t) => {
               const s = chStats(t.id);
               const pct = s.total ? Math.round((s.done / s.total) * 100) : 0;
               return (
@@ -175,6 +177,7 @@ export default function Mt201() {
 
         {/* ---------------- main ---------------- */}
         <main className="main">
+          {view.kind === "overview" && <CourseChapterBrowser code={MANIFEST.code} title={MANIFEST.title} description={MANIFEST.description} topics={TOPICS} totalQuestions={TOTAL} statsFor={chStats} onSelect={(id) => setView({ kind: "study", ch: id })} />}
           {view.kind === "bookmarks" && progress && (
             <BookmarksPanel
               bookmarks={progress.bookmarks ?? []}

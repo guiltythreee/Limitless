@@ -25,6 +25,7 @@ import DailyGoalsPanel from "../courses/DailyGoalsPanel";
 import Exam from "./exam";
 import Quiz from "./quiz";
 import { MT202_ENTRY, MT202_LESSONS } from "../courses/entries/mt202";
+import CourseChapterBrowser from "../courses/CourseChapterBrowser";
 import type { TopicContent } from "../courses/types";
 
 const MANIFEST = MT202_ENTRY.manifest;
@@ -42,6 +43,7 @@ const calculatorTool = MANIFEST.tools.find((t) => t.id === "calculators");
 const Calculators = calculatorTool ? lazy(calculatorTool.load) : null;
 
 type View =
+  | { kind: "overview" }
   | { kind: "study"; ch: string; tab: "lesson" | "quiz"; questionId?: string }
   | { kind: "exam" }
   | { kind: "calc" }
@@ -53,7 +55,7 @@ type View =
 export default function Mt202() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [progress, setProgress] = useState<Progress | null>(null);
-  const [view, setView] = useState<View>({ kind: "study", ch: "ch01", tab: "lesson" });
+  const [view, setView] = useState<View>({ kind: "overview" });
   const [chapter, setChapter] = useState<TopicContent | null>(null);
   const [error, setError] = useState("");
 
@@ -128,8 +130,9 @@ export default function Mt202() {
             <div className="t2">{TOTAL} questions · {TOPICS.length} chambers</div>
           </div>
 
+          <button className={`ch-item ${view.kind === "overview" ? "active" : ""}`} aria-current={view.kind === "overview" ? "page" : undefined} onClick={() => setView({ kind: "overview" })}><span className="ch-num">⌂</span><span className="ch-title">Course overview</span></button>
           <div className="ch-list">
-            {LESSON_TOPICS.map((t) => {
+            {view.kind !== "overview" && LESSON_TOPICS.map((t) => {
               const s = chStats(t.id);
               const pct = s.total ? Math.round((s.done / s.total) * 100) : 0;
               return (
@@ -210,6 +213,7 @@ export default function Mt202() {
 
         {/* ---------------- main ---------------- */}
         <main className="main">
+          {view.kind === "overview" && <CourseChapterBrowser code={MANIFEST.code} title={MANIFEST.title} description={MANIFEST.description} topics={TOPICS} totalQuestions={TOTAL} statsFor={chStats} onSelect={(id) => setView({ kind: "study", ch: id, tab: TOPICS.find((t) => t.id === id)?.hasLesson ? "lesson" : "quiz" })} />}
           {view.kind === "bookmarks" && progress && (
             <BookmarksPanel
               bookmarks={progress.bookmarks ?? []}

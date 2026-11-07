@@ -1,0 +1,51 @@
+
+/* Shared chapter browser — JEE-style course index */
+.course-browser { min-width: 0; }
+.cb-heading {
+  display:flex; align-items:center; justify-content:space-between; gap:1.2rem;
+  padding:1.25rem 1.4rem; margin-bottom:1rem; border:1px solid var(--panel-line);
+  border-radius:16px; background:var(--panel); box-shadow:0 8px 30px #0000000a;
+}
+.cb-eyebrow { color:var(--gold); font-size:.68rem; font-weight:750; letter-spacing:.15em; margin-bottom:.35rem; }
+.cb-heading h1 { margin:0; color:var(--paper); font-size:1.25rem; line-height:1.25; }
+.cb-heading p { margin:.35rem 0 0; color:var(--faint); font-size:.82rem; }
+.cb-summary { display:flex; flex-wrap:wrap; gap:.55rem; }
+.cb-summary span { min-width:74px; padding:.55rem .7rem; border:1px solid var(--panel-line); border-radius:11px; text-align:center; background:var(--inset); }
+.cb-summary strong,.cb-summary small { display:block; }
+.cb-summary strong { color:var(--paper); font-size:1rem; font-variant-numeric:tabular-nums; }
+.cb-summary small { color:var(--faint); font-size:.65rem; margin-top:2px; }
+.cb-toolbar { display:flex; justify-content:space-between; align-items:center; gap:.8rem; padding:.8rem .9rem; border:1px solid var(--panel-line); border-radius:14px; background:var(--panel); }
+.cb-search { display:flex; align-items:center; gap:.55rem; flex:1; min-width:150px; padding:.55rem .75rem; border:1px solid var(--panel-line); border-radius:10px; background:var(--inset); color:var(--faint); }
+.cb-search input { width:100%; border:0; outline:0; background:transparent; color:var(--body); font:inherit; font-size:.82rem; }
+.cb-filters { display:flex; flex-wrap:wrap; gap:.45rem; }
+.cb-filters select { max-width:175px; padding:.55rem .65rem; border:1px solid var(--panel-line); border-radius:10px; background:var(--inset); color:var(--body); font:inherit; font-size:.77rem; }
+.cb-list-head { display:flex; justify-content:space-between; gap:.6rem; padding:.9rem .45rem .65rem; margin:0 .1rem .25rem; border-bottom:1px solid var(--panel-line); color:var(--faint); font-size:.74rem; }
+.cb-chapters { display:flex; flex-direction:column; }
+.cb-chapter { display:grid; grid-template-columns:38px minmax(0,1fr) minmax(190px,auto) 20px; align-items:center; gap:.8rem; width:100%; padding:.9rem .55rem; border:0; border-bottom:1px solid var(--panel-line); border-radius:0; background:transparent; color:var(--body); text-align:left; cursor:pointer; transition:background .15s ease; }
+.cb-chapter:hover,.cb-chapter:focus-visible { background:var(--chip); outline:none; }
+.cb-number { display:grid; place-items:center; width:32px; height:32px; border-radius:8px; background:var(--chip); color:var(--gold); font-weight:750; font-size:.8rem; }
+.cb-name { display:flex; flex-direction:column; min-width:0; gap:.24rem; }
+.cb-name strong { color:var(--body); font-size:.9rem; font-weight:650; }
+.cb-name small { color:var(--faint); font-size:.7rem; }
+.cb-progress { display:block; width:min(100%,250px); height:4px; overflow:hidden; border-radius:8px; background:var(--track); }
+.cb-progress i { display:block; height:100%; border-radius:8px; background:linear-gradient(90deg,var(--mutedgold),var(--gold)); }
+.cb-metrics { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:.8rem; color:var(--body); font-size:.78rem; font-variant-numeric:tabular-nums; }
+.cb-metrics small { color:var(--faint); font-size:.68rem; }
+.cb-arrow { color:var(--gold); font-size:1rem; }
+.cb-empty { padding:2rem; color:var(--faint); text-align:center; }
+@media(max-width:850px) {
+ .cb-heading { align-items:flex-start; flex-direction:column; }
+ .cb-toolbar { align-items:stretch; flex-direction:column; }
+ .cb-filters select { flex:1; }
+ .cb-chapter { grid-template-columns:34px minmax(0,1fr) 20px; }
+ .cb-metrics { grid-column:2; justify-content:flex-start; gap:.7rem; }
+ .cb-arrow { grid-column:3; grid-row:1; }
+}
+@media(max-width:520px) {
+ .cb-heading { padding:1rem; }
+ .cb-summary { width:100%; }
+ .cb-summary span { flex:1; min-width:58px; }
+ .cb-filters { display:grid; grid-template-columns:1fr; }
+ .cb-filters select { max-width:none; }
+ .cb-list-head span:last-child { display:none; }
+}
