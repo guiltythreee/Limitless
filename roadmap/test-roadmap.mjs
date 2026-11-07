@@ -337,6 +337,23 @@ test("the engine passes the evidence source through to the page", () => {
   assert.equal(result.nodes.get("a").source, "linked");
 });
 
+// ---------- Road to Codeforces Red ----------
+test("Red ladder: works from any rating; red needs 2400 peak, and every rung below is done by then", () => {
+  const ladder = ["r-pupil", "r-specialist", "r-expert", "r-candidate-master", "r-master", "r-international-master", "r-grandmaster"];
+  const run = (maxRating) => {
+    const storage = memoryStorage({ [STORAGE_KEYS.accounts]: { codeforcesHandle: "me", codeforcesSnapshot: { handle: "me", rating: maxRating, maxRating, contests: 5, fetchedAt: 1 } } });
+    const reader = createEvidenceReader({ storage, catalog });
+    return ladder.map((id) => reader(NODES.find((n) => n.id === id)).fraction);
+  };
+  const at = (r) => run(r).map((f) => (f >= 1 ? "D" : f > 0 ? "p" : "-")).join("");
+  assert.equal(at(600), "-------");   // below the ladder: nothing yet
+  assert.equal(at(1000), "p------");  // partway to Pupil
+  assert.equal(at(1450), "DDp----");  // already past two rungs, partway to Expert
+  assert.equal(at(2399), "DDDDDDp");  // one point short of red is not red
+  assert.equal(at(2400), "DDDDDDD");  // red
+  assert.equal(at(3100), "DDDDDDD");  // above the top stays done
+});
+
 // ---------- whole-map behaviour ----------
 test("reading evidence never writes to storage", () => {
   const storage = memoryStorage({
