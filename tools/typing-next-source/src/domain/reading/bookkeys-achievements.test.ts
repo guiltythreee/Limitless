@@ -8,10 +8,11 @@ import {
 test("legacy level thresholds and rank bands are preserved", () => {
   assert.equal(bookkeysXpToReach(1), 0);
   assert.equal(bookkeysXpToReach(2), 400);
-  assert.equal(bookkeysXpToReach(3), 850);
+  assert.equal(bookkeysXpToReach(3), 900);
   assert.equal(bookkeysLevelForXp(399), 1);
   assert.equal(bookkeysLevelForXp(400), 2);
-  assert.equal(bookkeysLevelForXp(850), 3);
+  assert.equal(bookkeysLevelForXp(899), 2);
+  assert.equal(bookkeysLevelForXp(900), 3);
   assert.equal(bookkeysRankForLevel(1), "Novice Typist");
   assert.equal(bookkeysRankForLevel(6), "Page Turner");
   assert.equal(bookkeysRankForLevel(50), "Typing Legend");

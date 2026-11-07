@@ -971,10 +971,10 @@ export default function BookkeysApp() {
             </header>
             <div className="bk-archive-level">
               <div><span>Level {archive.level}</span><strong>{archive.rank}</strong></div>
-              <strong>{archive.xp.toLocaleString()} legacy XP</strong>
+              <strong>{archive.xp.toLocaleString()} Bookkeys XP</strong>
               <div className="bk-archive-track"><span style={{ width: archive.levelProgress + "%" }} /></div>
               <small>{archive.xpIntoLevel.toLocaleString()} / {archive.xpForNextLevel.toLocaleString()} XP to level {archive.level + 1}</small>
-              <p>Historical Bookkeys progression. This is kept separate from shared Limitless EXP.</p>
+              <p>Bookkeys' own progression is kept separate from shared Limitless EXP.</p>
             </div>
             <div className="bk-archive-stats">
               <div><strong>{Number(gameProgress.books ?? 0).toLocaleString()}</strong><span>Books finished</span></div>
@@ -999,7 +999,7 @@ export default function BookkeysApp() {
                     <span>{achievement.description}</span>
                   </div>
                   <div className="bk-archive-achievement-progress">
-                    <strong>{achievement.unlocked ? "Unlocked" : achievement.value.toLocaleString() + " / " + achievement.target.toLocaleString()}</strong>
+                    <strong>{achievement.unlocked ? "Unlocked" : achievement.reached ? "Threshold met · unlock record not saved" : achievement.value.toLocaleString() + " / " + achievement.target.toLocaleString()}</strong>
                     <div className="bk-archive-track"><span style={{ width: (achievement.value / achievement.target * 100) + "%" }} /></div>
                   </div>
                 </article>

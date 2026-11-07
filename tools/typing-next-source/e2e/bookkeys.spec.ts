@@ -523,3 +523,28 @@ test("pasted text becomes a persistent local text book with reading progress", a
   await expect(page.locator(".bk-book-title strong")).toHaveText("Pasted text");
   await expect(page.locator("#bk-typing")).toHaveValue(source!);
 });
+
+
+test("Akashic Archive restores saved Bookkeys achievements without changing their records", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("bookkeys:game", JSON.stringify({
+      xp: 900, words: 600, chars: 12000, pages: 12, chapters: 2, books: 1,
+      bestWpm: 55, perfect: 1, days: 4,
+      streak: { cur: 3, best: 7, last: "2026-11-07" },
+      ach: { words500: 123456789 },
+      book: {},
+    }));
+  });
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Archive · Lv 3" }).click();
+  const archive = page.getByRole("dialog", { name: "The Akashic Archive" });
+  await expect(archive).toBeVisible();
+  await expect(archive.getByText("Page Turner")).toBeVisible();
+  await expect(archive.getByText("1 of 60 unlocked")).toBeVisible();
+  await expect(archive.getByText("First Inscription")).toBeVisible();
+  await expect(archive.getByText("Unlocked", { exact: true })).toBeVisible();
+  await expect(archive.getByText("Threshold met · unlock record not saved")).toBeVisible();
+  const saved = await page.evaluate(() => localStorage.getItem("bookkeys:game"));
+  await archive.getByRole("button", { name: "Close Archive" }).click();
+  expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBe(saved);
+});
