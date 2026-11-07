@@ -22,6 +22,7 @@ export default function Landing() {
   const [status, setStatus] = useState("all");
   const [sort, setSort] = useState("number");
   const [semester, setSemester] = useState("3");
+  const semesters = ["3", "4", "5", "6", "7", "8"];
 
   useEffect(() => {
     setTheme(loadTheme());
@@ -96,9 +97,20 @@ export default function Landing() {
           <Link className="semester-back" href="/">← <span>Disciplines</span></Link>
           <div className="semester-brand">
             <span className="semester-brand-mark">⚗</span>
-            <div><strong>Metallurgy</strong><small>3 learning routes</small></div>
+            <div><strong>Metallurgy</strong><small>6 semesters · 3 courses</small></div>
           </div>
-          <div className="semester-sidebar-label">SEMESTER 3 · COURSES</div>
+          <div className="semester-sidebar-label">SEMESTERS</div>
+          <div className="semester-year-list">
+            {semesters.map((number) => (
+              <button key={number} className={"semester-year " + (semester === number ? "is-active" : "")} aria-pressed={semester === number} onClick={() => setSemester(number)}>
+                <span className="semester-year-number">{number}</span>
+                <span className="semester-year-copy"><strong>Semester {number}</strong><small>{number === "3" ? "3 courses available" : "No courses added yet"}</small></span>
+                <span className="semester-year-arrow">{semester === number ? "−" : "+"}</span>
+              </button>
+            ))}
+          </div>
+          {semester === "3" && <>
+          <div className="semester-sidebar-label semester-course-label">SEMESTER 3 · COURSES</div>
           <div className="semester-course-list">
             {COURSES.map((course, index) => {
               const stats = courseStats(course);
@@ -124,20 +136,22 @@ export default function Landing() {
               );
             })}
           </div>
+          </>}
           <div className="semester-sidebar-note">
-            <span>YOUR SEMESTER</span>
-            <strong>Semester 3</strong>
-            <small>All three Metallurgy courses are registered in the third semester.</small>
+            <span>PROGRAMME STRUCTURE</span>
+            <strong>6 semesters</strong>
+            <small>Metallurgy begins in Semester 3 and continues through Semester 8. Courses for later semesters can be added when ready.</small>
           </div>
         </aside>
 
         <main className="semester-main">
+          {semester === "3" ? <>
           <div className="semester-main-heading">
             <div>
-              <div className="semester-breadcrumb">LIMITLESS <span>/</span> METALLURGY <span>/</span> SEMESTER 3</div>
+              <div className="semester-breadcrumb">LIMITLESS <span>/</span> METALLURGY <span>/</span> SEMESTER {semester}</div>
               <div className="semester-title-row">
                 <div>
-                  <div className="semester-eyebrow">{selected.code} · SEMESTER 3</div>
+                  <div className="semester-eyebrow">{selected.code} · SEMESTER {semester}</div>
                   <h1>{selected.title}</h1>
                   <p>{selected.subtitle}</p>
                 </div>
@@ -165,7 +179,7 @@ export default function Landing() {
               </label>
               <div className="semester-filters">
                 <select aria-label="Semester" value={semester} onChange={(event) => setSemester(event.target.value)}>
-                  <option value="3">Semester 3</option>
+                  {semesters.map((number) => <option key={number} value={number}>Semester {number}</option>)}
                 </select>
                 <select aria-label="Filter chapter progress" value={status} onChange={(event) => setStatus(event.target.value)}>
                   <option value="all">All Chapters</option>
@@ -208,6 +222,13 @@ export default function Landing() {
               <span>{totalFor(selected).toLocaleString("en-IN")} questions in this course</span>
             </div>
           </section>
+          </> : <section className="semester-empty-panel">
+            <div className="semester-empty-icon">＋</div>
+            <span className="semester-eyebrow">SEMESTER {semester}</span>
+            <h1>Courses coming soon</h1>
+            <p>No Metallurgy courses have been added to Semester {semester} yet.</p>
+            <small>This semester is part of your six-semester programme structure and is ready for courses to be added later.</small>
+          </section>}
         </main>
       </div>
     </div>
