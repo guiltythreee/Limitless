@@ -230,3 +230,78 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 .topic-resources a:hover { color:var(--comp-ink); }
 .resource-separator { color:var(--comp-muted); }
 @media(max-width:650px) { .topic-resources { font-size:8px; } }
+
+
+/* Roadmap assigned-reading layout: keep checkboxes and their text in one
+   predictable row, independent of site-wide form/label styles. */
+#week-list .topic-assignment {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  gap: 9px;
+  margin-top: 9px;
+  padding: 12px;
+  border: 1px solid var(--comp-border);
+  border-radius: 9px;
+  background: var(--comp-panel);
+}
+#week-list .assignment-heading {
+  min-width: 0;
+  color: var(--comp-ink);
+  font: 600 12px/1.4 Arial, sans-serif;
+}
+#week-list .assignment-source {
+  min-width: 0;
+  margin-top: -4px;
+  font: 12px/1.5 Arial, sans-serif;
+}
+#week-list .assignment-source a {
+  color: var(--comp-accent);
+  overflow-wrap: anywhere;
+}
+#week-list .reference-task {
+  display: grid !important;
+  grid-template-columns: 16px minmax(0, 1fr) !important;
+  justify-content: initial !important;
+  align-items: start !important;
+  gap: 9px;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  color: var(--comp-muted);
+  font: 12px/1.6 Arial, sans-serif;
+  white-space: normal;
+  box-sizing: border-box;
+}
+#week-list .reference-task input[type="checkbox"] {
+  display: block;
+  position: static !important;
+  justify-self: start;
+  align-self: start;
+  width: 15px;
+  height: 15px;
+  min-width: 15px;
+  margin: 3px 0 0 !important;
+  padding: 0;
+  accent-color: var(--comp-accent);
+}
+#week-list .reference-task > span {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
+  line-height: 1.6;
+}
+#week-list .reference-task b {
+  color: var(--comp-ink);
+}
+@media (max-width: 650px) {
+  #week-list .topic-assignment { padding: 10px; }
+  #week-list .reference-task { font-size: 11px; }
+}
