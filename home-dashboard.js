@@ -3,7 +3,7 @@
   var search = document.getElementById('module-search');
   if (!search) return;
   var searchResultsFocused = false;
-  var searchableCards = '.shortcut-card, .learning-card, .competition-promo';
+  var searchableCards = '.shortcut-card, .learning-card, .competition-promo, .red-promo';
   function filterModules() {
     var query = search.value.trim().toLowerCase();
     var homeMain = document.querySelector('.home-main');
