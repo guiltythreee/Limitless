@@ -106,6 +106,12 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
 
   await page.getByRole("button", { name: /Library/ }).click();
   await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
+  await page.getByRole("searchbox", { name: "Search books" }).fill("Migration Fixture");
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
+  await page.getByRole("searchbox", { name: "Search books" }).fill("no matching title");
+  await expect(page.getByText("No matching books")).toBeVisible();
+  await page.getByRole("searchbox", { name: "Search books" }).fill("");
+  await page.getByLabel("Sort books").selectOption("title-asc");
   await page.reload();
   await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
   await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");

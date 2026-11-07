@@ -22,6 +22,7 @@ import { requiredSections, tidyChapters, withRequirements } from "../domain/read
 import { createBookkeysBackupV1, parseBookkeysBackup, restoreBookkeysBackup } from "../domain/reading/bookkeys-backup";
 import { createShelf, deleteShelf, readShelves, renameShelf } from "../domain/reading/bookkeys-shelves";
 import { bookkeysArchiveSummary } from "../domain/reading/bookkeys-achievements";
+import { filterAndSortBookkeysLibrary, type BookkeysLibrarySort } from "../domain/reading/bookkeys-library-view";
 
 type BookFormat = "pdf" | "epub" | "text";
 interface ReaderBook {
@@ -160,6 +161,8 @@ export default function BookkeysApp() {
   const [library, setLibrary] = useState<LibraryEntry[]>([]);
   const [shelves, setShelves] = useState<BookkeysShelf[]>([{ id: "default", name: "Library" }]);
   const [selectedShelf, setSelectedShelf] = useState("default");
+  const [libraryQuery, setLibraryQuery] = useState("");
+  const [librarySort, setLibrarySort] = useState<BookkeysLibrarySort>("recent");
   const [book, setBook] = useState<ReaderBook | null>(null);
   const [view, setView] = useState<"home" | "book">("home");
   const navState = useRef({ i: 0, max: 0 });
@@ -280,8 +283,9 @@ export default function BookkeysApp() {
     };
   }, []);
 
-  const visibleLibrary = useMemo(() => library.filter((entry) => entry.shelf === selectedShelf), [library, selectedShelf]);
-  const continueEntry = visibleLibrary[0];
+  const shelfLibrary = useMemo(() => library.filter((entry) => entry.shelf === selectedShelf), [library, selectedShelf]);
+  const visibleLibrary = useMemo(() => filterAndSortBookkeysLibrary(shelfLibrary, libraryQuery, librarySort), [shelfLibrary, libraryQuery, librarySort]);
+  const continueEntry = shelfLibrary[0];
   const target = useMemo(
     () => book?.sections[pageIndex]?.map((block) => block.text).join("\n") ?? "",
     [book, pageIndex],
@@ -839,6 +843,26 @@ export default function BookkeysApp() {
               <div className="bk-progress-stat"><strong>{Number(gameProgress.chars ?? 0).toLocaleString()}</strong><span>Characters typed</span></div>
             </div>
           </section>
+          <div className="bk-library-tools">
+            <label className="bk-library-search">
+              <span>Search this shelf</span>
+              <input
+                type="search"
+                value={libraryQuery}
+                onChange={(event) => setLibraryQuery(event.currentTarget.value)}
+                placeholder="Search by book title or author…"
+                aria-label="Search books"
+              />
+            </label>
+            <label className="bk-library-sort">
+              <span>Sort by</span>
+              <select aria-label="Sort books" value={librarySort} onChange={(event) => setLibrarySort(event.currentTarget.value as BookkeysLibrarySort)}>
+                <option value="recent">Recently opened</option>
+                <option value="title-asc">Title A–Z</option>
+                <option value="title-desc">Title Z–A</option>
+              </select>
+            </label>
+          </div>
           {visibleLibrary.length ? (
             <div className="bk-book-grid">
               {visibleLibrary.map((entry) => (
@@ -851,8 +875,8 @@ export default function BookkeysApp() {
             </div>
           ) : (
             <div className="bk-empty">
-              <strong>No books yet</strong>
-              <span>Import a PDF, EPUB or text file, or paste text to create your local library.</span>
+              <strong>{libraryQuery.trim() ? "No matching books" : "No books yet"}</strong>
+              <span>{libraryQuery.trim() ? "Try another title or author, or clear the search." : "Import a PDF, EPUB or text file, or paste text to create your local library."}</span>
             </div>
           )}
         </section>

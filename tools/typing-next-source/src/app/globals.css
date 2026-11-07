@@ -249,3 +249,18 @@ html[data-theme="light"] .bk-archive-track { background: #e0d8ca; }
   .bk-archive-achievement-progress { flex-basis: auto; }
   .bk-archive-achievement-progress strong { text-align: left; }
 }
+
+.bk-library-tools { display: flex; align-items: end; gap: 12px; margin-top: 22px; padding: 14px; border: 1px solid #302b38; background: #17141f; }
+.bk-library-search, .bk-library-sort { display: grid; gap: 6px; min-width: 0; }
+.bk-library-search { flex: 1; }
+.bk-library-search span, .bk-library-sort span { color: #a9a0b1; font-size: 10px; letter-spacing: .07em; text-transform: uppercase; }
+.bk-library-search input, .bk-library-sort select { width: 100%; min-height: 39px; padding: 0 11px; color: #f4ead6; background: #0f0d15; border: 1px solid #494153; border-radius: 3px; }
+.bk-library-search input:focus, .bk-library-sort select:focus { outline: 2px solid rgba(216,185,120,.2); border-color: #c3a568; }
+.bk-library-sort { flex: 0 0 min(220px, 36%); }
+html[data-theme="light"] .bk-library-tools { background: #faf7f0; border-color: #ded6ca; }
+html[data-theme="light"] .bk-library-search span, html[data-theme="light"] .bk-library-sort span { color: #746d63; }
+html[data-theme="light"] .bk-library-search input, html[data-theme="light"] .bk-library-sort select { color: #211d19; background: #fffdf8; border-color: #cfc5b5; }
+@media (max-width: 560px) {
+  .bk-library-tools { align-items: stretch; flex-direction: column; }
+  .bk-library-sort { flex-basis: auto; }
+}
