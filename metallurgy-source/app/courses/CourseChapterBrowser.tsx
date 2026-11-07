@@ -23,15 +23,6 @@ export default function CourseChapterBrowser({
   const [status, setStatus] = useState("all");
   const [sort, setSort] = useState("number");
 
-  const unitByTopic = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const group of units) {
-      // The caller supplies topic order separately; unit labels are optional.
-      map.set(group.id, group.title);
-    }
-    return map;
-  }, [units]);
-
   const rows = useMemo(() => {
     let list = topics.filter((topic) => {
       const s = statsFor(topic.id);
