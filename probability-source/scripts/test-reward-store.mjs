@@ -114,6 +114,34 @@ const extension = { owner: "another-module", nested: { schema: 4, flags: ["keep"
 }
 
 {
+  const oldAttempts = questions.filter((question) => question.lessonId === "lesson-a" && question.index < 4).map((question) => ({
+    id: `cloud-${question.index}`, q: question.key, picked: [question.index],
+    score: 1, status: "correct", ms: 100, ts: 1_000,
+  }));
+  const { api, storage, emit } = boot({
+    "hc3-progress-v3": JSON.stringify({
+      completed: [], tests: [], attempts: [], rewardLedger: [],
+      bookmarks: [], drafts: {}, goal: 10, goalByDay: {},
+    }),
+  });
+  api.useStore();
+  // This is the activation baseline created locally before the cloud response.
+  const localBaseline = Number(storage.getItem("limitless.reward.probability-activated-at.v1"));
+  assert.ok(localBaseline > 1_000);
+  storage.setItem("limitless.reward.probability-activated-at.v1", "500");
+  storage.setItem("hc3-progress-v3", JSON.stringify({
+    completed: [], tests: [], attempts: oldAttempts, rewardLedger: [],
+    bookmarks: [], drafts: {}, goal: 10, goalByDay: {},
+  }));
+  emit("limitless:cloud-sync-hydrated", { detail: { userId: "account-b" } });
+  api.recordAttempt("lesson-a:4", [4], 100);
+  const hydrated = JSON.parse(storage.getItem("hc3-progress-v3"));
+  assert.ok(hydrated.rewardLedger.some((reward) =>
+    reward.eventId === "probability:lesson-mastery:probability-lsr1-pathways-v1:lesson-a"
+  ), "cloud activation baseline is restored before mastery rewards are assessed");
+}
+
+{
   const { api, storage, events } = boot({
     "hc3-progress-v3": JSON.stringify({
       completed: ["lesson-a"], tests: [], attempts: [], rewardLedger: [],
