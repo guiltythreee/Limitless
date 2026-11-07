@@ -16,6 +16,7 @@
   var hero=document.querySelector('.competition-heading');
   if(overviewGrid&&hero)hero.appendChild(overviewGrid);
   var todayPanel=document.createElement('section');todayPanel.className='today-panel';todayPanel.setAttribute('data-screen','overview');
+  screens.push(todayPanel);
   todayPanel.innerHTML='<div class="card-label">TODAY / THIS WEEK</div><h2 id="today-week-title">This week</h2><div id="today-task-list"></div><a href="#roadmap" class="today-roadmap-link" data-screen-link="roadmap">Open full roadmap →</a>';
   if(overviewGrid)overviewGrid.parentNode.insertBefore(todayPanel,overviewGrid.nextSibling);
   function renderToday(){
@@ -27,6 +28,8 @@
     var rows=[].slice.call(weekNode.querySelectorAll('.roadmap-topic')).slice(0,3);
     list.innerHTML=rows.map(function(row){var name=row.querySelector('strong'),subject=row.querySelector('small');return '<div class="today-task-row"><span class="today-check">○</span><strong>'+ (name?name.textContent:'') +'</strong><span class="today-subject">'+(subject?subject.textContent:'')+'</span></div>';}).join('');
   }
+  var roadmapJump=todayPanel.querySelector('[data-screen-link="roadmap"]');
+  if(roadmapJump)roadmapJump.addEventListener('click',function(event){event.preventDefault();activate('roadmap',true);});
   renderToday();
   var roadmap=document.getElementById('week-list');if(roadmap){var roadmapObserver=new MutationObserver(renderToday);roadmapObserver.observe(roadmap,{childList:true,subtree:true,attributes:true,attributeFilter:['open']});}
   var campaignMeta=document.querySelector('.campaign-meta');
