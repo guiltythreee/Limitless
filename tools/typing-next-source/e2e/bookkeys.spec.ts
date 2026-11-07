@@ -95,7 +95,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   const source = await page.locator(".bk-source-text").textContent();
   expect(source).toBeTruthy();
   expect(source!.length).toBeGreaterThan(150);
-  await page.locator("#bk-typing").fill(source!);
+  await page.locator("#bk-typing").pressSequentially(source!, { delay: 31 });
 
   await expect(page.locator(".bk-typing-metrics")).toContainText("100%");
   await expect(page.locator(".bk-reader-meta")).toContainText("1/1 required complete");
@@ -519,7 +519,7 @@ test("pasted text becomes a persistent local text book with reading progress", a
   await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 1");
   const source = await page.locator(".bk-source-text").textContent();
   expect(source).toBeTruthy();
-  await page.locator("#bk-typing").fill(source!);
+  await page.locator("#bk-typing").pressSequentially(source!, { delay: 31 });
   await page.getByRole("button", { name: /Library/ }).click();
 
   const textBook = page.getByRole("button", { name: /Pasted text/ });
