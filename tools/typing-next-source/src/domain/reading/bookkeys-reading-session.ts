@@ -302,7 +302,7 @@ export function emptyBookkeysGame(): BookkeysGameState {
   return {
     paid: {},
     check: null,
-    base: 0,
+    base: { n: 0, sum: 0 },
     xp: 0,
     words: 0,
     chars: 0,
