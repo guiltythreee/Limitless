@@ -665,6 +665,16 @@
     renderOverview();
     renderSubjects();
     renderWeeks();
+    var expandWeeksButton = $('toggle-all-weeks');
+    if (expandWeeksButton) {
+      expandWeeksButton.addEventListener('click', function () {
+        var cards = Array.prototype.slice.call($('week-list').querySelectorAll('.week-card'));
+        var shouldOpen = cards.some(function (card) { return !card.open; });
+        cards.forEach(function (card) { card.open = shouldOpen; });
+        expandWeeksButton.textContent = shouldOpen ? 'Close all weeks' : 'Open all weeks';
+        expandWeeksButton.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+      });
+    }
     renderSafety();
     renderProblemHistory();
     renderMockHistory();
