@@ -8,7 +8,7 @@ import type { EpubBlock, EpubChapter } from "../domain/epub/epub-domain";
 import { readPdf } from "../domain/pdf/pdf-importer";
 import { pagesFromText, textFingerprint } from "../domain/text/bookkeys-text-importer";
 import {
-  completeBookkeysPage, createPageDraft, emptyBookkeysGame,
+  completeBookkeysPage, createPageDraft, emptyBookkeysGame, typingAccuracy,
   readPageDraft,
 } from "../domain/reading/bookkeys-reading-session";
 import { createBookkeysRewardAdapter } from "../domain/rewards/bookkeys-reward-adapter";
@@ -283,6 +283,11 @@ export default function BookkeysApp() {
     () => book?.sections[pageIndex]?.map((block) => block.text).join("\n") ?? "",
     [book, pageIndex],
   );
+  const liveAccuracy = typingAccuracy(target, typed);
+  const elapsedMs = Math.max(1000, Date.now() - startedAt.current);
+  const liveWpm = typed.length
+    ? Math.round((liveAccuracy.correct / 5) / (elapsedMs / 60_000))
+    : 0;
   const requiredPageIndexes = useMemo(() => book ? requiredSections(book.chapters, book.sections.length) : [], [book]);
   const requiredCompletedCount = requiredPageIndexes.filter((page) => completedPageIndexes.includes(page)).length;
   const currentChapter = useMemo(() => {
@@ -919,6 +924,11 @@ export default function BookkeysApp() {
                 autoCapitalize="off"
                 autoCorrect="off"
               />
+              <div className="bk-typing-metrics" aria-label="Typing metrics">
+                <div><strong>{liveAccuracy.percent}%</strong><span>Accuracy</span></div>
+                <div><strong>{liveWpm}</strong><span>WPM</span></div>
+                <div><strong>{typed.length.toLocaleString()}</strong><span>Typed characters</span></div>
+              </div>
             </>
           ) : (
             <div className="bk-empty-page">No selectable text found on this page. It has been recorded as empty and will not block finishing the book.</div>
