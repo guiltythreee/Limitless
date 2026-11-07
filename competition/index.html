@@ -157,16 +157,22 @@
             <button id="cf-refresh-problems" class="action-button" type="button">Refresh catalogue</button>
           </div>
         </div>
-        <div class="cf-filter-grid">
-          <label>Search by problem name or ID<input id="cf-search" type="search" placeholder="e.g. 4A or Watermelon"></label>
-          <label>Category<select id="cf-category-filter"><option value="">All categories</option></select></label>
-          <label>Minimum rating<input id="cf-rating-min" type="number" min="800" max="3500" step="100" value="800"></label>
-          <label>Maximum rating<input id="cf-rating-max" type="number" min="800" max="3500" step="100" value="3500"></label>
-          <label class="cf-check-label"><span>Include unrated problems</span><input id="cf-include-unrated" type="checkbox"></label>
-          <label class="cf-wide">Tags (Ctrl/Cmd-click to select multiple)<select id="cf-tag-filter" class="cf-tag-select" multiple></select></label>
-          <label>Problem status<select id="cf-status-filter"><option value="all">All problems</option><option value="unsolved">Unsolved</option><option value="solved">Solved</option><option value="saved">Bookmarked</option></select></label>
-          <label>Sort by<select id="cf-sort"><option value="rating-asc">Rating: easiest first</option><option value="rating-desc">Rating: hardest first</option><option value="name">Problem name</option></select></label>
+        <div class="cf-quick-toolbar">
+          <label class="cf-search-field">Search<input id="cf-search" type="search" placeholder="Problem name or ID"></label>
+          <label>Rating<select id="cf-rating-preset"><option value="800-1200">800–1200</option><option value="1200-1600">1200–1600</option><option value="1600-2000">1600–2000</option><option value="2000-3500">2000+</option><option value="any">Any rating</option></select></label>
         </div>
+        <details class="cf-advanced-filters">
+          <summary>Advanced filters</summary>
+          <div class="cf-filter-grid">
+            <label>Category<select id="cf-category-filter"><option value="">All categories</option></select></label>
+            <label>Minimum rating<input id="cf-rating-min" type="number" min="800" max="3500" step="100" value="800"></label>
+            <label>Maximum rating<input id="cf-rating-max" type="number" min="800" max="3500" step="100" value="1200"></label>
+            <label class="cf-check-label"><span>Include unrated problems</span><input id="cf-include-unrated" type="checkbox"></label>
+            <label class="cf-wide">Tags (Ctrl/Cmd-click to select multiple)<select id="cf-tag-filter" class="cf-tag-select" multiple></select></label>
+            <label>Problem status<select id="cf-status-filter"><option value="all">All problems</option><option value="unsolved">Unsolved</option><option value="solved">Solved</option><option value="saved">Bookmarked</option></select></label>
+            <label>Sort by<select id="cf-sort"><option value="rating-asc">Rating: easiest first</option><option value="rating-desc">Rating: hardest first</option><option value="name">Problem name</option></select></label>
+          </div>
+        </details>
         <div class="cf-filter-meta"><span id="cf-result-count">Waiting for catalogue…</span><button id="cf-clear-filters" class="action-button" type="button">Clear filters</button></div>
         <div id="cf-problem-list" class="cf-problem-list"><p class="cf-empty">The official problem catalogue will appear here.</p></div>
         <div class="cf-pagination"><button id="cf-prev-page" type="button" disabled>Previous</button><span id="cf-page-label">Page 1</span><button id="cf-next-page" type="button" disabled>Next</button></div>
