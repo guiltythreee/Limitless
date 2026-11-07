@@ -56,3 +56,7 @@ The extraction remains non-production. Do not switch the active reader until per
 Added an isolated adapter for the existing `bookkeys-lib` IndexedDB v1 schema and a `fake-indexeddb` test suite covering metadata/blob writes, metadata updates, artwork file operations, paired deletion and unavailable IndexedDB. No production data or reader code is accessed by these tests.
 
 The latest CI run passed the extracted helper/database tests, type-check and static export build. The existing production Bookkeys suite also passed. See [migration PR #111](https://github.com/guiltythreee/Limitless/pull/111).
+
+### Local storage and backup-record checkpoint — 2026-11-07
+
+Added a dependency-injected localStorage adapter and pure compatibility helpers for the built-in Library shelf, additive shelf merge, type-safe settings backup merge and normalized per-book progress arrays. Added tests for storage errors and backup validation. The extracted suite now contains 23 focused tests; the full existing production Bookkeys suite also passes. No production storage or user data has been changed.
