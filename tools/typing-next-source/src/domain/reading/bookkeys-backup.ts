@@ -80,7 +80,12 @@ function mergeSettings(local: Record<string, unknown> | null, incoming: Record<s
   if (!local) return JSON.stringify(incoming);
   const merged = { ...local };
   for (const [key, value] of Object.entries(incoming)) {
-    if (!Object.prototype.hasOwnProperty.call(local, key)) continue;
+    // Keep backup-only settings fields so restores across app versions do not
+    // silently discard preferences introduced by a newer reader.
+    if (!Object.prototype.hasOwnProperty.call(local, key)) {
+      merged[key] = value;
+      continue;
+    }
     const current = local[key];
     if (typeof current !== typeof value) continue;
     if (typeof value === "number" && !Number.isFinite(value)) continue;
