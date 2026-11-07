@@ -176,6 +176,15 @@ export default function Mt203() {
           </div>
 
           <button
+            aria-current={view.kind === "overview" ? "location" : undefined}
+            className={`ch-item ${view.kind === "overview" ? "active" : ""}`}
+            onClick={() => setView({ kind: "overview" })}
+          >
+            <span className="ch-num">⌂</span>
+            <span className="ch-title">Course overview</span>
+          </button>
+
+          <button
             aria-current={view.kind === "dashboard" ? "location" : undefined}
             className={`ch-item ${view.kind === "dashboard" ? "active" : ""}`}
             onClick={() => setView({ kind: "dashboard" })}
@@ -291,7 +300,8 @@ export default function Mt203() {
         </aside>
 
         {/* ---------------- main ---------------- */}
-        <main className="main mt203">\n          {view.kind === "overview" && <CourseChapterBrowser code={MANIFEST.code} title={MANIFEST.title} description={MANIFEST.description} topics={TOPICS} units={UNITS} totalQuestions={TOPICS.reduce((sum, t) => sum + t.count, 0)} statsFor={(id) => { const a = byTopic[id]; return a ? { done: a.done, right: a.right, total: a.total } : { done: 0, right: 0, total: countOf(id) }; }} onSelect={(id) => setView({ kind: "study", topic: id, tab: "lesson" })} />}
+        <main className="main mt203">
+          {view.kind === "overview" && <CourseChapterBrowser code={MANIFEST.code} title={MANIFEST.title} description={MANIFEST.description} topics={TOPICS} units={UNITS} totalQuestions={TOPICS.reduce((sum, t) => sum + t.count, 0)} statsFor={(id) => { const a = byTopic[id]; return a ? { done: a.done, right: a.right, total: a.total } : { done: 0, right: 0, total: countOf(id) }; }} onSelect={(id) => setView({ kind: "study", topic: id, tab: "lesson" })} />}
           {progress && (view.kind === "history" || view.kind === "mistakes") && (
             <ActivityHistoryPanel
               activities={toActivities(progress.attempts, { courseId: "mt203", topicOf: (questionId) => TOPIC_OF[questionId] })}
