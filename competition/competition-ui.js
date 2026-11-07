@@ -67,7 +67,7 @@
     form.insertBefore(more,submit);
   }
   compactForm(problemForm,['problem-name','problem-outcome','problem-time'],'More details');
-  compactForm(mockForm,['mock-date','mock-one-score','mock-two-score','mock-note'],'More details');
+  compactForm(mockForm,['mock-date','mock-one-score','mock-one-max','mock-two-score','mock-two-max','mock-note'],'More details');
 
   /* Live Codeforces problem explorer with local review status. */
   var problemSection=document.getElementById('problem-review');
@@ -93,14 +93,14 @@
       if(q&&!(p.name+' '+id).toLowerCase().includes(q))return false;
       if(rating==='800-1200'&&!(p.rating>=800&&p.rating<=1200))return false;
       if(rating&&rating!=='800-1200'&&Number(p.rating)!==Number(rating))return false;
-      if(tag&&p.tags.indexOf(tag)<0)return false;
+      if(tag&&(p.tags||[]).indexOf(tag)<0)return false;
       return true;
     });
     var pageItems=filtered.slice(cfPage*20,cfPage*20+20);
     document.getElementById('cf-problems').innerHTML=pageItems.length?pageItems.map(function(p){
       var id=String(p.contestId||'')+(p.index||'');
       var tags=p.tags||[];
-      var tagHtml=cfAdvanced?'<details class="cf-tags"><summary>Show tags</summary><span>'+tags.map(function(t){return '<i>'+escapeHTML(t)+'</i>';}).join(' ')+'</span></details>':'';
+      var tagHtml=cfAdvanced?'<details class="cf-tags"><summary>Show tags</summary><span>'+tags.map(function(t){return '<i>'+escapeHTML(t)+'</i>';}).join(' ')+'</span></details>':'<span class="cf-tag-placeholder"></span>';
       return '<article class="cf-problem-row"><a class="cf-problem-name" href="https://codeforces.com/problemset/problem/'+encodeURIComponent(p.contestId)+'/'+encodeURIComponent(p.index)+'" target="_blank" rel="noopener noreferrer">'+escapeHTML(p.name)+'</a><span class="cf-rating">'+(p.rating||'—')+'</span><span class="cf-status '+(localProblemState(p)==='Solved'?'is-solved':'')+'">'+localProblemState(p)+'</span>'+tagHtml+'<button type="button" class="action-button" data-cf-log="'+escapeHTML(id)+'">Log</button></article>';
     }).join(''):'<p class="empty-state">No problems match these filters.</p>';
     document.getElementById('cf-page').textContent='Page '+(cfPage+1)+' · '+filtered.length+' problems';
