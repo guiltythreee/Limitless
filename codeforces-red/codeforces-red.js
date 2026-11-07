@@ -132,6 +132,8 @@
     renderRoadmap(lastPeak);
   }
   let lastPeak=0;
+  let lastSuccessfulSyncAt=0;
+  let refreshInProgress=false;
   function render(peak) {
     lastPeak=peak;
     renderRoadmap(peak);
@@ -150,6 +152,8 @@
     }).join('');
   }
   async function refresh() {
+    if(refreshInProgress) return;
+    refreshInProgress=true;
     readHandle();
     $('sync-status').textContent = 'Refreshing public Codeforces rating data…';
     $('refresh-rating').disabled = true;
@@ -178,7 +182,8 @@
       $('contest-count').textContent = String(history.length);
       roadmapState.weekly={solved:weekProblems.size+(roadmapState.weeklyManual?.solved||0),contests:weekContests+(roadmapState.weeklyManual?.contests||0)};saveRoadmap();
       render(peak);
-      $('sync-status').textContent = 'Live Codeforces data · rating, accepted problems and contest participation synced.';
+      lastSuccessfulSyncAt=Date.now();
+      $('sync-status').textContent = 'Live Codeforces data · rating, accepted problems and contest participation synced just now.';
     } catch (error) {
       $('sync-status').textContent = (error.name === 'AbortError' ? 'Codeforces API timed out after 15 seconds.' : (error.message || 'Unable to connect to Codeforces.')) + ' Check the handle in Competition and retry.';
       $('milestone-list').innerHTML = '<p class="cr-loading">Rating data is unavailable right now. Milestones will appear when Codeforces responds.</p>';
@@ -191,11 +196,18 @@
     } finally {
       clearTimeout(timeoutId);
       $('refresh-rating').disabled = false;
+      refreshInProgress=false;
     }
   }
   document.addEventListener('DOMContentLoaded', () => {
     bindRoadmap();
     $('refresh-rating').addEventListener('click', refresh);
+    // Load fresh Codeforces data whenever Road to Red is opened.
     refresh();
+    // If the page is left open in a background tab, refresh when revisited
+    // once the last successful sync is older than two minutes.
+    document.addEventListener('visibilitychange',()=>{
+      if(document.visibilityState==='visible' && Date.now()-lastSuccessfulSyncAt>120000) refresh();
+    });
   });
 })();
