@@ -83,6 +83,7 @@ export function createPageDraft(
   now = Date.now(),
 ): PageDraftV1 {
   const accuracy = typingAccuracy(target, typed);
+  const exact = typed === target;
   return {
     v: 1,
     page,
@@ -166,7 +167,7 @@ export function completeBookkeysPage(
     }
     paid[rewardId] = earned;
     typedPages.add(page);
-    if (accuracy.percent === 100) exactPages.add(page);
+    if (exact) exactPages.add(page);
   } else {
     emptyPages.add(page);
   }
@@ -263,7 +264,7 @@ export function completeBookkeysPage(
     bestDay: Math.max(Number(previous.bestDay ?? 0), day.w),
     session,
     sessMax: Math.max(Number(previous.sessMax ?? 0), sessionCount),
-    perfect: Number(previous.perfect ?? 0) + (accuracy.percent === 100 && target.length >= 250 ? 1 : 0),
+    perfect: Number(previous.perfect ?? 0) + (exact && target.length >= 250 ? 1 : 0),
     run: accuracy.percent >= 98 ? Number(previous.run ?? 0) + 1 : 0,
     bestRun: Math.max(Number(previous.bestRun ?? 0), accuracy.percent >= 98 ? Number(previous.run ?? 0) + 1 : 0),
     night: Number(previous.night ?? 0) + (date.getHours() < 5 ? 1 : 0),
@@ -274,8 +275,8 @@ export function completeBookkeysPage(
       beat5: Number(previous.beat5 ?? 0) || (priorBestWpm > 0 && wpm >= priorBestWpm + 5 ? 1 : 0),
       up20: Number(previous.up20 ?? 0) || (priorBase.n >= 5 && wpm >= priorBase.sum / priorBase.n + 20 ? 1 : 0),
       pro60: Number(previous.pro60 ?? 0) || (accuracy.percent >= 98 && wpm >= 60 ? 1 : 0),
-      vir80: Number(previous.vir80 ?? 0) || (accuracy.percent === 100 && wpm >= 80 ? 1 : 0),
-      hund: Number(previous.hund ?? 0) || (accuracy.percent === 100 && wpm >= 100 ? 1 : 0),
+      vir80: Number(previous.vir80 ?? 0) || (exact && wpm >= 80 ? 1 : 0),
+      hund: Number(previous.hund ?? 0) || (exact && wpm >= 100 ? 1 : 0),
       recs: Number(previous.recs ?? 0) || (priorBestWpm > 0 && priorBestPct > 0 && wpm > priorBestWpm && accuracy.percent > priorBestPct ? 1 : 0),
       base: priorBase.n < 5 ? { n: priorBase.n + 1, sum: priorBase.sum + wpm } : priorBase,
     } : {}),
