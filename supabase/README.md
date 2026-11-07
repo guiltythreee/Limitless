@@ -32,7 +32,9 @@ If you previously ran an earlier version of `schema.sql`, running the updated fi
 - Local-only keys are uploaded on first sync, so offline work is not discarded.
 - A browser remembers which account last hydrated it; switching accounts clears the previous account's mirrored local keys before loading the new account.
 - Deletes are represented by tombstones so they propagate to other devices.
-- Local writes are batched and sent after a short debounce. A failed write remains queued for retry while the page stays open.
+- Local writes are batched and sent after a short debounce. Pending writes are also kept in a per-account local outbox and replayed after reload if the network or browser interrupts an upload.
+- The adapter makes a best-effort flush when the page is backgrounded or closed; localStorage remains the immediate durable copy.
+- In-flight uploads are isolated from account switches, so one account's pending queue cannot be written into another account's outbox.
 - The bridge intentionally excludes Supabase auth tokens, internal test keys, and the theme preference.
 - The adapter mirrors `localStorage`. Bookkeys' current primary book data is stored under `bookkeys:game`, which is mirrored via the same-origin shell's storage event. IndexedDB-only or server-side storage is not covered by this generic adapter.
 

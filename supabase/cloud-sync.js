@@ -10,6 +10,7 @@
 
   const TABLE = "user_progress";
   const OWNER_KEY = "limitless.cloud-sync.owner";
+  const PENDING_PREFIX = "__limitless.cloud-sync.pending.";
   const DEBOUNCE_MS = 450;
   const original = {
     setItem: Storage.prototype.setItem,
@@ -25,6 +26,47 @@
   let inFlight = Promise.resolve();
   let pending = new Map();
   let state = "signed-out";
+
+  function pendingStorageKey(userId) {
+    return PENDING_PREFIX + userId;
+  }
+
+  // Keep a per-account outbox in localStorage. If the network is unavailable
+  // or the browser closes before an upsert finishes, the next session can
+  // replay these exact local writes after hydrating that same account.
+  function persistPending(userId = activeUserId) {
+    if (!userId) return;
+    const key = pendingStorageKey(userId);
+    try {
+      if (pending.size) {
+        original.setItem.call(localStorage, key, JSON.stringify([...pending.values()]));
+      } else {
+        original.removeItem.call(localStorage, key);
+      }
+    } catch (error) {
+      console.warn("Limitless cloud sync outbox could not be saved:", error.message || error);
+    }
+  }
+
+  function restorePending(userId) {
+    pending.clear();
+    try {
+      const raw = localStorage.getItem(pendingStorageKey(userId));
+      const rows = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(rows)) return;
+      for (const row of rows) {
+        if (!row || !isSyncable(row.storage_key) || typeof row.is_deleted !== "boolean") continue;
+        if (!row.is_deleted && typeof row.value_text !== "string") continue;
+        pending.set(row.storage_key, {
+          storage_key: row.storage_key,
+          value_text: row.is_deleted ? null : row.value_text,
+          is_deleted: row.is_deleted
+        });
+      }
+    } catch (error) {
+      console.warn("Limitless cloud sync outbox could not be restored:", error.message || error);
+    }
+  }
 
   function isSyncable(key) {
     return typeof key === "string" &&
@@ -55,6 +97,7 @@
   function queueWrite(key, value, deleted) {
     if (suppress || !activeUserId || !isSyncable(key)) return;
     pending.set(key, { storage_key: key, value_text: deleted ? null : value, is_deleted: !!deleted });
+    persistPending();
     if (timer) clearTimeout(timer);
     timer = setTimeout(flush, DEBOUNCE_MS);
   }
@@ -63,17 +106,26 @@
     if (timer) { clearTimeout(timer); timer = null; }
     if (!ready || !activeUserId || !pending.size) return inFlight;
     const userId = activeUserId;
-    const batch = [...pending.values()].map(row => ({ ...row, user_id: userId }));
-    for (const row of batch) pending.delete(row.storage_key);
+    const batch = [...pending.entries()];
     inFlight = inFlight.then(async () => {
       if (activeUserId !== userId) return;
-      const { error } = await client.from(TABLE).upsert(batch, { onConflict: "user_id,storage_key" });
+      const currentBatch = batch.filter(([key, row]) => pending.get(key) === row);
+      if (!currentBatch.length) return;
+      const payload = currentBatch.map(([, row]) => ({ ...row, user_id: userId }));
+      const { error } = await client.from(TABLE).upsert(payload, { onConflict: "user_id,storage_key" });
+      // The user may have signed out or switched accounts while the request
+      // was in flight. Never write the new account's queue into the old
+      // account's outbox or change the new account's sync status.
+      if (activeUserId !== userId) return;
       if (error) {
-        for (const row of batch) if (!pending.has(row.storage_key)) pending.set(row.storage_key, row);
         setState("error", error.message);
         if (!timer) timer = setTimeout(flush, 3000);
         throw error;
       }
+      // Remove only the exact versions sent. A newer write to the same key
+      // made during the request must remain queued for the next batch.
+      for (const [key, row] of currentBatch) if (pending.get(key) === row) pending.delete(key);
+      persistPending(userId);
       setState("synced");
     }).catch(error => {
       console.warn("Limitless cloud sync:", error.message || error);
@@ -86,7 +138,7 @@
     activeUserId = userId;
     syncingUserId = userId;
     ready = false;
-    pending.clear();
+    restorePending(userId);
     setState("syncing");
 
     try {
@@ -183,6 +235,7 @@
         syncUser(session.user.id);
       }
     } else {
+      persistPending(activeUserId);
       activeUserId = null;
       ready = false;
       pending.clear();

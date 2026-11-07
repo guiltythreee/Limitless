@@ -167,3 +167,17 @@ html[data-theme="light"] .home-topbar .icon-action:focus-visible {
   outline: 2px solid #4387c3;
   outline-offset: 2px;
 }
+
+
+/* Prevent theme and account actions from colliding on compact homepage headers. */
+.home-topbar .topbar-actions { min-width:0; flex-wrap:nowrap; }
+.home-topbar .ll-account { flex:0 0 auto; margin-left:0; }
+.home-topbar .ll-account button { padding:6px 10px; border-radius:18px; font:11px Arial,sans-serif; white-space:nowrap; }
+@media (max-width:420px) {
+  .home-topbar { grid-template-columns:minmax(0,1fr) auto; padding-left:8px; padding-right:8px; gap:5px; }
+  .home-topbar .brand { min-width:0; gap:5px; font-size:11px; letter-spacing:1.2px; }
+  .home-topbar .topbar-actions { min-width:0; gap:5px; }
+  .home-topbar .icon-action { min-width:62px; padding:0 6px; font-size:9px; }
+  .home-topbar .profile-chip { display:none; }
+  .home-topbar .ll-account button { padding:6px 6px; font-size:9px; }
+}
