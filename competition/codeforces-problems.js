@@ -20,10 +20,10 @@
     catch (_) { state.saved = new Set(); }
   }
   function persistSaved() { localStorage.setItem(STORAGE, JSON.stringify({ saved:[...state.saved] })); }
-  function categoryFor(tags) {
+  function categoriesFor(tags) {
     const lower = (tags || []).map(x => x.toLowerCase());
-    for (const [category, values] of Object.entries(CATEGORIES)) if (lower.some(tag => values.includes(tag))) return category;
-    return 'Other';
+    const matches = Object.entries(CATEGORIES).filter(([, values]) => lower.some(tag => values.includes(tag))).map(([category]) => category);
+    return matches.length ? matches : ['Other'];
   }
   function esc(value) { return String(value == null ? '' : value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function status(message) { $('cf-problem-status').textContent = message; }
@@ -60,7 +60,7 @@
   function populateFilters() {
     const tags = [...new Set(state.problems.flatMap(p => p.tags || []))].sort((a,b) => a.localeCompare(b));
     $('cf-tag-filter').innerHTML = tags.map(tag => '<option value="' + esc(tag) + '">' + esc(tag) + '</option>').join('');
-    const categories = [...new Set(state.problems.map(p => categoryFor(p.tags)))].sort();
+    const categories = [...new Set(state.problems.flatMap(p => categoriesFor(p.tags)))].sort();
     $('cf-category-filter').innerHTML = '<option value="">All categories</option>' + categories.map(x => '<option value="' + esc(x) + '">' + esc(x) + '</option>').join('');
   }
   function selectedTags() { return [...$('cf-tag-filter').selectedOptions].map(o => o.value); }
@@ -73,7 +73,7 @@
       const rating = Number.isFinite(p.rating) ? p.rating : null;
       if (rating === null || rating < min || rating > max) return false;
       if (tags.length && !tags.every(t => (p.tags || []).includes(t))) return false;
-      if (category && categoryFor(p.tags) !== category) return false;
+      if (category && !categoriesFor(p.tags).includes(category)) return false;
       if (search && !(p.name || '').toLowerCase().includes(search) && !(String(p.contestId) + (p.index || '')).toLowerCase().includes(search)) return false;
       const key = (p.contestId || 'gym') + '-' + (p.index || '');
       if (statusFilter === 'solved' && !state.solved.has(key)) return false;
@@ -93,7 +93,8 @@
     $('cf-problem-list').innerHTML = slice.map(p => {
       const key = (p.contestId || 'gym') + '-' + (p.index || ''), solved = state.solved.has(key), saved = state.saved.has(key);
       const tags = (p.tags || []).map(tag => '<span class="cf-chip">' + esc(tag) + '</span>').join('');
-      const url = p.contestId ? 'https://codeforces.com/problemset/problem/' + p.contestId + '/' + encodeURIComponent(p.index || '') : 'https://codeforces.com/problemset';
+      const isGym = Number(p.contestId) >= 100000;
+      const url = p.contestId ? (isGym ? 'https://codeforces.com/gym/' + p.contestId + '/problem/' : 'https://codeforces.com/problemset/problem/' + p.contestId + '/') + encodeURIComponent(p.index || '') : 'https://codeforces.com/problemset';
       return '<article class="cf-problem-card"><div><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + p.rating + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span>' + (solved ? '<span class="cf-chip solved">Solved</span>' : '') + tags + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
     }).join('') || '<p class="cf-empty">No problems match these filters. Try widening the rating range or removing a tag.</p>';
     $('cf-page-label').textContent = 'Page ' + (state.page + 1) + ' of ' + pages;
