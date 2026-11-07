@@ -158,3 +158,26 @@ test("restores backup-only settings fields introduced by a newer reader version"
   assert.equal(settings.readerBackground, "aurora");
   assert.deepEqual(settings.customPreference, { enabled: true, intensity: 2 });
 });
+
+
+test("replace restore rolls back overwritten data when a storage write fails", () => {
+  const storage = new MemoryStorage();
+  storage.setItem("bookkeys:game", '{"xp":900,"pages":12}');
+  storage.setItem("bookkeys:settings", '{"size":17}');
+  storage.setItem("limitless.typing.v1.theme", "dark");
+  storage.failKey = "bookkeys:probe";
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:game": '{"xp":5,"pages":1}',
+      "bookkeys:probe": "cannot-write",
+    },
+  }));
+  const result = restoreBookkeysBackup(storage, backup, "replace");
+  assert.equal(result.written, 0);
+  assert.ok(result.failed >= 1);
+  assert.equal(storage.getItem("bookkeys:game"), '{"xp":900,"pages":12}');
+  assert.equal(storage.getItem("bookkeys:settings"), '{"size":17}');
+  assert.equal(storage.getItem("bookkeys:probe"), null);
+  assert.equal(storage.getItem("limitless.typing.v1.theme"), "dark");
+});
