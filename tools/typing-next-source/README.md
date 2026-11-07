@@ -34,3 +34,9 @@ These modules are not yet imported by the active production reader. The original
 `src/lib/bookkeys/database.mjs` now isolates the existing `bookkeys-lib` v1 IndexedDB contract behind `createBookkeysDatabase(indexedDBImpl)`. It preserves the `meta` store (`keyPath: id`), `files` store (out-of-line keys), and the existing `all`, `file`, `setFile`, `delFile`, `add`, `put`, and `del` operations. The injectable IndexedDB implementation lets tests exercise the real adapter without touching a user's browser data.
 
 `tests/bookkeys-database.test.mjs` uses `fake-indexeddb` to check paired metadata/blob writes, metadata updates, artwork/file operations, deletion of both library records, and the unavailable-IndexedDB failure path. This adapter is still isolated from production.
+
+### Third extraction checkpoint: local persistence and backup records
+
+`src/lib/bookkeys/storage.mjs` isolates guarded localStorage reads/writes/deletes, built-in Library shelf normalization, additive shelf backup merge, type-checked settings backup merge, and per-book progress-array normalization. Its functions accept storage/state inputs rather than reaching into the production DOM or user profile.
+
+`tests/bookkeys-storage.test.mjs` covers storage failure behaviour, main-shelf restoration, shelf merge validation and duplicate handling, type-safe settings restoration, and numeric/unique/sorted progress arrays. The current extracted suite totals 23 focused tests across text/EPUB, IndexedDB and storage records.
