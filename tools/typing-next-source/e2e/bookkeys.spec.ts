@@ -543,7 +543,7 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
   await expect(archive.getByText("1 of 60 unlocked")).toBeVisible();
   await expect(archive.getByText("First Inscription", { exact: true })).toBeVisible();
   await expect(archive.getByText("Unlocked", { exact: true })).toBeVisible();
-  await expect(archive.getByText("Threshold met · unlock record not saved")).toBeVisible();
+  await expect(archive.getByText("Threshold met · unlock record not saved", { exact: true }).first()).toBeVisible();
   const saved = await page.evaluate(() => localStorage.getItem("bookkeys:game"));
   await archive.getByRole("button", { name: "Close Archive" }).click();
   expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBe(saved);
