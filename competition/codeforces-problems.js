@@ -81,7 +81,12 @@
       if (statusFilter === 'saved' && !state.saved.has(key)) return false;
       return true;
     });
-    rows.sort((a,b) => sort === 'rating-desc' ? b.rating-a.rating || (a.name||'').localeCompare(b.name||'') : sort === 'name' ? (a.name||'').localeCompare(b.name||'') : a.rating-b.rating || (a.name||'').localeCompare(b.name||''));
+    rows.sort((a,b) => {
+      if (sort === 'name') return (a.name||'').localeCompare(b.name||'');
+      const ar = Number.isFinite(a.rating) ? a.rating : (sort === 'rating-desc' ? -Infinity : Infinity);
+      const br = Number.isFinite(b.rating) ? b.rating : (sort === 'rating-desc' ? -Infinity : Infinity);
+      return (sort === 'rating-desc' ? br-ar : ar-br) || (a.name||'').localeCompare(b.name||'');
+    });
     return rows;
   }
   function render() {
@@ -93,6 +98,7 @@
     $('cf-problem-list').innerHTML = slice.map(p => {
       const key = (p.contestId || 'gym') + '-' + (p.index || ''), solved = state.solved.has(key), saved = state.saved.has(key);
       const tags = (p.tags || []).map(tag => '<span class="cf-chip">' + esc(tag) + '</span>').join('');
+      const ratingLabel = Number.isFinite(p.rating) ? p.rating : 'Unrated';
       const isGym = Number(p.contestId) >= 100000;
       const url = p.contestId ? (isGym ? 'https://codeforces.com/gym/' + p.contestId + '/problem/' : 'https://codeforces.com/problemset/problem/' + p.contestId + '/') + encodeURIComponent(p.index || '') : 'https://codeforces.com/problemset';
       return '<article class="cf-problem-card"><div><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + p.rating + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span>' + (solved ? '<span class="cf-chip solved">Solved</span>' : '') + tags + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
@@ -107,7 +113,7 @@
     }));
   }
   function bindFilters() {
-    ['cf-rating-min','cf-rating-max','cf-tag-filter','cf-category-filter','cf-search','cf-status-filter','cf-sort'].forEach(id => $(id).addEventListener(id === 'cf-search' ? 'input' : 'change', () => { state.page = 0; render(); }));
+    ['cf-rating-min','cf-rating-max','cf-include-unrated','cf-tag-filter','cf-category-filter','cf-search','cf-status-filter','cf-sort'].forEach(id => $(id).addEventListener(id === 'cf-search' ? 'input' : 'change', () => { state.page = 0; render(); }));
     $('cf-prev-page').addEventListener('click', () => { state.page--; render(); });
     $('cf-next-page').addEventListener('click', () => { state.page++; render(); });
     $('cf-refresh-problems').addEventListener('click', loadProblemset);
