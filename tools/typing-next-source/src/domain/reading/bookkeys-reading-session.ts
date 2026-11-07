@@ -22,7 +22,7 @@ export interface BookkeysGameState {
   readonly books?: number;
   readonly bestWpm?: number; readonly bestPct?: number; readonly perfect?: number; readonly run?: number; readonly bestRun?: number;
   readonly days?: number; readonly bestDay?: number; readonly night?: number; readonly early?: number;
-  readonly beat5?: number; readonly up20?: number; readonly pro60?: number; readonly vir80?: number; readonly recs?: number; readonly hund?: number;
+  readonly beat5?: number; readonly up20?: number; readonly pro60?: number; readonly vir80?: number; readonly recs?: number; readonly hund?: number;\n  readonly bigBook?: number; readonly flawlessCh?: number;
   readonly sessMax?: number;
   readonly base?: { readonly n: number; readonly sum: number };
   readonly streak?: { readonly cur: number; readonly best: number; readonly last: string };
