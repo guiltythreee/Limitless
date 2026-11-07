@@ -1,6 +1,6 @@
 import type { BookkeysShelf } from "../persistence/bookkeys-v1-contracts";
 
-export const DEFAULT_BOOKKEYS_SHELF: BookkeysShelf = { id: "default", name: "Library" };
+export const DEFAULT_BOOKKEYS_SHELF: BookkeysShelf = { id: "main", name: "Library" };
 
 function shelfId(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
