@@ -41,7 +41,7 @@ The active production application at `tools/typing/` remains untouched. The futu
 
 ## Extraction checkpoint — 2026-11-07
 
-The isolated workspace now contains the first two pure helper modules (`blocks.mjs` and `epub.mjs`) plus 13 focused parity tests. The module source is copied from the preserved production source and does not replace or modify it.
+The isolated workspace now contains the first two pure helper modules (`blocks.mjs` and `epub.mjs`) plus 14 focused parity tests. The module source is copied from the preserved production source and does not replace or modify it.
 
 CI on the current PR head passed:
 - Extracted Bookkeys helper tests.
