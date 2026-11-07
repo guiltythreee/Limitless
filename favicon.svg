@@ -1,20 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <radialGradient id="gold" cx="50%" cy="45%" r="60%">
-      <stop offset="0" stop-color="#fff8d8"/>
-      <stop offset=".34" stop-color="#f5d987"/>
-      <stop offset="1" stop-color="#b98225"/>
+    <radialGradient id="metal" cx="50%" cy="48%" r="55%">
+      <stop offset="0" stop-color="#fffdf0"/>
+      <stop offset=".22" stop-color="#ffe7a0"/>
+      <stop offset=".62" stop-color="#e8bd60"/>
+      <stop offset="1" stop-color="#a96f1c"/>
     </radialGradient>
-    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="2.1" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="shine" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation=".8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
-  <circle cx="32" cy="32" r="27" fill="none" stroke="#d7ad55" stroke-width="1.5" opacity=".75"/>
-  <circle cx="32" cy="32" r="21" fill="none" stroke="#e7c575" stroke-width="1" opacity=".8"/>
-  <g fill="url(#gold)" stroke="#c18a2c" stroke-width=".7" stroke-linejoin="round" filter="url(#glow)">
-    <path d="M32 3 L36 27 L61 32 L36 37 L32 61 L28 37 L3 32 L28 27 Z"/>
-    <path d="M32 14 L35 29 L50 32 L35 35 L32 50 L29 35 L14 32 L29 29 Z" opacity=".95"/>
+  <g fill="none" stroke="#e7bd68">
+    <circle cx="32" cy="32" r="29" stroke-width="1.25"/>
+    <circle cx="32" cy="32" r="25.5" stroke-width=".65"/>
+    <circle cx="32" cy="32" r="21.5" stroke-width=".9"/>
+    <circle cx="32" cy="32" r="17" stroke-width=".65"/>
+    <circle cx="32" cy="32" r="11.5" stroke-width=".7"/>
+    <path d="M32 1.5V12 M32 52V62.5 M1.5 32H12 M52 32H62.5
+      M10.4 10.4L17.7 17.7 M46.3 46.3L53.6 53.6
+      M53.6 10.4L46.3 17.7 M17.7 46.3L10.4 53.6" stroke-width="1.2"/>
+    <path d="M32 4V7 M32 57V60 M4 32H7 M57 32H60
+      M18 5.8L19.5 9 M44.5 55L46 58.2
+      M58.2 18L55 19.5 M9 44.5L5.8 46
+      M46 5.8L44.5 9 M19.5 55L18 58.2
+      M5.8 18L9 19.5 M55 44.5L58.2 46" stroke-width=".8"/>
   </g>
-  <circle cx="32" cy="32" r="4.2" fill="#fff4c5" stroke="#c18a2c" stroke-width="1"/>
+  <g filter="url(#shine)" fill="url(#metal)" stroke="#b9822e" stroke-width=".65" stroke-linejoin="round">
+    <path d="M32 2 L35.3 27.4 L62 32 L35.3 36.6 L32 62 L28.7 36.6 L2 32 L28.7 27.4 Z"/>
+    <path d="M32 12 L34.1 29.1 L52 32 L34.1 34.9 L32 52 L29.9 34.9 L12 32 L29.9 29.1 Z"/>
+    <path d="M32 21 L35 29 L43 32 L35 35 L32 43 L29 35 L21 32 L29 29 Z" fill="#fff4c8"/>
+  </g>
+  <circle cx="32" cy="32" r="3.2" fill="#fffdf2" stroke="#c18b34" stroke-width="1"/>
 </svg>
