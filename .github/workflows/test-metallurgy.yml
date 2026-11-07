@@ -84,5 +84,16 @@ jobs:
             echo "No deployed Metallurgy files changed."
           else
             git commit -m "Build Metallurgy website"
-            git push
+            # Another main-branch workflow may commit while the export is
+            # building. Rebase the generated assets onto the latest main and
+            # retry rather than dropping this successful static export.
+            for attempt in 1 2 3; do
+              if git push; then
+                exit 0
+              fi
+              git fetch origin main
+              git rebase origin/main
+            done
+            echo "Could not publish the generated Metallurgy site after 3 attempts."
+            exit 1
           fi
