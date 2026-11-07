@@ -74,6 +74,10 @@ export default function Mt203() {
   useEffect(() => {
     setTheme(loadTheme());
     setProgress(loadProgress());
+    const requestedChapter = new URLSearchParams(window.location.search).get("chapter");
+    if (requestedChapter && TOPICS.some((topic) => topic.id === requestedChapter)) {
+      setView({ kind: "study", topic: requestedChapter, tab: "lesson" });
+    }
   }, []);
 
   const toggleTheme = () => {
