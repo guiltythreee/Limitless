@@ -8,6 +8,29 @@
     try { return Object.assign({}, defaults, JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}")); }
     catch (_) { return defaults; }
   }
+  function readRaw() {
+    try {
+      const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    } catch (_) { return {}; }
+  }
+  // Keep the last successful Codeforces read so other pages (the Progression Map) can use it without
+  // calling the API again or when offline. Additive field; the handle and CSES ID are untouched.
+  function rememberCodeforces(handle, user, history) {
+    try {
+      const raw = readRaw();
+      raw.codeforcesHandle = raw.codeforcesHandle || handle;
+      raw.csesUserId = raw.csesUserId || defaults.csesUserId;
+      raw.codeforcesSnapshot = {
+        handle: handle,
+        rating: typeof user.rating === "number" ? user.rating : null,
+        maxRating: typeof user.maxRating === "number" ? user.maxRating : null,
+        contests: history.length,
+        fetchedAt: Date.now()
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(raw));
+    } catch (_) { /* storage can be unavailable; the live panel still works */ }
+  }
   function save() {
     const data = {
       codeforcesHandle: $("cf-handle").value.trim(),
@@ -17,6 +40,10 @@
       $("accounts-sync-note").textContent = "Enter a Codeforces handle and numeric CSES profile ID.";
       return null;
     }
+    const previous = readRaw();
+    const sameHandle = typeof previous.codeforcesHandle === "string" &&
+      previous.codeforcesHandle.toLowerCase() === data.codeforcesHandle.toLowerCase();
+    if (sameHandle && previous.codeforcesSnapshot) data.codeforcesSnapshot = previous.codeforcesSnapshot;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     $("cf-profile-link").href = "https://codeforces.com/profile/" + encodeURIComponent(data.codeforcesHandle);
     $("cses-profile-link").href = "https://cses.fi/user/" + encodeURIComponent(data.csesUserId);
@@ -57,6 +84,7 @@
       const user = info.result[0], history = contests.result;
       const latest = history.length ? history[history.length - 1] : null;
       const bestPlace = history.length ? Math.min(...history.map(item => item.rank).filter(Number.isFinite)) : null;
+      rememberCodeforces(handle, user, history);
       const stats = document.createDocumentFragment();
       stats.append(
         stat("Current rating", user.rating == null ? "Unrated" : String(user.rating)),

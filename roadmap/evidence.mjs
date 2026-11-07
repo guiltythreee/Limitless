@@ -12,6 +12,8 @@ import { readManual } from "./manual.mjs";
 export const EVIDENCE_KINDS = new Set([
   "manual-check",
   "manual-number",
+  "codeforces-rating",
+  "competition-problems",
   "probability-pathway",
   "competition-subject",
   "course-coverage",
@@ -23,12 +25,14 @@ export const EVIDENCE_KINDS = new Set([
 export const STORAGE_KEYS = Object.freeze({
   probability: "hc3-progress-v3",
   competition: "limitless.competition.regional-qualification.v1",
+  accounts: "limitless.competition.linked-accounts.v1",
   mathRuns: "limitless.math.v1.runs",
 });
 
 const isRecord = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
 const clamp01 = (value) => (Number.isFinite(value) ? Math.min(1, Math.max(0, value)) : 0);
 const pct = (value) => `${Math.round(value * 100)}%`;
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
 /** Parse one payload. status: "missing" | "ok" | "invalid". Never writes. */
 function readPayload(storage, key, expect = "object") {
@@ -45,6 +49,13 @@ function readPayload(storage, key, expect = "object") {
 }
 
 const unknown = (detail) => ({ fraction: 0, known: false, detail });
+
+/** Progress toward a numeric target. Reaching the target is exactly 1; below it scales from `start`. */
+function numberFraction(value, start, target) {
+  if (value >= target) return 1;
+  const span = target - start;
+  return span > 0 ? clamp01((value - start) / span) : 0;
+}
 
 /**
  * @param options.storage     object with getItem(key)
@@ -67,15 +78,73 @@ export function createEvidenceReader({ storage, catalog, readLevel = () => null 
       const value = manual[node.id]?.value;
       const suffix = unit ? ` ${unit}` : "";
       if (value === null || value === undefined) {
-        return { fraction: 0, known: true, detail: `No ${label.toLowerCase()} logged yet. Target ${target}${suffix}.` };
+        return { fraction: 0, known: true, source: "manual", detail: `No ${label.toLowerCase()} logged yet. Target ${target}${suffix}.` };
       }
-      const span = target - start;
-      const fraction = span > 0 ? clamp01((value - start) / span) : value >= target ? 1 : 0;
       return {
-        fraction: value >= target ? 1 : fraction,
+        fraction: numberFraction(value, start, target),
         known: true,
         doing: true,
+        source: "manual",
         detail: `${label}: ${value}${suffix}. Target ${target}${suffix}.`,
+      };
+    },
+
+    // Reads the rating the Regional Qualification page cached from the Codeforces API.
+    // Uses the PEAK rating: it is the number people cite, and it cannot fall after a bad contest.
+    // With no usable cache (not linked yet, offline, different handle) it falls back to a typed value.
+    "codeforces-rating": (node) => {
+      const { label = "Codeforces rating", start = 0, target } = node.evidence;
+      const accounts = readPayload(storage, STORAGE_KEYS.accounts);
+      const root = accounts.status === "ok" ? accounts.value : {};
+      const snap = root.codeforcesSnapshot;
+      const sameHandle = isRecord(snap) && typeof snap.handle === "string" && typeof root.codeforcesHandle === "string" &&
+        snap.handle.toLowerCase() === root.codeforcesHandle.toLowerCase();
+      if (sameHandle) {
+        if (typeof snap.maxRating !== "number") {
+          return { fraction: 0, known: true, source: "linked", detail: `Your linked Codeforces account (${snap.handle}) is unrated so far. Target ${target}.` };
+        }
+        const when = Number.isFinite(snap.fetchedAt) ? ` Checked ${new Date(snap.fetchedAt).toLocaleDateString()}.` : "";
+        const current = typeof snap.rating === "number" && snap.rating !== snap.maxRating ? ` (current ${snap.rating})` : "";
+        return {
+          fraction: numberFraction(snap.maxRating, start, target),
+          known: true,
+          doing: true,
+          source: "linked",
+          detail: `Peak rating ${snap.maxRating}${current} on ${snap.handle}.${when} Target ${target}.`,
+        };
+      }
+      const value = manual[node.id]?.value;
+      const hint = " Open Regional Qualification once with internet access to fill this in automatically.";
+      if (value === null || value === undefined) {
+        return { fraction: 0, known: true, source: "manual", detail: `No ${label.toLowerCase()} yet. Target ${target}.${hint}` };
+      }
+      return {
+        fraction: numberFraction(value, start, target),
+        known: true,
+        doing: true,
+        source: "manual",
+        detail: `${label}: ${value} (entered by you). Target ${target}.${hint}`,
+      };
+    },
+
+    // Counts problems recorded in the Regional Qualification problem review with a given first-attempt result.
+    // Entries saved before that field was recorded have no result, so they are reported but never counted.
+    "competition-problems": (node) => {
+      const { minCount, outcomes = ["independent"] } = node.evidence;
+      const payload = readPayload(storage, STORAGE_KEYS.competition);
+      if (payload.status === "invalid") return unknown("Competition progress could not be read");
+      const log = payload.status === "ok" ? payload.value.problemLog : [];
+      if (log !== undefined && !Array.isArray(log)) return unknown("Competition problem log could not be read");
+      const entries = (log ?? []).filter(isRecord);
+      const counted = entries.filter((entry) => outcomes.includes(entry.outcome)).length;
+      const legacy = entries.filter((entry) => entry.outcome === undefined).length;
+      const note = legacy ? ` ${plural(legacy, "older entry", "older entries")} without a recorded result ${legacy === 1 ? "is" : "are"} not counted.` : "";
+      return {
+        fraction: clamp01(counted / minCount),
+        known: true,
+        doing: counted > 0,
+        source: "linked",
+        detail: `${counted} of ${minCount} problems logged as solved independently.${note}`,
       };
     },
 

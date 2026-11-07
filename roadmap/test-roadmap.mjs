@@ -277,6 +277,66 @@ test("manual nodes drive status: logged number starts a node, done tick finishes
   assert.equal(result.nodes.get("q-project").status, STATUS.READY, "python done unlocks the project");
 });
 
+// ---------- Regional Qualification integrations ----------
+test("Codeforces: linked peak rating wins over a typed value, and says where it came from", () => {
+  const node = NODES.find((n) => n.id === "q-cf-1200"); // start 1000, target 1200
+  const accounts = { codeforcesHandle: "Me", codeforcesSnapshot: { handle: "me", rating: 1090, maxRating: 1150, contests: 4, fetchedAt: 1 } };
+  const storage = memoryStorage({ [STORAGE_KEYS.accounts]: accounts });
+  setManualValue(storage, "q-cf-1200", 1010); // stale typed number must be ignored while a snapshot exists
+  const result = createEvidenceReader({ storage, catalog })(node);
+  assert.ok(Math.abs(result.fraction - 0.75) < 1e-9, `got ${result.fraction}`);
+  assert.equal(result.source, "linked");
+  assert.match(result.detail, /Peak rating 1150 \(current 1090\)/);
+});
+
+test("Codeforces: unrated account, mismatched handle, and missing/broken data fall back safely", () => {
+  const node = NODES.find((n) => n.id === "q-cf-1200");
+  const run = (accounts, typed) => {
+    const storage = memoryStorage(accounts === undefined ? {} : { [STORAGE_KEYS.accounts]: accounts });
+    if (typed !== undefined) setManualValue(storage, "q-cf-1200", typed);
+    return createEvidenceReader({ storage, catalog })(node);
+  };
+  let r = run({ codeforcesHandle: "me", codeforcesSnapshot: { handle: "me", rating: null, maxRating: null } });
+  assert.equal(r.fraction, 0); assert.equal(r.known, true); assert.equal(r.source, "linked");
+
+  // The user switched handle after the snapshot was taken: the snapshot describes a different person.
+  r = run({ codeforcesHandle: "someone-else", codeforcesSnapshot: { handle: "me", rating: 1400, maxRating: 1400 } }, 1100);
+  assert.equal(r.source, "manual"); assert.ok(Math.abs(r.fraction - 0.5) < 1e-9);
+
+  r = run(undefined, 1200); assert.equal(r.fraction, 1); assert.equal(r.source, "manual");
+  r = run(undefined); assert.equal(r.fraction, 0); assert.equal(r.known, true);
+  r = run("{broken", 1100); assert.equal(r.source, "manual", "bad accounts JSON falls back to the typed value");
+  r = run({ codeforcesHandle: "me", codeforcesSnapshot: "nope" }); assert.equal(r.source, "manual");
+});
+
+test("Problem log: counts only independent solves; older entries without a result are reported, not counted", () => {
+  const node = NODES.find((n) => n.id === "q-problems-independent"); // 25 independent
+  const log = [
+    ...Array.from({ length: 10 }, (_, i) => ({ id: `a${i}`, outcome: "independent" })),
+    { id: "h", outcome: "hint" }, { id: "e", outcome: "editorial" }, { id: "u", outcome: "unsolved" },
+    { id: "old1" }, { id: "old2" },   // saved before the form's result was recorded
+    "not-an-object", null,
+  ];
+  const storage = memoryStorage({ [STORAGE_KEYS.competition]: { problemLog: log } });
+  const result = createEvidenceReader({ storage, catalog })(node);
+  assert.ok(Math.abs(result.fraction - 10 / 25) < 1e-9);
+  assert.match(result.detail, /10 of 25/);
+  assert.match(result.detail, /2 older entries without a recorded result are not counted/);
+
+  assert.equal(createEvidenceReader({ storage: memoryStorage(), catalog })(node).fraction, 0);
+  assert.equal(createEvidenceReader({ storage: memoryStorage({ [STORAGE_KEYS.competition]: { problemLog: "x" } }), catalog })(node).known, false);
+  assert.equal(createEvidenceReader({ storage: memoryStorage({ [STORAGE_KEYS.competition]: "{bad" }), catalog })(node).known, false);
+});
+
+test("the engine passes the evidence source through to the page", () => {
+  const roadmap = {
+    tracks: [{ id: "t", title: "T", goal: "", stages: [{ id: "s", targetDate: null }] }],
+    nodes: [{ id: "a", track: "t", stage: "s", title: "A", evidence: { kind: "x" }, prereqs: [] }],
+  };
+  const result = evaluateRoadmap(roadmap, () => ({ fraction: 0.2, known: true, detail: "", source: "linked" }), TODAY);
+  assert.equal(result.nodes.get("a").source, "linked");
+});
+
 // ---------- whole-map behaviour ----------
 test("reading evidence never writes to storage", () => {
   const storage = memoryStorage({
@@ -305,6 +365,8 @@ test("a fully completed browser marks every node done and every stage done", () 
   seed[STORAGE_KEYS.probability] = { completed: [...new Set(Object.values(catalog.probability.pathways).flat())] };
   seed[STORAGE_KEYS.competition] = { mastery: Object.fromEntries(Object.values(catalog.competition.subjects).flat().map((k) => [k, "mastered"])) };
   seed[STORAGE_KEYS.mathRuns] = [{ mode: "test80", correct: 80, accuracy: 1 }];
+  seed[STORAGE_KEYS.accounts] = { codeforcesHandle: "me", codeforcesSnapshot: { handle: "me", rating: 1450, maxRating: 1500, contests: 9, fetchedAt: 1 } };
+  seed[STORAGE_KEYS.competition].problemLog = Array.from({ length: 25 }, (_, i) => ({ id: String(i), outcome: "independent" }));
   for (const course of ["mt201", "mt202"]) {
     const info = catalog.courses[course];
     const answered = {};

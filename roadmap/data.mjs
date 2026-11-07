@@ -8,6 +8,8 @@
 // Evidence kinds (see evidence.mjs for exact behaviour):
 //   manual-check         you tick it yourself (todo / doing / done)
 //   manual-number        you log a number; { label, unit, start, target }
+//   codeforces-rating    peak rating cached from your linked Codeforces handle (falls back to a typed number); { label, start, target }
+//   competition-problems problems logged in Regional Qualification with a first-attempt result; { minCount, outcomes }
 //   probability-pathway  lessons completed in a Probability pathway; { pathway, minFraction }
 //   competition-subject  competition topics marked "mastered"; { subject | "all", weeks: [from, to], minFraction }
 //   course-coverage      MT201–MT203 questions answered correctly; { course, minFraction }
@@ -69,10 +71,11 @@ export const NODES = [
   // ================= QUANT · Foundations =================
   n("quant", "quant-foundations", "q-cf-1200", "Codeforces rating 1200",
     "A reliable signal that you can turn an idea into correct C++ under time pressure.",
-    manualNumber("Codeforces rating", "", 1000, 1200), { weight: 2 }),
-  n("quant", "quant-foundations", "q-easy-solved", "Solve 25 easy problems without hints",
-    "Volume on problems rated about 800–1000 builds the implementation speed everything else relies on.",
-    manualNumber("Problems solved", "", 0, 25)),
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 1000, target: 1200 }, { weight: 2 }),
+  n("quant", "quant-foundations", "q-problems-independent", "Log 25 problems you solved independently",
+    "Problems cracked without a hint, recorded in the Regional Qualification problem review. This builds the speed and pattern recognition everything else relies on.",
+    { kind: "competition-problems", minCount: 25, outcomes: ["independent"] },
+    { href: "../competition/#problem-review" }),
   n("quant", "quant-foundations", "q-comp-foundations", "Campaign weeks 1–4 mastered",
     "Logic, counting, probability, graphs, DP and coding basics from your 16-week plan.",
     { kind: "competition-subject", subject: "all", weeks: [1, 4], minFraction: 0.75 },
@@ -97,7 +100,7 @@ export const NODES = [
     { weight: 2, href: "../probability/studies/", prereqs: ["q-prob-foundations-start"] }),
   n("quant", "quant-core", "q-cf-1300", "Codeforces rating 1300",
     "Steady progress past the first plateau; mostly div2 B/C problems.",
-    manualNumber("Codeforces rating", "", 1200, 1300), { prereqs: ["q-cf-1200"] }),
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 1200, target: 1300 }, { prereqs: ["q-cf-1200"] }),
   n("quant", "quant-core", "q-mental-60", "80-in-8 arithmetic: 60 correct",
     "A competitive arithmetic score with high accuracy.",
     { kind: "math-test80", minCorrect: 60, minAccuracy: 0.9 },
@@ -131,7 +134,7 @@ export const NODES = [
     { href: "../probability/studies/", prereqs: ["q-prob-foundations"] }),
   n("quant", "quant-depth", "q-cf-1400", "Codeforces rating 1400",
     "A visible credential for applications and a sign your problem solving transfers.",
-    manualNumber("Codeforces rating", "", 1300, 1400), { prereqs: ["q-cf-1300"] }),
+    { kind: "codeforces-rating", label: "Codeforces rating", start: 1300, target: 1400 }, { prereqs: ["q-cf-1300"] }),
   n("quant", "quant-depth", "q-iicpc", "Take part in IICPC / CodeFest",
     "A recognised contest result strengthens a quant application. Check the real dates when announced.",
     check, { prereqs: ["q-cf-1300"] }),

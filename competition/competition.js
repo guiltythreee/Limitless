@@ -490,6 +490,7 @@
       ' This projection assumes the mock cohort is representative; it is not a guaranteed selection result.</span>';
   }
 
+  var OUTCOME_LABELS = { independent:'Solved independently', hint:'Solved after a hint', editorial:'Solved after reading the editorial', unsolved:'Not solved yet' };
   function renderProblemHistory() {
     var rows = state.problemLog.slice().reverse();
     $('problem-history').innerHTML = rows.length ? rows.map(function (problem) {
@@ -499,6 +500,7 @@
         (problem.missed ? '<p><b>Missed insight:</b> ' + esc(problem.missed) + '</p>' : '') +
         (problem.concept ? '<p><b>Underlying concept:</b> ' + esc(problem.concept) + '</p>' : '') +
         (problem.approach ? '<p><b>Solution reasoning:</b> ' + esc(problem.approach) + '</p>' : '') +
+        (OUTCOME_LABELS[problem.outcome] ? '<p><b>First attempt:</b> ' + OUTCOME_LABELS[problem.outcome] + (typeof problem.minutes === 'number' && problem.minutes > 0 ? ' · ' + problem.minutes + ' min' : '') + '</p>' : '') +
         '<p><b>Independent re-solve:</b> ' + (problem.resolve === 'yes' ? 'Yes' : problem.resolve === 'no' ? 'Not yet' : 'Not tested') + '</p></article>';
     }).join('') : '<p class="empty-state">No problem reviews recorded yet.</p>';
     $('problem-history').querySelectorAll('[data-delete-problem]').forEach(function (button) {
@@ -586,7 +588,10 @@
         missed:$('problem-missed').value.trim(),
         concept:$('problem-concept').value.trim(),
         approach:$('problem-approach').value.trim(),
-        resolve:$('problem-resolve-status').value
+        resolve:$('problem-resolve-status').value,
+        // Collected by the form but previously discarded. Older entries simply lack these fields.
+        outcome:$('problem-outcome').value,
+        minutes:$('problem-time').value === '' ? null : Math.max(0, Number($('problem-time').value) || 0)
       });
       $('problem-form').reset();
       saveAndRender();

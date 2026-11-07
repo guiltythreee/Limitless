@@ -257,7 +257,8 @@ function renderNode(m) {
   title.dataset.focusKey = `title:${node.id}`;
   title.setAttribute("aria-expanded", String(selected));
   title.addEventListener("click", () => { selectedId = selected ? null : node.id; render(); });
-  const state = el("div", "rm-node-state", m.status === STATUS.DONE ? STATUS_LABEL.done : `${STATUS_LABEL[m.status]}${m.fraction > 0 ? ` · ${pctText(m.fraction)}` : ""}`);
+  const sourceNote = m.source === "linked" ? " · from your linked data" : "";
+  const state = el("div", "rm-node-state", (m.status === STATUS.DONE ? STATUS_LABEL.done : `${STATUS_LABEL[m.status]}${m.fraction > 0 ? ` · ${pctText(m.fraction)}` : ""}`) + sourceNote);
   heading.append(title, state);
   top.append(dot, heading);
   card.append(top);
@@ -277,7 +278,10 @@ function renderNode(m) {
   card.append(el("p", `rm-node-detail${m.known ? "" : " rm-unknown"}`, m.detail));
 
   if (node.evidence.kind === "manual-check") card.append(manualCheckControl(node));
-  if (node.evidence.kind === "manual-number") card.append(manualNumberControl(node));
+  // A typed number is offered when the value is yours to report. A linked Codeforces rating needs no box.
+  if (node.evidence.kind === "manual-number" || (node.evidence.kind === "codeforces-rating" && m.source === "manual")) {
+    card.append(manualNumberControl(node));
+  }
 
   if (selected) {
     const expand = el("div", "rm-expand");

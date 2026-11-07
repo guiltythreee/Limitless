@@ -6,7 +6,7 @@
 //   track    an ordered list of stages that serves one goal (e.g. the quant internship).
 //   evidence how a node's progress is measured. The engine never reads storage;
 //            it is handed an `evaluate(node)` function that returns
-//            { fraction: 0..1, known: boolean, detail: string, doing?: boolean }.
+//            { fraction: 0..1, known: boolean, detail: string, doing?: boolean, source?: string }.
 //
 // Status rules (the whole model in four lines):
 //   done    fraction >= 1
@@ -129,8 +129,8 @@ export function evaluateRoadmap(roadmap, evaluate, today = localDateKey()) {
     let result;
     try { result = evaluate(node); } catch { result = null; }
     raw.set(node.id, result && typeof result === "object"
-      ? { fraction: clamp01(result.fraction), known: result.known !== false, detail: String(result.detail ?? ""), doing: !!result.doing }
-      : { fraction: 0, known: false, detail: "Could not read progress", doing: false });
+      ? { fraction: clamp01(result.fraction), known: result.known !== false, detail: String(result.detail ?? ""), doing: !!result.doing, source: result.source ?? null }
+      : { fraction: 0, known: false, detail: "Could not read progress", doing: false, source: null });
   }
 
   // Pass 2: status needs prerequisite completion, so it is computed after pass 1.
