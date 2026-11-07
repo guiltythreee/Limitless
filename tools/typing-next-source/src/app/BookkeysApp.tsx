@@ -297,8 +297,7 @@ export default function BookkeysApp() {
     setSettings({
       ...savedSettings,
       bg: initialTheme,
-      readerBackground: savedSettings.readerBackground === "gothic" || savedSettings.readerBackground === "garden"
-        ? savedSettings.readerBackground : "none",
+      readerBackground: isReaderBackgroundId(savedSettings.readerBackground) ? savedSettings.readerBackground : "none",
     });
     setTheme(initialTheme);
     setThemeReady(true);
