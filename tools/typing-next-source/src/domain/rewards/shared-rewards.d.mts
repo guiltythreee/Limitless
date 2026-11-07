@@ -52,4 +52,19 @@ export function buildRewardRecords(
   priorRecords?: readonly RewardRecord[],
 ): RewardRecord[];
 export function sanitiseRewardRecords(raw: unknown): RewardRecord[];
+export interface GlobalRewardSummary {
+  readonly totalExp: number;
+  readonly awardCount: number;
+  readonly recordCount: number;
+  readonly level: {
+    readonly level: number;
+    readonly currentLevelStart: number;
+    readonly nextLevelAt: number;
+    readonly xpIntoLevel: number;
+    readonly xpForNextLevel: number;
+    readonly xpToNextLevel: number;
+    readonly progressPct: number;
+  };
+}
+export function readGlobalRewardSummary(storage: { getItem(key: string): string | null }): GlobalRewardSummary;
 export function dispatchRewardUpdate(): void;
