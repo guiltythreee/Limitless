@@ -6,6 +6,7 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const match = url.pathname.match(/^\/api\/cses-profile\/(\d+)\/?$/);
+    if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
     if (request.method !== "GET" || !match) {
       return new Response("Not found", { status: 404 });
     }
