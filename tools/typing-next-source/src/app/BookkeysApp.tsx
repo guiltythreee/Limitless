@@ -222,8 +222,8 @@ async function parseBook(
 export default function BookkeysApp() {
   const [database, setDatabase] = useState<BookkeysDatabase | null>(null);
   const [library, setLibrary] = useState<LibraryEntry[]>([]);
-  const [shelves, setShelves] = useState<BookkeysShelf[]>([{ id: "default", name: "Library" }]);
-  const [selectedShelf, setSelectedShelf] = useState("default");
+  const [shelves, setShelves] = useState<BookkeysShelf[]>([{ id: "main", name: "Library" }]);
+  const [selectedShelf, setSelectedShelf] = useState("main");
   const [libraryQuery, setLibraryQuery] = useState("");
   const [librarySort, setLibrarySort] = useState<BookkeysLibrarySort>("recent");
   const [book, setBook] = useState<ReaderBook | null>(null);
@@ -680,18 +680,18 @@ export default function BookkeysApp() {
   }
 
   async function removeShelf() {
-    if (!database || selectedShelf === "default") return;
+    if (!database || selectedShelf === "main") return;
     const current = shelves.find((shelf) => shelf.id === selectedShelf);
     if (!window.confirm("Delete " + (current?.name ?? "this shelf") + " and move its books to Library?")) return;
     setBusy(true);
     try {
       for (const entry of library.filter((item) => item.shelf === selectedShelf)) {
         const file = await database.getFile(entry.id);
-        if (file) await database.putBook({ ...entry, shelf: "default" }, file);
+        if (file) await database.putBook({ ...entry, shelf: "main" }, file);
       }
       setLibrary(await database.listMetadata());
       persistShelves(deleteShelf(shelves, selectedShelf));
-      setSelectedShelf("default");
+      setSelectedShelf("main");
       setStatus("Shelf deleted. Its books were moved to Library.");
     } catch {
       setStatus("Could not move every book out of that shelf.");
