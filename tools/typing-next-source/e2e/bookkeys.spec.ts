@@ -97,13 +97,14 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   expect(source!.length).toBeGreaterThan(150);
   await page.locator("#bk-typing").fill(source!);
 
-  await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
   await expect(page.locator(".bk-reader-meta")).toContainText("1/1 required complete");
   await expect.poll(async () => page.evaluate(() => {
     const value = localStorage.getItem("bookkeys-lsr1-v1");
     return value ? JSON.parse(value).rewardLedger?.length ?? 0 : 0;
   })).toBe(1);
 
+  await page.getByRole("button", { name: /Library/ }).click();
+  await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
   await page.reload();
   await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
   await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
