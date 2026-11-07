@@ -85,10 +85,33 @@ function boot(seed, options = {}) {
   });
   const api = module.exports;
   api.useStore();
-  return { api, storage, events, get writes() { return storage.writeCount(); } };
+  return {
+    api, storage, events,
+    emit(name, event = {}) { for (const listener of listeners) if (listener.name === name) listener.callback(event); },
+    get writes() { return storage.writeCount(); }
+  };
 }
 
 const extension = { owner: "another-module", nested: { schema: 4, flags: ["keep", "all"] } };
+
+{
+  const { api, storage, emit } = boot({
+    "hc3-progress-v3": JSON.stringify({
+      completed: ["lesson-a"], tests: [], attempts: [], rewardLedger: [],
+      bookmarks: [], drafts: {}, goal: 10, goalByDay: {},
+    }),
+  });
+  assert.deepEqual(api.useStore().completed, ["lesson-a"], "initial browser snapshot is loaded");
+  storage.setItem("hc3-progress-v3", JSON.stringify({
+    completed: ["lesson-b"], tests: [], attempts: [], rewardLedger: [],
+    bookmarks: ["lesson-b:0"], drafts: {}, goal: 12, goalByDay: {},
+  }));
+  emit("limitless:cloud-sync-hydrated", { detail: { userId: "account-b" } });
+  const hydrated = api.useStore();
+  assert.deepEqual(hydrated.completed, ["lesson-b"], "cloud hydration refreshes the in-memory Probability store");
+  assert.deepEqual(hydrated.bookmarks, ["lesson-b:0"], "cloud bookmarks become visible without a page refresh");
+  assert.equal(hydrated.goal, 12, "cloud daily-goal settings become visible without a page refresh");
+}
 
 {
   const { api, storage, events } = boot({
