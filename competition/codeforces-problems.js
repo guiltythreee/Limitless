@@ -44,7 +44,7 @@
       state.loaded = true;
       populateFilters();
       await loadSolved();
-      status('Loaded ' + state.problems.length.toLocaleString() + ' problems from Codeforces.');
+      status('Loaded ' + state.problems.length.toLocaleString() + ' problems from Codeforces. Solved status checks up to the latest 10,000 submissions.');
       render();
     } catch (error) { status(error.message + ' You can retry; the filters and saved list remain available.'); }
     finally { state.loading = false; $('cf-refresh-problems').disabled = false; }
@@ -71,7 +71,7 @@
     const statusFilter = $('cf-status-filter').value, sort = $('cf-sort').value;
     let rows = state.problems.filter(p => {
       const rating = Number.isFinite(p.rating) ? p.rating : null;
-      if (rating === null || rating < min || rating > max) return false;
+      if (rating === null ? !$('cf-include-unrated').checked : (rating < min || rating > max)) return false;
       if (tags.length && !tags.every(t => (p.tags || []).includes(t))) return false;
       if (category && !categoriesFor(p.tags).includes(category)) return false;
       if (search && !(p.name || '').toLowerCase().includes(search) && !(String(p.contestId) + (p.index || '')).toLowerCase().includes(search)) return false;
@@ -113,7 +113,7 @@
     $('cf-refresh-problems').addEventListener('click', loadProblemset);
     $('cf-refresh-solved').addEventListener('click', async () => { status('Refreshing solved submissions…'); await loadSolved(); render(); });
     $('cf-clear-filters').addEventListener('click', () => {
-      $('cf-rating-min').value = '800'; $('cf-rating-max').value = '3500'; $('cf-search').value = '';
+      $('cf-rating-min').value = '800'; $('cf-rating-max').value = '3500'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
       $('cf-tag-filter').selectedIndex = -1; $('cf-category-filter').value = ''; $('cf-status-filter').value = 'all'; $('cf-sort').value = 'rating-asc'; state.page = 0; render();
     });
   }
