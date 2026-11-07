@@ -26,7 +26,15 @@ assert.equal(P.assessmentValid('unknown', 6, sixCorrect), false, 'unknown phase 
 const record = { base: baseline, post: masteredPost, masteryRewarded: false };
 assert.equal(P.replaceBaseline(record, { ...baseline, med: 8 }), true, 'retake is detected');
 assert.equal(record.post, null, 'retaking baseline invalidates the previous post-test');
+assert.equal(record.practiceSinceBaseline, 0, 'retaking baseline resets the practice requirement');
+assert.equal(P.canTakePostTest(record), false, 'post-test stays locked until practice after the latest baseline');
 assert.equal(P.awardFirstMastery(record), false, 'cannot award mastery while post-test is invalidated');
+record.skipBase = true;
+assert.equal(P.canTakePostTest(record), false, 'skipping baseline does not skip the practice requirement');
+record.practiceSinceBaseline = 1;
+assert.equal(P.canTakePostTest(record), true, 'practice unlocks the post-test');
+record.practiceSinceBaseline = 0;
+record.skipBase = false;
 record.post = masteredPost;
 assert.equal(P.awardFirstMastery(record), true, 'first mastery grants the one-time flag');
 assert.equal(P.awardFirstMastery(record), false, 'mastery reward cannot be repeated');
