@@ -71,5 +71,7 @@ test("preserves custom artwork entries in the original files store", async () =>
   await db.putArtwork("art:gothic", art);
   assert.equal(await db.getArtwork("art:gothic"), art);
   assert.equal(await db.getArtwork("art:missing"), undefined);
+  await db.deleteArtwork("art:gothic");
+  assert.equal(await db.getArtwork("art:gothic"), undefined);
   db.close();
 });

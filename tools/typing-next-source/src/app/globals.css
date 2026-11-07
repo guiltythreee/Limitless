@@ -264,3 +264,23 @@ html[data-theme="light"] .bk-library-search input, html[data-theme="light"] .bk-
   .bk-library-tools { align-items: stretch; flex-direction: column; }
   .bk-library-sort { flex-basis: auto; }
 }
+
+
+.bk-artwork-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 10px;
+}
+.bk-artwork-actions label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  color: var(--bk-muted);
+  font-size: 0.88rem;
+}
+.bk-artwork-actions input[type="file"] {
+  max-width: min(100%, 260px);
+  font: inherit;
+  font-size: 0.82rem;
+}

@@ -24,6 +24,7 @@ export interface BookkeysDatabase {
   deleteBook(id: string): Promise<void>;
   getArtwork(key: string): Promise<string | undefined>;
   putArtwork(key: string, dataUrl: string): Promise<void>;
+  deleteArtwork(key: string): Promise<void>;
 }
 
 export type IndexedDbFactory = Pick<IDBFactory, "open">;
@@ -115,6 +116,12 @@ export async function openBookkeysDatabase(factory: IndexedDbFactory): Promise<B
       const transaction = raw.transaction(BOOKKEYS_FILES_STORE, "readwrite");
       const done = transactionDone(transaction);
       transaction.objectStore(BOOKKEYS_FILES_STORE).put(dataUrl, key);
+      await done;
+    },
+    async deleteArtwork(key) {
+      const transaction = raw.transaction(BOOKKEYS_FILES_STORE, "readwrite");
+      const done = transactionDone(transaction);
+      transaction.objectStore(BOOKKEYS_FILES_STORE).delete(key);
       await done;
     },
   };

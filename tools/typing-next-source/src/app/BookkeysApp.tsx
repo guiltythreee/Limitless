@@ -51,6 +51,32 @@ function safeArtworkDataUrl(value: string | undefined): string | undefined {
   return value && /^data:image\/[a-z0-9.+-]+;base64,[a-z0-9+/=]+$/i.test(value) ? value : undefined;
 }
 
+
+async function resizeArtworkFile(file: File): Promise<string> {
+  if (!file.type.startsWith("image/")) throw new Error("Choose an image file.");
+  if (file.size > 25 * 1024 * 1024) throw new Error("The image is larger than 25 MB.");
+  const source = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("The image could not be read."));
+    reader.onload = () => typeof reader.result === "string" ? resolve(reader.result) : reject(new Error("The image could not be read."));
+    reader.readAsDataURL(file);
+  });
+  const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const element = new Image();
+    element.onerror = () => reject(new Error("The image could not be opened."));
+    element.onload = () => resolve(element);
+    element.src = source;
+  });
+  const scale = Math.min(1, 1600 / image.width, 900 / image.height);
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(image.width * scale));
+  canvas.height = Math.max(1, Math.round(image.height * scale));
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("Image processing is unavailable in this browser.");
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg", 0.78);
+}
+
 function readLegacySize(fallback: number): number {
   try {
     const raw = window.localStorage.getItem("bookkeys:size");
@@ -182,6 +208,8 @@ export default function BookkeysApp() {
   const [pasteText, setPasteText] = useState("");
   const [globalExp, setGlobalExp] = useState(0);
   const [artwork, setArtwork] = useState<{ gothic?: string; garden?: string }>({});
+  const [artworkBusy, setArtworkBusy] = useState<"gothic" | "garden" | null>(null);
+  const [artworkStatus, setArtworkStatus] = useState("");
   const [gameProgress, setGameProgress] = useState<ReturnType<typeof emptyBookkeysGame>>(() => emptyBookkeysGame());
   const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
   const archive = useMemo(() => bookkeysArchiveSummary(gameProgress as Readonly<Record<string, unknown>>), [gameProgress]);
@@ -485,6 +513,43 @@ export default function BookkeysApp() {
       : result.xpAwarded > 0
         ? `Page complete · +${result.xpAwarded} XP · ${result.accuracy.percent}% accuracy`
         : "Page complete · no XP because the typing was too fast.");
+  }
+
+
+  async function saveArtwork(id: "gothic" | "garden", file: File) {
+    if (!database) { setArtworkStatus("Browser storage is unavailable."); return; }
+    setArtworkBusy(id);
+    setArtworkStatus("Processing image…");
+    try {
+      const dataUrl = await resizeArtworkFile(file);
+      await database.putArtwork("art:" + id, dataUrl);
+      setArtwork((current) => ({ ...current, [id]: dataUrl }));
+      setArtworkStatus(id === "gothic" ? "Gothic artwork saved locally." : "Garden artwork saved locally.");
+    } catch (error) {
+      setArtworkStatus(error instanceof Error ? error.message : "The image could not be saved.");
+    } finally {
+      setArtworkBusy(null);
+    }
+  }
+
+  async function removeArtwork(id: "gothic" | "garden") {
+    if (!database) return;
+    setArtworkBusy(id);
+    setArtworkStatus("Removing image…");
+    try {
+      await database.deleteArtwork("art:" + id);
+      setArtwork((current) => {
+        const next = { ...current };
+        delete next[id];
+        return next;
+      });
+      if (settings.readerBackground === id) persistSettings({ ...settings, readerBackground: "none" });
+      setArtworkStatus("Artwork removed from this browser.");
+    } catch {
+      setArtworkStatus("The artwork could not be removed.");
+    } finally {
+      setArtworkBusy(null);
+    }
   }
 
   function persistShelves(next: BookkeysShelf[]) {
@@ -1114,6 +1179,22 @@ export default function BookkeysApp() {
                     <span className="bk-settings-note">No saved Bookkeys artwork was found in this browser.</span>
                   )}
                 </label>
+                <div className="bk-setting">
+                  <span>Custom artwork <small>Stored in this browser, not in backups.</small></span>
+                  <div className="bk-artwork-actions">
+                    <label>Gothic picture
+                      <input type="file" accept="image/*" aria-label="Upload Gothic artwork" disabled={!database || artworkBusy !== null}
+                        onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void saveArtwork("gothic", file); event.currentTarget.value = ""; }} />
+                    </label>
+                    {artwork.gothic && <button type="button" className="bk-quiet" disabled={artworkBusy !== null} onClick={() => void removeArtwork("gothic")}>Remove Gothic</button>}
+                    <label>Garden picture
+                      <input type="file" accept="image/*" aria-label="Upload Garden artwork" disabled={!database || artworkBusy !== null}
+                        onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void saveArtwork("garden", file); event.currentTarget.value = ""; }} />
+                    </label>
+                    {artwork.garden && <button type="button" className="bk-quiet" disabled={artworkBusy !== null} onClick={() => void removeArtwork("garden")}>Remove Garden</button>}
+                  </div>
+                  <span className="bk-settings-note" role="status">{artworkStatus || "Images are resized to at most 1600 × 900 before local storage."}</span>
+                </div>
                 <label className="bk-setting">
                   <span>Reading text size <strong>{settings.size}px</strong></span>
                   <input type="range" min="12" max="28" step="1" value={settings.size}
