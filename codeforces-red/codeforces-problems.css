@@ -96,3 +96,8 @@ html[data-theme="light"] .cf-explorer-actions .action-button,html[data-theme="li
 html[data-theme="light"] .cf-quick-toolbar input,html[data-theme="light"] .cf-quick-toolbar select,html[data-theme="light"] .cf-filter-grid input,html[data-theme="light"] .cf-filter-grid select{background:#fff;color:#243c54;border-color:#c6d6e5}
 @media(max-width:850px){.cr-account{align-items:stretch;flex-direction:column}.cr-account-actions{min-width:0}}
 @media(max-width:520px){.cr-account{padding:16px}.cr-account-actions{align-items:stretch;flex-direction:column}.cr-refresh-button{width:100%}.cf-problem-card{padding:12px}.cf-problem-right{justify-content:flex-start}}
+
+.cf-chip.wrong{color:#f0a0a0;border-color:rgba(221,105,105,.4);background:rgba(170,54,54,.14)}
+.cf-log-problem[aria-pressed="true"]{background:#236342;border-color:#45966a;color:#e2ffed}
+html[data-theme="light"] .cf-chip.wrong{color:#a33131;border-color:#e7bcbc;background:#fff0f0}
+html[data-theme="light"] .cf-log-problem[aria-pressed="true"]{background:#e2f5e9;border-color:#9bcdae;color:#1d6840}
