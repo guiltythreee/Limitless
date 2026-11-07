@@ -28,3 +28,6 @@ html[data-theme="light"] .cf-filter-grid input,html[data-theme="light"] .cf-filt
 html[data-theme="light"] .cf-problem-card { background:rgba(230,241,251,.55); }
 @media(max-width:760px) { .cf-filter-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:480px) { .cf-explorer { padding:13px; }.cf-filter-grid { grid-template-columns:1fr; }.cf-filter-grid .cf-wide { grid-column:auto; }.cf-problem-card { grid-template-columns:1fr; }.cf-problem-right { justify-content:flex-end; } }
+
+.cf-check-label { display:flex; flex-direction:row !important; align-items:center; justify-content:space-between; gap:10px; padding:9px 11px; border:1px solid var(--comp-border); border-radius:7px; background:rgba(75,142,200,.07); }
+.cf-check-label input { width:16px; height:16px; margin:0; accent-color:#69b9ff; }
