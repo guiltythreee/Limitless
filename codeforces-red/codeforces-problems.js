@@ -2,11 +2,12 @@
   'use strict';
   const API = 'https://codeforces.com/api/';
   const STORAGE = 'limitless.competition.codeforces-problemset.v2';
+  const LOG_STORAGE = 'limitless.codeforces.weekly-logged-problems.v1';
   const CACHE_KEY = 'limitless.codeforces-curated-catalogue.v1';
   const CACHE_TTL = 86400000;
   const MAX_PER_RATING = 250;
   const $ = id => document.getElementById(id);
-  const state = { problems: [], solved: new Set(), saved: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
+  const state = { problems: [], solved: new Set(), wrong: new Map(), saved: new Set(), logged: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
   const CATEGORIES = {
     'Implementation & Basics':['implementation','brute force','bitmasks','strings'],
     'Mathematics':['math','number theory','combinatorics','probabilities','geometry','matrices'],
@@ -21,8 +22,14 @@
   function readSaved() {
     try { const x = JSON.parse(localStorage.getItem(STORAGE) || '{}'); state.saved = new Set(Array.isArray(x.saved) ? x.saved : []); }
     catch (_) { state.saved = new Set(); }
+    try { const x=JSON.parse(localStorage.getItem(LOG_STORAGE)||'[]'); state.logged=new Set(Array.isArray(x)?x:[]); } catch (_) { state.logged=new Set(); }
   }
   function persistSaved() { localStorage.setItem(STORAGE, JSON.stringify({ saved:[...state.saved] })); }
+  function persistLogged() { try { localStorage.setItem(LOG_STORAGE,JSON.stringify([...state.logged])); } catch (_) {} }
+  function adjustWeekly(delta) {
+    const button=$(delta>0?'weekly-plus':'weekly-minus');
+    if(button) for(let i=0;i<Math.abs(delta);i++) button.click();
+  }
   function categoriesFor(tags) {
     const lower = (tags || []).map(x => x.toLowerCase());
     const matches = Object.entries(CATEGORIES).filter(([, values]) => lower.some(tag => values.includes(tag))).map(([category]) => category);
@@ -98,8 +105,18 @@
     if (!handle) { status('Catalogue loaded. Add a Codeforces handle above to include your solved status.'); return; }
     try {
       const submissions = await api('user.status', { handle, from:1, count:10000 });
-      state.solved = new Set(submissions.filter(s => s.verdict === 'OK' && s.problem).map(s => (s.problem.contestId || 'gym') + '-' + (s.problem.index || '')));
-    } catch (error) { status('Problem catalogue loaded; solved status unavailable: ' + error.message); }
+      const solved = new Set(), wrong = new Map();
+      submissions.forEach(s => {
+        if (!s.problem || !s.verdict || s.verdict === 'TESTING') return;
+        const key=(s.problem.contestId || 'gym') + '-' + (s.problem.index || '');
+        if (s.verdict === 'OK') solved.add(key);
+        else wrong.set(key,(wrong.get(key)||0)+1);
+      });
+      state.solved=solved;
+      state.wrong=wrong;
+      const attempted=wrong.size, solvedCount=solved.size;
+      status('Synced '+solvedCount.toLocaleString()+' solved problems · '+attempted.toLocaleString()+' problems with failed submissions · latest 10,000 submissions.');
+    } catch (error) { status('Problem catalogue loaded; submission history unavailable: ' + error.message); }
   }
   function populateFilters() {
     const tags = [...new Set(state.problems.flatMap(p => p.tags || []))].sort((a,b) => a.localeCompare(b));
@@ -121,7 +138,8 @@
       if (search && !(p.name || '').toLowerCase().includes(search) && !(String(p.contestId) + (p.index || '')).toLowerCase().includes(search)) return false;
       const key = (p.contestId || 'gym') + '-' + (p.index || '');
       if (statusFilter === 'solved' && !state.solved.has(key)) return false;
-      if (statusFilter === 'unsolved' && state.solved.has(key)) return false;
+      if (statusFilter === 'unsolved' && (state.solved.has(key) || state.wrong.has(key))) return false;
+      if (statusFilter === 'wrong' && !state.wrong.has(key)) return false;
       if (statusFilter === 'saved' && !state.saved.has(key)) return false;
       return true;
     });
@@ -140,13 +158,16 @@
     const slice = rows.slice(state.page * state.pageSize, (state.page + 1) * state.pageSize);
     $('cf-result-count').textContent = rows.length.toLocaleString() + ' matching problems';
     $('cf-problem-list').innerHTML = slice.map(p => {
-      const key = (p.contestId || 'gym') + '-' + (p.index || ''), solved = state.solved.has(key), saved = state.saved.has(key);
+      const key = (p.contestId || 'gym') + '-' + (p.index || ''), solved = state.solved.has(key), wrongCount=state.wrong.get(key)||0, saved = state.saved.has(key), logged=state.logged.has(key);
       const tags = (p.tags || []).map(tag => '<span class="cf-chip">' + esc(tag) + '</span>').join('');
       const ratingLabel = Number.isFinite(p.rating) ? p.rating : 'Unrated';
       const tagsDisclosure = tags ? '<details class="cf-problem-tags"><summary>Tags</summary><div>' + tags + '</div></details>' : '';
       const isGym = Number(p.contestId) >= 100000;
       const url = p.contestId ? (isGym ? 'https://codeforces.com/gym/' + p.contestId + '/problem/' : 'https://codeforces.com/problemset/problem/' + p.contestId + '/') + encodeURIComponent(p.index || '') : 'https://codeforces.com/problemset';
-      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + (solved ? 'solved' : 'unsolved') + '">' + (solved ? 'Solved' : 'Unsolved') + '</span>' + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-log-problem" type="button" data-log-problem="' + esc(key) + '">+1 weekly</button><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
+      const progressLabel=solved?'Solved':wrongCount?'Wrong submissions ('+wrongCount+')':'Unsolved';
+      const progressClass=solved?'solved':wrongCount?'wrong':'unsolved';
+      const wrongBadge=solved&&wrongCount?'<span class="cf-chip wrong">'+wrongCount+' failed before solve</span>':'';
+      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + progressClass + '">' + progressLabel + '</span>' + wrongBadge + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-log-problem" type="button" data-log-problem="' + esc(key) + '" aria-pressed="' + logged + '">' + (logged?'✓ Logged · Undo':'+1 weekly') + '</button><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
     }).join('') || '<p class="cf-empty">No problems match these filters. Try widening the rating range or removing a tag.</p>';
     $('cf-page-label').textContent = 'Page ' + (state.page + 1) + ' of ' + pages;
     $('cf-prev-page').disabled = state.page === 0;
@@ -157,12 +178,11 @@
       persistSaved(); render();
     }));
     $('cf-problem-list').querySelectorAll('[data-log-problem]').forEach(button => button.addEventListener('click', () => {
-      const problem = state.problems.find(p => (p.contestId || 'gym') + '-' + (p.index || '') === button.dataset.logProblem);
-      if (!problem) return;
-      const weeklyPlus = $('weekly-plus');
-      if (weeklyPlus) weeklyPlus.click();
-      button.textContent = 'Logged this week';
-      button.disabled = true;
+      const key=button.dataset.logProblem;
+      if(state.logged.has(key)){state.logged.delete(key);adjustWeekly(-1);}
+      else{state.logged.add(key);adjustWeekly(1);}
+      persistLogged();
+      render();
     }));
   }
   function bindFilters() {
