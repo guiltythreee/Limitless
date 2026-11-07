@@ -19,6 +19,7 @@
   screens.push(todayPanel);
   todayPanel.innerHTML='<div class="card-label">TODAY / THIS WEEK</div><h2 id="today-week-title">This week</h2><div id="today-task-list"></div><a href="#roadmap" class="today-roadmap-link" data-screen-link="roadmap">Open full roadmap →</a>';
   if(overviewGrid)overviewGrid.parentNode.insertBefore(todayPanel,overviewGrid.nextSibling);
+  todayPanel.hidden=initial!=='overview';
   function renderToday(){
     var weekNode=document.querySelector('.week-card[open]')||document.querySelector('.week-card');
     var title=document.getElementById('today-week-title'),list=document.getElementById('today-task-list');
@@ -116,6 +117,7 @@
   loadCF();
   var activity=document.createElement('section');activity.className='recent-activity';activity.setAttribute('data-screen','overview');
   activity.innerHTML='<div class="card-label">RECENT ACTIVITY</div><h2>Recent problem reviews</h2><div id="overview-activity"></div>';
+  screens.push(activity);activity.hidden=initial!=='overview';
   var subject=document.getElementById('subjects');subject.parentNode.insertBefore(activity,subject.nextSibling);
   function refreshActivity(){
     var target=document.getElementById('overview-activity');if(!target)return;
