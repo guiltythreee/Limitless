@@ -1070,7 +1070,7 @@ export default function BookkeysApp() {
                     : settings.readerBackground === "garden" ? artwork.garden : undefined;
                   const safe = safeArtworkDataUrl(selected);
                   const preset = READER_BACKGROUND_PRESETS.find((item) => item.id === settings.readerBackground);
-                  if (preset?.image) return undefined;
+                  if (preset && "image" in preset && preset.image) return undefined;
                   if (safe) return {
                     backgroundImage: `linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("${safe}")`,
                     backgroundSize: "cover",
