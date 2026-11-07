@@ -70,3 +70,57 @@ html[data-theme="light"] .mastery-key small { color:#617991; }
 @media(max-width:1000px) { .competition-shell { width:calc(100% - 270px); margin-left:250px; margin-right:20px; }.competition-sidebar { width:225px; }.competition-nav { padding-left:245px; }.subject-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
 @media(max-width:720px) { .competition-nav { height:auto; min-height:60px; padding:10px 14px; flex-wrap:wrap; }.competition-nav nav { order:3; width:100%; gap:13px; }.competition-sidebar { position:sticky; top:84px; width:100%; height:auto; flex-direction:row; overflow-x:auto; gap:4px; padding:7px 9px; border-right:0; border-bottom:1px solid var(--comp-border); }.competition-sidebar-label,.competition-sidebar-note { display:none; }.competition-side-link { flex:0 0 auto; padding:9px 10px; font-size:10px; }.competition-shell { width:calc(100% - 26px); margin:0 13px; padding-top:20px; }.overview-grid { grid-template-columns:1fr 1fr; }.overview-card:last-child { grid-column:1/-1; }.mastery-key { grid-template-columns:1fr 1fr; }.subject-grid { grid-template-columns:1fr 1fr; } }
 @media(max-width:460px) { .overview-grid,.subject-grid { grid-template-columns:1fr 1fr; }.safety-controls { grid-template-columns:1fr; }.safety-controls .wide-field,.safe-target { grid-column:1; }.campaign-meta { display:grid; grid-template-columns:1fr 1fr; }.competition-heading h1 { font-size:28px; }.section-heading-row { display:block; }.section-heading-row>p { margin-top:8px; }.mastery-key { grid-template-columns:1fr 1fr; } }
+
+
+/* Focused five-screen competition workspace */
+.competition-page { --comp-panel:#0b1726; --comp-border:rgba(112,153,193,.2); --comp-muted:#a9bdd1; }
+.competition-page::before { opacity:.1 !important; }
+.competition-page::after { background:rgba(3,9,17,.78) !important; }
+.background-art { opacity:.12 !important; filter:blur(1px); }
+.competition-shell { padding-top:24px; }
+.competition-heading { padding:20px 24px 18px; border:1px solid var(--comp-border); border-radius:16px; background:#0b1726; }
+.competition-heading .competition-kicker { margin-top:8px; }
+.competition-heading h1 { font-size:clamp(30px,3vw,40px); }
+.competition-lede { font-size:14px; max-width:850px; }
+.campaign-meta { display:none; }
+.overview-grid { margin-top:14px; gap:12px; }
+.overview-card { min-height:120px; background:#0b1726; border-color:var(--comp-border); box-shadow:none; }
+.overview-card p { font-size:12px; line-height:1.5; }
+.metric-line strong { font-size:34px; }
+.metric-line span { font-size:12px; }
+.mastery-key { display:none !important; }
+.section-block { margin-top:24px; }
+.section-heading-row { margin-bottom:16px; }
+.section-heading-row h2 { font-size:20px; }
+.section-heading-row>p { font-size:13px; }
+.subject-grid { grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; }
+.subject-card { background:#0b1726; border:1px solid var(--comp-border); padding:15px; }
+.subject-card p { font-size:12px; }
+.subject-card h3 { font-size:14px; }
+.subject-count,.subject-breakdown { font-size:11px; }
+.competition-sidebar { background:#081321; }
+.competition-side-link { font-size:14px; min-height:44px; }
+.competition-nav { background:#07111e; }
+.settings-card { margin-top:16px; border:1px solid var(--comp-border); border-radius:12px; background:#0b1726; }
+.settings-card>summary { cursor:pointer; padding:15px 18px; color:#e4f0fc; font-size:14px; font-weight:600; list-style:none; }
+.settings-card>summary::-webkit-details-marker { display:none; }
+.settings-card>summary span { color:var(--comp-muted); font-size:12px; font-weight:400; margin-left:12px; }
+.settings-card-content { padding:0 14px 14px; }
+.settings-card .safety-panel { margin:0; }
+[data-screen][hidden] { display:none !important; }
+[data-screen="overview"]#subjects { margin-top:24px; }
+#problem-review .problem-form,#mock-tests .mock-form { display:none; }
+#problem-review .section-heading-row,#mock-tests .section-heading-row { align-items:center; }
+#problem-review .section-heading-row::after,#mock-tests .section-heading-row::after { content:""; }
+.problem-entry,.mock-row { background:#0b1726; border:1px solid var(--comp-border); border-radius:10px; padding:14px; margin-top:9px; }
+.problem-entry-head { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.problem-entry-head strong { font-size:14px; }
+.problem-entry p { font-size:12px; }
+.mock-row { display:grid; grid-template-columns:130px 1fr 120px 1.5fr auto; align-items:center; gap:12px; }
+.resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.resource-card { background:#0b1726; }
+.resource-card p,.resource-card a { font-size:13px; }
+.competition-page :is(p,span,label,small,a,button,input,select) { }
+@media(max-width:1050px) { .subject-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:720px) { .subject-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .mock-row { grid-template-columns:1fr 1fr; } .settings-card>summary span { display:block; margin:5px 0 0; } }
+@media(max-width:460px) { .resource-grid,.subject-grid { grid-template-columns:1fr; } }
