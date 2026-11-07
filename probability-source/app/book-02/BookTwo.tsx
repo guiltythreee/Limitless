@@ -302,6 +302,18 @@ export default function BookTwo() {
   const [error, setError] = useState("");
   const [hydrated, setHydrated] = useState(false);
 
+  const persistProgress = (nextChapter: number, nextCompleted: number[], nextSolutions: boolean) => {
+    try {
+      localStorage.setItem(progressKey, JSON.stringify({
+        chapter: nextChapter,
+        completed: nextCompleted,
+        solutions: nextSolutions,
+      }));
+    } catch {
+      // Keep the reader usable when browser storage is unavailable.
+    }
+  };
+
   useEffect(() => {
     let cancelled = false;
     fetch(base + "/book.json")
@@ -326,27 +338,30 @@ export default function BookTwo() {
   }, []);
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(progressKey) || "{}");
-      if (Number.isInteger(saved.chapter) && saved.chapter >= 1 && saved.chapter <= 13) setChapter(saved.chapter);
-      if (Array.isArray(saved.completed)) {
-        setCompleted(saved.completed.filter((n: unknown) => Number.isInteger(n) && Number(n) >= 1 && Number(n) <= 13));
+    const loadProgress = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(progressKey) || "{}");
+        if (Number.isInteger(saved.chapter) && saved.chapter >= 1 && saved.chapter <= 13) setChapter(saved.chapter);
+        if (Array.isArray(saved.completed)) {
+          setCompleted(saved.completed.filter((n: unknown) => Number.isInteger(n) && Number(n) >= 1 && Number(n) <= 13));
+        }
+        if (typeof saved.solutions === "boolean") setSolutions(saved.solutions);
+      } catch {
+        // Local progress is optional; a malformed value must not block reading.
+      } finally {
+        setHydrated(true);
       }
-      if (typeof saved.solutions === "boolean") setSolutions(saved.solutions);
-    } catch {
-      // Local progress is optional; a malformed value must not block reading.
-    } finally {
-      setHydrated(true);
-    }
+    };
+    loadProgress();
+    window.addEventListener("limitless:cloud-sync-hydrated", loadProgress);
+    return () => window.removeEventListener("limitless:cloud-sync-hydrated", loadProgress);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    try {
-      localStorage.setItem(progressKey, JSON.stringify({ chapter, completed, solutions }));
-    } catch {
-      // The reader remains usable when storage is unavailable.
-    }
+    const sync = (window as Window & { LimitlessCloudSync?: { isReady?: () => boolean } }).LimitlessCloudSync;
+    if (sync?.isReady?.() === false) return;
+    persistProgress(chapter, completed, solutions);
   }, [chapter, completed, solutions, hydrated]);
 
   const selected = catalogue.find((item) => item.id === chapter) ?? fallbackChapters[chapter - 1];
@@ -404,6 +419,7 @@ export default function BookTwo() {
             onClick={() => {
               setChapter(item.id);
               setSolutions(false);
+              persistProgress(item.id, completed, false);
             }}
             aria-current={chapter === item.id ? "page" : undefined}
             className={"border p-4 text-left " + (chapter === item.id ? "border-gold bg-gold/10" : "border-gold/20 hover:border-gold/50")}
@@ -423,21 +439,25 @@ export default function BookTwo() {
         </div>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => setSolutions(false)}
+            onClick={() => { setSolutions(false); persistProgress(chapter, completed, false); }}
             aria-pressed={!solutions}
             className={"border px-4 py-2 text-xs uppercase tracking-widest " + (!solutions ? "border-gold text-gold" : "border-gold/20 text-dim")}
           >
             Textbook
           </button>
           <button
-            onClick={() => setSolutions(true)}
+            onClick={() => { setSolutions(true); persistProgress(chapter, completed, true); }}
             aria-pressed={solutions}
             className={"border px-4 py-2 text-xs uppercase tracking-widest " + (solutions ? "border-gold text-gold" : "border-gold/20 text-dim")}
           >
             Solutions
           </button>
           <button
-            onClick={() => setCompleted((old) => old.includes(chapter) ? old.filter((n) => n !== chapter) : [...old, chapter].sort((a, b) => a - b))}
+            onClick={() => {
+              const next = completed.includes(chapter) ? completed.filter((n) => n !== chapter) : [...completed, chapter].sort((a, b) => a - b);
+              setCompleted(next);
+              persistProgress(chapter, next, solutions);
+            }}
             className="border border-gold/30 px-4 py-2 text-xs text-gold"
           >
             {completed.includes(chapter) ? "✓ Completed" : "Mark complete"}
@@ -464,8 +484,10 @@ export default function BookTwo() {
         <button
           disabled={chapter === 1}
           onClick={() => {
-            setChapter((value) => value - 1);
+            const nextChapter = chapter - 1;
+            setChapter(nextChapter);
             setSolutions(false);
+            persistProgress(nextChapter, completed, false);
           }}
           className="border border-gold/20 px-4 py-2 text-xs text-dim disabled:opacity-30"
         >
@@ -474,8 +496,10 @@ export default function BookTwo() {
         <button
           disabled={chapter === catalogue.length}
           onClick={() => {
-            setChapter((value) => value + 1);
+            const nextChapter = chapter + 1;
+            setChapter(nextChapter);
             setSolutions(false);
+            persistProgress(nextChapter, completed, false);
           }}
           className="border border-gold/30 px-4 py-2 text-xs text-gold disabled:opacity-30"
         >

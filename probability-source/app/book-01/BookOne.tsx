@@ -224,16 +224,25 @@ export default function BookOne() {
   const [sourceView, setSourceView] = useState<"closed" | "questions" | "solutions">("closed");
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
-      setCompleted(Array.isArray(saved.completed) ? saved.completed : []);
-      setRevealed(saved.revealed && typeof saved.revealed === "object" ? saved.revealed : {});
-    } catch { /* Ignore malformed local progress and keep the book usable. */ }
-    setReady(true);
+    const loadProgress = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
+        setCompleted(Array.isArray(saved.completed) ? saved.completed : []);
+        setRevealed(saved.revealed && typeof saved.revealed === "object" ? saved.revealed : {});
+      } catch { /* Ignore malformed local progress and keep the book usable. */ }
+      setReady(true);
+    };
+    loadProgress();
+    // Supabase writes hydrated values through the original Storage methods,
+    // so the reader must reload its component state explicitly.
+    window.addEventListener("limitless:cloud-sync-hydrated", loadProgress);
+    return () => window.removeEventListener("limitless:cloud-sync-hydrated", loadProgress);
   }, []);
 
   useEffect(() => {
     if (!ready) return;
+    const sync = (window as Window & { LimitlessCloudSync?: { isReady?: () => boolean } }).LimitlessCloudSync;
+    if (sync?.isReady?.() === false) return;
     try {
       localStorage.setItem(PROGRESS_KEY, JSON.stringify({ completed, revealed }));
     } catch { /* Progress remains available for this session. */ }
