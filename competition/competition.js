@@ -278,6 +278,8 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       $('storage-note').textContent = 'Saved in this browser · Export a backup to move it to another device';
+      // Same-tab listeners (the Progression Map card) cannot rely on the browser 'storage' event.
+      try { window.dispatchEvent(new Event('limitless:competition-updated')); } catch (_) {}
     } catch (_) {
       $('storage-note').textContent = 'Could not save to browser storage. Export a backup to protect your changes.';
     }

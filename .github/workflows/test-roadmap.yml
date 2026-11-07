@@ -1,0 +1,64 @@
+name: Progression Map Tests
+
+on:
+  pull_request:
+    paths:
+      - "roadmap/**"
+      - "scripts/generate-roadmap-catalog.mjs"
+      - "competition/**"
+      - "probability-source/app/content/**"
+      - "probability-source/app/studies/**"
+      - "metallurgy-source/app/courses/manifests/**"
+      - "metallurgy-source/app/studies/**"
+      - "shared/**"
+      - ".github/workflows/test-roadmap.yml"
+  push:
+    branches: [main]
+    paths:
+      - "roadmap/**"
+      - "scripts/generate-roadmap-catalog.mjs"
+      - "competition/**"
+      - "probability-source/app/content/**"
+      - "probability-source/app/studies/**"
+      - "metallurgy-source/app/courses/manifests/**"
+      - "metallurgy-source/app/studies/**"
+      - "shared/**"
+      - ".github/workflows/test-roadmap.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: roadmap-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Fails if lessons, question chapters or campaign topics changed and the generated file was not refreshed.
+      - name: Roadmap catalogue is current
+        run: >-
+          node --no-warnings --experimental-strip-types
+          --experimental-loader ./shared/learning-player/ts-extension-loader.mjs
+          scripts/generate-roadmap-catalog.mjs
+
+      - name: Roadmap logic, evidence readers and map definition
+        run: node roadmap/test-roadmap.mjs
+
+      - name: Syntax-check page and Competition integration scripts
+        run: >-
+          node --check roadmap/roadmap.js
+          && node --check competition/competition.js
+          && node --check competition/accounts.js
+          && node --check competition/roadmap-card.js

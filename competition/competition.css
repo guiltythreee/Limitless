@@ -230,3 +230,13 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 .topic-resources a:hover { color:var(--comp-ink); }
 .resource-separator { color:var(--comp-muted); }
 @media(max-width:650px) { .topic-resources { font-size:8px; } }
+
+/* Progression Map summary card (filled by roadmap-card.js) */
+.roadmap-card { border:1px solid var(--comp-border); background:var(--comp-panel); padding:20px; margin-top:15px; backdrop-filter:blur(8px); }
+.roadmap-card[hidden] { display:none; }
+.roadmap-card p { color:var(--comp-muted); font:12px/1.6 Arial,sans-serif; margin:12px 0 0; }
+.roadmap-card .roadmap-card-warn { color:#e7a7a7; font-weight:700; }
+html[data-theme="light"] .roadmap-card .roadmap-card-warn { color:#922f2a; }
+.roadmap-card-link { display:inline-block; margin-top:14px; color:var(--comp-accent); font:12px Arial,sans-serif; text-decoration:none; border-bottom:1px solid currentColor; }
+.roadmap-card-link:hover { opacity:.8; }
+.roadmap-card-link:focus-visible { outline:2px solid var(--comp-accent); outline-offset:3px; }

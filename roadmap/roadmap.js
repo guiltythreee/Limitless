@@ -1,10 +1,8 @@
 // Progression Map page. All decisions live in engine.mjs / evidence.mjs; this file only draws them.
 import { ROADMAP } from "./data.mjs";
-import { ROADMAP_CATALOG } from "./catalog.generated.mjs";
-import { STAGE_STATE, STATUS, daysBetween, evaluateRoadmap, localDateKey, validateRoadmap } from "./engine.mjs";
-import { EVIDENCE_KINDS, createEvidenceReader } from "./evidence.mjs";
+import { STAGE_STATE, STATUS, daysBetween, localDateKey } from "./engine.mjs";
+import { definitionErrors, evaluateForStorage } from "./summary.mjs";
 import { readManual, setManualState, setManualValue } from "./manual.mjs";
-import { readGlobalRewardSummary } from "../shared/rewards.mjs";
 
 const byId = (id) => document.getElementById(id);
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -50,11 +48,8 @@ let manual = {};
 
 function compute() {
   const storage = getStorage();
-  let level = null;
-  try { level = readGlobalRewardSummary(storage).level.level; } catch { /* leave null: the level node reads as unknown */ }
   manual = storage ? readManual(storage) : {};
-  const reader = createEvidenceReader({ storage, catalog: ROADMAP_CATALOG, readLevel: () => level });
-  result = evaluateRoadmap(ROADMAP, reader, localDateKey());
+  result = evaluateForStorage(storage, localDateKey());
 }
 
 function setStatus(message) { byId("rm-status").textContent = message; }
@@ -415,7 +410,7 @@ function render() {
 }
 
 function start() {
-  const errors = validateRoadmap(ROADMAP, EVIDENCE_KINDS);
+  const errors = definitionErrors();
   if (errors.length) {
     const box = byId("rm-error");
     box.hidden = false;

@@ -25,6 +25,7 @@
     <nav aria-label="Competition navigation">
       <a href="../">Learning home</a>
       <a href="#dashboard">Dashboard</a>
+      <a href="../roadmap/#quant">Progression Map</a>
     </nav>
     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch theme">Light mode</button>
   </header>
@@ -37,6 +38,7 @@
     <a class="competition-side-link" href="#problem-review"><span>⌘</span> Problem log</a>
     <a class="competition-side-link" href="#mock-tests"><span>♜</span> Mock tests</a>
     <a class="competition-side-link" href="#resources"><span>▤</span> Resources</a>
+    <a class="competition-side-link" href="../roadmap/#quant"><span>✧</span> Progression Map</a>
     <div class="competition-sidebar-note"><span>REGIONALS CAMPAIGN</span><p>Build evidence of independent problem-solving, one week at a time.</p></div>
   </aside>
 
@@ -70,6 +72,9 @@
         <p>Use the roadmap checkpoints to decide whether to advance or revisit a topic.</p>
       </article>
     </section>
+
+    <!-- Filled by roadmap-card.js. Stays hidden if the map cannot be evaluated, so this page never depends on it. -->
+    <section id="roadmap-card" class="roadmap-card" aria-label="Where this campaign fits in your progression map" hidden></section>
 
     <section class="mastery-key" aria-label="Topic mastery definitions">
       <div><span class="status-dot not-started"></span><strong>Not started</strong><small>Not studied yet</small></div>
@@ -217,6 +222,7 @@
   </main>
   <script src="competition.js" defer></script>
   <script src="accounts.js" defer></script>
+  <script type="module" src="roadmap-card.js"></script>
   <link rel="stylesheet" href="accounts.css">
 
   <!-- Limitless account + Supabase foundation -->

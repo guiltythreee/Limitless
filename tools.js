@@ -61,6 +61,9 @@ const TOOLS = [
   { group: "progression", symbol: "✧", name: "Meta Progression",
     desc: "View your global EXP, shared level, registered modules and the versioned Limitless reward standard.",
     href: "meta/", status: "beta" },
+  { group: "progression", symbol: "♜", name: "Progression Map",
+    desc: "A stage-by-stage map from where you are to a quant internship and a strong Metallurgy degree, with live progress from every module.",
+    href: "roadmap/", status: "beta" },
 
   // ---- Reserved slots for future tools ----
   { group: "next", symbol: "✧", name: "Hidden Chamber I",
