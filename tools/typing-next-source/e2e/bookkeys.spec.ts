@@ -341,3 +341,25 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
   await page.getByRole("button", { name: "Edit" }).click();
   await expect(page.locator(".bk-chapter-list")).toContainText("Custom Opening");
 });
+
+test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP total", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("bookkeys:game", JSON.stringify({ xp: 987654, book: {}, paid: {} }));
+  });
+  await page.goto("/tools/typing-next-preview/");
+  const display = page.locator(".bk-xp strong");
+  await expect(display).toHaveText("0");
+
+  const epub = await makeFixtureEpub();
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "reward-ledger-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  await page.locator("#bk-typing").fill(source!);
+  await expect.poll(async () => Number((await display.textContent())?.replace(/,/g, "")))
+    .toBeGreaterThan(0);
+  expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeLessThan(987654);
+});
