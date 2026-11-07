@@ -1047,7 +1047,7 @@ export default function BookkeysApp() {
                 </article>
               ))}
             </div>
-            <p className="bk-settings-note">This archive is read-only in the migration preview. Achievement unlock records are preserved as stored; missing historical records are not recreated automatically.</p>
+            <p className="bk-settings-note">New achievements are awarded when qualifying pages are completed. Existing unlock dates are preserved; achievements already above their threshold in an older save are not retroactively timestamped.</p>
           </section>
         </div>
       )}
