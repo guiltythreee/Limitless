@@ -101,3 +101,49 @@ html[data-theme="light"] .cf-quick-toolbar input,html[data-theme="light"] .cf-qu
 .cf-log-problem[aria-pressed="true"]{background:#236342;border-color:#45966a;color:#e2ffed}
 html[data-theme="light"] .cf-chip.wrong{color:#a33131;border-color:#e7bcbc;background:#fff0f0}
 html[data-theme="light"] .cf-log-problem[aria-pressed="true"]{background:#e2f5e9;border-color:#9bcdae;color:#1d6840}
+
+
+/* Keep the document steady while filters change the number of matching problems.
+   The results have their own scroll area; the filters, count and pagination stay put. */
+#cf-result-count {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+}
+.cf-filter-meta {
+  min-height: 42px;
+  align-items: center;
+}
+#cf-problem-list {
+  height: clamp(360px, 68vh, 620px);
+  min-height: 360px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-content: start;
+  padding: 2px 5px 2px 1px;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+  overflow-anchor: none;
+}
+#cf-problem-list:has(> .cf-empty) {
+  align-content: center;
+}
+#cf-problem-list > .cf-empty {
+  margin: 0;
+  text-align: center;
+}
+.cf-pagination {
+  min-height: 44px;
+}
+@media (max-height: 650px) and (min-width: 651px) {
+  #cf-problem-list {
+    height: 58vh;
+    min-height: 300px;
+  }
+}
+@media (max-width: 650px) {
+  #cf-problem-list {
+    height: min(62vh, 520px);
+    min-height: 300px;
+  }
+}
