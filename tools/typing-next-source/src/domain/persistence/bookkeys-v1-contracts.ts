@@ -62,7 +62,7 @@ export interface BookkeysBookProgress {
 export interface BookkeysGameProgress {
   paid: Record<string, number>;
   check: { key: string; page: number } | null;
-  base: number;
+  base: { n: number; sum: number };
   xp: number;
   words: number;
   chars: number;
@@ -71,7 +71,7 @@ export interface BookkeysGameProgress {
   books: number;
   streak: { cur: number; best: number; last: string };
   day: { d: string; w: number };
-  ach: Record<string, boolean>;
+  ach: Record<string, number | false | null>;
   book: Record<string, BookkeysBookProgress>;
   [extension: string]: unknown;
 }
