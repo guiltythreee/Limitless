@@ -312,3 +312,22 @@ html[data-theme="light"] .bk-library-search input, html[data-theme="light"] .bk-
     background-image: linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("/tools/typing-next-preview/backgrounds/night-mobile.webp");
   }
 }
+
+
+@keyframes bk-bg-aurora { from { background-position: 0% 45%; } to { background-position: 100% 55%; } }
+@keyframes bk-bg-snow { from { background-position: 50% 0%; } to { background-position: 54% 100%; } }
+@keyframes bk-bg-rain { from { background-position: 0% 0%; } to { background-position: -18px 100%; } }
+@keyframes bk-bg-digital { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
+@keyframes bk-bg-nebula { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@keyframes bk-bg-fireflies { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
+@keyframes bk-bg-synthwave { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
+@keyframes bk-bg-mist { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@keyframes bk-bg-candle { from { background-position: 45% 50%; } to { background-position: 55% 50%; } }
+@keyframes bk-bg-hearth { from { background-position: 48% 50%; } to { background-position: 52% 50%; } }
+@keyframes bk-bg-storm { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@keyframes bk-bg-lava { from { background-position: 0% 20%; } to { background-position: 100% 80%; } }
+@keyframes bk-bg-bokeh { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .bk-source-text { animation: none !important; }
+}

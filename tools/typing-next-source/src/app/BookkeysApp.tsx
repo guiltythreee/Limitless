@@ -1076,10 +1076,12 @@ export default function BookkeysApp() {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   };
+                  const motion = preset && "motion" in preset ? preset.motion : undefined;
                   return preset ? {
                     backgroundImage: `linear-gradient(rgba(4, 5, 12, .42), rgba(4, 5, 12, .42)), ${preset.background}`,
-                    backgroundSize: "cover",
+                    backgroundSize: motion ? "180% 180%" : "cover",
                     backgroundPosition: "center",
+                    animation: motion ? `${motion} 28s ease-in-out infinite alternate` : undefined,
                   } : undefined;
                 })()}
               >{target}</article>
