@@ -155,7 +155,19 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
 });
 
-test("theme and reader settings are interactive and persist", async ({ page }) => {
+test("theme and reader settings are interactive and persist without overwriting legacy background preferences", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("bookkeys:settings", JSON.stringify({
+      bg: "pic-night",
+      skin: "sepia",
+      bgMatch: true,
+      size: 20,
+      lineH: 1.7,
+      celebrate: true,
+    }));
+    localStorage.setItem("bookkeys:bgdef1", "1");
+    localStorage.setItem("bookkeys:bgdef2", "1");
+  });
   await page.goto("/tools/typing-next-preview/");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 
@@ -165,6 +177,8 @@ test("theme and reader settings are interactive and persist", async ({ page }) =
   await page.getByRole("button", { name: "Settings" }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
+  await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-night");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").bg)).toBe("pic-night");
 
   const artwork = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#d2ae5c"/></svg>');
   const upload = dialog.getByLabel("Upload Gothic artwork");
@@ -178,6 +192,7 @@ test("theme and reader settings are interactive and persist", async ({ page }) =
   for (let step = 0; step < 5; step += 1) await size.press("ArrowRight");
   await expect(dialog.locator(".bk-setting").filter({ hasText: "Reading text size" })).toContainText("22px");
   await expect.poll(() => page.evaluate(() => localStorage.getItem("bookkeys:size"))).toBe("22");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").bg)).toBe("pic-night");
   await dialog.getByRole("button", { name: "Close Settings" }).click();
 
   await page.reload();
