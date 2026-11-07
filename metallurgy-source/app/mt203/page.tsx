@@ -204,7 +204,7 @@ export default function Mt203() {
           })}
 
           <div className="ch-list" style={{ marginTop: "0.5rem" }}>
-            {UNITS.map((u) => (
+            {view.kind !== "overview" && UNITS.map((u) => (
               <div key={u.id}>
                 <div className="side-group">
                   Module {u.num} · {u.title}
