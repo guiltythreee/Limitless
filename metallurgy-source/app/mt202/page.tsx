@@ -43,6 +43,7 @@ const calculatorTool = MANIFEST.tools.find((t) => t.id === "calculators");
 const Calculators = calculatorTool ? lazy(calculatorTool.load) : null;
 
 type View =
+  | { kind: "overview" }
   | { kind: "study"; ch: string; tab: "lesson" | "quiz"; questionId?: string }
   | { kind: "exam" }
   | { kind: "calc" }
