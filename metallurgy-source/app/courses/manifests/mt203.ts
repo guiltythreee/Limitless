@@ -62,9 +62,9 @@ export const MT203_MANIFEST: CourseManifest = {
       title: "Fundamentals, Classification & Architecture",
       topicIds: ["t1", "t2", "t3", "t4", "t5", "t6", "t7"],
     },
-    { id: "m2", num: 2, title: "Industrial Polymers", topicIds: ["t8", "t9"] },
-    { id: "m3", num: 3, title: "Properties of Polymers", topicIds: ["t10"] },
-    { id: "m4", num: 4, title: "Compounding & Processing", topicIds: ["t11"] },
+    { id: "m2", num: 2, title: "Industrial Polymers", topicIds: ["t8", "t9", "t15"] },
+    { id: "m3", num: 3, title: "Properties of Polymers", topicIds: ["t10", "t12"] },
+    { id: "m4", num: 4, title: "Compounding & Processing", topicIds: ["t11", "t13", "t14"] },
   ],
   topics: [
     { id: "t1", unitId: "m1", num: 1, title: "Fundamentals, Classification & Architecture", count: 32, hasLesson: true },
@@ -76,8 +76,12 @@ export const MT203_MANIFEST: CourseManifest = {
     { id: "t7", unitId: "m1", num: 7, title: "Polymer Chemistry of Proteins", count: 16, hasLesson: true },
     { id: "t8", unitId: "m2", num: 8, title: "Industrial Polymers", count: 30, hasLesson: true },
     { id: "t9", unitId: "m2", num: 9, title: "Blends, Composites & Degradation", count: 24, hasLesson: true },
+    { id: "t15", unitId: "m2", num: 15, title: "Degradation, Biodegradation & Recycling", count: 17, hasLesson: true },
     { id: "t10", unitId: "m3", num: 10, title: "Mechanical & Viscoelastic Properties", count: 28, hasLesson: true },
+    { id: "t12", unitId: "m3", num: 12, title: "Polymer Rheology & Flow Behaviour", count: 26, hasLesson: true },
     { id: "t11", unitId: "m4", num: 11, title: "Compounding & Processing", count: 26, hasLesson: true },
+    { id: "t13", unitId: "m4", num: 13, title: "Rubber Technology & Compounding", count: 34, hasLesson: true },
+    { id: "t14", unitId: "m4", num: 14, title: "Extrusion & Screw Technology", count: 29, hasLesson: true },
   ],
   taxonomy: {
     types: [
