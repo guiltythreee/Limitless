@@ -454,6 +454,11 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
       new Blob([new Uint8Array(bytes)], { type: "application/epub+zip" }),
       id,
     );
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="#30243a"/></svg>';
+    transaction.objectStore("files").put(
+      "data:image/svg+xml;base64," + btoa(svg),
+      "art:gothic",
+    );
     await new Promise<void>((resolve, reject) => {
       transaction.oncomplete = () => resolve();
       transaction.onerror = () => reject(transaction.error);
@@ -469,6 +474,18 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
   await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
   await expect(page.locator(".bk-source-text")).toContainText("browser regression fixture");
   await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 1");
+  await page.getByRole("button", { name: "Settings" }).click();
+  const settings = page.getByRole("dialog", { name: "Settings" });
+  await settings.getByLabel("Reader background").selectOption("gothic");
+  await settings.getByRole("button", { name: "Close Settings" }).click();
+  const background = await page.locator(".bk-source-text").evaluate((element) =>
+    getComputedStyle(element).backgroundImage
+  );
+  expect(background).toContain("data:image/svg+xml;base64");
+
+  await page.reload();
+  await page.getByRole("button", { name: /Existing v1 Book/ }).click();
+  await expect(page.locator(".bk-source-text")).toHaveCSS("background-image", /data:image\/svg\+xml;base64/);
   const version = await page.evaluate(async () => new Promise<number>((resolve, reject) => {
     const request = indexedDB.open("bookkeys-lib");
     request.onsuccess = () => { resolve(request.result.version); request.result.close(); };
