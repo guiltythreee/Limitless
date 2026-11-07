@@ -255,6 +255,7 @@ export default function BookkeysApp() {
   const startedAt = useRef(Date.now());
   const completedThisPage = useRef(false);
   const keyStatsRef = useRef<BookkeysKeyStats>({ ok: 0, all: 0, lastTyped: "" });
+  const composingRef = useRef(false);
   const [keyStats, setKeyStats] = useState({ ok: 0, all: 0 });
 
   // Keep reward verification tied to the actual parsed page content. The
@@ -1098,8 +1099,18 @@ export default function BookkeysApp() {
                 className="bk-typing"
                 value={typed}
                 onChange={(event) => {
-                  const inputType = event.nativeEvent instanceof InputEvent ? event.nativeEvent.inputType : "insertText";
+                  const nativeEvent = event.nativeEvent;
+                  if (composingRef.current || (nativeEvent instanceof InputEvent && nativeEvent.isComposing)) return;
+                  const inputType = nativeEvent instanceof InputEvent ? nativeEvent.inputType : "insertText";
                   onTyping(event.currentTarget.value, inputType);
+                  event.currentTarget.setSelectionRange(event.currentTarget.value.length, event.currentTarget.value.length);
+                }}
+                onCompositionStart={() => {
+                  composingRef.current = true;
+                }}
+                onCompositionEnd={(event) => {
+                  composingRef.current = false;
+                  onTyping(event.currentTarget.value, "insertCompositionText");
                   event.currentTarget.setSelectionRange(event.currentTarget.value.length, event.currentTarget.value.length);
                 }}
                 onPaste={(event) => {
