@@ -162,7 +162,7 @@ test("theme and reader settings are interactive and persist without overwriting 
       bg: "pic-night",
       skin: "sepia",
       bgMatch: true,
-      size: 20,
+      size: 17,
       lineH: 1.7,
       celebrate: true,
     }));
@@ -490,7 +490,7 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
     const id = "pre-existing-library-book";
     transaction.objectStore("meta").put({
       id,
-      shelf: "default",
+      shelf: "main",
       name: "Existing v1 Book",
       size: bytes.length,
       pages: 1,
