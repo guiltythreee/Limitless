@@ -23,10 +23,16 @@ assert.equal(P.assessmentValid('post', 6, sixCorrect.slice(0, 5)), false, 'short
 assert.equal(P.assessmentValid('practice', 10, Array.from({ length: 5 }, () => ({ result: 'wrong' }))), true, 'practice retains its half-sample rule');
 assert.equal(P.assessmentValid('unknown', 6, sixCorrect), false, 'unknown phase is invalid');
 
-const record = { base: baseline, post: masteredPost, masteryRewarded: false };
+const record = { base: baseline, post: masteredPost, practice: 4, practiceSinceBaseline: 2, masteryRewarded: false };
+assert.equal(P.hasPracticeSinceBaseline(record), true, 'practice after the current baseline permits a post-test');
 assert.equal(P.replaceBaseline(record, { ...baseline, med: 8 }), true, 'retake is detected');
 assert.equal(record.post, null, 'retaking baseline invalidates the previous post-test');
+assert.equal(record.practiceSinceBaseline, 0, 'retaking baseline requires fresh practice');
+assert.equal(P.hasPracticeSinceBaseline(record), false, 'old practice cannot unlock a post-test after baseline retake');
 assert.equal(P.awardFirstMastery(record), false, 'cannot award mastery while post-test is invalidated');
+assert.equal(P.recordPractice(record), 1, 'fresh practice is counted after the baseline');
+assert.equal(record.practice, 5, 'cumulative practice count remains preserved');
+assert.equal(P.hasPracticeSinceBaseline(record), true, 'fresh practice unlocks a post-test');
 record.post = masteredPost;
 assert.equal(P.awardFirstMastery(record), true, 'first mastery grants the one-time flag');
 assert.equal(P.awardFirstMastery(record), false, 'mastery reward cannot be repeated');

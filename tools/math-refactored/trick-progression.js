@@ -28,7 +28,19 @@
     var hadBaseline = !!record.base;
     record.base = stat;
     record.post = null;
+    record.practiceSinceBaseline = 0;
     return hadBaseline;
+  }
+
+  function recordPractice(record) {
+    if (!record) return 0;
+    record.practice = (Number.isInteger(record.practice) && record.practice >= 0 ? record.practice : 0) + 1;
+    record.practiceSinceBaseline = (Number.isInteger(record.practiceSinceBaseline) && record.practiceSinceBaseline >= 0 ? record.practiceSinceBaseline : 0) + 1;
+    return record.practiceSinceBaseline;
+  }
+
+  function hasPracticeSinceBaseline(record) {
+    return !!record && Number.isInteger(record.practiceSinceBaseline) && record.practiceSinceBaseline > 0;
   }
 
   function awardFirstMastery(record) {
@@ -46,6 +58,8 @@
     isMastered: isMastered,
     assessmentValid: assessmentValid,
     replaceBaseline: replaceBaseline,
+    recordPractice: recordPractice,
+    hasPracticeSinceBaseline: hasPracticeSinceBaseline,
     awardFirstMastery: awardFirstMastery,
     migrateMasteryReward: migrateMasteryReward
   };
