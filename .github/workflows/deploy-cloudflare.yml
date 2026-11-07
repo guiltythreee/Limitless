@@ -13,12 +13,13 @@ on:
       - "meta/**"
       - "tools.js"
       - ".github/workflows/build-probability.yml"
-  # The Build Probability workflow commits its generated static site with
-  # GITHUB_TOKEN (which does not trigger push workflows). Deploy after it
-  # completes successfully instead.
+  # Build workflows commit generated static sites with GITHUB_TOKEN (which
+  # does not trigger push workflows). Deploy after either build completes
+  # successfully so generated Metallurgy and Probability assets are published.
   workflow_run:
     workflows:
       - "Build Probability"
+      - "Metallurgy Regression Tests"
     types:
       - completed
     branches:
