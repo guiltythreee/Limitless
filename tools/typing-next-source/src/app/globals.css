@@ -183,3 +183,8 @@ html[data-theme="light"] .bk-progress-stat strong { color: #8a652d; }
 html[data-theme="light"] .bk-paste-panel { background: #faf7f0; border-color: #ded6ca; }
 html[data-theme="light"] .bk-paste-panel label { color: #8a652d; }
 html[data-theme="light"] .bk-paste-panel textarea { color: #211d19; background: #fffdf8; border-color: #cfc5b5; }
+
+.bk-source-text { --bk-reader-art-overlay: rgba(11,10,17,.86); background-repeat: no-repeat; }
+.bk-setting select { min-height: 38px; padding: 0 10px; color: #e9dfcf; background: #1a1722; border: 1px solid #494153; border-radius: 3px; }
+html[data-theme="light"] .bk-source-text { --bk-reader-art-overlay: rgba(250,247,240,.88); }
+html[data-theme="light"] .bk-setting select { color: #30281d; background: #f5f0e7; border-color: #cfc5b5; }
