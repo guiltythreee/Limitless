@@ -6,6 +6,8 @@
   var searchableCards = '.shortcut-card, .learning-card, .competition-promo';
   function filterModules() {
     var query = search.value.trim().toLowerCase();
+    var homeMain = document.querySelector('.home-main');
+    if (homeMain) homeMain.classList.toggle('is-searching', !!query);
     document.querySelectorAll(searchableCards).forEach(function (card) {
       card.hidden = !!query && !card.textContent.toLowerCase().includes(query);
     });
