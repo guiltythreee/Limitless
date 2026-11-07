@@ -174,9 +174,9 @@ export default function BookkeysApp() {
   }, []);
 
   useEffect(() => {
-    const refreshBookkeysExp = () => setBookkeysExp(readGlobalExp());
-    refreshBookkeysExp();
-    window.addEventListener("limitless:rewards-updated", refreshBookkeysExp);
+    const refreshGlobalExp = () => setGlobalExp(readGlobalExp());
+    refreshGlobalExp();
+    window.addEventListener("limitless:rewards-updated", refreshGlobalExp);
     return () => window.removeEventListener("limitless:rewards-updated", refreshBookkeysExp);
   }, []);
 
@@ -696,7 +696,7 @@ export default function BookkeysApp() {
           <button className="bk-quiet bk-theme-toggle" onClick={toggleTheme} aria-label="Toggle light and dark theme">
             {theme === "dark" ? "Light mode" : "Dark mode"}
           </button>
-          <div className="bk-xp"><span>Bookkeys EXP</span><strong>{bookkeysExp.toLocaleString()}</strong></div>
+          <div className="bk-xp"><span>Limitless EXP</span><strong>{globalExp.toLocaleString()}</strong></div>
         </div>
       </header>
 
