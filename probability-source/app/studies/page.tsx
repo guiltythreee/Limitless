@@ -56,7 +56,7 @@ export default function ProbabilityStudiesLanding() {
 
       <main className="mx-auto max-w-[1440px] px-5 pb-16 pt-7 md:px-10">
         <nav className="mb-5 flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[.16em] text-dim" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-gold">← Limitless</Link><span>/</span><span>Studies &amp; Disciplines</span><span>/</span><span className="text-gold">Probability</span>
+          <a href="/" className="hover:text-gold">← Limitless</a><span>/</span><span>Studies &amp; Disciplines</span><span>/</span><span className="text-gold">Probability</span>
         </nav>
 
         <section id="overview" className="study-dark-surface relative isolate overflow-hidden border border-gold/25 bg-[linear-gradient(120deg,rgba(39,31,43,.96),rgba(20,16,25,.94))] px-7 py-9 md:px-12 md:py-12">
