@@ -352,7 +352,7 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
   await page.reload();
   await page.getByRole("button", { name: "Continue reading" }).click();
   await page.getByRole("button", { name: "Edit" }).click();
-  await expect(page.locator(".bk-chapter-list")).toContainText("Custom Opening");
+  await expect(page.locator(".bk-chapter-list")).toContainText("Renamed Opening");
 });
 
 test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP total", async ({ page }) => {
