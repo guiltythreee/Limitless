@@ -157,6 +157,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
 
 test("theme and reader settings are interactive and persist without overwriting legacy background preferences", async ({ page }) => {
   await page.addInitScript(() => {
+    if (sessionStorage.getItem("__bookkeysLegacySettingsSeeded")) return;
     localStorage.setItem("bookkeys:settings", JSON.stringify({
       bg: "pic-night",
       skin: "sepia",
@@ -167,6 +168,7 @@ test("theme and reader settings are interactive and persist without overwriting 
     }));
     localStorage.setItem("bookkeys:bgdef1", "1");
     localStorage.setItem("bookkeys:bgdef2", "1");
+    sessionStorage.setItem("__bookkeysLegacySettingsSeeded", "1");
   });
   await page.goto("/tools/typing-next-preview/");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
