@@ -36,6 +36,37 @@ export interface BookkeysGameState {
   readonly [extension: string]: unknown;
 }
 
+
+export interface BookkeysKeyStats {
+  readonly ok: number;
+  readonly all: number;
+  readonly lastTyped: string;
+}
+
+/** Mirrors the legacy reader's key-event accuracy: deletions do not count, retyped characters do. */
+export function updateBookkeysKeyStats(
+  previous: BookkeysKeyStats,
+  target: string,
+  value: string,
+  inputType = "insertText",
+): BookkeysKeyStats {
+  let ok = previous.ok;
+  let all = previous.all;
+  if (!inputType.startsWith("delete") && inputType !== "historyUndo" && inputType !== "historyRedo") {
+    let prefix = 0;
+    while (prefix < previous.lastTyped.length && prefix < value.length &&
+      previous.lastTyped[prefix] === value[prefix]) prefix += 1;
+    let suffix = 0;
+    while (suffix < previous.lastTyped.length - prefix && suffix < value.length - prefix &&
+      previous.lastTyped[previous.lastTyped.length - 1 - suffix] === value[value.length - 1 - suffix]) suffix += 1;
+    for (let index = prefix; index < value.length - suffix; index += 1) {
+      all += 1;
+      if (value[index] === target[index]) ok += 1;
+    }
+  }
+  return { ok, all, lastTyped: value };
+}
+
 export interface PageDraftV1 {
   readonly v: 1;
   readonly page: number;

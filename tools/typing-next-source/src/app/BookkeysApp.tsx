@@ -8,7 +8,7 @@ import type { EpubBlock, EpubChapter } from "../domain/epub/epub-domain";
 import { readPdf } from "../domain/pdf/pdf-importer";
 import { pagesFromText, textFingerprint } from "../domain/text/bookkeys-text-importer";
 import {
-  completeBookkeysPage, createPageDraft, emptyBookkeysGame, typingAccuracy,
+  completeBookkeysPage, createPageDraft, emptyBookkeysGame, typingAccuracy, updateBookkeysKeyStats, type BookkeysKeyStats,
   readPageDraft,
 } from "../domain/reading/bookkeys-reading-session";
 import { createBookkeysRewardAdapter } from "../domain/rewards/bookkeys-reward-adapter";
@@ -189,7 +189,7 @@ export default function BookkeysApp() {
   const backupInput = useRef<HTMLInputElement>(null);
   const startedAt = useRef(Date.now());
   const completedThisPage = useRef(false);
-  const keyStatsRef = useRef({ ok: 0, all: 0, lastTyped: "" });
+  const keyStatsRef = useRef<BookkeysKeyStats>({ ok: 0, all: 0, lastTyped: "" });
   const [keyStats, setKeyStats] = useState({ ok: 0, all: 0 });
 
   // Keep reward verification tied to the actual parsed page content. The
@@ -432,9 +432,12 @@ export default function BookkeysApp() {
     }
   }
 
-  function onTyping(value: string) {
+  function onTyping(value: string, inputType = "insertText") {
     setTyped(value);
     if (!book) return;
+    const nextKeys = updateBookkeysKeyStats(keyStatsRef.current, target, value, inputType);
+    keyStatsRef.current = nextKeys;
+    setKeyStats({ ok: nextKeys.ok, all: nextKeys.all });
     if (book.isSample) {
       if (!completedThisPage.current && target.length > 0 && value.length >= target.length) {
         completedThisPage.current = true;
@@ -442,17 +445,6 @@ export default function BookkeysApp() {
       }
       return;
     }
-    const priorKeys = keyStatsRef.current;
-    let keyOk = priorKeys.ok;
-    let keyAll = priorKeys.all;
-    if (value.length >= priorKeys.lastTyped.length) {
-      for (let index = priorKeys.lastTyped.length; index < value.length; index += 1) {
-        keyAll += 1;
-        if (value[index] === target[index]) keyOk += 1;
-      }
-    }
-    keyStatsRef.current = { ok: keyOk, all: keyAll, lastTyped: value };
-    setKeyStats({ ok: keyOk, all: keyAll });
     try {
       const draft = createPageDraft(pageIndex, target, value, startedAt.current, Date.now(), keyStatsRef.current);
       window.localStorage.setItem(typingDraftKey(book.bookKey, pageIndex), JSON.stringify(draft));
@@ -987,7 +979,22 @@ export default function BookkeysApp() {
                 id="bk-typing"
                 className="bk-typing"
                 value={typed}
-                onChange={(event) => onTyping(event.currentTarget.value)}
+                onChange={(event) => {
+                  const inputType = event.nativeEvent instanceof InputEvent ? event.nativeEvent.inputType : "insertText";
+                  onTyping(event.currentTarget.value, inputType);
+                  event.currentTarget.setSelectionRange(event.currentTarget.value.length, event.currentTarget.value.length);
+                }}
+                onPaste={(event) => {
+                  if (event.clipboardData.getData("text").length > 1) {
+                    event.preventDefault();
+                    setStatus("Pasted text does not count. Type the section a character at a time.");
+                  }
+                }}
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  setStatus("Dropped text does not count. Type the section a character at a time.");
+                }}
                 placeholder="Start typing here…"
                 spellCheck={false}
                 autoCapitalize="off"

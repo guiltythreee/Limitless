@@ -192,3 +192,21 @@ test("completed pages use key-event accuracy while retaining final-text characte
   assert.equal(result.game.perfect, 0);
   assert.deepEqual(result.game.book?.["event-accuracy"]?.x, []);
 });
+
+
+test("key-event accuracy counts inserted characters, ignores deletions and counts retyping", () => {
+  let stats = { ok: 0, all: 0, lastTyped: "" };
+  stats = updateBookkeysKeyStats(stats, "abc", "ax");
+  assert.deepEqual(stats, { ok: 1, all: 2, lastTyped: "ax" });
+  stats = updateBookkeysKeyStats(stats, "abc", "a", "deleteContentBackward");
+  assert.deepEqual(stats, { ok: 1, all: 2, lastTyped: "a" });
+  stats = updateBookkeysKeyStats(stats, "abc", "ab");
+  assert.deepEqual(stats, { ok: 2, all: 3, lastTyped: "ab" });
+});
+
+test("key-event accuracy handles replacing a selected range without counting the unchanged suffix", () => {
+  const stats = updateBookkeysKeyStats(
+    { ok: 3, all: 3, lastTyped: "abcde" }, "aXcde", "aXcde",
+  );
+  assert.deepEqual(stats, { ok: 4, all: 4, lastTyped: "aXcde" });
+});
