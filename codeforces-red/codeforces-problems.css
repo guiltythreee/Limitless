@@ -1,0 +1,56 @@
+/* Codeforces problem explorer */
+.cf-explorer { padding:20px; border:1px solid var(--comp-border); border-radius:13px; background:var(--comp-panel); }
+.cf-explorer-toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; margin-bottom:15px; }
+.cf-explorer-toolbar p { margin:0; color:var(--comp-muted); font:11px/1.5 Arial,sans-serif; }
+.cf-explorer-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.cf-filter-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:11px; }
+.cf-filter-grid label { display:flex; flex-direction:column; gap:6px; color:var(--comp-muted); font:10px Arial,sans-serif; }
+.cf-filter-grid input,.cf-filter-grid select { width:100%; min-width:0; padding:10px; border:1px solid var(--comp-border); border-radius:7px; background:rgba(7,19,34,.86); color:var(--comp-ink); font:12px Arial,sans-serif; }
+.cf-filter-grid .cf-wide { grid-column:span 2; }
+.cf-tag-select { min-height:92px; }
+.cf-filter-meta { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:14px 0; color:var(--comp-muted); font:10px Arial,sans-serif; }
+.cf-problem-list { display:grid; gap:8px; }
+.cf-problem-card { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; align-items:center; padding:13px 14px; border:1px solid var(--comp-border); border-radius:9px; background:rgba(20,48,76,.28); }
+.cf-problem-title { color:var(--comp-ink); font:600 12px/1.5 Arial,sans-serif; text-decoration:none; }
+.cf-problem-title:hover { color:#80c5ff; text-decoration:underline; }
+.cf-problem-meta { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.cf-chip { display:inline-flex; align-items:center; padding:4px 7px; border:1px solid var(--comp-border); border-radius:20px; color:var(--comp-muted); font:9px Arial,sans-serif; }
+.cf-chip.rating { color:#8bc9ff; }
+.cf-chip.solved { color:#55d6a6; border-color:rgba(85,214,166,.35); }
+.cf-problem-right { display:flex; align-items:center; gap:8px; }
+.cf-save-problem { padding:7px 9px; border:1px solid var(--comp-border); border-radius:7px; background:rgba(75,142,200,.12); color:var(--comp-ink); cursor:pointer; font:10px Arial,sans-serif; }
+.cf-save-problem[aria-pressed="true"] { color:#f0c875; border-color:rgba(240,200,117,.5); }
+.cf-empty,.cf-status { padding:18px 8px; color:var(--comp-muted); font:11px/1.6 Arial,sans-serif; }
+.cf-pagination { display:flex; align-items:center; justify-content:center; gap:12px; margin-top:14px; color:var(--comp-muted); font:10px Arial,sans-serif; }
+.cf-pagination button { padding:7px 11px; border:1px solid var(--comp-border); border-radius:6px; background:rgba(75,142,200,.12); color:var(--comp-ink); cursor:pointer; }
+.cf-pagination button:disabled { opacity:.35; cursor:not-allowed; }
+html[data-theme="light"] .cf-filter-grid input,html[data-theme="light"] .cf-filter-grid select { background:#fff; color:#243c54; color-scheme:light; }
+html[data-theme="light"] .cf-problem-card { background:rgba(230,241,251,.55); }
+@media(max-width:760px) { .cf-filter-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:480px) { .cf-explorer { padding:13px; }.cf-filter-grid { grid-template-columns:1fr; }.cf-filter-grid .cf-wide { grid-column:auto; }.cf-problem-card { grid-template-columns:1fr; }.cf-problem-right { justify-content:flex-end; } }
+
+.cf-check-label { display:flex; flex-direction:row !important; align-items:center; justify-content:space-between; gap:10px; padding:9px 11px; border:1px solid var(--comp-border); border-radius:7px; background:rgba(75,142,200,.07); }
+.cf-check-label input { width:16px; height:16px; margin:0; accent-color:#69b9ff; }
+
+/* Road to Codeforces Red explorer layout */
+.cf-red-page{--comp-border:rgba(105,158,213,.24);--comp-panel:rgba(8,20,36,.88);--comp-muted:#a9c6e5;--comp-ink:#e8f1fc}
+.cr-problem-explorer-section{margin-top:28px;padding:22px;border:1px solid rgba(105,158,213,.2);border-radius:16px;background:rgba(8,20,36,.88)}
+.cr-problem-explorer-section>.cr-section-head{margin-bottom:18px}
+.cr-problem-explorer-section>.cr-section-head h2{margin:6px 0;color:#e8f1fc;font-size:23px}
+.cr-problem-explorer-section>.cr-section-head p{max-width:560px;color:#a9c6e5;font-size:13px;line-height:1.6}
+.cf-quick-toolbar{display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:12px;margin:14px 0}
+.cf-quick-toolbar label{display:flex;flex-direction:column;gap:6px;color:var(--comp-muted);font-size:12px}
+.cf-quick-toolbar input,.cf-quick-toolbar select,.cf-filter-grid input,.cf-filter-grid select{min-height:40px;padding:9px 11px;border:1px solid var(--comp-border);border-radius:8px;background:rgba(7,19,34,.86);color:var(--comp-ink);font:13px Arial,sans-serif}
+.cf-advanced-filters{margin:10px 0;padding:10px 12px;border:1px solid var(--comp-border);border-radius:9px;background:rgba(75,142,200,.06);color:#8fcaff}
+.cf-advanced-filters summary{cursor:pointer;font-size:13px;font-weight:600}
+.cf-advanced-filters .cf-filter-grid{margin-top:12px}
+.cf-advanced-filters .cf-filter-grid label{font-size:12px}
+.cf-problem-right{flex-wrap:wrap}
+.cf-log-problem{padding:7px 9px;border:1px solid rgba(105,158,213,.45);border-radius:7px;background:rgba(75,142,200,.14);color:#a9d7ff;cursor:pointer;font:11px Arial,sans-serif}
+.cf-log-problem:disabled{opacity:.6;cursor:default}
+.cf-explorer-actions .action-button,.cf-filter-meta .action-button{padding:8px 11px;border:1px solid rgba(105,158,213,.45);border-radius:7px;background:rgba(75,142,200,.14);color:#a9d7ff;cursor:pointer;font:11px Arial,sans-serif}
+html[data-theme="light"] .cr-problem-explorer-section{background:rgba(248,252,255,.92)}
+html[data-theme="light"] .cr-problem-explorer-section>.cr-section-head h2{color:#1e3c5a}
+html[data-theme="light"] .cf-quick-toolbar input,html[data-theme="light"] .cf-quick-toolbar select,html[data-theme="light"] .cf-filter-grid input,html[data-theme="light"] .cf-filter-grid select{background:#fff;color:#243c54;color-scheme:light}
+html[data-theme="light"] .cf-advanced-filters{background:rgba(230,241,251,.55)}
+@media(max-width:650px){.cr-problem-explorer-section{padding:14px}.cf-quick-toolbar{grid-template-columns:1fr}}
