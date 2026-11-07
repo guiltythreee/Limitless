@@ -47,7 +47,7 @@ test("accepts older v1 backup envelopes without exportedAt and rejects foreign k
   })), /not a supported Bookkeys backup/);
 });
 
-test("merge validates settings types and preserves local typed pages while merging flawless markers", () => {
+test("merge validates settings types and unions completed pages and flawless markers", () => {
   const storage = new MemoryStorage();
   storage.setItem("bookkeys:settings", JSON.stringify({ size: 10, celebrate: false, lineH: 1.5 }));
   storage.setItem("bookkeys:game", JSON.stringify({
@@ -75,7 +75,7 @@ test("merge validates settings types and preserves local typed pages while mergi
   assert.equal(settings.lineH, 1.5);
   const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
   assert.equal(game.xp, 900);
-  assert.deepEqual(game.book["local-book"].p, [0]);
+  assert.deepEqual(game.book["local-book"].p, [0, 9]);
   assert.deepEqual(game.book["local-book"].x, [0, 5]);
   assert.deepEqual(game.book["backup-only-book"].x, [1, 9]);
 });
