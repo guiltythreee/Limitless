@@ -246,3 +246,61 @@ html[data-theme="light"] .cf-chip.solved { color:#16845f; }
   .account-edit-details { margin-top:8px; }
   .settings-card .campaign-meta { display:grid; grid-template-columns:1fr 1fr; }
 }
+
+
+/* Subject-specific 16-week roadmaps */
+.roadmap-controls {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin:16px 0 14px;
+  padding:14px 16px;
+  border:1px solid var(--comp-border);
+  border-radius:12px;
+  background:rgba(11,23,38,.78);
+}
+.roadmap-controls label {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  min-width:min(100%,280px);
+  color:var(--comp-muted);
+  font-size:12px;
+  font-weight:600;
+}
+.roadmap-controls select {
+  min-height:40px;
+  padding:8px 11px;
+  border:1px solid var(--comp-border);
+  border-radius:8px;
+  background:#101f31;
+  color:#e5f1ff;
+  font:inherit;
+}
+.roadmap-controls p {
+  max-width:620px;
+  margin:0 0 2px;
+  color:var(--comp-muted);
+  font-size:13px;
+  line-height:1.5;
+}
+.roadmap-empty { padding:14px; color:var(--comp-muted); }
+.subject-link { display:inline-flex; align-items:center; gap:6px; }
+.subject-card .subject-link { text-decoration-thickness:1px; text-underline-offset:3px; }
+html[data-theme="light"] .roadmap-controls {
+  background:rgba(248,252,255,.97);
+  border-color:rgba(64,112,157,.24);
+}
+html[data-theme="light"] .roadmap-controls label,
+html[data-theme="light"] .roadmap-controls p,
+html[data-theme="light"] .roadmap-empty { color:#526b83; }
+html[data-theme="light"] .roadmap-controls select {
+  background:#fff;
+  color:#294761;
+  border-color:rgba(64,112,157,.3);
+}
+@media(max-width:720px) {
+  .roadmap-controls { align-items:stretch; flex-direction:column; gap:10px; }
+  .roadmap-controls label { min-width:0; width:100%; }
+}

@@ -32,6 +32,17 @@
       activate(link.getAttribute('data-screen-link'), true);
     });
   });
+  document.querySelectorAll('[data-subject-roadmap]').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      var filter = document.getElementById('roadmap-subject-filter');
+      if (filter) {
+        filter.value = link.getAttribute('data-subject-roadmap');
+        filter.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      activate('roadmap', true);
+    });
+  });
   activate(initial, false);
 
   var overviewGrid = document.querySelector('.overview-grid');
@@ -103,7 +114,7 @@
   }
   var weekMetric = document.getElementById('current-week');
   if (weekMetric) {
-    var currentIndex = Number((weekMetric.textContent.match(/\\d+/) || [])[0] || 1) - 1;
+    var currentIndex = Number((weekMetric.textContent.match(/\d+/) || [])[0] || 1) - 1;
     Array.prototype.slice.call(document.querySelectorAll('.week-card')).forEach(function (card, index) {
       card.open = index === currentIndex;
     });

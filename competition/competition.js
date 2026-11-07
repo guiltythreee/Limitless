@@ -346,7 +346,7 @@
         '<div class="subject-count"><span>' + counts.mastered + ' / ' + total + ' mastered</span><span>' + pct + '% mastery</span></div>' +
         '<div class="progress-track"><span style="width:' + pct + '%"></span></div>' +
         '<div class="subject-breakdown"><span>' + counts.learning + ' learning</span><span>' + counts.practiced + ' practiced</span><span>' + counts['not-started'] + ' not started</span></div>' +
-        '<a class="subject-link" href="#roadmap">Open roadmap ↓</a></article>';
+        '<a class="subject-link" href="#roadmap" data-subject-roadmap="' + subject.id + '">Open ' + esc(subject.name) + ' roadmap ↓</a></article>';
     }).join('');
   }
 
@@ -399,12 +399,16 @@
           return '<option value="' + option.value + '" ' + (statusOf(key) === option.value ? 'selected' : '') + '>' + option.label + '</option>';
         }).join('');
       };
-      var topics = week.topics.map(function (topic, ti) {
+      var subjectFilter = $('roadmap-subject-filter').value;
+      var selectedTopics = week.topics.map(function (topic, ti) { return { topic:topic, index:ti }; })
+        .filter(function (item) { return subjectFilter === 'all' || item.topic[0] === subjectFilter; });
+      var topics = selectedTopics.map(function (item) {
+        var topic = item.topic, ti = item.index;
         var key = topicKey(wi,ti);
         var subjectName = topic[0] === 'coding' ? 'C++ / Implementation' : SUBJECTS.find(function (s) { return s.id === topic[0]; }).name;
         return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small><span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span></div>' +
           '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
-      }).join('');
+      }).join('') || '<p class="roadmap-empty">No topic checkpoint is assigned to this subject in this week.</p>';
       var days = DAILY_PLAN.map(function (day) {
         var dayKey = 'w' + (wi + 1) + '-' + day.id;
         var tasks = day.tasks.map(function (task, ti) {
@@ -415,10 +419,10 @@
         var done = day.tasks.filter(function (_, ti) { return !!state.dayChecks[dayKey + '-' + ti]; }).length;
         return '<details class="daily-day"><summary><span>' + day.day + '</span><span>' + day.focus + '</span><small>' + done + '/' + day.tasks.length + '</small></summary><div class="daily-task-list">' + tasks + '</div></details>';
       }).join('');
-      var weekStatuses = week.topics.map(function (_,ti) { return statusOf(topicKey(wi,ti)); });
+      var weekStatuses = selectedTopics.map(function (item) { return statusOf(topicKey(wi,item.index)); });
       var mastered = weekStatuses.filter(function (x) { return x === 'mastered'; }).length;
       var assessment = week.assessment ? '<div class="assessment-note"><strong>Checkpoint</strong><p>' + esc(week.assessment) + '</p></div>' : '';
-      return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + '</span></span><span class="week-progress">' + mastered + ' / ' + week.topics.length + ' mastered</span></summary>' +
+      return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + '</span></span><span class="week-progress">' + mastered + ' / ' + selectedTopics.length + ' mastered</span></summary>' +
         '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment +
         '<div class="topic-status-guide">Choose <b>Learning</b> when you can explain the idea; <b>Practiced</b> when you solve representative problems independently; <b>Mastered</b> when you solve unseen mixed problems under time and can justify the method.</div>' +
         '<div class="roadmap-topic-list">' + topics + '</div>' +
@@ -569,6 +573,11 @@
 
     renderOverview();
     renderSubjects();
+    $('roadmap-subject-filter').addEventListener('change', function () {
+      var labels = { all:'All five subjects plus C++ / implementation', logic:'Logical Reasoning', combinatorics:'Combinatorics', probability:'Probability', graphs:'Graph Theory', dp:'Dynamic Programming', coding:'C++ / Implementation' };
+      $('roadmap-filter-note').textContent = labels[$('roadmap-subject-filter').value] + ': 16 weekly checkpoints, with topic-specific references and independent mastery tracking.';
+      renderWeeks();
+    });
     renderWeeks();
     renderSafety();
     renderProblemHistory();
