@@ -142,3 +142,68 @@ html[data-theme="light"] .cr-task.is-checked span{color:#648575}html[data-theme=
 html[data-theme="light"] .cr-roadmap-tools a{background:#fff;border-color:#c5d6e5}
 @media(max-width:760px){.cr-dashboard-summary{grid-template-columns:1fr}.cr-roadmap-layout{grid-template-columns:1fr}.cr-stage-list{grid-template-columns:repeat(2,minmax(0,1fr))}.cr-roadmap-tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.cr-stage-list{grid-template-columns:1fr}.cr-stage-footer{align-items:flex-start;flex-direction:column}}
+
+
+/* Make the weekly tracker controls self-explanatory and readable in both themes. */
+.cr-week-actions button,
+.cr-week-foot button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.cr-week-actions #weekly-minus {
+  min-width: 88px;
+  padding-inline: 10px;
+}
+.cr-week-actions #weekly-plus {
+  min-width: 142px;
+}
+.cr-week-foot #contest-log {
+  min-width: 112px;
+  min-height: 32px;
+  padding: 6px 10px;
+  font-weight: 700;
+}
+.cr-week-actions button:focus-visible,
+.cr-week-foot button:focus-visible {
+  outline: 2px solid #75baff;
+  outline-offset: 3px;
+}
+html[data-theme="light"] .cr-week-card {
+  color: #1d3852;
+  background: rgba(249,252,255,.96);
+  border-color: rgba(59,112,159,.28);
+}
+html[data-theme="light"] .cr-week-card .cr-dash-label {
+  color: #3978ad;
+}
+html[data-theme="light"] .cr-week-card > strong {
+  color: #1c3d5c;
+}
+html[data-theme="light"] .cr-week-card > strong small,
+html[data-theme="light"] .cr-week-foot {
+  color: #526d87;
+}
+html[data-theme="light"] .cr-week-actions #weekly-minus {
+  color: #17466f !important;
+  background: #e2effb !important;
+  border: 1px solid #8eb8dc !important;
+}
+html[data-theme="light"] .cr-week-actions #weekly-plus,
+html[data-theme="light"] .cr-week-foot #contest-log {
+  color: #fff !important;
+  background: #1769b3 !important;
+  border: 1px solid #1769b3 !important;
+}
+html[data-theme="light"] .cr-week-actions #weekly-minus:hover {
+  background: #d2e7f8 !important;
+}
+html[data-theme="light"] .cr-week-actions #weekly-plus:hover,
+html[data-theme="light"] .cr-week-foot #contest-log:hover {
+  background: #0d5797 !important;
+  border-color: #0d5797 !important;
+}
