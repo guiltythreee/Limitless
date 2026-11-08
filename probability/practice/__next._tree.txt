@@ -1,4 +1,4 @@
 :HL["/probability/_next/static/chunks/05a7hi8esjqlp.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"practice","h":96,"c":"$Q2"}]]
-0:{"b":"Kek5hRJFr_YHj73ch4-hl","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"bsbey59EyAmfK_50GyEBI","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
