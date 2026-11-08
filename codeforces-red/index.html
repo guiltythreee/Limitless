@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../hub-theme.css">
   <link rel="stylesheet" href="./codeforces-red.css">
   <link rel="stylesheet" href="./codeforces-problems.css">
+  <link rel="stylesheet" href="./codeforces-contests.css">
   <script>
     (function () {
       try { document.documentElement.setAttribute('data-theme', localStorage.getItem('limitless.site.theme') === 'light' ? 'light' : 'dark'); }
@@ -152,12 +153,28 @@
       </div>
     </section>
 
+    <section class="cr-problem-explorer-section" id="cf-vc-section">
+      <div class="cr-section-head">
+        <div><div class="cr-eyebrow">VIRTUAL CONTESTS</div><h2>Timed practice contests</h2></div>
+        <p>Take fixed, timed sets at progressively higher ratings. Problem names are hidden before the start; ratings and topic labels appear after finishing.</p>
+      </div>
+      <div class="cf-explorer">
+        <div class="cf-vc-toolbar">
+          <p id="cf-vc-status" role="status">Loading virtual contests…</p>
+          <label class="cf-vc-band-field">Rating band<select id="cf-vc-band"></select></label>
+        </div>
+        <div id="cf-vc-list-view" class="cf-vc-list-view"><div id="cf-vc-list" class="cf-problem-list"></div></div>
+        <div id="cf-vc-contest" class="cf-vc-contest" hidden></div>
+      </div>
+    </section>
+
     <p class="cr-footnote">Milestones use peak rating, not current rating. Reaching 2400 peak is the Grandmaster threshold; a rating of 2399 is not red. Progress is read-only and does not award EXP.</p>
   </main>
 
   <script src="../hub-theme.js" defer></script>
   <script src="./codeforces-red.js" defer></script>
   <script src="./codeforces-problems.js" defer></script>
+  <script src="./codeforces-contests.js" defer></script>
   <script src="../supabase/config.js"></script>
   <script src="../supabase/client.js"></script>
   <script src="../supabase/cloud-sync.js"></script>
