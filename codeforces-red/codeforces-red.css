@@ -297,3 +297,37 @@ html[data-theme="light"] .cr-book-grid article:focus-within {
   background: #fff;
   box-shadow: 0 14px 30px rgba(37,75,112,.18);
 }
+
+
+/* Split-screen / narrow desktop: keep the linked account content together. */
+@media (max-width: 1000px) {
+  .cr-account {
+    min-height: 0;
+    height: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cr-account > div:first-child {
+    flex: 0 1 auto;
+    max-width: none;
+    width: 100%;
+  }
+  .cr-account-actions {
+    flex: 0 1 auto;
+    width: 100%;
+    min-width: 0;
+    justify-content: space-between;
+  }
+}
+@media (max-width: 480px) {
+  .cr-account-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cr-account-actions .cr-refresh-button {
+    width: 100%;
+  }
+}
