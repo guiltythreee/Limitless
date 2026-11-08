@@ -13,7 +13,9 @@
     mastery: {},
     dayChecks: {},
     mocks: [],
-    problemLog: []
+    problemLog: [],
+    weekChecks: {},
+    revisionChecks: {}
   };
 
   var SUBJECTS = [
@@ -257,6 +259,8 @@
       if (!merged.dayChecks || typeof merged.dayChecks !== 'object') merged.dayChecks = {};
       if (!Array.isArray(merged.mocks)) merged.mocks = [];
       if (!Array.isArray(merged.problemLog)) merged.problemLog = [];
+      if (!merged.weekChecks || typeof merged.weekChecks !== 'object') merged.weekChecks = {};
+      if (!merged.revisionChecks || typeof merged.revisionChecks !== 'object') merged.revisionChecks = {};
       // Migrate the old binary checklist conservatively: a checked topic becomes
       // "practiced", never "mastered", because the old tracker had no mastery test.
       if (saved.completed && typeof saved.completed === 'object') {
@@ -289,6 +293,8 @@
     renderSafety();
     renderMockHistory();
     renderProblemHistory();
+    renderLearningSystem();
+    renderMockAnalytics();
   }
   function esc(value) {
     return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
@@ -606,6 +612,136 @@
     return '<div class="topic-assignment"><div class="assignment-heading">Exact reading, lecture and problem assignment</div><div class="assignment-source assignment-resource-links">'+links+'</div>'+reading+mitChecks+statChecks+tasks+'</div>';
   }
 
+  function renderWeeklyResourceShelf(week, weekIndex) {
+    var groups = {};
+    week.topics.forEach(function(topic) {
+      var subjectId=topic[0], ref=referenceFor(subjectId,weekIndex,topic[1]), companion=mitCompanionFor(subjectId,topic[1],weekIndex);
+      var book=ref.guide.book, key=book;
+      if(!groups[key]) groups[key]={book:book,url:ref.guide.link,sections:[],notes:[],lectures:[],sets:[]};
+      var group=groups[key];
+      if(group.sections.indexOf(ref.section)===-1) group.sections.push(ref.section);
+      if(companion){
+        companion.notes.concat([]).forEach(function(item){if(!group.notes.some(function(x){return x.url===item.url;}))group.notes.push(item);});
+        companion.lectures.forEach(function(item){if(!group.lectures.some(function(x){return x.url===item.url;}))group.lectures.push(item);});
+        companion.sets.forEach(function(item){if(!group.sets.some(function(x){return x.url===item.url;}))group.sets.push(item);});
+      }
+      if(subjectId==='coding'){
+        var learnKey='LearnCpp';
+        if(!groups[learnKey])groups[learnKey]={book:'LearnCpp — C++ language reference',url:'https://www.learncpp.com/',sections:['Use the relevant language, standard-library and implementation chapters needed for this week’s C++ tasks'],notes:[],lectures:[],sets:[]};
+      }
+      if(subjectId==='probability' && !group.lectures.some(function(x){return x.url==='https://projects.iq.harvard.edu/stat110/online-learning';})){
+        group.lectures.push({label:'STAT 110 video lectures',url:'https://projects.iq.harvard.edu/stat110/online-learning'});
+      }
+    });
+    var cards=Object.keys(groups).map(function(key){
+      var g=groups[key];
+      var sectionHtml=g.sections.map(function(section){return '<li>'+esc(section)+'</li>';}).join('');
+      var notesHtml=g.notes.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
+      var lectureHtml=g.lectures.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
+      var setsHtml=g.sets.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
+      return '<article class="weekly-resource-card"><div class="weekly-resource-book"><strong>'+esc(g.book)+'</strong><a href="'+g.url+'" target="_blank" rel="noopener noreferrer">Open book / primary reference ↗</a></div>'+
+        '<div class="weekly-resource-sections"><b>Read this week</b><ul>'+sectionHtml+'</ul></div>'+
+        (notesHtml?'<div class="weekly-resource-links"><b>Written notes</b>'+notesHtml+'</div>':'')+
+        (lectureHtml?'<div class="weekly-resource-links"><b>Video lectures</b>'+lectureHtml+'</div>':'')+
+        (setsHtml?'<div class="weekly-resource-links"><b>Problem sets</b>'+setsHtml+'</div>':'')+'</article>';
+    }).join('');
+    return '<section class="weekly-resource-shelf" aria-label="Books and learning resources for this week"><h4>Books &amp; learning resources for this week</h4><p>Start here: these are the references and exact sections used by this week’s plan. Matching video lectures and MIT problem sets are placed beside the relevant book.</p><div class="weekly-resource-grid">'+cards+'</div></section>';
+  }
+
+  var MISTAKE_TYPES = [
+    ['conceptual','Conceptual gap'],['observation','Missed observation'],['mathematical','Mathematical / derivation error'],
+    ['implementation','Implementation error'],['time-management','Time-management error']
+  ];
+  var DIFFICULTY_BANDS = [
+    'Basic application','Multiple-concept application','Non-obvious observation','Mathematical derivation','Unseen competition-level'
+  ];
+  function formatDateOffset(dateString, days) {
+    var date = new Date(dateString + 'T00:00:00Z');
+    if (!Number.isFinite(date.getTime())) return '';
+    date.setUTCDate(date.getUTCDate() + days);
+    return date.toISOString().slice(0,10);
+  }
+  function revisionMilestones(problem) {
+    return [1,7,14,30].map(function(days){return {days:days,date:formatDateOffset(problem.date,days),key:problem.id+'-'+days};});
+  }
+  function renderLearningSystem() {
+    var today = new Date().toISOString().slice(0,10), due=[], upcoming=[];
+    state.problemLog.forEach(function(problem){
+      revisionMilestones(problem).forEach(function(item){
+        if(state.revisionChecks[item.key]) return;
+        if(item.date <= today) due.push({problem:problem,item:item});
+        else upcoming.push({problem:problem,item:item});
+      });
+    });
+    due.sort(function(a,b){return a.item.date.localeCompare(b.item.date);});
+    upcoming.sort(function(a,b){return a.item.date.localeCompare(b.item.date);});
+    var queue=due.slice(0,18).map(function(entry){
+      return '<label class="revision-item"><input type="checkbox" data-revision="'+esc(entry.item.key)+'"><span><strong>'+esc(entry.problem.name)+'</strong><small>'+esc(entry.problem.subject)+' · '+entry.item.days+'-day review · due '+entry.item.date+'</small></span></label>';
+    }).join('');
+    $('revision-queue').innerHTML=queue||'<p class="empty-state">No reviews due today. New problem logs automatically enter the 1, 7, 14 and 30-day revision cycle.</p>';
+    $('revision-summary').textContent=due.length+' due · '+upcoming.length+' scheduled';
+    $('revision-upcoming').textContent=upcoming.length?('Next review: '+upcoming[0].date+' — '+upcoming[0].problem.name):'No upcoming reviews';
+    $('revision-queue').querySelectorAll('[data-revision]').forEach(function(input){
+      input.addEventListener('change',function(){
+        if(input.checked) state.revisionChecks[input.dataset.revision]=true;
+        persist(); renderLearningSystem();
+      });
+    });
+
+    var categories={};MISTAKE_TYPES.forEach(function(item){categories[item[0]]=0;});
+    var subjects={};
+    state.problemLog.forEach(function(problem){
+      if(problem.mistakeType && categories[problem.mistakeType]!==undefined)categories[problem.mistakeType]++;
+      var key=problem.subject||'Other';subjects[key]=(subjects[key]||0)+1;
+    });
+    var categoryRows=MISTAKE_TYPES.map(function(item){
+      return '<div class="insight-row"><span>'+item[1]+'</span><strong>'+categories[item[0]]+'</strong></div>';
+    }).join('');
+    var repeat=Object.keys(subjects).sort(function(a,b){return subjects[b]-subjects[a];})[0];
+    var topMistake=MISTAKE_TYPES.slice().sort(function(a,b){return categories[b[0]]-categories[a[0]];})[0];
+    var repair=topMistake&&categories[topMistake[0]]>0?'Most frequent issue: '+topMistake[1]+'. Revisit the underlying topic and solve two fresh questions before increasing difficulty.':(repeat?'Most logged practice subject: '+repeat+'. Add mistake categories to identify the recurring cause.':'Log problems with a mistake category to identify recurring weaknesses.');
+    $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div><p class="repair-suggestion">'+esc(repair)+'</p>';
+  }
+  function renderMockAnalytics() {
+    var tagged=state.mocks.filter(function(mock){return mock.subject && mock.subject!=='All subjects' && (Number(mock.oneMax)>0 || Number(mock.twoMax)>0);});
+    var rows=SUBJECTS.map(function(subject){
+      var subjectMocks=tagged.filter(function(mock){return mock.subject===subject.name;});
+      var scored=subjectMocks.reduce(function(total,mock){return total+Number(mock.oneScore||0)+Number(mock.twoScore||0);},0);
+      var max=subjectMocks.reduce(function(total,mock){return total+Number(mock.oneMax||0)+Number(mock.twoMax||0);},0);
+      var related=state.problemLog.filter(function(p){return p.subject===subject.name;});
+      var independent=related.filter(function(p){return p.outcome==='independent';}).length;
+      var accuracy=related.length?Math.round(independent/related.length*100):null;
+      var timed=related.filter(function(p){return Number(p.time)>0;});
+      var averageTime=timed.length?Math.round(timed.reduce(function(total,p){return total+Number(p.time);},0)/timed.length)+' min average':'time not logged';
+      return '<div class="subject-analytics-row"><span>'+esc(subject.name)+'</span><strong>'+(max?(scored/max*100).toFixed(1)+'%':'—')+'</strong><small>'+(subjectMocks.length?subjectMocks.length+' tagged tests':'No tagged tests')+' · '+(accuracy===null?'No problem log':accuracy+'% independent first solves')+' · '+averageTime+'</small></div>';
+    }).join('');
+    var full=state.mocks.filter(function(m){return m.type==='full-format'&&m.oneMax>0&&m.twoMax>0;}).sort(function(a,b){return a.date.localeCompare(b.date);});
+    var trend=full.slice(-5).map(function(mock){var pct=(Number(mock.oneScore+mock.twoScore)/Number(mock.oneMax+mock.twoMax)*100);return '<span class="mock-trend-point"><b>'+pct.toFixed(1)+'%</b><small>'+esc(mock.date)+'</small></span>';}).join('');
+    $('mock-analytics').innerHTML='<div class="subject-analytics-grid">'+rows+'</div><div class="mock-trend"><h4>Recent full-format score trend</h4>'+(trend||'<p class="empty-state">Record full-format mocks to see score progression. Scores are descriptive, not a qualification prediction.</p>')+'</div>';
+  }
+  function prerequisiteStatus(weekIndex, topicIndex, topic) {
+    if(weekIndex===0) return '';
+    var prior=weekIndex-1, priorTopic=WEEKS[prior].topics.findIndex(function(item){return item[0]===topic[0];});
+    if(priorTopic<0) return '';
+    var value=statusOf(topicKey(prior,priorTopic));
+    var label=value==='mastered'?'Mastered':value==='practiced'?'Practiced':value==='learning'?'Learning':'Not yet checked';
+    var ready=value==='mastered'||value==='practiced';
+    return '<span class="prerequisite-status '+(ready?'is-ready':'needs-review')+'">Previous '+esc(topic[0]==='coding'?'C++':topic[0])+' checkpoint: '+label+(ready?'':' · review before advancing')+'</span>';
+  }
+  function renderWeekDeliverables(week,weekIndex) {
+    var labels=['Complete required reading and lecture resources','Finish the assigned problem set and independent practice','Attempt the weekly assessment or timed mixed set','Review mistakes and schedule unresolved questions'];
+    var key='w'+(weekIndex+1),checks=labels.map(function(label,index){
+      var id=key+'-exit-'+index,checked=!!state.weekChecks[id];
+      return '<label class="deliverable-item"><input type="checkbox" data-week-check="'+id+'" '+(checked?'checked':'')+'><span>'+label+'</span></label>';
+    }).join('');
+    var done=labels.filter(function(_,index){return !!state.weekChecks[key+'-exit-'+index];}).length;
+    var band=weekIndex<3?0:weekIndex<6?1:weekIndex<9?2:weekIndex<12?3:4;
+    var holidayUntil=new Date('2027-01-08T00:00:00'),now=new Date();now.setHours(0,0,0,0);
+    var timePlan=now<=holidayUntil?'Holiday availability: plan around 5–6 hours/day. The required tasks remain the priority; use remaining time for optional upsolving.':'Regular availability: cap the plan at 3–4 hours/day. Revision replaces part of the practice block rather than adding extra hours.';
+    return '<section class="week-deliverables"><div class="deliverable-heading"><div><b>Weekly completion criteria</b><small>Use evidence, not calendar position, to decide whether to move on.</small></div><strong>'+done+'/'+labels.length+'</strong></div>'+checks+'<p class="difficulty-target">Problem difficulty target: <b>'+DIFFICULTY_BANDS[band]+'</b> — independent reasoning matters more than platform rating.</p><p class="workload-guidance">'+timePlan+'</p></section>';
+  }
+
+
   function renderWeeks() {
     var openWeeks = {};
     $('week-list').querySelectorAll('.week-card').forEach(function (details, index) { openWeeks[index] = details.open; });
@@ -624,7 +760,7 @@
         var topic = item.topic, ti = item.index;
         var key = topicKey(wi,ti);
         var subjectName = topic[0] === 'coding' ? 'C++ / Implementation' : SUBJECTS.find(function (s) { return s.id === topic[0]; }).name;
-        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small><span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span>' + renderTopicAssignments(topic, wi, ti) + '</div>' +
+        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small>'+prerequisiteStatus(wi,ti,topic)+'<span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span>' + renderTopicAssignments(topic, wi, ti) + '</div>' +
           '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
       }).join('') || '<p class="roadmap-empty">No topic checkpoint is assigned to this subject in this week.</p>';
       var days=DAILY_PLAN.map(function(day){
@@ -638,8 +774,8 @@
       var mastered = weekStatuses.filter(function (x) { return x === 'mastered'; }).length;
       var assessment = week.assessment ? '<div class="assessment-note"><strong>Checkpoint</strong><p>' + esc(week.assessment) + '</p></div>' : '';
       return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + '</span></span><span class="week-progress">' + mastered + ' / ' + selectedTopics.length + ' mastered</span></summary>' +
-        '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment +
-        '<div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Work through Monday to Saturday in this order. Each day names the exact topics; linked reading, lecture and problem checklists follow below in the same subject order. Sunday is rest or light revision.</p>' + days +
+        '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment + renderWeeklyResourceShelf(week,wi) + renderWeekDeliverables(week,wi) +
+        '<div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Work through Monday to Saturday in this order. Revision reviews are scheduled inside these study blocks, not added as extra hours. Each day names the exact topics; linked reading, lecture and problem checklists follow below in the same subject order. Sunday is rest or light revision.</p>' + days +
          '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div>' +
          '<div class="topic-status-guide">After the daily work, mark each topic: <b>Learning</b> when you can explain it; <b>Practiced</b> when you solve representative problems independently; <b>Mastered</b> when you solve unseen mixed problems under time and justify the method.</div>' +
          '<div class="roadmap-topic-list">' + topics + '</div></div></details>';
@@ -652,6 +788,7 @@
         renderWeeks();
       });
     });
+    $('week-list').querySelectorAll('[data-week-check]').forEach(function(input){input.addEventListener('change',function(){state.weekChecks[input.dataset.weekCheck]=input.checked;persist();renderWeeks();});});
     $('week-list').querySelectorAll('[data-day-task]').forEach(function (input) {
       input.addEventListener('change', function () {
         state.dayChecks[input.dataset.dayTask] = input.checked;
@@ -714,6 +851,8 @@
     $('problem-history').innerHTML = rows.length ? rows.map(function (problem) {
       return '<article class="problem-entry" data-result="' + esc(problem.outcome || 'unknown') + '"><div class="problem-entry-head"><strong>' + esc(problem.name) + '</strong><span>' + esc(problem.subject) + '</span><small>' + esc(problem.date) + '</small><button type="button" data-delete-problem="' + esc(problem.id) + '">Remove</button></div>' +
         (problem.difficulty ? '<p><b>Source difficulty:</b> ' + esc(problem.difficulty) + '</p>' : '') +
+        (problem.challengeBand ? '<p><b>Challenge level:</b> ' + esc(problem.challengeBand) + '</p>' : '') +
+        (problem.mistakeType ? '<p><b>Mistake category:</b> ' + esc((MISTAKE_TYPES.find(function(x){return x[0]===problem.mistakeType;})||[])[1] || problem.mistakeType) + '</p>' : '') +
         (problem.time ? '<p><b>Time spent:</b> ' + esc(problem.time) + ' min</p>' : '') +
         '<p><b>Key observation:</b> ' + esc(problem.observation) + '</p>' +
         (problem.missed ? '<p><b>Missed insight:</b> ' + esc(problem.missed) + '</p>' : '') +
@@ -741,7 +880,7 @@
       var totalScore = Number(mock.oneScore || 0) + Number(mock.twoScore || 0);
       var overall = combined > 0 ? (totalScore / combined * 100).toFixed(1) + '%' : 'Score not entered';
       var rank = mock.rank ? ' · Rank ' + mock.rank + '/' + mock.cohort : '';
-      return '<article class="mock-row"><span>' + esc(mock.date) + '<small>' + esc(mock.typeLabel) + '</small></span><span>T1 ' + one + ' · T2 ' + two + '<small>Total: ' + overall + '</small></span><strong>' + (mock.rank ? 'Rank ' + mock.rank : 'No rank') + '</strong><span>' + esc(mock.note || 'No notes') + rank + '</span><button type="button" data-delete-mock="' + esc(mock.id) + '">Remove</button></article>';
+      return '<article class="mock-row"><span>' + esc(mock.date) + '<small>' + esc(mock.typeLabel) + (mock.subject && mock.subject !== 'All subjects' ? ' · ' + esc(mock.subject) : '') + '</small></span><span>T1 ' + one + ' · T2 ' + two + '<small>Total: ' + overall + '</small></span><strong>' + (mock.rank ? 'Rank ' + mock.rank : 'No rank') + '</strong><span>' + esc(mock.note || 'No notes') + rank + '</span><button type="button" data-delete-mock="' + esc(mock.id) + '">Remove</button></article>';
     }).join('') : '<p class="empty-state">No assessments recorded yet.</p>';
     $('mock-history').querySelectorAll('[data-delete-mock]').forEach(function (button) {
       button.addEventListener('click', function () {
@@ -807,6 +946,8 @@
     renderSafety();
     renderProblemHistory();
     renderMockHistory();
+    renderMockAnalytics();
+    renderLearningSystem();
 
     $('mock-date').value = new Date().toISOString().slice(0,10);
     $('problem-form').addEventListener('submit', function (event) {
@@ -817,6 +958,8 @@
         name:$('problem-name').value.trim(),
         subject:$('problem-subject').value,
         difficulty:$('problem-difficulty').value.trim(),
+        challengeBand:$('problem-challenge-band').value,
+        mistakeType:$('problem-mistake-type').value,
         outcome:$('problem-outcome').value,
         time:$('problem-time').value,
         observation:$('problem-observation').value.trim() || 'No observation recorded',
@@ -850,6 +993,7 @@
           date:$('mock-date').value,
           type:type,
           typeLabel:typeLabel,
+          subject:$('mock-subject').value,
           oneScore:oneScore === '' ? '' : Number(oneScore),
           oneMax:oneMax === '' ? '' : Number(oneMax),
           twoScore:twoScore === '' ? '' : Number(twoScore),

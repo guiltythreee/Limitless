@@ -188,6 +188,24 @@
       <div class="account-actions"><button id="save-linked-accounts" class="action-button" type="button">Save accounts &amp; refresh</button><span id="accounts-sync-note" role="status">Account details are saved with Limitless progress when signed in.</span></div>
     </section>
 
+    <section class="section-block learning-system-section" id="learning-system" data-screen="problems">
+      <div class="section-heading-row">
+        <div><div class="card-label">LEARNING INTELLIGENCE</div><h2>Revision &amp; mistake analysis</h2></div>
+        <p>Use this to turn solved and missed questions into long-term retention. Scheduled reviews are part of your existing study blocks, not extra daily hours.</p>
+      </div>
+      <div class="learning-system-grid">
+        <article class="learning-panel">
+          <div class="learning-panel-heading"><h3>Spaced revision queue</h3><strong id="revision-summary">0 due · 0 scheduled</strong></div>
+          <p id="revision-upcoming" class="muted-note">Your next review will appear here.</p>
+          <div id="revision-queue" class="revision-queue"><p class="empty-state">Problem logs automatically enter the 1, 7, 14 and 30-day revision cycle.</p></div>
+        </article>
+        <article class="learning-panel">
+          <div class="learning-panel-heading"><h3>Mistake analysis</h3><span>Based on your problem log</span></div>
+          <div id="mistake-analytics"></div>
+        </article>
+      </div>
+    </section>
+
     <section class="section-block problem-log-section" id="problem-review" data-screen="problems">
       <div class="section-heading-row">
         <div><div class="card-label">PROBLEM-SOLVING EVIDENCE</div><h2>Problem review log</h2></div>
@@ -199,6 +217,12 @@
           <select id="problem-subject"><option value="Logical Reasoning">Logical Reasoning</option><option value="Combinatorics">Combinatorics</option><option value="Probability">Probability</option><option value="Graph Theory">Graph Theory</option><option value="Dynamic Programming">Dynamic Programming</option><option value="C++ / Implementation">C++ / Implementation</option></select>
         </label>
         <label>Difficulty / rating (optional)<input id="problem-difficulty" type="text" maxlength="30" placeholder="Source's label, if available"></label>
+        <label>Challenge level
+          <select id="problem-challenge-band"><option value="">Not classified</option><option>Basic application</option><option>Multiple-concept application</option><option>Non-obvious observation</option><option>Mathematical derivation</option><option>Unseen competition-level</option></select>
+        </label>
+        <label>Primary mistake category
+          <select id="problem-mistake-type"><option value="">No mistake / not classified</option><option value="conceptual">Conceptual gap</option><option value="observation">Missed observation</option><option value="mathematical">Mathematical / derivation error</option><option value="implementation">Implementation error</option><option value="time-management">Time-management error</option></select>
+        </label>
         <label>First-attempt result
           <select id="problem-outcome"><option value="independent">Solved independently</option><option value="hint">Solved after a hint</option><option value="editorial">Solved after reading editorial</option><option value="unsolved">Not solved yet</option></select>
         </label>
@@ -226,6 +250,9 @@
         <label>Assessment type
           <select id="mock-type"><option value="weekly-diagnostic">Weekly diagnostic</option><option value="subject-test">Subject test</option><option value="full-format">Full 2.5-hour simulation</option></select>
         </label>
+        <label>Subject focus (for subject-wise analytics)
+          <select id="mock-subject"><option>All subjects</option><option>Logical Reasoning</option><option>Combinatorics</option><option>Probability</option><option>Graph Theory</option><option>Dynamic Programming</option></select>
+        </label>
         <label>Test 1 score (60 min)<input id="mock-one-score" type="number" min="0" step="0.1" placeholder="Score"></label>
         <label>Test 1 maximum<input id="mock-one-max" type="number" min="0.1" step="0.1" placeholder="Maximum"></label>
         <label>Test 2 score (90 min)<input id="mock-two-score" type="number" min="0" step="0.1" placeholder="Score"></label>
@@ -236,6 +263,7 @@
         <label class="wide-field">Notes<input id="mock-note" type="text" maxlength="180" placeholder="Weak topics, time management, test conditions"></label>
         <button type="submit" class="action-button">Add assessment</button>
       </form>
+      <div class="mock-analytics-panel"><h3>Performance analytics</h3><p>Subject results use only assessments tagged to that subject. Independent first-solve rates use your problem review log; they are not the same as contest accuracy.</p><div id="mock-analytics"></div></div>
       <div id="mock-history" class="mock-history"><p class="empty-state">No assessments recorded yet.</p></div>
     </section>
 
