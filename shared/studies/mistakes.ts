@@ -20,6 +20,7 @@ export type MistakeAttempt = {
   correct: boolean;
   category?: MistakeCategory;
   occurredAt: number;
+  reviewedAt?: number;
 };
 
 export type RevisionItem = {
