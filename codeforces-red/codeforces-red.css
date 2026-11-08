@@ -388,3 +388,6 @@ html[data-theme="light"] .cr-week-contest-actions #contest-unlog:disabled {
     line-height:1.2;
   }
 }
+
+.cr-week-auto-note{margin:0;color:#9eb5ce;font-size:10px;line-height:1.5}
+html[data-theme="light"] .cr-week-auto-note{color:#526d87}
