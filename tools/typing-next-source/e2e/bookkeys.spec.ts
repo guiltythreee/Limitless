@@ -212,9 +212,17 @@ test("theme and reader settings are interactive and persist without overwriting 
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-night");
+  await expect(dialog.getByLabel("Reading text colour")).toHaveValue("custom");
+  await expect(dialog.getByLabel("Custom reading text colour")).toHaveValue("#654321");
+  await dialog.getByLabel("Custom reading text colour").fill("#2a7f62");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColorCustom)).toBe("#2a7f62");
+  await dialog.getByLabel("Reading text colour").selectOption("theme");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColor)).toBe("theme");
+  await dialog.getByLabel("Reading text colour").selectOption("custom");
+  await dialog.getByLabel("Custom reading text colour").fill("#2a7f62");
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"))).toMatchObject({
     bg: "pic-night", skin: "sepia", accent: "custom", accentCustom: "#123456",
-    fontColor: "custom", fontColorCustom: "#654321", bgMatch: true, deco: "off",
+    fontColor: "custom", fontColorCustom: "#2a7f62", bgMatch: true, deco: "off",
     bgDensity: 0.8, bgAnim: false, backdrop: 2, picVeil: 0.25, picBlur: 3,
     font: "newsreader", spacing: 0.2, punct: "simplify", lglow: false,
     tfx: "none", fxInt: 2, efx: "flash", sparks: "off", sound: "off",

@@ -88,6 +88,10 @@ function safeArtworkDataUrl(value: string | undefined): string | undefined {
   return value && /^data:image\/[a-z0-9.+-]+;base64,[a-z0-9+/=]+$/i.test(value) ? value : undefined;
 }
 
+function safeReaderTextColor(value: unknown): string | undefined {
+  return typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value) ? value : undefined;
+}
+
 
 async function resizeArtworkFile(file: File): Promise<string> {
   if (!file.type.startsWith("image/")) throw new Error("Choose an image file.");
@@ -1109,23 +1113,27 @@ export default function BookkeysApp() {
                 data-reader-background={settings.readerBackground ?? "none"}
                 data-reader-centered={settings.centered ? "true" : "false"}
                 style={(() => {
+                  const color = settings.fontColor === "custom"
+                    ? safeReaderTextColor(settings.fontColorCustom) : undefined;
                   const selected = settings.readerBackground === "gothic" ? artwork.gothic
                     : settings.readerBackground === "garden" ? artwork.garden : undefined;
                   const safe = safeArtworkDataUrl(selected);
                   const preset = READER_BACKGROUND_PRESETS.find((item) => item.id === settings.readerBackground);
-                  if (preset && "image" in preset && preset.image) return undefined;
+                  if (preset && "image" in preset && preset.image) return color ? { color } : undefined;
                   if (safe) return {
+                    color,
                     backgroundImage: `linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("${safe}")`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   };
                   const motion = preset && "motion" in preset ? preset.motion : undefined;
                   return preset ? {
+                    color,
                     backgroundImage: `linear-gradient(rgba(4, 5, 12, .42), rgba(4, 5, 12, .42)), ${preset.background}`,
                     backgroundSize: motion ? "180% 180%" : "cover",
                     backgroundPosition: "center",
                     animation: motion ? `${motion} 28s ease-in-out infinite alternate` : undefined,
-                  } : undefined;
+                  } : color ? { color } : undefined;
                 })()}
               >{target}</article>
               <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
@@ -1297,6 +1305,25 @@ export default function BookkeysApp() {
                   </div>
                   <span className="bk-settings-note" role="status">{artworkStatus || "Images are resized to at most 1600 × 900 before local storage."}</span>
                 </div>
+                <label className="bk-setting">
+                  <span>Reading text colour</span>
+                  <select
+                    aria-label="Reading text colour"
+                    value={settings.fontColor === "custom" && safeReaderTextColor(settings.fontColorCustom) ? "custom" : "theme"}
+                    onChange={(event) => persistSettings({ ...settings, fontColor: event.currentTarget.value })}
+                  >
+                    <option value="theme">Theme default</option>
+                    <option value="custom">Custom colour</option>
+                  </select>
+                  {settings.fontColor === "custom" && (
+                    <input
+                      type="color"
+                      aria-label="Custom reading text colour"
+                      value={safeReaderTextColor(settings.fontColorCustom) ?? "#FF8A00"}
+                      onChange={(event) => persistSettings({ ...settings, fontColor: "custom", fontColorCustom: event.currentTarget.value })}
+                    />
+                  )}
+                </label>
                 <label className="bk-setting">
                   <span>Reading text size <strong>{settings.size}px</strong></span>
                   <input type="range" min="12" max="28" step="1" value={settings.size}
