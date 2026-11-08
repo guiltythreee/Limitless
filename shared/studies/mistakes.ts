@@ -45,7 +45,7 @@ export function buildRevisionList(attempts: readonly MistakeAttempt[]): Revision
     const current = grouped.get(key) ?? { category: attempt.category, count: 0, last: 0, reviewed: true };
     current.count += 1;
     current.last = Math.max(current.last, attempt.occurredAt || 0);
-    current.reviewed = current.reviewed && Boolean(attempt.occurredAt && attempt.occurredAt <= (attempt.reviewedAt ?? 0));
+    current.reviewed = current.reviewed && attempt.reviewedAt !== undefined && attempt.reviewedAt >= attempt.occurredAt;
     grouped.set(key, current);
   }
   return [...grouped.entries()].map(([key, value]) => {
