@@ -1,4 +1,6 @@
 import { useSyncExternalStore } from "react";
+import type { MistakeCategory } from "../../../shared/studies/mistakes";
+import { isMistakeCategory } from "../../../shared/studies/mistakes";
 import { allQuestions, grade, questionByKey, type Status } from "./questions";
 import { pathways } from "../content";
 import { buildRewardRecords, dispatchRewardUpdate, sanitiseRewardRecords, CHECKPOINT_PASS_THRESHOLD, type DifficultyTier, type RewardRecord } from "../../../shared/rewards.mjs";
@@ -418,6 +420,35 @@ export function recordAttemptsBatch(inputs: AttemptInput[], rewardActivity = tru
   const saved = commit(nextState);
   if (saved && rewards.some((record) => record.eligible && record.totalExp > 0)) dispatchRewardUpdate();
   return prepared.attempts;
+}
+
+export function classifyMistake(attemptId: string, category: MistakeCategory | null): boolean {
+  ensureLoaded();
+  if (category !== null && !isMistakeCategory(category)) return false;
+  let found = false;
+  const attempts = state.attempts.map((attempt) => {
+    if (attempt.id !== attemptId || attempt.status === "correct") return attempt;
+    found = true;
+    const next = { ...attempt };
+    if (category === null) { delete next.mistakeCategory; delete next.reviewedAt; }
+    else { next.mistakeCategory = category; delete next.reviewedAt; }
+    return next;
+  });
+  if (found) commit({ ...state, attempts });
+  return found;
+}
+
+export function markMistakeReviewed(attemptIds: string[]): void {
+  ensureLoaded();
+  const ids = new Set(attemptIds);
+  const now = Date.now();
+  let changed = false;
+  const attempts = state.attempts.map((attempt) => {
+    if (!ids.has(attempt.id) || !attempt.mistakeCategory || attempt.reviewedAt) return attempt;
+    changed = true;
+    return { ...attempt, reviewedAt: now };
+  });
+  if (changed) commit({ ...state, attempts });
 }
 
 export function recordAttempt(q: string, picked: number[], ms: number, rewardActivity = true): Attempt | null {
