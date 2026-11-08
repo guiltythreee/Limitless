@@ -559,7 +559,7 @@
       mitChecks+='<label class="reference-task"><input type="checkbox" data-day-task="'+noteKey+'" '+(state.dayChecks[noteKey]?'checked':'')+'><span><b>MIT written notes:</b> read '+esc(noteNames)+' (text notes, not a video).</span></label>';
       if(companion.lectures.length)mitChecks+='<label class="reference-task"><input type="checkbox" data-day-task="'+videoKey+'" '+(state.dayChecks[videoKey]?'checked':'')+'><span><b>MIT video lecture:</b> watch '+esc(lectureNames)+'.</span></label>';
     }
-    var tasks=ref.items.map(function(item,index){var key=baseKey+'-q'+index;return '<label class="reference-task"><input type="checkbox" data-day-task="'+key+'" '+(state.dayChecks[key]?'checked':'')+'><span>'+esc(item)+'</span></label>';}).join('');
+    var tasks=ref.items.map(function(item,index){var key=baseKey+'-q'+index,match=item.match(/^CSES: (.+)$/),taskUrl=match&&CSES_TASK_IDS[match[1]]?'https://cses.fi/problemset/task/'+CSES_TASK_IDS[match[1]]+'/':null,taskText=taskUrl?'<a href="'+taskUrl+'" target="_blank" rel="noopener noreferrer">'+esc(item)+' ↗</a>':esc(item);return '<label class="reference-task"><input type="checkbox" data-day-task="'+key+'" '+(state.dayChecks[key]?'checked':'')+'><span>'+taskText+'</span></label>';}).join('');
     var resourceLinks=[];
     if(BOOK_LINKS[subjectId]) resourceLinks.push({label:subjectId==='coding'?'Book — Competitive Programmer’s Handbook':'Book — '+ref.guide.book,url:BOOK_LINKS[subjectId]});
     if(subjectId==='coding') resourceLinks.push({label:'C++ lessons — LearnCpp',url:'https://www.learncpp.com/'});
@@ -578,6 +578,52 @@
       return '<label class="reference-task"><input type="checkbox" data-day-task="'+key+'" '+(state.dayChecks[key]?'checked':'')+'><span><b>Harvard STAT 110 video:</b> watch '+esc(item.label)+'.</span></label>';
     }).join('');
     return '<div class="topic-assignment"><div class="assignment-heading">Exact reading, lecture and problem assignment</div><div class="assignment-source assignment-resource-links">'+links+'</div>'+reading+mitChecks+statChecks+tasks+'</div>';
+  }
+
+  // A single weekly resource shelf puts every book/reference, assigned section,
+  // and matching video/problem set at the top of the week before the daily plan.
+  var CSES_TASK_IDS = {
+    'Weird Algorithm':'1068','Missing Number':'1083','Repetitions':'1069','Increasing Array':'1094','Permutations':'1070','Number Spiral':'1071',
+    'Distinct Numbers':'1621','Apartments':'1084','Ferris Wheel':'1090','Concert Tickets':'1091','Restaurant Customers':'1619','Movie Festival':'1629',
+    'Sum of Two Values':'1640','Maximum Subarray Sum':'1643','Stick Lengths':'1074','Playlist':'1141','Towers':'1073','Traffic Lights':'1163',
+    'Building Roads':'1666','Message Route':'1667','Building Teams':'1668','Counting Rooms':'1192','Labyrinth':'1193','Round Trip':'1669',
+    'Course Schedule':'1679','Course Schedule II':'1757','Longest Flight Route':'1680','Shortest Routes I':'1671','Shortest Routes II':'1672',
+    'High Score':'1673','Road Reparation':'1675','Road Construction':'1676','Flight Routes':'1196','Planets and Kingdoms':'1683','Flight Routes Check':'1682',
+    'Dice Combinations':'1633','Minimizing Coins':'1634','Coin Combinations I':'1635','Coin Combinations II':'1636','Removing Digits':'1637',
+    'Grid Paths':'1638','Book Shop':'1158','Array Description':'1746','Counting Towers':'2413','Edit Distance':'1639','Rectangle Cutting':'1744',
+    'Money Sums':'1745','Removal Game':'1097','Two Sets II':'1093','Projects':'1140','Elevator Rides':'1653','Counting Tilings':'2181','Increasing Subsequence':'1145'
+  };
+
+  function renderWeeklyResourceShelf(week, weekIndex) {
+    var groups = {};
+    week.topics.forEach(function(topic) {
+      var subjectId=topic[0], ref=referenceFor(subjectId,weekIndex,topic[1]), companion=mitCompanionFor(subjectId,topic[1],weekIndex);
+      var book=ref.guide.book, key=book;
+      if(!groups[key]) groups[key]={book:book,url:ref.guide.link,sections:[],notes:[],lectures:[],sets:[]};
+      var group=groups[key];
+      if(group.sections.indexOf(ref.section)===-1) group.sections.push(ref.section);
+      if(companion){
+        companion.notes.concat([]).forEach(function(item){if(!group.notes.some(function(x){return x.url===item.url;}))group.notes.push(item);});
+        companion.lectures.forEach(function(item){if(!group.lectures.some(function(x){return x.url===item.url;}))group.lectures.push(item);});
+        companion.sets.forEach(function(item){if(!group.sets.some(function(x){return x.url===item.url;}))group.sets.push(item);});
+      }
+      if(subjectId==='probability' && !group.lectures.some(function(x){return x.url==='https://projects.iq.harvard.edu/stat110/online-learning';})){
+        group.lectures.push({label:'STAT 110 video lectures',url:'https://projects.iq.harvard.edu/stat110/online-learning'});
+      }
+    });
+    var cards=Object.keys(groups).map(function(key){
+      var g=groups[key];
+      var sectionHtml=g.sections.map(function(section){return '<li>'+esc(section)+'</li>';}).join('');
+      var notesHtml=g.notes.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
+      var lectureHtml=g.lectures.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
+      var setsHtml=g.sets.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
+      return '<article class="weekly-resource-card"><div class="weekly-resource-book"><strong>'+esc(g.book)+'</strong><a href="'+g.url+'" target="_blank" rel="noopener noreferrer">Open book / primary reference ↗</a></div>'+
+        '<div class="weekly-resource-sections"><b>Read this week</b><ul>'+sectionHtml+'</ul></div>'+
+        (notesHtml?'<div class="weekly-resource-links"><b>Written notes</b>'+notesHtml+'</div>':'')+
+        (lectureHtml?'<div class="weekly-resource-links"><b>Video lectures</b>'+lectureHtml+'</div>':'')+
+        (setsHtml?'<div class="weekly-resource-links"><b>Problem sets</b>'+setsHtml+'</div>':'')+'</article>';
+    }).join('');
+    return '<section class="weekly-resource-shelf" aria-label="Books and learning resources for this week"><h4>Books &amp; learning resources for this week</h4><p>Start here: these are the references and exact sections used by this week’s plan. Matching video lectures and MIT problem sets are placed beside the relevant book.</p><div class="weekly-resource-grid">'+cards+'</div></section>';
   }
 
   function renderWeeks() {
@@ -612,7 +658,7 @@
       var mastered = weekStatuses.filter(function (x) { return x === 'mastered'; }).length;
       var assessment = week.assessment ? '<div class="assessment-note"><strong>Checkpoint</strong><p>' + esc(week.assessment) + '</p></div>' : '';
       return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + '</span></span><span class="week-progress">' + mastered + ' / ' + selectedTopics.length + ' mastered</span></summary>' +
-        '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment +
+        '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment + renderWeeklyResourceShelf(week,wi) +
         '<div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Work through Monday to Saturday in this order. Each day names the exact topics; linked reading, lecture and problem checklists follow below in the same subject order. Sunday is rest or light revision.</p>' + days +
          '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div>' +
          '<div class="topic-status-guide">After the daily work, mark each topic: <b>Learning</b> when you can explain it; <b>Practiced</b> when you solve representative problems independently; <b>Mastered</b> when you solve unseen mixed problems under time and justify the method.</div>' +
