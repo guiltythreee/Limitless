@@ -229,12 +229,12 @@
   ];
 
   var DAILY_PLAN = [
-    { id:'mon', day:'Monday', focus:'Probability + Logical Reasoning', tasks:['Probability: learn the week’s concept (about 60 min)','Probability: work through examples and derive steps (about 40 min)','Logical reasoning: one focused exercise set (about 35 min)','Independent problems and error review (about 65 min)'] },
-    { id:'tue', day:'Tuesday', focus:'Combinatorics + C++ implementation', tasks:['Combinatorics: learn the week’s counting method (about 60 min)','Combinatorics: guided examples and small-case checks (about 40 min)','C++ implementation or complexity practice (about 35 min)','Independent problems and error review (about 65 min)'] },
-    { id:'wed', day:'Wednesday', focus:'Graph Theory + Combinatorics', tasks:['Graph theory: learn the week’s structure/algorithm (about 60 min)','Trace the algorithm on hand-worked examples (about 35 min)','Implement and test the graph algorithm (about 45 min)','Independent graph/counting problems and review (about 60 min)'] },
-    { id:'thu', day:'Thursday', focus:'Dynamic Programming + Logical Reasoning', tasks:['DP: define state, base case and transition (about 60 min)','Dry-run recurrence on small inputs (about 35 min)','Implement and test DP solutions (about 50 min)','Logical reasoning and error review (about 55 min)'] },
-    { id:'fri', day:'Friday', focus:'Probability + Graph Theory integration', tasks:['Probability: independent problem set (about 55 min)','Graph theory: independent problem set (about 55 min)','Mixed problem requiring a key observation (about 50 min)','Review mistakes and write concise notes (about 40 min)'] },
-    { id:'sat', day:'Saturday', focus:'Mixed contest + upsolving', tasks:['Timed mixed contest or weekly assessment (up to 150 min)','Upsolve missed problems without copying the editorial (about 40 min)','Update problem review log and next-week repair list (about 20 min)'] }
+    { id:'mon', day:'Monday', subjects:['probability','logic'] },
+    { id:'tue', day:'Tuesday', subjects:['combinatorics','coding'] },
+    { id:'wed', day:'Wednesday', subjects:['graphs','combinatorics'] },
+    { id:'thu', day:'Thursday', subjects:['dp','logic'] },
+    { id:'fri', day:'Friday', subjects:['probability','graphs'] },
+    { id:'sat', day:'Saturday', subjects:[] }
   ];
 
   var MASTERY = [
@@ -356,10 +356,10 @@
   // pagination and chapter numbering vary across editions.
   var TOPIC_RESOURCES = {
     logic:[
-      {label:'MIT discrete mathematics notes',url:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf'},
+      {label:'MIT 6.042J written notes',url:'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/readings/'},
     ],
     combinatorics:[
-      {label:'MIT counting & discrete math notes',url:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf'},
+      {label:'MIT 6.042J written notes (counting)',url:'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/readings/'},
     ],
     probability:[
       {label:'Harvard Stat 110',url:'https://projects.iq.harvard.edu/stat110/home'},
@@ -389,6 +389,42 @@
     return links.map(function (resource) {
       return '<a href="' + resource.url + '" target="_blank" rel="noopener noreferrer">' + esc(resource.label) + '</a>';
     }).join('<span class="resource-separator">·</span>');
+  }
+
+  var MIT_OCW = 'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/';
+  function mitResource(path) { return MIT_OCW + path; }
+  function mitCompanionFor(subjectId, topicTitle, weekIndex) {
+    var title=String(topicTitle||'').toLowerCase(),notes=[],lectures=[],sets=[];
+    function note(slug,name){notes.push({label:name,url:mitResource('resources/mit6_042jf10_chap'+slug+'/')});}
+    function lecture(n,slug,name){lectures.push({label:'Lecture '+n+': '+name,url:mitResource('resources/lecture-'+n+'-'+slug+'/')});}
+    function ps(n){sets.push({label:'Problem Set '+n,url:mitResource('resources/mit6_042jf10_assn'+String(n).padStart(2,'0')+'/')});}
+    if(subjectId==='logic'){
+      if(/induction/.test(title)){note('03','Chapter 3: Induction');lecture(2,'induction','Induction');lecture(3,'strong-induction','Strong Induction');ps(2);}
+      else if(/invariant/.test(title)){note('03','Chapter 3: Induction');lecture(3,'strong-induction','Strong Induction and Invariants');ps(2);}
+      else if(/pigeonhole|counting|double counting/.test(title)){note('11','Chapter 11: Cardinality Rules');lecture(16,'counting-rules-i','Counting Rules I');lecture(17,'counting-rules-ii','Counting Rules II');ps(8);}
+      else if(/graph|relation|partial order/.test(title)){note('05','Chapter 5: Graph Theory');lecture(6,'graph-theory-and-coloring','Graph Theory and Coloring');ps(3);}
+      else if(!/unseen|mixed|final review|timed/.test(title) && /statement|truth|connective|implication|quantifier|proof|counterexample|parity|contradiction|deduction/.test(title)){note('01','Chapter 1: Propositions');note('02','Chapter 2: Patterns of Proof');lecture(1,'introduction-and-proofs','Introduction and Proofs');ps(1);}
+    }else if(subjectId==='combinatorics'){
+      if(/recurrence/.test(title)){note('10','Chapter 10: Recurrences');lecture(14,'divide-and-conquer-recurrences','Divide and Conquer Recurrences');lecture(15,'linear-recurrences','Linear Recurrences');ps(7);}
+      else{note('11','Chapter 11: Cardinality Rules');lecture(16,'counting-rules-i','Counting Rules I');lecture(17,'counting-rules-ii','Counting Rules II');ps(8);}
+    }else if(subjectId==='graphs' && !/shortest|dijkstra|mixed|unseen|timed|final review/.test(title)){
+      if(/minimum spanning|kruskal|tree/.test(title)){note('05','Chapter 5: Graph Theory');lecture(8,'graph-theory-ii-minimum-spanning-trees','Graph Theory II: Minimum Spanning Trees');ps(4);}
+      else if(/directed|dag|topological|partial order|relations/.test(title)){note('06','Chapter 6: Directed Graphs');note('07','Chapter 7: Relations and Partial Orders');lecture(11,'relations-partial-orders-and-scheduling','Relations, Partial Orders and Scheduling');ps(6);}
+      else if(weekIndex<4 && /vertex|edge|graph|bfs|dfs|bipartite|component|cycle|path/.test(title)){note('05','Chapter 5: Graph Theory');lecture(6,'graph-theory-and-coloring','Graph Theory and Coloring');ps(3);}
+    }
+    return notes.length||lectures.length||sets.length?{notes:notes,lectures:lectures,sets:sets}:null;
+  }
+  function dailyTasksForWeek(week,day){
+    var topic=function(id){var item=week.topics.find(function(entry){return entry[0]===id;});return item?item[1]:'the assigned topic';};
+    var p=topic('probability'),logic=topic('logic'),comb=topic('combinatorics'),graph=topic('graphs'),dp=topic('dp'),coding=topic('coding');
+    switch(day.id){
+      case 'mon':return ['Probability: study "'+p+'" from the assigned STAT 110 chapter and lecture in its checklist (about 60 min).','Probability: work through 2 guided examples, then solve 2 exercises without notes (about 40 min).','Logical reasoning: complete the named Rosen section, MIT written notes and video for "'+logic+'" (about 35 min).','Logical reasoning: complete the named MIT problem set’s proof exercises for this topic; write full proofs and check counterexamples (about 65 min).'];
+      case 'tue':return ['Combinatorics: read the named Rosen section and MIT counting notes for "'+comb+'" (about 60 min).','Combinatorics: solve 4 counting exercises; state whether order/repetition matters and explain overcounting checks (about 40 min).','C++: practise the implementation skills required by "'+coding+'" (about 35 min).','C++ / implementation: solve 2 independent problems; compile and test boundary cases (about 65 min).'];
+      case 'wed':return ['Graph theory: study "'+graph+'" using the named Handbook / CP-Algorithms sections in its checklist (about 60 min).','Graph theory: trace the method on a small example; record its invariant and time complexity (about 35 min).','Combinatorics: work through "'+comb+'" examples and verify small cases by enumeration (about 45 min).','Solve the linked CSES graph tasks and one independent counting problem without an editorial (about 60 min).'];
+      case 'thu':return ['Dynamic programming: study "'+dp+'"; write the state, base case and transition before coding (about 60 min).','Dynamic programming: dry-run the recurrence on 3 small inputs and check boundary cases (about 35 min).','Dynamic programming: implement and test the technique for "'+dp+'" (about 50 min).','Logical reasoning: solve 2 proof / deduction exercises for "'+logic+'" and justify every step (about 55 min).'];
+      case 'fri':return ['Probability: solve 3 independent problems on "'+p+'"; define events or random variables explicitly (about 55 min).','Graph theory: solve 3 independent problems on "'+graph+'"; choose the method from the constraints (about 55 min).','Mixed practice: solve one unseen problem using a key observation from this week (about 50 min).','Review every failed attempt; record the cause and the corrected reasoning (about 40 min).'];
+      default:return ['Take a timed mixed contest or the week’s assessment (up to 150 min).','Upsolve missed problems without copying the editorial; write the missing observation first (about 40 min).','Update the problem-review log and write next week’s two highest-priority repair tasks (about 20 min).'];
+    }
   }
 
   // Chapter-level assignments: the weekly topic is tied to a named source chapter
@@ -468,13 +504,16 @@
     } else if (subjectId === 'probability') {
       sectionIndex = /conditional|bayes|partition/.test(title) ? 1 : /expectation|indicator|random variable/.test(title) ? 3 : /variance|joint/.test(title) ? 4 : 0;
     }
-    var items = [];
-    if (subjectId === 'graphs' || subjectId === 'dp' || subjectId === 'coding') {
-      var bank = CSES_TASKS[subjectId], group = bank[Math.min(bank.length - 1, Math.floor(weekIndex / 3))];
-      items = group.map(function (name) { return 'CSES: ' + name; });
-    } else {
-      items = guide.practice.slice();
-    }
+    var items=[],mit=mitCompanionFor(subjectId,title,weekIndex);
+    if(subjectId==='graphs'||subjectId==='dp'||subjectId==='coding'){
+      var bank=CSES_TASKS[subjectId],group=bank[Math.min(bank.length-1,Math.floor(weekIndex/3))];
+      items=group.map(function(name){return 'CSES: '+name;});
+      if(mit&&subjectId==='graphs')items.push('MIT 6.042J '+mit.sets.map(function(set){return set.label;}).join(' / ')+': complete the graph-theory problems in this set and justify the algorithm choice.');
+    }else if(subjectId==='logic'||subjectId==='combinatorics'){
+      var setNames=mit?mit.sets.map(function(set){return set.label;}).join(' / '):'the assigned problem set';
+      items=['MIT 6.042J '+setNames+': complete the assigned set’s relevant problems; show every proof or counting argument.'];
+      if(guide.practice[1])items.push(guide.practice[1]);
+    }else items=guide.practice.slice();
     if (weekIndex >= 8 && (subjectId === 'logic' || subjectId === 'combinatorics' || subjectId === 'probability')) {
       items.push('Re-solve 3 previously missed questions without notes; write a one-paragraph justification for each');
     }
@@ -483,15 +522,27 @@
     if (!section) throw new Error('Missing reference section for subject: ' + subjectId);
     return { guide:guide, section:section, items:items };
   }
-  function renderTopicAssignments(topic, wi, ti) {
-    var subjectId = topic[0], ref = referenceFor(subjectId, wi, topic[1]), baseKey = 'w' + (wi + 1) + '-ref-' + ti;
-    var chapterKey = baseKey + '-read';
-    var reading = '<label class="reference-task"><input type="checkbox" data-day-task="' + chapterKey + '" ' + (state.dayChecks[chapterKey] ? 'checked' : '') + '><span><b>Read:</b> ' + esc(ref.guide.book) + ' — ' + esc(ref.section) + '</span></label>';
-    var tasks = ref.items.map(function (item, index) {
-      var key = baseKey + '-q' + index;
-      return '<label class="reference-task"><input type="checkbox" data-day-task="' + key + '" ' + (state.dayChecks[key] ? 'checked' : '') + '><span>' + esc(item) + '</span></label>';
-    }).join('');
-    return '<div class="topic-assignment"><div class="assignment-heading">Assigned reading & problems</div><div class="assignment-source"><a href="' + ref.guide.link + '" target="_blank" rel="noopener noreferrer">Open source material ↗</a></div>' + reading + tasks + '</div>';
+  function renderTopicAssignments(topic,wi,ti){
+    var subjectId=topic[0],ref=referenceFor(subjectId,wi,topic[1]),companion=mitCompanionFor(subjectId,topic[1],wi);
+    var baseKey='w'+(wi+1)+'-ref-'+ti,chapterKey=baseKey+'-read';
+    var reading='<label class="reference-task"><input type="checkbox" data-day-task="'+chapterKey+'" '+(state.dayChecks[chapterKey]?'checked':'')+'><span><b>Read:</b> '+esc(ref.guide.book)+' — '+esc(ref.section)+'</span></label>';
+    var mitChecks='';
+    if(companion){
+      var noteNames=companion.notes.map(function(item){return item.label;}).join('; ');
+      var lectureNames=companion.lectures.map(function(item){return item.label;}).join('; ');
+      var noteKey=baseKey+'-mit-notes',videoKey=baseKey+'-mit-video';
+      mitChecks+='<label class="reference-task"><input type="checkbox" data-day-task="'+noteKey+'" '+(state.dayChecks[noteKey]?'checked':'')+'><span><b>MIT written notes:</b> read '+esc(noteNames)+' (text notes, not a video).</span></label>';
+      if(companion.lectures.length)mitChecks+='<label class="reference-task"><input type="checkbox" data-day-task="'+videoKey+'" '+(state.dayChecks[videoKey]?'checked':'')+'><span><b>MIT video lecture:</b> watch '+esc(lectureNames)+'.</span></label>';
+    }
+    var tasks=ref.items.map(function(item,index){var key=baseKey+'-q'+index;return '<label class="reference-task"><input type="checkbox" data-day-task="'+key+'" '+(state.dayChecks[key]?'checked':'')+'><span>'+esc(item)+'</span></label>';}).join('');
+    var resourceLinks=[];
+    if(companion){
+      companion.notes.forEach(function(item){resourceLinks.push({label:'Written notes — '+item.label,url:item.url});});
+      companion.lectures.forEach(function(item){resourceLinks.push({label:'Video — '+item.label,url:item.url});});
+      companion.sets.forEach(function(item){resourceLinks.push({label:item.label+' — exercises',url:item.url});});
+    }else resourceLinks.push({label:'Open primary reference',url:ref.guide.link});
+    var links=resourceLinks.map(function(item){return '<a href="'+item.url+'" target="_blank" rel="noopener noreferrer">'+esc(item.label)+' ↗</a>';}).join('<span class="resource-separator"> · </span>');
+    return '<div class="topic-assignment"><div class="assignment-heading">Exact reading, lecture and problem assignment</div><div class="assignment-source assignment-resource-links">'+links+'</div>'+reading+mitChecks+tasks+'</div>';
   }
 
   function renderWeeks() {
@@ -504,8 +555,10 @@
         }).join('');
       };
       var subjectFilter = $('roadmap-subject-filter').value;
-      var selectedTopics = week.topics.map(function (topic, ti) { return { topic:topic, index:ti }; })
-        .filter(function (item) { return subjectFilter === 'all' || item.topic[0] === subjectFilter; });
+      var executionOrder=['probability','logic','combinatorics','coding','graphs','dp'];
+      var selectedTopics=week.topics.map(function(topic,ti){return {topic:topic,index:ti};})
+        .filter(function(item){return subjectFilter==='all'||item.topic[0]===subjectFilter;})
+        .sort(function(a,b){return executionOrder.indexOf(a.topic[0])-executionOrder.indexOf(b.topic[0]);});
       var topics = selectedTopics.map(function (item) {
         var topic = item.topic, ti = item.index;
         var key = topicKey(wi,ti);
@@ -513,25 +566,22 @@
         return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small><span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span>' + renderTopicAssignments(topic, wi, ti) + '</div>' +
           '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
       }).join('') || '<p class="roadmap-empty">No topic checkpoint is assigned to this subject in this week.</p>';
-      var days = DAILY_PLAN.map(function (day) {
-        var dayKey = 'w' + (wi + 1) + '-' + day.id;
-        var tasks = day.tasks.map(function (task, ti) {
-          var key = dayKey + '-' + ti;
-          var checked = !!state.dayChecks[key];
-          return '<label class="daily-task"><input type="checkbox" data-day-task="' + key + '" ' + (checked ? 'checked' : '') + '><span>' + esc(task) + '</span></label>';
-        }).join('');
-        var done = day.tasks.filter(function (_, ti) { return !!state.dayChecks[dayKey + '-' + ti]; }).length;
-        return '<details class="daily-day"><summary><span>' + day.day + '</span><span>' + day.focus + '</span><small>' + done + '/' + day.tasks.length + '</small></summary><div class="daily-task-list">' + tasks + '</div></details>';
+      var days=DAILY_PLAN.map(function(day){
+        var dayKey='w'+(wi+1)+'-'+day.id,dayTasks=dailyTasksForWeek(week,day);
+        var focus=day.subjects.length?day.subjects.map(function(id){var item=week.topics.find(function(entry){return entry[0]===id;});return item?item[1]:id;}).join(' + '):'Mixed contest + upsolving';
+        var tasks=dayTasks.map(function(task,ti){var key=dayKey+'-'+ti,checked=!!state.dayChecks[key];return '<label class="daily-task"><input type="checkbox" data-day-task="'+key+'" '+(checked?'checked':'')+'><span>'+esc(task)+'</span></label>';}).join('');
+        var done=dayTasks.filter(function(_,ti){return !!state.dayChecks[dayKey+'-'+ti];}).length;
+        return '<details class="daily-day"><summary><span>'+day.day+'</span><span>'+esc(focus)+'</span><small>'+done+'/'+dayTasks.length+'</small></summary><div class="daily-task-list">'+tasks+'</div></details>';
       }).join('');
       var weekStatuses = selectedTopics.map(function (item) { return statusOf(topicKey(wi,item.index)); });
       var mastered = weekStatuses.filter(function (x) { return x === 'mastered'; }).length;
       var assessment = week.assessment ? '<div class="assessment-note"><strong>Checkpoint</strong><p>' + esc(week.assessment) + '</p></div>' : '';
       return '<details class="week-card" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span><span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + '</span></span><span class="week-progress">' + mastered + ' / ' + selectedTopics.length + ' mastered</span></summary>' +
         '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment +
-        '<div class="topic-status-guide">Choose <b>Learning</b> when you can explain the idea; <b>Practiced</b> when you solve representative problems independently; <b>Mastered</b> when you solve unseen mixed problems under time and can justify the method.</div>' +
-        '<div class="roadmap-topic-list">' + topics + '</div>' +
-        '<div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Complete the actual work for each day. Adjust the topic content to the current week’s syllabus above. Sunday is rest or light revision.</p>' + days +
-        '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div></div></details>';
+        '<div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Work through Monday to Saturday in this order. Each day names the exact topics; linked reading, lecture and problem checklists follow below in the same subject order. Sunday is rest or light revision.</p>' + days +
+         '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div>' +
+         '<div class="topic-status-guide">After the daily work, mark each topic: <b>Learning</b> when you can explain it; <b>Practiced</b> when you solve representative problems independently; <b>Mastered</b> when you solve unseen mixed problems under time and justify the method.</div>' +
+         '<div class="roadmap-topic-list">' + topics + '</div></div></details>';
     }).join('');
 
     $('week-list').querySelectorAll('[data-mastery]').forEach(function (select) {

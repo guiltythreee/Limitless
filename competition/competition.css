@@ -305,3 +305,10 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
   #week-list .topic-assignment { padding: 10px; }
   #week-list .reference-task { font-size: 11px; }
 }
+
+
+/* Distinguish the exact written notes, video lectures and problem sets. */
+#week-list .assignment-resource-links{display:flex;flex-wrap:wrap;align-items:center;gap:6px 9px;margin:0 0 2px;line-height:1.6}
+#week-list .assignment-resource-links a{display:inline-block;padding:3px 7px;border:1px solid var(--comp-border);border-radius:6px;background:var(--comp-card);text-decoration:none}
+#week-list .assignment-resource-links a:hover{border-color:var(--comp-accent);text-decoration:underline}
+@media(max-width:650px){#week-list .assignment-resource-links{gap:5px}#week-list .assignment-resource-links a{font-size:10px}}
