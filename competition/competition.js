@@ -692,7 +692,7 @@
     $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div><p class="repair-suggestion">'+esc(repair)+'</p>';
   }
   function renderMockAnalytics() {
-    var tagged=state.mocks.filter(function(mock){return mock.subject && mock.subject!=='All subjects' && mock.oneMax>0;});
+    var tagged=state.mocks.filter(function(mock){return mock.subject && mock.subject!=='All subjects' && (Number(mock.oneMax)>0 || Number(mock.twoMax)>0);});
     var rows=SUBJECTS.map(function(subject){
       var subjectMocks=tagged.filter(function(mock){return mock.subject===subject.name;});
       var scored=subjectMocks.reduce(function(total,mock){return total+Number(mock.oneScore||0)+Number(mock.twoScore||0);},0);
@@ -868,7 +868,7 @@
       var totalScore = Number(mock.oneScore || 0) + Number(mock.twoScore || 0);
       var overall = combined > 0 ? (totalScore / combined * 100).toFixed(1) + '%' : 'Score not entered';
       var rank = mock.rank ? ' · Rank ' + mock.rank + '/' + mock.cohort : '';
-      return '<article class="mock-row"><span>' + esc(mock.date) + '<small>' + esc(mock.typeLabel) + '</small></span><span>T1 ' + one + ' · T2 ' + two + '<small>Total: ' + overall + '</small></span><strong>' + (mock.rank ? 'Rank ' + mock.rank : 'No rank') + '</strong><span>' + esc(mock.note || 'No notes') + rank + '</span><button type="button" data-delete-mock="' + esc(mock.id) + '">Remove</button></article>';
+      return '<article class="mock-row"><span>' + esc(mock.date) + '<small>' + esc(mock.typeLabel) + (mock.subject && mock.subject !== 'All subjects' ? ' · ' + esc(mock.subject) : '') + '</small></span><span>T1 ' + one + ' · T2 ' + two + '<small>Total: ' + overall + '</small></span><strong>' + (mock.rank ? 'Rank ' + mock.rank : 'No rank') + '</strong><span>' + esc(mock.note || 'No notes') + rank + '</span><button type="button" data-delete-mock="' + esc(mock.id) + '">Remove</button></article>';
     }).join('') : '<p class="empty-state">No assessments recorded yet.</p>';
     $('mock-history').querySelectorAll('[data-delete-mock]').forEach(function (button) {
       button.addEventListener('click', function () {
