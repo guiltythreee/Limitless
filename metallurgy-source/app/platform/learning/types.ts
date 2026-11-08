@@ -23,6 +23,8 @@ export type AttemptMode = "learn" | "practice" | "exam" | "revision";
 /** `recorded` is a real submission; `legacy` is derived from older progress. */
 export type ActivitySource = "recorded" | "legacy";
 
+export type MistakeCategory = "conceptual" | "observation" | "mathematical" | "implementation" | "time-management";
+
 /**
  * One submitted answer. This is a per-course log entry, not the current state
  * of a question (`answered` remains the current-state map).
