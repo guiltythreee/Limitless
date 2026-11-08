@@ -22,7 +22,7 @@ const code = [
   slice('  const CATEGORIES', '  function readSaved'),
   slice('  function categoriesFor', '  function esc('),
   slice('  function curateProblemset', '  async function readSnapshot')
-].join('\\n') + '\\nreturn curateProblemset;';
+] .join('\n') + '\nreturn curateProblemset;';
 const curateProblemset = new Function(code)();
 
 const inputIndex = process.argv.indexOf('--input');
@@ -39,7 +39,7 @@ if (inputIndex > -1) {
 }
 
 const problems = curateProblemset(result);
-writeFileSync(outPath, JSON.stringify({ generatedAt: new Date().toISOString(), problems }) + '\\n');
+writeFileSync(outPath, JSON.stringify({ generatedAt: new Date().toISOString(), problems }) + '\n');
 
 const perRating = {};
 problems.forEach(p => { perRating[p.rating] = (perRating[p.rating] || 0) + 1; });
