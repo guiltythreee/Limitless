@@ -498,7 +498,7 @@
     var guide = REFERENCE_GUIDE[subjectId], title = String(topicTitle || '').toLowerCase();
     var sectionIndex = Math.min(guide.sections.length - 1, Math.floor(weekIndex / 4));
     if (subjectId === 'logic') {
-      sectionIndex = /induction/.test(title) ? 1 : /pigeonhole|counting/.test(title) ? 2 : /graph/.test(title) ? 3 : 0;
+      sectionIndex = /induction|invariant|parity/.test(title) ? 1 : /pigeonhole|counting/.test(title) ? 2 : /graph/.test(title) ? 3 : 0;
     } else if (subjectId === 'combinatorics') {
       sectionIndex = /recurrence/.test(title) ? 1 : 0;
     } else if (subjectId === 'probability') {
@@ -508,10 +508,10 @@
     if(subjectId==='graphs'||subjectId==='dp'||subjectId==='coding'){
       var bank=CSES_TASKS[subjectId],group=bank[Math.min(bank.length-1,Math.floor(weekIndex/3))];
       items=group.map(function(name){return 'CSES: '+name;});
-      if(mit&&subjectId==='graphs')items.push('MIT 6.042J '+mit.sets.map(function(set){return set.label;}).join(' / ')+': complete the graph-theory problems in this set and justify the algorithm choice.');
+      if(mit&&subjectId==='graphs')items.push('MIT 6.042J '+mit.sets.map(function(set){return set.label;}).join(' / ')+': complete every question in this MIT problem set and justify the algorithm choice.');
     }else if(subjectId==='logic'||subjectId==='combinatorics'){
       var setNames=mit?mit.sets.map(function(set){return set.label;}).join(' / '):'the assigned problem set';
-      items=['MIT 6.042J '+setNames+': complete the assigned set’s relevant problems; show every proof or counting argument.'];
+      items=['MIT 6.042J '+setNames+': complete every question in this MIT problem set; show every proof or counting argument.'];
       if(guide.practice[1])items.push(guide.practice[1]);
     }else items=guide.practice.slice();
     if (weekIndex >= 8 && (subjectId === 'logic' || subjectId === 'combinatorics' || subjectId === 'probability')) {
@@ -524,7 +524,7 @@
   }
   function renderTopicAssignments(topic,wi,ti){
     var subjectId=topic[0],ref=referenceFor(subjectId,wi,topic[1]),companion=mitCompanionFor(subjectId,topic[1],wi);
-    var baseKey='w'+(wi+1)+'-ref-'+ti,chapterKey=baseKey+'-read';
+    var baseKey='w'+(wi+1)+'-v2-ref-'+ti,chapterKey=baseKey+'-read';
     var reading='<label class="reference-task"><input type="checkbox" data-day-task="'+chapterKey+'" '+(state.dayChecks[chapterKey]?'checked':'')+'><span><b>Read:</b> '+esc(ref.guide.book)+' — '+esc(ref.section)+'</span></label>';
     var mitChecks='';
     if(companion){
@@ -567,7 +567,7 @@
           '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
       }).join('') || '<p class="roadmap-empty">No topic checkpoint is assigned to this subject in this week.</p>';
       var days=DAILY_PLAN.map(function(day){
-        var dayKey='w'+(wi+1)+'-'+day.id,dayTasks=dailyTasksForWeek(week,day);
+        var dayKey='w'+(wi+1)+'-exec2-'+day.id,dayTasks=dailyTasksForWeek(week,day);
         var focus=day.subjects.length?day.subjects.map(function(id){var item=week.topics.find(function(entry){return entry[0]===id;});return item?item[1]:id;}).join(' + '):'Mixed contest + upsolving';
         var tasks=dayTasks.map(function(task,ti){var key=dayKey+'-'+ti,checked=!!state.dayChecks[key];return '<label class="daily-task"><input type="checkbox" data-day-task="'+key+'" '+(checked?'checked':'')+'><span>'+esc(task)+'</span></label>';}).join('');
         var done=dayTasks.filter(function(_,ti){return !!state.dayChecks[dayKey+'-'+ti];}).length;
