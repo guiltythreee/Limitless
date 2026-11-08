@@ -75,9 +75,9 @@
       'Long-term review: track rating variance, recurring mistakes, implementation bugs and topic weaknesses.'
     ]}
   ];
-  let roadmapState = {checks:{},weekly:{solved:0,contests:0},weeklyManual:{solved:0,contests:0},active:0,ready:[]};
+  let roadmapState = {checks:{},weekly:{solved:0,contests:0},weeklyManual:{contests:0},active:0,ready:[]};
   function loadRoadmap() {
-    try { const saved=JSON.parse(localStorage.getItem(ROADMAP_KEY)||'{}'); roadmapState={...roadmapState,...saved,checks:saved.checks||{},weekly:saved.weekly||{solved:0,contests:0},weeklyManual:saved.weeklyManual||{solved:0,contests:0},ready:saved.ready||[],nextBandCounts:saved.nextBandCounts||{}}; if(roadmapState.taskSchemaVersion!==2){roadmapState.legacyChecks=roadmapState.checks;roadmapState.checks={};roadmapState.taskSchemaVersion=2;saveRoadmap();} } catch (_) {}
+    try { const saved=JSON.parse(localStorage.getItem(ROADMAP_KEY)||'{}'); roadmapState={...roadmapState,...saved,checks:saved.checks||{},weekly:saved.weekly||{solved:0,contests:0},weeklyManual:{contests:(saved.weeklyManual&&saved.weeklyManual.contests)||0},ready:saved.ready||[],nextBandCounts:saved.nextBandCounts||{}}; if(roadmapState.taskSchemaVersion!==2){roadmapState.legacyChecks=roadmapState.checks;roadmapState.checks={};roadmapState.taskSchemaVersion=2;saveRoadmap();} } catch (_) {}
   }
   function saveRoadmap() { try { localStorage.setItem(ROADMAP_KEY,JSON.stringify(roadmapState)); } catch (_) {} }
   function renderRoadmap(peak) {
@@ -116,8 +116,6 @@
       roadmapState.checks[roadmapState.active]=e.target.checked?[...new Set([...list,id])]:list.filter(x=>x!==id);
       saveRoadmap();renderRoadmap(lastPeak);
     });
-    $('weekly-plus').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};roadmapState.weeklyManual.solved=Math.min(999,(roadmapState.weeklyManual.solved||0)+1);roadmapState.weekly.solved=(roadmapState.weekly.solved||0)+1;saveRoadmap();renderRoadmap(lastPeak);});
-    $('weekly-minus').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};if((roadmapState.weeklyManual.solved||0)>0){roadmapState.weeklyManual.solved--;roadmapState.weekly.solved=Math.max(0,(roadmapState.weekly.solved||0)-1);saveRoadmap();renderRoadmap(lastPeak);}});
     $('contest-log').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};roadmapState.weeklyManual.contests=Math.min(99,(roadmapState.weeklyManual.contests||0)+1);roadmapState.weekly.contests=(roadmapState.weekly.contests||0)+1;saveRoadmap();renderRoadmap(lastPeak);});
     $('contest-unlog').addEventListener('click',()=>{roadmapState.weeklyManual=roadmapState.weeklyManual||{solved:0,contests:0};if((roadmapState.weeklyManual.contests||0)>0){roadmapState.weeklyManual.contests--;roadmapState.weekly.contests=Math.max(0,(roadmapState.weekly.contests||0)-1);saveRoadmap();renderRoadmap(lastPeak);}});
     $('mark-stage-done').addEventListener('click',()=>{
@@ -177,7 +175,7 @@
       $('current-rating').textContent = user.rating == null ? 'Unrated' : String(user.rating);
       $('current-rank').textContent = user.rank || 'Unrated';
       $('contest-count').textContent = String(history.length);
-      roadmapState.weekly={solved:weekProblems.size+(roadmapState.weeklyManual?.solved||0),contests:weekContests+(roadmapState.weeklyManual?.contests||0)};saveRoadmap();
+      roadmapState.weekly={solved:weekProblems.size,contests:weekContests+(roadmapState.weeklyManual?.contests||0)};saveRoadmap();
       render(peak);
       lastSuccessfulSyncAt=Date.now();
       $('sync-status').textContent = 'Live Codeforces data · rating, accepted problems and contest participation synced just now.';
