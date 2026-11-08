@@ -26,6 +26,7 @@
   let inFlight = Promise.resolve();
   let pending = new Map();
   let state = "signed-out";
+  let lastRefreshAt = 0;
 
   function pendingStorageKey(userId) {
     return PENDING_PREFIX + userId;
@@ -133,8 +134,9 @@
     return inFlight;
   }
 
-  async function syncUser(userId) {
-    if (!userId || (activeUserId === userId && (ready || syncingUserId === userId))) return;
+  async function syncUser(userId, force = false) {
+    if (!userId || syncingUserId === userId || (activeUserId === userId && ready && !force)) return;
+    if (force && activeUserId === userId) await inFlight;
     activeUserId = userId;
     syncingUserId = userId;
     ready = false;
@@ -221,6 +223,28 @@
     queueWrite(event.key, event.newValue, event.newValue === null);
   });
 
+  // Refresh cloud state when an already-open page returns to the foreground.
+  // This lets another device's contest results appear without requiring sign-out.
+  async function refresh() {
+    if (!activeUserId || !client.auth) return;
+    const now = Date.now();
+    if (now - lastRefreshAt < 15000) return;
+    lastRefreshAt = now;
+    try {
+      const { data, error } = await client.auth.getSession();
+      if (error) throw error;
+      const userId = data.session?.user?.id;
+      if (userId && userId === activeUserId) await syncUser(userId, true);
+    } catch (error) {
+      setState("error", error.message || "Cloud refresh failed");
+    }
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") void refresh();
+  });
+  window.addEventListener("focus", () => { void refresh(); });
+
   // Flush debounced progress when the page is backgrounded or closed. The
   // localStorage write remains durable even if the browser cancels the request;
   // this is a best-effort attempt to finish the cloud mirror before teardown.
@@ -251,6 +275,7 @@
   window.LimitlessCloudSync = Object.freeze({
     flush,
     getStatus: () => state,
-    isReady: () => ready
+    isReady: () => ready,
+    refresh
   });
 })();
