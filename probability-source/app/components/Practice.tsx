@@ -4,7 +4,8 @@ import { createElement, useEffect, useMemo, useRef, useState, type Dispatch, typ
 import { lessons, pad2, type Difficulty } from "../content";
 import { Explanation, Rich } from "../lib/rich";
 import { allQuestions, correctSet, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
-import { clearDraft, latestByQuestion, recordAttempt, recordTest, saveDraft, toggleBookmark, useStore, type Attempt, type TestRecord } from "../lib/store";
+import { clearDraft, latestByQuestion, recordAttempt, recordTest, saveDraft, toggleBookmark, useStore, type Attempt, type TestRecord, classifyMistake, markMistakeReviewed } from "../lib/store";
+import { MISTAKE_CATEGORIES, buildRevisionList, mistakeCategoryLabel, type MistakeCategory } from "../../../shared/studies/mistakes";
 import { fmtTime, summarize } from "../lib/stats";
 import { StatsPanel } from "./Dashboard";
 import {
@@ -123,7 +124,7 @@ export default function Practice({ lessonId, onSelectLesson, initialView = "over
 
         {view === "all" && <QuestionList pool={pool} title={scopeLabel} initialDifficulty={initialDifficulty} onOpen={(k, i) => open(k, i, "all")} onAnalysis={() => setView("overview")} />}
         {view === "saved" && <QuestionList pool={pool.filter((q) => store.bookmarks.includes(q.key))} title="Bookmarked questions" empty="Nothing saved yet. Tap ☆ on a question to keep it here." onOpen={(k, i) => open(k, i, "saved")} onAnalysis={() => setView("overview")} />}
-        {view === "mistakes" && <QuestionList pool={pool.filter((q) => ["incorrect", "partial"].includes(statusOf(q.key)))} title="My mistakes (latest attempt not fully correct)" empty="No mistakes right now. Keep going." onOpen={(k, i) => open(k, i, "mistakes")} onAnalysis={() => setView("overview")} />}
+        {view === "mistakes" && <><MistakeRevisionPanel attempts={store.attempts} /><QuestionList pool={pool.filter((q) => ["incorrect", "partial"].includes(statusOf(q.key)))} title="My mistakes (latest attempt not fully correct)" empty="No mistakes right now. Keep going." onOpen={(k, i) => open(k, i, "mistakes")} onAnalysis={() => setView("overview")} /></>}
 
         {view === "history" && (
           <section className="study-utility-panel">
@@ -171,6 +172,44 @@ export default function Practice({ lessonId, onSelectLesson, initialView = "over
         )}
       </div>
     </div>
+  );
+}
+
+
+function MistakeRevisionPanel({ attempts }: { attempts: Attempt[] }) {
+  const queue = buildRevisionList(attempts.map((attempt) => ({
+    questionId: attempt.q,
+    correct: attempt.status === "correct",
+    category: attempt.mistakeCategory,
+    occurredAt: attempt.ts,
+    reviewedAt: attempt.reviewedAt,
+  })));
+  const grouped = MISTAKE_CATEGORIES.map((category) => ({
+    ...category,
+    count: attempts.filter((attempt) => attempt.status !== "correct" && attempt.mistakeCategory === category.id).length,
+  }));
+  const unclassified = attempts.filter((attempt) => attempt.status !== "correct" && !attempt.mistakeCategory).length;
+  return (
+    <section className="study-utility-panel mb-5">
+      <header className="study-utility-panel__header"><div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Mistake analysis & revision queue</h2><p className="study-utility-panel__description">Recurring classified errors are ranked first. Classify incorrect answers in the question review.</p></div><span className="study-utility-panel__count">{queue.length} revision items</span></header>
+      <div className="study-utility-panel__content">
+        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {grouped.map((item) => <div key={item.id} className="study-utility-metric"><span className="study-utility-metric__label">{item.label}</span><strong className="study-utility-metric__value">{item.count}</strong></div>)}
+        </div>
+        {unclassified > 0 && <p className="mt-3 text-xs text-dim">{unclassified} incorrect attempts still need classification.</p>}
+        {queue.length === 0 ? <p className="py-5 text-center text-sm text-dim">No classified mistakes yet. Classify an incorrect answer to start building your revision list.</p> : (
+          <div className="mt-4 space-y-2">
+            {queue.slice(0, 20).map((item) => {
+              const matching = attempts.filter((attempt) => attempt.q === item.questionId && attempt.mistakeCategory === item.category && attempt.status !== "correct");
+              return <div key={item.questionId + item.category} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-gold/15 p-3">
+                <div><strong className="text-sm text-parchment">{item.questionId}</strong><div className="mt-1 text-xs text-dim">{mistakeCategoryLabel(item.category)} · {item.occurrences} occurrence{item.occurrences === 1 ? "" : "s"} · {item.reviewed ? "Reviewed" : "Needs revision"}</div></div>
+                <button type="button" className="btn" disabled={item.reviewed} onClick={() => markMistakeReviewed(matching.map((attempt) => attempt.id))}>{item.reviewed ? "Reviewed ✓" : "Mark reviewed"}</button>
+              </div>;
+            })}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -480,6 +519,20 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
             <span className="text-dim">Time taken {fmtTime(last.ms)}</span>
           </div>
           <div className="learning-player-solution rounded-xl border border-gold/15 p-4"><Explanation text={q.item.explanation} /></div>
+          {last.status !== "correct" && (
+            <section className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4" aria-label="Classify this mistake">
+              <div className="text-sm font-semibold text-parchment">What caused this mistake?</div>
+              <p className="mt-1 text-xs text-dim">Choose the main reason. You can change it later.</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {MISTAKE_CATEGORIES.map((item) => (
+                  <button key={item.id} type="button" onClick={() => classifyMistake(last.id, item.id)} aria-pressed={last.mistakeCategory === item.id} className={`rounded-lg border px-3 py-2 text-left text-xs transition ${last.mistakeCategory === item.id ? "border-gold bg-gold/15 text-parchment" : "border-gold/15 text-dim hover:border-gold/40"}`}>
+                    <strong className="block">{item.label}</strong><span className="mt-1 block">{item.detail}</span>
+                  </button>
+                ))}
+              </div>
+              {last.mistakeCategory && <p className="mt-2 text-xs text-ok">Saved: {mistakeCategoryLabel(last.mistakeCategory)}</p>}
+            </section>
+          )}
         </div>
       )}
 
