@@ -462,3 +462,20 @@ html[data-theme="dark"] .settings-card>summary span { color:#a9bdd1; }
 html[data-theme="dark"] .competition-page input,html[data-theme="dark"] .competition-page select { border-color:rgba(119,157,194,.25); background:rgba(7,19,34,.86); color:#e7f0f8; }
 html[data-theme="dark"] .action-button { border-color:rgba(97,177,246,.5); background:rgba(52,139,216,.16); color:#a9d7ff; }
 html[data-theme="dark"] .action-button:hover { background:rgba(52,139,216,.27); }
+
+
+/* Weekly resource shelf: books first, with matching lectures and problem sets adjacent. */
+.weekly-resource-shelf{margin:1.1rem 0 1.35rem;padding:1rem;border:1px solid var(--border,rgba(148,163,184,.22));border-radius:16px;background:var(--surface-soft,rgba(148,163,184,.055))}
+.weekly-resource-shelf>h4{margin:0 0 .35rem;font-size:1rem}
+.weekly-resource-shelf>p{margin:0 0 .9rem;color:var(--muted,#8993a6);font-size:.88rem;line-height:1.55}
+.weekly-resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:.75rem}
+.weekly-resource-card{min-width:0;padding:.9rem;border:1px solid var(--border,rgba(148,163,184,.2));border-radius:12px;background:var(--surface,rgba(15,23,42,.24));display:grid;gap:.7rem}
+.weekly-resource-book{display:grid;gap:.3rem}
+.weekly-resource-book strong{font-size:.94rem;line-height:1.4}
+.weekly-resource-card a{width:fit-content;color:var(--accent,#8ab4ff);text-decoration:underline;text-underline-offset:3px;font-size:.86rem}
+.weekly-resource-sections b,.weekly-resource-links b{display:block;margin-bottom:.3rem;font-size:.78rem;letter-spacing:.035em;text-transform:uppercase;color:var(--muted,#8993a6)}
+.weekly-resource-sections ul{margin:.25rem 0 0;padding-left:1.1rem}
+.weekly-resource-sections li{margin:.22rem 0;font-size:.84rem;line-height:1.45}
+.weekly-resource-links{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .75rem}
+.weekly-resource-links b{flex-basis:100%;margin:0}
+@media(max-width:640px){.weekly-resource-shelf{padding:.8rem}.weekly-resource-card{padding:.75rem}}
