@@ -252,7 +252,11 @@
     ['cf-rating-min','cf-rating-max'].forEach(id => $(id).addEventListener('change', () => { $('cf-rating-preset').value = 'custom'; }));
     $('cf-prev-page').addEventListener('click', () => { state.page--; render(); });
     $('cf-next-page').addEventListener('click', () => { state.page++; render(); });
-    $('cf-refresh-problems').addEventListener('click', () => loadProblemset(true));
+    $('cf-refresh-problems').addEventListener('click', () => {
+      const menu = $('cf-catalogue-options');
+      if (menu) menu.open = false;
+      loadProblemset(true);
+    });
     $('cf-refresh-solved').addEventListener('click', async () => { status('Refreshing solved submissions…'); await loadSolved(); render(); });
     $('cf-clear-filters').addEventListener('click', () => {
       $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
