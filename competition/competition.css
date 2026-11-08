@@ -333,3 +333,7 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 .course-library-note{margin:12px 0 0;padding-top:10px;border-top:1px solid var(--comp-border);color:var(--comp-muted);font:10px/1.6 Arial,sans-serif}
 @media(max-width:760px){.course-library-heading{display:block}.course-library-heading p{margin-top:8px}.course-library-grid{grid-template-columns:1fr}}
 @media(max-width:520px){.roadmap-course-library{padding:12px}.course-library-column{padding:11px}.course-library-list li{display:block}.course-library-list li>a{display:inline-block;margin-top:4px}}
+
+
+#week-list .reference-task a{color:var(--comp-accent);text-decoration:underline;text-underline-offset:2px}
+#week-list .reference-task a:hover{color:var(--comp-ink)}
