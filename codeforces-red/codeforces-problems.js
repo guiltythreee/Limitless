@@ -3,9 +3,10 @@
   const API = 'https://codeforces.com/api/';
   const STORAGE = 'limitless.competition.codeforces-problemset.v2';
   const LOG_STORAGE = 'limitless.codeforces.weekly-logged-problems.v1';
-  const CACHE_KEY = 'limitless.codeforces-curated-catalogue.v1';
-  const CACHE_TTL = 86400000;
+  const CACHE_KEY = 'limitless.codeforces-curated-catalogue.v2';
   const MAX_PER_RATING = 250;
+  const MIN_PER_TOPIC = 6;
+  const TOPIC_BALANCE = 0.6;
   const $ = id => document.getElementById(id);
   const state = { problems: [], solved: new Set(), wrong: new Map(), saved: new Set(), logged: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
   const CATEGORIES = {
@@ -57,36 +58,88 @@
     });
     const curated = [];
     [...buckets.keys()].sort((a,b)=>a-b).forEach(rating => {
-      const best = buckets.get(rating).sort((a,b)=>b.catalogueSolvedCount-a.catalogueSolvedCount || (a.name||'').localeCompare(b.name||'')).slice(0,MAX_PER_RATING);
-      curated.push(...best);
+      curated.push(...selectBalanced(buckets.get(rating), MAX_PER_RATING));
     });
     return curated;
+  }
+  // Select a topic-balanced sample; within each topic, prefer the most-solved problems.
+  function selectBalanced(rows, limit) {
+    if (rows.length <= limit) return rows.slice();
+    const popular = (a,b) => b.catalogueSolvedCount-a.catalogueSolvedCount || (a.name||'').localeCompare(b.name||'');
+    const lists = new Map();
+    rows.forEach(row => categoriesFor(row.tags).forEach(cat => {
+      if (!lists.has(cat)) lists.set(cat, []);
+      lists.get(cat).push(row);
+    }));
+    lists.forEach(list => list.sort(popular));
+    const cats = [...lists.keys()].sort((a,b) => lists.get(a).length-lists.get(b).length);
+    const weight = new Map(cats.map(cat => [cat, Math.pow(lists.get(cat).length, TOPIC_BALANCE)]));
+    const total = [...weight.values()].reduce((a,b) => a+b, 0);
+    const target = new Map(cats.map(cat => [cat, limit*weight.get(cat)/total]));
+    const picked = new Set(), taken = new Map(cats.map(cat => [cat,0])), cursor = new Map(cats.map(cat => [cat,0]));
+    function nextFree(cat) {
+      const list=lists.get(cat); let i=cursor.get(cat);
+      while(i<list.length && picked.has(list[i])) i++;
+      cursor.set(cat,i); return i<list.length ? list[i] : null;
+    }
+    function takeFrom(cat) {
+      const row=nextFree(cat); if(!row) return false;
+      picked.add(row); taken.set(cat,taken.get(cat)+1); return true;
+    }
+    cats.forEach(cat => {
+      if(cat==='Other') return;
+      for(let n=0;n<MIN_PER_TOPIC && picked.size<limit;n++) if(!takeFrom(cat)) break;
+    });
+    while(picked.size<limit) {
+      let best=null,gapBest=-Infinity;
+      cats.forEach(cat => {
+        if(!nextFree(cat)) return;
+        const gap=target.get(cat)-taken.get(cat);
+        if(gap>gapBest){gapBest=gap;best=cat;}
+      });
+      if(!best) break;
+      takeFrom(best);
+    }
+    return rows.filter(row=>picked.has(row)).sort(popular);
   }
   function readCatalogueCache() {
     try {
       const cache=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-      if(cache && Date.now()-cache.savedAt<CACHE_TTL && Array.isArray(cache.problems)) return cache.problems;
+      if(cache && Array.isArray(cache.problems) && cache.problems.length) return cache.problems;
     } catch (_) {}
     return null;
   }
   function saveCatalogueCache(problems) {
     try { localStorage.setItem(CACHE_KEY,JSON.stringify({savedAt:Date.now(),problems})); } catch (_) {}
   }
+  async function readSnapshot() {
+    try {
+      const response = await fetch('./catalogue.json', {cache:'no-cache'});
+      if(!response.ok) return null;
+      const data=await response.json();
+      const list=Array.isArray(data)?data:data && data.problems;
+      return Array.isArray(list) && list.length ? list : null;
+    } catch (_) { return null; }
+  }
   async function loadProblemset(forceRefresh) {
     if (state.loading) return;
     state.loading = true; $('cf-refresh-problems').disabled = true;
     try {
-      const cached = forceRefresh ? null : readCatalogueCache();
-      if (cached) {
+      const snapshot = await readSnapshot();
+      const cached = (snapshot || forceRefresh) ? null : readCatalogueCache();
+      if (snapshot) {
+        state.problems=snapshot; state.loaded=true;
+        status('Fixed catalogue loaded ('+snapshot.length.toLocaleString()+' problems).');
+      } else if (cached) {
         state.problems=cached; state.loaded=true;
-        status('Loaded curated catalogue from cache ('+cached.length.toLocaleString()+' problems).');
+        status('Loaded saved catalogue ('+cached.length.toLocaleString()+' problems).');
       } else {
-        status('Selecting the 250 most-solved problems for each rating from Codeforces…');
+        status('Selecting up to 250 topic-balanced problems per rating from Codeforces…');
         const result = await api('problemset.problems');
         state.problems=curateProblemset(result);
         saveCatalogueCache(state.problems);
         state.loaded=true;
-        status('Curated '+state.problems.length.toLocaleString()+' problems · up to 250 per rating · ranked by accepted-solution count.');
+        status('Curated '+state.problems.length.toLocaleString()+' problems · up to 250 per rating · balanced across topics.');
       }
       populateFilters();
       await loadSolved();
