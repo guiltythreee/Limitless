@@ -128,7 +128,42 @@ function readLegacySize(fallback: number): number {
 }
 
 function readSettings(): BookkeysSettings {
-  const defaults: BookkeysSettings = { bg: "pic-morning", size: 20, lineH: 1.7, celebrate: true };
+  const defaults: BookkeysSettings = {
+    skin: "auto",
+    accent: "theme",
+    accentCustom: "#E11D48",
+    fontColor: "theme",
+    fontColorCustom: "#FF8A00",
+    bgMatch: true,
+    deco: "on",
+    bg: "pic-morning",
+    bgDensity: 1,
+    bgAnim: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    backdrop: 0,
+    picVeil: 0,
+    picBlur: 0,
+    font: "newsreader",
+    size: 20,
+    lineH: 1.7,
+    spacing: 0,
+    punct: "simplify",
+    lglow: true,
+    tfx: "none",
+    fxInt: 1,
+    efx: "flash",
+    sparks: "off",
+    sound: "off",
+    volume: 50,
+    errSound: true,
+    centered: false,
+    celebrate: true,
+    motion: "system",
+    cstyle: "block",
+    cblink: "blink",
+    csmooth: true,
+    cglow: false,
+    ccolor: "accent",
+  };
   const legacySize = readLegacySize(defaults.size);
   try {
     const value: unknown = JSON.parse(window.localStorage.getItem("bookkeys:settings") ?? "{}");
