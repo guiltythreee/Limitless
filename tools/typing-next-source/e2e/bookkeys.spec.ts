@@ -657,6 +657,26 @@ test("fresh Bookkeys settings initialize the complete legacy defaults contract",
   });
 });
 
+test("centered reading preference changes reader layout and persists", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "centered-reading-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const article = page.locator(".bk-source-text");
+  await expect(article).toBeVisible();
+  await expect(article).toHaveAttribute("data-reader-centered", "false");
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await dialog.getByLabel("Center reading text").check();
+  await expect(article).toHaveAttribute("data-reader-centered", "true");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").centered)).toBe(true);
+  await page.reload();
+  await expect(page.locator(".bk-source-text")).toHaveAttribute("data-reader-centered", "true");
+});
+
 test("IME composition commits once, saves the draft and does not count intermediate composition input", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
