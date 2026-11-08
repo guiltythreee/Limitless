@@ -9,6 +9,7 @@ export type {
   ActivityLog,
   ActivityLogConfig,
   ActivitySource,
+  MistakeCategory,
   ActivitySummary,
   AnswerInput,
   AttemptMode,
