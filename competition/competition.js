@@ -434,13 +434,13 @@
     logic: {
       book:'Kenneth Rosen, Discrete Mathematics and Its Applications (8th ed.)',
       sections:['Ch. 1: §1.1–1.8 Logic and proofs','Ch. 5: §5.1–5.4 Mathematical induction','Ch. 6: §6.1–6.5 Counting','Ch. 9–10: Relations and graph theory'],
-      link:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf',
+      link:'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/readings/',
       practice:['MIT 6.042J Mathematics for Computer Science: read the matching lecture notes and complete its associated problem set','Write a complete proof for each selected claim; check counterexamples and edge cases']
     },
     combinatorics: {
       book:'Kenneth Rosen, Discrete Mathematics and Its Applications (8th ed.)',
       sections:['Ch. 6: §6.1–6.5 Basic counting, permutations and combinations','Ch. 8: §8.1–8.5 Recurrence relations and advanced counting'],
-      link:'https://courses.csail.mit.edu/6.042/spring18/mcs.pdf',
+      link:'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/readings/',
       practice:['MIT 6.042J: complete the counting / pigeonhole / recurrence problem set matching this week','For every count, state whether order matters and explain why there is no overcounting']
     },
     probability: {
@@ -510,8 +510,10 @@
       items=group.map(function(name){return 'CSES: '+name;});
       if(mit&&subjectId==='graphs')items.push('MIT 6.042J '+mit.sets.map(function(set){return set.label;}).join(' / ')+': complete every question in this MIT problem set and justify the algorithm choice.');
     }else if(subjectId==='logic'||subjectId==='combinatorics'){
-      var setNames=mit?mit.sets.map(function(set){return set.label;}).join(' / '):'the assigned problem set';
-      items=['MIT 6.042J '+setNames+': complete every question in this MIT problem set; show every proof or counting argument.'];
+      if(mit){
+        var setNames=mit.sets.map(function(set){return set.label;}).join(' / ');
+        items=['MIT 6.042J '+setNames+': complete every question in this MIT problem set; show every proof or counting argument.'];
+      }
       if(guide.practice[1])items.push(guide.practice[1]);
     }else items=guide.practice.slice();
     if (weekIndex >= 8 && (subjectId === 'logic' || subjectId === 'combinatorics' || subjectId === 'probability')) {
