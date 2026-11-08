@@ -101,6 +101,7 @@
     $('roadmap-stage-list').innerHTML=stages.map((s,i)=>'<button type="button" class="cr-stage-tab '+(i===roadmapState.active?'is-active':'')+'" data-stage="'+i+'"><span class="cr-stage-index">'+String(i+1).padStart(2,'0')+'</span><span><b>'+s.name+'</b><small>'+s.range+'</small></span><span class="cr-stage-check">'+(roadmapState.ready.includes(i)?'✓':i===activeByRating?'●':'')+'</span></button>').join('');
     $('weekly-solved').textContent=roadmapState.weekly.solved||0;
     $('weekly-contests').textContent=roadmapState.weekly.contests||0;
+    $('contest-unlog').disabled=(roadmapState.weeklyManual?.contests||0)<=0;
     $('mark-stage-done').textContent=roadmapState.ready.includes(roadmapState.active)?'Stage marked ready':'Mark stage ready';
   }
   function bindRoadmap() {

@@ -331,3 +331,29 @@ html[data-theme="light"] .cr-book-grid article:focus-within {
     width: 100%;
   }
 }
+
+
+/* Keep contest actions grouped and the undo purpose legible when unavailable. */
+.cr-week-foot { justify-content:space-between; }
+.cr-week-contest-actions {
+  display:inline-flex; align-items:center; justify-content:flex-end;
+  gap:8px; margin-left:auto;
+}
+.cr-week-foot .cr-week-contest-actions button { margin:0; }
+.cr-week-contest-actions #contest-log {
+  min-width:112px; min-height:32px; padding:6px 10px; font-weight:700;
+}
+.cr-week-contest-actions #contest-unlog {
+  min-width:136px; min-height:32px; padding:6px 10px; font-weight:700;
+}
+.cr-week-contest-actions #contest-unlog:disabled {
+  opacity:1; cursor:not-allowed; color:#526d87;
+  background:#e5edf5; border:1px solid #b7cadb;
+}
+html[data-theme="light"] .cr-week-contest-actions #contest-unlog:disabled {
+  opacity:1; color:#526d87; background:#e5edf5; border-color:#b7cadb;
+}
+@media(max-width:520px) {
+  .cr-week-foot { flex-wrap:wrap; }
+  .cr-week-contest-actions { width:100%; margin-left:0; justify-content:flex-start; }
+}
