@@ -687,7 +687,9 @@
       return '<div class="insight-row"><span>'+item[1]+'</span><strong>'+categories[item[0]]+'</strong></div>';
     }).join('');
     var repeat=Object.keys(subjects).sort(function(a,b){return subjects[b]-subjects[a];})[0];
-    $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div><p class="repair-suggestion">'+(repeat?'Most logged work is in '+esc(repeat)+'. Review the most frequent mistake category before adding more difficulty.':'Log problems with a mistake category to identify recurring weaknesses.')+'</p>';
+    var topMistake=MISTAKE_TYPES.slice().sort(function(a,b){return categories[b[0]]-categories[a[0]];})[0];
+    var repair=topMistake&&categories[topMistake[0]]>0?'Most frequent issue: '+topMistake[1]+'. Revisit the underlying topic and solve two fresh questions before increasing difficulty.':(repeat?'Most logged practice subject: '+repeat+'. Add mistake categories to identify the recurring cause.':'Log problems with a mistake category to identify recurring weaknesses.');
+    $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div><p class="repair-suggestion">'+esc(repair)+'</p>';
   }
   function renderMockAnalytics() {
     var tagged=state.mocks.filter(function(mock){return mock.subject && mock.subject!=='All subjects' && mock.oneMax>0;});
@@ -698,7 +700,9 @@
       var related=state.problemLog.filter(function(p){return p.subject===subject.name;});
       var independent=related.filter(function(p){return p.outcome==='independent';}).length;
       var accuracy=related.length?Math.round(independent/related.length*100):null;
-      return '<div class="subject-analytics-row"><span>'+esc(subject.name)+'</span><strong>'+(max?(scored/max*100).toFixed(1)+'%':'—')+'</strong><small>'+(subjectMocks.length?subjectMocks.length+' tagged tests':'No tagged tests')+' · '+(accuracy===null?'No problem log':accuracy+'% independent first solves')+'</small></div>';
+      var timed=related.filter(function(p){return Number(p.time)>0;});
+      var averageTime=timed.length?Math.round(timed.reduce(function(total,p){return total+Number(p.time);},0)/timed.length)+' min average':'time not logged';
+      return '<div class="subject-analytics-row"><span>'+esc(subject.name)+'</span><strong>'+(max?(scored/max*100).toFixed(1)+'%':'—')+'</strong><small>'+(subjectMocks.length?subjectMocks.length+' tagged tests':'No tagged tests')+' · '+(accuracy===null?'No problem log':accuracy+'% independent first solves')+' · '+averageTime+'</small></div>';
     }).join('');
     var full=state.mocks.filter(function(m){return m.type==='full-format'&&m.oneMax>0&&m.twoMax>0;}).sort(function(a,b){return a.date.localeCompare(b.date);});
     var trend=full.slice(-5).map(function(mock){var pct=(Number(mock.oneScore+mock.twoScore)/Number(mock.oneMax+mock.twoMax)*100);return '<span class="mock-trend-point"><b>'+pct.toFixed(1)+'%</b><small>'+esc(mock.date)+'</small></span>';}).join('');
@@ -721,7 +725,9 @@
     }).join('');
     var done=labels.filter(function(_,index){return !!state.weekChecks[key+'-exit-'+index];}).length;
     var band=weekIndex<3?0:weekIndex<6?1:weekIndex<9?2:weekIndex<12?3:4;
-    return '<section class="week-deliverables"><div class="deliverable-heading"><div><b>Weekly completion criteria</b><small>Use evidence, not calendar position, to decide whether to move on.</small></div><strong>'+done+'/'+labels.length+'</strong></div>'+checks+'<p class="difficulty-target">Problem difficulty target: <b>'+DIFFICULTY_BANDS[band]+'</b> — independent reasoning matters more than platform rating.</p></section>';
+    var holidayUntil=new Date('2027-01-08T00:00:00'),now=new Date();now.setHours(0,0,0,0);
+    var timePlan=now<=holidayUntil?'Holiday availability: plan around 5–6 hours/day. The required tasks remain the priority; use remaining time for optional upsolving.':'Regular availability: cap the plan at 3–4 hours/day. Revision replaces part of the practice block rather than adding extra hours.';
+    return '<section class="week-deliverables"><div class="deliverable-heading"><div><b>Weekly completion criteria</b><small>Use evidence, not calendar position, to decide whether to move on.</small></div><strong>'+done+'/'+labels.length+'</strong></div>'+checks+'<p class="difficulty-target">Problem difficulty target: <b>'+DIFFICULTY_BANDS[band]+'</b> — independent reasoning matters more than platform rating.</p><p class="workload-guidance">'+timePlan+'</p></section>';
   }
 
   function renderWeeks() {
