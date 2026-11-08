@@ -122,6 +122,8 @@ export function sanitiseActivities(
       ms: Math.max(0, Math.round(item.ms)),
       ts: Math.round(item.ts),
       source,
+      ...(typeof item.mistakeCategory === "string" && ["conceptual", "observation", "mathematical", "implementation", "time-management"].includes(item.mistakeCategory) ? { mistakeCategory: item.mistakeCategory as Activity["mistakeCategory"] } : {}),
+      ...(isNum(item.reviewedAt) && item.reviewedAt >= 0 ? { reviewedAt: Math.round(item.reviewedAt) } : {}),
     });
   }
 
