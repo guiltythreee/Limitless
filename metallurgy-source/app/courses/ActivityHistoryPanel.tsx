@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Activity, AttemptMode, Period } from "../platform/learning";
 import { PERIODS, dayKey, latestByQuestion, selectActivities, summarise } from "../platform/learning";
+import { MISTAKE_CATEGORIES, buildRevisionList, mistakeCategoryLabel, isMistakeCategory, type MistakeCategory } from "../../../shared/studies/mistakes";
 
 export type ActivityHistoryTopic = {
   id: string;
@@ -38,6 +39,27 @@ export default function ActivityHistoryPanel({
 }) {
   const [period, setPeriod] = useState<Period>("week");
   const [mode, setMode] = useState<AttemptMode | "any">("any");
+  const [classifications, setClassifications] = useState<Record<string, { category: MistakeCategory; reviewedAt?: number }>>({});
+  const storageKey = "limitless.study.mistake-classifications.v1";
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(storageKey);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as Record<string, { category?: unknown; reviewedAt?: unknown }>;
+      const safe: Record<string, { category: MistakeCategory; reviewedAt?: number }> = {};
+      for (const [key, value] of Object.entries(parsed)) if (value && isMistakeCategory(value.category)) safe[key] = { category: value.category, ...(typeof value.reviewedAt === "number" ? { reviewedAt: value.reviewedAt } : {}) };
+      setClassifications(safe);
+    } catch { /* keep an empty local classification map */ }
+  }, []);
+  const activityKey = (a: Activity) => [a.courseId, a.q, a.ts, a.mode, a.picked].join("|");
+  const saveClassifications = (next: typeof classifications) => {
+    setClassifications(next);
+    try { window.localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* progress remains usable if storage is unavailable */ }
+  };
+  const revisionItems = useMemo(() => buildRevisionList(activities.filter((a) => !a.correct).map((a) => {
+    const classification = classifications[activityKey(a)];
+    return { questionId: a.courseId + " · " + a.q, correct: a.correct, category: classification?.category, occurredAt: a.ts, reviewedAt: classification?.reviewedAt };
+  })), [activities, classifications]);
   const topicById = useMemo(() => new Map(topics.map((topic) => [topic.id, topic])), [topics]);
 
   const filtered = useMemo(
@@ -103,6 +125,26 @@ export default function ActivityHistoryPanel({
         </label>
       </div>
 
+      {view === "mistakes" && (
+        <div className="study-utility-visual">
+          <div style={{ fontWeight: 650, marginBottom: "0.65rem" }}>Mistake analysis & revision queue</div>
+          <div className="study-utility-metrics">
+            {MISTAKE_CATEGORIES.map((category) => (
+              <div className="study-utility-metric" key={category.id}>
+                <span className="study-utility-metric__label">{category.label}</span>
+                <strong className="study-utility-metric__value">{activities.filter((a) => !a.correct && classifications[activityKey(a)]?.category === category.id).length}</strong>
+              </div>
+            ))}
+          </div>
+          <p className="study-utility-row__meta" style={{ marginTop: "0.65rem" }}>{revisionItems.filter((item) => !item.reviewed).length} revision items awaiting review · repeated categories/questions rank higher.</p>
+          {revisionItems.slice(0, 8).map((item) => (
+            <div className="study-utility-row" key={item.questionId + item.category} style={{ marginTop: "0.5rem" }}>
+              <div className="study-utility-row__title">{item.questionId}</div>
+              <div className="study-utility-row__meta">{mistakeCategoryLabel(item.category)} · {item.occurrences} occurrence{item.occurrences === 1 ? "" : "s"} · {item.reviewed ? "Reviewed" : "Needs revision"}</div>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="study-utility-metrics">
         {[
           { label: "Attempts", value: String(summary.attempts) },
@@ -157,6 +199,16 @@ export default function ActivityHistoryPanel({
                       {activity.ts > 0 ? new Date(activity.ts).toLocaleString() : "Date unknown"} · {MODE_LABEL[activity.mode]} · {activity.ms > 0 ? fmtElapsed(activity.ms) : "Time unknown"}
                       {activity.source === "legacy" ? " · legacy record" : ""}
                     </div>
+                    {!activity.correct && (
+                      <div className="mt-2 flex flex-wrap gap-1.5" aria-label="Classify mistake">
+                        {MISTAKE_CATEGORIES.map((category) => {
+                          const key = activityKey(activity);
+                          const selected = classifications[key]?.category === category.id;
+                          return <button key={category.id} type="button" className="btn study-utility-action" aria-pressed={selected} onClick={() => saveClassifications({ ...classifications, [key]: { category: category.id } })} style={selected ? { borderColor: "var(--gold)", color: "var(--text)" } : undefined}>{category.label}</button>;
+                        })}
+                        {classifications[activityKey(activity)] && <button type="button" className="btn study-utility-action" onClick={() => saveClassifications({ ...classifications, [activityKey(activity)]: { ...classifications[activityKey(activity)], reviewedAt: Date.now() } })}>Mark reviewed</button>}
+                      </div>
+                    )}
                     <div className="study-utility-row__detail">
                       Selected: <strong>{activity.picked}</strong> · <span style={{ color: activity.correct ? "var(--good)" : "var(--bad)" }}>{activity.correct ? "Correct" : "Incorrect"}</span>
                     </div>
