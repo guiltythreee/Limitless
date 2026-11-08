@@ -395,6 +395,7 @@
   function mitResource(path) { return MIT_OCW + path; }
   function mitCompanionFor(subjectId, topicTitle, weekIndex) {
     var title=String(topicTitle||'').toLowerCase(),notes=[],lectures=[],sets=[];
+    if(/mixed|unseen|final review|timed|weakest/.test(title)) return null;
     function note(slug,name){notes.push({label:name,url:mitResource('resources/mit6_042jf10_chap'+slug+'/')});}
     function lecture(n,slug,name){lectures.push({label:'Lecture '+n+': '+name,url:mitResource('resources/lecture-'+n+'-'+slug+'/')});}
     function ps(n){sets.push({label:'Problem Set '+n,url:mitResource('resources/mit6_042jf10_assn'+String(n).padStart(2,'0')+'/')});}
@@ -402,18 +403,40 @@
       if(/induction/.test(title)){note('03','Chapter 3: Induction');lecture(2,'induction','Induction');lecture(3,'strong-induction','Strong Induction');ps(2);}
       else if(/invariant/.test(title)){note('03','Chapter 3: Induction');lecture(3,'strong-induction','Strong Induction and Invariants');ps(2);}
       else if(/pigeonhole|counting|double counting/.test(title)){note('11','Chapter 11: Cardinality Rules');lecture(16,'counting-rules-i','Counting Rules I');lecture(17,'counting-rules-ii','Counting Rules II');ps(8);}
-      else if(/graph|relation|partial order/.test(title)){note('05','Chapter 5: Graph Theory');lecture(6,'graph-theory-and-coloring','Graph Theory and Coloring');ps(3);}
+      else if(/partial order|relation/.test(title)){note('07','Chapter 7: Relations and Partial Orders');lecture(11,'relations-partial-orders-and-scheduling','Relations, Partial Orders and Scheduling');ps(6);}
+      else if(/graph/.test(title)){note('05','Chapter 5: Graph Theory');lecture(6,'graph-theory-and-coloring','Graph Theory and Coloring');ps(3);}
       else if(!/unseen|mixed|final review|timed/.test(title) && /statement|truth|connective|implication|quantifier|proof|counterexample|parity|contradiction|deduction/.test(title)){note('01','Chapter 1: Propositions');note('02','Chapter 2: Patterns of Proof');lecture(1,'introduction-and-proofs','Introduction and Proofs');ps(1);}
     }else if(subjectId==='combinatorics'){
       if(/recurrence/.test(title)){note('10','Chapter 10: Recurrences');lecture(14,'divide-and-conquer-recurrences','Divide and Conquer Recurrences');lecture(15,'linear-recurrences','Linear Recurrences');ps(7);}
       else{note('11','Chapter 11: Cardinality Rules');lecture(16,'counting-rules-i','Counting Rules I');lecture(17,'counting-rules-ii','Counting Rules II');ps(8);}
     }else if(subjectId==='graphs' && !/shortest|dijkstra|mixed|unseen|timed|final review/.test(title)){
       if(/minimum spanning|kruskal|tree/.test(title)){note('05','Chapter 5: Graph Theory');lecture(8,'graph-theory-ii-minimum-spanning-trees','Graph Theory II: Minimum Spanning Trees');ps(4);}
-      else if(/directed|dag|topological|partial order|relations/.test(title)){note('06','Chapter 6: Directed Graphs');note('07','Chapter 7: Relations and Partial Orders');lecture(11,'relations-partial-orders-and-scheduling','Relations, Partial Orders and Scheduling');ps(6);}
-      else if(weekIndex<4 && /vertex|edge|graph|bfs|dfs|bipartite|component|cycle|path/.test(title)){note('05','Chapter 5: Graph Theory');lecture(6,'graph-theory-and-coloring','Graph Theory and Coloring');ps(3);}
+      else if(/directed|dag|topological/.test(title)){note('06','Chapter 6: Directed Graphs');lecture(10,'graph-theory-iii','Graph Theory III: Directed Acyclic Graphs');ps(6);}
+      else if(/partial order|relations/.test(title)){note('07','Chapter 7: Relations and Partial Orders');lecture(11,'relations-partial-orders-and-scheduling','Relations, Partial Orders and Scheduling');ps(6);}
+      else if(/bipartite|two-colour|two-color|odd-cycle|coloring/.test(title) || (weekIndex<4 && /vertex|edge|graph|bfs|dfs|component|cycle|path/.test(title))){note('05','Chapter 5: Graph Theory');lecture(6,'graph-theory-and-coloring','Graph Theory and Coloring');ps(3);}
     }
     return notes.length||lectures.length||sets.length?{notes:notes,lectures:lectures,sets:sets}:null;
   }
+  var BOOK_LINKS = {
+    logic:'https://www.mheducation.com/highered/product/discrete-mathematics-and-its-applications-rosen.html',
+    combinatorics:'https://www.mheducation.com/highered/product/discrete-mathematics-and-its-applications-rosen.html',
+    probability:'https://probabilitybook.net/',
+    graphs:'https://cses.fi/book.pdf',
+    dp:'https://cses.fi/book.pdf',
+    coding:'https://cses.fi/book.pdf'
+  };
+  function stat110CompanionFor(topicTitle) {
+    var title=String(topicTitle||'').toLowerCase(), videos=[];
+    function video(n,name,id){videos.push({label:'STAT 110 Lecture '+n+': '+name,url:'https://www.youtube.com/watch?v='+id});}
+    if(/sample space|random experiment|outcome|event/.test(title)) video(1,'Probability and Counting','KbB0FjPg0mw');
+    if(/addition rule|complement|union|intersection|inclusion-exclusion/.test(title)) video(3,'Birthday Problem, Inclusion-Exclusion and Matching','LZ5Wergp_PA');
+    if(/variance|joint/.test(title)){video(12,'Discrete vs. Continuous, Variance and Standard Deviation','TD1N4hxqMzY');video(21,'Covariance, Correlation and Variance of a Sum','xiVWNkQUqKk');}
+    else if(/expectation|indicator|linearity/.test(title)) video(10,'Linearity, Negative Binomial and St. Petersburg Paradox','LX2q356N2rU');
+    else if(/random variable|bernoulli|binomial/.test(title)){video(7,'Gambler’s Ruin, Random Variables, Bernoulli and Binomial','PNrqCdslGi4');video(8,'Random Variables, CDFs, PMFs and Hypergeometric','k2BB0p8byGA');}
+    else if(/conditional|bayes|partition|total probability|independence|mutually exclusive|multiplication rule/.test(title)){video(4,'Conditional Probability, Independence and Bayes’ Rule','P7NE4WF8j-Q');video(5,'Law of Total Probability and Conditional Independence','JzDvVgNDxo8');}
+    return videos;
+  }
+
   function dailyTasksForWeek(week,day){
     var topic=function(id){var item=week.topics.find(function(entry){return entry[0]===id;});return item?item[1]:'the assigned topic';};
     var p=topic('probability'),logic=topic('logic'),comb=topic('combinatorics'),graph=topic('graphs'),dp=topic('dp'),coding=topic('coding');
@@ -502,7 +525,7 @@
     } else if (subjectId === 'combinatorics') {
       sectionIndex = /recurrence/.test(title) ? 1 : 0;
     } else if (subjectId === 'probability') {
-      sectionIndex = /conditional|bayes|partition/.test(title) ? 1 : /expectation|indicator|random variable/.test(title) ? 3 : /variance|joint/.test(title) ? 4 : 0;
+      sectionIndex = /conditional|bayes|partition/.test(title) ? 1 : /expectation|indicator|linearity/.test(title) ? 3 : /variance|joint/.test(title) ? 4 : /random variable|bernoulli|binomial|distribution/.test(title) ? 2 : 0;
     }
     var items=[],mit=mitCompanionFor(subjectId,title,weekIndex);
     if(subjectId==='graphs'||subjectId==='dp'||subjectId==='coding'){
@@ -525,7 +548,7 @@
     return { guide:guide, section:section, items:items };
   }
   function renderTopicAssignments(topic,wi,ti){
-    var subjectId=topic[0],ref=referenceFor(subjectId,wi,topic[1]),companion=mitCompanionFor(subjectId,topic[1],wi);
+    var subjectId=topic[0],ref=referenceFor(subjectId,wi,topic[1]),companion=mitCompanionFor(subjectId,topic[1],wi),statVideos=subjectId==='probability'?stat110CompanionFor(topic[1]):[];
     var baseKey='w'+(wi+1)+'-v2-ref-'+ti,chapterKey=baseKey+'-read';
     var reading='<label class="reference-task"><input type="checkbox" data-day-task="'+chapterKey+'" '+(state.dayChecks[chapterKey]?'checked':'')+'><span><b>Read:</b> '+esc(ref.guide.book)+' — '+esc(ref.section)+'</span></label>';
     var mitChecks='';
@@ -538,13 +561,23 @@
     }
     var tasks=ref.items.map(function(item,index){var key=baseKey+'-q'+index;return '<label class="reference-task"><input type="checkbox" data-day-task="'+key+'" '+(state.dayChecks[key]?'checked':'')+'><span>'+esc(item)+'</span></label>';}).join('');
     var resourceLinks=[];
+    if(BOOK_LINKS[subjectId]) resourceLinks.push({label:subjectId==='coding'?'Book — Competitive Programmer’s Handbook':'Book — '+ref.guide.book,url:BOOK_LINKS[subjectId]});
+    if(subjectId==='coding') resourceLinks.push({label:'C++ lessons — LearnCpp',url:'https://www.learncpp.com/'});
     if(companion){
-      companion.notes.forEach(function(item){resourceLinks.push({label:'Written notes — '+item.label,url:item.url});});
-      companion.lectures.forEach(function(item){resourceLinks.push({label:'Video — '+item.label,url:item.url});});
+      companion.notes.forEach(function(item){resourceLinks.push({label:'MIT written notes — '+item.label,url:item.url});});
+      companion.lectures.forEach(function(item){resourceLinks.push({label:'MIT video — '+item.label,url:item.url});});
       companion.sets.forEach(function(item){resourceLinks.push({label:item.label+' — exercises',url:item.url});});
-    }else resourceLinks.push({label:'Open primary reference',url:ref.guide.link});
+    }
+    if(subjectId==='probability') {
+      resourceLinks.push({label:'Harvard STAT 110 course materials',url:'https://stat110.hsites.harvard.edu/'});
+      statVideos.forEach(function(item){resourceLinks.push({label:'Video — '+item.label,url:item.url});});
+    } else if(!companion) resourceLinks.push({label:'Open primary reference',url:ref.guide.link});
     var links=resourceLinks.map(function(item){return '<a href="'+item.url+'" target="_blank" rel="noopener noreferrer">'+esc(item.label)+' ↗</a>';}).join('<span class="resource-separator"> · </span>');
-    return '<div class="topic-assignment"><div class="assignment-heading">Exact reading, lecture and problem assignment</div><div class="assignment-source assignment-resource-links">'+links+'</div>'+reading+mitChecks+tasks+'</div>';
+    var statChecks=statVideos.map(function(item,index){
+      var key=baseKey+'-stat-video-'+index;
+      return '<label class="reference-task"><input type="checkbox" data-day-task="'+key+'" '+(state.dayChecks[key]?'checked':'')+'><span><b>Harvard STAT 110 video:</b> watch '+esc(item.label)+'.</span></label>';
+    }).join('');
+    return '<div class="topic-assignment"><div class="assignment-heading">Exact reading, lecture and problem assignment</div><div class="assignment-source assignment-resource-links">'+links+'</div>'+reading+mitChecks+statChecks+tasks+'</div>';
   }
 
   function renderWeeks() {
