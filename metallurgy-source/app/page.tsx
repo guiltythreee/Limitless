@@ -178,7 +178,7 @@ export default function Landing() {
                 <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search chapters…" />
               </label>
               <div className="semester-filters">
-                <select aria-label="Semester" value={semester} onChange={(event) => setSemester(event.target.value)}>
+                <select aria-label="Semester" value={semester} onChange={(event) => { setSemester(event.target.value); setCourseOpen(false); }}>
                   {semesters.map((number) => <option key={number} value={number}>Semester {number}</option>)}
                 </select>
                 <select aria-label="Filter chapter progress" value={status} onChange={(event) => setStatus(event.target.value)}>
