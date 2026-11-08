@@ -638,6 +638,25 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
 });
 
 
+test("fresh Bookkeys settings initialize the complete legacy defaults contract", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Settings" }).click();
+  const size = page.getByRole("dialog", { name: "Settings" }).locator('input[type="range"]').first();
+  await size.focus();
+  await size.press("ArrowRight");
+
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
+  expect(saved).toMatchObject({
+    skin: "auto", accent: "theme", accentCustom: "#E11D48",
+    fontColor: "theme", fontColorCustom: "#FF8A00", bgMatch: true, deco: "on",
+    bg: "pic-morning", bgDensity: 1, bgAnim: true, backdrop: 0, picVeil: 0, picBlur: 0,
+    font: "newsreader", lineH: 1.7, spacing: 0, punct: "simplify", lglow: true,
+    tfx: "none", fxInt: 1, efx: "flash", sparks: "off", sound: "off", volume: 50,
+    errSound: true, centered: false, celebrate: true, motion: "system",
+    cstyle: "block", cblink: "blink", csmooth: true, cglow: false, ccolor: "accent",
+  });
+});
+
 test("IME composition commits once, saves the draft and does not count intermediate composition input", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
