@@ -147,3 +147,31 @@ html[data-theme="light"] .cf-log-problem[aria-pressed="true"]{background:#e2f5e9
     min-height: 300px;
   }
 }
+
+
+/* Compact three-dot options menu for less-used catalogue actions. */
+.cf-options-menu{position:relative}
+.cf-options-menu>summary{
+  display:grid;place-items:center;width:36px;height:34px;padding:0;
+  border:1px solid var(--comp-border);border-radius:7px;
+  background:rgba(75,142,200,.14);color:var(--comp-ink);
+  cursor:pointer;list-style:none;font-size:23px;line-height:1;
+}
+.cf-options-menu>summary::-webkit-details-marker{display:none}
+.cf-options-menu>summary:hover,.cf-options-menu[open]>summary{border-color:#6da9d8;background:rgba(75,142,200,.24)}
+.cf-options-popover{
+  position:absolute;z-index:20;top:calc(100% + 7px);right:0;
+  min-width:178px;padding:6px;border:1px solid var(--comp-border);
+  border-radius:9px;background:var(--comp-panel);
+  box-shadow:0 10px 28px rgba(0,0,0,.22)
+}
+.cf-options-popover button{
+  display:block;width:100%;padding:9px 11px;text-align:left;
+  border:0;border-radius:6px;background:transparent;
+  color:var(--comp-ink);font:12px Arial,sans-serif;cursor:pointer
+}
+.cf-options-popover button:hover{background:rgba(75,142,200,.18)}
+html[data-theme="light"] .cf-options-menu>summary{background:#e4f0fa;color:#205a87;border-color:#a9c8e2}
+html[data-theme="light"] .cf-options-popover{background:#fff;border-color:#c6d6e5;box-shadow:0 10px 28px rgba(30,60,90,.16)}
+html[data-theme="light"] .cf-options-popover button{color:#244764}
+html[data-theme="light"] .cf-options-popover button:hover{background:#eaf3fb}
