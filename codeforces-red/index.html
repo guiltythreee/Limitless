@@ -122,7 +122,12 @@
           <p id="cf-problem-status" role="status">Connecting to the Codeforces API…</p>
           <div class="cf-explorer-actions">
             <button id="cf-refresh-solved" class="action-button" type="button">Refresh solved status</button>
-            <button id="cf-refresh-problems" class="action-button" type="button">Refresh catalogue</button>
+            <details class="cf-options-menu" id="cf-catalogue-options">
+              <summary aria-label="More problem catalogue options" title="More options">⋯</summary>
+              <div class="cf-options-popover">
+                <button id="cf-refresh-problems" type="button">Refresh catalogue</button>
+              </div>
+            </details>
           </div>
         </div>
         <div class="cf-quick-toolbar">
