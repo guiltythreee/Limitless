@@ -17,6 +17,7 @@ const totalFor = (course: (typeof COURSES)[number]) =>
 export default function Landing() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [selectedId, setSelectedId] = useState<CourseId>("mt201");
+  const [courseOpen, setCourseOpen] = useState(false);
   const [snapshots, setSnapshots] = useState<ReturnType<NonNullable<typeof METALLURGY_STUDIES_REGISTRATION.readProgress>>>([]);
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("all");
@@ -102,41 +103,14 @@ export default function Landing() {
           <div className="semester-sidebar-label">SEMESTERS</div>
           <div className="semester-year-list">
             {semesters.map((number) => (
-              <button key={number} className={"semester-year " + (semester === number ? "is-active" : "")} aria-pressed={semester === number} onClick={() => setSemester(number)}>
+              <button key={number} className={"semester-year " + (semester === number ? "is-active" : "")} aria-pressed={semester === number} onClick={() => { setSemester(number); setCourseOpen(false); }}>
                 <span className="semester-year-number">{number}</span>
                 <span className="semester-year-copy"><strong>Semester {number}</strong><small>{number === "3" ? "3 courses available" : "No courses added yet"}</small></span>
                 <span className="semester-year-arrow">{semester === number ? "−" : "+"}</span>
               </button>
             ))}
           </div>
-          {semester === "3" && <>
-          <div className="semester-sidebar-label semester-course-label">SEMESTER 3 · COURSES</div>
-          <div className="semester-course-list">
-            {COURSES.map((course, index) => {
-              const stats = courseStats(course);
-              const active = selected.id === course.id;
-              return (
-                <button
-                  key={course.id}
-                  className={`semester-course ${active ? "is-active" : ""}`}
-                  aria-pressed={active}
-                  onClick={() => { setSelectedId(course.id); setQuery(""); setStatus("all"); setSort("number"); }}
-                >
-                  <span className="semester-course-symbol">{course.symbol}</span>
-                  <span className="semester-course-copy">
-                    <strong>{course.code} · {course.title}</strong>
-                    <small>{course.topics.length} chapters · {totalFor(course).toLocaleString("en-IN")} questions</small>
-                    {course.id === "mt202" && <small>522 chapter-wise MCQs</small>}
-                    <span className="semester-course-progress">
-                      <i style={{ width: `${course.topics.length ? (stats.completed / course.topics.length) * 100 : 0}%` }} />
-                    </span>
-                  </span>
-                  <span className="semester-course-index">0{index + 1}</span>
-                </button>
-              );
-            })}
-          </div>
-          </>}
+
           <div className="semester-sidebar-note">
             <span>PROGRAMME STRUCTURE</span>
             <strong>6 semesters</strong>
@@ -145,7 +119,60 @@ export default function Landing() {
         </aside>
 
         <main className="semester-main">
-          {semester === "3" ? <>
+          {semester === "3" && !courseOpen ? <>
+            <div className="semester-main-heading">
+              <div className="semester-breadcrumb">LIMITLESS <span>/</span> METALLURGY <span>/</span> SEMESTER {semester}</div>
+              <div className="semester-title-row">
+                <div>
+                  <div className="semester-eyebrow">YOUR PROGRAMME</div>
+                  <h1>Semester {semester}</h1>
+                  <p>Choose a course to view its chapters, questions and learning progress.</p>
+                </div>
+                <div className="semester-title-symbol">⚗</div>
+              </div>
+              <div className="semester-summary">
+                <div><strong>{COURSES.length}</strong><span>Courses</span></div>
+                <div><strong>{COURSES.reduce((sum, course) => sum + course.topics.length, 0)}</strong><span>Chapters</span></div>
+                <div><strong>{COURSES.reduce((sum, course) => sum + totalFor(course), 0).toLocaleString("en-IN")}</strong><span>Questions</span></div>
+                <div><strong>{COURSES.reduce((sum, course) => sum + courseStats(course).completed, 0)}</strong><span>Completed</span></div>
+              </div>
+            </div>
+            <section className="semester-course-panel" aria-label={`Semester ${semester} courses`}>
+              <div className="semester-panel-heading">
+                <div><span className="semester-eyebrow">AVAILABLE COURSES</span><h2>Semester {semester} · Courses</h2></div>
+                <span className="semester-tag">{COURSES.length} COURSES</span>
+              </div>
+              <div className="semester-course-grid">
+                {COURSES.map((course, index) => {
+                  const stats = courseStats(course);
+                  const completion = course.topics.length ? Math.round((stats.completed / course.topics.length) * 100) : 0;
+                  return (
+                    <button
+                      type="button"
+                      key={course.id}
+                      className="semester-course-card"
+                      onClick={() => { setSelectedId(course.id); setCourseOpen(true); setQuery(""); setStatus("all"); setSort("number"); }}
+                    >
+                      <span className="semester-course-card-top">
+                        <span className="semester-course-symbol">{course.symbol}</span>
+                        <span className="semester-course-index">0{index + 1}</span>
+                      </span>
+                      <span className="semester-course-card-code">{course.code} · SEMESTER {semester}</span>
+                      <strong>{course.title}</strong>
+                      <span className="semester-course-card-subtitle">{course.subtitle}</span>
+                      <span className="semester-course-card-meta">{course.topics.length} chapters <i>·</i> {totalFor(course).toLocaleString("en-IN")} questions</span>
+                      {course.id === "mt202" && <span className="semester-course-card-extra">522 chapter-wise MCQs</span>}
+                      <span className="semester-course-card-progress"><i style={{ width: `${completion}%` }} /></span>
+                      <span className="semester-course-card-footer">{completion}% complete <b>Open course <span aria-hidden="true">→</span></b></span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          </> : semester === "3" ? <>
+          <div className="semester-course-back-row">
+            <button type="button" className="semester-course-back" onClick={() => setCourseOpen(false)}>← <span>Back to Semester {semester} courses</span></button>
+          </div>
           <div className="semester-main-heading">
             <div>
               <div className="semester-breadcrumb">LIMITLESS <span>/</span> METALLURGY <span>/</span> SEMESTER {semester}</div>
