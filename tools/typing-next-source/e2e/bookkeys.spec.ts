@@ -674,7 +674,11 @@ test("centered reading preference changes reader layout and persists", async ({ 
   await expect(article).toHaveAttribute("data-reader-centered", "true");
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").centered)).toBe(true);
   await page.reload();
-  await expect(page.locator(".bk-source-text")).toHaveAttribute("data-reader-centered", "true");
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
+  await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
+  const restoredArticle = page.locator(".bk-source-text");
+  await expect(restoredArticle).toHaveAttribute("data-reader-centered", "true");
+  await expect(restoredArticle).toHaveCSS("text-align", "center");
 });
 
 test("IME composition commits once, saves the draft and does not count intermediate composition input", async ({ page }) => {
