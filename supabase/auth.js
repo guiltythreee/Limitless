@@ -5,6 +5,7 @@
 
   const style = document.createElement("style");
   style.textContent = `
+    #theme-toggle,.theme-toggle,.icon-action[aria-label*="theme" i],button[aria-label*="theme" i]{display:none!important}
     .ll-account{position:relative;display:inline-flex;align-items:center;margin-left:.65rem;flex:0 0 auto;z-index:10020}
     .ll-profile-trigger{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--border,rgba(211,178,103,.5));border-radius:50%;background:rgba(211,178,103,.10);color:inherit;cursor:pointer;padding:0}
     .ll-profile-trigger:hover,.ll-profile-trigger[aria-expanded="true"]{border-color:var(--gold,#d3b267);background:rgba(211,178,103,.18)}
@@ -36,7 +37,7 @@
   const host = document.createElement("div");
   host.className = "ll-account";
   const nav = document.querySelector(".topbar-actions") || document.querySelector(".nav-links") || document.querySelector(".competition-nav") || document.querySelector(".navbar") || document.querySelector("header");
-  if (nav) nav.append(host);
+  if (nav && nav.getClientRects().length) nav.append(host);
   else { host.style.position = "fixed"; host.style.top = "14px"; host.style.right = "18px"; document.body.append(host); }
 
   const trigger = document.createElement("button");
