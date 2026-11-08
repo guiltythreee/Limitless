@@ -607,6 +607,10 @@
         companion.lectures.forEach(function(item){if(!group.lectures.some(function(x){return x.url===item.url;}))group.lectures.push(item);});
         companion.sets.forEach(function(item){if(!group.sets.some(function(x){return x.url===item.url;}))group.sets.push(item);});
       }
+      if(subjectId==='coding'){
+        var learnKey='LearnCpp';
+        if(!groups[learnKey])groups[learnKey]={book:'LearnCpp — C++ language reference',url:'https://www.learncpp.com/',sections:['Use the relevant language, standard-library and implementation chapters needed for this week’s C++ tasks'],notes:[],lectures:[],sets:[]};
+      }
       if(subjectId==='probability' && !group.lectures.some(function(x){return x.url==='https://projects.iq.harvard.edu/stat110/online-learning';})){
         group.lectures.push({label:'STAT 110 video lectures',url:'https://projects.iq.harvard.edu/stat110/online-learning'});
       }
