@@ -44,6 +44,10 @@ export interface Activity {
   /** Epoch milliseconds. 0 means unknown date (legacy). */
   ts: number;
   source: ActivitySource;
+  /** User-classified reason for an incorrect answer; absent on legacy data. */
+  mistakeCategory?: MistakeCategory;
+  /** Timestamp when this specific mistake was reviewed. */
+  reviewedAt?: number;
 }
 
 /**
