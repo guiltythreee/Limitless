@@ -357,3 +357,34 @@ html[data-theme="light"] .cr-week-contest-actions #contest-unlog:disabled {
   .cr-week-foot { flex-wrap:wrap; }
   .cr-week-contest-actions { width:100%; margin-left:0; justify-content:flex-start; }
 }
+
+
+/* Reflow the contest controls according to the tracker card width, not the viewport. */
+.cr-week-card {
+  container-name: weekly-tracker;
+  container-type: inline-size;
+}
+@container weekly-tracker (max-width: 420px) {
+  .cr-week-foot {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    align-items:start;
+    justify-content:stretch;
+    gap:10px;
+  }
+  .cr-week-contest-actions {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);
+    width:100%;
+    margin:0;
+    gap:8px;
+  }
+  .cr-week-contest-actions button {
+    width:100%;
+    min-width:0 !important;
+    min-height:36px;
+    padding:7px 6px;
+    white-space:normal;
+    line-height:1.2;
+  }
+}
