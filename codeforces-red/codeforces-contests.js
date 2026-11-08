@@ -58,6 +58,13 @@
   }
   async function init(){
     if(!$('cf-vc-list'))return;readSaved();$('cf-vc-section').addEventListener('click',onClick);
+    // Supabase hydrates localStorage asynchronously after authentication. Reload
+    // contest records after hydration so a second device/account session sees the
+    // cloud copy instead of the pre-sync browser snapshot.
+    window.addEventListener('limitless:cloud-sync-hydrated',()=>{
+      readSaved();
+      if(state.openId) renderContest(); else renderList();
+    });
     try{const response=await fetch('./contests.json',{cache:'no-cache'});if(!response.ok)throw new Error('missing');const data=await response.json();state.bands=Array.isArray(data.bands)?data.bands.filter(b=>b&&Array.isArray(b.contests)&&b.contests.length):[];if(!state.bands.length)throw new Error('empty');}
     catch(_){$('cf-vc-status').textContent='Virtual contests are not published yet. Build the catalogue and contest set with the two scripts in the repository README.';$('cf-vc-band').disabled=true;return;}
     state.bandId=state.bands[0].id;renderBandSelect();renderList();$('cf-vc-band').addEventListener('change',()=>{state.bandId=$('cf-vc-band').value;renderList();});
