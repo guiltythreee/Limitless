@@ -1107,6 +1107,7 @@ export default function BookkeysApp() {
               <article
                 className="bk-source-text"
                 data-reader-background={settings.readerBackground ?? "none"}
+                data-reader-centered={settings.centered ? "true" : "false"}
                 style={(() => {
                   const selected = settings.readerBackground === "gothic" ? artwork.gothic
                     : settings.readerBackground === "garden" ? artwork.garden : undefined;
@@ -1305,6 +1306,11 @@ export default function BookkeysApp() {
                   <span>Line spacing <strong>{settings.lineH.toFixed(1)}</strong></span>
                   <input type="range" min="1.2" max="2.4" step="0.1" value={settings.lineH}
                     onChange={(event) => persistSettings({ ...settings, lineH: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Center reading text</span>
+                  <input type="checkbox" checked={settings.centered === true}
+                    onChange={(event) => persistSettings({ ...settings, centered: event.currentTarget.checked })} />
                 </label>
                 <label className="bk-setting bk-setting-check">
                   <span>Completion celebrations</span>
