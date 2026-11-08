@@ -457,7 +457,7 @@
     logic: {
       book:'Kenneth Rosen, Discrete Mathematics and Its Applications (8th ed.)',
       sections:['Ch. 1: §1.1–1.8 Logic and proofs','Ch. 5: §5.1–5.4 Mathematical induction','Ch. 6: §6.1–6.5 Counting','Ch. 9–10: Relations and graph theory'],
-      link:'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/readings/',
+      link:'https://www.mheducation.com/highered/product/discrete-mathematics-and-its-applications-rosen.html',
       practice:['MIT 6.042J Mathematics for Computer Science: read the matching lecture notes and complete its associated problem set','Write a complete proof for each selected claim; check counterexamples and edge cases']
     },
     combinatorics: {
