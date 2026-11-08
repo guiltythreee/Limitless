@@ -2,13 +2,12 @@
   'use strict';
   const API = 'https://codeforces.com/api/';
   const STORAGE = 'limitless.competition.codeforces-problemset.v2';
-  const LOG_STORAGE = 'limitless.codeforces.weekly-logged-problems.v1';
   const CACHE_KEY = 'limitless.codeforces-curated-catalogue.v2';
   const MAX_PER_RATING = 250;
   const MIN_PER_TOPIC = 6;
   const TOPIC_BALANCE = 0.6;
   const $ = id => document.getElementById(id);
-  const state = { problems: [], solved: new Set(), wrong: new Map(), saved: new Set(), logged: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
+  const state = { problems: [], solved: new Set(), wrong: new Map(), saved: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
   const CATEGORIES = {
     'Implementation & Basics':['implementation','brute force','bitmasks','strings'],
     'Mathematics':['math','number theory','combinatorics','probabilities','geometry','matrices'],
@@ -23,14 +22,8 @@
   function readSaved() {
     try { const x = JSON.parse(localStorage.getItem(STORAGE) || '{}'); state.saved = new Set(Array.isArray(x.saved) ? x.saved : []); }
     catch (_) { state.saved = new Set(); }
-    try { const x=JSON.parse(localStorage.getItem(LOG_STORAGE)||'[]'); state.logged=new Set(Array.isArray(x)?x:[]); } catch (_) { state.logged=new Set(); }
   }
   function persistSaved() { localStorage.setItem(STORAGE, JSON.stringify({ saved:[...state.saved] })); }
-  function persistLogged() { try { localStorage.setItem(LOG_STORAGE,JSON.stringify([...state.logged])); } catch (_) {} }
-  function adjustWeekly(delta) {
-    const button=$(delta>0?'weekly-plus':'weekly-minus');
-    if(button) for(let i=0;i<Math.abs(delta);i++) button.click();
-  }
   function categoriesFor(tags) {
     const lower = (tags || []).map(x => x.toLowerCase());
     const matches = Object.entries(CATEGORIES).filter(([, values]) => lower.some(tag => values.includes(tag))).map(([category]) => category);
@@ -211,7 +204,7 @@
     const slice = rows.slice(state.page * state.pageSize, (state.page + 1) * state.pageSize);
     $('cf-result-count').textContent = rows.length.toLocaleString() + ' matching problems';
     $('cf-problem-list').innerHTML = slice.map(p => {
-      const key = (p.contestId || 'gym') + '-' + (p.index || ''), solved = state.solved.has(key), wrongCount=state.wrong.get(key)||0, saved = state.saved.has(key), logged=state.logged.has(key);
+      const key = (p.contestId || 'gym') + '-' + (p.index || ''), solved = state.solved.has(key), wrongCount=state.wrong.get(key)||0, saved = state.saved.has(key);
       const tags = (p.tags || []).map(tag => '<span class="cf-chip">' + esc(tag) + '</span>').join('');
       const ratingLabel = Number.isFinite(p.rating) ? p.rating : 'Unrated';
       const tagsDisclosure = tags ? '<details class="cf-problem-tags"><summary>Tags</summary><div>' + tags + '</div></details>' : '';
@@ -220,7 +213,7 @@
       const progressLabel=solved?'Solved':wrongCount?'Wrong submissions ('+wrongCount+')':'Unsolved';
       const progressClass=solved?'solved':wrongCount?'wrong':'unsolved';
       const wrongBadge=solved&&wrongCount?'<span class="cf-chip wrong">'+wrongCount+' failed before solve</span>':'';
-      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + progressClass + '">' + progressLabel + '</span>' + wrongBadge + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-log-problem" type="button" data-log-problem="' + esc(key) + '" aria-pressed="' + logged + '">' + (logged?'✓ Logged · Undo':'+1 weekly') + '</button><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
+      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + progressClass + '">' + progressLabel + '</span>' + wrongBadge + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
     }).join('') || '<p class="cf-empty">No problems match these filters. Try widening the rating range or removing a tag.</p>';
     $('cf-page-label').textContent = 'Page ' + (state.page + 1) + ' of ' + pages;
     $('cf-prev-page').disabled = state.page === 0;
@@ -230,13 +223,7 @@
       if (state.saved.has(key)) state.saved.delete(key); else state.saved.add(key);
       persistSaved(); render();
     }));
-    $('cf-problem-list').querySelectorAll('[data-log-problem]').forEach(button => button.addEventListener('click', () => {
-      const key=button.dataset.logProblem;
-      if(state.logged.has(key)){state.logged.delete(key);adjustWeekly(-1);}
-      else{state.logged.add(key);adjustWeekly(1);}
-      persistLogged();
-      render();
-    }));
+
   }
   function bindFilters() {
     ['cf-rating-min','cf-rating-max','cf-include-unrated','cf-tag-filter','cf-category-filter','cf-search','cf-status-filter','cf-sort'].forEach(id => $(id).addEventListener(id === 'cf-search' ? 'input' : 'change', () => { state.page = 0; render(); }));
