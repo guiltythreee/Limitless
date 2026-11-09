@@ -208,13 +208,17 @@ if (fs.existsSync(revisionOverridePath)) {
     }
     const chapterPath = path.join(OUT, `${addition.chapter}.json`);
     let chapter;
-    if (fs.existsSync(chapterPath)) {
+    const baseChapter = summary.find((item) => item.id === addition.chapter);
+    if (baseChapter) {
+      if (!fs.existsSync(chapterPath)) throw new Error(`Base chapter file missing for ${addition.chapter}`);
       chapter = JSON.parse(fs.readFileSync(chapterPath, "utf8"));
       if (chapter.title !== addition.title && addition.title !== undefined) {
         throw new Error(`Authored addition title mismatch for ${addition.chapter}`);
       }
     } else {
       if (!addition.title) throw new Error(`New authored chapter ${addition.chapter} requires a title`);
+      // New chapters are reconstructed from the durable overlay on every run,
+      // making the additive sync idempotent instead of appending duplicates.
       chapter = {
         id: addition.chapter,
         num: Number(addition.chapter.slice(2)),
