@@ -1,7 +1,7 @@
 "use client";
 
 // Exam simulator — timed, no feedback until you submit. A random pull
-// from all fourteen chapters of the thermodynamics course.
+// from all seventeen chapters of the thermodynamics course.
 //
 // PHASE 3: questions come from the course registry adapter (canonical model)
 // and chapter ids/titles from the manifest. Answer recording still writes the
@@ -148,7 +148,7 @@ export default function Exam({
         <h3>Exam Simulator</h3>
         <p style={{ color: "var(--dim)", fontSize: "0.9rem" }}>
           Timed, closed-book, no solutions until you submit. Questions are drawn at random
-          from all fourteen chambers, and your answers are recorded into chamber progress
+          from all seventeen chambers, and your answers are recorded into chamber progress
           afterwards, so weak topics reveal themselves.
           {progress.examBest
             ? ` Best result so far: ${progress.examBest.score}/${progress.examBest.total}.`
