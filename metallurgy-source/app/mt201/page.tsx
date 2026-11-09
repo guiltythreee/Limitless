@@ -1,6 +1,6 @@
 "use client";
 
-// MT201 — Metallurgical Thermodynamics archive: fourteen chapters of
+// MT201 — Metallurgical Thermodynamics archive: seventeen chapters of
 // chapter-wise MCQs with worked solutions, plus an exam simulator.
 //
 // PHASE 3: the outline (titles, counts, total) and all question content now
