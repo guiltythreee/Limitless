@@ -203,7 +203,7 @@ if (fs.existsSync(revisionOverridePath)) {
   // Additive authored questions are separate from the legacy bank so re-syncing
   // the upstream file cannot erase source-based course expansion.
   for (const addition of revisionOverrides.additions ?? []) {
-    if (!/^ch\\d{2}$/.test(addition.chapter) || !addition.title || !Array.isArray(addition.questions)) {
+    if (!/^ch\\d{2}$/.test(addition.chapter) || !Array.isArray(addition.questions)) {
       throw new Error(`Invalid authored MT201 addition chapter: ${addition.chapter}`);
     }
     const chapterPath = path.join(OUT, `${addition.chapter}.json`);
@@ -214,6 +214,7 @@ if (fs.existsSync(revisionOverridePath)) {
         throw new Error(`Authored addition title mismatch for ${addition.chapter}`);
       }
     } else {
+      if (!addition.title) throw new Error(`New authored chapter ${addition.chapter} requires a title`);
       chapter = {
         id: addition.chapter,
         num: Number(addition.chapter.slice(2)),
