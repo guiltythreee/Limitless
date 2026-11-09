@@ -8298,6 +8298,511 @@
           "detailed": "The notes explicitly caution that entropy alone does not guarantee a single-phase solid solution. The phase selection depends on the total Gibbs energy, including enthalpic interactions and other factors; empirical design rules are therefore also used."
         }
       ]
+    },
+    {
+      "chapter": "ch06",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For an irreversible heat-transfer process between two bodies initially at different temperatures, the total entropy change of the isolated pair is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Negative"
+            },
+            {
+              "label": "b",
+              "text": "Zero"
+            },
+            {
+              "label": "c",
+              "text": "Positive"
+            },
+            {
+              "label": "d",
+              "text": "Undefined"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Heat flows spontaneously from the hotter body to the colder body. The combined entropy change is positive for an irreversible process; this is entropy generation and is consistent with $\\Delta S_{universe}>0$."
+        }
+      ]
+    },
+    {
+      "chapter": "ch09",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "At a solid–liquid interface during alloy solidification, the equilibrium partition coefficient is defined as:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$k=C_l/C_s$"
+            },
+            {
+              "label": "b",
+              "text": "$k=C_s/C_l$"
+            },
+            {
+              "label": "c",
+              "text": "$k=C_0/C_s$"
+            },
+            {
+              "label": "d",
+              "text": "$k=f_s/f_l$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied TM-6 notes define the equilibrium partition coefficient as $k=C_s/C_l$, where $C_s$ is the solute concentration in the solid at the interface and $C_l$ is its concentration in the adjacent liquid."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "If the equilibrium partition coefficient is $k<1$, the solute generally:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Enters the solid preferentially"
+            },
+            {
+              "label": "b",
+              "text": "Is rejected by the solid and enriches the remaining liquid"
+            },
+            {
+              "label": "c",
+              "text": "Has equal concentrations in solid and liquid"
+            },
+            {
+              "label": "d",
+              "text": "Vanishes from the alloy"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "When $k=C_s/C_l<1$, the solid accommodates less solute than the liquid at the interface. Solute is therefore rejected into the liquid ahead of the interface, promoting solute enrichment and microsegregation."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Which set of assumptions belongs to the Scheil solidification model in the supplied notes?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Complete mixing in solid, no mixing in liquid"
+            },
+            {
+              "label": "b",
+              "text": "No diffusion in solid after formation, complete mixing in liquid, local interfacial equilibrium and constant $k$"
+            },
+            {
+              "label": "c",
+              "text": "Equilibrium diffusion in both phases at all times"
+            },
+            {
+              "label": "d",
+              "text": "No partitioning at the interface"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes list no diffusion in the solid after it forms, complete mixing in the liquid, local equilibrium at the interface with constant partition coefficient, and conservation of total solute."
+        },
+        {
+          "n": 0,
+          "stars": 4,
+          "type": "E",
+          "traps": [],
+          "text": "A binary alloy has initial solute concentration $C_0=1.0\\ \\mathrm{wt\\%}$ and partition coefficient $k=0.50$. Under the Scheil model, estimate the liquid concentration when $f_s=0.50$, using $C_l=C_0(1-f_s)^{k-1}.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$0.50\\ \\mathrm{wt\\%}$"
+            },
+            {
+              "label": "b",
+              "text": "$0.707\\ \\mathrm{wt\\%}$"
+            },
+            {
+              "label": "c",
+              "text": "$1.414\\ \\mathrm{wt\\%}$"
+            },
+            {
+              "label": "d",
+              "text": "$2.00\\ \\mathrm{wt\\%}$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Apply the Scheil relation: $C_l=1.0(1-0.50)^{0.50-1}=0.5^{-0.5}=1/\\sqrt{0.5}=1.414\\ \\mathrm{wt\\%}$. The liquid becomes enriched because $k<1$ and solute is rejected into the liquid."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Macrosegregation differs from microsegregation because macrosegregation involves:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Only atomic-scale random mixing"
+            },
+            {
+              "label": "b",
+              "text": "Large-scale transport of solute-enriched or solute-depleted liquid by flow, shrinkage or gravity"
+            },
+            {
+              "label": "c",
+              "text": "Only equilibrium at the solid–liquid interface"
+            },
+            {
+              "label": "d",
+              "text": "No composition variation"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied TM-6 notes distinguish microsegregation as local composition differences within dendrites, while macrosegregation results when enriched or depleted liquid is physically transported by convection, shrinkage flow or gravity."
+        }
+      ]
+    },
+    {
+      "chapter": "ch10",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Compared with a regular solution, a subregular solution is introduced mainly to represent:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Symmetric activity deviations about equiatomic composition"
+            },
+            {
+              "label": "b",
+              "text": "Asymmetric interactions and composition-dependent deviations from ideality"
+            },
+            {
+              "label": "c",
+              "text": "Zero enthalpy of mixing in all compositions"
+            },
+            {
+              "label": "d",
+              "text": "Polymer chain connectivity only"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The subregular model allows different A-rich and B-rich interaction parameters. This produces asymmetric activity-coefficient curves and can shift a miscibility gap away from the equiatomic composition."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "In the Flory–Huggins model, why can a short-chain polymer improve the miscibility of a blend with a long-chain polymer?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "It reduces the entropy of mixing further"
+            },
+            {
+              "label": "b",
+              "text": "It contributes more configurational entropy per segment than a very long chain"
+            },
+            {
+              "label": "c",
+              "text": "It forces the enthalpy of mixing to zero"
+            },
+            {
+              "label": "d",
+              "text": "It removes the volume-fraction dependence"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied Flory–Huggins notes explain that shorter chains behave more like solvent molecules. The chain-length correction makes the entropy of mixing more significant, which can improve miscibility compared with a long-chain/long-chain blend."
+        }
+      ]
+    },
+    {
+      "chapter": "ch12",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 4,
+          "type": "E",
+          "traps": [],
+          "text": "For the supplied ideal Cu–Ni model at $T=1500\\ \\mathrm{K}$ and $X_{Ni}=0.5$, use $G_\\alpha=RT[X\\ln X+(1-X)\\ln(1-X)]$ and $G_L=(1-X)9.8(1358-T)+X10.2(1728-T)+G_\\alpha$. With $R=8.314\\ \\mathrm{J\\,mol^{-1}K^{-1}}$, which phase has the lower Gibbs energy and by approximately how much?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Liquid, by $0.47\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "b",
+              "text": "Solid $\\alpha$, by $0.47\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "c",
+              "text": "Liquid, by $4.7\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "d",
+              "text": "They are equal"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "At $X=0.5$, the ideal mixing term is $G_\\alpha=RT\\ln0.5\\approx-8.64\\ \\mathrm{kJ\\,mol^{-1}}$. The liquid's additional melting terms are $0.5[9.8(1358-1500)+10.2(1728-1500)]\\approx+0.467\\ \\mathrm{kJ\\,mol^{-1}}$. Therefore $G_L-G_\\alpha\\approx+0.467\\ \\mathrm{kJ\\,mol^{-1}}$, so the solid has the lower Gibbs energy by about $0.47\\ \\mathrm{kJ\\,mol^{-1}}$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For the ideal Cu–Ni G–X exercise, increasing temperature changes the relative stability of solid and liquid phases because:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The ideal entropy-of-mixing term scales with temperature and the liquid melting contributions are temperature-dependent"
+            },
+            {
+              "label": "b",
+              "text": "The gas constant changes with composition"
+            },
+            {
+              "label": "c",
+              "text": "The mole fraction of nickel is forced to zero"
+            },
+            {
+              "label": "d",
+              "text": "Gibbs energy is independent of temperature"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "In the supplied G–X/T–X exercise, the solid ideal mixing term contains $RT\\sum x_i\\ln x_i$, while the liquid Gibbs energy also contains temperature-dependent melting terms. Their relative positions therefore change with temperature, determining the solid, liquid and two-phase fields."
+        }
+      ]
+    },
+    {
+      "chapter": "ch15",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "A concentration cell made from the same metal electrodes in solutions of different activities generates an EMF because:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The electrode materials have different standard potentials"
+            },
+            {
+              "label": "b",
+              "text": "The chemical potential of the metal ion differs between the two solutions"
+            },
+            {
+              "label": "c",
+              "text": "The cell reaction has no Gibbs-energy change"
+            },
+            {
+              "label": "d",
+              "text": "The electrolyte is necessarily non-ideal"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied notes describe a concentration cell with identical copper electrodes in solutions of different Cu$^{2+}$ activities. The activity difference creates a chemical-potential difference and drives transfer from the stronger to the weaker solution in the spontaneous direction."
+        }
+      ]
+    },
+    {
+      "chapter": "ch16",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A second-order reaction with equal initial reactant concentrations has $k=0.50\\ \\mathrm{L\\,mol^{-1}min^{-1}}$ and $[A]_0=0.20\\ \\mathrm{mol\\,L^{-1}}$. Its half-life is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "2.0 min"
+            },
+            {
+              "label": "b",
+              "text": "5.0 min"
+            },
+            {
+              "label": "c",
+              "text": "10.0 min"
+            },
+            {
+              "label": "d",
+              "text": "20.0 min"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For a second-order reaction with equal initial concentrations, $t_{1/2}=1/(k[A]_0)$. Thus $t_{1/2}=1/(0.50\\times0.20)=10.0\\ \\mathrm{min}$."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "B",
+          "traps": [],
+          "text": "A reaction is studied at constant temperature. Doubling [A] while holding [B] fixed makes the rate four times larger; doubling [B] while holding [A] fixed doubles the rate. Which statements are correct?",
+          "statements": [
+            {
+              "num": "I",
+              "text": "The order with respect to A is 2."
+            },
+            {
+              "num": "II",
+              "text": "The order with respect to B is 1."
+            },
+            {
+              "num": "III",
+              "text": "The overall order is 3."
+            }
+          ],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "I and II only"
+            },
+            {
+              "label": "b",
+              "text": "I and III only"
+            },
+            {
+              "label": "c",
+              "text": "II and III only"
+            },
+            {
+              "label": "d",
+              "text": "I, II and III"
+            }
+          ],
+          "answer": "d",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Write $r=k[A]^m[B]^n$. Doubling [A] at fixed [B] multiplies the rate by $2^m=4$, so $m=2$. Doubling [B] multiplies the rate by $2^n=2$, so $n=1$. The overall order is $m+n=3$. The order is experimentally determined; it does not by itself prove the overall reaction is elementary."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The supplied kinetics notes give the approximate rule of thumb that a 10 °C rise in temperature often:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Halves the reaction rate"
+            },
+            {
+              "label": "b",
+              "text": "Doubles the reaction rate"
+            },
+            {
+              "label": "c",
+              "text": "Leaves the rate unchanged"
+            },
+            {
+              "label": "d",
+              "text": "Makes the activation energy zero"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes state that the rate of many reactions approximately doubles for every 10 °C rise as a rough rule of thumb. This is not a universal law; the Arrhenius equation gives the quantitative temperature dependence for a particular reaction."
+        }
+      ]
     }
   ]
 }
