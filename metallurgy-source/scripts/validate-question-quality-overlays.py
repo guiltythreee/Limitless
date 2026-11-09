@@ -8,7 +8,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-EXPECTED_COUNTS = {"mt201": 359, "mt202": 522}
+EXPECTED_COUNTS = {"mt201": 373, "mt202": 522}
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX8 = re.compile(r"^[0-9a-f]{8}$")
 
@@ -133,7 +133,7 @@ def validate_course(repo: Path, sub: str) -> dict:
     additions = overlay.get("additions", []) if sub == "mt201" else []
     if not isinstance(additions, list):
         raise ValidationError(f"{overlay_path}: additions must be a list")
-    added_count = 0
+    grouped_additions: dict[str, dict] = {}
     for addition in additions:
         chapter_id = addition.get("chapter")
         questions = addition.get("questions")
@@ -141,14 +141,23 @@ def validate_course(repo: Path, sub: str) -> dict:
             raise ValidationError(f"{overlay_path}: invalid additive chapter record")
         if chapter_id not in public_by_chapter:
             raise ValidationError(f"{overlay_path}: additive chapter {chapter_id} is absent")
+        group = grouped_additions.setdefault(chapter_id, {"title": addition.get("title"), "questions": []})
+        if addition.get("title") and group["title"] and addition["title"] != group["title"]:
+            raise ValidationError(f"{sub}/{chapter_id}: inconsistent additive chapter titles")
+        group["title"] = addition.get("title") or group["title"]
+        group["questions"].extend(questions)
+
+    added_count = 0
+    for chapter_id, addition in grouped_additions.items():
         chapter = public_by_chapter[chapter_id]
         if addition.get("title") and chapter.get("title") != addition["title"]:
             raise ValidationError(f"{sub}/{chapter_id}: additive chapter title mismatch")
+        questions = addition["questions"]
         if len(chapter.get("questions", [])) < len(questions):
             raise ValidationError(f"{sub}/{chapter_id}: fewer generated questions than authored additions")
-        start = len(chapter["questions"]) - len(questions)
+        start_index = len(chapter["questions"]) - len(questions)
         for offset, authored in enumerate(questions):
-            expected_n = start + offset + 1
+            expected_n = start_index + offset + 1
             live_q = unique_question(chapter, expected_n, f"{sub}/{chapter_id}")
             if not authored.get("text") or not authored.get("detailed"):
                 raise ValidationError(f"{sub}/{chapter_id} Q{expected_n}: missing stem or detailed solution")
@@ -166,8 +175,8 @@ def validate_course(repo: Path, sub: str) -> dict:
                 if live_q.get(key) != value:
                     raise ValidationError(f"{sub}/{chapter_id} Q{expected_n}: generated addition differs in field {key}")
             added_count += 1
-    if sub == "mt201" and added_count != 70:
-        raise ValidationError(f"mt201: expected 70 authored additions, found {added_count}")
+    if sub == "mt201" and added_count != 84:
+        raise ValidationError(f"mt201: expected 84 authored additions, found {added_count}")
 
     # Confirm the sync script guards are active, so a later external-bank drift stops instead of silently applying by locator.
     sync_name = "sync-mt201.mjs" if sub == "mt201" else "sync.mjs"
