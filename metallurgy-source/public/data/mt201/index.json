@@ -1,7 +1,7 @@
 {
   "course": "MT201 — Metallurgical Thermodynamics",
   "generated": "2026-11-10",
-  "total": 359,
+  "total": 373,
   "chapters": [
     {
       "id": "ch01",
@@ -31,7 +31,7 @@
     {
       "id": "ch06",
       "title": "Second Law & Entropy",
-      "count": 26
+      "count": 27
     },
     {
       "id": "ch07",
@@ -46,12 +46,12 @@
     {
       "id": "ch09",
       "title": "Chemical Potential, Gibbs-Duhem, Activity & Fugacity",
-      "count": 33
+      "count": 38
     },
     {
       "id": "ch10",
       "title": "Solutions, Regular/Sub-regular & Spinodal",
-      "count": 36
+      "count": 38
     },
     {
       "id": "ch11",
@@ -61,7 +61,7 @@
     {
       "id": "ch12",
       "title": "Phase Equilibria & Clausius-Clapeyron",
-      "count": 27
+      "count": 29
     },
     {
       "id": "ch13",
@@ -76,12 +76,12 @@
     {
       "id": "ch15",
       "title": "Electrochemical Thermodynamics",
-      "count": 15
+      "count": 16
     },
     {
       "id": "ch16",
       "title": "Metallurgical Kinetics",
-      "count": 14
+      "count": 17
     },
     {
       "id": "ch17",
