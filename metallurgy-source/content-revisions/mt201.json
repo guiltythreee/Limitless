@@ -6264,15 +6264,15 @@
           "options": [
             {
               "label": "a",
-              "text": "$3.57\\ \\mathrm{kJ\\,mol^{-1}}$"
+              "text": "$2.10\\ \\mathrm{kJ\\,mol^{-1}}$"
             },
             {
               "label": "b",
-              "text": "$4.41\\ \\mathrm{kJ\\,mol^{-1}}$"
+              "text": "$2.73\\ \\mathrm{kJ\\,mol^{-1}}$"
             },
             {
               "label": "c",
-              "text": "$5.10\\ \\mathrm{kJ\\,mol^{-1}}$"
+              "text": "$4.41\\ \\mathrm{kJ\\,mol^{-1}}$"
             },
             {
               "label": "d",
@@ -6282,7 +6282,7 @@
           "answer": "b",
           "keyExplanation": "",
           "concise": "",
-          "detailed": "First evaluate the composition-weighted interaction: $10(0.70)+20(0.30)=13\\ \\mathrm{kJ\\,mol^{-1}}$. Then $x_Ax_B=0.21$, so $\\Delta H_{mix}=0.21(13)=2.73\\ \\mathrm{kJ\\,mol^{-1}}$. The correct option is therefore 2.73 kJ mol−1; this item is intentionally marked for correction before release."
+          "detailed": "First evaluate the composition-weighted interaction: $10(0.70)+20(0.30)=13\\ \\mathrm{kJ\\,mol^{-1}}$. Then $x_Ax_B=0.21$, so $\\Delta H_{mix}=0.21(13)=2.73\\ \\mathrm{kJ\\,mol^{-1}}$."
         },
         {
           "n": 0,
