@@ -7,7 +7,7 @@
 // Capabilities reflect what the live MT201 app actually ships today:
 // a flat chapter list of MCQs, a quiz player and a timed exam. NO theory
 // reader, NO tools, NO XP/mastery/goals. Verified against the JSON here by
-// scripts/validate-courses.mjs (17 topics, 373 questions).
+// scripts/validate-courses.mjs (17 topics, 379 questions).
 
 import type { CourseManifest } from "../types";
 import { capabilities } from "../capabilities";
@@ -18,7 +18,7 @@ export const MT201_MANIFEST: CourseManifest = {
   title: "Metallurgical Thermodynamics",
   subtitle: "Laws, potentials, entropy, solutions & Ellingham diagrams",
   description:
-    "373 chapter-wise MCQs across seventeen chapters — the thermodynamic laws, solution models, phase stability, metallurgical reactions, electrochemical thermodynamics, kinetics and high-entropy alloys — with worked solutions and a timed exam simulator.",
+    "379 chapter-wise MCQs across seventeen chapters — the thermodynamic laws, solution models, phase stability, metallurgical reactions, electrochemical thermodynamics, kinetics and high-entropy alloys — with worked solutions and a timed exam simulator.",
   symbol: "♨",
   status: "live",
   route: "mt201",
@@ -57,7 +57,7 @@ export const MT201_MANIFEST: CourseManifest = {
     { id: "ch14", num: 14, title: "Entropy, Information & Landauer", count: 16, hasLesson: false },
     { id: "ch15", num: 15, title: "Electrochemical Thermodynamics", count: 16, hasLesson: false },
     { id: "ch16", num: 16, title: "Metallurgical Kinetics", count: 17, hasLesson: false },
-    { id: "ch17", num: 17, title: "High-Entropy Alloys", count: 10, hasLesson: false },
+    { id: "ch17", num: 17, title: "High-Entropy Alloys", count: 16, hasLesson: false },
   ],
   taxonomy: {
     types: [
