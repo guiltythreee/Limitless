@@ -182,8 +182,10 @@ fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify(index, null, 2));
 const revisionOverridePath = path.join(__dirname, "..", "content-revisions", "mt201.json");
 const revisionHash = (value) => { let h = 2166136261; for (const ch of value) h = Math.imul(h ^ ch.codePointAt(0), 16777619) >>> 0; return h.toString(16).padStart(8, "0"); };
 const revisionFingerprint = (q) => revisionHash(JSON.stringify([q.text || "", q.statements || [], q.tableRows || [], q.assertion || "", q.reason || "", (q.options || []).map((o) => [o.label, o.text]), q.answer || "", q.type || ""]));
+const revisionOverrides = fs.existsSync(revisionOverridePath)
+  ? JSON.parse(fs.readFileSync(revisionOverridePath, "utf8"))
+  : {};
 if (fs.existsSync(revisionOverridePath)) {
-  const revisionOverrides = JSON.parse(fs.readFileSync(revisionOverridePath, "utf8"));
   for (const revision of revisionOverrides.replacements ?? []) {
     const chapterPath = path.join(OUT, `${revision.chapter}.json`);
     if (!fs.existsSync(chapterPath)) throw new Error(`Revision overlay chapter not found: ${revision.chapter}`);
