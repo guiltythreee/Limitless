@@ -203,7 +203,7 @@ if (fs.existsSync(revisionOverridePath)) {
   // Additive authored questions are separate from the legacy bank so re-syncing
   // the upstream file cannot erase source-based course expansion.
   for (const addition of revisionOverrides.additions ?? []) {
-    if (!/^ch\\d{2}$/.test(addition.chapter) || !Array.isArray(addition.questions)) {
+    if (!/^ch\d{2}$/.test(addition.chapter) || !Array.isArray(addition.questions)) {
       throw new Error(`Invalid authored MT201 addition chapter: ${addition.chapter}`);
     }
     const chapterPath = path.join(OUT, `${addition.chapter}.json`);
@@ -224,7 +224,6 @@ if (fs.existsSync(revisionOverridePath)) {
       };
       summary.push({ id: addition.chapter, title: addition.title, count: 0 });
     }
-    const labels = new Set();
     for (const raw of addition.questions) {
       const n = chapter.questions.length + 1;
       if (!raw.text || !Array.isArray(raw.options) || raw.options.length < 2 ||
@@ -238,7 +237,6 @@ if (fs.existsSync(revisionOverridePath)) {
       }
       const question = { ...raw, n };
       chapter.questions.push(question);
-      labels.add(n);
     }
     fs.writeFileSync(chapterPath, JSON.stringify(chapter));
     const row = summary.find((item) => item.id === addition.chapter);
@@ -247,7 +245,7 @@ if (fs.existsSync(revisionOverridePath)) {
   }
   totalQ = summary.reduce((sum, item) => sum + item.count, 0);
   const expandedIndex = {
-    course: "MT201 \\u2014 Metallurgical Thermodynamics",
+    course: "MT201 — Metallurgical Thermodynamics",
     generated: new Date().toISOString().slice(0, 10),
     total: totalQ,
     chapters: summary,
