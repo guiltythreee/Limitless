@@ -198,6 +198,59 @@ if (fs.existsSync(revisionOverridePath)) {
   }
 }
 
+  // Additive authored questions are separate from the legacy bank so re-syncing
+  // the upstream file cannot erase source-based course expansion.
+  for (const addition of revisionOverrides.additions ?? []) {
+    if (!/^ch\\d{2}$/.test(addition.chapter) || !addition.title || !Array.isArray(addition.questions)) {
+      throw new Error(`Invalid authored MT201 addition chapter: ${addition.chapter}`);
+    }
+    const chapterPath = path.join(OUT, `${addition.chapter}.json`);
+    let chapter;
+    if (fs.existsSync(chapterPath)) {
+      chapter = JSON.parse(fs.readFileSync(chapterPath, "utf8"));
+      if (chapter.title !== addition.title && addition.title !== undefined) {
+        throw new Error(`Authored addition title mismatch for ${addition.chapter}`);
+      }
+    } else {
+      chapter = {
+        id: addition.chapter,
+        num: Number(addition.chapter.slice(2)),
+        title: addition.title,
+        topics: [],
+        questions: [],
+      };
+      summary.push({ id: addition.chapter, title: addition.title, count: 0 });
+    }
+    const labels = new Set();
+    for (const raw of addition.questions) {
+      const n = chapter.questions.length + 1;
+      if (!raw.text || !Array.isArray(raw.options) || raw.options.length < 2 ||
+          !raw.options.some((option) => option.label === raw.answer) ||
+          !raw.detailed || !["A", "B", "C", "D", "E", "F"].includes(raw.type)) {
+        throw new Error(`Invalid authored question in ${addition.chapter} at new question ${n}`);
+      }
+      const optionLabels = raw.options.map((option) => option.label);
+      if (new Set(optionLabels).size !== optionLabels.length) {
+        throw new Error(`Duplicate option labels in ${addition.chapter} Q${n}`);
+      }
+      const question = { ...raw, n };
+      chapter.questions.push(question);
+      labels.add(n);
+    }
+    fs.writeFileSync(chapterPath, JSON.stringify(chapter));
+    const row = summary.find((item) => item.id === addition.chapter);
+    row.title = chapter.title;
+    row.count = chapter.questions.length;
+  }
+  totalQ = summary.reduce((sum, item) => sum + item.count, 0);
+  const expandedIndex = {
+    course: "MT201 \\u2014 Metallurgical Thermodynamics",
+    generated: new Date().toISOString().slice(0, 10),
+    total: totalQ,
+    chapters: summary,
+  };
+  fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify(expandedIndex, null, 2));
+
 console.log("\nSynced MT201 chapters:");
 for (const s of summary) console.log(`  ${s.id}  ${String(s.count).padStart(3)} questions  ${s.title}`);
 console.log(`  TOTAL: ${totalQ} questions`);
