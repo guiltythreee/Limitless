@@ -1,7 +1,7 @@
 {
   "course": "MT201 — Metallurgical Thermodynamics",
-  "generated": "2026-10-18",
-  "total": 289,
+  "generated": "2026-11-10",
+  "total": 359,
   "chapters": [
     {
       "id": "ch01",
@@ -21,7 +21,7 @@
     {
       "id": "ch04",
       "title": "Enthalpy & Heat Capacity",
-      "count": 20
+      "count": 22
     },
     {
       "id": "ch05",
@@ -46,32 +46,47 @@
     {
       "id": "ch09",
       "title": "Chemical Potential, Gibbs-Duhem, Activity & Fugacity",
-      "count": 27
+      "count": 33
     },
     {
       "id": "ch10",
       "title": "Solutions, Regular/Sub-regular & Spinodal",
-      "count": 27
+      "count": 36
     },
     {
       "id": "ch11",
       "title": "Ellingham Diagrams & Reduction",
-      "count": 28
+      "count": 32
     },
     {
       "id": "ch12",
       "title": "Phase Equilibria & Clausius-Clapeyron",
-      "count": 22
+      "count": 27
     },
     {
       "id": "ch13",
       "title": "Gases in Metals (Sieverts) & Equilibrium",
-      "count": 12
+      "count": 17
     },
     {
       "id": "ch14",
       "title": "Entropy, Information & Landauer",
       "count": 16
+    },
+    {
+      "id": "ch15",
+      "title": "Electrochemical Thermodynamics",
+      "count": 15
+    },
+    {
+      "id": "ch16",
+      "title": "Metallurgical Kinetics",
+      "count": 14
+    },
+    {
+      "id": "ch17",
+      "title": "High-Entropy Alloys",
+      "count": 10
     }
   ]
 }
