@@ -8444,7 +8444,7 @@
           "stars": 4,
           "type": "E",
           "traps": [],
-          "text": "A binary alloy has initial solute concentration $C_0=1.0\\ \\mathrm{wt\\%}$ and partition coefficient $k=0.50$. Under the Scheil model, estimate the liquid concentration when $f_s=0.50$, using $C_l=C_0(1-f_s)^{k-1}.",
+          "text": "A binary alloy has initial solute concentration $C_0=1.0\\ \\mathrm{wt\\%}$ and partition coefficient $k=0.50$. Under the Scheil model, estimate the liquid concentration when $f_s=0.50$, using $C_l=C_0(1-f_s)^{k-1}$.",
           "statements": [],
           "tableRows": [],
           "assertion": "",
