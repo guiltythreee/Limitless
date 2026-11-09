@@ -11,7 +11,7 @@ The standalone `MT201_Thermodynamics_MCQ_Bank.html` is an earlier independent pr
 
 ## Existing live baseline
 
-- 14 chapters, 289 questions.
+- 17 chapters, 373 questions after this expansion (baseline: 14 chapters, 289 questions).
 - Chapter distribution: ch01 15, ch02 8, ch03 20, ch04 20, ch05 26, ch06 26, ch07 14, ch08 28, ch09 27, ch10 27, ch11 28, ch12 22, ch13 12, ch14 16.
 - All 289 current questions have a non-empty detailed solution.
 - Six question types already supported: direct (A), statement (B), assertion–reason (C), match (D), numerical (E), true/false (F).
@@ -45,7 +45,7 @@ Keep existing chapters ch01–ch14 and all their question IDs unchanged. Add thr
 
 Also add targeted new questions to ch04–ch13 where the uploaded materials provide deeper coverage than the current bank: variable heat-capacity numericals; partial molar/Gibbs–Duhem/activities; regular, subregular and Flory–Huggins derivations; G–X/T–X and phase-stability calculations; Ellingham/reduction; Sieverts' law and solubility conversions.
 
-The additions should be deliberately mixed:
+The first authored expansion contains 84 new questions, bringing the live archive from 289 to 373 questions. The additions should be deliberately mixed:
 - direct conceptual discrimination;
 - statement and assertion–reason questions;
 - derivation/interpretation questions;
@@ -72,3 +72,12 @@ Do not create duplicate paraphrases of existing questions. Use distinct question
 - Existing question IDs are `chNN-qN`; additions must append to the corresponding chapter and keep existing numbers stable.
 - Extend the durable MT201 content-revision pipeline to support additive authored questions, so re-running the legacy bank sync cannot erase the new material.
 - Keep the generated `metallurgy-source/public/data/mt201/` and `metallurgy/data/mt201/` copies byte-equivalent at the parsed JSON level.
+
+## Implemented in the working branch
+
+- Added 84 authored questions with worked solutions, including 19 new numerical questions.
+- Added ch15 Electrochemical Thermodynamics (16 questions), ch16 Metallurgical Kinetics (17 questions), and ch17 High-Entropy Alloys (10 questions).
+- Expanded ch04, ch06, ch09, ch10, ch11, ch12 and ch13.
+- Updated the canonical source JSON, deployed mirror JSON, chapter index, course manifest, content lock, chapter loader IDs, MT201 regression expectations, and durable overlay validator.
+- Extended the sync pipeline so authored additions survive a future import of the legacy bank; new chapters are rebuilt idempotently from the durable overlay.
+- Pending: CI/build verification and browser regression before merge or deployment.
