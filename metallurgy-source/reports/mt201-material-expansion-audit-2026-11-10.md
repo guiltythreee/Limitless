@@ -80,4 +80,4 @@ Do not create duplicate paraphrases of existing questions. Use distinct question
 - Expanded ch04, ch06, ch09, ch10, ch11, ch12 and ch13.
 - Updated the canonical source JSON, deployed mirror JSON, chapter index, course manifest, content lock, chapter loader IDs, MT201 regression expectations, and durable overlay validator.
 - Extended the sync pipeline so authored additions survive a future import of the legacy bank; new chapters are rebuilt idempotently from the durable overlay.
-- Pending: CI/build verification and browser regression before merge or deployment.
+- CI: MT201/MT202 overlay validation, MT201 and MT202 regressions, MT203 checks, shared persistence/player tests, Metallurgy static-export build and Vercel preview all pass. The separate P6 workflow's probability-source build fails on pre-existing `Attempt.mistakeCategory` / `Attempt.reviewedAt` TypeScript errors; its metallurgy-source build passes. No probability-source files were changed.
