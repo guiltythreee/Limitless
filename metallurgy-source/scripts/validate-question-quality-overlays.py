@@ -8,7 +8,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-EXPECTED_COUNTS = {"mt201": 373, "mt202": 522}
+EXPECTED_COUNTS = {"mt201": 379, "mt202": 522}
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX8 = re.compile(r"^[0-9a-f]{8}$")
 
@@ -175,8 +175,8 @@ def validate_course(repo: Path, sub: str) -> dict:
                 if live_q.get(key) != value:
                     raise ValidationError(f"{sub}/{chapter_id} Q{expected_n}: generated addition differs in field {key}")
             added_count += 1
-    if sub == "mt201" and added_count != 84:
-        raise ValidationError(f"mt201: expected 84 authored additions, found {added_count}")
+    if sub == "mt201" and added_count != 90:
+        raise ValidationError(f"mt201: expected 90 authored additions, found {added_count}")
 
     # Confirm the sync script guards are active, so a later external-bank drift stops instead of silently applying by locator.
     sync_name = "sync-mt201.mjs" if sub == "mt201" else "sync.mjs"
