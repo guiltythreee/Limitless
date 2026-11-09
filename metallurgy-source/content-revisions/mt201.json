@@ -6061,7 +6061,7 @@
           "options": [
             {
               "label": "a",
-              "text": "$0.75\\ \\mathrm{kJ\\,mol^{-1}}$"
+              "text": "$0.25\\ \\mathrm{kJ\\,mol^{-1}}$"
             },
             {
               "label": "b",
@@ -6330,11 +6330,11 @@
           "options": [
             {
               "label": "a",
-              "text": "$-0.00693$"
+              "text": "$-0.0050$"
             },
             {
               "label": "b",
-              "text": "$-0.3466$"
+              "text": "$-0.3500$"
             },
             {
               "label": "c",
@@ -6348,7 +6348,7 @@
           "answer": "b",
           "keyExplanation": "",
           "concise": "",
-          "detailed": "With $\\chi=0$, the interaction term vanishes. The entropy contribution is $0.5\\ln(0.5)+0.005\\ln(0.5)=0.505\\ln(0.5)=-0.3500$ approximately. The closest value is −0.3466; the exact value using $\\ln 0.5=-0.6931$ is −0.3500. This item requires correction before release."
+          "detailed": "With $\\chi=0$, the interaction term vanishes. The dimensionless mixing term is $0.5\\ln(0.5)+(0.5/100)\\ln(0.5)=0.505\\ln(0.5)=-0.3500$ (to four significant figures)."
         },
         {
           "n": 0,
@@ -6954,7 +6954,7 @@
               "text": "$1.6\\times10^{-3}$"
             }
           ],
-          "answer": "b",
+          "answer": "c",
           "keyExplanation": "",
           "concise": "",
           "detailed": "Rearrange $K'=S/\\sqrt p$. Since $\\sqrt{0.25}=0.5$, $K'=4.0\\times10^{-4}/0.5=8.0\\times10^{-4}$ in solubility units atm$^{-1/2}$. The correct option is $8.0\\times10^{-4}$; this item is intentionally marked for correction before release."
