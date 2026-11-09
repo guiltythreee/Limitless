@@ -92,9 +92,9 @@ jobs:
       - name: Run MT203 tests and migration checks
         working-directory: metallurgy-source
         run: |
-          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/test-mt203.mjs
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203.mjs
           node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203-migration.mjs
-          node scripts/validate-mt203.mjs
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/validate-mt203.mjs
 
       - name: Production build
         working-directory: metallurgy-source
