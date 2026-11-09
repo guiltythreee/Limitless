@@ -26,7 +26,7 @@ const VARIANT: QViewVariant = {
   typeNames: TYPE_NAMES,
   unknownTypeName: "question",
   tableClassName: "mdtable",
-  markPickedUnlocked: false,
+  markPickedUnlocked: true,
   buttonType: "button",
   solutionStyle: "concise",
 };
