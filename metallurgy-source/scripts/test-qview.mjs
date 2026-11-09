@@ -12,7 +12,7 @@
 //   - solutions: concise/detailed/key (MT201/MT202) vs verdict/why/distractors/
 //     concept (MT203)
 //   - KaTeX maths actually renders
-//   - MT203-specific: distractor notes, reference line, is-picked, no type="button"
+//   - MT203-specific: distractor notes, reference line and no type="button"
 //
 // It also statically verifies MT203 code-splitting is intact (the renderer and
 // wrappers import no question banks; app/mt203/types.ts keeps its dynamic
@@ -120,7 +120,7 @@ function checkStarCourse(name, mod, typeNames, all) {
     contains(locked, "is-correct", `${name}: locked marks correct option`);
     contains(locked, "is-wrong", `${name}: locked marks wrong pick`);
     const open = render(mod.OptionList, { q: direct, picked: w, locked: false });
-    notContains(open, "is-picked", `${name}: unlocked has no is-picked`);
+    contains(open, "is-picked", `${name}: unlocked selected option is visibly picked`);
     notContains(open, "disabled", `${name}: unlocked options enabled`);
     contains(open, 'type="button"', `${name}: options keep type="button"`);
 
@@ -257,7 +257,7 @@ check(
   if (dist) {
     const w = wrongLabel(dist);
     const sWrong = render(M203.SolutionPanel, { q: dist, picked: w });
-    contains(sWrong, "verdict wrong", "MT203: wrong verdict banner");
+    contains(sWrong, "learning-player-feedback wrong", "MT203: wrong verdict banner");
     contains(sWrong, "Incorrect — the answer is (", "MT203: incorrect banner text");
     contains(sWrong, "distractor-list", "MT203: distractor list rendered");
     for (const label of Object.keys(dist.solution.distractors)) {
@@ -266,7 +266,7 @@ check(
     contains(sWrong, "Reference:", "MT203: concept reference line");
 
     const sRight = render(M203.SolutionPanel, { q: dist, picked: dist.answer });
-    contains(sRight, "verdict right", "MT203: correct verdict banner");
+    contains(sRight, "learning-player-feedback right", "MT203: correct verdict banner");
     contains(sRight, "✓ Correct", "MT203: correct banner text");
 
     const sNone = render(M203.SolutionPanel, { q: dist });
