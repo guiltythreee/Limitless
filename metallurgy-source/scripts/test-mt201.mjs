@@ -244,7 +244,7 @@ console.warn = origWarn;
 check(consoleIssues.length === 0, `no console errors/warnings during render (${consoleIssues.slice(0, 3).join(" | ")})`);
 
 console.log("test-mt201 — Phase 3 migration regression\n");
-console.log("course: mt201   topics: 14   questions: 289   storage: mm-mt201-v1");
+console.log("course: mt201   topics: 17   questions: 359   storage: mm-mt201-v1");
 console.log(`assertions: ${pass} passed, ${failures.length} failed\n`);
 
 if (failures.length) {
