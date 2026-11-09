@@ -75,7 +75,7 @@ Do not create duplicate paraphrases of existing questions. Use distinct question
 
 ## Implemented in the working branch
 
-- Added 84 authored questions with worked solutions, including 19 new numerical questions.
+- Added 84 authored questions with worked solutions, including 22 new numerical questions.
 - Added ch15 Electrochemical Thermodynamics (16 questions), ch16 Metallurgical Kinetics (17 questions), and ch17 High-Entropy Alloys (10 questions).
 - Expanded ch04, ch06, ch09, ch10, ch11, ch12 and ch13.
 - Updated the canonical source JSON, deployed mirror JSON, chapter index, course manifest, content lock, chapter loader IDs, MT201 regression expectations, and durable overlay validator.
