@@ -189,6 +189,7 @@ export function OptionList({
             type={variant.buttonType}
             className={`${cls} learning-player-option`}
             disabled={locked}
+            aria-pressed={!locked && o.label === picked}
             onClick={() => onPick?.(o.label)}
           >
             <span className="tag">{o.label.toUpperCase()}</span>
