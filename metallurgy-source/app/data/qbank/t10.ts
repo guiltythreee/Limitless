@@ -717,7 +717,7 @@ const T10: TopicSource = {
         b: "Tensile strength is a failure stress, not a measure of cyclic hysteresis.",
         c: "Static compliance describes time-dependent deformation under load, not energy dissipated per cycle.",
       },
-    },,
+    },
     {
       id: "t10-29",
       type: "concept",
