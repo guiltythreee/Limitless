@@ -474,7 +474,7 @@ const T1: TopicSource = {
         { label: "d", text: "The data prove that tensile strength must decrease whenever DP exceeds 400." }
       ],
       answer: "b",
-      why: "The data show **diminishing returns in tensile strength** as DP increases from 400 to 2000. Once chains are sufficiently long for effective entanglement and load transfer, adding more repeat units may produce only a small further increase in this property. This plot does not establish that every polymer property, such as melt viscosity, also plateaus.",
+      why: "The data show **diminishing returns in tensile strength** as DP increases from 400 to 2000. The plot establishes a tensile-strength plateau for this sample, but it does not by itself identify the mechanism. Chain entanglement and more effective load transfer are possible explanations; other properties, such as melt viscosity, need not show the same plateau.",
       distractors: {
         a: "The plotted property approaches a plateau; that does not mean polymerization is unable to produce longer chains.",
         c: "The data contain no crystallinity measurement, and the strength plateau does not prove complete crystallization.",
@@ -488,8 +488,8 @@ const T1: TopicSource = {
       diff: 3,
       text: "An engineering component must resist dissolving during repeated solvent exposure; limited swelling is acceptable. Which polymer architecture is most appropriate?",
       options: [
-        { label: "a", text: "Linear thermoplastic of relatively low molecular weight" },
-        { label: "b", text: "Linear thermoplastic with no network junctions" },
+        { label: "a", text: "High-molecular-weight linear thermoplastic" },
+        { label: "b", text: "Highly crystalline linear thermoplastic" },
         { label: "c", text: "Covalently cross-linked polymer network" },
         { label: "d", text: "Uncross-linked branched thermoplastic" }
       ],
@@ -644,7 +644,7 @@ const T1: TopicSource = {
       id: "t1-30",
       type: "numerical",
       diff: 3,
-      text: "A binary addition copolymer contains 40 mol% monomer A (M_A = 100 g/mol) and 60 mol% monomer B (M_B = 50 g/mol). Assuming no small molecule is eliminated during polymerization, the average molar mass per incorporated repeat-unit residue is:",
+      text: "A binary addition copolymer contains 40 mol% monomer A ($M_A = 100$ g/mol) and 60 mol% monomer B ($M_B = 50$ g/mol). Assuming no small molecule is eliminated during polymerization, the average molar mass per incorporated repeat-unit residue is:",
       options: [
         { label: "a", text: "65 g/mol" },
         { label: "b", text: "75 g/mol" },
