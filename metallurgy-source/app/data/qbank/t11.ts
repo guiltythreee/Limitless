@@ -124,7 +124,7 @@ const T11: TopicSource = {
       id: "t11-05",
       type: "concept",
       diff: 3,
-      text: "Why must hygroscopic polymers such as PET, nylon, PC and POM be thoroughly dried before melt processing?",
+      text: "Why must hygroscopic polymers such as PET, nylon and PC be thoroughly dried before melt processing?",
       options: [
         {
             label: "a",
@@ -144,7 +144,7 @@ const T11: TopicSource = {
         }
       ],
       answer: "d",
-      why: "At melt temperature, absorbed water **hydrolyses ester/amide/carbonate linkages**, dropping molecular weight (an intrinsic-viscosity loss for PET) and causing silver-streak **splay**. Hence dried hoppers and dryers are mandatory.",
+      why: "At melt temperature, absorbed water **hydrolyses ester, amide or carbonate linkages**, lowering molecular weight (seen as intrinsic-viscosity loss in PET) and causing silver-streak **splay**. Drying is critical for PET, nylon and PC; POM has much lower moisture uptake and is not generally treated as equally hygroscopic.",
       concept: "hygroscopic + hot + hydrolysable bond = MW loss",
       tags: ["confused"],
     },
@@ -416,7 +416,7 @@ const T11: TopicSource = {
       id: "t11-15",
       type: "numerical",
       diff: 3,
-      text: "A polyethylene grade has $\\text{MFI} = 2$ g/10 min (190 °C, 2.16 kg). If another grade has MFI = 20 g/10 min, what can be said about the second grade?",
+      text: "Two otherwise comparable linear polyethylene grades are tested under the same conditions (190 °C, 2.16 kg). Grade 1 has $\\text{MFI} = 2$ g/10 min and Grade 2 has MFI = 20 g/10 min. What is the most likely interpretation of Grade 2?",
       options: [
         { label: "a", text: "It has lower melt viscosity and lower molecular weight — it flows more easily but is likely less tough." },
         { label: "b", text: "Its density is necessarily higher." },
@@ -424,7 +424,7 @@ const T11: TopicSource = {
         { label: "d", text: "It has identical properties." }
       ],
       answer: "a",
-      why: "**MFI measures melt flow**: higher MFI ⇔ lower melt viscosity ⇔ lower MW (and generally lower toughness but easier processing). It is a fast indirect processability/MW indicator.",
+      why: "Under the same test conditions, higher **MFI** indicates lower apparent melt viscosity and, for otherwise comparable linear PE grades, usually lower molecular weight. It flows more easily; toughness still depends on the full molecular-weight distribution, branching and formulation.",
       concept: "MFI ↑ ⇔ MW ↓ · viscosity ↓",
       tags: ["confused"],
     },
@@ -452,7 +452,7 @@ const T11: TopicSource = {
         }
       ],
       answer: "c",
-      why: "Two contributions: **thermal contraction** (all polymers) + **density increase on crystallization** (semi-crystalline only). Moulds must therefore be dimensioned with the resin's shrinkage in mind.",
+      why: "Two contributions act in semi-crystalline polymers: **thermal contraction** (common to all polymers) plus the **density increase during crystallization**. The quoted shrinkage ranges are typical only; actual values depend on resin grade, mould temperature, packing, geometry and processing conditions.",
       concept: "semi-crystalline: thermal + crystallization shrinkage",
       tags: ["confused"],
     },
@@ -513,7 +513,7 @@ const T11: TopicSource = {
         },
         {
             label: "c",
-            text: "High-speed thin-wall injection moulding (multi-cavity, fast cycling) using PP or PS.",
+            text: "High-speed roll-fed thermoforming of extruded PP or PS sheet, using multi-cavity tooling.",
         },
         {
             label: "d",
@@ -521,7 +521,7 @@ const T11: TopicSource = {
         }
       ],
       answer: "c",
-      why: "**Thin-wall injection moulding** with high-cavitation tooling, fast cooling and PP/PS gives the required output at the lowest unit cost; the other processes are far too slow (or suited to other product forms entirely).",
+      why: "**Roll-fed thermoforming** is widely used for high-volume thin-walled yoghurt cups: an extruded thermoplastic sheet is heated, formed over multi-cavity tooling and trimmed. It is generally more economical for this packaging format than moulding each cup by injection.",
       concept: "process choice = product form + volume + cost",
       tags: ["confused"],
     },
@@ -564,7 +564,7 @@ const T11: TopicSource = {
         },
         {
             label: "b",
-            text: "Injection: molten polymer forced into a closed mould (fast, thermoplastics; also RRIM/RIM for some thermosets). Compression: a measured charge is squeezed in a heated mould (classic thermosets, SMC/BMC).",
+            text: "Injection moulding forces a thermoplastic melt into a closed mould at high pressure; reactive injection moulding can also process some reactive systems. Compression moulding places a measured charge in a heated mould and presses it (common for thermosets, SMC and BMC).",
         },
         {
             label: "c",
