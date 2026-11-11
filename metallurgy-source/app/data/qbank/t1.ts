@@ -103,16 +103,16 @@ const T1: TopicSource = {
       diff: 1,
       text: "Nylon 6,6 gets its name because:",
       options: [
-        { label: "a", text: "The diamine and the diacid used to make it each contain six carbon atoms." },
-        { label: "b", text: "The diamine contains six carbon atoms, while the diacid contains ten, as in Nylon 6,10." },
-        { label: "c", text: "The two numbers give the number of amide groups in each repeat unit." },
+        { label: "a", text: "The diamine contains six carbon atoms, while the diacid contains ten, as in Nylon 6,10." },
+        { label: "b", text: "The two numbers give the number of amide groups in each repeat unit." },
+        { label: "c", text: "The diamine and the diacid used to make it each contain six carbon atoms." },
         { label: "d", text: "The two numbers specify the degree of polymerization of the finished nylon." }
       ],
-      answer: "a",
+      answer: "c",
       why: "The two numbers give the **carbon counts of the two monomers**: hexamethylenediamine has six carbon atoms, and adipic acid also has six. In Nylon 6,10, the diamine has six carbon atoms and the diacid has ten.",
       distractors: {
-        b: "That is the monomer carbon-count pattern for Nylon 6,10, not Nylon 6,6.",
-        c: "The numbers identify the carbon counts of the monomers, not the number of amide links.",
+        a: "That is the monomer carbon-count pattern for Nylon 6,10, not Nylon 6,6.",
+        b: "The numbers identify the carbon counts of the monomers, not the number of amide links.",
         d: "They do not specify chain length; a nylon chain contains many repeat units."
       },
       tags: ["revision"],
@@ -271,17 +271,17 @@ const T1: TopicSource = {
       diff: 1,
       text: "In source-based copolymer nomenclature, what does the connective -co- indicate?",
       options: [
-        { label: "a", text: "The copolymer sequence is unspecified or not stated." },
-        { label: "b", text: "The monomer units follow a random sequence specifically." },
-        { label: "c", text: "The monomer units alternate in a regular A–B sequence." },
-        { label: "d", text: "The chain contains long blocks of each monomer." }
+        { label: "a", text: "The monomer units follow a random sequence specifically." },
+        { label: "b", text: "The monomer units alternate in a regular A–B sequence." },
+        { label: "c", text: "The chain contains long blocks of each monomer." },
+        { label: "d", text: "The copolymer sequence is unspecified or not stated." }
       ],
-      answer: "a",
+      answer: "d",
       why: "The connective **-co-** indicates a copolymer with an unspecified sequence arrangement. More specific connectives identify architectures such as **-ran-** (random) and **-alt-** (alternating); block copolymers are designated with **-block-**.",
       distractors: {
-        b: "Random sequence is specified more narrowly by -ran-; -co- alone does not assert randomness.",
-        c: "Alternating sequence is designated by -alt-.",
-        d: "Block architecture requires a block descriptor; -co- alone does not specify it."
+        a: "Random sequence is specified more narrowly by -ran-; -co- alone does not assert randomness.",
+        b: "Alternating sequence is designated by -alt-.",
+        c: "Block architecture requires a block descriptor; -co- alone does not specify it."
       },
       tags: ["revision"],
     },
