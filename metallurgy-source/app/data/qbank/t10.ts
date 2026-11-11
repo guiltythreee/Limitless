@@ -10,11 +10,14 @@ const T10: TopicSource = {
   title: "Mechanical & Viscoelastic Properties",
   subtitle: "Topic 10 · stress–strain, creep, relaxation, models and time–temperature behaviour",
   subs: [
-    { id: "T10.1", title: "Stress–strain behaviour & modulus" },
-    { id: "T10.2", title: "Impact, hardness & toughness" },
-    { id: "T10.3", title: "Creep, relaxation, hysteresis" },
-    { id: "T10.4", title: "Maxwell, Voigt and the Deborah number" },
-    { id: "T10.5", title: "TTS, WLF, permeability & solubility parameters" },
+    { id: "T10.1", title: "Stress–strain behaviour and modulus" },
+    { id: "T10.2", title: "Fracture, impact and toughness" },
+    { id: "T10.3", title: "Creep, relaxation and hardness" },
+    { id: "T10.4", title: "Viscoelastic models, hysteresis and Deborah number" },
+    { id: "T10.5", title: "Time–temperature superposition and WLF" },
+    { id: "T10.6", title: "Mechanical-property improvement" },
+    { id: "T10.7", title: "Rheology" },
+    { id: "T10.8", title: "Permeability, electrical, optical and flammability properties" },
   ],
   questions: [
     {
