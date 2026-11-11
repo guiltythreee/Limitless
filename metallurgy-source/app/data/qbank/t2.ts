@@ -104,9 +104,11 @@ const T2: TopicSource = {
         { label: "d", text: "Initiator decomposes through exactly two sequential reactions, mathematically forcing a square-root dependence." }
       ],
       answer: "a",
-      why: "Steady state: $R_i = R_t = 2k_t[M^\\bullet]^2$ → $[M^\\bullet] = (R_i/2k_t)^{1/2} \\propto [I]^{1/2}$. The **½-power is the signature of bimolecular termination**.",
+      why: "At steady state, radical generation balances bimolecular termination: $R_i = 2k_t[M^\\bullet]^2$. Thus $[M^\\bullet] = \\sqrt{R_i/(2k_t)} \\propto [I]^{1/2}$, and because $R_p = k_p[M][M^\\bullet]$, the rate has the same half-order dependence on initiator concentration.",
       distractors: {
-        b: "Efficiency $f$ enters linearly, not as a square root.",
+        b: "Initiator efficiency enters the radical-generation rate; it is not a fixed fraction 'wasted' in every run.",
+        c: "Termination is bimolecular in the standard model, not monomolecular.",
+        d: "The square-root dependence follows from balancing a first-order radical-generation rate against a second-order termination rate, not from two initiator-decomposition steps."
       },
       concept: "$[M^\\bullet]_{ss} = (fk_d[I]/k_t)^{1/2}$",
       tags: ["confused"],
@@ -139,9 +141,11 @@ const T2: TopicSource = {
         { label: "d", text: "Combination joins two radicals into one chain (DP̄ = 2ν); disproportionation ends chains separately (DP̄ = ν)." }
       ],
       answer: "d",
-      why: "**Combination** joins two kinetic chains end-to-end → each dead chain holds two kinetic-chain lengths ($\\overline{DP} = 2\\nu$). **Disproportionation** ends each chain separately ($\\overline{DP} = \\nu$).",
+      why: "**Combination** joins two kinetic chains end-to-end, so the dead molecule contains about two kinetic-chain lengths ($\\overline{DP}_n = 2\\nu$). **Disproportionation** ends two chains separately, so each dead molecule contains one kinetic-chain length ($\\overline{DP}_n = \\nu$).",
       distractors: {
-        b: "Exactly reversed.",
+        a: "Combination does not leave two separate dead chains; it couples the two radical-bearing chains into one molecule.",
+        b: "The DP relationships are reversed.",
+        c: "Only combination joins the chains; disproportionation transfers hydrogen and leaves two separate molecules.",
       },
       concept: "$\\nu = R_p/R_t$; DP̄ = 2ν (combination) or ν (disproportionation)",
       tags: ["confused", "formula"],
@@ -150,17 +154,19 @@ const T2: TopicSource = {
       id: "t2-07",
       type: "recall",
       diff: 1,
-      text: "Which monomer is classically polymerized by a **cationic** mechanism?",
+      text: "Which monomer is a standard example of cationic chain-growth polymerization?",
       options: [
-        { label: "a", text: "Ethylene (Ziegler–Natta)" },
-        { label: "b", text: "Isobutylene" },
-        { label: "c", text: "Styrene" },
-        { label: "d", text: "Acrylonitrile" }
+        { label: "a", text: "Ethylene polymerized with a Ziegler–Natta catalyst" },
+        { label: "b", text: "Isobutylene polymerized with a Lewis-acid initiating system" },
+        { label: "c", text: "Vinyl acetate polymerized with a radical initiator" },
+        { label: "d", text: "Acrylonitrile polymerized with a radical initiator" }
       ],
       answer: "b",
-      why: "**Isobutylene** (and vinyl ethers) carry electron-donating groups that stabilize a carbocation → cationic polymerization with Lewis-acid co-catalysts.",
+      why: "**Isobutylene** is a standard cationic monomer: its electron-donating methyl substituents stabilize the growing carbocation. Lewis-acid systems can initiate its cationic polymerization.",
       distractors: {
-        a: "Ethylene with Ziegler–Natta is coordination polymerization.",
+        a: "Ziegler–Natta polymerization of ethylene is coordination–insertion, not cationic chain growth.",
+        c: "The stated route for vinyl acetate is free-radical polymerization.",
+        d: "Acrylonitrile is commonly polymerized by a free-radical mechanism."
       },
       tags: ["revision"],
     },
@@ -294,7 +300,7 @@ const T2: TopicSource = {
       answer: "b",
       why: "$DP_{max} = \\dfrac{1+r}{1-r} = \\dfrac{1.995}{0.005} = \\mathbf{399}$.",
       distractors: {
-        c: "100 is the $r = 1$ case of *nothing*… no — 100 is $1/(1-p)$ at $p = 0.99$; here the cap is stoichiometric.",
+        c: "100 is the degree of polymerization at 99% conversion for a perfectly balanced system; here the stated stoichiometric imbalance imposes a different maximum.",
         d: "1000 would need $r \\approx 0.998$.",
       },
       concept: "$DP_{max} = (1+r)/(1-r)$",
@@ -426,8 +432,8 @@ const T2: TopicSource = {
       id: "t2-21",
       type: "assertreason",
       diff: 3,
-      assertion: "In Ziegler–Natta polymerization of propylene, the polymer is isotactic.",
-      reason: "The monomer coordinates at the metal centre of the catalyst in a fixed orientation before insertion into the metal–carbon bond.",
+      assertion: "A stereospecific Ziegler–Natta catalyst can produce isotactic polypropylene.",
+      reason: "The monomer coordinates at the catalyst site in a controlled orientation before insertion into the metal–carbon bond.",
       options: [
         { label: "a", text: "Both A and R are true, but R is NOT the correct explanation of A" },
         { label: "b", text: "A is true, R is false" },
@@ -435,7 +441,7 @@ const T2: TopicSource = {
         { label: "d", text: "A is false, R is true" }
       ],
       answer: "c",
-      why: "**Site-controlled insertion** places every methyl group on the same side of the chain → **isotactic** polymer. Stereospecificity is a direct consequence of the coordination geometry.",
+      why: "**Site-controlled insertion** at a stereospecific catalyst site favours placement of successive methyl groups on the same side of the chain, producing **isotactic polypropylene**. The tacticity depends on the catalyst's stereoselectivity; it is not guaranteed by every coordination catalyst.",
       concept: "stereospecific coordination insertion",
       tags: ["revision"],
     },
@@ -445,16 +451,17 @@ const T2: TopicSource = {
       diff: 4,
       text: "Kinetic chain length $\\nu = 1000$. Termination is 60% by combination and 40% by disproportionation. The overall $\\overline{DP}_n$ is:",
       options: [
-        { label: "a", text: "1600" },
-        { label: "b", text: "1200" },
-        { label: "c", text: "1000" },
-        { label: "d", text: "1400" }
+        { label: "a", text: "1200" },
+        { label: "b", text: "1000" },
+        { label: "c", text: "1400" },
+        { label: "d", text: "1600" }
       ],
       answer: "d",
-      why: "Contribution-weighted average: $\\overline{DP} = 0.6(2\\nu) + 0.4(\\nu) = 1.2\\nu + 0.4\\nu = 1.6 \\times 1000 = \\mathbf{1400}$.",
+      why: "Weight the number-average degree of polymerization by the fraction of termination events: $\\overline{DP}_n = 0.60(2\\nu) + 0.40(\\nu) = 1.60\\nu = 1.60(1000) = \\mathbf{1600}$. Combination joins two kinetic chains; disproportionation produces two separate dead chains.",
       distractors: {
-        b: "1200 counts only the combination fraction's doubling.",
-        c: "1000 is the disproportionation-only result.",
+        a: "1200 counts the contribution from combination but omits the 0.40\\nu contribution from disproportionation.",
+        b: "1000 is the result if every termination event occurs by disproportionation.",
+        c: "1400 is an arithmetic error; the weighted contributions are 1200 + 400 = 1600."
       },
       concept: "$\\overline{DP} = f_{comb}\\cdot 2\\nu + f_{dis}\\cdot \\nu$",
       tags: ["numeric", "formula"],
@@ -547,17 +554,19 @@ const T2: TopicSource = {
       id: "t2-27",
       type: "apply",
       diff: 4,
-      text: "A lab needs an A–B–A block copolymer with perfectly equal PS block lengths. Which route is required?",
+      text: "A lab needs an A–B–A block copolymer with narrow, approximately matched PS end-block lengths. Which route is most suitable?",
       options: [
-        { label: "a", text: "Use a living route and a difunctional initiator to grow the central B block from both ends, then add styrene to cap both ends." },
-        { label: "b", text: "Use conventional free-radical polymerization with equal feed ratios; termination timing will equalize the two PS blocks." },
+        { label: "a", text: "Use a living route and a difunctional initiator to grow the central B block from both ends, then add styrene to extend both ends." },
+        { label: "b", text: "Use conventional free-radical polymerization with equal feed ratios; random termination will make the two PS blocks identical." },
         { label: "c", text: "Use step-growth polymerization with balanced functional groups; that automatically creates a linear A–B–A sequence." },
         { label: "d", text: "Use cationic initiation with BF₃, which guarantees equal PS blocks by terminating both ends at the same time." }
       ],
       answer: "a",
-      why: "**Living** chains (no termination) grow every block from the same start time with the same rate → equal-length blocks. A difunctional initiator grows the mid-block outward in both directions, then styrene caps the ends → **SBS**.",
+      why: "A difunctional initiator can grow the central B block from both ends in a controlled living process; sequential addition of styrene then extends both chain ends. Living conditions give better control and narrower block-length distributions, but they do not guarantee molecularly identical end-block lengths in every chain.",
       distractors: {
-        b: "Radical chains start/terminate stochastically — block lengths would be broadly distributed.",
+        b: "Conventional radical initiation and termination are stochastic; equal feed ratios do not force the two end blocks on each molecule to have identical lengths.",
+        c: "Balanced step-growth functional groups do not automatically encode a prescribed A–B–A sequence.",
+        d: "Cationic initiation does not guarantee simultaneous termination or equal block lengths."
       },
       concept: "living + sequential monomer addition = block copolymers",
       tags: ["revision"],
