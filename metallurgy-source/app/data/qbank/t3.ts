@@ -39,7 +39,7 @@ const T3: TopicSource = {
       id: "t3-02",
       type: "concept",
       diff: 2,
-      text: "Why does solution polymerization typically give lower molecular weight than bulk polymerization of the same monomer?",
+      text: "In a solvent that can participate in chain transfer, why can solution polymerization give lower molecular weight than bulk polymerization of the same monomer?",
       options: [
         { label: "a", text: "Chain transfer to solvent can terminate a growing chain and start another, lowering average chain length in a suitable solvent." },
         { label: "b", text: "The solvent only dilutes monomer; dilution by itself fixes molecular weight regardless of transfer chemistry or termination." },
@@ -47,9 +47,11 @@ const T3: TopicSource = {
         { label: "d", text: "Solvent prevents all initiation in the liquid phase, so the few chains that start can grow without limit." }
       ],
       answer: "a",
-      why: "Two effects: (i) **chain transfer to solvent** — the radical is quenched by solvent, capping chains early; (ii) dilution lowers $[M]$, reducing $R_p$ and the time chains live before termination relative to transfer events.",
+      why: "The key effect is **chain transfer to solvent**: a growing radical abstracts or transfers an atom to a solvent molecule, ending that chain and potentially creating a new radical. This increases the number of chains formed and lowers their average length. Dilution also lowers $[M]$ and can reduce the propagation rate, but the molecular-weight effect depends on the solvent's transfer reactivity.",
       distractors: {
-        c: "Solution's hallmark limitation is *lower* MW — bulk gives the highest (but worst heat control).",
+        b: "Dilution alone does not fix molecular weight independently of kinetics and solvent-transfer chemistry.",
+        c: "Dissolved chains can still terminate; solution conditions do not eliminate radical termination.",
+        d: "Solvent does not prevent all initiation. Initiation and propagation occur in the solution phase."
       },
       concept: "transfer to solvent: lower MW, better thermal control",
       tags: ["confused"],
@@ -130,7 +132,7 @@ const T3: TopicSource = {
       id: "t3-07",
       type: "concept",
       diff: 3,
-      text: "Why is high vacuum (< 1 mbar) essential in the late stages of melt polycondensation?",
+      text: "Why is reduced pressure (often high vacuum) useful in the late stages of melt polycondensation?",
       options: [
         { label: "a", text: "Removing water and other condensates shifts the equilibrium toward further condensation and allows higher molecular weight." },
         { label: "b", text: "Vacuum mainly prevents initiator oxidation, which is the rate-limiting step in late-stage polyesterification under inert gas." },
@@ -138,7 +140,7 @@ const T3: TopicSource = {
         { label: "d", text: "Vacuum raises the monomer concentration by drawing extra monomer into the reactor, accelerating the final condensation stage." }
       ],
       answer: "a",
-      why: "Condensation is an equilibrium: leftover water drives the reverse (hydrolysis) reaction. Vacuum **pulls the condensate out**, shifting equilibrium toward high-DP polymer — the entire art of reaching $p > 99.5\\%$.",
+      why: "Condensation is an equilibrium: retained water or another condensate can drive the reverse reaction. Reduced pressure helps remove these volatile by-products, shifting the equilibrium toward further polymer formation and higher degree of polymerization. The pressure used depends on the polymer system and equipment.",
       concept: "Le Chatelier: remove condensate → high conversion",
       tags: ["confused"],
     },
@@ -189,7 +191,7 @@ const T3: TopicSource = {
       id: "t3-10",
       type: "recall",
       diff: 1,
-      text: "In emulsion polymerization, particle nucleation occurs:",
+      text: "In the classical micellar model of emulsion polymerization, particle nucleation occurs:",
       options: [
         { label: "a", text: "In monomer droplets, as in suspension" },
         { label: "b", text: "On the reactor wall" },
@@ -197,7 +199,7 @@ const T3: TopicSource = {
         { label: "d", text: "In the aqueous phase only" }
       ],
       answer: "c",
-      why: "Below the CMC surfactant forms micelles; above it, monomer-swollen **micelles** become the loci of nucleation and particle growth — the classical micellar nucleation model.",
+      why: "Above the critical micelle concentration (CMC), surfactant forms micelles. Monomer partitions into these micelles, and radicals generated in the aqueous phase can enter them and initiate particle formation in the classical micellar-nucleation model.",
       tags: ["revision"],
     },
     {
@@ -257,8 +259,8 @@ const T3: TopicSource = {
       id: "t3-14",
       type: "assertreason",
       diff: 3,
-      assertion: "Emulsion polymerization gives higher molecular weight than suspension polymerization at the same conversion rate.",
-      reason: "Radical compartmentalization in emulsion particles suppresses bimolecular termination.",
+      assertion: "Under comparable conditions, emulsion polymerization can produce higher molecular weight per chain than suspension polymerization.",
+      reason: "Radical compartmentalization in emulsion particles can suppress bimolecular termination within individual particles.",
       options: [
         { label: "a", text: "Both A and R are true, but R is NOT the correct explanation of A" },
         { label: "b", text: "Both A and R are true, and R is the correct explanation of A" },
@@ -266,7 +268,7 @@ const T3: TopicSource = {
         { label: "d", text: "A is true, R is false" }
       ],
       answer: "b",
-      why: "One-radical-per-particle isolation means chains grow long before meeting a partner to terminate — exactly the compartmentalization mechanism described in R.",
+      why: "In emulsion polymerization, compartmentalization often limits the probability that two radicals occupy the same particle at the same time. This reduces termination relative to propagation and can allow longer chains. The comparison is conditional on the monomer, recipe and operating conditions, rather than a universal rule.",
       tags: ["confused"],
     },
     {
@@ -350,7 +352,7 @@ const T3: TopicSource = {
       diff: 2,
       text: "Which statement(s) about the choice of polymerization technique is/are correct?",
       statements: [
-        { num: 1, text: "The technique is chosen after the mechanism, based on heat removal, product form and cost." },
+        { num: 1, text: "Technique selection is a process-design choice based on heat removal, product form, separation needs and cost; it is distinct from the chemical mechanism." },
         { num: 2, text: "Free-radical PVC is mostly suspension-polymerized." },
         { num: 3, text: "Emulsion polymerization requires a surfactant above its CMC." },
         { num: 4, text: "Technique selection cannot change the molecular weight distribution." },
@@ -362,7 +364,7 @@ const T3: TopicSource = {
         { label: "d", text: "1, 2 and 3 only" }
       ],
       answer: "d",
-      why: "1–3 correct. Item 4 false — technique strongly affects MWD: emulsion compartmentalization broadens it; living/bulk systems narrow it; chain transfer in solution shifts it.",
+      why: "Statements 1–3 are correct. Statement 4 is false: the process environment can affect molecular-weight distribution through radical compartmentalization, chain transfer, initiator partitioning and heat/mass transfer. Technique does not determine MWD by itself, but it can influence it.",
       distractors: {
         b: "Item 4 denies a real process–structure link.",
       },
