@@ -551,9 +551,11 @@ const T1: TopicSource = {
         { label: "d", text: "Its cross-links are physical (glassy PS domains) that disassemble on heating." }
       ],
       answer: "d",
-      why: "In SBS the hard **polystyrene end-blocks** aggregate into glassy domains that act as *physical* cross-links. Heating above the PS Tg dissociates them → flowable → remouldable. No covalent vulcanization.",
+      why: "In SBS the hard **polystyrene end-blocks** aggregate into glassy domains that act as *physical* cross-links. Heating above the PS glass-transition temperature softens these domains, allowing the material to flow and be remoulded. No permanent covalent vulcanization is required.",
       distractors: {
-        b: "The domains are real physical cross-links — that is why it recovers strain.",
+        a: "The hard domains are physical junctions; covalent cross-links do not normally dissociate reversibly just by mild heating.",
+        b: "The glassy domains are real physical cross-links, which help the material recover after deformation.",
+        c: "SBS does not become a liquid at body temperature; its hard domains remain glassy under ordinary service conditions.",
       },
       concept: "TPE: physical, not chemical, cross-links",
       tags: ["confused"],
@@ -620,7 +622,7 @@ const T1: TopicSource = {
       text: "Which statement(s) about polymer molecular architecture is/are correct?",
       statements: [
         { num: 1, text: "Star and comb architectures arise from multifunctional initiators or grafting." },
-        { num: 2, text: "Dendrimers are perfectly branched, monodisperse tree-like macromolecules." },
+        { num: 2, text: "Ideal dendrimers have highly regular, generation-defined branching and typically narrow molar-mass distributions." },
         { num: 3, text: "A change of conformation requires breaking covalent bonds." },
         { num: 4, text: "Cis/trans isomerism in polyisoprene is a configurational difference." },
       ],
@@ -631,7 +633,7 @@ const T1: TopicSource = {
         { label: "d", text: "1, 2 and 4 only" }
       ],
       answer: "d",
-      why: "1, 2, 4 correct. Item 3 is false — **conformation** changes by bond rotation with no bond breakage; it is *configuration* that needs bonds broken.",
+      why: "Statements 1, 2 and 4 are correct. Statement 2 describes ideal dendrimers: their branching is highly regular and their molar-mass distributions are typically narrow, although real samples can contain structural defects. Statement 3 is false — **conformation** changes by bond rotation without bond breakage; it is *configuration* that requires a change in bonding.",
       distractors: {
         a: "Item 3 is the classic configuration/conformation mix-up.",
       },
@@ -650,7 +652,7 @@ const T1: TopicSource = {
         { label: "d", text: "There is no difference — the terms are interchangeable." }
       ],
       answer: "b",
-      why: "**Alternating** (…*alt*…) has a fixed A/B alternation; **random** (*co*) has irregular, statistically governed sequencing — the same overall composition, different order.",
+      why: "**Alternating** (…*alt*…) has a regular A–B sequence. A **random** copolymer is designated with the more specific connective -ran- and has a statistically irregular sequence. The general connective -co- does not, by itself, specify the sequence arrangement. Sequence order and overall monomer composition are separate properties.",
       tags: ["revision"],
     },
     {
