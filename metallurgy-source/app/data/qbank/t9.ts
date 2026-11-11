@@ -68,7 +68,7 @@ const T9: TopicSource = {
       options: [
         {
             label: "a",
-            text: "A H-bond-donating polymer blended with an H-bond-accepting polymer (e.g. PS with PPO, or a polymer with itself)",
+            text: "A hydrogen-bond donor blended with a hydrogen-bond acceptor, such as poly(vinyl phenol) with PMMA, whose carbonyl groups accept hydrogen bonds.",
         },
         {
             label: "b",
@@ -84,7 +84,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "a",
-      why: "**Specific interactions** (H-bonding, donor–acceptor, dipole) make ΔH negative or ~0, letting the small entropy term win. PS/PPO and PVC/PCL are classic miscible pairs; two networks cannot mix at all.",
+      why: "**Specific interactions** (hydrogen bonding, donor–acceptor interactions or strong dipolar interactions) can make the enthalpy of mixing sufficiently favourable to offset the small entropy of mixing. Poly(vinyl phenol)/PMMA is a classic hydrogen-bonding example; two already cross-linked networks cannot mix at the molecular level.",
       concept: "miscibility usually needs attractive specific interactions",
       tags: ["confused"],
     },
@@ -111,7 +111,7 @@ const T9: TopicSource = {
       id: "t9-05",
       type: "numerical",
       diff: 3,
-      text: "A compatibilized blend follows the parallel (Voigt) modulus rule $E = \\phi_1E_1 + \\phi_2E_2$. For 40 vol% glass fibre ($E_f = 70$ GPa) in nylon ($E_m = 3$ GPa), the composite modulus is:",
+      text: "Assume continuous, aligned glass fibres, perfect fibre–matrix bonding and loading parallel to the fibres. Using the parallel (Voigt) rule $E = \\phi_fE_f + \\phi_mE_m$, estimate the modulus for 40 vol% glass fibre ($E_f = 70$ GPa) in nylon ($E_m = 3$ GPa):",
       options: [
         { label: "a", text: "36.5 GPa" },
         { label: "b", text: "70 GPa" },
@@ -281,7 +281,7 @@ const T9: TopicSource = {
       ],
       answer: "d",
       why: "**Dehydrochlorination** destroys a labile C–Cl bond, releasing HCl that catalyses the next loss — a self-accelerating 'unzipping' that forms coloured polyenes. **Thermal stabilizers** (organotin, mixed-metal soaps) substitute the labile chlorine and mop up HCl.",
-      concept: "HCl autcatalysis ⇒ PVC needs thermal stabilizers",
+      concept: "HCl autocatalysis ⇒ PVC needs thermal stabilizers"
       tags: ["confused"],
     },
     {
@@ -339,7 +339,7 @@ const T9: TopicSource = {
       id: "t9-14",
       type: "concept",
       diff: 2,
-      text: "Which pair of polymers is most susceptible to hydrolytic degradation during long-term implant or marine exposure?",
+      text: "Which pair contains hydrolysable ester linkages and can undergo hydrolytic chain scission under suitable conditions?",
       options: [
         {
             label: "a",
@@ -359,7 +359,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "a",
-      why: "**Ester bonds** hydrolyse (especially under acid/base or enzymatic catalysis), so polyesters — including biodegradable **PLA/PCL/PHB** and conventional **PET** — degrade hydrolytically. C–C backbone polymers (PE, PP, PS, PTFE) cannot be hydrolysed.",
+      why: "**Ester linkages** can undergo hydrolysis, especially under acidic, alkaline or enzymatic conditions. PLA is designed for hydrolytic/biological breakdown under suitable conditions; PET also contains ester bonds but is generally much more hydrolysis-resistant. C–C backbone polymers such as PE, PP and PS do not undergo backbone hydrolysis.",
       concept: "hydrolysable groups: ester, amide, carbonate, urethane",
       tags: ["revision"],
     },
@@ -428,7 +428,7 @@ const T9: TopicSource = {
       id: "t9-18",
       type: "recall",
       diff: 1,
-      text: "Which of these polymers is *biodegradable* by design?",
+      text: "Which of these polymers is designed to be biodegradable under suitable industrial composting or controlled biodegradation conditions?",
       options: [
         {
             label: "a",
@@ -448,7 +448,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "d",
-      why: "**PLA** (like PHB, PHBV, PCL and PBS) has a hydrolysable **ester backbone** that microorganisms/enzymes can ultimately break down. PE, PS and PVC have all-carbon backbones and persist for centuries.",
+      why: "**PLA** has a hydrolysable **ester backbone** and can be biodegraded under suitable industrial composting or controlled conditions. It does not necessarily break down rapidly in ordinary soil, freshwater or marine environments; PE, PS and PVC are generally persistent in those conditions.",
       tags: ["revision"],
     },
     {
@@ -470,7 +470,7 @@ const T9: TopicSource = {
       id: "t9-20",
       type: "concept",
       diff: 3,
-      text: "Why does blending a small amount of a *hydrophilic* polymer into a *hydrophobic* commodity plastic often accelerate its environmental degradation?",
+      text: "Why can blending a small amount of a *hydrophilic* polymer into a *hydrophobic* commodity plastic accelerate its physical disintegration in a moist environment?",
       options: [
         {
             label: "a",
@@ -490,7 +490,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "a",
-      why: "A water-loving phase creates **internal pathways and stresses** that fragment the hydrophobic matrix and expose surface area — the practical basis of 'pro-oxidant'/starch-blended degradable polyolefins (with the caveat that fragments may persist).",
+      why: "A water-loving phase absorbs water and swells, creating **internal pathways and stresses** that can fragment the hydrophobic matrix and expose more surface area. This can accelerate disintegration, but it does not prove that the polyolefin itself has been biodegraded or mineralized; persistent fragments may remain.",
       concept: "degradation design: create hydrolysable/internal-stress pathways",
       tags: ["confused"],
     },
@@ -510,7 +510,7 @@ const T9: TopicSource = {
         },
         {
             label: "c",
-            text: "Miscibility requires χ below a critical value that scales as 1/√N — so high-MW pairs are harder to mix than low-MW ones.",
+            text: "For polymers of comparable chain length N, miscibility requires χ below a critical value that scales approximately as 1/N, so high-MW pairs are harder to mix than low-MW ones.",
         },
         {
             label: "d",
@@ -518,7 +518,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "c",
-      why: "The critical $\\chi_c \\approx 0.5(1/\\sqrt{N_1} + 1/\\sqrt{N_2})^2$ shrinks toward zero as chain lengths grow — the mathematical reason **high-MW polymer pairs almost never mix** unless χ is slightly negative (specific interactions).",
+      why: "The critical value is $\\chi_c = 0.5(1/\\sqrt{N_1} + 1/\\sqrt{N_2})^2$. For similar chain lengths this scales approximately as $1/N$ and shrinks as the polymers become longer, so high-molecular-weight pairs generally need very favourable interactions (often a negative effective χ) to mix.",
       concept: "$\\chi_c \\propto 1/N$",
       tags: ["confused"],
     },
@@ -542,7 +542,7 @@ const T9: TopicSource = {
         },
         {
             label: "d",
-            text: "TiO₂ (opacity + UV screening) + impact modifier (e.g. CPE/ACR) + thermal stabilizer + antistatic",
+            text: "Surface-treated rutile TiO₂ (opacity + UV screening) + impact modifier (e.g. CPE/ACR) + PVC thermal stabilizer and processing lubricant",
         }
       ],
       answer: "d",
