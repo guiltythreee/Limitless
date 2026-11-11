@@ -298,7 +298,7 @@ const T4: TopicSource = {
       statements: [
         { num: 1, text: "Mn ≤ Mw ≤ Mz always, for any distribution." },
         { num: 2, text: "Mn is most affected by low-MW fractions; Mz most by high-MW fractions." },
-        { num: 3, text: "Mechanical properties (toughness, melt strength) correlate better with Mw/Mz than with Mn." },
+        { num: 3, text: "For entanglement-sensitive properties such as melt strength, the high-molecular-weight portion of the distribution can be especially influential; Mn alone may not capture it." },
         { num: 4, text: "Osmometry gives Mz because it measures mass." },
       ],
       options: [
@@ -308,7 +308,7 @@ const T4: TopicSource = {
         { label: "d", text: "1, 2 and 3 only" }
       ],
       answer: "d",
-      why: "1–3 are the defining sensitivity rules. Item 4 is false — osmometry measures a colligative property (particle count) → **Mn**, not Mz.",
+      why: "Statements 1–3 are correct as general sensitivity trends: Mn is strongly affected by numerous short chains, while Mz is strongly affected by the high-molecular-weight tail. Statement 4 is false — osmometry measures a colligative property (particle count) and gives **Mn**, not Mz.",
       distractors: {
         a: "Item 4 confuses osmometry (Mn) with sedimentation-equilibrium (Mz).",
       },
@@ -393,10 +393,10 @@ const T4: TopicSource = {
         { label: "a", text: "Mn = 25,000; Mw = 80,000" },
         { label: "b", text: "Mn = 50,000; Mw = 50,000" },
         { label: "c", text: "Mn = 40,000; Mw = 32,000" },
-        { label: "d", text: "Mn = 32,000; Mw = 40,000" }
+        { label: "d", text: "Mn = 32,000; Mw = 50,000" }
       ],
       answer: "d",
-      why: "Equal **masses**: $M_n = 1/(0.5/20000 + 0.5/80000) = 1/(2.5\\times10^{-5}+6.25\\times10^{-6}) = 1/(3.125\\times10^{-5}) = \\mathbf{32{,}000}$. $M_w = 0.5(20000)+0.5(80000) = \\mathbf{40{,}000}$ (mass-weighted arithmetic mean for monodisperse fractions).",
+      why: "The two fractions have equal **mass fractions**, so $M_n = 1/(0.5/20000 + 0.5/80000) = 1/(3.125\\times10^{-5}) = \\mathbf{32{,}000}$. The weight average is the mass-weighted arithmetic mean: $M_w = 0.5(20000)+0.5(80000) = \\mathbf{50{,}000}$.",
       distractors: {
         b: "50,000 is the simple arithmetic mean — valid only for mass-weighted Mw of equal masses, not Mn.",
         c: "Mn and Mw swapped.",
@@ -447,7 +447,7 @@ const T4: TopicSource = {
         { label: "d", text: "No average is relevant; the number of chain ends per gram is independent of the length of the polymer chains." }
       ],
       answer: "c",
-      why: "End groups per gram $= 2\\rho/M_n$ (2 per linear chain). Since each chain contributes exactly 2 ends regardless of length, counting chains = the **number-average**. Short chains contribute disproportionately many ends — exactly what Mn captures.",
+      why: "For linear chains with two ends each, the amount of chain ends per gram is $2/M_n$ mol of ends per gram (or $2N_A/M_n$ individual ends per gram). The number of chains per unit mass is governed by $M_n$, so short chains contribute disproportionately many ends.",
       concept: "any per-chain quantity is governed by Mn",
       tags: ["confused"],
     },
