@@ -179,7 +179,7 @@ const T10: TopicSource = {
         { label: "d", text: "Below Tg the amorphous phase has little segmental mobility, so energy-absorbing mechanisms (crazing/shear yielding) cannot operate and the material behaves brittlely." }
       ],
       answer: "d",
-      why: "Toughness depends on **dissipative mechanisms needing chain mobility**. Cooling toward and below Tg freezes that mobility → brittle behaviour and low impact energy (the classic ductile–brittle transition).",
+      why: "Toughness depends on **dissipative mechanisms that need chain mobility**. Cooling toward and below Tg restricts segmental motion, so crazing and shear yielding become less extensive and less energy is dissipated before fracture; impact energy commonly falls.",
       concept: "impact toughness ∝ available chain mobility",
       tags: ["revision"],
     },
@@ -425,11 +425,11 @@ const T10: TopicSource = {
       options: [
         { label: "a", text: "Temperature does not affect creep." },
         { label: "b", text: "The polymer's Tm is 20 °C." },
-        { label: "c", text: "The polymer's Tg lies near/below 60–90 °C; at 20 °C it is glassy (little creep) while at 90 °C it creeps strongly." },
+        { label: "c", text: "Creep becomes much more pronounced as temperature rises; this is consistent with approaching or exceeding Tg, although the curves alone do not determine Tg precisely." },
         { label: "d", text: "The material is a metal." }
       ],
       answer: "c",
-      why: "Increasing creep rate with temperature is the **signature of approaching/above Tg**: below Tg segments are frozen (little creep); above, they rearrange and the material creeps. These curves are the basis of the deformation-mechanism map for viscoelastic polymers.",
+      why: "The strong increase in creep with temperature is consistent with increasing segmental mobility as the polymer approaches or passes through Tg. The plotted temperatures show the trend, but a precise Tg would require a separate thermal or dynamic-mechanical measurement.",
       concept: "creep ∝ chain mobility (temperature)",
       tags: ["confused"],
     },
@@ -457,7 +457,7 @@ const T10: TopicSource = {
         }
       ],
       answer: "b",
-      why: "**δ = (cohesive energy density)^½**. 'Like dissolves like': the closer the δ values, the better the solubility/compatibility — the fastest rule of thumb in polymer formulation.",
+      why: "**δ = (cohesive energy density)^½**. Similar Hildebrand δ values suggest better solubility or compatibility, especially for non-polar systems. For strongly polar or hydrogen-bonding materials, Hansen parameters or specific-interaction analysis is more reliable than a single δ value.",
       concept: "$\\delta = (\\Delta E_{vap}/V)^{1/2}$",
       tags: ["revision"],
     },
@@ -593,7 +593,7 @@ const T10: TopicSource = {
         { label: "d", text: "$6\\times10^{-6}$" }
       ],
       answer: "b",
-      why: "$P = (2\\times10^{-8})(3\\times10^{-2}) = 6\\times10^{-10}$ cm³(STP)·cm/(cm²·s·atm) $\\approx$ 0.6 Barrer.",
+      why: "$P = (2\\times10^{-8})(3\\times10^{-2}) = 6\\times10^{-10}$ cm³(STP)·cm/(cm²·s·atm). Since $1$ atm $= 76$ cmHg and $1$ Barrer $=10^{-10}$ cm³(STP)·cm/(cm²·s·cmHg), this is approximately $0.079$ Barrer.",
       distractors: {
         c: "$1.5\\times10^{-6}$ divides D by S instead of multiplying.",
       },
