@@ -29,7 +29,7 @@ const T6: TopicSource = {
         { label: "d", text: "Crystalline regions melt and lose long-range order at the temperature that defines the glass transition." }
       ],
       answer: "a",
-      why: "**Tg** marks the onset of large-scale segmental motion in the amorphous phase: below Tg the chain segments are frozen (glass), above Tg they move (rubber). It involves no latent heat — a second-order-like transition.",
+      why: "**Tg** marks the temperature range in which cooperative segmental motion becomes accessible in the amorphous phase: below Tg the material is glassy; above Tg it becomes rubbery or leathery. It produces a heat-capacity step rather than the latent-heat peak associated with melting.",
       distractors: {
         d: "Crystalline regions melt at **Tm**, which is always higher than Tg.",
       },
@@ -74,7 +74,7 @@ const T6: TopicSource = {
       id: "t6-04",
       type: "numerical",
       diff: 3,
-      text: "Using the Fox equation, the Tg of a 50/50 (wt) blend of polymer A (Tg = 100 °C = 373 K) and polymer B (Tg = 200 °C = 473 K) is:",
+      text: "Using the Fox equation, estimate the Tg of a fully miscible 50/50 (wt) blend of polymer A (Tg = 100 °C = 373 K) and polymer B (Tg = 200 °C = 473 K):",
       options: [
         { label: "a", text: "123 °C" },
         { label: "b", text: "144 °C" },
@@ -82,7 +82,7 @@ const T6: TopicSource = {
         { label: "d", text: "100 °C" }
       ],
       answer: "b",
-      why: "$\\dfrac{1}{T_g} = \\dfrac{w_A}{T_{gA}} + \\dfrac{w_B}{T_{gB}} = \\dfrac{0.5}{373} + \\dfrac{0.5}{473} = 0.001340 + 0.001057 = 0.002398$ → $T_g = 417$ K $= \\mathbf{144}$ °C.",
+      why: "For a **miscible blend** with one amorphous phase, the Fox estimate is $\\dfrac{1}{T_g} = \\dfrac{w_A}{T_{gA}} + \\dfrac{w_B}{T_{gB}} = \\dfrac{0.5}{373} + \\dfrac{0.5}{473} = 0.002398$ → $T_g = 417$ K $= \\mathbf{144}$ °C. An immiscible blend may show two separate glass transitions instead.",
       distractors: {
         c: "150 °C is the simple arithmetic mean — the Fox equation is harmonic, so the result is lower.",
       },
@@ -334,7 +334,7 @@ const T6: TopicSource = {
         { label: "d", text: "2.5%" }
       ],
       answer: "d",
-      why: "The **iso-free-volume** concept: all polymers reach Tg when their fractional free volume drops to a universal value of roughly **0.025** — the point where segmental motion effectively freezes out.",
+      why: "In the classical free-volume picture, the fractional free volume at Tg is often approximated as about **0.025 (2.5%)**. This is a useful empirical model value, not an exact universal constant for every polymer.",
       concept: "free-volume fraction at Tg ≈ 0.025 (WLF)",
       tags: ["revision"],
     },
