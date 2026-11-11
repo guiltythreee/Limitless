@@ -300,7 +300,7 @@ const T2: TopicSource = {
       answer: "b",
       why: "$DP_{max} = \\dfrac{1+r}{1-r} = \\dfrac{1.995}{0.005} = \\mathbf{399}$.",
       distractors: {
-        c: "100 is the $r = 1$ case of *nothing*… no — 100 is $1/(1-p)$ at $p = 0.99$; here the cap is stoichiometric.",
+        c: "100 is the degree of polymerization at 99% conversion for a perfectly balanced system; here the stated stoichiometric imbalance imposes a different maximum.",
         d: "1000 would need $r \\approx 0.998$.",
       },
       concept: "$DP_{max} = (1+r)/(1-r)$",
@@ -432,8 +432,8 @@ const T2: TopicSource = {
       id: "t2-21",
       type: "assertreason",
       diff: 3,
-      assertion: "In Ziegler–Natta polymerization of propylene, the polymer is isotactic.",
-      reason: "The monomer coordinates at the metal centre of the catalyst in a fixed orientation before insertion into the metal–carbon bond.",
+      assertion: "A stereospecific Ziegler–Natta catalyst can produce isotactic polypropylene.",
+      reason: "The monomer coordinates at the catalyst site in a controlled orientation before insertion into the metal–carbon bond.",
       options: [
         { label: "a", text: "Both A and R are true, but R is NOT the correct explanation of A" },
         { label: "b", text: "A is true, R is false" },
@@ -441,7 +441,7 @@ const T2: TopicSource = {
         { label: "d", text: "A is false, R is true" }
       ],
       answer: "c",
-      why: "**Site-controlled insertion** places every methyl group on the same side of the chain → **isotactic** polymer. Stereospecificity is a direct consequence of the coordination geometry.",
+      why: "**Site-controlled insertion** at a stereospecific catalyst site favours placement of successive methyl groups on the same side of the chain, producing **isotactic polypropylene**. The tacticity depends on the catalyst's stereoselectivity; it is not guaranteed by every coordination catalyst.
       concept: "stereospecific coordination insertion",
       tags: ["revision"],
     },
