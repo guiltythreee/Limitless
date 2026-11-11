@@ -10,10 +10,13 @@ const T9: TopicSource = {
   title: "Blends, Composites & Degradation",
   subtitle: "Topic 9 · mixing rules, compatibilization and how polymers fail",
   subs: [
-    { id: "T9.1", title: "Miscibility: thermodynamics & the χ parameter" },
-    { id: "T9.2", title: "Mixing rules & compatibilizers" },
-    { id: "T9.3", title: "Rubber toughening & composites" },
-    { id: "T9.4", title: "Degradation routes & stabilization" },
+    { id: "T9.1", title: "Blend miscibility and thermodynamics" },
+    { id: "T9.2", title: "Mixing rules and compatibilization" },
+    { id: "T9.3", title: "Rubber toughening" },
+    { id: "T9.4", title: "Reinforcement and composites" },
+    { id: "T9.5", title: "Polymer modification" },
+    { id: "T9.6", title: "Degradation and stabilization" },
+    { id: "T9.7", title: "Biodegradable and sustainable polymers" },
   ],
   questions: [
     {
