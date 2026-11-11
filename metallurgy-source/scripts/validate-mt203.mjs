@@ -13,6 +13,7 @@
 
 import { MODULE_META, TOTAL_QUESTIONS } from "../app/data/qbank/meta.ts";
 import { MODULE_IDS, TOPIC_IDS, TYPE_ORDER } from "../app/mt203/types.ts";
+import { QUESTION_SUBTOPIC, MAPPED_TOPICS } from "../app/data/qbank/subtopic-map.ts";
 
 const QTYPES = new Set(TYPE_ORDER);
 const DIFFS = new Set([1, 2, 3, 4]);
@@ -121,6 +122,35 @@ for (const id of TOPIC_IDS) {
   });
 
   topics.push({ id, module: src.module, title: src.title, questions: src.questions });
+}
+
+// ---- explicit primary subtopic mapping (currently T9–T11) -----------------
+const mappedQuestionIds = new Set();
+for (const topicId of MAPPED_TOPICS) {
+  const topic = topics.find((t) => t.id === topicId);
+  if (!topic) {
+    err(`subtopic map: mapped topic ${topicId} has no source`);
+    continue;
+  }
+  const source = await import(`../app/data/qbank/${topicId}.ts`);
+  const validSubtopics = new Set((source.default.subs ?? []).map((s) => s.id));
+  for (const q of topic.questions) {
+    const subtopic = QUESTION_SUBTOPIC[q.id];
+    if (!subtopic) {
+      err(`${q.id}: missing primary subtopic mapping`);
+      continue;
+    }
+    mappedQuestionIds.add(q.id);
+    if (!validSubtopics.has(subtopic))
+      err(`${q.id}: unknown primary subtopic ${subtopic} for ${topicId}`);
+  }
+}
+for (const questionId of Object.keys(QUESTION_SUBTOPIC)) {
+  const topicId = questionId.split("-")[0];
+  if (!MAPPED_TOPICS.includes(topicId))
+    err(`subtopic map: unexpected question id ${questionId} outside mapped topics`);
+  if (!mappedQuestionIds.has(questionId))
+    err(`subtopic map: unknown question id ${questionId}`);
 }
 
 // ---- global id uniqueness --------------------------------------------------
