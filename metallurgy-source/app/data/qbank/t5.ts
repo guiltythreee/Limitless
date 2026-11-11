@@ -38,27 +38,28 @@ const T5: TopicSource = {
       id: "t5-02",
       type: "numerical",
       diff: 3,
-      text: "Amorphous PE has $\\rho_a = 0.855$ g/cm³ and fully crystalline PE $\\rho_c = 1.000$ g/cm³. A sample of density $\\rho = 0.930$ g/cm³ has a degree of crystallinity of:",
+      text: "Amorphous PE has $\\rho_a = 0.855$ g/cm³ and fully crystalline PE $\\rho_c = 1.000$ g/cm³. A sample has density $\\rho = 0.930$ g/cm³. What is its mass fraction crystallinity?",
       options: [
         { label: "a", text: "70%" },
-        { label: "b", text: "52%" },
+        { label: "b", text: "56%" },
         { label: "c", text: "43%" },
         { label: "d", text: "31%" }
       ],
       answer: "b",
-      why: "$X = \\dfrac{\\rho - \\rho_a}{\\rho_c - \\rho_a} = \\dfrac{0.930-0.855}{1.000-0.855} = \\dfrac{0.075}{0.145} = \\mathbf{0.517} \\approx 52\\%$.",
+      why: "For mass fraction crystallinity, $X_c = \\dfrac{\\rho_c(\\rho-\\rho_a)}{\\rho(\\rho_c-\\rho_a)} = \\dfrac{1.000(0.930-0.855)}{0.930(1.000-0.855)} = 0.556 \\approx \\mathbf{56\\%}$. The simpler ratio $(\\rho-\\rho_a)/(\\rho_c-\\rho_a)$ gives the volume fraction, not the mass fraction.",
       distractors: {
-        d: "31% would need $\\rho = 0.900$.",
-        a: "70% would need $\\rho \\approx 0.957$ (HDPE territory).",
+        a: "70% is too high for the stated density; it would require a denser sample.",
+        c: "43% results from using an incorrect density weighting.",
+        d: "31% is too low for the stated density and reference densities."
       },
-      concept: "$X = (\\rho-\\rho_a)/(\\rho_c-\\rho_a)$",
+      concept: "$X_{c, mass} = \\rho_c(\\rho-\\rho_a)/[\\rho(\\rho_c-\\rho_a)]$",
       tags: ["numeric", "formula"],
     },
     {
       id: "t5-03",
       type: "numerical",
       diff: 3,
-      text: "A PET sample gives a DSC melting endotherm $\\Delta H_m = 42$ J/g. Taking $\\Delta H_m^\\circ = 140$ J/g for 100% crystalline PET, the crystallinity is:",
+      text: "A PET sample gives a DSC melting endotherm $\\Delta H_m = 42$ J/g and no cold-crystallization exotherm. Taking $\\Delta H_m^\\circ = 140$ J/g for 100% crystalline PET, the crystallinity is:",
       options: [
         { label: "a", text: "42%" },
         { label: "b", text: "10%" },
@@ -66,7 +67,7 @@ const T5: TopicSource = {
         { label: "d", text: "20%" }
       ],
       answer: "c",
-      why: "$X = \\Delta H_m/\\Delta H_m^\\circ = 42/140 = \\mathbf{0.30} = 30\\%$.",
+      why: "With no cold crystallization during the scan, $X_c = (\\Delta H_m-\\Delta H_{cc})/\\Delta H_m^\\circ = 42/140 = \\mathbf{0.30} = 30\\%$. If a cold-crystallization exotherm were present, its enthalpy would need to be subtracted from the melting endotherm.",
       distractors: {
         b: "10% would need $\\Delta H_m = 14$ J/g.",
       },
@@ -245,7 +246,7 @@ const T5: TopicSource = {
       id: "t5-13",
       type: "concept",
       diff: 3,
-      text: "Crystallites raise a polymer's stiffness and strength up to the Tm but do not dissolve the material in solvent. This is because they act as:",
+      text: "Below the melting temperature, crystalline domains can make a semi-crystalline polymer more resistant to solvent penetration without making it permanently insoluble. They act as:",
       options: [
         { label: "a", text: "Permanent covalent cross-links cannot be broken by heating or ordinary solvents, unlike reversible crystalline domains." },
         { label: "b", text: "Plasticizers increase chain mobility and lower stiffness, but they do not stop the base polymer dissolving in solvents." },
@@ -299,7 +300,7 @@ const T5: TopicSource = {
         { num: 1, text: "HDPE, isotactic PP, PET and nylon 6,6 are typically semi-crystalline." },
         { num: 2, text: "Atactic PS, PMMA and polycarbonate are typically amorphous." },
         { num: 3, text: "Amorphous polymers are usually transparent; semi-crystalline ones are usually opaque." },
-        { num: 4, text: "No polymer can ever be 100% crystalline." },
+        { num: 4, text: "A real bulk semi-crystalline polymer specimen is not generally 100% crystalline." },
       ],
       options: [
         { label: "a", text: "1, 2 and 3 only" },
@@ -308,7 +309,7 @@ const T5: TopicSource = {
         { label: "d", text: "4 only" }
       ],
       answer: "c",
-      why: "All four are true: the listed crystalline/amorphous pairs, the transparency correlation, and the fact that chain entanglements and defects always leave an amorphous fraction — no bulk polymer is 100% crystalline.",
+      why: "All four are correct as practical descriptions: the listed polymer classes, the usual transparency trend, and the fact that real bulk semi-crystalline specimens retain defects and amorphous material rather than reaching a perfect 100% crystalline state.",
       tags: ["revision"],
     },
     {
