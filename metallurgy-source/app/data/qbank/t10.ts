@@ -745,15 +745,15 @@ const T10: TopicSource = {
       diff: 3,
       text: "A notched amorphous polymer part is tested at a lower temperature and a higher loading rate than before. Which fracture trend is most likely?",
       options: [
-        { label: "a", text: "A more ductile response, because lower temperature always increases chain mobility." },
-        { label: "b", text: "A more brittle response, because segmental rearrangement has less time and mobility and the notch concentrates stress." },
+        { label: "a", text: "A more brittle response, because segmental rearrangement has less time and mobility and the notch concentrates stress." },
+        { label: "b", text: "A more ductile response, because lower temperature always increases chain mobility." },
         { label: "c", text: "No change, because fracture is independent of temperature and loading rate." },
         { label: "d", text: "The notch removes the local stress concentration." }
       ],
-      answer: "b",
+      answer: "a",
       why: "Lower temperature and higher strain rate reduce the time available for segmental rearrangement. A notch further concentrates stress, so brittle crack propagation becomes more likely.",
       distractors: {
-        a: "Lower temperature generally reduces segmental mobility rather than increasing it.",
+        b: "Lower temperature generally reduces segmental mobility rather than increasing it.",
         c: "The lecture explicitly identifies temperature, strain rate and notches as factors affecting brittle fracture.",
         d: "A notch is a stress concentrator; it does not remove one."
       },
@@ -789,15 +789,15 @@ const T10: TopicSource = {
       options: [
         { label: "a", text: "Rockwell for the soft elastomer only; Shore A for every rigid plastic." },
         { label: "b", text: "Izod for the elastomer; Charpy for the rigid plastic." },
-        { label: "c", text: "Melt-flow index for both, because MFI is a surface-indentation test." },
-        { label: "d", text: "Shore A for the soft elastomer; Shore D or Rockwell for the rigid plastic." }
+        { label: "c", text: "Shore A for the soft elastomer; Shore D or Rockwell for the rigid plastic." },
+        { label: "d", text: "Melt-flow index for both, because MFI is a surface-indentation test." }
       ],
-      answer: "d",
+      answer: "c",
       why: "The lesson associates **Shore A** with soft elastomers, **Shore D** with rigid plastics/hard rubbers, and **Rockwell** with rigid engineering plastics.",
       distractors: {
         a: "This reverses the usual Shore A and Shore D applications.",
         b: "Izod and Charpy are impact tests, not indentation-hardness tests.",
-        c: "MFI measures melt flow under specified conditions, not surface hardness."
+        d: "MFI measures melt flow under specified conditions, not surface hardness."
       },
       concept: "Hardness method selection: Shore A / Shore D / Rockwell.",
       tags: ["revision"]
@@ -808,17 +808,17 @@ const T10: TopicSource = {
       diff: 3,
       text: "A polymer melt shows lower apparent viscosity when shear rate is increased. A separate sample shows viscosity decreasing with time while held at a constant shear rate. Which interpretation is correct?",
       options: [
-        { label: "a", text: "The first is pseudoplastic (shear-thinning); the second is thixotropic." },
-        { label: "b", text: "The first is thixotropic; the second is pseudoplastic." },
-        { label: "c", text: "Both are necessarily Newtonian." },
-        { label: "d", text: "The first is dilatant; the second is rheopectic." }
+        { label: "a", text: "The first is thixotropic; the second is pseudoplastic." },
+        { label: "b", text: "Both are necessarily Newtonian." },
+        { label: "c", text: "The first is dilatant; the second is rheopectic." },
+        { label: "d", text: "The first is pseudoplastic (shear-thinning); the second is thixotropic." }
       ],
-      answer: "a",
+      answer: "d",
       why: "Pseudoplasticity is **shear-rate dependent**: viscosity falls as shear rate rises. Thixotropy is **time dependent**: viscosity falls with time at constant shear.",
       distractors: {
-        b: "This reverses the shear-rate and time-dependent definitions.",
-        c: "A Newtonian fluid has constant viscosity at fixed conditions, not the described changes.",
-        d: "Dilatancy and rheopexy describe thickening, not thinning."
+        a: "This reverses the shear-rate and time-dependent definitions.",
+        b: "A Newtonian fluid has constant viscosity at fixed conditions, not the described changes.",
+        c: "Dilatancy and rheopexy describe thickening, not thinning."
       },
       concept: "Pseudoplastic = shear-rate dependence; thixotropic = time dependence.",
       tags: ["confused"]
@@ -830,16 +830,16 @@ const T10: TopicSource = {
       text: "A concentrated suspension resists flow until a minimum stress is exceeded, then flows. Which rheological model best describes this behaviour?",
       options: [
         { label: "a", text: "Newtonian fluid" },
-        { label: "b", text: "Bingham plastic" },
-        { label: "c", text: "Pseudoplastic fluid with no yield stress" },
-        { label: "d", text: "Rheopectic fluid" }
+        { label: "b", text: "Pseudoplastic fluid with no yield stress" },
+        { label: "c", text: "Rheopectic fluid" },
+        { label: "d", text: "Bingham plastic" }
       ],
-      answer: "b",
+      answer: "d",
       why: "A **Bingham plastic** behaves like a rigid body below a yield stress and flows after that threshold is exceeded.",
       distractors: {
         a: "A Newtonian fluid flows at any nonzero shear stress and has constant viscosity at fixed conditions.",
-        c: "Shear-thinning describes viscosity falling with shear rate; it does not by itself specify a yield-stress threshold.",
-        d: "Rheopexy is time-dependent viscosity increase under constant shear."
+        b: "Shear-thinning describes viscosity falling with shear rate; it does not by itself specify a yield-stress threshold.",
+        c: "Rheopexy is time-dependent viscosity increase under constant shear."
       },
       concept: "Bingham plastic: finite yield stress before flow.",
       tags: ["revision"]
@@ -851,15 +851,15 @@ const T10: TopicSource = {
       text: "An insulating polymer component must withstand a specified electric field without dielectric breakdown. Which property is the direct design criterion?",
       options: [
         { label: "a", text: "Elongation at break" },
-        { label: "b", text: "Melt-flow index" },
-        { label: "c", text: "Dielectric strength" },
+        { label: "b", text: "Dielectric strength" },
+        { label: "c", text: "Melt-flow index" },
         { label: "d", text: "Limiting oxygen index" }
       ],
-      answer: "c",
+      answer: "b",
       why: "The lesson defines **dielectric strength** as the maximum electric field a material can withstand before breakdown. Resistivity and dielectric constant are also electrical properties, but they answer different design questions.",
       distractors: {
         a: "Elongation at break measures tensile deformation before failure.",
-        b: "MFI is a melt-processing quality/flow measure.",
+        c: "MFI is a melt-processing quality/flow measure.",
         d: "LOI measures the oxygen concentration needed to sustain combustion."
       },
       concept: "Dielectric strength = electric field at breakdown.",
@@ -878,16 +878,16 @@ const T10: TopicSource = {
       ],
       options: [
         { label: "a", text: "1 and 2 only" },
-        { label: "b", text: "1, 2 and 3 only" },
-        { label: "c", text: "2, 3 and 4 only" },
-        { label: "d", text: "1, 2, 3 and 4" }
+        { label: "b", text: "1, 2, 3 and 4" },
+        { label: "c", text: "1, 2 and 3 only" },
+        { label: "d", text: "2, 3 and 4 only" }
       ],
-      answer: "d",
+      answer: "b",
       why: "All four statements match the lesson: amorphous polymers can be clear; crystalline spherulites scatter light; orientation can cause birefringence; and **LOI** is the minimum oxygen percentage that sustains combustion.",
       distractors: {
         a: "Statements 3 and 4 are also correct.",
-        b: "Statement 4 is also correct and defines LOI.",
-        c: "Statement 1 is also correct for suitable amorphous polymers."
+        c: "Statement 4 is also correct and defines LOI.",
+        d: "Statement 1 is also correct for suitable amorphous polymers."
       },
       concept: "Optical clarity / scattering / birefringence; LOI definition.",
       tags: ["revision"]
