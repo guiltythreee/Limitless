@@ -97,6 +97,7 @@ const T1: TopicSource = {
       concept: "tacticity = configurational regularity; regularity influences crystallizability",
       tags: ["confused"],
     },
+    {
       id: "t1-05",
       type: "recall",
       diff: 1,
@@ -116,6 +117,7 @@ const T1: TopicSource = {
       },
       tags: ["revision"],
     },
+    {
       id: "t1-06",
       type: "statement",
       diff: 2,
@@ -141,6 +143,7 @@ const T1: TopicSource = {
       },
       tags: ["confused"],
     },
+    {
       id: "t1-07",
       type: "numerical",
       diff: 2,
@@ -186,6 +189,7 @@ const T1: TopicSource = {
       },
       tags: ["revision"],
     },
+    {
       id: "t1-09",
       type: "concept",
       diff: 2,
@@ -226,6 +230,7 @@ const T1: TopicSource = {
       concept: "configuration ≠ conformation",
       tags: ["confused"],
     },
+    {
       "id": "t1-11",
       "type": "concept",
       "diff": 3,
@@ -280,6 +285,7 @@ const T1: TopicSource = {
       },
       tags: ["revision"],
     },
+    {
       id: "t1-13",
       type: "apply",
       diff: 3,
@@ -300,6 +306,7 @@ const T1: TopicSource = {
       concept: "thermoplastic = melt-reprocessable · cured thermoset = infusible network",
       tags: ["revision"],
     },
+    {
       id: "t1-14",
       type: "assertreason",
       diff: 2,
@@ -382,6 +389,7 @@ const T1: TopicSource = {
       },
       tags: ["confused"],
     },
+    {
       id: "t1-18",
       type: "concept",
       diff: 3,
@@ -402,6 +410,7 @@ const T1: TopicSource = {
       concept: "functionality > 2 enables branching; gelation depends on conversion and stoichiometry",
       tags: ["confused"],
     },
+    {
       id: "t1-19",
       type: "recall",
       diff: 1,
@@ -483,6 +492,7 @@ const T1: TopicSource = {
       concept: "property-specific diminishing returns with increasing degree of polymerization",
       tags: ["confused"],
     },
+    {
       id: "t1-23",
       type: "apply",
       diff: 3,
@@ -503,6 +513,7 @@ const T1: TopicSource = {
       concept: "covalent network → insoluble but potentially swellable",
       tags: ["revision"],
     },
+    {
       id: "t1-24",
       type: "match",
       diff: 2,
@@ -528,6 +539,7 @@ const T1: TopicSource = {
       },
       tags: ["revision"],
     },
+    {
       id: "t1-25",
       type: "concept",
       diff: 2,
@@ -567,6 +579,7 @@ const T1: TopicSource = {
       concept: "polymer-analogous reaction vs polymerization vs physical blending",
       tags: ["confused"],
     },
+    {
       "id": "t1-27",
       "type": "recall",
       "diff": 1,
@@ -661,6 +674,7 @@ const T1: TopicSource = {
       concept: "$\\overline{M}_{residue} = \\sum x_i M_i$ for addition copolymerization",
       tags: ["numeric", "formula"],
     },
+    {
       id: "t1-31",
       type: "concept",
       diff: 2,
