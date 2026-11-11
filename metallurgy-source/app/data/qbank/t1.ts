@@ -525,17 +525,17 @@ const T1: TopicSource = {
         ["4", "Styrene–butadiene–styrene (SBS)", "", "(iv) thermoplastic elastomer"],
       ],
       options: [
-        { label: "a", text: "1-i, 2-iii, 3-iv, 4-ii" },
-        { label: "b", text: "1-ii, 2-i, 3-iii, 4-iv" },
-        { label: "c", text: "1-iii, 2-ii, 3-i, 4-iv" },
-        { label: "d", text: "1-iii, 2-i, 3-ii, 4-iv" }
+        { label: "a", text: "1-iii, 2-i, 3-ii, 4-iv" },
+        { label: "b", text: "1-i, 2-iii, 3-iv, 4-ii" },
+        { label: "c", text: "1-ii, 2-i, 3-iii, 4-iv" },
+        { label: "d", text: "1-iii, 2-ii, 3-i, 4-iv" }
       ],
-      answer: "d",
+      answer: "a",
       why: "Polyethylene is a **thermoplastic**; cured Bakelite is a **thermoset**; vulcanized natural rubber is a covalently cross-linked **elastomer**; and SBS is a **thermoplastic elastomer** whose physical polystyrene domains act as reversible junctions.",
       distractors: {
-        a: "This assigns polyethylene to thermoset and vulcanized rubber to thermoplastic elastomer.",
-        b: "This incorrectly classifies polyethylene as an elastomer and vulcanized rubber as a thermoplastic.",
-        c: "This swaps the classifications of Bakelite and vulcanized natural rubber."
+        b: "This assigns polyethylene to thermoset and vulcanized rubber to thermoplastic elastomer.",
+        c: "This incorrectly classifies polyethylene as an elastomer and vulcanized rubber as a thermoplastic.",
+        d: "This swaps the classifications of Bakelite and vulcanized natural rubber."
       },
       tags: ["revision"],
     },
@@ -564,17 +564,17 @@ const T1: TopicSource = {
       diff: 4,
       text: "Poly(vinyl acetate) is saponified to PVA, which is then blended with starch for a biodegradable film. Which pair correctly identifies the chemistry of the two operations?",
       options: [
-        { label: "a", text: "Hydrolysis (saponification), followed by physical blending of PVA with starch." },
-        { label: "b", text: "Condensation polymerization, followed by a second condensation reaction between PVA and starch." },
-        { label: "c", text: "Addition polymerization, followed by copolymerization of PVA with starch." },
-        { label: "d", text: "Radical chain scission, followed by covalent graft polymerization of starch onto PVA." }
+        { label: "a", text: "Radical chain scission, followed by covalent graft polymerization of starch onto PVA." },
+        { label: "b", text: "Hydrolysis (saponification), followed by physical blending of PVA with starch." },
+        { label: "c", text: "Condensation polymerization, followed by a second condensation reaction between PVA and starch." },
+        { label: "d", text: "Addition polymerization, followed by copolymerization of PVA with starch." }
       ],
-      answer: "a",
-      why: "Saponification converts acetate ester groups on PVAc into hydroxyl groups by **hydrolysis** (or alcoholysis under the corresponding conditions). Blending PVA with starch is a physical mixing operation unless a separate chemical reaction is specified.",
+      answer: "b",
+      why: "Saponification converts acetate ester groups on PVAc into hydroxyl groups by **hydrolysis**. Blending PVA with starch is a physical mixing operation unless a separate chemical reaction is specified.",
       distractors: {
-        b: "Neither operation is a new condensation polymerization: the first modifies existing PVAc chains, and the second is stated as blending.",
-        c: "The PVAc-to-PVA conversion is not addition polymerization, and blending does not make starch a comonomer.",
-        d: "The described conversion is not radical chain scission, and no grafting reaction is specified."
+        a: "The described conversion is not radical chain scission, and no grafting reaction is specified.",
+        c: "Neither operation is a new condensation polymerization: the first modifies existing PVAc chains, and the second is stated as blending.",
+        d: "The PVAc-to-PVA conversion is not addition polymerization, and blending does not make starch a comonomer."
       },
       concept: "polymer-analogous reaction vs polymerization vs physical blending",
       tags: ["confused"],
@@ -659,17 +659,17 @@ const T1: TopicSource = {
       diff: 3,
       text: "A binary addition copolymer contains 40 mol% monomer A ($M_A = 100$ g/mol) and 60 mol% monomer B ($M_B = 50$ g/mol). Assuming no small molecule is eliminated during polymerization, the average molar mass per incorporated repeat-unit residue is:",
       options: [
-        { label: "a", text: "65 g/mol" },
-        { label: "b", text: "75 g/mol" },
-        { label: "c", text: "50 g/mol" },
-        { label: "d", text: "70 g/mol" }
+        { label: "a", text: "70 g/mol" },
+        { label: "b", text: "65 g/mol" },
+        { label: "c", text: "75 g/mol" },
+        { label: "d", text: "50 g/mol" }
       ],
-      answer: "d",
+      answer: "a",
       why: "For this addition copolymer, the incorporated residues retain the monomer atoms. The composition-weighted average is $M = 0.40(100) + 0.60(50) = 40 + 30 = \\mathbf{70}$ g/mol per incorporated residue.",
       distractors: {
-        a: "65 g/mol does not follow from the stated mole fractions and molar masses.",
-        b: "75 g/mol is the equal-mole average: 0.50(100) + 0.50(50).",
-        c: "50 g/mol is only the molar mass of monomer B and ignores monomer A."
+        b: "65 g/mol does not follow from the stated mole fractions and molar masses.",
+        c: "75 g/mol is the equal-mole average: 0.50(100) + 0.50(50).",
+        d: "50 g/mol is only the molar mass of monomer B and ignores monomer A."
       },
       concept: "$\\overline{M}_{residue} = \\sum x_i M_i$ for addition copolymerization",
       tags: ["numeric", "formula"],
@@ -680,12 +680,12 @@ const T1: TopicSource = {
       diff: 2,
       text: "Why can the *same* base polymer be sold both as a rigid engineering plastic and as a soft elastomer?",
       options: [
-        { label: "a", text: "Formulation and morphology can be tuned with plasticizer, reinforcement, crystallinity and cross-linking to change stiffness and elasticity." },
-        { label: "b", text: "The two products must have different repeat-unit chemistry, because one polymer backbone cannot be formulated across different properties." },
-        { label: "c", text: "A single polymer chemistry cannot be made rigid or elastomeric; its properties remain fixed after the monomer has been chosen." },
-        { label: "d", text: "Suppliers use different test definitions for stiffness, so the apparent rigid-plastic and elastomer grades are mechanically identical." }
+        { label: "a", text: "The two products must have different repeat-unit chemistry, because one polymer backbone cannot be formulated across different properties." },
+        { label: "b", text: "A single polymer chemistry cannot be made rigid or elastomeric; its properties remain fixed after the monomer has been chosen." },
+        { label: "c", text: "Suppliers use different test definitions for stiffness, so the apparent rigid-plastic and elastomer grades are mechanically identical." },
+        { label: "d", text: "Formulation and morphology can be tuned with plasticizer, reinforcement, crystallinity and cross-linking to change stiffness and elasticity." }
       ],
-      answer: "a",
+      answer: "d",
       why: "The **balance** of intermolecular forces, chain flexibility, crystallinity and cross-link density decides the end use. The same chemistry can be moved across the plastic–elastomer space by compounding and structure control.",
       concept: "property requirements drive polymer utilization (Module 2 §1)",
       tags: ["revision"],
