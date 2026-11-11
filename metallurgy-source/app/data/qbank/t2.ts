@@ -441,7 +441,7 @@ const T2: TopicSource = {
         { label: "d", text: "A is false, R is true" }
       ],
       answer: "c",
-      why: "**Site-controlled insertion** at a stereospecific catalyst site favours placement of successive methyl groups on the same side of the chain, producing **isotactic polypropylene**. The tacticity depends on the catalyst's stereoselectivity; it is not guaranteed by every coordination catalyst.
+      why: "**Site-controlled insertion** at a stereospecific catalyst site favours placement of successive methyl groups on the same side of the chain, producing **isotactic polypropylene**. The tacticity depends on the catalyst's stereoselectivity; it is not guaranteed by every coordination catalyst.",
       concept: "stereospecific coordination insertion",
       tags: ["revision"],
     },
