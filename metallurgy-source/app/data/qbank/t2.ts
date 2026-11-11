@@ -451,17 +451,17 @@ const T2: TopicSource = {
       diff: 4,
       text: "Kinetic chain length $\\nu = 1000$. Termination is 60% by combination and 40% by disproportionation. The overall $\\overline{DP}_n$ is:",
       options: [
-        { label: "a", text: "1600" },
-        { label: "b", text: "1200" },
-        { label: "c", text: "1000" },
-        { label: "d", text: "1400" }
+        { label: "a", text: "1200" },
+        { label: "b", text: "1000" },
+        { label: "c", text: "1400" },
+        { label: "d", text: "1600" }
       ],
-      answer: "a",
+      answer: "d",
       why: "Weight the number-average degree of polymerization by the fraction of termination events: $\\overline{DP}_n = 0.60(2\\nu) + 0.40(\\nu) = 1.60\\nu = 1.60(1000) = \\mathbf{1600}$. Combination joins two kinetic chains; disproportionation produces two separate dead chains.",
       distractors: {
-        b: "1200 counts the contribution from combination but omits the 0.40\\nu contribution from disproportionation.",
-        c: "1000 is the result if every termination event occurs by disproportionation.",
-        d: "1400 is an arithmetic error; the weighted contributions are 1200 + 400 = 1600."
+        a: "1200 counts the contribution from combination but omits the 0.40\\nu contribution from disproportionation.",
+        b: "1000 is the result if every termination event occurs by disproportionation.",
+        c: "1400 is an arithmetic error; the weighted contributions are 1200 + 400 = 1600."
       },
       concept: "$\\overline{DP} = f_{comb}\\cdot 2\\nu + f_{dis}\\cdot \\nu$",
       tags: ["numeric", "formula"],
