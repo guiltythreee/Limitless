@@ -608,7 +608,7 @@ const T9: TopicSource = {
       why: "Each layer contributes a property: **PET** = structure, clarity, moisture barrier; **EVOH** = excellent O₂ barrier (but moisture-sensitive); a tie layer or careful structure protects it. This is the standard multilayer barrier design logic.",
       concept: "multilayer = function per layer, not just cost",
       tags: ["confused"],
-    },,
+    },
     {
       id: "t9-25",
       type: "apply",
