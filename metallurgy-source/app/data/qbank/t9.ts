@@ -636,15 +636,15 @@ const T9: TopicSource = {
       diff: 3,
       text: "Which description correctly distinguishes grafting from physical blending as a polymer-modification route?",
       options: [
-        { label: "a", text: "Grafting attaches side chains to an existing polymer backbone; physical blending mixes polymers without covalently attaching the components." },
-        { label: "b", text: "Grafting is simply remelting two polymers together, while blending always forms covalent bonds." },
+        { label: "a", text: "Grafting is simply remelting two polymers together, while blending always forms covalent bonds." },
+        { label: "b", text: "Grafting attaches side chains to an existing polymer backbone; physical blending mixes polymers without covalently attaching the components." },
         { label: "c", text: "Both terms mean that the original polymer chains are completely depolymerized to monomers." },
         { label: "d", text: "Grafting can only occur between two inorganic fillers." }
       ],
-      answer: "a",
+      answer: "b",
       why: "The lesson defines **grafting** as attaching side chains to an existing backbone. Physical blending combines polymer phases without requiring covalent attachment; a graft/block copolymer may instead act as a compatibilizer.",
       distractors: {
-        b: "This reverses the definitions: blending does not inherently create covalent bonds.",
+        a: "This reverses the definitions: blending does not inherently create covalent bonds.",
         c: "Neither process requires complete depolymerization to monomers.",
         d: "The lecture's example, maleic-anhydride-grafted PP, is a polymer-backbone modification."
       },
@@ -657,16 +657,16 @@ const T9: TopicSource = {
       diff: 4,
       text: "A polyethylene component must resist creep and solvent swelling at elevated service temperature. Cross-linking is introduced. Which trade-off should the designer expect?",
       options: [
-        { label: "a", text: "Improved dimensional/thermal and solvent resistance, but loss of ordinary thermoplastic remelt-reprocessability." },
-        { label: "b", text: "Lower network connectivity and easier melt flow during every heating cycle." },
-        { label: "c", text: "Guaranteed improvement in transparency with no effect on processing." },
+        { label: "a", text: "Lower network connectivity and easier melt flow during every heating cycle." },
+        { label: "b", text: "Guaranteed improvement in transparency with no effect on processing." },
+        { label: "c", text: "Improved dimensional/thermal and solvent resistance, but loss of ordinary thermoplastic remelt-reprocessability." },
         { label: "d", text: "Complete removal of all chain entanglements without formation of covalent bridges." }
       ],
-      answer: "a",
+      answer: "c",
       why: "The lesson states that cross-linking introduces covalent bridges, improving **use-temperature, creep and solvent resistance**. Once a permanent network forms, the material cannot be reprocessed by ordinary thermoplastic melting.",
       distractors: {
-        b: "Cross-linking restricts chain motion; it does not make the network flow like an uncross-linked melt.",
-        c: "Transparency is not the stated design consequence, and cross-linking changes processing behaviour.",
+        a: "Cross-linking restricts chain motion; it does not make the network flow like an uncross-linked melt.",
+        b: "Transparency is not the stated design consequence, and cross-linking changes processing behaviour.",
         d: "Cross-linking creates covalent bridges between chains; it does not remove entanglements as described."
       },
       concept: "Cross-link density trades reprocessability for network stability.",
@@ -678,17 +678,17 @@ const T9: TopicSource = {
       diff: 3,
       text: "A manufacturer must recover material from two waste streams: one is a remouldable thermoplastic and the other is a cured thermoset. Which route best follows the lecture's recycling distinction?",
       options: [
-        { label: "a", text: "Remelt and reprocess the thermoplastic; consider chemical breakdown or use the thermoset as a ground filler." },
-        { label: "b", text: "Remelt both materials repeatedly because both contain polymer chains." },
-        { label: "c", text: "Use mechanical remelting only for the thermoset and chemical recycling only for the thermoplastic." },
-        { label: "d", text: "Neither material can be recovered in any form." }
+        { label: "a", text: "Remelt both materials repeatedly because both contain polymer chains." },
+        { label: "b", text: "Use mechanical remelting only for the thermoset and chemical recycling only for the thermoplastic." },
+        { label: "c", text: "Neither material can be recovered in any form." },
+        { label: "d", text: "Remelt and reprocess the thermoplastic; consider chemical breakdown or use the thermoset as a ground filler." }
       ],
-      answer: "a",
+      answer: "d",
       why: "Thermoplastics can be **remelted and mechanically reprocessed**. A cured thermoset cannot be remelted into its original flowable state; the lesson lists grinding for filler use and chemical routes such as glycolysis or solvolysis.",
       distractors: {
-        b: "A cured thermoset has a permanent network and decomposes rather than flowing on reheating.",
-        c: "This reverses the main routes described in the lesson.",
-        d: "The lesson explicitly identifies mechanical and chemical recovery options."
+        a: "A cured thermoset has a permanent network and decomposes rather than flowing on reheating.",
+        b: "This reverses the main routes described in the lesson.",
+        c: "The lesson explicitly identifies mechanical and chemical recovery options."
       },
       concept: "Thermoplastic mechanical recycling vs thermoset recovery.",
       tags: ["revision"]
