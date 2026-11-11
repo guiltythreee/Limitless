@@ -10,11 +10,13 @@ const T11: TopicSource = {
   title: "Compounding & Processing",
   subtitle: "Topic 11 · additives, formulation and the shaping processes",
   subs: [
-    { id: "T11.1", title: "Compounding: additives & their functions" },
-    { id: "T11.2", title: "Drying, MFI and shrinkage" },
-    { id: "T11.3", title: "Extrusion, injection, blow, calender, rotational" },
-    { id: "T11.4", title: "Thermoset & composite processes" },
-    { id: "T11.5", title: "Common moulding defects" },
+    { id: "T11.1", title: "Compounding and additives" },
+    { id: "T11.2", title: "Material preparation, drying, MFI and shrinkage" },
+    { id: "T11.3", title: "Thermoplastic processing" },
+    { id: "T11.4", title: "Thermoset and composite processing" },
+    { id: "T11.5", title: "Fibre technology" },
+    { id: "T11.6", title: "Rubber and elastomer technology" },
+    { id: "T11.7", title: "Processing defects and quality control" },
   ],
   questions: [
     {
