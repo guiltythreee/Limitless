@@ -2,6 +2,7 @@
 // Detect answer-position runs and local-window patterns in the MT203 four-option bank.
 // This guard evaluates MCQs in learner-facing question order, not by aggregate counts alone.
 import { TOPIC_IDS } from "../app/mt203/types.ts";
+import { TOTAL_QUESTIONS } from "../app/data/qbank/meta.ts";
 
 const errors = [];
 const MAX_RUN = 3;
@@ -47,7 +48,7 @@ for (const topicId of TOPIC_IDS) {
   }
 }
 
-if (checked !== 286) errors.push(`Expected 286 four-option questions, found ${checked}`);
+if (checked !== TOTAL_QUESTIONS) errors.push(`Expected ${TOTAL_QUESTIONS} four-option questions, found ${checked}`);
 if (errors.length) {
   console.error(`Answer-sequence regression FAILED with ${errors.length} issue(s):`);
   for (const error of errors) console.error(`  - ${error}`);
