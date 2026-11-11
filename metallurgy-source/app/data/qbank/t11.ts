@@ -714,7 +714,7 @@ const T11: TopicSource = {
         d: "Resin-transfer moulding uses a closed mould to produce a discrete component.",
         b: "Compression moulding produces finite mouldings rather than an uninterrupted profile of arbitrary length.",
       },
-    },,
+    },
     {
       id: "t11-27",
       type: "apply",
