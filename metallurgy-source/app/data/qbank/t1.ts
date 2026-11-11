@@ -564,17 +564,17 @@ const T1: TopicSource = {
       diff: 4,
       text: "Poly(vinyl acetate) is saponified to PVA, which is then blended with starch for a biodegradable film. Which pair correctly identifies the chemistry of the two operations?",
       options: [
-        { label: "a", text: "Radical chain scission, followed by covalent graft polymerization of starch onto PVA." },
-        { label: "b", text: "Hydrolysis (saponification), followed by physical blending of PVA with starch." },
-        { label: "c", text: "Condensation polymerization, followed by a second condensation reaction between PVA and starch." },
-        { label: "d", text: "Addition polymerization, followed by copolymerization of PVA with starch." }
+        { label: "a", text: "Condensation polymerization, followed by a second condensation reaction between PVA and starch." },
+        { label: "b", text: "Addition polymerization, followed by copolymerization of PVA with starch." },
+        { label: "c", text: "Radical chain scission, followed by covalent graft polymerization of starch onto PVA." },
+        { label: "d", text: "Hydrolysis (saponification), followed by physical blending of PVA with starch." }
       ],
-      answer: "b",
+      answer: "d",
       why: "Saponification converts acetate ester groups on PVAc into hydroxyl groups by **hydrolysis**. Blending PVA with starch is a physical mixing operation unless a separate chemical reaction is specified.",
       distractors: {
-        a: "The described conversion is not radical chain scission, and no grafting reaction is specified.",
-        c: "Neither operation is a new condensation polymerization: the first modifies existing PVAc chains, and the second is stated as blending.",
-        d: "The PVAc-to-PVA conversion is not addition polymerization, and blending does not make starch a comonomer."
+        a: "Neither operation is a new condensation polymerization: the first modifies existing PVAc chains, and the second is stated as blending.",
+        b: "The PVAc-to-PVA conversion is not addition polymerization, and blending does not make starch a comonomer.",
+        c: "The described conversion is not radical chain scission, and no grafting reaction is specified."
       },
       concept: "polymer-analogous reaction vs polymerization vs physical blending",
       tags: ["confused"],
