@@ -1,6 +1,6 @@
 {
-  "title": "Limitless MT201 durable question overrides",
-  "generatedFrom": "Authored Metallurgy Revision Pack v1 + optional deterministic answer-position balancing",
+  "title": "Limitless MT201 durable question revisions and authored additions",
+  "generatedFrom": "Authored Metallurgy Revision Pack v1 + source-based expansion from uploaded MT201 materials (2026-11-10)",
   "course": "MT201",
   "replacements": [
     {
@@ -5939,5 +5939,3068 @@
       "sourceFingerprint": "87ad2738"
     }
   ],
-  "sourceCommit": "b7359a6113a5888d3cf3c88cb5ce25cc716d89e4"
+  "sourceCommit": "b7359a6113a5888d3cf3c88cb5ce25cc716d89e4",
+  "additions": [
+    {
+      "chapter": "ch04",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A metal has molar heat capacity $C_p(T)=a+bT$, where $a=20\\ \\mathrm{J\\,mol^{-1}K^{-1}}$ and $b=0.02\\ \\mathrm{J\\,mol^{-1}K^{-2}}$. Find the heat required to raise 2 mol from 300 K to 400 K at constant pressure.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$5.0\\ \\mathrm{kJ}$"
+            },
+            {
+              "label": "b",
+              "text": "$5.4\\ \\mathrm{kJ}$"
+            },
+            {
+              "label": "c",
+              "text": "$6.0\\ \\mathrm{kJ}$"
+            },
+            {
+              "label": "d",
+              "text": "$8.0\\ \\mathrm{kJ}$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "At constant pressure, $Q_p=n\\int_{T_1}^{T_2}C_p(T)\\,dT=n[a(T_2-T_1)+\\tfrac12b(T_2^2-T_1^2)]$. Substitution gives $2[20(100)+0.01(400^2-300^2)]=2(2000+700)=5400\\ \\mathrm{J}=5.4\\ \\mathrm{kJ}$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Why can replacing a temperature-dependent heat capacity by a constant average value introduce error in a final-temperature calculation?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "It violates energy conservation"
+            },
+            {
+              "label": "b",
+              "text": "It ignores the variation of enthalpy with temperature"
+            },
+            {
+              "label": "c",
+              "text": "It changes the number of moles"
+            },
+            {
+              "label": "d",
+              "text": "It makes entropy a path function"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The enthalpy change is $\\Delta H=\\int C_p(T)\\,dT$. If $C_p$ varies appreciably, a constant approximation changes the integrated enthalpy and therefore the energy-balance solution for the final temperature. The mid-semester copper problem explicitly uses a temperature-dependent $C_p(T)$ and a first-order Taylor approximation."
+        }
+      ]
+    },
+    {
+      "chapter": "ch09",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "For a binary solution with molar excess Gibbs energy $G^E(x_A)$, the partial molar excess Gibbs energy of component B is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$\\bar G_B^E=G^E+x_A\\,dG^E/dx_A$"
+            },
+            {
+              "label": "b",
+              "text": "$\\bar G_B^E=G^E-x_A\\,dG^E/dx_A$"
+            },
+            {
+              "label": "c",
+              "text": "$\\bar G_B^E=G^E-(1-x_A)\\,dG^E/dx_A$"
+            },
+            {
+              "label": "d",
+              "text": "$\\bar G_B^E=dG^E/dx_A$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "At constant $T,P,n_A$, $G^E_{total}=nG^E(x_A)$ and $\\bar G_B^E=\\partial[nG^E]/\\partial n_B$. Since $\\partial n/\\partial n_B=1$ and $\\partial x_A/\\partial n_B=-x_A/n$, the product and chain rules give $\\bar G_B^E=G^E-x_A(dG^E/dx_A)$. This is the result derived in the supplied partial-molar-B note."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A regular binary solution has $G^E=\\Omega x_Ax_B$ with $\\Omega=12\\ \\mathrm{kJ\\,mol^{-1}}$. At $x_A=0.25$, calculate $\\bar G_B^E$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$0.25\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "b",
+              "text": "$0.75\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "c",
+              "text": "$3.00\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "d",
+              "text": "$4.50\\ \\mathrm{kJ\\,mol^{-1}}$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For $G^E=\\Omega x_A(1-x_A)$, $dG^E/dx_A=\\Omega(1-2x_A)$. Hence $\\bar G_B^E=G^E-x_A(dG^E/dx_A)=\\Omega x_A^2$. Thus $12(0.25)^2=0.75\\ \\mathrm{kJ\\,mol^{-1}}$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "At constant temperature and pressure, the binary Gibbs–Duhem equation is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$x_A d\\mu_A+x_B d\\mu_B=0$"
+            },
+            {
+              "label": "b",
+              "text": "$x_A\\mu_A+x_B\\mu_B=0$"
+            },
+            {
+              "label": "c",
+              "text": "$d\\mu_A+d\\mu_B=RT$"
+            },
+            {
+              "label": "d",
+              "text": "$x_A dG_A+x_B dG_B=RTdT$"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For a mixture, $\\sum_i x_i d\\mu_i=0$ at fixed $T,P$. For a binary solution this becomes $x_A d\\mu_A+x_B d\\mu_B=0$. It constrains the composition dependence of the two chemical potentials; they cannot vary independently."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "In a dilute binary solution where B is the solute, the limiting law normally applied to B is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Raoult's law"
+            },
+            {
+              "label": "b",
+              "text": "$-0.3500$"
+            },
+            {
+              "label": "c",
+              "text": "Sieverts' law"
+            },
+            {
+              "label": "d",
+              "text": "Dalton's law"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "With $\\chi=0$, the interaction term vanishes. The entropy contribution is $0.5\\ln(0.5)+0.005\\ln(0.5)=0.505\\ln(0.5)=-0.3500$ approximately."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "E",
+          "traps": [],
+          "text": "A solvent obeys Raoult's law with $x_A=0.80$ and pure-component vapour pressure $p_A^*=50\\ \\mathrm{kPa}$. What is $p_A$?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$10\\ \\mathrm{kPa}$"
+            },
+            {
+              "label": "b",
+              "text": "$25\\ \\mathrm{kPa}$"
+            },
+            {
+              "label": "c",
+              "text": "$40\\ \\mathrm{kPa}$"
+            },
+            {
+              "label": "d",
+              "text": "$62.5\\ \\mathrm{kPa}$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Raoult's law gives $p_A=x_Ap_A^*=0.80(50)=40\\ \\mathrm{kPa}$. The mole fraction is dimensionless, so the pressure retains units of kPa."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For a real gas, fugacity replaces pressure in the chemical-potential expression because it:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Corrects for non-ideal gas behaviour"
+            },
+            {
+              "label": "b",
+              "text": "Is always equal to total pressure"
+            },
+            {
+              "label": "c",
+              "text": "Is independent of temperature"
+            },
+            {
+              "label": "d",
+              "text": "Is the same as concentration"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Fugacity is an effective pressure that incorporates non-ideal gas behaviour. For an ideal gas, fugacity approaches the partial pressure; for a real gas, the fugacity coefficient accounts for deviation from ideality."
+        }
+      ]
+    },
+    {
+      "chapter": "ch10",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The statistical regular-solution model in the supplied notes assumes:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Unequal molar volumes and volume change on mixing"
+            },
+            {
+              "label": "b",
+              "text": "Equal molar volumes and no volume change on mixing"
+            },
+            {
+              "label": "c",
+              "text": "Only A–B bonds exist"
+            },
+            {
+              "label": "d",
+              "text": "Zero configurational entropy"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The statistical model assumes equal molar volumes and no change in molar volume on mixing. It counts A–A, B–B and A–B nearest-neighbour bonds to obtain the energy of the mixed crystal."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "For the subregular model $\\Delta H_{mix}=x_Ax_B(\\Omega_{AB}x_B+\\Omega_{BA}x_A)$, let $x_A=0.30$, $x_B=0.70$, $\\Omega_{AB}=10$ and $\\Omega_{BA}=20\\ \\mathrm{kJ\\,mol^{-1}}$. Find $\\Delta H_{mix}$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$2.10\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "b",
+              "text": "$2.73\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "c",
+              "text": "$4.41\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "d",
+              "text": "$6.30\\ \\mathrm{kJ\\,mol^{-1}}$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "First evaluate the composition-weighted interaction: $10(0.70)+20(0.30)=13\\ \\mathrm{kJ\\,mol^{-1}}$. Then $x_Ax_B=0.21$, so $\\Delta H_{mix}=0.21(13)=2.73\\ \\mathrm{kJ\\,mol^{-1}}$."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "The Flory–Huggins model modifies the regular-solution treatment primarily because polymer chains:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Have no configurational entropy"
+            },
+            {
+              "label": "b",
+              "text": "Occupy many connected lattice sites, reducing the number of independent arrangements"
+            },
+            {
+              "label": "c",
+              "text": "Always have negative enthalpy of mixing"
+            },
+            {
+              "label": "d",
+              "text": "Cannot form homogeneous blends"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "A polymer molecule is a connected chain rather than an independently placed small molecule. The entropy of mixing is therefore written using volume fractions and degree-of-polymerization factors, such as $\\phi_A/N_A$ and $\\phi_B/N_B$."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "For a polymer blend, the Flory–Huggins expression is $\\Delta G_{mix}/RT=(\\phi_A/N_A)\\ln\\phi_A+(\\phi_B/N_B)\\ln\\phi_B+\\chi\\phi_A\\phi_B$. Let $\\phi_A=\\phi_B=0.5$, $N_A=1$, $N_B=100$, and $\\chi=0$. Evaluate the dimensionless mixing term.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$-0.0050$"
+            },
+            {
+              "label": "b",
+              "text": "$-0.3500$"
+            },
+            {
+              "label": "c",
+              "text": "$-0.6931$"
+            },
+            {
+              "label": "d",
+              "text": "$-1.3863$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "With $\\chi=0$, the interaction term vanishes. The dimensionless mixing term is $0.5\\ln(0.5)+(0.5/100)\\ln(0.5)=0.505\\ln(0.5)=-0.3500$ (to four significant figures)."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For a symmetric regular solution, the critical point occurs at:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$x_A=0$"
+            },
+            {
+              "label": "b",
+              "text": "$x_A=0.25$"
+            },
+            {
+              "label": "c",
+              "text": "$x_A=0.50$"
+            },
+            {
+              "label": "d",
+              "text": "$x_A=1$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The regular-solution free energy is symmetric in the two components. At the critical point the two spinodal boundaries meet at the equimolar composition, $x_A=x_B=0.5$."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "The local stability condition for a homogeneous solution with respect to small composition fluctuations is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$\\partial^2G/\\partial x^2<0$"
+            },
+            {
+              "label": "b",
+              "text": "$\\partial^2G/\\partial x^2>0$"
+            },
+            {
+              "label": "c",
+              "text": "$\\partial G/\\partial x=1$"
+            },
+            {
+              "label": "d",
+              "text": "$G=0$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "At a local equilibrium minimum, the first derivative with respect to the composition coordinate is zero and the second derivative is positive. A negative second derivative indicates local instability; zero curvature marks the spinodal limit."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "A homogeneous solution lying between the binodal and spinodal boundaries is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Absolutely stable"
+            },
+            {
+              "label": "b",
+              "text": "Metastable; finite fluctuations may require nucleation"
+            },
+            {
+              "label": "c",
+              "text": "Unstable to every infinitesimal fluctuation"
+            },
+            {
+              "label": "d",
+              "text": "At the critical point"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Between the binodal and spinodal the homogeneous phase is metastable. Small fluctuations decay, but a sufficiently large fluctuation can nucleate the second phase. Inside the spinodal, infinitesimal fluctuations grow spontaneously."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For a symmetric regular solution, the curvature of the molar free energy of mixing is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$RT/[x(1-x)]-2\\Omega$"
+            },
+            {
+              "label": "b",
+              "text": "$RTx(1-x)+2\\Omega$"
+            },
+            {
+              "label": "c",
+              "text": "$2RT-\\Omega x$"
+            },
+            {
+              "label": "d",
+              "text": "$RT\\ln x-\\Omega$"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For $G_{mix}=\\Omega x(1-x)+RT[x\\ln x+(1-x)\\ln(1-x)]$, differentiating twice gives $d^2G/dx^2=-2\\Omega+RT[1/x+1/(1-x)]=-2\\Omega+RT/[x(1-x)]$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The common-tangent construction on a molar Gibbs-energy versus composition curve identifies:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The spinodal points only"
+            },
+            {
+              "label": "b",
+              "text": "Coexisting equilibrium phase compositions"
+            },
+            {
+              "label": "c",
+              "text": "The maximum entropy composition only"
+            },
+            {
+              "label": "d",
+              "text": "The pure-component melting points"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "A common tangent touching a free-energy curve at two compositions represents equality of the chemical potentials of each component in the two coexisting phases. The tangent contact points give the equilibrium phase compositions."
+        }
+      ]
+    },
+    {
+      "chapter": "ch11",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "Two Ellingham lines for competing reduction reactions are $\\Delta G_1^\\circ=-200000+100T$ and $\\Delta G_2^\\circ=-180000+80T$ in J mol$^{-1}$. At what temperature do they intersect?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$500\\ \\mathrm{K}$"
+            },
+            {
+              "label": "b",
+              "text": "$800\\ \\mathrm{K}$"
+            },
+            {
+              "label": "c",
+              "text": "$1000\\ \\mathrm{K}$"
+            },
+            {
+              "label": "d",
+              "text": "$1200\\ \\mathrm{K}$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "At the intersection, $-200000+100T=-180000+80T$. Thus $20T=20000$ and $T=1000\\ \\mathrm{K}$. Above or below this crossing, compare the two calculated $\\Delta G^\\circ$ values to determine which reducing route is more favourable."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The slope of an Ellingham line in a plot of standard Gibbs-energy change against temperature is approximately:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$-\\Delta S^\\circ$"
+            },
+            {
+              "label": "b",
+              "text": "$\\Delta H^\\circ$"
+            },
+            {
+              "label": "c",
+              "text": "$-\\Delta H^\\circ$"
+            },
+            {
+              "label": "d",
+              "text": "$\\Delta G^\\circ/T$"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "From $\\Delta G^\\circ=\\Delta H^\\circ-T\\Delta S^\\circ$, if enthalpy and entropy are approximately constant over the interval, the line has intercept $\\Delta H^\\circ$ and slope $-\\Delta S^\\circ$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "A reducing agent is thermodynamically more effective for a given oxide-reduction reaction at a specified temperature when the coupled reaction has:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "A more negative standard Gibbs-energy change"
+            },
+            {
+              "label": "b",
+              "text": "A more positive standard Gibbs-energy change"
+            },
+            {
+              "label": "c",
+              "text": "A zero equilibrium constant"
+            },
+            {
+              "label": "d",
+              "text": "A larger activation energy"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The more negative $\\Delta G^\\circ$ indicates a stronger thermodynamic driving force for the reaction as written. The mid-semester worked example compares CO and H$_2$ reduction lines and finds the preferred reductant changes with temperature."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "For a reaction at 1000 K, $\\Delta G^\\circ=-100\\ \\mathrm{kJ\\,mol^{-1}}$. Using $R=8.314\\ \\mathrm{J\\,mol^{-1}K^{-1}}$, estimate $K$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$6.0\\times10^{-6}$"
+            },
+            {
+              "label": "b",
+              "text": "$1.7\\times10^5$"
+            },
+            {
+              "label": "c",
+              "text": "$1.7\\times10^{-3}$"
+            },
+            {
+              "label": "d",
+              "text": "$1.0$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Use $\\Delta G^\\circ=-RT\\ln K$, so $\\ln K=100000/(8.314\\times1000)=12.03$. Therefore $K=e^{12.03}\\approx1.67\\times10^5$. A negative standard Gibbs energy corresponds to $K>1$."
+        }
+      ]
+    },
+    {
+      "chapter": "ch12",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "For two phases $\\alpha$ and $L$ to coexist in equilibrium in a binary alloy, the chemical-potential conditions are:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$\\mu_A^\\alpha=\\mu_B^L$ only"
+            },
+            {
+              "label": "b",
+              "text": "$\\mu_A^\\alpha=\\mu_A^L$ and $\\mu_B^\\alpha=\\mu_B^L$"
+            },
+            {
+              "label": "c",
+              "text": "$G^\\alpha=G^L=0$"
+            },
+            {
+              "label": "d",
+              "text": "The phase compositions must be identical"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "At phase equilibrium, the chemical potential of each component must be equal across the phases: $\\mu_A^\\alpha=\\mu_A^L$ and $\\mu_B^\\alpha=\\mu_B^L$. The common-tangent construction expresses these simultaneous equalities graphically."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "On a G–X diagram, the straight line joining the molar Gibbs energies of pure A and pure B represents:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The ideal entropy of mixing"
+            },
+            {
+              "label": "b",
+              "text": "The mechanical mixture reference energy $x_Ag_A^0+x_Bg_B^0$"
+            },
+            {
+              "label": "c",
+              "text": "The spinodal curve"
+            },
+            {
+              "label": "d",
+              "text": "The liquidus"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied Gibbs-energy-behind-phase-diagrams note first constructs the reference free energy of a mechanical combination of pure components as the mole-fraction-weighted line joining the pure-component values. The solution free energy is compared against this reference."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For an ideal binary solution, the molar Gibbs energy of mixing is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$RT[x_A\\ln x_A+x_B\\ln x_B]$"
+            },
+            {
+              "label": "b",
+              "text": "$-RT[x_A\\ln x_A+x_B\\ln x_B]$"
+            },
+            {
+              "label": "c",
+              "text": "$\\Omega x_Ax_B$"
+            },
+            {
+              "label": "d",
+              "text": "$RT(x_A+x_B)$"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For ideal mixing, $\\Delta H_{mix}=0$ and $\\Delta S_{mix}=-R\\sum_i x_i\\ln x_i$. Therefore $\\Delta G_{mix}=-T\\Delta S_{mix}=RT\\sum_i x_i\\ln x_i$, which is negative for an interior composition."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "In the supplied Cu–Ni ideal-solution G–X exercise, the solid and liquid free-energy curves are compared at:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "1420, 1500, 1580 and 1660 K"
+            },
+            {
+              "label": "b",
+              "text": "273, 298, 373 and 400 K"
+            },
+            {
+              "label": "c",
+              "text": "$8.0\\times10^{-4}$"
+            },
+            {
+              "label": "d",
+              "text": "A single fixed temperature"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Rearrange $K'=S/\\sqrt p$. Since $\\sqrt{0.25}=0.5$, $K'=4.0\\times10^{-4}/0.5=8.0\\times10^{-4}$ in solubility units atm$^{-1/2}$."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "When constructing the phase diagram from G–X curves at fixed temperature, the stable equilibrium state is determined by:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Selecting the phase with the highest Gibbs energy"
+            },
+            {
+              "label": "b",
+              "text": "Selecting the lowest accessible Gibbs energy, including common-tangent two-phase states"
+            },
+            {
+              "label": "c",
+              "text": "Setting every phase Gibbs energy equal to zero"
+            },
+            {
+              "label": "d",
+              "text": "Ignoring composition dependence"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "At fixed temperature and pressure, equilibrium minimizes total Gibbs energy. Where a common tangent lies below the single-phase curves, a two-phase mixture has lower Gibbs energy and is stable over the corresponding bulk-composition interval."
+        }
+      ]
+    },
+    {
+      "chapter": "ch13",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For dissolution of a diatomic gas in a dilute metal solution, Sieverts' law predicts solubility proportional to:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Gas pressure $p$"
+            },
+            {
+              "label": "b",
+              "text": "Square root of gas partial pressure $\\sqrt p$"
+            },
+            {
+              "label": "c",
+              "text": "Inverse pressure $1/p$"
+            },
+            {
+              "label": "d",
+              "text": "Square of pressure $p^2$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For a diatomic gas that dissociates before dissolving, Sieverts' law gives $S=K'\\sqrt{p_{gas}}$. The square-root dependence is the key distinction from Henry's law in its simple linear form."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "E",
+          "traps": [],
+          "text": "At fixed temperature, a metal follows Sieverts' law. If the gas partial pressure decreases from 0.16 atm to 0.04 atm, the dissolved-gas solubility becomes:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "One-quarter"
+            },
+            {
+              "label": "b",
+              "text": "One-half"
+            },
+            {
+              "label": "c",
+              "text": "Twice"
+            },
+            {
+              "label": "d",
+              "text": "Four times"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The solubility ratio is $S_2/S_1=\\sqrt{p_2/p_1}=\\sqrt{0.04/0.16}=\\sqrt{0.25}=0.5$. Halving the square-root pressure ratio halves the solubility."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Which condition is an assumption behind the simple Sieverts' law expression?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Strong compound formation at all concentrations"
+            },
+            {
+              "label": "b",
+              "text": "Dilute, near-ideal dissolved-gas behaviour"
+            },
+            {
+              "label": "c",
+              "text": "Gas must be monatomic before entering the metal"
+            },
+            {
+              "label": "d",
+              "text": "Multiple trapping sites must dominate"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied TM-7 notes state that simple Sieverts behaviour assumes dissociation of the diatomic gas, dilute near-ideal solution behaviour, approximately ideal gas behaviour and no strong compound formation or dominant trapping effects."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A diatomic gas obeys $S=K'\\sqrt p$. If $S=4.0\\times10^{-4}$ in the stated solubility units at $p=0.25\\ \\mathrm{atm}$, what is $K'$?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$2.0\\times10^{-4}$"
+            },
+            {
+              "label": "b",
+              "text": "$4.0\\times10^{-4}$"
+            },
+            {
+              "label": "c",
+              "text": "$8.0\\times10^{-4}$"
+            },
+            {
+              "label": "d",
+              "text": "$1.6\\times10^{-3}$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Rearrange $K'=S/\\sqrt p$. Since $\\sqrt{0.25}=0.5$, $K'=4.0\\times10^{-4}/0.5=8.0\\times10^{-4}$ in solubility units atm$^{-1/2}$. The correct option is $8.0\\times10^{-4}$; this item is intentionally marked for correction before release."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Reducing the partial pressure of hydrogen during vacuum treatment lowers its equilibrium dissolved concentration in liquid steel because:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The Sieverts square-root pressure term decreases"
+            },
+            {
+              "label": "b",
+              "text": "The metal's molar mass decreases"
+            },
+            {
+              "label": "c",
+              "text": "The gas constant changes"
+            },
+            {
+              "label": "d",
+              "text": "The reaction order becomes zero"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Under Sieverts' law, $S\\propto\\sqrt{p_{H_2}}$. Lowering the hydrogen partial pressure lowers its equilibrium solubility and is therefore useful in vacuum degassing. The supplied notes connect this to avoiding porosity, blowholes and hydrogen-related defects."
+        }
+      ]
+    },
+    {
+      "chapter": "ch15",
+      "title": "Electrochemical Thermodynamics",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "An electrochemical cell is reversible, according to the supplied notes, when it has a stable equilibrium at zero current and:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "All cell processes reverse when the direction of an infinitesimal current is reversed"
+            },
+            {
+              "label": "b",
+              "text": "Its electrodes are made from identical metals"
+            },
+            {
+              "label": "c",
+              "text": "Its cell voltage is always zero"
+            },
+            {
+              "label": "d",
+              "text": "It operates only at high current"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes define a reversible cell by two conditions: stable equilibrium when no current passes, and reversal of all processes when the direction of an infinitesimal current is reversed."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "In the conventional cell notation for a galvanic cell, the negative electrode (anode) is written:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "On the right"
+            },
+            {
+              "label": "b",
+              "text": "On the left"
+            },
+            {
+              "label": "c",
+              "text": "At the centre"
+            },
+            {
+              "label": "d",
+              "text": "After the salt bridge symbol only"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied electrochemical thermodynamics notes state the convention: the negative electrode is written on the left and the positive electrode on the right. For a Daniell cell the notation is $\\mathrm{Zn|ZnSO_4(aq)||CuSO_4(aq)|Cu}$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For a galvanic cell operating spontaneously as written, the cell reaction has:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$\\Delta G>0$ and $E<0$"
+            },
+            {
+              "label": "b",
+              "text": "$\\Delta G<0$ and $E>0$"
+            },
+            {
+              "label": "c",
+              "text": "$\\Delta G=0$ and $E<0$"
+            },
+            {
+              "label": "d",
+              "text": "$\\Delta G>0$ and $E>0$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For a spontaneous galvanic reaction, the maximum electrical work is obtained reversibly and $\\Delta G=-nFE$. A positive cell EMF therefore corresponds to a negative Gibbs-energy change for the cell reaction as written."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A reversible cell transfers 2 mol of electrons per mole of reaction and has $E=1.10\\ \\mathrm{V}$. Using $F=96485\\ \\mathrm{C\\,mol^{-1}}$, calculate $\\Delta G$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$+212.3\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "b",
+              "text": "$-212.3\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "c",
+              "text": "$-106.2\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "d",
+              "text": "$+106.2\\ \\mathrm{kJ\\,mol^{-1}}$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Use $\\Delta G=-nFE=-(2)(96485)(1.10)=-212267\\ \\mathrm{J\\,mol^{-1}}\\approx-212.3\\ \\mathrm{kJ\\,mol^{-1}}$. The negative sign indicates a spontaneous cell reaction under the stated direction."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The Nernst equation gives the dependence of cell potential on:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Only electrode mass"
+            },
+            {
+              "label": "b",
+              "text": "Reaction quotient and temperature"
+            },
+            {
+              "label": "c",
+              "text": "Only the cell's geometric area"
+            },
+            {
+              "label": "d",
+              "text": "Only the standard entropy"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The Nernst equation is $E=E^\\circ-(RT/nF)\\ln Q$. It relates the cell potential at a given composition to the standard potential and reaction quotient."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "At 298 K, a cell has $E^\\circ=1.10\\ \\mathrm{V}$, $n=2$ and $Q=10$. Estimate $E$ using $RT\\ln10/(nF)=0.0296\\ \\mathrm{V}$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$1.1296\\ \\mathrm{V}$"
+            },
+            {
+              "label": "b",
+              "text": "$1.1000\\ \\mathrm{V}$"
+            },
+            {
+              "label": "c",
+              "text": "$1.0704\\ \\mathrm{V}$"
+            },
+            {
+              "label": "d",
+              "text": "$0.9704\\ \\mathrm{V}$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Substitute into the Nernst equation: $E=1.10-0.0296=1.0704\\ \\mathrm{V}$. Since $Q>1$, the logarithmic correction lowers the potential below its standard value."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "At equilibrium for a cell reaction, the cell potential is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Equal to the standard potential for all compositions"
+            },
+            {
+              "label": "b",
+              "text": "Zero for the actual equilibrium composition"
+            },
+            {
+              "label": "c",
+              "text": "Always negative"
+            },
+            {
+              "label": "d",
+              "text": "Independent of the reaction quotient"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "At equilibrium, the actual reaction Gibbs energy is zero. Since $\\Delta G=-nFE$, the reversible cell potential for the reaction at equilibrium is zero. The standard potential need not be zero."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "At 298 K, a cell has $E^\\circ=0.30\\ \\mathrm{V}$ and $n=2$. Using $E^\\circ=(RT/nF)\\ln K$, estimate $\\log_{10}K$ with $2.303RT/F=0.05916\\ \\mathrm{V}$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "2.54"
+            },
+            {
+              "label": "b",
+              "text": "5.07"
+            },
+            {
+              "label": "c",
+              "text": "10.14"
+            },
+            {
+              "label": "d",
+              "text": "20.28"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Rearrange to $\\log_{10}K=nE^\\circ/0.05916$. Thus $\\log_{10}K=(2)(0.30)/0.05916=10.14$. The equilibrium constant is therefore very large."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "The temperature coefficient of a reversible cell potential is related to the reaction entropy by:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$(\\partial E/\\partial T)_P=\\Delta S/(nF)$"
+            },
+            {
+              "label": "b",
+              "text": "$(\\partial E/\\partial T)_P=-nF\\Delta S$"
+            },
+            {
+              "label": "c",
+              "text": "$(\\partial E/\\partial T)_P=\\Delta H/T$"
+            },
+            {
+              "label": "d",
+              "text": "$(\\partial E/\\partial T)_P=0$ always"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "From $\\Delta G=-nFE$ and $\\Delta S=-(\\partial\\Delta G/\\partial T)_P$, differentiation gives $\\Delta S=nF(\\partial E/\\partial T)_P$. This is the temperature-coefficient relation listed in the supplied electrochemical notes."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A reversible cell has $\\Delta S=20\\ \\mathrm{J\\,mol^{-1}K^{-1}}$ and transfers $n=2$ electrons. Find $(\\partial E/\\partial T)_P$ using $F=96485\\ \\mathrm{C\\,mol^{-1}}$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$0.104\\ \\mathrm{mV\\,K^{-1}}$"
+            },
+            {
+              "label": "b",
+              "text": "$1.04\\ \\mathrm{mV\\,K^{-1}}$"
+            },
+            {
+              "label": "c",
+              "text": "$10.4\\ \\mathrm{mV\\,K^{-1}}$"
+            },
+            {
+              "label": "d",
+              "text": "$0.0104\\ \\mathrm{mV\\,K^{-1}}$"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Use $(\\partial E/\\partial T)_P=\\Delta S/(nF)=20/(2\\times96485)=1.036\\times10^{-4}\\ \\mathrm{V\\,K^{-1}}=0.104\\ \\mathrm{mV\\,K^{-1}}$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The electrochemical potential of an ion includes which contribution in addition to its chemical potential?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Only gravitational potential"
+            },
+            {
+              "label": "b",
+              "text": "The electrical term $zF\\phi$"
+            },
+            {
+              "label": "c",
+              "text": "Only elastic strain energy"
+            },
+            {
+              "label": "d",
+              "text": "The molar volume term $PV$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied notes give $\\tilde\\mu_i=\\mu_i^0+RT\\ln a_i+z_iF\\phi$. The electrical contribution couples ionic charge to the electric potential, so ionic transport responds to both composition and electric-potential gradients."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "In the supplied Wagner framework, the total conductivity of a mixed ionic-electronic conductor is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$\\sigma_{total}=\\sigma_i-\\sigma_e$"
+            },
+            {
+              "label": "b",
+              "text": "$\\sigma_{total}=\\sigma_i+\\sigma_e$"
+            },
+            {
+              "label": "c",
+              "text": "$\\sigma_{total}=\\sigma_i/\\sigma_e$"
+            },
+            {
+              "label": "d",
+              "text": "$\\sigma_{total}=0$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes define total conductivity as the sum of ionic and electronic partial conductivities, $\\sigma_{total}=\\sigma_i+\\sigma_e$. An ideal solid electrolyte aims for ionic conductivity much larger than electronic conductivity."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "E",
+          "traps": [],
+          "text": "A solid electrolyte has ionic conductivity $0.8\\ \\mathrm{S\\,m^{-1}}$ and electronic conductivity $0.2\\ \\mathrm{S\\,m^{-1}}$. What is the ionic transference number $t_i=\\sigma_i/(\\sigma_i+\\sigma_e)$?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "0.20"
+            },
+            {
+              "label": "b",
+              "text": "0.50"
+            },
+            {
+              "label": "c",
+              "text": "0.80"
+            },
+            {
+              "label": "d",
+              "text": "1.00"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The total conductivity is $0.8+0.2=1.0\\ \\mathrm{S\\,m^{-1}}$. Therefore $t_i=0.8/1.0=0.80$."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "Why is the measured battery voltage under load commonly lower than the thermodynamic reversible voltage?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Because Gibbs energy becomes independent of composition"
+            },
+            {
+              "label": "b",
+              "text": "Because overpotentials, ohmic losses and concentration polarization reduce the operating voltage"
+            },
+            {
+              "label": "c",
+              "text": "Because Faraday's constant decreases under load"
+            },
+            {
+              "label": "d",
+              "text": "Because the Nernst equation applies only to solids"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied battery notes distinguish the thermodynamic voltage, $E_{thermo}=-\\Delta G/(nF)$, from practical voltage. Charge-transfer overpotentials, ohmic resistance and concentration polarization lower the observed voltage."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The solid-electrolyte interphase (SEI) is described in the supplied notes as:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "A reversible phase transition with zero entropy production"
+            },
+            {
+              "label": "b",
+              "text": "An irreversible interfacial reaction that consumes lithium and produces entropy"
+            },
+            {
+              "label": "c",
+              "text": "A perfect electronic conductor"
+            },
+            {
+              "label": "d",
+              "text": "A mechanism that increases lithium inventory"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes describe SEI formation as an irreversible electrolyte-reduction process at the anode. It consumes some lithium inventory and produces heat and irreversible entropy; a stable passivating layer can nevertheless protect the electrode from continued decomposition."
+        }
+      ]
+    },
+    {
+      "chapter": "ch16",
+      "title": "Metallurgical Kinetics",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Thermodynamics and kinetics differ because thermodynamics predicts:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "How fast equilibrium is reached"
+            },
+            {
+              "label": "b",
+              "text": "Feasibility and equilibrium direction, while kinetics predicts rate and mechanism"
+            },
+            {
+              "label": "c",
+              "text": "The activation energy only"
+            },
+            {
+              "label": "d",
+              "text": "The number of collisions per second only"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied kinetics notes contrast Gibbs-energy-based feasibility and equilibrium with rate constants and activation barriers that determine how quickly and by what pathway a process proceeds."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The order of a reaction is determined from:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The balanced overall chemical equation alone"
+            },
+            {
+              "label": "b",
+              "text": "Experimental rate data"
+            },
+            {
+              "label": "c",
+              "text": "The number of phases present"
+            },
+            {
+              "label": "d",
+              "text": "The molecular formula of the product"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Reaction order is the sum of concentration exponents in the experimentally determined rate law. It cannot generally be inferred from the stoichiometric equation unless the step is known to be elementary."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Molecularity refers to:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The sum of concentration exponents in an empirical rate law"
+            },
+            {
+              "label": "b",
+              "text": "The number of reacting entities in a single elementary step"
+            },
+            {
+              "label": "c",
+              "text": "The total number of products"
+            },
+            {
+              "label": "d",
+              "text": "The reaction's equilibrium constant"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Molecularity is a mechanistic property of an elementary step: unimolecular, bimolecular or termolecular. Unlike reaction order, it is a whole-number count and does not describe an overall empirical rate law."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "A reaction whose experimentally determined rate law is $r=k[A]^2[B]$ has overall order:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "1"
+            },
+            {
+              "label": "b",
+              "text": "2"
+            },
+            {
+              "label": "c",
+              "text": "3"
+            },
+            {
+              "label": "d",
+              "text": "4"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The overall order is the sum of the powers, $2+1=3$. The individual orders are 2 with respect to A and 1 with respect to B."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A first-order process has rate constant $k=0.020\\ \\mathrm{min^{-1}}$. Calculate its half-life.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "17.3 min"
+            },
+            {
+              "label": "b",
+              "text": "34.7 min"
+            },
+            {
+              "label": "c",
+              "text": "50.0 min"
+            },
+            {
+              "label": "d",
+              "text": "69.3 min"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For a first-order reaction, $t_{1/2}=\\ln2/k=0.693/0.020=34.65\\ \\mathrm{min}\\approx34.7\\ \\mathrm{min}$. The half-life is independent of the initial concentration."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A first-order reaction has $k=0.10\\ \\mathrm{h^{-1}}$. How long does it take for 75% of the reactant to disappear?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "6.93 h"
+            },
+            {
+              "label": "b",
+              "text": "10.0 h"
+            },
+            {
+              "label": "c",
+              "text": "13.86 h"
+            },
+            {
+              "label": "d",
+              "text": "27.72 h"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "If 75% disappears, 25% remains: $[A]_t/[A]_0=0.25$. The first-order law gives $t=(1/k)\\ln([A]_0/[A]_t)=\\ln4/0.10=13.86\\ \\mathrm{h}$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For a first-order reaction, a plot of $\\ln[A]$ against time is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "A straight line with slope $-k$"
+            },
+            {
+              "label": "b",
+              "text": "A straight line with slope $+k$"
+            },
+            {
+              "label": "c",
+              "text": "A parabola"
+            },
+            {
+              "label": "d",
+              "text": "Independent of time"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The integrated first-order rate law is $\\ln[A]_t=\\ln[A]_0-kt$. Therefore the plot is linear with slope $-k$ and intercept $\\ln[A]_0$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The Arrhenius equation is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$k=Ae^{-E_a/(RT)}$"
+            },
+            {
+              "label": "b",
+              "text": "$k=Ae^{+E_a/(RT)}$"
+            },
+            {
+              "label": "c",
+              "text": "$k=RT/E_a$"
+            },
+            {
+              "label": "d",
+              "text": "$k=E_a/(AT)$"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The Arrhenius equation relates rate constant and absolute temperature: $k=Ae^{-E_a/(RT)}$, where $A$ is the pre-exponential factor and $E_a$ is the activation energy."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "On a plot of $\\ln k$ against $1/T$, the slope is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$E_a/R$"
+            },
+            {
+              "label": "b",
+              "text": "$-E_a/R$"
+            },
+            {
+              "label": "c",
+              "text": "$-R/E_a$"
+            },
+            {
+              "label": "d",
+              "text": "$\\ln A$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Taking the natural logarithm of Arrhenius gives $\\ln k=\\ln A-(E_a/R)(1/T)$. The slope is therefore $-E_a/R$ and the intercept is $\\ln A$."
+        },
+        {
+          "n": 0,
+          "stars": 4,
+          "type": "E",
+          "traps": [],
+          "text": "For a reaction with $E_a=50\\ \\mathrm{kJ\\,mol^{-1}}$, estimate $k_2/k_1$ when temperature rises from 300 K to 400 K. Use $R=8.314\\ \\mathrm{J\\,mol^{-1}K^{-1}}$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$2.0$"
+            },
+            {
+              "label": "b",
+              "text": "$12.2$"
+            },
+            {
+              "label": "c",
+              "text": "$150$"
+            },
+            {
+              "label": "d",
+              "text": "$5000$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Using the two-temperature Arrhenius form, $\\ln(k_2/k_1)=(E_a/R)(1/T_1-1/T_2)$. Substitution gives $(50000/8.314)(1/300-1/400)=5.01$, so $k_2/k_1=e^{5.01}\\approx150$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "A homogeneous reaction differs from a heterogeneous reaction because a homogeneous reaction:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Occurs at an interface between different phases"
+            },
+            {
+              "label": "b",
+              "text": "Has reactants and products in the same phase"
+            },
+            {
+              "label": "c",
+              "text": "Must involve a solid catalyst"
+            },
+            {
+              "label": "d",
+              "text": "Is always diffusion-controlled"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes define homogeneous reactions as having all reactants and products in the same phase, while heterogeneous reactions involve different phases and occur at their interfaces."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "In heterogeneous reactions, the rate may depend on surface area because:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The reaction occurs at an interface"
+            },
+            {
+              "label": "b",
+              "text": "The equilibrium constant depends on particle radius"
+            },
+            {
+              "label": "c",
+              "text": "The activation energy is always zero"
+            },
+            {
+              "label": "d",
+              "text": "The reaction order must be one"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "A heterogeneous reaction takes place at the interface between phases. Available surface area and interfacial transport can therefore influence the observed rate, unlike an ideal homogeneous reaction occurring uniformly through the bulk."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Collision theory requires an effective collision to have:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Any collision frequency regardless of energy"
+            },
+            {
+              "label": "b",
+              "text": "Sufficient energy and suitable orientation"
+            },
+            {
+              "label": "c",
+              "text": "Zero activation energy"
+            },
+            {
+              "label": "d",
+              "text": "A product molecule already present"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied kinetics notes describe effective collisions as those with enough energy to overcome the activation barrier and a suitable molecular orientation. The Arrhenius factor accounts for the energetic requirement."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Transition-state theory describes the activated complex as:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "A stable final product"
+            },
+            {
+              "label": "b",
+              "text": "A high-energy configuration near the top of the reaction barrier"
+            },
+            {
+              "label": "c",
+              "text": "A catalyst that is consumed"
+            },
+            {
+              "label": "d",
+              "text": "The equilibrium mixture"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Transition-state theory treats the reaction as passing through an activated complex. The activation free-energy barrier separates reactants from this transition configuration and controls the rate."
+        }
+      ]
+    },
+    {
+      "chapter": "ch17",
+      "title": "High-Entropy Alloys",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The supplied HEA notes describe high-entropy alloys as alloys containing:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "One base element with trace additions only"
+            },
+            {
+              "label": "b",
+              "text": "Five or more principal elements in near-equiatomic proportions"
+            },
+            {
+              "label": "c",
+              "text": "Exactly two elements in equal proportions"
+            },
+            {
+              "label": "d",
+              "text": "Only intermetallic compounds"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes define HEAs as combining five or more principal elements in near-equiatomic proportions, typically with each principal element in a broad 5–35 at.% range."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The ideal configurational entropy of an equimolar random alloy containing $n$ components is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$R/n$"
+            },
+            {
+              "label": "b",
+              "text": "$R\\ln n$"
+            },
+            {
+              "label": "c",
+              "text": "$nR$"
+            },
+            {
+              "label": "d",
+              "text": "$R\\ln(1/n)$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For random mixing, $\\Delta S_{conf}=-R\\sum_i x_i\\ln x_i$. In an equimolar alloy, $x_i=1/n$, giving $\\Delta S_{conf}=-R\\ln(1/n)=R\\ln n$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "E",
+          "traps": [],
+          "text": "Calculate the ideal molar configurational entropy of a five-component equimolar alloy using $R=8.314\\ \\mathrm{J\\,mol^{-1}K^{-1}}$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$8.31\\ \\mathrm{J\\,mol^{-1}K^{-1}}$"
+            },
+            {
+              "label": "b",
+              "text": "$11.53\\ \\mathrm{J\\,mol^{-1}K^{-1}}$"
+            },
+            {
+              "label": "c",
+              "text": "$13.38\\ \\mathrm{J\\,mol^{-1}K^{-1}}$"
+            },
+            {
+              "label": "d",
+              "text": "$16.63\\ \\mathrm{J\\,mol^{-1}K^{-1}}$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For five equimolar components, $\\Delta S_{conf}=R\\ln5=8.314(1.6094)=13.38\\ \\mathrm{J\\,mol^{-1}K^{-1}}=1.609R$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "According to the supplied notes, the high-entropy classification threshold is approximately:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$\\Delta S_{mix}>0.5R$"
+            },
+            {
+              "label": "b",
+              "text": "$\\Delta S_{mix}>R$"
+            },
+            {
+              "label": "c",
+              "text": "$\\Delta S_{mix}>1.5R$"
+            },
+            {
+              "label": "d",
+              "text": "$\\Delta S_{mix}>3R$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The HEA notes state that an alloy is generally classified as high entropy when its configurational entropy of mixing exceeds $1.5R$. A five-element equimolar alloy has $R\\ln5\\approx1.61R$."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A five-component equimolar alloy has $\\Delta H_{mix}=5.0\\ \\mathrm{kJ\\,mol^{-1}}$ and $\\Delta S_{mix}=1.61R$. Estimate $\\Delta G_{mix}$ at 1000 K using $R=8.314\\ \\mathrm{J\\,mol^{-1}K^{-1}}$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$+18.4\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "b",
+              "text": "$+5.0\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "c",
+              "text": "$-8.4\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "d",
+              "text": "$-13.4\\ \\mathrm{kJ\\,mol^{-1}}$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Use $\\Delta G_{mix}=\\Delta H_{mix}-T\\Delta S_{mix}$. Here $\\Delta S=1.61(8.314)=13.38\\ \\mathrm{J\\,mol^{-1}K^{-1}}$. Thus $\\Delta G=5000-1000(13.38)=-8380\\ \\mathrm{J\\,mol^{-1}}\\approx-8.4\\ \\mathrm{kJ\\,mol^{-1}}$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Why can increasing temperature favour a random solid solution in an HEA with positive enthalpy of mixing?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The $-T\\Delta S_{mix}$ term becomes more negative and can offset positive $\\Delta H_{mix}$"
+            },
+            {
+              "label": "b",
+              "text": "The enthalpy must become zero"
+            },
+            {
+              "label": "c",
+              "text": "The number of components decreases"
+            },
+            {
+              "label": "d",
+              "text": "The equilibrium constant becomes independent of temperature"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The mixing free energy is $\\Delta G_{mix}=\\Delta H_{mix}-T\\Delta S_{mix}$. A large positive configurational entropy makes the entropic contribution increasingly stabilizing as temperature rises, potentially offsetting a positive enthalpy of mixing."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "Short-range chemical order in an HEA means:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Every atom has a perfectly random neighbourhood"
+            },
+            {
+              "label": "b",
+              "text": "Local atomic arrangements show preferred correlations even when the alloy is not long-range ordered"
+            },
+            {
+              "label": "c",
+              "text": "The alloy has no configurational entropy"
+            },
+            {
+              "label": "d",
+              "text": "Diffusion is infinitely fast"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied HEA notes caution that perfect randomness is an idealization. Chemical short-range order (CSRO) describes preferred local atomic correlations and can be deliberately tuned rather than treated simply as a defect."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "The sluggish-diffusion effect in HEAs is classified primarily as a:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Thermodynamic effect of entropy only"
+            },
+            {
+              "label": "b",
+              "text": "Kinetic effect that can slow phase transformations"
+            },
+            {
+              "label": "c",
+              "text": "Purely optical effect"
+            },
+            {
+              "label": "d",
+              "text": "Change in the universal gas constant"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes identify sluggish diffusion as a kinetic effect. A complex local chemical environment can raise or spatially vary migration barriers, slowing atomic transport and some phase transformations."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Which combination correctly pairs the HEA core effects with their broad roles?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "High-entropy—thermodynamic; sluggish diffusion—kinetic; lattice distortion—structural"
+            },
+            {
+              "label": "b",
+              "text": "High-entropy—kinetic; sluggish diffusion—thermodynamic; lattice distortion—electrical"
+            },
+            {
+              "label": "c",
+              "text": "All four effects are exclusively thermodynamic"
+            },
+            {
+              "label": "d",
+              "text": "All four effects are exclusively mechanical"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied notes distinguish the high-entropy effect as thermodynamic, sluggish diffusion as kinetic, and severe lattice distortion as structural. The cocktail effect refers to the combined property response of multiple principal elements."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Why does high configurational entropy alone not guarantee a single-phase HEA?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Phase stability also depends on enthalpy and other material-specific factors"
+            },
+            {
+              "label": "b",
+              "text": "Entropy is unrelated to Gibbs energy"
+            },
+            {
+              "label": "c",
+              "text": "A single phase requires zero temperature"
+            },
+            {
+              "label": "d",
+              "text": "Configurational entropy is always negative"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes explicitly caution that entropy alone does not guarantee a single-phase solid solution. The phase selection depends on the total Gibbs energy, including enthalpic interactions and other factors; empirical design rules are therefore also used."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "In the empirical HEA design rules shown in the supplied notes, the thermodynamic parameter is defined as:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$\\Omega=T_m\\Delta S_{mix}/|\\Delta H_{mix}|$"
+            },
+            {
+              "label": "b",
+              "text": "$\\Omega=|\\Delta H_{mix}|/(T_m\\Delta S_{mix})$"
+            },
+            {
+              "label": "c",
+              "text": "$\\Omega=\\Delta S_{mix}/T_m$"
+            },
+            {
+              "label": "d",
+              "text": "$\\Omega=T_m|\\Delta H_{mix}|$"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied HEA design-rule slide defines $\\Omega=T_m\\Delta S_{mix}/|\\Delta H_{mix}|$, where $T_m$ is the composition-weighted average melting temperature. It compares the entropic contribution with the magnitude of the enthalpy of mixing. The slide gives $\\Omega\\ge1.1$ as one empirical single-phase target."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "An equimolar five-component alloy has $T_m=1500\\ \\mathrm{K}$, $\\Delta S_{mix}=1.61R$ and $|\\Delta H_{mix}|=5.0\\ \\mathrm{kJ\\,mol^{-1}}$. Estimate $\\Omega=T_m\\Delta S_{mix}/|\\Delta H_{mix}|$ using $R=8.314\\ \\mathrm{J\\,mol^{-1}K^{-1}}$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "2.0"
+            },
+            {
+              "label": "b",
+              "text": "4.0"
+            },
+            {
+              "label": "c",
+              "text": "6.0"
+            },
+            {
+              "label": "d",
+              "text": "8.0"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "First convert the entropy: $\\Delta S_{mix}=1.61(8.314)=13.38\\ \\mathrm{J\\,mol^{-1}K^{-1}}$. Then $\\Omega=(1500)(13.38)/5000=4.014\\approx4.0$. This exceeds the empirical $\\Omega\\ge1.1$ target in the supplied slide."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "Four equimolar elements have atomic radii 1.00, 1.02, 0.98 and 1.00 in the same length units. Using $\\bar r=\\sum_i x_ir_i$ and $\\delta=100\\sqrt{\\sum_i x_i(1-r_i/\\bar r)^2}\\%$, estimate the atomic-size difference.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "0.14%"
+            },
+            {
+              "label": "b",
+              "text": "1.41%"
+            },
+            {
+              "label": "c",
+              "text": "2.00%"
+            },
+            {
+              "label": "d",
+              "text": "6.60%"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The equimolar average radius is $\\bar r=(1.00+1.02+0.98+1.00)/4=1.00$. Thus $\\delta=100\\sqrt{[0^2+0.02^2+(-0.02)^2+0^2]/4}=100\\sqrt{0.0002}=1.414\\%$. This is below the $6.6\\%$ empirical target shown in the notes."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "An alloy contains four elements at equal atomic fractions. Their valence electron concentrations are 10, 9, 6 and 7, respectively. Calculate the alloy VEC and predict the structure using the supplied empirical rule.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "VEC = 6.0; FCC"
+            },
+            {
+              "label": "b",
+              "text": "VEC = 8.0; FCC"
+            },
+            {
+              "label": "c",
+              "text": "VEC = 8.0; BCC"
+            },
+            {
+              "label": "d",
+              "text": "VEC = 9.0; BCC"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The rule is $VEC=\\sum_i x_i(VEC)_i$. For equal fractions, $VEC=(10+9+6+7)/4=8.0$. The supplied slide states that VEC $\\ge8.0$ favours FCC, whereas VEC $<6.87$ favours BCC."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "A",
+          "traps": [],
+          "text": "According to the supplied HEA design-rule slide, which combined set is consistent with its empirical single-phase targets?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$\\delta\\le6.6\\%$, $-15\\le\\Delta H_{mix}\\le5\\ \\mathrm{kJ\\,mol^{-1}}$, and $\\Omega\\ge1.1$"
+            },
+            {
+              "label": "b",
+              "text": "$\\delta\\ge10\\%$, $\\Delta H_{mix}>20\\ \\mathrm{kJ\\,mol^{-1}}$, and $\\Omega<0.5$"
+            },
+            {
+              "label": "c",
+              "text": "$\\delta=0$ and $\\Delta H_{mix}=0$ are mandatory"
+            },
+            {
+              "label": "d",
+              "text": "Only $\\Delta S_{mix}>1.5R$ matters"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The empirical design-rule table gives an atomic-size difference target $\\delta\\le6.6\\%$, a mixing-enthalpy window of approximately $-15$ to $+5\\ \\mathrm{kJ\\,mol^{-1}}$, and a thermodynamic parameter target $\\Omega\\ge1.1$. These are screening guidelines; the notes caution that entropy alone does not guarantee a single phase."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For the regular-solution interaction parameter $\\Omega_{reg}$ in the supplied HEA notes, which sign interpretation is given?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$\\Omega_{reg}<0$: ordering; $\\Omega_{reg}>0$: phase separation; $\\Omega_{reg}=0$: ideal mixing"
+            },
+            {
+              "label": "b",
+              "text": "$\\Omega_{reg}<0$: phase separation; $\\Omega_{reg}>0$: ordering; $\\Omega_{reg}=0$: pure compound"
+            },
+            {
+              "label": "c",
+              "text": "All signs imply ideal mixing"
+            },
+            {
+              "label": "d",
+              "text": "The sign has no relation to mixing behaviour"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes state that negative $\\Omega_{reg}$ means A–B interactions favour ordering or intermetallic formation; positive $\\Omega_{reg}$ means A and B repel relative to like bonds and favour phase separation; zero corresponds to ideal mixing."
+        }
+      ]
+    },
+    {
+      "chapter": "ch06",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For an irreversible heat-transfer process between two bodies initially at different temperatures, the total entropy change of the isolated pair is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Negative"
+            },
+            {
+              "label": "b",
+              "text": "Zero"
+            },
+            {
+              "label": "c",
+              "text": "Positive"
+            },
+            {
+              "label": "d",
+              "text": "Undefined"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Heat flows spontaneously from the hotter body to the colder body. The combined entropy change is positive for an irreversible process; this is entropy generation and is consistent with $\\Delta S_{universe}>0$."
+        }
+      ]
+    },
+    {
+      "chapter": "ch09",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "At a solid–liquid interface during alloy solidification, the equilibrium partition coefficient is defined as:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$k=C_l/C_s$"
+            },
+            {
+              "label": "b",
+              "text": "$k=C_s/C_l$"
+            },
+            {
+              "label": "c",
+              "text": "$k=C_0/C_s$"
+            },
+            {
+              "label": "d",
+              "text": "$k=f_s/f_l$"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied TM-6 notes define the equilibrium partition coefficient as $k=C_s/C_l$, where $C_s$ is the solute concentration in the solid at the interface and $C_l$ is its concentration in the adjacent liquid."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "If the equilibrium partition coefficient is $k<1$, the solute generally:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Enters the solid preferentially"
+            },
+            {
+              "label": "b",
+              "text": "Is rejected by the solid and enriches the remaining liquid"
+            },
+            {
+              "label": "c",
+              "text": "Has equal concentrations in solid and liquid"
+            },
+            {
+              "label": "d",
+              "text": "Vanishes from the alloy"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "When $k=C_s/C_l<1$, the solid accommodates less solute than the liquid at the interface. Solute is therefore rejected into the liquid ahead of the interface, promoting solute enrichment and microsegregation."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Which set of assumptions belongs to the Scheil solidification model in the supplied notes?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Complete mixing in solid, no mixing in liquid"
+            },
+            {
+              "label": "b",
+              "text": "No diffusion in solid after formation, complete mixing in liquid, local interfacial equilibrium and constant $k$"
+            },
+            {
+              "label": "c",
+              "text": "Equilibrium diffusion in both phases at all times"
+            },
+            {
+              "label": "d",
+              "text": "No partitioning at the interface"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes list no diffusion in the solid after it forms, complete mixing in the liquid, local equilibrium at the interface with constant partition coefficient, and conservation of total solute."
+        },
+        {
+          "n": 0,
+          "stars": 4,
+          "type": "E",
+          "traps": [],
+          "text": "A binary alloy has initial solute concentration $C_0=1.0\\ \\mathrm{wt\\%}$ and partition coefficient $k=0.50$. Under the Scheil model, estimate the liquid concentration when $f_s=0.50$, using $C_l=C_0(1-f_s)^{k-1}$.",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "$0.50\\ \\mathrm{wt\\%}$"
+            },
+            {
+              "label": "b",
+              "text": "$0.707\\ \\mathrm{wt\\%}$"
+            },
+            {
+              "label": "c",
+              "text": "$1.414\\ \\mathrm{wt\\%}$"
+            },
+            {
+              "label": "d",
+              "text": "$2.00\\ \\mathrm{wt\\%}$"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Apply the Scheil relation: $C_l=1.0(1-0.50)^{0.50-1}=0.5^{-0.5}=1/\\sqrt{0.5}=1.414\\ \\mathrm{wt\\%}$. The liquid becomes enriched because $k<1$ and solute is rejected into the liquid."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Macrosegregation differs from microsegregation because macrosegregation involves:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Only atomic-scale random mixing"
+            },
+            {
+              "label": "b",
+              "text": "Large-scale transport of solute-enriched or solute-depleted liquid by flow, shrinkage or gravity"
+            },
+            {
+              "label": "c",
+              "text": "Only equilibrium at the solid–liquid interface"
+            },
+            {
+              "label": "d",
+              "text": "No composition variation"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied TM-6 notes distinguish microsegregation as local composition differences within dendrites, while macrosegregation results when enriched or depleted liquid is physically transported by convection, shrinkage flow or gravity."
+        }
+      ]
+    },
+    {
+      "chapter": "ch10",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "Compared with a regular solution, a subregular solution is introduced mainly to represent:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Symmetric activity deviations about equiatomic composition"
+            },
+            {
+              "label": "b",
+              "text": "Asymmetric interactions and composition-dependent deviations from ideality"
+            },
+            {
+              "label": "c",
+              "text": "Zero enthalpy of mixing in all compositions"
+            },
+            {
+              "label": "d",
+              "text": "Polymer chain connectivity only"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The subregular model allows different A-rich and B-rich interaction parameters. This produces asymmetric activity-coefficient curves and can shift a miscibility gap away from the equiatomic composition."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "In the Flory–Huggins model, why can a short-chain polymer improve the miscibility of a blend with a long-chain polymer?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "It reduces the entropy of mixing further"
+            },
+            {
+              "label": "b",
+              "text": "It contributes more configurational entropy per segment than a very long chain"
+            },
+            {
+              "label": "c",
+              "text": "It forces the enthalpy of mixing to zero"
+            },
+            {
+              "label": "d",
+              "text": "It removes the volume-fraction dependence"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied Flory–Huggins notes explain that shorter chains behave more like solvent molecules. The chain-length correction makes the entropy of mixing more significant, which can improve miscibility compared with a long-chain/long-chain blend."
+        }
+      ]
+    },
+    {
+      "chapter": "ch12",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 4,
+          "type": "E",
+          "traps": [],
+          "text": "For the supplied ideal Cu–Ni model at $T=1500\\ \\mathrm{K}$ and $X_{Ni}=0.5$, use $G_\\alpha=RT[X\\ln X+(1-X)\\ln(1-X)]$ and $G_L=(1-X)9.8(1358-T)+X10.2(1728-T)+G_\\alpha$. With $R=8.314\\ \\mathrm{J\\,mol^{-1}K^{-1}}$, which phase has the lower Gibbs energy and by approximately how much?",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Liquid, by $0.47\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "b",
+              "text": "Solid $\\alpha$, by $0.47\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "c",
+              "text": "Liquid, by $4.7\\ \\mathrm{kJ\\,mol^{-1}}$"
+            },
+            {
+              "label": "d",
+              "text": "They are equal"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "At $X=0.5$, the ideal mixing term is $G_\\alpha=RT\\ln0.5\\approx-8.64\\ \\mathrm{kJ\\,mol^{-1}}$. The liquid's additional melting terms are $0.5[9.8(1358-1500)+10.2(1728-1500)]\\approx+0.467\\ \\mathrm{kJ\\,mol^{-1}}$. Therefore $G_L-G_\\alpha\\approx+0.467\\ \\mathrm{kJ\\,mol^{-1}}$, so the solid has the lower Gibbs energy by about $0.47\\ \\mathrm{kJ\\,mol^{-1}}$."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "For the ideal Cu–Ni G–X exercise, increasing temperature changes the relative stability of solid and liquid phases because:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The ideal entropy-of-mixing term scales with temperature and the liquid melting contributions are temperature-dependent"
+            },
+            {
+              "label": "b",
+              "text": "The gas constant changes with composition"
+            },
+            {
+              "label": "c",
+              "text": "The mole fraction of nickel is forced to zero"
+            },
+            {
+              "label": "d",
+              "text": "Gibbs energy is independent of temperature"
+            }
+          ],
+          "answer": "a",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "In the supplied G–X/T–X exercise, the solid ideal mixing term contains $RT\\sum x_i\\ln x_i$, while the liquid Gibbs energy also contains temperature-dependent melting terms. Their relative positions therefore change with temperature, determining the solid, liquid and two-phase fields."
+        }
+      ]
+    },
+    {
+      "chapter": "ch15",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "A concentration cell made from the same metal electrodes in solutions of different activities generates an EMF because:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "The electrode materials have different standard potentials"
+            },
+            {
+              "label": "b",
+              "text": "The chemical potential of the metal ion differs between the two solutions"
+            },
+            {
+              "label": "c",
+              "text": "The cell reaction has no Gibbs-energy change"
+            },
+            {
+              "label": "d",
+              "text": "The electrolyte is necessarily non-ideal"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The supplied notes describe a concentration cell with identical copper electrodes in solutions of different Cu$^{2+}$ activities. The activity difference creates a chemical-potential difference and drives transfer from the stronger to the weaker solution in the spontaneous direction."
+        }
+      ]
+    },
+    {
+      "chapter": "ch16",
+      "questions": [
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "E",
+          "traps": [],
+          "text": "A second-order reaction with equal initial reactant concentrations has $k=0.50\\ \\mathrm{L\\,mol^{-1}min^{-1}}$ and $[A]_0=0.20\\ \\mathrm{mol\\,L^{-1}}$. Its half-life is:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "2.0 min"
+            },
+            {
+              "label": "b",
+              "text": "5.0 min"
+            },
+            {
+              "label": "c",
+              "text": "10.0 min"
+            },
+            {
+              "label": "d",
+              "text": "20.0 min"
+            }
+          ],
+          "answer": "c",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "For a second-order reaction with equal initial concentrations, $t_{1/2}=1/(k[A]_0)$. Thus $t_{1/2}=1/(0.50\\times0.20)=10.0\\ \\mathrm{min}$."
+        },
+        {
+          "n": 0,
+          "stars": 3,
+          "type": "B",
+          "traps": [],
+          "text": "A reaction is studied at constant temperature. Doubling [A] while holding [B] fixed makes the rate four times larger; doubling [B] while holding [A] fixed doubles the rate. Which statements are correct?",
+          "statements": [
+            {
+              "num": "I",
+              "text": "The order with respect to A is 2."
+            },
+            {
+              "num": "II",
+              "text": "The order with respect to B is 1."
+            },
+            {
+              "num": "III",
+              "text": "The overall order is 3."
+            }
+          ],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "I and II only"
+            },
+            {
+              "label": "b",
+              "text": "I and III only"
+            },
+            {
+              "label": "c",
+              "text": "II and III only"
+            },
+            {
+              "label": "d",
+              "text": "I, II and III"
+            }
+          ],
+          "answer": "d",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "Write $r=k[A]^m[B]^n$. Doubling [A] at fixed [B] multiplies the rate by $2^m=4$, so $m=2$. Doubling [B] multiplies the rate by $2^n=2$, so $n=1$. The overall order is $m+n=3$. The order is experimentally determined; it does not by itself prove the overall reaction is elementary."
+        },
+        {
+          "n": 0,
+          "stars": 2,
+          "type": "A",
+          "traps": [],
+          "text": "The supplied kinetics notes give the approximate rule of thumb that a 10 °C rise in temperature often:",
+          "statements": [],
+          "tableRows": [],
+          "assertion": "",
+          "reason": "",
+          "options": [
+            {
+              "label": "a",
+              "text": "Halves the reaction rate"
+            },
+            {
+              "label": "b",
+              "text": "Doubles the reaction rate"
+            },
+            {
+              "label": "c",
+              "text": "Leaves the rate unchanged"
+            },
+            {
+              "label": "d",
+              "text": "Makes the activation energy zero"
+            }
+          ],
+          "answer": "b",
+          "keyExplanation": "",
+          "concise": "",
+          "detailed": "The notes state that the rate of many reactions approximately doubles for every 10 °C rise as a rough rule of thumb. This is not a universal law; the Arrhenius equation gives the quantitative temperature dependence for a particular reaction."
+        }
+      ]
+    }
+  ]
 }

@@ -8,7 +8,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-EXPECTED_COUNTS = {"mt201": 289, "mt202": 522}
+EXPECTED_COUNTS = {"mt201": 379, "mt202": 522}
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX8 = re.compile(r"^[0-9a-f]{8}$")
 
@@ -130,12 +130,60 @@ def validate_course(repo: Path, sub: str) -> dict:
         if actual_fp != src_fp:
             raise ValidationError(f"{sub}/{chapter_id} Q{n}: pinned baseline fingerprint {actual_fp} != recorded {src_fp}")
 
+    additions = overlay.get("additions", []) if sub == "mt201" else []
+    if not isinstance(additions, list):
+        raise ValidationError(f"{overlay_path}: additions must be a list")
+    grouped_additions: dict[str, dict] = {}
+    for addition in additions:
+        chapter_id = addition.get("chapter")
+        questions = addition.get("questions")
+        if not isinstance(chapter_id, str) or not isinstance(questions, list) or not questions:
+            raise ValidationError(f"{overlay_path}: invalid additive chapter record")
+        if chapter_id not in public_by_chapter:
+            raise ValidationError(f"{overlay_path}: additive chapter {chapter_id} is absent")
+        group = grouped_additions.setdefault(chapter_id, {"title": addition.get("title"), "questions": []})
+        if addition.get("title") and group["title"] and addition["title"] != group["title"]:
+            raise ValidationError(f"{sub}/{chapter_id}: inconsistent additive chapter titles")
+        group["title"] = addition.get("title") or group["title"]
+        group["questions"].extend(questions)
+
+    added_count = 0
+    for chapter_id, addition in grouped_additions.items():
+        chapter = public_by_chapter[chapter_id]
+        if addition.get("title") and chapter.get("title") != addition["title"]:
+            raise ValidationError(f"{sub}/{chapter_id}: additive chapter title mismatch")
+        questions = addition["questions"]
+        if len(chapter.get("questions", [])) < len(questions):
+            raise ValidationError(f"{sub}/{chapter_id}: fewer generated questions than authored additions")
+        start_index = len(chapter["questions"]) - len(questions)
+        for offset, authored in enumerate(questions):
+            expected_n = start_index + offset + 1
+            live_q = unique_question(chapter, expected_n, f"{sub}/{chapter_id}")
+            if not authored.get("text") or not authored.get("detailed"):
+                raise ValidationError(f"{sub}/{chapter_id} Q{expected_n}: missing stem or detailed solution")
+            if authored.get("type") not in {"A", "B", "C", "D", "E", "F"}:
+                raise ValidationError(f"{sub}/{chapter_id} Q{expected_n}: unsupported question type")
+            options = authored.get("options")
+            if not isinstance(options, list) or len(options) < 2:
+                raise ValidationError(f"{sub}/{chapter_id} Q{expected_n}: fewer than two options")
+            labels = [o.get("label") for o in options]
+            if len(set(labels)) != len(labels) or authored.get("answer") not in labels:
+                raise ValidationError(f"{sub}/{chapter_id} Q{expected_n}: invalid or duplicate option labels/key")
+            for key, value in authored.items():
+                if key == "n":
+                    continue
+                if live_q.get(key) != value:
+                    raise ValidationError(f"{sub}/{chapter_id} Q{expected_n}: generated addition differs in field {key}")
+            added_count += 1
+    if sub == "mt201" and added_count != 90:
+        raise ValidationError(f"mt201: expected 90 authored additions, found {added_count}")
+
     # Confirm the sync script guards are active, so a later external-bank drift stops instead of silently applying by locator.
     sync_name = "sync-mt201.mjs" if sub == "mt201" else "sync.mjs"
     sync_text = (root / "scripts" / sync_name).read_text(encoding="utf-8")
-    if "content-revisions" not in sync_text or f'"{sub}.json"' not in sync_text or "revision.sourceFingerprint" not in sync_text:
+    if "content-revisions" not in sync_text or f'"{sub}.json"' not in sync_text or "revision.sourceFingerprint" not in sync_text or (sub == "mt201" and "revisionOverrides.additions" not in sync_text):
         raise ValidationError(f"Durable fingerprint guard missing from scripts/{sync_name}")
-    return {"course": sub.upper(), "questions": count, "chapters": len(chapters), "overlayRecords": len(records), "fingerprintsVerified": len(records), "sourceCommit": source_commit}
+    return {"course": sub.upper(), "questions": count, "chapters": len(chapters), "overlayRecords": len(records), "authoredAdditions": added_count, "fingerprintsVerified": len(records), "sourceCommit": source_commit}
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)

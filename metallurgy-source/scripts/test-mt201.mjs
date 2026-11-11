@@ -6,7 +6,7 @@
 // Proves the MT201 migration onto the shared course architecture changed no
 // behaviour:
 //   - the registry adapter's outline matches the manifest and the source
-//     index.json (14 topics, 289 questions, same order)
+//     index.json (17 topics, 379 questions, same order)
 //   - every question keeps its source id (`ch01-q12`), order, taxonomy, answer
 //     and star rating — compared field-by-field against the raw chapter JSON
 //   - a SEEDED mm-mt201-v1 payload loads unchanged, records and resets without
@@ -129,8 +129,8 @@ const adapter = MT201_ENTRY.adapter;
   const outline = adapter.outline();
   check(outline.courseId === "mt201", "adapter.courseId is mt201");
   check(outline.units.length === 0, "MT201 has no unit grouping");
-  check(outline.topics.length === 14, "outline has 14 topics");
-  check(outline.totalQuestions === 289, "outline total is 289 questions");
+  check(outline.topics.length === 17, "outline has 17 topics");
+  check(outline.totalQuestions === 379, "outline total is 379 questions");
   check(
     outline.topics.map((t) => t.id).join(",") === idx.chapters.map((c) => c.id).join(","),
     "outline topic order matches source index.json"
@@ -142,7 +142,7 @@ const adapter = MT201_ENTRY.adapter;
 
   let raw = 0;
   for (const t of idx.chapters) raw += t.count;
-  check(raw === 289, "source index.json totals 289 questions");
+  check(raw === 379, "source index.json totals 379 questions");
 
   // field-by-field against the raw chapter JSON
   const contents = await Promise.all(outline.topics.map((t) => adapter.loadTopic(t.id)));
@@ -172,7 +172,7 @@ const adapter = MT201_ENTRY.adapter;
       if (!q.options.some((o) => o.label === q.answer)) mismatches++;
     }
   }
-  check(total === 289, `adapter returned all 289 questions (got ${total})`);
+  check(total === 379, `adapter returned all 379 questions (got ${total})`);
   check(mismatches === 0, `canonical questions match source exactly (${mismatches} mismatches)`);
 }
 
@@ -244,7 +244,7 @@ console.warn = origWarn;
 check(consoleIssues.length === 0, `no console errors/warnings during render (${consoleIssues.slice(0, 3).join(" | ")})`);
 
 console.log("test-mt201 — Phase 3 migration regression\n");
-console.log("course: mt201   topics: 14   questions: 289   storage: mm-mt201-v1");
+console.log("course: mt201   topics: 17   questions: 379   storage: mm-mt201-v1");
 console.log(`assertions: ${pass} passed, ${failures.length} failed\n`);
 
 if (failures.length) {

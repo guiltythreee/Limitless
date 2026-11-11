@@ -182,8 +182,10 @@ fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify(index, null, 2));
 const revisionOverridePath = path.join(__dirname, "..", "content-revisions", "mt201.json");
 const revisionHash = (value) => { let h = 2166136261; for (const ch of value) h = Math.imul(h ^ ch.codePointAt(0), 16777619) >>> 0; return h.toString(16).padStart(8, "0"); };
 const revisionFingerprint = (q) => revisionHash(JSON.stringify([q.text || "", q.statements || [], q.tableRows || [], q.assertion || "", q.reason || "", (q.options || []).map((o) => [o.label, o.text]), q.answer || "", q.type || ""]));
+const revisionOverrides = fs.existsSync(revisionOverridePath)
+  ? JSON.parse(fs.readFileSync(revisionOverridePath, "utf8"))
+  : {};
 if (fs.existsSync(revisionOverridePath)) {
-  const revisionOverrides = JSON.parse(fs.readFileSync(revisionOverridePath, "utf8"));
   for (const revision of revisionOverrides.replacements ?? []) {
     const chapterPath = path.join(OUT, `${revision.chapter}.json`);
     if (!fs.existsSync(chapterPath)) throw new Error(`Revision overlay chapter not found: ${revision.chapter}`);
@@ -197,6 +199,62 @@ if (fs.existsSync(revisionOverridePath)) {
     fs.writeFileSync(chapterPath, JSON.stringify(chapter));
   }
 }
+
+  // Additive authored questions are separate from the legacy bank so re-syncing
+  // the upstream file cannot erase source-based course expansion.
+  for (const addition of revisionOverrides.additions ?? []) {
+    if (!/^ch\d{2}$/.test(addition.chapter) || !Array.isArray(addition.questions)) {
+      throw new Error(`Invalid authored MT201 addition chapter: ${addition.chapter}`);
+    }
+    const chapterPath = path.join(OUT, `${addition.chapter}.json`);
+    let chapter;
+    const baseChapter = summary.find((item) => item.id === addition.chapter);
+    if (baseChapter) {
+      if (!fs.existsSync(chapterPath)) throw new Error(`Base chapter file missing for ${addition.chapter}`);
+      chapter = JSON.parse(fs.readFileSync(chapterPath, "utf8"));
+      if (chapter.title !== addition.title && addition.title !== undefined) {
+        throw new Error(`Authored addition title mismatch for ${addition.chapter}`);
+      }
+    } else {
+      if (!addition.title) throw new Error(`New authored chapter ${addition.chapter} requires a title`);
+      // New chapters are reconstructed from the durable overlay on every run,
+      // making the additive sync idempotent instead of appending duplicates.
+      chapter = {
+        id: addition.chapter,
+        num: Number(addition.chapter.slice(2)),
+        title: addition.title,
+        topics: [],
+        questions: [],
+      };
+      summary.push({ id: addition.chapter, title: addition.title, count: 0 });
+    }
+    for (const raw of addition.questions) {
+      const n = chapter.questions.length + 1;
+      if (!raw.text || !Array.isArray(raw.options) || raw.options.length < 2 ||
+          !raw.options.some((option) => option.label === raw.answer) ||
+          !raw.detailed || !["A", "B", "C", "D", "E", "F"].includes(raw.type)) {
+        throw new Error(`Invalid authored question in ${addition.chapter} at new question ${n}`);
+      }
+      const optionLabels = raw.options.map((option) => option.label);
+      if (new Set(optionLabels).size !== optionLabels.length) {
+        throw new Error(`Duplicate option labels in ${addition.chapter} Q${n}`);
+      }
+      const question = { ...raw, n };
+      chapter.questions.push(question);
+    }
+    fs.writeFileSync(chapterPath, JSON.stringify(chapter));
+    const row = summary.find((item) => item.id === addition.chapter);
+    row.title = chapter.title;
+    row.count = chapter.questions.length;
+  }
+  totalQ = summary.reduce((sum, item) => sum + item.count, 0);
+  const expandedIndex = {
+    course: "MT201 — Metallurgical Thermodynamics",
+    generated: new Date().toISOString().slice(0, 10),
+    total: totalQ,
+    chapters: summary,
+  };
+  fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify(expandedIndex, null, 2));
 
 console.log("\nSynced MT201 chapters:");
 for (const s of summary) console.log(`  ${s.id}  ${String(s.count).padStart(3)} questions  ${s.title}`);
