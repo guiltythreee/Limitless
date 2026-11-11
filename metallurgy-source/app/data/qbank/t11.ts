@@ -742,15 +742,15 @@ const T11: TopicSource = {
       diff: 2,
       text: "Which pairing correctly distinguishes drawing, heat setting and texturing after fibre spinning?",
       options: [
-        { label: "a", text: "Drawing aligns chains and raises axial strength; heat setting stabilizes dimensions and relieves residual stress; texturing adds crimp or bulk." },
-        { label: "b", text: "Drawing removes all molecular orientation; heat setting depolymerizes the fibre; texturing cross-links every chain." },
+        { label: "a", text: "Drawing removes all molecular orientation; heat setting depolymerizes the fibre; texturing cross-links every chain." },
+        { label: "b", text: "Drawing aligns chains and raises axial strength; heat setting stabilizes dimensions and relieves residual stress; texturing adds crimp or bulk." },
         { label: "c", text: "All three operations mean stretching the fibre to the same final draw ratio." },
         { label: "d", text: "Heat setting is used only to evaporate solvent from a wet-spinning bath." }
       ],
-      answer: "a",
+      answer: "b",
       why: "The lecture assigns distinct roles: **drawing** aligns chains, **heat setting** stabilizes the oriented structure and relieves stress, and **texturing** introduces crimp/bulk/stretch.",
       distractors: {
-        b: "None of these operations is described as removing orientation or depolymerizing the fibre.",
+        a: "None of these operations is described as removing orientation or depolymerizing the fibre.",
         c: "Texturing and heat setting are not synonyms for drawing.",
         d: "Heat setting is a post-spinning dimensional-stabilization step, not solvent removal."
       },
@@ -763,16 +763,16 @@ const T11: TopicSource = {
       diff: 2,
       text: "Why is raw natural rubber mechanically masticated before compounding?",
       options: [
-        { label: "a", text: "Shearing breaks some chains, reducing molecular weight and viscosity so the rubber stock is easier to process and mix." },
-        { label: "b", text: "It increases molecular weight by joining every chain end." },
-        { label: "c", text: "It vulcanizes the rubber completely before additives are mixed." },
+        { label: "a", text: "It increases molecular weight by joining every chain end." },
+        { label: "b", text: "It vulcanizes the rubber completely before additives are mixed." },
+        { label: "c", text: "Shearing breaks some chains, reducing molecular weight and viscosity so the rubber stock is easier to process and mix." },
         { label: "d", text: "It converts cis-polyisoprene into a thermosetting polyester." }
       ],
-      answer: "a",
+      answer: "c",
       why: "Mastication on a two-roll mill or internal mixer causes **mechanical chain scission**, lowering molecular weight and viscosity to improve workability and compounding.",
       distractors: {
-        b: "Mastication reduces chain length rather than joining chains.",
-        c: "Mastication is a mechanical working step, not the final chemical cure.",
+        a: "Mastication reduces chain length rather than joining chains.",
+        b: "Mastication is a mechanical working step, not the final chemical cure.",
         d: "The polymer backbone remains natural rubber; no polyester is formed."
       },
       concept: "Mastication: mechanical chain scission → lower MW and viscosity.",
@@ -784,17 +784,17 @@ const T11: TopicSource = {
       diff: 4,
       text: "A rubber compound is being formulated, but the base elastomer is not specified. Which statement about selecting its vulcanizing system is scientifically defensible?",
       options: [
-        { label: "a", text: "The curative must be selected for the elastomer chemistry; sulfur is widely used for natural rubber and several diene rubbers, while other elastomers may require peroxides, metal oxides, amines or phenolic resins." },
-        { label: "b", text: "Sulfur is the universal curative for every elastomer." },
-        { label: "c", text: "Accelerators and curatives are interchangeable names for the same ingredient." },
-        { label: "d", text: "Vulcanizing agents are added only to reduce colour variation." }
+        { label: "a", text: "Sulfur is the universal curative for every elastomer." },
+        { label: "b", text: "Accelerators and curatives are interchangeable names for the same ingredient." },
+        { label: "c", text: "Vulcanizing agents are added only to reduce colour variation." },
+        { label: "d", text: "The curative must be selected for the elastomer chemistry; sulfur is widely used for natural rubber and several diene rubbers, while other elastomers may require peroxides, metal oxides, amines or phenolic resins." }
       ],
-      answer: "a",
+      answer: "d",
       why: "The lecture's cure-system table assigns different curatives to different elastomer families. **Sulfur is widely used**, but peroxide, metallic-oxide, amine and phenolic-resin systems are also identified. Selection depends on polymer chemistry.",
       distractors: {
-        b: "The source explicitly lists multiple cure systems; sulfur is not universal.",
-        c: "A curative forms cross-links; an accelerator increases the rate of vulcanization.",
-        d: "The purpose of a curative is chemical cross-linking, not colour control."
+        a: "The source explicitly lists multiple cure systems; sulfur is not universal.",
+        b: "A curative forms cross-links; an accelerator increases the rate of vulcanization.",
+        c: "The purpose of a curative is chemical cross-linking, not colour control."
       },
       concept: "Curative selection is elastomer-specific.",
       tags: ["confused"]
@@ -826,16 +826,16 @@ const T11: TopicSource = {
       diff: 3,
       text: "A tyre compound needs higher abrasion resistance and strength, while a separate low-cost compound mainly needs reduced material cost. Which filler strategy best matches the lecture?",
       options: [
-        { label: "a", text: "Use a reinforcing filler such as carbon black or silica for the first compound; consider an extending filler for the cost-driven compound." },
-        { label: "b", text: "Use only extending filler for the tyre because it always maximizes strength." },
-        { label: "c", text: "Use pigment as the sole reinforcing ingredient in both compounds." },
+        { label: "a", text: "Use only extending filler for the tyre because it always maximizes strength." },
+        { label: "b", text: "Use pigment as the sole reinforcing ingredient in both compounds." },
+        { label: "c", text: "Use a reinforcing filler such as carbon black or silica for the first compound; consider an extending filler for the cost-driven compound." },
         { label: "d", text: "Avoid fillers because they cannot change rubber properties." }
       ],
-      answer: "a",
+      answer: "c",
       why: "The lecture separates **reinforcing fillers**, which improve physical properties, from **extending fillers**, which primarily reduce cost and may alter stiffness. Carbon black and silica are identified as important reinforcing fillers.",
       distractors: {
-        b: "Extending fillers are not defined as the strongest reinforcement route.",
-        c: "Pigments provide colour; they are not the primary reinforcement strategy described.",
+        a: "Extending fillers are not defined as the strongest reinforcement route.",
+        b: "Pigments provide colour; they are not the primary reinforcement strategy described.",
         d: "Fillers are explicitly used to reinforce properties or reduce cost."
       },
       concept: "Reinforcing vs extending fillers.",
@@ -847,17 +847,17 @@ const T11: TopicSource = {
       diff: 3,
       text: "Why does a rubber-processing operation monitor scorch time and cure rate rather than simply maximizing the vulcanization rate?",
       options: [
-        { label: "a", text: "The compound must remain processable during mixing and shaping, then cure at a controlled and uniform rate in the intended curing stage." },
-        { label: "b", text: "The compound should cross-link completely inside the mixer before shaping." },
-        { label: "c", text: "Scorch time measures the optical transparency of the uncured rubber." },
-        { label: "d", text: "A uniform cure rate is unrelated to processing quality." }
+        { label: "a", text: "The compound should cross-link completely inside the mixer before shaping." },
+        { label: "b", text: "Scorch time measures the optical transparency of the uncured rubber." },
+        { label: "c", text: "A uniform cure rate is unrelated to processing quality." },
+        { label: "d", text: "The compound must remain processable during mixing and shaping, then cure at a controlled and uniform rate in the intended curing stage." }
       ],
-      answer: "a",
+      answer: "d",
       why: "The lecture lists **uniform plasticity and recovery, uniform scorch rate and uniform cure rate** as requirements for good rubber-compound processing. Premature cross-linking makes the stock difficult to shape.",
       distractors: {
-        b: "Premature cure in the mixer is precisely what scorch control is intended to prevent.",
-        c: "Scorch time concerns premature vulcanization, not optical properties.",
-        d: "The source explicitly identifies uniform cure behaviour as a processing requirement."
+        a: "Premature cure in the mixer is precisely what scorch control is intended to prevent.",
+        b: "Scorch time concerns premature vulcanization, not optical properties.",
+        c: "The source explicitly identifies uniform cure behaviour as a processing requirement."
       },
       concept: "Processability before cure; controlled vulcanization after shaping.",
       tags: ["revision"]
