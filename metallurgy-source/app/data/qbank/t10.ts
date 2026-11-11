@@ -745,15 +745,15 @@ const T10: TopicSource = {
       diff: 3,
       text: "A notched amorphous polymer part is tested at a lower temperature and a higher loading rate than before. Which fracture trend is most likely?",
       options: [
-        { label: "a", text: "A more brittle response, because segmental rearrangement has less time and mobility and the notch concentrates stress." },
-        { label: "b", text: "A more ductile response, because lower temperature always increases chain mobility." },
+        { label: "a", text: "A more ductile response, because lower temperature always increases chain mobility." },
+        { label: "b", text: "A more brittle response, because segmental rearrangement has less time and mobility and the notch concentrates stress." },
         { label: "c", text: "No change, because fracture is independent of temperature and loading rate." },
         { label: "d", text: "The notch removes the local stress concentration." }
       ],
-      answer: "a",
+      answer: "b",
       why: "Lower temperature and higher strain rate reduce the time available for segmental rearrangement. A notch further concentrates stress, so brittle crack propagation becomes more likely.",
       distractors: {
-        b: "Lower temperature generally reduces segmental mobility rather than increasing it.",
+        a: "Lower temperature generally reduces segmental mobility rather than increasing it.",
         c: "The lecture explicitly identifies temperature, strain rate and notches as factors affecting brittle fracture.",
         d: "A notch is a stress concentrator; it does not remove one."
       },
@@ -766,16 +766,16 @@ const T10: TopicSource = {
       diff: 4,
       text: "For a cracked polymer specimen, use K = Yσ√(πa). Let Y = 1, applied stress σ = 50 MPa and crack length a = 1.0 mm. If K_IC = 3.0 MPa√m, what is the best conclusion?",
       options: [
-        { label: "a", text: "K ≈ 2.8 MPa√m, so the applied stress intensity is below K_IC." },
-        { label: "b", text: "K ≈ 50 MPa√m, so fracture is certain." },
-        { label: "c", text: "K ≈ 5.0 MPa√m, so K is above K_IC." },
+        { label: "a", text: "K ≈ 50 MPa√m, so fracture is certain." },
+        { label: "b", text: "K ≈ 5.0 MPa√m, so K is above K_IC." },
+        { label: "c", text: "K ≈ 2.8 MPa√m, so the applied stress intensity is below K_IC." },
         { label: "d", text: "K = 0 because the crack length is given in millimetres." }
       ],
-      answer: "a",
+      answer: "c",
       why: "Convert crack length: a = 0.001 m. Then K = 50√(π × 0.001) = **2.80 MPa√m**. Since 2.80 < 3.0 MPa√m, this simplified criterion predicts that the critical stress intensity has not yet been reached.",
       distractors: {
-        b: "This omits the square-root crack-length factor.",
-        c: "This does not follow from substituting a = 0.001 m into the stated equation.",
+        a: "This omits the square-root crack-length factor.",
+        b: "This does not follow from substituting a = 0.001 m into the stated equation.",
         d: "The crack length must be converted to metres; it is not set to zero."
       },
       concept: "K = Yσ√(πa); fracture criterion K ≥ K_IC.",
@@ -787,17 +787,17 @@ const T10: TopicSource = {
       diff: 2,
       text: "A laboratory must measure the indentation resistance of a soft elastomer and a rigid engineering-plastic specimen. Which pairing is most appropriate from the lecture's hardness methods?",
       options: [
-        { label: "a", text: "Shore A for the soft elastomer; Shore D or Rockwell for the rigid plastic." },
-        { label: "b", text: "Rockwell for the soft elastomer only; Shore A for every rigid plastic." },
-        { label: "c", text: "Izod for the elastomer; Charpy for the rigid plastic." },
-        { label: "d", text: "Melt-flow index for both, because MFI is a surface-indentation test." }
+        { label: "a", text: "Rockwell for the soft elastomer only; Shore A for every rigid plastic." },
+        { label: "b", text: "Izod for the elastomer; Charpy for the rigid plastic." },
+        { label: "c", text: "Melt-flow index for both, because MFI is a surface-indentation test." },
+        { label: "d", text: "Shore A for the soft elastomer; Shore D or Rockwell for the rigid plastic." }
       ],
-      answer: "a",
+      answer: "d",
       why: "The lesson associates **Shore A** with soft elastomers, **Shore D** with rigid plastics/hard rubbers, and **Rockwell** with rigid engineering plastics.",
       distractors: {
-        b: "This reverses the usual Shore A and Shore D applications.",
-        c: "Izod and Charpy are impact tests, not indentation-hardness tests.",
-        d: "MFI measures melt flow under specified conditions, not surface hardness."
+        a: "This reverses the usual Shore A and Shore D applications.",
+        b: "Izod and Charpy are impact tests, not indentation-hardness tests.",
+        c: "MFI measures melt flow under specified conditions, not surface hardness."
       },
       concept: "Hardness method selection: Shore A / Shore D / Rockwell.",
       tags: ["revision"]
@@ -829,15 +829,15 @@ const T10: TopicSource = {
       diff: 3,
       text: "A concentrated suspension resists flow until a minimum stress is exceeded, then flows. Which rheological model best describes this behaviour?",
       options: [
-        { label: "a", text: "Bingham plastic" },
-        { label: "b", text: "Newtonian fluid" },
+        { label: "a", text: "Newtonian fluid" },
+        { label: "b", text: "Bingham plastic" },
         { label: "c", text: "Pseudoplastic fluid with no yield stress" },
         { label: "d", text: "Rheopectic fluid" }
       ],
-      answer: "a",
+      answer: "b",
       why: "A **Bingham plastic** behaves like a rigid body below a yield stress and flows after that threshold is exceeded.",
       distractors: {
-        b: "A Newtonian fluid flows at any nonzero shear stress and has constant viscosity at fixed conditions.",
+        a: "A Newtonian fluid flows at any nonzero shear stress and has constant viscosity at fixed conditions.",
         c: "Shear-thinning describes viscosity falling with shear rate; it does not by itself specify a yield-stress threshold.",
         d: "Rheopexy is time-dependent viscosity increase under constant shear."
       },
@@ -850,16 +850,16 @@ const T10: TopicSource = {
       diff: 3,
       text: "An insulating polymer component must withstand a specified electric field without dielectric breakdown. Which property is the direct design criterion?",
       options: [
-        { label: "a", text: "Dielectric strength" },
-        { label: "b", text: "Elongation at break" },
-        { label: "c", text: "Melt-flow index" },
+        { label: "a", text: "Elongation at break" },
+        { label: "b", text: "Melt-flow index" },
+        { label: "c", text: "Dielectric strength" },
         { label: "d", text: "Limiting oxygen index" }
       ],
-      answer: "a",
+      answer: "c",
       why: "The lesson defines **dielectric strength** as the maximum electric field a material can withstand before breakdown. Resistivity and dielectric constant are also electrical properties, but they answer different design questions.",
       distractors: {
-        b: "Elongation at break measures tensile deformation before failure.",
-        c: "MFI is a melt-processing quality/flow measure.",
+        a: "Elongation at break measures tensile deformation before failure.",
+        b: "MFI is a melt-processing quality/flow measure.",
         d: "LOI measures the oxygen concentration needed to sustain combustion."
       },
       concept: "Dielectric strength = electric field at breakdown.",
