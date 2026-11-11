@@ -281,7 +281,7 @@ const T9: TopicSource = {
       ],
       answer: "d",
       why: "**Dehydrochlorination** destroys a labile C–Cl bond, releasing HCl that catalyses the next loss — a self-accelerating 'unzipping' that forms coloured polyenes. **Thermal stabilizers** (organotin, mixed-metal soaps) substitute the labile chlorine and mop up HCl.",
-      concept: "HCl autocatalysis ⇒ PVC needs thermal stabilizers"
+      concept: "HCl autocatalysis ⇒ PVC needs thermal stabilizers",
       tags: ["confused"],
     },
     {
@@ -546,7 +546,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "d",
-      why: "**TiO₂** provides opacity and screens UV; an **impact modifier** toughens rigid PVC; the **thermal stabilizer** guards PVC's weak point; antistatic aids handling. This is a realistic co-additive package.",
+      why: "**Surface-treated rutile TiO₂** provides opacity and helps screen UV; an **impact modifier** toughens rigid PVC; the **thermal stabilizer** protects against dehydrochlorination during processing; a suitable lubricant supports extrusion.",
       concept: "formulation = base resin + threat-matched additives",
       tags: ["revision"],
     },
