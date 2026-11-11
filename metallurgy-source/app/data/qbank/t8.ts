@@ -126,7 +126,7 @@ const T8: TopicSource = {
       id: "t8-05",
       type: "concept",
       diff: 2,
-      text: "Which three monomers form ABS (acrylonitrile–butadiene–styrene) terpolymer?",
+      text: "Which three monomer components give ABS (acrylonitrile–butadiene–styrene) its name?",
       options: [
         {
             label: "a",
@@ -181,7 +181,7 @@ const T8: TopicSource = {
         }
       ],
       answer: "c",
-      why: "**Polycarbonate** combines high optical clarity with outstanding impact strength (its notched Izod is ~600–900 J/m) — the standard for machine guards, safety goggles and helmet visors. PMMA is clearer but far more brittle.",
+      why: "**Polycarbonate** combines high optical clarity with outstanding impact resistance, making it a common choice for machine guards, safety goggles and helmet visors. PMMA is often clearer but is much more brittle.",
       distractors: {
         d: "GPPS is clear but extremely brittle — it shatters.",
         a: "PMMA has excellent optics but poor impact resistance.",
@@ -193,7 +193,7 @@ const T8: TopicSource = {
       id: "t8-07",
       type: "recall",
       diff: 1,
-      text: "Which polymer is famously used as a non-stick coating and is therefore processed by sintering or paste extrusion rather than melting?",
+      text: "Which polymer is famously used as a non-stick coating and is therefore processed by sintering or paste extrusion rather than conventional melt-flow processing?",
       options: [
         {
             label: "a",
@@ -213,7 +213,7 @@ const T8: TopicSource = {
         }
       ],
       answer: "a",
-      why: "**PTFE** has an extremely high melt viscosity (strong C–F bonds, rigid rod-like chains) so it does not flow even above its ~327 °C Tm. It is consolidated by **compression sintering**, or made into tape by **paste extrusion**.",
+      why: "**PTFE** does melt near 327 °C, but its melt viscosity is so high that it does not flow like ordinary thermoplastics. It is therefore consolidated by **compression sintering** or formed into tape by **paste extrusion** rather than conventional melt extrusion.",
       concept: "PTFE: no true melt processing",
       tags: ["revision"],
     },
@@ -241,7 +241,7 @@ const T8: TopicSource = {
         }
       ],
       answer: "c",
-      why: "Absorbed water competes for the **amide H-bonds** and plasticizes the amorphous phase: Tg drops below room temperature, parts swell and stiffness falls. Nylons must be dried before processing and conditioned in service.",
+      why: "Absorbed water competes for the **amide hydrogen bonds** and plasticizes the amorphous phase. Depending on moisture content, Tg can approach or fall below room temperature; parts swell and stiffness falls. Nylons must be dried before processing and conditioned in service.",
       concept: "amide H-bonding: strength + moisture sensitivity (two edges of one sword)",
       tags: ["confused"],
     },
@@ -286,11 +286,11 @@ const T8: TopicSource = {
         },
         {
             label: "d",
-            text: "By a room-temperature addition reaction between the epoxy resin and a hardener (amine/anhydride), forming a cross-linked network",
+            text: "By an addition reaction between the epoxy resin and a hardener, commonly an amine, forming a cross-linked network",
         }
       ],
       answer: "d",
-      why: "Epoxide rings open and react with **amine hydrogens** (or anhydrides at high T) to build a 3-D thermoset network. No volatiles are released, giving low shrinkage and excellent adhesion.",
+      why: "Epoxide rings open and react with **amine hydrogens**; anhydride hardeners are also used under suitable cure conditions. The reaction builds a 3-D thermoset network without releasing a small-molecule by-product, giving low shrinkage and strong adhesion.",
       tags: ["revision"],
     },
     {
@@ -681,7 +681,7 @@ const T8: TopicSource = {
       id: "t8-25",
       type: "compare",
       diff: 3,
-      text: "Why does PTFE's melting behaviour make it fundamentally harder to process than polyethylene?",
+      text: "Why is PTFE fundamentally harder to process by conventional melt extrusion than polyethylene?",
       options: [
         {
             label: "a",
@@ -701,7 +701,7 @@ const T8: TopicSource = {
         }
       ],
       answer: "a",
-      why: "Strong C–F bonds and a very high chain stiffness give PTFE a melt viscosity ~10¹⁰ Pa·s, many orders above normal polymers; the 'melt' does not flow → **compression sintering** or **paste extrusion**.",
+      why: "PTFE has an exceptionally high melt viscosity (often around 10¹⁰ Pa·s or higher), so it does not flow adequately for ordinary melt extrusion even though it passes through a melting transition. It is processed by **compression sintering** or **paste extrusion**.",
       concept: "processability is governed by melt viscosity, not just Tm",
       tags: ["confused"],
     },
