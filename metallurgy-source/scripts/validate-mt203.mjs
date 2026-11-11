@@ -121,19 +121,25 @@ for (const id of TOPIC_IDS) {
     if (q.tags) for (const t of q.tags) if (typeof t !== "string" || !t) err(`${at}: bad tag`);
   });
 
-  topics.push({ id, module: src.module, title: src.title, questions: src.questions });
+  topics.push({ id, module: src.module, title: src.title, subs: src.subs ?? [], questions: src.questions });
 }
 
-// ---- explicit primary subtopic mapping (currently T9–T11) -----------------
+// ---- explicit primary subtopic mapping -----------------------------------
 const mappedQuestionIds = new Set();
+const subtopicOwner = new Map(
+  topics.flatMap((t) => t.subs.map((s) => [s.id, t.id]))
+);
+const crossTopicPrimary = new Map([
+  ["t2-32", "T3.3"], // emulsion-polymerization technique
+  ["t3-22", "T2.2"], // chain-transfer agent vs initiator
+  ["t4-26", "T2.5"], // radical kinetic chain length
+]);
 for (const topicId of MAPPED_TOPICS) {
   const topic = topics.find((t) => t.id === topicId);
   if (!topic) {
     err(`subtopic map: mapped topic ${topicId} has no source`);
     continue;
   }
-  const source = await import(`../app/data/qbank/${topicId}.ts`);
-  const validSubtopics = new Set((source.default.subs ?? []).map((s) => s.id));
   for (const q of topic.questions) {
     const subtopic = QUESTION_SUBTOPIC[q.id];
     if (!subtopic) {
@@ -141,8 +147,13 @@ for (const topicId of MAPPED_TOPICS) {
       continue;
     }
     mappedQuestionIds.add(q.id);
-    if (!validSubtopics.has(subtopic))
-      err(`${q.id}: unknown primary subtopic ${subtopic} for ${topicId}`);
+    const owner = subtopicOwner.get(subtopic);
+    if (!owner)
+      err(`${q.id}: unknown primary subtopic ${subtopic}`);
+    else if (owner !== topicId && crossTopicPrimary.get(q.id) !== subtopic)
+      err(`${q.id}: cross-topic primary subtopic ${subtopic} is not explicitly approved`);
+    if (crossTopicPrimary.has(q.id) && crossTopicPrimary.get(q.id) !== subtopic)
+      err(`${q.id}: expected cross-topic primary subtopic ${crossTopicPrimary.get(q.id)}, got ${subtopic}`);
   }
 }
 for (const questionId of Object.keys(QUESTION_SUBTOPIC)) {
@@ -152,7 +163,6 @@ for (const questionId of Object.keys(QUESTION_SUBTOPIC)) {
   if (!mappedQuestionIds.has(questionId))
     err(`subtopic map: unknown question id ${questionId}`);
 }
-
 // ---- global id uniqueness --------------------------------------------------
 const allIds = new Map();
 for (const t of topics)
