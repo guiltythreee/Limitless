@@ -61,7 +61,7 @@ const T1: TopicSource = {
       id: "t1-03",
       type: "recall",
       diff: 1,
-      text: "Which was the **first fully synthetic polymer** to be produced commercially?",
+      text: "Which material is generally credited as the first fully synthetic polymer to be produced commercially?",
       options: [
         { label: "a", text: "Nylon 6,6 (1935)" },
         { label: "b", text: "Celluloid (cellulose nitrate, 1868)" },
@@ -80,50 +80,51 @@ const T1: TopicSource = {
       id: "t1-04",
       type: "compare",
       diff: 2,
-      text: "Which pairing correctly links tacticity to expected crystallinity?",
+      text: "For a typical vinyl polymer, which tacticity–morphology pairing is most likely?",
       options: [
-        { label: "a", text: "Both are always crystalline" },
-        { label: "b", text: "Both are always amorphous" },
-        { label: "c", text: "Isotactic → crystalline; atactic → amorphous" },
-        { label: "d", text: "Isotactic → amorphous; atactic → crystalline" }
+        { label: "a", text: "Atactic chains are generally more crystallizable than isotactic chains." },
+        { label: "b", text: "Isotactic chains are often crystallizable, whereas atactic chains are generally less able to crystallize." },
+        { label: "c", text: "Tacticity has no influence on chain packing or crystallization." },
+        { label: "d", text: "Isotactic and atactic chains must have identical crystallinity if their repeat units are identical." }
       ],
-      answer: "c",
-      why: "**Isotactic** chains have all substituents on one side, so they pack into a lattice → **crystalline, rigid**. **Atactic** chains have random substituent placement → no regular packing → **amorphous, tacky**.",
+      answer: "b",
+      why: "**Isotactic** chains have a regular stereochemical arrangement that can support close packing and crystallization. **Atactic** chains have irregular substituent placement, which usually disrupts regular packing. This is a tendency, not a guarantee: crystallinity also depends on chain structure and processing.",
       distractors: {
-        d: "Exactly reversed — regularity, not irregularity, is what enables packing.",
-        a: "Atactic vinyl polymers cannot pack regularly at all.",
+        a: "This reverses the usual effect: stereoregularity generally makes packing easier.",
+        c: "Tacticity changes chain regularity and can strongly affect crystallizability.",
+        d: "Identical repeat-unit chemistry does not imply identical stereoregularity or morphology."
       },
-      concept: "tacticity = configuration; regularity controls crystallizability",
+      concept: "tacticity = configurational regularity; regularity influences crystallizability",
       tags: ["confused"],
     },
-    {
       id: "t1-05",
       type: "recall",
       diff: 1,
       text: "Nylon 6,6 gets its name because:",
       options: [
-        { label: "a", text: "Its melting point is 66 °C, with the two digits repeated to distinguish the grade from other nylons." },
-        { label: "b", text: "The material was first commercialized in 1966, so the two sixes record the year it entered industrial production." },
-        { label: "c", text: "Each nylon macromolecule contains exactly six repeat units, and the second six records the number of chains in a batch." },
-        { label: "d", text: "The diamine and diacid each contain six carbon atoms: hexamethylenediamine and adipic acid." }
+        { label: "a", text: "The diamine and the diacid used to make it each contain six carbon atoms." },
+        { label: "b", text: "The diamine contains six carbon atoms, while the diacid contains ten, as in Nylon 6,10." },
+        { label: "c", text: "The two numbers give the number of amide groups in each repeat unit." },
+        { label: "d", text: "The two numbers specify the degree of polymerization of the finished nylon." }
       ],
-      answer: "d",
-      why: "The two numbers give the **carbon counts of the two monomers**: hexamethylene**diamine** (6 C) + **adipic** acid (6 C). Nylon 6,10 = diamine of 6 C + diacid of 10 C.",
+      answer: "a",
+      why: "The two numbers give the **carbon counts of the two monomers**: hexamethylenediamine has six carbon atoms, and adipic acid also has six. In Nylon 6,10, the diamine has six carbon atoms and the diacid has ten.",
       distractors: {
-        c: "The numbers never refer to chain length — chains contain thousands of units.",
+        b: "That is the monomer carbon-count pattern for Nylon 6,10, not Nylon 6,6.",
+        c: "The numbers identify the carbon counts of the monomers, not the number of amide links.",
+        d: "They do not specify chain length; a nylon chain contains many repeat units."
       },
       tags: ["revision"],
     },
-    {
       id: "t1-06",
       type: "statement",
       diff: 2,
-      text: "Which statement(s) about the relationship between monomer and repeat unit is/are correct?",
+      text: "Which statement(s) about the relationship between monomers and repeat units is/are correct?",
       statements: [
-        { num: 1, text: "The repeat unit is the structural unit that repeats along the chain backbone." },
-        { num: 2, text: "For addition polymers the repeat unit usually contains the same atoms as the monomer." },
-        { num: 3, text: "For condensation polymers the repeat unit is *smaller* than the monomer because a small molecule is lost." },
-        { num: 4, text: "The degree of polymerization equals the number of monomer molecules originally present." },
+        { num: 1, text: "The repeat unit is the structural unit that repeats along the polymer chain." },
+        { num: 2, text: "In addition polymerization, the repeat unit usually contains the same atoms as the monomer." },
+        { num: 3, text: "In condensation polymerization, the repeat structure contains monomer residues after loss of small molecule(s), such as water, where applicable." },
+        { num: 4, text: "The degree of polymerization equals the total number of monomer molecules originally charged to the reactor." },
       ],
       options: [
         { label: "a", text: "1 and 4 only" },
@@ -132,13 +133,14 @@ const T1: TopicSource = {
         { label: "d", text: "2, 3 and 4 only" }
       ],
       answer: "b",
-      why: "Items 1–3 are correct. Item 4 is wrong: **DP = number of repeat units in one chain**, not the total number of monomers charged to the reactor.",
+      why: "Statements 1–3 are correct. Statement 4 is false: **DP describes the number of repeat units in an individual chain**, not the total monomer feed to the reactor.",
       distractors: {
-        c: "Item 4 confuses DP of *one chain* with the total monomer feed.",
+        a: "Statement 2 is also correct for ordinary addition polymerization.",
+        c: "Statement 4 confuses the DP of one chain with the total monomer feed.",
+        d: "Statement 1 is also correct: it is the defining description of a repeat unit."
       },
       tags: ["confused"],
     },
-    {
       id: "t1-07",
       type: "numerical",
       diff: 2,
@@ -166,8 +168,8 @@ const T1: TopicSource = {
       tableRows: [
         ["1", "Origin", "", "(i) thermoplastic / thermosetting"],
         ["2", "Thermal behaviour", "", "(ii) natural / semi-synthetic / synthetic"],
-        ["3", "Molecular arrangement", "", "(iii) linear / branched / cross-linked"],
-        ["4", "Structure (topology)", "", "(iv) amorphous / (semi)crystalline"],
+        ["3", "Morphology (solid-state order)", "", "(iii) linear / branched / cross-linked"],
+        ["4", "Molecular topology", "", "(iv) amorphous / (semi)crystalline"],
       ],
       options: [
         { label: "a", text: "1-ii, 2-i, 3-iv, 4-iii" },
@@ -176,13 +178,14 @@ const T1: TopicSource = {
         { label: "d", text: "1-iv, 2-iii, 3-i, 4-ii" },
       ],
       answer: "a",
-      why: "Origin → natural/semi-synthetic/synthetic; thermal → thermoplastic/thermosetting; arrangement → amorphous/crystalline; topology → linear/branched/cross-linked. Only (a) matches all four.",
+      why: "Origin → natural/semi-synthetic/synthetic; thermal behaviour → thermoplastic/thermosetting; morphology → amorphous or (semi)crystalline; topology → linear/branched/cross-linked. These are different classification axes.",
       distractors: {
-        c: "Swaps 3 and 4: topology is linear/branched/cross-linked, arrangement is amorphous/crystalline.",
+        c: "This swaps morphology and topology: amorphous/crystalline describes solid-state order, while linear/branched/cross-linked describes chain architecture.",
+        b: "This mismatches the origin and thermal-behaviour categories as well as the two structural categories.",
+        d: "This assigns each classification basis to an unrelated category set."
       },
       tags: ["revision"],
     },
-    {
       id: "t1-09",
       type: "concept",
       diff: 2,
@@ -204,24 +207,25 @@ const T1: TopicSource = {
     },
     {
       id: "t1-10",
-      type: "recall",
-      diff: 1,
-      text: "The configuration of a polymer chain can only be changed by:",
+      type: "concept",
+      diff: 2,
+      text: "Which change can alter a polymer's configurational stereochemistry rather than merely changing its conformation?",
       options: [
-        { label: "a", text: "Rotation about single bonds changes chain conformation, while the covalent configuration remains unchanged." },
-        { label: "b", text: "Changing temperature may alter conformation or phase, but does not change configuration unless a chemical reaction occurs." },
-        { label: "c", text: "Breaking and reforming covalent bonds can alter stereochemical configuration or the arrangement around a double bond." },
-        { label: "d", text: "Dissolving a polymer may change its shape or conformation, but does not change its chain configuration by itself." }
+        { label: "a", text: "Rotation about a backbone carbon–carbon single bond." },
+        { label: "b", text: "Heating the polymer above its glass-transition temperature." },
+        { label: "c", text: "A chemical reaction that changes stereochemistry through covalent bond breaking and/or formation." },
+        { label: "d", text: "Dissolving the polymer in a solvent without chemically reacting it." }
       ],
       answer: "c",
-      why: "**Configuration** (tacticity, cis/trans geometry) is fixed by bonding — altering it needs bond breakage. Rotations about single bonds change **conformation** only.",
+      why: "**Configuration** (for example, tacticity or cis/trans geometry) is fixed by the covalent structure and cannot normally change by simple bond rotation. Changing it requires a chemical process that alters the relevant bonding. Rotation about single bonds, heating, or dissolution can change **conformation** without changing configuration.",
       distractors: {
-        a: "That changes conformation, which is freely interconvertible.",
+        a: "Single-bond rotation changes conformation, not configurational stereochemistry.",
+        b: "Heating can increase segmental mobility and change conformation, but does not by itself change configuration.",
+        d: "Dissolution changes the polymer's environment and conformation, not its covalent configuration."
       },
       concept: "configuration ≠ conformation",
       tags: ["confused"],
     },
-        {
       "id": "t1-11",
       "type": "concept",
       "diff": 3,
@@ -260,41 +264,42 @@ const T1: TopicSource = {
       id: "t1-12",
       type: "recall",
       diff: 1,
-      text: "The copolymer connective `co` denotes which sequence arrangement?",
+      text: "In source-based copolymer nomenclature, what does the connective -co- indicate?",
       options: [
-        { label: "a", text: "Graft" },
-        { label: "b", text: "Random" },
-        { label: "c", text: "Alternating" },
-        { label: "d", text: "Block" }
+        { label: "a", text: "The copolymer sequence is unspecified or not stated." },
+        { label: "b", text: "The monomer units follow a random sequence specifically." },
+        { label: "c", text: "The monomer units alternate in a regular A–B sequence." },
+        { label: "d", text: "The chain contains long blocks of each monomer." }
       ],
-      answer: "b",
-      why: "`co` = **random** (e.g. SBR = styrene-*co*-butadiene). `alt` = alternating, `block` = block, `graft` = graft.",
+      answer: "a",
+      why: "The connective **-co-** indicates a copolymer with an unspecified sequence arrangement. More specific connectives identify architectures such as **-ran-** (random) and **-alt-** (alternating); block copolymers are designated with **-block-**.",
       distractors: {
-        c: "Alternating uses `alt`.",
-        d: "Block uses `block`.",
+        b: "Random sequence is specified more narrowly by -ran-; -co- alone does not assert randomness.",
+        c: "Alternating sequence is designated by -alt-.",
+        d: "Block architecture requires a block descriptor; -co- alone does not specify it."
       },
       tags: ["revision"],
     },
-    {
       id: "t1-13",
       type: "apply",
       diff: 3,
-      text: "A container must be remoulded repeatedly after use. Which polymer class is required?",
+      text: "A reusable container must be softened by heating, reshaped by melt processing, and solidified by cooling after each use, without a curing reaction. Which polymer class is designed for this repeated processing route?",
       options: [
         { label: "a", text: "Thermoplastic polymer" },
-        { label: "b", text: "Any of these — all remelt" },
-        { label: "c", text: "Heavily cross-linked elastomer" },
-        { label: "d", text: "Thermosetting polymer" }
+        { label: "b", text: "Fully cured thermosetting polymer" },
+        { label: "c", text: "Covalently vulcanized elastomer" },
+        { label: "d", text: "Uncured thermosetting resin that forms an irreversible network during its first cure" }
       ],
       answer: "a",
-      why: "Only **thermoplastics** consist of separate chains held by secondary forces — they soften on heating and can be remoulded any number of times.",
+      why: "A **thermoplastic** softens when heated and solidifies on cooling without undergoing an irreversible network-forming cure. This permits repeated melt processing, provided the processing temperature and conditions do not cause significant degradation.",
       distractors: {
-        d: "Thermosets cure into an infinite network: heat degrades them, it does not flow them.",
+        b: "A fully cured thermoset has a permanent covalent network; it does not melt and flow on reheating.",
+        c: "Conventional vulcanization creates covalent cross-links that prevent the rubber from being remelted like a thermoplastic.",
+        d: "An uncured thermosetting resin can flow during its initial shaping step, but curing creates an irreversible network; it cannot be repeatedly remelted after cure."
       },
-      concept: "thermoplastic = reprocessable · thermoset = one-shot",
+      concept: "thermoplastic = melt-reprocessable · cured thermoset = infusible network",
       tags: ["revision"],
     },
-    {
       id: "t1-14",
       type: "assertreason",
       diff: 2,
@@ -355,12 +360,12 @@ const T1: TopicSource = {
       id: "t1-17",
       type: "statement",
       diff: 2,
-      text: "Which statement(s) about elastomers is/are correct?",
+      text: "Which statement(s) about conventional, lightly cross-linked elastomers is/are correct?",
       statements: [
-        { num: 1, text: "An elastomer is used well above its glass-transition temperature." },
-        { num: 2, text: "It is lightly cross-linked so chains cannot slide past each other permanently." },
-        { num: 3, text: "It must be (semi)crystalline to be elastic." },
-        { num: 4, text: "Large strains are essentially recoverable because elasticity is entropic in origin." },
+        { num: 1, text: "They are used in a rubbery state, typically well above their glass-transition temperature." },
+        { num: 2, text: "Sparse cross-links help prevent permanent chain slippage under large deformation." },
+        { num: 3, text: "They must be semicrystalline to recover after deformation." },
+        { num: 4, text: "Their large-strain elastic recovery is substantially entropic in origin." },
       ],
       options: [
         { label: "a", text: "3 and 4 only" },
@@ -369,32 +374,34 @@ const T1: TopicSource = {
         { label: "d", text: "1, 2 and 4 only" }
       ],
       answer: "d",
-      why: "1, 2 and 4 define an elastomer. Item 3 is false — elastomers are **amorphous**; crystallinity would make them rigid (that is exactly why *trans*-polyisoprene is rigid).",
+      why: "Statements 1, 2 and 4 describe the usual behaviour of a conventional elastomer: it is in a rubbery state above Tg, sparse network junctions limit irreversible flow, and entropy drives much of its elastic recovery. Statement 3 is false: conventional elastomers are generally predominantly amorphous in service; crystallinity is not a requirement for elasticity.",
       distractors: {
-        b: "Item 3 inverts the requirement: amorphous + lightly cross-linked + above Tg.",
+        a: "Statement 1 is also correct for a conventional elastomer in its rubbery operating range, and statement 2 describes the role of network junctions.",
+        b: "Statement 3 is false: crystallinity is not required for elastomeric recovery.",
+        c: "Statement 1 is also correct, while statement 3 is false."
       },
       tags: ["confused"],
     },
-    {
       id: "t1-18",
       type: "concept",
       diff: 3,
-      text: "Why does raising the functionality of monomers above two lead to cross-linked (network) polymers in step-growth polymerization?",
+      text: "Why can step-growth polymerization of monomers with functionality greater than two produce a three-dimensional network?",
       options: [
-        { label: "a", text: "Each extra reactive group can connect another chain segment, enabling branching and eventually a three-dimensional network." },
-        { label: "b", text: "Covalent cross-linking occurs only in chain-growth systems; step-growth monomers with functionality above two remain linear." },
-        { label: "c", text: "Trifunctional monomers always react faster than bifunctional ones, so rate alone explains the gel and cross-link formation." },
-        { label: "d", text: "Trifunctional monomers release more small molecules, and that by-product alone causes a polymer to become a cross-linked network." }
+        { label: "a", text: "A monomer with more than two reactive groups can connect multiple growth paths; at sufficient conversion and suitable stoichiometry, branching can reach the gel point and form a network." },
+        { label: "b", text: "Any monomer with functionality greater than two forms a network immediately, even at very low conversion." },
+        { label: "c", text: "Monomers with functionality greater than two react faster, and the higher reaction rate alone creates cross-links." },
+        { label: "d", text: "The small molecules released during condensation physically glue otherwise linear chains into a network." }
       ],
       answer: "a",
-      why: "Functionality = number of reactive groups per monomer. With **f > 2**, some units are branch points; beyond the **gel point** the branches connect into one infinite network.",
+      why: "Functionality is the number of reactive groups per monomer. Functionality above two permits branching. A macroscopic network forms only when conversion, stoichiometric balance and functionality allow the branched structures to reach the **gel point**; functionality above two does not guarantee an immediate network at every conversion.",
       distractors: {
-        d: "More condensate does not cross-link anything — cross-linking is covalent branching.",
+        b: "Network formation is not instantaneous; sufficient reaction progress is needed to reach the gel point.",
+        c: "The network arises from multifunctional covalent connectivity, not simply from a faster reaction rate.",
+        d: "Condensation by-products do not glue the chains together; covalent bonds between multifunctional units create the network."
       },
-      concept: "f = 2 → linear · f > 2 → branched/network · gel point",
+      concept: "functionality > 2 enables branching; gelation depends on conversion and stoichiometry",
       tags: ["confused"],
     },
-    {
       id: "t1-19",
       type: "recall",
       diff: 1,
@@ -455,66 +462,72 @@ const T1: TopicSource = {
       id: "t1-22",
       type: "graph",
       diff: 3,
-      text: "A property-vs-DP plot gives: DP 20 → brittle waxy solid; DP 100 → weak solid; DP 400 → useful mechanical properties; DP 2000 → properties change very little further. What does the plateau above DP ≈ 400 indicate?",
+      text: "A tensile-strength-versus-DP plot for one polymer gives: DP 20 → 5 MPa; DP 100 → 25 MPa; DP 400 → 45 MPa; DP 2000 → 47 MPa. What does the small increase from DP 400 to DP 2000 indicate for this material?",
       tableRows: [
         ["DP", "20", "100", "400", "2000"],
         ["Tensile strength (MPa)", "5", "25", "45", "47"],
       ],
       options: [
-        { label: "a", text: "Polymerization stops at DP 400 in every sample, leaving no possibility for the average chain length to rise further." },
-        { label: "b", text: "Once chains are sufficiently long and entangled, extra repeat units produce diminishing changes in bulk mechanical properties." },
-        { label: "c", text: "Crystallization becomes complete at DP ≈ 400, so all chains above that length must have identical structure and properties." },
-        { label: "d", text: "The apparent plateau is most likely an instrument artefact, because all mechanical properties keep rising linearly with DP." }
+        { label: "a", text: "Polymerization must stop at DP 400, so longer chains cannot be produced." },
+        { label: "b", text: "Tensile strength is approaching a plateau in this range, so increasing chain length further gives only a small additional strength increase." },
+        { label: "c", text: "All chains become completely crystalline at DP 400, fixing the tensile strength thereafter." },
+        { label: "d", text: "The data prove that tensile strength must decrease whenever DP exceeds 400." }
       ],
       answer: "b",
-      why: "Above a **critical chain length**, added units contribute negligibly to the entanglement network — strength, Tg and viscosity level off (the entanglement plateau).",
+      why: "The data show **diminishing returns in tensile strength** as DP increases from 400 to 2000. Once chains are sufficiently long for effective entanglement and load transfer, adding more repeat units may produce only a small further increase in this property. This plot does not establish that every polymer property, such as melt viscosity, also plateaus.",
       distractors: {
-        c: "Crystallinity saturates too, but the plateau is a chain-length (entanglement) effect present in amorphous polymers as well.",
+        a: "The plotted property approaches a plateau; that does not mean polymerization is unable to produce longer chains.",
+        c: "The data contain no crystallinity measurement, and the strength plateau does not prove complete crystallization.",
+        d: "The strength rises slightly from 45 MPa to 47 MPa; it does not decrease."
       },
-      concept: "useful-DP-range graph (supplement)",
+      concept: "property-specific diminishing returns with increasing degree of polymerization",
       tags: ["confused"],
     },
-    {
       id: "t1-23",
       type: "apply",
       diff: 3,
-      text: "An engineering component must survive repeated solvent exposure without dissolving or swelling. Which architecture is most appropriate?",
+      text: "An engineering component must resist dissolving during repeated solvent exposure; limited swelling is acceptable. Which polymer architecture is most appropriate?",
       options: [
-        { label: "a", text: "Branched thermoplastic" },
-        { label: "b", text: "Linear thermoplastic" },
-        { label: "c", text: "Cross-linked (network) polymer" },
-        { label: "d", text: "Linear polymer of very low MW" }
+        { label: "a", text: "Linear thermoplastic of relatively low molecular weight" },
+        { label: "b", text: "Linear thermoplastic with no network junctions" },
+        { label: "c", text: "Covalently cross-linked polymer network" },
+        { label: "d", text: "Uncross-linked branched thermoplastic" }
       ],
       answer: "c",
-      why: "A covalent **network** cannot dissolve — solvent can at most swell it. Linear chains (a, c, d) can be solvated and separated, dissolving fully if low enough in MW.",
-      concept: "cross-linking → solvent resistance",
+      why: "A covalently cross-linked network cannot dissolve into separate chains because its chains are joined into one macroscopic structure. It may **swell** as solvent enters the network, so the stem correctly allows limited swelling. Uncross-linked thermoplastics can dissolve in suitable solvents.",
+      distractors: {
+        a: "Low-molecular-weight linear chains are generally easier, not harder, to dissolve once a compatible solvent is present.",
+        b: "Without permanent network junctions, compatible solvent molecules can separate and solvate the chains.",
+        d: "Branching alone does not create a permanent network; an uncross-linked branched polymer can still dissolve."
+      },
+      concept: "covalent network → insoluble but potentially swellable",
       tags: ["revision"],
     },
-    {
       id: "t1-24",
       type: "match",
-      diff: 1,
-      text: "Classify each polymer by its thermal behaviour.",
+      diff: 2,
+      text: "Match each polymer example with its most characteristic broad material class.",
       tableRows: [
-        ["1", "Polyethylene", "", "(i) thermosetting"],
-        ["2", "Bakelite (phenolic)", "", "(ii) elastomer"],
+        ["1", "Polyethylene", "", "(i) thermosetting polymer"],
+        ["2", "Bakelite (phenolic resin)", "", "(ii) elastomer"],
         ["3", "Vulcanized natural rubber", "", "(iii) thermoplastic"],
-        ["4", "Epoxy (fully cured)", "", "(iv) thermoplastic elastomer"],
+        ["4", "Styrene–butadiene–styrene (SBS)", "", "(iv) thermoplastic elastomer"],
       ],
       options: [
         { label: "a", text: "1-i, 2-iii, 3-iv, 4-ii" },
         { label: "b", text: "1-ii, 2-i, 3-iii, 4-iv" },
-        { label: "c", text: "1-iii, 2-ii, 3-i, 4-i" },
-        { label: "d", text: "1-iii, 2-i, 3-ii, 4-i" }
+        { label: "c", text: "1-iii, 2-ii, 3-i, 4-iv" },
+        { label: "d", text: "1-iii, 2-i, 3-ii, 4-iv" }
       ],
       answer: "d",
-      why: "PE remelts → thermoplastic. Bakelite and cured epoxy are infusible networks → thermosets. Vulcanized NR is a lightly cross-linked amorphous elastomer.",
+      why: "Polyethylene is a **thermoplastic**; cured Bakelite is a **thermoset**; vulcanized natural rubber is a covalently cross-linked **elastomer**; and SBS is a **thermoplastic elastomer** whose physical polystyrene domains act as reversible junctions.",
       distractors: {
-        a: "Bakelite is not a thermoplastic — that is the defining contrast with PE.",
+        a: "This assigns polyethylene to thermoset and vulcanized rubber to thermoplastic elastomer.",
+        b: "This incorrectly classifies polyethylene as an elastomer and vulcanized rubber as a thermoplastic.",
+        c: "This swaps the classifications of Bakelite and vulcanized natural rubber."
       },
       tags: ["revision"],
     },
-    {
       id: "t1-25",
       type: "concept",
       diff: 2,
@@ -537,22 +550,23 @@ const T1: TopicSource = {
       id: "t1-26",
       type: "higher",
       diff: 4,
-      text: "Poly(vinyl acetate) is saponified to PVA, which is then blended with starch for a biodegradable film. In the PAIR of operations, the chemistry of each step is:",
+      text: "Poly(vinyl acetate) is saponified to PVA, which is then blended with starch for a biodegradable film. Which pair correctly identifies the chemistry of the two operations?",
       options: [
-        { label: "a", text: "Hydrolysis (saponification), then physical blending of PVA with starch." },
-        { label: "b", text: "Condensation polymerization, then a second condensation reaction between PVA and starch." },
-        { label: "c", text: "Addition polymerization, then condensation polymerization with starch as a comonomer." },
-        { label: "d", text: "Radical chain scission, then addition polymerization that grafts starch onto the PVA backbone." }
+        { label: "a", text: "Hydrolysis (saponification), followed by physical blending of PVA with starch." },
+        { label: "b", text: "Condensation polymerization, followed by a second condensation reaction between PVA and starch." },
+        { label: "c", text: "Addition polymerization, followed by copolymerization of PVA with starch." },
+        { label: "d", text: "Radical chain scission, followed by covalent graft polymerization of starch onto PVA." }
       ],
       answer: "a",
-      why: "Saponifying PVAc converts its acetate ester groups to hydroxyl groups by hydrolysis; blending the resulting PVA with starch is a physical mixing step, not a second polymerization. The listed pair is therefore hydrolysis followed by physical blending.",
+      why: "Saponification converts acetate ester groups on PVAc into hydroxyl groups by **hydrolysis** (or alcoholysis under the corresponding conditions). Blending PVA with starch is a physical mixing operation unless a separate chemical reaction is specified.",
       distractors: {
-        d: "PVAc formation eliminates nothing — it is addition, not condensation.",
+        b: "Neither operation is a new condensation polymerization: the first modifies existing PVAc chains, and the second is stated as blending.",
+        c: "The PVAc-to-PVA conversion is not addition polymerization, and blending does not make starch a comonomer.",
+        d: "The described conversion is not radical chain scission, and no grafting reaction is specified."
       },
-      concept: "polymer-analogous reactions vs polymerization",
+      concept: "polymer-analogous reaction vs polymerization vs physical blending",
       tags: ["confused"],
     },
-        {
       "id": "t1-27",
       "type": "recall",
       "diff": 1,
@@ -630,7 +644,7 @@ const T1: TopicSource = {
       id: "t1-30",
       type: "numerical",
       diff: 3,
-      text: "A copolymer sample is 40 mol% monomer A ($M_A = 100$ g/mol) and 60 mol% monomer B ($M_B = 50$ g/mol). Its repeat-unit molar mass is:",
+      text: "A binary addition copolymer contains 40 mol% monomer A (M_A = 100 g/mol) and 60 mol% monomer B (M_B = 50 g/mol). Assuming no small molecule is eliminated during polymerization, the average molar mass per incorporated repeat-unit residue is:",
       options: [
         { label: "a", text: "65 g/mol" },
         { label: "b", text: "75 g/mol" },
@@ -638,15 +652,15 @@ const T1: TopicSource = {
         { label: "d", text: "70 g/mol" }
       ],
       answer: "d",
-      why: "Mole-fraction average: $M = 0.40(100) + 0.60(50) = 40 + 30 = \\mathbf{70}$ g/mol.",
+      why: "For this addition copolymer, the incorporated residues retain the monomer atoms. The composition-weighted average is $M = 0.40(100) + 0.60(50) = 40 + 30 = \\mathbf{70}$ g/mol per incorporated residue.",
       distractors: {
-        b: "75 would need 50/50 weighting: 0.5(100)+0.5(50) = 75.",
-        c: "50 is just $M_B$.",
+        a: "65 g/mol does not follow from the stated mole fractions and molar masses.",
+        b: "75 g/mol is the equal-mole average: 0.50(100) + 0.50(50).",
+        c: "50 g/mol is only the molar mass of monomer B and ignores monomer A."
       },
-      concept: "$M_{repeat} = \\sum x_i M_i$",
+      concept: "$\\overline{M}_{residue} = \\sum x_i M_i$ for addition copolymerization",
       tags: ["numeric", "formula"],
     },
-    {
       id: "t1-31",
       type: "concept",
       diff: 2,
@@ -666,16 +680,21 @@ const T1: TopicSource = {
       id: "t1-32",
       type: "higher",
       diff: 4,
-      text: "A resin cures irreversibly into an infusible network, then a second batch of the *same* formulation is kept below cure temperature and remoulded. The explanation is:",
+      text: "Two specimens are made from the same thermosetting resin formulation. Specimen X has completed its cure and is infusible; specimen Y is still an uncured, flowable prepolymer that can be shaped before cure. Why can Y be shaped while X cannot be remelted?",
       options: [
-        { label: "a", text: "The batches must be different polymers, because a single formulation cannot be processed both before and after it cures." },
-        { label: "b", text: "The first batch has cured into a network; the second remains an uncured, flowable prepolymer until its cure reaction proceeds." },
-        { label: "c", text: "Both batches are fully cured thermosets; the second can be remoulded because its molecular weight is lower." },
-        { label: "d", text: "Cure is reversible below 100 °C, so the first batch can be remoulded once the cross-links cool and contract." }
+        { label: "a", text: "The specimens must have different repeat-unit chemistry, because a thermoset cannot be processed before curing." },
+        { label: "b", text: "Curing converts the flowable prepolymer into a permanent network; before cure, the resin can flow, but after cure it cannot be remelted." },
+        { label: "c", text: "Both specimens are fully cured thermosets; specimen Y flows because it has a lower molecular weight." },
+        { label: "d", text: "Covalent cross-links contract on cooling and become reversible when the cured resin is reheated." }
       ],
       answer: "b",
-      why: "Thermoset systems are processed as **low-MW flowable prepolymers**; the irreversible cross-linking happens *during* cure. Before cure the material flows like a thermoplastic; after cure it never does again.",
-      concept: "prepolymer → cure → network (one-way door)",
+      why: "Thermosetting systems are commonly shaped while they are still **uncured, flowable resins or prepolymers**. The cure reaction then forms a covalently connected network. Once fully cured, the material does not melt and flow on reheating; excessive heat eventually causes degradation.",
+      distractors: {
+        a: "The same formulation can be processable before cure and infusible after cure; the chemical state changes during curing.",
+        c: "The key distinction is the extent of cure and network formation, not merely molecular weight.",
+        d: "Conventional thermoset cross-links are not reversible simply by cooling and reheating."
+      },
+      concept: "flowable prepolymer → irreversible cure → infusible network",
       tags: ["confused"],
     },
   ],
