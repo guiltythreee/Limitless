@@ -6,7 +6,7 @@
 // Proves the MT203 migration onto the shared course architecture changed no
 // behaviour:
 //   - the registry adapter's outline matches the manifest and app/data/qbank
-//     meta (11 topics, 4 units, 286 questions, same order)
+//     meta (11 topics, 4 units, 305 questions, same order)
 //   - every question keeps its source id (`t4-014`), n, topic, type, difficulty,
 //     answer, options, why/distractors/concept and tags — compared field-by-field
 //     against the raw app/data/qbank/t*.ts source
@@ -263,7 +263,7 @@ const adapter = MT203_ENTRY.adapter;
   eq(outline.courseId, "mt203", "adapter.courseId is mt203");
   eq(outline.units.length, 4, "outline has 4 units");
   eq(outline.topics.length, 11, "outline has 11 topics");
-  eq(outline.totalQuestions, 286, "outline total is 286 questions");
+  eq(outline.totalQuestions, META.TOTAL_QUESTIONS, "outline total matches the current qbank total");
   eq(outline.totalQuestions, META.TOTAL_QUESTIONS, "outline total matches the qbank meta");
   eq(
     outline.topics.map((t) => t.id).join(","),
@@ -321,7 +321,7 @@ const adapter = MT203_ENTRY.adapter;
     });
     eq(bad, 0, `${t.id}: all ${raw.questions.length} questions map losslessly`);
   }
-  eq(total, 286, "all 286 questions compared");
+  eq(total, META.TOTAL_QUESTIONS, `all ${META.TOTAL_QUESTIONS} questions compared`);
 }
 
 // ------------------------------------------------------------------- lessons
