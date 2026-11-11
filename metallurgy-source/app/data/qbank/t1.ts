@@ -15,6 +15,8 @@ const T1: TopicSource = {
     { id: "T1.3", title: "Nomenclature & copolymer connectives" },
     { id: "T1.4", title: "Topology, configuration, conformation" },
     { id: "T1.5", title: "Copolymer architectures & thermoplastic elastomers" },
+    { id: "T1.6", title: "Historical development of synthetic polymers" },
+    { id: "T1.7", title: "Polymer-analogous reactions and modification" },
   ],
   questions: [
     {
