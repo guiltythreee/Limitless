@@ -104,7 +104,7 @@ const T7: TopicSource = {
         },
         {
           label: "b",
-          text: "α-helix: coiled, intra-chain H-bonds. β-sheet: extended chains side-by-side, inter-chain H-bonds.",
+          text: "α-helix: coiled, intra-chain H-bonds. β-sheet: extended strands side-by-side, with backbone H-bonds between neighbouring strands.",
         },
         {
           label: "c",
@@ -116,7 +116,7 @@ const T7: TopicSource = {
         }
       ],
       answer: "b",
-      why: "The helix coils with H-bonds *within* one chain; the sheet is a flat arrangement of *adjacent* chains H-bonded across. Silk fibroin is the classic β-sheet protein; keratin is largely α-helical.",
+      why: "The α-helix is stabilised by backbone H-bonds within one chain. A β-sheet is made of extended strands aligned side-by-side and hydrogen-bonded to neighbouring strands; those strands can come from the same chain or from different chains. Silk fibroin is the classic β-sheet protein; keratin is largely α-helical.",
       concept: "helix = intra · sheet = inter",
       tags: ["confused"],
     },
@@ -222,7 +222,7 @@ const T7: TopicSource = {
       id: "t7-09",
       type: "concept",
       diff: 2,
-      text: "Denaturation of a protein by heat or acid destroys:",
+      text: "Denaturation of a protein by heat or acid primarily disrupts:",
       options: [
         {
           label: "a",
@@ -238,11 +238,11 @@ const T7: TopicSource = {
         },
         {
           label: "d",
-          text: "The secondary and tertiary structure, leaving the primary sequence intact",
+          text: "Secondary and tertiary structure and, where present, quaternary structure, usually leaving the primary sequence intact",
         }
       ],
       answer: "d",
-      why: "Denaturation unfolds the chain by breaking **H-bonds and other non-covalent interactions** (and sometimes S–S); the peptide-bond sequence is not hydrolysed. Hence boiled egg white is insoluble but chemically still protein.",
+      why: "Denaturation disrupts **non-covalent interactions** that maintain secondary, tertiary and (where present) quaternary structure. Ordinary heat or acid denaturation does not normally hydrolyse the peptide-bond sequence; reducing agents are needed to cleave disulfide bonds efficiently.",
       concept: "denaturation = loss of conformation, not of sequence",
       tags: ["confused"],
     },
@@ -270,7 +270,7 @@ const T7: TopicSource = {
       statements: [
         { num: 1, text: "Casein from milk was historically used with formaldehyde to make 'galalith' buttons." },
         { num: 2, text: "Zein from maize is a hydrophobic protein used in coatings and films." },
-        { num: 3, text: "Formaldehyde cross-links proteins by reacting with amino (–NH₂) groups, hardening them (as in leather tanning)." },
+        { num: 3, text: "Formaldehyde can cross-link proteins by reacting with amino (–NH₂) groups, hardening them (as in casein-formaldehyde plastics)." },
         { num: 4, text: "Proteins contain no nitrogen." },
       ],
       options: [
