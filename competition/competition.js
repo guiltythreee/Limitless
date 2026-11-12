@@ -652,6 +652,13 @@
       if(subjectId==='probability' && !group.lectures.some(function(x){return x.url==='https://projects.iq.harvard.edu/stat110/online-learning';})){
         group.lectures.push({label:'STAT 110 video lectures',url:'https://projects.iq.harvard.edu/stat110/online-learning'});
       }
+      if(subjectId==='probability'){
+        var statSetNumber=Math.max(1,Math.min(11,ref.guide.sections.indexOf(ref.section)+1));
+        var statSetUrl='https://stat110.hsites.harvard.edu/sites/g/files/omnuum10111/files/stat110/files/strategic_practice_and_homework_'+statSetNumber+'.pdf';
+        if(!group.sets.some(function(x){return x.url===statSetUrl;})){
+          group.sets.push({label:'STAT 110 Strategic Practice and Homework '+statSetNumber,url:statSetUrl});
+        }
+      }
     });
     var cards=Object.keys(groups).map(function(key){
       var g=groups[key];
