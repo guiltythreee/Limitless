@@ -31,3 +31,35 @@ export function handleNextQuestionKey(
   else onPrevious?.();
   return true;
 }
+
+
+export function handleQuestionShortcut(
+  event: KeyboardEvent,
+  options: {
+    optionCount: number;
+    onSelectOption: (index: number) => void;
+    onSubmit: () => void;
+    hasSelection: boolean;
+  },
+): boolean {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.repeat) return false;
+  const target = event.target as HTMLElement | null;
+  if (
+    target?.closest("input, textarea, select, [contenteditable='true'], [role='textbox']") ||
+    target?.isContentEditable
+  ) return false;
+
+  if (/^[1-4]$/.test(event.key)) {
+    const index = Number(event.key) - 1;
+    if (index >= options.optionCount) return false;
+    event.preventDefault();
+    options.onSelectOption(index);
+    return true;
+  }
+  if (event.key === "Enter" && options.hasSelection) {
+    event.preventDefault();
+    options.onSubmit();
+    return true;
+  }
+  return false;
+}
