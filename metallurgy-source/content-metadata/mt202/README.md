@@ -24,7 +24,7 @@ Question IDs follow the current adapter convention: `ch01-q1` through `ch09-q70`
 | `curriculumTopicId` | Primary curriculum topic |
 | `relatedTopicIds` | Secondary topic links; do not double-count the question |
 | `learningObjectiveIds` | Learning objectives assessed |
-| `questionType` | One of A–G; pending classification |
+| `questionType` | One of A–G; copied and checked against the source question bank |
 | `assessedDifficulty` | 1–5; pending independent assessment |
 | `reasoningSkills` | Recall, distinguish, apply, calculate, interpret, analyse, synthesise |
 | `misconceptionTags` | Specific misconceptions targeted |
