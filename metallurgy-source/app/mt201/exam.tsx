@@ -26,7 +26,7 @@ import {
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
-import { handleNextQuestionKey } from "../../../shared/learning-player/keyboard";
+import { handleNextQuestionKey, handleQuestionShortcut } from "../../../shared/learning-player/keyboard";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -83,6 +83,24 @@ export default function Exam({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [running, submitted]);
+  useEffect(() => {
+    if (!running || submitted) return;
+    const onKeyDown = (event: KeyboardEvent) => handleQuestionShortcut(event, {
+      optionCount: pool[idx]?.options.length ?? 0,
+      hasSelection: false,
+      onSelectOption: (optionIndex) => {
+        const option = pool[idx]?.options[optionIndex];
+        if (option) setSession((current) => setPlayerAnswer(current, playerAdapter, {
+          kind: "single-choice",
+          optionId: option.label,
+        }));
+      },
+      onSubmit: () => {},
+    });
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [running, submitted, pool, idx]);
+
   const [score, setScore] = useState(0);
   const finishRef = useRef<() => void>(() => {});
 
