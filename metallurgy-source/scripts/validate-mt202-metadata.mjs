@@ -48,7 +48,7 @@ for (const chapter of catalogue.chapters) {
       if (!topicIds.has(relatedId)) errors.push(`${questionId}: unknown related topic ${relatedId}`);
     }
     if (![1, 2, 3, 4, 5].includes(record.assessedDifficulty)) {
-      errors.push(`${questionId}: assessedDifficulty must be 1–5 or null`);
+      errors.push(`${questionId}: assessedDifficulty must be an integer from 1 to 5`);
     }
     if (!Array.isArray(record.reasoningSkills) || record.reasoningSkills.length === 0) {
       errors.push(`${questionId}: at least one reasoning skill is required`);
