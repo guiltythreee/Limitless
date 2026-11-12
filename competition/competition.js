@@ -588,7 +588,7 @@
     }
     // Exact problem-set references: keep the assignment label and the actual source link together.
     var tasks=ref.items.map(function(item,index){
-      var key=baseKey+'-q'+index, taskName=item.replace(/^CSES:\\s*/,'');
+      var key=baseKey+'-q'+index, taskName=item.replace(/^CSES:\s*/,'');
       var taskId=item.indexOf('CSES: ')===0?CSES_TASK_LINKS[taskName]:null;
       var taskLabel='';
       if(taskId){
