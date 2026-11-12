@@ -72,9 +72,9 @@ The complete question-level rubric pass has been recorded for all 522 questions.
 
 | Status | Questions | Meaning |
 |---|---:|---|
-| Approved | 520 | Passed the recorded editorial review; corrected wording is stored in the durable revision overlay where applicable |
+| Approved | 519 | Passed the recorded editorial review; corrected wording is stored in the durable revision overlay where applicable |
 | Review | 0 | No questions remain in the review queue |
-| Rejected | 2 | Retained for substantive correction before reconsideration |
+| Rejected | 3 | Retained for substantive correction before reconsideration |
 
 Every question has all seven rubric dimensions scored, and `quality.total` is the sum of those dimensions. Non-approved records carry a `reviewNotes` explanation. A review status is not approval: do not expose those items as fully validated exam questions until the note is resolved and the record is reassessed.
 
@@ -90,7 +90,7 @@ The scores are a structured editorial assessment of the question-bank JSON (stem
 6. Reject scores below 70 or any hard-rejection defect; revise and reassess before approval.
 7. Validate registry IDs, scores, totals and status consistency against all chapter JSON files before integration.
 
-Current branch review outcome: 520 approved, 0 in review, 2 rejected. Local execution of `npm run validate:mt202-metadata` remains required; GitHub-side structural checks do not substitute for running the repository validator.
+Current branch review outcome: 519 approved, 0 in review, 3 rejected. Local execution of `npm run validate:mt202-metadata` remains required; GitHub-side structural checks do not substitute for running the repository validator.
 
 ## Source-of-truth warning
 
