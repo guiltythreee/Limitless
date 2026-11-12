@@ -47,8 +47,18 @@ for (const chapter of catalogue.chapters) {
     for (const relatedId of record.relatedTopicIds ?? []) {
       if (!topicIds.has(relatedId)) errors.push(`${questionId}: unknown related topic ${relatedId}`);
     }
-    if (record.assessedDifficulty !== null && ![1, 2, 3, 4, 5].includes(record.assessedDifficulty)) {
+    if (![1, 2, 3, 4, 5].includes(record.assessedDifficulty)) {
       errors.push(`${questionId}: assessedDifficulty must be 1–5 or null`);
+    }
+    if (!Array.isArray(record.reasoningSkills) || record.reasoningSkills.length === 0) {
+      errors.push(`${questionId}: at least one reasoning skill is required`);
+    }
+    const allowedSkills = ["recall", "distinguish", "classify", "apply", "calculate", "interpret", "analyse", "synthesise"];
+    if ((record.reasoningSkills ?? []).some(skill => !allowedSkills.includes(skill))) {
+      errors.push(`${questionId}: unknown reasoning skill`);
+    }
+    if (!Array.isArray(record.misconceptionTags) || record.misconceptionTags.length === 0) {
+      errors.push(`${questionId}: at least one misconception tag is required`);
     }
     if (record.questionType === null || !["A", "B", "C", "D", "E", "F", "G"].includes(record.questionType)) {
       errors.push(`${questionId}: invalid questionType`);
