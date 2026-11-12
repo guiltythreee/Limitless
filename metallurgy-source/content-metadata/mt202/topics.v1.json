@@ -326,5 +326,79 @@
       "chapterId": "ch09",
       "topics": []
     }
+  ],
+  "learningObjectives": [
+    {
+      "id": "MT202-1.1.1",
+      "description": "Explain the scope of physical metallurgy and the composition–processing–microstructure–properties relationship."
+    },
+    {
+      "id": "MT202-1.2.1",
+      "description": "Distinguish atomic number, mass number, proton count and neutron count."
+    },
+    {
+      "id": "MT202-1.2.2",
+      "description": "Determine maximum electron capacities of shells, subshells and orbitals."
+    },
+    {
+      "id": "MT202-1.2.3",
+      "description": "Interpret principal, azimuthal, magnetic and spin quantum numbers."
+    },
+    {
+      "id": "MT202-1.2.4",
+      "description": "Apply the Pauli exclusion principle to electron occupancy."
+    },
+    {
+      "id": "MT202-1.3.1",
+      "description": "Classify elements as metals, metalloids and non-metals using periodic-table position and characteristics."
+    },
+    {
+      "id": "MT202-1.3.2",
+      "description": "Apply orbital-filling order and electron-configuration rules."
+    },
+    {
+      "id": "MT202-1.3.3",
+      "description": "Relate transition-metal electron configurations to variable valence and chemical behaviour."
+    },
+    {
+      "id": "MT202-1.4.1",
+      "description": "Explain ionic, covalent, metallic and secondary bonding mechanisms."
+    },
+    {
+      "id": "MT202-1.4.2",
+      "description": "Compare primary and secondary bonds by strength, directionality and physical origin."
+    },
+    {
+      "id": "MT202-1.4.3",
+      "description": "Relate bond type and directionality to conductivity, ductility, brittleness and cohesion."
+    },
+    {
+      "id": "MT202-1.4.4",
+      "description": "Identify bonding within and between the layers of graphite and in diamond's covalent network."
+    },
+    {
+      "id": "MT202-1.4.5",
+      "description": "Explain dipole interactions and hydrogen bonding as secondary bonding."
+    },
+    {
+      "id": "MT202-1.5.1",
+      "description": "Identify equilibrium interatomic spacing from the minimum of a potential-energy curve."
+    },
+    {
+      "id": "MT202-1.5.2",
+      "description": "Relate potential-well depth and curvature to cohesive energy, melting temperature and elastic modulus."
+    },
+    {
+      "id": "MT202-1.5.3",
+      "description": "Explain thermal expansion through anharmonicity and asymmetry of the interatomic potential."
+    },
+    {
+      "id": "MT202-1.5.4",
+      "description": "Distinguish the individual attractive and repulsive forces from their zero resultant at equilibrium."
+    },
+    {
+      "id": "MT202-1.5.5",
+      "description": "Interpret the attractive and repulsive terms in a mathematical interatomic potential and the condition for short-range repulsion."
+    }
   ]
 }
