@@ -32,7 +32,15 @@ for (const chapter of catalogue.chapters) {
     }
     if (seen.has(questionId)) errors.push(`Duplicate metadata ID: ${questionId}`);
     seen.add(questionId);
-    if (record.learningObjectiveIds?.some(id => !objectiveIds.has(id))) errors.push(`${questionId}: unknown learning objective`);
+    if (!Array.isArray(record.learningObjectiveIds) || record.learningObjectiveIds.length === 0) {
+      errors.push(`${questionId}: at least one learning objective is required`);
+    } else if (record.learningObjectiveIds.some(id => !objectiveIds.has(id))) {
+      errors.push(`${questionId}: unknown learning objective`);
+    }
+    const sourceType = questions[index]?.type ?? null;
+    if (record.questionType !== sourceType) {
+      errors.push(`${questionId}: questionType does not match source type (${record.questionType} vs ${sourceType})`);
+    }
     if (record.curriculumTopicId && !topicIds.has(record.curriculumTopicId)) {
       errors.push(`${questionId}: unknown primary topic ${record.curriculumTopicId}`);
     }
@@ -42,7 +50,7 @@ for (const chapter of catalogue.chapters) {
     if (record.assessedDifficulty !== null && ![1, 2, 3, 4, 5].includes(record.assessedDifficulty)) {
       errors.push(`${questionId}: assessedDifficulty must be 1–5 or null`);
     }
-    if (record.questionType !== null && !["A", "B", "C", "D", "E", "F", "G"].includes(record.questionType)) {
+    if (record.questionType === null || !["A", "B", "C", "D", "E", "F", "G"].includes(record.questionType)) {
       errors.push(`${questionId}: invalid questionType`);
     }
   }
