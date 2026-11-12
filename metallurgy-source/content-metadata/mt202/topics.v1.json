@@ -1,0 +1,330 @@
+{
+  "schemaVersion": "1.0.0",
+  "courseId": "mt202",
+  "notes": [
+    "Topic IDs are curriculum taxonomy identifiers, not the application's existing chapter-level topicId.",
+    "Topics marked proposed are additions to the current Markdown curriculum outline and require reconciliation with the source Markdown before any durable source migration.",
+    "Chapter 9 has no independent topics; its questions map back to topics in Chapters 1–8."
+  ],
+  "chapters": [
+    {
+      "chapterId": "ch01",
+      "topics": [
+        [
+          "1.1",
+          "Metallurgy and its branches"
+        ],
+        [
+          "1.2",
+          "Atomic number, mass, shells and quantum numbers"
+        ],
+        [
+          "1.3",
+          "Orbital filling and the periodic table"
+        ],
+        [
+          "1.4",
+          "Atomic bonding"
+        ],
+        [
+          "1.5",
+          "Interatomic spacing and bonding energy"
+        ],
+        [
+          "1.6",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch02",
+      "topics": [
+        [
+          "2.1",
+          "Space lattice, unit cell and crystal systems"
+        ],
+        [
+          "2.2",
+          "BCC, FCC and HCP: numbers, APF and lattice-parameter relations"
+        ],
+        [
+          "2.3",
+          "Crystallographic directions and Miller indices"
+        ],
+        [
+          "2.4",
+          "Linear and planar density"
+        ],
+        [
+          "2.5",
+          "Interstitial voids"
+        ],
+        [
+          "2.6",
+          "Allotropy of iron"
+        ],
+        [
+          "2.7",
+          "Interview and GATE extra practice"
+        ],
+        [
+          "2.8",
+          "X-ray diffraction and Bragg's law",
+          "proposed"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch03",
+      "topics": [
+        [
+          "3.1",
+          "Methods of producing solid metal"
+        ],
+        [
+          "3.2",
+          "Nucleation and growth"
+        ],
+        [
+          "3.3",
+          "Undercooling zones"
+        ],
+        [
+          "3.4",
+          "Cooling curves of pure metals"
+        ],
+        [
+          "3.5",
+          "Dendritic freezing"
+        ],
+        [
+          "3.6",
+          "Freezing of ingots: structural zones"
+        ],
+        [
+          "3.7",
+          "Shrinkage and piping"
+        ],
+        [
+          "3.8",
+          "Porosity: sponginess and blowholes"
+        ],
+        [
+          "3.9",
+          "Killed steel versus rimming steel"
+        ],
+        [
+          "3.10",
+          "Segregation"
+        ],
+        [
+          "3.11",
+          "Homogenisation"
+        ],
+        [
+          "3.12",
+          "Surface defects, eutectic freezing and single crystals"
+        ],
+        [
+          "3.13",
+          "Interview and GATE extra practice"
+        ],
+        [
+          "3.14",
+          "Constitutional supercooling and special solidification processes",
+          "proposed"
+        ],
+        [
+          "3.15",
+          "Moulding and casting practice",
+          "proposed"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch04",
+      "topics": [
+        [
+          "4.1",
+          "Alloys and solid solutions"
+        ],
+        [
+          "4.2",
+          "Hume–Rothery rules"
+        ],
+        [
+          "4.3",
+          "Intermediate alloy phases"
+        ],
+        [
+          "4.4",
+          "Tie-line and lever rules"
+        ],
+        [
+          "4.5",
+          "Equilibrium solidification of an alloy"
+        ],
+        [
+          "4.6",
+          "Constitutional supercooling"
+        ],
+        [
+          "4.7",
+          "Non-equilibrium solidification and coring"
+        ],
+        [
+          "4.8",
+          "Burning versus overheating"
+        ],
+        [
+          "4.9",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch05",
+      "topics": [
+        [
+          "5.1",
+          "Classification of defects"
+        ],
+        [
+          "5.2",
+          "Point defects and vacancy concentration"
+        ],
+        [
+          "5.3",
+          "Theoretical versus actual shear strength"
+        ],
+        [
+          "5.4",
+          "Edge and screw dislocations"
+        ],
+        [
+          "5.5",
+          "Burgers vector and Burgers circuit"
+        ],
+        [
+          "5.6",
+          "Strain energy, dissociation and stacking faults"
+        ],
+        [
+          "5.7",
+          "Climb, cross-slip, interactions, Frank–Read sources and pile-ups"
+        ],
+        [
+          "5.8",
+          "Planar defects"
+        ],
+        [
+          "5.9",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch06",
+      "topics": [
+        [
+          "6.1",
+          "Elastic versus plastic deformation"
+        ],
+        [
+          "6.2",
+          "Slip and slip systems"
+        ],
+        [
+          "6.3",
+          "Schmid's law and CRSS"
+        ],
+        [
+          "6.4",
+          "Twinning"
+        ],
+        [
+          "6.5",
+          "Yield-point phenomenon and strain ageing"
+        ],
+        [
+          "6.6",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch07",
+      "topics": [
+        [
+          "7.0",
+          "The unifying idea"
+        ],
+        [
+          "7.1",
+          "Strain (work) hardening"
+        ],
+        [
+          "7.2",
+          "Grain refinement and the Hall–Petch relationship"
+        ],
+        [
+          "7.3",
+          "Solid-solution strengthening"
+        ],
+        [
+          "7.4",
+          "Precipitation (age) hardening"
+        ],
+        [
+          "7.5",
+          "Recovery, recrystallisation and grain growth"
+        ],
+        [
+          "7.6",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch08",
+      "topics": [
+        [
+          "8.0",
+          "Why diffusion matters"
+        ],
+        [
+          "8.1",
+          "Mechanisms of diffusion"
+        ],
+        [
+          "8.2",
+          "Fick's first law"
+        ],
+        [
+          "8.3",
+          "Fick's second law and the error-function solution"
+        ],
+        [
+          "8.4",
+          "Arrhenius temperature dependence"
+        ],
+        [
+          "8.5",
+          "Short-circuit paths and host structure"
+        ],
+        [
+          "8.6",
+          "Applications of diffusion"
+        ],
+        [
+          "8.7",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch09",
+      "topics": []
+    }
+  ]
+}
