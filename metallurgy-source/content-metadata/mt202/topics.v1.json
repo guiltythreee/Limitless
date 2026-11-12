@@ -471,6 +471,142 @@
     {
       "id": "MT202-2.8.2",
       "description": "Explain the geometric origin of the path difference in Bragg diffraction."
+    },
+    {
+      "id": "MT202-3.1.1",
+      "description": "Compare established routes for producing consolidated metallic products, including solidification, electrodeposition and powder metallurgy."
+    },
+    {
+      "id": "MT202-3.2.1",
+      "description": "Distinguish nucleation from growth and explain their sequential roles in solidification."
+    },
+    {
+      "id": "MT202-3.2.2",
+      "description": "Explain homogeneous and heterogeneous nucleation and identify preferred nucleation sites."
+    },
+    {
+      "id": "MT202-3.2.3",
+      "description": "Construct and interpret the free-energy change of a spherical solid embryo, including surface and volume terms."
+    },
+    {
+      "id": "MT202-3.2.4",
+      "description": "Calculate critical nucleus radius and homogeneous nucleation barrier from interfacial energy and volumetric driving force."
+    },
+    {
+      "id": "MT202-3.2.5",
+      "description": "Relate undercooling to the volumetric free-energy driving force, critical radius and nucleation barrier."
+    },
+    {
+      "id": "MT202-3.2.6",
+      "description": "Apply contact-angle and shape-factor concepts to heterogeneous nucleation and grain-refiner selection."
+    },
+    {
+      "id": "MT202-3.2.7",
+      "description": "Compare temperature dependence of nucleation and growth rates and identify grain-size control variables."
+    },
+    {
+      "id": "MT202-3.3.1",
+      "description": "Distinguish stable, metastable and labile temperature zones relative to the melting point."
+    },
+    {
+      "id": "MT202-3.4.1",
+      "description": "Interpret pure-metal cooling curves and explain thermal arrest through latent-heat release."
+    },
+    {
+      "id": "MT202-3.4.2",
+      "description": "Explain recalescence and distinguish latent heat from sensible heat."
+    },
+    {
+      "id": "MT202-3.5.1",
+      "description": "Explain planar-interface instability and dendrite initiation during solidification."
+    },
+    {
+      "id": "MT202-3.5.2",
+      "description": "Identify dendrite arm geometry, orientation and primary/secondary/tertiary branching."
+    },
+    {
+      "id": "MT202-3.5.3",
+      "description": "Explain constitutional supercooling as a solute-boundary-layer and liquidus-gradient effect."
+    },
+    {
+      "id": "MT202-3.5.4",
+      "description": "Relate cooling rate and dendrite arm spacing to microstructural refinement and homogenisation distance."
+    },
+    {
+      "id": "MT202-3.5.5",
+      "description": "Explain grain multiplication through detachment of dendrite arms."
+    },
+    {
+      "id": "MT202-3.6.1",
+      "description": "Identify chill, columnar and equiaxed zones and explain their formation in ingots."
+    },
+    {
+      "id": "MT202-3.6.2",
+      "description": "Relate pouring temperature, mould temperature and thermal gradient to ingot grain structure."
+    },
+    {
+      "id": "MT202-3.6.3",
+      "description": "Explain mould-corner effects and the influence of geometry on solidification structure."
+    },
+    {
+      "id": "MT202-3.7.1",
+      "description": "Distinguish liquid, solidification and solid-state contraction and relate them to feeding and pattern allowances."
+    },
+    {
+      "id": "MT202-3.7.2",
+      "description": "Explain piping formation, hot-top feeding and the risks of secondary piping."
+    },
+    {
+      "id": "MT202-3.8.1",
+      "description": "Distinguish interdendritic shrinkage porosity from gas porosity and blowholes."
+    },
+    {
+      "id": "MT202-3.8.2",
+      "description": "Explain gas sources, degassing and pressure-tightness implications of pore morphology."
+    },
+    {
+      "id": "MT202-3.9.1",
+      "description": "Compare killed and rimming steels by deoxidation, gas evolution, shrinkage compensation and internal defects."
+    },
+    {
+      "id": "MT202-3.9.2",
+      "description": "Explain why rimming steel can provide a clean, ductile surface suitable for deep drawing and how blowholes behave during rolling."
+    },
+    {
+      "id": "MT202-3.10.1",
+      "description": "Distinguish normal, inverse, gravity and microsegregation by mechanism and spatial distribution."
+    },
+    {
+      "id": "MT202-3.10.2",
+      "description": "Identify macrosegregation examples and explain density-driven crystal segregation."
+    },
+    {
+      "id": "MT202-3.11.1",
+      "description": "Explain homogenisation of microsegregation and assess limitations due to diffusivity, arm spacing and macrosegregation."
+    },
+    {
+      "id": "MT202-3.12.1",
+      "description": "Identify common casting surface defects and relate them to their causes."
+    },
+    {
+      "id": "MT202-3.14.1",
+      "description": "Calculate the critical distance or thermal-gradient condition for constitutional supercooling."
+    },
+    {
+      "id": "MT202-3.14.2",
+      "description": "Explain metallic-glass formation as suppression of crystallisation by rapid cooling."
+    },
+    {
+      "id": "MT202-3.14.3",
+      "description": "Describe special solidification and crystal-growth processes, including Czochralski growth and zone refining."
+    },
+    {
+      "id": "MT202-3.15.1",
+      "description": "Explain investment casting and identify its applications and limitations."
+    },
+    {
+      "id": "MT202-3.15.2",
+      "description": "Explain the role of mould and core permeability in removing gases during casting."
     }
   ]
 }
