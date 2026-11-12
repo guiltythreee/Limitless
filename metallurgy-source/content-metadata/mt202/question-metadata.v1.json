@@ -319,7 +319,8 @@
         "syllabusRelevance": 5,
         "total": 77
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Polonium's classification as a metalloid varies by reference; define the classification convention or replace Po with an unambiguous example."
     },
     {
       "questionId": "ch01-q11",
@@ -417,7 +418,8 @@
         "syllabusRelevance": 5,
         "total": 76
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Statement 4 is too categorical: metallic materials can be hard, and brittleness is not a general consequence of metallic bonding. Rewrite the statement to test a defensible distinction."
     },
     {
       "questionId": "ch01-q14",
@@ -483,7 +485,8 @@
         "syllabusRelevance": 5,
         "total": 77
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The claim that van der Waals forces are significant mainly at low temperature is imprecise; qualify it as their relative ability to hold condensed noble gases when thermal agitation is sufficiently low."
     },
     {
       "questionId": "ch01-q16",
@@ -516,7 +519,8 @@
         "syllabusRelevance": 5,
         "total": 61
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The quoted bond-energy ranges overlap substantially, so a strict ordering of metallic, covalent and ionic bonds is not universally defensible. Ask only for broad strongest/weakest trends or supply a specific comparison."
     },
     {
       "questionId": "ch01-q17",
@@ -647,7 +651,8 @@
         "syllabusRelevance": 5,
         "total": 76
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The assertion overgeneralises all ionic and covalent solids as brittle; narrow it to typical ionic and covalent-network solids."
     },
     {
       "questionId": "ch01-q21",
@@ -809,7 +814,8 @@
         "syllabusRelevance": 5,
         "total": 79
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The assertion/reason uses an overly broad statement that solids expand on heating; consider exceptions and specify ordinary solids over a stated temperature range."
     },
     {
       "questionId": "ch01-q26",
@@ -1757,7 +1763,8 @@
         "syllabusRelevance": 5,
         "total": 79
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Equal APF does not by itself establish the number of independent slip systems or ductility. Make the crystallographic slip-system comparison explicit in the stem/statements."
     },
     {
       "questionId": "ch02-q21",
@@ -1819,7 +1826,8 @@
         "syllabusRelevance": 5,
         "total": 76
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Verify the Zn and Ti axial-ratio values against the prescribed source/reference and state temperature/composition because c/a is temperature- and material-dependent."
     },
     {
       "questionId": "ch02-q23",
@@ -2220,7 +2228,8 @@
         "syllabusRelevance": 5,
         "total": 70
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The question's explanation treats a statement about packing as a restatement rather than a mechanism; inspect the original statements and revise the distractor so every option tests a distinct causal claim."
     },
     {
       "questionId": "ch02-q36",
@@ -2283,7 +2292,8 @@
         "syllabusRelevance": 5,
         "total": 75
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The explanation's comparison of FCC and BCC slip-plane families is simplified; distinguish potential slip systems from close-packed planes and avoid implying BCC has only one active family."
     },
     {
       "questionId": "ch02-q38",
@@ -2411,7 +2421,8 @@
         "syllabusRelevance": 5,
         "total": 76
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The reason for carbon occupying BCC octahedral sites needs a more precise anisotropic interstitial-site/strain-energy explanation; the current shorthand does not fully establish the assertion."
     },
     {
       "questionId": "ch02-q42",
@@ -2444,7 +2455,8 @@
         "syllabusRelevance": 5,
         "total": 79
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Confirm the quoted Leslie octahedral-void radii and units against the cited source before approval."
     },
     {
       "questionId": "ch02-q43",
@@ -2475,7 +2487,8 @@
         "syllabusRelevance": 5,
         "total": 75
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The phrase 'larger than every void' and the inference that dissolution always costs strain energy need qualification; distinguish geometric void radius from the actual interstitial site energy."
     },
     {
       "questionId": "ch02-q44",
@@ -2505,7 +2518,8 @@
         "syllabusRelevance": 5,
         "total": 78
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The empirical c/a–carbon relation should identify its valid carbon-composition range and source; do not imply a universal linear law."
     },
     {
       "questionId": "ch02-q45",
@@ -2537,7 +2551,8 @@
         "syllabusRelevance": 5,
         "total": 77
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The solubility explanation should distinguish the size and anisotropy of the relevant octahedral sites from a simple APF argument."
     },
     {
       "questionId": "ch02-q46",
@@ -2636,7 +2651,8 @@
         "syllabusRelevance": 5,
         "total": 77
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The explanation that quenching traps carbon and produces martensite should specify diffusionless transformation below the relevant transformation temperature, not just solubility difference."
     },
     {
       "questionId": "ch02-q49",
@@ -2732,7 +2748,8 @@
         "syllabusRelevance": 5,
         "total": 77
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Verify all four underlying statements; the answer explanation gives only the aggregate result, not enough item-by-item reasoning for a strong multi-statement question."
     },
     {
       "questionId": "ch02-q52",
@@ -2768,7 +2785,8 @@
         "syllabusRelevance": 5,
         "total": 79
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The statement about three independent basal slip systems should distinguish slip directions from independent deformation modes and qualify the role of non-basal slip/twinning."
     },
     {
       "questionId": "ch02-q53",
@@ -2800,7 +2818,8 @@
         "syllabusRelevance": 5,
         "total": 69
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The FCC/BCC comparison needs a more precise description of active slip families and equivalent planes; the current explanation risks equating one family count with total BCC slip capability."
     },
     {
       "questionId": "ch03-q1",
@@ -3109,7 +3128,8 @@
         "syllabusRelevance": 5,
         "total": 86
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Check the sign convention and definitions of the interfacial energies/contact angle in Young's equation; explicitly define ψ and the three γ terms in the stem."
     },
     {
       "questionId": "ch03-q11",
@@ -3337,7 +3357,8 @@
         "syllabusRelevance": 5,
         "total": 75
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The question is useful but option wording and explanation need tightening: both nucleation and growth depend on mobility and driving force, and peak-temperature ordering is not universal without stated assumptions."
     },
     {
       "questionId": "ch03-q18",
@@ -3496,7 +3517,8 @@
         "syllabusRelevance": 5,
         "total": 66
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The highly specific 0.13 °C recalescence value requires a traceable source and conditions; otherwise replace it with a qualitative description or a defensible approximate range."
     },
     {
       "questionId": "ch03-q23",
@@ -4130,7 +4152,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The claim that dissolved gas improves pressure-tightness is counterintuitive and process-dependent. Require a source and qualify the mechanism; otherwise remove the item."
     },
     {
       "questionId": "ch03-q43",
@@ -4161,7 +4184,8 @@
         "syllabusRelevance": 5,
         "total": 73
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The three blowhole routes should be listed explicitly in the explanation so the keyed combination can be independently checked."
     },
     {
       "questionId": "ch03-q44",
@@ -4223,7 +4247,8 @@
         "syllabusRelevance": 5,
         "total": 73
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The killed-steel statements need explicit item-by-item explanations; distinguish deoxidation, gas evolution, shrinkage and feeding without overgeneralising the final ingot structure."
     },
     {
       "questionId": "ch03-q46",
@@ -4539,7 +4564,8 @@
         "syllabusRelevance": 5,
         "total": 91
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The numerical barrier calculation is sensitive to the supplied thermodynamic approximation; verify units and significant figures and state that ΔG_v is an approximation."
     },
     {
       "questionId": "ch03-q56",
@@ -5024,7 +5050,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "A cooling rate of 10^7 °C/s is alloy- and geometry-dependent, not a universal metallic-glass threshold. Qualify the example and cite its source."
     },
     {
       "questionId": "ch03-q71",
@@ -5056,7 +5083,8 @@
         "syllabusRelevance": 5,
         "total": 68
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The assertion/reason on killed versus rimming steel is too broad; specify the product and forming application and explain why rimming steel's outer rim is advantageous."
     },
     {
       "questionId": "ch03-q72",
@@ -5345,7 +5373,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Same crystal structure is necessary but not sufficient for complete solid solubility; state that the full Hume–Rothery criteria must also be considered."
     },
     {
       "questionId": "ch04-q8",
@@ -5474,7 +5503,8 @@
         "syllabusRelevance": 5,
         "total": 73
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Matching question explanation only provides the key mapping. Add the actual intermediate-phase examples and a brief rationale for each match."
     },
     {
       "questionId": "ch04-q12",
@@ -5567,7 +5597,8 @@
         "syllabusRelevance": 5,
         "total": 75
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Electron-compound structure assignments are specialized empirical classifications; verify the e/a ratios and structure labels against the course source."
     },
     {
       "questionId": "ch04-q15",
@@ -6080,7 +6111,8 @@
         "syllabusRelevance": 5,
         "total": 69
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "Constitutional supercooling can promote equiaxed nucleation and the columnar-to-equiaxed transition, but it is not the sole universal cause of a central equiaxed zone. Qualify the assertion."
     },
     {
       "questionId": "ch04-q31",
@@ -6243,7 +6275,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The 'high-melting (solute-rich) core to low-melting, solute-lean edge' description depends on the phase diagram/partitioning direction; define the alloy system or use composition-neutral language."
     },
     {
       "questionId": "ch04-q36",
@@ -6476,7 +6509,8 @@
         "syllabusRelevance": 5,
         "total": 69
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The word 'precisely' is too strong: low-melting segregated liquid may collect at interdendritic/grain-boundary regions, but location and incipient melting depend on the system."
     },
     {
       "questionId": "ch04-q43",
@@ -7075,7 +7109,8 @@
         "syllabusRelevance": 5,
         "total": 77
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The G/30 estimate from realistic interatomic potentials is model-dependent. Label it as an approximate textbook estimate and cite the assumed model."
     },
     {
       "questionId": "ch05-q15",
@@ -7136,7 +7171,8 @@
         "syllabusRelevance": 5,
         "total": 73
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The historical attribution/year should be checked against the course's prescribed source; explain the separate roles of Taylor, Orowan and Polanyi."
     },
     {
       "questionId": "ch05-q17",
@@ -7264,7 +7300,8 @@
         "syllabusRelevance": 5,
         "total": 74
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Edge dislocations can cross-slip only after suitable dissociation/recombination or constriction? The blanket statement needs careful wording; distinguish pure edge from mixed-character segments."
     },
     {
       "questionId": "ch05-q21",
@@ -7295,7 +7332,8 @@
         "syllabusRelevance": 5,
         "total": 74
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The screw-dislocation statements should clarify that the ideal screw stress field is pure shear and distinguish it from mixed dislocations."
     },
     {
       "questionId": "ch05-q22",
@@ -7685,7 +7723,8 @@
         "syllabusRelevance": 5,
         "total": 78
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The assertion/reason logic is subtle; explicitly state why the reason is true but does not define a perfect Burgers vector, and avoid an ambiguous causal link."
     },
     {
       "questionId": "ch05-q34",
@@ -7781,7 +7820,8 @@
         "syllabusRelevance": 5,
         "total": 75
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Verify the vector notation and overbars in the FCC perfect-to-partial dissociation equation in the rendered source; a notation error would change the vector sum."
     },
     {
       "questionId": "ch05-q37",
@@ -8008,7 +8048,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "Dislocation density units are conventionally m^-2 (or cm^-2) as line length per volume; avoid describing it as a simple count per area without explanation."
     },
     {
       "questionId": "ch05-q44",
@@ -8452,7 +8493,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The assertion is sound, but the reason's truth value needs an explicit explanation in the question; retain the fixed Burgers vector versus changing line character distinction."
     },
     {
       "questionId": "ch05-q58",
@@ -8607,7 +8649,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The BCC slip-system count is incomplete unless explicitly restricted to the primary {110}<111> family; BCC can also slip on {112} and {123} families."
     },
     {
       "questionId": "ch05-q63",
@@ -8863,7 +8906,8 @@
         "syllabusRelevance": 5,
         "total": 78
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The Peierls-stress statements should be qualified by crystal structure, dislocation character/core width and temperature; do not imply a single universal BCC/FCC rule."
     },
     {
       "questionId": "ch06-q1",
@@ -9614,7 +9658,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The question refers to reported orientation/creep results; verify the table/data are present in the rendered question. Without those data, the item is incomplete."
     },
     {
       "questionId": "ch06-q24",
@@ -9772,7 +9817,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The closure-failure convention should be shown consistently (circuit direction and Finish-to-Start/right-hand convention); the current wording may confuse sign conventions."
     },
     {
       "questionId": "ch06-q29",
@@ -10229,7 +10275,8 @@
         "syllabusRelevance": 5,
         "total": 73
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The three-system single-crystal explanation needs to distinguish a free single crystal from a polycrystal constrained by compatibility at grain boundaries."
     },
     {
       "questionId": "ch06-q43",
@@ -10292,7 +10339,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The c/a rule is a useful trend, not an exclusive rule for all HCP metals; qualify it and acknowledge temperature, alloying and non-basal slip."
     },
     {
       "questionId": "ch06-q45",
@@ -10386,7 +10434,8 @@
         "syllabusRelevance": 5,
         "total": 73
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The HCP deformation statements need item-by-item explanation and qualification for temperature, texture and available non-basal slip/twinning."
     },
     {
       "questionId": "ch06-q48",
@@ -10583,7 +10632,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The reason in the assertion–reason item needs explicit explanation; the role of temper rolling in suppressing the yield-point phenomenon should be stated clearly."
     },
     {
       "questionId": "ch06-q54",
@@ -10677,7 +10727,8 @@
         "syllabusRelevance": 5,
         "total": 73
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The statement that annealing replaces deformation texture with recrystallisation texture is too absolute; texture evolution depends on material and annealing conditions."
     },
     {
       "questionId": "ch06-q57",
@@ -10933,7 +10984,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The explanation is plausible but overgeneralises polycrystals; state that grain compatibility usually activates multiple slip early, rather than implying every grain has the same response."
     },
     {
       "questionId": "ch07-q7",
@@ -11030,7 +11082,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The claim that finer grains work-harden faster initially is not universal; separate the Hall–Petch increase in initial yield stress from the subsequent work-hardening rate."
     },
     {
       "questionId": "ch07-q10",
@@ -11288,7 +11341,8 @@
         "syllabusRelevance": 5,
         "total": 78
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The Hall–Petch relation is valid only over a conventional grain-size regime; state the range/qualification in the stem as well as the explanation."
     },
     {
       "questionId": "ch07-q18",
@@ -12138,7 +12192,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The question refers to grain-size data; verify that the complete data table is present in the rendered question before approval."
     },
     {
       "questionId": "ch07-q45",
@@ -12426,7 +12481,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The question refers to ageing-time/yield-strength data; verify the complete data table and values are present in the rendered question before approval."
     },
     {
       "questionId": "ch07-q54",
@@ -12524,7 +12580,8 @@
         "syllabusRelevance": 5,
         "total": 73
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The 10–15 nm inverse Hall–Petch threshold is material-dependent; state it as an approximate illustrative scale, not a universal cutoff."
     },
     {
       "questionId": "ch07-q57",
@@ -12683,7 +12740,8 @@
         "syllabusRelevance": 5,
         "total": 77
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The multi-statement question needs each of the four cross-chapter links shown in its explanation; the current summary alone is insufficient to verify all statements."
     },
     {
       "questionId": "ch08-q2",
@@ -13576,7 +13634,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The question refers to Arrhenius plots/fitted slopes; verify that the actual plot or slope values are included in the rendered question. Otherwise the answer is unsupported by the stem."
     },
     {
       "questionId": "ch08-q30",
@@ -13929,7 +13988,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The marker-motion assertion–reason explanation is conceptually subtle; state the marker displacement direction and distinguish vacancy flux from atomic flux explicitly."
     },
     {
       "questionId": "ch08-q41",
@@ -14060,7 +14120,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The explanation that lower APF alone causes faster carbon diffusion is oversimplified; explain the interstitial migration barrier and BCC/FCC site geometry instead."
     },
     {
       "questionId": "ch08-q45",
@@ -14349,7 +14410,8 @@
         "syllabusRelevance": 5,
         "total": 67
       },
-      "status": "review"
+      "status": "rejected",
+      "reviewNotes": "The short-circuit diffusion statements should distinguish grain-boundary, surface and dislocation-pipe diffusion and specify the temperature regime."
     },
     {
       "questionId": "ch08-q54",
@@ -14414,7 +14476,8 @@
         "syllabusRelevance": 5,
         "total": 84
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The thin-film tracer solution depends on the source geometry and dose convention; specify whether M is the total areal dose in a symmetric couple and define the concentration units."
     },
     {
       "questionId": "ch08-q56",
@@ -14702,7 +14765,8 @@
         "syllabusRelevance": 5,
         "total": 77
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The toughness benefit of grain refinement is alloy- and fracture-mode-dependent; keep the qualification and avoid implying toughness always improves."
     },
     {
       "questionId": "ch09-q9",
@@ -15096,7 +15160,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The 0.13 °C recalescence figure needs a source and stated conditions; verify before treating the numerical value as canonical."
     },
     {
       "questionId": "ch09-q21",
@@ -15869,7 +15934,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The statement that lower APF explains faster BCC carbon diffusion is an incomplete causal explanation; distinguish diffusivity from equilibrium solubility and discuss migration barriers."
     },
     {
       "questionId": "ch09-q45",
@@ -16070,7 +16136,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The metallic-glass cooling-rate threshold is alloy-dependent; state the alloy class and source or use a range rather than a universal figure."
     },
     {
       "questionId": "ch09-q51",
@@ -16246,7 +16313,8 @@
         "syllabusRelevance": 5,
         "total": 72
       },
-      "status": "review"
+      "status": "review",
+      "reviewNotes": "The assertion and reason should distinguish vacancy concentration (formation energy) from vacancy mobility (migration energy); explain why both contribute to Q_D."
     },
     {
       "questionId": "ch09-q56",
