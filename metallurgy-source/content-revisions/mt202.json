@@ -1373,7 +1373,8 @@
             "text": "1 and 2 only"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "keyExplanation": "FCC and HCP have the same ideal packing factor (0.74), but packing density alone does not determine ductility. FCC has multiple equivalent {111}⟨110⟩ slip systems, whereas HCP commonly has fewer readily activated systems at room temperature. Statements 1, 2 and 4 are correct; statement 3 is false."
       },
       "sourceFingerprint": "8cf8b94a"
     },
@@ -1430,7 +1431,9 @@
             "text": "Zn 1.86 (stretched), Ti 1.59 (compressed)"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "text": "At approximately room temperature, which set gives representative axial ratios c/a for pure Zn and Ti, respectively?",
+        "keyExplanation": "Representative room-temperature values are approximately Zn: c/a = 1.86 and Ti: c/a = 1.59. These differ from the ideal close-packed value 1.633. Exact values can vary slightly with temperature, purity and reference data."
       },
       "sourceFingerprint": "1c83f541"
     },
@@ -1767,23 +1770,25 @@
         "options": [
           {
             "label": "a",
-            "text": "smaller than every void in both structures"
+            "text": "carbon is smaller than both octahedral sites"
           },
           {
             "label": "b",
-            "text": "exactly equal to the FCC octahedral void radius"
+            "text": "carbon exactly fits the FCC octahedral site"
           },
           {
             "label": "c",
-            "text": "smaller than the BCC octahedral void"
+            "text": "carbon is smaller than the BCC octahedral site"
           },
           {
             "label": "d",
-            "text": "larger than every void in both structures — so dissolving carbon always costs lattice strain energy"
+            "text": "carbon is larger than both quoted octahedral sites, so interstitial dissolution produces substantial lattice distortion"
           }
         ],
         "answer": "d",
-        "detailed": "Carbon has an atomic radius of about 0.08 nm, larger than the listed interstitial voids in both FCC and BCC iron. Therefore dissolving carbon creates lattice strain, and **(d)** is correct. Options (a), (b), and (c) incorrectly claim that carbon fits the available voids."
+        "detailed": "Carbon has an atomic radius of about 0.08 nm, larger than the listed interstitial voids in both FCC and BCC iron. Therefore dissolving carbon creates lattice strain, and **(d)** is correct. Options (a), (b), and (c) incorrectly claim that carbon fits the available voids.",
+        "text": "The carbon atom has an approximate radius of 0.08 nm. Compared with the quoted octahedral-site radii in austenite and ferrite, this indicates that:",
+        "keyExplanation": "The quoted carbon radius (about 0.08 nm) exceeds the quoted octahedral-site radii in both structures, especially in BCC ferrite. Carbon can nevertheless dissolve interstitially; the size mismatch produces lattice distortion and affects solubility and diffusion."
       },
       "sourceFingerprint": "73a12a23"
     },
@@ -1812,7 +1817,9 @@
           }
         ],
         "answer": "b",
-        "detailed": "Carbon-supersaturated martensite follows c/a = 1.000 + 0.045(wt% C), so **(b)** is correct. Option (a) incorrectly uses the ideal HCP ratio as its baseline; (c) has the wrong sign; and (d) omits the cubic baseline of 1.000."
+        "detailed": "Carbon-supersaturated martensite follows c/a = 1.000 + 0.045(wt% C), so **(b)** is correct. Option (a) incorrectly uses the ideal HCP ratio as its baseline; (c) has the wrong sign; and (d) omits the cubic baseline of 1.000.",
+        "text": "For low-carbon martensite, an often-used approximate empirical relation between tetragonality and carbon content (in wt%) is:",
+        "keyExplanation": "For the low-carbon range in which this empirical fit is used, c/a ≈ 1.000 + 0.045(wt% C). It is an approximate relation, not a universal law; composition, carbon distribution and measurement conditions can affect the observed tetragonality."
       },
       "sourceFingerprint": "25255e9f"
     },
@@ -1951,7 +1958,9 @@
             "text": "Both false"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "reason": "Carbon is much more soluble in FCC austenite than in BCC ferrite. On quenching below the martensite-start temperature, the austenite transforms by a diffusionless shear mechanism, trapping carbon in a supersaturated body-centred tetragonal structure.",
+        "keyExplanation": "Both statements are true. Martensite forms by a diffusionless transformation below the martensite-start temperature, so carbon cannot partition by long-range diffusion during the transformation and remains trapped in a supersaturated, tetragonal structure."
       },
       "sourceFingerprint": "e5eb36da"
     },
@@ -11782,6 +11791,16 @@
       "updates": {
         "assertion": "Metals are generally ductile, whereas typical ionic and covalent-network solids are often brittle.",
         "keyExplanation": "The assertion describes a common trend, not an exception-free rule. Metallic bonding is non-directional and delocalised, allowing layers of atoms to shift while metallic cohesion is maintained. In many ionic solids, slip brings like charges into unfavourable proximity; in covalent-network solids, deformation can require breaking directional bonds. Thus the reason correctly explains the qualified trend."
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 37,
+      "originalType": "G",
+      "sourceText": "Expressed in units of the atomic radius R, FCC's d₁₁₁ and BCC's d₁₁₀ both come out to ≈ 1.633 R. The correct interpretation is:",
+      "sourceFingerprint": "3effebba",
+      "updates": {
+        "keyExplanation": "The equality of the two numerical plane spacings does not imply equal ductility. FCC has four equivalent close-packed {111} plane families with ⟨110⟩ directions, while BCC has several potential slip families and generally higher lattice resistance, especially at low temperature. Slip-system availability and glide resistance—not this spacing coincidence alone—govern the comparison."
       }
     }
   ],
