@@ -162,6 +162,7 @@ export default function Quiz({
       qid(topicId, q.n),
       selectedChoice,
       result.submission.grade.correct,
+      "practice",
       ms,
       q.difficulty,
     ));
