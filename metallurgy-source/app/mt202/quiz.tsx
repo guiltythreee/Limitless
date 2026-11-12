@@ -21,7 +21,7 @@ import {
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
-import { handleNextQuestionKey } from "../../../shared/learning-player/keyboard";
+import { handleNextQuestionKey, handleQuestionShortcut } from "../../../shared/learning-player/keyboard";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -138,33 +138,48 @@ export default function Quiz({
   const attempted = qs.filter((x) => stateFor(x.n)).length;
   const correct = qs.filter((x) => stateFor(x.n)?.correct).length;
 
-  const pick = (label: string) => {
-    if (!q) return;
-    const rec = stateFor(q.n);
-    if (rec) return; // already recorded — locked
-    const ms = Math.max(0, Math.round(elapsedNow()));
-    timerStartedAt.current = null;
-    const timed = tickPlayer(session, ms);
-    const answered = setPlayerAnswer(timed, adapter, {
+  const selectedChoice = q ? session.answers[q.id]?.optionId ?? "" : "";
+  const selectOption = (label: string) => {
+    if (!q || stateFor(q.n)) return;
+    setSession((current) => setPlayerAnswer(current, adapter, {
       kind: "single-choice",
       optionId: label,
-    });
-    const result = submitPlayerAnswer(answered, adapter, {
+    }));
+  };
+  const submitAnswer = () => {
+    if (!q || stateFor(q.n) || !selectedChoice) return;
+    const ms = Math.max(0, Math.round(elapsedNow()));
+    const timed = tickPlayer(session, ms);
+    const result = submitPlayerAnswer(timed, adapter, {
       submittedAt: Date.now(),
       mode: "practice",
     });
     if (!result.submission) return;
+    timerStartedAt.current = null;
     setSession(result.session);
     onProgress(recordAnswer(
       progress,
       qid(topicId, q.n),
-      label,
+      selectedChoice,
       result.submission.grade.correct,
-      "practice",
       ms,
       q.difficulty,
     ));
   };
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => handleQuestionShortcut(event, {
+      optionCount: q?.options.length ?? 0,
+      hasSelection: Boolean(selectedChoice) && !stateFor(q.n),
+      onSelectOption: (index) => {
+        const option = q.options[index];
+        if (option) selectOption(option.label);
+      },
+      onSubmit: submitAnswer,
+    });
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [q?.id, selectedChoice, progress.answered, session]);
 
   const dots = useMemo(
     () =>
@@ -248,7 +263,8 @@ export default function Quiz({
         </div>
         <QuestionMeta q={q} />
         <QuestionBody q={q} />
-        <OptionList q={q} picked={rec?.choice} onPick={pick} locked={Boolean(rec)} />
+        <OptionList q={q} picked={rec?.choice ?? selectedChoice} onPick={selectOption} locked={Boolean(rec)} />
+        {!rec && <button className="btn btn-gold" disabled={!selectedChoice} onClick={submitAnswer}>Submit Answer ↵</button>}
 
         {rec && (
           <div className={`verdict learning-player-feedback ${rec.correct ? "right" : "wrong"}`} style={{ marginTop: "0.8rem" }}>
