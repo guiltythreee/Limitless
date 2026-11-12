@@ -871,6 +871,82 @@
     {
       "id": "MT202-6.5.8",
       "description": "Relate cross-slip and recovery to dislocation rearrangement and strain hardening."
+    },
+    {
+      "id": "MT202-7.0.1",
+      "description": "Explain the unifying principle that strengthening mechanisms impede dislocation motion by introducing obstacles at different length scales."
+    },
+    {
+      "id": "MT202-7.1.1",
+      "description": "Explain work hardening through dislocation multiplication, interactions and increasing dislocation density."
+    },
+    {
+      "id": "MT202-7.1.2",
+      "description": "Interpret the stages of single-crystal work hardening and the effects of temperature, solute and grain size."
+    },
+    {
+      "id": "MT202-7.1.3",
+      "description": "Apply the Taylor relation to estimate strengthening from dislocation density and interpret its square-root dependence."
+    },
+    {
+      "id": "MT202-7.2.1",
+      "description": "Apply the Hall–Petch relation and interpret friction stress, strengthening coefficient and mean grain diameter."
+    },
+    {
+      "id": "MT202-7.2.2",
+      "description": "Explain grain-boundary strengthening through slip-transfer barriers and dislocation pile-ups."
+    },
+    {
+      "id": "MT202-7.2.3",
+      "description": "Predict the effects of grain refinement on yield strength and identify conventional limits and inverse Hall–Petch behaviour."
+    },
+    {
+      "id": "MT202-7.2.4",
+      "description": "Identify processing routes for grain refinement and explain recrystallisation and grain-boundary pinning effects."
+    },
+    {
+      "id": "MT202-7.3.1",
+      "description": "Explain solid-solution strengthening through elastic interactions between solute misfit fields and dislocations."
+    },
+    {
+      "id": "MT202-7.3.2",
+      "description": "Compare substitutional and interstitial strengthening by size misfit, strain-field geometry and strengthening potency."
+    },
+    {
+      "id": "MT202-7.4.1",
+      "description": "Describe the solution-treatment, quenching and ageing sequence required for precipitation hardening."
+    },
+    {
+      "id": "MT202-7.4.2",
+      "description": "Explain precipitate evolution from GP zones through coherent and semi-coherent to incoherent particles."
+    },
+    {
+      "id": "MT202-7.4.3",
+      "description": "Interpret underaged, peak-aged and overaged conditions using precipitate size, coherency and spacing."
+    },
+    {
+      "id": "MT202-7.4.4",
+      "description": "Compare precipitate cutting and Orowan bypass mechanisms and identify their strengthening contributions."
+    },
+    {
+      "id": "MT202-7.4.5",
+      "description": "Explain age hardening in Al–Cu alloys and identify the strengthening precipitation sequence."
+    },
+    {
+      "id": "MT202-7.5.1",
+      "description": "Distinguish recovery, recrystallisation and grain growth during annealing of cold-worked metals."
+    },
+    {
+      "id": "MT202-7.5.2",
+      "description": "Explain recrystallisation as reduction of stored dislocation strain energy and identify factors affecting its temperature."
+    },
+    {
+      "id": "MT202-7.5.3",
+      "description": "Explain grain growth and Zener pinning by fine second-phase particles."
+    },
+    {
+      "id": "MT202-7.5.4",
+      "description": "Relate stacking-fault energy and cross-slip to dynamic recovery and work-hardening behaviour."
     }
   ]
 }
