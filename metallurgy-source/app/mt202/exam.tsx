@@ -76,6 +76,10 @@ export default function Exam({
               : current
           );
         }
+      }, () => {
+        if (running && !submitted) setSession((current) =>
+          current.state.index > 0 ? navigatePlayer(current, "previous") : current
+        );
       });
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
