@@ -1770,24 +1770,24 @@
         "options": [
           {
             "label": "a",
-            "text": "carbon is smaller than both octahedral sites"
+            "text": "smaller than all four listed void radii, each of which is at most about 0.051 nm"
           },
           {
             "label": "b",
-            "text": "carbon exactly fits the FCC octahedral site"
+            "text": "equal to the FCC octahedral void radius, which is about 0.051 nm"
           },
           {
             "label": "c",
-            "text": "carbon is smaller than the BCC octahedral site"
+            "text": "larger than the FCC octahedral void but smaller than the BCC tetrahedral void"
           },
           {
             "label": "d",
-            "text": "carbon is larger than both quoted octahedral sites, so interstitial dissolution produces substantial lattice distortion"
+            "text": "larger than all four listed void radii, so inserting carbon distorts the iron lattice"
           }
         ],
         "answer": "d",
         "detailed": "Carbon has an atomic radius of about 0.08 nm, larger than the listed interstitial voids in both FCC and BCC iron. Therefore dissolving carbon creates lattice strain, and **(d)** is correct. Options (a), (b), and (c) incorrectly claim that carbon fits the available voids.",
-        "text": "The carbon atom has an approximate radius of 0.08 nm. Compared with the quoted octahedral-site radii in austenite and ferrite, this indicates that:",
+        "text": "Take the iron host-atom radius as R = 0.124 nm and the carbon-atom radius as 0.080 nm. Using the standard void-radius ratios for FCC and BCC iron, which statement is correct?",
         "keyExplanation": "The quoted carbon radius (about 0.08 nm) exceeds the quoted octahedral-site radii in both structures, especially in BCC ferrite. Carbon can nevertheless dissolve interstitially; the size mismatch produces lattice distortion and affects solubility and diffusion."
       },
       "sourceFingerprint": "73a12a23"
@@ -2832,19 +2832,19 @@
         "options": [
           {
             "label": "a",
-            "text": "An intermediate casting temperature in a chill mould — a sound shell of chill and columnar crystals wrapped around a fine equiaxed core"
+            "text": "An intermediate pouring temperature in a chill mould forms a sound outer shell and a fine equiaxed core."
           },
           {
             "label": "b",
-            "text": "High casting temperature in a chill mould"
+            "text": "A high pouring temperature in a chill mould lets columnar grains grow almost to the centre."
           },
           {
             "label": "c",
-            "text": "Low casting temperature in a chill mould"
+            "text": "A low pouring temperature in a chill mould promotes fine equiaxed grains throughout the section."
           },
           {
             "label": "d",
-            "text": "A sand mould with rapid pouring"
+            "text": "A sand mould with rapid pouring produces a relatively uniform fine-grained structure throughout the section."
           }
         ],
         "answer": "a"
@@ -2860,19 +2860,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the corner chills too slowly"
+            "text": "The corner cools too slowly, leaving the adjacent metal weak and under-solidified."
           },
           {
             "label": "b",
-            "text": "it causes inverse segregation"
+            "text": "The corner promotes inverse segregation, producing a chemically weakened zone at the junction."
           },
           {
             "label": "c",
-            "text": "two sets of columnar crystals meet at a diagonal interface that does not interlock, leaving a plane of weakness; the fix is simply to round the corners"
+            "text": "Columnar grains from adjacent walls can meet along a poorly interlocking diagonal interface, creating a plane of weakness."
           },
           {
             "label": "d",
-            "text": "it prevents pipe formation"
+            "text": "The corner interrupts feeding and prevents a normal shrinkage pipe from developing."
           }
         ],
         "answer": "c",
@@ -3253,19 +3253,19 @@
         "options": [
           {
             "label": "a",
-            "text": "its segregated core is the softest part"
+            "text": "Its segregated core is softer than the outer skin, so it carries most of the strain during forming."
           },
           {
             "label": "b",
-            "text": "it has no blowholes at all"
+            "text": "Rimming steel contains no blowholes, leaving its surface free of defects during pressing."
           },
           {
             "label": "c",
-            "text": "its ductile, exceptionally pure outer skin is exactly the region carrying the highest stress in most forming operations"
+            "text": "Its relatively pure, ductile outer skin carries much of the surface strain during deep drawing and pressing."
           },
           {
             "label": "d",
-            "text": "it is the hardest available steel"
+            "text": "It is the hardest steel grade, so it resists local thinning during forming operations."
           }
         ],
         "answer": "c",
@@ -3731,19 +3731,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the melt is cooled rapidly enough to suppress crystallisation and retain an amorphous structure"
+            "text": "Cooling is rapid enough to suppress crystal nucleation and growth before the liquid structure becomes frozen in."
           },
           {
             "label": "b",
-            "text": "a seed crystal is withdrawn very slowly"
+            "text": "A seed crystal is withdrawn slowly enough for atoms to attach in an ordered lattice."
           },
           {
             "label": "c",
-            "text": "the melt is held just below its melting temperature for a long time"
+            "text": "The melt is held just below its melting point long enough for crystalline phases to grow."
           },
           {
             "label": "d",
-            "text": "the alloy is cooled extremely slowly under vacuum"
+            "text": "The alloy is cooled slowly under vacuum to limit oxidation while it solidifies."
           }
         ],
         "answer": "a",
@@ -3823,19 +3823,19 @@
         "options": [
           {
             "label": "a",
-            "text": "prevents metal/mould reactions entirely"
+            "text": "It prevents chemical reactions between the molten metal and mould surface during pouring."
           },
           {
             "label": "b",
-            "text": "increases the strength of the mould"
+            "text": "It increases mould strength by allowing the sand grains to pack more tightly together."
           },
           {
             "label": "c",
-            "text": "allows mould gases to escape easily, preventing blowholes in the casting"
+            "text": "It lets gases generated in the mould escape instead of becoming trapped at the metal surface."
           },
           {
             "label": "d",
-            "text": "reduces the thermal conductivity of the mould"
+            "text": "It lowers mould thermal conductivity so the casting cools more uniformly through its section."
           }
         ],
         "answer": "c",
@@ -11837,7 +11837,25 @@
       "sourceText": "Expressed in units of the atomic radius R, FCC's d₁₁₁ and BCC's d₁₁₀ both come out to ≈ 1.633 R. The correct interpretation is:",
       "sourceFingerprint": "3effebba",
       "updates": {
-        "keyExplanation": "The equality of the two numerical plane spacings does not imply equal ductility. FCC has four equivalent close-packed {111} plane families with ⟨110⟩ directions, while BCC has several potential slip families and generally higher lattice resistance, especially at low temperature. Slip-system availability and glide resistance—not this spacing coincidence alone—govern the comparison."
+        "keyExplanation": "The equality of the two numerical plane spacings does not imply equal ductility. FCC has four equivalent close-packed {111} plane families with ⟨110⟩ directions, while BCC has several potential slip families and generally higher lattice resistance, especially at low temperature. Slip-system availability and glide resistance—not this spacing coincidence alone—govern the comparison.",
+        "options": [
+          {
+            "label": "a",
+            "text": "Equal spacings therefore imply similar slip resistance and comparable ductility in FCC and BCC metals."
+          },
+          {
+            "label": "b",
+            "text": "The values match numerically, but FCC has four equivalent {111} planes; BCC {110} is one of several competing slip-plane families."
+          },
+          {
+            "label": "c",
+            "text": "BCC therefore has more independent slip systems and should be more ductile than FCC under ordinary conditions."
+          },
+          {
+            "label": "d",
+            "text": "The equality occurs because both structures are close-packed and have the same slip-plane geometry."
+          }
+        ]
       }
     },
     {
@@ -11942,6 +11960,33 @@
         "keyExplanation": "Statements 1–3 are correct. For cubic crystals, dₕₖₗ = a/√(h² + k² + l²), so d₁₁₁ = a/√3 while d₁₀₀ = a; the close-packed FCC {111} planes therefore do not have the greatest interplanar spacing. A short slip translation gives a smaller Burgers vector, and dislocation line energy scales approximately with Gb². Statement 4 reverses this relationship.",
         "concise": "FCC {111} is close-packed but has smaller spacing than {100}; a smaller Burgers vector generally lowers dislocation energy.",
         "detailed": "For a cubic crystal, the spacing between successive (hkl) planes is dₕₖₗ = a/√(h² + k² + l²). Thus d₁₁₁ = a/√3, which is smaller than d₁₀₀ = a. Close-packed describes high atomic density within a plane; it does not mean that the plane family has the largest interplanar spacing. Slip commonly favours planes and directions with high planar/linear density and short lattice translations. The elastic energy per unit length of a dislocation is proportional, to first approximation, to Gb², so a larger Burgers vector raises rather than lowers the energy."
+      }
+    },
+    {
+      "chapter": "ch03",
+      "n": 56,
+      "originalType": "A",
+      "sourceText": "Constitutional supercooling arises in an alloy because:",
+      "sourceFingerprint": "9640cf82",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Latent heat is released faster than it can be conducted away from the solid–liquid interface."
+          },
+          {
+            "label": "b",
+            "text": "The mould wall extracts heat faster than the interior, creating a steep thermal gradient ahead of the front."
+          },
+          {
+            "label": "c",
+            "text": "Solute is rejected ahead of the interface, depressing the local liquidus and creating a constitutionally supercooled zone."
+          },
+          {
+            "label": "d",
+            "text": "Interfacial tension varies along the front and destabilises the solid–liquid interface."
+          }
+        ]
       }
     }
   ],
