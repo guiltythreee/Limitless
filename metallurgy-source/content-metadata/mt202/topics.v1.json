@@ -687,6 +687,98 @@
     {
       "id": "MT202-4.8.1",
       "description": "Distinguish overheating from burning by the effective local solidus, grain-boundary liquation, reversibility and material damage."
+    },
+    {
+      "id": "MT202-5.1.1",
+      "description": "Classify crystal defects by dimensionality and distinguish point, line, planar and volume defects."
+    },
+    {
+      "id": "MT202-5.2.1",
+      "description": "Identify vacancies, self-interstitials and substitutional impurities, including their relative strain and formation characteristics."
+    },
+    {
+      "id": "MT202-5.2.2",
+      "description": "Distinguish Frenkel and Schottky defects in ionic crystals using charge neutrality and relative ionic sizes."
+    },
+    {
+      "id": "MT202-5.2.3",
+      "description": "Apply the Boltzmann relation to calculate equilibrium vacancy concentration and its temperature dependence."
+    },
+    {
+      "id": "MT202-5.2.4",
+      "description": "Explain vacancy supersaturation by quenching and the roles of vacancy formation and migration energies in diffusion."
+    },
+    {
+      "id": "MT202-5.3.1",
+      "description": "Explain Frenkel's sinusoidal restoring-stress model and estimate theoretical shear strength."
+    },
+    {
+      "id": "MT202-5.3.2",
+      "description": "Compare theoretical and measured strengths of real crystals and explain the role of pre-existing dislocations."
+    },
+    {
+      "id": "MT202-5.4.1",
+      "description": "Describe edge and screw dislocations using their atomic geometry and line character."
+    },
+    {
+      "id": "MT202-5.4.2",
+      "description": "Relate Burgers-vector orientation to edge, screw and mixed dislocation character, strain fields, climb and cross-slip."
+    },
+    {
+      "id": "MT202-5.5.1",
+      "description": "Construct and interpret a Burgers circuit and determine the Burgers vector by closure failure."
+    },
+    {
+      "id": "MT202-5.5.2",
+      "description": "Identify common Burgers vectors and their magnitudes in BCC, FCC and simple-cubic crystals."
+    },
+    {
+      "id": "MT202-5.6.1",
+      "description": "Relate dislocation strain energy to shear modulus and the square of Burgers-vector magnitude."
+    },
+    {
+      "id": "MT202-5.6.2",
+      "description": "Explain perfect-dislocation dissociation into partials and the associated stacking-fault ribbon."
+    },
+    {
+      "id": "MT202-5.6.3",
+      "description": "Relate stacking-fault energy to partial separation, cross-slip and work-hardening behaviour."
+    },
+    {
+      "id": "MT202-5.7.1",
+      "description": "Distinguish conservative cross-slip from non-conservative vacancy-mediated climb."
+    },
+    {
+      "id": "MT202-5.7.2",
+      "description": "Explain dislocation reactions, interactions, annihilation and junction formation."
+    },
+    {
+      "id": "MT202-5.7.3",
+      "description": "Explain Frank–Read source operation and dislocation multiplication during plastic deformation."
+    },
+    {
+      "id": "MT202-5.7.4",
+      "description": "Explain dislocation pile-ups and their stress concentration at barriers and grain boundaries."
+    },
+    {
+      "id": "MT202-5.8.1",
+      "description": "Describe grain, twin and stacking-fault boundaries and distinguish their atomic structures."
+    },
+    {
+      "id": "MT202-5.8.2",
+      "description": "Relate grain-boundary structure and energy to misorientation angle, Read–Shockley behaviour, tilt and twist character."
+    },
+    {
+      "id": "MT202-5.8.3",
+      "description": "Explain external surfaces as planar defects and compare mechanical twinning with slip."
+    },
+    {
+      "id": "MT202-5.8.4",
+      "description": "Apply slip-system geometry and Burgers-vector relations in FCC, BCC and HCP crystals."
+    },
+    {
+      "id": "MT202-5.8.5",
+      "description": "Apply the Orowan relation and define dislocation density and Peierls–Nabarro stress."
     }
   ]
 }
