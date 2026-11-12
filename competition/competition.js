@@ -476,7 +476,7 @@
       book:'Blitzstein & Hwang, Introduction to Probability (2nd ed.)',
       sections:['Ch. 1: Probability and counting','Ch. 2: Conditional probability','Ch. 3: Random variables and distributions','Ch. 4: Expectation','Ch. 5: Variance and joint distributions'],
       link:'https://projects.iq.harvard.edu/stat110/home',
-      practice:['Harvard STAT 110: solve the end-of-chapter problems for the chapter listed here','Use the matching STAT 110 lecture and problem set; show the sample space / conditioning event / random variable explicitly']
+      practice:['Harvard STAT 110 Strategic Practice and Homework Set: complete the assigned set linked below, focusing on this chapter’s concepts','Then solve the matching end-of-chapter exercises in Blitzstein & Hwang, Introduction to Probability (2nd ed.); define the sample space / conditioning event / random variable explicitly']
     },
     graphs: {
       book:'Competitive Programmer’s Handbook (Antti Laaksonen)',
@@ -586,10 +586,27 @@
       mitChecks+='<label class="reference-task"><input type="checkbox" data-day-task="'+noteKey+'" '+(state.dayChecks[noteKey]?'checked':'')+'><span><b>MIT written notes:</b> read '+esc(noteNames)+' (text notes, not a video).</span></label>';
       if(companion.lectures.length)mitChecks+='<label class="reference-task"><input type="checkbox" data-day-task="'+videoKey+'" '+(state.dayChecks[videoKey]?'checked':'')+'><span><b>MIT video lecture:</b> watch '+esc(lectureNames)+'.</span></label>';
     }
+    // Exact problem-set references: keep the assignment label and the actual source link together.
     var tasks=ref.items.map(function(item,index){
-      var key=baseKey+'-q'+index, taskName=item.replace(/^CSES:\s*/,'');
+      var key=baseKey+'-q'+index, taskName=item.replace(/^CSES:\\s*/,'');
       var taskId=item.indexOf('CSES: ')===0?CSES_TASK_LINKS[taskName]:null;
-      var taskLabel=taskId?'<a href="https://cses.fi/problemset/task/'+taskId+'" target="_blank" rel="noopener noreferrer">'+esc(item)+' ↗</a>':esc(item);
+      var taskLabel='';
+      if(taskId){
+        taskLabel='<a href="https://cses.fi/problemset/task/'+taskId+'" target="_blank" rel="noopener noreferrer">'+esc(taskName)+' — CSES Problemset ↗</a>';
+      }else if(subjectId==='probability'){
+        var setNumber=Math.max(1,Math.min(11,ref.guide.sections.indexOf(ref.section)+1));
+        var setUrl='https://stat110.hsites.harvard.edu/sites/g/files/omnuum10111/files/stat110/files/strategic_practice_and_homework_'+setNumber+'.pdf';
+        if(/Strategic Practice and Homework Set/.test(item)){
+          taskLabel='<a href="'+setUrl+'" target="_blank" rel="noopener noreferrer">Harvard STAT 110 — Strategic Practice and Homework '+setNumber+' (PDF) ↗</a>';
+        }else{
+          taskLabel=esc(item)+' <a href="https://stat110.hsites.harvard.edu/strategic-practice-problems" target="_blank" rel="noopener noreferrer">[official problem-set index] ↗</a>';
+        }
+      }else if(item.indexOf('MIT 6.042J ')===0 && companion && companion.sets.length){
+        var setLinks=companion.sets.map(function(set){return '<a href="'+set.url+'" target="_blank" rel="noopener noreferrer">'+esc(set.label)+' ↗</a>';}).join(' · ');
+        taskLabel=esc(item)+' — '+setLinks;
+      }else{
+        taskLabel=esc(item);
+      }
       return '<label class="reference-task"><input type="checkbox" data-day-task="'+key+'" '+(state.dayChecks[key]?'checked':'')+'><span>'+taskLabel+'</span></label>';
     }).join('');
     var resourceLinks=[];
@@ -601,6 +618,9 @@
       companion.sets.forEach(function(item){resourceLinks.push({label:item.label+' — exercises',url:item.url});});
     }
     if(subjectId==='probability') {
+      var statSetNumber=Math.max(1,Math.min(11,ref.guide.sections.indexOf(ref.section)+1));
+      resourceLinks.push({label:'Harvard STAT 110 — Strategic Practice and Homework '+statSetNumber+' (PDF)',url:'https://stat110.hsites.harvard.edu/sites/g/files/omnuum10111/files/stat110/files/strategic_practice_and_homework_'+statSetNumber+'.pdf'});
+      resourceLinks.push({label:'All STAT 110 problem sets (official index)',url:'https://stat110.hsites.harvard.edu/strategic-practice-problems'});
       resourceLinks.push({label:'Harvard STAT 110 course materials',url:'https://stat110.hsites.harvard.edu/'});
       statVideos.forEach(function(item){resourceLinks.push({label:'Video — '+item.label,url:item.url});});
     } else if(!companion) resourceLinks.push({label:'Open primary reference',url:ref.guide.link});
