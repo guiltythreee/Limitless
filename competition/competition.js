@@ -476,7 +476,7 @@
       book:'Blitzstein & Hwang, Introduction to Probability (2nd ed.)',
       sections:['Ch. 1: Probability and counting','Ch. 2: Conditional probability','Ch. 3: Random variables and distributions','Ch. 4: Expectation','Ch. 5: Variance and joint distributions'],
       link:'https://projects.iq.harvard.edu/stat110/home',
-      practice:['Harvard STAT 110 Strategic Practice and Homework Set: complete the assigned set linked below, focusing on this chapter’s concepts','Then solve the matching end-of-chapter exercises in Blitzstein & Hwang, Introduction to Probability (2nd ed.); define the sample space / conditioning event / random variable explicitly']
+      practice:['Harvard STAT 110 Strategic Practice and Homework: complete the problems under the matching concept in the official problem-set index, then attempt the corresponding homework problems','Blitzstein & Hwang, Introduction to Probability (2nd ed.): complete the end-of-chapter exercises for the assigned chapter; define the sample space / conditioning event / random variable explicitly']
     },
     graphs: {
       book:'Competitive Programmer’s Handbook (Antti Laaksonen)',
@@ -594,12 +594,10 @@
       if(taskId){
         taskLabel='<a href="https://cses.fi/problemset/task/'+taskId+'" target="_blank" rel="noopener noreferrer">'+esc(taskName)+' — CSES Problemset ↗</a>';
       }else if(subjectId==='probability'){
-        var setNumber=Math.max(1,Math.min(11,ref.guide.sections.indexOf(ref.section)+1));
-        var setUrl='https://stat110.hsites.harvard.edu/sites/g/files/omnuum10111/files/stat110/files/strategic_practice_and_homework_'+setNumber+'.pdf';
-        if(/Strategic Practice and Homework Set/.test(item)){
-          taskLabel='<a href="'+setUrl+'" target="_blank" rel="noopener noreferrer">Harvard STAT 110 — Strategic Practice and Homework '+setNumber+' (PDF) ↗</a>';
+        if(/Strategic Practice and Homework/.test(item)){
+          taskLabel=esc(item)+' <a href="https://stat110.hsites.harvard.edu/strategic-practice-problems" target="_blank" rel="noopener noreferrer">[official STAT 110 problem sets] ↗</a>';
         }else{
-          taskLabel=esc(item)+' <a href="https://stat110.hsites.harvard.edu/strategic-practice-problems" target="_blank" rel="noopener noreferrer">[official problem-set index] ↗</a>';
+          taskLabel=esc(item)+' <a href="https://probabilitybook.net/" target="_blank" rel="noopener noreferrer">[official textbook and chapter exercises] ↗</a>';
         }
       }else if(item.indexOf('MIT 6.042J ')===0 && companion && companion.sets.length){
         var setLinks=companion.sets.map(function(set){return '<a href="'+set.url+'" target="_blank" rel="noopener noreferrer">'+esc(set.label)+' ↗</a>';}).join(' · ');
@@ -618,9 +616,8 @@
       companion.sets.forEach(function(item){resourceLinks.push({label:item.label+' — exercises',url:item.url});});
     }
     if(subjectId==='probability') {
-      var statSetNumber=Math.max(1,Math.min(11,ref.guide.sections.indexOf(ref.section)+1));
-      resourceLinks.push({label:'Harvard STAT 110 — Strategic Practice and Homework '+statSetNumber+' (PDF)',url:'https://stat110.hsites.harvard.edu/sites/g/files/omnuum10111/files/stat110/files/strategic_practice_and_homework_'+statSetNumber+'.pdf'});
-      resourceLinks.push({label:'All STAT 110 problem sets (official index)',url:'https://stat110.hsites.harvard.edu/strategic-practice-problems'});
+      resourceLinks.push({label:'Harvard STAT 110 — Strategic Practice and Homework problem sets (official index)',url:'https://stat110.hsites.harvard.edu/strategic-practice-problems'});
+      resourceLinks.push({label:'Blitzstein & Hwang — textbook and chapter exercises',url:'https://probabilitybook.net/'});
       resourceLinks.push({label:'Harvard STAT 110 course materials',url:'https://stat110.hsites.harvard.edu/'});
       statVideos.forEach(function(item){resourceLinks.push({label:'Video — '+item.label,url:item.url});});
     } else if(!companion) resourceLinks.push({label:'Open primary reference',url:ref.guide.link});
@@ -653,10 +650,9 @@
         group.lectures.push({label:'STAT 110 video lectures',url:'https://projects.iq.harvard.edu/stat110/online-learning'});
       }
       if(subjectId==='probability'){
-        var statSetNumber=Math.max(1,Math.min(11,ref.guide.sections.indexOf(ref.section)+1));
-        var statSetUrl='https://stat110.hsites.harvard.edu/sites/g/files/omnuum10111/files/stat110/files/strategic_practice_and_homework_'+statSetNumber+'.pdf';
+        var statSetUrl='https://stat110.hsites.harvard.edu/strategic-practice-problems';
         if(!group.sets.some(function(x){return x.url===statSetUrl;})){
-          group.sets.push({label:'STAT 110 Strategic Practice and Homework '+statSetNumber,url:statSetUrl});
+          group.sets.push({label:'STAT 110 Strategic Practice and Homework — topic-matched problem sets',url:statSetUrl});
         }
       }
     });
