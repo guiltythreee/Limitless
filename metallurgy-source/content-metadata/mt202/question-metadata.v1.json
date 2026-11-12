@@ -2806,17 +2806,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 12,
-        "reasoning": 9,
-        "noGiveaways": 10,
-        "clarity": 11,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 69
+        "total": 92
       },
-      "status": "rejected",
-      "reviewNotes": "The FCC/BCC comparison needs a more precise description of active slip families and equivalent planes; the current explanation risks equating one family count with total BCC slip capability."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch03-q1",
@@ -3117,16 +3117,16 @@
       "mappingConfidence": "medium",
       "quality": {
         "conceptualAccuracy": 19,
-        "distractorPlausibility": 16,
-        "reasoning": 9,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
         "noGiveaways": 14,
         "clarity": 14,
         "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 86
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "Check the sign convention and definitions of the interfacial energies/contact angle in Young's equation; explicitly define ψ and the three γ terms in the stem."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch03-q11",
@@ -3345,17 +3345,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 13,
-        "reasoning": 9,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 75
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The question is useful but option wording and explanation need tightening: both nucleation and growth depend on mobility and driving force, and peak-temperature ordering is not universal without stated assumptions."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch03-q18",
@@ -4552,17 +4552,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 20,
-        "distractorPlausibility": 16,
-        "reasoning": 10,
-        "noGiveaways": 15,
-        "clarity": 15,
-        "explanation": 10,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 91
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The numerical barrier calculation is sensitive to the supplied thermodynamic approximation; verify units and significant figures and state that ΔG_v is an approximation."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch03-q56",
@@ -6497,17 +6497,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 11,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 69
+        "total": 92
       },
-      "status": "rejected",
-      "reviewNotes": "The word 'precisely' is too strong: low-melting segregated liquid may collect at interdendritic/grain-boundary regions, but location and incipient melting depend on the system."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch04-q43",
