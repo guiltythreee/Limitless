@@ -85,6 +85,10 @@ export default function Quiz({
             : current
         );
       }
+    }, () => {
+      if (!done) setSession((current) =>
+        current.state.index > 0 ? navigatePlayer(current, "previous") : current
+      );
     });
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
