@@ -2220,14 +2220,14 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 13,
+        "distractorPlausibility": 14,
+        "reasoning": 10,
+        "noGiveaways": 11,
+        "clarity": 10,
+        "explanation": 5,
         "syllabusRelevance": 5,
-        "total": 66
+        "total": 68
       },
       "status": "rejected",
       "reviewNotes": "Statement 1 is scientifically incorrect as written: close-packed planes are not generally the planes with the largest interplanar spacing. The item needs a corrected mechanism-based explanation and revised answer options before approval."
