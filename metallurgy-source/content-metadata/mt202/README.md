@@ -30,8 +30,9 @@ Question IDs follow the current adapter convention: `ch01-q1` through `ch09-q70`
 | `misconceptionTags` | Specific misconceptions targeted |
 | `sourceReferences` | Syllabus, lecture, textbook or PYQ references |
 | `mappingConfidence` | High, medium or low |
-| `quality` | Seven rubric dimensions and total |
-| `status` | Draft, review, approved or rejected |
+| `quality` | Seven scored rubric dimensions and their total |
+| `reviewNotes` | Required rationale for questions left in review or rejected |
+| `status` | `approved`, `review` or `rejected` after quality assessment |
 
 ## Difficulty assessment (1–5)
 
@@ -65,14 +66,29 @@ Bands: 90–100 Excellent; 80–89 Good; 70–79 Needs revision; below 70 Reject
 
 Hard rejection overrides the score: wrong answer key, scientifically incorrect explanation, ambiguous single answer, multiple defensible answers where only one is allowed, or missing required information.
 
+## Quality review outcome
+
+The first complete rubric pass has been recorded for all 522 questions.
+
+| Status | Questions | Meaning |
+|---|---:|---|
+| Approved | 453 | Score ≥80 and no outstanding review flag |
+| Review | 52 | Requires a targeted subject-matter, source, wording or data check |
+| Rejected | 17 | Score below 70 under the rubric; revise before reconsideration |
+
+Every question has all seven rubric dimensions scored, and `quality.total` is the sum of those dimensions. Non-approved records carry a `reviewNotes` explanation. A review status is not approval: do not expose those items as fully validated exam questions until the note is resolved and the record is reassessed.
+
+The scores are a structured editorial assessment of the question-bank JSON (stem, options, keyed answer and supplied explanation). They are not a substitute for independent faculty sign-off or checking the upstream lecture/PYQ source where the note calls for it. In particular, records that refer to tables/plots or numerical reference values must be checked against their rendered source before final release.
+
 ## Workflow
 
 1. Verify primary topic mapping and add learning objectives.
 2. Classify question type and assessed difficulty independently.
 3. Tag reasoning skills and misconceptions.
-4. Score quality; set status to review.
-5. Approve only after answer key, explanation and syllabus checks.
-6. Validate registry IDs against all chapter JSON files before integration.
+4. Score all seven quality dimensions and calculate the total.
+5. Approve only if the score is at least 80 and no unresolved issue remains; retain review notes for unresolved items.
+6. Reject scores below 70 or any hard-rejection defect; revise and reassess before approval.
+7. Validate registry IDs, scores, totals and status consistency against all chapter JSON files before integration.
 
 ## Source-of-truth warning
 
