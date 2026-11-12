@@ -947,6 +947,86 @@
     {
       "id": "MT202-7.5.4",
       "description": "Relate stacking-fault energy and cross-slip to dynamic recovery and work-hardening behaviour."
+    },
+    {
+      "id": "MT202-8.0.1",
+      "description": "Explain how diffusion links heat treatment, homogenisation, sintering, creep and other microstructural processes."
+    },
+    {
+      "id": "MT202-8.1.1",
+      "description": "Distinguish vacancy-mediated substitutional diffusion from direct interstitial diffusion."
+    },
+    {
+      "id": "MT202-8.1.2",
+      "description": "Compare diffusion rates and activation energies for interstitial and substitutional solutes."
+    },
+    {
+      "id": "MT202-8.1.3",
+      "description": "Explain vacancy formation and migration contributions to substitutional diffusion activation energy."
+    },
+    {
+      "id": "MT202-8.1.4",
+      "description": "Describe direct-exchange and collective ring mechanisms and explain their limited occurrence."
+    },
+    {
+      "id": "MT202-8.2.1",
+      "description": "State and apply Fick's first law, including flux units, sign convention and steady-state assumptions."
+    },
+    {
+      "id": "MT202-8.2.2",
+      "description": "Solve steady-state diffusion and permeation problems through plane membranes and layers."
+    },
+    {
+      "id": "MT202-8.3.1",
+      "description": "State and apply Fick's second law for one-dimensional non-steady-state diffusion with constant diffusivity."
+    },
+    {
+      "id": "MT202-8.3.2",
+      "description": "Apply the error-function solution for a semi-infinite solid with fixed surface concentration."
+    },
+    {
+      "id": "MT202-8.3.3",
+      "description": "Interpret the Gaussian error function and calculate concentration profiles and case depths."
+    },
+    {
+      "id": "MT202-8.3.4",
+      "description": "Apply the thin-film instantaneous-source solution to tracer diffusion."
+    },
+    {
+      "id": "MT202-8.3.5",
+      "description": "Use the square-root-of-time diffusion-distance scaling to compare treatment times and depths."
+    },
+    {
+      "id": "MT202-8.4.1",
+      "description": "Apply the Arrhenius equation for diffusion coefficient and interpret its pre-exponential factor and activation energy."
+    },
+    {
+      "id": "MT202-8.4.2",
+      "description": "Determine diffusion activation energy from Arrhenius-plot slopes or diffusivity measurements at two temperatures."
+    },
+    {
+      "id": "MT202-8.4.3",
+      "description": "Predict the temperature sensitivity of diffusion and compare activation energies of different solutes."
+    },
+    {
+      "id": "MT202-8.5.1",
+      "description": "Compare lattice, grain-boundary and free-surface diffusion rates and their relative importance with temperature."
+    },
+    {
+      "id": "MT202-8.5.2",
+      "description": "Explain how host crystal structure affects interstitial diffusion and distinguish diffusivity from solubility."
+    },
+    {
+      "id": "MT202-8.5.3",
+      "description": "Explain the Kirkendall effect, inert-marker displacement and unequal intrinsic diffusion fluxes."
+    },
+    {
+      "id": "MT202-8.6.1",
+      "description": "Identify applications of diffusion in carburising, nitriding, permeation, sintering and homogenisation."
+    },
+    {
+      "id": "MT202-8.6.2",
+      "description": "Relate diffusion mechanisms and rates to practical heat-treatment and materials-processing choices."
     }
   ]
 }
