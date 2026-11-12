@@ -194,7 +194,7 @@ function checkLedgerOnly(actual, expected, label) {
   globalThis.window.localStorage = isolated;
 
   const player = readFileSync(new URL("../app/mt203/player.tsx", import.meta.url), "utf8");
-  assert.ok(player.includes("recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty, false)"));
+  assert.ok(player.includes("recordAnswer(progress, theQ.id, selectedChoice, ok, mode, ms, theQ.difficulty, false)"));
   assert.ok(player.includes("awardAnswer(p, theQ.id, theQ.difficulty, ok, false)"));
   assert.ok(player.includes("saveProgress(p, (p.rewardLedger?.length ?? 0) > initialRewardLedgerLength)"));
 
