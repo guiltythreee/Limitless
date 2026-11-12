@@ -7288,17 +7288,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 74
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "Edge dislocations can cross-slip only after suitable dissociation/recombination or constriction? The blanket statement needs careful wording; distinguish pure edge from mixed-character segments."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch05-q21",
@@ -7320,17 +7320,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 74
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The screw-dislocation statements should clarify that the ideal screw stress field is pure shear and distinguish it from mixed dislocations."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch05-q22",
@@ -7711,17 +7711,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 13,
-        "explanation": 8,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 78
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The assertion/reason logic is subtle; explicitly state why the reason is true but does not define a perfect Burgers vector, and avoid an ambiguous causal link."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch05-q34",
@@ -8036,17 +8036,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 72
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "Dislocation density units are conventionally m^-2 (or cm^-2) as line length per volume; avoid describing it as a simple count per area without explanation."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch05-q44",
@@ -8481,17 +8481,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 72
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The assertion is sound, but the reason's truth value needs an explicit explanation in the question; retain the fixed Burgers vector versus changing line character distinction."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch05-q58",
@@ -10262,17 +10262,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 9,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 73
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The three-system single-crystal explanation needs to distinguish a free single crystal from a polycrystal constrained by compatibility at grain boundaries."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch06-q43",
@@ -10421,17 +10421,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 73
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The HCP deformation statements need item-by-item explanation and qualification for temperature, texture and available non-basal slip/twinning."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch06-q48",
@@ -10619,17 +10619,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 72
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The reason in the assertion–reason item needs explicit explanation; the role of temper rolling in suppressing the yield-point phenomenon should be stated clearly."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch06-q54",
