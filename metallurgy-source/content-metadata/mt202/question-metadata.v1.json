@@ -8809,13 +8809,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.0",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.0.1"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -8833,13 +8835,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.0",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.0.1"
+      ],
+      "questionType": "D",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -8857,13 +8861,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.0",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.0.1"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -8881,13 +8887,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.1"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -8905,13 +8913,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.2"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -8929,13 +8939,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.2"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -8953,13 +8965,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.2"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -8977,13 +8991,16 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.2",
+        "MT202-7.3.1"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9001,13 +9018,16 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.2",
+        "MT202-7.2.1"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9025,13 +9045,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.2"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9049,13 +9071,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.1"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9073,13 +9097,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.1"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9097,13 +9123,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.1"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9121,13 +9149,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.1"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9145,13 +9175,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.1"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9169,13 +9201,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9193,13 +9227,16 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.2",
+        "MT202-7.2.1"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9217,13 +9254,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.2"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9241,13 +9280,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.1"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9265,13 +9306,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.2"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9289,13 +9332,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.4"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9313,13 +9358,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.3.1"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9337,13 +9384,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.3.2"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9361,13 +9410,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.3.2"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9385,13 +9436,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.3.1"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9409,13 +9462,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.3.2"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9433,13 +9488,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.3.2"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9457,13 +9514,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.3.1"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9481,13 +9540,16 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.1",
+        "MT202-7.4.4"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9505,13 +9567,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.1"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9529,13 +9593,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.2"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9553,13 +9619,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.3"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9577,13 +9645,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.4"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9601,13 +9671,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.4"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9625,13 +9697,16 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.3",
+        "MT202-7.4.4"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9649,13 +9724,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.5"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9673,13 +9750,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.5"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9697,13 +9776,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9721,13 +9802,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.5.1"
+      ],
+      "questionType": "D",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9745,13 +9828,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.5.2"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9769,13 +9854,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.1"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9793,13 +9880,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.1"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9817,13 +9906,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.3"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9841,13 +9932,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.1"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9865,13 +9958,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.3"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9889,13 +9984,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.1.3"
+      ],
+      "questionType": "F",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9913,13 +10010,18 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.0",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.0.1",
+        "MT202-7.2.1",
+        "MT202-7.3.1",
+        "MT202-7.4.4"
+      ],
+      "questionType": "D",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9937,13 +10039,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.4"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9961,13 +10065,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.4"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -9985,13 +10091,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.2"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10009,13 +10117,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.1"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10033,13 +10143,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.3"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10057,13 +10169,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.3"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10081,13 +10195,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.5.2"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10105,13 +10221,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.5.3"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10129,13 +10247,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.2.3"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10153,13 +10273,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.4.1"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10177,13 +10299,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.5.4"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10201,13 +10325,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.5.1"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
@@ -10225,13 +10351,15 @@
       "chapterId": "ch07",
       "curriculumTopicId": "7.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-7.5.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
       "sourceReferences": [],
-      "mappingConfidence": "medium",
+      "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": null,
         "distractorPlausibility": null,
