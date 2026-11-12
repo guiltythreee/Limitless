@@ -14467,16 +14467,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q2",
@@ -14500,16 +14500,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q3",
@@ -14531,16 +14531,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q4",
@@ -14562,16 +14562,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q5",
@@ -14597,16 +14597,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q6",
@@ -14628,16 +14628,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q7",
@@ -14659,16 +14659,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q8",
@@ -14693,16 +14693,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 17,
+        "distractorPlausibility": 14,
+        "reasoning": 9,
+        "noGiveaways": 12,
+        "clarity": 12,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 77
       },
-      "status": "draft"
+      "status": "review"
     },
     {
       "questionId": "ch09-q9",
@@ -14724,16 +14724,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q10",
@@ -14758,16 +14758,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q11",
@@ -14791,16 +14791,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q12",
@@ -14824,16 +14824,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q13",
@@ -14855,16 +14855,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q14",
@@ -14887,16 +14887,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q15",
@@ -14920,16 +14920,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q16",
@@ -14951,16 +14951,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q17",
@@ -14985,16 +14985,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q18",
@@ -15024,16 +15024,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q19",
@@ -15055,16 +15055,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q20",
@@ -15087,16 +15087,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 16,
+        "distractorPlausibility": 13,
+        "reasoning": 8,
+        "noGiveaways": 11,
+        "clarity": 12,
+        "explanation": 7,
+        "syllabusRelevance": 5,
+        "total": 72
       },
-      "status": "draft"
+      "status": "review"
     },
     {
       "questionId": "ch09-q21",
@@ -15118,16 +15118,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q22",
@@ -15149,16 +15149,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q23",
@@ -15179,16 +15179,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q24",
@@ -15210,16 +15210,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q25",
@@ -15241,16 +15241,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q26",
@@ -15272,16 +15272,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q27",
@@ -15310,16 +15310,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q28",
@@ -15343,16 +15343,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q29",
@@ -15376,16 +15376,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q30",
@@ -15408,16 +15408,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q31",
@@ -15438,16 +15438,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q32",
@@ -15471,16 +15471,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q33",
@@ -15508,16 +15508,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q34",
@@ -15541,16 +15541,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q35",
@@ -15573,16 +15573,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q36",
@@ -15606,16 +15606,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q37",
@@ -15636,16 +15636,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q38",
@@ -15669,16 +15669,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q39",
@@ -15700,16 +15700,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q40",
@@ -15733,16 +15733,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q41",
@@ -15765,16 +15765,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q42",
@@ -15798,16 +15798,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q43",
@@ -15829,16 +15829,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q44",
@@ -15860,16 +15860,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 16,
+        "distractorPlausibility": 13,
+        "reasoning": 8,
+        "noGiveaways": 11,
+        "clarity": 12,
+        "explanation": 7,
+        "syllabusRelevance": 5,
+        "total": 72
       },
-      "status": "draft"
+      "status": "review"
     },
     {
       "questionId": "ch09-q45",
@@ -15894,16 +15894,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q46",
@@ -15925,16 +15925,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q47",
@@ -15957,16 +15957,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q48",
@@ -15991,16 +15991,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q49",
@@ -16029,16 +16029,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q50",
@@ -16061,16 +16061,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 16,
+        "distractorPlausibility": 13,
+        "reasoning": 8,
+        "noGiveaways": 11,
+        "clarity": 12,
+        "explanation": 7,
+        "syllabusRelevance": 5,
+        "total": 72
       },
-      "status": "draft"
+      "status": "review"
     },
     {
       "questionId": "ch09-q51",
@@ -16097,16 +16097,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q52",
@@ -16130,16 +16130,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q53",
@@ -16164,16 +16164,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q54",
@@ -16198,16 +16198,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q55",
@@ -16237,16 +16237,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 16,
+        "distractorPlausibility": 13,
+        "reasoning": 8,
+        "noGiveaways": 11,
+        "clarity": 12,
+        "explanation": 7,
+        "syllabusRelevance": 5,
+        "total": 72
       },
-      "status": "draft"
+      "status": "review"
     },
     {
       "questionId": "ch09-q56",
@@ -16275,16 +16275,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q57",
@@ -16306,16 +16306,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q58",
@@ -16344,16 +16344,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q59",
@@ -16380,16 +16380,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q60",
@@ -16415,16 +16415,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q61",
@@ -16450,16 +16450,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q62",
@@ -16485,16 +16485,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q63",
@@ -16521,16 +16521,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q64",
@@ -16555,16 +16555,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q65",
@@ -16590,16 +16590,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q66",
@@ -16623,16 +16623,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q67",
@@ -16660,16 +16660,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q68",
@@ -16693,16 +16693,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 16,
+        "reasoning": 10,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
+        "syllabusRelevance": 5,
+        "total": 91
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q69",
@@ -16733,16 +16733,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     },
     {
       "questionId": "ch09-q70",
@@ -16768,16 +16768,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": null,
-        "distractorPlausibility": null,
-        "reasoning": null,
-        "noGiveaways": null,
-        "clarity": null,
-        "explanation": null,
-        "syllabusRelevance": null,
-        "total": null
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 15,
+        "reasoning": 9,
+        "noGiveaways": 13,
+        "clarity": 13,
+        "explanation": 8,
+        "syllabusRelevance": 5,
+        "total": 81
       },
-      "status": "draft"
+      "status": "approved"
     }
   ]
 }
