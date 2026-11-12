@@ -399,6 +399,78 @@
     {
       "id": "MT202-1.5.5",
       "description": "Interpret the attractive and repulsive terms in a mathematical interatomic potential and the condition for short-range repulsion."
+    },
+    {
+      "id": "MT202-2.1.1",
+      "description": "Explain the space-lattice concept and identify the role of a unit cell in generating a crystal."
+    },
+    {
+      "id": "MT202-2.1.2",
+      "description": "Interpret lattice parameters, crystal-system constraints and the three-dimensional Bravais-lattice classification."
+    },
+    {
+      "id": "MT202-2.2.1",
+      "description": "Compare BCC, FCC and HCP by atoms per unit cell, coordination number and atomic packing factor."
+    },
+    {
+      "id": "MT202-2.2.2",
+      "description": "Derive contact directions and lattice-parameter–atomic-radius relationships for BCC and FCC."
+    },
+    {
+      "id": "MT202-2.2.3",
+      "description": "Identify BCC, FCC and HCP structures, their close-packed stacking sequences and their implications for packing."
+    },
+    {
+      "id": "MT202-2.2.4",
+      "description": "Use the ideal HCP axial ratio and interpret deviations in real HCP metals."
+    },
+    {
+      "id": "MT202-2.3.1",
+      "description": "Use standard crystallographic notation for directions, direction families, planes and plane families."
+    },
+    {
+      "id": "MT202-2.3.2",
+      "description": "Determine Miller indices from plane intercepts, including parallel and negative intercepts."
+    },
+    {
+      "id": "MT202-2.3.3",
+      "description": "Calculate interplanar spacing for cubic crystals and relate it to lattice parameter and atomic radius."
+    },
+    {
+      "id": "MT202-2.3.4",
+      "description": "Relate close-packed planes and directions, equivalent plane families and available slip systems to deformation behaviour."
+    },
+    {
+      "id": "MT202-2.4.1",
+      "description": "Define and calculate linear and planar atomic density."
+    },
+    {
+      "id": "MT202-2.5.1",
+      "description": "Locate octahedral and tetrahedral interstitial sites and compare their number and relative size in common crystal structures."
+    },
+    {
+      "id": "MT202-2.5.2",
+      "description": "Explain interstitial carbon accommodation, local lattice strain and carbon solubility in ferrite and austenite."
+    },
+    {
+      "id": "MT202-2.5.3",
+      "description": "Relate supersaturated interstitial carbon to martensite tetragonality."
+    },
+    {
+      "id": "MT202-2.6.1",
+      "description": "Describe the sequence and crystal structures of iron allotropes."
+    },
+    {
+      "id": "MT202-2.6.2",
+      "description": "Explain the FCC-to-BCC transformation in iron, carbon-solubility changes and martensite formation by quenching."
+    },
+    {
+      "id": "MT202-2.8.1",
+      "description": "Apply Bragg's law to calculate X-ray diffraction angles from wavelength and interplanar spacing."
+    },
+    {
+      "id": "MT202-2.8.2",
+      "description": "Explain the geometric origin of the path difference in Bragg diffraction."
     }
   ]
 }
