@@ -4172,17 +4172,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 73
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The three blowhole routes should be listed explicitly in the explanation so the keyed combination can be independently checked."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch03-q44",
@@ -4235,17 +4235,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 73
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The killed-steel statements need explicit item-by-item explanations; distinguish deoxidation, gas evolution, shrinkage and feeding without overgeneralising the final ingot structure."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch03-q46",
