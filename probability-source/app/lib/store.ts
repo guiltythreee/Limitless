@@ -28,6 +28,8 @@ export type Attempt = {
   status: Exclude<Status, "unattempted">;
   ms: number; // time spent on this attempt
   ts: number; // when it was submitted (0 = carried over from an older version, date unknown)
+  mistakeCategory?: MistakeCategory;
+  reviewedAt?: number;
 };
 export type Draft = { ms: number; picked: number[] };
 export type TestRecord = {
