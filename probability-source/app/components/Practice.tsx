@@ -57,31 +57,6 @@ export default function Practice({ lessonId, onSelectLesson, initialView = "over
 
   const latest = useMemo(() => latestByQuestion(store.attempts), [store.attempts]);
 
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (handleNextQuestionKey(event, () => {
-        if (index < queue.length - 1) onGo(index + 1);
-      }, () => {
-        if (index > 0) onGo(index - 1);
-      })) return;
-      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.repeat) return;
-      const target = event.target as HTMLElement | null;
-      if (target?.closest("input, textarea, select, [contenteditable='true'], [role='textbox']")) return;
-      if (phaseRef.current !== "answering") return;
-      if (/^[1-4]$/.test(event.key) && !numeric) {
-        const optionIndex = Number(event.key) - 1;
-        if (optionIndex < q.item.options.length) {
-          event.preventDefault();
-          choose(optionIndex);
-        }
-      } else if (event.key === "Enter" && pickedRef.current.length > 0) {
-        event.preventDefault();
-        check();
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [index, queue.length, onGo, numeric, q.item.options.length]);
   const statusOf = (k: string): Status => latest[k]?.status ?? "unattempted";
   const pool = useMemo(
     () => allQuestions.filter((q) => (scopeKind === "topic" ? q.lessonId === lessonId : scopeKind === "rank" ? q.rank === lesson.rank : true)),
@@ -485,6 +460,32 @@ function QuestionView({ q, queue, index, session, onSessionChange, onGo, onBack,
     recordAttempt(q.key, picked, acc.current);
     setPhase("review");
   }
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (handleNextQuestionKey(event, () => {
+        if (index < queue.length - 1) onGo(index + 1);
+      }, () => {
+        if (index > 0) onGo(index - 1);
+      })) return;
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.repeat) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable='true'], [role='textbox']")) return;
+      if (phaseRef.current !== "answering") return;
+      if (/^[1-4]$/.test(event.key) && !numeric) {
+        const optionIndex = Number(event.key) - 1;
+        if (optionIndex < q.item.options.length) {
+          event.preventDefault();
+          choose(optionIndex);
+        }
+      } else if (event.key === "Enter" && pickedRef.current.length > 0) {
+        event.preventDefault();
+        check();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [index, queue.length, onGo, numeric, q.item.options.length]);
+
   function resetTimer() {
     acc.current = 0;
     t0.current = document.hidden ? null : Date.now();
