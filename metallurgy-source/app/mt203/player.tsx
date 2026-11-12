@@ -364,7 +364,7 @@ export default function Player({
         <QuestionMeta q={theQ} />
         <QuestionBody q={theQ} />
         <OptionList q={theQ} picked={chosen || selectedChoice} onPick={selectOption} locked={isRevealed} />
-        {!isRevealed && <button className="btn btn-gold" disabled={!selectedChoice} onClick={submitAnswer}>Submit Answer ↵</button>
+        {!isRevealed && <button className="btn btn-gold" disabled={!selectedChoice} onClick={submitAnswer}>Submit Answer ↵</button>}
         {isRevealed && <SolutionPanel q={theQ} picked={chosen} />}
 
         <div className="learning-player-actions">
