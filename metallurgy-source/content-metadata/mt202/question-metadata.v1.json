@@ -84,7 +84,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "atomic_structure_conceptual_confusion"
@@ -501,7 +502,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "atomic_structure_conceptual_confusion",
@@ -830,7 +832,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "atomic_structure_conceptual_confusion"
@@ -1082,7 +1085,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "atomic_structure_conceptual_confusion",
@@ -1208,7 +1212,8 @@
       "assessedDifficulty": 3,
       "reasoningSkills": [
         "calculate",
-        "analyse"
+        "analyse",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -1333,7 +1338,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -1364,7 +1370,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -1395,7 +1402,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -1426,7 +1434,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -1457,7 +1466,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -1488,7 +1498,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -1519,7 +1530,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -2118,7 +2130,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion"
@@ -2148,7 +2161,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -2179,7 +2193,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -2505,7 +2520,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion"
@@ -2668,7 +2684,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -2958,7 +2975,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion"
@@ -2988,7 +3006,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion"
@@ -3018,7 +3037,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion",
@@ -3049,7 +3069,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion"
@@ -4520,7 +4541,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion",
@@ -4551,7 +4573,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion",
@@ -4748,7 +4771,8 @@
       "questionType": "E",
       "assessedDifficulty": 4,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion",
@@ -4939,7 +4963,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion",
@@ -5102,7 +5127,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion",
@@ -5741,7 +5767,8 @@
       "questionType": "E",
       "assessedDifficulty": 4,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "alloy_phase_diagrams_conceptual_confusion",
@@ -5772,7 +5799,8 @@
       "questionType": "E",
       "assessedDifficulty": 4,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "alloy_phase_diagrams_conceptual_confusion",
@@ -5803,7 +5831,8 @@
       "questionType": "E",
       "assessedDifficulty": 4,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "alloy_phase_diagrams_conceptual_confusion",
@@ -5867,7 +5896,8 @@
       "questionType": "E",
       "assessedDifficulty": 4,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "alloy_phase_diagrams_conceptual_confusion",
@@ -6626,7 +6656,8 @@
       "questionType": "E",
       "assessedDifficulty": 4,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "alloy_phase_diagrams_conceptual_confusion",
@@ -6876,7 +6907,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -6907,7 +6939,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -7066,7 +7099,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -7742,7 +7776,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -8446,7 +8481,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -8543,7 +8579,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion"
@@ -8604,7 +8641,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -8827,7 +8865,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -9092,7 +9131,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -9124,7 +9164,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -9156,7 +9197,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -9359,7 +9401,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -9456,7 +9499,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -9487,7 +9531,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -9518,7 +9563,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion"
@@ -9676,7 +9722,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -10164,7 +10211,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -10357,7 +10405,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -10520,7 +10569,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -10779,7 +10829,8 @@
       "questionType": "E",
       "assessedDifficulty": 4,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -11165,7 +11216,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "strengthening_conceptual_confusion",
@@ -11392,7 +11444,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "strengthening_conceptual_confusion"
@@ -12087,7 +12140,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "strengthening_conceptual_confusion",
@@ -12118,7 +12172,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "strengthening_conceptual_confusion"
@@ -12148,7 +12203,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "strengthening_conceptual_confusion"
@@ -12309,7 +12365,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "strengthening_conceptual_confusion",
@@ -12989,7 +13046,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -13146,7 +13204,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -13365,7 +13424,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -13396,7 +13456,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion"
@@ -13426,7 +13487,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -13490,7 +13552,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -14134,7 +14197,8 @@
       "assessedDifficulty": 3,
       "reasoningSkills": [
         "calculate",
-        "analyse"
+        "analyse",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -14168,7 +14232,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -14199,7 +14264,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -14232,7 +14298,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -14648,7 +14715,8 @@
       "reasoningSkills": [
         "calculate",
         "analyse",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -14680,7 +14748,8 @@
       "questionType": "E",
       "assessedDifficulty": 4,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "alloy_phase_diagrams_conceptual_confusion",
@@ -14711,7 +14780,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -14908,7 +14978,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -15004,7 +15075,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -15108,7 +15180,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_structure_conceptual_confusion",
@@ -15264,7 +15337,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "alloy_phase_diagrams_conceptual_confusion",
@@ -15326,7 +15400,8 @@
       "questionType": "E",
       "assessedDifficulty": 4,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "alloy_phase_diagrams_conceptual_confusion",
@@ -15461,7 +15536,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -15523,7 +15599,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -15691,7 +15768,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "strengthening_conceptual_confusion"
@@ -15818,7 +15896,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -15852,7 +15931,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
@@ -16186,7 +16266,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "alloy_phase_diagrams_conceptual_confusion",
@@ -16363,7 +16444,8 @@
       "questionType": "E",
       "assessedDifficulty": 3,
       "reasoningSkills": [
-        "calculate"
+        "calculate",
+        "apply"
       ],
       "misconceptionTags": [
         "strengthening_conceptual_confusion",
@@ -16542,7 +16624,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "plastic_deformation_conceptual_confusion",
@@ -16750,7 +16833,8 @@
       "assessedDifficulty": 4,
       "reasoningSkills": [
         "calculate",
-        "synthesise"
+        "synthesise",
+        "apply"
       ],
       "misconceptionTags": [
         "diffusion_conceptual_confusion",
