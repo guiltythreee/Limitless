@@ -386,7 +386,7 @@
       "relatedTopicIds": [],
       "learningObjectiveIds": [
         "MT202-1.4.1",
-        "MT202-1.4.3"
+        "MT202-1.4.2"
       ],
       "questionType": "B",
       "assessedDifficulty": null,
@@ -466,7 +466,7 @@
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
       "learningObjectiveIds": [
-        "MT202-1.4.2"
+        "MT202-1.4.1"
       ],
       "questionType": "A",
       "assessedDifficulty": null,
@@ -492,8 +492,7 @@
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
       "learningObjectiveIds": [
-        "MT202-1.4.1",
-        "MT202-1.4.2"
+        "MT202-1.4.3"
       ],
       "questionType": "B",
       "assessedDifficulty": null,
