@@ -3075,7 +3075,12 @@
             "text": "Both true, R correctly explains A"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "assertion": "In a casting affected by interdendritic sponginess, a moderate amount of dissolved gas can, under the specific conditions described in the course notes, improve pressure-tightness.",
+        "reason": "By promoting many small, dispersed cavities rather than one large concentrated shrinkage pipe, the gas can reduce the likelihood of a continuous leak path through the casting wall.",
+        "keyExplanation": "Both A and R are true in the specific context of interdendritic sponginess described in the course material. A moderate amount of dissolved gas can favour many small, dispersed cavities rather than one large concentrated shrinkage pipe; isolated cavities are less likely to form a continuous leak path. This is a qualified, context-specific effect—not a general recommendation to tolerate gas porosity.",
+        "concise": "In this specific casting context, dispersed small cavities can be less likely to form a continuous leak path than one large shrinkage pipe.",
+        "detailed": "Interdendritic sponginess is fine, distributed shrinkage porosity trapped between dendrite arms. The course notes describe a counter-intuitive, qualified case: a moderate amount of dissolved gas can help pressure-tightness by encouraging many small, finely distributed cavities instead of one large, concentrated shrinkage pipe. Small isolated cavities are individually less likely to connect into a continuous leak path through the casting wall. This does not mean gas porosity is generally beneficial; excessive gas can create harmful blowholes and porosity. Therefore both the assertion and reason are true, and the reason explains the assertion."
       },
       "sourceFingerprint": "6354ff91"
     },
@@ -11883,6 +11888,60 @@
         ],
         "answer": "a",
         "keyExplanation": "Metallic-glass formation requires suppressing crystallisation during cooling. The critical cooling rate is alloy- and geometry-dependent, so no single cooling-rate value applies to all metallic glasses."
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 35,
+      "originalType": "B",
+      "sourceText": "Slip occurs preferentially on the most densely packed planes and along the most densely packed directions because:",
+      "sourceFingerprint": "5d8f0ba5",
+      "updates": {
+        "type": "B",
+        "text": "For a cubic crystal, consider planar density, interplanar spacing and slip. Which statements are correct?",
+        "statements": [
+          {
+            "num": 1,
+            "text": "The interplanar spacing is given by dₕₖₗ = a/√(h² + k² + l²)."
+          },
+          {
+            "num": 2,
+            "text": "In FCC, the close-packed {111} planes have smaller interplanar spacing than the {100} planes."
+          },
+          {
+            "num": 3,
+            "text": "Close-packed planes and directions are commonly favoured slip paths because high planar density and short lattice translation help lower resistance to glide."
+          },
+          {
+            "num": 4,
+            "text": "Increasing the magnitude of the Burgers vector lowers dislocation line energy."
+          }
+        ],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "1, 2 and 3 only"
+          },
+          {
+            "label": "b",
+            "text": "1 and 4 only"
+          },
+          {
+            "label": "c",
+            "text": "2, 3 and 4 only"
+          },
+          {
+            "label": "d",
+            "text": "1, 2, 3 and 4"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Statements 1–3 are correct. For cubic crystals, dₕₖₗ = a/√(h² + k² + l²), so d₁₁₁ = a/√3 while d₁₀₀ = a; the close-packed FCC {111} planes therefore do not have the greatest interplanar spacing. A short slip translation gives a smaller Burgers vector, and dislocation line energy scales approximately with Gb². Statement 4 reverses this relationship.",
+        "concise": "FCC {111} is close-packed but has smaller spacing than {100}; a smaller Burgers vector generally lowers dislocation energy.",
+        "detailed": "For a cubic crystal, the spacing between successive (hkl) planes is dₕₖₗ = a/√(h² + k² + l²). Thus d₁₁₁ = a/√3, which is smaller than d₁₀₀ = a. Close-packed describes high atomic density within a plane; it does not mean that the plane family has the largest interplanar spacing. Slip commonly favours planes and directions with high planar/linear density and short lattice translations. The elastic energy per unit length of a dislocation is proportional, to first approximation, to Gb², so a larger Burgers vector raises rather than lowers the energy."
       }
     }
   ],
