@@ -2413,17 +2413,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 14,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 11,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 76
+        "total": 89
       },
-      "status": "review",
-      "reviewNotes": "The reason for carbon occupying BCC octahedral sites needs a more precise anisotropic interstitial-site/strain-energy explanation; the current shorthand does not fully establish the assertion."
+      "status": "approved"
     },
     {
       "questionId": "ch02-q42",
@@ -2543,17 +2542,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 17,
+        "reasoning": 11,
+        "noGiveaways": 15,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 77
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The solubility explanation should distinguish the size and anisotropy of the relevant octahedral sites from a simple APF argument."
+      "status": "approved"
     },
     {
       "questionId": "ch02-q46",
@@ -2740,17 +2738,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 11,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 77
+        "total": 89
       },
-      "status": "review",
-      "reviewNotes": "Verify all four underlying statements; the answer explanation gives only the aggregate result, not enough item-by-item reasoning for a strong multi-statement question."
+      "status": "approved"
     },
     {
       "questionId": "ch02-q52",
@@ -2777,17 +2774,16 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 16,
         "reasoning": 10,
-        "noGiveaways": 13,
-        "clarity": 12,
-        "explanation": 8,
+        "noGiveaways": 14,
+        "clarity": 13,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 79
+        "total": 85
       },
-      "status": "review",
-      "reviewNotes": "The statement about three independent basal slip systems should distinguish slip directions from independent deformation modes and qualify the role of non-basal slip/twinning."
+      "status": "approved"
     },
     {
       "questionId": "ch02-q53",
