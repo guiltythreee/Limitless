@@ -68,6 +68,11 @@ function boot(seed, options = {}) {
     if (name === "react") return { useSyncExternalStore: (_subscribe, getSnapshot) => getSnapshot() };
     if (name === "./questions") return fakeQuestions;
     if (name === "../content") return { pathways };
+    if (name === "../../../shared/studies/mistakes") return {
+      isMistakeCategory(value) {
+        return ["conceptual", "observation", "mathematical", "implementation", "time-management"].includes(value);
+      },
+    };
     if (name === "../../../shared/rewards.mjs") return {
       buildRewardRecords,
       sanitiseRewardRecords,
