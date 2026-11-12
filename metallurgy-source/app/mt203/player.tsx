@@ -25,7 +25,7 @@ import {
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
-import { handleNextQuestionKey } from "../../../shared/learning-player/keyboard";
+import { handleNextQuestionKey, handleQuestionShortcut } from "../../../shared/learning-player/keyboard";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -151,24 +151,33 @@ export default function Player({
     toastTimer.current = setTimeout(() => setToast(null), 1400);
   };
 
-  const pick = (lab: string) => {
+  const selectedChoice = theQ ? session.answers[theQ.id]?.optionId ?? "" : "";
+  const selectOption = (lab: string) => {
     if (!theQ || revealed[theQ.id]) return;
+    setSession((current) => setPlayerAnswer(current, playerAdapter, {
+      kind: "single-choice",
+      optionId: lab,
+    }));
+  };
+
+  const submitAnswer = () => {
+    if (!theQ || revealed[theQ.id] || !selectedChoice) return;
     const ms = Math.max(0, Math.round(elapsedNow()));
-    openedAt.current = null;
     const timed = tickPlayer(session, ms);
     const answeredSession = setPlayerAnswer(timed, playerAdapter, {
       kind: "single-choice",
-      optionId: lab,
+      optionId: selectedChoice,
     });
     const result = submitPlayerAnswer(answeredSession, playerAdapter, {
       submittedAt: Date.now(),
       mode,
     });
     if (!result.submission) return;
+    openedAt.current = null;
     const ok = result.submission.grade.correct;
     setSession(result.session);
     const initialRewardLedgerLength = progress.rewardLedger?.length ?? 0;
-    let p = recordAnswer(progress, theQ.id, lab, ok, mode, ms, theQ.difficulty, false);
+    let p = recordAnswer(progress, theQ.id, selectedChoice, ok, mode, ms, theQ.difficulty, false);
     const res = awardAnswer(p, theQ.id, theQ.difficulty, ok, false);
     p = res.progress;
     saveProgress(p, (p.rewardLedger?.length ?? 0) > initialRewardLedgerLength);
@@ -177,9 +186,23 @@ export default function Player({
       setGain((g) => g + res.xp);
       flash(res.xp);
     }
-    setPicked((m) => ({ ...m, [theQ.id]: lab }));
+    setPicked((m) => ({ ...m, [theQ.id]: selectedChoice }));
     setRevealed((m) => ({ ...m, [theQ.id]: true }));
   };
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => handleQuestionShortcut(event, {
+      optionCount: theQ?.options.length ?? 0,
+      hasSelection: Boolean(selectedChoice) && !isRevealed,
+      onSelectOption: (index) => {
+        const option = theQ.options[index];
+        if (option) selectOption(option.label);
+      },
+      onSubmit: submitAnswer,
+    });
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [theQ?.id, selectedChoice, isRevealed, session]);
 
   const advance = () => {
     if (idx < order.length - 1) setSession((current) => navigatePlayer(current, "next"));
@@ -340,7 +363,8 @@ export default function Player({
         </div>
         <QuestionMeta q={theQ} />
         <QuestionBody q={theQ} />
-        <OptionList q={theQ} picked={chosen} onPick={pick} locked={isRevealed} />
+        <OptionList q={theQ} picked={chosen || selectedChoice} onPick={selectOption} locked={isRevealed} />
+        {!isRevealed && <button className="btn btn-gold" disabled={!selectedChoice} onClick={submitAnswer}>Submit Answer ↵</button>
         {isRevealed && <SolutionPanel q={theQ} picked={chosen} />}
 
         <div className="learning-player-actions">
