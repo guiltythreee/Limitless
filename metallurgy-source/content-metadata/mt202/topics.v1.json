@@ -607,6 +607,86 @@
     {
       "id": "MT202-3.15.2",
       "description": "Explain the role of mould and core permeability in removing gases during casting."
+    },
+    {
+      "id": "MT202-4.1.1",
+      "description": "Distinguish alloys, solid solutions and multiphase metallic materials by phase count and crystal structure."
+    },
+    {
+      "id": "MT202-4.1.2",
+      "description": "Differentiate substitutional and interstitial solid solutions and identify their atomic arrangements and strain effects."
+    },
+    {
+      "id": "MT202-4.2.1",
+      "description": "State and apply the four Hume–Rothery factors governing substitutional solid solubility."
+    },
+    {
+      "id": "MT202-4.2.2",
+      "description": "Use crystal-structure, atomic-size, chemical-affinity and relative-valence compatibility to assess complete solid solubility."
+    },
+    {
+      "id": "MT202-4.3.1",
+      "description": "Classify intermediate phases as valency compounds, interstitial compounds and electron compounds."
+    },
+    {
+      "id": "MT202-4.3.2",
+      "description": "Relate characteristic compositions or electron-to-atom ratios of electron compounds to their crystal structures."
+    },
+    {
+      "id": "MT202-4.4.1",
+      "description": "Read binary phase diagrams using horizontal tie lines to determine the compositions of coexisting phases."
+    },
+    {
+      "id": "MT202-4.4.2",
+      "description": "Apply the lever rule to calculate liquid and solid phase fractions in a two-phase region."
+    },
+    {
+      "id": "MT202-4.4.3",
+      "description": "Interpret phase fractions geometrically and identify the majority phase from tie-line distances."
+    },
+    {
+      "id": "MT202-4.5.1",
+      "description": "Explain the sequence of equilibrium solidification in an isomorphous alloy using liquidus and solidus compositions."
+    },
+    {
+      "id": "MT202-4.5.2",
+      "description": "Explain why equilibrium solidification requires diffusion in the solid to maintain compositional uniformity."
+    },
+    {
+      "id": "MT202-4.6.1",
+      "description": "Explain constitutional supercooling through solute partitioning, the liquid concentration boundary layer and the local liquidus temperature."
+    },
+    {
+      "id": "MT202-4.6.2",
+      "description": "Relate constitutional supercooling to planar-interface instability, cellular/dendritic growth and columnar-to-equiaxed transition."
+    },
+    {
+      "id": "MT202-4.6.3",
+      "description": "Define the equilibrium partition coefficient and interpret solute rejection or enrichment at the solid–liquid interface."
+    },
+    {
+      "id": "MT202-4.6.4",
+      "description": "Predict how thermal gradient and interface growth rate affect planar-front stability."
+    },
+    {
+      "id": "MT202-4.7.1",
+      "description": "Explain coring as intragranular composition variation caused by limited solid-state diffusion during non-equilibrium solidification."
+    },
+    {
+      "id": "MT202-4.7.2",
+      "description": "Interpret solute redistribution during non-equilibrium solidification, including freezing-range changes and successive solid-layer compositions."
+    },
+    {
+      "id": "MT202-4.7.3",
+      "description": "Explain peritectic surrounding/enveloping and the isolation of an untransformed core by a product-phase shell."
+    },
+    {
+      "id": "MT202-4.7.4",
+      "description": "Explain homogenisation of cored alloys, its purpose and its practical limitations."
+    },
+    {
+      "id": "MT202-4.8.1",
+      "description": "Distinguish overheating from burning by the effective local solidus, grain-boundary liquation, reversibility and material damage."
     }
   ]
 }
