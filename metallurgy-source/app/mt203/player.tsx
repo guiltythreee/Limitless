@@ -25,6 +25,7 @@ import {
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+import { handleNextQuestionKey } from "../../../shared/learning-player/keyboard";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -187,6 +188,15 @@ export default function Player({
       onFinished?.(progress);
     }
   };
+
+  // Right Arrow follows the same advance/finish behaviour as the Next button.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) =>
+      handleNextQuestionKey(event, () => { if (!done) advance(); });
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [done, idx, order.length, progress, onFinished]);
+
 
   const retryWrong = () => {
     const wrong = order.filter(
