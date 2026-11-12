@@ -354,23 +354,25 @@
         "options": [
           {
             "label": "a",
-            "text": "metallic < ionic < covalent < van der Waals"
+            "text": "van der Waals attraction"
           },
           {
             "label": "b",
-            "text": "van der Waals < metallic < covalent < ionic"
+            "text": "metallic bonding"
           },
           {
             "label": "c",
-            "text": "van der Waals < covalent < ionic < metallic"
+            "text": "covalent bonding"
           },
           {
             "label": "d",
-            "text": "ionic < covalent < metallic < van der Waals"
+            "text": "ionic bonding"
           }
         ],
-        "answer": "b",
-        "detailed": "The typical bond-energy ranges increase from van der Waals (about 1–10 kJ/mol) to metallic (about 70–850 kJ/mol), covalent (about 200–1000 kJ/mol), and ionic (about 600–1500 kJ/mol). Thus **(b)** gives the intended increasing order. The ranges overlap, but van der Waals interactions are the weakest and ionic bonds are generally strongest."
+        "answer": "a",
+        "detailed": "The typical bond-energy ranges increase from van der Waals (about 1–10 kJ/mol) to metallic (about 70–850 kJ/mol), covalent (about 200–1000 kJ/mol), and ionic (about 600–1500 kJ/mol). Thus **(b)** gives the intended increasing order. The ranges overlap, but van der Waals interactions are the weakest and ionic bonds are generally strongest.",
+        "text": "Which type of interatomic interaction is generally the weakest?",
+        "keyExplanation": "Van der Waals attractions are secondary interactions and are generally much weaker than metallic, covalent or ionic primary bonds. The energy ranges of the primary bonds overlap, so a strict ordering among those three is not universal."
       },
       "sourceFingerprint": "be832649"
     },
@@ -819,7 +821,8 @@
             "text": "Both false"
           }
         ],
-        "answer": "c"
+        "answer": "b",
+        "keyExplanation": "The assertion is generally true: stronger cohesive bonding tends to raise melting temperature, and elastic modulus tends to increase with the curvature of the interatomic potential near equilibrium. The reason is false as an explanation of modulus: well depth measures cohesive energy, whereas elastic stiffness depends on the curvature near the equilibrium spacing, not simply on the energy required to separate atoms."
       },
       "sourceFingerprint": "da010d4c"
     },
@@ -2550,23 +2553,25 @@
         "options": [
           {
             "label": "a",
-            "text": "1.3 °C"
+            "text": "Latent heat released during rapid nucleation and growth raises the temperature after undercooling."
           },
           {
             "label": "b",
-            "text": "0.13 °C"
+            "text": "The metal absorbs additional heat from the surroundings while remaining fully liquid."
           },
           {
             "label": "c",
-            "text": "13 °C"
+            "text": "The equilibrium freezing temperature continuously decreases as solidification proceeds."
           },
           {
             "label": "d",
-            "text": "130 °C"
+            "text": "The solid phase transforms back into liquid because its density is lower."
           }
         ],
-        "answer": "b",
-        "detailed": "Recalescence is the temperature rise after initial undercooling when rapid nucleation and growth release latent heat. The stated value is approximately **0.13 °C**, option **(b)**. Option (a) is 1.3 °C, (c) is 13 °C and (d) is 130 °C."
+        "answer": "a",
+        "detailed": "Recalescence is the temperature rise after initial undercooling when rapid nucleation and growth release latent heat. The stated value is approximately **0.13 °C**, option **(b)**. Option (a) is 1.3 °C, (c) is 13 °C and (d) is 130 °C.",
+        "text": "What causes recalescence during the solidification of a pure metal?",
+        "keyExplanation": "Recalescence is the temperature rise following undercooling. Once nucleation and growth begin, latent heat is released and raises the metal temperature toward its equilibrium freezing temperature."
       },
       "sourceFingerprint": "747b0b91"
     },
@@ -3670,7 +3675,7 @@
         "options": [
           {
             "label": "a",
-            "text": "cooling is so rapid (typically ~10⁷ °C/s) that the liquid does not have time to nucleate and grow crystalline phases"
+            "text": "the melt is cooled rapidly enough to suppress crystallisation and retain an amorphous structure"
           },
           {
             "label": "b",
@@ -3678,14 +3683,16 @@
           },
           {
             "label": "c",
-            "text": "the melt is held just below T_m for a very long time"
+            "text": "the melt is held just below its melting temperature for a long time"
           },
           {
             "label": "d",
             "text": "the alloy is cooled extremely slowly under vacuum"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "text": "A metallic glass is formed when:",
+        "keyExplanation": "A metallic glass forms when crystallisation is bypassed during cooling, leaving a non-crystalline atomic structure. The critical cooling rate depends strongly on alloy composition, sample geometry and processing conditions."
       },
       "sourceFingerprint": "3fddb51d"
     },
@@ -3713,7 +3720,10 @@
             "text": "A true, R false"
           }
         ],
-        "answer": "b"
+        "answer": "a",
+        "assertion": "Rimming steels are often selected for sheet products requiring good surface quality and deep-drawing formability.",
+        "reason": "During solidification, carbon-monoxide evolution produces a relatively clean, ductile outer rim in rimming steel.",
+        "keyExplanation": "Both statements are true in the conventional description of rimming-steel ingots. The relatively low-solute outer rim provides good surface quality and formability, which made rimming steel useful for some sheet and drawing applications. Rimming practice is not suitable for every steel grade or product."
       },
       "sourceFingerprint": "08aa14a2"
     },
@@ -6326,7 +6336,9 @@
           }
         ],
         "answer": "c",
-        "detailed": "FCC has 12 conventional {111}⟨110⟩ slip systems; BCC has 12 conventional {110}⟨111⟩ systems in the count used here; HCP basal slip has three ⟨11̄20⟩ directions on {0001}. The sequence is 12, 12, 3, so **(c)** is correct. Options (a), (b), and (d) give at least one incorrect count."
+        "detailed": "FCC has 12 conventional {111}⟨110⟩ slip systems; BCC has 12 conventional {110}⟨111⟩ systems in the count used here; HCP basal slip has three ⟨11̄20⟩ directions on {0001}. The sequence is 12, 12, 3, so **(c)** is correct. Options (a), (b), and (d) give at least one incorrect count.",
+        "text": "Using the conventional {110}⟨111⟩ family for BCC in this count, the numbers of slip systems in FCC, BCC and HCP basal slip, respectively, are:",
+        "keyExplanation": "FCC has 12 conventional {111}⟨110⟩ systems. The BCC {110}⟨111⟩ family contains 12 systems; BCC can also slip on {112} and {123} families, which are not counted here. HCP basal slip has three ⟨11̄20⟩ directions on {0001}. Thus the requested counts are 12, 12 and 3: option (c)."
       },
       "sourceFingerprint": "9d35778d"
     },
@@ -11707,6 +11719,17 @@
         "answer": "c"
       },
       "sourceFingerprint": "31460b4b"
+    },
+    {
+      "chapter": "ch04",
+      "n": 30,
+      "originalType": "C",
+      "sourceText": "",
+      "sourceFingerprint": "d1e00bbc",
+      "updates": {
+        "assertion": "Constitutional supercooling can promote the formation of a central equiaxed zone in an alloy ingot.",
+        "keyExplanation": "Both statements are true. Constitutional supercooling ahead of a columnar solidification front can promote nucleation in the liquid and contribute to the columnar-to-equiaxed transition. The extent of the equiaxed zone also depends on available nuclei, melt flow, thermal conditions and alloy composition."
+      }
     }
   ],
   "sourceCommit": "b7359a6113a5888d3cf3c88cb5ce25cc716d89e4"
