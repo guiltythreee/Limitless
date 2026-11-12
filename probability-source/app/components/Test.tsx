@@ -18,6 +18,7 @@ import {
 import { probabilityPlayerAdapter } from "../learning-player/adapter";
 import type { ProbabilityPlayerAnswer } from "../learning-player/adapter-core";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+import { handleNextQuestionKey } from "../../../shared/learning-player/keyboard";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -167,6 +168,28 @@ function TestRun({ pool, label, onExit }: { pool: Q[]; label: string; onExit: ()
     bank();
     setSession((current) => selectPlayerQuestion(current, n));
   };
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (handleNextQuestionKey(event, () => {
+        if (i < pool.length - 1) go(i + 1);
+      }, () => {
+        if (i > 0) go(i - 1);
+      })) return;
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.repeat) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable='true'], [role='textbox']")) return;
+      if (/^[1-4]$/.test(event.key) && q && !q.item.numericAnswer) {
+        const optionIndex = Number(event.key) - 1;
+        if (optionIndex < q.item.options.length) {
+          event.preventDefault();
+          choose(optionIndex);
+        }
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [i, pool.length, q?.key, q?.item.options.length]);
   function choose(k: number) {
     if (!q) return;
     const cur = picks[q.key] ?? [];
