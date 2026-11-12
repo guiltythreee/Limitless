@@ -88,6 +88,14 @@ export default function Exam({
   );
   const idx = session.state.index;
 
+  const answers: Record<number, string> = {};
+  pool.forEach((question, index) => {
+    const answer = session.answers[question.id];
+    if (answer) answers[index] = answer.optionId;
+  });
+  const [left, setLeft] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+
   // Right Arrow advances during an active exam; it never submits the paper.
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) =>
@@ -103,14 +111,6 @@ export default function Exam({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [running, submitted]);
-
-  const answers: Record<number, string> = {};
-  pool.forEach((question, index) => {
-    const answer = session.answers[question.id];
-    if (answer) answers[index] = answer.optionId;
-  });
-  const [left, setLeft] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [gained, setGained] = useState(0);
   const [busy, setBusy] = useState(false);
