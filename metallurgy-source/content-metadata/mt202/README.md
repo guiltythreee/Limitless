@@ -33,6 +33,24 @@ Question IDs follow the current adapter convention: `ch01-q1` through `ch09-q70`
 | `quality` | Seven rubric dimensions and total |
 | `status` | Draft, review, approved or rejected |
 
+## Difficulty assessment (1–5)
+
+- **1 — Fundamental:** direct recognition, definition or single-step fact retrieval.
+- **2 — Conceptual:** one core idea must be understood or distinguished from a close alternative.
+- **3 — Application:** a concept must be applied to a stated situation, or a standard calculation/interpretation completed.
+- **4 — Analytical:** multiple linked steps, non-routine calculation, comparison of competing mechanisms, or integration of related objectives.
+- **5 — Challenging:** substantial synthesis or unfamiliar multi-stage reasoning; use sparingly and only when the question itself warrants it.
+
+Difficulty is independent of legacy stars and question format. A numerical question is not automatically difficult, and a multi-statement question is not automatically analytical.
+
+## Reasoning-skill tags
+
+Use one or more of: `recall`, `distinguish`, `classify`, `apply`, `calculate`, `interpret`, `analyse`, `synthesise`. Tags describe the cognitive work required by the question, not merely its format.
+
+## Misconception tags
+
+Tags identify the misconception families a question is intended to detect. They are curriculum-level diagnostic labels, not claims about a particular student's thinking. Prefer a small number of relevant tags; avoid adding unrelated tags merely because they belong to the same chapter.
+
 ## Quality rubric (100 points)
 
 - Conceptual accuracy: 20
