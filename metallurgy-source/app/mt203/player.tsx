@@ -192,7 +192,9 @@ export default function Player({
   // Right Arrow follows the same advance/finish behaviour as the Next button.
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) =>
-      handleNextQuestionKey(event, () => { if (!done) advance(); });
+      handleNextQuestionKey(event, () => { if (!done) advance(); }, () => {
+        if (!done && idx > 0) setSession((current) => navigatePlayer(current, "previous"));
+      });
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [done, idx, order.length, progress, onFinished]);
