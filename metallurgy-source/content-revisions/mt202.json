@@ -236,7 +236,28 @@
       "sourceText": "Match the element class to its members.",
       "sourceFingerprint": "97caf77d",
       "updates": {
-        "detailed": "The table matches metals with roughly three-quarters of the elements, metalloids with B, Ge, Si, Sb, As, Te and Po, and non-metals with N, O, P, S and the noble gases. Therefore 1–iii, 2–i and 3–ii gives **(a)**. The other options interchange at least two of the three classes."
+        "detailed": "The table matches metals with roughly three-quarters of the elements, metalloids with B, Ge, Si, Sb, As, Te and Po, and non-metals with N, O, P, S and the noble gases. Therefore 1–iii, 2–i and 3–ii gives **(a)**. The other options interchange at least two of the three classes.",
+        "tableRows": [
+          [
+            "1",
+            "Metals",
+            "",
+            "(i) B, Ge, Si, Sb, As and Te"
+          ],
+          [
+            "2",
+            "Metalloids",
+            "",
+            "(ii) N, O, P, S and the noble gases"
+          ],
+          [
+            "3",
+            "Non-metals",
+            "",
+            "(iii) about three-quarters of all elements"
+          ]
+        ],
+        "keyExplanation": "The table matches metals with roughly three-quarters of the elements, metalloids with B, Ge, Si, Sb, As and Te, and non-metals with N, O, P, S and the noble gases. Polonium is omitted because its classification varies by reference. Therefore 1–iii, 2–i and 3–ii gives (a)."
       }
     },
     {
@@ -341,7 +362,26 @@
           }
         ],
         "answer": "b",
-        "detailed": "Van der Waals forces are weak secondary attractions between neutral atoms or molecules. They are most significant when thermal agitation is low and are responsible for holding solid noble gases together. Statements 1, 2 and 3 are correct; statement 4 is false because 600–1500 kJ/mol is a primary-bond energy range, not a van der Waals range. Therefore **(b)** is correct."
+        "detailed": "Van der Waals forces are weak secondary attractions between neutral atoms or molecules. They are most significant when thermal agitation is low and are responsible for holding solid noble gases together. Statements 1, 2 and 3 are correct; statement 4 is false because 600–1500 kJ/mol is a primary-bond energy range, not a van der Waals range. Therefore **(b)** is correct.",
+        "statements": [
+          {
+            "num": 1,
+            "text": "a weak, secondary attraction between otherwise neutral atoms or molecules"
+          },
+          {
+            "num": 2,
+            "text": "their ability to hold noble-gas atoms in a condensed solid is evident at sufficiently low temperatures"
+          },
+          {
+            "num": 3,
+            "text": "they help hold solid noble gases (Ar, Ne) together"
+          },
+          {
+            "num": 4,
+            "text": "a primary bond of 600–1500 kJ/mol"
+          }
+        ],
+        "keyExplanation": "Van der Waals forces are weak secondary attractions between neutral atoms or molecules. At sufficiently low temperatures they can hold noble gases in condensed solids. Statements 1–3 are correct; statement 4 gives a primary-bond energy range, not a van der Waals range."
       },
       "sourceFingerprint": "ea0478c5"
     },
@@ -597,7 +637,9 @@
             "text": "Both true, R correctly explains A"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "assertion": "Most ordinary crystalline solids expand when heated over a moderate temperature range.",
+        "keyExplanation": "Both statements are generally true for ordinary solids over a moderate temperature range. Anharmonicity of the interatomic potential means thermal vibration increases the mean interatomic spacing. The statement is not universal: some materials show negative thermal expansion over particular temperature ranges."
       },
       "sourceFingerprint": "9868d568"
     },
@@ -11729,6 +11771,17 @@
       "updates": {
         "assertion": "Constitutional supercooling can promote the formation of a central equiaxed zone in an alloy ingot.",
         "keyExplanation": "Both statements are true. Constitutional supercooling ahead of a columnar solidification front can promote nucleation in the liquid and contribute to the columnar-to-equiaxed transition. The extent of the equiaxed zone also depends on available nuclei, melt flow, thermal conditions and alloy composition."
+      }
+    },
+    {
+      "chapter": "ch01",
+      "n": 20,
+      "originalType": "C",
+      "sourceText": "",
+      "sourceFingerprint": "b58cfb4a",
+      "updates": {
+        "assertion": "Metals are generally ductile, whereas typical ionic and covalent-network solids are often brittle.",
+        "keyExplanation": "The assertion describes a common trend, not an exception-free rule. Metallic bonding is non-directional and delocalised, allowing layers of atoms to shift while metallic cohesion is maintained. In many ionic solids, slip brings like charges into unfavourable proximity; in covalent-network solids, deformation can require breaking directional bonds. Thus the reason correctly explains the qualified trend."
       }
     }
   ],
