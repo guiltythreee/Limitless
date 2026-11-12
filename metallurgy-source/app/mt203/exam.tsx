@@ -35,6 +35,7 @@ import {
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+import { handleNextQuestionKey } from "../../../shared/learning-player/keyboard";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -86,6 +87,23 @@ export default function Exam({
     createLearningPlayerSession<Question, MetallurgyPlayerAnswer>([])
   );
   const idx = session.state.index;
+
+  // Right Arrow advances during an active exam; it never submits the paper.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) =>
+      handleNextQuestionKey(event, () => {
+        if (running && !submitted) {
+          setSession((current) =>
+            current.state.index < current.questions.length - 1
+              ? navigatePlayer(current, "next")
+              : current
+          );
+        }
+      });
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [running, submitted]);
+
   const answers: Record<number, string> = {};
   pool.forEach((question, index) => {
     const answer = session.answers[question.id];
