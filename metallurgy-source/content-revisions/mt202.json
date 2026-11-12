@@ -4037,7 +4037,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "Complete substitutional solid solubility across the composition range requires the two metals to share the same crystal structure. **(b)** is correct. A size mismatch above about 15%, strong compound-forming affinity, and a large valence difference each tend to restrict solubility; those are the limiting conditions, not the conditions for complete solubility."
+        "detailed": "Complete substitutional solid solubility across the composition range requires the two metals to share the same crystal structure. **(b)** is correct. A size mismatch above about 15%, strong compound-forming affinity, and a large valence difference each tend to restrict solubility; those are the limiting conditions, not the conditions for complete solubility.",
+        "keyExplanation": "Sharing the same crystal structure is one Hume–Rothery requirement for extensive substitutional solid solubility, but it is not sufficient by itself. Atomic-size difference, chemical affinity and relative valence must also be considered. Option (b) is therefore the necessary condition among those listed, not a complete guarantee of total solubility."
       },
       "sourceFingerprint": "017e94a2"
     },
@@ -4640,23 +4641,25 @@
         "options": [
           {
             "label": "a",
-            "text": "a solute-lean core to a solute-rich edge"
+            "text": "solute partitioning between solid and liquid during non-equilibrium solidification"
           },
           {
             "label": "b",
-            "text": "a uniform composition throughout"
+            "text": "complete diffusion homogenisation in the solid"
           },
           {
             "label": "c",
-            "text": "a high-melting (solute-rich) core, frozen first, to a low-melting (solute-lean) edge at the grain boundary, frozen last"
+            "text": "a change in the alloy's nominal bulk composition during freezing"
           },
           {
             "label": "d",
-            "text": "a carbon-rich edge to a carbon-free core"
+            "text": "grain rotation after solidification"
           }
         ],
-        "answer": "c",
-        "detailed": "In a cored Cu–Ni grain, the first-formed core is richer in the higher-melting component (Ni) and the last-formed edge is richer in the lower-melting component (Cu). **(c)** is correct. Option (a) reverses the direction for this system; (b) removes the composition gradient; and (d) is not the general Cu–Ni coring description."
+        "answer": "a",
+        "detailed": "In a cored Cu–Ni grain, the first-formed core is richer in the higher-melting component (Ni) and the last-formed edge is richer in the lower-melting component (Cu). **(c)** is correct. Option (a) reverses the direction for this system; (b) removes the composition gradient; and (d) is not the general Cu–Ni coring description.",
+        "text": "In a cored grain, the composition generally varies between the composition of the first-solidified core and that of the last-solidified interdendritic or grain-boundary region. This variation is caused by:",
+        "keyExplanation": "During non-equilibrium solidification, the solid and liquid generally have different compositions at the interface. Limited solid-state diffusion preserves a composition gradient from early-solidified regions to the last-solidified interdendritic regions. The direction and magnitude depend on the phase diagram and partition coefficient."
       },
       "sourceFingerprint": "5dbc1e1a"
     },
@@ -5260,7 +5263,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "A more realistic interatomic potential reduces the ideal theoretical shear-strength estimate to approximately G/30. **(b)** is correct. Option (a), G/3, is too high; (c), G/3000, is far too low and closer to the range of real strengths; (d), G/π, is not the refined estimate."
+        "detailed": "A more realistic interatomic potential reduces the ideal theoretical shear-strength estimate to approximately G/30. **(b)** is correct. Option (a), G/3, is too high; (c), G/3000, is far too low and closer to the range of real strengths; (d), G/π, is not the refined estimate.",
+        "keyExplanation": "The estimate G/30 is a commonly quoted approximate correction obtained with more realistic interatomic-potential models, compared with the much larger idealised estimate. It is model-dependent rather than a universal constant; option (b) is the intended textbook estimate."
       },
       "sourceFingerprint": "b3bb1b0f"
     },
@@ -5317,7 +5321,8 @@
             "text": "2 and 4 only"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "keyExplanation": "The dislocation explanation of the gap between theoretical and measured crystal strength was developed independently in 1934 by Geoffrey Taylor, Egon Orowan and Michael Polanyi. Frenkel is associated with the theoretical strength estimate, not this independent dislocation proposal. Therefore statements 1, 2 and 3 are correct: option (c)."
       },
       "sourceFingerprint": "6008e339"
     },
@@ -6562,7 +6567,8 @@
           }
         ],
         "answer": "d",
-        "detailed": "- Item 1 — TRUE: a wider dislocation core spreads the Burgers vector over a larger distance and lowers the lattice friction.\n- Item 2 — TRUE: BCC metals generally have higher Peierls barriers than close-packed FCC metals, contributing to strong low-temperature flow-stress increases.\n- Item 3 — TRUE: thermal activation assists motion over the lattice barrier.\n- Item 4 — FALSE: the barrier depends on the Burgers vector and core width.\nThus statements 1, 2 and 3 are correct: **(d)**."
+        "detailed": "- Item 1 — TRUE: a wider dislocation core spreads the Burgers vector over a larger distance and lowers the lattice friction.\n- Item 2 — TRUE: BCC metals generally have higher Peierls barriers than close-packed FCC metals, contributing to strong low-temperature flow-stress increases.\n- Item 3 — TRUE: thermal activation assists motion over the lattice barrier.\n- Item 4 — FALSE: the barrier depends on the Burgers vector and core width.\nThus statements 1, 2 and 3 are correct: **(d)**.",
+        "keyExplanation": "Statements 1–3 are correct in the usual qualitative Peierls–Nabarro picture: a wider dislocation core generally lowers lattice friction, BCC screw dislocations often face a higher Peierls barrier than comparable FCC dislocations, and thermal activation assists glide. The magnitude depends on crystal structure, dislocation character, core width, Burgers vector and temperature; statement 4 is false."
       },
       "sourceFingerprint": "505ac2fa"
     },
@@ -7695,7 +7701,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "The c/a ratio changes which HCP plane family is most densely packed. Ti and Zr, with c/a below the ideal value, favour prismatic ⟨a⟩ slip; Zn and Cd, with c/a above the ideal value, retain basal slip. **(b)** is correct. Option (a) incorrectly makes basal slip universal; (c) confuses packing factor with plane density; (d) incorrectly claims exclusive pyramidal slip."
+        "detailed": "The c/a ratio changes which HCP plane family is most densely packed. Ti and Zr, with c/a below the ideal value, favour prismatic ⟨a⟩ slip; Zn and Cd, with c/a above the ideal value, retain basal slip. **(b)** is correct. Option (a) incorrectly makes basal slip universal; (c) confuses packing factor with plane density; (d) incorrectly claims exclusive pyramidal slip.",
+        "keyExplanation": "The c/a ratio influences the relative geometry and ease of available slip modes, but it does not uniquely determine deformation in every HCP metal. For the representative examples in the stem, Ti and Zr commonly show significant prismatic slip, while Zn and Cd commonly favour basal slip. Temperature, alloying, texture and non-basal systems also matter."
       },
       "sourceFingerprint": "f2012ffc"
     },
@@ -7896,7 +7903,26 @@
             "text": "1 and 4 only"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "statements": [
+          {
+            "num": 1,
+            "text": "Heavily rolled FCC metals can develop rolling textures such as the brass type {110}⟨112⟩ and the copper type {112}⟨110⟩."
+          },
+          {
+            "num": 2,
+            "text": "Wire-drawn FCC metals commonly develop a ⟨110⟩ fibre texture with ⟨110⟩ parallel to the wire axis."
+          },
+          {
+            "num": 3,
+            "text": "Drawn BCC wire commonly develops a strong ⟨111⟩ fibre texture, sometimes with ⟨100⟩ as a secondary component."
+          },
+          {
+            "num": 4,
+            "text": "Recrystallisation annealing always leaves the deformation texture unchanged."
+          }
+        ],
+        "keyExplanation": "Statements 1–3 describe common deformation-texture components in the stated material and processing contexts. Statement 4 is false: recrystallisation can produce a new texture, although the resulting texture depends on composition, prior deformation, nucleation and annealing conditions. It does not always replace the deformation texture in one fixed way."
       },
       "sourceFingerprint": "e73369c5"
     },
@@ -8180,23 +8206,25 @@
         "options": [
           {
             "label": "a",
-            "text": "start hardening from a lower baseline"
+            "text": "raises the initial yield stress through the Hall–Petch effect"
           },
           {
             "label": "b",
-            "text": "work harden more slowly"
+            "text": "always increases the work-hardening rate at every strain"
           },
           {
             "label": "c",
-            "text": "start hardening from a higher baseline stress and generally work harden faster initially"
+            "text": "eliminates strain hardening"
           },
           {
             "label": "d",
-            "text": "not work harden at all"
+            "text": "lowers the initial yield stress"
           }
         ],
-        "answer": "c",
-        "detailed": "Finer grains raise the starting flow stress through Hall–Petch strengthening and generally increase the initial work-hardening rate because grain boundaries promote pile-ups and additional obstacles. **(c)** is correct. Options (a), (b), and (d) state the opposite or deny work hardening."
+        "answer": "a",
+        "detailed": "Finer grains raise the starting flow stress through Hall–Petch strengthening and generally increase the initial work-hardening rate because grain boundaries promote pile-ups and additional obstacles. **(c)** is correct. Options (a), (b), and (d) state the opposite or deny work hardening.",
+        "text": "Grain refinement in many structural metals generally:",
+        "keyExplanation": "Grain refinement commonly raises initial yield stress because grain boundaries impede slip transfer (Hall–Petch strengthening). It does not imply a universal increase in the subsequent work-hardening rate."
       },
       "sourceFingerprint": "662e7d87"
     },
@@ -10841,23 +10869,25 @@
         "options": [
           {
             "label": "a",
-            "text": "13 °C"
+            "text": "latent heat is released as solidification nucleates and proceeds"
           },
           {
             "label": "b",
-            "text": "0.13 °C"
+            "text": "the equilibrium melting temperature rises continuously"
           },
           {
             "label": "c",
-            "text": "1.3 °C"
+            "text": "the liquid absorbs heat from the mould"
           },
           {
             "label": "d",
-            "text": "130 °C"
+            "text": "the solid transforms back into liquid"
           }
         ],
-        "answer": "b",
-        "detailed": "Recalescence brings the temperature back to within approximately 0.13 °C of the true freezing point. **(b)** is correct. Option (a) is 13 °C, (c) is 1.3 °C, and (d) is 130 °C."
+        "answer": "a",
+        "detailed": "Recalescence brings the temperature back to within approximately 0.13 °C of the true freezing point. **(b)** is correct. Option (a) is 13 °C, (c) is 1.3 °C, and (d) is 130 °C.",
+        "text": "During recalescence on a pure-metal cooling curve, the temperature rises after undercooling mainly because:",
+        "keyExplanation": "Recalescence is the temperature rise after undercooling. Nucleation and growth release latent heat, raising the temperature toward the equilibrium freezing temperature. The amount of recovery depends on heat extraction and experimental conditions; a fixed 0.13 °C value is not universal."
       },
       "sourceFingerprint": "5bc8fa75"
     },
@@ -11343,7 +11373,9 @@
             "text": "Both false"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "reason": "Carbon diffusivity depends on the activation energy for atomic jumps as well as the available interstitial sites. In ferrite, the migration barrier for carbon is substantially lower than in austenite, so carbon diffuses faster in BCC α-Fe despite its lower equilibrium solubility.",
+        "keyExplanation": "Both statements are true, but the reason as rewritten explains the diffusivity trend through the lower migration barrier in ferrite, not simply through atomic packing factor. Carbon solubility and carbon diffusivity are distinct thermodynamic and kinetic properties."
       },
       "sourceFingerprint": "5ad70242"
     },
@@ -11801,6 +11833,56 @@
       "sourceFingerprint": "3effebba",
       "updates": {
         "keyExplanation": "The equality of the two numerical plane spacings does not imply equal ductility. FCC has four equivalent close-packed {111} plane families with ⟨110⟩ directions, while BCC has several potential slip families and generally higher lattice resistance, especially at low temperature. Slip-system availability and glide resistance—not this spacing coincidence alone—govern the comparison."
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 11,
+      "originalType": "D",
+      "sourceText": "Match the intermediate-phase type to its example.",
+      "sourceFingerprint": "8aa9013c",
+      "updates": {
+        "keyExplanation": "The matches are: intermetallic/valency compounds—Mg₂Pb, Mg₂Sn and CaSe; interstitial compound—Fe₃C; electron compound β (3:2)—AgCd, Cu₂Al and FeAl; electron compound ε (7:4)—AgCd₃, Cu₃Si and FeZn₇. Thus 1–b, 2–a, 3–c and 4–d, option (a). These are conventional examples used in the electron-compound classification."
+      }
+    },
+    {
+      "chapter": "ch08",
+      "n": 1,
+      "originalType": "B",
+      "sourceText": "Diffusion is the thread connecting earlier chapters because it is what:",
+      "sourceFingerprint": "b5245d95",
+      "updates": {
+        "keyExplanation": "All four links are valid: diffusion homogenises segregation during heat treatment; vacancy transport enables edge-dislocation climb; solute diffusion forms Cottrell atmospheres around dislocations; and diffusion controls the rate of precipitate coarsening during ageing. Therefore all four statements are correct: option (b)."
+      }
+    },
+    {
+      "chapter": "ch09",
+      "n": 50,
+      "originalType": "G",
+      "sourceText": "Of the following, which cooling rate most closely corresponds to the formation of a **metallic glass**?",
+      "sourceFingerprint": "ddaaf569",
+      "updates": {
+        "text": "A metallic glass is obtained when a melt is:",
+        "options": [
+          {
+            "label": "a",
+            "text": "cooled rapidly enough, for that alloy and sample geometry, to bypass crystallisation"
+          },
+          {
+            "label": "b",
+            "text": "cooled slowly through the liquidus and solidus"
+          },
+          {
+            "label": "c",
+            "text": "held for a long time just below its melting point"
+          },
+          {
+            "label": "d",
+            "text": "seeded with a crystal and cooled slowly"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Metallic-glass formation requires suppressing crystallisation during cooling. The critical cooling rate is alloy- and geometry-dependent, so no single cooling-rate value applies to all metallic glasses."
       }
     }
   ],
