@@ -9650,17 +9650,16 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 10,
-        "explanation": 7,
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 18,
+        "reasoning": 12,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
         "syllabusRelevance": 5,
-        "total": 67
+        "total": 95
       },
-      "status": "rejected",
-      "reviewNotes": "The question refers to reported orientation/creep results; verify the table/data are present in the rendered question. Without those data, the item is incomplete."
+      "status": "approved"
     },
     {
       "questionId": "ch06-q24",
@@ -12184,17 +12183,16 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 10,
-        "explanation": 7,
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 18,
+        "reasoning": 12,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
         "syllabusRelevance": 5,
-        "total": 67
+        "total": 95
       },
-      "status": "rejected",
-      "reviewNotes": "The question refers to grain-size data; verify that the complete data table is present in the rendered question before approval."
+      "status": "approved"
     },
     {
       "questionId": "ch07-q45",
@@ -12473,17 +12471,16 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 10,
-        "explanation": 7,
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 18,
+        "reasoning": 12,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
         "syllabusRelevance": 5,
-        "total": 67
+        "total": 95
       },
-      "status": "rejected",
-      "reviewNotes": "The question refers to ageing-time/yield-strength data; verify the complete data table and values are present in the rendered question before approval."
+      "status": "approved"
     },
     {
       "questionId": "ch07-q54",
@@ -13626,17 +13623,16 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 10,
-        "explanation": 7,
+        "conceptualAccuracy": 20,
+        "distractorPlausibility": 18,
+        "reasoning": 12,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 10,
         "syllabusRelevance": 5,
-        "total": 67
+        "total": 95
       },
-      "status": "rejected",
-      "reviewNotes": "The question refers to Arrhenius plots/fitted slopes; verify that the actual plot or slope values are included in the rendered question. Otherwise the answer is unsupported by the stem."
+      "status": "approved"
     },
     {
       "questionId": "ch08-q30",
@@ -13980,17 +13976,16 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 10,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 11,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 67
+        "total": 89
       },
-      "status": "rejected",
-      "reviewNotes": "The marker-motion assertion–reason explanation is conceptually subtle; state the marker displacement direction and distinguish vacancy flux from atomic flux explicitly."
+      "status": "approved"
     },
     {
       "questionId": "ch08-q41",
@@ -14112,17 +14107,16 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 10,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 11,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 67
+        "total": 89
       },
-      "status": "rejected",
-      "reviewNotes": "The explanation that lower APF alone causes faster carbon diffusion is oversimplified; explain the interstitial migration barrier and BCC/FCC site geometry instead."
+      "status": "approved"
     },
     {
       "questionId": "ch08-q45",
@@ -14402,17 +14396,16 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 10,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 11,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 67
+        "total": 89
       },
-      "status": "rejected",
-      "reviewNotes": "The short-circuit diffusion statements should distinguish grain-boundary, surface and dislocation-pipe diffusion and specify the temperature regime."
+      "status": "approved"
     },
     {
       "questionId": "ch08-q54",
