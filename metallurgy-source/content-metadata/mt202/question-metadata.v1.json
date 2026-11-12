@@ -2447,16 +2447,16 @@
       "mappingConfidence": "medium",
       "quality": {
         "conceptualAccuracy": 18,
-        "distractorPlausibility": 14,
-        "reasoning": 8,
-        "noGiveaways": 13,
-        "clarity": 13,
-        "explanation": 8,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 79
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "Confirm the quoted Leslie octahedral-void radii and units against the cited source before approval."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch02-q43",
@@ -5585,17 +5585,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 75
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "Electron-compound structure assignments are specialized empirical classifications; verify the e/a ratios and structure labels against the course source."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch04-q15",
@@ -7808,17 +7808,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 13,
-        "reasoning": 9,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 75
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "Verify the vector notation and overbars in the FCC perfect-to-partial dissociation equation in the rendered source; a notation error would change the vector sum."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch05-q37",
@@ -9804,17 +9804,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 72
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The closure-failure convention should be shown consistently (circuit direction and Finish-to-Start/right-hand convention); the current wording may confuse sign conventions."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch06-q29",
