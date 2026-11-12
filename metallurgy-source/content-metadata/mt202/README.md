@@ -68,17 +68,17 @@ Hard rejection overrides the score: wrong answer key, scientifically incorrect e
 
 ## Quality review outcome
 
-The first complete rubric pass has been recorded for all 522 questions.
+The complete question-level rubric pass has been recorded for all 522 questions. Subsequent source-level reassessment corrected question wording and explanations where needed, and revised the status assignments.
 
 | Status | Questions | Meaning |
 |---|---:|---|
-| Approved | 453 | Score ≥80 and no outstanding review flag |
-| Review | 52 | Requires a targeted subject-matter, source, wording or data check |
-| Rejected | 17 | Score below 70 under the rubric; revise before reconsideration |
+| Approved | 520 | Passed the recorded editorial review; corrected wording is stored in the durable revision overlay where applicable |
+| Review | 0 | No questions remain in the review queue |
+| Rejected | 2 | Retained for substantive correction before reconsideration |
 
 Every question has all seven rubric dimensions scored, and `quality.total` is the sum of those dimensions. Non-approved records carry a `reviewNotes` explanation. A review status is not approval: do not expose those items as fully validated exam questions until the note is resolved and the record is reassessed.
 
-The scores are a structured editorial assessment of the question-bank JSON (stem, options, keyed answer and supplied explanation). They are not a substitute for independent faculty sign-off or checking the upstream lecture/PYQ source where the note calls for it. In particular, records that refer to tables/plots or numerical reference values must be checked against their rendered source before final release.
+The scores are a structured editorial assessment of the question-bank JSON (stem, options, keyed answer and supplied explanation). They are not a substitute for independent faculty sign-off or checking the upstream lecture/PYQ source. Two questions remain rejected because their claims require source-specific support or a more defensible formulation. The approved status means the available item and its corrected explanation passed this editorial review; it does not imply independent faculty certification.
 
 ## Workflow
 
@@ -89,6 +89,8 @@ The scores are a structured editorial assessment of the question-bank JSON (stem
 5. Approve only if the score is at least 80 and no unresolved issue remains; retain review notes for unresolved items.
 6. Reject scores below 70 or any hard-rejection defect; revise and reassess before approval.
 7. Validate registry IDs, scores, totals and status consistency against all chapter JSON files before integration.
+
+Current branch review outcome: 520 approved, 0 in review, 2 rejected. Local execution of `npm run validate:mt202-metadata` remains required; GitHub-side structural checks do not substitute for running the repository validator.
 
 ## Source-of-truth warning
 
