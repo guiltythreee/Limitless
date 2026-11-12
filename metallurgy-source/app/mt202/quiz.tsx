@@ -21,6 +21,7 @@ import {
 } from "../../../shared/learning-player/runtime";
 import { createMetallurgyPlayerAdapter, type MetallurgyPlayerAnswer } from "../learning-player/adapter";
 import { createLearningPlayerShell } from "../../../shared/learning-player/PlayerShell";
+import { handleNextQuestionKey } from "../../../shared/learning-player/keyboard";
 
 const LearningPlayerShell = (props: Parameters<typeof createLearningPlayerShell>[1]) =>
   createLearningPlayerShell(createElement, props);
@@ -73,6 +74,22 @@ export default function Quiz({
     }
   }, [initialQuestionId, queueKey, topicId]);
   const q = qs[idx]!;
+
+  // Right Arrow advances to the next question (except while editing text).
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => handleNextQuestionKey(event, () => {
+      if (!done) {
+        setSession((current) =>
+          current.state.index < current.questions.length - 1
+            ? navigatePlayer(current, "next")
+            : current
+        );
+      }
+    });
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [done]);
+
 
   const stateFor = (n: number) => progress.answered[qid(topicId, n)];
 
