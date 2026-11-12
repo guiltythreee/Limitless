@@ -310,17 +310,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 7,
-        "noGiveaways": 13,
-        "clarity": 13,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 77
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "Polonium's classification as a metalloid varies by reference; define the classification convention or replace Po with an unambiguous example."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch01-q11",
@@ -409,17 +409,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 13,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 76
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "Statement 4 is too categorical: metallic materials can be hard, and brittleness is not a general consequence of metallic bonding. Rewrite the statement to test a defensible distinction."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch01-q14",
@@ -476,17 +476,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 8,
-        "noGiveaways": 12,
-        "clarity": 13,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 77
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The claim that van der Waals forces are significant mainly at low temperature is imprecise; qualify it as their relative ability to hold condensed noble gases when thermal agitation is sufficiently low."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch01-q16",
@@ -642,17 +642,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 14,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 76
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The assertion overgeneralises all ionic and covalent solids as brittle; narrow it to typical ionic and covalent-network solids."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch01-q21",
@@ -805,17 +805,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 15,
-        "reasoning": 9,
-        "noGiveaways": 13,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 79
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The assertion/reason uses an overly broad statement that solids expand on heating; consider exceptions and specify ordinary solids over a stated temperature range."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch01-q26",
