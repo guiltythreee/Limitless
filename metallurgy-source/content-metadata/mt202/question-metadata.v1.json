@@ -12565,17 +12565,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 73
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The 10–15 nm inverse Hall–Petch threshold is material-dependent; state it as an approximate illustrative scale, not a universal cutoff."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch07-q57",
@@ -14457,17 +14457,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 19,
-        "distractorPlausibility": 15,
-        "reasoning": 9,
-        "noGiveaways": 13,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
         "clarity": 14,
         "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 84
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The thin-film tracer solution depends on the source geometry and dose convention; specify whether M is the total areal dose in a symmetric couple and define the concentration units."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch08-q56",
