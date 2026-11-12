@@ -63,6 +63,18 @@ for (const chapter of catalogue.chapters) {
     if (record.questionType === null || !["A", "B", "C", "D", "E", "F", "G"].includes(record.questionType)) {
       errors.push(`${questionId}: invalid questionType`);
     }
+
+    const qualityFields = { conceptualAccuracy: 20, distractorPlausibility: 20, reasoning: 15, noGiveaways: 15, clarity: 15, explanation: 10, syllabusRelevance: 5 };
+    if (!record.quality || Object.entries(qualityFields).some(([field, max]) => !Number.isInteger(record.quality[field]) || record.quality[field] < 0 || record.quality[field] > max)) {
+      errors.push(`${questionId}: quality dimensions must be integer scores within rubric limits`);
+    } else {
+      const total = Object.keys(qualityFields).reduce((sum, field) => sum + record.quality[field], 0);
+      if (record.quality.total !== total) errors.push(`${questionId}: quality total does not equal dimension sum`);
+      if (!["approved", "review", "rejected"].includes(record.status)) errors.push(`${questionId}: invalid post-review status`);
+      if (record.status === "approved" && total < 80) errors.push(`${questionId}: approved status requires a score of at least 80`);
+      if (total < 70 && record.status !== "rejected") errors.push(`${questionId}: scores below 70 must be rejected`);
+      if (record.status !== "approved" && (typeof record.reviewNotes !== "string" || !record.reviewNotes.trim())) errors.push(`${questionId}: non-approved records require reviewNotes`);
+    }
   }
 }
 
