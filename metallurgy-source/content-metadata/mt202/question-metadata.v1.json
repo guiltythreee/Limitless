@@ -17,8 +17,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.1",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.1.1"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -41,8 +43,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.2.1"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -65,8 +69,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.2.2"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -89,8 +95,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.2.2"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -113,8 +121,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.2.3"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -137,8 +147,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.2",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.2.3"
+      ],
+      "questionType": "D",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -161,8 +173,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.2.4"
+      ],
+      "questionType": "F",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -185,8 +199,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.3.2"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -209,8 +225,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.3.2",
+        "MT202-1.3.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -233,8 +252,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.3.1"
+      ],
+      "questionType": "D",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -257,8 +278,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.1"
+      ],
+      "questionType": "D",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -281,8 +304,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.2",
+        "MT202-1.4.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -305,8 +331,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -329,8 +357,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.1",
+        "MT202-1.4.3"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -353,8 +384,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.1",
+        "MT202-1.4.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -377,8 +411,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.1",
+        "MT202-1.4.2"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -401,8 +438,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.2",
+        "MT202-1.4.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -425,8 +465,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.2"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -449,8 +491,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.1",
+        "MT202-1.4.2"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -473,8 +518,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.2",
+        "MT202-1.4.3"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -497,8 +545,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.2",
+        "MT202-1.4.3"
+      ],
+      "questionType": "G",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -521,8 +572,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.1",
+        "MT202-1.5.2"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -545,8 +599,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.2"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -569,8 +625,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.2",
+        "MT202-1.5.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -593,8 +652,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.3"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -617,8 +678,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.1",
+        "MT202-1.5.5"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -641,8 +705,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.5"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -665,8 +731,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.2",
+        "MT202-1.5.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -689,8 +758,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.4"
+      ],
+      "questionType": "F",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -713,8 +784,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.5",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.2",
+        "MT202-1.5.3"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -737,8 +811,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.2"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -761,8 +837,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.4"
+      ],
+      "questionType": "A",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -785,8 +863,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.5.2"
+      ],
+      "questionType": "C",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -809,8 +889,10 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.3",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.2.2"
+      ],
+      "questionType": "E",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
@@ -833,8 +915,11 @@
       "chapterId": "ch01",
       "curriculumTopicId": "1.4",
       "relatedTopicIds": [],
-      "learningObjectiveIds": [],
-      "questionType": null,
+      "learningObjectiveIds": [
+        "MT202-1.4.2",
+        "MT202-1.4.5"
+      ],
+      "questionType": "B",
       "assessedDifficulty": null,
       "reasoningSkills": [],
       "misconceptionTags": [],
