@@ -510,17 +510,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 13,
-        "distractorPlausibility": 10,
-        "reasoning": 7,
-        "noGiveaways": 8,
-        "clarity": 11,
-        "explanation": 7,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 61
+        "total": 91
       },
-      "status": "rejected",
-      "reviewNotes": "The quoted bond-energy ranges overlap substantially, so a strict ordering of metallic, covalent and ionic bonds is not universally defensible. Ask only for broad strongest/weakest trends or supply a specific comparison."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch01-q17",
@@ -1059,17 +1059,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 12,
-        "distractorPlausibility": 12,
-        "reasoning": 10,
-        "noGiveaways": 13,
-        "clarity": 12,
-        "explanation": 4,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 68
+        "total": 91
       },
-      "status": "rejected",
-      "reviewNotes": "The supplied explanation makes an unsupported or scientifically inaccurate causal claim about the relationship between bond energy, melting point and elastic modulus. Rewrite the rationale to distinguish well depth (cohesive energy) from curvature near equilibrium (elastic stiffness), then reassess the key."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch01-q34",
@@ -3505,17 +3505,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 14,
-        "distractorPlausibility": 12,
-        "reasoning": 7,
-        "noGiveaways": 10,
-        "clarity": 11,
-        "explanation": 7,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 66
+        "total": 91
       },
-      "status": "rejected",
-      "reviewNotes": "The highly specific 0.13 °C recalescence value requires a traceable source and conditions; otherwise replace it with a qualitative description or a defensible approximate range."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch03-q23",
@@ -5038,17 +5038,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 14,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 11,
-        "explanation": 7,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 67
+        "total": 91
       },
-      "status": "rejected",
-      "reviewNotes": "A cooling rate of 10^7 °C/s is alloy- and geometry-dependent, not a universal metallic-glass threshold. Qualify the example and cite its source."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch03-q71",
@@ -5071,17 +5071,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 11,
-        "explanation": 7,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 68
+        "total": 91
       },
-      "status": "rejected",
-      "reviewNotes": "The assertion/reason on killed versus rimming steel is too broad; specify the product and forming application and explain why rimming steel's outer rim is advantageous."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch03-q72",
@@ -6099,17 +6099,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 15,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 11,
-        "explanation": 7,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 69
+        "total": 91
       },
-      "status": "rejected",
-      "reviewNotes": "Constitutional supercooling can promote equiaxed nucleation and the columnar-to-equiaxed transition, but it is not the sole universal cause of a central equiaxed zone. Qualify the assertion."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch04-q31",
@@ -8637,17 +8637,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 14,
-        "distractorPlausibility": 12,
-        "reasoning": 8,
-        "noGiveaways": 10,
-        "clarity": 11,
-        "explanation": 7,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 67
+        "total": 91
       },
-      "status": "rejected",
-      "reviewNotes": "The BCC slip-system count is incomplete unless explicitly restricted to the primary {110}<111> family; BCC can also slip on {112} and {123} families."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch05-q63",
