@@ -779,6 +779,98 @@
     {
       "id": "MT202-5.8.5",
       "description": "Apply the Orowan relation and define dislocation density and Peierls–Nabarro stress."
+    },
+    {
+      "id": "MT202-6.1.1",
+      "description": "Distinguish elastic and plastic deformation by reversibility, atomic displacement and stress–strain response."
+    },
+    {
+      "id": "MT202-6.1.2",
+      "description": "Explain slip as dislocation-mediated shear and distinguish it from twinning and other deformation mechanisms."
+    },
+    {
+      "id": "MT202-6.2.1",
+      "description": "Define a slip system as a crystallographic slip plane and slip direction."
+    },
+    {
+      "id": "MT202-6.2.2",
+      "description": "Identify common slip systems and their multiplicities in FCC, BCC and HCP metals."
+    },
+    {
+      "id": "MT202-6.2.3",
+      "description": "Explain the role of close-packed planes and directions in slip and compare crystal structures' available deformation modes."
+    },
+    {
+      "id": "MT202-6.2.4",
+      "description": "Apply the von Mises criterion to assess independent slip-system requirements in polycrystals."
+    },
+    {
+      "id": "MT202-6.3.1",
+      "description": "Apply Schmid's law and define the geometric angles between tensile axis, slip-plane normal and slip direction."
+    },
+    {
+      "id": "MT202-6.3.2",
+      "description": "Calculate Schmid factor, resolved shear stress, CRSS and tensile yield stress for a specified orientation."
+    },
+    {
+      "id": "MT202-6.3.3",
+      "description": "Identify orientation conditions for maximum or zero resolved shear stress and compare yield stresses across orientations."
+    },
+    {
+      "id": "MT202-6.3.4",
+      "description": "Distinguish intrinsic CRSS from orientation-dependent applied yield stress and identify the first active slip system."
+    },
+    {
+      "id": "MT202-6.3.5",
+      "description": "Explain anisotropic mechanical response in single crystals and its implications for single-crystal components."
+    },
+    {
+      "id": "MT202-6.4.1",
+      "description": "Describe mechanical twinning as a coordinated shear that produces a mirror-related crystal orientation."
+    },
+    {
+      "id": "MT202-6.4.2",
+      "description": "Compare slip and twinning by atomic displacement, shear geometry and resulting shape change."
+    },
+    {
+      "id": "MT202-6.4.3",
+      "description": "Explain conditions favouring twinning and compare its role in FCC, BCC and HCP metals."
+    },
+    {
+      "id": "MT202-6.4.4",
+      "description": "Relate HCP c/a ratio to the relative accessibility of basal, prismatic and pyramidal slip."
+    },
+    {
+      "id": "MT202-6.5.1",
+      "description": "Explain upper and lower yield points, dislocation pinning and release by Cottrell atmospheres."
+    },
+    {
+      "id": "MT202-6.5.2",
+      "description": "Describe Lüders-band propagation and the origin of discontinuous yielding in low-carbon steels."
+    },
+    {
+      "id": "MT202-6.5.3",
+      "description": "Explain static and dynamic strain ageing, blue brittleness and the Portevin–Le Chatelier effect."
+    },
+    {
+      "id": "MT202-6.5.4",
+      "description": "Explain skin passing/temper rolling and its role in preventing stretcher strains."
+    },
+    {
+      "id": "MT202-6.5.5",
+      "description": "Distinguish elastic springback from permanent plastic strain after unloading."
+    },
+    {
+      "id": "MT202-6.5.6",
+      "description": "Interpret single-crystal work-hardening stages, cross-slip and deformation textures."
+    },
+    {
+      "id": "MT202-6.5.7",
+      "description": "Explain the temperature sensitivity of BCC versus FCC slip and its effect on yield stress."
+    },
+    {
+      "id": "MT202-6.5.8",
+      "description": "Relate cross-slip and recovery to dislocation rearrangement and strain hardening."
     }
   ]
 }
