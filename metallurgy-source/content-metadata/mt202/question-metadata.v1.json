@@ -10971,17 +10971,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 72
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The explanation is plausible but overgeneralises polycrystals; state that grain compatibility usually activates multiple slip early, rather than implying every grain has the same response."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch07-q7",
@@ -11328,17 +11328,17 @@
       "sourceReferences": [],
       "mappingConfidence": "high",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 13,
-        "explanation": 8,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 78
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The Hall–Petch relation is valid only over a conventional grain-size regime; state the range/qualification in the stem as well as the explanation."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch07-q18",
@@ -14746,17 +14746,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 77
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The toughness benefit of grain refinement is alloy- and fracture-mode-dependent; keep the qualification and avoid implying toughness always improves."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch09-q9",
@@ -16294,17 +16294,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 8,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 7,
+        "conceptualAccuracy": 19,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 72
+        "total": 92
       },
-      "status": "review",
-      "reviewNotes": "The assertion and reason should distinguish vacancy concentration (formation energy) from vacancy mobility (migration energy); explain why both contribute to Q_D."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch09-q56",
