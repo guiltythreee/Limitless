@@ -9,6 +9,7 @@ const registry = JSON.parse(fs.readFileSync(path.join(metadataDir, "question-met
 const catalogue = JSON.parse(fs.readFileSync(path.join(metadataDir, "topics.v1.json"), "utf8"));
 
 const topicIds = new Set(catalogue.chapters.flatMap(chapter => chapter.topics.map(topic => topic[0])));
+const objectiveIds = new Set((catalogue.learningObjectives ?? []).map(objective => objective.id));
 const seen = new Set();
 const errors = [];
 
@@ -31,6 +32,7 @@ for (const chapter of catalogue.chapters) {
     }
     if (seen.has(questionId)) errors.push(`Duplicate metadata ID: ${questionId}`);
     seen.add(questionId);
+    if (record.learningObjectiveIds?.some(id => !objectiveIds.has(id))) errors.push(`${questionId}: unknown learning objective`);
     if (record.curriculumTopicId && !topicIds.has(record.curriculumTopicId)) {
       errors.push(`${questionId}: unknown primary topic ${record.curriculumTopicId}`);
     }
