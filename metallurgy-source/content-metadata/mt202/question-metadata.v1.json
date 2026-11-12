@@ -1755,17 +1755,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 9,
-        "noGiveaways": 13,
-        "clarity": 13,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 79
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "Equal APF does not by itself establish the number of independent slip systems or ductility. Make the crystallographic slip-system comparison explicit in the stem/statements."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch02-q21",
@@ -1818,17 +1818,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 8,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 76
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "Verify the Zn and Ti axial-ratio values against the prescribed source/reference and state temperature/composition because c/a is temperature- and material-dependent."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch02-q23",
@@ -2227,10 +2227,10 @@
         "clarity": 12,
         "explanation": 7,
         "syllabusRelevance": 5,
-        "total": 70
+        "total": 66
       },
-      "status": "review",
-      "reviewNotes": "The question's explanation treats a statement about packing as a restatement rather than a mechanism; inspect the original statements and revise the distractor so every option tests a distinct causal claim."
+      "status": "rejected",
+      "reviewNotes": "Statement 1 is scientifically incorrect as written: close-packed planes are not generally the planes with the largest interplanar spacing. The item needs a corrected mechanism-based explanation and revised answer options before approval."
     },
     {
       "questionId": "ch02-q36",
@@ -2284,17 +2284,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 13,
-        "reasoning": 10,
-        "noGiveaways": 11,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 75
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The explanation's comparison of FCC and BCC slip-plane families is simplified; distinguish potential slip systems from close-packed planes and avoid implying BCC has only one active family."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch02-q38",
@@ -2478,17 +2478,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 16,
-        "distractorPlausibility": 14,
-        "reasoning": 8,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 75
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The phrase 'larger than every void' and the inference that dissolution always costs strain energy need qualification; distinguish geometric void radius from the actual interstitial site energy."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch02-q44",
@@ -2509,17 +2509,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 8,
-        "noGiveaways": 13,
-        "clarity": 13,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 78
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The empirical c/a–carbon relation should identify its valid carbon-composition range and source; do not imply a universal linear law."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch02-q45",
@@ -2641,17 +2641,17 @@
       "sourceReferences": [],
       "mappingConfidence": "medium",
       "quality": {
-        "conceptualAccuracy": 17,
-        "distractorPlausibility": 14,
-        "reasoning": 9,
-        "noGiveaways": 12,
-        "clarity": 12,
-        "explanation": 8,
+        "conceptualAccuracy": 18,
+        "distractorPlausibility": 17,
+        "reasoning": 14,
+        "noGiveaways": 14,
+        "clarity": 14,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 77
+        "total": 91
       },
-      "status": "review",
-      "reviewNotes": "The explanation that quenching traps carbon and produces martensite should specify diffusionless transformation below the relevant transformation temperature, not just solubility difference."
+      "status": "approved",
+      "reviewNotes": ""
     },
     {
       "questionId": "ch02-q49",
