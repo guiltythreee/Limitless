@@ -52,3 +52,10 @@ The answer keys were preserved. The durable overlay remains at 392 unique target
 The audit script previously compared only normalized question stems. That incorrectly treated generic structured stems as duplicates even when their statements or assertion–reason content differed. The detector now compares the normalized stem together with statements, match-table content and assertion/reason text. The four previously flagged pairs were inspected and are distinct practice/revision variants, so they are no longer classified as duplicates.
 
 The queue was regenerated after the script change: **473 flags — 119 High, 271 Medium, 83 Review**. This refinement removes false duplicate signals; it does not reduce the number of questions requiring contextual review.
+
+
+## Current branch follow-up — 14 November 2026
+
+The cumulative distractor-balance pass now covers **56 questions** across Chapters 1–9. It preserves the existing answer keys and uses fingerprint-guarded durable overlay records. The overlay now contains **418 unique targets**; all overlay updates match generated chapter JSON and all nine deployed mirrors match their generated files byte-for-byte.
+
+The queue currently contains **465 flags — 50 High, 292 Medium and 123 Review**. The audit script now excludes option-length bias signals for standardized two-option True/False and four-option Assertion–Reason response formats, including common wording variants. It also compares structured content when identifying duplicate stems. These changes reduce false-positive severity; the remaining flags still need contextual review.
