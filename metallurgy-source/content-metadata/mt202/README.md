@@ -78,7 +78,7 @@ The question-level rubric pass covers all 522 questions. The current metadata re
 
 Every record has all seven rubric dimensions scored, and `quality.total` is the sum of those dimensions. Scores range from **80 to 95**, with a mean of **85.06/100**. The score distribution is highly concentrated: 274 questions score 81 and 146 score 91, so the rubric requires calibration before these totals should be treated as discriminating measurements. Approval is a provisional editorial status, not independent faculty certification or proof of performance-based calibration.
 
-The assessed-difficulty distribution is: level 1 = 57; level 2 = 94; level 3 = 248; level 4 = 122; level 5 = 1. All 175 learning objectives have at least one mapped question (627 objective links); 36 objectives currently have only one question, so their practice depth is thin.
+The assessed-difficulty distribution is: level 1 = 57; level 2 = 94; level 3 = 248; level 4 = 122; level 5 = 1. All 175 learning objectives have at least one mapped question (626 objective links); 36 objectives currently have only one question, so their practice depth is thin.
 
 The registry contains 19 misconception-tag families (1,227 tag assignments). All 84 numerical (type E) questions carry the `apply` reasoning-skill tag. Reasoning-skill tags may overlap, so their counts are not expected to sum to 522.
 
