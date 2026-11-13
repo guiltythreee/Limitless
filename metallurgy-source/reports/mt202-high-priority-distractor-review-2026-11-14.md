@@ -45,3 +45,10 @@ Four further high-priority items were revised:
 - Ch 9 Q24: balanced options for the Hume–Rothery atomic-size criterion.
 
 The answer keys were preserved. The durable overlay remains at 392 unique targets; all 392 overlay updates match the generated chapter JSON, and all nine deployed chapter mirrors are byte-identical to their generated source files. The refreshed heuristic queue now contains 473 flags: 123 High, 267 Medium and 83 Review. The remaining flags still require contextual review.
+
+
+## Heuristic refinement — structured duplicate detection
+
+The audit script previously compared only normalized question stems. That incorrectly treated generic structured stems as duplicates even when their statements or assertion–reason content differed. The detector now compares the normalized stem together with statements, match-table content and assertion/reason text. The four previously flagged pairs were inspected and are distinct practice/revision variants, so they are no longer classified as duplicates.
+
+The queue was regenerated after the script change: **473 flags — 119 High, 271 Medium, 83 Review**. This refinement removes false duplicate signals; it does not reduce the number of questions requiring contextual review.
