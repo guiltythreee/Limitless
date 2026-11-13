@@ -11034,9 +11034,10 @@
     {
       "questionId": "ch06-q44",
       "chapterId": "ch06",
-      "curriculumTopicId": "6.2",
+      "curriculumTopicId": "6.4",
       "relatedTopicIds": [
-        "6.3"
+        "6.3",
+        "6.2"
       ],
       "learningObjectiveIds": [
         "MT202-6.4.4"
@@ -11138,8 +11139,10 @@
     {
       "questionId": "ch06-q47",
       "chapterId": "ch06",
-      "curriculumTopicId": "6.2",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "6.4",
+      "relatedTopicIds": [
+        "6.2"
+      ],
       "learningObjectiveIds": [
         "MT202-6.4.4"
       ],
@@ -11209,8 +11212,10 @@
     {
       "questionId": "ch06-q49",
       "chapterId": "ch06",
-      "curriculumTopicId": "6.2",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "6.5",
+      "relatedTopicIds": [
+        "6.2"
+      ],
       "learningObjectiveIds": [
         "MT202-6.5.6"
       ],
@@ -11348,8 +11353,10 @@
     {
       "questionId": "ch06-q53",
       "chapterId": "ch06",
-      "curriculumTopicId": "6.1",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "6.5",
+      "relatedTopicIds": [
+        "6.2"
+      ],
       "learningObjectiveIds": [
         "MT202-6.5.4",
         "MT202-6.5.1"
@@ -11451,8 +11458,10 @@
     {
       "questionId": "ch06-q56",
       "chapterId": "ch06",
-      "curriculumTopicId": "6.2",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "6.5",
+      "relatedTopicIds": [
+        "6.2"
+      ],
       "learningObjectiveIds": [
         "MT202-6.5.6"
       ],
@@ -11485,9 +11494,10 @@
     {
       "questionId": "ch06-q57",
       "chapterId": "ch06",
-      "curriculumTopicId": "6.2",
+      "curriculumTopicId": "6.5",
       "relatedTopicIds": [
-        "6.1"
+        "6.1",
+        "6.2"
       ],
       "learningObjectiveIds": [
         "MT202-6.5.7"
@@ -13495,8 +13505,10 @@
     {
       "questionId": "ch07-q58",
       "chapterId": "ch07",
-      "curriculumTopicId": "7.1",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "7.5",
+      "relatedTopicIds": [
+        "7.1"
+      ],
       "learningObjectiveIds": [
         "MT202-7.5.4"
       ],
