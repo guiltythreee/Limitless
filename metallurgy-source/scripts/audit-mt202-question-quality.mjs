@@ -63,18 +63,39 @@ for (const question of questions) {
   const flags = [];
   const evidence = [];
 
-  if (longestCount === 1) flags.push("unique-longest-option");
-  if (shortest > 0 && longest >= 2 * shortest) flags.push("option-over-2x-shortest");
-  if (correctLength !== null && longestCount === 1 && correctLength === longest) {
-    flags.push("correct-option-uniquely-longest");
+  const normalizedOptions = options.map((option) => (option.text || "").trim().replace(/\\s+/g, " "));
+  const assertionReasonOptions = [
+    /^both true, r correctly explains a$/i,
+    /^both true, r does not explain a$/i,
+    /^a true, r false$/i,
+    /^both false$/i,
+  ];
+  const standardAssertionReason =
+    options.length === 4 &&
+    normalizedOptions.every((value) => assertionReasonOptions.some((pattern) => pattern.test(value)));
+  const binaryTrueFalse =
+    options.length === 2 &&
+    normalizedOptions.some((value) => /^true\\b/i.test(value)) &&
+    normalizedOptions.some((value) => /^false\\b/i.test(value));
+
+  // Standard A/R and True/False response sets intentionally have different
+  // phrase lengths. Their wording is fixed by the response format, not a key cue.
+  if (!standardAssertionReason && !binaryTrueFalse) {
+    if (longestCount === 1) flags.push("unique-longest-option");
+    if (shortest > 0 && longest >= 2 * shortest) flags.push("option-over-2x-shortest");
+    if (correctLength !== null && longestCount === 1 && correctLength === longest) {
+      flags.push("correct-option-uniquely-longest");
+    }
+    if (correctLength !== null && shortest > 0 && correctLength >= 2 * shortest) {
+      flags.push("correct-option-over-2x-shortest");
+    }
+    evidence.push(
+      "option lengths=" +
+        options.map((option, index) => option.label + ":" + lengths[index]).join(", ")
+    );
+  } else {
+    evidence.push("option-length cues skipped for standardized assertion–reason/true–false response format");
   }
-  if (correctLength !== null && shortest > 0 && correctLength >= 2 * shortest) {
-    flags.push("correct-option-over-2x-shortest");
-  }
-  evidence.push(
-    "option lengths=" +
-      options.map((option, index) => option.label + ":" + lengths[index]).join(", ")
-  );
 
   const surface = [
     question.text,
