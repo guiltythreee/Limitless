@@ -1,0 +1,1032 @@
+{
+  "schemaVersion": "1.0.0",
+  "courseId": "mt202",
+  "notes": [
+    "Topic IDs are curriculum taxonomy identifiers, not the application's existing chapter-level topicId.",
+    "Topics marked proposed are additions to the current Markdown curriculum outline and require reconciliation with the source Markdown before any durable source migration.",
+    "Chapter 9 has no independent topics; its questions map back to topics in Chapters 1–8."
+  ],
+  "chapters": [
+    {
+      "chapterId": "ch01",
+      "topics": [
+        [
+          "1.1",
+          "Metallurgy and its branches"
+        ],
+        [
+          "1.2",
+          "Atomic number, mass, shells and quantum numbers"
+        ],
+        [
+          "1.3",
+          "Orbital filling and the periodic table"
+        ],
+        [
+          "1.4",
+          "Atomic bonding"
+        ],
+        [
+          "1.5",
+          "Interatomic spacing and bonding energy"
+        ],
+        [
+          "1.6",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch02",
+      "topics": [
+        [
+          "2.1",
+          "Space lattice, unit cell and crystal systems"
+        ],
+        [
+          "2.2",
+          "BCC, FCC and HCP: numbers, APF and lattice-parameter relations"
+        ],
+        [
+          "2.3",
+          "Crystallographic directions and Miller indices"
+        ],
+        [
+          "2.4",
+          "Linear and planar density"
+        ],
+        [
+          "2.5",
+          "Interstitial voids"
+        ],
+        [
+          "2.6",
+          "Allotropy of iron"
+        ],
+        [
+          "2.7",
+          "Interview and GATE extra practice"
+        ],
+        [
+          "2.8",
+          "X-ray diffraction and Bragg's law",
+          "proposed"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch03",
+      "topics": [
+        [
+          "3.1",
+          "Methods of producing solid metal"
+        ],
+        [
+          "3.2",
+          "Nucleation and growth"
+        ],
+        [
+          "3.3",
+          "Undercooling zones"
+        ],
+        [
+          "3.4",
+          "Cooling curves of pure metals"
+        ],
+        [
+          "3.5",
+          "Dendritic freezing"
+        ],
+        [
+          "3.6",
+          "Freezing of ingots: structural zones"
+        ],
+        [
+          "3.7",
+          "Shrinkage and piping"
+        ],
+        [
+          "3.8",
+          "Porosity: sponginess and blowholes"
+        ],
+        [
+          "3.9",
+          "Killed steel versus rimming steel"
+        ],
+        [
+          "3.10",
+          "Segregation"
+        ],
+        [
+          "3.11",
+          "Homogenisation"
+        ],
+        [
+          "3.12",
+          "Surface defects, eutectic freezing and single crystals"
+        ],
+        [
+          "3.13",
+          "Interview and GATE extra practice"
+        ],
+        [
+          "3.14",
+          "Constitutional supercooling and special solidification processes",
+          "proposed"
+        ],
+        [
+          "3.15",
+          "Moulding and casting practice",
+          "proposed"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch04",
+      "topics": [
+        [
+          "4.1",
+          "Alloys and solid solutions"
+        ],
+        [
+          "4.2",
+          "Hume–Rothery rules"
+        ],
+        [
+          "4.3",
+          "Intermediate alloy phases"
+        ],
+        [
+          "4.4",
+          "Tie-line and lever rules"
+        ],
+        [
+          "4.5",
+          "Equilibrium solidification of an alloy"
+        ],
+        [
+          "4.6",
+          "Constitutional supercooling"
+        ],
+        [
+          "4.7",
+          "Non-equilibrium solidification and coring"
+        ],
+        [
+          "4.8",
+          "Burning versus overheating"
+        ],
+        [
+          "4.9",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch05",
+      "topics": [
+        [
+          "5.1",
+          "Classification of defects"
+        ],
+        [
+          "5.2",
+          "Point defects and vacancy concentration"
+        ],
+        [
+          "5.3",
+          "Theoretical versus actual shear strength"
+        ],
+        [
+          "5.4",
+          "Edge and screw dislocations"
+        ],
+        [
+          "5.5",
+          "Burgers vector and Burgers circuit"
+        ],
+        [
+          "5.6",
+          "Strain energy, dissociation and stacking faults"
+        ],
+        [
+          "5.7",
+          "Climb, cross-slip, interactions, Frank–Read sources and pile-ups"
+        ],
+        [
+          "5.8",
+          "Planar defects"
+        ],
+        [
+          "5.9",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch06",
+      "topics": [
+        [
+          "6.1",
+          "Elastic versus plastic deformation"
+        ],
+        [
+          "6.2",
+          "Slip and slip systems"
+        ],
+        [
+          "6.3",
+          "Schmid's law and CRSS"
+        ],
+        [
+          "6.4",
+          "Twinning"
+        ],
+        [
+          "6.5",
+          "Yield-point phenomenon and strain ageing"
+        ],
+        [
+          "6.6",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch07",
+      "topics": [
+        [
+          "7.0",
+          "The unifying idea"
+        ],
+        [
+          "7.1",
+          "Strain (work) hardening"
+        ],
+        [
+          "7.2",
+          "Grain refinement and the Hall–Petch relationship"
+        ],
+        [
+          "7.3",
+          "Solid-solution strengthening"
+        ],
+        [
+          "7.4",
+          "Precipitation (age) hardening"
+        ],
+        [
+          "7.5",
+          "Recovery, recrystallisation and grain growth"
+        ],
+        [
+          "7.6",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch08",
+      "topics": [
+        [
+          "8.0",
+          "Why diffusion matters"
+        ],
+        [
+          "8.1",
+          "Mechanisms of diffusion"
+        ],
+        [
+          "8.2",
+          "Fick's first law"
+        ],
+        [
+          "8.3",
+          "Fick's second law and the error-function solution"
+        ],
+        [
+          "8.4",
+          "Arrhenius temperature dependence"
+        ],
+        [
+          "8.5",
+          "Short-circuit paths and host structure"
+        ],
+        [
+          "8.6",
+          "Applications of diffusion"
+        ],
+        [
+          "8.7",
+          "Interview and GATE extra practice"
+        ]
+      ]
+    },
+    {
+      "chapterId": "ch09",
+      "topics": []
+    }
+  ],
+  "learningObjectives": [
+    {
+      "id": "MT202-1.1.1",
+      "description": "Explain the scope of physical metallurgy and the composition–processing–microstructure–properties relationship."
+    },
+    {
+      "id": "MT202-1.2.1",
+      "description": "Distinguish atomic number, mass number, proton count and neutron count."
+    },
+    {
+      "id": "MT202-1.2.2",
+      "description": "Determine maximum electron capacities of shells, subshells and orbitals."
+    },
+    {
+      "id": "MT202-1.2.3",
+      "description": "Interpret principal, azimuthal, magnetic and spin quantum numbers."
+    },
+    {
+      "id": "MT202-1.2.4",
+      "description": "Apply the Pauli exclusion principle to electron occupancy."
+    },
+    {
+      "id": "MT202-1.3.1",
+      "description": "Classify elements as metals, metalloids and non-metals using periodic-table position and characteristics."
+    },
+    {
+      "id": "MT202-1.3.2",
+      "description": "Apply orbital-filling order and electron-configuration rules."
+    },
+    {
+      "id": "MT202-1.3.3",
+      "description": "Relate transition-metal electron configurations to variable valence and chemical behaviour."
+    },
+    {
+      "id": "MT202-1.4.1",
+      "description": "Explain ionic, covalent, metallic and secondary bonding mechanisms."
+    },
+    {
+      "id": "MT202-1.4.2",
+      "description": "Compare primary and secondary bonds by strength, directionality and physical origin."
+    },
+    {
+      "id": "MT202-1.4.3",
+      "description": "Relate bond type and directionality to conductivity, ductility, brittleness and cohesion."
+    },
+    {
+      "id": "MT202-1.4.4",
+      "description": "Identify bonding within and between the layers of graphite and in diamond's covalent network."
+    },
+    {
+      "id": "MT202-1.4.5",
+      "description": "Explain dipole interactions and hydrogen bonding as secondary bonding."
+    },
+    {
+      "id": "MT202-1.5.1",
+      "description": "Identify equilibrium interatomic spacing from the minimum of a potential-energy curve."
+    },
+    {
+      "id": "MT202-1.5.2",
+      "description": "Relate potential-well depth and curvature to cohesive energy, melting temperature and elastic modulus."
+    },
+    {
+      "id": "MT202-1.5.3",
+      "description": "Explain thermal expansion through anharmonicity and asymmetry of the interatomic potential."
+    },
+    {
+      "id": "MT202-1.5.4",
+      "description": "Distinguish the individual attractive and repulsive forces from their zero resultant at equilibrium."
+    },
+    {
+      "id": "MT202-1.5.5",
+      "description": "Interpret the attractive and repulsive terms in a mathematical interatomic potential and the condition for short-range repulsion."
+    },
+    {
+      "id": "MT202-2.1.1",
+      "description": "Explain the space-lattice concept and identify the role of a unit cell in generating a crystal."
+    },
+    {
+      "id": "MT202-2.1.2",
+      "description": "Interpret lattice parameters, crystal-system constraints and the three-dimensional Bravais-lattice classification."
+    },
+    {
+      "id": "MT202-2.2.1",
+      "description": "Compare BCC, FCC and HCP by atoms per unit cell, coordination number and atomic packing factor."
+    },
+    {
+      "id": "MT202-2.2.2",
+      "description": "Derive contact directions and lattice-parameter–atomic-radius relationships for BCC and FCC."
+    },
+    {
+      "id": "MT202-2.2.3",
+      "description": "Identify BCC, FCC and HCP structures, their close-packed stacking sequences and their implications for packing."
+    },
+    {
+      "id": "MT202-2.2.4",
+      "description": "Use the ideal HCP axial ratio and interpret deviations in real HCP metals."
+    },
+    {
+      "id": "MT202-2.3.1",
+      "description": "Use standard crystallographic notation for directions, direction families, planes and plane families."
+    },
+    {
+      "id": "MT202-2.3.2",
+      "description": "Determine Miller indices from plane intercepts, including parallel and negative intercepts."
+    },
+    {
+      "id": "MT202-2.3.3",
+      "description": "Calculate interplanar spacing for cubic crystals and relate it to lattice parameter and atomic radius."
+    },
+    {
+      "id": "MT202-2.3.4",
+      "description": "Relate close-packed planes and directions, equivalent plane families and available slip systems to deformation behaviour."
+    },
+    {
+      "id": "MT202-2.4.1",
+      "description": "Define and calculate linear and planar atomic density."
+    },
+    {
+      "id": "MT202-2.5.1",
+      "description": "Locate octahedral and tetrahedral interstitial sites and compare their number and relative size in common crystal structures."
+    },
+    {
+      "id": "MT202-2.5.2",
+      "description": "Explain interstitial carbon accommodation, local lattice strain and carbon solubility in ferrite and austenite."
+    },
+    {
+      "id": "MT202-2.5.3",
+      "description": "Relate supersaturated interstitial carbon to martensite tetragonality."
+    },
+    {
+      "id": "MT202-2.6.1",
+      "description": "Describe the sequence and crystal structures of iron allotropes."
+    },
+    {
+      "id": "MT202-2.6.2",
+      "description": "Explain the FCC-to-BCC transformation in iron, carbon-solubility changes and martensite formation by quenching."
+    },
+    {
+      "id": "MT202-2.8.1",
+      "description": "Apply Bragg's law to calculate X-ray diffraction angles from wavelength and interplanar spacing."
+    },
+    {
+      "id": "MT202-2.8.2",
+      "description": "Explain the geometric origin of the path difference in Bragg diffraction."
+    },
+    {
+      "id": "MT202-3.1.1",
+      "description": "Compare established routes for producing consolidated metallic products, including solidification, electrodeposition and powder metallurgy."
+    },
+    {
+      "id": "MT202-3.2.1",
+      "description": "Distinguish nucleation from growth and explain their sequential roles in solidification."
+    },
+    {
+      "id": "MT202-3.2.2",
+      "description": "Explain homogeneous and heterogeneous nucleation and identify preferred nucleation sites."
+    },
+    {
+      "id": "MT202-3.2.3",
+      "description": "Construct and interpret the free-energy change of a spherical solid embryo, including surface and volume terms."
+    },
+    {
+      "id": "MT202-3.2.4",
+      "description": "Calculate critical nucleus radius and homogeneous nucleation barrier from interfacial energy and volumetric driving force."
+    },
+    {
+      "id": "MT202-3.2.5",
+      "description": "Relate undercooling to the volumetric free-energy driving force, critical radius and nucleation barrier."
+    },
+    {
+      "id": "MT202-3.2.6",
+      "description": "Apply contact-angle and shape-factor concepts to heterogeneous nucleation and grain-refiner selection."
+    },
+    {
+      "id": "MT202-3.2.7",
+      "description": "Compare temperature dependence of nucleation and growth rates and identify grain-size control variables."
+    },
+    {
+      "id": "MT202-3.3.1",
+      "description": "Distinguish stable, metastable and labile temperature zones relative to the melting point."
+    },
+    {
+      "id": "MT202-3.4.1",
+      "description": "Interpret pure-metal cooling curves and explain thermal arrest through latent-heat release."
+    },
+    {
+      "id": "MT202-3.4.2",
+      "description": "Explain recalescence and distinguish latent heat from sensible heat."
+    },
+    {
+      "id": "MT202-3.5.1",
+      "description": "Explain planar-interface instability and dendrite initiation during solidification."
+    },
+    {
+      "id": "MT202-3.5.2",
+      "description": "Identify dendrite arm geometry, orientation and primary/secondary/tertiary branching."
+    },
+    {
+      "id": "MT202-3.5.3",
+      "description": "Explain constitutional supercooling as a solute-boundary-layer and liquidus-gradient effect."
+    },
+    {
+      "id": "MT202-3.5.4",
+      "description": "Relate cooling rate and dendrite arm spacing to microstructural refinement and homogenisation distance."
+    },
+    {
+      "id": "MT202-3.5.5",
+      "description": "Explain grain multiplication through detachment of dendrite arms."
+    },
+    {
+      "id": "MT202-3.6.1",
+      "description": "Identify chill, columnar and equiaxed zones and explain their formation in ingots."
+    },
+    {
+      "id": "MT202-3.6.2",
+      "description": "Relate pouring temperature, mould temperature and thermal gradient to ingot grain structure."
+    },
+    {
+      "id": "MT202-3.6.3",
+      "description": "Explain mould-corner effects and the influence of geometry on solidification structure."
+    },
+    {
+      "id": "MT202-3.7.1",
+      "description": "Distinguish liquid, solidification and solid-state contraction and relate them to feeding and pattern allowances."
+    },
+    {
+      "id": "MT202-3.7.2",
+      "description": "Explain piping formation, hot-top feeding and the risks of secondary piping."
+    },
+    {
+      "id": "MT202-3.8.1",
+      "description": "Distinguish interdendritic shrinkage porosity from gas porosity and blowholes."
+    },
+    {
+      "id": "MT202-3.8.2",
+      "description": "Explain gas sources, degassing and pressure-tightness implications of pore morphology."
+    },
+    {
+      "id": "MT202-3.9.1",
+      "description": "Compare killed and rimming steels by deoxidation, gas evolution, shrinkage compensation and internal defects."
+    },
+    {
+      "id": "MT202-3.9.2",
+      "description": "Explain why rimming steel can provide a clean, ductile surface suitable for deep drawing and how blowholes behave during rolling."
+    },
+    {
+      "id": "MT202-3.10.1",
+      "description": "Distinguish normal, inverse, gravity and microsegregation by mechanism and spatial distribution."
+    },
+    {
+      "id": "MT202-3.10.2",
+      "description": "Identify macrosegregation examples and explain density-driven crystal segregation."
+    },
+    {
+      "id": "MT202-3.11.1",
+      "description": "Explain homogenisation of microsegregation and assess limitations due to diffusivity, arm spacing and macrosegregation."
+    },
+    {
+      "id": "MT202-3.12.1",
+      "description": "Identify common casting surface defects and relate them to their causes."
+    },
+    {
+      "id": "MT202-3.14.1",
+      "description": "Calculate the critical distance or thermal-gradient condition for constitutional supercooling."
+    },
+    {
+      "id": "MT202-3.14.2",
+      "description": "Explain metallic-glass formation as suppression of crystallisation by rapid cooling."
+    },
+    {
+      "id": "MT202-3.14.3",
+      "description": "Describe special solidification and crystal-growth processes, including Czochralski growth and zone refining."
+    },
+    {
+      "id": "MT202-3.15.1",
+      "description": "Explain investment casting and identify its applications and limitations."
+    },
+    {
+      "id": "MT202-3.15.2",
+      "description": "Explain the role of mould and core permeability in removing gases during casting."
+    },
+    {
+      "id": "MT202-4.1.1",
+      "description": "Distinguish alloys, solid solutions and multiphase metallic materials by phase count and crystal structure."
+    },
+    {
+      "id": "MT202-4.1.2",
+      "description": "Differentiate substitutional and interstitial solid solutions and identify their atomic arrangements and strain effects."
+    },
+    {
+      "id": "MT202-4.2.1",
+      "description": "State and apply the four Hume–Rothery factors governing substitutional solid solubility."
+    },
+    {
+      "id": "MT202-4.2.2",
+      "description": "Use crystal-structure, atomic-size, chemical-affinity and relative-valence compatibility to assess complete solid solubility."
+    },
+    {
+      "id": "MT202-4.3.1",
+      "description": "Classify intermediate phases as valency compounds, interstitial compounds and electron compounds."
+    },
+    {
+      "id": "MT202-4.3.2",
+      "description": "Relate characteristic compositions or electron-to-atom ratios of electron compounds to their crystal structures."
+    },
+    {
+      "id": "MT202-4.4.1",
+      "description": "Read binary phase diagrams using horizontal tie lines to determine the compositions of coexisting phases."
+    },
+    {
+      "id": "MT202-4.4.2",
+      "description": "Apply the lever rule to calculate liquid and solid phase fractions in a two-phase region."
+    },
+    {
+      "id": "MT202-4.4.3",
+      "description": "Interpret phase fractions geometrically and identify the majority phase from tie-line distances."
+    },
+    {
+      "id": "MT202-4.5.1",
+      "description": "Explain the sequence of equilibrium solidification in an isomorphous alloy using liquidus and solidus compositions."
+    },
+    {
+      "id": "MT202-4.5.2",
+      "description": "Explain why equilibrium solidification requires diffusion in the solid to maintain compositional uniformity."
+    },
+    {
+      "id": "MT202-4.6.1",
+      "description": "Explain constitutional supercooling through solute partitioning, the liquid concentration boundary layer and the local liquidus temperature."
+    },
+    {
+      "id": "MT202-4.6.2",
+      "description": "Relate constitutional supercooling to planar-interface instability, cellular/dendritic growth and columnar-to-equiaxed transition."
+    },
+    {
+      "id": "MT202-4.6.3",
+      "description": "Define the equilibrium partition coefficient and interpret solute rejection or enrichment at the solid–liquid interface."
+    },
+    {
+      "id": "MT202-4.6.4",
+      "description": "Predict how thermal gradient and interface growth rate affect planar-front stability."
+    },
+    {
+      "id": "MT202-4.7.1",
+      "description": "Explain coring as intragranular composition variation caused by limited solid-state diffusion during non-equilibrium solidification."
+    },
+    {
+      "id": "MT202-4.7.2",
+      "description": "Interpret solute redistribution during non-equilibrium solidification, including freezing-range changes and successive solid-layer compositions."
+    },
+    {
+      "id": "MT202-4.7.3",
+      "description": "Explain peritectic surrounding/enveloping and the isolation of an untransformed core by a product-phase shell."
+    },
+    {
+      "id": "MT202-4.7.4",
+      "description": "Explain homogenisation of cored alloys, its purpose and its practical limitations."
+    },
+    {
+      "id": "MT202-4.8.1",
+      "description": "Distinguish overheating from burning by the effective local solidus, grain-boundary liquation, reversibility and material damage."
+    },
+    {
+      "id": "MT202-5.1.1",
+      "description": "Classify crystal defects by dimensionality and distinguish point, line, planar and volume defects."
+    },
+    {
+      "id": "MT202-5.2.1",
+      "description": "Identify vacancies, self-interstitials and substitutional impurities, including their relative strain and formation characteristics."
+    },
+    {
+      "id": "MT202-5.2.2",
+      "description": "Distinguish Frenkel and Schottky defects in ionic crystals using charge neutrality and relative ionic sizes."
+    },
+    {
+      "id": "MT202-5.2.3",
+      "description": "Apply the Boltzmann relation to calculate equilibrium vacancy concentration and its temperature dependence."
+    },
+    {
+      "id": "MT202-5.2.4",
+      "description": "Explain vacancy supersaturation by quenching and the roles of vacancy formation and migration energies in diffusion."
+    },
+    {
+      "id": "MT202-5.3.1",
+      "description": "Explain Frenkel's sinusoidal restoring-stress model and estimate theoretical shear strength."
+    },
+    {
+      "id": "MT202-5.3.2",
+      "description": "Compare theoretical and measured strengths of real crystals and explain the role of pre-existing dislocations."
+    },
+    {
+      "id": "MT202-5.4.1",
+      "description": "Describe edge and screw dislocations using their atomic geometry and line character."
+    },
+    {
+      "id": "MT202-5.4.2",
+      "description": "Relate Burgers-vector orientation to edge, screw and mixed dislocation character, strain fields, climb and cross-slip."
+    },
+    {
+      "id": "MT202-5.5.1",
+      "description": "Construct and interpret a Burgers circuit and determine the Burgers vector by closure failure."
+    },
+    {
+      "id": "MT202-5.5.2",
+      "description": "Identify common Burgers vectors and their magnitudes in BCC, FCC and simple-cubic crystals."
+    },
+    {
+      "id": "MT202-5.6.1",
+      "description": "Relate dislocation strain energy to shear modulus and the square of Burgers-vector magnitude."
+    },
+    {
+      "id": "MT202-5.6.2",
+      "description": "Explain perfect-dislocation dissociation into partials and the associated stacking-fault ribbon."
+    },
+    {
+      "id": "MT202-5.6.3",
+      "description": "Relate stacking-fault energy to partial separation, cross-slip and work-hardening behaviour."
+    },
+    {
+      "id": "MT202-5.7.1",
+      "description": "Distinguish conservative cross-slip from non-conservative vacancy-mediated climb."
+    },
+    {
+      "id": "MT202-5.7.2",
+      "description": "Explain dislocation reactions, interactions, annihilation and junction formation."
+    },
+    {
+      "id": "MT202-5.7.3",
+      "description": "Explain Frank–Read source operation and dislocation multiplication during plastic deformation."
+    },
+    {
+      "id": "MT202-5.7.4",
+      "description": "Explain dislocation pile-ups and their stress concentration at barriers and grain boundaries."
+    },
+    {
+      "id": "MT202-5.8.1",
+      "description": "Describe grain, twin and stacking-fault boundaries and distinguish their atomic structures."
+    },
+    {
+      "id": "MT202-5.8.2",
+      "description": "Relate grain-boundary structure and energy to misorientation angle, Read–Shockley behaviour, tilt and twist character."
+    },
+    {
+      "id": "MT202-5.8.3",
+      "description": "Explain external surfaces as planar defects and compare mechanical twinning with slip."
+    },
+    {
+      "id": "MT202-5.8.4",
+      "description": "Apply slip-system geometry and Burgers-vector relations in FCC, BCC and HCP crystals."
+    },
+    {
+      "id": "MT202-5.8.5",
+      "description": "Apply the Orowan relation and define dislocation density and Peierls–Nabarro stress."
+    },
+    {
+      "id": "MT202-6.1.1",
+      "description": "Distinguish elastic and plastic deformation by reversibility, atomic displacement and stress–strain response."
+    },
+    {
+      "id": "MT202-6.1.2",
+      "description": "Explain slip as dislocation-mediated shear and distinguish it from twinning and other deformation mechanisms."
+    },
+    {
+      "id": "MT202-6.2.1",
+      "description": "Define a slip system as a crystallographic slip plane and slip direction."
+    },
+    {
+      "id": "MT202-6.2.2",
+      "description": "Identify common slip systems and their multiplicities in FCC, BCC and HCP metals."
+    },
+    {
+      "id": "MT202-6.2.3",
+      "description": "Explain the role of close-packed planes and directions in slip and compare crystal structures' available deformation modes."
+    },
+    {
+      "id": "MT202-6.2.4",
+      "description": "Apply the von Mises criterion to assess independent slip-system requirements in polycrystals."
+    },
+    {
+      "id": "MT202-6.3.1",
+      "description": "Apply Schmid's law and define the geometric angles between tensile axis, slip-plane normal and slip direction."
+    },
+    {
+      "id": "MT202-6.3.2",
+      "description": "Calculate Schmid factor, resolved shear stress, CRSS and tensile yield stress for a specified orientation."
+    },
+    {
+      "id": "MT202-6.3.3",
+      "description": "Identify orientation conditions for maximum or zero resolved shear stress and compare yield stresses across orientations."
+    },
+    {
+      "id": "MT202-6.3.4",
+      "description": "Distinguish intrinsic CRSS from orientation-dependent applied yield stress and identify the first active slip system."
+    },
+    {
+      "id": "MT202-6.3.5",
+      "description": "Explain anisotropic mechanical response in single crystals and its implications for single-crystal components."
+    },
+    {
+      "id": "MT202-6.4.1",
+      "description": "Describe mechanical twinning as a coordinated shear that produces a mirror-related crystal orientation."
+    },
+    {
+      "id": "MT202-6.4.2",
+      "description": "Compare slip and twinning by atomic displacement, shear geometry and resulting shape change."
+    },
+    {
+      "id": "MT202-6.4.3",
+      "description": "Explain conditions favouring twinning and compare its role in FCC, BCC and HCP metals."
+    },
+    {
+      "id": "MT202-6.4.4",
+      "description": "Relate HCP c/a ratio to the relative accessibility of basal, prismatic and pyramidal slip."
+    },
+    {
+      "id": "MT202-6.5.1",
+      "description": "Explain upper and lower yield points, dislocation pinning and release by Cottrell atmospheres."
+    },
+    {
+      "id": "MT202-6.5.2",
+      "description": "Describe Lüders-band propagation and the origin of discontinuous yielding in low-carbon steels."
+    },
+    {
+      "id": "MT202-6.5.3",
+      "description": "Explain static and dynamic strain ageing, blue brittleness and the Portevin–Le Chatelier effect."
+    },
+    {
+      "id": "MT202-6.5.4",
+      "description": "Explain skin passing/temper rolling and its role in preventing stretcher strains."
+    },
+    {
+      "id": "MT202-6.5.5",
+      "description": "Distinguish elastic springback from permanent plastic strain after unloading."
+    },
+    {
+      "id": "MT202-6.5.6",
+      "description": "Interpret single-crystal work-hardening stages, cross-slip and deformation textures."
+    },
+    {
+      "id": "MT202-6.5.7",
+      "description": "Explain the temperature sensitivity of BCC versus FCC slip and its effect on yield stress."
+    },
+    {
+      "id": "MT202-6.5.8",
+      "description": "Relate cross-slip and recovery to dislocation rearrangement and strain hardening."
+    },
+    {
+      "id": "MT202-7.0.1",
+      "description": "Explain the unifying principle that strengthening mechanisms impede dislocation motion by introducing obstacles at different length scales."
+    },
+    {
+      "id": "MT202-7.1.1",
+      "description": "Explain work hardening through dislocation multiplication, interactions and increasing dislocation density."
+    },
+    {
+      "id": "MT202-7.1.2",
+      "description": "Interpret the stages of single-crystal work hardening and the effects of temperature, solute and grain size."
+    },
+    {
+      "id": "MT202-7.1.3",
+      "description": "Apply the Taylor relation to estimate strengthening from dislocation density and interpret its square-root dependence."
+    },
+    {
+      "id": "MT202-7.2.1",
+      "description": "Apply the Hall–Petch relation and interpret friction stress, strengthening coefficient and mean grain diameter."
+    },
+    {
+      "id": "MT202-7.2.2",
+      "description": "Explain grain-boundary strengthening through slip-transfer barriers and dislocation pile-ups."
+    },
+    {
+      "id": "MT202-7.2.3",
+      "description": "Predict the effects of grain refinement on yield strength and identify conventional limits and inverse Hall–Petch behaviour."
+    },
+    {
+      "id": "MT202-7.2.4",
+      "description": "Identify processing routes for grain refinement and explain recrystallisation and grain-boundary pinning effects."
+    },
+    {
+      "id": "MT202-7.3.1",
+      "description": "Explain solid-solution strengthening through elastic interactions between solute misfit fields and dislocations."
+    },
+    {
+      "id": "MT202-7.3.2",
+      "description": "Compare substitutional and interstitial strengthening by size misfit, strain-field geometry and strengthening potency."
+    },
+    {
+      "id": "MT202-7.4.1",
+      "description": "Describe the solution-treatment, quenching and ageing sequence required for precipitation hardening."
+    },
+    {
+      "id": "MT202-7.4.2",
+      "description": "Explain precipitate evolution from GP zones through coherent and semi-coherent to incoherent particles."
+    },
+    {
+      "id": "MT202-7.4.3",
+      "description": "Interpret underaged, peak-aged and overaged conditions using precipitate size, coherency and spacing."
+    },
+    {
+      "id": "MT202-7.4.4",
+      "description": "Compare precipitate cutting and Orowan bypass mechanisms and identify their strengthening contributions."
+    },
+    {
+      "id": "MT202-7.4.5",
+      "description": "Explain age hardening in Al–Cu alloys and identify the strengthening precipitation sequence."
+    },
+    {
+      "id": "MT202-7.5.1",
+      "description": "Distinguish recovery, recrystallisation and grain growth during annealing of cold-worked metals."
+    },
+    {
+      "id": "MT202-7.5.2",
+      "description": "Explain recrystallisation as reduction of stored dislocation strain energy and identify factors affecting its temperature."
+    },
+    {
+      "id": "MT202-7.5.3",
+      "description": "Explain grain growth and Zener pinning by fine second-phase particles."
+    },
+    {
+      "id": "MT202-7.5.4",
+      "description": "Relate stacking-fault energy and cross-slip to dynamic recovery and work-hardening behaviour."
+    },
+    {
+      "id": "MT202-8.0.1",
+      "description": "Explain how diffusion links heat treatment, homogenisation, sintering, creep and other microstructural processes."
+    },
+    {
+      "id": "MT202-8.1.1",
+      "description": "Distinguish vacancy-mediated substitutional diffusion from direct interstitial diffusion."
+    },
+    {
+      "id": "MT202-8.1.2",
+      "description": "Compare diffusion rates and activation energies for interstitial and substitutional solutes."
+    },
+    {
+      "id": "MT202-8.1.3",
+      "description": "Explain vacancy formation and migration contributions to substitutional diffusion activation energy."
+    },
+    {
+      "id": "MT202-8.1.4",
+      "description": "Describe direct-exchange and collective ring mechanisms and explain their limited occurrence."
+    },
+    {
+      "id": "MT202-8.2.1",
+      "description": "State and apply Fick's first law, including flux units, sign convention and steady-state assumptions."
+    },
+    {
+      "id": "MT202-8.2.2",
+      "description": "Solve steady-state diffusion and permeation problems through plane membranes and layers."
+    },
+    {
+      "id": "MT202-8.3.1",
+      "description": "State and apply Fick's second law for one-dimensional non-steady-state diffusion with constant diffusivity."
+    },
+    {
+      "id": "MT202-8.3.2",
+      "description": "Apply the error-function solution for a semi-infinite solid with fixed surface concentration."
+    },
+    {
+      "id": "MT202-8.3.3",
+      "description": "Interpret the Gaussian error function and calculate concentration profiles and case depths."
+    },
+    {
+      "id": "MT202-8.3.4",
+      "description": "Apply the thin-film instantaneous-source solution to tracer diffusion."
+    },
+    {
+      "id": "MT202-8.3.5",
+      "description": "Use the square-root-of-time diffusion-distance scaling to compare treatment times and depths."
+    },
+    {
+      "id": "MT202-8.4.1",
+      "description": "Apply the Arrhenius equation for diffusion coefficient and interpret its pre-exponential factor and activation energy."
+    },
+    {
+      "id": "MT202-8.4.2",
+      "description": "Determine diffusion activation energy from Arrhenius-plot slopes or diffusivity measurements at two temperatures."
+    },
+    {
+      "id": "MT202-8.4.3",
+      "description": "Predict the temperature sensitivity of diffusion and compare activation energies of different solutes."
+    },
+    {
+      "id": "MT202-8.5.1",
+      "description": "Compare lattice, grain-boundary and free-surface diffusion rates and their relative importance with temperature."
+    },
+    {
+      "id": "MT202-8.5.2",
+      "description": "Explain how host crystal structure affects interstitial diffusion and distinguish diffusivity from solubility."
+    },
+    {
+      "id": "MT202-8.5.3",
+      "description": "Explain the Kirkendall effect, inert-marker displacement and unequal intrinsic diffusion fluxes."
+    },
+    {
+      "id": "MT202-8.6.1",
+      "description": "Identify applications of diffusion in carburising, nitriding, permeation, sintering and homogenisation."
+    },
+    {
+      "id": "MT202-8.6.2",
+      "description": "Relate diffusion mechanisms and rates to practical heat-treatment and materials-processing choices."
+    }
+  ]
+}

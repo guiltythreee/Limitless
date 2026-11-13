@@ -95,19 +95,19 @@
         "options": [
           {
             "label": "a",
-            "text": "8"
+            "text": "8 electrons"
           },
           {
             "label": "b",
-            "text": "24"
+            "text": "24 electrons"
           },
           {
             "label": "c",
-            "text": "18"
+            "text": "18 electrons"
           },
           {
             "label": "d",
-            "text": "32"
+            "text": "32 electrons"
           }
         ],
         "answer": "c",
@@ -236,7 +236,28 @@
       "sourceText": "Match the element class to its members.",
       "sourceFingerprint": "97caf77d",
       "updates": {
-        "detailed": "The table matches metals with roughly three-quarters of the elements, metalloids with B, Ge, Si, Sb, As, Te and Po, and non-metals with N, O, P, S and the noble gases. Therefore 1–iii, 2–i and 3–ii gives **(a)**. The other options interchange at least two of the three classes."
+        "detailed": "The table matches metals with roughly three-quarters of the elements, metalloids with B, Ge, Si, Sb, As, Te and Po, and non-metals with N, O, P, S and the noble gases. Therefore 1–iii, 2–i and 3–ii gives **(a)**. The other options interchange at least two of the three classes.",
+        "tableRows": [
+          [
+            "1",
+            "Metals",
+            "",
+            "(i) B, Ge, Si, Sb, As, Te, Po"
+          ],
+          [
+            "2",
+            "Metalloids",
+            "",
+            "(ii) N, O, P, S and the noble gases"
+          ],
+          [
+            "3",
+            "Non-metals",
+            "",
+            "(iii) about three-quarters of all elements"
+          ]
+        ],
+        "keyExplanation": "Metals ≈ ¾ of elements; metalloids = B, Ge, Si, Sb, As, Te, Po; non-metals = N, O, P, S + noble gases."
       }
     },
     {
@@ -256,7 +277,8 @@
       "sourceText": "Which statement(s) about the *covalent* bond is/are correct?",
       "sourceFingerprint": "a0c5806d",
       "updates": {
-        "detailed": "Statements 1, 3 and 4 are correct. Covalent bonds are directional because the shared electron density is concentrated between particular atoms; typical bond energies are commonly quoted in the broad range 200–1000 kJ/mol; and diamond is a classic three-dimensional covalent-network solid. Statement 2 is false because non-directionality is characteristic of metallic bonding, not covalent bonding. Therefore **(a)** is correct."
+        "detailed": "Statements 1, 3 and 4 are correct. Covalent bonds are directional because the shared electron density is concentrated between particular atoms; typical bond energies are commonly quoted in the broad range 200–1000 kJ/mol; and diamond is a classic three-dimensional covalent-network solid. Statement 2 is false because non-directionality is characteristic of metallic bonding, not covalent bonding. Therefore **(a)** is correct.",
+        "keyExplanation": "Covalent bonds are directional (statement 2 is false), typical bond energy lies broadly around 200–1000 kJ/mol, and diamond is a standard example."
       }
     },
     {
@@ -284,7 +306,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "Statements 1–3 are consequences associated with metallic bonding: delocalised electrons support electrical and thermal conductivity; non-directional bonding allows layers of atoms to move while metallic cohesion is maintained, contributing to ductility; and mobile electrons interact with light, contributing to metallic lustre and opacity. Statement 4 is not a general consequence of metallic bonding; hardness and brittleness are more characteristic of many ionic and covalent-network solids. Therefore **(b)** is correct."
+        "detailed": "Statements 1–3 are consequences associated with metallic bonding: delocalised electrons support electrical and thermal conductivity; non-directional bonding allows layers of atoms to move while metallic cohesion is maintained, contributing to ductility; and mobile electrons interact with light, contributing to metallic lustre and opacity. Statement 4 is not a general consequence of metallic bonding; hardness and brittleness are more characteristic of many ionic and covalent-network solids. Therefore **(b)** is correct.",
+        "keyExplanation": "Statements 1–3 are consequences of metallic bonding. Statement 4 is not a general consequence; hardness and brittleness are more characteristic of many ionic and covalent-network solids. Ductility arises from metallic bonding, not from heat."
       },
       "sourceFingerprint": "9dc94feb"
     },
@@ -312,7 +335,10 @@
             "text": "Both false"
           }
         ],
-        "answer": "c"
+        "answer": "a",
+        "keyExplanation": "Both statements are true, but the reason explains the brittleness caused by ionic charge ordering; it does not explain the absence of mobile charge carriers responsible for electrical insulation.",
+        "concise": "Ionic solids are hard, brittle and insulating. The reason explains the brittleness, not the electrical insulation.",
+        "detailed": "A is TRUE: typical ionic solids are hard, brittle and electrical insulators. R is TRUE: when planes slip, like-charged ions can be brought alongside one another, producing strong repulsion and promoting cleavage. However, R explains the brittleness only. Electrical insulation arises because the ions are not freely mobile in the solid and there are no delocalised electrons to carry current. Therefore both statements are true, but R does not fully explain A. Answer (a)."
       },
       "sourceFingerprint": "a8d4f5c9"
     },
@@ -341,7 +367,26 @@
           }
         ],
         "answer": "b",
-        "detailed": "Van der Waals forces are weak secondary attractions between neutral atoms or molecules. They are most significant when thermal agitation is low and are responsible for holding solid noble gases together. Statements 1, 2 and 3 are correct; statement 4 is false because 600–1500 kJ/mol is a primary-bond energy range, not a van der Waals range. Therefore **(b)** is correct."
+        "detailed": "Van der Waals forces are weak secondary attractions between neutral atoms or molecules. They are most significant when thermal agitation is low and are responsible for holding solid noble gases together. Statements 1, 2 and 3 are correct; statement 4 is false because 600–1500 kJ/mol is a primary-bond energy range, not a van der Waals range. Therefore **(b)** is correct.",
+        "statements": [
+          {
+            "num": 1,
+            "text": "a weak, secondary attraction between otherwise neutral atoms or molecules"
+          },
+          {
+            "num": 2,
+            "text": "their ability to hold noble-gas atoms in a condensed solid is evident at sufficiently low temperatures"
+          },
+          {
+            "num": 3,
+            "text": "they help hold solid noble gases (Ar, Ne) together"
+          },
+          {
+            "num": 4,
+            "text": "a primary bond of 600–1500 kJ/mol"
+          }
+        ],
+        "keyExplanation": "Van der Waals forces are weak secondary attractions between neutral atoms or molecules. At sufficiently low temperatures they can hold noble gases in condensed solids. Statements 1–3 are correct; statement 4 gives a primary-bond energy range, not a van der Waals range."
       },
       "sourceFingerprint": "ea0478c5"
     },
@@ -354,23 +399,26 @@
         "options": [
           {
             "label": "a",
-            "text": "metallic < ionic < covalent < van der Waals"
+            "text": "van der Waals attraction between neutral atoms"
           },
           {
             "label": "b",
-            "text": "van der Waals < metallic < covalent < ionic"
+            "text": "metallic bonding through delocalised electrons"
           },
           {
             "label": "c",
-            "text": "van der Waals < covalent < ionic < metallic"
+            "text": "covalent bonding through shared electron pairs"
           },
           {
             "label": "d",
-            "text": "ionic < covalent < metallic < van der Waals"
+            "text": "ionic bonding between oppositely charged ions"
           }
         ],
-        "answer": "b",
-        "detailed": "The typical bond-energy ranges increase from van der Waals (about 1–10 kJ/mol) to metallic (about 70–850 kJ/mol), covalent (about 200–1000 kJ/mol), and ionic (about 600–1500 kJ/mol). Thus **(b)** gives the intended increasing order. The ranges overlap, but van der Waals interactions are the weakest and ionic bonds are generally strongest."
+        "answer": "a",
+        "detailed": "Van der Waals interactions are generally the weakest interatomic interactions: they are secondary attractions between neutral atoms or molecules and are much weaker than primary metallic, covalent and ionic bonds. **(a)** is correct. The energy ranges of the primary bond types overlap, so no strict ordering among those three is universal.",
+        "text": "Which type of interatomic interaction is generally the weakest?",
+        "keyExplanation": "Van der Waals attractions are secondary interactions and are generally much weaker than metallic, covalent or ionic primary bonds. The energy ranges of the primary bonds overlap, so a strict ordering among those three is not universal.",
+        "concise": "Van der Waals attractions are generally the weakest interatomic interactions."
       },
       "sourceFingerprint": "be832649"
     },
@@ -430,6 +478,34 @@
     },
     {
       "chapter": "ch01",
+      "n": 18,
+      "originalType": "A",
+      "sourceText": "In the metallic bond, valence electrons:",
+      "sourceFingerprint": "711247c1",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "remain localized around their original atoms, with little movement through the lattice"
+          },
+          {
+            "label": "b",
+            "text": "become delocalized throughout the metal and are shared by many positive ion cores"
+          },
+          {
+            "label": "c",
+            "text": "transfer to nearby atoms, producing oppositely charged ions held by attraction"
+          },
+          {
+            "label": "d",
+            "text": "occupy fixed directional pairs between specific neighbouring atoms"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch01",
       "n": 19,
       "originalType": "B",
       "sourceText": "Metallic elements show all of the following EXCEPT:",
@@ -437,11 +513,11 @@
         "options": [
           {
             "label": "a",
-            "text": "high thermal conductivity"
+            "text": "high thermal and electrical conductivity"
           },
           {
             "label": "b",
-            "text": "capacity for substantial plastic deformation before fracture"
+            "text": "substantial plastic deformation before fracture"
           },
           {
             "label": "c",
@@ -449,13 +525,24 @@
           },
           {
             "label": "d",
-            "text": "high reflectivity"
+            "text": "high reflectivity of visible light"
           }
         ],
         "answer": "c",
         "detailed": "The EXCEPT item is **(c)**: metals are electrical conductors, not electrical insulators. Options (a), (b) and (d) are genuine metallic properties: high thermal conductivity, plastic deformability and reflectivity."
       },
       "sourceFingerprint": "3867cf5f"
+    },
+    {
+      "chapter": "ch01",
+      "n": 20,
+      "originalType": "C",
+      "sourceText": "",
+      "sourceFingerprint": "b58cfb4a",
+      "updates": {
+        "assertion": "Metals are generally ductile, whereas typical ionic and covalent-network solids are often brittle.",
+        "keyExplanation": "The assertion describes a common trend, not an exception-free rule. Metallic bonding is non-directional and delocalised, allowing layers of atoms to shift while metallic cohesion is maintained. In many ionic solids, slip brings like charges into unfavourable proximity; in covalent-network solids, deformation can require breaking directional bonds. Thus the reason correctly explains the qualified trend."
+      }
     },
     {
       "chapter": "ch01",
@@ -494,19 +581,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the net force is zero and the net potential energy is a minimum"
+            "text": "the net force is zero and potential energy is at a minimum"
           },
           {
             "label": "b",
-            "text": "the attractive force is a maximum"
+            "text": "the attractive force reaches its maximum magnitude"
           },
           {
             "label": "c",
-            "text": "the repulsive force equals zero"
+            "text": "the repulsive force falls to zero at the equilibrium distance"
           },
           {
             "label": "d",
-            "text": "the two atoms are in contact and touching"
+            "text": "the atoms touch, so the interatomic separation is zero"
           }
         ],
         "answer": "a",
@@ -567,7 +654,9 @@
             "text": "1 and 3 only"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "keyExplanation": "Statements 1–3 are correct. r₀ gives atomic diameter, not coordination number (statement 4 is false).",
+        "detailed": "- Item 1 — TRUE: a stiffer (more curved) well at r₀ means a larger elastic (Young's) modulus.\n- Item 2 — TRUE: well depth = bond energy, which correlates with melting point.\n- Item 3 — TRUE: the asymmetry of the well is the origin of thermal expansion.\n- Item 4 — FALSE: r₀ gives the atomic diameter, not the coordination number.\n\nThis distinguishes the energy-well length scale from lattice geometry: r₀ gives an atomic length, whereas coordination number is set by the crystal structure (Ch. 2)."
       },
       "sourceFingerprint": "6e7ecfbb"
     },
@@ -595,7 +684,9 @@
             "text": "Both true, R correctly explains A"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "assertion": "Most ordinary crystalline solids expand when heated over a moderate temperature range.",
+        "keyExplanation": "Both statements are generally true for ordinary solids over a moderate temperature range. Anharmonicity of the interatomic potential means thermal vibration increases the mean interatomic spacing. The statement is not universal: some materials show negative thermal expansion over particular temperature ranges."
       },
       "sourceFingerprint": "9868d568"
     },
@@ -734,7 +825,9 @@
             "text": "1, 2 and 3"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "keyExplanation": "Statements 1–3 are correct. Item 4 is false: the width at half-depth of the energy well does not determine coordination number.",
+        "detailed": "- Item 1 — TRUE: curvature of the well at r₀ sets the elastic modulus.\n- Item 2 — TRUE: asymmetry causes thermal expansion.\n- Item 3 — TRUE: well depth correlates with melting point.\n- Item 4 — FALSE: the width at half-depth does not determine coordination number; coordination number comes from the crystal structure (Ch. 2), not the energy-well shape.\n\nThe three valid links concern bonding and the shape of the potential-energy curve; none makes the well width a measure of coordination number."
       },
       "sourceFingerprint": "8ce5635c"
     },
@@ -762,7 +855,8 @@
             "text": "2 and 4 only"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "keyExplanation": "Ionic and metallic bonds are non-directional; covalent bonds are directional. van der Waals bonding is secondary and weak, so statement 4 is false."
       },
       "sourceFingerprint": "9f2262dc"
     },
@@ -775,7 +869,7 @@
         "options": [
           {
             "label": "a",
-            "text": "van der Waals forces; covalent"
+            "text": "van der Waals; covalent"
           },
           {
             "label": "b",
@@ -783,7 +877,7 @@
           },
           {
             "label": "c",
-            "text": "covalent; van der Waals forces"
+            "text": "covalent; van der Waals"
           },
           {
             "label": "d",
@@ -819,7 +913,10 @@
             "text": "Both false"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "keyExplanation": "Both statements are true, and the reason correctly links cohesive bond strength to melting resistance and elastic stiffness.",
+        "concise": "A deeper, stronger interatomic energy well generally corresponds to both a higher melting point and a steeper restoring force, hence a higher elastic modulus.",
+        "detailed": "A is TRUE: stronger bonding generally raises melting temperature and elastic modulus. R is TRUE: melting requires disrupting cohesive order, while elastic deformation requires displacing atoms against restoring forces. A deeper and steeper interatomic potential well is associated with stronger cohesion and greater stiffness, so R correctly explains the trend in A. Answer (c)."
       },
       "sourceFingerprint": "da010d4c"
     },
@@ -944,19 +1041,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the largest group of atoms in a crystal"
+            "text": "the largest possible group of atoms repeated throughout the crystal"
           },
           {
             "label": "b",
-            "text": "any group of atoms chosen at random"
+            "text": "an arbitrary group of atoms chosen without translational symmetry"
           },
           {
             "label": "c",
-            "text": "the smallest group of atoms which, repeated in 3-D by translation, reproduces the whole crystal"
+            "text": "the smallest volume that reproduces the crystal by translation"
           },
           {
             "label": "d",
-            "text": "the group of atoms with the highest symmetry only"
+            "text": "a group containing only the highest-symmetry atoms"
           }
         ],
         "answer": "c",
@@ -1001,19 +1098,19 @@
         "options": [
           {
             "label": "a",
-            "text": "14"
+            "text": "14 lattices"
           },
           {
             "label": "b",
-            "text": "3"
+            "text": "3 lattices"
           },
           {
             "label": "c",
-            "text": "7"
+            "text": "7 lattices"
           },
           {
             "label": "d",
-            "text": "32"
+            "text": "32 lattices"
           }
         ],
         "answer": "a",
@@ -1243,7 +1340,9 @@
             "text": "1, 2 and 3"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "keyExplanation": "Items 1–3 follow from the 0.68 packing efficiency. Item 4 is false: BCC has coordination number 8, whereas FCC/HCP have coordination number 12.",
+        "detailed": "- Item 1 — TRUE: APF 0.68 < 0.74, so BCC is not close-packed.\n- Item 2 — TRUE: BCC's {110}⟨111⟩ is not a true close-packed system (no truly close-packed plane), and it is less readily activated than FCC's {111}⟨110⟩.\n- Item 3 — TRUE: this is why BCC metals (α-Fe, Cr, W) show a ductile–brittle transition and are generally less ductile at low temperature.\n- Item 4 — FALSE: BCC's coordination number is 8, not 12. CN 12 belongs to FCC and HCP.\n\nThe key distinction is between BCC and the close-packed FCC/HCP structures: coordination number 12 belongs to FCC/HCP, not BCC."
       },
       "sourceFingerprint": "e4284f1e"
     },
@@ -1300,7 +1399,8 @@
             "text": "ABCABC…"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "In FCC the third close-packed layer sits in a third distinct position, giving:\n```\nA B C A B C …\n```\nThis needs three distinct layer positions and is what defines the four equivalent {111} close-packed planes. Q18 and Q19 form a useful pair: HCP repeats after two layers, whereas FCC repeats after three."
       },
       "sourceFingerprint": "153738da"
     },
@@ -1328,7 +1428,9 @@
             "text": "1 and 2 only"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "keyExplanation": "FCC and HCP have the same ideal packing factor (0.74), but packing density alone does not determine ductility. FCC has multiple equivalent {111}⟨110⟩ slip systems, whereas HCP commonly has fewer readily activated systems at room temperature. Statements 1, 2 and 4 are correct; statement 3 is false.",
+        "detailed": "- Item 1 — TRUE: no arrangement of equal spheres packs denser than 0.74.\n- Item 2 — TRUE: FCC and HCP have identical packing density; only the stacking order differs.\n- Item 3 — FALSE: identical packing density does not give identical ductility. FCC has four equivalent {111} close-packed planes; HCP has effectively one basal plane.\n- Item 4 — TRUE: FCC has four close-packed planes, compared with HCP's effectively one.\n\nThe key distinction linking Ch. 2 to Ch. 6 is that packing density is the same, but the number of readily activated slip systems is not."
       },
       "sourceFingerprint": "8cf8b94a"
     },
@@ -1370,22 +1472,24 @@
         "options": [
           {
             "label": "a",
-            "text": "Zn 1.59, Ti 1.86"
+            "text": "Zn 1.59; Ti 1.86"
           },
           {
             "label": "b",
-            "text": "Zn 1.633, Ti 1.633"
+            "text": "Zn 1.633; Ti 1.633"
           },
           {
             "label": "c",
-            "text": "Zn 1.732, Ti 1.414"
+            "text": "Zn 1.732; Ti 1.414"
           },
           {
             "label": "d",
-            "text": "Zn 1.86 (stretched), Ti 1.59 (compressed)"
+            "text": "Zn 1.86; Ti 1.59"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "text": "At approximately room temperature, which set gives representative axial ratios c/a for pure Zn and Ti, respectively?",
+        "keyExplanation": "Representative room-temperature values are approximately Zn: c/a = 1.86 and Ti: c/a = 1.59. These differ from the ideal close-packed value 1.633. Exact values can vary slightly with temperature, purity and reference data."
       },
       "sourceFingerprint": "1c83f541"
     },
@@ -1441,7 +1545,8 @@
             "text": "(hkl)"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "⟨uvw⟩ is the family of all directions related by the crystal's symmetry (e.g. ⟨110⟩ in cubic includes [110], [101], [011] and their negatives). Square brackets [uvw] (Q23) denote one specific direction. Braces {hkl} (Q25) are for plane families. These three notations have distinct meanings."
       },
       "sourceFingerprint": "30bfd0c8"
     },
@@ -1469,7 +1574,9 @@
             "text": "⟨uvw⟩"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "keyExplanation": "{hkl} is the family of symmetry-equivalent planes. Braces denote plane families; square brackets denote one direction.",
+        "detailed": "{hkl} collects all symmetry-equivalent planes (in cubic, {111} = (111), (11̄1),\n(111̄), (1̄11) and the opposites — four distinct planes). Parentheses (hkl) denote one specific\nparallel set. This is the plane-family counterpart of Q24; distinguish braces for plane families from angle brackets for direction families."
       },
       "sourceFingerprint": "ab379cdd"
     },
@@ -1492,19 +1599,19 @@
         "options": [
           {
             "label": "a",
-            "text": "because (201) has a *larger* intercept on x"
+            "text": "its x-intercept is larger, so its reciprocal index is larger"
           },
           {
             "label": "b",
-            "text": "because (201) is a higher-symmetry plane"
+            "text": "it has higher symmetry than the (100) plane"
           },
           {
             "label": "c",
-            "text": "because (201) has a *smaller* intercept on x, and indices are reciprocals of intercepts"
+            "text": "its x-intercept is smaller, and Miller indices are reciprocals"
           },
           {
             "label": "d",
-            "text": "because indices are not related to intercepts"
+            "text": "Miller indices are unrelated to plane intercepts"
           }
         ],
         "answer": "c",
@@ -1572,6 +1679,60 @@
     },
     {
       "chapter": "ch02",
+      "n": 35,
+      "originalType": "B",
+      "sourceText": "Slip occurs preferentially on the most densely packed planes and along the most densely packed directions because:",
+      "sourceFingerprint": "5d8f0ba5",
+      "updates": {
+        "type": "B",
+        "text": "For a cubic crystal, consider planar density, interplanar spacing and slip. Which statements are correct?",
+        "statements": [
+          {
+            "num": 1,
+            "text": "The interplanar spacing is given by dₕₖₗ = a/√(h² + k² + l²)."
+          },
+          {
+            "num": 2,
+            "text": "In FCC, the close-packed {111} planes have smaller interplanar spacing than the {100} planes."
+          },
+          {
+            "num": 3,
+            "text": "Close-packed planes and directions are commonly favoured slip paths because high planar density and short lattice translation help lower resistance to glide."
+          },
+          {
+            "num": 4,
+            "text": "Increasing the magnitude of the Burgers vector lowers dislocation line energy."
+          }
+        ],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "1, 2 and 3 only"
+          },
+          {
+            "label": "b",
+            "text": "1 and 4 only"
+          },
+          {
+            "label": "c",
+            "text": "2, 3 and 4 only"
+          },
+          {
+            "label": "d",
+            "text": "1, 2, 3 and 4"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Statements 1–3 are correct. For cubic crystals, dₕₖₗ = a/√(h² + k² + l²), so d₁₁₁ = a/√3 while d₁₀₀ = a; the close-packed FCC {111} planes therefore do not have the greatest interplanar spacing. A short slip translation gives a smaller Burgers vector, and dislocation line energy scales approximately with Gb². Statement 4 reverses this relationship.",
+        "concise": "FCC {111} is close-packed but has smaller spacing than {100}; a smaller Burgers vector generally lowers dislocation energy.",
+        "detailed": "For a cubic crystal, the spacing between successive (hkl) planes is dₕₖₗ = a/√(h² + k² + l²). Thus d₁₁₁ = a/√3, which is smaller than d₁₀₀ = a. Close-packed describes high atomic density within a plane; it does not mean that the plane family has the largest interplanar spacing. Slip commonly favours planes and directions with high planar/linear density and short lattice translations. The elastic energy per unit length of a dislocation is proportional, to first approximation, to Gb², so a larger Burgers vector raises rather than lowers the energy."
+      }
+    },
+    {
+      "chapter": "ch02",
       "n": 36,
       "originalType": "A",
       "sourceText": "Linear density is defined as:",
@@ -1598,6 +1759,61 @@
         "detailed": "Linear density is the number of atom centres lying on a specified crystallographic direction per unit length. **(c)** is correct. Option (a) is atoms per unit cell; (b) is atomic packing factor; and (d) is planar density."
       },
       "sourceFingerprint": "1a5911ed"
+    },
+    {
+      "chapter": "ch02",
+      "n": 37,
+      "originalType": "G",
+      "sourceText": "Expressed in units of the atomic radius R, FCC's d₁₁₁ and BCC's d₁₁₀ both come out to ≈ 1.633 R. The correct interpretation is:",
+      "sourceFingerprint": "3effebba",
+      "updates": {
+        "keyExplanation": "The equality of the two numerical plane spacings does not imply equal ductility. FCC has four equivalent close-packed {111} plane families with ⟨110⟩ directions, while BCC has several potential slip families and generally higher lattice resistance, especially at low temperature. Slip-system availability and glide resistance—not this spacing coincidence alone—govern the comparison.",
+        "options": [
+          {
+            "label": "a",
+            "text": "Equal spacings therefore imply similar slip resistance and comparable ductility in FCC and BCC metals."
+          },
+          {
+            "label": "b",
+            "text": "The values match numerically, but FCC has four equivalent {111} planes; BCC {110} is one of several competing slip-plane families."
+          },
+          {
+            "label": "c",
+            "text": "BCC therefore has more independent slip systems and should be more ductile than FCC under ordinary conditions."
+          },
+          {
+            "label": "d",
+            "text": "The equality occurs because both structures are close-packed and have the same slip-plane geometry."
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch02",
+      "n": 38,
+      "originalType": "G",
+      "sourceText": "In FCC, the octahedral void (r_void/R = 0.414) is located at:",
+      "sourceFingerprint": "75171b43",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "at the body centre and at the centres of all twelve edges"
+          },
+          {
+            "label": "b",
+            "text": "at the centres of the six cube faces only"
+          },
+          {
+            "label": "c",
+            "text": "at the quarter-coordinate positions of tetrahedral sites"
+          },
+          {
+            "label": "d",
+            "text": "at the eight corners of the conventional unit cell"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch02",
@@ -1652,7 +1868,9 @@
             "text": "neither exists"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "keyExplanation": "BCC tetrahedral voids (0.291 R) are nominally larger than octahedral voids (0.155 R). This reverses the FCC comparison, where octahedral voids are larger.",
+        "detailed": "```\nBCC octahedral void:  r_void/R = 2/√3 − 1 = 0.155\nBCC tetrahedral void: r_void/R = 0.291\n```\nSo in BCC, **tetrahedral > octahedral**.\n**This is the reverse of FCC**, where octahedral (0.414) > tetrahedral (0.225).\nDo not assume octahedral is always the larger void; the larger interstitial site depends on the crystal structure.\n| | larger void |\n|---|---|\n| FCC | octahedral (0.414) |\n| BCC | tetrahedral (0.291) |\nAnd then see Q41 for the distinction involving carbon."
       },
       "sourceFingerprint": "4b3bcce3"
     },
@@ -1722,23 +1940,25 @@
         "options": [
           {
             "label": "a",
-            "text": "smaller than every void in both structures"
+            "text": "smaller than all four listed void radii, each of which is at most about 0.051 nm"
           },
           {
             "label": "b",
-            "text": "exactly equal to the FCC octahedral void radius"
+            "text": "equal to the FCC octahedral void radius, which is about 0.051 nm"
           },
           {
             "label": "c",
-            "text": "smaller than the BCC octahedral void"
+            "text": "larger than the FCC octahedral void but smaller than the BCC tetrahedral void"
           },
           {
             "label": "d",
-            "text": "larger than every void in both structures — so dissolving carbon always costs lattice strain energy"
+            "text": "larger than all four listed void radii, so inserting carbon distorts the iron lattice"
           }
         ],
         "answer": "d",
-        "detailed": "Carbon has an atomic radius of about 0.08 nm, larger than the listed interstitial voids in both FCC and BCC iron. Therefore dissolving carbon creates lattice strain, and **(d)** is correct. Options (a), (b), and (c) incorrectly claim that carbon fits the available voids."
+        "detailed": "Carbon has an atomic radius of about 0.08 nm, larger than the listed interstitial voids in both FCC and BCC iron. Therefore dissolving carbon creates lattice strain, and **(d)** is correct. Options (a), (b), and (c) incorrectly claim that carbon fits the available voids.",
+        "text": "Take the iron host-atom radius as R = 0.124 nm and the carbon-atom radius as 0.080 nm. Using the standard void-radius ratios for FCC and BCC iron, which statement is correct?",
+        "keyExplanation": "The quoted carbon radius (about 0.08 nm) exceeds the quoted octahedral-site radii in both structures, especially in BCC ferrite. Carbon can nevertheless dissolve interstitially; the size mismatch produces lattice distortion and affects solubility and diffusion."
       },
       "sourceFingerprint": "73a12a23"
     },
@@ -1767,7 +1987,9 @@
           }
         ],
         "answer": "b",
-        "detailed": "Carbon-supersaturated martensite follows c/a = 1.000 + 0.045(wt% C), so **(b)** is correct. Option (a) incorrectly uses the ideal HCP ratio as its baseline; (c) has the wrong sign; and (d) omits the cubic baseline of 1.000."
+        "detailed": "Carbon-supersaturated martensite follows c/a = 1.000 + 0.045(wt% C), so **(b)** is correct. Option (a) incorrectly uses the ideal HCP ratio as its baseline; (c) has the wrong sign; and (d) omits the cubic baseline of 1.000.",
+        "text": "For low-carbon martensite, an often-used approximate empirical relation between tetragonality and carbon content (in wt%) is:",
+        "keyExplanation": "For the low-carbon range in which this empirical fit is used, c/a ≈ 1.000 + 0.045(wt% C). It is an approximate relation, not a universal law; composition, carbon distribution and measurement conditions can affect the observed tetragonality."
       },
       "sourceFingerprint": "25255e9f"
     },
@@ -1906,7 +2128,9 @@
             "text": "Both false"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "reason": "Carbon is much more soluble in FCC austenite than in BCC ferrite. On quenching below the martensite-start temperature, the austenite transforms by a diffusionless shear mechanism, trapping carbon in a supersaturated body-centred tetragonal structure.",
+        "keyExplanation": "Both statements are true. Martensite forms by a diffusionless transformation below the martensite-start temperature, so carbon cannot partition by long-range diffusion during the transformation and remains trapped in a supersaturated, tetragonal structure."
       },
       "sourceFingerprint": "e5eb36da"
     },
@@ -1937,6 +2161,33 @@
         "answer": "d"
       },
       "sourceFingerprint": "aa2161a6"
+    },
+    {
+      "chapter": "ch02",
+      "n": 50,
+      "originalType": "A",
+      "sourceText": "In Bragg's law $n\\lambda = 2d\\sin\\theta$, the factor $2d$ appears because:",
+      "sourceFingerprint": "e3ef82a8",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the path difference from adjacent planes is 2d sinθ"
+          },
+          {
+            "label": "b",
+            "text": "each atom in the crystal scatters the incident ray twice"
+          },
+          {
+            "label": "c",
+            "text": "reflection doubles the wavelength of the incident X-rays"
+          },
+          {
+            "label": "d",
+            "text": "the incident and diffracted beams each travel a distance d"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch02",
@@ -1975,19 +2226,19 @@
         "options": [
           {
             "label": "a",
-            "text": "HCP has fewer atoms per unit cell than FCC"
+            "text": "HCP has fewer atoms in its conventional unit cell than FCC"
           },
           {
             "label": "b",
-            "text": "the metallic bond is stronger in HCP"
+            "text": "HCP has stronger metallic bonds that prevent plastic flow"
           },
           {
             "label": "c",
-            "text": "HCP provides only about 3 independent basal slip systems, whereas FCC provides ≥ 5 independent systems"
+            "text": "HCP offers fewer readily active independent slip systems at room temperature"
           },
           {
             "label": "d",
-            "text": "HCP has a lower melting point"
+            "text": "HCP has a universally lower melting point than FCC metals"
           }
         ],
         "answer": "c"
@@ -2003,19 +2254,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the number of equivalent close-packed slip planes differs greatly — FCC has four equivalent {111} planes while BCC slips on several families — so packing-factor identity does not imply equal ductility"
+            "text": "Equal spacing does not imply equal ductility; FCC has four close-packed {111} planes, BCC none."
           },
           {
             "label": "b",
-            "text": "FCC and BCC must have identical ductility"
+            "text": "Equal spacing gives equal ductility; interplanar spacing alone controls ease of slip in each structure."
           },
           {
             "label": "c",
-            "text": "this means BCC has more slip systems than FCC"
+            "text": "BCC is more ductile because its {110} spacing matches FCC {111}, giving more active systems."
           },
           {
             "label": "d",
-            "text": "it follows because both are close-packed structures"
+            "text": "Both are close-packed because their measured plane spacings are equal, so their packing factors match."
           }
         ],
         "answer": "a"
@@ -2103,6 +2354,37 @@
         "answer": "d"
       },
       "sourceFingerprint": "57f908e9"
+    },
+    {
+      "chapter": "ch03",
+      "n": 3,
+      "originalType": "A",
+      "sourceText": "Homogeneous nucleation differs from heterogeneous nucleation in that it:",
+      "sourceFingerprint": "fd28095b",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "forms within the bulk liquid without a foreign surface and generally needs substantial undercooling"
+          },
+          {
+            "label": "b",
+            "text": "forms on mould walls or inclusions, where the surface lowers the barrier and reduces the required undercooling"
+          },
+          {
+            "label": "c",
+            "text": "forms in the bulk liquid but needs less undercooling than heterogeneous nucleation"
+          },
+          {
+            "label": "d",
+            "text": "forms on mould walls but needs greater undercooling because the interface is energetically costly"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Homogeneous nucleation occurs in the bulk liquid and requires substantial undercooling. Heterogeneous nucleation occurs on foreign surfaces, which reduce the nucleation barrier and the required undercooling.",
+        "concise": "Homogeneous = bulk liquid + substantial undercooling; heterogeneous = foreign surface + reduced barrier.",
+        "detailed": "Homogeneous nucleation occurs **within the bulk liquid**, without help from mould walls, inclusions or inoculants. A new solid–liquid interface must form without a pre-existing surface, so the interfacial-energy penalty is large and substantial undercooling is required. **(a)** is correct.\n\n- **(b)** describes heterogeneous nucleation: a foreign surface lowers the barrier and reduces the required undercooling.\n- **(c)** reverses the undercooling comparison; homogeneous nucleation generally needs more, not less, undercooling.\n- **(d)** combines a heterogeneous site with the higher-undercooling requirement characteristic of homogeneous nucleation.\n\nIn industrial castings, heterogeneous nucleation usually dominates because mould walls, inclusions and inoculants provide favourable nucleation sites."
+      }
     },
     {
       "chapter": "ch03",
@@ -2314,19 +2596,19 @@
         "options": [
           {
             "label": "a",
-            "text": "S(ψ) → 0, so nucleation is barrierless"
+            "text": "the shape factor tends to zero, removing the nucleation barrier"
           },
           {
             "label": "b",
-            "text": "the nucleus is now twice as large"
+            "text": "the critical nucleus radius doubles relative to homogeneous nucleation"
           },
           {
             "label": "c",
-            "text": "S(ψ) → 1, so the barrier equals the homogeneous case — the substrate does nothing"
+            "text": "the shape factor is unity, so the barrier equals the homogeneous case"
           },
           {
             "label": "d",
-            "text": "nucleation is suppressed entirely"
+            "text": "nucleation cannot occur at any finite undercooling"
           }
         ],
         "answer": "c",
@@ -2399,19 +2681,19 @@
         "options": [
           {
             "label": "a",
-            "text": "maximises γ_SM and hence ψ"
+            "text": "it raises solid–melt interfacial energy and increases the contact angle"
           },
           {
             "label": "b",
-            "text": "increases the shape factor S(ψ)"
+            "text": "it increases the shape factor and raises the nucleation barrier"
           },
           {
             "label": "c",
-            "text": "raises the critical radius"
+            "text": "it increases the critical radius of the nucleus"
           },
           {
             "label": "d",
-            "text": "minimises γ_SM (a low-energy, coherent-ish interface), giving a small ψ and a low nucleation barrier"
+            "text": "it lowers interfacial energy, giving a small contact angle and lower barrier"
           }
         ],
         "answer": "d",
@@ -2514,6 +2796,33 @@
     },
     {
       "chapter": "ch03",
+      "n": 19,
+      "originalType": "G",
+      "sourceText": "The temperature axis around T_m splits into three consecutive zones. In order of decreasing temperature they are:",
+      "sourceFingerprint": "36026d35",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "stable (T > T_m) → metastable (small undercooling) → labile (large undercooling)"
+          },
+          {
+            "label": "b",
+            "text": "labile (large undercooling) → metastable (small undercooling) → stable (T > T_m)"
+          },
+          {
+            "label": "c",
+            "text": "metastable (small undercooling) → stable (T > T_m) → labile (large undercooling)"
+          },
+          {
+            "label": "d",
+            "text": "stable (T > T_m) → labile (large undercooling) → metastable (small undercooling)"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch03",
       "n": 20,
       "originalType": "A",
       "sourceText": "A pure metal cooling curve shows a flat thermal arrest at T_m because:",
@@ -2521,19 +2830,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the metal stops cooling for an unrelated reason"
+            "text": "the metal's temperature stops changing for an unrelated reason"
           },
           {
             "label": "b",
-            "text": "the metal undercools permanently"
+            "text": "the melt becomes permanently undercooled during solidification"
           },
           {
             "label": "c",
-            "text": "the latent heat of fusion released on freezing exactly balances the heat being extracted"
+            "text": "latent heat released by freezing balances the heat being extracted"
           },
           {
             "label": "d",
-            "text": "heat is being added to the metal"
+            "text": "heat is continuously supplied to the casting during freezing"
           }
         ],
         "answer": "c",
@@ -2550,23 +2859,25 @@
         "options": [
           {
             "label": "a",
-            "text": "1.3 °C"
+            "text": "Latent heat released during rapid nucleation and growth raises the temperature after undercooling."
           },
           {
             "label": "b",
-            "text": "0.13 °C"
+            "text": "The metal absorbs additional heat from the surroundings while remaining fully liquid."
           },
           {
             "label": "c",
-            "text": "13 °C"
+            "text": "The equilibrium freezing temperature continuously decreases as solidification proceeds."
           },
           {
             "label": "d",
-            "text": "130 °C"
+            "text": "The solid phase transforms back into liquid because its density is lower."
           }
         ],
-        "answer": "b",
-        "detailed": "Recalescence is the temperature rise after initial undercooling when rapid nucleation and growth release latent heat. The stated value is approximately **0.13 °C**, option **(b)**. Option (a) is 1.3 °C, (c) is 13 °C and (d) is 130 °C."
+        "answer": "a",
+        "detailed": "Recalescence is the temperature rise after initial undercooling when rapid nucleation and growth release latent heat. The stated value is approximately **0.13 °C**, option **(b)**. Option (a) is 1.3 °C, (c) is 13 °C and (d) is 130 °C.",
+        "text": "What causes recalescence during the solidification of a pure metal?",
+        "keyExplanation": "Recalescence is the temperature rise following undercooling. Once nucleation and growth begin, latent heat is released and raises the metal temperature toward its equilibrium freezing temperature."
       },
       "sourceFingerprint": "747b0b91"
     },
@@ -2579,19 +2890,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the melt viscosity is too low"
+            "text": "the melt viscosity becomes too low near the solidification front"
           },
           {
             "label": "b",
-            "text": "surface tension forces branching"
+            "text": "surface tension drives all interface perturbations into branches"
           },
           {
             "label": "c",
-            "text": "the metal is pure, not an alloy"
+            "text": "the metal is pure, so alloying elements cannot stabilize the front"
           },
           {
             "label": "d",
-            "text": "a small bump on the interface sticks out into more undercooled liquid and grows faster than its surroundings"
+            "text": "a protrusion enters more undercooled liquid and grows faster than its surroundings"
           }
         ],
         "answer": "d",
@@ -2691,19 +3002,19 @@
         "options": [
           {
             "label": "a",
-            "text": "purely thermal instability"
+            "text": "thermal instability alone causes the planar front to break down"
           },
           {
             "label": "b",
-            "text": "gravity segregation"
+            "text": "gravity separates solute and destabilizes the liquid surface"
           },
           {
             "label": "c",
-            "text": "mould vibration"
+            "text": "mould vibration disrupts the solid–liquid interface"
           },
           {
             "label": "d",
-            "text": "constitutional supercooling, driven by composition rather than temperature"
+            "text": "solute enrichment undercools liquid ahead of the front, causing constitutional supercooling"
           }
         ],
         "answer": "d",
@@ -2769,6 +3080,33 @@
     },
     {
       "chapter": "ch03",
+      "n": 32,
+      "originalType": "G",
+      "sourceText": "A metal (chill) mould poured at **high** casting temperature tends to produce:",
+      "sourceFingerprint": "75328c8a",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a fine equiaxed structure extending through the whole casting"
+          },
+          {
+            "label": "b",
+            "text": "columnar grains extending almost to the casting centre"
+          },
+          {
+            "label": "c",
+            "text": "coarse equiaxed grains throughout the casting section"
+          },
+          {
+            "label": "d",
+            "text": "an amorphous structure produced by rapid solidification"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch03",
       "n": 33,
       "originalType": "G",
       "sourceText": "Which combination gives the practically most useful ingot structure?",
@@ -2776,19 +3114,19 @@
         "options": [
           {
             "label": "a",
-            "text": "An intermediate casting temperature in a chill mould — a sound shell of chill and columnar crystals wrapped around a fine equiaxed core"
+            "text": "An intermediate pouring temperature in a chill mould forms a sound outer shell and a fine equiaxed core."
           },
           {
             "label": "b",
-            "text": "High casting temperature in a chill mould"
+            "text": "A high pouring temperature in a chill mould lets columnar grains grow almost to the centre."
           },
           {
             "label": "c",
-            "text": "Low casting temperature in a chill mould"
+            "text": "A low pouring temperature in a chill mould promotes fine equiaxed grains throughout the section."
           },
           {
             "label": "d",
-            "text": "A sand mould with rapid pouring"
+            "text": "A sand mould with rapid pouring produces a relatively uniform fine-grained structure throughout the section."
           }
         ],
         "answer": "a"
@@ -2804,19 +3142,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the corner chills too slowly"
+            "text": "The corner cools too slowly, leaving the adjacent metal weak and under-solidified."
           },
           {
             "label": "b",
-            "text": "it causes inverse segregation"
+            "text": "The corner promotes inverse segregation, producing a chemically weakened zone at the junction."
           },
           {
             "label": "c",
-            "text": "two sets of columnar crystals meet at a diagonal interface that does not interlock, leaving a plane of weakness; the fix is simply to round the corners"
+            "text": "Columnar grains from adjacent walls can meet along a poorly interlocking diagonal interface, creating a plane of weakness."
           },
           {
             "label": "d",
-            "text": "it prevents pipe formation"
+            "text": "The corner interrupts feeding and prevents a normal shrinkage pipe from developing."
           }
         ],
         "answer": "c",
@@ -2837,7 +3175,7 @@
           },
           {
             "label": "b",
-            "text": "3–7% by volume"
+            "text": "3–7%"
           },
           {
             "label": "c",
@@ -2849,7 +3187,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "The typical volumetric contraction of most metals on solidification is approximately **3–7%**, option **(b)**. Option (a), 0.1–0.5%, is too small; (c) and (d) are too large. Bismuth and some other elements are notable exceptions that expand on freezing."
+        "detailed": "The typical volumetric contraction of most metals on solidification is approximately **3–7%**, option **(b)**. Option (a), 0.1–0.5%, is too small; (c) and (d) are too large. Bismuth and some other elements are notable exceptions that expand on freezing.",
+        "text": "By volume, solidification shrinkage for most metals is roughly:"
       },
       "sourceFingerprint": "d38de91b"
     },
@@ -2890,19 +3229,19 @@
         "options": [
           {
             "label": "a",
-            "text": "1 only"
+            "text": "Stage 1 only"
           },
           {
             "label": "b",
-            "text": "1, 2 and 3"
+            "text": "Stages 1–3"
           },
           {
             "label": "c",
-            "text": "1 and 2 only"
+            "text": "Stages 1 and 2"
           },
           {
             "label": "d",
-            "text": "3 only"
+            "text": "Stage 3 only"
           }
         ],
         "answer": "c",
@@ -2975,23 +3314,25 @@
         "options": [
           {
             "label": "a",
-            "text": "trapped gas bubbles from dissolved hydrogen"
+            "text": "gas porosity formed when dissolved hydrogen comes out of solution during solidification"
           },
           {
             "label": "b",
-            "text": "a large conical shrinkage cavity"
+            "text": "a large shrinkage cavity formed where liquid metal cannot feed the last region to solidify"
           },
           {
             "label": "c",
-            "text": "an oxide film on the surface"
+            "text": "fine shrinkage pores between dendrite arms when feeding through a wide mushy zone becomes difficult"
           },
           {
             "label": "d",
-            "text": "fine distributed shrinkage porosity trapped between dendrite arms, worst in alloys freezing over a wide temperature range"
+            "text": "oxide-film defects trapped between converging streams of liquid metal during mould filling"
           }
         ],
-        "answer": "d",
-        "detailed": "Interdendritic sponginess is fine, distributed **shrinkage porosity** trapped between dendrite arms, especially in alloys that freeze over a wide temperature range because feeding through the mushy zone becomes difficult. **(a)** describes gas porosity (blowholes); **(b)** describes a macro-shrinkage cavity or pipe; **(c)** describes a surface oxide film. Thus **(d) is correct**. Sponginess is addressed by feeding; gas porosity requires control of dissolved or generated gas."
+        "answer": "c",
+        "detailed": "Interdendritic sponginess consists of fine, distributed **shrinkage pores between dendrite arms**. It is promoted when an alloy freezes over a wide temperature range: the growing dendrites form a mushy zone, and liquid metal cannot feed the final regions adequately. **(c)** is correct.\n\n- **(a) Gas porosity:** hydrogen comes out of solution and forms gas pores.\n- **(b) Macro-shrinkage:** a larger cavity forms where liquid feeding cannot compensate for solidification contraction.\n- **(d) Oxide-film defect:** folded oxide films become trapped during mould filling.\n\nThe distinction matters because interdendritic shrinkage is addressed primarily by sound feeding and solidification design, whereas gas porosity requires control of dissolved gas.",
+        "keyExplanation": "Interdendritic sponginess is distributed shrinkage porosity in the spaces between dendrite arms; it is not gas porosity, a macro-shrinkage pipe or an oxide-film defect.",
+        "concise": "Sponginess = fine interdendritic shrinkage pores caused by inadequate feeding through the mushy zone."
       },
       "sourceFingerprint": "1fd813c6"
     },
@@ -3019,7 +3360,12 @@
             "text": "Both true, R correctly explains A"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "assertion": "In a casting affected by interdendritic sponginess, a moderate amount of dissolved gas can, under the specific conditions described in the course notes, improve pressure-tightness.",
+        "reason": "By promoting many small, dispersed cavities rather than one large concentrated shrinkage pipe, the gas can reduce the likelihood of a continuous leak path through the casting wall.",
+        "keyExplanation": "Both A and R are true in the specific context of interdendritic sponginess described in the course material. A moderate amount of dissolved gas can favour many small, dispersed cavities rather than one large concentrated shrinkage pipe; isolated cavities are less likely to form a continuous leak path. This is a qualified, context-specific effect—not a general recommendation to tolerate gas porosity.",
+        "concise": "In this specific casting context, dispersed small cavities can be less likely to form a continuous leak path than one large shrinkage pipe.",
+        "detailed": "Interdendritic sponginess is fine, distributed shrinkage porosity trapped between dendrite arms. The course notes describe a counter-intuitive, qualified case: a moderate amount of dissolved gas can help pressure-tightness by encouraging many small, finely distributed cavities instead of one large, concentrated shrinkage pipe. Small isolated cavities are individually less likely to connect into a continuous leak path through the casting wall. This does not mean gas porosity is generally beneficial; excessive gas can create harmful blowholes and porosity. Therefore both the assertion and reason are true, and the reason explains the assertion."
       },
       "sourceFingerprint": "6354ff91"
     },
@@ -3192,19 +3538,19 @@
         "options": [
           {
             "label": "a",
-            "text": "its segregated core is the softest part"
+            "text": "Its segregated core is softer than the outer skin, so it carries most of the strain during forming."
           },
           {
             "label": "b",
-            "text": "it has no blowholes at all"
+            "text": "Rimming steel contains no blowholes, leaving its surface free of defects during pressing."
           },
           {
             "label": "c",
-            "text": "its ductile, exceptionally pure outer skin is exactly the region carrying the highest stress in most forming operations"
+            "text": "Its relatively pure, ductile outer skin carries much of the surface strain during deep drawing and pressing."
           },
           {
             "label": "d",
-            "text": "it is the hardest available steel"
+            "text": "It is the hardest steel grade, so it resists local thinning during forming operations."
           }
         ],
         "answer": "c",
@@ -3448,6 +3794,33 @@
     },
     {
       "chapter": "ch03",
+      "n": 56,
+      "originalType": "A",
+      "sourceText": "Constitutional supercooling arises in an alloy because:",
+      "sourceFingerprint": "9640cf82",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Latent heat is released faster than it can be conducted away from the solid–liquid interface."
+          },
+          {
+            "label": "b",
+            "text": "The mould wall extracts heat faster than the interior, creating a steep thermal gradient ahead of the front."
+          },
+          {
+            "label": "c",
+            "text": "Solute is rejected ahead of the interface, depressing the local liquidus and creating a constitutionally supercooled zone."
+          },
+          {
+            "label": "d",
+            "text": "Interfacial tension varies along the front and destabilises the solid–liquid interface."
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch03",
       "n": 58,
       "originalType": "C",
       "sourceText": "",
@@ -3543,19 +3916,19 @@
         "options": [
           {
             "label": "a",
-            "text": "have very low vapour pressures"
+            "text": "they have very low vapour pressures and remain in the melt"
           },
           {
             "label": "b",
-            "text": "partition preferentially into the liquid phase (distribution coefficient k < 1)"
+            "text": "they partition preferentially into the liquid when k < 1"
           },
           {
             "label": "c",
-            "text": "are insoluble in the solid and float to the surface"
+            "text": "they are insoluble in the solid and float to the surface"
           },
           {
             "label": "d",
-            "text": "form stable intermetallic compounds in the solid"
+            "text": "they form stable intermetallic compounds in the solid"
           }
         ],
         "answer": "b"
@@ -3670,22 +4043,24 @@
         "options": [
           {
             "label": "a",
-            "text": "cooling is so rapid (typically ~10⁷ °C/s) that the liquid does not have time to nucleate and grow crystalline phases"
+            "text": "Cooling is rapid enough to suppress crystal nucleation and growth before the liquid structure becomes frozen in."
           },
           {
             "label": "b",
-            "text": "a seed crystal is withdrawn very slowly"
+            "text": "A seed crystal is withdrawn slowly enough for atoms to attach in an ordered lattice."
           },
           {
             "label": "c",
-            "text": "the melt is held just below T_m for a very long time"
+            "text": "The melt is held just below its melting point long enough for crystalline phases to grow."
           },
           {
             "label": "d",
-            "text": "the alloy is cooled extremely slowly under vacuum"
+            "text": "The alloy is cooled slowly under vacuum to limit oxidation while it solidifies."
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "text": "A metallic glass is formed when:",
+        "keyExplanation": "A metallic glass forms when crystallisation is bypassed during cooling, leaving a non-crystalline atomic structure. The critical cooling rate depends strongly on alloy composition, sample geometry and processing conditions."
       },
       "sourceFingerprint": "3fddb51d"
     },
@@ -3713,7 +4088,10 @@
             "text": "A true, R false"
           }
         ],
-        "answer": "b"
+        "answer": "a",
+        "assertion": "Rimming steels are often selected for sheet products requiring good surface quality and deep-drawing formability.",
+        "reason": "During solidification, carbon-monoxide evolution produces a relatively clean, ductile outer rim in rimming steel.",
+        "keyExplanation": "Both statements are true in the conventional description of rimming-steel ingots. The relatively low-solute outer rim provides good surface quality and formability, which made rimming steel useful for some sheet and drawing applications. Rimming practice is not suitable for every steel grade or product."
       },
       "sourceFingerprint": "08aa14a2"
     },
@@ -3757,19 +4135,19 @@
         "options": [
           {
             "label": "a",
-            "text": "prevents metal/mould reactions entirely"
+            "text": "It prevents chemical reactions between the molten metal and mould surface during pouring."
           },
           {
             "label": "b",
-            "text": "increases the strength of the mould"
+            "text": "It increases mould strength by allowing the sand grains to pack more tightly together."
           },
           {
             "label": "c",
-            "text": "allows mould gases to escape easily, preventing blowholes in the casting"
+            "text": "It lets gases generated in the mould escape instead of becoming trapped at the metal surface."
           },
           {
             "label": "d",
-            "text": "reduces the thermal conductivity of the mould"
+            "text": "It lowers mould thermal conductivity so the casting cools more uniformly through its section."
           }
         ],
         "answer": "c",
@@ -3874,19 +4252,19 @@
         "options": [
           {
             "label": "a",
-            "text": "sit in the gaps between solvent atoms"
+            "text": "they occupy interstitial gaps between solvent atoms"
           },
           {
             "label": "b",
-            "text": "replace solvent atoms at normal lattice sites"
+            "text": "they replace solvent atoms at normal lattice sites"
           },
           {
             "label": "c",
-            "text": "form a separate phase"
+            "text": "they form a separate equilibrium phase"
           },
           {
             "label": "d",
-            "text": "segregate to grain boundaries only"
+            "text": "they segregate exclusively to grain boundaries"
           }
         ],
         "answer": "b",
@@ -3903,19 +4281,19 @@
         "options": [
           {
             "label": "a",
-            "text": "replace solvent atoms"
+            "text": "they replace solvent atoms on regular lattice sites"
           },
           {
             "label": "b",
-            "text": "always form compounds"
+            "text": "they always form compounds with the solvent"
           },
           {
             "label": "c",
-            "text": "occupy the interstices (gaps) between solvent atoms — e.g. C, N, H, B in iron"
+            "text": "they occupy interstitial gaps between solvent atoms, as C or N in Fe"
           },
           {
             "label": "d",
-            "text": "are always larger than the solvent atoms"
+            "text": "they must be larger than the solvent atoms"
           }
         ],
         "answer": "c",
@@ -3976,7 +4354,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "Complete substitutional solid solubility across the composition range requires the two metals to share the same crystal structure. **(b)** is correct. A size mismatch above about 15%, strong compound-forming affinity, and a large valence difference each tend to restrict solubility; those are the limiting conditions, not the conditions for complete solubility."
+        "detailed": "Complete substitutional solid solubility across the composition range requires the two metals to share the same crystal structure. **(b)** is correct. A size mismatch above about 15%, strong compound-forming affinity, and a large valence difference each tend to restrict solubility; those are the limiting conditions, not the conditions for complete solubility.",
+        "keyExplanation": "Sharing the same crystal structure is one Hume–Rothery requirement for extensive substitutional solid solubility, but it is not sufficient by itself. Atomic-size difference, chemical affinity and relative valence must also be considered. Option (b) is therefore the necessary condition among those listed, not a complete guarantee of total solubility."
       },
       "sourceFingerprint": "017e94a2"
     },
@@ -4064,6 +4443,16 @@
     },
     {
       "chapter": "ch04",
+      "n": 11,
+      "originalType": "D",
+      "sourceText": "Match the intermediate-phase type to its example.",
+      "sourceFingerprint": "8aa9013c",
+      "updates": {
+        "keyExplanation": "The matches are: intermetallic/valency compounds—Mg₂Pb, Mg₂Sn and CaSe; interstitial compound—Fe₃C; electron compound β (3:2)—AgCd, Cu₂Al and FeAl; electron compound ε (7:4)—AgCd₃, Cu₃Si and FeZn₇. Thus 1–b, 2–a, 3–c and 4–d, option (a). These are conventional examples used in the electron-compound classification."
+      }
+    },
+    {
+      "chapter": "ch04",
       "n": 13,
       "originalType": "B",
       "sourceText": "Which statement(s) about *interstitial compounds* is/are correct?",
@@ -4146,6 +4535,33 @@
         "answer": "c"
       },
       "sourceFingerprint": "4948eb71"
+    },
+    {
+      "chapter": "ch04",
+      "n": 18,
+      "originalType": "G",
+      "sourceText": "The correct statement of the lever rule is:",
+      "sourceFingerprint": "541c50d3",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "each phase fraction is proportional to the opposite tie-line arm"
+          },
+          {
+            "label": "b",
+            "text": "each phase fraction is proportional to the same-side tie-line arm"
+          },
+          {
+            "label": "c",
+            "text": "phase fractions are calculated from the vertical gap between curves"
+          },
+          {
+            "label": "d",
+            "text": "the lever rule is valid only at invariant temperatures"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch04",
@@ -4353,19 +4769,19 @@
         "options": [
           {
             "label": "a",
-            "text": "poorer in the higher-melting-point component"
+            "text": "poorer in the higher-melting component"
           },
           {
             "label": "b",
-            "text": "identical to the liquid composition"
+            "text": "the same as the liquid composition"
           },
           {
             "label": "c",
-            "text": "richer in the higher-melting-point component than the liquid it froze from"
+            "text": "richer in the higher-melting component"
           },
           {
             "label": "d",
-            "text": "identical to C₀"
+            "text": "the same as C₀"
           }
         ],
         "answer": "c",
@@ -4382,7 +4798,7 @@
         "options": [
           {
             "label": "a",
-            "text": "the liquidus first meets C₀"
+            "text": "the liquidus meets C₀"
           },
           {
             "label": "b",
@@ -4390,7 +4806,7 @@
           },
           {
             "label": "c",
-            "text": "the solidus finally reaches C₀ — the last trace of liquid disappears and the bulk solid is uniformly C₀"
+            "text": "the solidus reaches C₀"
           },
           {
             "label": "d",
@@ -4460,6 +4876,17 @@
     },
     {
       "chapter": "ch04",
+      "n": 30,
+      "originalType": "C",
+      "sourceText": "",
+      "sourceFingerprint": "d1e00bbc",
+      "updates": {
+        "assertion": "Constitutional supercooling can promote the formation of a central equiaxed zone in an alloy ingot.",
+        "keyExplanation": "Both statements are true. Constitutional supercooling ahead of a columnar solidification front can promote nucleation in the liquid and contribute to the columnar-to-equiaxed transition. The extent of the equiaxed zone also depends on available nuclei, melt flow, thermal conditions and alloy composition."
+      }
+    },
+    {
+      "chapter": "ch04",
       "n": 31,
       "originalType": "A",
       "sourceText": "A planar interface cannot survive constitutional supercooling because:",
@@ -4467,19 +4894,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the liquid becomes more viscous"
+            "text": "the liquid ahead of the front becomes more viscous"
           },
           {
             "label": "b",
-            "text": "any protrusion poking into the supercooled zone finds extra undercooling driving it forward, breaking the front down into cells and then dendrites"
+            "text": "a protrusion grows faster in the supercooled liquid"
           },
           {
             "label": "c",
-            "text": "the solid melts back"
+            "text": "the solid phase melts back as the front advances"
           },
           {
             "label": "d",
-            "text": "surface tension is overcome"
+            "text": "surface-tension forces alone destabilize the front"
           }
         ],
         "answer": "b",
@@ -4496,19 +4923,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a crack along the grain boundary"
+            "text": "a fracture that follows a grain boundary during cooling"
           },
           {
             "label": "b",
-            "text": "a type of blowhole"
+            "text": "a gas cavity trapped inside a casting during solidification"
           },
           {
             "label": "c",
-            "text": "a composition gradient within a cast grain — from a high-melting core to a low-melting, solute-rich edge"
+            "text": "a composition gradient within a cast grain from core to edge"
           },
           {
             "label": "d",
-            "text": "an oxide film on the grain surface"
+            "text": "an oxide film deposited on the surface of a cast grain"
           }
         ],
         "answer": "c",
@@ -4572,6 +4999,33 @@
     },
     {
       "chapter": "ch04",
+      "n": 34,
+      "originalType": "G",
+      "sourceText": "Under non-equilibrium cooling, freezing actually finishes at T₄ which is:",
+      "sourceFingerprint": "e829884c",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "below T₃, because the last liquid freezes only after further cooling"
+          },
+          {
+            "label": "b",
+            "text": "above T₃, because freezing ends before the equilibrium finish point"
+          },
+          {
+            "label": "c",
+            "text": "equal to T₃, because both paths finish at the same temperature"
+          },
+          {
+            "label": "d",
+            "text": "at the liquidus temperature, where solidification first begins"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch04",
       "n": 35,
       "originalType": "G",
       "sourceText": "In a cored grain, the composition varies from:",
@@ -4579,23 +5033,26 @@
         "options": [
           {
             "label": "a",
-            "text": "a solute-lean core to a solute-rich edge"
+            "text": "solute partitioning during non-equilibrium solidification"
           },
           {
             "label": "b",
-            "text": "a uniform composition throughout"
+            "text": "complete diffusion homogenisation in the solid"
           },
           {
             "label": "c",
-            "text": "a high-melting (solute-rich) core, frozen first, to a low-melting (solute-lean) edge at the grain boundary, frozen last"
+            "text": "a change in the alloy's nominal bulk composition"
           },
           {
             "label": "d",
-            "text": "a carbon-rich edge to a carbon-free core"
+            "text": "grain rotation after solidification"
           }
         ],
-        "answer": "c",
-        "detailed": "In a cored Cu–Ni grain, the first-formed core is richer in the higher-melting component (Ni) and the last-formed edge is richer in the lower-melting component (Cu). **(c)** is correct. Option (a) reverses the direction for this system; (b) removes the composition gradient; and (d) is not the general Cu–Ni coring description."
+        "answer": "a",
+        "detailed": "Coring is caused by solute partitioning between solid and liquid during non-equilibrium solidification. The first-solidified core and last-solidified interdendritic region therefore have different compositions. **(a)** is correct. Complete diffusion homogenisation would reduce or remove the gradient; the nominal bulk composition is conserved during freezing; grain rotation does not create the compositional variation.",
+        "text": "In a cored grain, the composition generally varies between the composition of the first-solidified core and that of the last-solidified interdendritic or grain-boundary region. This variation is caused by:",
+        "keyExplanation": "Solute partitioning during non-equilibrium solidification creates a composition gradient within each grain. Answer (a).",
+        "concise": "Coring is caused by solute partitioning during non-equilibrium solidification."
       },
       "sourceFingerprint": "5dbc1e1a"
     },
@@ -4608,19 +5065,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the β phase completely dissolves"
+            "text": "β dissolves completely before solidification ends"
           },
           {
             "label": "b",
-            "text": "the α phase is entirely consumed"
+            "text": "α is consumed by the peritectic reaction"
           },
           {
             "label": "c",
-            "text": "a eutectic forms at the boundary"
+            "text": "a eutectic forms at the grain boundary"
           },
           {
             "label": "d",
-            "text": "the peritectic reaction L + β → α produces a shell of α that envelops the untransformed β core, insulating it and starving the reaction of contact area"
+            "text": "an α shell isolates the remaining β core from liquid"
           }
         ],
         "answer": "d",
@@ -4665,24 +5122,56 @@
         "options": [
           {
             "label": "a",
-            "text": "simple loss of ductility recoverable by re-annealing"
+            "text": "a recoverable loss of strength after excessive heating"
           },
           {
             "label": "b",
-            "text": "genuine grain-boundary melting (liquation) caused by crossing the local effective solidus — permanent, unrecoverable damage"
+            "text": "irreversible grain-boundary liquation above the local effective solidus"
           },
           {
             "label": "c",
-            "text": "surface oxidation only"
+            "text": "surface oxidation after prolonged exposure to the furnace atmosphere"
           },
           {
             "label": "d",
-            "text": "a favourable grain-refining treatment"
+            "text": "beneficial grain refinement caused by controlled partial melting"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "**Burning** (burning-up / liquation) is genuine grain-boundary melting caused by crossing the local effective (cored) solidus. Once the grain boundaries have melted, the material is permanently damaged and cannot be recovered by subsequent heat treatment. Option **(a)** describes recoverable overheating, not burning. Option (c) is only surface oxidation; (d) is not a beneficial treatment. The key test is whether the local effective solidus was crossed and melting occurred."
       },
       "sourceFingerprint": "e4334690"
+    },
+    {
+      "chapter": "ch04",
+      "n": 39,
+      "originalType": "A",
+      "sourceText": "*Overheating* is:",
+      "sourceFingerprint": "1d50acb6",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "approaching but not crossing the local solidus; damage is recoverable by later heat treatment"
+          },
+          {
+            "label": "b",
+            "text": "crossing the local solidus and melting grain boundaries; damage is permanent"
+          },
+          {
+            "label": "c",
+            "text": "crossing the bulk solidus and causing complete melting throughout the component"
+          },
+          {
+            "label": "d",
+            "text": "quenching from a high temperature at excessive rate and forming martensite"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Overheating approaches but does not cross the local effective solidus; no melting occurs, and proper subsequent heat treatment can recover the damage.",
+        "concise": "Overheating = near, but below, the local solidus; no melting and subsequent recovery is possible.",
+        "detailed": "**Overheating** means heating close to — but not across — the local effective solidus. It can promote segregation and grain-boundary precipitation, reducing ductility and toughness, but **no melting occurs**, so suitable subsequent heat treatment can recover the condition. **(a)** is correct.\n\n- **(b)** describes burning: local grain-boundary melting and permanent damage.\n- **(c)** describes bulk melting, not overheating.\n- **(d)** describes a rapid-quench condition and its possible martensitic transformation, not overheating.\n\nThe decisive test is whether the local effective solidus was crossed: overheating stays below it; burning crosses it."
+      }
     },
     {
       "chapter": "ch04",
@@ -4749,19 +5238,19 @@
         "options": [
           {
             "label": "a",
-            "text": "uniformly through the grain"
+            "text": "uniformly throughout the grain interior"
           },
           {
             "label": "b",
-            "text": "at grain boundaries and interdendritic spaces, where it can begin to melt at a temperature that looks safe on the equilibrium diagram"
+            "text": "at grain boundaries and interdendritic regions"
           },
           {
             "label": "c",
-            "text": "at the specimen surface only"
+            "text": "only at the specimen's external surface"
           },
           {
             "label": "d",
-            "text": "in the centre of primary dendrite arms"
+            "text": "at the centres of primary dendrite arms"
           }
         ],
         "answer": "b"
@@ -5011,23 +5500,25 @@
         "options": [
           {
             "label": "a",
-            "text": "a missing atom at a lattice site"
+            "text": "a normal lattice site left vacant after its host atom moves away"
           },
           {
             "label": "b",
-            "text": "a foreign atom at a lattice site"
+            "text": "a foreign atom replacing a host atom at a normal lattice site"
           },
           {
             "label": "c",
-            "text": "a host atom squeezed into a non-lattice interstitial site — high strain energy, low concentration"
+            "text": "a host atom occupying an interstitial position within the crystal lattice"
           },
           {
             "label": "d",
-            "text": "an atom at a grain boundary"
+            "text": "a foreign atom occupying an interstitial position between host atoms"
           }
         ],
         "answer": "c",
-        "detailed": "A self-interstitial is a host atom displaced into a non-lattice interstitial position. Because the atom is crowded into a small void, it creates a large strain field and has a high formation energy, so its equilibrium concentration is low. **(c)** is correct. Option (a) is a vacancy; (b) is a substitutional solute; (d) is not the definition of a point defect."
+        "detailed": "A self-interstitial is an atom of the **host metal** occupying a position that is not one of the regular lattice sites. Option **(c)** is correct.\\n\\n- **(a) Vacancy:** a normal lattice site is empty because an atom has left it.\\n- **(b) Substitutional impurity:** a foreign atom replaces a host atom on a regular lattice site.\\n- **(d) Interstitial impurity:** a foreign atom occupies an interstitial position.\\n\\nThe self-interstitial is highly crowded into the lattice, so it produces a large local strain field and has a high formation energy. Its equilibrium concentration is therefore generally much lower than the vacancy concentration.",
+        "keyExplanation": "A self-interstitial is a host atom occupying a non-lattice interstitial position. It is distinct from a vacancy, a substitutional impurity and an interstitial impurity.",
+        "concise": "Self-interstitial = host atom in an interstitial site; the crowded position gives it high formation energy and low equilibrium concentration."
       },
       "sourceFingerprint": "d7b472d9"
     },
@@ -5199,7 +5690,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "A more realistic interatomic potential reduces the ideal theoretical shear-strength estimate to approximately G/30. **(b)** is correct. Option (a), G/3, is too high; (c), G/3000, is far too low and closer to the range of real strengths; (d), G/π, is not the refined estimate."
+        "detailed": "A more realistic interatomic potential reduces the ideal theoretical shear-strength estimate to approximately G/30. **(b)** is correct. Option (a), G/3, is too high; (c), G/3000, is far too low and closer to the range of real strengths; (d), G/π, is not the refined estimate.",
+        "keyExplanation": "The estimate G/30 is a commonly quoted approximate correction obtained with more realistic interatomic-potential models, compared with the much larger idealised estimate. It is model-dependent rather than a universal constant; option (b) is the intended textbook estimate."
       },
       "sourceFingerprint": "b3bb1b0f"
     },
@@ -5212,23 +5704,25 @@
         "options": [
           {
             "label": "a",
-            "text": "G/2π"
+            "text": "G/3 to G/10"
           },
           {
             "label": "b",
-            "text": "G/1000 to G/100,000 — three to four orders of magnitude below the theoretical value"
+            "text": "G/10³ to G/10⁵"
           },
           {
             "label": "c",
-            "text": "G/30"
+            "text": "G/30 to G/100"
           },
           {
             "label": "d",
-            "text": "exactly the theoretical value"
+            "text": "G/100 to G/1000"
           }
         ],
         "answer": "b",
-        "detailed": "Real metal single crystals yield at shear stresses of roughly G/1000 to G/100,000, far below the theoretical estimates G/30 or G/(2π). **(b)** is correct. Option (a) is the Frenkel theoretical estimate; (c) is the refined theoretical estimate; (d) contradicts the measured strength gap."
+        "detailed": "Real metal single crystals yield at shear stresses of roughly **G/10³ to G/10⁵**. The theoretical estimates are much higher: approximately **G/30** in a refined estimate and **G/(2π)** in the simple Frenkel model. Thus **(b)** is correct. The large gap between theoretical and measured strength is explained by the motion of dislocations: real crystals deform by moving existing defects rather than shearing a perfect lattice all at once.",
+        "keyExplanation": "Measured shear strengths are roughly G/10³ to G/10⁵, far below the theoretical estimates.",
+        "concise": "Real crystals yield at about G/10³–G/10⁵, several orders below theoretical strength."
       },
       "sourceFingerprint": "0a303466"
     },
@@ -5256,7 +5750,8 @@
             "text": "2 and 4 only"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "keyExplanation": "The dislocation explanation of the gap between theoretical and measured crystal strength was developed independently in 1934 by Geoffrey Taylor, Egon Orowan and Michael Polanyi. Frenkel is associated with the theoretical strength estimate, not this independent dislocation proposal. Therefore statements 1, 2 and 3 are correct: option (c)."
       },
       "sourceFingerprint": "6008e339"
     },
@@ -5297,19 +5792,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a helical ramp of planes around a line"
+            "text": "a helical ramp of atomic planes around the line"
           },
           {
             "label": "b",
-            "text": "a missing plane"
+            "text": "the absence of an entire atomic plane from the lattice"
           },
           {
             "label": "c",
-            "text": "a grain boundary"
+            "text": "a planar interface between differently oriented grains"
           },
           {
             "label": "d",
-            "text": "the edge of an extra half-plane of atoms inserted partway into the crystal, denoted ⊥"
+            "text": "the terminating edge of an inserted extra half-plane"
           }
         ],
         "answer": "d",
@@ -5326,19 +5821,19 @@
         "options": [
           {
             "label": "a",
-            "text": "an extra half-plane is inserted"
+            "text": "an extra half-plane is inserted into the lattice"
           },
           {
             "label": "b",
-            "text": "a vacancy migrates to the surface"
+            "text": "vacancy migration transports a missing atom to a surface"
           },
           {
             "label": "c",
-            "text": "two grains rotate into symmetry"
+            "text": "relative grain rotation creates a low-angle boundary"
           },
           {
             "label": "d",
-            "text": "one part of a crystal is sheared relative to the rest parallel to the dislocation line, so planes spiral like a screw thread"
+            "text": "parallel shear produces a helical ramp around the line"
           }
         ],
         "answer": "d",
@@ -5432,6 +5927,25 @@
     },
     {
       "chapter": "ch05",
+      "n": 25,
+      "originalType": "F",
+      "sourceText": "Most dislocations in real crystals are perfectly pure edge or pure screw.",
+      "sourceFingerprint": "59a5e366",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "True — most dislocations retain pure edge or pure screw character along the line"
+          },
+          {
+            "label": "b",
+            "text": "False — most are mixed, with edge/screw character varying along a curved line"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch05",
       "n": 26,
       "originalType": "C",
       "sourceText": "",
@@ -5495,19 +6009,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the distance between two unit cells"
+            "text": "the translation between equivalent points in adjacent cells"
           },
           {
             "label": "b",
-            "text": "the interplanar spacing"
+            "text": "the perpendicular spacing between adjacent lattice planes"
           },
           {
             "label": "c",
-            "text": "the closure failure of an atomic circuit drawn around the dislocation in the real crystal, compared with the same circuit in a perfect reference crystal, measured Finish to Start (FS/RH)"
+            "text": "the closure failure of an atomic circuit around the line"
           },
           {
             "label": "d",
-            "text": "the length of the dislocation line"
+            "text": "the total geometric length of the dislocation line"
           }
         ],
         "answer": "c",
@@ -5573,6 +6087,33 @@
     },
     {
       "chapter": "ch05",
+      "n": 32,
+      "originalType": "G",
+      "sourceText": "For simple cubic, b = a⟨100⟩ with |b| = a. This is consistent with the rule that nature always picks:",
+      "sourceFingerprint": "818e9612",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the largest lattice translation that still maps the crystal onto itself"
+          },
+          {
+            "label": "b",
+            "text": "the shortest lattice translation that maps the crystal onto itself"
+          },
+          {
+            "label": "c",
+            "text": "any vector joining atoms in neighbouring unit cells"
+          },
+          {
+            "label": "d",
+            "text": "a vector normal to the close-packed direction of the lattice"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch05",
       "n": 33,
       "originalType": "C",
       "sourceText": "",
@@ -5617,23 +6158,24 @@
         "options": [
           {
             "label": "a",
-            "text": "E ≈ αGb, with α ≈ ½"
+            "text": "E/L ≈ αGb"
           },
           {
             "label": "b",
-            "text": "E ≈ Gb²/2π"
+            "text": "E/L ≈ αG²b²"
           },
           {
             "label": "c",
-            "text": "E ≈ αG/b²"
+            "text": "E/L ≈ αG/b²"
           },
           {
             "label": "d",
-            "text": "E ≈ αGb², with α ≈ ½ to 1"
+            "text": "E/L ≈ αGb²"
           }
         ],
         "answer": "d",
-        "detailed": "The dislocation strain energy per unit length scales approximately as E ≈ αGb², with α commonly of order 1/2 to 1. **(d)** is correct. Option (a) has the wrong dependence on b; (b) is a particular approximate expression with a different numerical prefactor; (c) incorrectly places b² in the denominator. The b² dependence explains why smaller Burgers vectors are energetically favoured."
+        "detailed": "The usual order-of-magnitude line-energy relation is E/L ≈ αGb², where α is a dimensionless coefficient of order 0.5–1. The dimensions confirm it: G has units Pa = N m⁻² and b² has units m², so Gb² has units N = J m⁻¹, as required for energy per unit length. More detailed edge/screw expressions include geometry-dependent factors and a logarithmic term, but retain the Gb² scaling. **(d)** is correct.",
+        "text": "Which scaling form is appropriate for the dislocation strain energy per unit length?"
       },
       "sourceFingerprint": "7fd9efd1"
     },
@@ -5704,19 +6246,19 @@
         "options": [
           {
             "label": "a",
-            "text": "twin boundary"
+            "text": "a coherent twin plane between mirror-related regions"
           },
           {
             "label": "b",
-            "text": "stacking fault — a region where the ABCABC… sequence is locally disrupted into an HCP-like ABAB… over a few atomic layers"
+            "text": "a ribbon of locally disrupted FCC stacking"
           },
           {
             "label": "c",
-            "text": "vacancy cluster"
+            "text": "a cluster of vacancies within the lattice"
           },
           {
             "label": "d",
-            "text": "grain boundary"
+            "text": "a grain boundary separating two orientations"
           }
         ],
         "answer": "b"
@@ -5788,22 +6330,23 @@
         "options": [
           {
             "label": "a",
-            "text": "applied stress and temperature only"
+            "text": "applied stress balanced only by temperature"
           },
           {
             "label": "b",
-            "text": "the grain size and the precipitate spacing"
+            "text": "grain size balanced against precipitate spacing"
           },
           {
             "label": "c",
-            "text": "the vacancy concentration and the modulus"
+            "text": "vacancy concentration balanced against modulus"
           },
           {
             "label": "d",
-            "text": "elastic repulsion of the two partials (widening) and the stacking-fault surface energy γ_sf (narrowing)"
+            "text": "elastic repulsion widens it; γ_sf narrows it"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The equilibrium ribbon width is set by two opposing effects: elastic repulsion between the partials pushes them apart, while the positive stacking-fault energy favours a narrower ribbon. Low γ_sf permits a wider ribbon; high γ_sf favours a narrower one. Options (a), (b) and (c) do not describe this force balance. Therefore **(d)** is correct."
       },
       "sourceFingerprint": "371bb9c4"
     },
@@ -5816,19 +6359,19 @@
         "options": [
           {
             "label": "a",
-            "text": "10¹² cm⁻² annealed to 10⁶ cm⁻² cold worked"
+            "text": "10¹² cm⁻² annealed → 10⁶ cm⁻² cold-worked"
           },
           {
             "label": "b",
-            "text": "10² cm⁻² to 10⁴ cm⁻²"
+            "text": "10² cm⁻² annealed → 10⁴ cm⁻² cold-worked"
           },
           {
             "label": "c",
-            "text": "zero to 10⁶ cm⁻²"
+            "text": "0 cm⁻² annealed → 10⁶ cm⁻² cold-worked"
           },
           {
             "label": "d",
-            "text": "10⁶ cm⁻² in an annealed metal to 10¹⁰–10¹² cm⁻² heavily cold worked"
+            "text": "10⁶ cm⁻² annealed → 10¹⁰–10¹² cm⁻² cold-worked"
           }
         ],
         "answer": "d",
@@ -5845,19 +6388,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the local stress is reduced"
+            "text": "the local stress is reduced near the barrier"
           },
           {
             "label": "b",
-            "text": "the number of dislocations directly amplifies the local stress — the physical basis of Hall–Petch"
+            "text": "the pile-up amplifies stress at its leading dislocation"
           },
           {
             "label": "c",
-            "text": "dislocations are destroyed"
+            "text": "the dislocations annihilate before reaching the barrier"
           },
           {
             "label": "d",
-            "text": "the barrier is removed"
+            "text": "the barrier is removed by the pile-up"
           }
         ],
         "answer": "b",
@@ -5956,22 +6499,23 @@
         "options": [
           {
             "label": "a",
-            "text": "the interface between two randomly oriented grains"
+            "text": "an interface between grains with unrelated orientations"
           },
           {
             "label": "b",
-            "text": "a special, low-energy boundary across which the lattice is a mirror image of itself"
+            "text": "a mirror-symmetric interface with a special low-energy structure"
           },
           {
             "label": "c",
-            "text": "a local error in the stacking sequence"
+            "text": "a local stacking-sequence error bounded by partial dislocations"
           },
           {
             "label": "d",
-            "text": "the highest-energy defect in a crystal"
+            "text": "a high-angle interface without a special crystallographic relation"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "A twin boundary is a special, low-energy boundary across which the lattice on one side is a mirror image of the other. **(b)** is correct. Option (a) describes a general grain boundary between differently oriented grains; (c) describes a stacking fault; and (d) incorrectly calls the twin boundary a high-energy defect. The distinction is: general grain boundary = misorientation; twin boundary = mirror symmetry."
       },
       "sourceFingerprint": "e1050d31"
     },
@@ -6326,7 +6870,9 @@
           }
         ],
         "answer": "c",
-        "detailed": "FCC has 12 conventional {111}⟨110⟩ slip systems; BCC has 12 conventional {110}⟨111⟩ systems in the count used here; HCP basal slip has three ⟨11̄20⟩ directions on {0001}. The sequence is 12, 12, 3, so **(c)** is correct. Options (a), (b), and (d) give at least one incorrect count."
+        "detailed": "FCC has 12 conventional {111}⟨110⟩ slip systems; BCC has 12 conventional {110}⟨111⟩ systems in the count used here; HCP basal slip has three ⟨11̄20⟩ directions on {0001}. The sequence is 12, 12, 3, so **(c)** is correct. Options (a), (b), and (d) give at least one incorrect count.",
+        "text": "Using the conventional {110}⟨111⟩ family for BCC in this count, the numbers of slip systems in FCC, BCC and HCP basal slip, respectively, are:",
+        "keyExplanation": "FCC has 12 conventional {111}⟨110⟩ systems. The BCC {110}⟨111⟩ family contains 12 systems; BCC can also slip on {112} and {123} families, which are not counted here. HCP basal slip has three ⟨11̄20⟩ directions on {0001}. Thus the requested counts are 12, 12 and 3: option (c)."
       },
       "sourceFingerprint": "9d35778d"
     },
@@ -6358,6 +6904,33 @@
         "detailed": "For basal slip in HCP, the shortest lattice translation along a close-packed ⟨11̄20⟩ direction has magnitude a. Thus **(d)** is correct. Option (a) is the c-axis parameter; (b) and (c) are not the basal repeat distance."
       },
       "sourceFingerprint": "6e53e346"
+    },
+    {
+      "chapter": "ch05",
+      "n": 65,
+      "originalType": "A",
+      "sourceText": "How does grain boundary energy vary with the angle of misorientation between adjacent grains?",
+      "sourceFingerprint": "b2598d3c",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "it rises steeply at low angles, then levels off at high angles"
+          },
+          {
+            "label": "b",
+            "text": "it decreases steadily as the misorientation angle increases"
+          },
+          {
+            "label": "c",
+            "text": "it remains constant as the misorientation angle increases"
+          },
+          {
+            "label": "d",
+            "text": "it peaks near 15° and decreases at larger misorientation angles"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch05",
@@ -6499,7 +7072,8 @@
           }
         ],
         "answer": "d",
-        "detailed": "- Item 1 — TRUE: a wider dislocation core spreads the Burgers vector over a larger distance and lowers the lattice friction.\n- Item 2 — TRUE: BCC metals generally have higher Peierls barriers than close-packed FCC metals, contributing to strong low-temperature flow-stress increases.\n- Item 3 — TRUE: thermal activation assists motion over the lattice barrier.\n- Item 4 — FALSE: the barrier depends on the Burgers vector and core width.\nThus statements 1, 2 and 3 are correct: **(d)**."
+        "detailed": "- Item 1 — TRUE: a wider dislocation core spreads the Burgers vector over a larger distance and lowers the lattice friction.\n- Item 2 — TRUE: BCC metals generally have higher Peierls barriers than close-packed FCC metals, contributing to strong low-temperature flow-stress increases.\n- Item 3 — TRUE: thermal activation assists motion over the lattice barrier.\n- Item 4 — FALSE: the barrier depends on the Burgers vector and core width.\nThus statements 1, 2 and 3 are correct: **(d)**.",
+        "keyExplanation": "Statements 1–3 are correct in the usual qualitative Peierls–Nabarro picture: a wider dislocation core generally lowers lattice friction, BCC screw dislocations often face a higher Peierls barrier than comparable FCC dislocations, and thermal activation assists glide. The magnitude depends on crystal structure, dislocation character, core width, Burgers vector and temperature; statement 4 is false."
       },
       "sourceFingerprint": "505ac2fa"
     },
@@ -6530,6 +7104,33 @@
         "answer": "d"
       },
       "sourceFingerprint": "56322302"
+    },
+    {
+      "chapter": "ch06",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "*Plastic* deformation is:",
+      "sourceFingerprint": "ede7d317",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a permanent shape change produced by slip or twinning"
+          },
+          {
+            "label": "b",
+            "text": "a reversible shape change caused by elastic bond stretching"
+          },
+          {
+            "label": "c",
+            "text": "a recoverable strain that follows Hooke's law"
+          },
+          {
+            "label": "d",
+            "text": "a thermal dimensional change with no plastic strain"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch06",
@@ -6893,11 +7494,11 @@
           },
           {
             "label": "c",
-            "text": "the two slip directions"
+            "text": "two slip directions within the same crystal"
           },
           {
             "label": "d",
-            "text": "the tensile (stress) axis and the slip-**plane normal**"
+            "text": "the tensile axis and the slip-plane normal"
           }
         ],
         "answer": "d",
@@ -6951,19 +7552,19 @@
         "options": [
           {
             "label": "a",
-            "text": "0 ≤ m ≤ 1, maximum at φ = 0°"
+            "text": "0 ≤ m ≤ 1, with the maximum at φ = 0°"
           },
           {
             "label": "b",
-            "text": "0.5 ≤ m ≤ 1"
+            "text": "0.5 ≤ m ≤ 1 for every slip system"
           },
           {
             "label": "c",
-            "text": "0 ≤ m ≤ 0.5, maximum at φ = λ = 45°"
+            "text": "0 ≤ m ≤ 0.5, with maximum at φ = λ = 45°"
           },
           {
             "label": "d",
-            "text": "m is always exactly 0.5"
+            "text": "m = 0.5 for every active slip system"
           }
         ],
         "answer": "c",
@@ -7059,6 +7660,33 @@
     },
     {
       "chapter": "ch06",
+      "n": 21,
+      "originalType": "A",
+      "sourceText": "The critical resolved shear stress τ_crss is best described as:",
+      "sourceFingerprint": "541c8ea6",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the critical resolved shear stress needed to start slip on a given system"
+          },
+          {
+            "label": "b",
+            "text": "the tensile stress at which the whole specimen begins to yield"
+          },
+          {
+            "label": "c",
+            "text": "the resolved shear stress produced by a given applied load"
+          },
+          {
+            "label": "d",
+            "text": "the theoretical shear strength of a defect-free crystal"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch06",
       "n": 22,
       "originalType": "A",
       "sourceText": "In a tensile test, slip begins on whichever slip system has:",
@@ -7066,19 +7694,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the smallest Schmid factor"
+            "text": "the smallest Schmid factor under the applied load"
           },
           {
             "label": "b",
-            "text": "the largest Schmid factor, at the instant τ_R reaches τ_crss"
+            "text": "the largest Schmid factor, reaching τ_crss first"
           },
           {
             "label": "c",
-            "text": "the highest number of dislocations"
+            "text": "the highest initial dislocation density"
           },
           {
             "label": "d",
-            "text": "the largest grain size"
+            "text": "the largest grain size in the specimen"
           }
         ],
         "answer": "b",
@@ -7153,19 +7781,19 @@
         "options": [
           {
             "label": "a",
-            "text": "both φ and λ equal 45°"
+            "text": "when φ = λ = 45°, giving the maximum Schmid factor"
           },
           {
             "label": "b",
-            "text": "either φ or λ equals 90° — the stress axis lies in the slip plane, or is perpendicular to the slip direction"
+            "text": "when φ or λ is 90°, making one cosine zero"
           },
           {
             "label": "c",
-            "text": "φ = λ = 70°"
+            "text": "when φ = λ = 70°, giving a reduced but non-zero factor"
           },
           {
             "label": "d",
-            "text": "the Schmid factor equals 0.5"
+            "text": "when the Schmid factor reaches its maximum value"
           }
         ],
         "answer": "b",
@@ -7182,19 +7810,19 @@
         "options": [
           {
             "label": "a",
-            "text": "dislocation glide on discrete planes producing steps of magnitude b"
+            "text": "dislocation glide creates surface steps of magnitude b"
           },
           {
             "label": "b",
-            "text": "elastic bending"
+            "text": "elastic bending changes shape but is recoverable"
           },
           {
             "label": "c",
-            "text": "grain-boundary migration"
+            "text": "grain-boundary migration changes the grain size"
           },
           {
             "label": "d",
-            "text": "a homogeneous shear of a block of lattice into a mirror-image orientation of the parent lattice across the twin plane"
+            "text": "homogeneous shear creates a mirror-related lattice orientation"
           }
         ],
         "answer": "d",
@@ -7295,19 +7923,19 @@
         "options": [
           {
             "label": "a",
-            "text": "step-like, in whole multiples of b"
+            "text": "step-like shear in whole multiples of b"
           },
           {
             "label": "b",
-            "text": "zero"
+            "text": "no permanent change in specimen shape"
           },
           {
             "label": "c",
-            "text": "purely elastic"
+            "text": "a purely elastic and fully recoverable strain"
           },
           {
             "label": "d",
-            "text": "homogeneous shear producing a small fixed angle of reorientation"
+            "text": "homogeneous shear with a small fixed reorientation angle"
           }
         ],
         "answer": "d",
@@ -7463,25 +8091,52 @@
         "options": [
           {
             "label": "a",
-            "text": "melt the crystal"
+            "text": "raise the crystal to its melting temperature"
           },
           {
             "label": "b",
-            "text": "overcome the Hall–Petch effect"
+            "text": "overcome grain-boundary strengthening alone"
           },
           {
             "label": "c",
-            "text": "break covalent bonds"
+            "text": "break metallic bonds across the slip plane"
           },
           {
             "label": "d",
-            "text": "tear a dislocation free from its Cottrell atmosphere, or to nucleate fresh unpinned dislocations"
+            "text": "free pinned dislocations or activate fresh sources"
           }
         ],
         "answer": "d",
         "detailed": "The upper yield point is the extra stress needed to free dislocations pinned by Cottrell atmospheres or to activate fresh unpinned sources. **(d)** is correct. Options (a)–(c) do not describe the unlocking process."
       },
       "sourceFingerprint": "2e3209fc"
+    },
+    {
+      "chapter": "ch06",
+      "n": 36,
+      "originalType": "A",
+      "sourceText": "The *Lüders band* is:",
+      "sourceFingerprint": "9384ca2c",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a moving front of localised plastic strain that propagates along the gauge length"
+          },
+          {
+            "label": "b",
+            "text": "a twin interface that propagates through a grain by mirror-symmetric shear"
+          },
+          {
+            "label": "c",
+            "text": "a new strain-free grain formed during recrystallisation annealing"
+          },
+          {
+            "label": "d",
+            "text": "a cluster of voids that develops before ductile fracture"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch06",
@@ -7510,6 +8165,33 @@
         "answer": "b"
       },
       "sourceFingerprint": "0f53e663"
+    },
+    {
+      "chapter": "ch06",
+      "n": 38,
+      "originalType": "A",
+      "sourceText": "*Blue brittleness* is:",
+      "sourceFingerprint": "affbf646",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a toughness drop near 200–300 °C caused by dynamic strain ageing"
+          },
+          {
+            "label": "b",
+            "text": "a blue oxide film that protects steel from corrosion"
+          },
+          {
+            "label": "c",
+            "text": "a low-temperature treatment that improves impact toughness"
+          },
+          {
+            "label": "d",
+            "text": "a surface-colour defect caused by stainless-steel oxidation"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch06",
@@ -7549,19 +8231,19 @@
         "options": [
           {
             "label": "a",
-            "text": "dynamic strain ageing — solute atoms repeatedly re-pin moving dislocations, which then break away again"
+            "text": "solute atoms repeatedly pin and release moving dislocations"
           },
           {
             "label": "b",
-            "text": "periodic fracture of brittle inclusions ahead of the plastic front"
+            "text": "periodic fracture of brittle inclusions ahead of the front"
           },
           {
             "label": "c",
-            "text": "intermittent adiabatic heating that softens the specimen"
+            "text": "intermittent adiabatic heating softens the specimen"
           },
           {
             "label": "d",
-            "text": "stick–slip of the specimen in the grips"
+            "text": "stick–slip occurs between the specimen and grips"
           }
         ],
         "answer": "a",
@@ -7632,7 +8314,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "The c/a ratio changes which HCP plane family is most densely packed. Ti and Zr, with c/a below the ideal value, favour prismatic ⟨a⟩ slip; Zn and Cd, with c/a above the ideal value, retain basal slip. **(b)** is correct. Option (a) incorrectly makes basal slip universal; (c) confuses packing factor with plane density; (d) incorrectly claims exclusive pyramidal slip."
+        "detailed": "The c/a ratio changes which HCP plane family is most densely packed. Ti and Zr, with c/a below the ideal value, favour prismatic ⟨a⟩ slip; Zn and Cd, with c/a above the ideal value, retain basal slip. **(b)** is correct. Option (a) incorrectly makes basal slip universal; (c) confuses packing factor with plane density; (d) incorrectly claims exclusive pyramidal slip.",
+        "keyExplanation": "The c/a ratio influences the relative geometry and ease of available slip modes, but it does not uniquely determine deformation in every HCP metal. For the representative examples in the stem, Ti and Zr commonly show significant prismatic slip, while Zn and Cd commonly favour basal slip. Temperature, alloying, texture and non-basal systems also matter."
       },
       "sourceFingerprint": "f2012ffc"
     },
@@ -7702,19 +8385,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a regime of high, nearly constant hardening rate arising from rapid multiplication and the build-up of dislocation tangles and pile-ups on intersecting systems"
+            "text": "high, nearly constant hardening from dislocation tangles and pile-ups"
           },
           {
             "label": "b",
-            "text": "an easy-glide region in which one slip system operates alone at a low hardening rate"
+            "text": "low-rate easy glide on a single slip system"
           },
           {
             "label": "c",
-            "text": "a parabolic region in which dynamic recovery by cross-slip offsets further hardening"
+            "text": "parabolic hardening as cross-slip enables dynamic recovery"
           },
           {
             "label": "d",
-            "text": "a plateau of zero hardening followed by necking"
+            "text": "zero hardening followed immediately by necking"
           }
         ],
         "answer": "a",
@@ -7731,11 +8414,11 @@
         "options": [
           {
             "label": "a",
-            "text": "strain ageing that occurs while the punch retracts"
+            "text": "strain ageing while the punch retracts"
           },
           {
             "label": "b",
-            "text": "thermal contraction of the sheet and the die"
+            "text": "thermal contraction of the sheet and die"
           },
           {
             "label": "c",
@@ -7743,7 +8426,7 @@
           },
           {
             "label": "d",
-            "text": "elastic recovery on unloading — the elastic part of the strain is recovered while the plastic part remains"
+            "text": "elastic recovery on unloading while plastic strain remains"
           }
         ],
         "answer": "d",
@@ -7811,6 +8494,33 @@
     },
     {
       "chapter": "ch06",
+      "n": 55,
+      "originalType": "A",
+      "sourceText": "At the atomic level, twinning differs from slip in that during twinning:",
+      "sourceFingerprint": "8368ff19",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "alternate planes move by whole lattice translations, as in slip"
+          },
+          {
+            "label": "b",
+            "text": "successive planes shift by fractional amounts, building uniform shear"
+          },
+          {
+            "label": "c",
+            "text": "all shear is concentrated on a single glide plane"
+          },
+          {
+            "label": "d",
+            "text": "atoms enter interstitial sites, leaving a planar vacancy sheet"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch06",
       "n": 56,
       "originalType": "B",
       "sourceText": "Which statement(s) about the deformation textures produced by working is/are correct?",
@@ -7833,7 +8543,26 @@
             "text": "1 and 4 only"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "statements": [
+          {
+            "num": 1,
+            "text": "Heavily rolled FCC metals can develop rolling textures such as the brass type {110}⟨112⟩ and the copper type {112}⟨110⟩."
+          },
+          {
+            "num": 2,
+            "text": "Wire-drawn FCC metals commonly develop a ⟨110⟩ fibre texture with ⟨110⟩ parallel to the wire axis."
+          },
+          {
+            "num": 3,
+            "text": "Drawn BCC wire commonly develops a strong ⟨111⟩ fibre texture, sometimes with ⟨100⟩ as a secondary component."
+          },
+          {
+            "num": 4,
+            "text": "Recrystallisation annealing always leaves the deformation texture unchanged."
+          }
+        ],
+        "keyExplanation": "Statements 1–3 describe common deformation-texture components in the stated material and processing contexts. Statement 4 is false: recrystallisation can produce a new texture, although the resulting texture depends on composition, prior deformation, nucleation and annealing conditions. It does not always replace the deformation texture in one fixed way."
       },
       "sourceFingerprint": "e73369c5"
     },
@@ -7846,19 +8575,19 @@
         "options": [
           {
             "label": "a",
-            "text": "aluminium has a much higher melting point than α-iron"
+            "text": "aluminium's melting point is higher than that of α-iron"
           },
           {
             "label": "b",
-            "text": "both metals have twelve slip systems, so their temperature dependence must be identical"
+            "text": "both have twelve slip systems and therefore identical temperature response"
           },
           {
             "label": "c",
-            "text": "BCC slip is thermally activated on a non-close-packed plane, so τ_crss climbs steeply when thermal assistance is removed, whereas FCC slip on close-packed {111} planes is only weakly temperature-dependent"
+            "text": "BCC slip is thermally activated; FCC slip on {111} is less temperature-sensitive"
           },
           {
             "label": "d",
-            "text": "cooling creates additional slip systems in the BCC lattice"
+            "text": "cooling creates additional active slip systems in BCC iron"
           }
         ],
         "answer": "c",
@@ -8041,15 +8770,15 @@
           },
           {
             "label": "b",
-            "text": "Stage I easy glide (single slip) → Stage II multiple slip, linear hardening → Stage III dynamic recovery, parabolic"
+            "text": "Stage I easy glide → Stage II linear → Stage III parabolic"
           },
           {
             "label": "c",
-            "text": "two stages only"
+            "text": "Stage I and II only; no Stage III"
           },
           {
             "label": "d",
-            "text": "a single linear stage"
+            "text": "one stage with constant linear hardening"
           }
         ],
         "answer": "b",
@@ -8110,6 +8839,33 @@
     },
     {
       "chapter": "ch07",
+      "n": 8,
+      "originalType": "G",
+      "sourceText": "Solute (composition) affects work hardening by:",
+      "sourceFingerprint": "aec35e84",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "raising the base flow stress and delaying dynamic recovery"
+          },
+          {
+            "label": "b",
+            "text": "lowering the base flow stress and accelerating dynamic recovery"
+          },
+          {
+            "label": "c",
+            "text": "eliminating Stage II and producing perfectly plastic flow"
+          },
+          {
+            "label": "d",
+            "text": "having no effect on flow stress or the recovery rate"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch07",
       "n": 9,
       "originalType": "G",
       "sourceText": "Finer grain size causes a metal to:",
@@ -8117,23 +8873,26 @@
         "options": [
           {
             "label": "a",
-            "text": "start hardening from a lower baseline"
+            "text": "raises initial yield stress by Hall–Petch strengthening"
           },
           {
             "label": "b",
-            "text": "work harden more slowly"
+            "text": "raises work-hardening rate at every strain"
           },
           {
             "label": "c",
-            "text": "start hardening from a higher baseline stress and generally work harden faster initially"
+            "text": "eliminates all subsequent strain hardening"
           },
           {
             "label": "d",
-            "text": "not work harden at all"
+            "text": "lowers initial yield stress as grains become finer"
           }
         ],
-        "answer": "c",
-        "detailed": "Finer grains raise the starting flow stress through Hall–Petch strengthening and generally increase the initial work-hardening rate because grain boundaries promote pile-ups and additional obstacles. **(c)** is correct. Options (a), (b), and (d) state the opposite or deny work hardening."
+        "answer": "a",
+        "detailed": "Finer grains raise the initial yield stress because grain boundaries impede slip transfer (Hall–Petch strengthening). **(a)** is correct. This does not mean the work-hardening rate must increase at every strain; nor does grain refinement eliminate strain hardening or lower the initial yield stress.",
+        "text": "Grain refinement in many structural metals generally:",
+        "keyExplanation": "Grain refinement raises initial yield stress through Hall–Petch strengthening. It does not guarantee a higher work-hardening rate at every strain. **(a)** is correct.",
+        "concise": "Grain refinement generally raises the initial yield stress through Hall–Petch strengthening."
       },
       "sourceFingerprint": "662e7d87"
     },
@@ -8182,11 +8941,11 @@
           },
           {
             "label": "c",
-            "text": "τ = σ cos φ cos λ"
+            "text": "τ = σ cosφ cosλ"
           },
           {
             "label": "d",
-            "text": "σ = Kεⁿ, where n is the strain-hardening exponent (0 for perfectly plastic, up to ~0.5 for highly hardenable metals)"
+            "text": "σ = Kεⁿ"
           }
         ],
         "answer": "d",
@@ -8225,6 +8984,33 @@
     },
     {
       "chapter": "ch07",
+      "n": 13,
+      "originalType": "A",
+      "sourceText": "In the Hall–Petch equation, σ₀ is:",
+      "sourceFingerprint": "17067b19",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the baseline friction stress opposing dislocation glide"
+          },
+          {
+            "label": "b",
+            "text": "the grain-boundary coefficient that controls slip transfer"
+          },
+          {
+            "label": "c",
+            "text": "the mean grain diameter used in the relation"
+          },
+          {
+            "label": "d",
+            "text": "the applied tensile stress at the onset of yielding"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch07",
       "n": 14,
       "originalType": "A",
       "sourceText": "In the Hall–Petch equation, k_y is:",
@@ -8232,19 +9018,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the friction stress"
+            "text": "the lattice friction stress opposing slip"
           },
           {
             "label": "b",
-            "text": "the locking parameter — how effectively boundaries block slip transmission"
+            "text": "the grain-boundary strengthening coefficient"
           },
           {
             "label": "c",
-            "text": "the grain diameter"
+            "text": "the mean grain diameter in the polycrystal"
           },
           {
             "label": "d",
-            "text": "the strain-hardening exponent"
+            "text": "the strain-hardening exponent in the flow law"
           }
         ],
         "answer": "b",
@@ -8533,6 +9319,33 @@
     },
     {
       "chapter": "ch07",
+      "n": 22,
+      "originalType": "A",
+      "sourceText": "Solid-solution strengthening works because:",
+      "sourceFingerprint": "ae828bb9",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "solute misfit strain fields interact elastically with dislocation stress fields"
+          },
+          {
+            "label": "b",
+            "text": "solute atoms lower dislocation density by annihilating dislocations"
+          },
+          {
+            "label": "c",
+            "text": "solute atoms increase grain size and suppress boundary motion"
+          },
+          {
+            "label": "d",
+            "text": "solute atoms raise melting temperature without impeding dislocation glide"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch07",
       "n": 23,
       "originalType": "B",
       "sourceText": "Which statement(s) contrast substitutional and interstitial solute strengthening?",
@@ -8609,6 +9422,33 @@
         "answer": "c"
       },
       "sourceFingerprint": "12468913"
+    },
+    {
+      "chapter": "ch07",
+      "n": 26,
+      "originalType": "A",
+      "sourceText": "Solid-solution strengthening generally scales with:",
+      "sourceFingerprint": "d1350307",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the solute–solvent size misfit, which controls local elastic strain"
+          },
+          {
+            "label": "b",
+            "text": "the electronegativity difference, independent of size and concentration"
+          },
+          {
+            "label": "c",
+            "text": "the valence difference, independent of crystal structure and concentration"
+          },
+          {
+            "label": "d",
+            "text": "the density difference, independent of dislocation arrangement"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch07",
@@ -8705,6 +9545,33 @@
     },
     {
       "chapter": "ch07",
+      "n": 30,
+      "originalType": "A",
+      "sourceText": "The three steps of precipitation hardening, in order, are:",
+      "sourceFingerprint": "1f4dc990",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "solution-treat, quench to supersaturate, then age"
+          },
+          {
+            "label": "b",
+            "text": "age the alloy, quench it, then solution-treat"
+          },
+          {
+            "label": "c",
+            "text": "quench first, age next, then solution-treat"
+          },
+          {
+            "label": "d",
+            "text": "anneal, temper, then normalise the alloy"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch07",
       "n": 31,
       "originalType": "G",
       "sourceText": "The precipitate evolution sequence, in order of *increasing* size and *decreasing* coherency, is:",
@@ -8741,19 +9608,19 @@
         "options": [
           {
             "label": "a",
-            "text": "strength falling continuously"
+            "text": "strength falls throughout ageing"
           },
           {
             "label": "b",
-            "text": "strength rising continuously"
+            "text": "strength rises throughout ageing"
           },
           {
             "label": "c",
-            "text": "strength constant, then falling"
+            "text": "strength stays constant, then declines"
           },
           {
             "label": "d",
-            "text": "strength rising through the underaged regime, peaking at optimal precipitate size and spacing, then falling in the overaged regime"
+            "text": "strength rises to a peak, then declines on overageing"
           }
         ],
         "answer": "d",
@@ -8836,19 +9703,19 @@
         "options": [
           {
             "label": "a",
-            "text": "cementite Fe₃C"
+            "text": "cementite (Fe₃C), the carbide in steel"
           },
           {
             "label": "b",
-            "text": "θ′ (with GP zones → θ″ → θ′ → θ sequence)"
+            "text": "θ′, the peak-strengthening Al–Cu precipitate"
           },
           {
             "label": "c",
-            "text": "martensite"
+            "text": "martensite, a diffusionless transformation product"
           },
           {
             "label": "d",
-            "text": "α-ferrite"
+            "text": "α-ferrite, the BCC iron-rich matrix phase"
           }
         ],
         "answer": "b",
@@ -9168,6 +10035,33 @@
     },
     {
       "chapter": "ch07",
+      "n": 53,
+      "originalType": "G",
+      "sourceText": "An Al alloy aged at 170 °C gives the yield strengths below. Which conclusion is best supported by these data?",
+      "sourceFingerprint": "b12969c3",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "100 h is underaged; longer ageing should still raise the yield strength"
+          },
+          {
+            "label": "b",
+            "text": "100 h is peak-aged; the largest precipitates give the highest strength"
+          },
+          {
+            "label": "c",
+            "text": "the alloy has no peak age; its strength does not show a maximum"
+          },
+          {
+            "label": "d",
+            "text": "100 h is overaged; coarsening increases spacing and lowers Orowan stress"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch07",
       "n": 54,
       "originalType": "A",
       "sourceText": "The principal driving force for the recrystallisation of a cold-worked metal is:",
@@ -9283,6 +10177,16 @@
     },
     {
       "chapter": "ch08",
+      "n": 1,
+      "originalType": "B",
+      "sourceText": "Diffusion is the thread connecting earlier chapters because it is what:",
+      "sourceFingerprint": "b5245d95",
+      "updates": {
+        "keyExplanation": "All four links are valid: diffusion homogenises segregation during heat treatment; vacancy transport enables edge-dislocation climb; solute diffusion forms Cottrell atmospheres around dislocations; and diffusion controls the rate of precipitate coarsening during ageing. Therefore all four statements are correct: option (b)."
+      }
+    },
+    {
+      "chapter": "ch08",
       "n": 3,
       "originalType": "A",
       "sourceText": "The *interstitial mechanism* operates as:",
@@ -9290,19 +10194,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a substitutional atom hops into a vacancy"
+            "text": "a substitutional atom jumps into a neighbouring lattice vacancy"
           },
           {
             "label": "b",
-            "text": "an atom moves through an intermetallic compound"
+            "text": "an atom diffuses through an ordered intermetallic lattice"
           },
           {
             "label": "c",
-            "text": "an atom moves only at grain boundaries"
+            "text": "an atom migrates preferentially along a grain boundary"
           },
           {
             "label": "d",
-            "text": "a small solute atom (C, N, H) hops directly from one interstitial void to a neighbouring one — no vacancy required"
+            "text": "a small solute atom hops between adjacent interstitial sites"
           }
         ],
         "answer": "d",
@@ -9503,6 +10407,33 @@
     },
     {
       "chapter": "ch08",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "In Fick's first law, J is:",
+      "sourceFingerprint": "527ddb1a",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the diffusion flux, measured as amount crossing unit area per unit time"
+          },
+          {
+            "label": "b",
+            "text": "the activation energy required for atomic diffusion"
+          },
+          {
+            "label": "c",
+            "text": "the interfacial energy per unit area of a grain boundary"
+          },
+          {
+            "label": "d",
+            "text": "the heat-transfer rate through a unit area of material"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch08",
       "n": 11,
       "originalType": "A",
       "sourceText": "The negative sign in Fick's first law indicates that:",
@@ -9510,19 +10441,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the flux is upward"
+            "text": "the flux points toward increasing concentration"
           },
           {
             "label": "b",
-            "text": "diffusion runs **down** the concentration gradient, from high to low concentration"
+            "text": "the flux points down the concentration gradient"
           },
           {
             "label": "c",
-            "text": "the process is endothermic"
+            "text": "diffusion requires an endothermic heat input"
           },
           {
             "label": "d",
-            "text": "the concentration increases with time"
+            "text": "concentration must decrease uniformly with time"
           }
         ],
         "answer": "b",
@@ -9539,25 +10470,52 @@
         "options": [
           {
             "label": "a",
-            "text": "non-steady state only"
+            "text": "only when concentration changes with time"
           },
           {
             "label": "b",
-            "text": "transient conditions only"
+            "text": "only during transient concentration changes"
           },
           {
             "label": "c",
-            "text": "equilibrium only"
+            "text": "only at thermodynamic equilibrium"
           },
           {
             "label": "d",
-            "text": "steady state — a concentration profile that is not changing with time"
+            "text": "steady state, with a time-independent concentration profile"
           }
         ],
         "answer": "d",
         "detailed": "Fick's first law is used for steady-state diffusion, where the concentration profile is time-independent. **(d)** is correct. Options (a) and (b) describe transient/non-steady conditions; (c) is equilibrium, where the net flux would be zero."
       },
       "sourceFingerprint": "729bd1cf"
+    },
+    {
+      "chapter": "ch08",
+      "n": 13,
+      "originalType": "G",
+      "sourceText": "The standard application of Fick's first law is:",
+      "sourceFingerprint": "20ca3b50",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "steady-state permeation through a membrane with fixed face concentrations"
+          },
+          {
+            "label": "b",
+            "text": "non-steady carburising profiles in a semi-infinite solid"
+          },
+          {
+            "label": "c",
+            "text": "grain growth during recrystallisation annealing"
+          },
+          {
+            "label": "d",
+            "text": "phase transformation kinetics on a TTT diagram"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch08",
@@ -9597,19 +10555,19 @@
         "options": [
           {
             "label": "a",
-            "text": "steady-state diffusion only"
+            "text": "steady-state diffusion with a fixed concentration profile"
           },
           {
             "label": "b",
-            "text": "heat conduction"
+            "text": "heat conduction through a solid under a temperature gradient"
           },
           {
             "label": "c",
-            "text": "phase equilibria"
+            "text": "phase equilibria between solid and liquid at fixed temperature"
           },
           {
             "label": "d",
-            "text": "non-steady-state diffusion, where concentration at a given point changes with time"
+            "text": "non-steady-state diffusion with concentration changing in time"
           }
         ],
         "answer": "d",
@@ -9626,19 +10584,19 @@
         "options": [
           {
             "label": "a",
-            "text": "(C_x − C₀)/(C_s − C₀) = erf( x / (2√(Dt)) )"
+            "text": "(C_x − C₀)/(C_s − C₀) = erf[x/(2√(Dt))]"
           },
           {
             "label": "b",
-            "text": "C_x = C₀ + (C_s − C₀) exp(−x²/4Dt)"
+            "text": "C_x = C₀ + (C_s − C₀) exp[−x²/(4Dt)]"
           },
           {
             "label": "c",
-            "text": "C_x = C₀ Dt / x²"
+            "text": "C_x = C₀ + (C_s − C₀)x²/(4Dt)"
           },
           {
             "label": "d",
-            "text": "(C_x − C₀)/(C_s − C₀) = 1 − erf( x / (2√(Dt)) )"
+            "text": "(C_x − C₀)/(C_s − C₀) = 1 − erf[x/(2√(Dt))]"
           }
         ],
         "answer": "d",
@@ -9655,19 +10613,19 @@
         "options": [
           {
             "label": "a",
-            "text": "an error in the derivation"
+            "text": "a mistake in the mathematical derivation"
           },
           {
             "label": "b",
-            "text": "the activation energy"
+            "text": "the activation energy for atomic diffusion"
           },
           {
             "label": "c",
-            "text": "the flux"
+            "text": "the diffusive flux through a unit area"
           },
           {
             "label": "d",
-            "text": "the Gaussian error function — a tabulated, standard mathematical function"
+            "text": "the Gaussian error function used in diffusion solutions"
           }
         ],
         "answer": "d",
@@ -9818,6 +10776,33 @@
     },
     {
       "chapter": "ch08",
+      "n": 26,
+      "originalType": "A",
+      "sourceText": "In the Arrhenius equation, D₀ is:",
+      "sourceFingerprint": "81000d74",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the temperature-independent pre-exponential factor"
+          },
+          {
+            "label": "b",
+            "text": "the activation energy in the exponential term"
+          },
+          {
+            "label": "c",
+            "text": "the universal gas constant in the Arrhenius expression"
+          },
+          {
+            "label": "d",
+            "text": "the absolute temperature of the diffusion experiment"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch08",
       "n": 27,
       "originalType": "A",
       "sourceText": "In the Arrhenius equation, Q_d is:",
@@ -9825,19 +10810,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the pre-exponential constant"
+            "text": "the temperature-independent pre-exponential factor"
           },
           {
             "label": "b",
-            "text": "the diffusion flux"
+            "text": "the solute flux through a unit area per unit time"
           },
           {
             "label": "c",
-            "text": "the grain size"
+            "text": "the characteristic grain size controlling diffusion"
           },
           {
             "label": "d",
-            "text": "the activation energy for diffusion"
+            "text": "the activation energy required for atomic diffusion"
           }
         ],
         "answer": "d"
@@ -9960,19 +10945,19 @@
         "options": [
           {
             "label": "a",
-            "text": "bulk > grain boundary > free surface"
+            "text": "bulk diffusion > grain-boundary diffusion > surface diffusion"
           },
           {
             "label": "b",
-            "text": "grain boundary > free surface > bulk"
+            "text": "grain-boundary diffusion > surface diffusion > bulk diffusion"
           },
           {
             "label": "c",
-            "text": "all equal"
+            "text": "bulk diffusion = grain-boundary diffusion = surface diffusion"
           },
           {
             "label": "d",
-            "text": "free surface > grain boundary > bulk (lattice)"
+            "text": "surface diffusion > grain-boundary diffusion > bulk diffusion"
           }
         ],
         "answer": "d",
@@ -10045,19 +11030,19 @@
         "options": [
           {
             "label": "a",
-            "text": "it requires a vacant lattice site to be present first"
+            "text": "a vacant lattice site must be present before exchange"
           },
           {
             "label": "b",
-            "text": "both atoms must squeeze past their neighbours simultaneously, so the transient lattice distortion makes the energy barrier prohibitively large"
+            "text": "simultaneous motion forces both atoms through a crowded, high-energy configuration"
           },
           {
             "label": "c",
-            "text": "it is forbidden by the symmetry of every crystal structure"
+            "text": "crystal symmetry forbids direct exchange in all structures"
           },
           {
             "label": "d",
-            "text": "it can only operate at grain boundaries, never in the lattice"
+            "text": "the mechanism is restricted to grain boundaries, not the bulk"
           }
         ],
         "answer": "b",
@@ -10449,6 +11434,33 @@
     },
     {
       "chapter": "ch09",
+      "n": 5,
+      "originalType": "E",
+      "sourceText": "In BCC iron, the octahedral interstitial void radius is 0.019 nm and the carbon atom radius is 0.08 nm. Carbon nevertheless occupies the octahedral site because:",
+      "sourceFingerprint": "26ea005e",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the site has two close neighbours, limiting local distortion"
+          },
+          {
+            "label": "b",
+            "text": "the octahedral void is larger than the tetrahedral void"
+          },
+          {
+            "label": "c",
+            "text": "BCC has octahedral sites but no tetrahedral sites"
+          },
+          {
+            "label": "d",
+            "text": "carbon is too small to distort the BCC lattice"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch09",
       "n": 6,
       "originalType": "E",
       "sourceText": "For an alloy with C₀ = 30 wt%, a tie line gives Cα = 10 wt% and Cβ = 50 wt%. The weight fractions Wα and Wβ are:",
@@ -10578,19 +11590,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a fully sound ingot with no defects"
+            "text": "a sound ingot with a large central shrinkage pipe"
           },
           {
             "label": "b",
-            "text": "a normal shrinkage pipe"
+            "text": "a gas-porous rim surrounding a clean, sound core"
           },
           {
             "label": "c",
-            "text": "a pure, blowhole-riddled outer rim, a segregated core, and essentially no pipe"
+            "text": "a clean outer rim, segregated core and little shrinkage pipe"
           },
           {
             "label": "d",
-            "text": "hard, brittle martensite"
+            "text": "a uniformly porous ingot with no chemical segregation"
           }
         ],
         "answer": "c",
@@ -10635,19 +11647,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a recoverable loss of ductility from grain-boundary precipitation"
+            "text": "recoverable softening caused by grain-boundary precipitation"
           },
           {
             "label": "b",
-            "text": "surface oxidation"
+            "text": "surface oxidation without internal melting or permanent damage"
           },
           {
             "label": "c",
-            "text": "grain-boundary melting caused by crossing the local effective (cored) solidus — permanent, unrecoverable damage"
+            "text": "grain-boundary liquation after the local effective solidus is exceeded"
           },
           {
             "label": "d",
-            "text": "a beneficial grain-refining treatment"
+            "text": "beneficial grain refinement produced by controlled remelting"
           }
         ],
         "answer": "c",
@@ -10778,23 +11790,26 @@
         "options": [
           {
             "label": "a",
-            "text": "13 °C"
+            "text": "latent heat is released as solidification nucleates and proceeds"
           },
           {
             "label": "b",
-            "text": "0.13 °C"
+            "text": "the equilibrium melting temperature rises continuously"
           },
           {
             "label": "c",
-            "text": "1.3 °C"
+            "text": "the liquid absorbs heat from the mould"
           },
           {
             "label": "d",
-            "text": "130 °C"
+            "text": "the solid transforms back into liquid"
           }
         ],
-        "answer": "b",
-        "detailed": "Recalescence brings the temperature back to within approximately 0.13 °C of the true freezing point. **(b)** is correct. Option (a) is 13 °C, (c) is 1.3 °C, and (d) is 130 °C."
+        "answer": "a",
+        "detailed": "Recalescence is the temperature rise that follows undercooling when solidification begins. Nucleation and growth of the solid release latent heat; if heat is released faster than it is extracted, the temperature rises toward the equilibrium freezing temperature. **(a)** is correct. The equilibrium melting temperature does not rise continuously, the liquid does not absorb heat from the mould, and the solid does not transform back into liquid.",
+        "text": "During recalescence on a pure-metal cooling curve, the temperature rises after undercooling mainly because:",
+        "keyExplanation": "Recalescence is the temperature rise after undercooling. Nucleation and growth release latent heat, raising the temperature toward the equilibrium freezing temperature. The amount of recovery depends on heat extraction and experimental conditions; a fixed 0.13 °C value is not universal.",
+        "concise": "Latent heat released during solidification raises the temperature after undercooling."
       },
       "sourceFingerprint": "5bc8fa75"
     },
@@ -10835,19 +11850,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a fine equiaxed structure throughout"
+            "text": "a fine equiaxed grain structure throughout the ingot"
           },
           {
             "label": "b",
-            "text": "an amorphous structure"
+            "text": "an amorphous solid with no grain boundaries"
           },
           {
             "label": "c",
-            "text": "columnar crystals growing almost to the centre"
+            "text": "columnar grains extending nearly to the ingot centre"
           },
           {
             "label": "d",
-            "text": "a single crystal"
+            "text": "a single crystal throughout the casting"
           }
         ],
         "answer": "c",
@@ -10892,19 +11907,19 @@
         "options": [
           {
             "label": "a",
-            "text": "complete solid solubility requires a size difference above 50%"
+            "text": "complete solubility is favoured when size mismatch exceeds about 50%"
           },
           {
             "label": "b",
-            "text": "complete solid solubility requires a size difference below about 15%"
+            "text": "complete solubility is favoured when size mismatch is below about 15%"
           },
           {
             "label": "c",
-            "text": "size difference is irrelevant"
+            "text": "atomic-size mismatch has no effect on substitutional solubility"
           },
           {
             "label": "d",
-            "text": "size difference below 1% only"
+            "text": "complete solubility requires size mismatch below about 1%"
           }
         ],
         "answer": "b",
@@ -10940,6 +11955,33 @@
         "detailed": "An electron compound with e/a = 3:2 adopts the BCC β structure. **(b)** is correct. The 21:13 ratio corresponds to complex cubic γ, and 7:4 corresponds to HCP ε; FCC is not the 3:2 electron-compound structure."
       },
       "sourceFingerprint": "e57c8523"
+    },
+    {
+      "chapter": "ch09",
+      "n": 26,
+      "originalType": "E",
+      "sourceText": "In the lever rule, the weight fraction of a phase is found using:",
+      "sourceFingerprint": "69c625ad",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the opposite tie-line arm divided by the full tie-line length"
+          },
+          {
+            "label": "b",
+            "text": "the same-side tie-line arm divided by the full tie-line length"
+          },
+          {
+            "label": "c",
+            "text": "the vertical gap between liquidus and solidus curves"
+          },
+          {
+            "label": "d",
+            "text": "the slope of the tie line at the alloy composition"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch09",
@@ -11006,19 +12048,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a twin boundary several grains wide"
+            "text": "a broad coherent twin boundary separating mirror-related regions"
           },
           {
             "label": "b",
-            "text": "a ribbon of stacking fault, where ABCABC… is locally disrupted to ABAB…"
+            "text": "a narrow stacking-fault ribbon bounded by two Shockley partials"
           },
           {
             "label": "c",
-            "text": "a vacancy tube"
+            "text": "a row of vacancies extending along the dislocation line"
           },
           {
             "label": "d",
-            "text": "a grain boundary"
+            "text": "a high-angle grain boundary formed during recrystallisation"
           }
         ],
         "answer": "b",
@@ -11026,6 +12068,33 @@
         "detailed": "The perfect FCC dislocation a/2[10̄1] dissociates into two Shockley partials:\n```\n(a/2)[10̄1] → (a/6)[2 1̄ 1̄] + (a/6)[11 2̄]\n```\nComponent-wise, [2, −1, −1] + [1, 1, −2] = [3, 0, −3], so the partials sum to (a/2)[1, 0, −1], exactly the parent Burgers vector. The two partials enclose a ribbon of stacking fault, where the FCC ABCABC… sequence is locally disrupted into ABAB… stacking. **(b)** is correct. This vector form also matches the corrected dissociation in Chapter 5."
       },
       "sourceFingerprint": "ecd94864"
+    },
+    {
+      "chapter": "ch09",
+      "n": 32,
+      "originalType": "E",
+      "sourceText": "For a single crystal with τ_crss = 1 MPa oriented at φ = λ = 45°, σ_y = 2 MPa. Oriented instead at φ = λ = 70°, σ_y ≈ 8.5 MPa. The increase is due purely to:",
+      "sourceFingerprint": "aa4dcb35",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a change in orientation alters the Schmid factor, not τ_crss"
+          },
+          {
+            "label": "b",
+            "text": "a change in alloy chemistry raises the intrinsic CRSS"
+          },
+          {
+            "label": "c",
+            "text": "a change in grain size alters the Hall–Petch contribution"
+          },
+          {
+            "label": "d",
+            "text": "a change in Burgers vector alters the dislocation glide distance"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch09",
@@ -11064,19 +12133,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a cloud of vacancies"
+            "text": "a cluster of vacancies associated with a dislocation core"
           },
           {
             "label": "b",
-            "text": "a precipitate at a grain boundary"
+            "text": "a second-phase precipitate decorating a grain boundary"
           },
           {
             "label": "c",
-            "text": "interstitial solute atoms (C, N) clustering in the tensile zone below an edge dislocation's extra half-plane, pinning it"
+            "text": "C/N atoms segregated below an edge dislocation, pinning it"
           },
           {
             "label": "d",
-            "text": "a stacking-fault ribbon"
+            "text": "a planar stacking-fault ribbon between two partial dislocations"
           }
         ],
         "answer": "c",
@@ -11093,19 +12162,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the lattice friction stress"
+            "text": "the lattice friction stress opposing dislocation glide"
           },
           {
             "label": "b",
-            "text": "the average grain diameter"
+            "text": "the average grain diameter in the polycrystal"
           },
           {
             "label": "c",
-            "text": "the locking parameter — how effectively grain boundaries block slip transmission"
+            "text": "the grain-boundary strengthening coefficient in the relation"
           },
           {
             "label": "d",
-            "text": "the strain-hardening exponent"
+            "text": "the strain-hardening exponent in the flow-stress law"
           }
         ],
         "answer": "c"
@@ -11280,7 +12349,11 @@
             "text": "Both false"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "reason": "Carbon diffusivity depends on the activation energy for atomic jumps as well as the available interstitial sites. In ferrite, the migration barrier for carbon is substantially lower than in austenite, so carbon diffuses faster in BCC α-Fe despite its lower equilibrium solubility.",
+        "keyExplanation": "Carbon has a lower migration activation energy in BCC α-Fe, so it diffuses faster there despite its lower equilibrium solubility. Answer (c).",
+        "detailed": "A is TRUE: carbon diffuses faster in BCC α-Fe than in FCC γ-Fe, even though γ-Fe dissolves much more carbon. R is TRUE: diffusivity depends on the activation barrier for atomic jumps, not simply on equilibrium solubility or nominal void size. The migration activation energy for carbon is substantially lower in ferrite than in austenite, so its diffusion coefficient is higher in α-Fe at comparable temperatures. R correctly explains A. Keep the distinction clear: solubility describes how much carbon can be accommodated at equilibrium; diffusivity describes how rapidly carbon moves.",
+        "concise": "Carbon is more soluble in FCC austenite, but diffuses faster in BCC ferrite because its migration activation barrier is lower."
       },
       "sourceFingerprint": "5ad70242"
     },
@@ -11293,19 +12366,19 @@
         "options": [
           {
             "label": "a",
-            "text": "interstitial diffusion has a higher Q_d"
+            "text": "it has a higher activation energy Q_d"
           },
           {
             "label": "b",
-            "text": "the two lines are parallel"
+            "text": "both diffusion mechanisms have parallel Arrhenius lines"
           },
           {
             "label": "c",
-            "text": "interstitial diffusion is slower at high temperature"
+            "text": "it becomes slower than substitutional diffusion at high temperature"
           },
           {
             "label": "d",
-            "text": "interstitial diffusion has a lower activation energy Q_d and is faster at every temperature"
+            "text": "it has lower Q_d and is faster at a given temperature"
           }
         ],
         "answer": "d",
@@ -11454,6 +12527,38 @@
     },
     {
       "chapter": "ch09",
+      "n": 50,
+      "originalType": "G",
+      "sourceText": "Of the following, which cooling rate most closely corresponds to the formation of a **metallic glass**?",
+      "sourceFingerprint": "ddaaf569",
+      "updates": {
+        "text": "For a given alloy and sample geometry, a metallic glass is obtained when a melt is:",
+        "options": [
+          {
+            "label": "a",
+            "text": "cooled fast enough to bypass crystallisation"
+          },
+          {
+            "label": "b",
+            "text": "cooled slowly through the liquidus and solidus"
+          },
+          {
+            "label": "c",
+            "text": "held below its melting point for a long time"
+          },
+          {
+            "label": "d",
+            "text": "seeded with a crystal and cooled slowly"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Metallic-glass formation requires suppressing crystallisation during cooling. The critical cooling rate is alloy- and geometry-dependent, so no single cooling-rate value applies to all metallic glasses.",
+        "concise": "Cooling must be fast enough for that alloy and geometry to bypass crystallisation.",
+        "detailed": "A metallic glass forms when cooling is sufficiently rapid for the specific alloy and sample geometry to suppress crystal nucleation and growth. The critical cooling rate is composition- and geometry-dependent; some glass-forming alloys vitrify at much lower rates than others. **(a)** is correct. Slow cooling allows crystals to form, while seeding or holding below the melting point promotes crystallisation rather than suppressing it."
+      }
+    },
+    {
+      "chapter": "ch09",
       "n": 51,
       "originalType": "A",
       "sourceText": "Which of the following correctly pairs a type of atomic bonding with its structural origin and its mechanical/electrical consequence?",
@@ -11518,19 +12623,19 @@
         "options": [
           {
             "label": "a",
-            "text": "The liquidus lies between 690 °C and 680 °C; the drop at 577 °C is the eutectic reaction, which converts the final 0.15 of liquid, leaving 0.85 primary α plus 0.15 eutectic"
+            "text": "the liquidus is 680–690 °C; the final 0.15 liquid reacts eutectically at 577 °C"
           },
           {
             "label": "b",
-            "text": "The alloy is of eutectic composition, since all the liquid disappears at a single temperature"
+            "text": "all liquid disappears at one temperature, so the alloy is eutectic"
           },
           {
             "label": "c",
-            "text": "The liquidus is 700 °C, and the eutectic reaction converts 0.35 of the remaining liquid"
+            "text": "the liquidus is 700 °C; the eutectic reaction consumes 0.35 liquid"
           },
           {
             "label": "d",
-            "text": "The solidus is 590 °C, where the last of the liquid is consumed"
+            "text": "the solidus is 590 °C, where the final liquid disappears"
           }
         ],
         "answer": "a",
@@ -11707,6 +12812,17 @@
         "answer": "c"
       },
       "sourceFingerprint": "31460b4b"
+    },
+    {
+      "chapter": "ch02",
+      "n": 18,
+      "originalType": "A",
+      "sourceText": "The HCP stacking sequence is:",
+      "sourceFingerprint": "90f4093c",
+      "updates": {
+        "keyExplanation": "HCP stacks ABAB…; FCC stacks ABCABC…. The two sequences differ in the number of distinct close-packed layer positions.",
+        "concise": "HCP stacks ABAB…; this contrasts with FCC's ABCABC…."
+      }
     }
   ],
   "sourceCommit": "b7359a6113a5888d3cf3c88cb5ce25cc716d89e4"
