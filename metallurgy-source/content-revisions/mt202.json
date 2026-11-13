@@ -1460,19 +1460,19 @@
         "options": [
           {
             "label": "a",
-            "text": "Zn 1.59, Ti 1.86"
+            "text": "Zn 1.59; Ti 1.86"
           },
           {
             "label": "b",
-            "text": "Zn 1.633, Ti 1.633"
+            "text": "Zn 1.633; Ti 1.633"
           },
           {
             "label": "c",
-            "text": "Zn 1.732, Ti 1.414"
+            "text": "Zn 1.732; Ti 1.414"
           },
           {
             "label": "d",
-            "text": "Zn 1.86 (stretched), Ti 1.59 (compressed)"
+            "text": "Zn 1.86; Ti 1.59"
           }
         ],
         "answer": "d",
@@ -3158,7 +3158,7 @@
           },
           {
             "label": "b",
-            "text": "3–7% by volume"
+            "text": "3–7%"
           },
           {
             "label": "c",
@@ -3170,7 +3170,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "The typical volumetric contraction of most metals on solidification is approximately **3–7%**, option **(b)**. Option (a), 0.1–0.5%, is too small; (c) and (d) are too large. Bismuth and some other elements are notable exceptions that expand on freezing."
+        "detailed": "The typical volumetric contraction of most metals on solidification is approximately **3–7%**, option **(b)**. Option (a), 0.1–0.5%, is too small; (c) and (d) are too large. Bismuth and some other elements are notable exceptions that expand on freezing.",
+        "text": "By volume, solidification shrinkage for most metals is roughly:"
       },
       "sourceFingerprint": "d38de91b"
     },
@@ -3211,19 +3212,19 @@
         "options": [
           {
             "label": "a",
-            "text": "1 only"
+            "text": "Stage 1 only"
           },
           {
             "label": "b",
-            "text": "1, 2 and 3"
+            "text": "Stages 1–3"
           },
           {
             "label": "c",
-            "text": "1 and 2 only"
+            "text": "Stages 1 and 2"
           },
           {
             "label": "d",
-            "text": "3 only"
+            "text": "Stage 3 only"
           }
         ],
         "answer": "c",
@@ -4751,19 +4752,19 @@
         "options": [
           {
             "label": "a",
-            "text": "poorer in the higher-melting-point component"
+            "text": "poorer in the higher-melting component"
           },
           {
             "label": "b",
-            "text": "identical to the liquid composition"
+            "text": "the same as the liquid composition"
           },
           {
             "label": "c",
-            "text": "richer in the higher-melting-point component than the liquid it froze from"
+            "text": "richer in the higher-melting component"
           },
           {
             "label": "d",
-            "text": "identical to C₀"
+            "text": "the same as C₀"
           }
         ],
         "answer": "c",
@@ -4780,7 +4781,7 @@
         "options": [
           {
             "label": "a",
-            "text": "the liquidus first meets C₀"
+            "text": "the liquidus meets C₀"
           },
           {
             "label": "b",
@@ -4788,7 +4789,7 @@
           },
           {
             "label": "c",
-            "text": "the solidus finally reaches C₀ — the last trace of liquid disappears and the bulk solid is uniformly C₀"
+            "text": "the solidus reaches C₀"
           },
           {
             "label": "d",
@@ -4876,19 +4877,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the liquid becomes more viscous"
+            "text": "the liquid ahead of the front becomes more viscous"
           },
           {
             "label": "b",
-            "text": "any protrusion poking into the supercooled zone finds extra undercooling driving it forward, breaking the front down into cells and then dendrites"
+            "text": "a protrusion grows faster in the supercooled liquid"
           },
           {
             "label": "c",
-            "text": "the solid melts back"
+            "text": "the solid phase melts back as the front advances"
           },
           {
             "label": "d",
-            "text": "surface tension is overcome"
+            "text": "surface-tension forces alone destabilize the front"
           }
         ],
         "answer": "b",
@@ -5015,7 +5016,7 @@
         "options": [
           {
             "label": "a",
-            "text": "solute partitioning between solid and liquid during non-equilibrium solidification"
+            "text": "solute partitioning during non-equilibrium solidification"
           },
           {
             "label": "b",
@@ -5023,7 +5024,7 @@
           },
           {
             "label": "c",
-            "text": "a change in the alloy's nominal bulk composition during freezing"
+            "text": "a change in the alloy's nominal bulk composition"
           },
           {
             "label": "d",
@@ -5047,19 +5048,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the β phase completely dissolves"
+            "text": "β dissolves completely before solidification ends"
           },
           {
             "label": "b",
-            "text": "the α phase is entirely consumed"
+            "text": "α is consumed by the peritectic reaction"
           },
           {
             "label": "c",
-            "text": "a eutectic forms at the boundary"
+            "text": "a eutectic forms at the grain boundary"
           },
           {
             "label": "d",
-            "text": "the peritectic reaction L + β → α produces a shell of α that envelops the untransformed β core, insulating it and starving the reaction of contact area"
+            "text": "an α shell isolates the remaining β core from liquid"
           }
         ],
         "answer": "d",
@@ -5220,19 +5221,19 @@
         "options": [
           {
             "label": "a",
-            "text": "uniformly through the grain"
+            "text": "uniformly throughout the grain interior"
           },
           {
             "label": "b",
-            "text": "at grain boundaries and interdendritic spaces, where it can begin to melt at a temperature that looks safe on the equilibrium diagram"
+            "text": "at grain boundaries and interdendritic regions"
           },
           {
             "label": "c",
-            "text": "at the specimen surface only"
+            "text": "only at the specimen's external surface"
           },
           {
             "label": "d",
-            "text": "in the centre of primary dendrite arms"
+            "text": "at the centres of primary dendrite arms"
           }
         ],
         "answer": "b"
@@ -5774,19 +5775,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a helical ramp of planes around a line"
+            "text": "a helical ramp of atomic planes around the line"
           },
           {
             "label": "b",
-            "text": "a missing plane"
+            "text": "the absence of an entire atomic plane from the lattice"
           },
           {
             "label": "c",
-            "text": "a grain boundary"
+            "text": "a planar interface between differently oriented grains"
           },
           {
             "label": "d",
-            "text": "the edge of an extra half-plane of atoms inserted partway into the crystal, denoted ⊥"
+            "text": "the terminating edge of an inserted extra half-plane"
           }
         ],
         "answer": "d",
