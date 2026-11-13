@@ -4376,15 +4376,15 @@
         "MT202-3.8.1"
       ],
       "questionType": "A",
-      "assessedDifficulty": 1,
+      "assessedDifficulty": 2,
       "reasoningSkills": [
-        "recall"
+        "classify",
+        "distinguish"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion",
         "solidification_or_casting_confusion",
-        "atomic_bonding_or_structure_confusion",
-        "temperature_or_heat_treatment_confusion"
+        "shrinkage_vs_gas_porosity_confusion"
       ],
       "sourceReferences": [
         "Chapter 3 — Solidification of Metals (Merged Edition), §3.7 (3.8)"
@@ -4392,13 +4392,13 @@
       "mappingConfidence": "medium",
       "quality": {
         "conceptualAccuracy": 18,
-        "distractorPlausibility": 15,
+        "distractorPlausibility": 18,
         "reasoning": 9,
-        "noGiveaways": 13,
-        "clarity": 13,
-        "explanation": 8,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 81
+        "total": 89
       },
       "status": "approved"
     },
@@ -7264,9 +7264,10 @@
         "MT202-5.2.1"
       ],
       "questionType": "A",
-      "assessedDifficulty": 3,
+      "assessedDifficulty": 2,
       "reasoningSkills": [
-        "recall"
+        "distinguish",
+        "classify"
       ],
       "misconceptionTags": [
         "crystal_defects_conceptual_confusion",
@@ -7278,13 +7279,13 @@
       "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": 18,
-        "distractorPlausibility": 15,
-        "reasoning": 9,
-        "noGiveaways": 13,
-        "clarity": 13,
-        "explanation": 8,
+        "distractorPlausibility": 18,
+        "reasoning": 8,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 81
+        "total": 88
       },
       "status": "approved"
     },
