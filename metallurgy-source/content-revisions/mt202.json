@@ -95,19 +95,19 @@
         "options": [
           {
             "label": "a",
-            "text": "8"
+            "text": "8 electrons"
           },
           {
             "label": "b",
-            "text": "24"
+            "text": "24 electrons"
           },
           {
             "label": "c",
-            "text": "18"
+            "text": "18 electrons"
           },
           {
             "label": "d",
-            "text": "32"
+            "text": "32 electrons"
           }
         ],
         "answer": "c",
@@ -277,7 +277,8 @@
       "sourceText": "Which statement(s) about the *covalent* bond is/are correct?",
       "sourceFingerprint": "a0c5806d",
       "updates": {
-        "detailed": "Statements 1, 3 and 4 are correct. Covalent bonds are directional because the shared electron density is concentrated between particular atoms; typical bond energies are commonly quoted in the broad range 200–1000 kJ/mol; and diamond is a classic three-dimensional covalent-network solid. Statement 2 is false because non-directionality is characteristic of metallic bonding, not covalent bonding. Therefore **(a)** is correct."
+        "detailed": "Statements 1, 3 and 4 are correct. Covalent bonds are directional because the shared electron density is concentrated between particular atoms; typical bond energies are commonly quoted in the broad range 200–1000 kJ/mol; and diamond is a classic three-dimensional covalent-network solid. Statement 2 is false because non-directionality is characteristic of metallic bonding, not covalent bonding. Therefore **(a)** is correct.",
+        "keyExplanation": "Covalent bonds are directional (statement 2 is false), typical bond energy lies broadly around 200–1000 kJ/mol, and diamond is a standard example."
       }
     },
     {
@@ -305,7 +306,8 @@
           }
         ],
         "answer": "b",
-        "detailed": "Statements 1–3 are consequences associated with metallic bonding: delocalised electrons support electrical and thermal conductivity; non-directional bonding allows layers of atoms to move while metallic cohesion is maintained, contributing to ductility; and mobile electrons interact with light, contributing to metallic lustre and opacity. Statement 4 is not a general consequence of metallic bonding; hardness and brittleness are more characteristic of many ionic and covalent-network solids. Therefore **(b)** is correct."
+        "detailed": "Statements 1–3 are consequences associated with metallic bonding: delocalised electrons support electrical and thermal conductivity; non-directional bonding allows layers of atoms to move while metallic cohesion is maintained, contributing to ductility; and mobile electrons interact with light, contributing to metallic lustre and opacity. Statement 4 is not a general consequence of metallic bonding; hardness and brittleness are more characteristic of many ionic and covalent-network solids. Therefore **(b)** is correct.",
+        "keyExplanation": "Statements 1–3 are consequences of metallic bonding. Statement 4 is not a general consequence; hardness and brittleness are more characteristic of many ionic and covalent-network solids. Ductility arises from metallic bonding, not from heat."
       },
       "sourceFingerprint": "9dc94feb"
     },
@@ -397,25 +399,26 @@
         "options": [
           {
             "label": "a",
-            "text": "van der Waals attraction"
+            "text": "van der Waals attraction between neutral atoms"
           },
           {
             "label": "b",
-            "text": "metallic bonding"
+            "text": "metallic bonding through delocalised electrons"
           },
           {
             "label": "c",
-            "text": "covalent bonding"
+            "text": "covalent bonding through shared electron pairs"
           },
           {
             "label": "d",
-            "text": "ionic bonding"
+            "text": "ionic bonding between oppositely charged ions"
           }
         ],
         "answer": "a",
-        "detailed": "The typical bond-energy ranges increase from van der Waals (about 1–10 kJ/mol) to metallic (about 70–850 kJ/mol), covalent (about 200–1000 kJ/mol), and ionic (about 600–1500 kJ/mol). Thus **(b)** gives the intended increasing order. The ranges overlap, but van der Waals interactions are the weakest and ionic bonds are generally strongest.",
+        "detailed": "Van der Waals interactions are secondary attractions between neutral atoms or molecules and are generally much weaker than primary metallic, covalent and ionic bonds. **(a)** is correct. The other options are primary bonding types; their energy ranges overlap, so no strict ordering among those three is universal.",
         "text": "Which type of interatomic interaction is generally the weakest?",
-        "keyExplanation": "Van der Waals attractions are secondary interactions and are generally much weaker than metallic, covalent or ionic primary bonds. The energy ranges of the primary bonds overlap, so a strict ordering among those three is not universal."
+        "keyExplanation": "Van der Waals attractions are secondary interactions and are generally much weaker than metallic, covalent or ionic primary bonds. The energy ranges of the primary bonds overlap, so a strict ordering among those three is not universal.",
+        "concise": "Van der Waals attractions are generally the weakest interatomic interactions."
       },
       "sourceFingerprint": "be832649"
     },
@@ -510,11 +513,11 @@
         "options": [
           {
             "label": "a",
-            "text": "high thermal conductivity"
+            "text": "high thermal and electrical conductivity"
           },
           {
             "label": "b",
-            "text": "capacity for substantial plastic deformation before fracture"
+            "text": "substantial plastic deformation before fracture"
           },
           {
             "label": "c",
@@ -522,7 +525,7 @@
           },
           {
             "label": "d",
-            "text": "high reflectivity"
+            "text": "high reflectivity of visible light"
           }
         ],
         "answer": "c",
