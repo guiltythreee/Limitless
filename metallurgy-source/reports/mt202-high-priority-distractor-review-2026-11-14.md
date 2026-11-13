@@ -59,3 +59,19 @@ The queue was regenerated after the script change: **473 flags — 119 High, 271
 The cumulative distractor-balance pass now covers **56 questions** across Chapters 1–9. It preserves the existing answer keys and uses fingerprint-guarded durable overlay records. The overlay now contains **418 unique targets**; all overlay updates match generated chapter JSON and all nine deployed mirrors match their generated files byte-for-byte.
 
 The queue currently contains **465 flags — 50 High, 292 Medium and 123 Review**. The audit script now excludes option-length bias signals for standardized two-option True/False and four-option Assertion–Reason response formats, including common wording variants. It also compares structured content when identifying duplicate stems. These changes reduce false-positive severity; the remaining flags still need contextual review.
+
+
+## Latest verified follow-up — first manual batch, 14 November 2026
+
+The first 10 questions in the current High-priority queue were inspected and revised:
+
+- Ch 2 Q22
+- Ch 3 Q35 and Q38
+- Ch 4 Q26, Q27, Q31, Q35, Q36 and Q42
+- Ch 5 Q18
+
+The edits reduce conspicuous correct-option length cues while retaining the assessed concepts and all 10 answer keys. The existing 418-target durable overlay was updated in place; no new question IDs, chapter counts or progress records were introduced. Generated chapter JSON and deployed mirrors were updated together.
+
+The queue was regenerated using the committed audit script's rules. It now contains **464 flags — 28 High, 307 Medium and 129 Review** (previous committed queue: 465 flags — 38 High, 300 Medium and 127 Review). The reduction in High findings is a triage change, not independent proof that the questions are defect-free. Remaining High items still require contextual subject review.
+
+Earlier severity totals in this report are historical snapshots. The latest authoritative severity counts are the ones in this section and the regenerated CSV.
