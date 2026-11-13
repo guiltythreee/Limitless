@@ -63,7 +63,7 @@ for (const question of questions) {
   const flags = [];
   const evidence = [];
 
-  const normalizedOptions = options.map((option) => (option.text || "").trim().replace(/\\s+/g, " "));
+  const normalizedOptions = options.map((option) => (option.text || "").trim().replace(/\s+/g, " "));
   const assertionReasonOptions = [
     /^both true, r correctly explains a$/i,
     /^both true, r does not explain a$/i,
@@ -75,8 +75,8 @@ for (const question of questions) {
     normalizedOptions.every((value) => assertionReasonOptions.some((pattern) => pattern.test(value)));
   const binaryTrueFalse =
     options.length === 2 &&
-    normalizedOptions.some((value) => /^true\\b/i.test(value)) &&
-    normalizedOptions.some((value) => /^false\\b/i.test(value));
+    normalizedOptions.some((value) => /^true\b/i.test(value)) &&
+    normalizedOptions.some((value) => /^false\b/i.test(value));
 
   // Standard A/R and True/False response sets intentionally have different
   // phrase lengths. Their wording is fixed by the response format, not a key cue.
