@@ -88,6 +88,10 @@ function safeArtworkDataUrl(value: string | undefined): string | undefined {
   return value && /^data:image\/[a-z0-9.+-]+;base64,[a-z0-9+/=]+$/i.test(value) ? value : undefined;
 }
 
+function safeReaderTextColor(value: unknown): string | undefined {
+  return typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value) ? value : undefined;
+}
+
 
 async function resizeArtworkFile(file: File): Promise<string> {
   if (!file.type.startsWith("image/")) throw new Error("Choose an image file.");
@@ -128,7 +132,42 @@ function readLegacySize(fallback: number): number {
 }
 
 function readSettings(): BookkeysSettings {
-  const defaults: BookkeysSettings = { bg: "pic-morning", size: 17, lineH: 1.8, celebrate: true };
+  const defaults: BookkeysSettings = {
+    skin: "auto",
+    accent: "theme",
+    accentCustom: "#E11D48",
+    fontColor: "theme",
+    fontColorCustom: "#FF8A00",
+    bgMatch: true,
+    deco: "on",
+    bg: "pic-morning",
+    bgDensity: 1,
+    bgAnim: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    backdrop: 0,
+    picVeil: 0,
+    picBlur: 0,
+    font: "newsreader",
+    size: 20,
+    lineH: 1.7,
+    spacing: 0,
+    punct: "simplify",
+    lglow: true,
+    tfx: "none",
+    fxInt: 1,
+    efx: "flash",
+    sparks: "off",
+    sound: "off",
+    volume: 50,
+    errSound: true,
+    centered: false,
+    celebrate: true,
+    motion: "system",
+    cstyle: "block",
+    cblink: "blink",
+    csmooth: true,
+    cglow: false,
+    ccolor: "accent",
+  };
   const legacySize = readLegacySize(defaults.size);
   try {
     const value: unknown = JSON.parse(window.localStorage.getItem("bookkeys:settings") ?? "{}");
@@ -234,7 +273,7 @@ export default function BookkeysApp() {
   const [typed, setTyped] = useState("");
   const [status, setStatus] = useState("Import a PDF, EPUB or text file, or paste text to begin.");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 17, lineH: 1.8, celebrate: true });
+  const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 20, lineH: 1.7, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState<"appearance" | "data">("appearance");
@@ -255,6 +294,7 @@ export default function BookkeysApp() {
   const startedAt = useRef(Date.now());
   const completedThisPage = useRef(false);
   const keyStatsRef = useRef<BookkeysKeyStats>({ ok: 0, all: 0, lastTyped: "" });
+  const composingRef = useRef(false);
   const [keyStats, setKeyStats] = useState({ ok: 0, all: 0 });
 
   // Keep reward verification tied to the actual parsed page content. The
@@ -807,7 +847,6 @@ export default function BookkeysApp() {
       setShelves(readShelves(window.localStorage.getItem("bookkeys:shelves")));
       const restoredSettings = readSettings();
       setSettings(restoredSettings);
-      setTheme(restoredSettings.bg === "light" ? "light" : "dark");
       if (book) {
         const progress = game.book?.[book.bookKey];
         setCompletedPageIndexes([...new Set([...(progress?.p ?? []), ...(progress?.e ?? [])])]);
@@ -1072,24 +1111,29 @@ export default function BookkeysApp() {
               <article
                 className="bk-source-text"
                 data-reader-background={settings.readerBackground ?? "none"}
+                data-reader-centered={settings.centered ? "true" : "false"}
                 style={(() => {
+                  const color = settings.fontColor === "custom"
+                    ? safeReaderTextColor(settings.fontColorCustom) : undefined;
                   const selected = settings.readerBackground === "gothic" ? artwork.gothic
                     : settings.readerBackground === "garden" ? artwork.garden : undefined;
                   const safe = safeArtworkDataUrl(selected);
                   const preset = READER_BACKGROUND_PRESETS.find((item) => item.id === settings.readerBackground);
-                  if (preset && "image" in preset && preset.image) return undefined;
+                  if (preset && "image" in preset && preset.image) return color ? { color } : undefined;
                   if (safe) return {
+                    color,
                     backgroundImage: `linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("${safe}")`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   };
                   const motion = preset && "motion" in preset ? preset.motion : undefined;
                   return preset ? {
+                    color,
                     backgroundImage: `linear-gradient(rgba(4, 5, 12, .42), rgba(4, 5, 12, .42)), ${preset.background}`,
                     backgroundSize: motion ? "180% 180%" : "cover",
                     backgroundPosition: "center",
                     animation: motion ? `${motion} 28s ease-in-out infinite alternate` : undefined,
-                  } : undefined;
+                  } : color ? { color } : undefined;
                 })()}
               >{target}</article>
               <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
@@ -1098,8 +1142,18 @@ export default function BookkeysApp() {
                 className="bk-typing"
                 value={typed}
                 onChange={(event) => {
-                  const inputType = event.nativeEvent instanceof InputEvent ? event.nativeEvent.inputType : "insertText";
+                  const nativeEvent = event.nativeEvent;
+                  if (composingRef.current || (nativeEvent instanceof InputEvent && nativeEvent.isComposing)) return;
+                  const inputType = nativeEvent instanceof InputEvent ? nativeEvent.inputType : "insertText";
                   onTyping(event.currentTarget.value, inputType);
+                  event.currentTarget.setSelectionRange(event.currentTarget.value.length, event.currentTarget.value.length);
+                }}
+                onCompositionStart={() => {
+                  composingRef.current = true;
+                }}
+                onCompositionEnd={(event) => {
+                  composingRef.current = false;
+                  onTyping(event.currentTarget.value, "insertCompositionText");
                   event.currentTarget.setSelectionRange(event.currentTarget.value.length, event.currentTarget.value.length);
                 }}
                 onPaste={(event) => {
@@ -1252,6 +1306,25 @@ export default function BookkeysApp() {
                   <span className="bk-settings-note" role="status">{artworkStatus || "Images are resized to at most 1600 × 900 before local storage."}</span>
                 </div>
                 <label className="bk-setting">
+                  <span>Reading text colour</span>
+                  <select
+                    aria-label="Reading text colour"
+                    value={settings.fontColor === "custom" && safeReaderTextColor(settings.fontColorCustom) ? "custom" : "theme"}
+                    onChange={(event) => persistSettings({ ...settings, fontColor: event.currentTarget.value })}
+                  >
+                    <option value="theme">Theme default</option>
+                    <option value="custom">Custom colour</option>
+                  </select>
+                  {settings.fontColor === "custom" && (
+                    <input
+                      type="color"
+                      aria-label="Custom reading text colour"
+                      value={safeReaderTextColor(settings.fontColorCustom) ?? "#FF8A00"}
+                      onChange={(event) => persistSettings({ ...settings, fontColor: "custom", fontColorCustom: event.currentTarget.value })}
+                    />
+                  )}
+                </label>
+                <label className="bk-setting">
                   <span>Reading text size <strong>{settings.size}px</strong></span>
                   <input type="range" min="12" max="28" step="1" value={settings.size}
                     onChange={(event) => persistSettings({ ...settings, size: Number(event.currentTarget.value) })} />
@@ -1260,6 +1333,11 @@ export default function BookkeysApp() {
                   <span>Line spacing <strong>{settings.lineH.toFixed(1)}</strong></span>
                   <input type="range" min="1.2" max="2.4" step="0.1" value={settings.lineH}
                     onChange={(event) => persistSettings({ ...settings, lineH: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Center reading text</span>
+                  <input type="checkbox" checked={settings.centered === true}
+                    onChange={(event) => persistSettings({ ...settings, centered: event.currentTarget.checked })} />
                 </label>
                 <label className="bk-setting bk-setting-check">
                   <span>Completion celebrations</span>
