@@ -415,7 +415,7 @@
           }
         ],
         "answer": "a",
-        "detailed": "Van der Waals interactions are secondary attractions between neutral atoms or molecules and are generally much weaker than primary metallic, covalent and ionic bonds. **(a)** is correct. The other options are primary bonding types; their energy ranges overlap, so no strict ordering among those three is universal.",
+        "detailed": "Van der Waals interactions are generally the weakest interatomic interactions: they are secondary attractions between neutral atoms or molecules and are much weaker than primary metallic, covalent and ionic bonds. **(a)** is correct. The energy ranges of the primary bond types overlap, so no strict ordering among those three is universal.",
         "text": "Which type of interatomic interaction is generally the weakest?",
         "keyExplanation": "Van der Waals attractions are secondary interactions and are generally much weaker than metallic, covalent or ionic primary bonds. The energy ranges of the primary bonds overlap, so a strict ordering among those three is not universal.",
         "concise": "Van der Waals attractions are generally the weakest interatomic interactions."
