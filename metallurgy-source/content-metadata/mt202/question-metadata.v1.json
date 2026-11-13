@@ -1109,8 +1109,10 @@
     {
       "questionId": "ch01-q33",
       "chapterId": "ch01",
-      "curriculumTopicId": "1.4",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "1.5",
+      "relatedTopicIds": [
+        "1.4"
+      ],
       "learningObjectiveIds": [
         "MT202-1.5.2"
       ],
@@ -1144,8 +1146,10 @@
     {
       "questionId": "ch01-q34",
       "chapterId": "ch01",
-      "curriculumTopicId": "1.3",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "1.2",
+      "relatedTopicIds": [
+        "1.3"
+      ],
       "learningObjectiveIds": [
         "MT202-1.2.2"
       ],
@@ -2426,8 +2430,10 @@
     {
       "questionId": "ch02-q37",
       "chapterId": "ch02",
-      "curriculumTopicId": "2.4",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "2.3",
+      "relatedTopicIds": [
+        "2.4"
+      ],
       "learningObjectiveIds": [
         "MT202-2.3.4"
       ],
@@ -5261,8 +5267,10 @@
     {
       "questionId": "ch03-q67",
       "chapterId": "ch03",
-      "curriculumTopicId": "3.15",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "3.2",
+      "relatedTopicIds": [
+        "3.15"
+      ],
       "learningObjectiveIds": [
         "MT202-3.2.6"
       ],
@@ -5296,8 +5304,10 @@
     {
       "questionId": "ch03-q68",
       "chapterId": "ch03",
-      "curriculumTopicId": "3.2",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "3.5",
+      "relatedTopicIds": [
+        "3.2"
+      ],
       "learningObjectiveIds": [
         "MT202-3.5.4"
       ],
@@ -7975,8 +7985,10 @@
     {
       "questionId": "ch05-q26",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.4",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.7",
+      "relatedTopicIds": [
+        "5.4"
+      ],
       "learningObjectiveIds": [
         "MT202-5.7.1",
         "MT202-5.4.2"
@@ -8011,8 +8023,10 @@
     {
       "questionId": "ch05-q27",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.4",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.7",
+      "relatedTopicIds": [
+        "5.4"
+      ],
       "learningObjectiveIds": [
         "MT202-5.7.1",
         "MT202-5.2.4"
@@ -8869,8 +8883,10 @@
     {
       "questionId": "ch05-q52",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.2",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.4",
+      "relatedTopicIds": [
+        "5.2"
+      ],
       "learningObjectiveIds": [
         "MT202-5.4.2"
       ],
@@ -9038,8 +9054,10 @@
     {
       "questionId": "ch05-q57",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.1",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.5",
+      "relatedTopicIds": [
+        "5.1"
+      ],
       "learningObjectiveIds": [
         "MT202-5.5.1",
         "MT202-5.4.2"
@@ -9174,8 +9192,10 @@
     {
       "questionId": "ch05-q61",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.7",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.6",
+      "relatedTopicIds": [
+        "5.7"
+      ],
       "learningObjectiveIds": [
         "MT202-5.6.1"
       ],
@@ -9208,8 +9228,10 @@
     {
       "questionId": "ch05-q62",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.7",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.8",
+      "relatedTopicIds": [
+        "5.7"
+      ],
       "learningObjectiveIds": [
         "MT202-5.8.4"
       ],
@@ -9243,8 +9265,10 @@
     {
       "questionId": "ch05-q63",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.7",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.8",
+      "relatedTopicIds": [
+        "5.7"
+      ],
       "learningObjectiveIds": [
         "MT202-5.8.4",
         "MT202-5.5.2"
@@ -9484,8 +9508,7 @@
       "curriculumTopicId": "5.3",
       "relatedTopicIds": [],
       "learningObjectiveIds": [
-        "MT202-5.8.5",
-        "MT202-5.4.2"
+        "MT202-5.3.2"
       ],
       "questionType": "B",
       "assessedDifficulty": 4,
@@ -11011,8 +11034,10 @@
     {
       "questionId": "ch06-q44",
       "chapterId": "ch06",
-      "curriculumTopicId": "6.3",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "6.2",
+      "relatedTopicIds": [
+        "6.3"
+      ],
       "learningObjectiveIds": [
         "MT202-6.4.4"
       ],
@@ -11460,8 +11485,10 @@
     {
       "questionId": "ch06-q57",
       "chapterId": "ch06",
-      "curriculumTopicId": "6.1",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "6.2",
+      "relatedTopicIds": [
+        "6.1"
+      ],
       "learningObjectiveIds": [
         "MT202-6.5.7"
       ],
@@ -14594,8 +14621,10 @@
     {
       "questionId": "ch08-q31",
       "chapterId": "ch08",
-      "curriculumTopicId": "8.5",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "8.4",
+      "relatedTopicIds": [
+        "8.5"
+      ],
       "learningObjectiveIds": [
         "MT202-8.4.3"
       ],
@@ -14862,8 +14891,10 @@
     {
       "questionId": "ch08-q39",
       "chapterId": "ch08",
-      "curriculumTopicId": "8.6",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "8.1",
+      "relatedTopicIds": [
+        "8.6"
+      ],
       "learningObjectiveIds": [
         "MT202-8.1.3"
       ],
@@ -14897,8 +14928,10 @@
     {
       "questionId": "ch08-q40",
       "chapterId": "ch08",
-      "curriculumTopicId": "8.6",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "8.5",
+      "relatedTopicIds": [
+        "8.6"
+      ],
       "learningObjectiveIds": [
         "MT202-8.5.3",
         "MT202-8.1.4"
@@ -14934,8 +14967,10 @@
     {
       "questionId": "ch08-q41",
       "chapterId": "ch08",
-      "curriculumTopicId": "8.6",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "8.5",
+      "relatedTopicIds": [
+        "8.6"
+      ],
       "learningObjectiveIds": [
         "MT202-8.5.3"
       ],
@@ -14968,8 +15003,10 @@
     {
       "questionId": "ch08-q42",
       "chapterId": "ch08",
-      "curriculumTopicId": "8.6",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "8.5",
+      "relatedTopicIds": [
+        "8.6"
+      ],
       "learningObjectiveIds": [
         "MT202-8.5.3"
       ],
@@ -15001,8 +15038,10 @@
     {
       "questionId": "ch08-q43",
       "chapterId": "ch08",
-      "curriculumTopicId": "8.6",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "8.5",
+      "relatedTopicIds": [
+        "8.6"
+      ],
       "learningObjectiveIds": [
         "MT202-8.5.1"
       ],
@@ -15037,8 +15076,10 @@
     {
       "questionId": "ch08-q44",
       "chapterId": "ch08",
-      "curriculumTopicId": "8.6",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "8.5",
+      "relatedTopicIds": [
+        "8.6"
+      ],
       "learningObjectiveIds": [
         "MT202-8.5.1",
         "MT202-8.5.3"
@@ -16083,9 +16124,9 @@
         "5.8"
       ],
       "learningObjectiveIds": [
-        "MT202-5.4.1",
-        "MT202-5.5.1",
-        "MT202-5.6.1",
+        "MT202-4.1.1",
+        "MT202-4.5.1",
+        "MT202-5.2.1",
         "MT202-5.8.1"
       ],
       "questionType": "D",
@@ -17154,9 +17195,9 @@
     {
       "questionId": "ch09-q49",
       "chapterId": "ch09",
-      "curriculumTopicId": "4.7",
+      "curriculumTopicId": "4.8",
       "relatedTopicIds": [
-        "4.8"
+        "4.7"
       ],
       "learningObjectiveIds": [
         "MT202-4.8.1",
@@ -17267,8 +17308,10 @@
     {
       "questionId": "ch09-q52",
       "chapterId": "ch09",
-      "curriculumTopicId": "4.5",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "4.4",
+      "relatedTopicIds": [
+        "4.5"
+      ],
       "learningObjectiveIds": [
         "MT202-4.4.2",
         "MT202-4.5.1"
@@ -17303,8 +17346,10 @@
     {
       "questionId": "ch09-q53",
       "chapterId": "ch09",
-      "curriculumTopicId": "2.2",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "6.2",
+      "relatedTopicIds": [
+        "2.2"
+      ],
       "learningObjectiveIds": [
         "MT202-6.2.2",
         "MT202-6.2.3"
@@ -17944,9 +17989,9 @@
     {
       "questionId": "ch09-q70",
       "chapterId": "ch09",
-      "curriculumTopicId": "6.1",
+      "curriculumTopicId": "7.5",
       "relatedTopicIds": [
-        "7.5"
+        "6.1"
       ],
       "learningObjectiveIds": [
         "MT202-7.5.1",
