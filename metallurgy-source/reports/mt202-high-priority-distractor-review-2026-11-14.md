@@ -153,3 +153,8 @@ All three answer keys were preserved; the generated Chapter 2 file and deployed 
 A scan of all 522 detailed explanations found a further substantive mismatch in **Ch 9 Q20**. The answer key and key explanation correctly identified latent-heat release as the cause of recalescence, but the detailed explanation had been copied from an unrelated numerical item and incorrectly marked option B. The detailed and concise explanations now correctly describe latent heat released during nucleation and solidification (option A).
 
 The explanation-alignment regression was expanded from six spot checks to nine targeted checks and a scan of all 522 questions for explicit answer-letter claims. The scan found 200 explicit answer references across 165 questions and one mismatch (Ch 9 Q20), which is now corrected. The broader check is intended to prevent this class of answer-key/explanation divergence from recurring. The question bank and answer keys were otherwise preserved.
+
+
+## Follow-up correction to Chapter 7 Q9 — 14 November 2026
+
+The full explanation audit prompted a second pass on Ch 7 Q9: the earlier correction had aligned the concise and detailed explanations with answer A, but the short key explanation still retained the stale claim that C was correct. The key explanation is now corrected as well, and all three explanation fields consistently identify Hall–Petch strengthening as the reason grain refinement raises initial yield stress. The targeted regression test covers this item.
