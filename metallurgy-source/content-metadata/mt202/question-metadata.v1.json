@@ -7622,13 +7622,13 @@
       "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": 18,
-        "distractorPlausibility": 15,
+        "distractorPlausibility": 18,
         "reasoning": 9,
-        "noGiveaways": 13,
-        "clarity": 13,
-        "explanation": 8,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 81
+        "total": 89
       },
       "status": "approved"
     },
