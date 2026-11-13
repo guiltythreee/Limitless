@@ -51,11 +51,18 @@ globalThis.LIMITLESS_STUDIES_CATALOG = [
   {
     "id": "metallurgy",
     "title": "Metallurgy",
-    "description": "Metallurgical Thermodynamics, Physical Metallurgy, and Polymer Science and Technology.",
+    "description": "Testing of Materials, Metallurgical Thermodynamics, Physical Metallurgy, and Polymer Science and Technology.",
     "href": "metallurgy/",
     "status": "beta",
     "symbol": "⚗",
     "courses": [
+      {
+        "id": "mt200",
+        "title": "MT200 — Testing of Materials",
+        "route": "/mt200",
+        "capabilities": [],
+        "symbol": "⚙"
+      },
       {
         "id": "mt201",
         "title": "MT201 — Metallurgical Thermodynamics",

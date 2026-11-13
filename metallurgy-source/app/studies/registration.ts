@@ -1,6 +1,7 @@
 import { MT201_MANIFEST } from "../courses/manifests/mt201";
 import { MT202_MANIFEST } from "../courses/manifests/mt202";
 import { MT203_MANIFEST } from "../courses/manifests/mt203";
+import { MT200_MANIFEST } from "../courses/manifests/mt200";
 import type { CourseCapabilities } from "../courses/types";
 import { ALL_QUESTION_IDS, TOPIC_OF } from "../data/qbank/meta";
 import {
@@ -13,7 +14,7 @@ import type {
   StudyDisciplineRegistration,
 } from "../../../shared/studies/contracts";
 
-const manifests = [MT201_MANIFEST, MT202_MANIFEST, MT203_MANIFEST];
+const manifests = [MT200_MANIFEST, MT201_MANIFEST, MT202_MANIFEST, MT203_MANIFEST];
 
 function capabilitiesFor(source: CourseCapabilities): StudyCapability[] {
   const result: StudyCapability[] = [];
@@ -92,7 +93,7 @@ export const METALLURGY_STUDIES_REGISTRATION = {
   descriptor: {
     id: "metallurgy",
     title: "Metallurgy",
-    description: "Metallurgical Thermodynamics, Physical Metallurgy, and Polymer Science and Technology.",
+    description: "Testing of Materials, Metallurgical Thermodynamics, Physical Metallurgy, and Polymer Science and Technology.",
     route: "/metallurgy",
     status: "active",
     capabilities: sharedCapabilities,
