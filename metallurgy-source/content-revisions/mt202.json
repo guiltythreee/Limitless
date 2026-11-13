@@ -1399,7 +1399,8 @@
             "text": "ABCABC…"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "In FCC the third close-packed layer sits in a third distinct position, giving:\n```\nA B C A B C …\n```\nThis needs three distinct layer positions and is what defines the four equivalent {111} close-packed planes. Q18 and Q19 form a useful pair: HCP repeats after two layers, whereas FCC repeats after three."
       },
       "sourceFingerprint": "153738da"
     },
@@ -1428,7 +1429,8 @@
           }
         ],
         "answer": "b",
-        "keyExplanation": "FCC and HCP have the same ideal packing factor (0.74), but packing density alone does not determine ductility. FCC has multiple equivalent {111}⟨110⟩ slip systems, whereas HCP commonly has fewer readily activated systems at room temperature. Statements 1, 2 and 4 are correct; statement 3 is false."
+        "keyExplanation": "FCC and HCP have the same ideal packing factor (0.74), but packing density alone does not determine ductility. FCC has multiple equivalent {111}⟨110⟩ slip systems, whereas HCP commonly has fewer readily activated systems at room temperature. Statements 1, 2 and 4 are correct; statement 3 is false.",
+        "detailed": "- Item 1 — TRUE: no arrangement of equal spheres packs denser than 0.74.\n- Item 2 — TRUE: FCC and HCP have identical packing density; only the stacking order differs.\n- Item 3 — FALSE: identical packing density does not give identical ductility. FCC has four equivalent {111} close-packed planes; HCP has effectively one basal plane.\n- Item 4 — TRUE: FCC has four close-packed planes, compared with HCP's effectively one.\n\nThe key distinction linking Ch. 2 to Ch. 6 is that packing density is the same, but the number of readily activated slip systems is not."
       },
       "sourceFingerprint": "8cf8b94a"
     },
@@ -1543,7 +1545,8 @@
             "text": "(hkl)"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "detailed": "⟨uvw⟩ is the family of all directions related by the crystal's symmetry (e.g. ⟨110⟩ in cubic includes [110], [101], [011] and their negatives). Square brackets [uvw] (Q23) denote one specific direction. Braces {hkl} (Q25) are for plane families. These three notations have distinct meanings."
       },
       "sourceFingerprint": "30bfd0c8"
     },
@@ -12805,6 +12808,17 @@
         "answer": "c"
       },
       "sourceFingerprint": "31460b4b"
+    },
+    {
+      "chapter": "ch02",
+      "n": 18,
+      "originalType": "A",
+      "sourceText": "The HCP stacking sequence is:",
+      "sourceFingerprint": "90f4093c",
+      "updates": {
+        "keyExplanation": "HCP stacks ABAB…; FCC stacks ABCABC…. The two sequences differ in the number of distinct close-packed layer positions.",
+        "concise": "HCP stacks ABAB…; this contrasts with FCC's ABCABC…."
+      }
     }
   ],
   "sourceCommit": "b7359a6113a5888d3cf3c88cb5ce25cc716d89e4"
