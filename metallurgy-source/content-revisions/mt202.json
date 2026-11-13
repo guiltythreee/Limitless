@@ -11389,7 +11389,9 @@
         ],
         "answer": "c",
         "reason": "Carbon diffusivity depends on the activation energy for atomic jumps as well as the available interstitial sites. In ferrite, the migration barrier for carbon is substantially lower than in austenite, so carbon diffuses faster in BCC α-Fe despite its lower equilibrium solubility.",
-        "keyExplanation": "Both statements are true, but the reason as rewritten explains the diffusivity trend through the lower migration barrier in ferrite, not simply through atomic packing factor. Carbon solubility and carbon diffusivity are distinct thermodynamic and kinetic properties."
+        "keyExplanation": "Carbon has a lower migration activation energy in BCC α-Fe, so it diffuses faster there despite its lower equilibrium solubility. Answer (c).",
+        "detailed": "A is TRUE: carbon diffuses faster in BCC α-Fe than in FCC γ-Fe, even though γ-Fe dissolves much more carbon. R is TRUE: diffusivity depends on the activation barrier for atomic jumps, not simply on equilibrium solubility or nominal void size. The migration activation energy for carbon is substantially lower in ferrite than in austenite, so its diffusion coefficient is higher in α-Fe at comparable temperatures. R correctly explains A. Keep the distinction clear: solubility describes how much carbon can be accommodated at equilibrium; diffusivity describes how rapidly carbon moves.",
+        "concise": "Carbon is more soluble in FCC austenite, but diffuses faster in BCC ferrite because its migration activation barrier is lower."
       },
       "sourceFingerprint": "5ad70242"
     },
