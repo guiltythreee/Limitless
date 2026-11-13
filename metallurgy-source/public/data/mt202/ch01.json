@@ -776,19 +776,19 @@
       "options": [
         {
           "label": "a",
-          "text": "remain bound to individual atoms"
+          "text": "remain localized around their original atoms, with little movement through the lattice"
         },
         {
           "label": "b",
-          "text": "detach from individual atoms and form a shared, delocalised electron cloud"
+          "text": "become delocalized throughout the metal and are shared by many positive ion cores"
         },
         {
           "label": "c",
-          "text": "are transferred entirely to the nearest non-metal"
+          "text": "transfer to nearby atoms, producing oppositely charged ions held by attraction"
         },
         {
           "label": "d",
-          "text": "are localised in directional pairs"
+          "text": "occupy fixed directional pairs between specific neighbouring atoms"
         }
       ],
       "answer": "b",
