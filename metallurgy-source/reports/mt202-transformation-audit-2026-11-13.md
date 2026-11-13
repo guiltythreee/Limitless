@@ -41,6 +41,7 @@ The metadata registry's introductory note was also corrected: the 522 status val
 - `ch04-q38`: corrected a distractor-reference typo in the explanation (overheating is option (a), not (b)).
 - `ch05-q40`: corrected the explanation's list of incorrect options so it no longer includes the keyed correct option (d).
 - `ch05-q48`: corrected the explanation's distractor reference; option (a), not (b), describes a general grain boundary.
+- `ch09-q44`: corrected the solution's mechanism explanation. Carbon diffusivity in ferrite is higher because its migration activation barrier is lower; lower packing factor alone is not an adequate explanation.
 - `ch03-q42`: retained the course-supported, qualified claim that a moderate amount of dissolved gas can improve pressure-tightness in the specific context of interdendritic sponginess. The assertion/reason and explanation now explicitly state that this is context-specific and is not a general recommendation to tolerate gas porosity.
 - Both questions now have source references, high mapping confidence, reassessed difficulty and quality scores. Both are marked approved after the corrections.
 - Two assertion–reason answer-key inconsistencies and four explanation-to-option inconsistencies were found during manual inspection of the high-risk queue (`ch01-q14` and `ch01-q33`) and corrected in the durable overlay.
