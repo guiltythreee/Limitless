@@ -87,3 +87,16 @@ A second set of 10 questions was inspected and revised:
 The edits shorten overlong keyed options and make distractors more parallel while retaining the tested dislocation, stacking-fault, Burgers-vector, Frank–Read, pile-up, Schmid-factor, twinning and upper-yield concepts. All 10 answer keys were preserved. The existing durable overlay was updated in place; generated chapter JSON and deployed mirrors were updated together.
 
 The regenerated queue now contains **463 flags — 18 High, 312 Medium and 133 Review** (immediately before this batch: 464 flags — 28 High, 307 Medium and 129 Review). These are heuristic triage counts, not confirmed defect counts. The remaining 18 High findings should be manually inspected next.
+
+
+## Latest verified follow-up — third manual batch, 14 November 2026
+
+A third set of 10 questions was inspected and revised:
+
+- Ch 6 Q40, Q49, Q52 and Q57
+- Ch 7 Q5, Q9, Q32 and Q36
+- Ch 8 Q12 and Q15
+
+The option wording was made more parallel while preserving the intended metallurgy concepts and all answer keys. A substantive explanation defect was also found in **Ch 7 Q9**: its answer key and key explanation identified option A, but the detailed explanation incorrectly concluded that option C was correct. The detailed explanation and concise explanation have now been aligned with option A and the Hall–Petch effect.
+
+The existing overlay was updated in place and the generated chapter JSON / deployed mirrors were updated together. The queue now contains **463 flags — 9 High, 320 Medium and 134 Review** (before this batch: 463 flags — 18 High, 312 Medium and 133 Review). The High count fell by nine; the total remained constant because several option-length flags moved into lower-severity categories. This is a triage result, not a claim that the remaining flags are all confirmed defects.
