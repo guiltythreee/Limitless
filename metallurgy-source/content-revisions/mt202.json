@@ -8568,6 +8568,33 @@
     },
     {
       "chapter": "ch07",
+      "n": 13,
+      "originalType": "A",
+      "sourceText": "In the Hall–Petch equation, σ₀ is:",
+      "sourceFingerprint": "17067b19",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the baseline friction stress opposing dislocation glide"
+          },
+          {
+            "label": "b",
+            "text": "the grain-boundary coefficient that controls slip transfer"
+          },
+          {
+            "label": "c",
+            "text": "the mean grain diameter used in the relation"
+          },
+          {
+            "label": "d",
+            "text": "the applied tensile stress at the onset of yielding"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch07",
       "n": 14,
       "originalType": "A",
       "sourceText": "In the Hall–Petch equation, k_y is:",
@@ -9044,6 +9071,33 @@
         "keyExplanation": "Precipitation hardening deliberately forms a fine distribution of second-phase particles that impede dislocation motion. Options b, c and d describe solid-solution strengthening, recrystallization, and work hardening, respectively.",
         "concise": "Age hardening strengthens a suitably heat-treated alloy with a controlled distribution of fine precipitates.",
         "detailed": "The standard sequence is solution treatment, quenching to retain a supersaturated solid solution, and ageing to form fine precipitates. Depending on particle size and coherency, dislocations may shear particles or bypass them by Orowan looping. A uniform solute solution is a different mechanism; recrystallization changes grain structure; dislocation multiplication describes work hardening."
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 30,
+      "originalType": "A",
+      "sourceText": "The three steps of precipitation hardening, in order, are:",
+      "sourceFingerprint": "1f4dc990",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "solution-treat, quench to supersaturate, then age"
+          },
+          {
+            "label": "b",
+            "text": "age the alloy, quench it, then solution-treat"
+          },
+          {
+            "label": "c",
+            "text": "quench first, age next, then solution-treat"
+          },
+          {
+            "label": "d",
+            "text": "anneal, temper, then normalise the alloy"
+          }
+        ]
       }
     },
     {
@@ -9914,6 +9968,33 @@
     },
     {
       "chapter": "ch08",
+      "n": 13,
+      "originalType": "G",
+      "sourceText": "The standard application of Fick's first law is:",
+      "sourceFingerprint": "20ca3b50",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "steady-state permeation through a membrane with fixed face concentrations"
+          },
+          {
+            "label": "b",
+            "text": "non-steady carburising profiles in a semi-infinite solid"
+          },
+          {
+            "label": "c",
+            "text": "grain growth during recrystallisation annealing"
+          },
+          {
+            "label": "d",
+            "text": "phase transformation kinetics on a TTT diagram"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch08",
       "n": 14,
       "originalType": "E",
       "sourceText": "Fick's second law is:",
@@ -10168,6 +10249,33 @@
         "detailed": "The Arrhenius relation for diffusion is D = D₀ exp(−Q_d/RT), so **(b)** is correct. A positive exponent would make D increase as temperature falls, contrary to thermally activated diffusion; the remaining options are not exponential Arrhenius forms."
       },
       "sourceFingerprint": "9ed3f333"
+    },
+    {
+      "chapter": "ch08",
+      "n": 26,
+      "originalType": "A",
+      "sourceText": "In the Arrhenius equation, D₀ is:",
+      "sourceFingerprint": "81000d74",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the temperature-independent pre-exponential factor"
+          },
+          {
+            "label": "b",
+            "text": "the activation energy in the exponential term"
+          },
+          {
+            "label": "c",
+            "text": "the universal gas constant in the Arrhenius expression"
+          },
+          {
+            "label": "d",
+            "text": "the absolute temperature of the diffusion experiment"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch08",
@@ -10802,6 +10910,33 @@
     },
     {
       "chapter": "ch09",
+      "n": 5,
+      "originalType": "E",
+      "sourceText": "In BCC iron, the octahedral interstitial void radius is 0.019 nm and the carbon atom radius is 0.08 nm. Carbon nevertheless occupies the octahedral site because:",
+      "sourceFingerprint": "26ea005e",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the site has two close neighbours, limiting local distortion"
+          },
+          {
+            "label": "b",
+            "text": "the octahedral void is larger than the tetrahedral void"
+          },
+          {
+            "label": "c",
+            "text": "BCC has octahedral sites but no tetrahedral sites"
+          },
+          {
+            "label": "d",
+            "text": "carbon is too small to distort the BCC lattice"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch09",
       "n": 6,
       "originalType": "E",
       "sourceText": "For an alloy with C₀ = 30 wt%, a tie line gives Cα = 10 wt% and Cβ = 50 wt%. The weight fractions Wα and Wβ are:",
@@ -11298,6 +11433,33 @@
     },
     {
       "chapter": "ch09",
+      "n": 26,
+      "originalType": "E",
+      "sourceText": "In the lever rule, the weight fraction of a phase is found using:",
+      "sourceFingerprint": "69c625ad",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the opposite tie-line arm divided by the full tie-line length"
+          },
+          {
+            "label": "b",
+            "text": "the same-side tie-line arm divided by the full tie-line length"
+          },
+          {
+            "label": "c",
+            "text": "the vertical gap between liquidus and solidus curves"
+          },
+          {
+            "label": "d",
+            "text": "the slope of the tie line at the alloy composition"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch09",
       "n": 27,
       "originalType": "C",
       "sourceText": "",
@@ -11381,6 +11543,33 @@
         "detailed": "The perfect FCC dislocation a/2[10̄1] dissociates into two Shockley partials:\n```\n(a/2)[10̄1] → (a/6)[2 1̄ 1̄] + (a/6)[11 2̄]\n```\nComponent-wise, [2, −1, −1] + [1, 1, −2] = [3, 0, −3], so the partials sum to (a/2)[1, 0, −1], exactly the parent Burgers vector. The two partials enclose a ribbon of stacking fault, where the FCC ABCABC… sequence is locally disrupted into ABAB… stacking. **(b)** is correct. This vector form also matches the corrected dissociation in Chapter 5."
       },
       "sourceFingerprint": "ecd94864"
+    },
+    {
+      "chapter": "ch09",
+      "n": 32,
+      "originalType": "E",
+      "sourceText": "For a single crystal with τ_crss = 1 MPa oriented at φ = λ = 45°, σ_y = 2 MPa. Oriented instead at φ = λ = 70°, σ_y ≈ 8.5 MPa. The increase is due purely to:",
+      "sourceFingerprint": "aa4dcb35",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a change in orientation alters the Schmid factor, not τ_crss"
+          },
+          {
+            "label": "b",
+            "text": "a change in alloy chemistry raises the intrinsic CRSS"
+          },
+          {
+            "label": "c",
+            "text": "a change in grain size alters the Hall–Petch contribution"
+          },
+          {
+            "label": "d",
+            "text": "a change in Burgers vector alters the dislocation glide distance"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch09",
