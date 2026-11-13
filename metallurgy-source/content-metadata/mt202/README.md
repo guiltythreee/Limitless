@@ -98,7 +98,7 @@ These are **supporting course-resource references**, not a complete primary-sour
 6. Reject scores below 70 or any hard-rejection defect; revise and reassess before approval.
 7. Validate registry IDs, scores, totals and status consistency against all chapter JSON files before integration.
 
-Current branch review outcome: **522 approved, 0 in review, 0 rejected**. Run `npm run validate:mt202-metadata` in the repository environment before integration; the branch-level structural recheck is not a substitute for the actual Node.js command and production build.
+Current branch review outcome: **522 approved, 0 in review, 0 rejected**. The actual `npm run validate:mt202-metadata` command and production build passed in GitHub Actions on the current draft PR. Re-run the workflow after rebasing or cherry-picking onto current `main`.
 
 ## Source-of-truth warning
 
