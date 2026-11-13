@@ -26,7 +26,7 @@ A direct inspection of the 389 overlay records shows that the changes are hetero
 - The remaining 54 records have narrower combinations of explanation, key, statement, assertion/reason or option updates.
 - Across the overlay, 378 records update options and 376 update the answer field. Field presence alone does not establish whether the change is a shuffle, a distractor rewrite or a conceptual correction.
 
-The metadata registry's introductory note was also corrected: the 522 status values are current editorial approvals, not drafts, while approval remains provisional rather than independent faculty certification. A note now explicitly warns that quality scores require calibration against student performance and faculty review.
+The metadata registry's introductory note was corrected: the 522 status values are current editorial approvals, not drafts, while approval remains provisional rather than independent faculty certification. A note explicitly warns that quality scores require calibration against student performance and faculty review. The registry README was reconciled to the current 522 approved / 0 review / 0 rejected state.
 
 ## Source-of-truth limitation
 
@@ -43,7 +43,7 @@ The metadata registry's introductory note was also corrected: the 522 status val
 - `ch05-q48`: corrected the explanation's distractor reference; option (a), not (b), describes a general grain boundary.
 - `ch09-q44`: corrected the solution's mechanism explanation. Carbon diffusivity in ferrite is higher because its migration activation barrier is lower; lower packing factor alone is not an adequate explanation.
 - `ch03-q42`: retained the course-supported, qualified claim that a moderate amount of dissolved gas can improve pressure-tightness in the specific context of interdendritic sponginess. The assertion/reason and explanation now explicitly state that this is context-specific and is not a general recommendation to tolerate gas porosity.
-- Both questions now have source references, high mapping confidence, reassessed difficulty and quality scores. Both are marked approved after the corrections.
+- `ch02-q35` and `ch03-q42` retain specific PDF section references, high mapping confidence, and reassessed difficulty/quality scores. Both are approved after correction.
 - Two assertion–reason answer-key inconsistencies and four explanation-to-option inconsistencies were found during manual inspection of the high-risk queue (`ch01-q14` and `ch01-q33`) and corrected in the durable overlay.
 - Eight further high-risk answer-length flags were addressed by making distractor lengths and specificity more comparable: `ch02-q37`, `ch02-q43`, `ch03-q33`, `ch03-q34`, `ch03-q47`, `ch03-q56`, `ch03-q70`, and `ch03-q73`. Correct-answer labels were preserved and the edits were added to the durable overlay.
 - All 84 numerical (`E`) questions were additionally tagged with the `apply` reasoning skill. Before this correction, only one question in the entire bank carried that tag.
@@ -65,7 +65,7 @@ The metadata registry's introductory note was also corrected: the 522 status val
 1. Obtain the authoritative Markdown bank and solution folder to generate an exact per-question original-to-revised diff. Then classify each question as retained, lightly edited, substantially rewritten, or replaced.
 2. Manually inspect the 461 MT202 entries in the saved heuristic follow-up queue (151 High, 231 Medium, 79 Review). This queue predates the latest eight distractor edits and must be regenerated after a real source sync. Heuristic flags are review prompts, not confirmed defects.
 3. Reassess distractor plausibility, conceptual depth, explanation completeness, and every numerical/data-reading answer. The existing metadata scores are editorial assessments, not independent faculty validation.
-4. Add source references for the remaining 520 records where the supporting course source can be identified.
+4. Replace or supplement the topic-mapped companion references with exact original lecture, textbook and PYQ citations wherever those sources can be identified. The current companion references are supporting course-resource pointers, not a complete primary-source audit.
 5. Run `npm run validate:mt202-metadata`, the MT202 test suite, and the production build in the actual repository environment. These commands were not run by this remote GitHub-content audit.
 
 ## Preservation
