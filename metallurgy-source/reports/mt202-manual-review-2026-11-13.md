@@ -113,3 +113,8 @@ The updated metadata still contains 522 unique records. A remote parity check fo
 ## High-priority distractor follow-up — 14 November 2026
 
 A further distractor pass revised 14 questions in Chapters 4–9. Answer keys were preserved, existing source fingerprints were retained, generated chapter outputs matched their deployed mirrors byte-for-byte, and the heuristic queue was regenerated. Current queue: 474 flagged questions — 127 High, 264 Medium, 83 Review. See `reports/mt202-high-priority-distractor-review-2026-11-14.md` for the affected questions and validation details.
+
+
+## Numerical distractor follow-up — 14 November 2026
+
+Four additional items were clarified after the initial 14-question distractor pass: Ch 5 Q34, Ch 6 Q17, Ch 6 Q24 and Ch 9 Q24. The latest total is 18 questions with distractor-balance edits. Answer keys were preserved. The current heuristic queue is 473 flags (123 High, 267 Medium, 83 Review). The 392-record revision overlay has 392 unique targets, all overlay update fields match generated chapter outputs, and all nine deployed mirrors match their generated files byte-for-byte. Full CI has not yet rerun on these latest commits.
