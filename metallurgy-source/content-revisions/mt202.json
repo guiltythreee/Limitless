@@ -1574,7 +1574,9 @@
             "text": "⟨uvw⟩"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "keyExplanation": "{hkl} is the family of symmetry-equivalent planes. Braces denote plane families; square brackets denote one direction.",
+        "detailed": "{hkl} collects all symmetry-equivalent planes (in cubic, {111} = (111), (11̄1),\n(111̄), (1̄11) and the opposites — four distinct planes). Parentheses (hkl) denote one specific\nparallel set. This is the plane-family counterpart of Q24; distinguish braces for plane families from angle brackets for direction families."
       },
       "sourceFingerprint": "ab379cdd"
     },
@@ -1866,7 +1868,9 @@
             "text": "neither exists"
           }
         ],
-        "answer": "a"
+        "answer": "a",
+        "keyExplanation": "BCC tetrahedral voids (0.291 R) are nominally larger than octahedral voids (0.155 R). This reverses the FCC comparison, where octahedral voids are larger.",
+        "detailed": "```\nBCC octahedral void:  r_void/R = 2/√3 − 1 = 0.155\nBCC tetrahedral void: r_void/R = 0.291\n```\nSo in BCC, **tetrahedral > octahedral**.\n**This is the reverse of FCC**, where octahedral (0.414) > tetrahedral (0.225).\nDo not assume octahedral is always the larger void; the larger interstitial site depends on the crystal structure.\n| | larger void |\n|---|---|\n| FCC | octahedral (0.414) |\n| BCC | tetrahedral (0.291) |\nAnd then see Q41 for the distinction involving carbon."
       },
       "sourceFingerprint": "4b3bcce3"
     },
