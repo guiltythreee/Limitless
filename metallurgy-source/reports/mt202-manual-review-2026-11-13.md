@@ -108,3 +108,8 @@ No merge or production deployment was performed.
 The 40-case topic/objective comparison above was manually inspected in a follow-up pass. Its count is a historical snapshot, not the current open count. Thirty-two records received targeted mapping/objective corrections; eight were retained because the topic/objective distinction is legitimate or reflects a broader catalogue-boundary issue. The detailed question-by-question rationale and validation are recorded in `reports/mt202-mapping-audit-2026-11-14.md`.
 
 The updated metadata still contains 522 unique records. A remote parity check found no unresolved topic, related-topic or objective references and no quality-total arithmetic errors. The repository Node validator and CI must be rerun on the updated branch before integration. This mapping pass does not close the separate 474-question content-quality follow-up queue or the source-provenance limitation.
+
+
+## High-priority distractor follow-up — 14 November 2026
+
+A further distractor pass revised 14 questions in Chapters 4–9. Answer keys were preserved, existing source fingerprints were retained, generated chapter outputs matched their deployed mirrors byte-for-byte, and the heuristic queue was regenerated. Current queue: 474 flagged questions — 127 High, 264 Medium, 83 Review. See `reports/mt202-high-priority-distractor-review-2026-11-14.md` for the affected questions and validation details.
