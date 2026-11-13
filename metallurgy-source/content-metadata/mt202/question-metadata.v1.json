@@ -6819,15 +6819,15 @@
         "MT202-4.8.1"
       ],
       "questionType": "A",
-      "assessedDifficulty": 1,
+      "assessedDifficulty": 2,
       "reasoningSkills": [
-        "recall"
+        "distinguish",
+        "classify"
       ],
       "misconceptionTags": [
-        "alloy_phase_diagrams_conceptual_confusion",
-        "slip_twinning_or_deformation_confusion",
-        "strengthening_mechanism_confusion",
-        "solidification_or_casting_confusion"
+        "overheating_vs_burning_confusion",
+        "temperature_or_heat_treatment_confusion",
+        "alloy_phase_diagrams_conceptual_confusion"
       ],
       "sourceReferences": [
         "Chapter 4 — Constitution of Alloys and Alloy Solidification, §4.8 (4.8)"
@@ -6835,13 +6835,13 @@
       "mappingConfidence": "high",
       "quality": {
         "conceptualAccuracy": 18,
-        "distractorPlausibility": 15,
-        "reasoning": 9,
-        "noGiveaways": 13,
-        "clarity": 13,
-        "explanation": 8,
+        "distractorPlausibility": 18,
+        "reasoning": 8,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 81
+        "total": 88
       },
       "status": "approved"
     },
