@@ -158,3 +158,15 @@ The explanation-alignment regression was expanded from six spot checks to nine t
 ## Follow-up correction to Chapter 7 Q9 — 14 November 2026
 
 The full explanation audit prompted a second pass on Ch 7 Q9: the earlier correction had aligned the concise and detailed explanations with answer A, but the short key explanation still retained the stale claim that C was correct. The key explanation is now corrected as well, and all three explanation fields consistently identify Hall–Petch strengthening as the reason grain refinement raises initial yield stress. The targeted regression test covers this item.
+
+
+## Chapter 2 follow-up — remove unexplained strategy labels, 14 November 2026
+
+Four more Chapter 2 explanations were cleaned up:
+
+- Ch 2 Q18: added a durable overlay for the original HCP stacking item and removed the unexplained P2 marker from its key/concise explanations.
+- Ch 2 Q19, Q20 and Q24: replaced P2-coded language in detailed explanations with direct descriptions of the HCP/FCC stacking contrast, the packing-density/slip-system distinction, and crystallographic direction notation.
+
+The new Q18 overlay uses the pinned source commit and its validated source fingerprint. The overlay now contains **419 unique targets** (up from 418); generated Chapter 2 JSON and its deployed mirror are byte-identical, and all four answer keys are preserved. The queue now contains **457 flags — 0 High, 318 Medium and 139 Review** (before this pass: 458 flags — 0 High, 320 Medium and 138 Review).
+
+The explanation regression now checks explicit answer-letter references in keyExplanation, concise and detailed fields across all 522 questions, in addition to its targeted conceptual checks. The current scan found 201 explicit references and no answer-letter mismatches.
