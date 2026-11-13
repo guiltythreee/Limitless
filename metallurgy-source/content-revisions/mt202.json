@@ -4667,9 +4667,10 @@
           }
         ],
         "answer": "a",
-        "detailed": "In a cored Cu–Ni grain, the first-formed core is richer in the higher-melting component (Ni) and the last-formed edge is richer in the lower-melting component (Cu). **(c)** is correct. Option (a) reverses the direction for this system; (b) removes the composition gradient; and (d) is not the general Cu–Ni coring description.",
+        "detailed": "Coring is caused by solute partitioning between solid and liquid during non-equilibrium solidification. The first-solidified core and last-solidified interdendritic region therefore have different compositions. **(a)** is correct. Complete diffusion homogenisation would reduce or remove the gradient; the nominal bulk composition is conserved during freezing; grain rotation does not create the compositional variation.",
         "text": "In a cored grain, the composition generally varies between the composition of the first-solidified core and that of the last-solidified interdendritic or grain-boundary region. This variation is caused by:",
-        "keyExplanation": "During non-equilibrium solidification, the solid and liquid generally have different compositions at the interface. Limited solid-state diffusion preserves a composition gradient from early-solidified regions to the last-solidified interdendritic regions. The direction and magnitude depend on the phase diagram and partition coefficient."
+        "keyExplanation": "Solute partitioning during non-equilibrium solidification creates a composition gradient within each grain. Answer (a).",
+        "concise": "Coring is caused by solute partitioning during non-equilibrium solidification."
       },
       "sourceFingerprint": "5dbc1e1a"
     },
@@ -4754,7 +4755,8 @@
             "text": "a favourable grain-refining treatment"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "**Burning** (burning-up / liquation) is genuine grain-boundary melting caused by crossing the local effective (cored) solidus. Once the grain boundaries have melted, the material is permanently damaged and cannot be recovered by subsequent heat treatment. Option **(a)** describes recoverable overheating, not burning. Option (c) is only surface oxidation; (d) is not a beneficial treatment. The key test is whether the local effective solidus was crossed and melting occurred."
       },
       "sourceFingerprint": "e4334690"
     },
@@ -5879,7 +5881,8 @@
             "text": "elastic repulsion of the two partials (widening) and the stacking-fault surface energy γ_sf (narrowing)"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "detailed": "The equilibrium ribbon width is set by two opposing effects: elastic repulsion between the partials pushes them apart, while the positive stacking-fault energy favours a narrower ribbon. Low γ_sf permits a wider ribbon; high γ_sf favours a narrower one. Options (a), (b) and (c) do not describe this force balance. Therefore **(d)** is correct."
       },
       "sourceFingerprint": "371bb9c4"
     },
@@ -6047,7 +6050,8 @@
             "text": "the highest-energy defect in a crystal"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "detailed": "A twin boundary is a special, low-energy boundary across which the lattice on one side is a mirror image of the other. **(b)** is correct. Option (a) describes a general grain boundary between differently oriented grains; (c) describes a stacking fault; and (d) incorrectly calls the twin boundary a high-energy defect. The distinction is: general grain boundary = misorientation; twin boundary = mirror symmetry."
       },
       "sourceFingerprint": "e1050d31"
     },
