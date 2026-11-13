@@ -414,7 +414,7 @@
       "stars": 3,
       "type": "G",
       "traps": [],
-      "text": "Finer grain size causes a metal to:",
+      "text": "Grain refinement in many structural metals generally:",
       "statements": [],
       "tableRows": [],
       "assertion": "",
@@ -422,23 +422,23 @@
       "options": [
         {
           "label": "a",
-          "text": "start hardening from a lower baseline"
+          "text": "raises the initial yield stress through the Hall–Petch effect"
         },
         {
           "label": "b",
-          "text": "work harden more slowly"
+          "text": "always increases the work-hardening rate at every strain"
         },
         {
           "label": "c",
-          "text": "start hardening from a higher baseline stress and generally work harden faster initially"
+          "text": "eliminates strain hardening"
         },
         {
           "label": "d",
-          "text": "not work harden at all"
+          "text": "lowers the initial yield stress"
         }
       ],
-      "answer": "c",
-      "keyExplanation": "Fine grains → higher baseline, faster initial hardening (more pile-ups sooner).",
+      "answer": "a",
+      "keyExplanation": "Grain refinement commonly raises initial yield stress because grain boundaries impede slip transfer (Hall–Petch strengthening). It does not imply a universal increase in the subsequent work-hardening rate.",
       "concise": "Fine grains → higher baseline (Hall–Petch) and faster initial hardening (more pile-ups sooner).",
       "detailed": "Finer grains raise the starting flow stress through Hall–Petch strengthening and generally increase the initial work-hardening rate because grain boundaries promote pile-ups and additional obstacles. **(c)** is correct. Options (a), (b), and (d) state the opposite or deny work hardening."
     },
