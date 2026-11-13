@@ -37,9 +37,13 @@ The metadata registry's introductory note was also corrected: the 522 status val
 - `ch02-q35`: replaced the misleading claim that close-packed planes generally have the largest interplanar spacing. The revised item distinguishes planar density from interplanar spacing using (d_{hkl}=a/\sqrt{h^2+k^2+l^2}), and correctly relates a smaller Burgers vector to lower dislocation line energy. The original question type (B) and stable question ID are preserved.
 - `ch01-q14`: corrected an assertion–reason key. The reason explains ionic brittleness caused by charge ordering, but does not explain electrical insulation; both statements are true, while the reason does not fully explain the assertion (answer A).
 - `ch01-q33`: corrected an assertion–reason key. Both the assertion and reason are true, and the interatomic-potential explanation supports the trend linking bond strength with melting point and elastic modulus (answer C).
+- `ch04-q35`: corrected an explanation/key inconsistency: the option identifying solute partitioning is (a), not (c), and the solution now matches the keyed answer.
+- `ch04-q38`: corrected a distractor-reference typo in the explanation (overheating is option (a), not (b)).
+- `ch05-q40`: corrected the explanation's list of incorrect options so it no longer includes the keyed correct option (d).
+- `ch05-q48`: corrected the explanation's distractor reference; option (a), not (b), describes a general grain boundary.
 - `ch03-q42`: retained the course-supported, qualified claim that a moderate amount of dissolved gas can improve pressure-tightness in the specific context of interdendritic sponginess. The assertion/reason and explanation now explicitly state that this is context-specific and is not a general recommendation to tolerate gas porosity.
 - Both questions now have source references, high mapping confidence, reassessed difficulty and quality scores. Both are marked approved after the corrections.
-- Two additional assertion–reason answer-key inconsistencies were found during manual inspection of the high-risk queue (`ch01-q14` and `ch01-q33`) and corrected in the durable overlay.
+- Two assertion–reason answer-key inconsistencies and four explanation-to-option inconsistencies were found during manual inspection of the high-risk queue (`ch01-q14` and `ch01-q33`) and corrected in the durable overlay.
 - Eight further high-risk answer-length flags were addressed by making distractor lengths and specificity more comparable: `ch02-q37`, `ch02-q43`, `ch03-q33`, `ch03-q34`, `ch03-q47`, `ch03-q56`, `ch03-q70`, and `ch03-q73`. Correct-answer labels were preserved and the edits were added to the durable overlay.
 - All 84 numerical (`E`) questions were additionally tagged with the `apply` reasoning skill. Before this correction, only one question in the entire bank carried that tag.
 
