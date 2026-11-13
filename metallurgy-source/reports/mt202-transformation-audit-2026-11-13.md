@@ -118,3 +118,8 @@ The current durable revision overlay contains **392 unique question targets** (n
 ## Heuristic refinement update — 14 November 2026
 
 The duplicate-stem detector now compares the stem plus statements, match-table content and assertion/reason text. This avoids false duplicate classifications for structured revision variants that reuse generic stems. The queue was regenerated: 473 flags (119 High, 271 Medium, 83 Review).
+
+
+## Cumulative question-quality follow-up — 14 November 2026
+
+The current overlay has grown to 418 unique targets. All overlay payloads are present in generated outputs; all nine deployed mirrors match generated chapters byte-for-byte. The cumulative distractor-balance pass covers 56 questions and preserves answer keys. The heuristic queue currently contains 465 flags (50 High, 292 Medium, 123 Review). The audit script now avoids length-bias false positives for standardized True/False and Assertion–Reason formats and uses structured content in duplicate detection. Full subject-matter review remains open.
