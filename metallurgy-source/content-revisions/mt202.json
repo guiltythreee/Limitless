@@ -8882,9 +8882,9 @@
           }
         ],
         "answer": "a",
-        "detailed": "Finer grains raise the initial yield stress because grain boundaries impede slip transfer. **(a)** is correct. This does not mean the work-hardening rate must increase at every strain; nor does grain refinement eliminate strain hardening or lower the initial yield stress.",
+        "detailed": "Finer grains raise the initial yield stress because grain boundaries impede slip transfer (Hall–Petch strengthening). **(a)** is correct. This does not mean the work-hardening rate must increase at every strain; nor does grain refinement eliminate strain hardening or lower the initial yield stress.",
         "text": "Grain refinement in many structural metals generally:",
-        "keyExplanation": "Grain refinement commonly raises initial yield stress because grain boundaries impede slip transfer (Hall–Petch strengthening). It does not imply a universal increase in the subsequent work-hardening rate.",
+        "keyExplanation": "Grain refinement raises initial yield stress through Hall–Petch strengthening. It does not guarantee a higher work-hardening rate at every strain. **(a)** is correct.",
         "concise": "Grain refinement generally raises the initial yield stress through Hall–Petch strengthening."
       },
       "sourceFingerprint": "662e7d87"
