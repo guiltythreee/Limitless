@@ -47,14 +47,14 @@ A mechanical comparison of each record's primary curriculum topic against the ch
 | Ch 1 | 3 |
 | Ch 2 | 1 |
 | Ch 3 | 3 |
-| Ch 5 | 7 |
+| Ch 5 | 10 |
 | Ch 6 | 9 |
 | Ch 7 | 1 |
 | Ch 8 | 7 |
 | Ch 9 | 6 |
-| **Total** | **37** |
+| **Total** | **40** |
 
-Correction: the chapter-level counts above are a triage view and must reconcile to the 40-record total before any bulk change. The comparison is not itself proof of incorrect mapping: some questions intentionally assess multiple topics, and Chapter 9 is a revision mix. Each record needs inspection against its actual stem/statements and the topic catalogue.
+The comparison is not itself proof of incorrect mapping: some questions intentionally assess multiple topics, and Chapter 9 is a revision mix. Each record needs inspection against its actual stem/statements and the topic catalogue.
 
 The metadata registry currently marks all 522 questions approved. The editorial score distribution is concentrated (277 records score 81 and 146 score 91), so score calibration and independent faculty review remain open. Approval is provisional and must not be read as external validation.
 
