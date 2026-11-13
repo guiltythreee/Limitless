@@ -2,9 +2,22 @@
 
 ## Scope of this pass
 
-This pass manually reviewed four high-signal distractor cases and the associated metadata. It is a targeted correction pass, not completion of the full 522-question subject-matter audit.
+This pass manually reviewed six high-signal distractor cases and the associated metadata. It is a targeted correction pass, not completion of the full 522-question subject-matter audit.
 
 ## Durable question revisions
+
+### Chapter 2, Q53 — FCC/BCC interplanar spacing and ductility
+
+- Rewrote all four options as comparable statements about the misconception that equal interplanar spacing implies equal ductility or equal packing.
+- Preserved answer key **(a)** and the existing numerical premise.
+- Kept the explanation's distinction between FCC's four close-packed \\{111\\} planes and BCC's lack of a truly close-packed plane.
+
+### Chapter 4, Q39 — overheating versus burning
+
+- Rewrote the options to distinguish recoverable heating below the local effective solidus from grain-boundary liquation, bulk melting and rapid quenching.
+- Preserved answer key **(a)**.
+- Clarified the effective-solidus test in the explanation and removed unrelated misconception tags.
+- Updated difficulty to 2 and reasoning skills to `distinguish` / `classify`.
 
 ### Chapter 5, Q15 — theoretical versus actual shear strength
 
@@ -37,20 +50,20 @@ This pass manually reviewed four high-signal distractor cases and the associated
 - Removed unrelated misconception tags and added `shrinkage_vs_gas_porosity_confusion`.
 - Updated the editorial assessment to difficulty 2 and reasoning skills `classify` / `distinguish`.
 
-All four revisions update the durable `content-revisions/mt202.json` overlay and the generated chapter output. The deployed mirrors for Chapters 3 and 5 were synchronized. The original pinned source fingerprints were retained.
+All six revisions update the durable `content-revisions/mt202.json` overlay and the generated chapter output. The deployed mirrors for Chapters 3 and 5 were synchronized. The original pinned source fingerprints were retained.
 
 ## Metadata corrections
 
 Chapter 5 Q4–Q6 all assess point defects. Their primary curriculum topic was corrected from 5.1 (classification of defects) to 5.2 (point defects and vacancy concentration), with 5.1 retained as a related topic. Their supporting references were aligned to Chapter 5, topic 5.2.
 
-The revised question quality totals are now 88 (Q3), 88 (Q5), 89 (Q15) and 89 (Q41). These remain editorial rubric scores, not empirically calibrated item statistics.
+The revised question quality totals are now 88 (Q3), 88 (Q5), 89 (Q15), 88 (Q39) and 89 (Q41); Q53 retains its existing total of 92. These remain editorial rubric scores, not empirically calibrated item statistics.
 
 ## Validation performed
 
 - Exact deployed-mirror equality confirmed for MT202 Chapters 3 and 5.
 - Updated question options confirmed to match their durable overlay records.
 - Metadata registry still contains 522 records.
-- Heuristic follow-up queue regenerated from the current nine chapter JSON files: **474 flagged questions** — 144 High, 248 Medium, 82 Review. These are triage prompts, not confirmed defects.
+- Heuristic follow-up queue regenerated from the current nine chapter JSON files: **474 flagged questions** — 142 High, 250 Medium, 82 Review. These are triage prompts, not confirmed defects.
 - A pre-edit backup branch was created: `backup/mt202-before-manual-distractor-revisions-2026-11-13`.
 
 ## Remaining audit findings
