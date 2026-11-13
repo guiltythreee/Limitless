@@ -8214,19 +8214,19 @@
         "options": [
           {
             "label": "a",
-            "text": "dynamic strain ageing — solute atoms repeatedly re-pin moving dislocations, which then break away again"
+            "text": "solute atoms repeatedly pin and release moving dislocations"
           },
           {
             "label": "b",
-            "text": "periodic fracture of brittle inclusions ahead of the plastic front"
+            "text": "periodic fracture of brittle inclusions ahead of the front"
           },
           {
             "label": "c",
-            "text": "intermittent adiabatic heating that softens the specimen"
+            "text": "intermittent adiabatic heating softens the specimen"
           },
           {
             "label": "d",
-            "text": "stick–slip of the specimen in the grips"
+            "text": "stick–slip occurs between the specimen and grips"
           }
         ],
         "answer": "a",
@@ -8368,19 +8368,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a regime of high, nearly constant hardening rate arising from rapid multiplication and the build-up of dislocation tangles and pile-ups on intersecting systems"
+            "text": "high, nearly constant hardening from dislocation tangles and pile-ups"
           },
           {
             "label": "b",
-            "text": "an easy-glide region in which one slip system operates alone at a low hardening rate"
+            "text": "low-rate easy glide on a single slip system"
           },
           {
             "label": "c",
-            "text": "a parabolic region in which dynamic recovery by cross-slip offsets further hardening"
+            "text": "parabolic hardening as cross-slip enables dynamic recovery"
           },
           {
             "label": "d",
-            "text": "a plateau of zero hardening followed by necking"
+            "text": "zero hardening followed immediately by necking"
           }
         ],
         "answer": "a",
@@ -8397,11 +8397,11 @@
         "options": [
           {
             "label": "a",
-            "text": "strain ageing that occurs while the punch retracts"
+            "text": "strain ageing while the punch retracts"
           },
           {
             "label": "b",
-            "text": "thermal contraction of the sheet and the die"
+            "text": "thermal contraction of the sheet and die"
           },
           {
             "label": "c",
@@ -8409,7 +8409,7 @@
           },
           {
             "label": "d",
-            "text": "elastic recovery on unloading — the elastic part of the strain is recovered while the plastic part remains"
+            "text": "elastic recovery on unloading while plastic strain remains"
           }
         ],
         "answer": "d",
@@ -8558,19 +8558,19 @@
         "options": [
           {
             "label": "a",
-            "text": "aluminium has a much higher melting point than α-iron"
+            "text": "aluminium's melting point is higher than that of α-iron"
           },
           {
             "label": "b",
-            "text": "both metals have twelve slip systems, so their temperature dependence must be identical"
+            "text": "both have twelve slip systems and therefore identical temperature response"
           },
           {
             "label": "c",
-            "text": "BCC slip is thermally activated on a non-close-packed plane, so τ_crss climbs steeply when thermal assistance is removed, whereas FCC slip on close-packed {111} planes is only weakly temperature-dependent"
+            "text": "BCC slip is thermally activated; FCC slip on {111} is less temperature-sensitive"
           },
           {
             "label": "d",
-            "text": "cooling creates additional slip systems in the BCC lattice"
+            "text": "cooling creates additional active slip systems in BCC iron"
           }
         ],
         "answer": "c",
@@ -8753,15 +8753,15 @@
           },
           {
             "label": "b",
-            "text": "Stage I easy glide (single slip) → Stage II multiple slip, linear hardening → Stage III dynamic recovery, parabolic"
+            "text": "Stage I easy glide → Stage II linear → Stage III parabolic"
           },
           {
             "label": "c",
-            "text": "two stages only"
+            "text": "Stage I and II only; no Stage III"
           },
           {
             "label": "d",
-            "text": "a single linear stage"
+            "text": "one stage with constant linear hardening"
           }
         ],
         "answer": "b",
@@ -8856,25 +8856,26 @@
         "options": [
           {
             "label": "a",
-            "text": "raises the initial yield stress through the Hall–Petch effect"
+            "text": "raises initial yield stress by Hall–Petch strengthening"
           },
           {
             "label": "b",
-            "text": "always increases the work-hardening rate at every strain"
+            "text": "raises work-hardening rate at every strain"
           },
           {
             "label": "c",
-            "text": "eliminates strain hardening"
+            "text": "eliminates all subsequent strain hardening"
           },
           {
             "label": "d",
-            "text": "lowers the initial yield stress"
+            "text": "lowers initial yield stress as grains become finer"
           }
         ],
         "answer": "a",
-        "detailed": "Finer grains raise the starting flow stress through Hall–Petch strengthening and generally increase the initial work-hardening rate because grain boundaries promote pile-ups and additional obstacles. **(c)** is correct. Options (a), (b), and (d) state the opposite or deny work hardening.",
+        "detailed": "Finer grains raise the initial yield stress because grain boundaries impede slip transfer. **(a)** is correct. This does not mean the work-hardening rate must increase at every strain; nor does grain refinement eliminate strain hardening or lower the initial yield stress.",
         "text": "Grain refinement in many structural metals generally:",
-        "keyExplanation": "Grain refinement commonly raises initial yield stress because grain boundaries impede slip transfer (Hall–Petch strengthening). It does not imply a universal increase in the subsequent work-hardening rate."
+        "keyExplanation": "Grain refinement commonly raises initial yield stress because grain boundaries impede slip transfer (Hall–Petch strengthening). It does not imply a universal increase in the subsequent work-hardening rate.",
+        "concise": "Grain refinement generally raises the initial yield stress through Hall–Petch strengthening."
       },
       "sourceFingerprint": "662e7d87"
     },
@@ -9590,19 +9591,19 @@
         "options": [
           {
             "label": "a",
-            "text": "strength falling continuously"
+            "text": "strength falls throughout ageing"
           },
           {
             "label": "b",
-            "text": "strength rising continuously"
+            "text": "strength rises throughout ageing"
           },
           {
             "label": "c",
-            "text": "strength constant, then falling"
+            "text": "strength stays constant, then declines"
           },
           {
             "label": "d",
-            "text": "strength rising through the underaged regime, peaking at optimal precipitate size and spacing, then falling in the overaged regime"
+            "text": "strength rises to a peak, then declines on overageing"
           }
         ],
         "answer": "d",
@@ -9685,19 +9686,19 @@
         "options": [
           {
             "label": "a",
-            "text": "cementite Fe₃C"
+            "text": "cementite (Fe₃C), the carbide in steel"
           },
           {
             "label": "b",
-            "text": "θ′ (with GP zones → θ″ → θ′ → θ sequence)"
+            "text": "θ′, the peak-strengthening Al–Cu precipitate"
           },
           {
             "label": "c",
-            "text": "martensite"
+            "text": "martensite, a diffusionless transformation product"
           },
           {
             "label": "d",
-            "text": "α-ferrite"
+            "text": "α-ferrite, the BCC iron-rich matrix phase"
           }
         ],
         "answer": "b",
@@ -10452,19 +10453,19 @@
         "options": [
           {
             "label": "a",
-            "text": "non-steady state only"
+            "text": "only when concentration changes with time"
           },
           {
             "label": "b",
-            "text": "transient conditions only"
+            "text": "only during transient concentration changes"
           },
           {
             "label": "c",
-            "text": "equilibrium only"
+            "text": "only at thermodynamic equilibrium"
           },
           {
             "label": "d",
-            "text": "steady state — a concentration profile that is not changing with time"
+            "text": "steady state, with a time-independent concentration profile"
           }
         ],
         "answer": "d",
@@ -10537,19 +10538,19 @@
         "options": [
           {
             "label": "a",
-            "text": "steady-state diffusion only"
+            "text": "steady-state diffusion with a fixed concentration profile"
           },
           {
             "label": "b",
-            "text": "heat conduction"
+            "text": "heat conduction through a solid"
           },
           {
             "label": "c",
-            "text": "phase equilibria"
+            "text": "phase equilibria between solid and liquid"
           },
           {
             "label": "d",
-            "text": "non-steady-state diffusion, where concentration at a given point changes with time"
+            "text": "non-steady-state diffusion, where concentration changes with time"
           }
         ],
         "answer": "d",
