@@ -175,3 +175,10 @@ The explanation regression now checks explicit answer-letter references in keyEx
 ## Counting clarification
 
 The four High-priority batches represent **39 revision events across 38 unique questions**. Ch 8 Q15 was revised in two passes because its first wording change did not remove the remaining High-severity cue. No question ID was duplicated or added by those revisions.
+
+
+## Chapter 2 notation and interstitial-site explanation cleanup — 14 November 2026
+
+Ch 2 Q25 and Q40 had unexplained P2 strategy labels in their key/detailed explanations. These were replaced with direct explanations of plane-family notation and the FCC/BCC interstitial-void size reversal. Both answer keys were preserved; the Chapter 2 generated file and deployed mirror remain byte-identical.
+
+The overlay remains at **419 unique targets**. The regenerated queue now contains **456 flags — 0 High, 317 Medium and 139 Review** (before this pass: 457 flags — 0 High, 318 Medium and 139 Review).
