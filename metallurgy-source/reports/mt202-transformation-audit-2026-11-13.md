@@ -49,6 +49,17 @@ The metadata registry's introductory note was corrected: the 522 status values a
 - Eight further high-risk answer-length flags were addressed by making distractor lengths and specificity more comparable: `ch02-q37`, `ch02-q43`, `ch03-q33`, `ch03-q34`, `ch03-q47`, `ch03-q56`, `ch03-q70`, and `ch03-q73`. Correct-answer labels were preserved and the edits were added to the durable overlay.
 - All 84 numerical (`E`) questions were additionally tagged with the `apply` reasoning skill. Before this correction, only one question in the entire bank carried that tag.
 
+## Overlay synchronization and preservation
+
+The CI-discovered overlay/output drift has now been reconciled:
+
+- All 389 MT202 durable overlay records are present in the nine generated chapter JSON files.
+- All 389 pinned source fingerprints match the recorded baseline commit.
+- All overlay update fields match the generated question records; zero mismatches remain.
+- All nine generated chapter JSON files match their checked-in `metallurgy/data/mt202` mirrors byte-for-byte.
+- Chapter counts remain 35, 53, 73, 47, 70, 58, 60, 56 and 70 (522 total). Question IDs and ordering are unchanged.
+- The course index generation date is refreshed to 2026-11-13; no course progress, storage keys, answer history or reward data are changed.
+
 ## Updated heuristic follow-up queue
 
 The October 28 queue was a historical snapshot. It has been superseded for MT202 by a fresh scan of the current 522-question generated bank:
