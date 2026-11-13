@@ -135,3 +135,14 @@ A further four Chapter 1 items were reviewed:
 - Ch 1 Q32: shortened and parallelised the graphite bonding options; the correct answer remains C.
 
 The four answer keys were preserved, and the generated chapter file remains byte-identical to its deployed mirror. The queue now contains **459 flags — 0 High, 321 Medium and 138 Review** (before this pass: 460 flags — 0 High, 322 Medium and 138 Review).
+
+
+## Chapter 2 Medium-priority review — first pass, 14 November 2026
+
+Three further Chapter 2 records were revised:
+
+- Ch 2 Q2: shortened the correct unit-cell definition and made distractors more parallel.
+- Ch 2 Q4: added the common unit word “lattices” to all numerical options so the two-digit correct answer is not distinguished by format.
+- Ch 2 Q14: removed the unexplained P2 marker from the BCC coordination-number explanation and stated the FCC/HCP contrast directly.
+
+All three answer keys were preserved; the generated Chapter 2 file and deployed mirror remain byte-identical. The queue now contains **458 flags — 0 High, 320 Medium and 138 Review** (before this pass: 459 flags — 0 High, 321 Medium and 138 Review).
