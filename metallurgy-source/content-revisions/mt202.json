@@ -1041,19 +1041,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the largest repeating group of atoms in a crystal"
+            "text": "the largest possible group of atoms repeated throughout the crystal"
           },
           {
             "label": "b",
-            "text": "any group of atoms selected without lattice symmetry"
+            "text": "an arbitrary group of atoms chosen without translational symmetry"
           },
           {
             "label": "c",
-            "text": "the smallest unit that repeats by translation to reproduce the crystal"
+            "text": "the smallest volume that reproduces the crystal by translation"
           },
           {
             "label": "d",
-            "text": "the group containing only the highest-symmetry atoms"
+            "text": "a group containing only the highest-symmetry atoms"
           }
         ],
         "answer": "c",
@@ -1098,19 +1098,19 @@
         "options": [
           {
             "label": "a",
-            "text": "14"
+            "text": "14 lattices"
           },
           {
             "label": "b",
-            "text": "3"
+            "text": "3 lattices"
           },
           {
             "label": "c",
-            "text": "7"
+            "text": "7 lattices"
           },
           {
             "label": "d",
-            "text": "32"
+            "text": "32 lattices"
           }
         ],
         "answer": "a",
@@ -1340,7 +1340,9 @@
             "text": "1, 2 and 3"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "keyExplanation": "Items 1–3 follow from the 0.68 packing efficiency. Item 4 is false: BCC has coordination number 8, whereas FCC/HCP have coordination number 12.",
+        "detailed": "- Item 1 — TRUE: APF 0.68 < 0.74, so BCC is not close-packed.\n- Item 2 — TRUE: BCC's {110}⟨111⟩ is not a true close-packed system (no truly close-packed plane), and it is less readily activated than FCC's {111}⟨110⟩.\n- Item 3 — TRUE: this is why BCC metals (α-Fe, Cr, W) show a ductile–brittle transition and are generally less ductile at low temperature.\n- Item 4 — FALSE: BCC's coordination number is 8, not 12. CN 12 belongs to FCC and HCP.\n\nThe key distinction is between BCC and the close-packed FCC/HCP structures: coordination number 12 belongs to FCC/HCP, not BCC."
       },
       "sourceFingerprint": "e4284f1e"
     },
