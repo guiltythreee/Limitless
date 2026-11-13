@@ -108,3 +108,8 @@ Changes remain on `mt202/question-metadata-registry`; the audit PR remains draft
 ## Follow-up update — 14 November 2026
 
 The topic/objective mapping audit corrected 32 records and retained eight legitimate or taxonomy-boundary cases; see `reports/mt202-mapping-audit-2026-11-14.md`. A further high-priority distractor pass revised 14 questions while preserving answer keys and source fingerprints; all six affected generated chapter files were confirmed byte-identical to their deployed mirrors. The current heuristic queue remains 474 flagged questions, now 127 High, 264 Medium and 83 Review. See `reports/mt202-high-priority-distractor-review-2026-11-14.md`. These changes do not complete the manual content audit or source-provenance comparison.
+
+
+## Latest branch reconciliation — 14 November 2026
+
+The current durable revision overlay contains **392 unique question targets** (not 389 as recorded in the 13 November snapshot). A direct comparison found all 392 update payloads present in the generated chapter JSON, with no duplicate targets or update-field mismatches. All nine generated MT202 chapter files match the deployed `metallurgy/data/mt202` mirrors byte-for-byte. The current heuristic queue has 473 flagged questions: 123 High, 267 Medium and 83 Review, following 18 targeted distractor revisions across Chapters 4–9. This is structural verification; the full GitHub Actions suite has not yet run on the latest branch head.
