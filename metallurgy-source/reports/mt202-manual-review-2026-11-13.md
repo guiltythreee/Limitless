@@ -15,7 +15,7 @@ This pass manually reviewed seven high-signal distractor cases and the associate
 
 - Rewrote all four options as comparable statements about the misconception that equal interplanar spacing implies equal ductility or equal packing.
 - Preserved answer key **(a)** and the existing numerical premise.
-- Kept the explanation's distinction between FCC's four close-packed \\{111\\} planes and BCC's lack of a truly close-packed plane.
+- Kept the explanation's distinction between FCC's four close-packed {111} planes and BCC's lack of a truly close-packed plane.
 
 ### Chapter 4, Q39 — overheating versus burning
 
@@ -55,7 +55,7 @@ This pass manually reviewed seven high-signal distractor cases and the associate
 - Removed unrelated misconception tags and added `shrinkage_vs_gas_porosity_confusion`.
 - Updated the editorial assessment to difficulty 2 and reasoning skills `classify` / `distinguish`.
 
-All seven revisions update the durable `content-revisions/mt202.json` overlay and the generated chapter output. The deployed mirrors for Chapters 3 and 5 were synchronized. The original pinned source fingerprints were retained.
+All seven revisions update the durable `content-revisions/mt202.json` overlay and the generated chapter output. The deployed mirrors for Chapters 1–5 were synchronized and checked byte-for-byte against the generated chapter files. The original pinned source fingerprints were retained.
 
 ## Metadata corrections
 
@@ -65,7 +65,7 @@ The revised question quality totals are now 88 (Q3), 88 (Q5), 89 (Q15), 88 (Q18)
 
 ## Validation performed
 
-- Exact deployed-mirror equality confirmed for MT202 Chapters 3 and 5.
+- Exact deployed-mirror equality confirmed for MT202 Chapters 1–5.
 - Updated question options confirmed to match their durable overlay records.
 - Metadata registry still contains 522 records.
 - Heuristic follow-up queue regenerated from the current nine chapter JSON files: **474 flagged questions** — 141 High, 250 Medium, 83 Review. These are triage prompts, not confirmed defects.
@@ -89,7 +89,7 @@ A mechanical comparison of each record's primary curriculum topic against the ch
 
 The comparison is not itself proof of incorrect mapping: some questions intentionally assess multiple topics, and Chapter 9 is a revision mix. Each record needs inspection against its actual stem/statements and the topic catalogue.
 
-The metadata registry currently marks all 522 questions approved. The editorial score distribution is concentrated (277 records score 81 and 146 score 91), so score calibration and independent faculty review remain open. Approval is provisional and must not be read as external validation.
+The metadata registry currently marks all 522 questions approved. The editorial score distribution is concentrated (274 records score 81 and 146 score 91), so score calibration and independent faculty review remain open. Approval is provisional and must not be read as external validation.
 
 The original Markdown question bank and solution folder are external to this repository. Exact original-to-revised classification therefore remains unavailable until those source files are supplied or connected.
 
