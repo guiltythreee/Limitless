@@ -5,6 +5,7 @@ on:
     paths:
       - "metallurgy-source/app/data/qbank/**"
       - "metallurgy-source/content-revisions/**"
+      - "metallurgy-source/content-metadata/mt202/**"
       - "metallurgy-source/public/data/mt201/**"
       - "metallurgy-source/public/data/mt202/**"
       - "metallurgy/data/mt201/**"
@@ -13,6 +14,7 @@ on:
       - "metallurgy-source/scripts/validate-question-quality-overlays.py"
       - "metallurgy-source/scripts/sync-mt201.mjs"
       - "metallurgy-source/scripts/sync.mjs"
+      - "metallurgy-source/scripts/validate-mt202-metadata.mjs"
       - "metallurgy-source/scripts/test-mt201.mjs"
       - "metallurgy-source/scripts/test-mt202.mjs"
       - "metallurgy-source/scripts/test-mt203.mjs"
@@ -88,6 +90,10 @@ jobs:
       - name: Check MT202 explanation alignment
         working-directory: metallurgy-source
         run: node scripts/test-mt202-explanation-alignment.mjs
+
+      - name: Validate MT202 question metadata registry
+        working-directory: metallurgy-source
+        run: npm run validate:mt202-metadata
 
       - name: Run MT203 tests and migration checks
         working-directory: metallurgy-source
