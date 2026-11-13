@@ -5804,19 +5804,19 @@
         "options": [
           {
             "label": "a",
-            "text": "an extra half-plane is inserted"
+            "text": "an extra half-plane is inserted into the lattice"
           },
           {
             "label": "b",
-            "text": "a vacancy migrates to the surface"
+            "text": "vacancy migration transports a missing atom to a surface"
           },
           {
             "label": "c",
-            "text": "two grains rotate into symmetry"
+            "text": "relative grain rotation creates a low-angle boundary"
           },
           {
             "label": "d",
-            "text": "one part of a crystal is sheared relative to the rest parallel to the dislocation line, so planes spiral like a screw thread"
+            "text": "parallel shear produces a helical ramp around the line"
           }
         ],
         "answer": "d",
@@ -5992,19 +5992,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the distance between two unit cells"
+            "text": "the translation between equivalent points in adjacent cells"
           },
           {
             "label": "b",
-            "text": "the interplanar spacing"
+            "text": "the perpendicular spacing between adjacent lattice planes"
           },
           {
             "label": "c",
-            "text": "the closure failure of an atomic circuit drawn around the dislocation in the real crystal, compared with the same circuit in a perfect reference crystal, measured Finish to Start (FS/RH)"
+            "text": "the closure failure of an atomic circuit around the line"
           },
           {
             "label": "d",
-            "text": "the length of the dislocation line"
+            "text": "the total geometric length of the dislocation line"
           }
         ],
         "answer": "c",
@@ -6229,19 +6229,19 @@
         "options": [
           {
             "label": "a",
-            "text": "twin boundary"
+            "text": "a coherent twin plane between mirror-related regions"
           },
           {
             "label": "b",
-            "text": "stacking fault — a region where the ABCABC… sequence is locally disrupted into an HCP-like ABAB… over a few atomic layers"
+            "text": "a ribbon of locally disrupted FCC stacking"
           },
           {
             "label": "c",
-            "text": "vacancy cluster"
+            "text": "a cluster of vacancies within the lattice"
           },
           {
             "label": "d",
-            "text": "grain boundary"
+            "text": "a grain boundary separating two orientations"
           }
         ],
         "answer": "b"
@@ -6313,19 +6313,19 @@
         "options": [
           {
             "label": "a",
-            "text": "applied stress and temperature only"
+            "text": "applied stress balanced only by temperature"
           },
           {
             "label": "b",
-            "text": "the grain size and the precipitate spacing"
+            "text": "grain size balanced against precipitate spacing"
           },
           {
             "label": "c",
-            "text": "the vacancy concentration and the modulus"
+            "text": "vacancy concentration balanced against modulus"
           },
           {
             "label": "d",
-            "text": "elastic repulsion of the two partials (widening) and the stacking-fault surface energy γ_sf (narrowing)"
+            "text": "elastic repulsion widens it; γ_sf narrows it"
           }
         ],
         "answer": "d",
@@ -6342,19 +6342,19 @@
         "options": [
           {
             "label": "a",
-            "text": "10¹² cm⁻² annealed to 10⁶ cm⁻² cold worked"
+            "text": "10¹² cm⁻² annealed → 10⁶ cm⁻² cold-worked"
           },
           {
             "label": "b",
-            "text": "10² cm⁻² to 10⁴ cm⁻²"
+            "text": "10² cm⁻² annealed → 10⁴ cm⁻² cold-worked"
           },
           {
             "label": "c",
-            "text": "zero to 10⁶ cm⁻²"
+            "text": "0 cm⁻² annealed → 10⁶ cm⁻² cold-worked"
           },
           {
             "label": "d",
-            "text": "10⁶ cm⁻² in an annealed metal to 10¹⁰–10¹² cm⁻² heavily cold worked"
+            "text": "10⁶ cm⁻² annealed → 10¹⁰–10¹² cm⁻² cold-worked"
           }
         ],
         "answer": "d",
@@ -6371,19 +6371,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the local stress is reduced"
+            "text": "the local stress is reduced near the barrier"
           },
           {
             "label": "b",
-            "text": "the number of dislocations directly amplifies the local stress — the physical basis of Hall–Petch"
+            "text": "the pile-up amplifies stress at its leading dislocation"
           },
           {
             "label": "c",
-            "text": "dislocations are destroyed"
+            "text": "the dislocations annihilate before reaching the barrier"
           },
           {
             "label": "d",
-            "text": "the barrier is removed"
+            "text": "the barrier is removed by the pile-up"
           }
         ],
         "answer": "b",
@@ -7677,19 +7677,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the smallest Schmid factor"
+            "text": "the smallest Schmid factor under the applied load"
           },
           {
             "label": "b",
-            "text": "the largest Schmid factor, at the instant τ_R reaches τ_crss"
+            "text": "the largest Schmid factor, reaching τ_crss first"
           },
           {
             "label": "c",
-            "text": "the highest number of dislocations"
+            "text": "the highest initial dislocation density"
           },
           {
             "label": "d",
-            "text": "the largest grain size"
+            "text": "the largest grain size in the specimen"
           }
         ],
         "answer": "b",
@@ -7793,19 +7793,19 @@
         "options": [
           {
             "label": "a",
-            "text": "dislocation glide on discrete planes producing steps of magnitude b"
+            "text": "dislocation glide creates surface steps of magnitude b"
           },
           {
             "label": "b",
-            "text": "elastic bending"
+            "text": "elastic bending changes shape but is recoverable"
           },
           {
             "label": "c",
-            "text": "grain-boundary migration"
+            "text": "grain-boundary migration changes the grain size"
           },
           {
             "label": "d",
-            "text": "a homogeneous shear of a block of lattice into a mirror-image orientation of the parent lattice across the twin plane"
+            "text": "homogeneous shear creates a mirror-related lattice orientation"
           }
         ],
         "answer": "d",
@@ -7906,19 +7906,19 @@
         "options": [
           {
             "label": "a",
-            "text": "step-like, in whole multiples of b"
+            "text": "step-like shear in whole multiples of b"
           },
           {
             "label": "b",
-            "text": "zero"
+            "text": "no permanent change in specimen shape"
           },
           {
             "label": "c",
-            "text": "purely elastic"
+            "text": "a purely elastic and fully recoverable strain"
           },
           {
             "label": "d",
-            "text": "homogeneous shear producing a small fixed angle of reorientation"
+            "text": "homogeneous shear with a small fixed reorientation angle"
           }
         ],
         "answer": "d",
@@ -8074,19 +8074,19 @@
         "options": [
           {
             "label": "a",
-            "text": "melt the crystal"
+            "text": "raise the crystal to its melting temperature"
           },
           {
             "label": "b",
-            "text": "overcome the Hall–Petch effect"
+            "text": "overcome grain-boundary strengthening alone"
           },
           {
             "label": "c",
-            "text": "break covalent bonds"
+            "text": "break metallic bonds across the slip plane"
           },
           {
             "label": "d",
-            "text": "tear a dislocation free from its Cottrell atmosphere, or to nucleate fresh unpinned dislocations"
+            "text": "free pinned dislocations or activate fresh sources"
           }
         ],
         "answer": "d",
