@@ -1889,19 +1889,19 @@
       "options": [
         {
           "label": "a",
-          "text": "the number of equivalent close-packed slip planes differs greatly — FCC has four equivalent {111} planes while BCC slips on several families — so packing-factor identity does not imply equal ductility"
+          "text": "Equal spacing does not imply equal ductility; FCC has four close-packed {111} planes, BCC none."
         },
         {
           "label": "b",
-          "text": "FCC and BCC must have identical ductility"
+          "text": "Equal spacing gives equal ductility; interplanar spacing alone controls ease of slip in each structure."
         },
         {
           "label": "c",
-          "text": "this means BCC has more slip systems than FCC"
+          "text": "BCC is more ductile because its {110} spacing matches FCC {111}, giving more active systems."
         },
         {
           "label": "d",
-          "text": "it follows because both are close-packed structures"
+          "text": "Both are close-packed because their measured plane spacings are equal, so their packing factors match."
         }
       ],
       "answer": "a",
