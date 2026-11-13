@@ -9,7 +9,8 @@
     "Do not repurpose the app's existing topicId; it continues to identify the chapter.",
     "Do not change the app's existing 1–4 Difficulty or raw stars. assessedDifficulty is an independent 1–5 assessment.",
     "Chapter 9 is a revision mix; curriculumTopicId points to the original source topic, not a new Chapter 9 topic.",
-    "All records remain draft until objective, difficulty, question-type and quality review are completed."
+    "Status values reflect the current editorial review pass; approval is provisional and does not imply independent faculty validation.",
+    "Quality scores are editorial assessments and require calibration against student performance and faculty review."
   ],
   "questions": [
     {
