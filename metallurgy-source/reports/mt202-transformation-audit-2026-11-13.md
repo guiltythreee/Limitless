@@ -90,7 +90,7 @@ Both GitHub Actions workflows passed on the updated draft PR:
 - **Metallurgy Regression Tests:** LSR-1 adapter tests, course-manifest/content-lock validation, MT201, MT202, MT203 migration, MT203 content validation and production static-export build all passed.
 - The workflow's deployed-file copy and commit steps were skipped because this was a pull-request run. No production deployment was performed by the Metallurgy workflow.
 
-The backup checkpoint `backup/mt202-ci-passing-2026-11-13` points to the validated branch head.
+Validated checkpoints are preserved at `backup/mt202-ci-passing-2026-11-13` and `backup/mt202-final-qa-2026-11-13`.
 
 ## Remaining work — do not treat this audit as final approval
 
@@ -98,8 +98,8 @@ The backup checkpoint `backup/mt202-ci-passing-2026-11-13` points to the validat
 2. Manually inspect the regenerated 474-question MT202 heuristic follow-up queue (148 High, 246 Medium, 80 Review) in `reports/mt202-question-quality-follow-up-queue-2026-11-13.csv`. It is generated deterministically from the current nine chapter JSON files by `scripts/audit-mt202-question-quality.mjs`; CI checks that the committed queue matches the generator. Heuristic flags are review prompts, not confirmed defects.
 3. Reassess distractor plausibility, conceptual depth, explanation completeness, and every numerical/data-reading answer. The existing metadata scores are editorial assessments, not independent faculty validation.
 4. Replace or supplement the topic-mapped companion references with exact original lecture, textbook and PYQ citations wherever those sources can be identified. The current companion references are supporting course-resource pointers, not a complete primary-source audit.
-5. Run `npm run validate:mt202-metadata`, the MT202 test suite, and the production build in the actual repository environment. These commands were not run by this remote GitHub-content audit.
+5. Re-run the passing CI suite after rebasing/cherry-picking onto current `main`; the actual Node.js metadata validator, MT201/MT202 regressions, overlay checks, explanation-alignment check, MT203 tests and production static-export build have now passed on this draft branch.
 
 ## Preservation
 
-Changes remain on `mt202/question-metadata-registry`. A pre-audit backup branch was created as `backup/mt202-before-final-qa-2026-11-13`. No merge to `main` or production deployment was performed by this work.
+Changes remain on `mt202/question-metadata-registry`; the audit PR remains draft and has not been merged. The pull-request CI skipped its deployed-file copy/commit steps. A temporary heuristic CSV was accidentally committed to `main` during file creation, then removed immediately in a second commit; the file is absent from the current `main` tree. Vercel returned successful status checks for those two temporary commits, but the accessible status did not expose whether they were production or preview deployments. The temporary commits did not change question-bank or application source content.
