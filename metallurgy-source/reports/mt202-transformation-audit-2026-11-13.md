@@ -34,6 +34,7 @@ The metadata registry's introductory note was corrected: the 522 status values a
 
 ## Corrections made during this audit
 
+- `ch01-q10`: reconciled the durable overlay's table and key explanation with the generated question and the course companion, retaining Po in the course's metalloid list. The source question, answer and stable ID are unchanged; this resolves a stale overlay/output mismatch detected by CI.
 - `ch02-q35`: replaced the misleading claim that close-packed planes generally have the largest interplanar spacing. The revised item distinguishes planar density from interplanar spacing using (d_{hkl}=a/\sqrt{h^2+k^2+l^2}), and correctly relates a smaller Burgers vector to lower dislocation line energy. The original question type (B) and stable question ID are preserved.
 - `ch01-q14`: corrected an assertion–reason key. The reason explains ionic brittleness caused by charge ordering, but does not explain electrical insulation; both statements are true, while the reason does not fully explain the assertion (answer A).
 - `ch01-q33`: corrected an assertion–reason key. Both the assertion and reason are true, and the interatomic-potential explanation supports the trend linking bond strength with melting point and elastic modulus (answer C).
