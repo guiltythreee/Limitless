@@ -475,6 +475,34 @@
     },
     {
       "chapter": "ch01",
+      "n": 18,
+      "originalType": "A",
+      "sourceText": "In the metallic bond, valence electrons:",
+      "sourceFingerprint": "711247c1",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "remain localized around their original atoms, with little movement through the lattice"
+          },
+          {
+            "label": "b",
+            "text": "become delocalized throughout the metal and are shared by many positive ion cores"
+          },
+          {
+            "label": "c",
+            "text": "transfer to nearby atoms, producing oppositely charged ions held by attraction"
+          },
+          {
+            "label": "d",
+            "text": "occupy fixed directional pairs between specific neighbouring atoms"
+          }
+        ],
+        "answer": "b"
+      }
+    },
+    {
+      "chapter": "ch01",
       "n": 19,
       "originalType": "B",
       "sourceText": "Metallic elements show all of the following EXCEPT:",
