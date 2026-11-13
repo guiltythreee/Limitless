@@ -578,19 +578,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the net force is zero and the net potential energy is a minimum"
+            "text": "the net force is zero and potential energy is at a minimum"
           },
           {
             "label": "b",
-            "text": "the attractive force is a maximum"
+            "text": "the attractive force reaches its maximum magnitude"
           },
           {
             "label": "c",
-            "text": "the repulsive force equals zero"
+            "text": "the repulsive force falls to zero at the equilibrium distance"
           },
           {
             "label": "d",
-            "text": "the two atoms are in contact and touching"
+            "text": "the atoms touch, so the interatomic separation is zero"
           }
         ],
         "answer": "a",
@@ -1033,19 +1033,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the largest group of atoms in a crystal"
+            "text": "the largest repeating group of atoms in a crystal"
           },
           {
             "label": "b",
-            "text": "any group of atoms chosen at random"
+            "text": "any group of atoms selected without lattice symmetry"
           },
           {
             "label": "c",
-            "text": "the smallest group of atoms which, repeated in 3-D by translation, reproduces the whole crystal"
+            "text": "the smallest unit that repeats by translation to reproduce the crystal"
           },
           {
             "label": "d",
-            "text": "the group of atoms with the highest symmetry only"
+            "text": "the group containing only the highest-symmetry atoms"
           }
         ],
         "answer": "c",
@@ -1584,19 +1584,19 @@
         "options": [
           {
             "label": "a",
-            "text": "because (201) has a *larger* intercept on x"
+            "text": "its x-intercept is larger, so its reciprocal index is larger"
           },
           {
             "label": "b",
-            "text": "because (201) is a higher-symmetry plane"
+            "text": "it has higher symmetry than the (100) plane"
           },
           {
             "label": "c",
-            "text": "because (201) has a *smaller* intercept on x, and indices are reciprocals of intercepts"
+            "text": "its x-intercept is smaller, and Miller indices are reciprocals"
           },
           {
             "label": "d",
-            "text": "because indices are not related to intercepts"
+            "text": "Miller indices are unrelated to plane intercepts"
           }
         ],
         "answer": "c",
@@ -2209,19 +2209,19 @@
         "options": [
           {
             "label": "a",
-            "text": "HCP has fewer atoms per unit cell than FCC"
+            "text": "HCP has fewer atoms in its conventional unit cell than FCC"
           },
           {
             "label": "b",
-            "text": "the metallic bond is stronger in HCP"
+            "text": "HCP has stronger metallic bonds that prevent plastic flow"
           },
           {
             "label": "c",
-            "text": "HCP provides only about 3 independent basal slip systems, whereas FCC provides ≥ 5 independent systems"
+            "text": "HCP offers fewer readily active independent slip systems at room temperature"
           },
           {
             "label": "d",
-            "text": "HCP has a lower melting point"
+            "text": "HCP has a universally lower melting point than FCC metals"
           }
         ],
         "answer": "c"
@@ -2579,19 +2579,19 @@
         "options": [
           {
             "label": "a",
-            "text": "S(ψ) → 0, so nucleation is barrierless"
+            "text": "the shape factor tends to zero, removing the nucleation barrier"
           },
           {
             "label": "b",
-            "text": "the nucleus is now twice as large"
+            "text": "the critical nucleus radius doubles relative to homogeneous nucleation"
           },
           {
             "label": "c",
-            "text": "S(ψ) → 1, so the barrier equals the homogeneous case — the substrate does nothing"
+            "text": "the shape factor is unity, so the barrier equals the homogeneous case"
           },
           {
             "label": "d",
-            "text": "nucleation is suppressed entirely"
+            "text": "nucleation cannot occur at any finite undercooling"
           }
         ],
         "answer": "c",
@@ -2664,19 +2664,19 @@
         "options": [
           {
             "label": "a",
-            "text": "maximises γ_SM and hence ψ"
+            "text": "it raises solid–melt interfacial energy and increases the contact angle"
           },
           {
             "label": "b",
-            "text": "increases the shape factor S(ψ)"
+            "text": "it increases the shape factor and raises the nucleation barrier"
           },
           {
             "label": "c",
-            "text": "raises the critical radius"
+            "text": "it increases the critical radius of the nucleus"
           },
           {
             "label": "d",
-            "text": "minimises γ_SM (a low-energy, coherent-ish interface), giving a small ψ and a low nucleation barrier"
+            "text": "it lowers interfacial energy, giving a small contact angle and lower barrier"
           }
         ],
         "answer": "d",
@@ -2813,19 +2813,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the metal stops cooling for an unrelated reason"
+            "text": "the metal's temperature stops changing for an unrelated reason"
           },
           {
             "label": "b",
-            "text": "the metal undercools permanently"
+            "text": "the melt becomes permanently undercooled during solidification"
           },
           {
             "label": "c",
-            "text": "the latent heat of fusion released on freezing exactly balances the heat being extracted"
+            "text": "latent heat released by freezing balances the heat being extracted"
           },
           {
             "label": "d",
-            "text": "heat is being added to the metal"
+            "text": "heat is continuously supplied to the casting during freezing"
           }
         ],
         "answer": "c",
@@ -2873,19 +2873,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the melt viscosity is too low"
+            "text": "the melt viscosity becomes too low near the solidification front"
           },
           {
             "label": "b",
-            "text": "surface tension forces branching"
+            "text": "surface tension drives all interface perturbations into branches"
           },
           {
             "label": "c",
-            "text": "the metal is pure, not an alloy"
+            "text": "the metal is pure, so alloying elements cannot stabilize the front"
           },
           {
             "label": "d",
-            "text": "a small bump on the interface sticks out into more undercooled liquid and grows faster than its surroundings"
+            "text": "a protrusion enters more undercooled liquid and grows faster than its surroundings"
           }
         ],
         "answer": "d",
@@ -2985,19 +2985,19 @@
         "options": [
           {
             "label": "a",
-            "text": "purely thermal instability"
+            "text": "thermal instability alone causes the planar front to break down"
           },
           {
             "label": "b",
-            "text": "gravity segregation"
+            "text": "gravity separates solute and destabilizes the liquid surface"
           },
           {
             "label": "c",
-            "text": "mould vibration"
+            "text": "mould vibration disrupts the solid–liquid interface"
           },
           {
             "label": "d",
-            "text": "constitutional supercooling, driven by composition rather than temperature"
+            "text": "solute enrichment undercools liquid ahead of the front, causing constitutional supercooling"
           }
         ],
         "answer": "d",
@@ -3898,19 +3898,19 @@
         "options": [
           {
             "label": "a",
-            "text": "have very low vapour pressures"
+            "text": "they have very low vapour pressures and remain in the melt"
           },
           {
             "label": "b",
-            "text": "partition preferentially into the liquid phase (distribution coefficient k < 1)"
+            "text": "they partition preferentially into the liquid when k < 1"
           },
           {
             "label": "c",
-            "text": "are insoluble in the solid and float to the surface"
+            "text": "they are insoluble in the solid and float to the surface"
           },
           {
             "label": "d",
-            "text": "form stable intermetallic compounds in the solid"
+            "text": "they form stable intermetallic compounds in the solid"
           }
         ],
         "answer": "b"
@@ -4234,19 +4234,19 @@
         "options": [
           {
             "label": "a",
-            "text": "sit in the gaps between solvent atoms"
+            "text": "they occupy interstitial gaps between solvent atoms"
           },
           {
             "label": "b",
-            "text": "replace solvent atoms at normal lattice sites"
+            "text": "they replace solvent atoms at normal lattice sites"
           },
           {
             "label": "c",
-            "text": "form a separate phase"
+            "text": "they form a separate equilibrium phase"
           },
           {
             "label": "d",
-            "text": "segregate to grain boundaries only"
+            "text": "they segregate exclusively to grain boundaries"
           }
         ],
         "answer": "b",
@@ -4263,19 +4263,19 @@
         "options": [
           {
             "label": "a",
-            "text": "replace solvent atoms"
+            "text": "they replace solvent atoms on regular lattice sites"
           },
           {
             "label": "b",
-            "text": "always form compounds"
+            "text": "they always form compounds with the solvent"
           },
           {
             "label": "c",
-            "text": "occupy the interstices (gaps) between solvent atoms — e.g. C, N, H, B in iron"
+            "text": "they occupy interstitial gaps between solvent atoms, as C or N in Fe"
           },
           {
             "label": "d",
-            "text": "are always larger than the solvent atoms"
+            "text": "they must be larger than the solvent atoms"
           }
         ],
         "answer": "c",
