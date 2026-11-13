@@ -10542,15 +10542,15 @@
           },
           {
             "label": "b",
-            "text": "heat conduction through a solid"
+            "text": "heat conduction through a solid under a temperature gradient"
           },
           {
             "label": "c",
-            "text": "phase equilibria between solid and liquid"
+            "text": "phase equilibria between solid and liquid at fixed temperature"
           },
           {
             "label": "d",
-            "text": "non-steady-state diffusion, where concentration changes with time"
+            "text": "non-steady-state diffusion with concentration changing in time"
           }
         ],
         "answer": "d",
@@ -10567,19 +10567,19 @@
         "options": [
           {
             "label": "a",
-            "text": "(C_x − C₀)/(C_s − C₀) = erf( x / (2√(Dt)) )"
+            "text": "(C_x − C₀)/(C_s − C₀) = erf[x/(2√(Dt))]"
           },
           {
             "label": "b",
-            "text": "C_x = C₀ + (C_s − C₀) exp(−x²/4Dt)"
+            "text": "C_x = C₀ + (C_s − C₀) exp[−x²/(4Dt)]"
           },
           {
             "label": "c",
-            "text": "C_x = C₀ Dt / x²"
+            "text": "C_x = C₀ + (C_s − C₀)x²/(4Dt)"
           },
           {
             "label": "d",
-            "text": "(C_x − C₀)/(C_s − C₀) = 1 − erf( x / (2√(Dt)) )"
+            "text": "(C_x − C₀)/(C_s − C₀) = 1 − erf[x/(2√(Dt))]"
           }
         ],
         "answer": "d",
@@ -10596,19 +10596,19 @@
         "options": [
           {
             "label": "a",
-            "text": "an error in the derivation"
+            "text": "a mistake in the mathematical derivation"
           },
           {
             "label": "b",
-            "text": "the activation energy"
+            "text": "the activation energy for atomic diffusion"
           },
           {
             "label": "c",
-            "text": "the flux"
+            "text": "the diffusive flux through a unit area"
           },
           {
             "label": "d",
-            "text": "the Gaussian error function — a tabulated, standard mathematical function"
+            "text": "the Gaussian error function used in diffusion solutions"
           }
         ],
         "answer": "d",
@@ -11013,19 +11013,19 @@
         "options": [
           {
             "label": "a",
-            "text": "it requires a vacant lattice site to be present first"
+            "text": "a vacant lattice site must be present before exchange"
           },
           {
             "label": "b",
-            "text": "both atoms must squeeze past their neighbours simultaneously, so the transient lattice distortion makes the energy barrier prohibitively large"
+            "text": "simultaneous motion forces both atoms through a crowded, high-energy configuration"
           },
           {
             "label": "c",
-            "text": "it is forbidden by the symmetry of every crystal structure"
+            "text": "crystal symmetry forbids direct exchange in all structures"
           },
           {
             "label": "d",
-            "text": "it can only operate at grain boundaries, never in the lattice"
+            "text": "the mechanism is restricted to grain boundaries, not the bulk"
           }
         ],
         "answer": "b",
@@ -11832,19 +11832,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a fine equiaxed structure throughout"
+            "text": "a fine equiaxed grain structure throughout the ingot"
           },
           {
             "label": "b",
-            "text": "an amorphous structure"
+            "text": "an amorphous solid with no grain boundaries"
           },
           {
             "label": "c",
-            "text": "columnar crystals growing almost to the centre"
+            "text": "columnar grains extending nearly to the ingot centre"
           },
           {
             "label": "d",
-            "text": "a single crystal"
+            "text": "a single crystal throughout the casting"
           }
         ],
         "answer": "c",
@@ -12115,19 +12115,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a cloud of vacancies"
+            "text": "a cluster of vacancies associated with a dislocation core"
           },
           {
             "label": "b",
-            "text": "a precipitate at a grain boundary"
+            "text": "a second-phase precipitate decorating a grain boundary"
           },
           {
             "label": "c",
-            "text": "interstitial solute atoms (C, N) clustering in the tensile zone below an edge dislocation's extra half-plane, pinning it"
+            "text": "C/N atoms segregated below an edge dislocation, pinning it"
           },
           {
             "label": "d",
-            "text": "a stacking-fault ribbon"
+            "text": "a planar stacking-fault ribbon between two partial dislocations"
           }
         ],
         "answer": "c",
@@ -12348,19 +12348,19 @@
         "options": [
           {
             "label": "a",
-            "text": "interstitial diffusion has a higher Q_d"
+            "text": "it has a higher activation energy Q_d"
           },
           {
             "label": "b",
-            "text": "the two lines are parallel"
+            "text": "both diffusion mechanisms have parallel Arrhenius lines"
           },
           {
             "label": "c",
-            "text": "interstitial diffusion is slower at high temperature"
+            "text": "it becomes slower than substitutional diffusion at high temperature"
           },
           {
             "label": "d",
-            "text": "interstitial diffusion has a lower activation energy Q_d and is faster at every temperature"
+            "text": "it has lower Q_d and is faster at a given temperature"
           }
         ],
         "answer": "d",
@@ -12514,11 +12514,11 @@
       "sourceText": "Of the following, which cooling rate most closely corresponds to the formation of a **metallic glass**?",
       "sourceFingerprint": "ddaaf569",
       "updates": {
-        "text": "A metallic glass is obtained when a melt is:",
+        "text": "For a given alloy and sample geometry, a metallic glass is obtained when a melt is:",
         "options": [
           {
             "label": "a",
-            "text": "cooled rapidly enough, for that alloy and sample geometry, to bypass crystallisation"
+            "text": "cooled fast enough to bypass crystallisation"
           },
           {
             "label": "b",
@@ -12526,7 +12526,7 @@
           },
           {
             "label": "c",
-            "text": "held for a long time just below its melting point"
+            "text": "held below its melting point for a long time"
           },
           {
             "label": "d",
@@ -12534,7 +12534,9 @@
           }
         ],
         "answer": "a",
-        "keyExplanation": "Metallic-glass formation requires suppressing crystallisation during cooling. The critical cooling rate is alloy- and geometry-dependent, so no single cooling-rate value applies to all metallic glasses."
+        "keyExplanation": "Metallic-glass formation requires suppressing crystallisation during cooling. The critical cooling rate is alloy- and geometry-dependent, so no single cooling-rate value applies to all metallic glasses.",
+        "concise": "Cooling must be fast enough for that alloy and geometry to bypass crystallisation.",
+        "detailed": "A metallic glass forms when cooling is sufficiently rapid for the specific alloy and sample geometry to suppress crystal nucleation and growth. The critical cooling rate is composition- and geometry-dependent; some glass-forming alloys vitrify at much lower rates than others. **(a)** is correct. Slow cooling allows crystals to form, while seeding or holding below the melting point promotes crystallisation rather than suppressing it."
       }
     },
     {
@@ -12603,19 +12605,19 @@
         "options": [
           {
             "label": "a",
-            "text": "The liquidus lies between 690 °C and 680 °C; the drop at 577 °C is the eutectic reaction, which converts the final 0.15 of liquid, leaving 0.85 primary α plus 0.15 eutectic"
+            "text": "the liquidus is 680–690 °C; the final 0.15 liquid reacts eutectically at 577 °C"
           },
           {
             "label": "b",
-            "text": "The alloy is of eutectic composition, since all the liquid disappears at a single temperature"
+            "text": "all liquid disappears at one temperature, so the alloy is eutectic"
           },
           {
             "label": "c",
-            "text": "The liquidus is 700 °C, and the eutectic reaction converts 0.35 of the remaining liquid"
+            "text": "the liquidus is 700 °C; the eutectic reaction consumes 0.35 liquid"
           },
           {
             "label": "d",
-            "text": "The solidus is 590 °C, where the last of the liquid is consumed"
+            "text": "the solidus is 590 °C, where the final liquid disappears"
           }
         ],
         "answer": "a",
