@@ -112,3 +112,15 @@ The final nine questions in the High-priority queue were inspected and revised:
 The changes balanced option wording while preserving the diffusion laws, error-function solution, direct-exchange mechanism, casting structure, Cottrell atmosphere, Arrhenius interpretation, metallic-glass formation and eutectic-solidification concepts. Ch 9 Q50 was also clarified to state that the critical cooling rate depends on alloy composition and sample geometry; its explanation no longer presents one cooling rate as universal. All nine answer keys were preserved.
 
 The regenerated queue now contains **462 flags — 0 High, 324 Medium and 138 Review** (before this batch: 463 flags — 9 High, 320 Medium and 134 Review). No High-severity heuristic findings remain. This does not mean the remaining Medium/Review items are error-free; they still require contextual review.
+
+
+## First Medium-priority content review — Chapter 1, 14 November 2026
+
+The first 10 Medium-priority records in Chapter 1 were inspected. Five needed targeted changes:
+
+- Ch 1 Q3: made all shell-capacity options explicit electron counts to remove a one-character numeric-format cue.
+- Ch 1 Q12 and Q13: removed internal P1/P3 strategy markers from learner-facing key explanations; the conceptual explanations remain intact.
+- Ch 1 Q16: corrected a genuine answer/explanation mismatch. The revised question asks for the weakest interaction and the answer key correctly selects van der Waals (A), but the detailed explanation still described the earlier “increasing bond-energy order” version and incorrectly identified B. The detailed and concise explanations now agree with A.
+- Ch 1 Q19: made the four property options more parallel while preserving the EXCEPT answer (C).
+
+The other five inspected items were retained because their flags were fixed-format wording, intentional absolutes in false statements, or harmless distractor-length differences rather than a substantive defect. All five answer keys were preserved. The queue now contains **460 flags — 0 High, 322 Medium and 138 Review** (before this pass: 462 flags — 0 High, 324 Medium and 138 Review).
