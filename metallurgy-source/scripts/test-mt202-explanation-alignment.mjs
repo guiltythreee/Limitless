@@ -45,7 +45,7 @@ const expected = [
     excludes: /increasing order|\*\*\(b\)\*\* gives the intended/i,
   },
   {
-    chapterSeven,
+    chapter: chapterSeven,
     n: 9,
     answer: "a",
     includes: ["Hall–Petch", "initial yield stress", "grain boundaries"],
@@ -66,7 +66,7 @@ const expected = [
     excludes: /Stage II|dynamic recovery|easy glide/i,
   },
   {
-    chapterNine,
+    chapter: chapterNine,
     n: 20,
     answer: "a",
     includes: ["latent heat", "nucleation", "solidification"],
@@ -107,16 +107,18 @@ for (let chapterNumber = 1; chapterNumber <= 9; chapterNumber++) {
   const source = loadChapter("ch" + String(chapterNumber).padStart(2, "0"));
   for (const question of source.questions ?? []) {
     questionCount++;
-    const explanation = question.detailed ?? "";
-    for (const pattern of explicitKeyPatterns) {
-      pattern.lastIndex = 0;
-      for (const match of explanation.matchAll(pattern)) {
-        explicitKeyCount++;
-        assert.equal(
-          match[1],
-          question.answer,
-          "MT202 " + question.n + ": explanation names option " + match[1] + " but answer key is " + question.answer,
-        );
+    for (const field of ["keyExplanation", "concise", "detailed"]) {
+      const explanation = question[field] ?? "";
+      for (const pattern of explicitKeyPatterns) {
+        pattern.lastIndex = 0;
+        for (const match of explanation.matchAll(pattern)) {
+          explicitKeyCount++;
+          assert.equal(
+            match[1],
+            question.answer,
+            "MT202 " + question.n + " (" + field + "): explanation names option " + match[1] + " but answer key is " + question.answer,
+          );
+        }
       }
     }
   }
