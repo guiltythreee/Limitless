@@ -2779,6 +2779,33 @@
     },
     {
       "chapter": "ch03",
+      "n": 19,
+      "originalType": "G",
+      "sourceText": "The temperature axis around T_m splits into three consecutive zones. In order of decreasing temperature they are:",
+      "sourceFingerprint": "36026d35",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "stable (T > T_m) → metastable (small undercooling) → labile (large undercooling)"
+          },
+          {
+            "label": "b",
+            "text": "labile (large undercooling) → metastable (small undercooling) → stable (T > T_m)"
+          },
+          {
+            "label": "c",
+            "text": "metastable (small undercooling) → stable (T > T_m) → labile (large undercooling)"
+          },
+          {
+            "label": "d",
+            "text": "stable (T > T_m) → labile (large undercooling) → metastable (small undercooling)"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch03",
       "n": 20,
       "originalType": "A",
       "sourceText": "A pure metal cooling curve shows a flat thermal arrest at T_m because:",
@@ -4950,6 +4977,33 @@
         "keyExplanation": "Statements 1–3 describe coring. Perfect mixing of the liquid does not make the solid composition uniform when back-diffusion in the solid is insufficient.",
         "concise": "Coring persists because the solid does not fully re-equilibrate by diffusion during cooling.",
         "detailed": "At the moving solid–liquid interface, successive layers form at different temperatures and compositions. If the solid cannot back-diffuse quickly enough, the early core and later rim retain different compositions. Complete mixing in the liquid does not remove this solid-state composition gradient."
+      }
+    },
+    {
+      "chapter": "ch04",
+      "n": 34,
+      "originalType": "G",
+      "sourceText": "Under non-equilibrium cooling, freezing actually finishes at T₄ which is:",
+      "sourceFingerprint": "e829884c",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "below T₃, because the last liquid freezes only after further cooling"
+          },
+          {
+            "label": "b",
+            "text": "above T₃, because freezing ends before the equilibrium finish point"
+          },
+          {
+            "label": "c",
+            "text": "equal to T₃, because both paths finish at the same temperature"
+          },
+          {
+            "label": "d",
+            "text": "at the liquidus temperature, where solidification first begins"
+          }
+        ]
       }
     },
     {
@@ -10331,6 +10385,33 @@
         "detailed": "Fick's first law is J = −D dC/dx, so **(d)** is correct. Option (a) has the wrong sign; (b) is not a flux law; and (c) is the spatial-derivative term appearing in Fick's second law, not the first law."
       },
       "sourceFingerprint": "182193d1"
+    },
+    {
+      "chapter": "ch08",
+      "n": 10,
+      "originalType": "A",
+      "sourceText": "In Fick's first law, J is:",
+      "sourceFingerprint": "527ddb1a",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the diffusion flux, measured as amount crossing unit area per unit time"
+          },
+          {
+            "label": "b",
+            "text": "the activation energy required for atomic diffusion"
+          },
+          {
+            "label": "c",
+            "text": "the interfacial energy per unit area of a grain boundary"
+          },
+          {
+            "label": "d",
+            "text": "the heat-transfer rate through a unit area of material"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch08",
