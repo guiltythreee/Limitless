@@ -101,3 +101,10 @@ The original Markdown question bank and solution folder are external to this rep
 4. Reconcile the branch with current `main` before integration.
 
 No merge or production deployment was performed.
+
+
+## Follow-up mapping audit — 14 November 2026
+
+The 40-case topic/objective comparison above was manually inspected in a follow-up pass. Its count is a historical snapshot, not the current open count. Thirty-two records received targeted mapping/objective corrections; eight were retained because the topic/objective distinction is legitimate or reflects a broader catalogue-boundary issue. The detailed question-by-question rationale and validation are recorded in `reports/mt202-mapping-audit-2026-11-14.md`.
+
+The updated metadata still contains 522 unique records. A remote parity check found no unresolved topic, related-topic or objective references and no quality-total arithmetic errors. The repository Node validator and CI must be rerun on the updated branch before integration. This mapping pass does not close the separate 474-question content-quality follow-up queue or the source-provenance limitation.
