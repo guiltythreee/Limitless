@@ -621,10 +621,10 @@
           "text": "Both false"
         }
       ],
-      "answer": "c",
-      "keyExplanation": "Both true and R correctly explains A: charge-ordering + slip disruption → brittleness.",
-      "concise": "Charge-ordered, non-directional bonding + slip disruption explains ionic hardness and brittleness.",
-      "detailed": "- A is TRUE: ionic solids (e.g. NaCl) are hard, brittle and insulating.\n- R is TRUE: ionic bonding is electron transfer producing a charge-ordered arrangement; when\n  planes try to slip, like-charged ions come into register and repel, so the crystal cleaves.\n\nR correctly explains A — the brittleness is a direct consequence of the charge ordering that\nalso makes them hard. They are insulators because there are no free electrons (contrast Q18)."
+      "answer": "a",
+      "keyExplanation": "Both statements are true, but the reason explains the brittleness caused by ionic charge ordering; it does not explain the absence of mobile charge carriers responsible for electrical insulation.",
+      "concise": "Ionic solids are hard, brittle and insulating. The reason explains the brittleness, not the electrical insulation.",
+      "detailed": "A is TRUE: typical ionic solids are hard, brittle and electrical insulators. R is TRUE: when planes slip, like-charged ions can be brought alongside one another, producing strong repulsion and promoting cleavage. However, R explains the brittleness only. Electrical insulation arises because the ions are not freely mobile in the solid and there are no delocalised electrons to carry current. Therefore both statements are true, but R does not fully explain A. Answer (a)."
     },
     {
       "n": 15,
@@ -641,11 +641,11 @@
         },
         {
           "num": 2,
-          "text": "significant mainly at low temperature, where thermal agitation does not swamp them"
+          "text": "their ability to hold noble-gas atoms in a condensed solid is evident at sufficiently low temperatures"
         },
         {
           "num": 3,
-          "text": "what holds solid noble gases (Ar, Ne) together"
+          "text": "they help hold solid noble gases (Ar, Ne) together"
         },
         {
           "num": 4,
@@ -674,7 +674,7 @@
         }
       ],
       "answer": "b",
-      "keyExplanation": "vdW is weak (1–10 kJ/mol), so item 4 is false.",
+      "keyExplanation": "Van der Waals forces are weak secondary attractions between neutral atoms or molecules. At sufficiently low temperatures they can hold noble gases in condensed solids. Statements 1–3 are correct; statement 4 gives a primary-bond energy range, not a van der Waals range.",
       "concise": "vdW is a weak (1–10 kJ/mol) secondary attraction; it holds solid Ar and Ne.",
       "detailed": "Van der Waals forces are weak secondary attractions between neutral atoms or molecules. They are most significant when thermal agitation is low and are responsible for holding solid noble gases together. Statements 1, 2 and 3 are correct; statement 4 is false because 600–1500 kJ/mol is a primary-bond energy range, not a van der Waals range. Therefore **(b)** is correct."
     },
@@ -683,7 +683,7 @@
       "stars": 2,
       "type": "E",
       "traps": [],
-      "text": "Increasing order of typical bond energy (kJ/mol) is:",
+      "text": "Which type of interatomic interaction is generally the weakest?",
       "statements": [],
       "tableRows": [],
       "assertion": "",
@@ -691,23 +691,23 @@
       "options": [
         {
           "label": "a",
-          "text": "metallic < ionic < covalent < van der Waals"
+          "text": "van der Waals attraction"
         },
         {
           "label": "b",
-          "text": "van der Waals < metallic < covalent < ionic"
+          "text": "metallic bonding"
         },
         {
           "label": "c",
-          "text": "van der Waals < covalent < ionic < metallic"
+          "text": "covalent bonding"
         },
         {
           "label": "d",
-          "text": "ionic < covalent < metallic < van der Waals"
+          "text": "ionic bonding"
         }
       ],
-      "answer": "b",
-      "keyExplanation": "vdW (1–10) < metallic (70–850) < covalent (200–1000) < ionic (600–1500).",
+      "answer": "a",
+      "keyExplanation": "Van der Waals attractions are secondary interactions and are generally much weaker than metallic, covalent or ionic primary bonds. The energy ranges of the primary bonds overlap, so a strict ordering among those three is not universal.",
       "concise": "1–10 < 70–850 < 200–1000 < 600–1500 kJ/mol.",
       "detailed": "The typical bond-energy ranges increase from van der Waals (about 1–10 kJ/mol) to metallic (about 70–850 kJ/mol), covalent (about 200–1000 kJ/mol), and ionic (about 600–1500 kJ/mol). Thus **(b)** gives the intended increasing order. The ranges overlap, but van der Waals interactions are the weakest and ionic bonds are generally strongest."
     },
@@ -837,7 +837,7 @@
       "text": "",
       "statements": [],
       "tableRows": [],
-      "assertion": "Metals are ductile whereas ionic and covalent solids are brittle.",
+      "assertion": "Metals are generally ductile, whereas typical ionic and covalent-network solids are often brittle.",
       "reason": "The metallic bond is non-directional and delocalised, so ion cores can be shifted past one another without breaking a specific fixed bond.",
       "options": [
         {
@@ -858,7 +858,7 @@
         }
       ],
       "answer": "a",
-      "keyExplanation": "Non-directional delocalised bonding is exactly why metals deform without fracture.",
+      "keyExplanation": "The assertion describes a common trend, not an exception-free rule. Metallic bonding is non-directional and delocalised, allowing layers of atoms to shift while metallic cohesion is maintained. In many ionic solids, slip brings like charges into unfavourable proximity; in covalent-network solids, deformation can require breaking directional bonds. Thus the reason correctly explains the qualified trend.",
       "concise": "Non-directional delocalised bonding is exactly why metals deform without fracture.",
       "detailed": "- A is TRUE: metals are ductile; ionic and covalent solids are brittle.\n- R is TRUE: the metallic bond is non-directional and delocalised, so ion cores can shift past\n  one another without breaking a specific fixed bond.\n\nR correctly explains A. Contrast with Q14 (ionic): there, slip *breaks* fixed charge-ordering;\nhere, slip *preserves* the bonding because it is non-directional. Same \"slip\" concept, opposite\noutcome — that is the pair worth holding in your head."
     },
@@ -1021,7 +1021,7 @@
       "text": "",
       "statements": [],
       "tableRows": [],
-      "assertion": "Solids expand when heated.",
+      "assertion": "Most ordinary crystalline solids expand when heated over a moderate temperature range.",
       "reason": "Added thermal energy raises the average atom up the shallower *attractive* wall of the energy well more than the steep repulsive one, so the time-averaged spacing exceeds *r₀*.",
       "options": [
         {
@@ -1042,7 +1042,7 @@
         }
       ],
       "answer": "d",
-      "keyExplanation": "Both true; the asymmetry explanation is precisely why thermal expansion occurs.",
+      "keyExplanation": "Both statements are generally true for ordinary solids over a moderate temperature range. Anharmonicity of the interatomic potential means thermal vibration increases the mean interatomic spacing. The statement is not universal: some materials show negative thermal expansion over particular temperature ranges.",
       "concise": "The well's asymmetry (shallower attractive wall) raises the mean spacing on heating.",
       "detailed": "- A is TRUE: solids expand when heated.\n- R is TRUE: the attractive wall of the energy well is shallower than the steep repulsive wall.\nAdded thermal energy lifts atoms higher up the well; because of the asymmetry, the extra space\ngained on the attractive side exceeds the space lost on the repulsive side, so the *time-averaged*\nspacing rises above r₀.\n\nThis is worth internalising because the naive picture (\"heating = faster vibration = bigger\norbit\") is not the real mechanism — the *shape* of the well is. Expect this to appear again."
     },
@@ -1353,9 +1353,9 @@
         }
       ],
       "answer": "c",
-      "keyExplanation": "Both true: melting and straining both fight the same cohesive bond, and well depth sets its strength.",
-      "concise": "Both true — melting and straining both fight the cohesive bond, so a deeper well gives a higher melting point and a higher modulus.",
-      "detailed": "- A is TRUE: materials with large bonding energies (W, diamond, Al₂O₃) also show high melting\n  points and high elastic moduli. This is a well-established trend, not a coincidence.\n- R is TRUE: melting means pulling the atoms apart against the cohesive attraction; elastic\n  straining means displacing them against the restoring force. Both are governed by the same\n  interatomic energy well.\nA deeper well (larger E₀) therefore means more thermal energy is needed to melt the solid *and* a\nsteeper restoring force on displacement — so R explains why A holds."
+      "keyExplanation": "Both statements are true, and the reason correctly links cohesive bond strength to melting resistance and elastic stiffness.",
+      "concise": "A deeper, stronger interatomic energy well generally corresponds to both a higher melting point and a steeper restoring force, hence a higher elastic modulus.",
+      "detailed": "A is TRUE: stronger bonding generally raises melting temperature and elastic modulus. R is TRUE: melting requires disrupting cohesive order, while elastic deformation requires displacing atoms against restoring forces. A deeper and steeper interatomic potential well is associated with stronger cohesion and greater stiffness, so R correctly explains the trend in A. Answer (c)."
     },
     {
       "n": 34,
