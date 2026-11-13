@@ -123,3 +123,8 @@ Four additional items were clarified after the initial 14-question distractor pa
 ## Heuristic refinement — 14 November 2026
 
 The duplicate-stem detector was refined to compare the stem plus structured statements, match-table content and assertion/reason text. This avoids treating generic question stems with different assessed content as duplicate questions. Four previously flagged practice/revision pairs were inspected and retained as distinct variants. The regenerated queue now reports 473 flags: 119 High, 271 Medium and 83 Review.
+
+
+## Latest cumulative QA snapshot — 14 November 2026
+
+The cumulative option-balance pass now covers 56 questions, with answer keys preserved. The durable overlay contains 418 unique targets. All 418 overlay update payloads match generated chapter JSON, and all nine deployed mirrors are byte-identical to generated files. The heuristic queue currently reports 465 flags: 50 High, 292 Medium and 123 Review. Fixed-format True/False and Assertion–Reason responses are excluded from option-length bias detection; structured duplicate detection now includes statements, match-table content and assertion/reason text.
