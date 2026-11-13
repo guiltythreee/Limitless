@@ -4770,19 +4770,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a crack along the grain boundary"
+            "text": "a fracture that follows a grain boundary during cooling"
           },
           {
             "label": "b",
-            "text": "a type of blowhole"
+            "text": "a gas cavity trapped inside a casting during solidification"
           },
           {
             "label": "c",
-            "text": "a composition gradient within a cast grain — from a high-melting core to a low-melting, solute-rich edge"
+            "text": "a composition gradient within a cast grain from core to edge"
           },
           {
             "label": "d",
-            "text": "an oxide film on the grain surface"
+            "text": "an oxide film deposited on the surface of a cast grain"
           }
         ],
         "answer": "c",
@@ -4942,19 +4942,19 @@
         "options": [
           {
             "label": "a",
-            "text": "simple loss of ductility recoverable by re-annealing"
+            "text": "a recoverable loss of strength after excessive heating"
           },
           {
             "label": "b",
-            "text": "genuine grain-boundary melting (liquation) caused by crossing the local effective solidus — permanent, unrecoverable damage"
+            "text": "irreversible grain-boundary liquation above the local effective solidus"
           },
           {
             "label": "c",
-            "text": "surface oxidation only"
+            "text": "surface oxidation after prolonged exposure to the furnace atmosphere"
           },
           {
             "label": "d",
-            "text": "a favourable grain-refining treatment"
+            "text": "beneficial grain refinement caused by controlled partial melting"
           }
         ],
         "answer": "b",
@@ -6272,19 +6272,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the interface between two randomly oriented grains"
+            "text": "an interface between grains with unrelated orientations"
           },
           {
             "label": "b",
-            "text": "a special, low-energy boundary across which the lattice is a mirror image of itself"
+            "text": "a mirror-symmetric interface with a special low-energy structure"
           },
           {
             "label": "c",
-            "text": "a local error in the stacking sequence"
+            "text": "a local stacking-sequence error bounded by partial dislocations"
           },
           {
             "label": "d",
-            "text": "the highest-energy defect in a crystal"
+            "text": "a high-angle interface without a special crystallographic relation"
           }
         ],
         "answer": "b",
@@ -7213,11 +7213,11 @@
           },
           {
             "label": "c",
-            "text": "the two slip directions"
+            "text": "two slip directions within the same crystal"
           },
           {
             "label": "d",
-            "text": "the tensile (stress) axis and the slip-**plane normal**"
+            "text": "the tensile axis and the slip-plane normal"
           }
         ],
         "answer": "d",
@@ -8524,11 +8524,11 @@
           },
           {
             "label": "c",
-            "text": "τ = σ cos φ cos λ"
+            "text": "τ = σ cosφ cosλ"
           },
           {
             "label": "d",
-            "text": "σ = Kεⁿ, where n is the strain-hardening exponent (0 for perfectly plastic, up to ~0.5 for highly hardenable metals)"
+            "text": "σ = Kεⁿ"
           }
         ],
         "answer": "d",
@@ -8574,19 +8574,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the friction stress"
+            "text": "the lattice friction stress opposing slip"
           },
           {
             "label": "b",
-            "text": "the locking parameter — how effectively boundaries block slip transmission"
+            "text": "the grain-boundary strengthening coefficient"
           },
           {
             "label": "c",
-            "text": "the grain diameter"
+            "text": "the mean grain diameter in the polycrystal"
           },
           {
             "label": "d",
-            "text": "the strain-hardening exponent"
+            "text": "the strain-hardening exponent in the flow law"
           }
         ],
         "answer": "b",
@@ -9642,19 +9642,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a substitutional atom hops into a vacancy"
+            "text": "a substitutional atom jumps into a neighbouring lattice vacancy"
           },
           {
             "label": "b",
-            "text": "an atom moves through an intermetallic compound"
+            "text": "an atom diffuses through an ordered intermetallic lattice"
           },
           {
             "label": "c",
-            "text": "an atom moves only at grain boundaries"
+            "text": "an atom migrates preferentially along a grain boundary"
           },
           {
             "label": "d",
-            "text": "a small solute atom (C, N, H) hops directly from one interstitial void to a neighbouring one — no vacancy required"
+            "text": "a small solute atom hops between adjacent interstitial sites"
           }
         ],
         "answer": "d",
@@ -9862,19 +9862,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the flux is upward"
+            "text": "the flux points toward increasing concentration"
           },
           {
             "label": "b",
-            "text": "diffusion runs **down** the concentration gradient, from high to low concentration"
+            "text": "the flux points down the concentration gradient"
           },
           {
             "label": "c",
-            "text": "the process is endothermic"
+            "text": "diffusion requires an endothermic heat input"
           },
           {
             "label": "d",
-            "text": "the concentration increases with time"
+            "text": "concentration must decrease uniformly with time"
           }
         ],
         "answer": "b",
@@ -10177,19 +10177,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the pre-exponential constant"
+            "text": "the temperature-independent pre-exponential factor"
           },
           {
             "label": "b",
-            "text": "the diffusion flux"
+            "text": "the solute flux through a unit area per unit time"
           },
           {
             "label": "c",
-            "text": "the grain size"
+            "text": "the characteristic grain size controlling diffusion"
           },
           {
             "label": "d",
-            "text": "the activation energy for diffusion"
+            "text": "the activation energy required for atomic diffusion"
           }
         ],
         "answer": "d"
@@ -10312,19 +10312,19 @@
         "options": [
           {
             "label": "a",
-            "text": "bulk > grain boundary > free surface"
+            "text": "bulk diffusion > grain-boundary diffusion > surface diffusion"
           },
           {
             "label": "b",
-            "text": "grain boundary > free surface > bulk"
+            "text": "grain-boundary diffusion > surface diffusion > bulk diffusion"
           },
           {
             "label": "c",
-            "text": "all equal"
+            "text": "bulk diffusion = grain-boundary diffusion = surface diffusion"
           },
           {
             "label": "d",
-            "text": "free surface > grain boundary > bulk (lattice)"
+            "text": "surface diffusion > grain-boundary diffusion > bulk diffusion"
           }
         ],
         "answer": "d",
@@ -10930,19 +10930,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a fully sound ingot with no defects"
+            "text": "a sound ingot with a large central shrinkage pipe"
           },
           {
             "label": "b",
-            "text": "a normal shrinkage pipe"
+            "text": "a gas-porous rim surrounding a clean, sound core"
           },
           {
             "label": "c",
-            "text": "a pure, blowhole-riddled outer rim, a segregated core, and essentially no pipe"
+            "text": "a clean outer rim, segregated core and little shrinkage pipe"
           },
           {
             "label": "d",
-            "text": "hard, brittle martensite"
+            "text": "a uniformly porous ingot with no chemical segregation"
           }
         ],
         "answer": "c",
@@ -10987,19 +10987,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a recoverable loss of ductility from grain-boundary precipitation"
+            "text": "recoverable softening caused by grain-boundary precipitation"
           },
           {
             "label": "b",
-            "text": "surface oxidation"
+            "text": "surface oxidation without internal melting or permanent damage"
           },
           {
             "label": "c",
-            "text": "grain-boundary melting caused by crossing the local effective (cored) solidus — permanent, unrecoverable damage"
+            "text": "grain-boundary liquation after the local effective solidus is exceeded"
           },
           {
             "label": "d",
-            "text": "a beneficial grain-refining treatment"
+            "text": "beneficial grain refinement produced by controlled remelting"
           }
         ],
         "answer": "c",
@@ -11360,19 +11360,19 @@
         "options": [
           {
             "label": "a",
-            "text": "a twin boundary several grains wide"
+            "text": "a broad coherent twin boundary separating mirror-related regions"
           },
           {
             "label": "b",
-            "text": "a ribbon of stacking fault, where ABCABC… is locally disrupted to ABAB…"
+            "text": "a narrow stacking-fault ribbon bounded by two Shockley partials"
           },
           {
             "label": "c",
-            "text": "a vacancy tube"
+            "text": "a row of vacancies extending along the dislocation line"
           },
           {
             "label": "d",
-            "text": "a grain boundary"
+            "text": "a high-angle grain boundary formed during recrystallisation"
           }
         ],
         "answer": "b",
@@ -11447,19 +11447,19 @@
         "options": [
           {
             "label": "a",
-            "text": "the lattice friction stress"
+            "text": "the lattice friction stress opposing dislocation glide"
           },
           {
             "label": "b",
-            "text": "the average grain diameter"
+            "text": "the average grain diameter in the polycrystal"
           },
           {
             "label": "c",
-            "text": "the locking parameter — how effectively grain boundaries block slip transmission"
+            "text": "the grain-boundary strengthening coefficient in the relation"
           },
           {
             "label": "d",
-            "text": "the strain-hardening exponent"
+            "text": "the strain-hardening exponent in the flow-stress law"
           }
         ],
         "answer": "c"
