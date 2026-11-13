@@ -5932,23 +5932,24 @@
         "options": [
           {
             "label": "a",
-            "text": "E ≈ αGb, with α ≈ ½"
+            "text": "E/L ≈ αGb"
           },
           {
             "label": "b",
-            "text": "E ≈ Gb²/2π"
+            "text": "E/L ≈ αG²b²"
           },
           {
             "label": "c",
-            "text": "E ≈ αG/b²"
+            "text": "E/L ≈ αG/b²"
           },
           {
             "label": "d",
-            "text": "E ≈ αGb², with α ≈ ½ to 1"
+            "text": "E/L ≈ αGb²"
           }
         ],
         "answer": "d",
-        "detailed": "The dislocation strain energy per unit length scales approximately as E ≈ αGb², with α commonly of order 1/2 to 1. **(d)** is correct. Option (a) has the wrong dependence on b; (b) is a particular approximate expression with a different numerical prefactor; (c) incorrectly places b² in the denominator. The b² dependence explains why smaller Burgers vectors are energetically favoured."
+        "detailed": "The usual order-of-magnitude line-energy relation is E/L ≈ αGb², where α is a dimensionless coefficient of order 0.5–1. The dimensions confirm it: G has units Pa = N m⁻² and b² has units m², so Gb² has units N = J m⁻¹, as required for energy per unit length. More detailed edge/screw expressions include geometry-dependent factors and a logarithmic term, but retain the Gb² scaling. **(d)** is correct.",
+        "text": "Which scaling form is appropriate for the dislocation strain energy per unit length?"
       },
       "sourceFingerprint": "7fd9efd1"
     },
@@ -7271,19 +7272,19 @@
         "options": [
           {
             "label": "a",
-            "text": "0 ≤ m ≤ 1, maximum at φ = 0°"
+            "text": "0 ≤ m ≤ 1, with the maximum at φ = 0°"
           },
           {
             "label": "b",
-            "text": "0.5 ≤ m ≤ 1"
+            "text": "0.5 ≤ m ≤ 1 for every slip system"
           },
           {
             "label": "c",
-            "text": "0 ≤ m ≤ 0.5, maximum at φ = λ = 45°"
+            "text": "0 ≤ m ≤ 0.5, with maximum at φ = λ = 45°"
           },
           {
             "label": "d",
-            "text": "m is always exactly 0.5"
+            "text": "m = 0.5 for every active slip system"
           }
         ],
         "answer": "c",
@@ -7473,19 +7474,19 @@
         "options": [
           {
             "label": "a",
-            "text": "both φ and λ equal 45°"
+            "text": "when φ = λ = 45°, giving the maximum Schmid factor"
           },
           {
             "label": "b",
-            "text": "either φ or λ equals 90° — the stress axis lies in the slip plane, or is perpendicular to the slip direction"
+            "text": "when φ or λ is 90°, making one cosine zero"
           },
           {
             "label": "c",
-            "text": "φ = λ = 70°"
+            "text": "when φ = λ = 70°, giving a reduced but non-zero factor"
           },
           {
             "label": "d",
-            "text": "the Schmid factor equals 0.5"
+            "text": "when the Schmid factor reaches its maximum value"
           }
         ],
         "answer": "b",
@@ -11246,19 +11247,19 @@
         "options": [
           {
             "label": "a",
-            "text": "complete solid solubility requires a size difference above 50%"
+            "text": "complete solubility is favoured when size mismatch exceeds about 50%"
           },
           {
             "label": "b",
-            "text": "complete solid solubility requires a size difference below about 15%"
+            "text": "complete solubility is favoured when size mismatch is below about 15%"
           },
           {
             "label": "c",
-            "text": "size difference is irrelevant"
+            "text": "atomic-size mismatch has no effect on substitutional solubility"
           },
           {
             "label": "d",
-            "text": "size difference below 1% only"
+            "text": "complete solubility requires size mismatch below about 1%"
           }
         ],
         "answer": "b",
