@@ -37,6 +37,12 @@ for (const chapter of catalogue.chapters) {
     } else if (record.learningObjectiveIds.some(id => !objectiveIds.has(id))) {
       errors.push(`${questionId}: unknown learning objective`);
     }
+    if (!Array.isArray(record.sourceReferences) || record.sourceReferences.length === 0 || record.sourceReferences.some(reference => typeof reference !== "string" || !reference.trim())) {
+      errors.push(`${questionId}: at least one non-empty supporting source reference is required`);
+    }
+    if (!["high", "medium", "low"].includes(record.mappingConfidence)) {
+      errors.push(`${questionId}: mappingConfidence must be high, medium or low`);
+    }
     const sourceType = questions[index]?.type ?? null;
     if (record.questionType !== sourceType) {
       errors.push(`${questionId}: questionType does not match source type (${record.questionType} vs ${sourceType})`);
