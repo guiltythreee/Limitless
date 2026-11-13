@@ -1596,25 +1596,25 @@
       "options": [
         {
           "label": "a",
-          "text": "trapped gas bubbles from dissolved hydrogen"
+          "text": "gas porosity formed when dissolved hydrogen comes out of solution during solidification"
         },
         {
           "label": "b",
-          "text": "a large conical shrinkage cavity"
+          "text": "a large shrinkage cavity formed where liquid metal cannot feed the last region to solidify"
         },
         {
           "label": "c",
-          "text": "an oxide film on the surface"
+          "text": "fine shrinkage pores between dendrite arms when feeding through a wide mushy zone becomes difficult"
         },
         {
           "label": "d",
-          "text": "fine distributed shrinkage porosity trapped between dendrite arms, worst in alloys freezing over a wide temperature range"
+          "text": "oxide-film defects trapped between converging streams of liquid metal during mould filling"
         }
       ],
-      "answer": "d",
-      "keyExplanation": "[P2] Sponginess = *shrinkage* porosity between arms; blowholes = *gas*. Different fixes (feeding vs degassing).",
-      "concise": "Sponginess = shrinkage porosity between arms; blowholes = gas. Different causes, different fixes.",
-      "detailed": "Interdendritic sponginess is fine, distributed **shrinkage porosity** trapped between dendrite arms, especially in alloys that freeze over a wide temperature range because feeding through the mushy zone becomes difficult. **(a)** describes gas porosity (blowholes); **(b)** describes a macro-shrinkage cavity or pipe; **(c)** describes a surface oxide film. Thus **(d) is correct**. Sponginess is addressed by feeding; gas porosity requires control of dissolved or generated gas."
+      "answer": "c",
+      "keyExplanation": "Interdendritic sponginess is distributed shrinkage porosity in the spaces between dendrite arms; it is not gas porosity, a macro-shrinkage pipe or an oxide-film defect.",
+      "concise": "Sponginess = fine interdendritic shrinkage pores caused by inadequate feeding through the mushy zone.",
+      "detailed": "Interdendritic sponginess consists of fine, distributed **shrinkage pores between dendrite arms**. It is promoted when an alloy freezes over a wide temperature range: the growing dendrites form a mushy zone, and liquid metal cannot feed the final regions adequately. **(c)** is correct.\n\n- **(a) Gas porosity:** hydrogen comes out of solution and forms gas pores.\n- **(b) Macro-shrinkage:** a larger cavity forms where liquid feeding cannot compensate for solidification contraction.\n- **(d) Oxide-film defect:** folded oxide films become trapped during mould filling.\n\nThe distinction matters because interdendritic shrinkage is addressed primarily by sound feeding and solidification design, whereas gas porosity requires control of dissolved gas."
     },
     {
       "n": 42,
