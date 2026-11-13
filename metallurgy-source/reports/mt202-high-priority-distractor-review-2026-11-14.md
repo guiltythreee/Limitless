@@ -124,3 +124,14 @@ The first 10 Medium-priority records in Chapter 1 were inspected. Five needed ta
 - Ch 1 Q19: made the four property options more parallel while preserving the EXCEPT answer (C).
 
 The other five inspected items were retained because their flags were fixed-format wording, intentional absolutes in false statements, or harmless distractor-length differences rather than a substantive defect. All five answer keys were preserved. The queue now contains **460 flags — 0 High, 322 Medium and 138 Review** (before this pass: 462 flags — 0 High, 324 Medium and 138 Review).
+
+
+## Second Medium-priority content review — Chapter 1 follow-up, 14 November 2026
+
+A further four Chapter 1 items were reviewed:
+
+- Ch 1 Q24 and Q30: removed unexplained internal P1/P3 labels from the learner-facing explanations and replaced them with plain-language descriptions of the relevant energy-well reasoning.
+- Ch 1 Q31: removed the internal P2 marker while retaining the bonding-directionality explanation.
+- Ch 1 Q32: shortened and parallelised the graphite bonding options; the correct answer remains C.
+
+The four answer keys were preserved, and the generated chapter file remains byte-identical to its deployed mirror. The queue now contains **459 flags — 0 High, 321 Medium and 138 Review** (before this pass: 460 flags — 0 High, 322 Medium and 138 Review).
