@@ -6,6 +6,7 @@ on:
       - "metallurgy-source/app/data/qbank/**"
       - "metallurgy-source/content-revisions/**"
       - "metallurgy-source/content-metadata/mt202/**"
+      - "metallurgy-source/reports/mt202-question-quality-follow-up-queue-2026-11-13.csv"
       - "metallurgy-source/public/data/mt201/**"
       - "metallurgy-source/public/data/mt202/**"
       - "metallurgy/data/mt201/**"
@@ -15,6 +16,7 @@ on:
       - "metallurgy-source/scripts/sync-mt201.mjs"
       - "metallurgy-source/scripts/sync.mjs"
       - "metallurgy-source/scripts/validate-mt202-metadata.mjs"
+      - "metallurgy-source/scripts/audit-mt202-question-quality.mjs"
       - "metallurgy-source/scripts/test-mt201.mjs"
       - "metallurgy-source/scripts/test-mt202.mjs"
       - "metallurgy-source/scripts/test-mt203.mjs"
@@ -94,6 +96,10 @@ jobs:
       - name: Validate MT202 question metadata registry
         working-directory: metallurgy-source
         run: npm run validate:mt202-metadata
+
+      - name: Verify regenerated MT202 heuristic follow-up queue
+        working-directory: metallurgy-source
+        run: node scripts/audit-mt202-question-quality.mjs --check
 
       - name: Run MT203 tests and migration checks
         working-directory: metallurgy-source
