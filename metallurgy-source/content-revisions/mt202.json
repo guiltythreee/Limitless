@@ -1775,6 +1775,33 @@
     },
     {
       "chapter": "ch02",
+      "n": 38,
+      "originalType": "G",
+      "sourceText": "In FCC, the octahedral void (r_void/R = 0.414) is located at:",
+      "sourceFingerprint": "75171b43",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "at the body centre and at the centres of all twelve edges"
+          },
+          {
+            "label": "b",
+            "text": "at the centres of the six cube faces only"
+          },
+          {
+            "label": "c",
+            "text": "at the quarter-coordinate positions of tetrahedral sites"
+          },
+          {
+            "label": "d",
+            "text": "at the eight corners of the conventional unit cell"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch02",
       "n": 39,
       "originalType": "G",
       "sourceText": "In FCC, tetrahedral voids of r_void/R = 0.225 occur at the (¼, ¼, ¼)-type positions, and there are how many per unit cell?",
@@ -2117,6 +2144,33 @@
         "answer": "d"
       },
       "sourceFingerprint": "aa2161a6"
+    },
+    {
+      "chapter": "ch02",
+      "n": 50,
+      "originalType": "A",
+      "sourceText": "In Bragg's law $n\\lambda = 2d\\sin\\theta$, the factor $2d$ appears because:",
+      "sourceFingerprint": "e3ef82a8",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the path difference from adjacent planes is 2d sinθ"
+          },
+          {
+            "label": "b",
+            "text": "each atom in the crystal scatters the incident ray twice"
+          },
+          {
+            "label": "c",
+            "text": "reflection doubles the wavelength of the incident X-rays"
+          },
+          {
+            "label": "d",
+            "text": "the incident and diffracted beams each travel a distance d"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch02",
@@ -2979,6 +3033,33 @@
         "answer": "c"
       },
       "sourceFingerprint": "e49280c3"
+    },
+    {
+      "chapter": "ch03",
+      "n": 32,
+      "originalType": "G",
+      "sourceText": "A metal (chill) mould poured at **high** casting temperature tends to produce:",
+      "sourceFingerprint": "75328c8a",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a fine equiaxed structure extending through the whole casting"
+          },
+          {
+            "label": "b",
+            "text": "columnar grains extending almost to the casting centre"
+          },
+          {
+            "label": "c",
+            "text": "coarse equiaxed grains throughout the casting section"
+          },
+          {
+            "label": "d",
+            "text": "an amorphous structure produced by rapid solidification"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch03",
@@ -4412,6 +4493,33 @@
     },
     {
       "chapter": "ch04",
+      "n": 18,
+      "originalType": "G",
+      "sourceText": "The correct statement of the lever rule is:",
+      "sourceFingerprint": "541c50d3",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "each phase fraction is proportional to the opposite tie-line arm"
+          },
+          {
+            "label": "b",
+            "text": "each phase fraction is proportional to the same-side tie-line arm"
+          },
+          {
+            "label": "c",
+            "text": "phase fractions are calculated from the vertical gap between curves"
+          },
+          {
+            "label": "d",
+            "text": "the lever rule is valid only at invariant temperatures"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch04",
       "n": 19,
       "originalType": "E",
       "sourceText": "The lever rule for the liquid fraction is:",
@@ -5747,6 +5855,25 @@
     },
     {
       "chapter": "ch05",
+      "n": 25,
+      "originalType": "F",
+      "sourceText": "Most dislocations in real crystals are perfectly pure edge or pure screw.",
+      "sourceFingerprint": "59a5e366",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "True — most dislocations retain pure edge or pure screw character along the line"
+          },
+          {
+            "label": "b",
+            "text": "False — most are mixed, with edge/screw character varying along a curved line"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch05",
       "n": 26,
       "originalType": "C",
       "sourceText": "",
@@ -5885,6 +6012,33 @@
         "answer": "a"
       },
       "sourceFingerprint": "c0f37d29"
+    },
+    {
+      "chapter": "ch05",
+      "n": 32,
+      "originalType": "G",
+      "sourceText": "For simple cubic, b = a⟨100⟩ with |b| = a. This is consistent with the rule that nature always picks:",
+      "sourceFingerprint": "818e9612",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the largest lattice translation that still maps the crystal onto itself"
+          },
+          {
+            "label": "b",
+            "text": "the shortest lattice translation that maps the crystal onto itself"
+          },
+          {
+            "label": "c",
+            "text": "any vector joining atoms in neighbouring unit cells"
+          },
+          {
+            "label": "d",
+            "text": "a vector normal to the close-packed direction of the lattice"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch05",
@@ -6681,6 +6835,33 @@
     },
     {
       "chapter": "ch05",
+      "n": 65,
+      "originalType": "A",
+      "sourceText": "How does grain boundary energy vary with the angle of misorientation between adjacent grains?",
+      "sourceFingerprint": "b2598d3c",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "it rises steeply at low angles, then levels off at high angles"
+          },
+          {
+            "label": "b",
+            "text": "it decreases steadily as the misorientation angle increases"
+          },
+          {
+            "label": "c",
+            "text": "it remains constant as the misorientation angle increases"
+          },
+          {
+            "label": "d",
+            "text": "it peaks near 15° and decreases at larger misorientation angles"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch05",
       "n": 66,
       "originalType": "A",
       "sourceText": "Which pairing of dislocation type with the orientation of the Burgers vector relative to the line is correct?",
@@ -6851,6 +7032,33 @@
         "answer": "d"
       },
       "sourceFingerprint": "56322302"
+    },
+    {
+      "chapter": "ch06",
+      "n": 2,
+      "originalType": "A",
+      "sourceText": "*Plastic* deformation is:",
+      "sourceFingerprint": "ede7d317",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a permanent shape change produced by slip or twinning"
+          },
+          {
+            "label": "b",
+            "text": "a reversible shape change caused by elastic bond stretching"
+          },
+          {
+            "label": "c",
+            "text": "a recoverable strain that follows Hooke's law"
+          },
+          {
+            "label": "d",
+            "text": "a thermal dimensional change with no plastic strain"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch06",
@@ -7380,6 +7588,33 @@
     },
     {
       "chapter": "ch06",
+      "n": 21,
+      "originalType": "A",
+      "sourceText": "The critical resolved shear stress τ_crss is best described as:",
+      "sourceFingerprint": "541c8ea6",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the critical resolved shear stress needed to start slip on a given system"
+          },
+          {
+            "label": "b",
+            "text": "the tensile stress at which the whole specimen begins to yield"
+          },
+          {
+            "label": "c",
+            "text": "the resolved shear stress produced by a given applied load"
+          },
+          {
+            "label": "d",
+            "text": "the theoretical shear strength of a defect-free crystal"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch06",
       "n": 22,
       "originalType": "A",
       "sourceText": "In a tensile test, slip begins on whichever slip system has:",
@@ -7806,6 +8041,33 @@
     },
     {
       "chapter": "ch06",
+      "n": 36,
+      "originalType": "A",
+      "sourceText": "The *Lüders band* is:",
+      "sourceFingerprint": "9384ca2c",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a moving front of localised plastic strain that propagates along the gauge length"
+          },
+          {
+            "label": "b",
+            "text": "a twin interface that propagates through a grain by mirror-symmetric shear"
+          },
+          {
+            "label": "c",
+            "text": "a new strain-free grain formed during recrystallisation annealing"
+          },
+          {
+            "label": "d",
+            "text": "a cluster of voids that develops before ductile fracture"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch06",
       "n": 37,
       "originalType": "B",
       "sourceText": "Which statement(s) about *strain ageing* is/are correct?",
@@ -7831,6 +8093,33 @@
         "answer": "b"
       },
       "sourceFingerprint": "0f53e663"
+    },
+    {
+      "chapter": "ch06",
+      "n": 38,
+      "originalType": "A",
+      "sourceText": "*Blue brittleness* is:",
+      "sourceFingerprint": "affbf646",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "a toughness drop near 200–300 °C caused by dynamic strain ageing"
+          },
+          {
+            "label": "b",
+            "text": "a blue oxide film that protects steel from corrosion"
+          },
+          {
+            "label": "c",
+            "text": "a low-temperature treatment that improves impact toughness"
+          },
+          {
+            "label": "d",
+            "text": "a surface-colour defect caused by stainless-steel oxidation"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch06",
@@ -8130,6 +8419,33 @@
         "detailed": "For each specimen, σ_y = τ_crss/m. The Schmid factors are P = 0.500, Q ≈ 0.196, R ≈ 0.067 and S ≈ 0.112. Specimen R has the smallest m and therefore requires the highest applied stress. **(c)** is correct."
       },
       "sourceFingerprint": "fd6afda8"
+    },
+    {
+      "chapter": "ch06",
+      "n": 55,
+      "originalType": "A",
+      "sourceText": "At the atomic level, twinning differs from slip in that during twinning:",
+      "sourceFingerprint": "8368ff19",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "alternate planes move by whole lattice translations, as in slip"
+          },
+          {
+            "label": "b",
+            "text": "successive planes shift by fractional amounts, building uniform shear"
+          },
+          {
+            "label": "c",
+            "text": "all shear is concentrated on a single glide plane"
+          },
+          {
+            "label": "d",
+            "text": "atoms enter interstitial sites, leaving a planar vacancy sheet"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch06",
@@ -8447,6 +8763,33 @@
         "keyExplanation": "Polycrystalline grains must satisfy compatibility with differently oriented neighbours, so multiple slip systems are engaged early. Polycrystals contain dislocations, and Stage I is the easy-glide single-slip region, not cross-slip of edge dislocations.",
         "concise": "Neighbouring-grain constraints activate multiple slip early; Stage I is single-slip easy glide in a single crystal.",
         "detailed": "In a single crystal, one favourable slip system may operate at low strain, producing easy glide. In a polycrystal, differently oriented grains constrain one another, requiring multiple compatible deformation modes from the outset. Dislocations are present in polycrystals; the disappearance of a distinct Stage I does not mean dislocations are absent. Edge dislocations cannot cross-slip in the way screw dislocations can."
+      }
+    },
+    {
+      "chapter": "ch07",
+      "n": 8,
+      "originalType": "G",
+      "sourceText": "Solute (composition) affects work hardening by:",
+      "sourceFingerprint": "aec35e84",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "raising the base flow stress and delaying dynamic recovery"
+          },
+          {
+            "label": "b",
+            "text": "lowering the base flow stress and accelerating dynamic recovery"
+          },
+          {
+            "label": "c",
+            "text": "eliminating Stage II and producing perfectly plastic flow"
+          },
+          {
+            "label": "d",
+            "text": "having no effect on flow stress or the recovery rate"
+          }
+        ]
       }
     },
     {
@@ -8903,6 +9246,33 @@
     },
     {
       "chapter": "ch07",
+      "n": 22,
+      "originalType": "A",
+      "sourceText": "Solid-solution strengthening works because:",
+      "sourceFingerprint": "ae828bb9",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "solute misfit strain fields interact elastically with dislocation stress fields"
+          },
+          {
+            "label": "b",
+            "text": "solute atoms lower dislocation density by annihilating dislocations"
+          },
+          {
+            "label": "c",
+            "text": "solute atoms increase grain size and suppress boundary motion"
+          },
+          {
+            "label": "d",
+            "text": "solute atoms raise melting temperature without impeding dislocation glide"
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch07",
       "n": 23,
       "originalType": "B",
       "sourceText": "Which statement(s) contrast substitutional and interstitial solute strengthening?",
@@ -8979,6 +9349,33 @@
         "answer": "c"
       },
       "sourceFingerprint": "12468913"
+    },
+    {
+      "chapter": "ch07",
+      "n": 26,
+      "originalType": "A",
+      "sourceText": "Solid-solution strengthening generally scales with:",
+      "sourceFingerprint": "d1350307",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "the solute–solvent size misfit, which controls local elastic strain"
+          },
+          {
+            "label": "b",
+            "text": "the electronegativity difference, independent of size and concentration"
+          },
+          {
+            "label": "c",
+            "text": "the valence difference, independent of crystal structure and concentration"
+          },
+          {
+            "label": "d",
+            "text": "the density difference, independent of dislocation arrangement"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch07",
@@ -9562,6 +9959,33 @@
         "answer": "a"
       },
       "sourceFingerprint": "fffc92e6"
+    },
+    {
+      "chapter": "ch07",
+      "n": 53,
+      "originalType": "G",
+      "sourceText": "An Al alloy aged at 170 °C gives the yield strengths below. Which conclusion is best supported by these data?",
+      "sourceFingerprint": "b12969c3",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "100 h is underaged; longer ageing should still raise the yield strength"
+          },
+          {
+            "label": "b",
+            "text": "100 h is peak-aged; the largest precipitates give the highest strength"
+          },
+          {
+            "label": "c",
+            "text": "the alloy has no peak age; its strength does not show a maximum"
+          },
+          {
+            "label": "d",
+            "text": "100 h is overaged; coarsening increases spacing and lowers Orowan stress"
+          }
+        ]
+      }
     },
     {
       "chapter": "ch07",
