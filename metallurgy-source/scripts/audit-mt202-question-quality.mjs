@@ -114,7 +114,7 @@ for (const question of questions) {
   if (duplicateMembers.has(questionKey)) {
     flags.push("duplicate-stem");
     evidence.push(
-      "same normalized stem as: " +
+      "same normalized stem and structured content as: " +
         duplicateGroups
           .get(duplicateSignature(question))
           .filter((id) => id !== questionKey)
