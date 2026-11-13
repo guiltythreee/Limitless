@@ -15,6 +15,19 @@ This audit examines the existing MT202 revision overlay, question metadata regis
 - Before this pass, the 387-entry overlay contained 378 records with stem/statement/table/option fields updated and 9 explanation-only records. The structural-change count includes option/key reordering, so it is not a count of full rewrites.
 - This evidence supports identifying overlay-covered and untouched questions. It does **not** support an exact minor-edit versus substantial-rewrite split for every target.
 
+
+## Overlay field-level inspection
+
+A direct inspection of the 389 overlay records shows that the changes are heterogeneous; they should not be described as 389 full rewrites:
+
+- 42 records replace a broad set of question fields (including the stem/structure, options, answer and solution material).
+- 154 records update options, answer and detailed solution.
+- 139 records update options and answer only; these are consistent with answer-position/key changes and should not be counted as substantive rewrites without the original Markdown comparison.
+- The remaining 54 records have narrower combinations of explanation, key, statement, assertion/reason or option updates.
+- Across the overlay, 378 records update options and 376 update the answer field. Field presence alone does not establish whether the change is a shuffle, a distractor rewrite or a conceptual correction.
+
+The metadata registry's introductory note was also corrected: the 522 status values are current editorial approvals, not drafts, while approval remains provisional rather than independent faculty certification. A note now explicitly warns that quality scores require calibration against student performance and faculty review.
+
 ## Source-of-truth limitation
 
 `scripts/sync.mjs` reads the authoritative Markdown question bank and solution files from an external folder. Those Markdown files are not checked into this GitHub branch. The repository contains generated chapter JSON and a fingerprint-guarded revision overlay. The original Markdown bank therefore could not be diffed line by line in this audit. The overlay fingerprints protect against applying edits to a changed source question, but they do not replace a complete original-to-revised Markdown diff.
