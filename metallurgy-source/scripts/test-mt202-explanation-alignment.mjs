@@ -52,14 +52,14 @@ const expected = [
     excludes: /\*\*\(c\)\*\* is correct/i,
   },
   {
-    chapterSeven,
+    chapter: chapterSeven,
     n: 35,
     answer: "a",
     includes: ["overaging", "coarsen", "spacing", "Orowan stress"],
     excludes: /Cottrell atmosphere|upper yield point/i,
   },
   {
-    chapterSeven,
+    chapter: chapterSeven,
     n: 49,
     answer: "c",
     includes: ["anti-phase boundary", "coherency", "modulus mismatch", "Orowan looping"],
