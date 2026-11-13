@@ -605,11 +605,11 @@
       "options": [
         {
           "label": "a",
-          "text": "G/2π"
+          "text": "G/(2π)"
         },
         {
           "label": "b",
-          "text": "G/1000 to G/100,000 — three to four orders of magnitude below the theoretical value"
+          "text": "G/10³ to G/10⁵"
         },
         {
           "label": "c",
@@ -617,13 +617,13 @@
         },
         {
           "label": "d",
-          "text": "exactly the theoretical value"
+          "text": "G/100"
         }
       ],
       "answer": "b",
-      "keyExplanation": "G/1000 to G/100,000 — the gap that demands dislocations exist. [P2]",
-      "concise": "Real crystals yield at G/1000–G/100,000, i.e. 3–4 orders below theory.",
-      "detailed": "Real metal single crystals yield at shear stresses of roughly G/1000 to G/100,000, far below the theoretical estimates G/30 or G/(2π). **(b)** is correct. Option (a) is the Frenkel theoretical estimate; (c) is the refined theoretical estimate; (d) contradicts the measured strength gap."
+      "keyExplanation": "Measured shear strengths are roughly G/10³ to G/10⁵, far below the theoretical estimates.",
+      "concise": "Real crystals yield at about G/10³–G/10⁵, several orders below theoretical strength.",
+      "detailed": "Real metal single crystals yield at shear stresses of roughly **G/10³ to G/10⁵**. The theoretical estimates are much higher: approximately **G/30** in a refined estimate and **G/(2π)** in the simple Frenkel model. Thus **(b)** is correct. The large gap between theoretical and measured strength is explained by the motion of dislocations: real crystals deform by moving existing defects rather than shearing a perfect lattice all at once."
     },
     {
       "n": 16,
