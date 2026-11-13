@@ -118,3 +118,8 @@ A further distractor pass revised 14 questions in Chapters 4–9. Answer keys we
 ## Numerical distractor follow-up — 14 November 2026
 
 Four additional items were clarified after the initial 14-question distractor pass: Ch 5 Q34, Ch 6 Q17, Ch 6 Q24 and Ch 9 Q24. The latest total is 18 questions with distractor-balance edits. Answer keys were preserved. The current heuristic queue is 473 flags (123 High, 267 Medium, 83 Review). The 392-record revision overlay has 392 unique targets, all overlay update fields match generated chapter outputs, and all nine deployed mirrors match their generated files byte-for-byte. Full CI has not yet rerun on these latest commits.
+
+
+## Heuristic refinement — 14 November 2026
+
+The duplicate-stem detector was refined to compare the stem plus structured statements, match-table content and assertion/reason text. This avoids treating generic question stems with different assessed content as duplicate questions. Four previously flagged practice/revision pairs were inspected and retained as distinct variants. The regenerated queue now reports 473 flags: 119 High, 271 Medium and 83 Review.
