@@ -654,7 +654,9 @@
             "text": "1 and 3 only"
           }
         ],
-        "answer": "c"
+        "answer": "c",
+        "keyExplanation": "Statements 1–3 are correct. r₀ gives atomic diameter, not coordination number (statement 4 is false).",
+        "detailed": "- Item 1 — TRUE: a stiffer (more curved) well at r₀ means a larger elastic (Young's) modulus.\n- Item 2 — TRUE: well depth = bond energy, which correlates with melting point.\n- Item 3 — TRUE: the asymmetry of the well is the origin of thermal expansion.\n- Item 4 — FALSE: r₀ gives the atomic diameter, not the coordination number.\n\nThis distinguishes the energy-well length scale from lattice geometry: r₀ gives an atomic length, whereas coordination number is set by the crystal structure (Ch. 2)."
       },
       "sourceFingerprint": "6e7ecfbb"
     },
@@ -823,7 +825,9 @@
             "text": "1, 2 and 3"
           }
         ],
-        "answer": "d"
+        "answer": "d",
+        "keyExplanation": "Statements 1–3 are correct. Item 4 is false: the width at half-depth of the energy well does not determine coordination number.",
+        "detailed": "- Item 1 — TRUE: curvature of the well at r₀ sets the elastic modulus.\n- Item 2 — TRUE: asymmetry causes thermal expansion.\n- Item 3 — TRUE: well depth correlates with melting point.\n- Item 4 — FALSE: the width at half-depth does not determine coordination number; coordination number comes from the crystal structure (Ch. 2), not the energy-well shape.\n\nThe three valid links concern bonding and the shape of the potential-energy curve; none makes the well width a measure of coordination number."
       },
       "sourceFingerprint": "8ce5635c"
     },
@@ -851,7 +855,8 @@
             "text": "2 and 4 only"
           }
         ],
-        "answer": "b"
+        "answer": "b",
+        "keyExplanation": "Ionic and metallic bonds are non-directional; covalent bonds are directional. van der Waals bonding is secondary and weak, so statement 4 is false."
       },
       "sourceFingerprint": "9f2262dc"
     },
@@ -864,7 +869,7 @@
         "options": [
           {
             "label": "a",
-            "text": "van der Waals forces; covalent"
+            "text": "van der Waals; covalent"
           },
           {
             "label": "b",
@@ -872,7 +877,7 @@
           },
           {
             "label": "c",
-            "text": "covalent; van der Waals forces"
+            "text": "covalent; van der Waals"
           },
           {
             "label": "d",
