@@ -504,6 +504,17 @@
     },
     {
       "chapter": "ch01",
+      "n": 20,
+      "originalType": "C",
+      "sourceText": "",
+      "sourceFingerprint": "b58cfb4a",
+      "updates": {
+        "assertion": "Metals are generally ductile, whereas typical ionic and covalent-network solids are often brittle.",
+        "keyExplanation": "The assertion describes a common trend, not an exception-free rule. Metallic bonding is non-directional and delocalised, allowing layers of atoms to shift while metallic cohesion is maintained. In many ionic solids, slip brings like charges into unfavourable proximity; in covalent-network solids, deformation can require breaking directional bonds. Thus the reason correctly explains the qualified trend."
+      }
+    },
+    {
+      "chapter": "ch01",
       "n": 21,
       "originalType": "G",
       "sourceText": "A certain solid has a primary bond energy of only 1–10 kJ/mol and exists as a noble gas at low temperature. It is bonded by:",
@@ -1625,6 +1636,60 @@
     },
     {
       "chapter": "ch02",
+      "n": 35,
+      "originalType": "B",
+      "sourceText": "Slip occurs preferentially on the most densely packed planes and along the most densely packed directions because:",
+      "sourceFingerprint": "5d8f0ba5",
+      "updates": {
+        "type": "B",
+        "text": "For a cubic crystal, consider planar density, interplanar spacing and slip. Which statements are correct?",
+        "statements": [
+          {
+            "num": 1,
+            "text": "The interplanar spacing is given by dₕₖₗ = a/√(h² + k² + l²)."
+          },
+          {
+            "num": 2,
+            "text": "In FCC, the close-packed {111} planes have smaller interplanar spacing than the {100} planes."
+          },
+          {
+            "num": 3,
+            "text": "Close-packed planes and directions are commonly favoured slip paths because high planar density and short lattice translation help lower resistance to glide."
+          },
+          {
+            "num": 4,
+            "text": "Increasing the magnitude of the Burgers vector lowers dislocation line energy."
+          }
+        ],
+        "tableRows": [],
+        "assertion": "",
+        "reason": "",
+        "options": [
+          {
+            "label": "a",
+            "text": "1, 2 and 3 only"
+          },
+          {
+            "label": "b",
+            "text": "1 and 4 only"
+          },
+          {
+            "label": "c",
+            "text": "2, 3 and 4 only"
+          },
+          {
+            "label": "d",
+            "text": "1, 2, 3 and 4"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Statements 1–3 are correct. For cubic crystals, dₕₖₗ = a/√(h² + k² + l²), so d₁₁₁ = a/√3 while d₁₀₀ = a; the close-packed FCC {111} planes therefore do not have the greatest interplanar spacing. A short slip translation gives a smaller Burgers vector, and dislocation line energy scales approximately with Gb². Statement 4 reverses this relationship.",
+        "concise": "FCC {111} is close-packed but has smaller spacing than {100}; a smaller Burgers vector generally lowers dislocation energy.",
+        "detailed": "For a cubic crystal, the spacing between successive (hkl) planes is dₕₖₗ = a/√(h² + k² + l²). Thus d₁₁₁ = a/√3, which is smaller than d₁₀₀ = a. Close-packed describes high atomic density within a plane; it does not mean that the plane family has the largest interplanar spacing. Slip commonly favours planes and directions with high planar/linear density and short lattice translations. The elastic energy per unit length of a dislocation is proportional, to first approximation, to Gb², so a larger Burgers vector raises rather than lowers the energy."
+      }
+    },
+    {
+      "chapter": "ch02",
       "n": 36,
       "originalType": "A",
       "sourceText": "Linear density is defined as:",
@@ -1651,6 +1716,34 @@
         "detailed": "Linear density is the number of atom centres lying on a specified crystallographic direction per unit length. **(c)** is correct. Option (a) is atoms per unit cell; (b) is atomic packing factor; and (d) is planar density."
       },
       "sourceFingerprint": "1a5911ed"
+    },
+    {
+      "chapter": "ch02",
+      "n": 37,
+      "originalType": "G",
+      "sourceText": "Expressed in units of the atomic radius R, FCC's d₁₁₁ and BCC's d₁₁₀ both come out to ≈ 1.633 R. The correct interpretation is:",
+      "sourceFingerprint": "3effebba",
+      "updates": {
+        "keyExplanation": "The equality of the two numerical plane spacings does not imply equal ductility. FCC has four equivalent close-packed {111} plane families with ⟨110⟩ directions, while BCC has several potential slip families and generally higher lattice resistance, especially at low temperature. Slip-system availability and glide resistance—not this spacing coincidence alone—govern the comparison.",
+        "options": [
+          {
+            "label": "a",
+            "text": "Equal spacings therefore imply similar slip resistance and comparable ductility in FCC and BCC metals."
+          },
+          {
+            "label": "b",
+            "text": "The values match numerically, but FCC has four equivalent {111} planes; BCC {110} is one of several competing slip-plane families."
+          },
+          {
+            "label": "c",
+            "text": "BCC therefore has more independent slip systems and should be more ductile than FCC under ordinary conditions."
+          },
+          {
+            "label": "d",
+            "text": "The equality occurs because both structures are close-packed and have the same slip-plane geometry."
+          }
+        ]
+      }
     },
     {
       "chapter": "ch02",
@@ -2162,6 +2255,37 @@
         "answer": "d"
       },
       "sourceFingerprint": "57f908e9"
+    },
+    {
+      "chapter": "ch03",
+      "n": 3,
+      "originalType": "A",
+      "sourceText": "Homogeneous nucleation differs from heterogeneous nucleation in that it:",
+      "sourceFingerprint": "fd28095b",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "forms within the bulk liquid without a foreign surface and generally needs substantial undercooling"
+          },
+          {
+            "label": "b",
+            "text": "forms on mould walls or inclusions, where the surface lowers the barrier and reduces the required undercooling"
+          },
+          {
+            "label": "c",
+            "text": "forms in the bulk liquid but needs less undercooling than heterogeneous nucleation"
+          },
+          {
+            "label": "d",
+            "text": "forms on mould walls but needs greater undercooling because the interface is energetically costly"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Homogeneous nucleation occurs in the bulk liquid and requires substantial undercooling. Heterogeneous nucleation occurs on foreign surfaces, which reduce the nucleation barrier and the required undercooling.",
+        "concise": "Homogeneous = bulk liquid + substantial undercooling; heterogeneous = foreign surface + reduced barrier.",
+        "detailed": "Homogeneous nucleation occurs **within the bulk liquid**, without help from mould walls, inclusions or inoculants. A new solid–liquid interface must form without a pre-existing surface, so the interfacial-energy penalty is large and substantial undercooling is required. **(a)** is correct.\n\n- **(b)** describes heterogeneous nucleation: a foreign surface lowers the barrier and reduces the required undercooling.\n- **(c)** reverses the undercooling comparison; homogeneous nucleation generally needs more, not less, undercooling.\n- **(d)** combines a heterogeneous site with the higher-undercooling requirement characteristic of homogeneous nucleation.\n\nIn industrial castings, heterogeneous nucleation usually dominates because mould walls, inclusions and inoculants provide favourable nucleation sites."
+      }
     },
     {
       "chapter": "ch03",
@@ -3516,6 +3640,33 @@
     },
     {
       "chapter": "ch03",
+      "n": 56,
+      "originalType": "A",
+      "sourceText": "Constitutional supercooling arises in an alloy because:",
+      "sourceFingerprint": "9640cf82",
+      "updates": {
+        "options": [
+          {
+            "label": "a",
+            "text": "Latent heat is released faster than it can be conducted away from the solid–liquid interface."
+          },
+          {
+            "label": "b",
+            "text": "The mould wall extracts heat faster than the interior, creating a steep thermal gradient ahead of the front."
+          },
+          {
+            "label": "c",
+            "text": "Solute is rejected ahead of the interface, depressing the local liquidus and creating a constitutionally supercooled zone."
+          },
+          {
+            "label": "d",
+            "text": "Interfacial tension varies along the front and destabilises the solid–liquid interface."
+          }
+        ]
+      }
+    },
+    {
+      "chapter": "ch03",
       "n": 58,
       "originalType": "C",
       "sourceText": "",
@@ -4138,6 +4289,16 @@
     },
     {
       "chapter": "ch04",
+      "n": 11,
+      "originalType": "D",
+      "sourceText": "Match the intermediate-phase type to its example.",
+      "sourceFingerprint": "8aa9013c",
+      "updates": {
+        "keyExplanation": "The matches are: intermetallic/valency compounds—Mg₂Pb, Mg₂Sn and CaSe; interstitial compound—Fe₃C; electron compound β (3:2)—AgCd, Cu₂Al and FeAl; electron compound ε (7:4)—AgCd₃, Cu₃Si and FeZn₇. Thus 1–b, 2–a, 3–c and 4–d, option (a). These are conventional examples used in the electron-compound classification."
+      }
+    },
+    {
+      "chapter": "ch04",
       "n": 13,
       "originalType": "B",
       "sourceText": "Which statement(s) about *interstitial compounds* is/are correct?",
@@ -4531,6 +4692,17 @@
         "answer": "c"
       },
       "sourceFingerprint": "01588d55"
+    },
+    {
+      "chapter": "ch04",
+      "n": 30,
+      "originalType": "C",
+      "sourceText": "",
+      "sourceFingerprint": "d1e00bbc",
+      "updates": {
+        "assertion": "Constitutional supercooling can promote the formation of a central equiaxed zone in an alloy ingot.",
+        "keyExplanation": "Both statements are true. Constitutional supercooling ahead of a columnar solidification front can promote nucleation in the liquid and contribute to the columnar-to-equiaxed transition. The extent of the equiaxed zone also depends on available nuclei, melt flow, thermal conditions and alloy composition."
+      }
     },
     {
       "chapter": "ch04",
@@ -9392,6 +9564,16 @@
     },
     {
       "chapter": "ch08",
+      "n": 1,
+      "originalType": "B",
+      "sourceText": "Diffusion is the thread connecting earlier chapters because it is what:",
+      "sourceFingerprint": "b5245d95",
+      "updates": {
+        "keyExplanation": "All four links are valid: diffusion homogenises segregation during heat treatment; vacancy transport enables edge-dislocation climb; solute diffusion forms Cottrell atmospheres around dislocations; and diffusion controls the rate of precipitate coarsening during ageing. Therefore all four statements are correct: option (b)."
+      }
+    },
+    {
+      "chapter": "ch08",
       "n": 3,
       "originalType": "A",
       "sourceText": "The *interstitial mechanism* operates as:",
@@ -11569,6 +11751,36 @@
     },
     {
       "chapter": "ch09",
+      "n": 50,
+      "originalType": "G",
+      "sourceText": "Of the following, which cooling rate most closely corresponds to the formation of a **metallic glass**?",
+      "sourceFingerprint": "ddaaf569",
+      "updates": {
+        "text": "A metallic glass is obtained when a melt is:",
+        "options": [
+          {
+            "label": "a",
+            "text": "cooled rapidly enough, for that alloy and sample geometry, to bypass crystallisation"
+          },
+          {
+            "label": "b",
+            "text": "cooled slowly through the liquidus and solidus"
+          },
+          {
+            "label": "c",
+            "text": "held for a long time just below its melting point"
+          },
+          {
+            "label": "d",
+            "text": "seeded with a crystal and cooled slowly"
+          }
+        ],
+        "answer": "a",
+        "keyExplanation": "Metallic-glass formation requires suppressing crystallisation during cooling. The critical cooling rate is alloy- and geometry-dependent, so no single cooling-rate value applies to all metallic glasses."
+      }
+    },
+    {
+      "chapter": "ch09",
       "n": 51,
       "originalType": "A",
       "sourceText": "Which of the following correctly pairs a type of atomic bonding with its structural origin and its mechanical/electrical consequence?",
@@ -11822,187 +12034,6 @@
         "answer": "c"
       },
       "sourceFingerprint": "31460b4b"
-    },
-    {
-      "chapter": "ch04",
-      "n": 30,
-      "originalType": "C",
-      "sourceText": "",
-      "sourceFingerprint": "d1e00bbc",
-      "updates": {
-        "assertion": "Constitutional supercooling can promote the formation of a central equiaxed zone in an alloy ingot.",
-        "keyExplanation": "Both statements are true. Constitutional supercooling ahead of a columnar solidification front can promote nucleation in the liquid and contribute to the columnar-to-equiaxed transition. The extent of the equiaxed zone also depends on available nuclei, melt flow, thermal conditions and alloy composition."
-      }
-    },
-    {
-      "chapter": "ch01",
-      "n": 20,
-      "originalType": "C",
-      "sourceText": "",
-      "sourceFingerprint": "b58cfb4a",
-      "updates": {
-        "assertion": "Metals are generally ductile, whereas typical ionic and covalent-network solids are often brittle.",
-        "keyExplanation": "The assertion describes a common trend, not an exception-free rule. Metallic bonding is non-directional and delocalised, allowing layers of atoms to shift while metallic cohesion is maintained. In many ionic solids, slip brings like charges into unfavourable proximity; in covalent-network solids, deformation can require breaking directional bonds. Thus the reason correctly explains the qualified trend."
-      }
-    },
-    {
-      "chapter": "ch02",
-      "n": 37,
-      "originalType": "G",
-      "sourceText": "Expressed in units of the atomic radius R, FCC's d₁₁₁ and BCC's d₁₁₀ both come out to ≈ 1.633 R. The correct interpretation is:",
-      "sourceFingerprint": "3effebba",
-      "updates": {
-        "keyExplanation": "The equality of the two numerical plane spacings does not imply equal ductility. FCC has four equivalent close-packed {111} plane families with ⟨110⟩ directions, while BCC has several potential slip families and generally higher lattice resistance, especially at low temperature. Slip-system availability and glide resistance—not this spacing coincidence alone—govern the comparison.",
-        "options": [
-          {
-            "label": "a",
-            "text": "Equal spacings therefore imply similar slip resistance and comparable ductility in FCC and BCC metals."
-          },
-          {
-            "label": "b",
-            "text": "The values match numerically, but FCC has four equivalent {111} planes; BCC {110} is one of several competing slip-plane families."
-          },
-          {
-            "label": "c",
-            "text": "BCC therefore has more independent slip systems and should be more ductile than FCC under ordinary conditions."
-          },
-          {
-            "label": "d",
-            "text": "The equality occurs because both structures are close-packed and have the same slip-plane geometry."
-          }
-        ]
-      }
-    },
-    {
-      "chapter": "ch04",
-      "n": 11,
-      "originalType": "D",
-      "sourceText": "Match the intermediate-phase type to its example.",
-      "sourceFingerprint": "8aa9013c",
-      "updates": {
-        "keyExplanation": "The matches are: intermetallic/valency compounds—Mg₂Pb, Mg₂Sn and CaSe; interstitial compound—Fe₃C; electron compound β (3:2)—AgCd, Cu₂Al and FeAl; electron compound ε (7:4)—AgCd₃, Cu₃Si and FeZn₇. Thus 1–b, 2–a, 3–c and 4–d, option (a). These are conventional examples used in the electron-compound classification."
-      }
-    },
-    {
-      "chapter": "ch08",
-      "n": 1,
-      "originalType": "B",
-      "sourceText": "Diffusion is the thread connecting earlier chapters because it is what:",
-      "sourceFingerprint": "b5245d95",
-      "updates": {
-        "keyExplanation": "All four links are valid: diffusion homogenises segregation during heat treatment; vacancy transport enables edge-dislocation climb; solute diffusion forms Cottrell atmospheres around dislocations; and diffusion controls the rate of precipitate coarsening during ageing. Therefore all four statements are correct: option (b)."
-      }
-    },
-    {
-      "chapter": "ch09",
-      "n": 50,
-      "originalType": "G",
-      "sourceText": "Of the following, which cooling rate most closely corresponds to the formation of a **metallic glass**?",
-      "sourceFingerprint": "ddaaf569",
-      "updates": {
-        "text": "A metallic glass is obtained when a melt is:",
-        "options": [
-          {
-            "label": "a",
-            "text": "cooled rapidly enough, for that alloy and sample geometry, to bypass crystallisation"
-          },
-          {
-            "label": "b",
-            "text": "cooled slowly through the liquidus and solidus"
-          },
-          {
-            "label": "c",
-            "text": "held for a long time just below its melting point"
-          },
-          {
-            "label": "d",
-            "text": "seeded with a crystal and cooled slowly"
-          }
-        ],
-        "answer": "a",
-        "keyExplanation": "Metallic-glass formation requires suppressing crystallisation during cooling. The critical cooling rate is alloy- and geometry-dependent, so no single cooling-rate value applies to all metallic glasses."
-      }
-    },
-    {
-      "chapter": "ch02",
-      "n": 35,
-      "originalType": "B",
-      "sourceText": "Slip occurs preferentially on the most densely packed planes and along the most densely packed directions because:",
-      "sourceFingerprint": "5d8f0ba5",
-      "updates": {
-        "type": "B",
-        "text": "For a cubic crystal, consider planar density, interplanar spacing and slip. Which statements are correct?",
-        "statements": [
-          {
-            "num": 1,
-            "text": "The interplanar spacing is given by dₕₖₗ = a/√(h² + k² + l²)."
-          },
-          {
-            "num": 2,
-            "text": "In FCC, the close-packed {111} planes have smaller interplanar spacing than the {100} planes."
-          },
-          {
-            "num": 3,
-            "text": "Close-packed planes and directions are commonly favoured slip paths because high planar density and short lattice translation help lower resistance to glide."
-          },
-          {
-            "num": 4,
-            "text": "Increasing the magnitude of the Burgers vector lowers dislocation line energy."
-          }
-        ],
-        "tableRows": [],
-        "assertion": "",
-        "reason": "",
-        "options": [
-          {
-            "label": "a",
-            "text": "1, 2 and 3 only"
-          },
-          {
-            "label": "b",
-            "text": "1 and 4 only"
-          },
-          {
-            "label": "c",
-            "text": "2, 3 and 4 only"
-          },
-          {
-            "label": "d",
-            "text": "1, 2, 3 and 4"
-          }
-        ],
-        "answer": "a",
-        "keyExplanation": "Statements 1–3 are correct. For cubic crystals, dₕₖₗ = a/√(h² + k² + l²), so d₁₁₁ = a/√3 while d₁₀₀ = a; the close-packed FCC {111} planes therefore do not have the greatest interplanar spacing. A short slip translation gives a smaller Burgers vector, and dislocation line energy scales approximately with Gb². Statement 4 reverses this relationship.",
-        "concise": "FCC {111} is close-packed but has smaller spacing than {100}; a smaller Burgers vector generally lowers dislocation energy.",
-        "detailed": "For a cubic crystal, the spacing between successive (hkl) planes is dₕₖₗ = a/√(h² + k² + l²). Thus d₁₁₁ = a/√3, which is smaller than d₁₀₀ = a. Close-packed describes high atomic density within a plane; it does not mean that the plane family has the largest interplanar spacing. Slip commonly favours planes and directions with high planar/linear density and short lattice translations. The elastic energy per unit length of a dislocation is proportional, to first approximation, to Gb², so a larger Burgers vector raises rather than lowers the energy."
-      }
-    },
-    {
-      "chapter": "ch03",
-      "n": 56,
-      "originalType": "A",
-      "sourceText": "Constitutional supercooling arises in an alloy because:",
-      "sourceFingerprint": "9640cf82",
-      "updates": {
-        "options": [
-          {
-            "label": "a",
-            "text": "Latent heat is released faster than it can be conducted away from the solid–liquid interface."
-          },
-          {
-            "label": "b",
-            "text": "The mould wall extracts heat faster than the interior, creating a steep thermal gradient ahead of the front."
-          },
-          {
-            "label": "c",
-            "text": "Solute is rejected ahead of the interface, depressing the local liquidus and creating a constitutionally supercooled zone."
-          },
-          {
-            "label": "d",
-            "text": "Interfacial tension varies along the front and destabilises the solid–liquid interface."
-          }
-        ]
-      }
     }
   ],
   "sourceCommit": "b7359a6113a5888d3cf3c88cb5ce25cc716d89e4"
