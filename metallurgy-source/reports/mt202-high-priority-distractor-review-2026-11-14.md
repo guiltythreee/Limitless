@@ -100,3 +100,15 @@ A third set of 10 questions was inspected and revised:
 The option wording was made more parallel while preserving the intended metallurgy concepts and all answer keys. A substantive explanation defect was also found in **Ch 7 Q9**: its answer key and key explanation identified option A, but the detailed explanation incorrectly concluded that option C was correct. The detailed explanation and concise explanation have now been aligned with option A and the Hall–Petch effect.
 
 The existing overlay was updated in place and the generated chapter JSON / deployed mirrors were updated together. The queue now contains **463 flags — 9 High, 320 Medium and 134 Review** (before this batch: 463 flags — 18 High, 312 Medium and 133 Review). The High count fell by nine; the total remained constant because several option-length flags moved into lower-severity categories. This is a triage result, not a claim that the remaining flags are all confirmed defects.
+
+
+## Latest verified follow-up — fourth manual batch, 14 November 2026
+
+The final nine questions in the High-priority queue were inspected and revised:
+
+- Ch 8 Q15, Q16, Q17 and Q37
+- Ch 9 Q22, Q34, Q45, Q50 and Q54
+
+The changes balanced option wording while preserving the diffusion laws, error-function solution, direct-exchange mechanism, casting structure, Cottrell atmosphere, Arrhenius interpretation, metallic-glass formation and eutectic-solidification concepts. Ch 9 Q50 was also clarified to state that the critical cooling rate depends on alloy composition and sample geometry; its explanation no longer presents one cooling rate as universal. All nine answer keys were preserved.
+
+The regenerated queue now contains **462 flags — 0 High, 324 Medium and 138 Review** (before this batch: 463 flags — 9 High, 320 Medium and 134 Review). No High-severity heuristic findings remain. This does not mean the remaining Medium/Review items are error-free; they still require contextual review.
