@@ -113,3 +113,8 @@ The topic/objective mapping audit corrected 32 records and retained eight legiti
 ## Latest branch reconciliation — 14 November 2026
 
 The current durable revision overlay contains **392 unique question targets** (not 389 as recorded in the 13 November snapshot). A direct comparison found all 392 update payloads present in the generated chapter JSON, with no duplicate targets or update-field mismatches. All nine generated MT202 chapter files match the deployed `metallurgy/data/mt202` mirrors byte-for-byte. The current heuristic queue has 473 flagged questions: 123 High, 267 Medium and 83 Review, following 18 targeted distractor revisions across Chapters 4–9. This is structural verification; the full GitHub Actions suite has not yet run on the latest branch head.
+
+
+## Heuristic refinement update — 14 November 2026
+
+The duplicate-stem detector now compares the stem plus statements, match-table content and assertion/reason text. This avoids false duplicate classifications for structured revision variants that reuse generic stems. The queue was regenerated: 473 flags (119 High, 271 Medium, 83 Review).
