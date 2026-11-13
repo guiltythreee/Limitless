@@ -75,3 +75,15 @@ The edits reduce conspicuous correct-option length cues while retaining the asse
 The queue was regenerated using the committed audit script's rules. It now contains **464 flags — 28 High, 307 Medium and 129 Review** (previous committed queue: 465 flags — 38 High, 300 Medium and 127 Review). The reduction in High findings is a triage change, not independent proof that the questions are defect-free. Remaining High items still require contextual subject review.
 
 Earlier severity totals in this report are historical snapshots. The latest authoritative severity counts are the ones in this section and the regenerated CSV.
+
+
+## Latest verified follow-up — second manual batch, 14 November 2026
+
+A second set of 10 questions was inspected and revised:
+
+- Ch 5 Q19, Q28, Q37, Q40, Q43 and Q44
+- Ch 6 Q22, Q25, Q30 and Q35
+
+The edits shorten overlong keyed options and make distractors more parallel while retaining the tested dislocation, stacking-fault, Burgers-vector, Frank–Read, pile-up, Schmid-factor, twinning and upper-yield concepts. All 10 answer keys were preserved. The existing durable overlay was updated in place; generated chapter JSON and deployed mirrors were updated together.
+
+The regenerated queue now contains **463 flags — 18 High, 312 Medium and 133 Review** (immediately before this batch: 464 flags — 28 High, 307 Medium and 129 Review). These are heuristic triage counts, not confirmed defect counts. The remaining 18 High findings should be manually inspected next.
