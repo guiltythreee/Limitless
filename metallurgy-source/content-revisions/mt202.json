@@ -333,7 +333,10 @@
             "text": "Both false"
           }
         ],
-        "answer": "c"
+        "answer": "a",
+        "keyExplanation": "Both statements are true, but the reason explains the brittleness caused by ionic charge ordering; it does not explain the absence of mobile charge carriers responsible for electrical insulation.",
+        "concise": "Ionic solids are hard, brittle and insulating. The reason explains the brittleness, not the electrical insulation.",
+        "detailed": "A is TRUE: typical ionic solids are hard, brittle and electrical insulators. R is TRUE: when planes slip, like-charged ions can be brought alongside one another, producing strong repulsion and promoting cleavage. However, R explains the brittleness only. Electrical insulation arises because the ions are not freely mobile in the solid and there are no delocalised electrons to carry current. Therefore both statements are true, but R does not fully explain A. Answer (a)."
       },
       "sourceFingerprint": "a8d4f5c9"
     },
@@ -863,8 +866,10 @@
             "text": "Both false"
           }
         ],
-        "answer": "b",
-        "keyExplanation": "The assertion is generally true: stronger cohesive bonding tends to raise melting temperature, and elastic modulus tends to increase with the curvature of the interatomic potential near equilibrium. The reason is false as an explanation of modulus: well depth measures cohesive energy, whereas elastic stiffness depends on the curvature near the equilibrium spacing, not simply on the energy required to separate atoms."
+        "answer": "c",
+        "keyExplanation": "Both statements are true, and the reason correctly links cohesive bond strength to melting resistance and elastic stiffness.",
+        "concise": "A deeper, stronger interatomic energy well generally corresponds to both a higher melting point and a steeper restoring force, hence a higher elastic modulus.",
+        "detailed": "A is TRUE: stronger bonding generally raises melting temperature and elastic modulus. R is TRUE: melting requires disrupting cohesive order, while elastic deformation requires displacing atoms against restoring forces. A deeper and steeper interatomic potential well is associated with stronger cohesion and greater stiffness, so R correctly explains the trend in A. Answer (c)."
       },
       "sourceFingerprint": "da010d4c"
     },
