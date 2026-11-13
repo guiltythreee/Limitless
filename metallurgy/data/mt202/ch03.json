@@ -155,25 +155,25 @@
       "options": [
         {
           "label": "a",
-          "text": "occurs spontaneously in the bulk liquid with no help from surfaces, and requires large undercooling"
+          "text": "forms within the bulk liquid without a foreign surface and generally needs substantial undercooling"
         },
         {
           "label": "b",
-          "text": "occurs on mould walls and requires more undercooling"
+          "text": "forms on mould walls or inclusions, where the surface lowers the barrier and reduces the required undercooling"
         },
         {
           "label": "c",
-          "text": "is faster and needs less undercooling"
+          "text": "forms in the bulk liquid but needs less undercooling than heterogeneous nucleation"
         },
         {
           "label": "d",
-          "text": "is the dominant mechanism in industrial castings"
+          "text": "forms on mould walls but needs greater undercooling because the interface is energetically costly"
         }
       ],
       "answer": "a",
-      "keyExplanation": "[P2] Homogeneous = bulk liquid, large ΔT. Heterogeneous = surfaces, few degrees of ΔT, dominates in practice.",
-      "concise": "Homogeneous = bulk liquid + large undercooling; heterogeneous = surfaces + a few degrees.",
-      "detailed": "- Homogeneous nucleation occurs *within the bulk liquid* with no help from surfaces. Because a\n  small solid nucleus has a large surface-to-volume ratio, the interface-energy penalty initially\n  outweighs the free-energy benefit, so substantial undercooling ΔT is required.\n- Heterogeneous nucleation occurs *on mould walls, inclusions or inoculants*, which pre-pay part\n  of the interface energy, so only a few degrees of undercooling are needed.\n\n- (b) describes *heterogeneous* nucleation, not homogeneous.\n- (c) is the opposite — homogeneous is the *slower, higher-undercooling* case.\n- (d) is false — heterogeneous dominates industrial castings because it needs so little undercooling.\nThis is the canonical [P2] pair; the distinguishing question is \"does it need a surface?\""
+      "keyExplanation": "Homogeneous nucleation occurs in the bulk liquid and requires substantial undercooling. Heterogeneous nucleation occurs on foreign surfaces, which reduce the nucleation barrier and the required undercooling.",
+      "concise": "Homogeneous = bulk liquid + substantial undercooling; heterogeneous = foreign surface + reduced barrier.",
+      "detailed": "Homogeneous nucleation occurs **within the bulk liquid**, without help from mould walls, inclusions or inoculants. A new solid–liquid interface must form without a pre-existing surface, so the interfacial-energy penalty is large and substantial undercooling is required. **(a)** is correct.\n\n- **(b)** describes heterogeneous nucleation: a foreign surface lowers the barrier and reduces the required undercooling.\n- **(c)** reverses the undercooling comparison; homogeneous nucleation generally needs more, not less, undercooling.\n- **(d)** combines a heterogeneous site with the higher-undercooling requirement characteristic of homogeneous nucleation.\n\nIn industrial castings, heterogeneous nucleation usually dominates because mould walls, inclusions and inoculants provide favourable nucleation sites."
     },
     {
       "n": 4,
