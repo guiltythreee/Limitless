@@ -3090,14 +3090,15 @@
         "MT202-3.2.2"
       ],
       "questionType": "A",
-      "assessedDifficulty": 1,
+      "assessedDifficulty": 2,
       "reasoningSkills": [
-        "recall"
+        "distinguish",
+        "apply"
       ],
       "misconceptionTags": [
         "solidification_conceptual_confusion",
         "solidification_or_casting_confusion",
-        "temperature_or_heat_treatment_confusion"
+        "homogeneous_vs_heterogeneous_nucleation_confusion"
       ],
       "sourceReferences": [
         "Chapter 3 — Solidification of Metals (Merged Edition), §3.2 (3.2)"
@@ -3105,13 +3106,13 @@
       "mappingConfidence": "medium",
       "quality": {
         "conceptualAccuracy": 18,
-        "distractorPlausibility": 15,
-        "reasoning": 9,
-        "noGiveaways": 13,
-        "clarity": 13,
-        "explanation": 8,
+        "distractorPlausibility": 18,
+        "reasoning": 8,
+        "noGiveaways": 15,
+        "clarity": 15,
+        "explanation": 9,
         "syllabusRelevance": 5,
-        "total": 81
+        "total": 88
       },
       "status": "approved"
     },
