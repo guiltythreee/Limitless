@@ -146,3 +146,10 @@ Three further Chapter 2 records were revised:
 - Ch 2 Q14: removed the unexplained P2 marker from the BCC coordination-number explanation and stated the FCC/HCP contrast directly.
 
 All three answer keys were preserved; the generated Chapter 2 file and deployed mirror remain byte-identical. The queue now contains **458 flags — 0 High, 320 Medium and 138 Review** (before this pass: 459 flags — 0 High, 321 Medium and 138 Review).
+
+
+## Full-bank explicit answer-reference audit — 14 November 2026
+
+A scan of all 522 detailed explanations found a further substantive mismatch in **Ch 9 Q20**. The answer key and key explanation correctly identified latent-heat release as the cause of recalescence, but the detailed explanation had been copied from an unrelated numerical item and incorrectly marked option B. The detailed and concise explanations now correctly describe latent heat released during nucleation and solidification (option A).
+
+The explanation-alignment regression was expanded from six spot checks to nine targeted checks and a scan of all 522 questions for explicit answer-letter claims. The scan found 200 explicit answer references across 165 questions and one mismatch (Ch 9 Q20), which is now corrected. The broader check is intended to prevent this class of answer-key/explanation divergence from recurring. The question bank and answer keys were otherwise preserved.
