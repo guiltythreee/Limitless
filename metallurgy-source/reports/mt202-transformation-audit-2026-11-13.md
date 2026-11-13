@@ -64,8 +64,8 @@ The CI-discovered overlay/output drift has now been reconciled:
 
 The October 28 queue was a historical snapshot. It has been superseded for MT202 by a fresh scan of the current 522-question generated bank:
 
-- 473 questions flagged for at least one heuristic review signal.
-- High: 155; Medium: 239; Review: 79.
+- 474 questions flagged for at least one heuristic review signal.
+- High: 148; Medium: 246; Review: 80.
 - The scan checks option-length cues, absolute wording, P1/P2/P3 strategy-code references, structured item types, duplicate stems and option-label references.
 - Severity is a triage aid, not a scientific defect verdict. In particular, structured-item flags and absolute wording need contextual review rather than automatic rewriting.
 - The queue is reproducible with `scripts/audit-mt202-question-quality.mjs`; the question-quality workflow now runs it in `--check` mode.
@@ -85,7 +85,7 @@ The October 28 queue was a historical snapshot. It has been superseded for MT202
 ## Remaining work — do not treat this audit as final approval
 
 1. Obtain the authoritative Markdown bank and solution folder to generate an exact per-question original-to-revised diff. Then classify each question as retained, lightly edited, substantially rewritten, or replaced.
-2. Manually inspect the regenerated 473-question MT202 heuristic follow-up queue (155 High, 239 Medium, 79 Review) in `reports/mt202-question-quality-follow-up-queue-2026-11-13.csv`. It is generated deterministically from the current nine chapter JSON files by `scripts/audit-mt202-question-quality.mjs`; CI checks that the committed queue matches the generator. Heuristic flags are review prompts, not confirmed defects.
+2. Manually inspect the regenerated 474-question MT202 heuristic follow-up queue (148 High, 246 Medium, 80 Review) in `reports/mt202-question-quality-follow-up-queue-2026-11-13.csv`. It is generated deterministically from the current nine chapter JSON files by `scripts/audit-mt202-question-quality.mjs`; CI checks that the committed queue matches the generator. Heuristic flags are review prompts, not confirmed defects.
 3. Reassess distractor plausibility, conceptual depth, explanation completeness, and every numerical/data-reading answer. The existing metadata scores are editorial assessments, not independent faculty validation.
 4. Replace or supplement the topic-mapped companion references with exact original lecture, textbook and PYQ citations wherever those sources can be identified. The current companion references are supporting course-resource pointers, not a complete primary-source audit.
 5. Run `npm run validate:mt202-metadata`, the MT202 test suite, and the production build in the actual repository environment. These commands were not run by this remote GitHub-content audit.
