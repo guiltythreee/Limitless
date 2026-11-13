@@ -82,6 +82,16 @@ The October 28 queue was a historical snapshot. It has been superseded for MT202
 - A remote parity check against all nine generated chapter JSON files reproduced the metadata validator's structural checks with zero errors: 522/522 IDs, counts, question types, objective links, topic links, difficulty values, reasoning tags, misconception tags, rubric dimensions, score totals and status rules passed. The actual Node.js validator command has not yet been run in a repository runtime.
 - All 522 records now have at least one chapter/topic-level supporting reference mapped to the Physical Metallurgy Study Companion or the relevant merged/supplemented chapter PDF. `ch02-q35` and `ch03-q42` additionally retain precise PDF section references. These companion references improve course-resource traceability but do not replace exact citations to the original lecture slides, textbooks or PYQs; primary-source provenance remains incomplete.
 
+## CI validation — 2026-11-13
+
+Both GitHub Actions workflows passed on the updated draft PR:
+
+- **MT202 question-quality workflow:** read-only revision-runner preflight passed; all 389 MT201/MT202 durable overlay records and generated mirrors validated; MT201 regression passed (106 assertions); MT202 regression passed (96 assertions); explanation-alignment regression passed (6 targeted questions); metadata registry validation passed (522 questions / 9 chapters); regenerated heuristic queue check passed; MT203 tests and migration checks passed; production build passed.
+- **Metallurgy Regression Tests:** LSR-1 adapter tests, course-manifest/content-lock validation, MT201, MT202, MT203 migration, MT203 content validation and production static-export build all passed.
+- The workflow's deployed-file copy and commit steps were skipped because this was a pull-request run. No production deployment was performed by the Metallurgy workflow.
+
+The backup checkpoint `backup/mt202-ci-passing-2026-11-13` points to the validated branch head.
+
 ## Remaining work — do not treat this audit as final approval
 
 1. Obtain the authoritative Markdown bank and solution folder to generate an exact per-question original-to-revised diff. Then classify each question as retained, lightly edited, substantially rewritten, or replaced.
