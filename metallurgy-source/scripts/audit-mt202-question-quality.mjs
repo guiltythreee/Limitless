@@ -26,9 +26,22 @@ const normalize = (value) =>
     .trim()
     .replace(/\s+/g, " ");
 
+// For structured questions, generic stems such as "Which statements ...?" are
+// reused legitimately. Treat items as duplicates only when the normalized stem
+// and their assessed structured content (statements, match table, assertion/reason)
+// also match; this avoids flagging distinct revision variants as duplicate questions.
+const duplicateSignature = (question) =>
+  normalize([
+    question.text,
+    ...(question.statements || []).map((statement) => statement.text),
+    ...(question.tableRows || []).flat(),
+    question.assertion,
+    question.reason,
+  ].filter(Boolean).join(" "));
+
 const stemGroups = new Map();
 for (const question of questions) {
-  const key = normalize(question.text);
+  const key = duplicateSignature(question);
   if (!key) continue;
   if (!stemGroups.has(key)) stemGroups.set(key, []);
   stemGroups.get(key).push(question.chapter + " Q" + question.n);
@@ -103,7 +116,7 @@ for (const question of questions) {
     evidence.push(
       "same normalized stem as: " +
         duplicateGroups
-          .get(normalize(question.text))
+          .get(duplicateSignature(question))
           .filter((id) => id !== questionKey)
           .join(", ")
     );
