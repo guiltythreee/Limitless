@@ -5465,7 +5465,7 @@
         "options": [
           {
             "label": "a",
-            "text": "G/(2π)"
+            "text": "G/3 to G/10"
           },
           {
             "label": "b",
@@ -5473,11 +5473,11 @@
           },
           {
             "label": "c",
-            "text": "G/30"
+            "text": "G/30 to G/100"
           },
           {
             "label": "d",
-            "text": "G/100"
+            "text": "G/100 to G/1000"
           }
         ],
         "answer": "b",
