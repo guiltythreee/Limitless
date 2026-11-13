@@ -1561,25 +1561,25 @@
       "options": [
         {
           "label": "a",
-          "text": "heating close to, but not across, the local solidus — driving segregation and grain-boundary precipitation with loss of ductility, but recoverable by proper subsequent heat treatment"
+          "text": "approaching but not crossing the local solidus; damage is recoverable by later heat treatment"
         },
         {
           "label": "b",
-          "text": "grain-boundary melting that permanently ruins the material"
+          "text": "crossing the local solidus and melting grain boundaries; damage is permanent"
         },
         {
           "label": "c",
-          "text": "identical to burning"
+          "text": "crossing the bulk solidus and causing complete melting throughout the component"
         },
         {
           "label": "d",
-          "text": "quenching from too high a temperature"
+          "text": "quenching from a high temperature at excessive rate and forming martensite"
         }
       ],
       "answer": "a",
-      "keyExplanation": "[P2] Overheating = approaching but not crossing → recoverable.",
-      "concise": "Overheating = approaching but not crossing the solidus → recoverable.",
-      "detailed": "**Overheating** is heating *close to* — but **not across** — the local solidus. The\neffects are:\n- accelerated segregation and grain-boundary precipitation,\n- a loss of ductility and toughness,\nbut crucially **no melting**, so the condition is **recoverable** by a proper subsequent heat\ntreatment (e.g. re-solution-treat + quench, or a re-anneal).\n- (b), (c) describe **burning**, not overheating.\n- (d) quenching from too high a temperature is a different matter (and can cause burning if it\n  crosses the solidus).\n**Q38 vs Q39 is the single most important paired distinction in Chapter 4:**\n| | Overheating | Burning |\n|---|---|---|\n| Crosses the effective solidus? | No | **Yes** |\n| Melting? | No | **Yes** (grain boundary) |\n| Recoverable? | **Yes** | No — permanent |"
+      "keyExplanation": "Overheating approaches but does not cross the local effective solidus; no melting occurs, and proper subsequent heat treatment can recover the damage.",
+      "concise": "Overheating = near, but below, the local solidus; no melting and subsequent recovery is possible.",
+      "detailed": "**Overheating** means heating close to — but not across — the local effective solidus. It can promote segregation and grain-boundary precipitation, reducing ductility and toughness, but **no melting occurs**, so suitable subsequent heat treatment can recover the condition. **(a)** is correct.\n\n- **(b)** describes burning: local grain-boundary melting and permanent damage.\n- **(c)** describes bulk melting, not overheating.\n- **(d)** describes a rapid-quench condition and its possible martensitic transformation, not overheating.\n\nThe decisive test is whether the local effective solidus was crossed: overheating stays below it; burning crosses it."
     },
     {
       "n": 40,
