@@ -615,13 +615,13 @@
       "mappingConfidence": "medium",
       "quality": {
         "conceptualAccuracy": 20,
-        "distractorPlausibility": 16,
+        "distractorPlausibility": 18,
         "reasoning": 5,
         "noGiveaways": 15,
         "clarity": 15,
         "explanation": 10,
         "syllabusRelevance": 5,
-        "total": 86
+        "total": 88
       },
       "status": "approved"
     },
