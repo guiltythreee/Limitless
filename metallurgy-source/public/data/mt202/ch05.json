@@ -237,25 +237,25 @@
       "options": [
         {
           "label": "a",
-          "text": "a missing atom at a lattice site"
+          "text": "a normal lattice site left vacant after its host atom moves away"
         },
         {
           "label": "b",
-          "text": "a foreign atom at a lattice site"
+          "text": "a foreign atom replacing a host atom at a normal lattice site"
         },
         {
           "label": "c",
-          "text": "a host atom squeezed into a non-lattice interstitial site — high strain energy, low concentration"
+          "text": "a host atom occupying an interstitial position within the crystal lattice"
         },
         {
           "label": "d",
-          "text": "an atom at a grain boundary"
+          "text": "a foreign atom occupying an interstitial position between host atoms"
         }
       ],
       "answer": "c",
-      "keyExplanation": "[P2] Interstitial = extra atom *squeezed between sites*; high strain energy, low concentration.",
-      "concise": "Self-interstitial = host atom between sites; high strain energy, so low concentration.",
-      "detailed": "A self-interstitial is a host atom displaced into a non-lattice interstitial position. Because the atom is crowded into a small void, it creates a large strain field and has a high formation energy, so its equilibrium concentration is low. **(c)** is correct. Option (a) is a vacancy; (b) is a substitutional solute; (d) is not the definition of a point defect."
+      "keyExplanation": "A self-interstitial is a host atom occupying a non-lattice interstitial position. It is distinct from a vacancy, a substitutional impurity and an interstitial impurity.",
+      "concise": "Self-interstitial = host atom in an interstitial site; the crowded position gives it high formation energy and low equilibrium concentration.",
+      "detailed": "A self-interstitial is an atom of the **host metal** occupying a position that is not one of the regular lattice sites. Option **(c)** is correct.\\n\\n- **(a) Vacancy:** a normal lattice site is empty because an atom has left it.\\n- **(b) Substitutional impurity:** a foreign atom replaces a host atom on a regular lattice site.\\n- **(d) Interstitial impurity:** a foreign atom occupies an interstitial position.\\n\\nThe self-interstitial is highly crowded into the lattice, so it produces a large local strain field and has a high formation energy. Its equilibrium concentration is therefore generally much lower than the vacancy concentration."
     },
     {
       "n": 6,
