@@ -103,3 +103,8 @@ Validated checkpoints are preserved at `backup/mt202-ci-passing-2026-11-13` and 
 ## Preservation
 
 Changes remain on `mt202/question-metadata-registry`; the audit PR remains draft and has not been merged. The pull-request CI skipped its deployed-file copy/commit steps. A temporary heuristic CSV was accidentally committed to `main` during file creation, then removed immediately in a second commit; the file is absent from the current `main` tree. Vercel returned successful status checks for those two temporary commits, but the accessible status did not expose whether they were production or preview deployments. The temporary commits did not change question-bank or application source content.
+
+
+## Follow-up update — 14 November 2026
+
+The topic/objective mapping audit corrected 32 records and retained eight legitimate or taxonomy-boundary cases; see `reports/mt202-mapping-audit-2026-11-14.md`. A further high-priority distractor pass revised 14 questions while preserving answer keys and source fingerprints; all six affected generated chapter files were confirmed byte-identical to their deployed mirrors. The current heuristic queue remains 474 flagged questions, now 127 High, 264 Medium and 83 Review. See `reports/mt202-high-priority-distractor-review-2026-11-14.md`. These changes do not complete the manual content audit or source-provenance comparison.
