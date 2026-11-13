@@ -11799,9 +11799,10 @@
           }
         ],
         "answer": "a",
-        "detailed": "Recalescence brings the temperature back to within approximately 0.13 °C of the true freezing point. **(b)** is correct. Option (a) is 13 °C, (c) is 1.3 °C, and (d) is 130 °C.",
+        "detailed": "Recalescence is the temperature rise that follows undercooling when solidification begins. Nucleation and growth of the solid release latent heat; if heat is released faster than it is extracted, the temperature rises toward the equilibrium freezing temperature. **(a)** is correct. The equilibrium melting temperature does not rise continuously, the liquid does not absorb heat from the mould, and the solid does not transform back into liquid.",
         "text": "During recalescence on a pure-metal cooling curve, the temperature rises after undercooling mainly because:",
-        "keyExplanation": "Recalescence is the temperature rise after undercooling. Nucleation and growth release latent heat, raising the temperature toward the equilibrium freezing temperature. The amount of recovery depends on heat extraction and experimental conditions; a fixed 0.13 °C value is not universal."
+        "keyExplanation": "Recalescence is the temperature rise after undercooling. Nucleation and growth release latent heat, raising the temperature toward the equilibrium freezing temperature. The amount of recovery depends on heat extraction and experimental conditions; a fixed 0.13 °C value is not universal.",
+        "concise": "Latent heat released during solidification raises the temperature after undercooling."
       },
       "sourceFingerprint": "5bc8fa75"
     },
