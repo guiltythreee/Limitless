@@ -64,15 +64,29 @@ for (const question of questions) {
   const evidence = [];
 
   const normalizedOptions = options.map((option) => (option.text || "").trim().replace(/\s+/g, " "));
-  const assertionReasonOptions = [
-    /^both true, r correctly explains a$/i,
-    /^both true, r does not explain a$/i,
-    /^a true, r false$/i,
-    /^both false$/i,
-  ];
+  const assertionReasonCategory = (value) => {
+    const normalized = value.toLowerCase();
+    if (/^both\\b/.test(normalized) && /\\btrue\\b/.test(normalized)) {
+      if (/\\bnot\\b.*\\b(correct|explain|explanation)\\b/.test(normalized)) {
+        return "both-true-not-explains";
+      }
+      if (/\\b(correct|explains|explanation)\\b/.test(normalized)) {
+        return "both-true-explains";
+      }
+    }
+    if (/^a\\b/.test(normalized) && /\\btrue\\b/.test(normalized) && /\\br\\b/.test(normalized) && /\\bfalse\\b/.test(normalized)) {
+      return "a-true-r-false";
+    }
+    if (/^both\\b/.test(normalized) && /\\bfalse\\b/.test(normalized)) {
+      return "both-false";
+    }
+    return null;
+  };
+  const assertionReasonCategories = normalizedOptions.map(assertionReasonCategory);
   const standardAssertionReason =
     options.length === 4 &&
-    normalizedOptions.every((value) => assertionReasonOptions.some((pattern) => pattern.test(value)));
+    assertionReasonCategories.every(Boolean) &&
+    new Set(assertionReasonCategories).size === 4;
   const binaryTrueFalse =
     options.length === 2 &&
     normalizedOptions.some((value) => /^true\b/i.test(value)) &&
