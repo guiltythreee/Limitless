@@ -170,3 +170,8 @@ Four more Chapter 2 explanations were cleaned up:
 The new Q18 overlay uses the pinned source commit and its validated source fingerprint. The overlay now contains **419 unique targets** (up from 418); generated Chapter 2 JSON and its deployed mirror are byte-identical, and all four answer keys are preserved. The queue now contains **457 flags — 0 High, 318 Medium and 139 Review** (before this pass: 458 flags — 0 High, 320 Medium and 138 Review).
 
 The explanation regression now checks explicit answer-letter references in keyExplanation, concise and detailed fields across all 522 questions, in addition to its targeted conceptual checks. The current scan found 201 explicit references and no answer-letter mismatches.
+
+
+## Counting clarification
+
+The four High-priority batches represent **39 revision events across 38 unique questions**. Ch 8 Q15 was revised in two passes because its first wording change did not remove the remaining High-severity cue. No question ID was duplicated or added by those revisions.
