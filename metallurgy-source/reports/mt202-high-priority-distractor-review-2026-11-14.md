@@ -33,3 +33,15 @@ The High-to-Medium shift reflects removal of the combined severe correct-answer-
 - Run the full repository CI and production static-export checks after the latest changes and after rebasing onto current main.
 
 No question IDs, answer keys, progress records, storage schemas or production deployment were changed by this pass.
+
+
+## Numerical distractor clarification — additional pass
+
+Four further high-priority items were revised:
+
+- Ch 5 Q34: clarified that the intended answer is the order-of-magnitude (Gb^2) scaling for line energy per unit length; replaced a potentially defensible alternate coefficient with dimensionally distinct distractors and added a units check.
+- Ch 6 Q17: balanced options for the Schmid-factor range and maximum.
+- Ch 6 Q24: balanced options for the zero-resolved-shear condition.
+- Ch 9 Q24: balanced options for the Hume–Rothery atomic-size criterion.
+
+The answer keys were preserved. The durable overlay remains at 392 unique targets; all 392 overlay updates match the generated chapter JSON, and all nine deployed chapter mirrors are byte-identical to their generated source files. The refreshed heuristic queue now contains 473 flags: 123 High, 267 Medium and 83 Review. The remaining flags still require contextual review.
