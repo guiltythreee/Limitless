@@ -25,10 +25,10 @@ Question IDs follow the current adapter convention: `ch01-q1` through `ch09-q70`
 | `relatedTopicIds` | Secondary topic links; do not double-count the question |
 | `learningObjectiveIds` | Learning objectives assessed |
 | `questionType` | One of A–G; copied and checked against the source question bank |
-| `assessedDifficulty` | 1–5; pending independent assessment |
+| `assessedDifficulty` | 1–5; completed editorial assessment, not independently calibrated against student performance |
 | `reasoningSkills` | Recall, distinguish, apply, calculate, interpret, analyse, synthesise |
 | `misconceptionTags` | Specific misconceptions targeted |
-| `sourceReferences` | Syllabus, lecture, textbook or PYQ references |
+| `sourceReferences` | Supporting course-companion chapter/topic references; primary source citations where available |
 | `mappingConfidence` | High, medium or low |
 | `quality` | Seven scored rubric dimensions and their total |
 | `reviewNotes` | Required rationale for questions left in review or rejected |
@@ -68,17 +68,25 @@ Hard rejection overrides the score: wrong answer key, scientifically incorrect e
 
 ## Quality review outcome
 
-The complete question-level rubric pass has been recorded for all 522 questions. Subsequent source-level reassessment corrected question wording and explanations where needed, and revised the status assignments.
+The question-level rubric pass covers all 522 questions. The current metadata registry records:
 
 | Status | Questions | Meaning |
 |---|---:|---|
-| Approved | 520 | Passed the recorded editorial review; corrected wording is stored in the durable revision overlay where applicable |
+| Approved | 522 | Passed the recorded editorial review; applicable corrections are preserved in the durable revision overlay |
 | Review | 0 | No questions remain in the review queue |
-| Rejected | 2 | Retained for substantive correction before reconsideration |
+| Rejected | 0 | No questions remain rejected after the latest correction pass |
 
-Every question has all seven rubric dimensions scored, and `quality.total` is the sum of those dimensions. Non-approved records carry a `reviewNotes` explanation. A review status is not approval: do not expose those items as fully validated exam questions until the note is resolved and the record is reassessed.
+Every record has all seven rubric dimensions scored, and `quality.total` is the sum of those dimensions. Scores range from **80 to 95**, with a mean of **84.99/100**. Approval is a provisional editorial status, not independent faculty certification or proof of performance-based calibration.
 
-The scores are a structured editorial assessment of the question-bank JSON (stem, options, keyed answer and supplied explanation). They are not a substitute for independent faculty sign-off or checking the upstream lecture/PYQ source. Two questions remain rejected because their claims require source-specific support or a more defensible formulation. The approved status means the available item and its corrected explanation passed this editorial review; it does not imply independent faculty certification.
+The assessed-difficulty distribution is: level 1 = 60; level 2 = 90; level 3 = 249; level 4 = 122; level 5 = 1. All 175 learning objectives have at least one mapped question (627 objective links); 36 objectives currently have only one question, so their practice depth is thin.
+
+The registry contains 19 misconception-tag families (1,227 tag assignments). All 84 numerical (type E) questions carry the `apply` reasoning-skill tag. Reasoning-skill tags may overlap, so their counts are not expected to sum to 522.
+
+## Source references and traceability
+
+All 522 records now have at least one supporting reference mapped from their curriculum topic. The references point to the corresponding chapter/topic in the Physical Metallurgy Study Companion or the relevant merged/supplemented chapter PDF. Two corrected questions retain additional, more specific PDF section citations.
+
+These are **supporting course-resource references**, not a complete primary-source audit. They do not replace exact citations to the original lecture slides, textbooks or PYQs. The original Markdown question bank and solution folder used by `scripts/sync.mjs` are external to this repository, so an exact line-by-line original-to-revised comparison is still unavailable.
 
 ## Workflow
 
@@ -90,7 +98,7 @@ The scores are a structured editorial assessment of the question-bank JSON (stem
 6. Reject scores below 70 or any hard-rejection defect; revise and reassess before approval.
 7. Validate registry IDs, scores, totals and status consistency against all chapter JSON files before integration.
 
-Current branch review outcome: 520 approved, 0 in review, 2 rejected. Local execution of `npm run validate:mt202-metadata` remains required; GitHub-side structural checks do not substitute for running the repository validator.
+Current branch review outcome: **522 approved, 0 in review, 0 rejected**. Run `npm run validate:mt202-metadata` in the repository environment before integration; the branch-level structural recheck is not a substitute for the actual Node.js command and production build.
 
 ## Source-of-truth warning
 
