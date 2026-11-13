@@ -7225,8 +7225,10 @@
     {
       "questionId": "ch05-q4",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.1",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.2",
+      "relatedTopicIds": [
+        "5.1"
+      ],
       "learningObjectiveIds": [
         "MT202-5.2.1"
       ],
@@ -7240,7 +7242,7 @@
         "defect_type_or_structure_confusion"
       ],
       "sourceReferences": [
-        "Physical Metallurgy Study Companion (2026-09-03), Chapter 5, topic 5.1"
+        "Physical Metallurgy Study Companion (2026-09-03), Chapter 5, topic 5.2"
       ],
       "mappingConfidence": "high",
       "quality": {
@@ -7258,8 +7260,10 @@
     {
       "questionId": "ch05-q5",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.1",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.2",
+      "relatedTopicIds": [
+        "5.1"
+      ],
       "learningObjectiveIds": [
         "MT202-5.2.1"
       ],
@@ -7274,7 +7278,7 @@
         "defect_type_or_structure_confusion"
       ],
       "sourceReferences": [
-        "Physical Metallurgy Study Companion (2026-09-03), Chapter 5, topic 5.1"
+        "Physical Metallurgy Study Companion (2026-09-03), Chapter 5, topic 5.2"
       ],
       "mappingConfidence": "high",
       "quality": {
@@ -7292,8 +7296,10 @@
     {
       "questionId": "ch05-q6",
       "chapterId": "ch05",
-      "curriculumTopicId": "5.1",
-      "relatedTopicIds": [],
+      "curriculumTopicId": "5.2",
+      "relatedTopicIds": [
+        "5.1"
+      ],
       "learningObjectiveIds": [
         "MT202-5.2.2"
       ],
@@ -7307,7 +7313,7 @@
         "defect_type_or_structure_confusion"
       ],
       "sourceReferences": [
-        "Physical Metallurgy Study Companion (2026-09-03), Chapter 5, topic 5.1"
+        "Physical Metallurgy Study Companion (2026-09-03), Chapter 5, topic 5.2"
       ],
       "mappingConfidence": "high",
       "quality": {
