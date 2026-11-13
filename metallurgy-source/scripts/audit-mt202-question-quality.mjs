@@ -66,18 +66,18 @@ for (const question of questions) {
   const normalizedOptions = options.map((option) => (option.text || "").trim().replace(/\s+/g, " "));
   const assertionReasonCategory = (value) => {
     const normalized = value.toLowerCase();
-    if (/^both\\b/.test(normalized) && /\\btrue\\b/.test(normalized)) {
-      if (/\\bnot\\b.*\\b(correct|explain|explanation)\\b/.test(normalized)) {
+    if (/^both\b/.test(normalized) && /\btrue\b/.test(normalized)) {
+      if (/\bnot\b.*\b(correct|explain|explanation)\b/.test(normalized)) {
         return "both-true-not-explains";
       }
-      if (/\\b(correct|explains|explanation)\\b/.test(normalized)) {
+      if (/\b(correct|explains|explanation)\b/.test(normalized)) {
         return "both-true-explains";
       }
     }
-    if (/^a\\b/.test(normalized) && /\\btrue\\b/.test(normalized) && /\\br\\b/.test(normalized) && /\\bfalse\\b/.test(normalized)) {
+    if (/^a\b/.test(normalized) && /\btrue\b/.test(normalized) && /\br\b/.test(normalized) && /\bfalse\b/.test(normalized)) {
       return "a-true-r-false";
     }
-    if (/^both\\b/.test(normalized) && /\\bfalse\\b/.test(normalized)) {
+    if (/^both\b/.test(normalized) && /\bfalse\b/.test(normalized)) {
       return "both-false";
     }
     return null;
