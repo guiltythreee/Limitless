@@ -57,8 +57,8 @@ The metadata registry's introductory note was corrected: the 522 status values a
 - All 175 learning objectives have at least one mapped question; 36 objectives have only one question, so their practice depth is thin.
 - The `apply` tag now appears on 85 questions (84 numerical items plus one existing non-numerical item).
 - Every record has a learning objective, difficulty rating, reasoning-skill tags, misconception tags and a valid quality score.
-- The remote recheck of the repository validator's structural rules returned zero errors.
-- The two corrected questions are referenced to the relevant Chapter 2 and Chapter 3 course PDFs. Only 2 of 522 metadata records currently have source references; source provenance remains a major unfinished task.
+- A remote parity check against all nine generated chapter JSON files reproduced the metadata validator's structural checks with zero errors: 522/522 IDs, counts, question types, objective links, topic links, difficulty values, reasoning tags, misconception tags, rubric dimensions, score totals and status rules passed. The actual Node.js validator command has not yet been run in a repository runtime.
+- All 522 records now have at least one chapter/topic-level supporting reference mapped to the Physical Metallurgy Study Companion or the relevant merged/supplemented chapter PDF. `ch02-q35` and `ch03-q42` additionally retain precise PDF section references. These companion references improve course-resource traceability but do not replace exact citations to the original lecture slides, textbooks or PYQs; primary-source provenance remains incomplete.
 
 ## Remaining work — do not treat this audit as final approval
 
