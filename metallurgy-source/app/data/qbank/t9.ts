@@ -10,10 +10,13 @@ const T9: TopicSource = {
   title: "Blends, Composites & Degradation",
   subtitle: "Topic 9 · mixing rules, compatibilization and how polymers fail",
   subs: [
-    { id: "T9.1", title: "Miscibility: thermodynamics & the χ parameter" },
-    { id: "T9.2", title: "Mixing rules & compatibilizers" },
-    { id: "T9.3", title: "Rubber toughening & composites" },
-    { id: "T9.4", title: "Degradation routes & stabilization" },
+    { id: "T9.1", title: "Blend miscibility and thermodynamics" },
+    { id: "T9.2", title: "Mixing rules and compatibilization" },
+    { id: "T9.3", title: "Rubber toughening" },
+    { id: "T9.4", title: "Reinforcement and composites" },
+    { id: "T9.5", title: "Polymer modification" },
+    { id: "T9.6", title: "Degradation and stabilization" },
+    { id: "T9.7", title: "Biodegradable and sustainable polymers" },
   ],
   questions: [
     {
@@ -606,6 +609,90 @@ const T9: TopicSource = {
       concept: "multilayer = function per layer, not just cost",
       tags: ["confused"],
     },
+    {
+      id: "t9-25",
+      type: "apply",
+      diff: 3,
+      text: "An EVA copolymer is reformulated with a higher vinyl-acetate content. Based on the lecture's polymer-modification examples, which trend is expected?",
+      options: [
+        { label: "a", text: "The material becomes progressively softer and more flexible." },
+        { label: "b", text: "It must become a highly cross-linked thermoset." },
+        { label: "c", text: "Its backbone changes into polyethylene oxide." },
+        { label: "d", text: "Its molecular weight must become exactly twice as large." }
+      ],
+      answer: "a",
+      why: "The lecture uses EVA to show that **copolymer composition can tune properties**: increasing vinyl-acetate content shifts the material from semi-rigid toward softer, more flexible behaviour.",
+      distractors: {
+        b: "Changing comonomer composition is not the same as introducing a dense covalent network.",
+        c: "Adding vinyl-acetate units does not replace the backbone with polyethylene oxide.",
+        d: "Comonomer content alone does not prescribe an exact doubling of molecular weight."
+      },
+      concept: "Copolymer composition is a polymer-modification variable.",
+      tags: ["revision"]
+    },
+    {
+      id: "t9-26",
+      type: "compare",
+      diff: 3,
+      text: "Which description correctly distinguishes grafting from physical blending as a polymer-modification route?",
+      options: [
+        { label: "a", text: "Grafting is simply remelting two polymers together, while blending always forms covalent bonds." },
+        { label: "b", text: "Grafting attaches side chains to an existing polymer backbone; physical blending mixes polymers without covalently attaching the components." },
+        { label: "c", text: "Both terms mean that the original polymer chains are completely depolymerized to monomers." },
+        { label: "d", text: "Grafting can only occur between two inorganic fillers." }
+      ],
+      answer: "b",
+      why: "The lesson defines **grafting** as attaching side chains to an existing backbone. Physical blending combines polymer phases without requiring covalent attachment; a graft/block copolymer may instead act as a compatibilizer.",
+      distractors: {
+        a: "This reverses the definitions: blending does not inherently create covalent bonds.",
+        c: "Neither process requires complete depolymerization to monomers.",
+        d: "The lecture's example, maleic-anhydride-grafted PP, is a polymer-backbone modification."
+      },
+      concept: "Grafting changes chain architecture; blending combines polymer phases.",
+      tags: ["confused"]
+    },
+    {
+      id: "t9-27",
+      type: "apply",
+      diff: 4,
+      text: "A polyethylene component must resist creep and solvent swelling at elevated service temperature. Cross-linking is introduced. Which trade-off should the designer expect?",
+      options: [
+        { label: "a", text: "Lower network connectivity and easier melt flow during every heating cycle." },
+        { label: "b", text: "Guaranteed improvement in transparency with no effect on processing." },
+        { label: "c", text: "Improved dimensional/thermal and solvent resistance, but loss of ordinary thermoplastic remelt-reprocessability." },
+        { label: "d", text: "Complete removal of all chain entanglements without formation of covalent bridges." }
+      ],
+      answer: "c",
+      why: "The lesson states that cross-linking introduces covalent bridges, improving **use-temperature, creep and solvent resistance**. Once a permanent network forms, the material cannot be reprocessed by ordinary thermoplastic melting.",
+      distractors: {
+        a: "Cross-linking restricts chain motion; it does not make the network flow like an uncross-linked melt.",
+        b: "Transparency is not the stated design consequence, and cross-linking changes processing behaviour.",
+        d: "Cross-linking creates covalent bridges between chains; it does not remove entanglements as described."
+      },
+      concept: "Cross-link density trades reprocessability for network stability.",
+      tags: ["confused"]
+    },
+    {
+      id: "t9-28",
+      type: "apply",
+      diff: 3,
+      text: "A manufacturer must recover material from two waste streams: one is a remouldable thermoplastic and the other is a cured thermoset. Which route best follows the lecture's recycling distinction?",
+      options: [
+        { label: "a", text: "Remelt both materials repeatedly because both contain polymer chains." },
+        { label: "b", text: "Use mechanical remelting only for the thermoset and chemical recycling only for the thermoplastic." },
+        { label: "c", text: "Neither material can be recovered in any form." },
+        { label: "d", text: "Remelt and reprocess the thermoplastic; consider chemical breakdown or use the thermoset as a ground filler." }
+      ],
+      answer: "d",
+      why: "Thermoplastics can be **remelted and mechanically reprocessed**. A cured thermoset cannot be remelted into its original flowable state; the lesson lists grinding for filler use and chemical routes such as glycolysis or solvolysis.",
+      distractors: {
+        a: "A cured thermoset has a permanent network and decomposes rather than flowing on reheating.",
+        b: "This reverses the main routes described in the lesson.",
+        c: "The lesson explicitly identifies mechanical and chemical recovery options."
+      },
+      concept: "Thermoplastic mechanical recycling vs thermoset recovery.",
+      tags: ["revision"]
+    }
   ],
 };
 

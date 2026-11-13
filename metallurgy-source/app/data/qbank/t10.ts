@@ -10,11 +10,14 @@ const T10: TopicSource = {
   title: "Mechanical & Viscoelastic Properties",
   subtitle: "Topic 10 · stress–strain, creep, relaxation, models and time–temperature behaviour",
   subs: [
-    { id: "T10.1", title: "Stress–strain behaviour & modulus" },
-    { id: "T10.2", title: "Impact, hardness & toughness" },
-    { id: "T10.3", title: "Creep, relaxation, hysteresis" },
-    { id: "T10.4", title: "Maxwell, Voigt and the Deborah number" },
-    { id: "T10.5", title: "TTS, WLF, permeability & solubility parameters" },
+    { id: "T10.1", title: "Stress–strain behaviour and modulus" },
+    { id: "T10.2", title: "Fracture, impact and toughness" },
+    { id: "T10.3", title: "Creep, relaxation and hardness" },
+    { id: "T10.4", title: "Viscoelastic models, hysteresis and Deborah number" },
+    { id: "T10.5", title: "Time–temperature superposition and WLF" },
+    { id: "T10.6", title: "Mechanical-property improvement" },
+    { id: "T10.7", title: "Rheology" },
+    { id: "T10.8", title: "Permeability, electrical, optical and flammability properties" },
   ],
   questions: [
     {
@@ -715,6 +718,180 @@ const T10: TopicSource = {
         c: "Static compliance describes time-dependent deformation under load, not energy dissipated per cycle.",
       },
     },
+    {
+      id: "t10-29",
+      type: "concept",
+      diff: 3,
+      text: "A glassy polymer under tensile stress develops a planar region containing microvoids bridged by oriented fibrils. What is this feature?",
+      options: [
+        { label: "a", text: "A craze" },
+        { label: "b", text: "A fully open crack with no material bridging its faces" },
+        { label: "c", text: "A crystalline spherulite" },
+        { label: "d", text: "A shear band with no volume change" }
+      ],
+      answer: "a",
+      why: "A **craze** is a microvoided, fibril-bridged region that forms roughly perpendicular to tensile stress. It can carry load through the oriented fibrils and may precede crack propagation.",
+      distractors: {
+        b: "A crack is an open fracture discontinuity; a craze still contains load-bearing fibrils.",
+        c: "A spherulite is a crystalline morphology, not a tensile damage zone.",
+        d: "Shear yielding is localized plastic flow along maximum-shear planes, not a microvoid/fibril structure."
+      },
+      concept: "Crazing is not the same as cracking.",
+      tags: ["confused"]
+    },
+    {
+      id: "t10-30",
+      type: "apply",
+      diff: 3,
+      text: "A notched amorphous polymer part is tested at a lower temperature and a higher loading rate than before. Which fracture trend is most likely?",
+      options: [
+        { label: "a", text: "A more brittle response, because segmental rearrangement has less time and mobility and the notch concentrates stress." },
+        { label: "b", text: "A more ductile response, because lower temperature always increases chain mobility." },
+        { label: "c", text: "No change, because fracture is independent of temperature and loading rate." },
+        { label: "d", text: "The notch removes the local stress concentration." }
+      ],
+      answer: "a",
+      why: "Lower temperature and higher strain rate reduce the time available for segmental rearrangement. A notch further concentrates stress, so brittle crack propagation becomes more likely.",
+      distractors: {
+        b: "Lower temperature generally reduces segmental mobility rather than increasing it.",
+        c: "The lecture explicitly identifies temperature, strain rate and notches as factors affecting brittle fracture.",
+        d: "A notch is a stress concentrator; it does not remove one."
+      },
+      concept: "Lower temperature + higher strain rate + notch → brittle-fracture tendency.",
+      tags: ["revision"]
+    },
+    {
+      id: "t10-31",
+      type: "numerical",
+      diff: 4,
+      text: "For a cracked polymer specimen, use K = Yσ√(πa). Let Y = 1, applied stress σ = 50 MPa and crack length a = 1.0 mm. If K_IC = 3.0 MPa√m, what is the best conclusion?",
+      options: [
+        { label: "a", text: "K ≈ 50 MPa√m, so fracture is certain." },
+        { label: "b", text: "K ≈ 5.0 MPa√m, so K is above K_IC." },
+        { label: "c", text: "K ≈ 2.8 MPa√m, so the applied stress intensity is below K_IC." },
+        { label: "d", text: "K = 0 because the crack length is given in millimetres." }
+      ],
+      answer: "c",
+      why: "Convert crack length: a = 0.001 m. Then K = 50√(π × 0.001) = **2.80 MPa√m**. Since 2.80 < 3.0 MPa√m, this simplified criterion predicts that the critical stress intensity has not yet been reached.",
+      distractors: {
+        a: "This omits the square-root crack-length factor.",
+        b: "This does not follow from substituting a = 0.001 m into the stated equation.",
+        d: "The crack length must be converted to metres; it is not set to zero."
+      },
+      concept: "K = Yσ√(πa); fracture criterion K ≥ K_IC.",
+      tags: ["numeric", "formula"]
+    },
+    {
+      id: "t10-32",
+      type: "apply",
+      diff: 2,
+      text: "A laboratory must measure the indentation resistance of a soft elastomer and a rigid engineering-plastic specimen. Which pairing is most appropriate from the lecture's hardness methods?",
+      options: [
+        { label: "a", text: "Rockwell for the soft elastomer only; Shore A for every rigid plastic." },
+        { label: "b", text: "Izod for the elastomer; Charpy for the rigid plastic." },
+        { label: "c", text: "Shore A for the soft elastomer; Shore D or Rockwell for the rigid plastic." },
+        { label: "d", text: "Melt-flow index for both, because MFI is a surface-indentation test." }
+      ],
+      answer: "c",
+      why: "The lesson associates **Shore A** with soft elastomers, **Shore D** with rigid plastics/hard rubbers, and **Rockwell** with rigid engineering plastics.",
+      distractors: {
+        a: "This reverses the usual Shore A and Shore D applications.",
+        b: "Izod and Charpy are impact tests, not indentation-hardness tests.",
+        d: "MFI measures melt flow under specified conditions, not surface hardness."
+      },
+      concept: "Hardness method selection: Shore A / Shore D / Rockwell.",
+      tags: ["revision"]
+    },
+    {
+      id: "t10-33",
+      type: "compare",
+      diff: 3,
+      text: "A polymer melt shows lower apparent viscosity when shear rate is increased. A separate sample shows viscosity decreasing with time while held at a constant shear rate. Which interpretation is correct?",
+      options: [
+        { label: "a", text: "The first is thixotropic; the second is pseudoplastic." },
+        { label: "b", text: "Both are necessarily Newtonian." },
+        { label: "c", text: "The first is dilatant; the second is rheopectic." },
+        { label: "d", text: "The first is pseudoplastic (shear-thinning); the second is thixotropic." }
+      ],
+      answer: "d",
+      why: "Pseudoplasticity is **shear-rate dependent**: viscosity falls as shear rate rises. Thixotropy is **time dependent**: viscosity falls with time at constant shear.",
+      distractors: {
+        a: "This reverses the shear-rate and time-dependent definitions.",
+        b: "A Newtonian fluid has constant viscosity at fixed conditions, not the described changes.",
+        c: "Dilatancy and rheopexy describe thickening, not thinning."
+      },
+      concept: "Pseudoplastic = shear-rate dependence; thixotropic = time dependence.",
+      tags: ["confused"]
+    },
+    {
+      id: "t10-34",
+      type: "concept",
+      diff: 3,
+      text: "A concentrated suspension resists flow until a minimum stress is exceeded, then flows. Which rheological model best describes this behaviour?",
+      options: [
+        { label: "a", text: "Newtonian fluid" },
+        { label: "b", text: "Pseudoplastic fluid with no yield stress" },
+        { label: "c", text: "Rheopectic fluid" },
+        { label: "d", text: "Bingham plastic" }
+      ],
+      answer: "d",
+      why: "A **Bingham plastic** behaves like a rigid body below a yield stress and flows after that threshold is exceeded.",
+      distractors: {
+        a: "A Newtonian fluid flows at any nonzero shear stress and has constant viscosity at fixed conditions.",
+        b: "Shear-thinning describes viscosity falling with shear rate; it does not by itself specify a yield-stress threshold.",
+        c: "Rheopexy is time-dependent viscosity increase under constant shear."
+      },
+      concept: "Bingham plastic: finite yield stress before flow.",
+      tags: ["revision"]
+    },
+    {
+      id: "t10-35",
+      type: "apply",
+      diff: 3,
+      text: "An insulating polymer component must withstand a specified electric field without dielectric breakdown. Which property is the direct design criterion?",
+      options: [
+        { label: "a", text: "Elongation at break" },
+        { label: "b", text: "Dielectric strength" },
+        { label: "c", text: "Melt-flow index" },
+        { label: "d", text: "Limiting oxygen index" }
+      ],
+      answer: "b",
+      why: "The lesson defines **dielectric strength** as the maximum electric field a material can withstand before breakdown. Resistivity and dielectric constant are also electrical properties, but they answer different design questions.",
+      distractors: {
+        a: "Elongation at break measures tensile deformation before failure.",
+        c: "MFI is a melt-processing quality/flow measure.",
+        d: "LOI measures the oxygen concentration needed to sustain combustion."
+      },
+      concept: "Dielectric strength = electric field at breakdown.",
+      tags: ["revision"]
+    },
+    {
+      id: "t10-36",
+      type: "statement",
+      diff: 3,
+      text: "Which statements about optical and flammability behaviour of polymers are correct?",
+      statements: [
+        { num: 1, text: "Amorphous polymers such as PMMA can be optically clear because they lack crystallites that scatter light." },
+        { num: 2, text: "Spherulites in semi-crystalline polymers can scatter light and reduce transparency." },
+        { num: 3, text: "Birefringence can arise from processing-induced molecular orientation." },
+        { num: 4, text: "Limiting oxygen index is the minimum oxygen concentration in an oxygen/nitrogen mixture that sustains combustion." }
+      ],
+      options: [
+        { label: "a", text: "1 and 2 only" },
+        { label: "b", text: "1, 2, 3 and 4" },
+        { label: "c", text: "1, 2 and 3 only" },
+        { label: "d", text: "2, 3 and 4 only" }
+      ],
+      answer: "b",
+      why: "All four statements match the lesson: amorphous polymers can be clear; crystalline spherulites scatter light; orientation can cause birefringence; and **LOI** is the minimum oxygen percentage that sustains combustion.",
+      distractors: {
+        a: "Statements 3 and 4 are also correct.",
+        c: "Statement 4 is also correct and defines LOI.",
+        d: "Statement 1 is also correct for suitable amorphous polymers."
+      },
+      concept: "Optical clarity / scattering / birefringence; LOI definition.",
+      tags: ["revision"]
+    }
   ],
 };
 
