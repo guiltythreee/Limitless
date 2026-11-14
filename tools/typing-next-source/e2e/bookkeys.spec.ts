@@ -462,6 +462,27 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
   await expect(page.locator(".bk-chapter-list")).toContainText("Renamed Opening");
 });
 
+test("chapter editor can jump to a chapter and re-detect EPUB headings", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub(true);
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "chapter-detection-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await page.getByRole("button", { name: "Edit" }).click();
+  await expect(page.locator(".bk-chapter-list")).toContainText("Chapter Two");
+  await page.getByRole("button", { name: "Go to Chapter Two" }).click();
+  await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
+
+  await page.getByRole("button", { name: "Remove Chapter Two" }).click();
+  await expect(page.locator(".bk-chapter-list")).not.toContainText("Chapter Two");
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Detect again" }).click();
+  await expect(page.locator(".bk-chapter-list")).toContainText("Chapter Two");
+});
+
 test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP total", async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem("bookkeys:game", JSON.stringify({ xp: 987654, book: {}, paid: {} }));
