@@ -1,8 +1,8 @@
 /* Generator score, target-time, and tier-progression audit.
-   Run: node tools/math-refactored/test-math-difficulty-progression.cjs */
+   Run: node tools/math/tests/test-math-difficulty-progression.cjs */
 'use strict';
 const assert = require('node:assert/strict');
-const E = require('./engine.js');
+const E = require('../engine.js');
 
 const SAMPLE_COUNT = 12000;
 const summaries = [];

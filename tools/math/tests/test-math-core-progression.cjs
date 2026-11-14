@@ -2,7 +2,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
-const E = require('./engine.js');
+const E = require('../engine.js');
 
 const SEED = 20261028;
 const CORE = ['add', 'sub', 'div', 'divRem'];

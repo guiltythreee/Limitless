@@ -1,11 +1,11 @@
 /* Verify that each tier's declared difficulty envelope covers its configured recipes.
    Run from the repository root:
-     node tools/math-refactored/test-math-difficulty-bands.cjs
+     node tools/math/tests/test-math-difficulty-bands.cjs
 */
 'use strict';
 
 const assert = require('node:assert/strict');
-const E = require('./engine.js');
+const E = require('../engine.js');
 
 const SAMPLE_PER_RECIPE = 500;
 const summaries = [];

@@ -1,14 +1,14 @@
 /* Answer-input parsing and grouping regression tests.
-   Run: node tools/math-refactored/test-math-input-validation.cjs */
+   Run: node tools/math/tests/test-math-input-validation.cjs */
 'use strict';
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const E = require('./engine.js');
+const E = require('../engine.js');
 
 // Exercise the actual UI cleaner before asking the engine parser to validate input.
-const gameSource = fs.readFileSync(path.join(__dirname, 'game.js'), 'utf8');
-const htmlSource = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+const gameSource = fs.readFileSync(path.join(__dirname, '..', 'game.js'), 'utf8');
+const htmlSource = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 assert.match(htmlSource, /<input[^>]*id="answer"[^>]*>/, 'answer input should be present');
 const answerInput = htmlSource.match(/<input[^>]*id="answer"[^>]*>/)[0];
 assert.doesNotMatch(answerInput, /\bmaxlength\s*=/, 'browser must not truncate pasted answers before parser validation');
