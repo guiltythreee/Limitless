@@ -29,4 +29,13 @@ assert.equal(empty.streakDays, 0);
 assert.equal(empty.dailyGoal, 1);
 assert.equal(empty.history.length, 1);
 
+
+const longStreakAttempts = Array.from({ length: 90 }, (_, index) => ({
+  id: "streak-" + index,
+  occurredAt: new Date(2026, 10, 15 - index, 12).getTime(),
+}));
+const longStreak = buildGlobalActivitySummary(longStreakAttempts, day(0), 7, 1);
+assert.equal(longStreak.streakDays, 90, "streak length must not be capped by the visible calendar window");
+assert.equal(longStreak.history.length, 7, "visible history remains independently bounded");
+
 console.log("Global activity summary tests passed.");
