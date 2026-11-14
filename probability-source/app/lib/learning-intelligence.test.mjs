@@ -25,6 +25,8 @@ assert.equal(adapted.length, 8, "unknown legacy timestamps must not be invented"
 assert.equal(adapted[0].disciplineId, "probability");
 assert.equal(adapted[0].contentId, first.lessonId);
 assert.equal(adapted[0].conceptIds.length, 1);
+assert.equal(adapted[0].independent, true);
+assert.equal(adapted[0].hintCount, 0);
 
 const report = analyzeProbabilityLearning(attempts);
 assert.equal(report.mastery.length, 1);
