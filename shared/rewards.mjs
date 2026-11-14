@@ -102,6 +102,12 @@ export const REWARD_SOURCE_REGISTRY = Object.freeze([
     storageKey: "limitless-lsr1-personal-projects-v1",
     shape: "rewardLedger",
   },
+  {
+    moduleId: "competitive-programming",
+    label: "Competitive Programming",
+    storageKey: "limitless-competitive-programming-lsr1-v1",
+    shape: "rewardLedger",
+  },
 ]);
 
 const ACTIVITY_CLASSES = new Set([...Object.keys(ACTIVITY_BASE_EXP), "bespoke-project"]);
