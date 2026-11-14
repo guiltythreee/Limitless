@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties } from "react";
+import { BOOKKEYS_SCENE_IDS, createBookkeysBackgroundEngine } from "../domain/reading/bookkeys-backgrounds";
 import type { BookkeysChapter, BookkeysLibraryMetadata, BookkeysShelf } from "../domain/persistence/bookkeys-v1-contracts";
 import { openBookkeysDatabase, type BookkeysDatabase } from "../domain/persistence/bookkeys-v1-database";
 import { readEpub } from "../domain/epub/epub-importer";
@@ -54,11 +56,17 @@ const READER_BACKGROUND_PRESETS = [
   { id: "constellation", label: "Constellation", background: "radial-gradient(circle at 20% 30%,#9db4ff 0 2px,transparent 3px), radial-gradient(circle at 60% 60%,#9db4ff 0 2px,transparent 3px), radial-gradient(circle at 80% 25%,#9db4ff 0 2px,transparent 3px), linear-gradient(#050816,#0c1233)" },
   { id: "mist", label: "Misty pines", background: "radial-gradient(ellipse at 50% 45%,rgba(180,205,210,.22),transparent 48%), linear-gradient(#0b1217,#243941 65%,#3a4f58)", motion: "bk-bg-mist" },
 ] as const;
-type ReaderBackgroundId = "none" | "gothic" | "garden" | (typeof READER_BACKGROUND_PRESETS)[number]["id"];
+type ReaderBackgroundId = "none" | "tod" | "gothic" | "garden" | (typeof READER_BACKGROUND_PRESETS)[number]["id"];
 
 function isReaderBackgroundId(value: unknown): value is ReaderBackgroundId {
-  return value === "none" || value === "gothic" || value === "garden" ||
+  return value === "none" || value === "tod" || value === "gothic" || value === "garden" ||
     READER_BACKGROUND_PRESETS.some((preset) => preset.id === value);
+}
+
+function effectiveReaderBackground(value: ReaderBackgroundId, now = new Date()): ReaderBackgroundId {
+  if (value !== "tod") return value;
+  const hour = now.getHours();
+  return hour >= 20 || hour < 6 ? "pic-night" : hour >= 17 ? "pic-evening" : "pic-morning";
 }
 
 type BookFormat = "pdf" | "epub" | "text";
@@ -169,21 +177,52 @@ function readSettings(): BookkeysSettings {
     ccolor: "accent",
   };
   const legacySize = readLegacySize(defaults.size);
+  let settings: BookkeysSettings = { ...defaults, size: legacySize };
   try {
     const value: unknown = JSON.parse(window.localStorage.getItem("bookkeys:settings") ?? "{}");
-    if (!value || typeof value !== "object" || Array.isArray(value)) {
-      return { ...defaults, size: legacySize };
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      const record = value as Record<string, unknown>;
+      settings = {
+        ...defaults,
+        ...record,
+        bg: typeof record.bg === "string" ? record.bg : defaults.bg,
+        size: typeof record.size === "number" && Number.isFinite(record.size) ? record.size : legacySize,
+        lineH: typeof record.lineH === "number" && Number.isFinite(record.lineH) ? record.lineH : defaults.lineH,
+        celebrate: typeof record.celebrate === "boolean" ? record.celebrate : defaults.celebrate,
+      };
     }
-    const record = value as Record<string, unknown>;
-    return {
-      ...defaults,
-      ...record,
-      bg: typeof record.bg === "string" ? record.bg : defaults.bg,
-      size: typeof record.size === "number" && Number.isFinite(record.size) ? record.size : legacySize,
-      lineH: typeof record.lineH === "number" && Number.isFinite(record.lineH) ? record.lineH : defaults.lineH,
-      celebrate: typeof record.celebrate === "boolean" ? record.celebrate : defaults.celebrate,
-    };
-  } catch { return { ...defaults, size: legacySize }; }
+  } catch { /* Keep the complete defaults and the separately stored legacy size. */ }
+
+  // Preserve the original one-time background migrations. The two flags are
+  // independent of bookkeys:settings and must never be replayed after set.
+  let migrated = false;
+  try {
+    if (!window.localStorage.getItem("bookkeys:bgdef1")) {
+      window.localStorage.setItem("bookkeys:bgdef1", "1");
+      if (settings.bg === "none") {
+        settings = { ...settings, bg: "shafts", bgMatch: true };
+        migrated = true;
+      }
+    }
+    if (!window.localStorage.getItem("bookkeys:bgdef2")) {
+      window.localStorage.setItem("bookkeys:bgdef2", "1");
+      if (settings.bg === "shafts") {
+        settings = {
+          ...settings,
+          bg: "pic-morning",
+          bgMatch: true,
+          picVeil: settings.picVeil === 45 ? 0 : settings.picVeil,
+        };
+        migrated = true;
+      }
+    }
+    if (migrated) window.localStorage.setItem("bookkeys:settings", JSON.stringify(settings));
+  } catch { /* Storage failures must not prevent opening the reader. */ }
+
+  const readerBackground = isReaderBackgroundId(settings.readerBackground)
+    ? settings.readerBackground
+    : isReaderBackgroundId(settings.bg) ? settings.bg : "none";
+  return { ...settings, readerBackground };
 }
 
 function readGame(): ReturnType<typeof emptyBookkeysGame> {
@@ -277,6 +316,10 @@ export default function BookkeysApp() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState<"appearance" | "data">("appearance");
+  const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
+  const backgroundEngineRef = useRef<ReturnType<typeof createBookkeysBackgroundEngine> | null>(null);
+  const [clockMinute, setClockMinute] = useState(() => new Date().getMinutes());
+  const [systemReducedMotion, setSystemReducedMotion] = useState(false);
   const [themeReady, setThemeReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [chaptersOpen, setChaptersOpen] = useState(false);
@@ -358,6 +401,71 @@ export default function BookkeysApp() {
     document.documentElement.style.setProperty("--lineH", String(settings.lineH));
     try { window.localStorage.setItem("limitless.typing.v1.theme", theme); } catch { /* theme is a preference */ }
   }, [theme, themeReady, settings.size, settings.lineH]);
+
+  useEffect(() => {
+    const canvas = backgroundCanvasRef.current;
+    if (!canvas) return;
+    const engine = createBookkeysBackgroundEngine(canvas);
+    backgroundEngineRef.current = engine;
+    return () => {
+      engine.destroy();
+      backgroundEngineRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setClockMinute(new Date().getMinutes()), 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setSystemReducedMotion(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  const selectedBackground = (settings.readerBackground ?? "none") as ReaderBackgroundId;
+  const effectiveBackground = useMemo(
+    () => effectiveReaderBackground(selectedBackground),
+    [selectedBackground, clockMinute],
+  );
+  const backgroundPreset = READER_BACKGROUND_PRESETS.find((preset) => preset.id === effectiveBackground);
+  const picturePreset = backgroundPreset && "image" in backgroundPreset ? backgroundPreset : undefined;
+  const staticPreset = backgroundPreset && !("image" in backgroundPreset) && !BOOKKEYS_SCENE_IDS.includes(effectiveBackground)
+    ? backgroundPreset : undefined;
+  const selectedArtwork = effectiveBackground === "gothic" ? artwork.gothic
+    : effectiveBackground === "garden" ? artwork.garden : undefined;
+  const safeBackgroundArtwork = safeArtworkDataUrl(selectedArtwork);
+  const isPictureBackground = effectiveBackground.startsWith("pic-");
+  const isCanvasScene = BOOKKEYS_SCENE_IDS.includes(effectiveBackground);
+  const backdropPercent = Math.max(
+    Number(settings.backdrop ?? 0),
+    isPictureBackground ? 70 : 0,
+  );
+  const backgroundStyle = {
+    "--bk-picture-blur": `${Number(settings.picBlur ?? 0)}px`,
+    "--bk-picture-veil": String(Number(settings.picVeil ?? 0) / 100),
+    "--bk-panel-opacity": `${backdropPercent}%`,
+  } as CSSProperties;
+
+  useEffect(() => {
+    if (!themeReady) return;
+    const motion = settings.motion === "reduce" ||
+      (settings.motion !== "full" && systemReducedMotion);
+    const shouldAnimate = settings.bgAnim !== false && !motion;
+    backgroundEngineRef.current?.set(
+      isCanvasScene ? effectiveBackground : "none",
+      Number(settings.bgDensity ?? 1),
+      shouldAnimate,
+    );
+    const canvas = backgroundCanvasRef.current;
+    if (canvas) canvas.dataset.animated = String(isCanvasScene && shouldAnimate);
+  }, [
+    themeReady, effectiveBackground, isCanvasScene, settings.bgDensity,
+    settings.bgAnim, settings.motion, systemReducedMotion,
+  ]);
 
   useEffect(() => {
     let active = true;
@@ -941,7 +1049,25 @@ export default function BookkeysApp() {
 
 
   return (
-    <main className="bk-shell">
+    <main className="bk-shell" style={backgroundStyle}>
+      <canvas ref={backgroundCanvasRef} className="bk-background-canvas" aria-hidden="true" hidden />
+      {picturePreset && (
+        <div
+          className="bk-picture-background"
+          aria-hidden="true"
+          style={{
+            "--bk-photo-desktop": `url("${picturePreset.image}")`,
+            "--bk-photo-mobile": `url("${picturePreset.mobileImage}")`,
+          } as CSSProperties}
+        />
+      )}
+      {staticPreset && (
+        <div className="bk-static-background" aria-hidden="true" style={{ backgroundImage: staticPreset.background }} />
+      )}
+      {safeBackgroundArtwork && (
+        <div className="bk-picture-background bk-artwork-background" aria-hidden="true"
+          style={{ backgroundImage: `url("${safeBackgroundArtwork}")` }} />
+      )}
       <header className="bk-header">
         <div>
           <p className="bk-eyebrow">LIMITLESS / BOOKKEYS PREVIEW</p>
@@ -1110,30 +1236,12 @@ export default function BookkeysApp() {
             <>
               <article
                 className="bk-source-text"
-                data-reader-background={settings.readerBackground ?? "none"}
+                data-reader-background={effectiveBackground}
                 data-reader-centered={settings.centered ? "true" : "false"}
                 style={(() => {
                   const color = settings.fontColor === "custom"
                     ? safeReaderTextColor(settings.fontColorCustom) : undefined;
-                  const selected = settings.readerBackground === "gothic" ? artwork.gothic
-                    : settings.readerBackground === "garden" ? artwork.garden : undefined;
-                  const safe = safeArtworkDataUrl(selected);
-                  const preset = READER_BACKGROUND_PRESETS.find((item) => item.id === settings.readerBackground);
-                  if (preset && "image" in preset && preset.image) return color ? { color } : undefined;
-                  if (safe) return {
-                    color,
-                    backgroundImage: `linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("${safe}")`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  };
-                  const motion = preset && "motion" in preset ? preset.motion : undefined;
-                  return preset ? {
-                    color,
-                    backgroundImage: `linear-gradient(rgba(4, 5, 12, .42), rgba(4, 5, 12, .42)), ${preset.background}`,
-                    backgroundSize: motion ? "180% 180%" : "cover",
-                    backgroundPosition: "center",
-                    animation: motion ? `${motion} 28s ease-in-out infinite alternate` : undefined,
-                  } : color ? { color } : undefined;
+                  return color ? { color } : undefined;
                 })()}
               >{target}</article>
               <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
@@ -1273,12 +1381,18 @@ export default function BookkeysApp() {
                   <select
                     aria-label="Reader background"
                     value={settings.readerBackground ?? "none"}
-                    onChange={(event) => persistSettings({
-                      ...settings,
-                      readerBackground: event.currentTarget.value as ReaderBackgroundId,
-                    })}
+                    onChange={(event) => {
+                      const nextBackground = event.currentTarget.value as ReaderBackgroundId;
+                      const isCustomArtwork = nextBackground === "gothic" || nextBackground === "garden";
+                      persistSettings({
+                        ...settings,
+                        readerBackground: nextBackground,
+                        ...(!isCustomArtwork ? { bg: nextBackground } : {}),
+                      });
+                    }}
                   >
-                    <option value="none">Plain</option>
+                    <option value="none">No Background</option>
+                    <option value="tod">Time of Day (automatic)</option>
                     {artwork.gothic && <option value="gothic">Gothic artwork</option>}
                     {artwork.garden && <option value="garden">Garden artwork</option>}
                     <optgroup label="Static scenes">
@@ -1289,6 +1403,32 @@ export default function BookkeysApp() {
                     <span className="bk-settings-note">No saved Bookkeys artwork was found in this browser.</span>
                   )}
                 </label>
+                <label className="bk-setting">
+                  <span>Intensity <strong>{Number(settings.bgDensity ?? 1).toFixed(1)}×</strong></span>
+                  <input type="range" min="0.3" max="2" step="0.1" value={Number(settings.bgDensity ?? 1)}
+                    onChange={(event) => persistSettings({ ...settings, bgDensity: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting">
+                  <span>Text backdrop <strong>{Number(settings.backdrop ?? 0)}%</strong></span>
+                  <input type="range" min="0" max="100" step="5" value={Number(settings.backdrop ?? 0)}
+                    onChange={(event) => persistSettings({ ...settings, backdrop: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting">
+                  <span>Picture dimming <strong>{Number(settings.picVeil ?? 0)}%</strong></span>
+                  <input type="range" min="0" max="90" step="5" value={Number(settings.picVeil ?? 0)}
+                    onChange={(event) => persistSettings({ ...settings, picVeil: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting">
+                  <span>Picture blur <strong>{Number(settings.picBlur ?? 0)} px</strong></span>
+                  <input type="range" min="0" max="12" step="1" value={Number(settings.picBlur ?? 0)}
+                    onChange={(event) => persistSettings({ ...settings, picBlur: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Animate background</span>
+                  <input type="checkbox" checked={settings.bgAnim !== false}
+                    onChange={(event) => persistSettings({ ...settings, bgAnim: event.currentTarget.checked })} />
+                </label>
+                <p className="bk-settings-note">Time of Day switches from Morning at 06:00, to Evening at 17:00, and Night at 20:00. The three photographs use portrait crops on tall screens. Picture backgrounds always keep at least 70% text backdrop for readability.</p>
                 <div className="bk-setting">
                   <span>Custom artwork <small>Stored in this browser, not in backups.</small></span>
                   <div className="bk-artwork-actions">
