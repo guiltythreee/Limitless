@@ -15,7 +15,7 @@ const rows = Array.from({ length: 8 }, (_, index) => ({
   status: index < 6 ? "correct" : "incorrect",
   ms: 1200 + index,
   ts: 1_800_000_000_000 + index * 1000,
-  ...(index >= 6 ? { mistakeCategory: "conceptual" as const } : {}),
+  ...(index >= 6 ? { mistakeCategory: "conceptual" } : {}),
 }));
 const legacy = { ...rows[0], id: "legacy", ts: 0 };
 const attempts = [...rows, legacy];
