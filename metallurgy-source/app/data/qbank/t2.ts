@@ -242,8 +242,8 @@ const T2: TopicSource = {
         { label: "d", text: "An imbalance simply slows the reaction tenfold, without changing the limiting chain length at a given conversion." }
       ],
       answer: "b",
-      why: "Chains can only grow while **both** end-group types are available. An excess of one kind converts all ends to that unreactive type and growth stops at $DP = (1+r)/(1-r)$ — the stoichiometric ratio $r$ caps MW.",
-      concept: "$DP = (1+r)/(1-r-2rp) \\to (1+r)/(1-r)$ at $p=1$",
+      why: "With unequal functional-group amounts, the excess group limits chain growth. For a bifunctional A-A/B-B system with the limiting-group ratio $r \\leq 1$, the number-average degree of polymerization is $DP_n=(1+r)/(1+r-2rp)$. At complete conversion, this approaches $(1+r)/(1-r)$; only the balanced case $r=1$ can grow without this stoichiometric cap.",
+      concept: "$DP_n=(1+r)/(1+r-2rp)$; at $p=1$: $(1+r)/(1-r)$",
       tags: ["confused", "formula"],
     },
     {
@@ -449,21 +449,21 @@ const T2: TopicSource = {
       id: "t2-22",
       type: "numerical",
       diff: 4,
-      text: "Kinetic chain length $\\nu = 1000$. Termination is 60% by combination and 40% by disproportionation. The overall $\\overline{DP}_n$ is:",
+      text: "The kinetic chain length is $\\nu = 1000$ repeat units per radical chain. Of termination events, 60% occur by combination and 40% by disproportionation. What is the number-average DP of the resulting dead polymer molecules?",
       options: [
-        { label: "a", text: "1200" },
-        { label: "b", text: "1000" },
-        { label: "c", text: "1400" },
-        { label: "d", text: "1600" }
+        { label: "a", text: "1,200" },
+        { label: "b", text: "1,000" },
+        { label: "c", text: "1,429" },
+        { label: "d", text: "1,600" }
       ],
-      answer: "d",
-      why: "Weight the number-average degree of polymerization by the fraction of termination events: $\\overline{DP}_n = 0.60(2\\nu) + 0.40(\\nu) = 1.60\\nu = 1.60(1000) = \\mathbf{1600}$. Combination joins two kinetic chains; disproportionation produces two separate dead chains.",
+      answer: "c",
+      why: "Each termination event consumes two radical chains, giving approximately $2\\nu=2000$ repeat units per event. A combination event produces one dead molecule, whereas a disproportionation event produces two. For $N$ termination events, the number of molecules is $0.60N+2(0.40N)=1.40N$. Thus $DP_n=2\\nu/1.40=2000/1.40\\approx\\mathbf{1429}$ repeat units per molecule.",
       distractors: {
-        a: "1200 counts the contribution from combination but omits the 0.40\\nu contribution from disproportionation.",
-        b: "1000 is the result if every termination event occurs by disproportionation.",
-        c: "1400 is an arithmetic error; the weighted contributions are 1200 + 400 = 1600."
+        a: "1,200 incorrectly averages the DP per event without accounting for the extra dead molecule formed by disproportionation.",
+        b: "1,000 is the DP for a population terminated entirely by disproportionation.",
+        d: "1,600 incorrectly weights the two event types by event fractions while treating each event as one molecule."
       },
-      concept: "$\\overline{DP} = f_{comb}\\cdot 2\\nu + f_{dis}\\cdot \\nu$",
+      concept: "$DP_n=\\frac{2\\nu}{f_{comb}+2f_{dis}}$ when fractions refer to termination events.",
       tags: ["numeric", "formula"],
     },
     {
@@ -731,15 +731,15 @@ const T2: TopicSource = {
       id: "t2-36",
       type: "higher",
       diff: 4,
-      text: "A polymer sample shows PDI = 2.0 with all chains having two hydroxyl end groups (confirmed by NMR). The most likely synthesis is:",
+      text: "A polymer sample has PDI close to 2, and NMR confirms two hydroxyl end groups per chain. Which synthesis could plausibly produce this result?",
       options: [
-        { label: "a", text: "High-conversion step-growth polyester/polyamide synthesis commonly gives PDI near 2 and two functional end groups per chain." },
+        { label: "a", text: "High-conversion step-growth polyester synthesis from a diacid and a diol, using a slight diol excess to produce hydroxyl-terminated chains." },
         { label: "b", text: "Ziegler–Natta coordination usually produces hydroxyl-terminated chains in a perfectly uniform distribution." },
         { label: "c", text: "Living anionic polymerization typically leaves two hydroxyl end groups on every chain without a separate termination step." },
         { label: "d", text: "Free-radical termination by combination is the most likely route because it creates two hydroxyl ends on every chain." }
       ],
       answer: "a",
-      why: "The **most-probable (Flory) distribution** from equal-reactivity step-growth has $M_w/M_n = 2$ and, being built from A–A/B–B type monomers, carries two functional end groups per chain. Living systems give PDI ≈ 1.",
+      why: "An ideal high-conversion step-growth polyester can approach the most-probable Flory distribution, for which $M_w/M_n$ approaches 2. A deliberate slight diol excess leaves hydroxyl end groups on the chains. The end-group identity follows the chosen monomer stoichiometry; it is not a general feature of every polyester or polyamide.",
       concept: "Flory distribution: PDI → 2 for step-growth",
       tags: ["confused"],
     },
