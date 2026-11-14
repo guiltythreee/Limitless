@@ -303,7 +303,7 @@ html[data-theme="light"] .bk-library-search input, html[data-theme="light"] .bk-
   display: grid;
   gap: 6px;
   min-width: 0;
-  color: var(--bk-muted);
+  color: var(--dim);
   font-size: 0.88rem;
 }
 .bk-artwork-actions input[type="file"] {
@@ -494,3 +494,24 @@ html[data-deco="garden"] .bk-library, html[data-deco="garden"] .bk-reader { bord
 .bk-accent-swatch[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 2px; }
 .bk-accent-swatch span { position: absolute; inset: auto 0 0; padding: 4px 3px; color: #fff; background: rgba(0,0,0,.58); font-size: 9px; line-height: 1.2; text-align: center; }
 @media (max-width: 560px) { .bk-theme-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bk-accent-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* Final palette overrides take precedence over the legacy light/dark shell rules. */
+body { background: var(--bg); color: var(--ink); }
+.bk-source-text {
+  color: var(--typed, var(--ink));
+  background: color-mix(in srgb, var(--panel) var(--panel-op, 0%), transparent);
+  border-color: var(--line);
+  font-family: var(--font-text, Georgia, "Times New Roman", serif);
+  font-size: var(--tsize, 20px);
+  line-height: var(--lh, 1.7);
+  letter-spacing: var(--ls, 0em);
+}
+.bk-typing {
+  color: var(--typed, var(--ink));
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  border-color: var(--line);
+  caret-color: var(--caret);
+  line-height: var(--lh, 1.7);
+}
+.bk-typing:focus { border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent); }
+.bk-theme-name { color: var(--ink); text-shadow: 0 1px 4px rgba(0,0,0,.35); }
