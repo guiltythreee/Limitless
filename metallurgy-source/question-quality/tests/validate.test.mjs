@@ -25,5 +25,9 @@ assert.ok(run({ ...valid, explanation: "" }).issues.some(x => x.rule === "CORE-0
 assert.ok(run({ ...valid, source: {} }).issues.some(x => x.rule === "CORE-004"));
 assert.ok(run({ ...valid, difficulty: { level: 6, scale: 5 } }).issues.some(x => x.rule === "CORE-005"));
 assert.ok(run({ ...valid, options: [{ id: "a", text: "", correct: true }, ...valid.options.slice(1)] }).issues.some(x => x.rule === "FORMAT-005"));
+assert.ok(run({ ...valid, format: undefined }).issues.some(x => x.rule === "CORE-006"));
+assert.ok(run({ ...valid, options: {} }).issues.some(x => x.rule === "FORMAT-000"));
+assert.equal(validateQuestion(null, profile).passed, false);
+assert.equal(validateQuestion(undefined, profile).passed, false);
 assert.equal(validateBank([valid, valid], profile).length, 2);
-console.log("9 shared-engine tests passed");
+console.log("12 shared-engine tests passed");
