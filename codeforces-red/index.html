@@ -70,8 +70,12 @@
     </section>
 
 
-    <section class="cr-roadmap" id="roadmap">
-      <div class="cr-section-head"><div><div class="cr-eyebrow">YOUR TRAINING WORKSPACE</div><h2>Road to Grandmaster</h2><p class="cr-roadmap-intro">A practical training path from your current level to 2400. Choose a stage, work through its skill goals, and track your weekly execution.</p></div><span class="cr-roadmap-note">2400 peak · Grandmaster</span></div>
+    <details class="cr-roadmap cr-training-collapse" id="roadmap">
+      <summary class="cr-training-toggle">
+        <div class="cr-section-head"><div><div class="cr-eyebrow">YOUR TRAINING WORKSPACE</div><h2>Road to Grandmaster</h2><p class="cr-roadmap-intro">A practical training path from your current level to 2400. Choose a stage, work through its skill goals, and track your weekly execution.</p></div><span class="cr-roadmap-note">2400 peak · Grandmaster</span></div>
+        <span class="cr-training-toggle-hint">Expand training workspace <span aria-hidden="true">＋</span></span>
+      </summary>
+      <div class="cr-training-content">
       <div class="cr-dashboard-summary">
         <div class="cr-focus-card"><span class="cr-dash-label">CURRENT FOCUS</span><strong id="roadmap-current-stage">Foundations</strong><p id="roadmap-current-copy">Build reliable problem-solving habits.</p><div class="cr-focus-meta"><span id="roadmap-stage-range">Below 1200</span><span id="roadmap-stage-progress">0% complete</span></div><div class="cr-mini-track"><span id="roadmap-stage-bar"></span></div></div>
         <div class="cr-week-card"><span class="cr-dash-label">THIS WEEK</span><strong><span id="weekly-solved">0</span><small> / 15 problems</small></strong><p class="cr-week-auto-note">Automatically counted from your linked Codeforces account’s accepted submissions this week.</p><div class="cr-week-foot"><span id="weekly-contests">0</span> / 1 contest logged <div class="cr-week-contest-actions"><button type="button" id="contest-log">+ Log contest</button><button type="button" id="contest-unlog" aria-label="Undo the last manually logged contest" title="Undo the last manually logged contest" disabled>↶ Undo Last Contest</button></div></div></div>
@@ -110,7 +114,8 @@
         <a href="https://usaco.guide/" target="_blank" rel="noopener noreferrer"><b>USACO Guide</b><span>Guided topic learning ↗</span></a>
       </div>
       <p class="cr-roadmap-disclaimer">Your checklist and weekly counters are saved in this browser. Rating milestones remain based on live Codeforces peak rating; checklist completion does not artificially change your rating or unlock a rank.</p>
-    </section>
+      </div>
+    </details>
 
     <section class="cr-problem-explorer-section" id="codeforces-problems">
       <div class="cr-section-head">
