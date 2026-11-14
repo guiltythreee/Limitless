@@ -40,6 +40,10 @@ function unionNumbers(...values: unknown[]): number[] {
   return [...new Set(values.flatMap(numberArray))].sort((a, b) => a - b);
 }
 
+function nonNegativeFinite(value: unknown): number {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : 0;
+}
+
 function mergeGame(local: Record<string, unknown> | null, incoming: Record<string, unknown>): string {
   if (!local) return JSON.stringify(incoming);
   const localBooks = local.book && typeof local.book === "object" ? local.book as Record<string, unknown> : {};
@@ -60,7 +64,8 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
       x: unionNumbers(current.x, backup.x),
       e: unionNumbers(current.e, backup.e),
       c: unionNumbers(current.c, backup.c),
-      done: Math.max(Number(current.done ?? 0), Number(backup.done ?? 0)),
+      // Malformed counters must not turn the serialized progress into null.
+      done: Math.max(nonNegativeFinite(current.done), nonNegativeFinite(backup.done)),
     };
   }
   const localPaid = local.paid && typeof local.paid === "object" ? local.paid as Record<string, unknown> : {};
@@ -100,7 +105,10 @@ function mergeDraft(localRaw: string | null, incomingRaw: string): string {
   const local = parseRecord(localRaw);
   const incoming = parseRecord(incomingRaw);
   if (!local || !incoming) return localRaw;
-  return Number(incoming.t ?? 0) > Number(local.t ?? 0) ? incomingRaw : localRaw;
+  const localTime = typeof local.t === "number" && Number.isFinite(local.t) ? local.t : null;
+  const incomingTime = typeof incoming.t === "number" && Number.isFinite(incoming.t) ? incoming.t : null;
+  if (incomingTime === null) return localRaw;
+  return localTime === null || incomingTime > localTime ? incomingRaw : localRaw;
 }
 
 function mergeShelves(localRaw: string | null, incomingRaw: string): string {
