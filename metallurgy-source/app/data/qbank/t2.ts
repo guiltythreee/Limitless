@@ -599,12 +599,12 @@ const T2: TopicSource = {
       diff: 3,
       text: "In a step-growth polymerization, what conversion is needed to reach $DP_n = 200$ (stoichiometric)?",
       options: [
-        { label: "a", text: "99.5%" },
+        { label: "a", text: "95.0%" },
         { label: "b", text: "99.0%" },
-        { label: "c", text: "95.0%" },
+        { label: "c", text: "99.5%" },
         { label: "d", text: "90.0%" }
       ],
-      answer: "a",
+      answer: "c",
       why: "$p = 1 - 1/DP = 1 - 1/200 = 1 - 0.005 = 0.995$ → **99.5%**.",
       distractors: {
         b: "99% conversion gives $DP_n=100$ for the balanced system, not 200.",
@@ -621,15 +621,15 @@ const T2: TopicSource = {
       text: "Coordination (metallocene) catalysts differ from Ziegler–Natta catalysts chiefly in that:",
       options: [
         { label: "a", text: "Metallocenes work only by anionic initiation, unlike the coordination-insertion mechanism of Ziegler–Natta catalysts." },
-        { label: "b", text: "Metallocenes cannot polymerize ethylene because their active sites are too crowded for small olefin molecules." },
+        { label: "b", text: "Metallocenes often act as single-site catalysts, giving more uniform active sites, narrower MWD and better comonomer control." },
         { label: "c", text: "Ziegler–Natta catalysts are living systems that prevent every termination event and always produce monodisperse chains." },
-        { label: "d", text: "Metallocenes often act as single-site catalysts, giving more uniform active sites, narrower MWD and better comonomer control." }
+        { label: "d", text: "Metallocenes cannot polymerize ethylene because their active sites are too crowded for small olefin molecules." }
       ],
-      answer: "d",
+      answer: "b",
       why: "Metallocenes commonly provide more uniform, well-defined active sites than conventional multi-site Ziegler–Natta catalysts. This often gives narrower molecular-weight distributions and improved control of comonomer incorporation; it does not mean every metallocene system has identical behaviour.",
       distractors: {
         a: "Metallocenes are coordination catalysts; they do not work only by anionic initiation.",
-        b: "Metallocenes can polymerize ethylene; their active sites are widely used for olefin polymerization.",
+        d: "Metallocenes can polymerize ethylene; their active sites are widely used for olefin polymerization.",
         c: "Conventional Ziegler–Natta systems are not generally living or monodisperse; chain transfer and termination can occur.",
       },
       tags: ["revision"],
