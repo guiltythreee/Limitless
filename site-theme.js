@@ -58,8 +58,11 @@
   }
 
   var style = document.createElement('style');
+  // Keep existing page theme controls visible. The global capture handler below
+  // already routes their clicks through this single persisted preference.
+  // Hiding them while ensureControl() is intentionally a no-op removes the
+  // only usable theme switch from pages such as the live Home dashboard.
   style.textContent =
-    '#theme-toggle, .theme-toggle, .icon-action[aria-label*="theme" i], button[aria-label*="theme" i], .ll-site-theme-toggle{display:none!important}' +
     '.ll-site-theme-toggle{position:fixed;top:14px;right:18px;z-index:99999;padding:9px 14px;border:1px solid rgba(180,145,78,.55);border-radius:999px;background:rgba(12,10,18,.9);color:#f4d58e;font:600 11px Arial,sans-serif;letter-spacing:.04em;cursor:pointer;backdrop-filter:blur(12px);box-shadow:0 4px 18px rgba(0,0,0,.18)}' +
     'html[data-theme="light"] .ll-site-theme-toggle{background:rgba(255,252,244,.94);color:#49330c;border-color:rgba(122,88,32,.4)}' +
     '.ll-site-theme-toggle:hover{filter:brightness(1.08)}.ll-site-theme-toggle:focus-visible{outline:2px solid currentColor;outline-offset:3px}' +
