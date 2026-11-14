@@ -1,6 +1,8 @@
 (function () {
   'use strict';
 
+  var learningIntelligencePromise = import('./learning-intelligence.mjs').catch(function () { return null; });
+  var practiceRecommendationsPromise = import('./practice-recommendations.mjs').catch(function () { return null; });
   var STORAGE_KEY = 'limitless.competition.regional-qualification.v1';
   var DEFAULTS = {
     startDate: '2026-11-02',
@@ -15,7 +17,8 @@
     mocks: [],
     problemLog: [],
     weekChecks: {},
-    revisionChecks: {}
+    revisionChecks: {},
+    revisionAttempts: []
   };
 
   var SUBJECTS = [
@@ -259,6 +262,7 @@
       if (!merged.dayChecks || typeof merged.dayChecks !== 'object') merged.dayChecks = {};
       if (!Array.isArray(merged.mocks)) merged.mocks = [];
       if (!Array.isArray(merged.problemLog)) merged.problemLog = [];
+      if (!Array.isArray(merged.revisionAttempts)) merged.revisionAttempts = [];
       if (!merged.weekChecks || typeof merged.weekChecks !== 'object') merged.weekChecks = {};
       if (!merged.revisionChecks || typeof merged.revisionChecks !== 'object') merged.revisionChecks = {};
       // Migrate the old binary checklist conservatively: a checked topic becomes
@@ -678,53 +682,130 @@
   var DIFFICULTY_BANDS = [
     'Basic application','Multiple-concept application','Non-obvious observation','Mathematical derivation','Unseen competition-level'
   ];
-  function formatDateOffset(dateString, days) {
-    var date = new Date(dateString + 'T00:00:00Z');
-    if (!Number.isFinite(date.getTime())) return '';
-    date.setUTCDate(date.getUTCDate() + days);
-    return date.toISOString().slice(0,10);
+  function normalizeConceptKey(subject, concept) {
+    var normalized = String(concept || '').trim().toLowerCase()
+      .replace(/[^a-z0-9+#]+/g,' ').trim().replace(/\s+/g,' ');
+    if (!normalized) return '';
+    return String(subject || 'Other').trim().toLowerCase() + '|' + normalized;
   }
-  function revisionMilestones(problem) {
-    return [1,7,14,30].map(function(days){return {days:days,date:formatDateOffset(problem.date,days),key:problem.id+'-'+days};});
-  }
+  var learningRenderToken = 0;
   function renderLearningSystem() {
-    var today = new Date().toISOString().slice(0,10), due=[], upcoming=[];
-    state.problemLog.forEach(function(problem){
-      revisionMilestones(problem).forEach(function(item){
-        if(state.revisionChecks[item.key]) return;
-        if(item.date <= today) due.push({problem:problem,item:item});
-        else upcoming.push({problem:problem,item:item});
-      });
-    });
-    due.sort(function(a,b){return a.item.date.localeCompare(b.item.date);});
-    upcoming.sort(function(a,b){return a.item.date.localeCompare(b.item.date);});
-    var queue=due.slice(0,18).map(function(entry){
-      return '<label class="revision-item"><input type="checkbox" data-revision="'+esc(entry.item.key)+'"><span><strong>'+esc(entry.problem.name)+'</strong><small>'+esc(entry.problem.subject)+' · '+entry.item.days+'-day review · due '+entry.item.date+'</small></span></label>';
-    }).join('');
-    $('revision-queue').innerHTML=queue||'<p class="empty-state">No reviews due today. New problem logs automatically enter the 1, 7, 14 and 30-day revision cycle.</p>';
-    $('revision-summary').textContent=due.length+' due · '+upcoming.length+' scheduled';
-    $('revision-upcoming').textContent=upcoming.length?('Next review: '+upcoming[0].date+' — '+upcoming[0].problem.name):'No upcoming reviews';
-    $('revision-queue').querySelectorAll('[data-revision]').forEach(function(input){
-      input.addEventListener('change',function(){
-        if(input.checked) state.revisionChecks[input.dataset.revision]=true;
-        persist(); renderLearningSystem();
-      });
-    });
-
+    var token = ++learningRenderToken;
     var categories={};MISTAKE_TYPES.forEach(function(item){categories[item[0]]=0;});
-    var subjects={};
+    var subjects={},concepts={};
     state.problemLog.forEach(function(problem){
       if(problem.mistakeType && categories[problem.mistakeType]!==undefined)categories[problem.mistakeType]++;
-      var key=problem.subject||'Other';subjects[key]=(subjects[key]||0)+1;
+      var subject=String(problem.subject||'Other').trim()||'Other';
+      subjects[subject]=(subjects[subject]||0)+1;
+      var concept=String(problem.concept||'').trim();
+      var conceptKey=normalizeConceptKey(subject,concept);
+      if(conceptKey){
+        if(!concepts[conceptKey]) concepts[conceptKey]={label:concept,subject:subject,count:0};
+        concepts[conceptKey].count++;
+      }
     });
     var categoryRows=MISTAKE_TYPES.map(function(item){
       return '<div class="insight-row"><span>'+item[1]+'</span><strong>'+categories[item[0]]+'</strong></div>';
     }).join('');
+    var repeatedConcepts=Object.keys(concepts).map(function(key){return concepts[key];})
+      .filter(function(item){return item.count>1;})
+      .sort(function(a,b){return b.count-a.count;}).slice(0,3);
+    var conceptRows=repeatedConcepts.map(function(item){
+      return '<div class="insight-row"><span>'+esc(item.label)+' · '+esc(item.subject)+'</span><strong>'+item.count+' logs</strong></div>';
+    }).join('');
     var repeat=Object.keys(subjects).sort(function(a,b){return subjects[b]-subjects[a];})[0];
     var topMistake=MISTAKE_TYPES.slice().sort(function(a,b){return categories[b[0]]-categories[a[0]];})[0];
-    var repair=topMistake&&categories[topMistake[0]]>0?'Most frequent issue: '+topMistake[1]+'. Revisit the underlying topic and solve two fresh questions before increasing difficulty.':(repeat?'Most logged practice subject: '+repeat+'. Add mistake categories to identify the recurring cause.':'Log problems with a mistake category to identify recurring weaknesses.');
-    $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div><p class="repair-suggestion">'+esc(repair)+'</p>';
+    var repair=repeatedConcepts.length
+      ?'Recurring concept: '+repeatedConcepts[0].label+' ('+repeatedConcepts[0].count+' logs). Re-solve two problems using this concept without notes, then try one unfamiliar variation.'
+      :topMistake&&categories[topMistake[0]]>0
+        ?'Most frequent issue: '+topMistake[1]+'. Revisit the underlying topic and solve two fresh questions before increasing difficulty.'
+        :(repeat?'Most logged practice subject: '+repeat+'. Add underlying concepts to reveal repeated weak spots.':'Log problems with a mistake category and underlying concept to identify recurring weaknesses.');
+    $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+state.revisionAttempts.length+'</strong><small>revision attempts recorded</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div>'+(conceptRows?'<div class="mistake-breakdown"><h4>Repeated concepts</h4>'+conceptRows+'</div>':'')+'<p class="repair-suggestion">'+esc(repair)+'</p><div id="concept-learning-insights"></div>';
+    $('revision-queue').innerHTML='<p class="empty-state">Updating your revision schedule…</p>';
+    $('revision-summary').textContent='Calculating…';
+    $('revision-upcoming').textContent='Revision dates are based on recorded re-solve attempts.';
+    learningIntelligencePromise.then(function(api){
+      if(token!==learningRenderToken)return;
+      if(!api){
+        $('revision-queue').innerHTML='<p class="empty-state">Adaptive revision is temporarily unavailable. Your problem history remains saved.</p>';
+        $('revision-summary').textContent='Unavailable';
+        return;
+      }
+      var now=Date.now();
+      var analysis=api.analyzeCompetitionLearning(state.problemLog,state.revisionAttempts,now);
+      var byId={};
+      state.problemLog.forEach(function(problem){byId[String(problem.id)]=problem;});
+      var due=analysis.revision.filter(function(item){return item.dueAt<=now;});
+      var upcoming=analysis.revision.filter(function(item){return item.dueAt>now;})
+        .sort(function(a,b){return a.dueAt-b.dueAt;});
+      $('revision-summary').textContent=due.length+' due · '+upcoming.length+' scheduled';
+      $('revision-upcoming').textContent=upcoming.length
+        ?'Next review: '+new Date(upcoming[0].dueAt).toLocaleDateString()+' — '+(byId[upcoming[0].questionId]||{}).name
+        :'No future reviews scheduled';
+      $('revision-queue').innerHTML=due.length
+        ?(due.map(function(item){
+          var problem=byId[item.questionId];
+          if(!problem)return '';
+          return '<article class="revision-item"><div><strong>'+esc(problem.name)+'</strong><small>'+esc(problem.subject)+' · '+item.failures+' unsuccessful attempt(s) · '+(item.overdueDays?'overdue by '+item.overdueDays+' day(s)':'due now')+'</small></div><div class="revision-actions"><button type="button" class="action-button" data-revision-result="correct" data-problem-id="'+esc(problem.id)+'">Solved independently</button><button type="button" class="action-button secondary-button" data-revision-result="incorrect" data-problem-id="'+esc(problem.id)+'">Still stuck</button></div></article>';
+        }).join('')||'<p class="empty-state">No reviews due. Unresolved problems enter the queue after one day.</p>')
+        :'<p class="empty-state">No reviews due. Unresolved problems enter the queue after one day.</p>';
+      $('revision-queue').querySelectorAll('[data-revision-result]').forEach(function(button){
+        button.addEventListener('click',function(){
+          if (button.disabled) return;
+          button.disabled = true;
+          state.revisionAttempts.push({
+            id:'revision-'+String(Date.now())+'-'+Math.random().toString(36).slice(2,7),
+            problemId:button.dataset.problemId,
+            date:new Date().toISOString(),
+            outcome:button.dataset.revisionResult,
+            mistakeType:button.dataset.revisionResult === 'incorrect' ? (state.problemLog.find(function(problem){return problem.id === button.dataset.problemId;}) || {}).mistakeType || '' : ''
+          });
+          persist();
+          renderLearningSystem();
+        });
+      });
+    }).catch(function(){
+      if(token!==learningRenderToken)return;
+      $('revision-queue').innerHTML='<p class="empty-state">Could not calculate the adaptive revision schedule. Your saved problem history is safe.</p>';
+      $('revision-summary').textContent='Unavailable';
+    });
+    renderSharedConceptInsights();
   }
+  var sharedInsightRenderToken = 0;
+  function renderSharedConceptInsights() {
+    var host = $('concept-learning-insights');
+    if (!host) return;
+    var token = ++sharedInsightRenderToken;
+    Promise.all([learningIntelligencePromise, practiceRecommendationsPromise]).then(function (modules) {
+      var api = modules[0], practiceApi = modules[1];
+      if (!api || token !== sharedInsightRenderToken) return;
+      var analysis = api.analyzeCompetitionLearning(state.problemLog,state.revisionAttempts);
+      var masteryRows = analysis.mastery.slice(0, 6).map(function (item) {
+        var label = item.status === 'insufficient-data' ? 'Building baseline' :
+          item.status === 'developing' ? 'Developing' :
+          item.status === 'secure' ? 'Secure' : 'Mastered';
+        return '<div class="insight-row"><span>' + esc(item.label) + '<small>' +
+          item.attempts + ' attempts · ' + Math.round(item.accuracy * 100) +
+          '% weighted accuracy · ' + item.independentAttempts + ' independent</small></span><strong>' +
+          label + '</strong></div>';
+      }).join('');
+      var nextSteps = analysis.weakConcepts.slice(0, 3).map(function (item) {
+        var recommendations = practiceApi ? practiceApi.getPracticeRecommendations(item.subjectId, item.label) : {codeforces:[],cses:[]};
+        var links = recommendations.codeforces.concat(recommendations.cses).map(function (link) {
+          return '<a href="' + esc(link.url) + '" target="_blank" rel="noopener noreferrer">' + esc(link.label) + ' ↗</a>';
+        }).join(' · ');
+        return '<div class="concept-practice-row"><div class="insight-row"><span>' + esc(item.label) + '</span><strong>' +
+          (item.status === 'insufficient-data' ? 'Need more evidence' : 'Practise next') + '</strong></div>' +
+          (links ? '<div class="concept-practice-links">' + links + '</div>' : '') + '</div>';
+      }).join('');
+      if (token !== sharedInsightRenderToken) return;
+      host.innerHTML = '<div class="mistake-breakdown"><h4>Concept mastery</h4>' +
+        (masteryRows || '<p class="empty-state">Add an underlying concept when logging a problem to build concept-level mastery.</p>') +
+        '</div>' +
+        (nextSteps ? '<div class="mistake-breakdown"><h4>Suggested focus</h4>' + nextSteps + '</div>' : '');
+    });
+  }
+
   function renderMockAnalytics() {
     var tagged=state.mocks.filter(function(mock){return mock.subject && mock.subject!=='All subjects' && (Number(mock.oneMax)>0 || Number(mock.twoMax)>0);});
     var rows=SUBJECTS.map(function(subject){
@@ -869,8 +950,25 @@
       ' This projection assumes the mock cohort is representative; it is not a guaranteed selection result.</span>';
   }
 
+  var problemHistoryRenderToken = 0;
   function renderProblemHistory() {
-    var rows = state.problemLog.slice().reverse();
+    var token = ++problemHistoryRenderToken;
+    var query=String($('problem-search').value||'').trim().toLowerCase();
+    var subject=$('problem-filter-subject').value;
+    var outcome=$('problem-filter-outcome').value;
+    var band=$('problem-filter-band').value;
+    var allRows=state.problemLog.slice();
+    var rows = allRows.filter(function(problem){
+      if(subject!=='all'&&problem.subject!==subject)return false;
+      if(outcome!=='all'&&problem.outcome!==outcome)return false;
+      if(band!=='all'&&problem.challengeBand!==band)return false;
+      if(query){
+        var haystack=[problem.name,problem.subject,problem.difficulty,problem.challengeBand,problem.concept,problem.observation,problem.missed,problem.approach].join(' ').toLowerCase();
+        if(haystack.indexOf(query)===-1)return false;
+      }
+      return true;
+    }).reverse();
+    $('problem-catalogue-count').textContent='Showing '+rows.length+' of '+allRows.length+' logged problems';
     $('problem-history').innerHTML = rows.length ? rows.map(function (problem) {
       return '<article class="problem-entry" data-result="' + esc(problem.outcome || 'unknown') + '"><div class="problem-entry-head"><strong>' + esc(problem.name) + '</strong><span>' + esc(problem.subject) + '</span><small>' + esc(problem.date) + '</small><button type="button" data-delete-problem="' + esc(problem.id) + '">Remove</button></div>' +
         (problem.difficulty ? '<p><b>Source difficulty:</b> ' + esc(problem.difficulty) + '</p>' : '') +
@@ -883,9 +981,35 @@
         (problem.approach ? '<p><b>Solution reasoning:</b> ' + esc(problem.approach) + '</p>' : '') +
         '<p><b>Independent re-solve:</b> ' + (problem.resolve === 'yes' ? 'Yes' : problem.resolve === 'no' ? 'Not yet' : 'Not tested') + '</p></article>';
     }).join('') : '<p class="empty-state">No problem reviews recorded yet.</p>';
+    practiceRecommendationsPromise.then(function (practiceApi) {
+      if (!practiceApi || token !== problemHistoryRenderToken) return;
+      $('problem-history').querySelectorAll('.problem-entry').forEach(function (entry, index) {
+        var problem = rows[index];
+        if (!problem) return;
+        var recommendations = practiceApi.getPracticeRecommendations(problem.subject, problem.concept);
+        var links = recommendations.codeforces.concat(recommendations.cses);
+        if (!links.length) return;
+        var section = document.createElement('div');
+        section.className = 'problem-practice-links';
+        var heading = document.createElement('b');
+        heading.textContent = 'Targeted practice: ';
+        section.appendChild(heading);
+        links.forEach(function (item, linkIndex) {
+          if (linkIndex) section.appendChild(document.createTextNode(' · '));
+          var anchor = document.createElement('a');
+          anchor.href = item.url;
+          anchor.target = '_blank';
+          anchor.rel = 'noopener noreferrer';
+          anchor.textContent = item.label + ' ↗';
+          section.appendChild(anchor);
+        });
+        entry.appendChild(section);
+      });
+    });
     $('problem-history').querySelectorAll('[data-delete-problem]').forEach(function (button) {
       button.addEventListener('click', function () {
         state.problemLog = state.problemLog.filter(function (problem) { return problem.id !== button.dataset.deleteProblem; });
+        state.revisionAttempts = state.revisionAttempts.filter(function (attempt) { return attempt.problemId !== button.dataset.deleteProblem; });
         saveAndRender();
       });
     });
@@ -968,6 +1092,9 @@
     }
     renderSafety();
     renderProblemHistory();
+    ['problem-search','problem-filter-subject','problem-filter-outcome','problem-filter-band'].forEach(function(id){
+      $(id).addEventListener(id==='problem-search'?'input':'change',renderProblemHistory);
+    });
     renderMockHistory();
     renderMockAnalytics();
     renderLearningSystem();
@@ -1050,7 +1177,16 @@
       reader.onload = function () {
         try {
           var parsed = JSON.parse(reader.result), incoming = parsed.data || parsed;
-          if (!incoming || typeof incoming !== 'object' || (!incoming.mastery && !incoming.completed) || !Array.isArray(incoming.mocks)) throw new Error('Invalid backup');
+          function isRecord(value) {
+            return !!value && typeof value === 'object' && !Array.isArray(value);
+          }
+          if (!isRecord(incoming) || (!isRecord(incoming.mastery) && !isRecord(incoming.completed)) || !Array.isArray(incoming.mocks)) throw new Error('Invalid backup');
+          ['mastery','completed','dayChecks','weekChecks','revisionChecks'].forEach(function(key){
+            if (incoming[key] !== undefined && !isRecord(incoming[key])) throw new Error('Invalid backup');
+          });
+          if (incoming.problemLog !== undefined && (!Array.isArray(incoming.problemLog) || incoming.problemLog.some(function(item){return !isRecord(item);})) ) throw new Error('Invalid backup');
+          if (incoming.revisionAttempts !== undefined && (!Array.isArray(incoming.revisionAttempts) || incoming.revisionAttempts.some(function(item){return !isRecord(item) || typeof item.id !== 'string' || !item.id || typeof item.problemId !== 'string' || !item.problemId || typeof item.date !== 'string' || !Number.isFinite(Date.parse(item.date)) || ['correct','incorrect'].indexOf(item.outcome)===-1;}))) throw new Error('Invalid backup');
+          if (incoming.mocks.some(function(item){return !isRecord(item) || typeof item.date !== 'string';})) throw new Error('Invalid backup');
           if (!incoming.mastery && incoming.completed) {
             incoming.mastery = {};
             Object.keys(incoming.completed).forEach(function (key) {
