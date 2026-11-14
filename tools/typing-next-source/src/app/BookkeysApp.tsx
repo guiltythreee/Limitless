@@ -626,14 +626,24 @@ export default function BookkeysApp() {
       .replace(/[—–]/g, "-")
       .replace(/…/g, "...");
   }, [book, pageIndex, settings.punct]);
-  const readerCharacters = useMemo(() => {
+  const readerBlocks = useMemo(() => {
     let offset = 0;
-    return Array.from(target, (character) => {
-      const index = offset;
-      offset += character.length;
-      return { character, index };
+    const blocks = book?.sections[pageIndex] ?? [];
+    return blocks.map((block, blockIndex) => {
+      let text = block.text;
+      if (book?.format === "pdf" && settings.punct === "simplify") {
+        text = text.replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/[—–]/g, "-").replace(/…/g, "...");
+      }
+      const characters = Array.from(text, (character) => {
+        const index = offset;
+        offset += character.length;
+        return { character, index };
+      });
+      const newline = blockIndex < blocks.length - 1 ? { index: offset } : null;
+      if (newline) offset += 1;
+      return { type: block.t, characters, newline };
     });
-  }, [target]);
+  }, [book, pageIndex, settings.punct]);
 
   useEffect(() => {
     const article = sourceTextRef.current;
@@ -1500,20 +1510,31 @@ export default function BookkeysApp() {
                   };
                   return color ? { color } : undefined;
                 })()}
-              >{readerCharacters.map(({ character, index }) => {
-                const entered = typed.length > index;
-                const correct = entered && typed.slice(index, index + character.length) === character;
-                const wrong = entered && !correct;
-                const animated = correct && settings.tfx !== "none" && character !== " " && character !== "\n";
-                return (
-                  <span
-                    key={index}
-                    data-char-index={index}
-                    data-char-end-index={index + character.length}
-                    className={"bk-char c" + (character === "\n" ? " nl" : "") + (correct ? " ok" : "") + (wrong ? " bad" : "") + (animated ? " fx" : "")}
-                  >{character}</span>
-                );
-              })}<div ref={caretRef} className="bk-reader-caret" aria-hidden="true" /></article>
+              >{readerBlocks.map((block, blockIndex) => (
+                <div key={blockIndex} className={"bk-text-block" + (block.type === "h" ? " bk-text-heading" : "")}>
+                  {block.characters.map(({ character, index }) => {
+                    const entered = typed.length > index;
+                    const correct = entered && typed.slice(index, index + character.length) === character;
+                    const wrong = entered && !correct;
+                    const animated = correct && settings.tfx !== "none" && character !== " " && character !== "\n";
+                    return (
+                      <span
+                        key={index}
+                        data-char-index={index}
+                        data-char-end-index={index + character.length}
+                        className={"bk-char c" + (correct ? " ok" : "") + (wrong ? " bad" : "") + (animated ? " fx" : "")}
+                      >{character}</span>
+                    );
+                  })}
+                  {block.newline && (
+                    <span
+                      data-char-index={block.newline.index}
+                      data-char-end-index={block.newline.index + 1}
+                      className={"bk-char c nl" + (typed.length > block.newline.index ? " ok" : "")}
+                    >{"\n"}</span>
+                  )}
+                </div>
+              ))<div ref={caretRef} className="bk-reader-caret" aria-hidden="true" /></article>
               <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
               <textarea
                 id="bk-typing"
