@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { adaptMT203Question } from "../adapters/mt203.mjs";
 import { validateQuestion } from "../core/validate.mjs";
+import { getProfile } from "../index.mjs";
 
 const topic = { id: "t1", module: "m1" };
 const source = {
@@ -26,7 +27,7 @@ const expectedFormats = {
   higher: "single-choice",
   numerical: "numerical",
   assertreason: "assertion-reason",
-  statement: "single-choice",
+  statement: "statement-selection",
   match: "match",
   sequence: "sequence",
   graph: "graph-data",
