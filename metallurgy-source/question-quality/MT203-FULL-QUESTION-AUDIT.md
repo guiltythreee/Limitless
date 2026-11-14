@@ -241,3 +241,22 @@ The supplied file **MT203 – PST 2026.ppt** was inspected in full (3,272 extrac
 - **T5-03:** no reference enthalpy for 100%-crystalline PET and no value of 140 J/g.
 
 These five are therefore **not verifiable from the supplied lecture deck**. Their status remains SOURCE CHECK; do not treat the lecture deck as evidence for the exact claims. They require a cited textbook/reference or a clarification from the course instructor before final approval. The general lecture coverage was not used to silently supply missing numerical or historical details.
+## Follow-on wording and explanation pass — 15 November 2026
+
+Additional revisions have been applied across the existing question records, without changing their IDs or topic organization. The pass covered:
+
+- **Topic 1:** polyethylene addition-bond wording; LDPE packing explanation; PVA assertion–reason explanation; DP definition; branching versus network cross-linking; architecture statement distractors; alternating versus random sequence; polyurethane-specific example for property tailoring.
+- **Topic 2:** chain-transfer sequence, radical-polymerization distractors, caprolactam product distractors, schematic curve qualification, ionic-polymerization statement combinations, Carothers numerical distractors and metallocene explanation.
+- **Topic 3:** technique matching and suspension/emulsion distinctions; emulsion compartmentalization caveat; industrial technique/product mapping; living-anionic process assumptions; chain-transfer rate qualification.
+- **Topic 4:** number-average sensitivity and oligomer blend arithmetic, statement-combination explanations, SEC calibration and light-scattering limitations.
+- **Topic 5:** crystallization requirements, nucleating-agent caveats, typical transparency trends and all statement-combination distractors.
+- **Topic 6:** Tg/Tm distinction, service-temperature/creep selection, semi-crystalline behaviour above Tg, empirical Tg estimate caveat, random-copolymer Tg qualification, heat-setting and transparency qualification, DMA Tg criterion.
+- **Topic 7:** permanent-wave chemistry and collagen denaturation explanation.
+- **Topic 8:** styrenic toughness ranking, PTFE melt-viscosity terminology, silicone chemical-resistance wording, EVOH moisture sensitivity, PMMA weathering explanation and ABS/HIPS grade dependence.
+- **Topic 9:** local versus global blend stability, PVC stabilizer mechanisms, Flory–Huggins model assumptions and multilayer PET/EVOH design requirements.
+- **Topic 10:** Burgers model creep description, Deborah-number interpretation, WLF/Arrhenius range assumptions, solubility-parameter limitations and molecular-weight/toughness qualification.
+- **Topic 11:** internal/external lubricant distinction, PET stretch-blow morphology and grade-specific moisture targets.
+
+Some items listed as REVISE in the original audit already contained the requested qualification in the current source and were retained rather than rewritten unnecessarily. The five source-dependent claims remain unverified from the supplied lecture deck and are still pending a cited reference.
+
+**Still outstanding:** execute the updated quality test suite in a repository runtime; finish any remaining explanation/distractor gaps after reviewing the latest source records; resolve the five source checks with reliable citations. The branch has not been merged or deployed.
