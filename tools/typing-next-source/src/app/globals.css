@@ -69,6 +69,13 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .bk-quiet:hover:not(:disabled) { background: #262130; }
 .bk-hidden { display: none; }
 .bk-book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-top: 28px; }
+.bk-book-card { min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+.bk-book-card .bk-book { width: 100%; flex: 1; }
+.bk-book-card-actions { display: flex; gap: 7px; align-items: center; }
+.bk-book-card-actions select { min-width: 0; flex: 1; height: 32px; padding: 0 8px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 4px; }
+.bk-book-author { color: #b9afbf; font-size: 12px; }
+.bk-book-progress { display: block; width: 100%; height: 4px; overflow: hidden; background: #393342; border-radius: 99px; }
+.bk-book-progress i { display: block; height: 100%; background: var(--accent, #d2ae5c); border-radius: inherit; }
 .bk-book { min-height: 145px; padding: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; color: #f4ead6; background: #17141f; border: 1px solid #383242; border-radius: 4px; }
 .bk-book:hover:not(:disabled) { border-color: #c3a568; background: #1d1927; }
 .bk-book-format { color: #d8b978; font-size: 10px; font-weight: 700; letter-spacing: .16em; }
@@ -151,6 +158,8 @@ html[data-theme="light"] .bk-book { color: #211d19; background: #faf7f0; border-
 html[data-theme="light"] .bk-book:hover:not(:disabled) { background: #f2eadb; border-color: #b99b68; }
 html[data-theme="light"] .bk-book-format { color: #8a652d; }
 html[data-theme="light"] .bk-book span:last-child { color: #746d63; }
+html[data-theme="light"] .bk-book-author { color: #746d63; }
+html[data-theme="light"] .bk-book-progress { background: #ddd5c8; }
 html[data-theme="light"] .bk-empty { border-color: #cfc5b5; color: #746d63; }
 html[data-theme="light"] .bk-empty strong { color: #30281d; }
 html[data-theme="light"] .bk-reader-top { border-color: #d8d0c3; }
