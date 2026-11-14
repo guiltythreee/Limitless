@@ -355,3 +355,10 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 .revision-actions .secondary-button:hover{border-color:var(--comp-accent);color:var(--comp-accent)}
 @media(max-width:850px){.problem-catalogue-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.problem-catalogue-controls{grid-template-columns:1fr}.problem-catalogue-controls p{grid-column:auto}.revision-item{align-items:flex-start;flex-direction:column}.revision-actions{width:100%}.revision-actions button{flex:1}}
+
+
+/* Targeted external practice links are secondary to the saved learning record. */
+.concept-practice-row{padding:5px 0;border-bottom:1px solid var(--comp-border)}
+.concept-practice-links,.problem-practice-links{display:flex;flex-wrap:wrap;gap:5px 10px;margin:5px 0 2px;color:var(--comp-muted);font:10px/1.5 Arial,sans-serif}
+.concept-practice-links a,.problem-practice-links a{color:var(--comp-accent);text-decoration:underline;text-underline-offset:2px}
+.concept-practice-links a:hover,.problem-practice-links a:hover{color:var(--comp-ink)}
