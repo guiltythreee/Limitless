@@ -94,6 +94,7 @@ interface ReaderBook {
   readonly title: string;
   readonly author: string;
   readonly fingerprint: string;
+  readonly coverDataUrl?: string;
   readonly sections: EpubBlock[][];
   readonly chapters: BookkeysChapter[];
 }
@@ -297,6 +298,7 @@ async function parseBook(
       title: result.title || fallbackTitle,
       author: result.author,
       fingerprint: result.hash,
+      ...(result.coverDataUrl ? { coverDataUrl: result.coverDataUrl } : {}),
       sections: result.sections,
       chapters: tidyChapters(withRequirements(result.chapters), result.sections.length),
     };
@@ -350,6 +352,8 @@ export default function BookkeysApp() {
   const [themeReady, setThemeReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [chaptersOpen, setChaptersOpen] = useState(false);
+  const [editingChapterIndex, setEditingChapterIndex] = useState<number | null>(null);
+  const [editingChapterTitle, setEditingChapterTitle] = useState("");
   const [pasteOpen, setPasteOpen] = useState(false);
   const [pasteText, setPasteText] = useState("");
   const [globalExp, setGlobalExp] = useState(0);
@@ -807,7 +811,7 @@ export default function BookkeysApp() {
       const savedBook = readGame().book?.[parsed.bookKey];
       setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
       setPageIndex(savedPage);
-      await database.putBook({ ...entry, opened: Date.now() }, file);
+      await database.putBook({ ...entry, cover: entry.cover || safeArtworkDataUrl(parsed.coverDataUrl) || "", opened: Date.now() }, file);
       setLibrary((await database.listMetadata()).sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
       setStatus("Book opened. Your typing drafts are saved in this browser.");
     } catch (error) {
@@ -865,7 +869,7 @@ export default function BookkeysApp() {
           pages: parsed.sections.length,
           added: existing?.added ?? Date.now(),
           fp: parsed.fingerprint,
-          cover: existing?.cover ?? "",
+          cover: safeArtworkDataUrl(parsed.coverDataUrl) ?? safeArtworkDataUrl(existing?.cover) ?? "",
           ...(format !== "pdf" ? { fmt: format } : {}),
           ...(parsed.author ? { author: parsed.author } : {}),
         };
@@ -1239,13 +1243,21 @@ export default function BookkeysApp() {
     setStatus("Chapter removed. Reading progress was retained.");
   }
 
-  function renameChapter(index: number) {
-    if (!book) return;
-    const chapter = book.chapters[index];
+  function beginRenameChapter(index: number) {
+    const chapter = book?.chapters[index];
     if (!chapter) return;
-    const title = window.prompt("Rename chapter", chapter.title);
-    if (title === null) return;
-    const cleaned = title.trim().slice(0, 80);
+    setEditingChapterIndex(index);
+    setEditingChapterTitle(chapter.title);
+  }
+
+  function cancelRenameChapter() {
+    setEditingChapterIndex(null);
+    setEditingChapterTitle("");
+  }
+
+  function saveRenamedChapter(index: number) {
+    if (!book || editingChapterIndex !== index) return;
+    const cleaned = editingChapterTitle.trim().slice(0, 80);
     if (!cleaned) {
       setStatus("Chapter names cannot be empty.");
       return;
@@ -1253,6 +1265,7 @@ export default function BookkeysApp() {
     saveChapters(book.chapters.map((item, itemIndex) =>
       itemIndex === index ? { ...item, title: cleaned } : item,
     ));
+    cancelRenameChapter();
     setStatus("Chapter renamed.");
   }
 
@@ -1583,6 +1596,9 @@ export default function BookkeysApp() {
                 return (
                   <div className="bk-book-card" key={entry.id}>
                     <button className="bk-book" onClick={() => void loadEntry(entry)} disabled={busy}>
+                      {safeArtworkDataUrl(entry.cover) && (
+                        <img className="bk-book-cover" src={safeArtworkDataUrl(entry.cover)} alt="" loading="lazy" decoding="async" />
+                      )}
                       <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
                       <strong>{entry.name}</strong>
                       {entry.author && <span className="bk-book-author">{entry.author}</span>}
@@ -1652,17 +1668,37 @@ export default function BookkeysApp() {
             <div className="bk-chapter-list">
               {book.chapters.map((chapter, index) => (
                 <div className="bk-chapter-row" key={chapter.p + ":" + index}>
-                  <span>{chapter.title}</span>
+                  {editingChapterIndex === index ? (
+                    <div className="bk-chapter-inline-edit">
+                      <input
+                        autoFocus
+                        aria-label={"Chapter title " + (index + 1)}
+                        value={editingChapterTitle}
+                        maxLength={80}
+                        onChange={(event) => setEditingChapterTitle(event.currentTarget.value)}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter") { event.preventDefault(); saveRenamedChapter(index); }
+                          if (event.key === "Escape") { event.preventDefault(); cancelRenameChapter(); }
+                        }}
+                      />
+                      <button className="bk-quiet" onClick={() => saveRenamedChapter(index)} disabled={busy}>Save</button>
+                      <button className="bk-quiet" onClick={cancelRenameChapter} disabled={busy}>Cancel</button>
+                    </div>
+                  ) : (
+                    <span>{chapter.title}</span>
+                  )}
                   <div className="bk-chapter-row-actions">
                     <button className="bk-quiet" onClick={() => goToChapter(index)} disabled={busy || pageIndex === chapter.p} aria-label={"Go to " + chapter.title}>Go</button>
                     <button
                       className={chapter.req ? "bk-required" : "bk-optional"}
                       aria-pressed={chapter.req}
                       onClick={() => toggleChapterRequirement(index)}
-                      disabled={busy}
+                      disabled={busy || editingChapterIndex === index}
                     >{chapter.req ? "Required" : "Optional"}</button>
-                    <button className="bk-quiet" onClick={() => renameChapter(index)} aria-label={"Rename " + chapter.title} disabled={busy}>Rename</button>
-                    <button className="bk-quiet" onClick={() => removeChapter(index)} aria-label={"Remove " + chapter.title} disabled={busy}>Remove</button>
+                    {editingChapterIndex !== index && (
+                      <button className="bk-quiet" onClick={() => beginRenameChapter(index)} aria-label={"Rename " + chapter.title} disabled={busy}>Rename</button>
+                    )}
+                    <button className="bk-quiet" onClick={() => removeChapter(index)} aria-label={"Remove " + chapter.title} disabled={busy || editingChapterIndex === index}>Remove</button>
                   </div>
                 </div>
               ))}
