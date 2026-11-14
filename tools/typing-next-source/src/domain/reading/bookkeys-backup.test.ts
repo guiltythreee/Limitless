@@ -340,6 +340,28 @@ test("first-time game restore sanitizes malformed backup completion counters", (
 });
 
 
+test("first-time restore preserves legacy game records that do not contain a book field", () => {
+  const storage = new MemoryStorage();
+  const legacyGame = {
+    xp: 240,
+    pages: 12,
+    streak: 3,
+    customLegacyField: { retained: true },
+  };
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: { "bookkeys:game": JSON.stringify(legacyGame) },
+  }));
+
+  restoreBookkeysBackup(storage, backup, "merge");
+
+  assert.deepEqual(JSON.parse(storage.getItem("bookkeys:game") ?? "{}"), legacyGame);
+  assert.equal(Object.prototype.hasOwnProperty.call(
+    JSON.parse(storage.getItem("bookkeys:game") ?? "{}"), "book",
+  ), false);
+});
+
+
 test("replace rollback frees newly added keys before restoring old values under quota pressure", () => {
   class QuotaStorage extends MemoryStorage {
     readonly quota = 12;
