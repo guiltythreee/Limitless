@@ -13,11 +13,11 @@ Two Bookkeys migration tracks exist and must remain distinguishable:
 
 The TypeScript/React reader is an isolated migration implementation. It is not the production reader and is not wired into the live /tools/typing/ route.
 
-- Active migration branch: work/bookkeys-typescript-mainline-20261107
-- Current validation overlay: work/bookkeys-ime-compatibility-20261107 (PR #144)
-- Preservation-first extraction scaffold: work/bookkeys-migration-rebased-20261107 (PR #111)
-- The migration branch was reconciled with the latest main deployment workflow and is kept additive.
-- Production tools/typing/index.html and tools/typing/bookkeys.html are unchanged.
+- Active current-main reconciliation branch: `work/bookkeys-current-main-reconciliation-20261114` (draft PR #166).
+- PR #166 starts directly from current `main` at `f37f99f` and selectively imports the Bookkeys migration files; it does not merge the stale histories of PR #111 or PR #144.
+- PR #144's advanced migration and IME work, PR #111's preservation-first extraction scaffold, and all `backup/bookkeys-*` recovery branches remain intact.
+- The current preview is isolated at `/tools/typing-next-preview/`.
+- Production `tools/typing/index.html` and `tools/typing/bookkeys.html` are unchanged.
 
 ## Reconciliation warning against current main
 
@@ -33,13 +33,13 @@ These branches were built from an earlier repository checkpoint. The earlier not
 
 ## Verified in CI
 
-The latest successful workflow run [42379353637](https://github.com/guiltythreee/Limitless/actions/runs/42379353637) includes:
+The latest successful current-main workflow run [43616767485](https://github.com/guiltythreee/Limitless/actions/runs/43616767485) includes:
 
 - 107 TypeScript tests covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, shelves and reward logic.
 - The current 98-test legacy suite in tools/typing/tests is also rerun in CI against the preserved standalone HTML implementation. The archived 91-test baseline and current 98/98 result are recorded in tools/typing/BOOKKEYS_TEST_BASELINE.md.
 - TypeScript type-check.
 - Next.js static production build.
-- 14 Playwright browser regressions:
+- 18 Playwright browser regressions:
   1. Import an EPUB, type a page, persist progress and reward records, reload, reopen, export a backup, import it into a fresh browser context and restore settings.
   2. Import a PDF, extract readable text and complete a page.
   3. Switch themes and change reader settings, then verify persistence after reload.
@@ -54,8 +54,12 @@ The latest successful workflow run [42379353637](https://github.com/guiltythreee
   12. Paste plain text, create a local TXT-backed book, type a page, reload and restore its draft/progress.
   13. Open the Akashic Archive and verify existing achievement timestamps and saved records remain unchanged.
   14. Simulate IME composition start, intermediate composing input, composition end and a possible final input event; verify the committed character is counted once, saved in the draft, and does not prematurely write page progress.
+  15. Verify the original 22 procedural canvas scenes, the visual background tile catalogue, and the three photo backgrounds with both desktop and portrait crops.
+  16. Verify Time of Day switching, reduced-motion behaviour, photo text-backdrop minimum, and background control persistence.
+  17. Verify the legacy `bgdef1`/`bgdef2` migrations run once, preserve the expected photo/veil defaults and do not replay over later user choices.
+  18. Verify the custom artwork remains applied to the reader text surface after reload.
 
-PDF, EPUB and plain-text/TXT imports are supported, including a paste-text workflow that stores text as a local TXT-backed book. Existing Gothic and Garden artwork data is read from the original IndexedDB keys and can be selected as the reader background; the exact `bgdef1`/`bgdef2` mapping and artwork upload controls remain open. The reader now offers 24 scene presets, three original photo presets with desktop/mobile crops and 13 reduced-motion-aware CSS scene animations. The original reader's exact 34 settings fields and defaults have now been extracted from the preserved source; the current React settings UI still exposes only a subset. It supports local Gothic/Garden artwork upload/removal; uploaded images are validated, resized to at most 1600 × 900 and stored in the existing IndexedDB artwork keys. Original procedural canvas effects and the legacy backdrop/veil/blur/palette controls remain incomplete. The library also displays persisted Bookkeys page, chapter, book, word and character counters. The Akashic Archive now updates core counters only after eligible typing: words, characters, pages, daily and consecutive-day streaks, session bests, WPM/accuracy records, perfect pages, consecutive accuracy runs, flawless chapters and 100-page-book milestones. New achievement timestamps are written only when a user crosses a threshold; existing records are preserved and old thresholds are not backfilled. Typing accuracy now tracks key events rather than only the final text: inserted characters count, deletions do not, and retyped characters count again. Drafts retain those counters, and multi-character paste/drop input is blocked. Synthetic IME composition lifecycle is now covered by a passing browser regression. Real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard acceptance remain open. A populated IndexedDB v1 fixture is now opened in-browser without a version upgrade; actual user libraries still require a backup-first manual acceptance run. The Bookkeys header displays global Limitless EXP from the canonical LSR-1 source registry, including awards from other disciplines and updates from other tabs. Legacy `bookkeys:game.xp` is retained for data compatibility but is never counted as global EXP. The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical shared/rewards.mjs implementation.
+PDF, EPUB and plain-text/TXT imports are supported, including a paste-text workflow that stores text as a local TXT-backed book. Existing Gothic and Garden artwork data is read from the original IndexedDB keys; uploaded images are validated, resized to at most 1600 × 900 and stored in those same keys. The original 22 procedural canvas scene definitions are restored, along with the 27-entry original background tile catalogue, three photographic scenes with desktop/portrait crops, Time of Day mode, density/animation controls, backdrop/veil/blur controls and the exact one-time `bgdef1`/`bgdef2` migrations. Photo backgrounds retain a minimum 70% reader text backdrop. The original 34 settings fields and defaults remain lossless, including unknown extension fields. The current settings navigation is still a reduced Appearance/Data interface; the original six tabs (Theme, Background, Font, Typing, Cursor and Data), background-matched palettes, full typography controls, typing effects/sound and cursor controls remain to be restored. The library also displays persisted Bookkeys page, chapter, book, word and character counters. The Akashic Archive now updates core counters only after eligible typing: words, characters, pages, daily and consecutive-day streaks, session bests, WPM/accuracy records, perfect pages, consecutive accuracy runs, flawless chapters and 100-page-book milestones. New achievement timestamps are written only when a user crosses a threshold; existing records are preserved and old thresholds are not backfilled. Typing accuracy now tracks key events rather than only the final text: inserted characters count, deletions do not, and retyped characters count again. Drafts retain those counters, and multi-character paste/drop input is blocked. Synthetic IME composition lifecycle is now covered by a passing browser regression. Real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard acceptance remain open. A populated IndexedDB v1 fixture is now opened in-browser without a version upgrade; actual user libraries still require a backup-first manual acceptance run. The Bookkeys header displays global Limitless EXP from the canonical LSR-1 source registry, including awards from other disciplines and updates from other tabs. Legacy `bookkeys:game.xp` is retained for data compatibility but is never counted as global EXP. The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical shared/rewards.mjs implementation.
 
 ## Safety and data compatibility
 
@@ -70,12 +74,12 @@ PDF, EPUB and plain-text/TXT imports are supported, including a paste-text workf
 
 ## Remaining acceptance gates
 
-- Match the remaining original canvas scene effects and legacy backdrop/veil/blur/palette controls.
+- Restore the original six-tab settings navigation and implement the exact Theme/accent/background palette matching, Font, Typing and Cursor controls; do not expose controls that do not work.
 - Verify real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard behaviour against the legacy reader; synthetic composition lifecycle automation now passes.
 - Complete a side-by-side inventory of every legacy Bookkeys screen, action, setting and keyboard interaction; port anything not represented in the new reader.
 - Test representative real-world PDFs and EPUBs, including long books, unusual chapter structures, malformed files and scanned/image-only PDFs.
 - Verify opening representative real user IndexedDB libraries and existing backup files without data loss.
 - Test on real mobile browsers, not only a desktop Chromium viewport.
-- Deploy a separate preview route and complete manual acceptance before considering production cutover.
+- Complete manual acceptance in the isolated preview before considering production cutover.
 
 A successful build and the automated tests are necessary, but do not by themselves authorize replacing the standalone production reader.
