@@ -323,7 +323,7 @@ test("first-time game restore sanitizes malformed backup completion counters", (
       "bookkeys:game": JSON.stringify({
         xp: 10,
         book: {
-          "new-book": { p: [0], e: [], c: [], x: [], done: "Infinity" },
+          "new-book": { p: [0, -1, 1.5, "2", 9007199254740992], e: "invalid", c: [2], x: [3], done: "Infinity" },
         },
       }),
     },
@@ -333,6 +333,10 @@ test("first-time game restore sanitizes malformed backup completion counters", (
 
   const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
   assert.equal(game.book["new-book"].done, 0);
+  assert.deepEqual(game.book["new-book"].p, [0]);
+  assert.deepEqual(game.book["new-book"].e, []);
+  assert.deepEqual(game.book["new-book"].c, [2]);
+  assert.deepEqual(game.book["new-book"].x, [3]);
 });
 
 
@@ -368,4 +372,30 @@ test("replace rollback frees newly added keys before restoring old values under 
   assert.equal(storage.getItem("bookkeys:obsolete"), "x");
   assert.equal(storage.getItem("bookkeys:new-a"), null);
   assert.equal(storage.getItem("bookkeys:new-b"), null);
+});
+
+
+test("merge sanitizes progress arrays in backup-only and local-only books", () => {
+  const storage = new MemoryStorage();
+  storage.setItem("bookkeys:game", JSON.stringify({
+    book: {
+      "local-only": { p: "bad", e: [-1, 0, 1.5], c: [2], x: null, done: -3 },
+    },
+  }));
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:game": JSON.stringify({
+        book: {
+          "backup-only": { p: [0, -1], e: [1], c: "bad", x: [2.5, 3], done: 2 },
+        },
+      }),
+    },
+  }));
+
+  restoreBookkeysBackup(storage, backup, "merge");
+
+  const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
+  assert.deepEqual(game.book["local-only"], { p: [], e: [0], c: [2], x: [], done: 0 });
+  assert.deepEqual(game.book["backup-only"], { p: [0], e: [1], c: [], x: [3], done: 2 });
 });
