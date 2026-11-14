@@ -1096,7 +1096,7 @@ test("all selectable reader fonts load from embedded offline font faces", async 
 });
 
 
-test("progress-only backup import preserves the site-wide theme override", async ({ page }) => {
+test("backup without valid appearance choices preserves the site-wide theme override", async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem("limitless.typing.v1.theme", "dark");
     localStorage.setItem("limitless.typing.v1.themeOverride", "1");
@@ -1110,7 +1110,10 @@ test("progress-only backup import preserves the site-wide theme override", async
     buffer: Buffer.from(JSON.stringify({
       app: "bookkeys",
       v: 1,
-      keys: { "bookkeys:game": JSON.stringify({ xp: 25, book: {} }) },
+      keys: {
+        "bookkeys:game": JSON.stringify({ xp: 25, book: {} }),
+        "bookkeys:settings": JSON.stringify({ size: 22, lineH: 1.8, skin: null, bgMatch: "false" }),
+      },
     })),
   });
 
