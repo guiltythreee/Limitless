@@ -4,7 +4,7 @@
  */
 export type QuestionFormat =
   | "single-choice" | "multiple-choice" | "assertion-reason" | "numerical"
-  | "match" | "true-false" | "graph-data" | "short-answer" | "proof";
+  | "match" | "sequence" | "true-false" | "graph-data" | "short-answer" | "proof";
 
 export type Severity = "error" | "warning" | "review";
 
