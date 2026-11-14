@@ -746,6 +746,10 @@ test("reader preserves the original canvas scenes, photo crops, Time of Day and 
   await page.getByRole("button", { name: "Settings" }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   const backgrounds = dialog.getByLabel("Reader background");
+  const backgroundTiles = dialog.getByRole("group", { name: "Background choices" });
+  await expect(backgroundTiles.getByRole("button")).toHaveCount(29);
+  await backgroundTiles.getByRole("button", { name: "Night Sky" }).click();
+  await expect(backgrounds).toHaveValue("night");
   const originalCanvasScenes = [
     "night", "snow", "aurora", "rain", "digital", "underwater", "shafts",
     "candle", "hearth", "crt", "warp", "nebula", "fireflies", "synthwave",
