@@ -860,3 +860,33 @@ export function createBookkeysBackgroundEngine(canvas) {
     },
   };
 }
+
+export const BOOKKEYS_BACKGROUND_CATALOG = [
+    { id: "none", name: "No Background", thumb: "var(--panel)" },
+    { id: "tod", name: "Time of Day (automatic)", thumb: "linear-gradient(90deg,var(--tod1) 33%,var(--tod2) 33% 66%,var(--tod3) 66%)" },
+    { id: "pic-morning", name: "Morning (picture)", thumb: "var(--thumb-pic-morning) center / cover" },
+    { id: "pic-evening", name: "Evening (picture)", thumb: "var(--thumb-pic-evening) center / cover" },
+    { id: "pic-night", name: "Night (picture)", thumb: "var(--thumb-pic-night) center / cover" },
+    { id: "night", name: "Night Sky", thumb: "linear-gradient(#04081a,#1d2c57)" },
+    { id: "snow", name: "Snow", thumb: "linear-gradient(#0a1422,#2a4160)" },
+    { id: "aurora", name: "Aurora", thumb: "linear-gradient(#04122a,#1fa57a 70%,#7b6bff)" },
+    { id: "rain", name: "Rain", thumb: "linear-gradient(#080e15,#33475a)" },
+    { id: "digital", name: "Digital Rain", thumb: "linear-gradient(#000a05,#0f6b34)" },
+    { id: "underwater", name: "Underwater", thumb: "linear-gradient(#0c7ea6,#021a30)" },
+    { id: "shafts", name: "Light Shafts", thumb: "linear-gradient(115deg,#17120d 30%,#8a6a3a 50%,#17120d 70%)" },
+    { id: "candle", name: "Candlelight", thumb: "radial-gradient(circle at 50% 85%,#ffb347,#0b0705 70%)" },
+    { id: "hearth", name: "Hearth", thumb: "linear-gradient(#080303,#c2410c)" },
+    { id: "crt", name: "CRT", thumb: "repeating-linear-gradient(#0a2a16 0 2px,#03100a 2px 4px)" },
+    { id: "warp", name: "Warp Speed", thumb: "radial-gradient(circle at 50% 50%,#8fb4ff 0,#0a1030 25%,#02030a 70%)" },
+    { id: "nebula", name: "Nebula", thumb: "radial-gradient(circle at 30% 40%,#7c3aed,transparent 55%),radial-gradient(circle at 70% 60%,#db2777,transparent 55%),#05030f" },
+    { id: "fireflies", name: "Fireflies", thumb: "radial-gradient(circle at 30% 60%,#e8f27a 0 3px,transparent 4px),radial-gradient(circle at 65% 40%,#e8f27a 0 3px,transparent 4px),linear-gradient(#05100d,#0f2a1d)" },
+    { id: "synthwave", name: "Synthwave", thumb: "linear-gradient(#0b0221,#6a0f7a 55%,#ff3e9a 56%,#1a0533 57%)" },
+    { id: "sakura", name: "Sakura", thumb: "linear-gradient(#2a1236,#a14a82 70%,#f4a3bd)" },
+    { id: "autumn", name: "Autumn Leaves", thumb: "linear-gradient(#2b1405,#a8541a)" },
+    { id: "lava", name: "Lava Lamp", thumb: "radial-gradient(circle at 35% 70%,#ff5a8a,transparent 45%),radial-gradient(circle at 65% 35%,#ff9a3c,transparent 45%),#1a0630" },
+    { id: "storm", name: "Thunderstorm", thumb: "linear-gradient(#05070d,#2b364d)" },
+    { id: "bokeh", name: "Bokeh", thumb: "radial-gradient(circle at 25% 35%,#4cc9f0 0 10px,transparent 11px),radial-gradient(circle at 70% 60%,#f472b6 0 14px,transparent 15px),linear-gradient(#0a0f1f,#1b1030)" },
+    { id: "mesh", name: "Gradient Mesh", thumb: "linear-gradient(135deg,#312e81,#be185d 50%,#0f766e)" },
+    { id: "constellation", name: "Constellation", thumb: "radial-gradient(circle at 20% 30%,#9db4ff 0 2px,transparent 3px),radial-gradient(circle at 60% 60%,#9db4ff 0 2px,transparent 3px),radial-gradient(circle at 80% 25%,#9db4ff 0 2px,transparent 3px),linear-gradient(#050816,#0c1233)" },
+    { id: "mist", name: "Misty Pines", thumb: "linear-gradient(#0b1217,#3a4f58)" }
+  ];
