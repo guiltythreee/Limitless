@@ -193,13 +193,14 @@
     (function () {
       const problemsView = document.getElementById('cf-problems-view');
       const trainingView = document.getElementById('cf-training-view');
-      if (!problemsView || !trainingView) return;
+      const launcher = document.querySelector('.cr-training-launch');
+      if (!problemsView || !trainingView || !launcher) return;
       function showView(view) {
         const training = view === 'training';
         problemsView.hidden = training;
+        launcher.hidden = training;
         trainingView.hidden = !training;
-        if (training) window.scrollTo({ top: 0, behavior: 'smooth' });
-        else window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
       document.querySelectorAll('[data-cf-view]').forEach(function (button) {
         button.addEventListener('click', function () { showView(button.getAttribute('data-cf-view')); });
