@@ -28,6 +28,16 @@ assert.equal(first.added, 0, "historical submissions never become new learning a
 assert.equal(readCodeforcesSyncState(storage).attempts.length, 0);
 assert.equal(values.has(CODEFORCES_SYNC_STORAGE_KEY), true);
 
+const pending = {
+  id: 103, contestId: 2000, creationTimeSeconds: 1795000002,
+  verdict: "TESTING", problem: { contestId: 2000, index: "C", tags: ["dp"] },
+};
+const pendingSync = syncCodeforcesSubmissions(storage, "ExampleHandle", [pending], 1795000003000);
+assert.equal(pendingSync.added, 0);
+const finalized = syncCodeforcesSubmissions(storage, "ExampleHandle", [{ ...pending, verdict: "OK" }], 1795000004000);
+assert.equal(finalized.added, 1, "a pending submission is not marked seen before its verdict becomes terminal");
+assert.equal(finalized.state.attempts[0].outcome, "correct");
+
 const newSubmission = {
   id: 102, contestId: 2000, creationTimeSeconds: 1795000001,
   verdict: "WRONG_ANSWER", problem: { contestId: 2000, index: "B", tags: ["dp"] },
