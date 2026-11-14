@@ -260,6 +260,7 @@ export function epubChapterList(
       candidates.push({
         p: start,
         title: candidates.length === 0 ? "Beginning" : `Part ${candidates.length + 1}`,
+        req: true,
       });
     }
   }
