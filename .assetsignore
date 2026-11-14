@@ -3,3 +3,21 @@
 probability-source
 metallurgy-source
 node_modules
+
+# Repository documentation and build-time tooling; never needed by the browser.
+README.md
+docs/
+scripts/
+
+# Keep the browser Supabase runtime, but do not publish setup SQL, docs, or tests.
+supabase/README.md
+supabase/schema.sql
+
+# Test suites are CI/development inputs, not website assets.
+**/*.test.*
+**/test-*.cjs
+**/test-*.mjs
+
+# Worker and Wrangler implementation/configuration are not public site assets.
+worker.js
+wrangler.jsonc
