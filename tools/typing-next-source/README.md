@@ -32,3 +32,15 @@ This is an isolated Next.js/React/TypeScript source project, separate from the a
 - `npm run e2e`
 
 Extract one subsystem at a time with parity tests against the existing application. PDF/EPUB rendering, local data continuity, real input hardware and reader interaction still require manual acceptance before production cutover.
+
+
+## Automated continuation checkpoint — 15 November 2026
+
+- Latest commit: `a90e8e4c611343abc0cd450d4ea2c5ae88a06008`.
+- Both Bookkeys GitHub Actions workflows passed on this exact commit: regression run [43655018469](https://github.com/guiltythreee/Limitless/actions/runs/43655018469) and TypeScript migration run [43655018457](https://github.com/guiltythreee/Limitless/actions/runs/43655018457).
+- The migration workflow passed persistence tests, type-check, static export build and Chromium browser regressions.
+- Added a populated legacy IndexedDB v1 fixture covering metadata extension fields, original file bytes and artwork retention.
+- Current `main` head is `7b73fed7e3aef13a20e34bac8c83443906c9f3ef`. The branch is 181 commits ahead / 49 behind; path comparison found no overlap between the 67 Bookkeys PR files and the 105 paths changed on `main` since the PR base.
+- Vercel's separate status remains a build-rate-limit failure; GitHub Actions are green.
+- The user prefers not to perform a separate manual test pass and will report defects encountered during ordinary use. Continue automated verification. This is not authorization to deploy or cut over the production reader.
+
