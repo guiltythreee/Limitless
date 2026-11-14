@@ -787,6 +787,41 @@ test("fresh Bookkeys settings initialize the complete legacy defaults contract",
   });
 });
 
+test("unknown legacy settings extensions survive ordinary settings edits and reloads", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("bookkeys:settings", JSON.stringify({
+      bg: "pic-morning",
+      size: 20,
+      futureFeature: { enabled: true, mode: "preserve-me" },
+      pluginFlags: ["alpha", "beta"],
+    }));
+    localStorage.setItem("bookkeys:bgdef1", "1");
+    localStorage.setItem("bookkeys:bgdef2", "1");
+  });
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await dialog.getByRole("button", { name: "Font", exact: true }).click();
+  const sizeControl = dialog.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]');
+  await sizeControl.focus();
+  await sizeControl.press("ArrowRight");
+
+  const afterEdit = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
+  expect(afterEdit).toMatchObject({
+    size: 21,
+    futureFeature: { enabled: true, mode: "preserve-me" },
+    pluginFlags: ["alpha", "beta"],
+  });
+
+  await page.reload();
+  await page.getByRole("button", { name: "Settings" }).click();
+  const restored = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
+  expect(restored).toMatchObject({
+    futureFeature: { enabled: true, mode: "preserve-me" },
+    pluginFlags: ["alpha", "beta"],
+  });
+});
+
 test("centered reading preference changes reader layout and persists", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
