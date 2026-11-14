@@ -150,7 +150,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
   await restorePage.getByRole("button", { name: "Settings" }).click();
   const restoredSettings = restorePage.getByRole("dialog", { name: "Settings" });
-  await expect(restoredSettings.locator('input[type="range"]').first()).toHaveValue("25");
+  await expect(restoredSettings.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]')).toHaveValue("25");
   await restoreContext.close();
 
   await page.goBack();
@@ -237,7 +237,7 @@ test("theme and reader settings are interactive and persist without overwriting 
   await expect(dialog.getByRole("option", { name: "Gothic artwork" })).toBeAttached();
   await dialog.getByLabel("Reader background").selectOption("gothic");
 
-  const size = dialog.locator('input[type="range"]').first();
+  const size = dialog.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
   await size.focus();
   for (let step = 0; step < 5; step += 1) await size.press("ArrowRight");
   await expect(dialog.locator(".bk-setting").filter({ hasText: "Reading text size" })).toContainText("22px");
@@ -249,12 +249,13 @@ test("theme and reader settings are interactive and persist without overwriting 
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.getByRole("button", { name: "Settings" }).click();
   const restored = page.getByRole("dialog", { name: "Settings" });
-  await expect(restored.locator('input[type="range"]').first()).toHaveValue("22");
+  await expect(restored.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]')).toHaveValue("22");
   await expect(restored.getByLabel("Reader background")).toHaveValue("gothic");
   await restored.getByRole("button", { name: "Remove Gothic" }).click();
   await expect(restored.getByRole("option", { name: "Gothic" })).toHaveCount(0);
   await expect(restored.getByLabel("Reader background")).toHaveValue("none");
   await restored.getByLabel("Reader background").selectOption("nebula");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").bg)).toBe("nebula");
   await restored.getByRole("button", { name: "Close Settings" }).click();
   await page.reload();
   await page.getByRole("button", { name: "Settings" }).click();
@@ -730,7 +731,7 @@ test("IME composition commits once, saves the draft and does not count intermedi
   expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBeNull();
 });
 
-test("reader preserves the complete scene catalogue, artwork crops and reduced-motion behaviour", async ({ page }) => {
+test("reader preserves the original canvas scenes, photo crops, Time of Day and reduced motion", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
   await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
@@ -739,38 +740,83 @@ test("reader preserves the complete scene catalogue, artwork crops and reduced-m
     buffer: epub,
   });
   const article = page.locator(".bk-source-text");
+  const canvas = page.locator(".bk-background-canvas");
   await expect(article).toBeVisible();
 
   await page.getByRole("button", { name: "Settings" }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   const backgrounds = dialog.getByLabel("Reader background");
-  const expectedScenes = [
-    "morning", "evening", "night", "snow", "aurora", "rain", "digital",
-    "underwater", "shafts", "candle", "hearth", "crt", "warp", "nebula",
-    "fireflies", "synthwave", "sakura", "autumn", "lava", "storm",
-    "bokeh", "mesh", "constellation", "mist",
+  const originalCanvasScenes = [
+    "night", "snow", "aurora", "rain", "digital", "underwater", "shafts",
+    "candle", "hearth", "crt", "warp", "nebula", "fireflies", "synthwave",
+    "sakura", "autumn", "lava", "storm", "bokeh", "mesh", "constellation", "mist",
   ];
+  const extraStaticScenes = ["morning", "evening"];
 
-  for (const scene of expectedScenes) {
+  for (const scene of originalCanvasScenes) {
     await backgrounds.selectOption(scene);
     await expect(article).toHaveAttribute("data-reader-background", scene);
-    const backgroundImage = await article.evaluate((element) => getComputedStyle(element).backgroundImage);
-    expect(backgroundImage, `scene ${scene} should render its visual background`).not.toBe("none");
-    expect(backgroundImage, `scene ${scene} should retain its layered artwork`).toContain("gradient");
+    await expect(canvas).toBeVisible();
+    const alpha = await canvas.evaluate((element) => {
+      const context = (element as HTMLCanvasElement).getContext("2d");
+      return context?.getImageData(0, 0, 1, 1).data[3] ?? 0;
+    });
+    expect(alpha, `original canvas scene ${scene} should paint its background`).toBeGreaterThan(0);
   }
+
+  for (const scene of extraStaticScenes) {
+    await backgrounds.selectOption(scene);
+    await expect(article).toHaveAttribute("data-reader-background", scene);
+    const staticBackground = page.locator(".bk-static-background");
+    await expect(staticBackground).toBeVisible();
+    expect(await staticBackground.evaluate((element) => getComputedStyle(element).backgroundImage)).toContain("gradient");
+  }
+
+  await backgrounds.selectOption("tod");
+  const hour = await page.evaluate(() => new Date().getHours());
+  const expectedTimeScene = hour >= 20 || hour < 6 ? "pic-night" : hour >= 17 ? "pic-evening" : "pic-morning";
+  await expect(article).toHaveAttribute("data-reader-background", expectedTimeScene);
+  await expect(page.locator(".bk-picture-background")).toBeVisible();
 
   await backgrounds.selectOption("pic-morning");
   await page.setViewportSize({ width: 390, height: 844 });
-  const mobileImage = await article.evaluate((element) => getComputedStyle(element).backgroundImage);
+  const mobileImage = await page.locator(".bk-picture-background").evaluate((element) => getComputedStyle(element).backgroundImage);
   expect(mobileImage).toContain("morning-mobile.webp");
+  expect(await page.locator(".bk-shell").evaluate((element) => getComputedStyle(element).getPropertyValue("--bk-panel-opacity").trim())).toBe("70%");
 
   await page.setViewportSize({ width: 1440, height: 900 });
-  const desktopImage = await article.evaluate((element) => getComputedStyle(element).backgroundImage);
+  const desktopImage = await page.locator(".bk-picture-background").evaluate((element) => getComputedStyle(element).backgroundImage);
   expect(desktopImage).toContain("morning.webp");
   expect(desktopImage).not.toContain("morning-mobile.webp");
 
   await backgrounds.selectOption("snow");
+  await expect.poll(() => canvas.getAttribute("data-animated")).toBe("true");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  const reducedMotionAnimation = await article.evaluate((element) => getComputedStyle(element).animationName);
-  expect(reducedMotionAnimation).toBe("none");
+  await expect.poll(() => canvas.getAttribute("data-animated")).toBe("false");
+});
+
+test("legacy background migration flags run once and preserve subsequent user choices", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("bookkeys:settings", JSON.stringify({ bg: "none", picVeil: 45 }));
+    localStorage.removeItem("bookkeys:bgdef1");
+    localStorage.removeItem("bookkeys:bgdef2");
+  });
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-morning");
+  const migrated = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
+  expect(migrated).toMatchObject({ bg: "pic-morning", bgMatch: true, picVeil: 0 });
+  expect(await page.evaluate(() => localStorage.getItem("bookkeys:bgdef1"))).toBe("1");
+  expect(await page.evaluate(() => localStorage.getItem("bookkeys:bgdef2"))).toBe("1");
+
+  await page.evaluate(() => {
+    const value = JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}");
+    value.bg = "none";
+    value.readerBackground = "none";
+    localStorage.setItem("bookkeys:settings", JSON.stringify(value));
+  });
+  await page.reload();
+  await page.getByRole("button", { name: "Settings" }).click();
+  await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("none");
 });
