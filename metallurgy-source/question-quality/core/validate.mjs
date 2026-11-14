@@ -10,9 +10,9 @@ export function validateQuestion(question, profile) {
   }
 
   const rules = profile.rules || {};
-  if (profile.format && question.format && question.format !== profile.format) {
+  if (profile.format && question.format !== profile.format) {
     add("CORE-006", "error",
-      `Profile expects format "${profile.format}"; question is "${question.format}"`, "format");
+      `Profile expects format "${profile.format}"; question is "${question.format ?? "(missing)"}"`, "format");
   }
 
   if (!question.id) add("CORE-001", "error", "Question id is missing", "id");
@@ -32,17 +32,20 @@ export function validateQuestion(question, profile) {
     add("CORE-005", "error", "Difficulty level must be valid for its declared scale", "difficulty");
   }
 
-  const options = question.options || [];
+  if (question.options !== undefined && !Array.isArray(question.options)) {
+    add("FORMAT-000", "error", "Options must be an array", "options");
+  }
+  const options = Array.isArray(question.options) ? question.options : [];
   if (rules.optionCount !== undefined && options.length !== rules.optionCount) {
     add("FORMAT-001", "error",
       `Expected ${rules.optionCount} options; found ${options.length}`, "options");
   }
   if (options.length) {
-    const ids = options.map((o) => o.id);
+    const ids = options.map((o) => o?.id);
     if (ids.some((id) => !id) || new Set(ids).size !== ids.length) {
       add("FORMAT-002", "error", "Option identifiers must be present and unique", "options");
     }
-    const correct = options.filter((o) => o.correct === true);
+    const correct = options.filter((o) => o?.correct === true);
     if (!rules.allowMultipleCorrect && correct.length !== 1) {
       add("FORMAT-003", "error", "Exactly one option must be marked correct", "options");
     }
@@ -50,8 +53,8 @@ export function validateQuestion(question, profile) {
       add("FORMAT-004", "error", "At least one option must be marked correct", "options");
     }
     for (const option of options) {
-      if (!option.text?.trim()) add("FORMAT-005", "error", `Option ${option.id || "?"} is empty`, "options");
-      if ((rules.forbiddenOptionPatterns || []).some((pattern) => pattern.test(option.text || ""))) {
+      if (!option?.text?.trim()) add("FORMAT-005", "error", `Option ${option?.id || "?"} is empty`, "options");
+      if ((rules.forbiddenOptionPatterns || []).some((pattern) => pattern.test(option?.text || ""))) {
         add("FORMAT-006", "error", "Option matches a prohibited answer-choice pattern", "options");
       }
     }
