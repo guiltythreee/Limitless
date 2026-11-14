@@ -230,3 +230,14 @@ The MT203 adapter/profile implementation was also improved:
 - Adapter regression tests were updated to check the actual newline and the new native-format structure rules.
 
 **Validation status:** regression tests have been updated but have not yet been executed in a repository runtime. No passing test or build result is claimed in this report. The next step is to run `npm run test:quality` in `metallurgy-source`, fix any failures, then continue with the five course-source verifications and the remaining question-level wording/explanation revisions.
+## Course-source verification — supplied MT203 lecture deck
+
+The supplied file **MT203 – PST 2026.ppt** was inspected in full (3,272 extracted text lines). It contains general coverage of polymerization methods, molecular-weight averages (including Mn, Mw and z-average), crystallinity/thermal transitions and polymer properties, but it does not provide the specific supporting details needed to settle the five flagged records:
+
+- **T1-03:** no historical account establishing which polymer was the first fully synthetic polymer produced commercially.
+- **T3-06:** the deck identifies PET and nylon 6,6 as melt-polycondensation examples, but does not state that a particular route is the industrial standard or describe solid-state finishing.
+- **T3-09:** no percentage or market-share figure for PVC suspension polymerization.
+- **T4-04:** the deck lists number-, weight- and z-average molecular weights, but does not map sedimentation-equilibrium ultracentrifugation to one of those averages.
+- **T5-03:** no reference enthalpy for 100%-crystalline PET and no value of 140 J/g.
+
+These five are therefore **not verifiable from the supplied lecture deck**. Their status remains SOURCE CHECK; do not treat the lecture deck as evidence for the exact claims. They require a cited textbook/reference or a clarification from the course instructor before final approval. The general lecture coverage was not used to silently supply missing numerical or historical details.
