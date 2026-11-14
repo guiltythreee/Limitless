@@ -185,3 +185,142 @@ main.cr-main > section.cr-account .cr-account-meta{grid-template-columns:auto au
 main.cr-main > section.cr-account .cr-account-meta strong{grid-column:1 / -1}
 @media(max-width:700px){main.cr-main > section.cr-account .cr-account-actions{width:100%}}
 @media(max-width:520px){main.cr-main > section.cr-account .cr-account-meta{grid-template-columns:1fr}}
+
+
+/* =========================================================
+   Limitless visual system — Codeforces Problem Explorer
+   Presentation-only overrides; filter and result behavior is unchanged.
+   ========================================================= */
+.cr-problem-explorer-section{
+  margin-top:18px;
+  padding:clamp(16px,2vw,25px);
+  border:1px solid rgba(105,166,225,.22);
+  border-radius:17px;
+  background:rgba(8,18,32,.78);
+  box-shadow:0 16px 42px rgba(0,0,0,.12);
+  backdrop-filter:blur(14px);
+}
+.cr-problem-explorer-section>.cr-section-head{margin-bottom:17px}
+.cr-problem-explorer-section>.cr-section-head h2{
+  color:#eaf4ff;font:600 21px Arial,sans-serif;letter-spacing:-.35px
+}
+.cf-explorer{
+  padding:18px;
+  border:1px solid rgba(105,166,225,.18);
+  border-radius:13px;
+  background:rgba(8,20,36,.72);
+}
+.cf-explorer-toolbar{
+  min-height:38px;padding-bottom:13px;border-bottom:1px solid rgba(105,166,225,.14)
+}
+.cf-explorer-toolbar p,.cf-vc-toolbar p{color:#a9bfd7;font-size:11px}
+.cf-quick-toolbar{
+  grid-template-columns:minmax(0,1fr) 190px;
+  gap:12px;margin:16px 0 12px
+}
+.cf-quick-toolbar label,.cf-filter-grid label,.cf-vc-band-field{
+  color:#a9bfd7;font-size:10px;font-weight:600;letter-spacing:.2px
+}
+.cf-quick-toolbar input,.cf-quick-toolbar select,
+.cf-filter-grid input,.cf-filter-grid select,.cf-vc-band-field select{
+  min-height:40px;padding:9px 11px;border:1px solid rgba(105,166,225,.24);
+  border-radius:9px;background:rgba(5,16,29,.86);color:#eaf3ff;
+  font:12px Arial,sans-serif;outline:none;transition:border-color .18s,box-shadow .18s
+}
+.cf-quick-toolbar input:focus,.cf-quick-toolbar select:focus,
+.cf-filter-grid input:focus,.cf-filter-grid select:focus,.cf-vc-band-field select:focus{
+  border-color:#64b4ff;box-shadow:0 0 0 3px rgba(100,180,255,.12)
+}
+.cf-advanced-filters{
+  margin:10px 0 12px;padding:11px 13px;border:1px solid rgba(105,166,225,.18);
+  border-radius:10px;background:rgba(15,35,57,.42);color:#9fcfff
+}
+.cf-advanced-filters summary{font-size:11px;letter-spacing:.2px}
+.cf-filter-grid{gap:12px}
+.cf-check-label{background:rgba(75,142,200,.08);border-color:rgba(105,166,225,.2)}
+.cf-filter-meta{
+  min-height:40px;align-items:center;margin:12px 0;
+  color:#a9bfd7;font-size:10px
+}
+.cf-explorer-actions .action-button,.cf-filter-meta .action-button,
+.cf-pagination button,.cf-vc-contest .action-button{
+  min-height:35px;padding:8px 12px;border:1px solid rgba(105,166,225,.3);
+  border-radius:8px;background:rgba(30,82,128,.35);color:#d9ecff;
+  cursor:pointer;font:600 10px Arial,sans-serif;transition:background .18s,border-color .18s,transform .18s
+}
+.cf-explorer-actions .action-button:hover,.cf-filter-meta .action-button:hover,
+.cf-pagination button:not(:disabled):hover,.cf-vc-contest .action-button:hover{
+  background:rgba(39,112,174,.48);border-color:rgba(105,185,255,.58);transform:translateY(-1px)
+}
+#cf-problem-list{
+  height:clamp(360px,68vh,620px);min-height:360px;overflow-y:auto;overflow-x:hidden;
+  align-content:start;gap:9px;padding:3px 6px 3px 1px;
+  scrollbar-gutter:stable;overscroll-behavior:contain;overflow-anchor:none
+}
+.cf-problem-card{
+  min-height:72px;padding:13px 15px;border:1px solid rgba(105,166,225,.17);
+  border-radius:11px;background:linear-gradient(115deg,rgba(16,39,64,.72),rgba(8,22,39,.78));
+  box-shadow:0 5px 15px rgba(0,0,0,.07);
+  transition:transform .16s,border-color .16s,background .16s
+}
+.cf-problem-card:hover{
+  transform:translateY(-1px);border-color:rgba(104,181,255,.42);
+  background:linear-gradient(115deg,rgba(22,52,82,.88),rgba(10,29,49,.9))
+}
+.cf-problem-title{color:#edf6ff;font-size:12px;font-weight:700}
+.cf-problem-meta{gap:6px;align-items:center;margin-top:7px}
+.cf-chip{
+  padding:4px 8px;border:1px solid rgba(105,166,225,.2);
+  background:rgba(5,18,32,.3);color:#a9bfd7;font-size:9px
+}
+.cf-chip.rating{background:rgba(31,111,176,.16);border-color:rgba(96,173,235,.28);color:#8fcaff}
+.cf-chip.solved{background:rgba(25,133,95,.13);border-color:rgba(85,214,166,.28);color:#76e0b6}
+.cf-chip.wrong{background:rgba(170,54,54,.12);border-color:rgba(221,105,105,.3);color:#f0a0a0}
+.cf-problem-right{gap:7px}
+.cf-log-problem,.cf-save-problem{
+  min-height:34px;padding:7px 10px;border:1px solid rgba(105,166,225,.28);
+  border-radius:8px;background:rgba(30,82,128,.28);color:#d9ecff;
+  font:600 10px Arial,sans-serif
+}
+.cf-log-problem:hover:not(:disabled),.cf-save-problem:hover{background:rgba(39,112,174,.46)}
+.cf-save-problem[aria-pressed="true"]{background:rgba(160,119,37,.15);border-color:rgba(240,200,117,.5);color:#ffdc88}
+.cf-problem-tags{font-size:9px;color:#a9bfd7}
+.cf-problem-tags summary{cursor:pointer}
+.cf-problem-tags>div{display:flex;flex-wrap:wrap;gap:5px;padding-top:6px}
+.cf-pagination{min-height:44px;margin-top:12px;color:#a9bfd7}
+.cf-pagination button:disabled{opacity:.35}
+.cf-empty,.cf-status{color:#a9bfd7}
+html[data-theme="light"] .cr-problem-explorer-section{background:rgba(244,249,255,.88);border-color:#c8d9e8}
+html[data-theme="light"] .cr-problem-explorer-section>.cr-section-head h2{color:#1c3d5c}
+html[data-theme="light"] .cf-explorer{background:rgba(235,243,251,.88);border-color:#c8d9e8}
+html[data-theme="light"] .cf-explorer-toolbar p,html[data-theme="light"] .cf-vc-toolbar p,
+html[data-theme="light"] .cf-quick-toolbar label,html[data-theme="light"] .cf-filter-grid label,
+html[data-theme="light"] .cf-vc-band-field,html[data-theme="light"] .cf-filter-meta,
+html[data-theme="light"] .cf-pagination{color:#526d87}
+html[data-theme="light"] .cf-quick-toolbar input,html[data-theme="light"] .cf-quick-toolbar select,
+html[data-theme="light"] .cf-filter-grid input,html[data-theme="light"] .cf-filter-grid select,
+html[data-theme="light"] .cf-vc-band-field select{background:#fff;color:#243c54;border-color:#c6d6e5;color-scheme:light}
+html[data-theme="light"] .cf-advanced-filters{background:#edf5fc;border-color:#c8d9e8;color:#205a87}
+html[data-theme="light"] .cf-problem-card{background:linear-gradient(115deg,#fff,#f3f8fd);border-color:#d2dfeb}
+html[data-theme="light"] .cf-problem-card:hover{background:#f7fbff;border-color:#8fb8da}
+html[data-theme="light"] .cf-problem-title{color:#1d3b58}
+html[data-theme="light"] .cf-chip{background:#f0f5fa;border-color:#d3e0eb;color:#506b84}
+html[data-theme="light"] .cf-chip.rating{background:#e5f2ff;color:#17629b;border-color:#bfdcf4}
+html[data-theme="light"] .cf-chip.solved{background:#e8f8f1;color:#14744f;border-color:#bce8d4}
+html[data-theme="light"] .cf-chip.wrong{background:#fff0f0;color:#a33131;border-color:#e7bcbc}
+html[data-theme="light"] .cf-log-problem,html[data-theme="light"] .cf-save-problem,
+html[data-theme="light"] .cf-explorer-actions .action-button,html[data-theme="light"] .cf-filter-meta .action-button,
+html[data-theme="light"] .cf-pagination button,html[data-theme="light"] .cf-vc-contest .action-button{
+  background:#e4f0fa;border-color:#a9c8e2;color:#205a87
+}
+html[data-theme="light"] .cf-save-problem[aria-pressed="true"]{background:#fff7e5;border-color:#e7d09c;color:#8b6418}
+@media(max-width:760px){.cf-quick-toolbar{grid-template-columns:minmax(0,1fr) 150px}}
+@media(max-width:520px){
+  .cf-explorer{padding:12px}
+  .cf-quick-toolbar{grid-template-columns:1fr}
+  .cf-filter-grid{grid-template-columns:1fr}
+  .cf-filter-grid .cf-wide{grid-column:auto}
+  .cf-problem-card{grid-template-columns:minmax(0,1fr);gap:10px}
+  .cf-problem-right{justify-content:flex-start}
+  #cf-problem-list{height:min(62vh,520px);min-height:300px}
+}
