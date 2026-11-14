@@ -642,13 +642,13 @@ const T2: TopicSource = {
       options: [
         { label: "a", text: "The first claim is wrong, but a slight stoichiometric imbalance lets the second batch reach the larger DP at lower conversion." },
         { label: "b", text: "Both claims are wrong: p = 0.995 gives a lower DP than p = 0.99, even with exact stoichiometry." },
-        { label: "c", text: "Both claims are correct: the stoichiometric batch reaches DP 200, and imbalance permits DP 400 at p = 0.99." },
-        { label: "d", text: "The first claim is correct: ideal stoichiometric DP is 200 at p = 0.995; imbalance lowers the attainable DP, so the second claim fails." }
+        { label: "c", text: "The first claim is correct: ideal stoichiometric DP is 200 at p = 0.995; imbalance lowers the attainable DP, so the second claim fails." },
+        { label: "d", text: "Both claims are correct: the stoichiometric batch reaches DP 200, and imbalance permits DP 400 at p = 0.99." }
       ],
-      answer: "d",
+      answer: "c",
       why: "Case 1: $DP = 1/(1-0.995) = 200$ ✓. Case 2: at $p = 0.99$ with balance, $DP = 100$; any imbalance ($r < 1$) reduces it further via $DP = (1+r)/(1+r-2rp)$. $DP = 400$ at $p = 0.99$ is **unattainable**.",
       distractors: {
-        c: "Stoichiometric imbalance can never increase DP — it is a cap, not a boost.",
+        d: "Stoichiometric imbalance can never increase DP — it is a cap, not a boost.",
       },
       concept: "$DP = (1+r)/(1+r-2rp)$; $r \\le 1$ always reduces DP",
       tags: ["numeric", "confused"],
