@@ -391,3 +391,23 @@ html[data-theme="light"] .cr-week-contest-actions #contest-unlog:disabled {
 
 .cr-week-auto-note{margin:0;color:#9eb5ce;font-size:10px;line-height:1.5}
 html[data-theme="light"] .cr-week-auto-note{color:#526d87}
+
+/* Collapsible training workspace. The problem explorer remains a separate sibling section. */
+.cr-training-collapse { padding:0; overflow:clip; }
+.cr-training-toggle { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:22px; cursor:pointer; list-style:none; }
+.cr-training-toggle::-webkit-details-marker { display:none; }
+.cr-training-toggle::marker { content:""; }
+.cr-training-toggle .cr-section-head { flex:1 1 auto; min-width:0; margin:0; }
+.cr-training-toggle .cr-section-head h2 { margin-bottom:0; }
+.cr-training-toggle .cr-roadmap-intro { margin-bottom:0; }
+.cr-training-toggle-hint { display:inline-flex; align-items:center; gap:8px; flex:0 0 auto; padding:9px 12px; border:1px solid rgba(105,158,213,.32); border-radius:9px; background:rgba(75,142,200,.12); color:#b9dcfa; font-size:11px; font-weight:700; white-space:nowrap; }
+.cr-training-toggle-hint span { font-size:16px; line-height:1; }
+.cr-training-collapse[open] .cr-training-toggle { border-bottom:1px solid rgba(105,158,213,.2); }
+.cr-training-collapse[open] .cr-training-toggle-hint span { transform:rotate(45deg); }
+.cr-training-content { padding:0 22px 22px; }
+html[data-theme="light"] .cr-training-toggle-hint { color:#205a87; background:#e7f2fc; border-color:#b8d0e5; }
+@media(max-width:760px) {
+  .cr-training-toggle { align-items:flex-start; flex-direction:column; padding:16px; }
+  .cr-training-content { padding:0 16px 16px; }
+  .cr-training-toggle-hint { align-self:flex-start; }
+}
