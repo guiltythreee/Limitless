@@ -341,20 +341,16 @@
 
   function masteryDonut(counts, total, pct, label) {
     var values = [
-      { key:'mastered', color:'#42d6c0' },
-      { key:'practiced', color:'#a58aff' },
-      { key:'learning', color:'#ffbd62' },
-      { key:'not-started', color:'#49627e' }
+      { key:'mastered', color:'#42d6c0', name:'Mastered' },
+      { key:'practiced', color:'#a58aff', name:'Practiced' },
+      { key:'learning', color:'#ffbd62', name:'Learning' },
+      { key:'not-started', color:'#61a9e8', name:'Not started' }
     ];
-    var cursor = 0, stops = [];
-    values.forEach(function (item) {
+    var rings = values.map(function(item,index){
       var amount = total ? counts[item.key] / total * 100 : 0;
-      var end = cursor + amount;
-      stops.push(item.color + ' ' + cursor.toFixed(2) + '% ' + end.toFixed(2) + '%');
-      cursor = end;
-    });
-    var gradient = total ? 'conic-gradient(' + stops.join(',') + ')' : 'conic-gradient(#49627e 0 100%)';
-    return '<span class="mastery-donut" role="img" aria-label="' + esc(label) + ': ' + pct + '% mastered" style="--donut-fill:' + gradient + '"><span><strong>' + pct + '%</strong><small>mastered</small></span></span>';
+      return '<i class="donut-ring donut-ring-' + item.key + '" style="--ring-pct:' + amount.toFixed(2) + ';--ring-color:' + item.color + '" title="' + item.name + ': ' + counts[item.key] + '"></i>';
+    }).join('');
+    return '<span class="mastery-donut" role="img" aria-label="' + esc(label) + ': ' + pct + '% mastered; ' + values.map(function(item){return item.name + ' ' + counts[item.key];}).join(', ') + '">' + rings + '<span class="donut-center"><strong>' + pct + '%</strong><small>mastered</small></span></span>';
   }
 
   function renderSubjects() {
