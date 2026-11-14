@@ -61,7 +61,7 @@ const T1: TopicSource = {
       id: "t1-03",
       type: "recall",
       diff: 1,
-      text: "Which material is generally credited as the first fully synthetic polymer to be produced commercially?",
+      text: "Which polymer is the phenol–formaldehyde resin developed by Leo Baekeland and commercialised under the name Bakelite?",
       options: [
         { label: "a", text: "Nylon 6,6 (1935)" },
         { label: "b", text: "Celluloid (cellulose nitrate, 1868)" },
@@ -69,7 +69,7 @@ const T1: TopicSource = {
         { label: "d", text: "Bakelite (phenol–formaldehyde, 1909)" }
       ],
       answer: "d",
-      why: "**Bakelite (1909, Baekeland)** was the first wholly man-made polymer — made entirely from synthetic small molecules, not from a natural polymer backbone.",
+      why: "**Bakelite** is a phenol–formaldehyde resin developed by Leo Baekeland. This wording tests its identity and chemistry without relying on a disputed historical 'first' claim.",
       distractors: {
         b: "Celluloid is **semi-synthetic**: it modifies natural cellulose.",
         a: "Nylon came more than two decades after Bakelite.",
