@@ -85,8 +85,8 @@ function metallurgyActivityAttempts(courseId, state, classifications) {
       outcome: row.correct ? "correct" : "incorrect",
       occurredAt,
       elapsedMs: Number.isFinite(Number(row.ms)) && Number(row.ms) > 0 ? Number(row.ms) : undefined,
-      independent: row.independent === true,
-      hintCount: Number.isFinite(Number(row.hintCount)) ? Number(row.hintCount) : undefined,
+      independent: row.independent === true || row.source === "recorded",
+      hintCount: Number.isFinite(Number(row.hintCount)) ? Number(row.hintCount) : row.source === "recorded" ? 0 : undefined,
       mode,
       mistakeCategory: category,
       reviewedAt: Number.isFinite(Number(classification?.reviewedAt))
