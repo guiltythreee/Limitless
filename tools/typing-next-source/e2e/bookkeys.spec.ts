@@ -121,9 +121,9 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
 
   await page.getByRole("button", { name: /Library/ }).click();
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
   const sourceSettings = page.getByRole("dialog", { name: "Settings" });
-  const sourceSize = sourceSettings.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
+  const sourceSize = sourceSettings.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]');
   await expect(sourceSize).toHaveValue("20");
   await sourceSize.focus();
   for (let step = 0; step < 5; step += 1) await sourceSize.press("ArrowRight");
@@ -150,9 +150,9 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   });
   await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
   await restorePage.getByRole("button", { name: "Settings" }).click();
-  await restorePage.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await restorePage.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
   const restoredSettings = restorePage.getByRole("dialog", { name: "Settings" });
-  await expect(restoredSettings.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]')).toHaveValue("25");
+  await expect(restoredSettings.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]')).toHaveValue("25");
   await restoreContext.close();
 
   await page.goBack();
@@ -215,14 +215,14 @@ test("theme and reader settings are interactive and persist without overwriting 
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-night");
-  await expect(dialog.getByLabel("Reading text colour", { exact: true })).toHaveValue("custom");
-  await expect(dialog.getByLabel("Custom reading text colour")).toHaveValue("#654321");
-  await dialog.getByLabel("Custom reading text colour").fill("#2a7f62");
+  await dialog.getByRole("button", { name: "Font", exact: true }).click();
+  const textColors = dialog.getByRole("group", { name: "Text color" });
+  await expect(dialog.getByLabel("Custom text color")).toHaveValue("#654321");
+  await dialog.getByLabel("Custom text color").fill("#2a7f62");
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColorCustom)).toBe("#2a7f62");
-  await dialog.getByLabel("Reading text colour", { exact: true }).selectOption("theme");
+  await textColors.getByRole("button", { name: "Theme default" }).click();
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColor)).toBe("theme");
-  await dialog.getByLabel("Reading text colour", { exact: true }).selectOption("custom");
-  await dialog.getByLabel("Custom reading text colour").fill("#2a7f62");
+  await dialog.getByLabel("Custom text color").fill("#2a7f62");
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"))).toMatchObject({
     bg: "pic-night", skin: "sepia", accent: "custom", accentCustom: "#123456",
     fontColor: "custom", fontColorCustom: "#2a7f62", bgMatch: true, deco: "off",
@@ -241,11 +241,12 @@ test("theme and reader settings are interactive and persist without overwriting 
   await dialog.getByRole("button", { name: "Background", exact: true }).click();
   await expect(dialog.getByRole("option", { name: "Gothic artwork" })).toBeAttached();
   await dialog.getByLabel("Reader background").selectOption("gothic");
+  await dialog.getByRole("button", { name: "Font", exact: true }).click();
 
-  const size = dialog.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
+  const size = dialog.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]');
   await size.focus();
   for (let step = 0; step < 5; step += 1) await size.press("ArrowRight");
-  await expect(dialog.locator(".bk-setting").filter({ hasText: "Reading text size" })).toContainText("22px");
+  await expect(dialog.locator(".bk-setting").filter({ hasText: "Size" })).toContainText("22px");
   await expect.poll(() => page.evaluate(() => localStorage.getItem("bookkeys:size"))).toBe("22");
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").bg)).toBe("pic-night");
   await dialog.getByRole("button", { name: "Close Settings" }).click();
@@ -253,9 +254,10 @@ test("theme and reader settings are interactive and persist without overwriting 
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
   const restored = page.getByRole("dialog", { name: "Settings" });
-  await expect(restored.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]')).toHaveValue("22");
+  await expect(restored.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]')).toHaveValue("22");
+  await restored.getByRole("button", { name: "Background", exact: true }).click();
   await expect(restored.getByLabel("Reader background")).toHaveValue("gothic");
   await restored.getByRole("button", { name: "Theme", exact: true }).click();
   await restored.getByRole("button", { name: "Remove Gothic" }).click();
@@ -396,7 +398,7 @@ test("legacy bookkeys:size is used when the settings object has no size", async 
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
   await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
-  await expect(page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]'))
+  await expect(page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]'))
     .toHaveValue("22");
 });
 
@@ -663,7 +665,7 @@ test("fresh Bookkeys settings initialize the complete legacy defaults contract",
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
   await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
-  const size = page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
+  const size = page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]');
   await size.focus();
   await size.press("ArrowRight");
 
