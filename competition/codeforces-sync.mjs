@@ -58,8 +58,11 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
   for (const submission of submissions) {
     if (!isRecord(submission)) continue;
     const id = Number(submission.id);
-    if (!Number.isSafeInteger(id) || id <= 0) continue;
-    if (seen.has(id)) continue;
+    if (!Number.isSafeInteger(id) || id <= 0 || seen.has(id)) continue;
+    const mapped = toCodeforcesLearningAttempts([submission]);
+    // Ignore in-progress/unknown verdicts without marking them seen: Codeforces
+    // can later update the same submission ID with its terminal verdict.
+    if (!mapped.length) continue;
     seen.add(id);
     const seconds = Number(submission.creationTimeSeconds);
     if (!firstSync && Number.isFinite(seconds) && seconds * 1000 >= baselineAt) {
