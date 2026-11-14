@@ -22,7 +22,7 @@ assert.equal(adapted[2].mistakeCategory, "time-management");
 assert.equal(adapted[3].outcome, "skipped");
 
 const report = analyzeMathTrainerLearning(attempts, runs, 1_800_000_100_000);
-assert.equal(report.mastery.length, 2);
+assert.equal(report.mastery.length, 1, "skipped questions do not count as mastery evidence");
 assert.equal(report.recurringMistakes.length, 2);
 assert.equal(report.revision.length, 2);
 assert.equal(attempts.length, 5, "adapter must not mutate original attempt history");
