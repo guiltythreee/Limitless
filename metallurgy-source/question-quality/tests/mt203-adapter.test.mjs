@@ -40,6 +40,24 @@ const assertionReason = adaptMT203Question({
   ...source, type: "assertreason", text: undefined,
   assertion: "Assertion text", reason: "Reason text",
 }, topic);
-assert.equal(assertionReason.stem, "Assertion text\\nReason text");
+assert.equal(assertionReason.stem, "Assertion text\nReason text");
+assert.equal(assertionReason.metadata.assertion, "Assertion text");
+assert.equal(assertionReason.metadata.reason, "Reason text");
+assert.equal(validateQuestion(assertionReason, getProfile("mt203.assertion-reason.v1")).passed, true);
+
+const statementQuestion = adaptMT203Question({
+  ...source, type: "statement", statements: [
+    { num: 1, text: "Statement one" }, { num: 2, text: "Statement two" },
+  ],
+}, topic);
+assert.equal(statementQuestion.format, "statement-selection");
+assert.equal(validateQuestion(statementQuestion, getProfile("mt203.statement-selection.v1")).passed, true);
+assert.equal(validateQuestion({ ...statementQuestion, metadata: {} }, getProfile("mt203.statement-selection.v1")).passed, false);
+
+const matchQuestion = adaptMT203Question({
+  ...source, type: "match", tableRows: [["1", "Term", "", "Definition"]],
+}, topic);
+assert.equal(validateQuestion(matchQuestion, getProfile("mt203.match.v1")).passed, true);
+assert.equal(validateQuestion({ ...matchQuestion, metadata: {} }, getProfile("mt203.match.v1")).passed, false);
 
 console.log("MT203 adapter tests passed (native taxonomy mapping + unknown-type guard)");
