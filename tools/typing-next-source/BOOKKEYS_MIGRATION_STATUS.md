@@ -33,13 +33,18 @@ These branches were built from an earlier repository checkpoint. The earlier not
 
 ## Latest branch comparison
 
-On 15 November 2026, the current `main` head is `4de0591c2a9c2f1aaed18f4eda5fd0f06a474ab3` and the migration branch head is `15f21a78f254995e040339419993b009ec648e5f`. GitHub compares the migration branch as 167 commits ahead and 28 behind current `main`. The PR diff remains 67 added files, all isolated Bookkeys preview/migration files plus `.github/workflows/bookkeys-next-scaffold.yml`; no existing Limitless application files are modified by this PR. The comparison is additions-only relative to the shared base. Keep the PR draft; do not merge or deploy until manual data/device acceptance is complete.
+Live GitHub verification on 15 November 2026:
 
-The 28 commits now on `main` since the PR's shared base include ongoing Limitless work across Codeforces/competition, Math Trainer, Metallurgy, Probability/studies, site navigation and favicon assets. The migration branch does not contain those commits. Its 67-file diff remains limited to the isolated Bookkeys migration and preview. No production reader files are part of the PR diff.
+- Current `main` head: `4de0591c2a9c2f1aaed18f4eda5fd0f06a474ab3`.
+- PR #166 head: `24ed311b2ec1f9d8346eea4bfe48c436b63a6dbf`.
+- The branch is **173 commits ahead and 31 behind** current `main`.
+- The PR diff contains **67 added files**, limited to the isolated Bookkeys preview/migration workspace, its migration-specific workflow, and migration documentation. No existing Limitless application files are modified by the PR.
+- The original production reader files `tools/typing/index.html` and `tools/typing/bookkeys.html` remain outside the PR diff.
+- The PR remains a draft. Its divergence from `main` is not permission to merge or deploy; review the isolated file diff and complete the real-data/device acceptance gates first.
 
 ## Verified in CI
 
-The latest migration workflow runs are [43649888531](https://github.com/guiltythreee/Limitless/actions/runs/43649888531) and [43649892709](https://github.com/guiltythreee/Limitless/actions/runs/43649892709). Both completed successfully on code commit `15f21a78f254995e040339419993b009ec648e5f`. The separate legacy regression workflow [43649892724](https://github.com/guiltythreee/Limitless/actions/runs/43649892724) also completed successfully on the same commit.
+The latest migration workflow run [43651080579](https://github.com/guiltythreee/Limitless/actions/runs/43651080579) and Bookkeys regression run [43651080585](https://github.com/guiltythreee/Limitless/actions/runs/43651080585) both completed successfully on PR head `24ed311b2ec1f9d8346eea4bfe48c436b63a6dbf` (15 November 2026). The migration workflow completed legacy preservation tests, dependency installation, persistence tests, type-check, static export build, Chromium installation and browser regressions. The separate regression workflow also passed.
 
 - **99/99 legacy preservation tests passed** against the original standalone HTML implementation.
 - The TypeScript persistence test suite passed.
