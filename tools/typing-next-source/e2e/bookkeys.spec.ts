@@ -234,9 +234,11 @@ test("theme and reader settings are interactive and persist without overwriting 
   });
 
   const artwork = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#d2ae5c"/></svg>');
+  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
   const upload = dialog.getByLabel("Upload Gothic artwork");
   await expect(upload).toBeEnabled();
   await upload.setInputFiles({ name: "gothic-art.svg", mimeType: "image/svg+xml", buffer: artwork });
+  await dialog.getByRole("button", { name: "Appearance", exact: true }).click();
   await expect(dialog.getByRole("option", { name: "Gothic artwork" })).toBeAttached();
   await dialog.getByLabel("Reader background").selectOption("gothic");
 
