@@ -35,6 +35,35 @@ assert.equal(attempts[1].hintCount, 1);
 assert.equal(attempts[1].elapsedMs, 35 * 60_000);
 assert.equal(attempts[1].conceptIds[0], "pigeonhole principle!");
 
+const revisionEvidence = toCompetitionLearningAttempts(logs, [
+  {
+    id: "revision:cp-3-1:1794000000000",
+    problemId: "cp-3",
+    date: "2026-11-06T12:00:00.000Z",
+    outcome: "correct",
+  },
+  {
+    id: "revision:cp-2-7:1794000001000",
+    problemId: "cp-2",
+    date: "2026-11-07T12:00:00.000Z",
+    outcome: "incorrect",
+    mistakeType: "observation",
+  },
+  {
+    id: "revision:invalid",
+    problemId: "missing-problem",
+    date: "2026-11-07T12:00:00.000Z",
+    outcome: "correct",
+  },
+]);
+assert.equal(revisionEvidence.length, 5, "only revisions linked to known problems enter learning evidence");
+assert.equal(revisionEvidence[3].mode, "revision");
+assert.equal(revisionEvidence[3].questionId, "cp-3");
+assert.equal(revisionEvidence[3].outcome, "correct");
+assert.equal(revisionEvidence[3].independent, true);
+assert.equal(revisionEvidence[4].outcome, "incorrect");
+assert.equal(revisionEvidence[4].mistakeCategory, "observation");
+
 const analysis = analyzeCompetitionLearning(logs, [], Date.parse("2026-11-10T00:00:00Z"));
 assert.equal(analysis.mastery.length, 1, "concept variants should group");
 assert.equal(analysis.mastery[0].attempts, 3);
