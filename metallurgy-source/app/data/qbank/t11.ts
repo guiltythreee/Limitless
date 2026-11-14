@@ -73,7 +73,7 @@ const T11: TopicSource = {
       options: [
         {
             label: "a",
-            text: "is compatible with the melt and lowers its viscosity; the external lubricant is incompatible and migrates to the surface to aid release.",
+            text: "is generally more compatible with the polymer melt and reduces inter-chain friction; an external lubricant preferentially migrates to the polymer–metal interface to reduce sticking and aid release.",
         },
         {
             label: "b",
@@ -89,7 +89,7 @@ const T11: TopicSource = {
         }
       ],
       answer: "a",
-      why: "**Internal** lubricants reduce inter-chain friction (lower melt viscosity); **external** ones exude to the metal interface, reducing sticking and aiding demoulding.",
+      why: "Internal lubricants are generally more compatible with the polymer and reduce friction within the melt. External lubricants preferentially migrate to the polymer–metal interface and reduce sticking or aid release. The distinction is formulation-dependent: compatibility and migration are matters of degree, not an absolute compatible/incompatible split.",
       concept: "internal: chain friction · external: metal release",
       tags: ["confused"],
     },
@@ -311,7 +311,7 @@ const T11: TopicSource = {
         }
       ],
       answer: "a",
-      why: "Two-stage **injection → stretch blow**: the amorphous preform is conditioned above Tg, then **stretch-blown**. The biaxial strain induces crystallites (strain-induced crystallization) that strengthen the wall while keeping it transparent.",
+      why: "In injection stretch blow moulding, the preform is conditioned within a suitable temperature window above Tg and stretched axially while being blown radially. Biaxial molecular orientation improves strength, and controlled strain-induced crystallization contributes to stiffness and barrier performance. Transparency depends on keeping the crystalline morphology sufficiently fine; crystallization does not automatically preserve clarity.",
       concept: "stretch blow: orientation + strain-induced crystallization",
       tags: ["confused"],
     },
@@ -484,7 +484,7 @@ const T11: TopicSource = {
       id: "t11-18",
       type: "assertreason",
       diff: 3,
-      assertion: "PET preforms must be dried to below about 50 ppm moisture before stretch blow moulding.",
+      assertion: "For the PET grade and process conditions assumed here, preforms are dried to a low moisture level (often around or below 50 ppm) before stretch blow moulding.",
       reason: "Residual moisture hydrolyses the polyester at melt temperature, reducing intrinsic viscosity (molecular weight) and producing splay.",
       options: [
         { label: "a", text: "A is false, R is true" },
@@ -493,7 +493,7 @@ const T11: TopicSource = {
         { label: "d", text: "A is true, R is false" }
       ],
       answer: "b",
-      why: "PET's **ester bonds hydrolyse** in the melt, so water is destructive: each water molecule cuts a chain, dropping IV and mechanical strength. Drying to ~50 ppm plus a dry hopper is standard practice, and explains the correlation in R.",
+      why: "PET ester bonds can undergo hydrolysis at melt-processing temperatures, reducing intrinsic viscosity and molecular weight and contributing to splay. A low moisture target such as about 50 ppm is used for some PET grades and processing specifications, but the exact limit is grade- and process-dependent rather than universal.",
       concept: "hydrolysis is why hygroscopic polyesters must be dried",
       tags: ["revision"],
     },
