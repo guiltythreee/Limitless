@@ -86,16 +86,15 @@ A populated IndexedDB v1 fixture opens in-browser without a version upgrade; act
 
 ## Remaining acceptance gates
 
-- The EPUB parser already contained bounded cover extraction, but the application was not passing it through to IndexedDB metadata or the library UI. That integration is now implemented using the existing v1 `meta.cover` field; opening older EPUBs backfills a missing cover, and the library renders only validated local image data URLs. The cover-image manifest token matcher was corrected and unit/E2E coverage added. Build and test execution remain to be refreshed.
-- Inline chapter-title editing now replaces the prompt workflow. The focused input supports Enter to save and Escape to cancel; an E2E regression covers the flow.
-- The original shelf-tab presentation and keyboard model are restored: tabs use roving focus with ArrowLeft/ArrowRight and Home/End navigation. E2E coverage verifies the keyboard transitions; narrow-screen visual acceptance remains.
-- The original Theme decoration On/Off two-chip control is restored and retains the existing `deco=on|off` persistence values; an E2E regression now checks both states.
-- Complete runtime side-by-side acceptance of settings visual/audio effects; do not rebuild catalogues or tabs.
-- Verify real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard behaviour against the legacy reader; synthetic IME composition lifecycle automation passes.
-- Test representative real-world PDFs and EPUBs, including long books, unusual chapter structures, malformed files and scanned/image-only PDFs.
-- Verify opening representative real user IndexedDB libraries and existing backup files without data loss.
-- Test on real mobile browsers, not only a desktop Chromium viewport.
-- Complete manual acceptance in the isolated preview before considering production cutover.
+The following are genuinely outstanding; implemented features and passing fixture-based checks are not repeated here:
 
-**CI freshness note:** the E2E suite now contains 24 test cases. The documented 20/20 Chromium result is from an earlier commit and does not validate the new cover and inline-edit regressions. The current GitHub status reports only a Vercel build-rate-limit failure; no GitHub Actions run is associated with the latest commit. Do not treat either as a passing application build/test result.
-A successful build and the automated tests are necessary, but do not by themselves authorize replacing the standalone production reader.
+- Run the newly added conflict-focused backup tests on the current branch head. The preceding CI run on `42b1a38` passed 99/99 legacy tests, 111/111 TypeScript tests, type-check, static production build and 25/25 Chromium E2E tests. Two additional unit tests have since been added for newest-draft selection and preservation of local chapter/position choices; they require CI confirmation on the new head.
+- Validate backup import against representative copies of actual legacy user backups, including multiple books, divergent progress, custom chapter selections, draft timestamps, settings extensions and older v1 envelopes. Do this with copies only; never experiment on the user's only live database.
+- Open representative real user IndexedDB v1 libraries in a separate browser profile after exporting a backup. Confirm metadata, original file blobs, artwork and saved progress. Automated coverage currently uses a populated synthetic v1 fixture.
+- Test representative real-world PDFs and EPUBs: long books, unusual chapter structures, malformed archives and scanned/image-only PDFs.
+- Complete visual and audio side-by-side acceptance for all settings, including narrow-screen shelf tabs. Do not rebuild the original catalogues or tabs.
+- Verify real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard behaviour. Synthetic IME lifecycle coverage passes, but it is not a substitute for real input methods.
+- Test on real Android/iOS browsers, including orientation changes and touch/trackpad navigation. The 390 px Chromium viewport test is only a desktop-browser emulation.
+- Complete manual acceptance in the isolated preview before considering any production cutover.
+
+**Production boundary:** the standalone production reader remains untouched. The preview is not wired into the live `/tools/typing/` route. No production deployment or data migration has been performed. Automated green checks do not authorize cutover.
