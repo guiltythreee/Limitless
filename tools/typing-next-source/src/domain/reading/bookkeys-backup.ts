@@ -44,34 +44,42 @@ function nonNegativeFinite(value: unknown): number {
   return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : 0;
 }
 
-function sanitizeBookProgress(value: unknown): unknown {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return value;
-  const record = value as Record<string, unknown>;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function sanitizeBookProgress(value: unknown): Record<string, unknown> | null {
+  if (!isRecord(value)) return null;
   return {
-    ...record,
-    p: numberArray(record.p),
-    e: numberArray(record.e),
-    c: numberArray(record.c),
-    x: numberArray(record.x),
-    done: nonNegativeFinite(record.done),
+    ...value,
+    p: numberArray(value.p),
+    e: numberArray(value.e),
+    c: numberArray(value.c),
+    x: numberArray(value.x),
+    done: nonNegativeFinite(value.done),
   };
 }
 
 function mergeGame(local: Record<string, unknown> | null, incoming: Record<string, unknown>): string {
-  const localBooks = local?.book && typeof local.book === "object" ? local.book as Record<string, unknown> : {};
-  const backupBooks = incoming.book && typeof incoming.book === "object" ? incoming.book as Record<string, unknown> : {};
-  // Sanitize even backup-only books and first-time restores; malformed counters
-  // must not leak into the live game state merely because no local game exists.
+  const localBooks = isRecord(local?.book) ? local.book : {};
+  const backupBooks = isRecord(incoming.book) ? incoming.book : {};
+  // Only accept book records with an object shape. A malformed backup value
+  // must never replace a valid local progress record or enter the live state.
   const books: Record<string, unknown> = Object.fromEntries(
-    Object.entries(backupBooks).map(([key, value]) => [key, sanitizeBookProgress(value)]),
+    Object.entries(backupBooks).flatMap(([key, value]) => {
+      const sanitized = sanitizeBookProgress(value);
+      return sanitized ? [[key, sanitized]] : [];
+    }),
   );
   if (!local) return JSON.stringify({ ...incoming, book: books });
   for (const [key, backupValue] of Object.entries(backupBooks)) {
-    const localValue = localBooks[key];
-    if (!localValue || typeof localValue !== "object" || Array.isArray(localValue) ||
-        !backupValue || typeof backupValue !== "object" || Array.isArray(backupValue)) continue;
-    const current = localValue as Record<string, unknown>;
-    const backup = backupValue as Record<string, unknown>;
+    const backup = sanitizeBookProgress(backupValue);
+    if (!backup) continue;
+    const current = sanitizeBookProgress(localBooks[key]);
+    if (!current) {
+      books[key] = backup;
+      continue;
+    }
     books[key] = {
       ...backup,
       ...current,
@@ -85,21 +93,21 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
       done: Math.max(nonNegativeFinite(current.done), nonNegativeFinite(backup.done)),
     };
   }
-  const localPaid = local.paid && typeof local.paid === "object" ? local.paid as Record<string, unknown> : {};
-  const backupPaid = incoming.paid && typeof incoming.paid === "object" ? incoming.paid as Record<string, unknown> : {};
-  const localAch = local.ach && typeof local.ach === "object" ? local.ach as Record<string, unknown> : {};
-  const backupAch = incoming.ach && typeof incoming.ach === "object" ? incoming.ach as Record<string, unknown> : {};
+  const localPaid = isRecord(local.paid) ? local.paid : {};
+  const backupPaid = isRecord(incoming.paid) ? incoming.paid : {};
+  const localAch = isRecord(local.ach) ? local.ach : {};
+  const backupAch = isRecord(incoming.ach) ? incoming.ach : {};
+  const localOnlyBooks = Object.fromEntries(
+    Object.entries(localBooks).flatMap(([key, value]) => {
+      if (isRecord(backupBooks[key])) return [];
+      const sanitized = sanitizeBookProgress(value);
+      return sanitized ? [[key, sanitized]] : [];
+    }),
+  );
   return JSON.stringify({
     ...incoming,
     ...local,
-    book: {
-      ...books,
-      ...Object.fromEntries(
-        Object.entries(localBooks)
-          .filter(([key]) => !(key in backupBooks))
-          .map(([key, value]) => [key, sanitizeBookProgress(value)]),
-      ),
-    },
+    book: { ...books, ...localOnlyBooks },
     paid: { ...backupPaid, ...localPaid },
     ach: { ...backupAch, ...localAch },
   });
