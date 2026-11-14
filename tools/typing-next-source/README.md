@@ -4,15 +4,14 @@ This is an isolated Next.js/React/TypeScript source project, separate from the a
 
 ## Current migration checkpoint
 
-- Mainline migration branch: `work/bookkeys-typescript-mainline-20261107`
-- Current compatibility-validation branch: `work/bookkeys-ime-compatibility-20261107`
-- Legacy migration and feature checkpoints are retained on named backup branches; do not delete them during consolidation.
+- Active current-main reconciliation branch: `work/bookkeys-current-main-reconciliation-20261114`, tracked by draft PR [#166](https://github.com/guiltythreee/Limitless/pull/166).
+- Latest PR head: `24ed311b2ec1f9d8346eea4bfe48c436b63a6dbf`; latest code fix preserves the legacy game-record shape during backup merge when no local record exists.
+- Latest GitHub Actions validation on that head: migration workflow passed (legacy preservation, persistence, type-check, static build and Chromium browser regressions); separate Bookkeys regression workflow passed.
+- The PR validation history includes **99/99 legacy preservation tests** and **26/26 Chromium browser tests**. The current run confirms the two workflows succeeded on the latest head.
+- PR #166 currently contains 67 added files and is 173 commits ahead / 31 behind current `main`. The diff is isolated to Bookkeys migration/preview files and migration-specific workflow/docs; production application files are not modified.
 - The original standalone reader remains at `tools/typing/bookkeys.html`; the production shell remains at `tools/typing/index.html`.
-- The latest documented CI checkpoint passes 107 TypeScript unit tests, 14 Playwright browser regressions, TypeScript type-checking and the Next.js static production build.
-- CI also reruns the current original 98-test preservation suite from `tools/typing/tests` against the untouched standalone Bookkeys implementation. The archived 91-test baseline and current 98/98 result are recorded in `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
-- The browser regressions cover PDF/EPUB/TXT import, pasted-text book creation, typing and draft persistence, reward persistence, backup export/import, browser history, reading-position recovery, theme/settings persistence, phone-width overflow, non-rewarding sample practice, legacy settings fallback, safe book removal, chapter editing, cross-tab global EXP refresh, reading-stat summaries, a populated IndexedDB v1 fixture and synthetic IME composition lifecycle.
-- The TypeScript reader uses the shared LSR-1 Bookkeys reward adapter and evidence bridge. Its local policy mirror is checked against canonical `shared/rewards.mjs`; tests cover persisted awards, milestones, idempotency, invalid evidence and daily repeat caps. The Bookkeys header reads the shared Limitless LSR-1 total and excludes legacy module-specific XP.
-- Existing Gothic and Garden artwork stored under `art:gothic` and `art:garden` is loaded from IndexedDB and selectable as a reader background. The original reader's full 34-field settings contract has been inventoried, but the React settings UI still exposes only a subset.
+- The preview remains isolated at `/tools/typing-next-preview/`. No production cutover or deployment has been performed.
+- External Vercel status is failing due to a build-rate-limit response; the GitHub migration and regression workflows themselves passed.
 
 ## Safety boundary
 
