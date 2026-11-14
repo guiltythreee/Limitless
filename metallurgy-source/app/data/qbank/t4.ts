@@ -204,11 +204,11 @@ const T4: TopicSource = {
       text: "The number-average DP of a polyamide (repeat unit M = 113 g/mol) with Mn = 33,900 g/mol is:",
       options: [
         { label: "a", text: "30" },
-        { label: "b", text: "300" },
-        { label: "c", text: "113" },
+        { label: "b", text: "113" },
+        { label: "c", text: "300" },
         { label: "d", text: "3,000" }
       ],
-      answer: "b",
+      answer: "c",
       why: "$DP_n = M_n/M_{repeat} = 33900/113 = \\mathbf{300}$.",
       distractors: {
         a: "30 corresponds to Mn = 3,390.",
