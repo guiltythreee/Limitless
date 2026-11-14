@@ -59,7 +59,7 @@ const T5: TopicSource = {
       id: "t5-03",
       type: "numerical",
       diff: 3,
-      text: "A PET sample gives a DSC melting endotherm $\\Delta H_m = 42$ J/g and no cold-crystallization exotherm. Taking $\\Delta H_m^\\circ = 140$ J/g for 100% crystalline PET, the crystallinity is:",
+      text: "For this calculation, use $\\Delta H_m^\\circ = 140$ J/g as the stated reference enthalpy for 100% crystalline PET. A sample gives a DSC melting endotherm $\\Delta H_m = 42$ J/g and no cold-crystallization exotherm. Its crystallinity is:",
       options: [
         { label: "a", text: "42%" },
         { label: "b", text: "10%" },
