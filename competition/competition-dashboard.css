@@ -934,3 +934,25 @@ html[data-theme="light"] .phase-week-bar>span{
 @media(prefers-reduced-motion:reduce){
   .subject-state-bar,.phase-week-bar>span,.subject-card-action b{transition:none!important}
 }
+
+
+/* Four concentric progress rings: each ring tracks one mastery state. */
+.mastery-donut{position:relative;background:none;box-shadow:none}
+.mastery-donut .donut-ring{
+  position:absolute;inset:0;display:block;border-radius:50%;
+  background:conic-gradient(var(--ring-color) calc(var(--ring-pct)*1%),rgba(105,145,184,.13) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px));
+  mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px));
+}
+.mastery-donut .donut-ring-practiced{inset:7px}
+.mastery-donut .donut-ring-learning{inset:14px}
+.mastery-donut .donut-ring-not-started{inset:21px}
+.mastery-donut .donut-center{
+  position:absolute;inset:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:auto;height:auto;border:0;border-radius:50%;background:transparent;box-shadow:none
+}
+.phase-analytics-main .mastery-donut .donut-ring{-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
+.phase-analytics-main .mastery-donut .donut-ring-practiced{inset:6px}
+.phase-analytics-main .mastery-donut .donut-ring-learning{inset:12px}
+.phase-analytics-main .mastery-donut .donut-ring-not-started{inset:18px}
+.phase-analytics-main .mastery-donut .donut-center{inset:22px}
