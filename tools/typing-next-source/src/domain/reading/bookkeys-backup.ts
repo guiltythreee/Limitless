@@ -45,10 +45,19 @@ function nonNegativeFinite(value: unknown): number {
 }
 
 function mergeGame(local: Record<string, unknown> | null, incoming: Record<string, unknown>): string {
-  if (!local) return JSON.stringify(incoming);
-  const localBooks = local.book && typeof local.book === "object" ? local.book as Record<string, unknown> : {};
+  const localBooks = local?.book && typeof local.book === "object" ? local.book as Record<string, unknown> : {};
   const backupBooks = incoming.book && typeof incoming.book === "object" ? incoming.book as Record<string, unknown> : {};
-  const books: Record<string, unknown> = { ...backupBooks };
+  // Sanitize even backup-only books and first-time restores; malformed counters
+  // must not leak into the live game state merely because no local game exists.
+  const books: Record<string, unknown> = Object.fromEntries(
+    Object.entries(backupBooks).map(([key, value]) => [
+      key,
+      value && typeof value === "object" && !Array.isArray(value)
+        ? { ...(value as Record<string, unknown>), done: nonNegativeFinite((value as Record<string, unknown>).done) }
+        : value,
+    ]),
+  );
+  if (!local) return JSON.stringify({ ...incoming, book: books });
   for (const [key, backupValue] of Object.entries(backupBooks)) {
     const localValue = localBooks[key];
     if (!localValue || typeof localValue !== "object" || Array.isArray(localValue) ||
