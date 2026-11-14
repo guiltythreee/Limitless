@@ -70,8 +70,69 @@ export function toCompetitionLearningAttempts(problemLog, revisionAttempts = [])
   return originalAttempts.concat(revisions).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
 }
 
-export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], now = Date.now()) {
-  const attempts = toCompetitionLearningAttempts(problemLog, revisionAttempts);
+
+const CODEFORCES_VERDICTS = Object.freeze({
+  OK: "correct",
+  WRONG_ANSWER: "incorrect",
+  TIME_LIMIT_EXCEEDED: "incorrect",
+  MEMORY_LIMIT_EXCEEDED: "incorrect",
+  RUNTIME_ERROR: "incorrect",
+  COMPILATION_ERROR: "incorrect",
+  IDLENESS_LIMIT_EXCEEDED: "incorrect",
+  CRASHED: "incorrect",
+  PRESENTATION_ERROR: "incorrect",
+  PARTIAL: "partial",
+  FAILED: "incorrect",
+  REJECTED: "incorrect",
+  SECURITY_VIOLATED: "incorrect",
+  INPUT_PREPARATION_CRASHED: "incorrect",
+});
+
+/**
+ * Convert public Codeforces API submissions into shared learning evidence.
+ * Submission IDs are the stable attempt IDs; repeated API pages are deduplicated.
+ * Verdicts are outcomes only: no mistake category is inferred from a verdict.
+ */
+export function toCodeforcesLearningAttempts(submissions) {
+  if (!Array.isArray(submissions)) return [];
+  const seen = new Set();
+  return submissions.flatMap((submission) => {
+    if (!submission || typeof submission !== "object" || Array.isArray(submission)) return [];
+    const submissionId = Number(submission.id);
+    const seconds = Number(submission.creationTimeSeconds);
+    const contestId = Number(submission.contestId ?? submission.problem?.contestId);
+    const index = typeof submission.problem?.index === "string" ? submission.problem.index.trim() : "";
+    const outcome = CODEFORCES_VERDICTS[submission.verdict];
+    if (!Number.isSafeInteger(submissionId) || submissionId <= 0 || seen.has(submissionId) ||
+        !Number.isFinite(seconds) || seconds <= 0 || !Number.isSafeInteger(contestId) ||
+        contestId <= 0 || !index || !outcome) return [];
+    seen.add(submissionId);
+    const occurredAt = seconds * 1000;
+    if (!Number.isFinite(occurredAt)) return [];
+    const tags = Array.isArray(submission.problem.tags)
+      ? [...new Set(submission.problem.tags.filter((tag) => typeof tag === "string" && tag.trim()).map((tag) => tag.trim().toLowerCase()))]
+      : [];
+    return [{
+      id: "codeforces:" + submissionId,
+      disciplineId: "competitive-programming",
+      courseId: "codeforces",
+      contentId: contestId + index,
+      questionId: "codeforces:" + contestId + index,
+      subjectId: tags[0] || "codeforces",
+      conceptIds: tags,
+      outcome,
+      occurredAt,
+      elapsedMs: Number.isFinite(Number(submission.timeConsumedMillis)) && Number(submission.timeConsumedMillis) > 0
+        ? Number(submission.timeConsumedMillis) : undefined,
+      independent: outcome === "correct",
+      hintCount: outcome === "correct" ? 0 : undefined,
+      mode: submission.author?.participantType === "CONTESTANT" ? "contest" : "practice",
+    }];
+  }).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
+}
+
+export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], now = Date.now(), codeforcesSubmissions = []) {
+  const attempts = toCompetitionLearningAttempts(problemLog, revisionAttempts).concat(toCodeforcesLearningAttempts(codeforcesSubmissions)).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
   const mastery = buildConceptMastery(attempts);
   return {
     attempts,
