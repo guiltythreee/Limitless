@@ -102,7 +102,7 @@ test("EPUB covers persist in the library and chapter titles edit inline", async 
 
   await page.getByRole("button", { name: "← Library" }).click();
   const card = page.locator(".bk-book-card").filter({ hasText: "Bookkeys Migration Fixture" });
-  await expect(card.locator(".bk-book-cover")).toHaveAttribute("src", /^data:image\\/jpeg;base64,/);
+  await expect(card.locator(".bk-book-cover")).toHaveAttribute("src", /^data:image\/jpeg;base64,/);
 });
 test("EPUB import, progress, rewards and backup round-trip survive reload", async ({ page, browser }) => {
   await page.goto("/tools/typing-next-preview/");
