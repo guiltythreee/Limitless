@@ -242,6 +242,54 @@ html[data-theme="light"] .learning-intel-label { color:#315f8a; }
 html[data-theme="light"] .learning-intel-card { background:rgba(248,252,255,.92); }
 
 
+/* Compact homepage treatment: keep the intelligence overview useful without letting it dominate the page. */
+.learning-intelligence-panel {
+  padding: 17px 20px 14px;
+  background: linear-gradient(110deg,rgba(9,22,39,.76),rgba(8,18,32,.64));
+  border-color: rgba(105,166,225,.15);
+  box-shadow: 0 10px 28px rgba(0,0,0,.10);
+}
+.learning-intelligence-panel .panel-heading { margin-bottom: 12px; }
+.learning-intelligence-panel .panel-heading h2 { font-size: 14px; }
+.learning-intelligence-panel .panel-heading p { font-size: 10px; }
+.learning-intel-overview { display:grid; grid-template-columns:minmax(150px,.62fr) minmax(0,2.38fr); align-items:center; gap:18px; }
+.learning-intel-totals { align-items:center; gap:14px; margin:0; }
+.learning-intel-totals>div { min-width:0; gap:2px; }
+.learning-intel-totals strong { font-size:21px; }
+.learning-intel-totals span { font-size:9px; white-space:nowrap; }
+.learning-intel-totals>i { width:1px; height:30px; background:var(--home-border); }
+.learning-intel-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.learning-intel-card { gap:3px; padding:9px 11px; border-radius:8px; background:rgba(7,18,32,.48); }
+.learning-intel-label { font-size:9px; }
+.learning-intel-count { font-size:18px; }
+.learning-intel-caption { font-size:9px; }
+.learning-intel-card small { font-size:9px; }
+.learning-intel-expanded { margin-top:12px; border-top:1px solid var(--home-border); }
+.learning-intel-expanded summary { display:flex; align-items:center; gap:10px; padding:10px 1px 2px; color:#9fcfff; cursor:pointer; list-style:none; font-size:10px; font-weight:700; }
+.learning-intel-expanded summary::-webkit-details-marker { display:none; }
+.learning-intel-expanded summary::before { content:'＋'; display:grid; place-items:center; width:17px; height:17px; border:1px solid var(--home-border); border-radius:50%; font-size:12px; }
+.learning-intel-expanded[open] summary::before { content:'−'; }
+.learning-intel-summary-hint { color:var(--home-muted); font-size:9px; font-weight:400; }
+.learning-intel-details { gap:22px; margin-top:9px; }
+.learning-intel-details h3 { font-size:11px; }
+.learning-intel-row { padding:7px 0; }
+.learning-intel-row strong,.learning-intel-row span { font-size:10px; }
+.learning-intel-note { margin-top:9px; font-size:9px; }
+html[data-theme="light"] .learning-intelligence-panel { background:rgba(255,255,255,.88); }
+html[data-theme="light"] .learning-intel-card { background:rgba(240,247,253,.86); }
+html[data-theme="light"] .learning-intel-expanded summary { color:#286b9f; }
+@media(max-width:900px) {
+  .learning-intel-overview { grid-template-columns:1fr; gap:11px; }
+  .learning-intel-totals { gap:12px; }
+}
+@media(max-width:600px) {
+  .learning-intelligence-panel { padding:15px; }
+  .learning-intel-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .learning-intel-details { grid-template-columns:1fr; gap:12px; }
+  .learning-intel-expanded summary { flex-wrap:wrap; }
+}
+
+
 .learning-intel-focus-link{color:var(--home-ink);text-decoration:none}
 .learning-intel-focus-link:hover{color:#78bdff;text-decoration:underline;text-underline-offset:3px}
 .learning-intel-focus-link:focus-visible{outline:2px solid #78bdff;outline-offset:3px;border-radius:3px}

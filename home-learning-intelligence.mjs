@@ -36,7 +36,7 @@ function statusLabel(status) {
 
 function render(report, host) {
   if (!report.totalAttempts) {
-    host.innerHTML = '<p class="learning-intel-empty">No dated practice attempts have been recorded yet. Start practising in any module and your existing progress will appear here automatically.</p>';
+    host.innerHTML = '<p class="learning-intel-empty">No dated practice attempts yet. Start practising in any module and your progress will appear here.</p>';
     return;
   }
 
@@ -44,25 +44,15 @@ function render(report, host) {
     '<article class="learning-intel-card">' +
       '<span class="learning-intel-label">' + escapeHtml(section.label) + '</span>' +
       '<strong class="learning-intel-count">' + section.attempts.toLocaleString() + '</strong>' +
-      '<span class="learning-intel-caption">recorded attempts</span>' +
-      '<small>' + section.concepts + ' tracked concepts · ' + section.secure + ' secure</small>' +
+      '<span class="learning-intel-caption">' + section.concepts + ' concepts · ' + section.secure + ' secure</span>' +
     '</article>'
   )).join("");
 
-  const moduleLinks = {
-    "competitive-programming": "competition/",
-    mathematics: "tools/math/index.html",
-    probability: "probability/studies/",
-    metallurgy: "metallurgy/",
-  };
   const focus = report.focus.slice(0, 5).map((item) => {
     const section = report.sections.find((entry) => entry.id === item.disciplineId);
     const detail = item.status === "insufficient-data" ? "More evidence needed" : statusLabel(item.status);
-    const href = moduleLinks[item.disciplineId];
-    const title = escapeHtml((section?.label || item.disciplineId) + " · " + item.label);
-    return '<div class="learning-intel-row"><strong>' + (href
-      ? '<a class="learning-intel-focus-link" href="' + href + '">' + title + ' <span aria-hidden="true">↗</span></a>'
-      : title) + '</strong><span>' + detail + ' · ' + item.attempts + ' attempts · ' +
+    return '<div class="learning-intel-row"><strong>' + escapeHtml((section?.label || item.disciplineId) + " · " + item.label) +
+      '</strong><span>' + detail + ' · ' + item.attempts + ' attempts · ' +
       Math.round(item.accuracy * 100) + '%</span></div>';
   }).join("");
 
@@ -74,19 +64,26 @@ function render(report, host) {
   }).join("");
 
   host.innerHTML =
-    '<div class="learning-intel-totals"><div><strong>' + report.totalAttempts.toLocaleString() +
-    '</strong><span>dated attempts</span></div><div><strong>' + report.trackedConcepts.toLocaleString() +
-    '</strong><span>tracked concepts</span></div></div>' +
-    '<div class="learning-intel-grid">' + cards + '</div>' +
-    '<div class="learning-intel-details">' +
-      '<div><h3>Suggested focus</h3>' +
-        (focus || '<p class="learning-intel-empty">No developing concepts yet. Keep practising to build more evidence.</p>') +
+    '<div class="learning-intel-overview">' +
+      '<div class="learning-intel-totals">' +
+        '<div><strong>' + report.totalAttempts.toLocaleString() + '</strong><span>dated attempts</span></div>' +
+        '<i aria-hidden="true"></i>' +
+        '<div><strong>' + report.trackedConcepts.toLocaleString() + '</strong><span>tracked concepts</span></div>' +
       '</div>' +
-      '<div><h3>Recurring mistakes</h3>' +
-        (mistakes || '<p class="learning-intel-empty">Mistake patterns will appear as attempts are classified in their own modules.</p>') +
-      '</div>' +
+      '<div class="learning-intel-grid">' + cards + '</div>' +
     '</div>' +
-    '<p class="learning-intel-note">Read-only overview. Each module keeps its own saved progress, grading and revision rules.</p>';
+    '<details class="learning-intel-expanded">' +
+      '<summary><span>Explore learning insights</span><span class="learning-intel-summary-hint">Focus areas and recurring mistakes</span></summary>' +
+      '<div class="learning-intel-details">' +
+        '<div><h3>Suggested focus</h3>' +
+          (focus || '<p class="learning-intel-empty">No developing concepts yet. Keep practising to build more evidence.</p>') +
+        '</div>' +
+        '<div><h3>Recurring mistakes</h3>' +
+          (mistakes || '<p class="learning-intel-empty">Mistake patterns will appear as attempts are classified in their own modules.</p>') +
+        '</div>' +
+      '</div>' +
+      '<p class="learning-intel-note">Read-only overview. Each module keeps its own saved progress, grading and revision rules.</p>' +
+    '</details>';
 }
 
 /** Render a read-only overview from existing same-origin progress stores. */
