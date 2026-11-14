@@ -7,10 +7,16 @@ import {
 
 test("front and back matter headings are optional by default", () => {
   for (const title of [
-    "Contents", "Table of Contents", "Copyright", "Publication information", "Dedication",
-    "Foreword", "Preface", "Introduction", "Prologue", "Epilogue", "Afterword", "Appendix",
-    "Appendix A", "Glossary", "Bibliography", "References", "Sources", "Acknowledgements",
-    "Acknowledgments", "Author's Note", "Index", "Colophon", "About the Author", "Also by",
+    "Cover", "Title Page", "Half Title", "Frontispiece", "Contents", "Table of Contents",
+    "List of Illustrations", "List of Figures", "List of Plates", "List of Maps", "List of Tables",
+    "Copyright", "Publication information", "Dedication", "Foreword", "Preface", "Introduction",
+    "Prologue", "Epilogue", "Afterword", "Appendix", "Appendix A", "Glossary", "Bibliography",
+    "References", "Sources", "Acknowledgements", "Acknowledgments", "Author's Note", "Authors Note",
+    "Index", "Colophon", "About the Author", "About the Authors", "About the Editors",
+    "About the Contributors", "Also by", "Errata", "Abbreviations", "Chronology", "Timeline",
+    "Cast of Characters", "Dramatis Personae", "Translator's Note", "Translator's Preface",
+    "Editor's Note", "Editor's Preface", "Publisher's Note", "A Note on the Text",
+    "A Note on the Translation", "How to Use This Book",
   ]) assert.equal(sectionRequired(title), false, title);
 });
 
@@ -30,6 +36,10 @@ test("numbering is removed before optional headings are matched", () => {
   assert.equal(sectionRequired("I. Index"), false);
   assert.equal(sectionRequired("12. Notes"), false);
   assert.equal(sectionRequired("2. Introduction"), false);
+  assert.equal(sectionRequired("Volume IV: Index"), false);
+  assert.equal(sectionRequired("Section 2: Notes"), false);
+  assert.equal(sectionRequired("Act I: Introduction"), false);
+  assert.equal(sectionRequired("Canto III: The Palace"), true);
 });
 
 test("leading articles do not hide front and back matter names", () => {
