@@ -330,7 +330,7 @@ export default function BookkeysApp() {
   const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 20, lineH: 1.7, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
-  const [settingsTab, setSettingsTab] = useState<"theme" | "appearance" | "data">("theme");
+  const [settingsTab, setSettingsTab] = useState<"theme" | "background" | "data">("theme");
   const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
   const backgroundEngineRef = useRef<ReturnType<typeof createBookkeysBackgroundEngine> | null>(null);
   const [clockMinute, setClockMinute] = useState(() => new Date().getMinutes());
@@ -1459,18 +1459,11 @@ export default function BookkeysApp() {
             </header>
             <nav className="bk-settings-tabs" aria-label="Settings sections">
               <button className={settingsTab === "theme" ? "active" : ""} onClick={() => setSettingsTab("theme")}>Theme</button>
-              <button className={settingsTab === "appearance" ? "active" : ""} onClick={() => setSettingsTab("appearance")}>Appearance</button>
+              <button className={settingsTab === "background" ? "active" : ""} onClick={() => setSettingsTab("background")}>Background</button>
               <button className={settingsTab === "data" ? "active" : ""} onClick={() => setSettingsTab("data")}>Data</button>
             </nav>
             {settingsTab === "theme" ? (
               <div className="bk-settings-content">
-                <label className="bk-setting bk-setting-check">
-                  <span>Match colors to background</span>
-                  <input type="checkbox" checked={settings.bgMatch !== false}
-                    onChange={(event) => { clearThemeOverride(); persistSettings({ ...settings, bgMatch: event.currentTarget.checked }); }} />
-                </label>
-                <p className="bk-settings-note">When enabled, each original background selects its matching reader palette. Custom accent and text colours remain independent.</p>
-                {themeOverride && <p className="bk-settings-note">The header's quick theme override is active. Choose a background or change this setting to return to matched colors.</p>}
                 <div className="bk-setting">
                   <span>Color theme</span>
                   <div className="bk-theme-tiles" role="group" aria-label="Color theme">
@@ -1530,7 +1523,7 @@ export default function BookkeysApp() {
                   <span className="bk-settings-note" role="status">{artworkStatus || "Images are resized to at most 1600 × 900 before local storage."}</span>
                 </div>
               </div>
-            ) : settingsTab === "appearance" ? (
+            ) : settingsTab === "background" ? (
               <div className="bk-settings-content">
                 <label className="bk-setting">
                   <span>Reading background</span>
@@ -1618,6 +1611,13 @@ export default function BookkeysApp() {
                   <input type="checkbox" checked={settings.bgAnim !== false}
                     onChange={(event) => persistSettings({ ...settings, bgAnim: event.currentTarget.checked })} />
                 </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Match colors to background</span>
+                  <input type="checkbox" checked={settings.bgMatch !== false}
+                    onChange={(event) => { clearThemeOverride(); persistSettings({ ...settings, bgMatch: event.currentTarget.checked }); }} />
+                </label>
+                <p className="bk-settings-note">When enabled, each original background selects its matching reader palette. Custom accent and text colours remain independent.</p>
+                {themeOverride && <p className="bk-settings-note">The header's quick theme override is active. Change this setting or choose a background to return to matched colors.</p>}
                 <p className="bk-settings-note">Time of Day switches from Morning at 06:00, to Evening at 17:00, and Night at 20:00. The three photographs use portrait crops on tall screens. Picture backgrounds always keep at least 70% text backdrop for readability.</p>
                 <label className="bk-setting">
                   <span>Reading text colour</span>
