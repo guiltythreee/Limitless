@@ -82,3 +82,18 @@ The following are genuinely outstanding; implemented features and passing fixtur
 - Complete manual acceptance in the isolated preview before considering any production cutover.
 
 **Production boundary:** the standalone production reader remains untouched. The preview is not wired into the live `/tools/typing/` route. No production deployment or data migration has been performed. Automated green checks do not authorize cutover.
+
+
+## Automated continuation checkpoint — 15 November 2026
+
+- Latest branch commit: `a90e8e4c611343abc0cd450d4ea2c5ae88a06008`.
+- Both workflows passed on this exact head:
+  - Bookkeys Regression Tests: [43655018469](https://github.com/guiltythreee/Limitless/actions/runs/43655018469).
+  - Bookkeys TypeScript Migration: [43655018457](https://github.com/guiltythreee/Limitless/actions/runs/43655018457).
+- The migration workflow completed legacy preservation tests, persistence tests, TypeScript type-check, static export build and Chromium browser regressions.
+- Added a populated-v1 IndexedDB regression fixture: seeds an existing `bookkeys-lib` v1 database with legacy metadata extensions, original file bytes and artwork, then verifies the adapter opens and adds another book without upgrading or losing existing records.
+- Current `main` head: `7b73fed7e3aef13a20e34bac8c83443906c9f3ef`.
+- The branch is 181 commits ahead / 49 behind current `main`. A path-level comparison of the 67 Bookkeys PR files against the 105 files changed on `main` since the PR base found **zero overlapping paths**. The PR remains additive and isolated; do not merge solely on that basis.
+- Vercel still reports a build-rate-limit failure. It is separate from the two passing GitHub Actions workflows.
+
+The user does not plan a separate manual acceptance/testing pass and will report issues encountered during ordinary use. Continue using automated regression, type-check, build and browser checks as the primary verification. This does not convert synthetic fixtures into proof of compatibility with every real-world file, device or input method, and does not authorize production cutover or deployment.
