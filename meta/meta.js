@@ -471,7 +471,7 @@ function render() {
   if (!summary.recentAwards.length) {
     const empty = document.createElement("p");
     empty.className = "meta-muted";
-    empty.textContent = "No EXP awards yet. Submit a Probability answer, finish an eligible Math Trainer session, type a verified Bookkeys page, or practise in Metallurgy MT201–MT203.";
+    empty.textContent = "No EXP awards yet. Submit a Probability answer, finish an eligible Math Trainer session, type a verified Bookkeys page, practise in Metallurgy MT201–MT203, or solve a new accepted Codeforces problem.";
     recent.append(empty);
   } else {
     for (const award of summary.recentAwards) {
@@ -493,6 +493,8 @@ function render() {
         title = "Metallurgy · MT202";
       } else if (award.moduleId === "metallurgy-mt203") {
         title = "Metallurgy · MT203";
+      } else if (award.moduleId === "competitive-programming") {
+        title = "Codeforces · accepted problem";
       } else if (award.moduleId === "bookkeys") {
         title = award.itemId.startsWith("bookkeys:page:")
           ? "Bookkeys · typed page"
