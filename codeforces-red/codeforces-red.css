@@ -499,3 +499,169 @@ html[data-theme="light"] .cr-training-page-title h1{color:#1c3d5c}
  .cr-training-pagebar{align-items:stretch;flex-direction:column;gap:12px;padding:13px}
  .cr-training-back-home{width:100%}
 }
+
+
+/* =========================================================
+   Limitless visual refresh — Codeforces overview and ladder
+   Aligns this module with the home dashboard's blue glass UI.
+   ========================================================= */
+.cf-red-page{
+  --cf-panel:rgba(8,18,32,.78);
+  --cf-panel-strong:rgba(8,20,38,.92);
+  --cf-border:rgba(105,166,225,.22);
+  --cf-ink:#eaf3ff;
+  --cf-muted:#a9bfd7;
+  --cf-blue:#64b4ff;
+  color:var(--cf-ink);
+  font-family:Arial,sans-serif;
+}
+.cf-red-page::after{
+  background:linear-gradient(180deg,rgba(3,9,18,.52),rgba(3,9,18,.42) 55%,rgba(3,9,18,.72));
+}
+.cr-topbar{
+  position:sticky;top:0;z-index:100;min-height:62px;padding:0 25px;
+  display:grid;grid-template-columns:245px minmax(0,1fr) auto;gap:24px;
+  background:rgba(4,12,23,.9);border-bottom:1px solid var(--cf-border);
+  backdrop-filter:blur(18px);
+}
+.cr-brand{display:flex;align-items:center;gap:10px;color:#d9ecff;font:700 17px Arial,sans-serif;letter-spacing:3px;text-decoration:none}
+.cr-brand::first-letter{color:#fff}
+.cr-topbar nav{display:flex;align-items:center;gap:7px}
+.cr-topbar nav a{
+  padding:9px 14px;border-radius:22px;color:#bfd0e4;font:12px Arial,sans-serif;
+  text-decoration:none;transition:background .18s,color .18s;
+}
+.cr-topbar nav a:hover{background:rgba(26,113,207,.18);color:#f2f8ff}
+.cr-topbar nav a[href="../competition/"]{background:linear-gradient(100deg,rgba(26,113,207,.32),rgba(26,113,207,.08));color:#f2f8ff}
+.cr-topbar .theme-toggle{
+  min-width:76px;height:34px;padding:0 12px;border:1px solid var(--cf-border);
+  border-radius:18px;background:rgba(15,31,50,.8);color:#d5eaff;cursor:pointer;font:11px Arial,sans-serif;
+}
+.cr-main{width:min(1440px,calc(100% - 48px));max-width:1440px;padding:28px 0 58px}
+.cr-main>.cr-back{display:inline-flex;align-items:center;gap:7px;margin:0 0 17px;color:#9fc9f0;font-size:12px;text-decoration:none}
+.cr-main>.cr-back:hover{color:#fff}
+.cr-account,.cr-hero,.cr-ladder-section{
+  border:1px solid var(--cf-border);border-radius:17px;
+  background:var(--cf-panel);backdrop-filter:blur(14px);
+  box-shadow:0 18px 50px rgba(0,0,0,.16);
+}
+.cr-account{margin:0 0 16px;padding:14px 18px;min-height:78px}
+.cr-account-actions{
+  flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+.cr-account-identity{gap:13px}
+.cr-account-avatar{width:44px;height:44px;flex-basis:44px;box-shadow:0 5px 16px rgba(26,112,202,.25)}
+.cr-account-meta strong{font-size:14px;letter-spacing:.1px}
+.cr-account-connected{font-size:11px}
+.cr-account-meta a{font-size:11px}
+.cr-account-actions button,.cr-refresh-button{
+  min-height:42px;padding:0 17px;border:1px solid rgba(103,174,239,.42);border-radius:10px;
+  background:linear-gradient(135deg,#238ce9,#1763b5);color:#fff;cursor:pointer;
+  font:700 12px Arial,sans-serif;box-shadow:0 7px 18px rgba(19,91,161,.2);
+  transition:transform .18s,filter .18s,box-shadow .18s;
+}
+.cr-account-actions button:hover,.cr-refresh-button:hover{transform:translateY(-1px);filter:brightness(1.08);box-shadow:0 10px 24px rgba(19,91,161,.28)}
+.cr-hero{
+  position:relative;overflow:hidden;padding:clamp(24px,3.2vw,42px);
+  background:linear-gradient(110deg,rgba(5,23,47,.96),rgba(9,36,68,.86) 58%,rgba(12,31,57,.66));
+}
+.cr-hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 83% 18%,rgba(48,126,204,.22),transparent 36%),
+    radial-gradient(ellipse at 12% 100%,rgba(34,111,186,.12),transparent 42%);
+}
+.cr-title-row,.cr-stats,.cr-progress-head,.cr-progress,.cr-sync{position:relative;z-index:1}
+.cr-title-row{align-items:center;min-height:76px}
+.cr-title-row h1{margin:0;color:#f0f7ff;font:600 clamp(30px,4vw,46px)/1.12 Arial,sans-serif;letter-spacing:-1.1px}
+.cr-emblem{color:rgba(108,176,241,.2);font-size:82px}
+.cr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-top:27px}
+.cr-stats article{
+  min-height:91px;padding:16px 17px;border:1px solid rgba(105,166,225,.2);
+  border-radius:13px;background:rgba(8,25,45,.58);transition:border-color .2s,background .2s;
+}
+.cr-stats article:hover{border-color:rgba(104,181,255,.42);background:rgba(14,39,66,.76)}
+.cr-stats article span{color:#91acc9;font-size:9px;font-weight:700;letter-spacing:1.35px}
+.cr-stats article strong{display:block;margin-top:9px;color:#edf6ff;font:700 clamp(20px,2vw,27px)/1 Arial,sans-serif;letter-spacing:-.5px}
+.cr-progress-head{margin-top:25px;color:#b7cde4;font-size:12px}
+.cr-progress-head strong{color:#79bdff;font-size:13px}
+.cr-progress{height:9px;margin-top:9px;overflow:hidden;border-radius:10px;background:rgba(133,166,199,.18)}
+.cr-progress span{height:100%;border-radius:inherit;background:linear-gradient(90deg,#238ce9,#73c4ff);box-shadow:0 0 16px rgba(84,174,255,.38);transition:width .45s ease}
+.cr-sync{margin:9px 0 0;color:#9fb5ce;font-size:11px}
+.cr-ladder-section{margin-top:17px;padding:23px}
+.cr-section-head{align-items:center;margin-bottom:18px}
+.cr-section-head h2{margin:5px 0 0;color:#eaf4ff;font:600 21px Arial,sans-serif;letter-spacing:-.35px}
+.cr-section-head>a{padding:8px 11px;border:1px solid var(--cf-border);border-radius:8px;background:rgba(15,39,65,.56);font-size:11px}
+.cr-milestones{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.cr-milestone{
+  position:relative;min-height:104px;grid-template-columns:38px minmax(0,1fr);grid-template-rows:auto auto;
+  align-content:center;gap:8px 11px;padding:15px;border:1px solid rgba(105,166,225,.19);
+  border-radius:13px;background:linear-gradient(145deg,rgba(16,39,64,.78),rgba(8,22,39,.82));
+  box-shadow:0 8px 22px rgba(0,0,0,.08);transition:transform .2s,border-color .2s,background .2s;
+}
+.cr-milestone:hover{transform:translateY(-2px);border-color:rgba(104,181,255,.4)}
+.cr-milestone>div:nth-child(2){min-width:0}
+.cr-milestone h3{font-size:13px;line-height:1.35}
+.cr-milestone p{grid-column:1/-1;margin:0;color:#8fa9c4;font-size:10px;line-height:1.4}
+.cr-step{
+  display:grid;place-items:center;width:38px;height:38px;border-radius:12px;
+  background:rgba(63,139,210,.16);color:#a9d5ff;font-size:14px;font-weight:700;
+}
+.cr-milestone>div:last-child{grid-column:2;grid-row:2;display:flex;align-items:baseline;gap:8px}
+.cr-threshold{color:#d9eaff;font-size:15px;font-weight:700}
+.cr-status{color:#91a9c3;font-size:9px}
+.cr-milestone.is-done{border-color:rgba(62,194,145,.34);background:linear-gradient(145deg,rgba(20,72,65,.3),rgba(8,31,34,.72))}
+.cr-milestone.is-done .cr-step{background:rgba(44,178,127,.17);color:#72e0b2}
+.cr-milestone.is-next{border-color:rgba(91,174,244,.68);background:linear-gradient(145deg,rgba(31,83,132,.38),rgba(10,29,51,.9));box-shadow:0 9px 25px rgba(20,90,150,.13)}
+.cr-milestone.is-next .cr-step{background:linear-gradient(135deg,#238ce9,#1763b5);color:#fff}
+.cr-milestone.is-next .cr-status{color:#85c8ff}
+.cr-training-launch{margin:18px 0 20px}
+.cr-training-launch-tile{
+  width:210px;padding:19px;border-radius:16px;border-color:rgba(105,166,225,.24);
+  background:linear-gradient(145deg,rgba(5,23,47,.96),rgba(9,36,68,.88));
+  box-shadow:0 15px 34px rgba(0,0,0,.16);
+}
+.cr-training-launch-tile strong{font-size:19px;letter-spacing:-.35px}
+.cr-training-launch-tile .cr-eyebrow{font-size:9px;letter-spacing:1.8px}
+.cr-training-launch-arrow{color:#82c5ff;font-size:25px}
+.cr-training-launch-tile:hover{transform:translateY(-3px);box-shadow:0 20px 38px rgba(12,64,115,.22)}
+html[data-theme="light"] .cf-red-page{--cf-panel:rgba(244,249,255,.84);--cf-panel-strong:rgba(249,252,255,.96);--cf-border:rgba(59,112,159,.22);--cf-ink:#1c3d5c;--cf-muted:#526d87}
+html[data-theme="light"] .cr-topbar{background:rgba(244,249,255,.92);border-color:#c8d9e8}
+html[data-theme="light"] .cr-brand,html[data-theme="light"] .cr-topbar nav a{color:#244766}
+html[data-theme="light"] .cr-topbar nav a[href="../competition/"]{background:#e0eefb;color:#174d7c}
+html[data-theme="light"] .cr-topbar .theme-toggle{background:#fff;color:#244766;border-color:#c5d6e5}
+html[data-theme="light"] .cr-account,html[data-theme="light"] .cr-ladder-section{background:rgba(244,249,255,.84);border-color:#c8d9e8}
+html[data-theme="light"] .cr-account-meta strong,html[data-theme="light"] .cr-section-head h2{color:#1c3d5c}
+html[data-theme="light"] .cr-account-connected,html[data-theme="light"] .cr-account-meta a{color:#416889}
+html[data-theme="light"] .cr-hero{background:linear-gradient(110deg,rgba(232,243,255,.96),rgba(207,229,251,.9) 58%,rgba(235,245,255,.88))}
+html[data-theme="light"] .cr-title-row h1,html[data-theme="light"] .cr-stats article strong{color:#1c3d5c}
+html[data-theme="light"] .cr-stats article{background:rgba(255,255,255,.64);border-color:#c8d9e8}
+html[data-theme="light"] .cr-stats article span,html[data-theme="light"] .cr-progress-head,html[data-theme="light"] .cr-sync{color:#526d87}
+html[data-theme="light"] .cr-progress{background:rgba(61,104,143,.16)}
+html[data-theme="light"] .cr-section-head>a{background:#eef6fd;border-color:#c5d6e5;color:#205a87}
+html[data-theme="light"] .cr-milestone{background:linear-gradient(145deg,#fff,#edf5fc);border-color:#cfdeeb}
+html[data-theme="light"] .cr-milestone h3,html[data-theme="light"] .cr-threshold{color:#1c3d5c}
+html[data-theme="light"] .cr-milestone p,html[data-theme="light"] .cr-status{color:#627d96}
+html[data-theme="light"] .cr-milestone.is-done{background:linear-gradient(145deg,#effaf5,#e5f5ee);border-color:#b8dfcd}
+html[data-theme="light"] .cr-milestone.is-next{background:linear-gradient(145deg,#e9f4ff,#dceeff);border-color:#83b8e2}
+html[data-theme="light"] .cr-training-launch-tile{background:linear-gradient(145deg,#f7fbff,#eaf3fb);border-color:#c5d6e5;color:#1c3d5c}
+@media(max-width:1100px){.cr-main{width:min(1200px,calc(100% - 36px))}.cr-milestones{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){
+  .cr-topbar{grid-template-columns:1fr auto;gap:10px;padding:10px 14px}
+  .cr-topbar nav{grid-column:1/-1;grid-row:2;justify-content:center;overflow-x:auto}
+  .cr-main{width:calc(100% - 24px);padding:16px 0 34px}
+  .cr-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .cr-ladder-section{padding:16px}
+  .cr-milestones{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+}
+@media(max-width:480px){
+  .cr-account-actions{align-items:flex-start;flex-direction:column}
+  .cr-account-actions button{width:100%}
+  .cr-title-row h1{font-size:30px}
+  .cr-emblem{font-size:58px}
+  .cr-milestones{grid-template-columns:1fr}
+  .cr-training-launch-tile{width:100%;max-width:210px}
+}
+@media(prefers-reduced-motion:reduce){
+  .cr-stats article,.cr-milestone,.cr-progress span,.cr-account-actions button,.cr-training-launch-tile{transition:none!important}
+}
