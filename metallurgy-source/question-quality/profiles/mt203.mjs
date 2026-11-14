@@ -11,9 +11,5 @@ registerProfile({
     requireSource: false,
     requireDifficulty: true,
     allowMultipleCorrect: false,
-    forbiddenOptionPatterns: [
-      /\b(?:all|none) of the (?:above|these)\b/i,
-      /\b(?:both|neither) of the above\b/i,
-    ],
   },
 });
