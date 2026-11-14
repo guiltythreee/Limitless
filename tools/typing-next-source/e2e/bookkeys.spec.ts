@@ -666,6 +666,8 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
       fp: "existing-v1-fingerprint",
       cover: "",
       fmt: "epub",
+      author: "Legacy Author",
+      legacyExtension: { source: "original-reader", flags: ["keep", "all"] },
     });
     transaction.objectStore("files").put(
       new Blob([new Uint8Array(bytes)], { type: "application/epub+zip" }),
@@ -689,6 +691,37 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
   await expect(page.getByRole("button", { name: /Existing v1 Book/ })).toBeVisible();
   await page.getByRole("button", { name: /Existing v1 Book/ }).click();
   await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
+  const legacyRecord = await page.evaluate(async () => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open("bookkeys-lib", 1);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const transaction = database.transaction(["meta", "files"], "readonly");
+    const metadata = await new Promise<any>((resolve, reject) => {
+      const request = transaction.objectStore("meta").get("pre-existing-library-book");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const file = await new Promise<Blob>((resolve, reject) => {
+      const request = transaction.objectStore("files").get("pre-existing-library-book");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    database.close();
+    return {
+      author: metadata.author,
+      extension: metadata.legacyExtension,
+      fileType: file.type,
+      fileSize: file.size,
+    };
+  });
+  expect(legacyRecord).toMatchObject({
+    author: "Legacy Author",
+    extension: { source: "original-reader", flags: ["keep", "all"] },
+    fileType: "application/epub+zip",
+    fileSize: bytes.length,
+  });
   await expect(page.locator(".bk-source-text")).toContainText("browser regression fixture");
   await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 1");
   await page.getByRole("button", { name: "Settings" }).click();
