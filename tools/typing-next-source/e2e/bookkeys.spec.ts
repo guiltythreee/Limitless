@@ -285,6 +285,37 @@ test("theme and reader settings are interactive and persist without overwriting 
   await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("pic-night");
 });
 
+test("library supports Recent, moving books between shelves and removing a book from its card", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "library-actions-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  await page.getByRole("button", { name: "← Library" }).click();
+
+  page.once("dialog", (dialog) => dialog.accept("Favourites"));
+  await page.getByRole("button", { name: "New shelf" }).click();
+  const shelf = page.getByLabel("Choose shelf");
+  await shelf.selectOption("main");
+  const move = page.getByLabel("Move Bookkeys Migration Fixture to another shelf");
+  await move.selectOption({ label: "Favourites" });
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toHaveCount(0);
+
+  await shelf.selectOption({ label: "Favourites" });
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
+  await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
+  await page.getByRole("button", { name: "← Library" }).click();
+  await shelf.selectOption("recent");
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
+
+  await shelf.selectOption({ label: "Favourites" });
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Remove", exact: true }).click();
+  await expect(page.getByText("No books yet")).toBeVisible();
+});
+
 test("PDF import extracts readable text and records page completion", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const pdf = await makeFixturePdf();
