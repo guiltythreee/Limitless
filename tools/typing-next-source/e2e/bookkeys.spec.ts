@@ -121,7 +121,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
 
   await page.getByRole("button", { name: /Library/ }).click();
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   const sourceSettings = page.getByRole("dialog", { name: "Settings" });
   const sourceSize = sourceSettings.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
   await expect(sourceSize).toHaveValue("20");
@@ -150,7 +150,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   });
   await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
   await restorePage.getByRole("button", { name: "Settings" }).click();
-  await restorePage.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await restorePage.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   const restoredSettings = restorePage.getByRole("dialog", { name: "Settings" });
   await expect(restoredSettings.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]')).toHaveValue("25");
   await restoreContext.close();
@@ -211,7 +211,7 @@ test("theme and reader settings are interactive and persist without overwriting 
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-night");
@@ -238,7 +238,7 @@ test("theme and reader settings are interactive and persist without overwriting 
   const upload = dialog.getByLabel("Upload Gothic artwork");
   await expect(upload).toBeEnabled();
   await upload.setInputFiles({ name: "gothic-art.svg", mimeType: "image/svg+xml", buffer: artwork });
-  await dialog.getByRole("button", { name: "Appearance", exact: true }).click();
+  await dialog.getByRole("button", { name: "Background", exact: true }).click();
   await expect(dialog.getByRole("option", { name: "Gothic artwork" })).toBeAttached();
   await dialog.getByLabel("Reader background").selectOption("gothic");
 
@@ -253,13 +253,13 @@ test("theme and reader settings are interactive and persist without overwriting 
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   const restored = page.getByRole("dialog", { name: "Settings" });
   await expect(restored.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]')).toHaveValue("22");
   await expect(restored.getByLabel("Reader background")).toHaveValue("gothic");
   await restored.getByRole("button", { name: "Theme", exact: true }).click();
   await restored.getByRole("button", { name: "Remove Gothic" }).click();
-  await restored.getByRole("button", { name: "Appearance", exact: true }).click();
+  await restored.getByRole("button", { name: "Background", exact: true }).click();
   await expect(restored.getByRole("option", { name: "Gothic" })).toHaveCount(0);
   await expect(restored.getByLabel("Reader background")).toHaveValue("none");
   await restored.getByLabel("Reader background").selectOption("nebula");
@@ -267,13 +267,13 @@ test("theme and reader settings are interactive and persist without overwriting 
   await restored.getByRole("button", { name: "Close Settings" }).click();
   await page.reload();
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("nebula");
   await page.getByRole("dialog").getByLabel("Reader background").selectOption("pic-night");
   await page.getByRole("dialog").getByRole("button", { name: "Close Settings" }).click();
   await page.reload();
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("pic-night");
 });
 
@@ -395,7 +395,7 @@ test("legacy bookkeys:size is used when the settings object has no size", async 
   await page.addInitScript(() => localStorage.setItem("bookkeys:size", "22"));
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   await expect(page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]'))
     .toHaveValue("22");
 });
@@ -584,7 +584,7 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
   await expect(page.locator(".bk-source-text")).toContainText("browser regression fixture");
   await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 1");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   const settings = page.getByRole("dialog", { name: "Settings" });
   await settings.getByLabel("Reader background").selectOption("gothic");
   await settings.getByRole("button", { name: "Close Settings" }).click();
@@ -662,7 +662,7 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
 test("fresh Bookkeys settings initialize the complete legacy defaults contract", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   const size = page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
   await size.focus();
   await size.press("ArrowRight");
@@ -691,7 +691,7 @@ test("centered reading preference changes reader layout and persists", async ({ 
   await expect(article).toBeVisible();
   await expect(article).toHaveAttribute("data-reader-centered", "false");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await dialog.getByLabel("Center reading text").check();
   await expect(article).toHaveAttribute("data-reader-centered", "true");
@@ -758,7 +758,7 @@ test("reader preserves the original canvas scenes, photo crops, Time of Day and 
   await expect(article).toBeVisible();
 
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   const backgrounds = dialog.getByLabel("Reader background");
   const backgroundTiles = dialog.getByRole("group", { name: "Background choices" });
@@ -828,7 +828,7 @@ test("legacy background migration flags run once and preserve subsequent user ch
   });
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-morning");
   const migrated = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
@@ -844,7 +844,7 @@ test("legacy background migration flags run once and preserve subsequent user ch
   });
   await page.reload();
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
   await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("none");
 });
 
@@ -860,6 +860,7 @@ test("original background palettes, theme tiles and accent swatches apply consis
 
   await page.getByRole("button", { name: "Settings" }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
+  await dialog.getByRole("button", { name: "Background", exact: true }).click();
   const matchColors = dialog.getByLabel("Match colors to background");
   await expect(matchColors).toBeChecked();
   await expect(dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper", exact: true })).toBeVisible();
@@ -868,6 +869,7 @@ test("original background palettes, theme tiles and accent swatches apply consis
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect.poll(() => readRootToken("--bg")).toBe("#08070d");
 
+  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
   await dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await expect.poll(() => readRootToken("--bg")).toBe("#ECECE8");
@@ -875,10 +877,9 @@ test("original background palettes, theme tiles and accent swatches apply consis
   await dialog.getByRole("group", { name: "Accent color" }).getByRole("button", { name: "Blue" }).click();
   await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
 
-  await dialog.getByRole("button", { name: "Appearance", exact: true }).click();
+  await dialog.getByRole("button", { name: "Background", exact: true }).click();
   await dialog.getByRole("group", { name: "Background choices" }).getByRole("button", { name: "Night Sky" }).click();
-  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
-  await dialog.getByLabel("Match colors to background").check();
+  await matchColors.check();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect.poll(() => readRootToken("--bg")).toBe("#04081A");
   await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
