@@ -33,51 +33,25 @@ These branches were built from an earlier repository checkpoint. The earlier not
 
 ## Latest branch comparison
 
-On 15 November 2026, current `main` is `fd32ab485da9977efbb7046b37b752701af214f3` and the migration branch head is `a361a61d423aa2e6103505398f4d949aedeb57cb`. GitHub compares the migration branch as 155 commits ahead and 24 behind current `main`. The 67-file PR diff contains only the isolated Bookkeys preview/migration additions and the migration-specific workflow `.github/workflows/bookkeys-next-scaffold.yml`; no existing Limitless application files are modified by this PR. GitHub currently reports the PR as mergeable, but it remains a draft.
+On 15 November 2026, the current `main` head is `4de0591c2a9c2f1aaed18f4eda5fd0f06a474ab3` and the migration branch head is `15f21a78f254995e040339419993b009ec648e5f`. GitHub compares the migration branch as 167 commits ahead and 28 behind current `main`. The PR diff remains 67 added files, all isolated Bookkeys preview/migration files plus `.github/workflows/bookkeys-next-scaffold.yml`; no existing Limitless application files are modified by this PR. The comparison is additions-only relative to the shared base. Keep the PR draft; do not merge or deploy until manual data/device acceptance is complete.
 
-The 24 commits now on `main` since the PR's shared base include recent Limitless work across Codeforces/competition, Math Trainer, Metallurgy, Probability/studies, site navigation and favicon assets. The migration branch does not contain those commits, but the current PR diff remains limited to 67 added Bookkeys/migration files. The PR base pointer was refreshed to current `main` (`fd32ab485da9977efbb7046b37b752701af214f3`) on 15 November 2026. GitHub now reports the PR as mergeable; its diff remains additions-only. Keep it draft and do not merge or deploy until manual data/device acceptance is complete. No production reader files are part of the PR diff.
+The 28 commits now on `main` since the PR's shared base include ongoing Limitless work across Codeforces/competition, Math Trainer, Metallurgy, Probability/studies, site navigation and favicon assets. The migration branch does not contain those commits. Its 67-file diff remains limited to the isolated Bookkeys migration and preview. No production reader files are part of the PR diff.
 
 ## Verified in CI
 
-The latest successful current-main migration workflow is [43649399229](https://github.com/guiltythreee/Limitless/actions/runs/43649399229), with the separate legacy regression workflow [43649399234](https://github.com/guiltythreee/Limitless/actions/runs/43649399234). Both completed successfully on code commit `a361a61d423aa2e6103505398f4d949aedeb57cb`.
+The latest migration workflow runs are [43649888531](https://github.com/guiltythreee/Limitless/actions/runs/43649888531) and [43649892709](https://github.com/guiltythreee/Limitless/actions/runs/43649892709). Both completed successfully on code commit `15f21a78f254995e040339419993b009ec648e5f`. The separate legacy regression workflow [43649892724](https://github.com/guiltythreee/Limitless/actions/runs/43649892724) also completed successfully on the same commit.
 
-- **116/116 TypeScript tests passed**, including first-time restore sanitization for malformed progress counters and replace-restore rollback under storage quota pressure.
-- **99/99 legacy preservation tests passed** against the original standalone HTML implementation. The archived 91-test baseline and current branch's 99/99 result are recorded in `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
+- **99/99 legacy preservation tests passed** against the original standalone HTML implementation.
+- The TypeScript persistence test suite passed.
 - TypeScript type-check passed.
 - Next.js static production build passed.
-- Chromium browser regression suite: **25/25 passed**:
-  1. Import an EPUB, type a page, persist progress and reward records, reload, reopen, export a backup, import it into a fresh browser context and restore settings.
-  2. Change theme, accent, custom text colour and reader settings; verify persistence, legacy background preferences, Gothic/Garden artwork on the home and reader surfaces, and the correct palette-driven shell theme after reload.
-  3. Import a PDF, extract readable text and complete a page.
-  4. Use the reader at a 390 px phone viewport and verify no horizontal overflow.
-  5. Navigate to a second section, reload, use Continue reading and restore both the saved position and unfinished typing draft.
-  6. Type the sample passage and verify that no XP, reward ledger or book progress is written.
-  7. Load the legacy `bookkeys:size` setting when the newer settings object has no size.
-  8. Remove a local book file and library entry while retaining completed typing progress.
-  9. Add/remove chapter headings, persist both legacy chapter keys and restore edits after reload.
-  10. Verify the shared Limitless EXP display aggregates Probability, Metallurgy and Bookkeys ledgers, updates when another tab awards EXP, and excludes legacy `bookkeys:game.xp`.
-  11. Open a pre-populated `bookkeys-lib` IndexedDB v1 library with existing metadata and a local EPUB blob, then confirm the schema remains v1 and restore saved Gothic artwork from the existing `files` store.
-  12. Paste plain text, create a local TXT-backed book, type a page, reload and restore its draft/progress.
-  13. Open the Akashic Archive and verify existing achievement timestamps and saved records remain unchanged.
-  14. Simulate IME composition start, intermediate composing input, composition end and a possible final input event; verify the committed character is counted once, saved in the draft, and does not prematurely write page progress.
-  15. Verify the original 22 procedural canvas scenes, the visual background tile catalogue, and the three photo backgrounds with both desktop and portrait crops.
-  16. Verify Time of Day switching, reduced-motion behaviour, photo text-backdrop minimum, and background control persistence.
-  17. Verify the legacy `bgdef1`/`bgdef2` migrations run once, preserve the expected photo/veil defaults and do not replay over later user choices.
-  18. Verify the centered-reading preference is in the original Typing tab and changes the reader layout, then persists after reload.
-  19. Verify original background palettes, theme tiles, accent swatches and background-colour matching in the original Theme tab.
-  20. Load all ten selectable reader fonts from embedded offline WOFF2 faces and confirm no external font requests are made.
+- Chromium browser regression suite: **26/26 passed** in both migration runs. This includes the regression proving that a backup without valid Bookkeys appearance choices does not clear the site-wide theme override.
+- Both workflow runs completed all verification steps successfully; no failed or skipped verification steps were reported.
 
-Additional browser coverage in the latest run verifies EPUB cover extraction and persistence in IndexedDB v1, library thumbnail rendering, inline chapter-title editing with focus and Enter-to-save, Continue reading after reload, the two-chip Theme decoration control, and the corrected chapter-editing/settings interactions. The latest run also confirms that importing a book directly marks it as opened for Continue reading/Recent, while multi-file imports that are not opened do not change their opened timestamp.
+The browser suite covers EPUB/PDF/TXT import, progress and draft persistence, backup round-trip, legacy IndexedDB v1 opening without schema upgrade, settings/theme/background/font parity, achievement preservation, IME composition lifecycle, mobile-width layout, and the latest theme-override regression. Synthetic IME coverage is not a substitute for real Japanese/Chinese/Indic IMEs or physical-device testing.
 
-PDF, EPUB and plain-text/TXT imports are supported, including a paste-text workflow that stores text as a local TXT-backed book. Existing Gothic and Garden artwork data is read from the original IndexedDB keys; uploaded images are validated, resized to at most 1600 × 900 and stored in those same keys. The original 22 procedural canvas scene definitions are restored, along with the 27-entry original background tile catalogue, three photographic scenes with desktop/portrait crops, Time of Day mode, density/animation controls, backdrop/veil/blur controls and the exact one-time `bgdef1`/`bgdef2` migrations. Photo backgrounds retain a minimum 70% reader text backdrop. The original 34 settings fields and defaults remain lossless, including unknown extension fields.
+The latest source hardening also includes finite timestamp and completion-counter validation, sanitization of page-history arrays during backup restore/merge, rollback of partially applied backup replacement (including cleanup under storage quota pressure), and conditional clearing of the site-wide theme override only when a valid Bookkeys appearance choice is imported.
 
-The preview contains all six settings tabs (Theme, Background, Font, Typing, Cursor and Data). The legacy control placements now match: background-colour matching is in Theme; centered reading is in Typing; the Font tab includes the live contrast ratio warning. Gothic/Garden uploads continue to work as selectable reader backgrounds and now also decorate the library home when their matching decorative theme is active.
-
-The original source contains 22 static WOFF2 `@font-face` declarations: ten selectable reader families and two decorative display families with their legacy weights/styles. All 22 definitions match the preview exactly. The browser test loads all ten selectable families locally without external font requests. Font files cover Latin glyphs; non-Latin scripts use system fallback fonts, as in the original subset.
-
-The library also displays persisted Bookkeys page, chapter, book, word and character counters. The Akashic Archive updates core counters only after eligible typing: words, characters, pages, daily and consecutive-day streaks, session bests, WPM/accuracy records, perfect pages, consecutive accuracy runs, flawless chapters and 100-page-book milestones. New achievement timestamps are written only when a user crosses a threshold; existing records are preserved and old thresholds are not backfilled. Typing accuracy tracks key events rather than only the final text: inserted characters count, deletions do not, and retyped characters count again. Drafts retain those counters, and multi-character paste/drop input is blocked. Synthetic IME composition lifecycle is covered by a passing browser regression. Real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard acceptance remain open.
-
-A populated IndexedDB v1 fixture opens in-browser without a version upgrade; actual user libraries still require a backup-first manual acceptance run. The Bookkeys header displays global Limitless EXP from the canonical LSR-1 source registry, including awards from other disciplines and updates from other tabs. Legacy `bookkeys:game.xp` is retained for data compatibility but is never counted as global EXP. The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical `shared/rewards.mjs` implementation.
 
 ## Safety and data compatibility
 
