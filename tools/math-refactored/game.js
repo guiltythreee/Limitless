@@ -8,6 +8,7 @@
 (function () {
   'use strict';
 
+  var learningIntelligencePromise = import('./learning-intelligence.mjs').catch(function () { return null; });
   var E = window.MathEngine;
   var S = window.MathStorage;
   var U = window.MathUI;
@@ -376,6 +377,7 @@
 
     renderProfile();
     renderCoach();
+    renderMathSharedInsights();
 
     var diffBox = $('diff-chips'); U.clear(diffBox);
     Object.keys(DIFFS).forEach(function (id) {
@@ -614,7 +616,7 @@
     s.attempts.push({
       i: s.attempts.length + 1, gen: q.id, skill: q.skill, text: q.text, answerText: q.answerText,
       given: given, result: result, time: Math.round(time * 100) / 100, target: q.target, diff: q.diff,
-      tier: q.tier
+      tier: q.tier, independent: !showHint, hintCount: showHint ? 1 : 0
     });
 
     var done = (s.count && s.attempts.length >= s.count) || (s.maxLives && s.lives <= 0);
@@ -722,7 +724,9 @@
     var atts = load(KEY_ATT, []);
     r.attempts.forEach(function (a) {
       atts.push({ run: r.id, i: a.i, t: a.tier, g: a.gen, s: a.skill, q: a.text, a: a.answerText,
-        x: a.given, r: a.result, time: a.time, target: a.target, effectiveTarget: effTarget(r, a), d: a.diff, ts: r.ts });
+        x: a.given, r: a.result, time: a.time, target: a.target, effectiveTarget: effTarget(r, a), d: a.diff, ts: r.ts,
+        independent: a.independent === true, hintCount: Number(a.hintCount || 0),
+        mistakeCategory: a.mistakeCategory || undefined });
     });
     save(KEY_ATT, atts.slice(-MAX_ATTEMPTS));
   }
@@ -870,6 +874,62 @@
     });
   }
 
+  var MATH_MISTAKE_CAUSES = [
+    { id: 'conceptual', label: 'Conceptual' },
+    { id: 'observation', label: 'Missed observation' },
+    { id: 'mathematical', label: 'Calculation / algebra' },
+    { id: 'recall', label: 'Recall' },
+    { id: 'time-management', label: 'Time management' }
+  ];
+
+  function persistMistakeClassification(run, attempt) {
+    var saved = load(KEY_ATT, []), found = false;
+    saved.forEach(function (row) {
+      if (row.run === run.id && row.i === attempt.i) {
+        row.mistakeCategory = attempt.mistakeCategory;
+        found = true;
+      }
+    });
+    if (found) save(KEY_ATT, saved.slice(-MAX_ATTEMPTS));
+  }
+
+  function renderMathSharedInsights() {
+    var host = $('math-learning-insights');
+    if (!host) return;
+    learningIntelligencePromise.then(function (api) {
+      if (!api) return;
+      var report = api.analyzeMathTrainerLearning(load(KEY_ATT, []), load(KEY_RUNS, []));
+      U.clear(host);
+      host.appendChild(U.h('p', 'coach-line', 'Concept mastery across your training history'));
+      if (!report.mastery.length) {
+        host.appendChild(U.h('p', 'note', 'Complete a few questions in each skill to establish a mastery baseline.'));
+      } else {
+        report.mastery.slice(0, 5).forEach(function (item) {
+          var label = item.status === 'insufficient-data' ? 'Building baseline' :
+            item.status === 'developing' ? 'Developing' :
+            item.status === 'secure' ? 'Secure' : 'Mastered';
+          host.appendChild(U.h('p', 'coach-line',
+            item.label + ' — ' + label + ' · ' + item.attempts + ' attempts · ' +
+            U.pct(item.accuracy) + ' accuracy · ' + item.independentAttempts + ' independent'));
+        });
+      }
+      if (report.recurringMistakes.length) {
+        host.appendChild(U.h('p', 'coach-line', 'Recurring causes'));
+        report.recurringMistakes.slice(0, 3).forEach(function (item) {
+          host.appendChild(U.h('p', 'coach-line',
+            item.conceptLabel + ' — ' + item.category + ' (' + item.occurrences + ' repeats)'));
+        });
+      }
+      if (report.weakConcepts.length) {
+        host.appendChild(U.h('p', 'coach-line', 'Suggested focus'));
+        report.weakConcepts.slice(0, 3).forEach(function (item) {
+          host.appendChild(U.h('p', 'coach-line',
+            item.label + ' — ' + (item.status === 'insufficient-data' ? 'build more evidence' : 'prioritise fresh practice')));
+        });
+      }
+    });
+  }
+
   function renderMistakes(r) {
     var box = $('res-mistakes'); U.clear(box);
     var bad = r.attempts.filter(function (a) { return a.result !== 'correct'; });
@@ -883,6 +943,23 @@
       var right = U.h('div'); right.appendChild(U.h('span', 'm-label', 'Correct'));
       right.appendChild(document.createTextNode(E.withCommas(a.answerText)));
       row.appendChild(yours); row.appendChild(right);
+      if (a.result === 'wrong' || a.result === 'timeout') {
+        var causes = U.h('div', 'mistake-causes');
+        causes.appendChild(U.h('span', 'm-label', 'What caused this?'));
+        MATH_MISTAKE_CAUSES.forEach(function (cause) {
+          var button = U.h('button', 'mistake-cause-button' + (a.mistakeCategory === cause.id ? ' is-selected' : ''), cause.label);
+          button.type = 'button';
+          button.setAttribute('aria-pressed', a.mistakeCategory === cause.id ? 'true' : 'false');
+          button.addEventListener('click', function () {
+            a.mistakeCategory = cause.id;
+            persistMistakeClassification(r, a);
+            renderMistakes(r);
+            renderMathSharedInsights();
+          });
+          causes.appendChild(button);
+        });
+        row.appendChild(causes);
+      }
       box.appendChild(row);
     });
   }
