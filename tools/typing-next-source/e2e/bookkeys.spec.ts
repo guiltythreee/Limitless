@@ -959,6 +959,13 @@ test("original background palettes, theme tiles and accent swatches apply consis
   await page.getByRole("button", { name: "Settings" }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await dialog.getByRole("button", { name: "Theme", exact: true }).click();
+  const decoration = dialog.getByRole("group", { name: "Theme decoration" });
+  await expect(decoration.getByRole("button", { name: "On" })).toHaveAttribute("aria-pressed", "true");
+  await decoration.getByRole("button", { name: "Off" }).click();
+  await expect(decoration.getByRole("button", { name: "Off" })).toHaveAttribute("aria-pressed", "true");
+  await decoration.getByRole("button", { name: "On" }).click();
+  await expect(decoration.getByRole("button", { name: "On" })).toHaveAttribute("aria-pressed", "true");
+
   const matchColors = dialog.getByLabel("Match colors to background");
   await expect(matchColors).toBeChecked();
 
