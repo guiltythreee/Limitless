@@ -1509,10 +1509,6 @@ export default function BookkeysApp() {
               <p>Books are parsed locally. Original files and typing drafts stay in this browser.</p>
             </div>
             <div className="bk-library-actions">
-              <select className="bk-shelf-select" value={selectedShelf} onChange={(event) => setSelectedShelf(event.currentTarget.value)} aria-label="Choose shelf">
-                {shelves.map((shelf) => <option key={shelf.id} value={shelf.id}>{shelf.name}</option>)}
-                <option value={RECENT_SHELF_ID}>Recent</option>
-              </select>
               <button className="bk-quiet" onClick={addShelf} disabled={busy}>New shelf</button>
               <button className="bk-quiet" onClick={editShelfName} disabled={busy || selectedShelf === RECENT_SHELF_ID}>Rename</button>
               <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "main" || selectedShelf === RECENT_SHELF_ID}>Delete</button>
@@ -1536,6 +1532,38 @@ export default function BookkeysApp() {
                 if (files?.length) void importFiles(files);
               }}
             />
+          </div>
+          <div
+            className="bk-shelf-tabs"
+            role="tablist"
+            aria-label="Shelves"
+            onKeyDown={(event) => {
+              const tabs = Array.from(event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+              const currentIndex = tabs.indexOf(document.activeElement as HTMLButtonElement);
+              if (currentIndex < 0) return;
+              let nextIndex = currentIndex;
+              if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % tabs.length;
+              else if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+              else if (event.key === "Home") nextIndex = 0;
+              else if (event.key === "End") nextIndex = tabs.length - 1;
+              else return;
+              event.preventDefault();
+              const nextTab = tabs[nextIndex];
+              nextTab.focus();
+              setSelectedShelf(nextTab.dataset.shelfId ?? "main");
+            }}
+          >
+            {shelves.concat([{ id: RECENT_SHELF_ID, name: "Recent" }]).map((shelf) => (
+              <button
+                key={shelf.id}
+                type="button"
+                role="tab"
+                data-shelf-id={shelf.id}
+                aria-selected={selectedShelf === shelf.id}
+                tabIndex={selectedShelf === shelf.id ? 0 : -1}
+                onClick={() => setSelectedShelf(shelf.id)}
+              >{shelf.name}</button>
+            ))}
           </div>
           {pasteOpen && (
             <section className="bk-paste-panel" aria-label="Paste book text">
