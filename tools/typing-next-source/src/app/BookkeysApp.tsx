@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { BOOKKEYS_BACKGROUND_CATALOG, BOOKKEYS_SCENE_IDS, createBookkeysBackgroundEngine } from "../domain/reading/bookkeys-backgrounds";
-import { ACC, THEMES, TOK, resolveBookkeysAppearance } from "../domain/reading/bookkeys-appearance";
+import { ACC, FCOLS, FONTS, THEMES, TOK, resolveBookkeysAppearance } from "../domain/reading/bookkeys-appearance";
 import type { BookkeysChapter, BookkeysLibraryMetadata, BookkeysShelf } from "../domain/persistence/bookkeys-v1-contracts";
 import { openBookkeysDatabase, type BookkeysDatabase } from "../domain/persistence/bookkeys-v1-database";
 import { readEpub } from "../domain/epub/epub-importer";
@@ -330,7 +330,7 @@ export default function BookkeysApp() {
   const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 20, lineH: 1.7, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
-  const [settingsTab, setSettingsTab] = useState<"theme" | "background" | "data">("theme");
+  const [settingsTab, setSettingsTab] = useState<"theme" | "background" | "font" | "data">("theme");
   const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
   const backgroundEngineRef = useRef<ReturnType<typeof createBookkeysBackgroundEngine> | null>(null);
   const [clockMinute, setClockMinute] = useState(() => new Date().getMinutes());
@@ -582,10 +582,15 @@ export default function BookkeysApp() {
   const shelfLibrary = useMemo(() => library.filter((entry) => entry.shelf === selectedShelf), [library, selectedShelf]);
   const visibleLibrary = useMemo(() => filterAndSortBookkeysLibrary(shelfLibrary, libraryQuery, librarySort), [shelfLibrary, libraryQuery, librarySort]);
   const continueEntry = shelfLibrary[0];
-  const target = useMemo(
-    () => book?.sections[pageIndex]?.map((block) => block.text).join("\n") ?? "",
-    [book, pageIndex],
-  );
+  const target = useMemo(() => {
+    const text = book?.sections[pageIndex]?.map((block) => block.text).join("\n") ?? "";
+    if (book?.format !== "pdf" || settings.punct !== "simplify") return text;
+    return text
+      .replace(/[“”]/g, '"')
+      .replace(/[‘’]/g, "'")
+      .replace(/[—–]/g, "-")
+      .replace(/…/g, "...");
+  }, [book, pageIndex, settings.punct]);
   const textAccuracy = typingAccuracy(target, typed);
   const liveAccuracy = {
     ...textAccuracy,
@@ -1460,6 +1465,7 @@ export default function BookkeysApp() {
             <nav className="bk-settings-tabs" aria-label="Settings sections">
               <button className={settingsTab === "theme" ? "active" : ""} onClick={() => setSettingsTab("theme")}>Theme</button>
               <button className={settingsTab === "background" ? "active" : ""} onClick={() => setSettingsTab("background")}>Background</button>
+              <button className={settingsTab === "font" ? "active" : ""} onClick={() => setSettingsTab("font")}>Font</button>
               <button className={settingsTab === "data" ? "active" : ""} onClick={() => setSettingsTab("data")}>Data</button>
             </nav>
             {settingsTab === "theme" ? (
@@ -1619,35 +1625,6 @@ export default function BookkeysApp() {
                 <p className="bk-settings-note">When enabled, each original background selects its matching reader palette. Custom accent and text colours remain independent.</p>
                 {themeOverride && <p className="bk-settings-note">The header's quick theme override is active. Change this setting or choose a background to return to matched colors.</p>}
                 <p className="bk-settings-note">Time of Day switches from Morning at 06:00, to Evening at 17:00, and Night at 20:00. The three photographs use portrait crops on tall screens. Picture backgrounds always keep at least 70% text backdrop for readability.</p>
-                <label className="bk-setting">
-                  <span>Reading text colour</span>
-                  <select
-                    aria-label="Reading text colour"
-                    value={settings.fontColor === "custom" && safeReaderTextColor(settings.fontColorCustom) ? "custom" : "theme"}
-                    onChange={(event) => persistSettings({ ...settings, fontColor: event.currentTarget.value })}
-                  >
-                    <option value="theme">Theme default</option>
-                    <option value="custom">Custom colour</option>
-                  </select>
-                  {settings.fontColor === "custom" && (
-                    <input
-                      type="color"
-                      aria-label="Custom reading text colour"
-                      value={safeReaderTextColor(settings.fontColorCustom) ?? "#FF8A00"}
-                      onChange={(event) => persistSettings({ ...settings, fontColor: "custom", fontColorCustom: event.currentTarget.value })}
-                    />
-                  )}
-                </label>
-                <label className="bk-setting">
-                  <span>Reading text size <strong>{settings.size}px</strong></span>
-                  <input type="range" min="12" max="28" step="1" value={settings.size}
-                    onChange={(event) => persistSettings({ ...settings, size: Number(event.currentTarget.value) })} />
-                </label>
-                <label className="bk-setting">
-                  <span>Line spacing <strong>{settings.lineH.toFixed(1)}</strong></span>
-                  <input type="range" min="1.2" max="2.4" step="0.1" value={settings.lineH}
-                    onChange={(event) => persistSettings({ ...settings, lineH: Number(event.currentTarget.value) })} />
-                </label>
                 <label className="bk-setting bk-setting-check">
                   <span>Center reading text</span>
                   <input type="checkbox" checked={settings.centered === true}
@@ -1659,6 +1636,72 @@ export default function BookkeysApp() {
                     onChange={(event) => persistSettings({ ...settings, celebrate: event.currentTarget.checked })} />
                 </label>
                 <p className="bk-settings-note">Theme can also be changed using the sun/moon control in the header.</p>
+              </div>
+            ) : settingsTab === "font" ? (
+              <div className="bk-settings-content">
+                <div className="bk-setting">
+                  <span>Typeface</span>
+                  <div className="bk-font-tiles" role="group" aria-label="Typeface">
+                    {FONTS.map((fontOption) => (
+                      <button key={fontOption.id} type="button" className="bk-font-tile"
+                        aria-pressed={settings.font === fontOption.id}
+                        onClick={() => persistSettings({ ...settings, font: fontOption.id })}>
+                        <span>{fontOption.name}</span>
+                        <strong style={{ fontFamily: fontOption.stack }}>Aa</strong>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="bk-setting">
+                  <span>Text color</span>
+                  <div className="bk-font-color-swatches" role="group" aria-label="Text color">
+                    {FCOLS.map((option) => (
+                      <button key={option.v} type="button" className="bk-font-color-swatch"
+                        aria-label={option.name} title={option.name} aria-pressed={settings.fontColor === option.v}
+                        style={{ background: option.c ?? "linear-gradient(135deg, var(--panel), var(--ink))" }}
+                        onClick={() => persistSettings({ ...settings, fontColor: option.v })}>
+                        <span>{option.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <label className="bk-setting">
+                  <span>Custom text color</span>
+                  <input type="color" aria-label="Custom text color"
+                    value={safeReaderTextColor(settings.fontColorCustom) ?? "#FF8A00"}
+                    onChange={(event) => persistSettings({ ...settings, fontColor: "custom", fontColorCustom: event.currentTarget.value })} />
+                </label>
+                <label className="bk-setting">
+                  <span>Size <strong>{settings.size}px</strong></span>
+                  <input type="range" min="14" max="34" step="1" value={settings.size}
+                    onChange={(event) => persistSettings({ ...settings, size: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting">
+                  <span>Line height <strong>{settings.lineH.toFixed(2)}</strong></span>
+                  <input type="range" min="1.3" max="2.4" step="0.05" value={settings.lineH}
+                    onChange={(event) => persistSettings({ ...settings, lineH: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting">
+                  <span>Letter spacing <strong>{Number(settings.spacing ?? 0).toFixed(2)}em</strong></span>
+                  <input type="range" min="0" max="0.15" step="0.01" value={Number(settings.spacing ?? 0)}
+                    onChange={(event) => persistSettings({ ...settings, spacing: Number(event.currentTarget.value) })} />
+                </label>
+                <div className="bk-setting">
+                  <span>Quotes and dashes</span>
+                  <div className="bk-choice-chips" role="group" aria-label="Quotes and dashes">
+                    <button type="button" aria-pressed={(settings.punct ?? "simplify") === "simplify"}
+                      onClick={() => persistSettings({ ...settings, punct: "simplify" })}>Plain keys</button>
+                    <button type="button" aria-pressed={settings.punct === "exact"}
+                      onClick={() => persistSettings({ ...settings, punct: "exact" })}>As printed</button>
+                  </div>
+                  <span className="bk-settings-note">Plain keys converts curly quotes, long dashes and ellipses to ordinary keyboard characters. Accents are kept. This applies to PDF pages.</span>
+                </div>
+                <label className="bk-setting bk-setting-check">
+                  <span>Letter glow</span>
+                  <input type="checkbox" checked={settings.lglow !== false}
+                    onChange={(event) => persistSettings({ ...settings, lglow: event.currentTarget.checked })} />
+                </label>
+                <p className="bk-settings-note">Letter glow is a soft halo for typed text over dark scenes. It is suppressed on light palettes.</p>
               </div>
             ) : (
               <div className="bk-settings-content">
