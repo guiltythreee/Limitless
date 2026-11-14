@@ -776,12 +776,6 @@
           '% weighted accuracy · ' + item.independentAttempts + ' independent</small></span><strong>' +
           label + '</strong></div>';
       }).join('');
-      var mistakeRows = analysis.recurringMistakes.map(function (item) {
-        var category = MISTAKE_TYPES.find(function (entry) { return entry[0] === item.category; });
-        return '<div class="insight-row"><span>' + esc(item.conceptLabel) + '<small>' +
-          esc(category ? category[1] : item.category) + '</small></span><strong>' +
-          item.occurrences + ' repeats</strong></div>';
-      }).join('');
       var nextSteps = analysis.weakConcepts.slice(0, 3).map(function (item) {
         return '<div class="insight-row"><span>' + esc(item.label) + '</span><strong>' +
           (item.status === 'insufficient-data' ? 'Need more evidence' : 'Practise next') + '</strong></div>';
@@ -789,7 +783,6 @@
       host.innerHTML = '<div class="mistake-breakdown"><h4>Concept mastery</h4>' +
         (masteryRows || '<p class="empty-state">Add an underlying concept when logging a problem to build concept-level mastery.</p>') +
         '</div>' +
-        (mistakeRows ? '<div class="mistake-breakdown"><h4>Recurring concept mistakes</h4>' + mistakeRows + '</div>' : '') +
         (nextSteps ? '<div class="mistake-breakdown"><h4>Suggested focus</h4>' + nextSteps + '</div>' : '');
     });
   }
