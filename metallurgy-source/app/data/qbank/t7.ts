@@ -187,7 +187,7 @@ const T7: TopicSource = {
         }
       ],
       answer: "d",
-      why: "Reduce (–S–S– → 2 –SH) → shape → oxidize (2 –SH → new –S–S–). Because the **primary structure (peptide bonds) is untouched**, the change is permanent but reversible by the same chemistry.",
+      why: "A reducing agent cleaves keratin disulfide cross-links to thiol groups; the hair is reshaped, then an oxidizing agent forms new disulfide cross-links in the new arrangement. The wave is durable under normal use, but the disulfide chemistry is not fundamentally irreversible: reducing conditions can break those links again.",
       concept: "reduce → reshape → reoxidize",
       tags: ["confused"],
     },
@@ -402,7 +402,7 @@ const T7: TopicSource = {
         }
       ],
       answer: "d",
-      why: "Collagen stability depends on sequence and composition, including proline/hydroxyproline content and water-mediated interactions. Cold-adapted fish collagen commonly has less thermal stabilisation, so it can denature at a lower temperature.",
+      why: "Collagen stability depends on sequence and composition, including proline/hydroxyproline content and water-mediated interactions. Cold-adapted fish collagen commonly has less thermal stabilization, so it can denature at a lower temperature. Hydroxyproline is one contributor to stability, not the sole determinant; the full sequence and hydration environment also matter.",
       concept: "composition and thermal stability of protein materials",
       tags: [
         "reviewed"
