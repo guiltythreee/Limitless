@@ -2,6 +2,7 @@
   'use strict';
 
   var learningIntelligencePromise = import('./learning-intelligence.mjs').catch(function () { return null; });
+  var practiceRecommendationsPromise = import('./practice-recommendations.mjs').catch(function () { return null; });
   var STORAGE_KEY = 'limitless.competition.regional-qualification.v1';
   var DEFAULTS = {
     startDate: '2026-11-02',
@@ -767,11 +768,14 @@
     });
     renderSharedConceptInsights();
   }
+  var sharedInsightRenderToken = 0;
   function renderSharedConceptInsights() {
     var host = $('concept-learning-insights');
     if (!host) return;
-    learningIntelligencePromise.then(function (api) {
-      if (!api) return;
+    var token = ++sharedInsightRenderToken;
+    Promise.all([learningIntelligencePromise, practiceRecommendationsPromise]).then(function (modules) {
+      var api = modules[0], practiceApi = modules[1];
+      if (!api || token !== sharedInsightRenderToken) return;
       var analysis = api.analyzeCompetitionLearning(state.problemLog,state.revisionAttempts);
       var masteryRows = analysis.mastery.slice(0, 6).map(function (item) {
         var label = item.status === 'insufficient-data' ? 'Building baseline' :
@@ -783,9 +787,15 @@
           label + '</strong></div>';
       }).join('');
       var nextSteps = analysis.weakConcepts.slice(0, 3).map(function (item) {
-        return '<div class="insight-row"><span>' + esc(item.label) + '</span><strong>' +
-          (item.status === 'insufficient-data' ? 'Need more evidence' : 'Practise next') + '</strong></div>';
+        var recommendations = practiceApi ? practiceApi.getPracticeRecommendations(item.subjectId, item.label) : {codeforces:[],cses:[]};
+        var links = recommendations.codeforces.concat(recommendations.cses).map(function (link) {
+          return '<a href="' + esc(link.url) + '" target="_blank" rel="noopener noreferrer">' + esc(link.label) + ' ↗</a>';
+        }).join(' · ');
+        return '<div class="concept-practice-row"><div class="insight-row"><span>' + esc(item.label) + '</span><strong>' +
+          (item.status === 'insufficient-data' ? 'Need more evidence' : 'Practise next') + '</strong></div>' +
+          (links ? '<div class="concept-practice-links">' + links + '</div>' : '') + '</div>';
       }).join('');
+      if (token !== sharedInsightRenderToken) return;
       host.innerHTML = '<div class="mistake-breakdown"><h4>Concept mastery</h4>' +
         (masteryRows || '<p class="empty-state">Add an underlying concept when logging a problem to build concept-level mastery.</p>') +
         '</div>' +
@@ -966,6 +976,31 @@
         (problem.approach ? '<p><b>Solution reasoning:</b> ' + esc(problem.approach) + '</p>' : '') +
         '<p><b>Independent re-solve:</b> ' + (problem.resolve === 'yes' ? 'Yes' : problem.resolve === 'no' ? 'Not yet' : 'Not tested') + '</p></article>';
     }).join('') : '<p class="empty-state">No problem reviews recorded yet.</p>';
+    practiceRecommendationsPromise.then(function (practiceApi) {
+      if (!practiceApi) return;
+      $('problem-history').querySelectorAll('.problem-entry').forEach(function (entry, index) {
+        var problem = rows[index];
+        if (!problem) return;
+        var recommendations = practiceApi.getPracticeRecommendations(problem.subject, problem.concept);
+        var links = recommendations.codeforces.concat(recommendations.cses);
+        if (!links.length) return;
+        var section = document.createElement('div');
+        section.className = 'problem-practice-links';
+        var heading = document.createElement('b');
+        heading.textContent = 'Targeted practice: ';
+        section.appendChild(heading);
+        links.forEach(function (item, linkIndex) {
+          if (linkIndex) section.appendChild(document.createTextNode(' · '));
+          var anchor = document.createElement('a');
+          anchor.href = item.url;
+          anchor.target = '_blank';
+          anchor.rel = 'noopener noreferrer';
+          anchor.textContent = item.label + ' ↗';
+          section.appendChild(anchor);
+        });
+        entry.appendChild(section);
+      });
+    });
     $('problem-history').querySelectorAll('[data-delete-problem]').forEach(function (button) {
       button.addEventListener('click', function () {
         state.problemLog = state.problemLog.filter(function (problem) { return problem.id !== button.dataset.deleteProblem; });
