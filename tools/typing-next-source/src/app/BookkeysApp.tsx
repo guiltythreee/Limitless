@@ -454,6 +454,8 @@ export default function BookkeysApp() {
       sound.destroy();
       effectsEngineRef.current = null;
       soundEngineRef.current = null;
+      if (caretTypingTimerRef.current !== null) window.clearTimeout(caretTypingTimerRef.current);
+      if (errorFeedbackTimerRef.current !== null) window.clearTimeout(errorFeedbackTimerRef.current);
     };
   }, []);
 
@@ -644,6 +646,14 @@ export default function BookkeysApp() {
       const spans = Array.from(article.querySelectorAll<HTMLElement>("[data-char-index]"));
       const span = spans.find((item) => typed.length < Number(item.dataset.charEndIndex)) ?? spans[spans.length - 1];
       if (!span) { caret.style.display = "none"; return; }
+      const lineTop = span.offsetTop;
+      const paneHeight = article.clientHeight;
+      const scrollTop = article.scrollTop;
+      if (settings.centered) {
+        article.scrollTop = Math.max(0, lineTop - paneHeight * 0.4);
+      } else if (lineTop < scrollTop + paneHeight * 0.12 || lineTop > scrollTop + paneHeight * 0.55) {
+        article.scrollTop = Math.max(0, lineTop - paneHeight * 0.3);
+      }
       const rect = span.getBoundingClientRect();
       const parent = article.getBoundingClientRect();
       const atEnd = typed.length >= target.length;
