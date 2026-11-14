@@ -348,7 +348,7 @@
     ];
     var rings = values.map(function(item,index){
       var amount = total ? counts[item.key] / total * 100 : 0;
-      return '<i class="donut-ring donut-ring-' + item.key + '" style="--ring-pct:' + amount.toFixed(2) + ';--ring-color:' + item.color + '" title="' + item.name + ': ' + counts[item.key] + '"></i>';
+      return '<i class="donut-ring donut-ring-' + item.key + '" style="--ring-pct:' + amount.toFixed(2) + '%;--ring-color:' + item.color + '" title="' + item.name + ': ' + counts[item.key] + '"></i>';
     }).join('');
     return '<span class="mastery-donut" role="img" aria-label="' + esc(label) + ': ' + pct + '% mastered; ' + values.map(function(item){return item.name + ' ' + counts[item.key];}).join(', ') + '">' + rings + '<span class="donut-center"><strong>' + pct + '%</strong><small>mastered</small></span></span>';
   }
