@@ -665,3 +665,45 @@ html[data-theme="light"] .cr-training-launch-tile{background:linear-gradient(145
 @media(prefers-reduced-motion:reduce){
   .cr-stats article,.cr-milestone,.cr-progress span,.cr-account-actions button,.cr-training-launch-tile{transition:none!important}
 }
+
+
+/* Rating milestone one-line descriptions: title, supporting line and threshold
+   share one row without letting the description collide with the rating. */
+.cr-milestone{
+  grid-template-columns:38px minmax(0,1fr) auto;
+  grid-template-rows:auto;
+  align-items:center;
+}
+.cr-milestone>div:nth-child(2){
+  grid-column:2;
+  grid-row:1;
+  display:grid;
+  align-content:center;
+  gap:5px;
+  min-width:0;
+}
+.cr-milestone h3{margin:0}
+.cr-milestone p{
+  display:block;
+  grid-column:auto;
+  margin:0;
+  color:#9bb2ca;
+  font-size:11px;
+  line-height:1.4;
+}
+.cr-milestone>div:last-child{
+  grid-column:3;
+  grid-row:1;
+  display:grid;
+  justify-items:end;
+  align-content:center;
+  gap:5px;
+}
+html[data-theme="light"] .cr-milestone p{color:#627d96}
+@media(max-width:560px){
+  .cr-milestone{grid-template-columns:34px minmax(0,1fr) auto;gap:8px;padding:12px}
+  .cr-step{width:34px;height:34px}
+  .cr-milestone h3{font-size:12px}
+  .cr-milestone p{font-size:10px}
+  .cr-threshold{font-size:14px}
+}
