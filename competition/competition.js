@@ -732,7 +732,12 @@
     if (!host) return;
     learningIntelligencePromise.then(function (api) {
       if (!api) return;
-      var analysis = api.analyzeCompetitionLearning(state.problemLog);
+      var codeforcesAttempts = [];
+      try {
+        var synced = JSON.parse(localStorage.getItem('limitless.competition.codeforces-learning.v1') || 'null');
+        if (synced && Array.isArray(synced.attempts)) codeforcesAttempts = synced.attempts;
+      } catch (_) {}
+      var analysis = api.analyzeCompetitionLearning(state.problemLog, [], Date.now(), codeforcesAttempts);
       var masteryRows = analysis.mastery.slice(0, 6).map(function (item) {
         var label = item.status === 'insufficient-data' ? 'Building baseline' :
           item.status === 'developing' ? 'Developing' :
@@ -746,10 +751,24 @@
         return '<div class="insight-row"><span>' + esc(item.label) + '</span><strong>' +
           (item.status === 'insufficient-data' ? 'Need more evidence' : 'Practise next') + '</strong></div>';
       }).join('');
+      var codeforcesReviews = analysis.revision.filter(function (item) {
+        return item.courseId === 'codeforces';
+      }).slice(0, 5).map(function (item) {
+        var match = /^codeforces:(\\d+)([A-Z]\\d*)$/.exec(item.questionId || '');
+        var problemLink = match
+          ? '<a href="https://codeforces.com/problemset/problem/' + match[1] + '/' + match[2] + '" target="_blank" rel="noopener noreferrer">Open problem ↗</a>'
+          : '';
+        var dueLabel = item.dueAt <= Date.now() ? 'Due now' : 'Due ' + new Date(item.dueAt).toLocaleDateString();
+        return '<div class="insight-row"><span>' + esc(item.questionId.replace('codeforces:', '')) +
+          '<small>' + item.failures + ' failed attempt(s) · ' + dueLabel + (problemLink ? ' · ' + problemLink : '') +
+          '</small></span><strong>' + (item.dueAt <= Date.now() ? 'Review' : 'Scheduled') + '</strong></div>';
+      }).join('');
       host.innerHTML = '<div class="mistake-breakdown"><h4>Concept mastery</h4>' +
         (masteryRows || '<p class="empty-state">Add an underlying concept when logging a problem to build concept-level mastery.</p>') +
         '</div>' +
-        (nextSteps ? '<div class="mistake-breakdown"><h4>Suggested focus</h4>' + nextSteps + '</div>' : '');
+        (nextSteps ? '<div class="mistake-breakdown"><h4>Suggested focus</h4>' + nextSteps + '</div>' : '') +
+        (codeforcesAttempts.length ? '<div class="mistake-breakdown"><h4>Codeforces revision</h4>' +
+          (codeforcesReviews || '<p class="empty-state">No failed Codeforces problems currently need revision.</p>') + '</div>' : '');
     });
   }
 
