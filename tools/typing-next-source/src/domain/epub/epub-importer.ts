@@ -11,6 +11,8 @@ export interface EpubImportResult {
   readonly hash: string;
   readonly sections: EpubBlock[][];
   readonly chapters: EpubChapter[];
+  /** Safe, small raster cover image as a data URL; omitted when unavailable. */
+  readonly coverDataUrl?: string;
   readonly empty?: true;
 }
 
@@ -82,6 +84,51 @@ function tocForItem(links: readonly TocLink[], tocPath: string, spinePath: strin
   });
 }
 
+/** EPUB cover images stay local and are stored in the existing v1 metadata.cover field. */
+async function readCoverDataUrl(
+  zip: JSZip,
+  manifest: ReadonlyMap<string, ManifestItem>,
+  opf: Document,
+  opfDir: string,
+): Promise<string | undefined> {
+  const coverId =
+    Array.from(opf.getElementsByTagNameNS("*", "item"))
+      .find((item) => item.getAttribute("properties")?.split(/\\s+/).includes("cover-image"))
+      ?.getAttribute("id") ??
+    Array.from(opf.getElementsByTagNameNS("*", "meta"))
+      .find((meta) => meta.getAttribute("name")?.toLowerCase() === "cover")
+      ?.getAttribute("content") ??
+    "";
+  const cover = manifest.get(coverId);
+  if (!cover || !["image/jpeg", "image/png", "image/webp", "image/gif"].includes(cover.mediaType)) {
+    return undefined;
+  }
+  const file = zip.file(cover.href);
+  if (!file) return undefined;
+  try {
+    const bytes = await file.async("uint8array");
+    // Avoid bloating localStorage-backed metadata with unexpectedly large images.
+    if (!bytes.length || bytes.length > 2 * 1024 * 1024) return undefined;
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    let encoded = "";
+    for (let index = 0; index < bytes.length; index += 3) {
+      const a = bytes[index];
+      const hasB = index + 1 < bytes.length;
+      const hasC = index + 2 < bytes.length;
+      const b = hasB ? bytes[index + 1] : 0;
+      const c = hasC ? bytes[index + 2] : 0;
+      encoded += alphabet[a >> 2];
+      encoded += alphabet[((a & 3) << 4) | (b >> 4)];
+      encoded += hasB ? alphabet[((b & 15) << 2) | (c >> 6)] : "=";
+      encoded += hasC ? alphabet[c & 63] : "=";
+    }
+    return `data:${cover.mediaType};base64,${encoded}`;
+  } catch {
+    // Cover art is optional: a damaged image must not prevent the book importing.
+    return undefined;
+  }
+}
+
 /** Reads EPUB bytes without relying on the legacy embedded epub.js runtime. */
 export async function readEpub(
   input: ArrayBuffer | Uint8Array,
@@ -149,6 +196,8 @@ export async function readEpub(
       }
     }
 
+    const coverDataUrl = await readCoverDataUrl(zip, manifest, opf, opfDir);
+
     const sections: EpubBlock[][] = [];
     const chapterStarts: { start: number; count: number; title: string }[] = [];
     const anchorPositions: { p: number; title: string }[] = [];
@@ -206,6 +255,7 @@ export async function readEpub(
       hash: epubHash(input instanceof Uint8Array ? input : new Uint8Array(input)),
       sections,
       chapters: epubChapterList(chapterStarts, sections.length, anchorPositions),
+      ...(coverDataUrl ? { coverDataUrl } : {}),
     };
   } catch (error) {
     if (typeof error === "object" && error !== null &&
