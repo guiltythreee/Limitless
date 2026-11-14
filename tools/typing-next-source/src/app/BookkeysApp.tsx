@@ -1064,10 +1064,6 @@ export default function BookkeysApp() {
       {staticPreset && (
         <div className="bk-static-background" aria-hidden="true" style={{ backgroundImage: staticPreset.background }} />
       )}
-      {safeBackgroundArtwork && (
-        <div className="bk-picture-background bk-artwork-background" aria-hidden="true"
-          style={{ backgroundImage: `url("${safeBackgroundArtwork}")` }} />
-      )}
       <header className="bk-header">
         <div>
           <p className="bk-eyebrow">LIMITLESS / BOOKKEYS PREVIEW</p>
@@ -1241,6 +1237,12 @@ export default function BookkeysApp() {
                 style={(() => {
                   const color = settings.fontColor === "custom"
                     ? safeReaderTextColor(settings.fontColorCustom) : undefined;
+                  if (safeBackgroundArtwork) return {
+                    color,
+                    backgroundImage: `linear-gradient(var(--bk-reader-art-overlay), var(--bk-reader-art-overlay)), url("${safeBackgroundArtwork}")`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  };
                   return color ? { color } : undefined;
                 })()}
               >{target}</article>
