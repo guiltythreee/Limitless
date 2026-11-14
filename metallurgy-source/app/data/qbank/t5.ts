@@ -28,7 +28,7 @@ const T5: TopicSource = {
         { label: "d", text: "Aromatic rings are essential because every crystalline polymer contains benzene-based repeat units." }
       ],
       answer: "a",
-      why: "Crystallization needs the chains to **pack into a repeating lattice** — possible only if the chain is linear (or lightly branched), stereoregular and not randomly copolymerized. MW only matters above a minimum.",
+      why: "Crystallization requires chain segments to pack into an ordered, repeating lattice. Regularity, stereoregularity and sufficiently compatible sequence structure favour this packing. Linear chains commonly crystallize readily, but branching does not categorically prevent crystallization; some branched polymers can still form ordered regions. Cross-linking and irregular comonomer placement often restrict crystallization.",
       distractors: {
         b: "Cross-linking actually *hinders* crystallization by locking in disorder.",
       },
@@ -270,7 +270,7 @@ const T5: TopicSource = {
         { label: "d", text: "Add a cross-linker so irreversible covalent bonds replace crystal growth and shorten the thermoplastic moulding cycle." }
       ],
       answer: "b",
-      why: "A **nucleating agent** multiplies nucleation sites → many fine spherulites → shorter cycle time, improved toughness and (often) clarity. Large spherulites, by contrast, are brittle.",
+      why: "A suitable nucleating agent can increase the number of nuclei and produce finer crystalline morphology. In some semi-crystalline systems this speeds crystallization and can shorten the moulding cycle; smaller spherulites may also improve toughness or reduce visible light scattering. The effects depend on polymer, nucleant, loading and processing conditions, so they are not guaranteed for every grade.",
       concept: "spherulite size ∝ 1/nucleation density; large spherulites = brittle",
       tags: ["confused"],
     },
@@ -299,7 +299,7 @@ const T5: TopicSource = {
       statements: [
         { num: 1, text: "HDPE, isotactic PP, PET and nylon 6,6 are typically semi-crystalline." },
         { num: 2, text: "Atactic PS, PMMA and polycarbonate are typically amorphous." },
-        { num: 3, text: "Amorphous polymers are usually transparent; semi-crystalline ones are usually opaque." },
+        { num: 3, text: "Amorphous polymers are often transparent, while semi-crystalline polymers are often more opaque because crystalline regions scatter light; thickness and morphology can change this." },
         { num: 4, text: "A real bulk semi-crystalline polymer specimen is not generally 100% crystalline." },
       ],
       options: [
@@ -309,7 +309,12 @@ const T5: TopicSource = {
         { label: "d", text: "4 only" }
       ],
       answer: "c",
-      why: "All four are correct as practical descriptions: the listed polymer classes, the usual transparency trend, and the fact that real bulk semi-crystalline specimens retain defects and amorphous material rather than reaching a perfect 100% crystalline state.",
+      why: "All four are correct as typical descriptions. HDPE, isotactic PP, PET and nylon 6,6 can form crystalline regions; atactic PS, PMMA and PC are typically amorphous. Crystalline/amorphous interfaces and spherulites often scatter light, but transparency also depends on crystallite size, refractive-index contrast and specimen thickness. Real bulk semi-crystalline specimens retain amorphous material and defects rather than reaching 100% crystallinity.",
+      distractors: {
+        a: "This option omits statement 4, which is also correct for real bulk semi-crystalline polymers.",
+        b: "This option omits statements 1 and 3, which are also correct as typical material and optical descriptions.",
+        d: "This option includes only statement 4 and omits the other three correct typical descriptions.",
+      },
       tags: ["revision"],
     },
     {
