@@ -39,6 +39,32 @@ function probabilityAttempts(state) {
   });
 }
 
+function codeforcesLearningAttempts(state) {
+  const rows = Array.isArray(state?.attempts) ? state.attempts : [];
+  const seen = new Set();
+  return rows.flatMap((row) => {
+    if (!row || typeof row !== "object" || Array.isArray(row)) return [];
+    const id = typeof row.id === "string" ? row.id.trim() : "";
+    const occurredAt = Number(row.occurredAt);
+    if (!id.startsWith("codeforces:") || seen.has(id) ||
+        row.disciplineId !== "competitive-programming" || row.courseId !== "codeforces" ||
+        typeof row.contentId !== "string" || !row.contentId ||
+        typeof row.questionId !== "string" || !row.questionId ||
+        !Number.isFinite(occurredAt) || occurredAt <= 0 ||
+        !["correct", "partial", "incorrect"].includes(row.outcome) ||
+        !Array.isArray(row.conceptIds)) return [];
+    seen.add(id);
+    return [{
+      ...row,
+      id,
+      occurredAt,
+      conceptIds: [...new Set(row.conceptIds.filter((concept) =>
+        typeof concept === "string" && concept.trim()
+      ).map((concept) => concept.trim()))],
+    }];
+  });
+}
+
 function topicFromQuestion(courseId, questionId) {
   if (typeof questionId !== "string") return "";
   if (courseId === "mt203") return questionId.split("-")[0] || "";
@@ -100,7 +126,11 @@ function metallurgyActivityAttempts(courseId, state, classifications) {
 
 /** Build a read-only, cross-section view from the applications' existing local progress shapes. */
 export function buildCrossDisciplineOverview(snapshot = {}) {
-  const cp = toCompetitionLearningAttempts(snapshot.competition?.problemLog || []);
+  const cp = toCompetitionLearningAttempts(
+    snapshot.competition?.problemLog || [],
+    snapshot.competition?.revisionAttempts || [],
+  );
+  const codeforces = codeforcesLearningAttempts(snapshot.codeforces);
   const math = toMathTrainerLearningAttempts(snapshot.mathAttempts || [], snapshot.mathRuns || []);
   const probability = probabilityAttempts(snapshot.probability || {});
   const metallurgy = [
@@ -108,7 +138,7 @@ export function buildCrossDisciplineOverview(snapshot = {}) {
     metallurgyActivityAttempts("mt202", snapshot.metallurgy?.mt202, snapshot.classifications),
     metallurgyActivityAttempts("mt203", snapshot.metallurgy?.mt203, snapshot.classifications),
   ].flat();
-  const attempts = [...cp, ...math, ...probability, ...metallurgy];
+  const attempts = [...cp, ...codeforces, ...math, ...probability, ...metallurgy];
   const mastery = buildConceptMastery(attempts);
   const recurringMistakes = buildConceptMistakeSummary(attempts).slice(0, 8);
   const labels = {

@@ -2,6 +2,7 @@ import { buildCrossDisciplineOverview } from "./shared/studies/overview.mjs";
 
 const STORAGE = {
   competition: "limitless.competition.regional-qualification.v1",
+  codeforces: "limitless.competition.codeforces-learning.v1",
   mathAttempts: "limitless.math.v1.attempts",
   mathRuns: "limitless.math.v1.runs",
   probability: "hc3-progress-v3",
@@ -47,11 +48,20 @@ function render(report, host) {
     '</article>'
   )).join("");
 
+  const moduleLinks = {
+    "competitive-programming": "competition/",
+    mathematics: "tools/math/index.html",
+    probability: "probability/studies/",
+    metallurgy: "metallurgy/",
+  };
   const focus = report.focus.slice(0, 5).map((item) => {
     const section = report.sections.find((entry) => entry.id === item.disciplineId);
     const detail = item.status === "insufficient-data" ? "More evidence needed" : statusLabel(item.status);
-    return '<div class="learning-intel-row"><strong>' + escapeHtml((section?.label || item.disciplineId) + " · " + item.label) +
-      '</strong><span>' + detail + ' · ' + item.attempts + ' attempts · ' +
+    const href = moduleLinks[item.disciplineId];
+    const title = escapeHtml((section?.label || item.disciplineId) + " · " + item.label);
+    return '<div class="learning-intel-row"><strong>' + (href
+      ? '<a class="learning-intel-focus-link" href="' + href + '">' + title + ' <span aria-hidden="true">↗</span></a>'
+      : title) + '</strong><span>' + detail + ' · ' + item.attempts + ' attempts · ' +
       Math.round(item.accuracy * 100) + '%</span></div>';
   }).join("");
 
@@ -91,6 +101,7 @@ export function renderLearningIntelligence() {
   if (!host) return;
   const snapshot = {
     competition: readStored(STORAGE.competition, {}),
+    codeforces: readStored(STORAGE.codeforces, {}),
     mathAttempts: readStored(STORAGE.mathAttempts, []),
     mathRuns: readStored(STORAGE.mathRuns, []),
     probability: readStored(STORAGE.probability, {}),
