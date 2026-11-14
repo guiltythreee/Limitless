@@ -23,7 +23,7 @@ import { readGlobalRewardSummary } from "../domain/rewards/shared-rewards.mjs";
 import { typingDraftKey } from "../domain/persistence/bookkeys-v1-contracts";
 import { readBookkeysPosition, writeBookkeysPosition } from "../domain/reading/bookkeys-position";
 import { readBookkeysChapterSettings, writeBookkeysChapterSettings } from "../domain/reading/bookkeys-chapter-storage";
-import { requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
+import { evenChapters, requiredSections, tidyChapters, withRequirements } from "../domain/reading/bookkeys-chapters";
 import { createBookkeysBackupV1, parseBookkeysBackup, restoreBookkeysBackup } from "../domain/reading/bookkeys-backup";
 import { createShelf, deleteShelf, readShelves, renameShelf } from "../domain/reading/bookkeys-shelves";
 import { bookkeysArchiveSummary } from "../domain/reading/bookkeys-achievements";
@@ -1195,6 +1195,38 @@ export default function BookkeysApp() {
     saveChapters(withRequirements(book.chapters.map(({ p, title }) => ({ p, title }))));
   }
 
+  function splitChaptersEvenly() {
+    if (!book || book.isSample) return;
+    if (!window.confirm("Replace the current chapter list with evenly spaced sections?")) return;
+    saveChapters(withRequirements(evenChapters(book.sections.length)));
+    setStatus("The book has been split into evenly spaced sections.");
+  }
+
+  async function detectChaptersAgain() {
+    if (!book || book.isSample || !database || book.format === "text") return;
+    if (!window.confirm("Detect chapters again and replace the current chapter list?")) return;
+    setBusy(true);
+    setStatus("Detecting chapters from the original book…");
+    try {
+      const file = await database.getFile(book.libraryId);
+      if (!file) throw new Error("The original book file is missing from this browser's library.");
+      const parsed = await parseBook(book.libraryId, book.format, await file.arrayBuffer(), book.title);
+      saveChapters(parsed.chapters);
+      setStatus("Chapter detection finished. The detected headings have been saved.");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Could not detect chapters again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function goToChapter(index: number) {
+    if (!book) return;
+    const chapter = book.chapters[index];
+    if (!chapter) return;
+    changePage(chapter.p);
+  }
+
   function toggleChapterRequirement(index: number) {
     if (!book) return;
     saveChapters(book.chapters.map((chapter, itemIndex) =>
@@ -1496,11 +1528,17 @@ export default function BookkeysApp() {
               <span>{requiredSections(book.chapters, book.sections.length).length} required sections</span>
             </div>
             <div className="bk-chapter-actions">
-              <button className="bk-quiet" onClick={() => setAllChapterRequirements(true)}>All required</button>
-              <button className="bk-quiet" onClick={() => setAllChapterRequirements(false)}>All optional</button>
-              <button className="bk-quiet" onClick={resetChapterRequirements}>Use defaults</button>
+              <button className="bk-quiet" onClick={() => setAllChapterRequirements(true)} disabled={busy}>All required</button>
+              <button className="bk-quiet" onClick={() => setAllChapterRequirements(false)} disabled={busy}>All optional</button>
+              <button className="bk-quiet" onClick={resetChapterRequirements} disabled={busy}>Use defaults</button>
               <button className="bk-quiet" onClick={() => setChaptersOpen((open) => !open)}>{chaptersOpen ? "Hide" : "Edit"}</button>
-              {chaptersOpen && <button className="bk-quiet" onClick={addChapter}>Add chapter</button>}
+              {chaptersOpen && (
+                <>
+                  <button className="bk-quiet" onClick={addChapter} disabled={busy}>Add chapter</button>
+                  <button className="bk-quiet" onClick={splitChaptersEvenly} disabled={busy || book.isSample}>Split evenly</button>
+                  <button className="bk-quiet" onClick={() => void detectChaptersAgain()} disabled={busy || book.isSample || !database || book.format === "text"}>Detect again</button>
+                </>
+              )}
             </div>
           </div>
           {chaptersOpen && (
@@ -1509,13 +1547,15 @@ export default function BookkeysApp() {
                 <div className="bk-chapter-row" key={chapter.p + ":" + index}>
                   <span>{chapter.title}</span>
                   <div className="bk-chapter-row-actions">
+                    <button className="bk-quiet" onClick={() => goToChapter(index)} disabled={busy || pageIndex === chapter.p} aria-label={"Go to " + chapter.title}>Go</button>
                     <button
                       className={chapter.req ? "bk-required" : "bk-optional"}
                       aria-pressed={chapter.req}
                       onClick={() => toggleChapterRequirement(index)}
+                      disabled={busy}
                     >{chapter.req ? "Required" : "Optional"}</button>
-                    <button className="bk-quiet" onClick={() => renameChapter(index)} aria-label={"Rename " + chapter.title}>Rename</button>
-                    <button className="bk-quiet" onClick={() => removeChapter(index)} aria-label={"Remove " + chapter.title}>Remove</button>
+                    <button className="bk-quiet" onClick={() => renameChapter(index)} aria-label={"Rename " + chapter.title} disabled={busy}>Rename</button>
+                    <button className="bk-quiet" onClick={() => removeChapter(index)} aria-label={"Remove " + chapter.title} disabled={busy}>Remove</button>
                   </div>
                 </div>
               ))}
