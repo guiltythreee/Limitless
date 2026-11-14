@@ -11,6 +11,11 @@ on:
       - "competition/learning-intelligence.mjs"
       - "competition/learning-intelligence.test.mjs"
       - "competition/competition.js"
+      - "competition/competition.css"
+      - "competition/index.html"
+      - "competition/practice-recommendations.mjs"
+      - "competition/practice-recommendations.test.mjs"
+      - "scripts/test-learning-intelligence-ui-contract.mjs"
       - "metallurgy-source/app/mt203/dashboard.tsx"
       - "metallurgy-source/app/platform/learning/**"
       - "metallurgy-source/app/lib/mt203-progress.ts"
@@ -81,6 +86,8 @@ jobs:
           node --check ../home-learning-intelligence.mjs
           node --check ../home-dashboard.js
           node ../competition/learning-intelligence.test.mjs
+          node ../competition/practice-recommendations.test.mjs
+          node ../scripts/test-learning-intelligence-ui-contract.mjs
           node --check ../competition/learning-intelligence.mjs
           node --check ../competition/competition.js
           if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; fi
