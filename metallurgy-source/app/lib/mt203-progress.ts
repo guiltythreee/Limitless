@@ -10,6 +10,7 @@
 import type { Difficulty } from "../mt203/types";
 import { sanitiseRewardRecords, type RewardRecord } from "../../../shared/rewards.mjs";
 import { appendLsrActivity, announceLsrRewardWrite, assessmentActivity, questionActivity } from "./lsr1-rewards";
+import { isMistakeCategory, type MistakeCategory } from "../../../shared/studies/mistakes";
 
 export type { Difficulty };
 
@@ -22,6 +23,11 @@ export type Attempt = {
   mode: Mode;
   ms: number; // 0 = unknown (carried over / not timed)
   ts: number;
+  /** Additive learning-intelligence fields; absent on older progress records. */
+  independent?: boolean;
+  hintCount?: number;
+  mistakeCategory?: MistakeCategory;
+  reviewedAt?: number;
 };
 
 export type ExamRecord = {
@@ -93,6 +99,10 @@ function sanitise(raw: unknown): Progress {
           mode: (["learn", "practice", "exam", "revision"] as Mode[]).includes(a.mode) ? a.mode : "practice",
           ms: isNum(a.ms) ? Math.max(0, Math.round(a.ms)) : 0,
           ts: a.ts,
+          ...(typeof a.independent === "boolean" ? { independent: a.independent } : {}),
+          ...(isNum(a.hintCount) && a.hintCount >= 0 ? { hintCount: Math.max(0, Math.round(a.hintCount)) } : {}),
+          ...(isMistakeCategory(a.mistakeCategory) ? { mistakeCategory: a.mistakeCategory } : {}),
+          ...(isNum(a.reviewedAt) && a.reviewedAt > 0 ? { reviewedAt: a.reviewedAt } : {}),
         }))
         .slice(-MAX_ATTEMPTS)
     : [];
@@ -188,7 +198,7 @@ export function recordAnswer(
   const day = dayKey(now);
   let next: Progress = {
     ...p,
-    attempts: [...p.attempts, { q: qid, picked, correct, mode, ms, ts: now }].slice(-MAX_ATTEMPTS),
+    attempts: [...p.attempts, { q: qid, picked, correct, mode, ms, ts: now, independent: true, hintCount: 0 }].slice(-MAX_ATTEMPTS),
     days: { ...p.days, [day]: (p.days[day] ?? 0) + 1 },
   };
   if (mode !== "exam") {
@@ -197,6 +207,31 @@ export function recordAnswer(
   } else if (persist) {
     saveProgress(next);
   }
+  return next;
+}
+
+/** Attach a user-selected cause to the latest incorrect attempt for this question. */
+export function classifyMistake(
+  p: Progress,
+  qid: string,
+  attemptTs: number,
+  category: MistakeCategory,
+  persist = true,
+): Progress {
+  if (!qid || !isMistakeCategory(category) || !isNum(attemptTs)) return p;
+  let index = -1;
+  for (let i = p.attempts.length - 1; i >= 0; i -= 1) {
+    const attempt = p.attempts[i];
+    if (attempt.q === qid && attempt.ts === attemptTs && !attempt.correct) {
+      index = i;
+      break;
+    }
+  }
+  if (index < 0) return p;
+  const attempts = [...p.attempts];
+  attempts[index] = { ...attempts[index], mistakeCategory: category };
+  const next = { ...p, attempts };
+  if (persist) saveProgress(next);
   return next;
 }
 
