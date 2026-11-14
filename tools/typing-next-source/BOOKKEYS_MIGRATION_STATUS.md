@@ -86,7 +86,7 @@ A populated IndexedDB v1 fixture opens in-browser without a version upgrade; act
 
 - The EPUB parser already contained bounded cover extraction, but the application was not passing it through to IndexedDB metadata or the library UI. That integration is now implemented using the existing v1 `meta.cover` field; opening older EPUBs backfills a missing cover, and the library renders only validated local image data URLs. The cover-image manifest token matcher was corrected and unit/E2E coverage added. Build and test execution remain to be refreshed.
 - Inline chapter-title editing now replaces the prompt workflow. The focused input supports Enter to save and Escape to cancel; an E2E regression covers the flow.
-- Reassess legacy shelf-tab keyboard navigation against the current native shelf selector; document an intentional equivalent if appropriate.
+- The original shelf-tab presentation and keyboard model are restored: tabs use roving focus with ArrowLeft/ArrowRight and Home/End navigation. E2E coverage verifies the keyboard transitions; narrow-screen visual acceptance remains.
 - The original Theme decoration On/Off two-chip control is restored and retains the existing `deco=on|off` persistence values; an E2E regression now checks both states.
 - Complete runtime side-by-side acceptance of settings visual/audio effects; do not rebuild catalogues or tabs.
 - Verify real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard behaviour against the legacy reader; synthetic IME composition lifecycle automation passes.
