@@ -864,3 +864,261 @@ html[data-theme="light"] .cr-launch-contests{background:linear-gradient(135deg,#
 @media(prefers-reduced-motion:reduce){
   .cr-training-launch-tile,.cr-launch-action span{transition:none!important}
 }
+
+
+/* =========================================================
+   Limitless Codeforces dashboard — card-based visual system
+   Inspired by the supplied dashboard references while retaining
+   Limitless blue / violet / teal identity and all existing behavior.
+   ========================================================= */
+.cf-red-page{
+  --dash-bg:#07111f;
+  --dash-surface:rgba(12,25,43,.94);
+  --dash-surface-2:rgba(16,34,57,.88);
+  --dash-line:rgba(116,160,211,.2);
+  --dash-blue:#55aaff;
+  --dash-violet:#9c8cff;
+  --dash-teal:#4bd8c2;
+  --dash-ink:#eff6ff;
+  --dash-muted:#9eb4ce;
+  background:
+    radial-gradient(ellipse at 12% 8%,rgba(35,111,194,.16),transparent 35%),
+    radial-gradient(ellipse at 88% 24%,rgba(111,87,202,.12),transparent 32%),
+    var(--dash-bg);
+}
+.cf-red-page::after{
+  background:linear-gradient(180deg,rgba(3,9,18,.48),rgba(3,9,18,.36) 50%,rgba(3,9,18,.68));
+}
+.cr-topbar{
+  min-height:68px;padding-inline:clamp(20px,5vw,76px);
+  border-bottom:1px solid rgba(125,166,218,.18);
+  background:rgba(5,13,25,.88);
+  box-shadow:0 8px 28px rgba(0,0,0,.12);
+}
+.cr-brand{font-size:15px;letter-spacing:2.5px}
+.cr-topbar nav{gap:7px}
+.cr-topbar nav a{
+  padding:10px 15px;border-radius:22px;
+  color:#b7c9df;text-decoration:none;
+  transition:background .18s,color .18s
+}
+.cr-topbar nav a:hover{background:rgba(73,135,205,.14);color:#fff}
+.cr-topbar nav a[href="../competition/"]{
+  background:linear-gradient(110deg,rgba(42,119,199,.34),rgba(109,91,193,.22));
+  color:#fff;box-shadow:inset 0 0 0 1px rgba(130,177,233,.12)
+}
+.cr-main{width:min(1500px,calc(100% - 56px));padding:25px 0 64px}
+.cr-main>.cr-back{margin-bottom:14px;color:#9fbce0}
+#cf-home-view{
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(370px,.85fr);
+  grid-template-areas:
+    "account account"
+    "hero ladder"
+    "launch launch"
+    "problems problems";
+  align-items:start;
+  gap:18px;
+}
+#cf-home-view>.cr-account{grid-area:account;margin:0}
+#cf-home-view>.cr-hero{grid-area:hero;margin:0;min-width:0}
+#cf-home-view>.cr-ladder-section{grid-area:ladder;margin:0;min-width:0}
+#cf-home-view>.cr-training-launch{grid-area:launch;margin:0}
+#cf-home-view>#cf-problems-view{grid-area:problems;min-width:0}
+.cr-account,.cr-hero,.cr-ladder-section,.cr-problem-explorer-section{
+  border:1px solid var(--dash-line);
+  border-radius:19px;
+  background:linear-gradient(145deg,rgba(13,29,49,.96),rgba(8,19,34,.96));
+  box-shadow:0 16px 44px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.cr-account{padding:15px 20px;min-height:78px}
+.cr-account-actions{display:flex;align-items:center;justify-items:stretch;justify-content:space-between;gap:18px;min-width:0}
+.cr-account-identity{display:flex;align-items:center;gap:13px}
+.cr-account-avatar{
+  display:grid;place-items:center;width:46px;height:46px;flex:0 0 46px;
+  border:1px solid rgba(89,169,244,.35);border-radius:15px;
+  background:linear-gradient(145deg,rgba(51,132,215,.32),rgba(102,91,194,.25));
+  color:#d7eaff;font-size:20px
+}
+.cr-account-meta{display:grid;gap:4px}
+.cr-account-meta strong{color:var(--dash-ink);font-size:14px}
+.cr-account-connected,.cr-account-meta a{color:var(--dash-muted);font-size:10px}
+.cr-refresh-button,.cr-account-actions button{
+  min-height:40px;padding:0 16px;border:1px solid rgba(99,171,239,.38);
+  border-radius:10px;background:linear-gradient(120deg,#246fbd,#365eae);
+  color:#fff;font-size:11px;font-weight:700;box-shadow:0 7px 20px rgba(30,93,162,.18);
+  transition:filter .18s,transform .18s
+}
+.cr-refresh-button:hover,.cr-account-actions button:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.cr-hero{
+  position:relative;overflow:hidden;padding:clamp(20px,2.5vw,30px);
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(63,143,226,.2),transparent 40%),
+    linear-gradient(145deg,rgba(12,34,59,.98),rgba(8,20,37,.98));
+}
+.cr-hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;
+  background-image:linear-gradient(rgba(118,169,221,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(118,169,221,.07) 1px,transparent 1px);
+  background-size:28px 28px;
+  mask-image:linear-gradient(135deg,#000,transparent 78%)
+}
+.cr-title-row,.cr-stats,.cr-progress-head,.cr-progress,.cr-sync{position:relative;z-index:1}
+.cr-title-row{min-height:58px}
+.cr-title-row h1{margin:0;font-size:clamp(29px,3vw,39px);letter-spacing:-1.2px}
+.cr-emblem{font-size:64px;color:rgba(113,174,244,.25)}
+.cr-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:20px}
+.cr-stats article{
+  position:relative;min-height:86px;padding:15px 16px;
+  border:1px solid rgba(103,160,222,.22);border-radius:13px;
+  background:linear-gradient(145deg,rgba(23,48,77,.84),rgba(11,28,49,.88));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+  transition:transform .18s,border-color .18s,background .18s
+}
+.cr-stats article:nth-child(1){border-top:2px solid rgba(77,169,255,.8)}
+.cr-stats article:nth-child(2){border-top:2px solid rgba(156,140,255,.78)}
+.cr-stats article:nth-child(3){border-top:2px solid rgba(75,216,194,.72)}
+.cr-stats article:nth-child(4){border-top:2px solid rgba(125,166,218,.6)}
+.cr-stats article:hover{transform:translateY(-2px);border-color:rgba(121,184,244,.48)}
+.cr-stats article span{color:#a9c0dc;font-size:9px;letter-spacing:1.2px}
+.cr-stats article strong{margin-top:10px;color:#f3f8ff;font-size:25px}
+.cr-progress-head{margin-top:22px;color:#b8cbe0}
+.cr-progress-head strong{color:#79bdff}
+.cr-progress{height:9px;background:rgba(132,165,202,.17)}
+.cr-progress span{background:linear-gradient(90deg,#398fe1,#718cf0 55%,#4bd8c2)}
+.cr-sync{color:#9db4ce}
+.cr-ladder-section{
+  padding:20px;max-height:620px;overflow:auto;
+  background:linear-gradient(150deg,rgba(17,31,55,.97),rgba(9,20,37,.97));
+  scrollbar-width:thin;scrollbar-color:rgba(106,157,212,.35) transparent
+}
+.cr-section-head{margin-bottom:17px}
+.cr-section-head h2{font-size:21px;letter-spacing:-.4px}
+.cr-section-head>a{
+  padding:8px 10px;border:1px solid var(--dash-line);border-radius:9px;
+  background:rgba(31,66,103,.32);text-decoration:none
+}
+.cr-milestones{grid-template-columns:1fr;gap:9px}
+.cr-milestone{
+  min-height:72px;padding:11px 12px;gap:10px;
+  border-color:rgba(112,157,207,.19);border-radius:12px;
+  background:linear-gradient(115deg,rgba(20,42,68,.86),rgba(10,25,44,.9));
+  transition:transform .17s,border-color .17s,background .17s
+}
+.cr-milestone:hover{transform:translateX(2px);border-color:rgba(115,174,230,.42)}
+.cr-step{width:36px;height:36px;border-radius:11px;background:rgba(79,151,219,.15);color:#a8d2ff}
+.cr-milestone h3{font-size:12px}
+.cr-milestone p{font-size:10px;line-height:1.35}
+.cr-threshold{font-size:16px}
+.cr-status{font-size:9px}
+.cr-milestone.is-next{
+  border-color:rgba(78,169,255,.68);
+  background:linear-gradient(110deg,rgba(27,84,137,.55),rgba(13,34,59,.94));
+  box-shadow:inset 3px 0 0 #55aaff,0 7px 20px rgba(27,100,168,.1)
+}
+.cr-milestone.is-done{
+  border-color:rgba(75,216,194,.38);
+  background:linear-gradient(110deg,rgba(17,75,74,.35),rgba(10,34,43,.92));
+}
+.cr-milestone.is-done .cr-status{color:#70ddc7}
+.cr-training-launch{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;margin:0
+}
+.cr-training-launch-tile{
+  min-height:245px;aspect-ratio:1.55 / 1;padding:25px 27px;
+  border-radius:19px
+}
+.cr-launch-training{
+  background:
+    radial-gradient(circle at 90% 10%,rgba(104,185,255,.32),transparent 35%),
+    linear-gradient(135deg,#123f78 0%,#155fa4 52%,#1476b8 100%)
+}
+.cr-launch-contests{
+  background:
+    radial-gradient(circle at 90% 10%,rgba(185,158,255,.3),transparent 35%),
+    linear-gradient(135deg,#332d76 0%,#51418e 52%,#315c91 100%)
+}
+.cr-launch-icon{width:50px;height:50px;border-radius:15px}
+.cr-training-launch-tile strong{font-size:27px}
+.cr-launch-copy{font-size:12px;max-width:390px}
+.cr-launch-action{font-size:11px}
+#cf-problems-view{display:grid;gap:18px}
+.cr-problem-explorer-section{
+  margin:0;padding:22px;
+  background:linear-gradient(145deg,rgba(12,27,46,.96),rgba(8,19,34,.97))
+}
+.cr-problem-explorer-section>.cr-section-head h2{font-size:21px}
+.cf-explorer{
+  border:1px solid rgba(112,157,207,.17);border-radius:14px;
+  background:rgba(5,15,28,.52)
+}
+.cf-quick-toolbar input,.cf-quick-toolbar select,.cf-filter-grid input,.cf-filter-grid select,.cf-vc-band-field select{
+  min-height:42px;border-radius:10px
+}
+.cf-problem-card{
+  border-radius:12px;min-height:76px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 7px 18px rgba(0,0,0,.08)
+}
+.cf-problem-card:hover{transform:translateY(-2px)}
+.cf-vc-contest{border-radius:14px}
+.cf-vc-controls{border-radius:12px}
+html[data-theme="light"] .cf-red-page{
+  --dash-bg:#eaf1fa;--dash-surface:#fff;--dash-surface-2:#f4f8fd;
+  --dash-line:rgba(72,115,157,.2);--dash-ink:#1c3d5c;--dash-muted:#607b96;
+  background:radial-gradient(ellipse at 10% 5%,rgba(79,153,235,.12),transparent 36%),radial-gradient(ellipse at 90% 20%,rgba(133,112,217,.1),transparent 32%),#eaf1fa
+}
+html[data-theme="light"] .cr-topbar{background:rgba(248,251,255,.92);border-color:#cbd9e8}
+html[data-theme="light"] .cr-brand,html[data-theme="light"] .cr-topbar nav a{color:#284866}
+html[data-theme="light"] .cr-topbar nav a[href="../competition/"]{background:linear-gradient(110deg,#d9ebfb,#e9e5ff);color:#214f7b}
+html[data-theme="light"] .cr-account,html[data-theme="light"] .cr-ladder-section,html[data-theme="light"] .cr-problem-explorer-section{
+  background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(240,246,253,.97));border-color:#cbdbea
+}
+html[data-theme="light"] .cr-account-meta strong,html[data-theme="light"] .cr-section-head h2{color:#1d3d5c}
+html[data-theme="light"] .cr-account-connected,html[data-theme="light"] .cr-account-meta a{color:#607b96}
+html[data-theme="light"] .cr-hero{
+  background:radial-gradient(ellipse at 100% 0%,rgba(84,157,230,.13),transparent 40%),linear-gradient(145deg,#f5faff,#e8f2fc);
+  border-color:#c5d9eb
+}
+html[data-theme="light"] .cr-hero::before{opacity:.3}
+html[data-theme="light"] .cr-title-row h1,html[data-theme="light"] .cr-stats article strong{color:#1d3d5c}
+html[data-theme="light"] .cr-stats article{background:linear-gradient(145deg,#fff,#edf5fc);border-color:#ccdeed}
+html[data-theme="light"] .cr-stats article span,html[data-theme="light"] .cr-progress-head,html[data-theme="light"] .cr-sync{color:#607b96}
+html[data-theme="light"] .cr-ladder-section{scrollbar-color:#c4d6e6 transparent}
+html[data-theme="light"] .cr-milestone{background:linear-gradient(115deg,#fff,#f0f6fc);border-color:#d2e0ec}
+html[data-theme="light"] .cr-milestone h3,html[data-theme="light"] .cr-threshold{color:#1d3d5c}
+html[data-theme="light"] .cr-milestone p,html[data-theme="light"] .cr-status{color:#607b96}
+html[data-theme="light"] .cr-milestone.is-next{background:linear-gradient(110deg,#e1f1ff,#f0f7ff);border-color:#8bbde7}
+html[data-theme="light"] .cr-milestone.is-done{background:linear-gradient(110deg,#e2f7f1,#f2fbf8);border-color:#a9dfcf}
+html[data-theme="light"] .cf-explorer{background:rgba(244,249,255,.78);border-color:#d0dfec}
+html[data-theme="light"] .cf-problem-card{background:linear-gradient(115deg,#fff,#f2f7fc);border-color:#d2dfeb}
+html[data-theme="light"] .cf-vc-contest{background:#f6faff;border-color:#ccdeed}
+@media(max-width:1120px){
+  #cf-home-view{grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr)}
+  .cr-ladder-section{max-height:660px}
+}
+@media(max-width:850px){
+  #cf-home-view{
+    grid-template-columns:1fr;
+    grid-template-areas:"account" "hero" "ladder" "launch" "problems"
+  }
+  .cr-ladder-section{max-height:none;overflow:visible}
+  .cr-milestones{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cr-training-launch-tile{min-height:220px}
+}
+@media(max-width:560px){
+  .cr-main{width:calc(100% - 24px);padding:15px 0 36px}
+  .cr-account{padding:13px}
+  .cr-account-actions{align-items:flex-start;flex-direction:column}
+  .cr-refresh-button,.cr-account-actions button{width:100%}
+  .cr-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .cr-stats article{padding:12px;min-height:78px}
+  .cr-stats article strong{font-size:21px}
+  .cr-ladder-section,.cr-problem-explorer-section{padding:14px}
+  .cr-milestones{grid-template-columns:1fr}
+  .cr-training-launch{grid-template-columns:1fr;gap:12px}
+  .cr-training-launch-tile{min-height:205px;aspect-ratio:1.55 / 1;padding:20px}
+  .cr-training-launch-tile strong{font-size:23px}
+}
+@media(prefers-reduced-motion:reduce){
+  .cr-stats article,.cr-milestone,.cf-problem-card,.cr-training-launch-tile{transition:none!important}
+}
