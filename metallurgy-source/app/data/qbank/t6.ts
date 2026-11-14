@@ -161,7 +161,7 @@ const T6: TopicSource = {
         { label: "d", text: "1-i, 2-ii, 3-iii, 4-iv" }
       ],
       answer: "d",
-      why: "E′ = elastic/in-phase, E″ = viscous/out-of-phase, tan δ = E″/E′ = damping, and the **tan-δ maximum defines Tg** by DMA.",
+      why: "E′ is the in-phase storage modulus; E″ is the out-of-phase loss modulus; and $\\tan\\delta=E''/E'$ is a damping measure. In this question, Tg is defined operationally by the tan-δ maximum. DMA transition temperatures can differ when Tg is instead taken from the E′ onset or E″ peak, so the chosen criterion must be stated."
       tags: ["revision"],
     },
     {
