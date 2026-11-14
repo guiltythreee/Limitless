@@ -11,6 +11,7 @@ export interface EpubTocEntry {
 export interface EpubChapter {
   readonly p: number;
   readonly title: string;
+  readonly req?: boolean;
 }
 export interface EpubPart {
   readonly start: number;
