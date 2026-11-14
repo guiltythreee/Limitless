@@ -321,20 +321,27 @@ test("library supports Recent, moving books between shelves and removing a book 
 
   page.once("dialog", (dialog) => dialog.accept("Favourites"));
   await page.getByRole("button", { name: "New shelf" }).click();
-  const shelf = page.getByLabel("Choose shelf");
-  await shelf.selectOption("main");
+  const shelfTabs = page.getByRole("tablist", { name: "Shelves" });
+  const shelfTab = (name: string) => shelfTabs.getByRole("tab", { name, exact: true });
+  await shelfTab("Library").focus();
+  await shelfTab("Library").press("End");
+  await expect(shelfTab("Recent")).toHaveAttribute("aria-selected", "true");
+  await shelfTab("Recent").press("ArrowLeft");
+  await expect(shelfTab("Favourites")).toHaveAttribute("aria-selected", "true");
+
+  await shelfTab("Library").click();
   const move = page.getByLabel("Move Bookkeys Migration Fixture to another shelf");
   await move.selectOption({ label: "Favourites" });
   await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toHaveCount(0);
 
-  await shelf.selectOption({ label: "Favourites" });
+  await shelfTab("Favourites").click();
   await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
   await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
   await page.getByRole("button", { name: "← Library" }).click();
-  await shelf.selectOption("recent");
+  await shelfTab("Recent").click();
   await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
 
-  await shelf.selectOption({ label: "Favourites" });
+  await shelfTab("Favourites").click();
   page.once("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: "Remove", exact: true }).click();
   await expect(page.getByText("No books yet")).toBeVisible();
