@@ -35,6 +35,10 @@ export function adaptMT203Question(q, topic) {
     metadata: {
       distractors: q.distractors || {},
       misconceptions: q.misconceptions || {},
+      assertion: q.assertion,
+      reason: q.reason,
+      statements: q.statements,
+      tableRows: q.tableRows,
       reviewerScore: q.qsScore,
       revision: q.rev ?? 1,
       legacyDifficulty: q.diff,
