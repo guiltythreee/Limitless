@@ -39,9 +39,9 @@ const snapshot = {
     },
     mt203: {
       attempts: [
-        { q: "t1-001", picked: "A", correct: true, mode: "practice", ms: 900, ts: now },
-        { q: "t1-002", picked: "B", correct: false, mode: "practice", ms: 1100, ts: now + 1 },
-        { q: "t1-003", picked: "B", correct: false, mode: "revision", ms: 1200, ts: now + 2 },
+        { q: "t1-001", picked: "A", correct: true, mode: "practice", ms: 900, ts: now, independent: true, hintCount: 0 },
+        { q: "t1-002", picked: "B", correct: false, mode: "practice", ms: 1100, ts: now + 1, independent: true, hintCount: 0, mistakeCategory: "units" },
+        { q: "t1-003", picked: "B", correct: false, mode: "revision", ms: 1200, ts: now + 2, independent: true, hintCount: 0 },
       ],
     },
   },
@@ -62,6 +62,7 @@ assert.equal(report.trackedConcepts, 6, "concepts stay scoped by discipline and 
 assert.ok(report.mastery.some((item) => item.label === "MT203 t1"));
 assert.ok(report.recurringMistakes.some((item) => item.category === "mathematical"));
 assert.ok(report.recurringMistakes.some((item) => item.category === "conceptual"));
+assert.ok(report.recurringMistakes.some((item) => item.category === "units"));
 assert.equal(JSON.stringify(snapshot), before, "overview must never mutate source progress");
 
 console.log("Cross-discipline overview: all assertions passed.");
