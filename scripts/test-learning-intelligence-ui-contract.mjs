@@ -37,7 +37,7 @@ assert.ok(mathJs.includes("persistMistakeClassification"));
 
 assert.ok(overview.includes("../../tools/math/learning-intelligence.mjs"));
 assert.ok(!overview.includes("math-refactored"), "shared overview must not import the retired Math Trainer path");
-assert.ok(mathWorkflow.includes("tools/math/learning-intelligence.test.mjs"));
+assert.ok(mathWorkflow.includes("tools/math/tests/learning-intelligence.test.mjs"));
 assert.ok(mathWorkflow.includes("node --check tools/math/game.js"));
 
 console.log("Learning-intelligence UI contracts: all assertions passed.");

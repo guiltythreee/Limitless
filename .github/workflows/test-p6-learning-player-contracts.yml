@@ -24,6 +24,10 @@ on:
       - "scripts/test-learning-intelligence-ui-contract.mjs"
       - "competition/competition-dashboard.css"
       - "codeforces-red/codeforces-red.js"
+      - "meta/index.html"
+      - "meta/meta.js"
+      - "meta/test-meta.mjs"
+      - "probability-source/scripts/test-reward-standard.mjs"
       - "metallurgy-source/app/mt203/dashboard.tsx"
       - "metallurgy-source/app/platform/learning/**"
       - "metallurgy-source/app/lib/mt203-progress.ts"
@@ -95,6 +99,7 @@ jobs:
           node --check ../shared/studies/activity.mjs
           node --check ../shared/studies/activity.test.mjs
           node --check ../meta/meta.js
+          node ../meta/test-meta.mjs
           node --check ../home-learning-intelligence.mjs
           node --check ../home-dashboard.js
           node ../competition/learning-intelligence.test.mjs
@@ -110,7 +115,7 @@ jobs:
           node --check ../competition/accounts.js
           node --check ../competition/competition.js
           node --check ../codeforces-red/codeforces-red.js
-          if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; fi
+          if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; node scripts/test-reward-standard.mjs; fi
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-utility-nav.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-mode-tabs.test.mjs
