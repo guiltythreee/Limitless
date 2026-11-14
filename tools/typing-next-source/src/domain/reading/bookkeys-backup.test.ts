@@ -486,6 +486,38 @@ test("first-time restore skips malformed book progress records", () => {
 });
 
 
+test("merge preserves valid data keys named __proto__ in settings and book progress", () => {
+  const storage = new MemoryStorage();
+  storage.setItem("bookkeys:settings", JSON.stringify({ size: 18 }));
+  storage.setItem("bookkeys:game", JSON.stringify({
+    xp: 100,
+    book: { "local-book": { p: [0], e: [], c: [], x: [], done: 1 } },
+  }));
+
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:settings": "{\"size\":20,\"__proto__\":{\"retainedSetting\":true}}",
+      "bookkeys:game": "{\"xp\":200,\"book\":{\"__proto__\":{\"p\":[2],\"e\":[],\"c\":[],\"x\":[2],\"done\":1}}}",
+    },
+  }));
+
+  restoreBookkeysBackup(storage, backup, "merge");
+
+  const settings = JSON.parse(storage.getItem("bookkeys:settings") ?? "{}");
+  const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
+  assert.equal(settings.size, 18);
+  assert.deepEqual(settings["__proto__"], { retainedSetting: true });
+  assert.equal(game.xp, 100);
+  assert.deepEqual(game.book["__proto__"], {
+    p: [2], e: [], c: [], x: [2], done: 1,
+  });
+  assert.deepEqual(game.book["local-book"], {
+    p: [0], e: [], c: [], x: [], done: 1,
+  });
+});
+
+
 test("replace restore sanitizes malformed book progress records", () => {
   const storage = new MemoryStorage();
   const backup = parseBookkeysBackup(JSON.stringify({
