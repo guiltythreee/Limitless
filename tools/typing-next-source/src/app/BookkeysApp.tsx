@@ -1371,8 +1371,8 @@ export default function BookkeysApp() {
           if (incomingSettings && typeof incomingSettings === "object" && !Array.isArray(incomingSettings)) {
             const record = incomingSettings as Record<string, unknown>;
             restoresAppearanceChoice =
-              Object.prototype.hasOwnProperty.call(record, "skin") ||
-              Object.prototype.hasOwnProperty.call(record, "bgMatch");
+              (typeof record.skin === "string" && record.skin.trim().length > 0) ||
+              typeof record.bgMatch === "boolean";
           }
         } catch {
           // Invalid settings are ignored by the settings reader; do not clear a
