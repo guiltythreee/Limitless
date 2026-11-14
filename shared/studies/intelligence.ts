@@ -107,7 +107,7 @@ export function normalizeConceptKey(
 ): string {
   const normalise = (value: string) => cleanLabel(value)
     .toLocaleLowerCase()
-    .replace(/[^\p{L}\p{N}+#]+/gu, " ")
+    .replace(/[^a-z0-9+#]+/g, " ")
     .trim()
     .replace(/\s+/g, " ");
   return [normalise(disciplineId), normalise(subjectId || "general"), normalise(concept)].join("::");
