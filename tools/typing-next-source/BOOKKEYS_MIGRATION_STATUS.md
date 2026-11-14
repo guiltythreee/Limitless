@@ -89,7 +89,6 @@ A populated IndexedDB v1 fixture opens in-browser without a version upgrade; act
 The following are genuinely outstanding; implemented features and passing fixture-based checks are not repeated here:
 
 - Validate backup import against representative copies of actual legacy user backups, including multiple books, divergent progress, custom chapter selections, draft timestamps, settings extensions and older v1 envelopes. Do this with copies only; never experiment on the user's only live database.
-- Validate backup import against representative copies of actual legacy user backups, including multiple books, divergent progress, custom chapter selections, draft timestamps, settings extensions and older v1 envelopes. Do this with copies only; never experiment on the user's only live database.
 - Open representative real user IndexedDB v1 libraries in a separate browser profile after exporting a backup. Confirm metadata, original file blobs, artwork and saved progress. Automated coverage currently uses a populated synthetic v1 fixture.
 - Test representative real-world PDFs and EPUBs: long books, unusual chapter structures, malformed archives and scanned/image-only PDFs.
 - Complete visual and audio side-by-side acceptance for all settings, including narrow-screen shelf tabs. Do not rebuild the original catalogues or tabs.
