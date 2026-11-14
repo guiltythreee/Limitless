@@ -819,10 +819,25 @@ export default function BookkeysApp() {
 
 
   function playKeystrokeEffects(previousValue: string, nextValue: string) {
-    if (nextValue.length <= previousValue.length) return;
-    const inserted = Array.from(nextValue.slice(previousValue.length));
     const currentSettings = settingsRef.current;
     const sound = soundEngineRef.current;
+    const caret = caretRef.current;
+    if (caret) {
+      caret.classList.add("typing");
+      if (caretTypingTimerRef.current !== null) window.clearTimeout(caretTypingTimerRef.current);
+      caretTypingTimerRef.current = window.setTimeout(() => {
+        caret.classList.remove("typing");
+        caretTypingTimerRef.current = null;
+      }, 650);
+    }
+
+    if (nextValue.length < previousValue.length) {
+      sound?.key(false);
+      return;
+    }
+    if (nextValue.length === previousValue.length) return;
+
+    const inserted = Array.from(nextValue.slice(previousValue.length));
     let hasMistake = false;
     let lastCorrect = false;
     let lastIndex = -1;
@@ -855,16 +870,6 @@ export default function BookkeysApp() {
           errorFeedbackTimerRef.current = null;
         }, 380);
       }
-    }
-
-    const caret = caretRef.current;
-    if (caret) {
-      caret.classList.add("typing");
-      if (caretTypingTimerRef.current !== null) window.clearTimeout(caretTypingTimerRef.current);
-      caretTypingTimerRef.current = window.setTimeout(() => {
-        caret.classList.remove("typing");
-        caretTypingTimerRef.current = null;
-      }, 650);
     }
 
     if (!lastCorrect || lastIndex < 0 || (currentSettings.tfx === "none" && currentSettings.sparks === "off")) return;
