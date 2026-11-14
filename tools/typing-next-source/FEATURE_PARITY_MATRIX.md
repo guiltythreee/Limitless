@@ -41,15 +41,18 @@ The preserved original source defines these defaults in `bookkeys:settings`; unk
 
 The legacy settings UI is divided into Theme, Background, Font, Typing, Cursor and Data tabs. Its background catalogue includes No Background, Time of Day, three photo scenes and the original animated canvas scenes. The preview retains a separate quick dark/light shell toggle and theme palettes; it must not reinterpret legacy `bg` as the shell theme. The original settings tab locations and defaults are part of parity, not merely the presence of equivalent controls.
 
-## Next implementation priorities
+## Next implementation and acceptance priorities
 
-1. Add EPUB cover extraction into the existing IndexedDB v1 `meta.cover` field and render stored cover thumbnails without changing the database version or losing existing metadata. Preserve the existing author, page/section-count, progress, Recent, move/remove, multi-file and drag/drop implementations. Add focused unit/E2E coverage for EPUB cover metadata and safe fallback when a cover is absent or unsupported.
-2. Restore the legacy inline chapter-title editing/focus interaction; retain the already-working Go, Detect again, Split evenly, add, rename, remove and requirement controls. Reassess Stop looking against the current detection architecture.
-3. Decide whether to restore the legacy shelf-tab keyboard interaction or formally document the native selector as an intentional equivalent after source comparison.
-4. Restore the original two-chip Decorative details control if confirmed by the preserved source; keep the existing `deco=on|off` persistence contract.
-5. Complete runtime side-by-side acceptance of settings visual/audio effects; do not rebuild catalogues or tabs.
-4. Verify real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware keyboard behaviour against the legacy reader.
-5. Test representative real-world PDFs/EPUBs, real IndexedDB v1 libraries and backup files, then complete real-browser/mobile/offline/CSP acceptance before production cutover.
+The previously listed cover, inline chapter-title, shelf-tab keyboard and Decorative Details gaps have been implemented in this branch. The EPUB cover path uses the existing importer result and IndexedDB v1 `meta.cover` field; the inline editor has autofocus, Enter-to-save and Escape-to-cancel; the original two-chip decoration control persists `deco=on|off`. Focused browser coverage now exercises cover persistence, chapter editing, shelf keyboard navigation and the decoration control. Keep these implementations; do not rebuild them.
+
+1. Complete source-by-source, side-by-side runtime acceptance of settings visual and audio side effects. Preserve the original artwork, backgrounds, typography, layout, control locations, ranges and defaults; do not simplify or replace the visual system.
+2. Test representative real-world PDFs, EPUBs and TXT files, including long, malformed, unusual and image-only documents. Check EPUBs with absent, unsupported and oversized covers, and confirm that reimporting never loses an existing supported cover or other metadata.
+3. Run a backup-first acceptance against a real populated IndexedDB v1 library. Verify old metadata, files, progress, shelf assignments, cover backfill, open/reopen, move/remove and no database version upgrade.
+4. Test populated backup exports and conflict-heavy merge/replace restores, including rollback after simulated storage write failures.
+5. Verify real Japanese, Chinese and Indic IMEs, composition candidate selection, mobile keyboards and hardware keyboard behaviour against the legacy reader.
+6. Complete real-device mobile, offline, CSP, blocked-storage and quota/save-failure acceptance before any production cutover. Reassess the legacy Stop looking action against the current detection architecture rather than restoring it blindly.
+
+The migration remains isolated. Passing CI or fixture-based tests does not authorize production cutover.
 
 ## Visual fidelity requirement
 
