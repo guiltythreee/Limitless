@@ -196,7 +196,7 @@ export function evenChapters(total: number): PdfChapter[] {
   const step = Math.ceil(count / partCount);
   const chapters: PdfChapter[] = [];
   for (let p = 0; p < count; p += step) {
-    chapters.push({ p, title: chapters.length === 0 ? "Beginning" : `Part ${chapters.length + 1}` });
+    chapters.push({ p, title: chapters.length === 0 ? "Beginning" : `Part ${chapters.length + 1}`, req: true });
   }
   return chapters;
 }
