@@ -27,6 +27,8 @@ export function toProbabilityLearningAttempts(attempts: readonly Attempt[]): Lea
       outcome: attempt.status,
       occurredAt: attempt.ts,
       elapsedMs: attempt.ms,
+      independent: true,
+      hintCount: 0,
       mistakeCategory: attempt.mistakeCategory,
       reviewedAt: attempt.reviewedAt,
     }];
