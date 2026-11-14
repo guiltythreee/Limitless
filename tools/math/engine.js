@@ -84,17 +84,24 @@
 
   /* ---------- reading what the player typed ---------- */
   function parseInput(s) {
-    s = String(s).trim().replace(/,/g, '').replace(/−/g, '-');
+    s = String(s).trim().replace(/−/g, '-');
     if (!s) return null;
-    var m = s.match(/^(-?)(\d+)\/(\d+)$/);
-    if (m) {
-      var den = parseInt(m[3], 10);
-      if (!den || m[2].length > 9 || m[3].length > 9) return null;
-      return rat((m[1] ? -1 : 1) * parseInt(m[2], 10), den);
+    function validGrouping(part) {
+      return part.indexOf(',') < 0 || /^\d{1,3}(,\d{3})+$/.test(part);
     }
-    m = s.match(/^(-?)(\d*)(?:\.(\d*))?$/);
+    var m = s.match(/^(-?)([\d,]+)\/([\d,]+)$/);
+    if (m) {
+      if (!validGrouping(m[2]) || !validGrouping(m[3])) return null;
+      var numerator = m[2].replace(/,/g, ''), denominator = m[3].replace(/,/g, '');
+      var den = parseInt(denominator, 10);
+      if (!den || numerator.length > 9 || denominator.length > 9) return null;
+      return rat((m[1] ? -1 : 1) * parseInt(numerator, 10), den);
+    }
+    m = s.match(/^(-?)([\d,]*)(?:\.(\d*))?$/);
     if (!m) return null;
-    var ip = m[2] || '', fp = m[3] || '';
+    var rawIp = m[2] || '', fp = m[3] || '';
+    if (!validGrouping(rawIp)) return null;
+    var ip = rawIp.replace(/,/g, '');
     if (ip === '' && fp === '') return null;
     if ((ip + fp).length > 15 || fp.length > 8) return null;
     var n = parseInt((ip || '0') + fp, 10) * (m[1] ? -1 : 1);
@@ -109,8 +116,17 @@
     if (ratEq(v, q.answer)) return { status: 'correct', exact: true };
     if (submit && q.tol) {
       var x = v.n / v.d, c = q.tol.center;
-      var lim = q.tol.abs !== undefined ? q.tol.abs : Math.abs(c) * q.tol.rel;
-      if (Math.abs(x - c) <= lim + 1e-9) return { status: 'correct', exact: false };
+      /* Rounded-answer tolerances require the player's value to round to the
+         displayed precision. This is distinct from a relative-error estimate. */
+      if (q.tol.dp !== undefined) {
+        var scale = Math.pow(10, q.tol.dp);
+        if (Math.round(x * scale) === Math.round((q.answer.n / q.answer.d) * scale)) {
+          return { status: 'correct', exact: false };
+        }
+      } else {
+        var lim = q.tol.abs !== undefined ? q.tol.abs : Math.abs(c) * q.tol.rel;
+        if (Math.abs(x - c) <= lim + 1e-9) return { status: 'correct', exact: false };
+      }
     }
     return { status: submit ? 'wrong' : 'pending' };
   }
@@ -158,7 +174,7 @@
     do {
       a = nd(r, p.da); b = nd(r, p.db); n++;
     } while (n < 100 && ((a % 10 === 0 && b % 10 === 0) || (p.da > 1 && a % 100 === 0) || (p.db > 1 && b % 100 === 0)));
-    var diff = 0.5 * Math.max(p.da, p.db) + 0.4 * countCarries(a, b) + 0.2 * Math.min(p.da, p.db);
+    var diff = 0.5 * Math.max(p.da, p.db) + 0.4 * countCarries(a, b) + 0.2 * Math.min(p.da, p.db) + (p.bonus || 0);
     return Q('Addition', a + ' + ' + b, a + '+' + b, rat(a + b), diff);
   };
 
@@ -168,7 +184,7 @@
       a = nd(r, p.da); b = nd(r, p.db); n++;
       if (a < b) { var t = a; a = b; b = t; }
     } while (n < 100 && (a === b || (a % 10 === 0 && b % 10 === 0)));
-    var diff = 0.55 * Math.max(p.da, p.db) + 0.4 * countBorrows(a, b) + 0.2 * Math.min(p.da, p.db);
+    var diff = 0.55 * Math.max(p.da, p.db) + 0.4 * countBorrows(a, b) + 0.2 * Math.min(p.da, p.db) + (p.bonus || 0);
     return Q('Subtraction', a + ' ' + MINUS + ' ' + b, a + '-' + b, rat(a - b), diff);
   };
 
@@ -208,6 +224,17 @@
     }
   };
 
+  G.divRem = function (r, p) {
+    for (var i = 0; i < 500; i++) {
+      var a = r.int(p.alo, p.ahi), d = r.int(p.dlo, p.dhi);
+      var rem = a % d;
+      if (rem === 0) continue;
+      var diff = 0.5 * digits(a) + 0.2 * digits(d) + 0.4 + (p.bonus || 0);
+      return Q('Division', 'Remainder: ' + a + ' ' + DIVIDE + ' ' + d, a + '%' + d, rat(rem), diff);
+    }
+    throw new Error('divRem: could not generate');
+  };
+
   /* decimal add/subtract: ia/ib = digits of the whole numbers, dpa/dpb = decimal places */
   G.decAdd = function (r, p) {
     for (var i = 0; ; i++) {
@@ -222,12 +249,12 @@
         a = rat(A, Math.pow(10, dpa)); b = rat(B, Math.pow(10, dpb));
         ans = rSub(a, b);
         var sa = fmtScaled(A, dpa), sb = fmtScaled(B, dpb);
-        return Q('Decimals', sa + ' ' + MINUS + ' ' + sb, sa + '-' + sb, ans, 0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb));
+        return Q('Decimals', sa + ' ' + MINUS + ' ' + sb, sa + '-' + sb, ans, 0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb) + (p.bonus || 0));
       }
       if (ans.n === 0) continue;
       var s1 = fmtScaled(A, p.dpa), s2 = fmtScaled(B, p.dpb);
       return Q('Decimals', s1 + ' ' + (plus ? '+' : MINUS) + ' ' + s2, s1 + (plus ? '+' : '-') + s2, ans,
-        0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb));
+        0.8 + 0.5 * (p.ia + p.ib) + 0.7 * (p.dpa + p.dpb) + (p.bonus || 0));
     }
   };
 
@@ -288,7 +315,8 @@
       if (hi < lo) continue;
       var N = step * r.int(lo, hi);
       var easy = [5, 10, 20, 25, 50].indexOf(pct) >= 0;
-      var diff = 1.6 + (p10 % 10 !== 0 ? 0.9 : 0) + 0.45 * digits(N) + 0.5 * dp - (easy ? 0.9 : 0);
+      /* Non-friendly percentages need more mental work; decimal percentages add a further step. */
+      var diff = 1.6 + (p10 % 10 !== 0 ? 0.9 : 0) + 0.45 * digits(N) + 0.5 * dp + (!easy ? 1.0 : 0) + (dp > 0 ? 1.5 : 0) - (easy ? 0.9 : 0) + (p.bonus || 0);
       return Q('Percentages', pct + '% of ' + N, pct + '/100*' + N, rat(N * p10, 1000), diff);
     }
     throw new Error('pctOf: could not generate');
@@ -303,7 +331,7 @@
       var lo = Math.ceil(p.lo / step), hi = Math.floor(p.hi / step);
       if (hi < lo) continue;
       var old = step * r.int(lo, hi), nw = old * factor / 1000;
-      var diff = 4.5 + (p10 % 10 !== 0 ? 1.2 : 0) + 0.7 * digits(old);
+      var diff = 4.5 + (p10 % 10 !== 0 ? 1.2 : 0) + 0.7 * digits(old) + (p.bonus || 0);
       return Q('Percentages', old + ' → ' + nw + '  (% change)', '(' + nw + '-' + old + ')/' + old + '*100',
         rat(up ? p10 : -p10, 10), diff);
     }
@@ -318,7 +346,7 @@
       if (hi < lo) continue;
       var B = step * r.int(lo, hi), A = B * p10 / 1000;
       if (A === B || A < 1) continue;
-      var diff = 3.2 + (p10 % 10 !== 0 ? 0.8 : 0) + 0.4 * digits(B);
+      var diff = 4.5 + (p10 % 10 !== 0 ? 0.8 : 0) + 0.4 * digits(B) + (p.bonus || 0);
       return Q('Percentages', A + ' is what % of ' + B + '?', A + '/' + B + '*100', rat(p10, 10), diff);
     }
     throw new Error('pctWhat: could not generate');
@@ -335,11 +363,37 @@
       if (!plus && a * d < c * b) { var t = a; a = c; c = t; t = b; b = d; d = t; }
       var ans = plus ? rAdd(rat(a, b), rat(c, d)) : rSub(rat(a, b), rat(c, d));
       if (ans.n === 0) continue;
-      var diff = 3 + Math.log(lcm(b, d)) / Math.LN2;
+      var diff = 3 + Math.log(lcm(b, d)) / Math.LN2 + (p.bonus || 0);
       return Q('Fractions', a + '/' + b + ' ' + (plus ? '+' : MINUS) + ' ' + c + '/' + d,
         a + '/' + b + (plus ? '+' : '-') + c + '/' + d, ans, diff);
     }
     throw new Error('fracAdd: could not generate');
+  };
+
+  G.fracMul = function (r, p) {
+    for (var i = 0; i < 500; i++) {
+      var b = r.pick(p.dens), d = r.pick(p.dens);
+      var a = r.int(1, b - 1), c = r.int(1, d - 1);
+      if (gcd(a, b) !== 1 || gcd(c, d) !== 1) continue;
+      var ans = rat(a * c, b * d);
+      var diff = 1.5 + 0.5 * Math.log(b * d) / Math.LN2 + (p.bonus || 0);
+      return Q('Fractions', a + '/' + b + ' ' + TIMES + ' ' + c + '/' + d,
+        a + '/' + b + '*' + c + '/' + d, ans, diff);
+    }
+    throw new Error('fracMul: could not generate');
+  };
+
+  G.fracDiv = function (r, p) {
+    for (var i = 0; i < 500; i++) {
+      var b = r.pick(p.dens), d = r.pick(p.dens);
+      var a = r.int(1, b - 1), c = r.int(1, d - 1);
+      if (gcd(a, b) !== 1 || gcd(c, d) !== 1) continue;
+      var ans = rat(a * d, b * c);
+      var diff = 1.5 + 0.5 * Math.log(b * d) / Math.LN2 + (p.bonus || 0);
+      return Q('Fractions', a + '/' + b + ' ' + DIVIDE + ' ' + c + '/' + d,
+        a + '/' + b + '/(' + c + '/' + d + ')', ans, diff);
+    }
+    throw new Error('fracDiv: could not generate');
   };
 
   G.fracOfInt = function (r, p) {
@@ -392,7 +446,7 @@
       var f100 = s * 100 - Math.floor(s * 100);
       if (Math.abs(f100 - 0.5) < 0.1) continue;     /* avoid unclear rounding */
       return Q('Squares & roots', '√' + n + '  (2 d.p.)', String(n), rat(Math.round(s * 100), 100),
-        8 + 1.5 * digits(n), { tol: { abs: 0.01, center: s }, verify: { kind: 'sqrt2dp', radicand: n } });
+        8 + 1.5 * digits(n), { tol: { dp: 2, center: s }, verify: { kind: 'sqrt2dp', radicand: n } });
     }
     throw new Error('sqrtApprox: could not generate');
   };
@@ -411,10 +465,22 @@
   /* estimation: exact match auto-advances, anything within 1% counts on Enter */
   G.est = function (r, p) {
     var truth, text, expr, diff;
+    var rel = p.rel == null ? 0.01 : p.rel;
+    var baseDiff = p.baseDiff == null ? 7 : p.baseDiff;
     if (p.kind === 'div') {
-      var N = r.int(p.nlo, p.nhi), D = r.int(p.dlo, p.dhi);
-      truth = rat(N, D); text = N + ' ' + DIVIDE + ' ' + D + ' ≈ ?'; expr = N + '/' + D;
-      diff = 7 + 0.7 * digits(N) + 0.7 * digits(D);
+      var N, D, attempt, candidate, candidateTruth;
+      /* The canonical whole-number answer must itself satisfy this preset's tolerance.
+         Otherwise the exact-answer shortcut could accept an answer outside the stated rule. */
+      for (attempt = 0; attempt < 500; attempt++) {
+        N = r.int(p.nlo, p.nhi); D = r.int(p.dlo, p.dhi);
+        truth = rat(N, D);
+        candidateTruth = truth.n / truth.d;
+        candidate = Math.floor(candidateTruth + 0.5);
+        if (Math.abs(candidate - candidateTruth) <= Math.abs(candidateTruth) * rel + 1e-9) break;
+      }
+      if (attempt === 500) throw new Error('est: could not generate a division estimate whose rounded answer meets the configured tolerance');
+      text = N + ' ' + DIVIDE + ' ' + D + ' ≈ ?'; expr = N + '/' + D;
+      diff = baseDiff + 0.7 * digits(N) + 0.7 * digits(D);
     } else {
       var A = r.int(p.alo, p.ahi), B = r.int(p.blo, p.bhi);
       if (A % 10 === 0) A += 1;
@@ -422,29 +488,38 @@
       var sa = fmtScaled(A, p.dpa), sb = fmtScaled(B, p.dpb);
       truth = rat(A * B, Math.pow(10, p.dpa + p.dpb));
       text = sa + ' ' + TIMES + ' ' + sb + ' ≈ ?'; expr = sa + '*' + sb;
-      diff = 7 + 0.6 * digits(A) * digits(B) + 0.5 * (p.dpa + p.dpb);
+      diff = baseDiff + 0.6 * digits(A) * digits(B) + 0.5 * (p.dpa + p.dpb);
     }
     var tn = truth.n / truth.d;
-    return Q('Estimation', text + '  (within 1%)', expr, rat(Math.floor(tn + 0.5)), diff,
-      { tol: { rel: 0.01, center: tn }, verify: { kind: 'est' } });
+    var toleranceLabel = Math.round(rel * 100);
+    return Q('Estimation', text + '  (within ' + toleranceLabel + '%)', expr, rat(Math.floor(tn + 0.5)), diff,
+      { tol: { rel: rel, center: tn }, verify: { kind: 'est' } });
   };
 
   G.proportion = function (r, p) {
-    var a = r.int(3, p.amax || 12), b = r.int(3, p.amax || 12);
+    var lo = p.amin || 3, hi = p.amax || 12;
+    var a = r.int(lo, hi), b = r.int(lo, hi);
     if (a === b) b += 1;
     var k = r.int(2, 9);
-    return Q('Ratios', a + ' : ' + b + ' = ' + (a * k) + ' : ?', (a * k) + '/' + a + '*' + b, rat(b * k),
-      3 + 0.5 * digits(a * k));
+    var diff = 3 + 0.5 * digits(a * k) +
+      0.25 * Math.max(0, digits(a) - 1) + 0.25 * Math.max(0, digits(b) - 1);
+    return Q('Ratios', a + ' : ' + b + ' = ' + (a * k) + ' : ?', (a * k) + '/' + a + '*' + b, rat(b * k), diff);
   };
 
   G.mean = function (r, p) {
     for (var i = 0; i < 300; i++) {
-      var n = r.pick([4, 5]), m = r.int(p.lo, p.hi), offs = [], s = 0;
+      var n = r.int(p.nlo == null ? 4 : p.nlo, p.nhi == null ? 5 : p.nhi),
+        m = r.int(p.lo, p.hi), offs = [], s = 0;
       for (var j = 0; j < n - 1; j++) { var o = r.int(-p.spread, p.spread); offs.push(o); s += o; }
       offs.push(-s);
       var vals = offs.map(function (o) { return m + o; });
       if (vals.some(function (v) { return v < 1; }) || Math.abs(offs[n - 1]) > p.spread * 2) continue;
-      return Q('Averages', 'Mean of ' + vals.join(', '), '(' + vals.join('+') + ')/' + n, rat(m), 3 + 0.5 * n);
+      var maxValue = Math.max.apply(null, vals), totalValue = vals.reduce(function (sum, value) { return sum + value; }, 0);
+      var diff = 3 + 0.5 * n +
+        0.35 * Math.max(0, digits(maxValue) - 2) +
+        0.2 * Math.max(0, digits(totalValue) - 3) +
+        0.015 * Math.max(0, p.spread - 12);
+      return Q('Averages', 'Mean of ' + vals.join(', '), '(' + vals.join('+') + ')/' + n, rat(m), diff);
     }
     throw new Error('mean: could not generate');
   };
@@ -486,6 +561,16 @@
         } while (a * b <= c * d);
         return Q('Mixed operations', a + ' ' + TIMES + ' ' + b + ' ' + MINUS + ' ' + c + ' ' + TIMES + ' ' + d,
           a + '*' + b + '-' + c + '*' + d, rat(a * b - c * d), 13);
+      case 'G':
+        a = r.int(2, 19); b = r.int(2, 19); c = r.int(2, 9);
+        d = r.int(2, Math.min(20, (a + b) * c - 1));
+        return Q('Mixed operations', '(' + a + ' + ' + b + ') ' + TIMES + ' ' + c + ' ' + MINUS + ' ' + d,
+          '(' + a + '+' + b + ')*' + c + '-' + d, rat((a + b) * c - d), 4.8);
+      case 'H':
+        a = r.int(12, 49); b = r.int(12, 49); c = r.int(2, 9);
+        d = r.int(10, Math.min(99, (a + b) * c - 1));
+        return Q('Mixed operations', '(' + a + ' + ' + b + ') ' + TIMES + ' ' + c + ' ' + MINUS + ' ' + d,
+          '(' + a + '+' + b + ')*' + c + '-' + d, rat((a + b) * c - d), 6.5);
     }
     throw new Error('chain: unknown kind ' + p.kind);
   };
@@ -675,7 +760,7 @@
         { verify: { kind: 'log', base: b, argN: arg, argD: 1, p: k, q: 1 } });
     }
     if (kind === 'neg') {
-      b = r.pick(p.bases); k = r.int(1, p.khi);
+      b = r.pick(p.bases); k = r.int(p.klo || 1, p.khi);
       var den = ipow(b, k);
       var shown = b === 10 ? fmtScaled(1, k) : '1/' + den;
       return Q('Logarithms', 'log' + sub(b) + ' ' + (b === 10 ? shown : '(' + shown + ')'), '', rat(-k), 4.5 + 0.3 * k,
@@ -810,6 +895,8 @@
       recipes: [
         ['add', 3, { da: 2, db: 2 }], ['sub', 3, { da: 2, db: 2 }],
         ['table', 2, { lo: 3, hi: 12 }], ['div', 2, { dq: 1, dd: 1 }],
+        ['divRem', 1, { alo: 10, ahi: 99, dlo: 2, dhi: 9, bonus: 0.4 }],
+        ['pctOf', 1, { set: EASY_PCT, lo: 20, hi: 100, dp: 0 }],
         ['square', 1, { lo: 2, hi: 15 }], ['mul', 1, { da: 2, db: 1, shortcut: 'any' }]
       ] },
     { id: 'scribe', name: 'Scribe', label: 'Easy+', emblem: '✶', accuracy: 0.95,
@@ -817,8 +904,14 @@
       recipes: [
         ['add', 2, { da: 3, db: 2 }], ['sub', 2, { da: 3, db: 2 }], ['add', 1, { da: 3, db: 3 }],
         ['mul', 3, { da: 2, db: 1, shortcut: 'any' }], ['div', 2, { dq: 2, dd: 1 }],
+        ['divRem', 1, { alo: 10, ahi: 99, dlo: 2, dhi: 9, bonus: 0.8 }],
+        ['fracAdd', 1, { dens: [2, 3, 4, 5], bonus: -3 }],
+        ['fracMul', 1, { dens: [2, 3, 4, 5, 8] }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 8] }],
         ['decAdd', 2, { ia: 1, ib: 1, dpa: 1, dpb: 1 }], ['decMul', 1, { da: 1, dpa: 1, db: 1, dpb: 0 }],
-        ['square', 1, { lo: 11, hi: 25 }], ['pctOf', 1, { set: EASY_PCT, lo: 40, hi: 400, dp: 0 }]
+        ['square', 1, { lo: 11, hi: 25 }], ['pctOf', 1, { set: EASY_PCT, lo: 40, hi: 400, dp: 0 }],
+        ['pctChange', 1, { set: [5, 10, 20, 25], lo: 20, hi: 200, decrease: true, bonus: -2.5 }],
+        ['pctWhat', 1, { set: [10, 20, 25, 50], lo: 20, hi: 200, bonus: -1.5 }],
+        ['proportion', 1, { amax: 8 }], ['mean', 1, { nlo: 3, nhi: 3, lo: 3, hi: 20, spread: 4 }]
       ] },
     { id: 'adept', name: 'Adept', label: 'Medium', emblem: '❂', accuracy: 0.95,
       blurb: 'Two-digit products, negatives, percentages, decimals.',
@@ -828,9 +921,14 @@
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 6, hi: 25, zlo: 10, zhi: 99 }],
         ['neg', 1, { ops1: ['+', '-'], ops2: ['+', '-'], lo: 20, hi: 99, zlo: 20, zhi: 99 }],
         ['pctOf', 2, { set: MID_PCT, lo: 80, hi: 900, dp: 0 }],
+        ['pctChange', 1, { set: [5, 10, 20, 25], lo: 40, hi: 400, decrease: true, bonus: -1.5 }],
+        ['pctWhat', 1, { set: MID_PCT, lo: 80, hi: 900, bonus: 0.5 }],
         ['decMul', 2, { da: 2, dpa: 1, db: 2, dpb: 1 }],
         ['decAdd', 1, { ia: 2, ib: 1, dpa: 2, dpb: 1 }],
-        ['div', 1, { dq: 2, dd: 2 }], ['square', 1, { lo: 16, hi: 30 }],
+        ['div', 1, { dq: 2, dd: 2 }], ['divRem', 1, { alo: 100, ahi: 999, dlo: 10, dhi: 99, bonus: 1.8 }],
+        ['fracAdd', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: -1.5 }],
+        ['fracMul', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }], ['fracDiv', 1, { dens: [2, 3, 4, 5, 6, 8], bonus: 1 }],
+        ['square', 1, { lo: 16, hi: 30 }],
         ['fracToDec', 1, { dens: [4, 5, 8, 16, 20, 25] }],
         ['proportion', 1, { amax: 12 }], ['mean', 1, { lo: 20, hi: 90, spread: 12 }],
         ['fracOfInt', 1, { dens: [3, 4, 5, 6, 8, 12], lo: 60, hi: 960 }]
@@ -839,61 +937,78 @@
       blurb: 'Three-digit products, brackets, fractions, percentage change.',
       recipes: [
         ['mul', 3, { da: 3, db: 2, shortcut: 'any' }],
+        ['add', 1, { da: 4, db: 3, bonus: 2.5 }], ['sub', 1, { da: 4, db: 3, bonus: 2.5 }], ['div', 1, { dq: 3, dd: 2 }], ['divRem', 1, { alo: 1000, ahi: 9999, dlo: 10, dhi: 99, bonus: 2.8 }],
+        ['decAdd', 1, { ia: 2, ib: 2, dpa: 2, dpb: 1, bonus: 1.5 }],
         ['chain', 1, { kind: 'A' }], ['chain', 1, { kind: 'B' }], ['chain', 1, { kind: 'D' }],
         ['decMul', 2, { da: 3, dpa: 1, db: 2, dpb: 1 }], ['decDiv', 1, { dq: 2, dpq: 0, dd: 2, dpd: 1 }],
         ['fracAdd', 2, { dens: [3, 4, 5, 6, 8, 9, 10, 12] }],
+        ['fracMul', 1, { dens: [3, 4, 5, 6, 8, 10, 12], bonus: 2.5 }], ['fracDiv', 1, { dens: [3, 4, 5, 6, 8, 10, 12], bonus: 2.5 }],
         ['pctChange', 2, { set: [10, 15, 20, 25, 30, 35, 40, 12.5], lo: 40, hi: 800, decrease: true }],
         ['pctWhat', 1, { set: [15, 35, 45, 62.5, 12.5, 85, 24, 36], lo: 40, hi: 800 }],
-        ['cube', 1, { lo: 3, hi: 15 }], ['sqrtPerfect', 1, { lo: 15, hi: 45 }], ['cbrtPerfect', 1, { lo: 3, hi: 15 }],
+        ['pctOf', 1, { set: MID_PCT, lo: 100, hi: 1500, dp: 0, bonus: 2.5 }],
+        ['cube', 1, { lo: 8, hi: 20 }], ['sqrtPerfect', 1, { lo: 25, hi: 55 }], ['cbrtPerfect', 1, { lo: 8, hi: 20 }],
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 12, hi: 60, zlo: 20, zhi: 199 }],
-        ['fracToDec', 1, { dens: [8, 16, 25, 32, 40, 50] }],
+        ['fracToDec', 1, { dens: [32, 64, 80, 125, 128, 160] }],
         ['evGame', 1, { dens: [2, 4, 5, 10], wmax: 20, lmax: 9 }], ['comb', 1, { nlo: 5, nhi: 9, perm: 0.2 }],
-        ['probCoin', 1, { nlo: 3, nhi: 6 }]
+        ['probCoin', 1, { nlo: 3, nhi: 6 }],
+        ['proportion', 1, { amin: 15, amax: 25 }], ['mean', 1, { lo: 50, hi: 250, spread: 20 }]
       ] },
     { id: 'archon', name: 'Archon', label: 'Extreme', emblem: '⚜', accuracy: 0.90,
       blurb: 'Estimation, powers, awkward fractions, decimal chains.',
       recipes: [
         ['mul', 2, { da: 3, db: 3, shortcut: 'any' }], ['mul', 1, { da: 4, db: 2, shortcut: 'any' }],
+        ['add', 1, { da: 5, db: 4, bonus: 3.5 }], ['sub', 1, { da: 5, db: 4, bonus: 3.5 }], ['div', 1, { dq: 4, dd: 2 }], ['divRem', 1, { alo: 10000, ahi: 99999, dlo: 10, dhi: 99, bonus: 3.8 }],
+        ['decAdd', 1, { ia: 3, ib: 2, dpa: 2, dpb: 2, bonus: 2.5 }],
         ['chain', 2, { kind: 'C' }], ['chain', 1, { kind: 'E' }],
         ['fracAdd', 2, { dens: [7, 9, 11, 12, 14, 15, 18] }],
+        ['fracMul', 1, { dens: [7, 9, 11, 12, 14, 15, 18], bonus: 4 }], ['fracDiv', 1, { dens: [7, 9, 11, 12, 14, 15, 18], bonus: 4 }],
         ['pow', 1, { bases: [2], elo: 10, ehi: 16, klo: 1, khi: 9 }],
         ['est', 1, { kind: 'mul', alo: 31, ahi: 99, dpa: 1, blo: 201, bhi: 999, dpb: 1 }],
         ['est', 1, { kind: 'div', nlo: 2000, nhi: 99999, dlo: 13, dhi: 98 }],
         ['pctChange', 2, { set: [12.5, 17.5, 22.5, 27.5, 32.5, 7.5, 37.5], lo: 80, hi: 1600, decrease: true }],
         ['pctOf', 1, { set: HARD_PCT, lo: 200, hi: 4000, dp: 1 }],
+        ['pctWhat', 1, { set: HARD_PCT, lo: 200, hi: 4000, bonus: 2.5 }],
         ['sqrtApprox', 1, { lo: 20, hi: 500 }],
-        ['square', 1, { lo: 35, hi: 95, five: true }], ['mul', 1, { near100: true }],
+        ['square', 1, { lo: 55, hi: 125, five: true }], ['mul', 1, { near100: true }],
         ['decDiv', 1, { dq: 2, dpq: 1, dd: 2, dpd: 1 }],
-        ['probDice', 1, { cond: true }], ['evDie', 1, {}], ['log', 1, { kinds: ['int', 'neg', 'sum'], bases: [2, 3, 5, 10], klo: 2, khi: 6 }],
-        ['mod', 1, { kinds: ['rem', 'mul'], alo: 100, ahi: 999, mlo: 7, mhi: 17 }]
+        ['probDice', 1, { cond: true }], ['evDie', 1, { mult: true }], ['log', 1, { kinds: ['int', 'neg', 'sum'], bases: [2, 3, 5, 10], klo: 5, khi: 6 }],
+        ['mod', 1, { kinds: ['rem', 'mul'], alo: 100, ahi: 999, mlo: 7, mhi: 17 }],
+        ['proportion', 1, { amin: 10, amax: 99 }], ['mean', 1, { lo: 100, hi: 999, spread: 35 }]
       ] },
     { id: 'abyss', name: 'Abyss', label: 'Hell', emblem: '☠', accuracy: 0.85,
       blurb: 'Brutal products, double products, hard estimation.',
       recipes: [
         ['mul', 2, { da: 4, db: 3, shortcut: 'any' }], ['mul', 2, { da: 5, db: 2, shortcut: 'any' }],
+        ['add', 1, { da: 6, db: 5, bonus: 5 }], ['sub', 1, { da: 6, db: 5, bonus: 5 }], ['div', 1, { dq: 5, dd: 3 }], ['divRem', 1, { alo: 100000, ahi: 999999, dlo: 100, dhi: 999, bonus: 5 }],
+        ['decAdd', 1, { ia: 4, ib: 3, dpa: 2, dpb: 2, bonus: 3.5 }],
         ['chain', 2, { kind: 'E' }], ['chain', 2, { kind: 'F' }], ['chain', 1, { kind: 'C' }],
         ['decMul', 2, { da: 3, dpa: 2, db: 3, dpb: 1 }],
         ['est', 2, { kind: 'mul', alo: 301, ahi: 999, dpa: 2, blo: 301, bhi: 999, dpb: 1 }],
         ['est', 1, { kind: 'div', nlo: 20000, nhi: 999999, dlo: 113, dhi: 987 }],
         ['fracAdd', 1, { dens: [11, 13, 14, 15, 16, 18, 21] }],
-        ['pctChange', 1, { set: [17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5], lo: 400, hi: 8000, decrease: true }],
+        ['fracMul', 1, { dens: [11, 13, 14, 15, 16, 18, 21], bonus: 6 }], ['fracDiv', 1, { dens: [11, 13, 14, 15, 16, 18, 21], bonus: 6 }],
+        ['pctChange', 1, { set: [17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5], lo: 400, hi: 8000, decrease: true, bonus: 2 }],
+        ['pctOf', 1, { set: HARD_PCT, lo: 1000, hi: 9000, dp: 1, bonus: 3.5 }],
+        ['pctWhat', 1, { set: HARD_PCT, lo: 1000, hi: 9000, bonus: 4 }],
         ['sqrtApprox', 1, { lo: 500, hi: 9999 }],
         ['pow', 1, { bases: [3, 6, 7, 12], elo: 4, ehi: 8, klo: 3, khi: 9 }],
         ['neg', 1, { ops1: ['*'], ops2: ['+', '-'], lo: 21, hi: 99, zlo: 100, zhi: 999 }],
         ['decDiv', 1, { dq: 3, dpq: 1, dd: 2, dpd: 1 }],
         ['probBag', 1, { lo: 4, hi: 10 }], ['ev2d6', 1, {}], ['comb', 1, { nlo: 10, nhi: 16, perm: 0.25 }],
         ['log', 1, { kinds: ['frac', 'sum', 'neg'], bases: [2, 3, 5], klo: 2, khi: 6 }],
-        ['mod', 1, { kinds: ['mul', 'pow'], alo: 100, ahi: 999, mlo: 7, mhi: 23, bmax: 9, emax: 9 }]
+        ['mod', 1, { kinds: ['mul', 'pow'], alo: 100, ahi: 999, mlo: 7, mhi: 23, bmax: 9, emax: 9 }],
+        ['proportion', 1, { amin: 100, amax: 999 }], ['mean', 1, { lo: 500, hi: 1999, spread: 80 }]
       ] }
   ];
 
   var TIER_BY_ID = {};
   TIERS.forEach(function (t, i) { t.index = i; TIER_BY_ID[t.id] = t; });
 
-  /* difficulty bands, measured by tests/measure (see test script) */
+  /* Observed generator envelopes, checked by the difficulty-progression test.
+     These bound heuristic q.diff scores; they are not psychometric guarantees. */
   var BANDS = {
-    acolyte: [1, 4], scribe: [1, 6], adept: [2, 9],
-    magister: [4, 13], archon: [4.5, 17], abyss: [7, 24]
+    acolyte: [1, 2.5], scribe: [1, 4.5], adept: [1.5, 10.5],
+    magister: [2.5, 11.5], archon: [2.5, 13], abyss: [4.5, 16]
   };
 
   function targetFor(diff) { return round1(clamp(1.3 + 0.75 * diff, 1.5, 30)); }
@@ -920,13 +1035,24 @@
     var tier = TIER_BY_ID[tierId];
     var recent = ctx.recent || (ctx.recent = []);
     for (var attempt = 0; attempt < 25; attempt++) {
-      var rec = weightedPick(r, tier.recipes, ctx.recipeBoost);
+      var eligible = tier.recipes;
+      /* A mixed practice stream should not stay on one skill for three questions. */
+      if (ctx.baseSkillStreak >= 2 && ctx.baseLastSkill) {
+        var alternatives = tier.recipes.filter(function (entry) {
+          return RECIPE_SKILL[entry[0]] !== ctx.baseLastSkill;
+        });
+        if (alternatives.length) eligible = alternatives;
+      }
+      var rec = weightedPick(r, eligible, ctx.recipeBoost);
       var q = G[rec[0]](r, rec[2]);
       if (!q || recent.indexOf(q.text) >= 0) continue;
       q.id = rec[0];
       q.tier = tier.id;
       q.settings = rec[2];
       q.target = targetFor(q.diff);
+      var skill = q.skill || RECIPE_SKILL[rec[0]];
+      if (skill === ctx.baseLastSkill) ctx.baseSkillStreak++;
+      else { ctx.baseLastSkill = skill; ctx.baseSkillStreak = 1; }
       recent.push(q.text);
       if (recent.length > 20) recent.shift();
       return q;
@@ -950,10 +1076,10 @@
      SKILLS, DRILLS, DECKS, TRICKS — what the trainer uses on top of tiers
      ================================================================== */
   var RECIPE_SKILL = {
-    add: 'Addition', sub: 'Subtraction', table: 'Multiplication', mul: 'Multiplication', div: 'Division',
+    add: 'Addition', sub: 'Subtraction', table: 'Multiplication', mul: 'Multiplication', div: 'Division', divRem: 'Division',
     decAdd: 'Decimals', decMul: 'Decimals', decDiv: 'Decimals', neg: 'Negatives',
     pctOf: 'Percentages', pctChange: 'Percentages', pctWhat: 'Percentages',
-    fracAdd: 'Fractions', fracOfInt: 'Fractions', fracToDec: 'Fractions',
+    fracAdd: 'Fractions', fracMul: 'Fractions', fracDiv: 'Fractions', fracOfInt: 'Fractions', fracToDec: 'Fractions',
     square: 'Squares & roots', cube: 'Squares & roots', sqrtPerfect: 'Squares & roots', cbrtPerfect: 'Squares & roots', sqrtApprox: 'Squares & roots',
     pow: 'Powers', est: 'Estimation', proportion: 'Ratios', mean: 'Averages', chain: 'Mixed operations',
     probDice: 'Probability', probCoin: 'Probability', probBag: 'Probability',
@@ -967,6 +1093,19 @@
   /* extra, easier/harder presets for the advanced skills so a drill can be set at any tier.
      [recipe, weight, settings, tierIndex] */
   var EXTRA = [
+    /* Fill skill-drill gaps without changing the normal tier recipe mix. */
+    ['neg', 1, { ops1: ['+', '-'], ops2: ['+', '-'], lo: 2, hi: 9, zlo: 2, zhi: 9 }, 1],
+    ['fracToDec', 1, { dens: [2, 4, 5, 8, 10] }, 1],
+    ['fracOfInt', 1, { dens: [2, 4, 5, 8], lo: 20, hi: 200 }, 1],
+    ['pow', 1, { bases: [2, 3], elo: 2, ehi: 4, klo: 1, khi: 1 }, 1],
+    ['pow', 1, { bases: [2, 3, 5], elo: 2, ehi: 5, klo: 1, khi: 4 }, 3],
+    ['est', 1, { kind: 'mul', alo: 10, ahi: 99, dpa: 0, blo: 10, bhi: 99, dpb: 0, rel: 0.05, baseDiff: 3.5 }, 1],
+    ['est', 1, { kind: 'mul', alo: 100, ahi: 999, dpa: 0, blo: 10, bhi: 99, dpb: 0, rel: 0.03, baseDiff: 5.5 }, 3],
+    ['chain', 1, { kind: 'G' }, 1],
+    ['chain', 1, { kind: 'H' }, 2],
+    ['add', 1, { da: 5, db: 5 }, 3], ['sub', 1, { da: 5, db: 5 }, 3], ['div', 1, { dq: 3, dd: 3 }, 3],
+    ['add', 1, { da: 7, db: 7 }, 4], ['sub', 1, { da: 7, db: 7 }, 4], ['div', 1, { dq: 4, dd: 3 }, 4],
+    ['add', 1, { da: 9, db: 9 }, 5], ['sub', 1, { da: 9, db: 9 }, 5], ['div', 1, { dq: 5, dd: 4 }, 5],
     ['probCoin', 1, { nlo: 3, nhi: 4 }, 1], ['probDice', 1, { cond: false }, 1],
     ['probCoin', 1, { nlo: 5, nhi: 7, atLeast: true }, 3], ['probDice', 1, { cond: true }, 3], ['probBag', 1, { lo: 2, hi: 6 }, 3],
     ['probCoin', 1, { nlo: 7, nhi: 9, atLeast: true }, 5], ['probBag', 1, { lo: 4, hi: 10 }, 5],
@@ -1013,9 +1152,11 @@
 
   /* weak-spot drill: ~75% from the chosen skills (nearest to the chosen tier), the rest general.
      skills: array of skill names; weights: optional { skill: number } */
-  function drillQuestion(skills, weights, tierId, r, ctx) {
+  function drillQuestion(skills, weights, tierId, r, ctx, options) {
     var ti = TIER_BY_ID[tierId].index;
-    if (!skills || !skills.length || r() > 0.75) return nextQuestion(tierId, r, ctx);
+    options = options || {};
+    var generalRate = options.generalRate === undefined ? 0.25 : clamp(options.generalRate, 0, 1);
+    if (!skills || !skills.length || r() < generalRate) return nextQuestion(tierId, r, ctx);
     var total = 0, i;
     for (i = 0; i < skills.length; i++) total += (weights && weights[skills[i]]) || 1;
     var x = r() * total, skill = skills[skills.length - 1];
@@ -1059,20 +1200,44 @@
     }
     add(t, count - nBelow);
     if (below) add(below, nBelow);
-    var i, j;
-    for (i = slots.length - 1; i > 0; i--) {                 /* shuffle */
-      j = Math.floor(r() * (i + 1));
-      var tmp = slots[i]; slots[i] = slots[j]; slots[j] = tmp;
-    }
-    for (i = 1; i < slots.length; i++) {                      /* break up repeats of the same recipe */
-      if (slots[i].rec[0] !== slots[i - 1].rec[0]) continue;
-      for (j = i + 1; j < slots.length; j++) {
-        if (slots[j].rec[0] !== slots[i - 1].rec[0] && (i + 1 >= slots.length || slots[j].rec[0] !== slots[i + 1].rec[0])) {
-          var t2 = slots[i]; slots[i] = slots[j]; slots[j] = t2; break;
+    function slotSkill(slot) { return RECIPE_SKILL[slot.rec[0]] || slot.rec[0]; }
+    var remaining = slots.slice(), ordered = [];
+    /* Randomized constrained shuffle: preserve every allocated recipe slot, while
+       avoiding adjacent identical recipes and runs of three questions from one skill. */
+    while (remaining.length) {
+      var eligible = [];
+      for (var k = 0; k < remaining.length; k++) {
+        var candidate = remaining[k];
+        if (ordered.length && candidate.rec[0] === ordered[ordered.length - 1].rec[0]) continue;
+        if (ordered.length > 1 && slotSkill(candidate) === slotSkill(ordered[ordered.length - 1]) &&
+            slotSkill(candidate) === slotSkill(ordered[ordered.length - 2])) continue;
+        eligible.push(k);
+      }
+      /* If both constraints cannot be met, preserve the no-adjacent-recipe rule first. */
+      if (!eligible.length) {
+        for (var f = 0; f < remaining.length; f++) {
+          if (!ordered.length || remaining[f].rec[0] !== ordered[ordered.length - 1].rec[0]) eligible.push(f);
         }
       }
+      if (!eligible.length) eligible = remaining.map(function (_, index) { return index; });
+      var counts = {};
+      remaining.forEach(function (slot) {
+        var skill = slotSkill(slot);
+        counts[skill] = (counts[skill] || 0) + 1;
+      });
+      var maxCount = 0;
+      eligible.forEach(function (index) {
+        maxCount = Math.max(maxCount, counts[slotSkill(remaining[index])]);
+      });
+      /* Spread the most abundant remaining skills first to avoid a late-session dead end. */
+      var preferred = eligible.filter(function (index) {
+        return counts[slotSkill(remaining[index])] === maxCount;
+      });
+      var chosenIndex = preferred[Math.floor(r() * preferred.length)];
+      ordered.push(remaining[chosenIndex]);
+      remaining.splice(chosenIndex, 1);
     }
-    return slots;
+    return ordered;
   }
   function deckQuestion(slot, r, ctx) { return entryQuestion(slot.rec, slot.tier, r, ctx); }
 

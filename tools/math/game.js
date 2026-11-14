@@ -9,6 +9,9 @@
   'use strict';
 
   var E = window.MathEngine;
+  var S = window.MathStorage;
+  var U = window.MathUI;
+  var C = window.MathCoach;
   var $ = function (id) { return document.getElementById(id); };
   var MINUS = '−';
 
@@ -48,25 +51,15 @@
     accuracy: { name: 'Accuracy drill', text: 'Strict penalty, and every miss comes back three questions later', next: 'Accuracy drill' },
     standard: { name: 'Mixed drill', text: 'a balanced mix of your weak skills and general questions', next: 'Mixed drill' }
   };
-  var RANKS = [
-    [0, 'Novice'], [450, 'Student'], [1500, 'Calculator'], [3500, 'Savant'],
-    [7500, 'Sage'], [14000, 'Oracle'], [24000, 'Archmage'], [38000, 'Limitless']
-  ];
+  /* XP/scoring/progression moved to math-xp.js (MathXP). DIFFS stays in game.js. */
 
-  /* ---------- the XP economy ----------
-     XP for a run = points/10 x TIER x PENALTY x FADE, plus bonuses.
-     TIER:    harder tiers pay more per point.
-     PENALTY: riskier penalty rules pay more (Practice pays half).
-     FADE:    each tier has a "comfort rank". Up to that rank it pays full XP.
-              Every rank above it, the tier pays less (FADE list), never below FADE_FLOOR.
-              So easy tiers stop being worth it as you rank up, and you have to climb. */
-  var TIER_XP = [1.0, 1.25, 1.6, 2.1, 2.8, 3.8];          /* acolyte … abyss */
-  var TIER_COMFORT = [0, 1, 2, 3, 5, 7];                   /* rank index where each tier stops paying full XP */
-  var FADE = [1, 0.6, 0.35, 0.18, 0.08];                   /* 0, 1, 2, 3, 4 ranks above comfort */
-  var FADE_FLOOR = 0.05;                                   /* 5 ranks or more above: a trickle, never zero */
-  var PENALTY_XP = { practice: 0.5, fair: 1, strict: 1.25, escalating: 1.25, sudden: 1.5 };
-  var FIRST_CLEAR_XP = [60, 90, 140, 220, 350, 550];       /* one-time bonus the first time you clear each tier */
-  var REPEAT_CLEAR_SHARE = 0.15;                           /* later clears pay this share of that, times FADE */
+
+
+
+
+
+
+
 
   /* ---------- drill difficulty: three rule sets, used only by Weak-Spot Drill ----------
      target:   multiplies every question's target time (pace score and the strict timer)
@@ -81,34 +74,25 @@
       note: 'Ascendant: the standard drill rules.',
       target: 1, penalty: 1, xp: 1, lives: 0, skipCosts: false, forceTimer: false, noPractice: false },
     hard: { name: 'Apotheosis', desc: 'The timer never stops, penalties bite, skips cost. XP ×1.5.',
-      note: 'Apotheosis: the strict timer is always on with targets 15% tighter, wrong answers and skips cost 1.5×, the Practice penalty is not allowed, and Sudden Death gives 2 lives. XP is ×1.5.',
+      note: 'Apotheosis: the strict timer is always on with a target multiplier of 0.85; the 3-second minimum can soften that reduction on easy questions. Wrong answers and skips cost 1.5×, the Practice penalty is not allowed, and Sudden Death gives 2 lives. XP is ×1.5.',
       target: 0.85, penalty: 1.5, xp: 1.5, lives: -1, skipCosts: true, forceTimer: true, noPractice: true }
   };
   function effTarget(r, a) { return a.target * (DIFFS[r.diff] || DIFFS.normal).target; }
 
-  var KEY_RUNS = 'limitless.math.v1.runs';
-  var KEY_ATT = 'limitless.math.v1.attempts';
-  var KEY_PREFS = 'limitless.math.v1.prefs';
-  var KEY_META = 'limitless.math.v1.meta';
-  var KEY_PROFILE = 'limitless.math.v1.profile';
-  var MAX_ATTEMPTS = 5000, MAX_RUNS = 500, SKILL_WINDOW = 60;
+  var KEYS = S.KEYS;
+  var KEY_RUNS = KEYS.runs;
+  var KEY_ATT = KEYS.att;
+  var KEY_PREFS = KEYS.prefs;
+  var KEY_META = KEYS.meta;
+  var KEY_PROFILE = KEYS.profile;
+  var MAX_ATTEMPTS = S.LIMITS.MAX_ATTEMPTS, MAX_RUNS = S.LIMITS.MAX_RUNS, SKILL_WINDOW = S.LIMITS.SKILL_WINDOW;
 
   /* ---------- saving (never lets a storage problem break the page) ---------- */
-  function load(key, fallback) {
-    try { var s = localStorage.getItem(key); return s ? JSON.parse(s) : fallback; } catch (e) { return fallback; }
-  }
-  function save(key, val) {
-    try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch (e) { return false; }
-  }
+  function load(key, fallback) { return S.load(key, fallback); }
+  function save(key, val) { return S.save(key, val); }
 
   /* ---------- tiny DOM helper ---------- */
-  function h(tag, cls, text) {
-    var el = document.createElement(tag);
-    if (cls) el.className = cls;
-    if (text !== undefined && text !== null) el.textContent = text;
-    return el;
-  }
-  function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
+
   var SCREENS = ['screen-menu', 'screen-play', 'screen-results', 'screen-tricks'];
   function show(id) {
     SCREENS.forEach(function (s) { $(s).hidden = (s !== id); });
@@ -137,15 +121,8 @@
     return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
   }
   function mean(arr) { return arr.length ? arr.reduce(function (s, x) { return s + x; }, 0) / arr.length : 0; }
-  function fmtClock(sec) {
-    sec = Math.max(0, Math.ceil(sec));
-    return Math.floor(sec / 60) + ':' + ('0' + (sec % 60)).slice(-2);
-  }
-  function fmtSec(x) { return (Math.round(x * 10) / 10).toFixed(1) + ' s'; }
-  function pct(x) { return Math.round(x * 100) + '%'; }
+
   function num(v, lo, hi, dflt) { v = +v; return isFinite(v) ? Math.min(hi, Math.max(lo, v)) : dflt; }
-  function pad(n) { return n < 10 ? '0' + n : String(n); }
-  function dayKey(d) { d = d || new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 
   /* ==================================================================
      PREFERENCES, XP, RANKS, STREAK, TRICK RECORDS  (the "meta" record)
@@ -158,201 +135,52 @@
   if (!DIFFS[prefs.diff]) prefs.diff = 'normal';
   if (prefs.drillFocus !== 'auto' && E.SKILLS.indexOf(prefs.drillFocus) < 0) prefs.drillFocus = 'auto';
 
-  var meta = (function () {
-    var m = load(KEY_META, {}) || {};
-    return {
-      xp: num(m.xp, 0, 1e7, 0),
-      streak: { day: (m.streak && typeof m.streak.day === 'string') ? m.streak.day : '', count: num(m.streak && m.streak.count, 0, 100000, 0), best: num(m.streak && m.streak.best, 0, 100000, 0) },
-      tricks: (m.tricks && typeof m.tricks === 'object') ? m.tricks : {},
-      tierClears: (m.tierClears && typeof m.tierClears === 'object') ? m.tierClears : {},
-      tierBonus: (m.tierBonus && typeof m.tierBonus === 'object') ? m.tierBonus : {}
-    };
-  })();
-  function saveMeta() { save(KEY_META, meta); }
+  var meta = MathXP.getMeta();
 
-  function rankFor(xp) {
-    var i = 0;
-    while (i + 1 < RANKS.length && xp >= RANKS[i + 1][0]) i++;
-    var floor = RANKS[i][0], next = RANKS[i + 1] ? RANKS[i + 1][0] : null;
-    return { idx: i, name: RANKS[i][1], floor: floor, next: next, nextName: RANKS[i + 1] ? RANKS[i + 1][1] : null,
-      progress: next ? (xp - floor) / (next - floor) : 1 };
-  }
-  function streakAlive() {
-    var s = meta.streak, y = new Date();
-    y.setDate(y.getDate() - 1);
-    return (s.day === dayKey() || s.day === dayKey(y)) ? s.count : 0;
-  }
-  function touchStreak() {
-    var s = meta.streak, today = dayKey();
-    if (s.day === today) return;
-    var y = new Date(); y.setDate(y.getDate() - 1);
-    s.count = (s.day === dayKey(y)) ? s.count + 1 : 1;
-    s.day = today;
-    s.best = Math.max(s.best || 0, s.count);
-  }
-  function awardXp(n) {
-    n = Math.max(0, Math.round(n));
-    var before = rankFor(meta.xp).idx;
-    meta.xp = Math.min(1e7, meta.xp + n);
-    var after = rankFor(meta.xp);
-    saveMeta();
-    return { gained: n, rankUp: after.idx > before ? after.name : null };
-  }
-
-  /* how much of a tier's XP you keep at your current rank (1 = full) */
-  function fadeFor(tierIdx, rankIdx) {
-    var gap = Math.max(0, rankIdx - TIER_COMFORT[tierIdx]);
-    return gap < FADE.length ? FADE[gap] : FADE_FLOOR;
-  }
-  /* pure: works out the XP for a finished run and shows every step (nothing is saved here) */
-  function xpBreakdown(r, s, rankIdx) {
-    var tierIdx = r.tier ? E.TIER_BY_ID[r.tier].index : r.topTierIndex;
-    var tierId = E.TIERS[tierIdx].id;
-    var base = Math.max(0, r.points) / 10;
-    var tierMult = TIER_XP[tierIdx], penMult = PENALTY_XP[r.penalty] || 1, fade = fadeFor(tierIdx, rankIdx);
-    var diffMult = (DIFFS[r.diff] || DIFFS.normal).xp;
-    var core = base * tierMult * penMult * diffMult * fade;
-    var clearBonus = 0, firstClear = false;
-    if (s.cleared) {
-      if (!meta.tierBonus[tierId]) { clearBonus = FIRST_CLEAR_XP[tierIdx]; firstClear = true; }
-      else clearBonus = FIRST_CLEAR_XP[tierIdx] * REPEAT_CLEAR_SHARE * fade;
-    }
-    var drillBonus = (r.mode === 'drill' && s.attempted >= 10) ? 10 * fade : 0;
-    return { tierIdx: tierIdx, tierId: tierId, base: base, tierMult: tierMult, penMult: penMult, diffMult: diffMult, fade: fade,
-      core: core, clearBonus: clearBonus, firstClear: firstClear, drillBonus: drillBonus,
-      total: Math.max(0, Math.round(core + clearBonus + drillBonus)) };
-  }
 
   function renderProfile() {
-    var box = $('profile-strip'); clear(box);
-    var rk = rankFor(meta.xp);
-    var left = h('div');
-    left.appendChild(h('div', 'rank-name', rk.name));
-    left.appendChild(h('div', 'rank-sub', meta.xp + ' XP' + (rk.next ? ' · ' + (rk.next - meta.xp) + ' to ' + rk.nextName : ' · highest rank')));
+    var box = $('profile-strip'); U.clear(box);
+    var rk = MathXP.rankFor(meta.xp);
+    var left = U.h('div');
+    left.appendChild(U.h('div', 'rank-name', rk.name));
+    left.appendChild(U.h('div', 'rank-sub', meta.xp + ' XP' + (rk.next ? ' · ' + (rk.next - meta.xp) + ' to ' + rk.nextName : ' · highest rank')));
     box.appendChild(left);
-    var mid = h('div', 'xp-wrap');
-    var bar = h('div', 'bar'); bar.setAttribute('role', 'progressbar'); bar.setAttribute('aria-label', 'Progress to next rank');
+    var mid = U.h('div', 'xp-wrap');
+    var bar = U.h('div', 'bar'); bar.setAttribute('role', 'progressbar'); bar.setAttribute('aria-label', 'Progress to next rank');
     bar.setAttribute('aria-valuemin', '0'); bar.setAttribute('aria-valuemax', '100'); bar.setAttribute('aria-valuenow', String(Math.round(rk.progress * 100)));
-    var fill = h('div'); fill.style.width = Math.round(rk.progress * 100) + '%'; bar.appendChild(fill);
+    var fill = U.h('div'); fill.style.width = Math.round(rk.progress * 100) + '%'; bar.appendChild(fill);
     mid.appendChild(bar);
     box.appendChild(mid);
-    var st = h('div', 'streak');
-    var n = streakAlive();
-    var b = h('b', '', String(n)); st.appendChild(b);
+    var st = U.h('div', 'streak');
+    var n = MathXP.streakAlive();
+    var b = U.h('b', '', String(n)); st.appendChild(b);
     st.appendChild(document.createTextNode(' day streak'));
-    st.appendChild(h('div', 'rank-sub', 'best ' + Math.max(meta.streak.best, n) + ' days'));
+    st.appendChild(U.h('div', 'rank-sub', 'best ' + Math.max(meta.streak.best, n) + ' days'));
     box.appendChild(st);
   }
 
-  /* ==================================================================
-     SKILL ANALYSIS (the coach)
-     ================================================================== */
-  function diagnose(acc, ratio, n) {
-    if (n < 3) return { text: 'Too few to judge', cls: '' };
-    if (acc >= 0.95 && ratio <= 1) return { text: 'Strong', cls: 'strong' };
-    if (acc >= 0.95) return { text: 'Accurate but slow', cls: 'warn' };
-    if (acc < 0.8) return { text: 'Needs practice', cls: 'bad' };
-    if (ratio <= 1) return { text: 'Fast but sloppy', cls: 'bad' };
-    return { text: 'Developing', cls: 'warn' };
-  }
-  function kindFor(diagText) {
-    if (diagText === 'Accurate but slow') return 'speed';
-    if (diagText === 'Fast but sloppy' || diagText === 'Needs practice') return 'accuracy';
-    return 'standard';
-  }
+  /* Skill analysis and coaching moved to math-coach.js (MathCoach).
+     game.js delegates to C.diagnose, C.kindFor, C.analyse,
+     C.prescription, C.snapshotBefore, C.buildDrillCfg. */
 
-  function localSkillStats() {
-    var atts = load(KEY_ATT, []), by = {}, out = {};
-    for (var i = atts.length - 1; i >= 0; i--) {
-      var a = atts[i];
-      if (!a || typeof a.s !== 'string' || a.r === 'skip' || !(a.target > 0)) continue;
-      var list = by[a.s] || (by[a.s] = []);
-      if (list.length < SKILL_WINDOW) list.push(a);
-    }
-    Object.keys(by).forEach(function (skill) {
-      var list = by[skill];
-      var right = list.filter(function (a) { return a.r === 'correct'; }).length;
-      out[skill] = { n: list.length, acc: right / list.length,
-        ratio: median(list.map(function (a) { return a.time / a.target; })),
-        medTime: median(list.map(function (a) { return a.time; })) };
-    });
-    return out;
-  }
-  /* local attempts blended with an uploaded analysis (the uploaded one counts a little less) */
-  function skillStats() {
-    var loc = localSkillStats(), prof = load(KEY_PROFILE, null), pri = (prof && prof.skills) || {}, out = {};
-    var keys = {};
-    Object.keys(loc).forEach(function (k) { keys[k] = 1; });
-    Object.keys(pri).forEach(function (k) { keys[k] = 1; });
-    Object.keys(keys).forEach(function (k) {
-      var l = loc[k], p = pri[k];
-      if (l && !p) { out[k] = { n: l.n, acc: l.acc, ratio: l.ratio, medTime: l.medTime, src: 'local' }; return; }
-      if (p && !l) { out[k] = { n: p.n, acc: p.acc, ratio: p.ratio, medTime: p.medTime, src: 'uploaded' }; return; }
-      var wl = l.n, wp = Math.min(p.n, SKILL_WINDOW) * 0.7, w = wl + wp;
-      out[k] = { n: l.n + Math.round(wp), acc: (l.acc * wl + p.acc * wp) / w, ratio: (l.ratio * wl + p.ratio * wp) / w,
-        medTime: (l.medTime * wl + p.medTime * wp) / w, src: 'mixed' };
-    });
-    return out;
-  }
-  function analyse() {
-    var st = skillStats(), rows = [];
-    Object.keys(st).forEach(function (skill) {
-      var s = st[skill], dg = diagnose(s.acc, s.ratio, s.n);
-      rows.push({ skill: skill, n: s.n, acc: s.acc, ratio: s.ratio, medTime: s.medTime, diag: dg, src: s.src,
-        kind: kindFor(dg.text),
-        weakness: (1 - s.acc) * 3 + Math.max(0, Math.min(3, s.ratio) - 1) * 1.2 });
-    });
-    rows.sort(function (a, b) { return b.weakness - a.weakness; });
-    return rows;
-  }
-  function prescription(rows) {
-    var weak = rows.filter(function (r) { return r.n >= 5 && r.diag.text !== 'Strong' && r.diag.text !== 'Too few to judge'; }).slice(0, 3);
-    if (!weak.length) return null;
-    var weights = {};
-    weak.forEach(function (r) { weights[r.skill] = Math.max(0.5, r.weakness); });
-    return { skills: weak.map(function (r) { return r.skill; }), weights: weights, kind: weak[0].kind, rows: weak };
-  }
-  function snapshotBefore(skills) {
-    var st = skillStats(), out = {};
-    skills.forEach(function (k) { if (st[k]) out[k] = { acc: st[k].acc, ratio: st[k].ratio, n: st[k].n }; });
-    return out;
-  }
-  function buildDrillCfg(forceAuto) {
-    var rows = analyse(), focus = forceAuto ? 'auto' : prefs.drillFocus;
-    var skills = [], weights = {}, kind = 'standard';
-    if (focus !== 'auto' && E.SKILLS.indexOf(focus) >= 0) {
-      skills = [focus];
-      var row = rows.filter(function (r) { return r.skill === focus; })[0];
-      if (row && row.n >= 5) kind = row.kind;
-    } else {
-      var rx = prescription(rows);
-      if (rx) { skills = rx.skills; weights = rx.weights; kind = rx.kind; }
-    }
-    return { skills: skills, weights: weights, kind: kind, before: snapshotBefore(skills) };
-  }
-
-  function sentenceList(arr) {
-    if (arr.length <= 1) return arr.join('');
-    return arr.slice(0, -1).join(', ') + ' and ' + arr[arr.length - 1];
-  }
 
   function renderCoach() {
-    var box = $('coach'); clear(box);
-    var rows = analyse().filter(function (r) { return r.n >= 3; });
-    var rx = prescription(rows);
+    var box = $('coach'); U.clear(box);
+    var rows = C.analyse().filter(function (r) { return r.n >= 3; });
+    var rx = C.prescription(rows);
     var prof = load(KEY_PROFILE, null);
     $('profile-note').textContent = prof && prof.exportedAt
       ? 'Includes an uploaded analysis from ' + new Date(prof.exportedAt).toLocaleDateString() + '.' : '';
     if (!rows.length) {
-      box.appendChild(h('p', 'coach-line', 'No data yet. Play a few runs and your weak skills will appear here, or upload a weak-spot analysis from an earlier session.'));
+      box.appendChild(U.h('p', 'coach-line', 'No data yet. Play a few runs and your weak skills will appear here, or upload a weak-spot analysis from an earlier session.'));
       $('btn-coach-drill').textContent = 'Start a general drill';
       return;
     }
-    var line = h('p', 'coach-line');
+    var line = U.h('p', 'coach-line');
     if (rx) {
       line.appendChild(document.createTextNode('Prescription: '));
-      line.appendChild(h('b', '', DRILL_KINDS[rx.kind].name));
-      line.appendChild(document.createTextNode(' on ' + sentenceList(rx.skills) + ' (' + DRILL_KINDS[rx.kind].text + ').'));
+      line.appendChild(U.h('b', '', DRILL_KINDS[rx.kind].name));
+      line.appendChild(document.createTextNode(' on ' + U.sentenceList(rx.skills) + ' (' + DRILL_KINDS[rx.kind].text + ').'));
       $('btn-coach-drill').textContent = 'Start ' + DRILL_KINDS[rx.kind].name.toLowerCase();
     } else {
       line.appendChild(document.createTextNode('No weak spots found yet. Keep playing, or pick any skill in Weak-Spot Drill mode.'));
@@ -360,22 +188,44 @@
     }
     box.appendChild(line);
 
-    var table = h('table', 'skill-table');
-    var head = h('tr');
-    ['Skill', 'Questions', 'Accuracy', 'Pace vs target', 'Diagnosis', 'Next step'].forEach(function (t) { head.appendChild(h('th', '', t)); });
+    var table = U.h('table', 'skill-table');
+    var head = U.h('tr');
+    ['Skill', 'Questions', 'Accuracy', 'Pace vs target', 'Diagnosis', 'Next step'].forEach(function (t) { head.appendChild(U.h('th', '', t)); });
     table.appendChild(head);
     rows.slice(0, 8).forEach(function (r) {
-      var tr = h('tr');
-      tr.appendChild(h('td', '', r.skill));
-      tr.appendChild(h('td', '', String(r.n)));
-      tr.appendChild(h('td', '', pct(r.acc)));
-      tr.appendChild(h('td', '', r.ratio.toFixed(1) + '×'));
-      var td = h('td'); td.appendChild(h('span', 'diag ' + r.diag.cls, r.diag.text)); tr.appendChild(td);
-      tr.appendChild(h('td', '', r.diag.text === 'Strong' ? '–' : DRILL_KINDS[r.kind].next));
+      var tr = U.h('tr');
+      tr.appendChild(U.h('td', '', r.skill));
+      tr.appendChild(U.h('td', '', String(r.n)));
+      tr.appendChild(U.h('td', '', U.pct(r.acc)));
+      tr.appendChild(U.h('td', '', r.ratio.toFixed(1) + '×'));
+      var td = U.h('td'); td.appendChild(U.h('span', 'diag ' + r.diag.cls, r.diag.text)); tr.appendChild(td);
+      tr.appendChild(U.h('td', '', r.diag.text === 'Strong' ? '–' : DRILL_KINDS[r.kind].next));
       table.appendChild(tr);
     });
-    var wrap = h('div', 'table-wrap'); wrap.appendChild(table); box.appendChild(wrap);
-    if (rows.length > 8) box.appendChild(h('p', 'note', 'Showing the 8 weakest of ' + rows.length + ' skills.'));
+    var wrap = U.h('div', 'table-wrap'); wrap.appendChild(table); box.appendChild(wrap);
+    if (rows.length > 8) box.appendChild(U.h('p', 'note', 'Showing the 8 weakest of ' + rows.length + ' skills.'));
+
+    var tierRows = C.analyseByTier().filter(function (r) { return r.n >= 3; });
+    if (tierRows.length) {
+      box.appendChild(U.h('h4', '', 'Skill performance by tier'));
+      box.appendChild(U.h('p', 'note', 'Uses local attempts only. Uploaded profiles currently provide overall skill summaries, not tier-specific results.'));
+      var tierTable = U.h('table', 'skill-table');
+      var tierHead = U.h('tr');
+      ['Skill', 'Tier', 'Questions', 'Accuracy', 'Pace vs target', 'Diagnosis'].forEach(function (t) { tierHead.appendChild(U.h('th', '', t)); });
+      tierTable.appendChild(tierHead);
+      tierRows.slice(0, 8).forEach(function (r) {
+        var tr = U.h('tr');
+        tr.appendChild(U.h('td', '', r.skill));
+        tr.appendChild(U.h('td', '', E.TIER_BY_ID[r.tier] ? E.TIER_BY_ID[r.tier].name : r.tier));
+        tr.appendChild(U.h('td', '', String(r.n)));
+        tr.appendChild(U.h('td', '', U.pct(r.acc)));
+        tr.appendChild(U.h('td', '', r.ratio.toFixed(1) + '×'));
+        var td = U.h('td'); td.appendChild(U.h('span', 'diag ' + r.diag.cls, r.diag.text)); tr.appendChild(td);
+        tierTable.appendChild(tr);
+      });
+      var tierWrap = U.h('div', 'table-wrap'); tierWrap.appendChild(tierTable); box.appendChild(tierWrap);
+      if (tierRows.length > 8) box.appendChild(U.h('p', 'note', 'Showing the 8 weakest skill/tier combinations of ' + tierRows.length + ' with at least 3 attempts.'));
+    }
   }
 
   /* ---------- weak-spot analysis file: download / upload ---------- */
@@ -387,11 +237,11 @@
   function round(x, d) { var p = Math.pow(10, d); return Math.round(x * p) / p; }
 
   function buildProfile() {
-    var rows = analyse(), skills = {}, tiers = {};
+    var rows = C.analyse(), skills = {}, tiers = {};
     rows.forEach(function (r) {
       skills[r.skill] = { n: r.n, acc: round(r.acc, 4), ratio: round(r.ratio, 3), medianTime: round(r.medTime, 2), diagnosis: r.diag.text };
     });
-    var rx = prescription(rows);
+    var rx = C.prescription(rows);
     E.TIERS.forEach(function (t) {
       var st = tierStatus(t.id);
       tiers[t.id] = { cleared: st.isCleared, runs: st.runs, clears: st.cleared };
@@ -425,7 +275,10 @@
       if (!s || typeof s !== 'object') return null;
       return { n: num(s.n, 0, 100, 0), acc: num(s.acc, 0, 1, 0), med: num(s.med, 0, 300, 0), ratio: num(s.ratio, 0, 20, 0), ts: num(s.ts, 0, 4e12, 0) };
     }
-    return { base: stat(t.base), post: stat(t.post), practice: num(t.practice, 0, 10000, 0), skipBase: t.skipBase === true, lastTs: num(t.lastTs, 0, 4e12, 0) };
+    var practice = num(t.practice, 0, 10000, 0);
+    /* records saved before practiceSinceBaseline existed: credit one run if they practised, so existing players are not locked out of the post-test */
+    var sinceBase = t.practiceSinceBaseline === undefined ? (stat(t.base) && practice > 0 ? 1 : 0) : num(t.practiceSinceBaseline, 0, 10000, 0);
+    return { base: stat(t.base), post: stat(t.post), practice: practice, practiceSinceBaseline: sinceBase, skipBase: t.skipBase === true, masteryRewarded: t.masteryRewarded === true, lastTs: num(t.lastTs, 0, 4e12, 0) };
   }
   /* bring in xp / streak / tricks / tier clears from another file, never lowering what is already here */
   function mergeMeta(m, tiers) {
@@ -452,7 +305,7 @@
     if (m && m.tierBonus && typeof m.tierBonus === 'object') {
       E.TIERS.forEach(function (t) { if (m.tierBonus[t.id] === true) meta.tierBonus[t.id] = true; });
     }
-    saveMeta();
+    MathXP.saveMeta();
   }
 
   function importProfile(file) {
@@ -460,11 +313,11 @@
     reader.onload = function () {
       try {
         var data = JSON.parse(reader.result);
-        if (data && data.app === 'limitless-math') {
+        if (!data || data.app === 'limitless-math') {
           $('profile-note').textContent = 'That is a full progress file. Use “Import progress” under Your records. To upload a weak-spot analysis, choose the file called limitless-weak-spots-….json.';
           return;
         }
-        if (!data || data.app !== 'limitless-math-profile' || !data.skills || typeof data.skills !== 'object') throw new Error('not an analysis');
+        if (!S.isValidProfileFile(data)) throw new Error('not an analysis');
         var skills = {}, count = 0;
         E.SKILLS.forEach(function (k) {
           var s = data.skills[k];
@@ -477,9 +330,9 @@
         save(KEY_PROFILE, { importedAt: new Date().toISOString(), exportedAt: exportedAt, skills: skills });
         mergeMeta(data.meta, data.tiers);
         renderMenu();
-        var rx = prescription(analyse());
+        var rx = C.prescription(C.analyse());
         $('profile-note').textContent = 'Loaded your analysis from ' + new Date(exportedAt).toLocaleDateString() + ' (' + count + ' skills). ' +
-          (rx ? 'Your drill is ready: ' + DRILL_KINDS[rx.kind].name + ' on ' + sentenceList(rx.skills) + '.' : 'No weak spots in it. Nice.');
+          (rx ? 'Your drill is ready: ' + DRILL_KINDS[rx.kind].name + ' on ' + U.sentenceList(rx.skills) + '.' : 'No weak spots in it. Nice.');
       } catch (e) {
         $('profile-note').textContent = 'That file could not be read as a weak-spot analysis.';
       }
@@ -490,17 +343,6 @@
   /* ==================================================================
      MENU
      ================================================================== */
-  function makeChip(group, value, name, desc, selected, disabled, onPick) {
-    var label = h('label', 'chip' + (selected ? ' is-selected' : '') + (disabled ? ' is-disabled' : ''));
-    var input = document.createElement('input');
-    input.type = 'radio'; input.name = group; input.value = value;
-    input.checked = selected; input.disabled = !!disabled;
-    input.addEventListener('change', function () { onPick(value); });
-    label.appendChild(input);
-    label.appendChild(h('div', 'chip-name', name));
-    label.appendChild(h('div', 'chip-desc', desc));
-    return label;
-  }
 
   function refocus(name) {
     var el = document.querySelector('input[name="' + name + '"]:checked');
@@ -514,10 +356,10 @@
       E.SKILLS.forEach(function (k) { var op = document.createElement('option'); op.value = k; op.textContent = k; sel.appendChild(op); });
     }
     sel.value = prefs.drillFocus;
-    var rx = prescription(analyse());
+    var rx = C.prescription(C.analyse());
     $('drill-note').textContent = prefs.drillFocus === 'auto'
-      ? (rx ? 'Will drill ' + sentenceList(rx.skills) + ' as a ' + DRILL_KINDS[rx.kind].name.toLowerCase() + '.' : 'No weak spots yet, so you will get a general drill at your chosen tier.')
-      : 'Will drill ' + prefs.drillFocus + ' at about your chosen tier’s level.';
+      ? (rx ? 'Will drill ' + U.sentenceList(rx.skills) + ' as a ' + DRILL_KINDS[rx.kind].name.toLowerCase() + '.' : 'No weak spots yet, so you will get a general drill at your chosen tier.')
+      : 'Will drill ' + prefs.drillFocus + ' using the closest available question level for that skill.';
   }
 
   function renderTrickSummary() {
@@ -535,45 +377,45 @@
     renderProfile();
     renderCoach();
 
-    var diffBox = $('diff-chips'); clear(diffBox);
+    var diffBox = $('diff-chips'); U.clear(diffBox);
     Object.keys(DIFFS).forEach(function (id) {
-      diffBox.appendChild(makeChip('diff', id, DIFFS[id].name, DIFFS[id].desc, id === prefs.diff, false,
+      diffBox.appendChild(U.makeChip('diff', id, DIFFS[id].name, DIFFS[id].desc, id === prefs.diff, false,
         function (v) { prefs.diff = v; save(KEY_PREFS, prefs); renderMenu(); refocus('diff'); }));
     });
     $('diff-note').textContent = DIFFS[prefs.diff].note;
 
-    var modeBox = $('mode-chips'); clear(modeBox);
+    var modeBox = $('mode-chips'); U.clear(modeBox);
     Object.keys(MODES).forEach(function (id) {
-      modeBox.appendChild(makeChip('mode', id, MODES[id].name, MODES[id].desc, id === prefs.mode, false, function (v) { prefs.mode = v; save(KEY_PREFS, prefs); renderMenu(); refocus('mode'); }));
+      modeBox.appendChild(U.makeChip('mode', id, MODES[id].name, MODES[id].desc, id === prefs.mode, false, function (v) { prefs.mode = v; save(KEY_PREFS, prefs); renderMenu(); refocus('mode'); }));
     });
     $('drill-panel').hidden = prefs.mode !== 'drill';
     $('diff-panel').hidden = prefs.mode !== 'drill';
     if (prefs.mode === 'drill') renderDrillFocus();
 
-    var tierBox = $('tier-chips'); clear(tierBox);
+    var tierBox = $('tier-chips'); U.clear(tierBox);
     E.TIERS.forEach(function (t) {
       var st = tierStatus(t.id);
       var sel = t.id === prefs.tier;
-      var label = h('label', 'tier-chip' + (sel && mode.usesTier ? ' is-selected' : '') + (mode.usesTier ? '' : ' is-disabled'));
+      var label = U.h('label', 'tier-chip' + (sel && mode.usesTier ? ' is-selected' : '') + (mode.usesTier ? '' : ' is-disabled'));
       var input = document.createElement('input');
       input.type = 'radio'; input.name = 'tier'; input.value = t.id; input.checked = sel; input.disabled = !mode.usesTier;
       input.addEventListener('change', function () { prefs.tier = t.id; save(KEY_PREFS, prefs); renderMenu(); refocus('tier'); });
       label.appendChild(input);
-      label.appendChild(h('div', 'tier-emblem', t.emblem));
-      label.appendChild(h('div', 'tier-name', t.name));
-      label.appendChild(h('div', 'tier-label', t.label));
-      label.appendChild(h('div', 'tier-blurb', t.blurb));
-      label.appendChild(h('div', 'tier-badge' + (st.isCleared ? ' is-cleared' : ''),
+      label.appendChild(U.h('div', 'tier-emblem', t.emblem));
+      label.appendChild(U.h('div', 'tier-name', t.name));
+      label.appendChild(U.h('div', 'tier-label', t.label));
+      label.appendChild(U.h('div', 'tier-blurb', t.blurb));
+      label.appendChild(U.h('div', 'tier-badge' + (st.isCleared ? ' is-cleared' : ''),
         st.isCleared ? '✓ Cleared' : (st.runs ? st.cleared + '/' + st.runs + ' clears' : 'Not tried')));
-      var fd = fadeFor(t.index, rankFor(meta.xp).idx);
-      if (mode.usesTier && fd < 1) label.appendChild(h('div', 'tier-xp', 'XP ' + pct(fd)));
+      var fd = MathXP.fadeFor(t.index, MathXP.rankFor(meta.xp).idx);
+      if (mode.usesTier && fd < 1) label.appendChild(U.h('div', 'tier-xp', 'XP ' + U.pct(fd)));
       tierBox.appendChild(label);
     });
     $('tier-panel').style.opacity = mode.usesTier ? '1' : '.55';
 
-    var penBox = $('penalty-chips'); clear(penBox);
+    var penBox = $('penalty-chips'); U.clear(penBox);
     Object.keys(PENALTIES).forEach(function (id) {
-      penBox.appendChild(makeChip('penalty', id, PENALTIES[id].name, PENALTIES[id].desc, id === activePenalty,
+      penBox.appendChild(U.makeChip('penalty', id, PENALTIES[id].name, PENALTIES[id].desc, id === activePenalty,
         !!forcedPenalty || (dfc.noPractice && id === 'practice'), function (v) { prefs.penalty = v; save(KEY_PREFS, prefs); renderMenu(); refocus('penalty'); }));
     });
     $('penalty-note').textContent = forcedPenalty
@@ -581,19 +423,19 @@
       : (dfc.noPractice && prefs.penalty === 'practice') ? dfc.name + ' does not allow the Practice penalty, so Fair is used.'
       : PENALTY_NOTES[activePenalty];
 
-    var timerBox = $('timer-chips'); clear(timerBox);
+    var timerBox = $('timer-chips'); U.clear(timerBox);
     Object.keys(TIMERS).forEach(function (id) {
-      timerBox.appendChild(makeChip('timer', id, TIMERS[id].name, TIMERS[id].desc, dfc.forceTimer ? id === 'strict' : id === prefs.timer, !!dfc.forceTimer,
+      timerBox.appendChild(U.makeChip('timer', id, TIMERS[id].name, TIMERS[id].desc, dfc.forceTimer ? id === 'strict' : id === prefs.timer, !!dfc.forceTimer,
         function (v) { prefs.timer = v; save(KEY_PREFS, prefs); renderMenu(); refocus('timer'); }));
     });
 
     var line = [];
     if (mode.count) line.push(mode.count + ' questions');
-    if (mode.seconds) line.push(fmtClock(mode.seconds));
+    if (mode.seconds) line.push(U.fmtClock(mode.seconds));
     if (mode.usesTier) line.push(E.TIER_BY_ID[prefs.tier].name); else line.push('starts at Adept');
     line.push(PENALTIES[activePenalty].name);
     if (dfc !== DIFFS.normal) line.push(dfc.name);
-    if (mode.usesTier) { var fr = fadeFor(E.TIER_BY_ID[prefs.tier].index, rankFor(meta.xp).idx); line.push(fr >= 1 ? 'full XP' : 'XP at ' + pct(fr)); }
+    if (mode.usesTier) { var fr = MathXP.fadeFor(E.TIER_BY_ID[prefs.tier].index, MathXP.rankFor(meta.xp).idx); line.push(fr >= 1 ? 'full XP' : 'XP at ' + U.pct(fr)); }
     if (prefs.timer === 'strict' || dfc.forceTimer) line.push('strict timer');
     $('start-note').textContent = line.join(' · ');
 
@@ -602,42 +444,43 @@
   }
 
   function renderHistory() {
-    var box = $('history'); clear(box);
+    var box = $('history'); U.clear(box);
     var runs = load(KEY_RUNS, []).slice(-8).reverse();
-    if (!runs.length) { box.appendChild(h('p', 'empty', 'No runs yet. Your first run will appear here.')); return; }
-    var table = h('table', 'history-table');
-    var head = h('tr');
-    ['Date', 'Mode', 'Tier', 'Right / Wrong / Skip', 'Accuracy', 'Median', 'Points', ''].forEach(function (t) { head.appendChild(h('th', '', t)); });
+    if (!runs.length) { box.appendChild(U.h('p', 'empty', 'No runs yet. Your first run will appear here.')); return; }
+    var table = U.h('table', 'history-table');
+    var head = U.h('tr');
+    ['Date', 'Mode', 'Tier', 'Right / Wrong / Skip', 'Accuracy', 'Median', 'Points', ''].forEach(function (t) { head.appendChild(U.h('th', '', t)); });
     table.appendChild(head);
     runs.forEach(function (r) {
-      var tr = h('tr');
+      var tr = U.h('tr');
       var d = new Date(r.ts);
       [d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) + ' ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }),
         (MODES[r.mode] ? MODES[r.mode].name : r.mode) + (r.diff && r.diff !== 'normal' && DIFFS[r.diff] ? ' · ' + DIFFS[r.diff].name : ''),
         r.mode === 'limitless' ? ('to ' + (E.TIER_BY_ID[r.topTier] ? E.TIER_BY_ID[r.topTier].name : '')) : (E.TIER_BY_ID[r.tier] ? E.TIER_BY_ID[r.tier].name : r.tier),
         r.correct + ' / ' + r.wrong + ' / ' + r.skipped,
-        r.attempted ? pct(r.accuracy) : '–', r.attempted ? fmtSec(r.medianTime) : '–', String(r.points),
+        r.attempted ? U.pct(r.accuracy) : '–', r.attempted ? U.fmtSec(r.medianTime) : '–', String(r.points),
         r.cleared ? '✓' : ''
-      ].forEach(function (t) { tr.appendChild(h('td', '', t)); });
+      ].forEach(function (t) { tr.appendChild(U.h('td', '', t)); });
       table.appendChild(tr);
     });
-    var wrap = h('div', 'table-wrap'); wrap.appendChild(table); box.appendChild(wrap);
+    var wrap = U.h('div', 'table-wrap'); wrap.appendChild(table); box.appendChild(wrap);
   }
 
   /* ==================================================================
      A RUN
      cfg (all optional): { mode, drill:{skills,weights,kind,before}, trick:{id,phase} }
      ================================================================== */
-  var run = null, tickTimer = null, lastCfg = null;
+  var tickTimer = null, lastCfg = null;
 
   function modeOf(r) { return r.trick ? TRICK_MODE : MODES[r.mode]; }
 
   function startRun(cfg) {
     cfg = cfg || {};
     var trick = cfg.trick || null;
+    var trickPhase = trick ? TRICK_PHASES[trick.phase] : null;
     var modeId = trick ? 'trick' : (cfg.mode || prefs.mode);
     var mode = trick ? TRICK_MODE : MODES[modeId];
-    var drill = (modeId === 'drill') ? (cfg.drill || buildDrillCfg(false)) : null;
+    var drill = (modeId === 'drill') ? (cfg.drill || C.buildDrillCfg(false, prefs.drillFocus, E.SKILLS, DRILL_KINDS)) : null;
     var diffId = (!trick && modeId === 'drill') ? prefs.diff : 'normal';
     var diff = DIFFS[diffId];
     var penaltyId = trick ? 'practice' : (mode.forcePenalty || (drill && drill.kind === 'accuracy' ? 'strict' : prefs.penalty));
@@ -654,22 +497,20 @@
     var rng = E.makeRng((Math.random() * 4294967296) >>> 0);
     var tierId = mode.usesTier ? (cfg.tier || prefs.tier) : null;
     lastCfg = trick ? null : { mode: modeId, tier: tierId, penalty: penaltyId, drill: drill };
-    run = {
-      id: 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-      ts: Date.now(), mode: modeId, tier: tierId, penalty: penaltyId,
-      rng: rng, ctx: { recent: [] }, trick: trick, drill: drill, factor: factor,
-      count: trick ? TRICK_PHASES[trick.phase].count : (mode.count || 0),
-      deck: (modeId === 'test80') ? E.buildDeck(tierId, mode.count, rng) : null,
-      retry: [], timeouts: 0,
-      attempts: [], points: 0, streak: 0, bestStreak: 0, wrongRow: 0,
-      lives: maxLives, maxLives: maxLives, diff: diffId, correct: 0, wrong: 0, skipped: 0, topTierIndex: 0,
-      q: null, qStart: 0, qLimit: 0, t0: performance.now(), ended: false, busy: false
-    };
+
+    MathRunState.startRun({
+      modeId: modeId, mode: mode, tierId: tierId, penaltyId: penaltyId,
+      diffId: diffId, factor: factor, rng: rng, trick: trick, trickPhase: trickPhase,
+      drill: drill, maxLives: maxLives
+    });
+
+    var s = MathRunState.state();
     $('hud-lives-wrap').hidden = !maxLives;
     $('hud-clock-label').textContent = mode.seconds ? 'Time left' : 'Time';
     $('feedback').textContent = ' '; $('feedback').className = 'feedback';
     show('screen-play');
-    nextQuestion();
+    var q = MathRunState.nextQuestion();
+    renderQuestion(q);
     updateHud();
     clearInterval(tickTimer);
     tickTimer = setInterval(tick, 100);
@@ -677,136 +518,163 @@
     $('answer').focus();
   }
 
-  function currentTierId() {
-    if (run.mode === 'limitless') return E.limitlessTier(run.correct);
-    return run.tier;
+  function nextQuestion() {
+    var q = MathRunState.nextQuestion();
+    renderQuestion(q);
   }
 
-  function nextQuestion() {
-    var q = null;
-    if (run.trick) {
-      q = E.trickQuestion(run.trick.id, run.rng, run.ctx);
-    } else {
-      if (run.retry.length && run.attempts.length >= run.retry[0].at) {
-        q = E.retryQuestion(run.retry.shift().q, run.rng, run.ctx);
-        if (q) q.tag = 'Retry';
-      }
-      if (!q) {
-        if (run.mode === 'drill') q = E.drillQuestion(run.drill.skills, run.drill.weights, run.tier, run.rng, run.ctx);
-        else if (run.mode === 'test80') q = E.deckQuestion(run.deck[Math.min(run.attempts.length, run.deck.length - 1)], run.rng, run.ctx);
-        else q = E.nextQuestion(currentTierId(), run.rng, run.ctx);
-      }
-    }
-    run.q = q;
+  function renderQuestion(q) {
+    var s = MathRunState.state();
     $('answer').setAttribute('inputmode', (q.answer.n < 0 || q.tag === 'Fraction or decimal' || /\//.test(q.answerText) || (q.tol && q.tol.center < 0)) ? 'text' : 'decimal');
-    if (q.tier) run.topTierIndex = Math.max(run.topTierIndex, E.TIER_BY_ID[q.tier].index);
-    run.qStart = performance.now();
-    run.qLimit = run.factor ? E.strictLimit(q, run.factor) : 0;
-    $('qbar').hidden = !run.qLimit;
+    $('qbar').hidden = !s.qLimit;
     $('qbar-fill').style.width = '100%'; $('qbar-fill').classList.remove('is-low');
     $('question').textContent = q.text;
     $('q-tag').textContent = q.tag || ' ';
-    $('method').textContent = (run.trick && run.trick.phase === 'practice') ? 'Method: ' + E.TRICK_BY_ID[run.trick.id].short : '';
+    $('method').textContent = (s.trick && s.trick.phase === 'practice') ? 'Method: ' + E.TRICK_BY_ID[s.trick.id].short : '';
     $('answer').value = '';
   }
 
-  function elapsed() { return (performance.now() - run.t0) / 1000; }
+  function elapsed() { return (performance.now() - MathRunState.state().t0) / 1000; }
 
   function tick() {
-    if (!run || run.ended) return;
-    var mode = modeOf(run);
+    var s = MathRunState.state();
+    if (!s || s.ended) return;
+    var mode = modeOf(s);
     if (mode.seconds && elapsed() >= mode.seconds) { finishRun('Time is up'); return; }
-    if (run.qLimit && !run.busy) {
-      var qt = (performance.now() - run.qStart) / 1000, left = 1 - qt / run.qLimit;
+    if (s.qLimit && !s.busy) {
+      var qt = (performance.now() - s.qStart) / 1000, left = 1 - qt / s.qLimit;
       $('qbar-fill').style.width = Math.max(0, left * 100) + '%';
       $('qbar-fill').classList.toggle('is-low', left < 0.3);
-      if (qt >= run.qLimit) { resolve('timeout', ''); return; }
+      if (qt >= s.qLimit) { resolve('timeout', ''); return; }
     }
     updateClock();
   }
 
   function updateClock() {
-    var mode = modeOf(run);
+    var s = MathRunState.state();
+    var mode = modeOf(s);
     var clock = $('hud-clock');
     if (mode.seconds) {
       var left = mode.seconds - elapsed();
-      clock.textContent = fmtClock(left);
+      clock.textContent = U.fmtClock(left);
       clock.classList.toggle('is-low', left <= 10);
     } else {
-      clock.textContent = fmtClock(elapsed());
+      clock.textContent = U.fmtClock(elapsed());
       clock.classList.remove('is-low');
     }
   }
 
   function updateHud() {
+    var s = MathRunState.state();
     updateClock();
-    $('hud-progress').textContent = run.count ? (Math.min(run.attempts.length + 1, run.count) + ' / ' + run.count) : String(run.attempts.length + 1);
-    $('hud-points').textContent = String(run.points);
-    $('hud-combo').textContent = String(run.streak);
-    if (run.maxLives) {
+    $('hud-progress').textContent = s.count ? (Math.min(s.attempts.length + 1, s.count) + ' / ' + s.count) : String(s.attempts.length + 1);
+    $('hud-points').textContent = String(s.points);
+    $('hud-combo').textContent = String(s.streak);
+    if (s.maxLives) {
       var hearts = '';
-      for (var i = 0; i < run.maxLives; i++) hearts += i < run.lives ? '♥' : '♡';
+      for (var i = 0; i < s.maxLives; i++) hearts += i < s.lives ? '♥' : '♡';
       $('hud-lives').textContent = hearts;
     }
   }
 
   /* result: 'correct' | 'wrong' | 'skip' | 'timeout' */
   function resolve(result, given) {
-    if (!run || run.ended || run.busy) return;
-    run.busy = true;
-    var q = run.q, time = (performance.now() - run.qStart) / 1000;
-    if (result === 'timeout') time = run.qLimit;
+    var s = MathRunState.state();
+    if (!s || s.ended || s.busy) return;
+    s.busy = true;
+    var q = s.q, time = (performance.now() - s.qStart) / 1000;
+    if (result === 'timeout') time = s.qLimit;
     var fb = $('feedback'), msg = '', cls = 'feedback';
-    var pen = PENALTIES[run.penalty];
-    var showHint = !!(run.trick && run.trick.phase === 'practice' && q.hint);
+    var pen = PENALTIES[s.penalty];
+    var showHint = !!(s.trick && s.trick.phase === 'practice' && q.hint);
 
     if (result === 'correct') {
-      run.correct++; run.streak++; run.wrongRow = 0;
-      run.bestStreak = Math.max(run.bestStreak, run.streak);
-      var gained = 10 + Math.min(5, Math.floor(run.streak / 2));
-      run.points += gained;
+      s.correct++; s.streak++; s.wrongRow = 0;
+      s.bestStreak = Math.max(s.bestStreak, s.streak);
+      var gained = 10 + Math.min(5, Math.floor(s.streak / 2));
+      s.points += gained;
       msg = showHint ? '✓ ' + q.hint : '✓ +' + gained; cls += ' is-good';
     } else if (result === 'wrong' || result === 'timeout') {
-      run.wrong++; run.streak = 0; run.wrongRow++;
-      if (result === 'timeout') run.timeouts++;
-      var cost = Math.round(pen.wrong(run.wrongRow) * DIFFS[run.diff].penalty);
-      run.points -= cost;
-      if (run.maxLives) run.lives--;
+      s.wrong++; s.streak = 0; s.wrongRow++;
+      if (result === 'timeout') s.timeouts++;
+      var cost = Math.round(pen.wrong(s.wrongRow) * DIFFS[s.diff].penalty);
+      s.points -= cost;
+      if (s.maxLives) s.lives--;
       var lead = result === 'timeout' ? '⏱ Too slow · ' : '✗ ';
       msg = lead + (showHint ? q.hint : E.withCommas(q.answerText)) + (cost ? '  (' + MINUS + cost + ')' : '');
       cls += ' is-bad';
       $('answer').classList.remove('is-shake'); void $('answer').offsetWidth; $('answer').classList.add('is-shake');
-      if (run.drill && run.drill.kind === 'accuracy') run.retry.push({ at: run.attempts.length + 4, q: q });
+      if (s.drill && s.drill.kind === 'accuracy') s.retry.push({ at: s.attempts.length + 4, q: q });
     } else {
-      run.skipped++; run.streak = 0;
+      s.skipped++; s.streak = 0;
       msg = 'Skipped · ' + (showHint ? q.hint : E.withCommas(q.answerText));
     }
     fb.textContent = msg; fb.className = cls;
 
-    run.attempts.push({
-      i: run.attempts.length + 1, gen: q.id, skill: q.skill, text: q.text, answerText: q.answerText,
+    s.attempts.push({
+      i: s.attempts.length + 1, gen: q.id, skill: q.skill, text: q.text, answerText: q.answerText,
       given: given, result: result, time: Math.round(time * 100) / 100, target: q.target, diff: q.diff,
       tier: q.tier
     });
 
-    var done = (run.count && run.attempts.length >= run.count) || (run.maxLives && run.lives <= 0);
-    if (done) { updateHud(); finishRun(run.maxLives && run.lives <= 0 ? 'Out of lives' : 'Run complete'); return; }
-    nextQuestion();
+    var done = (s.count && s.attempts.length >= s.count) || (s.maxLives && s.lives <= 0);
+    if (done) { updateHud(); finishRun(s.maxLives && s.lives <= 0 ? 'Out of lives' : 'Run complete'); return; }
+    var nq = MathRunState.nextQuestion();
+    renderQuestion(nq);
     updateHud();
-    run.busy = false;
+    s.busy = false;
     $('answer').focus();
   }
 
+  /* LSR-1 rewards are additive and stored separately from legacy MathXP. */
+  function awardMetaActivity(method, input) {
+    var api = window.LimitlessMathRewards;
+    if (api && typeof api[method] === 'function') {
+      try { api[method](input); } catch (e) {}
+      return;
+    }
+    /* Module scripts are deferred; dynamically import as a safe fallback. */
+    import('./math-rewards.mjs').then(function (rewards) {
+      var adapter = window.LimitlessMathRewards;
+      if (!adapter) adapter = rewards.createMathRewardAdapter(window.localStorage);
+      if (adapter && typeof adapter[method] === 'function') adapter[method](input);
+    }).catch(function () {});
+  }
+
+  function awardMetaRun(r, summary) {
+    var tierId = r.mode === 'limitless'
+      ? E.TIERS[r.topTierIndex].id
+      : (r.tier || E.TIERS[r.topTierIndex].id);
+    var tier = E.TIER_BY_ID[tierId];
+    awardMetaActivity('awardRun', {
+      runId: r.id,
+      completedAt: Date.now(),
+      completed: true,
+      mode: r.mode,
+      tier: tierId,
+      topTier: E.TIERS[r.topTierIndex].id,
+      tierIndex: tier ? tier.index : r.topTierIndex,
+      attempted: summary.attempted,
+      accuracy: summary.accuracy,
+      qualifying: summary.qualifying,
+      cleared: summary.cleared,
+      diff: r.diff,
+      drillSkills: r.drill && Array.isArray(r.drill.skills) ? r.drill.skills.slice() : []
+    });
+  }
+
   function finishRun(reason) {
-    if (!run || run.ended) return;
-    run.ended = true;
+    var s = MathRunState.state();
+    if (!s || s.ended) return;
+    MathRunState.markEnded();
     clearInterval(tickTimer);
-    if (run.trick) { finishTrick(); return; }
-    if (!run.attempts.length) { show('screen-menu'); renderMenu(); return; }
-    var summary = summarise(run, reason);
-    touchStreak();
-    persist(run, summary);
-    renderResults(run, summary);
+    if (s.trick) { finishTrick(); return; }
+    if (!s.attempts.length) { show('screen-menu'); renderMenu(); return; }
+    var summary = summarise(s, reason);
+    MathXP.touchStreak();
+    persist(s, summary);
+    awardMetaRun(s, summary);
+    renderResults(s, summary);
   }
 
   /* ==================================================================
@@ -835,9 +703,9 @@
 
   function persist(r, s) {
     /* XP first, so the saved run knows what it earned */
-    var info = xpBreakdown(r, s, rankFor(meta.xp).idx);
+    var info = MathXP.xpBreakdown(r, s, MathXP.rankFor(meta.xp).idx, DIFFS[r.diff].xp);
     if (info.firstClear) meta.tierBonus[info.tierId] = true;
-    var award = awardXp(info.total);
+    var award = MathXP.awardXp(info.total);
     s.xp = award.gained; s.rankUp = award.rankUp; s.xpInfo = info;
 
     var runs = load(KEY_RUNS, []);
@@ -854,7 +722,7 @@
     var atts = load(KEY_ATT, []);
     r.attempts.forEach(function (a) {
       atts.push({ run: r.id, i: a.i, t: a.tier, g: a.gen, s: a.skill, q: a.text, a: a.answerText,
-        x: a.given, r: a.result, time: a.time, target: a.target, d: a.diff, ts: r.ts });
+        x: a.given, r: a.result, time: a.time, target: a.target, effectiveTarget: effTarget(r, a), d: a.diff, ts: r.ts });
     });
     save(KEY_ATT, atts.slice(-MAX_ATTEMPTS));
   }
@@ -862,40 +730,33 @@
   /* ==================================================================
      RESULTS SCREEN
      ================================================================== */
-  function tile(label, value, sub) {
-    var t = h('div', 'tile');
-    t.appendChild(h('div', 'tile-label', label));
-    t.appendChild(h('div', 'tile-value', value));
-    t.appendChild(h('div', 'tile-sub', sub));
-    return t;
-  }
 
   function renderResults(r, s) {
     var mode = MODES[r.mode];
     $('res-title').textContent = mode.name + ' — ' + (r.tier ? E.TIER_BY_ID[r.tier].name : 'reached ' + E.TIERS[r.topTierIndex].name);
-    $('res-sub').textContent = s.reason + ' · ' + PENALTIES[r.penalty].name + (r.diff !== 'normal' ? ' · ' + DIFFS[r.diff].name : '') + ' · ' + fmtClock(s.duration);
+    $('res-sub').textContent = s.reason + ' · ' + PENALTIES[r.penalty].name + (r.diff !== 'normal' ? ' · ' + DIFFS[r.diff].name : '') + ' · ' + U.fmtClock(s.duration);
 
-    var tiles = $('res-tiles'); clear(tiles);
-    tiles.appendChild(tile('Accuracy', s.attempted ? pct(s.accuracy) : '–', r.correct + ' right, ' + r.wrong + ' wrong' + (r.skipped ? ', ' + r.skipped + ' skipped' : '') + (r.timeouts ? ' (' + r.timeouts + ' too slow)' : '')));
-    tiles.appendChild(tile('Speed score', String(s.speed), 'how close to the target times'));
-    tiles.appendChild(tile('Points', String(r.points), 'best combo ' + r.bestStreak));
-    tiles.appendChild(tile('Median time', s.attempted ? fmtSec(s.medianTime) : '–', 'target ' + fmtSec(s.medianTarget)));
-    var rk = rankFor(meta.xp);
-    tiles.appendChild(tile('XP', '+' + s.xp, s.rankUp ? 'New rank: ' + s.rankUp + '!' : rk.name + ' · ' + meta.xp + ' XP'));
+    var tiles = $('res-tiles'); U.clear(tiles);
+    tiles.appendChild(U.tile('Accuracy', s.attempted ? U.pct(s.accuracy) : '–', r.correct + ' right, ' + r.wrong + ' wrong' + (r.skipped ? ', ' + r.skipped + ' skipped' : '') + (r.timeouts ? ' (' + r.timeouts + ' too slow)' : '')));
+    tiles.appendChild(U.tile('Speed score', String(s.speed), 'how close to the target times'));
+    tiles.appendChild(U.tile('Points', String(r.points), 'best combo ' + r.bestStreak));
+    tiles.appendChild(U.tile('Median time', s.attempted ? U.fmtSec(s.medianTime) : '–', 'target ' + U.fmtSec(s.medianTarget)));
+    var rk = MathXP.rankFor(meta.xp);
+    tiles.appendChild(U.tile('XP', '+' + s.xp, s.rankUp ? 'New rank: ' + s.rankUp + '!' : rk.name + ' · ' + meta.xp + ' XP'));
 
     var v = $('res-verdict');
     v.className = 'verdict' + (s.cleared ? ' is-cleared' : '');
     var tier = r.tier ? E.TIER_BY_ID[r.tier] : null;
     if (r.mode === 'drill') {
-      v.textContent = (r.drill && r.drill.skills.length ? 'Drill on ' + sentenceList(r.drill.skills) + ' (' + DRILL_KINDS[r.drill.kind].name.toLowerCase() + '). ' : 'General drill. ') +
-        'Accuracy ' + pct(s.accuracy) + ', median ' + fmtSec(s.medianTime) + ' against a target of ' + fmtSec(s.medianTarget) + '.';
+      v.textContent = (r.drill && r.drill.skills.length ? 'Drill on ' + U.sentenceList(r.drill.skills) + ' (' + DRILL_KINDS[r.drill.kind].name.toLowerCase() + '). ' : 'General drill. ') +
+        'Accuracy ' + U.pct(s.accuracy) + ', median ' + U.fmtSec(s.medianTime) + ' against a target of ' + U.fmtSec(s.medianTarget) + '.';
     } else if (tier && s.qualifying) {
       if (s.cleared) {
-        v.textContent = '✓ Tier run cleared: accuracy ' + pct(s.accuracy) + ' (needed ' + pct(tier.accuracy) + ') and median time within target. Clear 2 of your last 3 runs to ascend.';
+        v.textContent = '✓ Tier run cleared: accuracy ' + U.pct(s.accuracy) + ' (needed ' + U.pct(tier.accuracy) + ') and median time within target. Clear 2 of your last 3 runs to ascend.';
       } else if (s.accuracy >= tier.accuracy) {
         v.textContent = 'Accurate but slow: your median time was above the target. Next run, trust your first method and move faster.';
       } else if (s.medianRatio <= 1) {
-        v.textContent = 'Fast but sloppy: you were quick but accuracy was ' + pct(s.accuracy) + ' (needed ' + pct(tier.accuracy) + '). Slow down slightly and check carry digits.';
+        v.textContent = 'Fast but sloppy: you were quick but accuracy was ' + U.pct(s.accuracy) + ' (needed ' + U.pct(tier.accuracy) + '). Slow down slightly and check carry digits.';
       } else {
         v.textContent = 'Not cleared yet: both accuracy and speed need work. Review the mistakes below, then try again.';
       }
@@ -906,7 +767,7 @@
     }
 
     /* drills: did the targeted skills improve compared with before? */
-    var extra = $('res-extra'); clear(extra);
+    var extra = $('res-extra'); U.clear(extra);
     var lines = [];
     var xi = s.xpInfo;
     if (xi) {
@@ -914,20 +775,20 @@
       lines.push('XP: ' + Math.round(xi.base) + ' base × tier ' + f2(xi.tierMult) + ' × penalty ' + f2(xi.penMult) + (xi.diffMult !== 1 ? ' × difficulty ' + f2(xi.diffMult) : '') + ' × rank fade ' + f2(xi.fade) +
         (xi.clearBonus ? ' + ' + Math.round(xi.clearBonus) + (xi.firstClear ? ' first-clear bonus' : ' clear bonus') : '') +
         (xi.drillBonus ? ' + ' + Math.round(xi.drillBonus) + ' drill bonus' : '') + ' = +' + xi.total);
-      if (xi.fade < 1) lines.push('This tier is below your rank, so it pays ' + pct(xi.fade) + ' of full XP. A higher tier pays full value.');
+      if (xi.fade < 1) lines.push('This tier is below your rank, so it pays ' + U.pct(xi.fade) + ' of full XP. A higher tier pays full value.');
     }
     if (r.drill && r.drill.skills.length) {
       r.drill.skills.forEach(function (skill) {
         var list = r.attempts.filter(function (a) { return a.skill === skill && a.result !== 'skip'; });
         if (list.length < 3) return;
         var acc = list.filter(function (a) { return a.result === 'correct'; }).length / list.length;
-        var ratio = median(list.map(function (a) { return a.time / a.target; }));
+        var ratio = median(list.map(function (a) { return a.time / effTarget(r, a); }));
         var b = r.drill.before[skill];
-        lines.push(skill + ': accuracy ' + (b ? pct(b.acc) + ' → ' : '') + pct(acc) + ', pace ' + (b ? b.ratio.toFixed(1) + '× → ' : '') + ratio.toFixed(1) + '× target (' + list.length + ' questions)');
+        lines.push(skill + ': accuracy ' + (b ? U.pct(b.acc) + ' → ' : '') + U.pct(acc) + ', pace ' + (b ? b.ratio.toFixed(1) + '× → ' : '') + ratio.toFixed(1) + '× target (' + list.length + ' questions)');
       });
     }
     extra.hidden = !lines.length;
-    lines.forEach(function (t) { extra.appendChild(h('div', '', t)); });
+    lines.forEach(function (t) { extra.appendChild(U.h('div', '', t)); });
 
     renderPace(r);
     renderSkills(r);
@@ -937,62 +798,57 @@
   }
 
   function renderResultCoach() {
-    var box = $('res-coach'); clear(box);
-    var rx = prescription(analyse());
+    var box = $('res-coach'); U.clear(box);
+    var rx = C.prescription(C.analyse());
     if (rx) {
-      var p = h('p', 'coach-line');
+      var p = U.h('p', 'coach-line');
       p.appendChild(document.createTextNode('Next: '));
-      p.appendChild(h('b', '', DRILL_KINDS[rx.kind].name));
-      p.appendChild(document.createTextNode(' on ' + sentenceList(rx.skills) + ' (' + DRILL_KINDS[rx.kind].text + ').'));
+      p.appendChild(U.h('b', '', DRILL_KINDS[rx.kind].name));
+      p.appendChild(document.createTextNode(' on ' + U.sentenceList(rx.skills) + ' (' + DRILL_KINDS[rx.kind].text + ').'));
       box.appendChild(p);
       $('btn-res-drill').hidden = false;
     } else {
-      box.appendChild(h('p', 'coach-line', 'No weak spots stand out yet. Keep training, then download your analysis to carry it to your next session.'));
+      box.appendChild(U.h('p', 'coach-line', 'No weak spots stand out yet. Keep training, then download your analysis to carry it to your next session.'));
       $('btn-res-drill').hidden = true;
     }
   }
 
-  function svgEl(name, attrs) {
-    var el = document.createElementNS('http://www.w3.org/2000/svg', name);
-    for (var k in attrs) el.setAttribute(k, attrs[k]);
-    return el;
-  }
 
   function renderPace(r) {
-    var box = $('res-pace'); clear(box);
+    var box = $('res-pace'); U.clear(box);
     var n = r.attempts.length, W = 800, H = 220, L = 38, B = 24, T = 10;
-    var svg = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'pace-svg', role: 'img', 'aria-label': 'Time taken for each question' });
+    var svg = U.svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'pace-svg', role: 'img', 'aria-label': 'Time taken for each question' });
     var times = r.attempts.map(function (a) { return a.time; });
     var cap = Math.min(20, Math.max(8, Math.max.apply(null, times)));
     var plotH = H - B - T, plotW = W - L - 6, slot = plotW / Math.max(n, 1);
     var bw = Math.max(1.5, Math.min(14, slot * 0.72));
-    svg.appendChild(svgEl('line', { x1: L, y1: H - B, x2: W - 6, y2: H - B, class: 'axis' }));
+    svg.appendChild(U.svgEl('line', { x1: L, y1: H - B, x2: W - 6, y2: H - B, class: 'axis' }));
     [0, cap / 2, cap].forEach(function (val) {
       var y = H - B - (val / cap) * plotH;
-      var t = svgEl('text', { x: L - 6, y: y + 4, 'text-anchor': 'end' }); t.textContent = Math.round(val) + 's';
+      var t = U.svgEl('text', { x: L - 6, y: y + 4, 'text-anchor': 'end' }); t.textContent = Math.round(val) + 's';
       svg.appendChild(t);
     });
     r.attempts.forEach(function (a, idx) {
       var hgt = Math.max(1.5, (Math.min(a.time, cap) / cap) * plotH);
       var cls = a.result === 'correct' ? 'bar-ok' : (a.result === 'wrong' || a.result === 'timeout') ? 'bar-bad' : 'bar-skip';
-      var rect = svgEl('rect', { x: L + idx * slot + (slot - bw) / 2, y: H - B - hgt, width: bw, height: hgt, class: cls });
-      var title = svgEl('title', {}); title.textContent = 'Q' + a.i + ': ' + a.time.toFixed(1) + ' s · ' + a.result + ' · ' + a.text;
+      var rect = U.svgEl('rect', { x: L + idx * slot + (slot - bw) / 2, y: H - B - hgt, width: bw, height: hgt, class: cls });
+      var title = U.svgEl('title', {}); title.textContent = 'Q' + a.i + ': ' + a.time.toFixed(1) + ' s · ' + a.result + ' · ' + a.text;
       rect.appendChild(title); svg.appendChild(rect);
     });
     var avgTarget = mean(r.attempts.map(function (a) { return effTarget(r, a); }));
     var ty = H - B - (Math.min(avgTarget, cap) / cap) * plotH;
-    svg.appendChild(svgEl('line', { x1: L, y1: ty, x2: W - 6, y2: ty, class: 'target' }));
-    var lab = svgEl('text', { x: W - 8, y: ty - 5, 'text-anchor': 'end' }); lab.textContent = 'avg target ' + avgTarget.toFixed(1) + 's';
+    svg.appendChild(U.svgEl('line', { x1: L, y1: ty, x2: W - 6, y2: ty, class: 'target' }));
+    var lab = U.svgEl('text', { x: W - 8, y: ty - 5, 'text-anchor': 'end' }); lab.textContent = 'avg target ' + avgTarget.toFixed(1) + 's';
     svg.appendChild(lab);
-    var xl = svgEl('text', { x: L, y: H - 6 }); xl.textContent = 'Q1'; svg.appendChild(xl);
-    var xr = svgEl('text', { x: W - 6, y: H - 6, 'text-anchor': 'end' }); xr.textContent = 'Q' + n; svg.appendChild(xr);
+    var xl = U.svgEl('text', { x: L, y: H - 6 }); xl.textContent = 'Q1'; svg.appendChild(xl);
+    var xr = U.svgEl('text', { x: W - 6, y: H - 6, 'text-anchor': 'end' }); xr.textContent = 'Q' + n; svg.appendChild(xr);
     box.appendChild(svg);
   }
 
   function renderSkills(r) {
-    var table = $('res-skills'); clear(table);
-    var head = h('tr');
-    ['Skill', 'Questions', 'Accuracy', 'Median time', 'Diagnosis', 'Next step'].forEach(function (t) { head.appendChild(h('th', '', t)); });
+    var table = $('res-skills'); U.clear(table);
+    var head = U.h('tr');
+    ['Skill', 'Questions', 'Accuracy', 'Median time', 'Diagnosis', 'Next step'].forEach(function (t) { head.appendChild(U.h('th', '', t)); });
     table.appendChild(head);
     var bySkill = {};
     r.attempts.forEach(function (a) { (bySkill[a.skill] = bySkill[a.skill] || []).push(a); });
@@ -1001,30 +857,30 @@
       var answered = list.filter(function (a) { return a.result !== 'skip'; });
       var right = answered.filter(function (a) { return a.result === 'correct'; }).length;
       var acc = answered.length ? right / answered.length : 0;
-      var ratio = median(answered.map(function (a) { return a.time / a.target; }));
-      var dg = diagnose(acc, ratio, answered.length);
-      var tr = h('tr');
-      tr.appendChild(h('td', '', skill));
-      tr.appendChild(h('td', '', String(list.length)));
-      tr.appendChild(h('td', '', answered.length ? pct(acc) : '–'));
-      tr.appendChild(h('td', '', answered.length ? fmtSec(median(answered.map(function (a) { return a.time; }))) : '–'));
-      var td = h('td'); td.appendChild(h('span', 'diag ' + dg.cls, dg.text)); tr.appendChild(td);
-      tr.appendChild(h('td', '', (dg.text === 'Strong' || dg.text === 'Too few to judge') ? '–' : DRILL_KINDS[kindFor(dg.text)].next));
+      var ratio = median(answered.map(function (a) { return a.time / effTarget(r, a); }));
+      var dg = C.diagnose(acc, ratio, answered.length);
+      var tr = U.h('tr');
+      tr.appendChild(U.h('td', '', skill));
+      tr.appendChild(U.h('td', '', String(list.length)));
+      tr.appendChild(U.h('td', '', answered.length ? U.pct(acc) : '–'));
+      tr.appendChild(U.h('td', '', answered.length ? U.fmtSec(median(answered.map(function (a) { return a.time; }))) : '–'));
+      var td = U.h('td'); td.appendChild(U.h('span', 'diag ' + dg.cls, dg.text)); tr.appendChild(td);
+      tr.appendChild(U.h('td', '', (dg.text === 'Strong' || dg.text === 'Too few to judge') ? '–' : DRILL_KINDS[C.kindFor(dg.text)].next));
       table.appendChild(tr);
     });
   }
 
   function renderMistakes(r) {
-    var box = $('res-mistakes'); clear(box);
+    var box = $('res-mistakes'); U.clear(box);
     var bad = r.attempts.filter(function (a) { return a.result !== 'correct'; });
     $('res-mistakes-panel').hidden = !bad.length;
     bad.forEach(function (a) {
-      var row = h('div', 'mistake');
-      row.appendChild(h('div', 'm-q', a.text));
-      var yours = h('div');
-      yours.appendChild(h('span', 'm-label', a.result === 'skip' ? 'Skipped' : a.result === 'timeout' ? 'Too slow' : 'Your answer'));
+      var row = U.h('div', 'mistake');
+      row.appendChild(U.h('div', 'm-q', a.text));
+      var yours = U.h('div');
+      yours.appendChild(U.h('span', 'm-label', a.result === 'skip' ? 'Skipped' : a.result === 'timeout' ? 'Too slow' : 'Your answer'));
       yours.appendChild(document.createTextNode((a.result === 'skip' || a.result === 'timeout') ? '–' : (a.given || '–')));
-      var right = h('div'); right.appendChild(h('span', 'm-label', 'Correct'));
+      var right = U.h('div'); right.appendChild(U.h('span', 'm-label', 'Correct'));
       right.appendChild(document.createTextNode(E.withCommas(a.answerText)));
       row.appendChild(yours); row.appendChild(right);
       box.appendChild(row);
@@ -1035,17 +891,17 @@
      TRICK CHAMBER
      ================================================================== */
   var openTrickId = null, trickBanner = '';
-  var KEY_TOPIC = 'limitless.math.v1.topic';   /* sessionStorage: remembered for this tab only */
-  try { var savedTopic = sessionStorage.getItem(KEY_TOPIC); if (savedTopic && E.TRICK_BY_ID[savedTopic]) openTrickId = savedTopic; } catch (e) {}
+  var KEY_TOPIC = S.KEYS.topic;   /* sessionStorage: remembered for this tab only */
+  try { var savedTopic = S.loadTopic(); if (savedTopic && E.TRICK_BY_ID[savedTopic]) openTrickId = savedTopic; } catch (e) {}
   function setOpenTrick(id) {
     openTrickId = id;
-    try { sessionStorage.setItem(KEY_TOPIC, id || ''); } catch (e) {}
+    try { S.saveTopic(id || ''); } catch (e) {}
     updateNav();
   }
 
-  function isMastered(t) {
-    if (!t || !t.post) return false;
-    return t.post.acc >= 0.9 && (t.post.ratio <= 1 || (t.base && t.post.med <= t.base.med * 0.8));
+  function isMastered(t) { return window.MathTrickProgression.isMastered(t); }
+  function trickAssessmentValid(phase, count, attempts) {
+    return window.MathTrickProgression.assessmentValid(phase, count, attempts);
   }
   function trickStatus(t) {
     if (isMastered(t)) return 'Mastered';
@@ -1056,79 +912,81 @@
   }
 
   function renderTrickList() {
-    var box = $('trick-list'); clear(box);
+    var box = $('trick-list'); U.clear(box);
     E.TRICKS.forEach(function (tr) {
       var rec = meta.tricks[tr.id];
-      var card = h('button', 'trick-card' + (openTrickId === tr.id ? ' is-open' : ''));
+      var card = U.h('button', 'trick-card' + (openTrickId === tr.id ? ' is-open' : ''));
       card.type = 'button';
-      card.appendChild(h('div', 't-name', tr.name));
-      card.appendChild(h('div', 't-blurb', tr.blurb));
-      card.appendChild(h('span', 't-status' + (isMastered(rec) ? ' is-mastered' : ''), trickStatus(rec)));
+      card.appendChild(U.h('div', 't-name', tr.name));
+      card.appendChild(U.h('div', 't-blurb', tr.blurb));
+      card.appendChild(U.h('span', 't-status' + (isMastered(rec) ? ' is-mastered' : ''), trickStatus(rec)));
       card.addEventListener('click', function () { setOpenTrick(tr.id); trickBanner = ''; renderTricks(); $('trick-detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
       box.appendChild(card);
     });
   }
 
-  function statCell(s) { return s ? pct(s.acc) + ' right · ' + fmtSec(s.med) + ' median' : '–'; }
 
   function renderTrickDetail() {
-    var box = $('trick-detail'); clear(box);
+    var box = $('trick-detail'); U.clear(box);
     if (!openTrickId) { box.hidden = true; return; }
     box.hidden = false; box.className = 'panel trick-detail';
-    var tr = E.TRICK_BY_ID[openTrickId], rec = meta.tricks[tr.id] || {};
-    box.appendChild(h('h3', '', tr.name));
-    box.appendChild(h('p', 'note', tr.when));
-    if (trickBanner) box.appendChild(h('div', 'trick-banner', trickBanner));
+    var tr = E.TRICK_BY_ID[openTrickId], rec = tk(tr.id);
+    box.appendChild(U.h('h3', '', tr.name));
+    box.appendChild(U.h('p', 'note', tr.when));
+    if (trickBanner) box.appendChild(U.h('div', 'trick-banner', trickBanner));
 
     var unlocked = !!(rec.base || rec.skipBase);
-    var steps = h('div', 'trick-steps');
+    var steps = U.h('div', 'trick-steps');
 
     /* step 1: baseline */
-    var s1 = h('div', 'trick-step');
-    var t1 = h('div', 's-text'); t1.appendChild(h('b', '', '1. Baseline. ')); t1.appendChild(document.createTextNode(rec.base ? 'Done: ' + statCell(rec.base) + '.' : '6 questions before you see the lesson, so we can measure how much the trick helps.'));
+    var s1 = U.h('div', 'trick-step');
+    var t1 = U.h('div', 's-text'); t1.appendChild(U.h('b', '', '1. Baseline. ')); t1.appendChild(document.createTextNode(rec.base ? 'Done: ' + U.statCell(rec.base) + '.' : '6 questions before you see the lesson, so we can measure how much the trick helps.'));
     s1.appendChild(t1);
-    var b1 = h('button', 'button button-secondary small', rec.base ? 'Retake baseline' : 'Take baseline'); b1.type = 'button';
+    var b1 = U.h('button', 'button button-secondary small', rec.base ? 'Retake baseline' : 'Take baseline'); b1.type = 'button';
     b1.addEventListener('click', function () { startRun({ trick: { id: tr.id, phase: 'baseline' } }); });
     s1.appendChild(b1);
     if (!unlocked) {
-      var skip = h('button', 'button button-secondary small', 'Skip, show lesson'); skip.type = 'button';
-      skip.addEventListener('click', function () { var t = tk(tr.id); t.skipBase = true; saveMeta(); renderTricks(); });
+      var skip = U.h('button', 'button button-secondary small', 'Skip, show lesson'); skip.type = 'button';
+      skip.addEventListener('click', function () { var t = tk(tr.id); t.skipBase = true; MathXP.saveMeta(); renderTricks(); });
       s1.appendChild(skip);
     }
     steps.appendChild(s1);
 
     /* step 2: lesson */
-    var s2 = h('div', 'trick-step');
-    var t2 = h('div', 's-text'); t2.appendChild(h('b', '', '2. Lesson. '));
+    var s2 = U.h('div', 'trick-step');
+    var t2 = U.h('div', 's-text'); t2.appendChild(U.h('b', '', '2. Lesson. '));
     if (!unlocked) t2.appendChild(document.createTextNode('Unlocks after the baseline (or skip it).'));
     else t2.appendChild(document.createTextNode('Read it below, then practise.'));
     s2.appendChild(t2);
     steps.appendChild(s2);
 
     if (unlocked) {
-      var lesson = h('div');
-      lesson.appendChild(h('p', 'coach-line', 'The method: ' + tr.short));
-      var ol = h('ol');
-      tr.steps.forEach(function (st) { ol.appendChild(h('li', '', st)); });
+      var lesson = U.h('div');
+      lesson.appendChild(U.h('p', 'coach-line', 'The method: ' + tr.short));
+      var ol = U.h('ol');
+      tr.steps.forEach(function (st) { ol.appendChild(U.h('li', '', st)); });
       lesson.appendChild(ol);
-      lesson.appendChild(h('div', 'trick-example', 'Example: ' + tr.example));
+      lesson.appendChild(U.h('div', 'trick-example', 'Example: ' + tr.example));
       steps.appendChild(lesson);
     }
 
     /* step 3: practice */
-    var s3 = h('div', 'trick-step');
-    var t3 = h('div', 's-text'); t3.appendChild(h('b', '', '3. Practice. ')); t3.appendChild(document.createTextNode('10 questions. The method is shown on screen and the worked answer after each one.' + (rec.practice ? ' Practice runs so far: ' + rec.practice + '.' : '')));
+    var s3 = U.h('div', 'trick-step');
+    var t3 = U.h('div', 's-text'); t3.appendChild(U.h('b', '', '3. Practice. ')); t3.appendChild(document.createTextNode('10 questions. The method is shown on screen and the worked answer after each one.' + (rec.practice ? ' Practice runs so far: ' + rec.practice + '.' : '')));
     s3.appendChild(t3);
-    var b3 = h('button', 'button button-secondary small', 'Practise'); b3.type = 'button'; b3.disabled = !unlocked;
+    var b3 = U.h('button', 'button button-secondary small', 'Practise'); b3.type = 'button'; b3.disabled = !unlocked;
     b3.addEventListener('click', function () { startRun({ trick: { id: tr.id, phase: 'practice' } }); });
     s3.appendChild(b3);
     steps.appendChild(s3);
 
     /* step 4: post-test */
-    var s4 = h('div', 'trick-step');
-    var t4 = h('div', 's-text'); t4.appendChild(h('b', '', '4. Post-test. ')); t4.appendChild(document.createTextNode(rec.post ? 'Latest: ' + statCell(rec.post) + '.' : '6 fresh questions with no help, compared with your baseline.'));
+    var s4 = U.h('div', 'trick-step');
+    var canPost = unlocked && window.MathTrickProgression.hasPracticeSinceBaseline(rec);
+    var postText = rec.post ? 'Latest: ' + U.statCell(rec.post) + '.' : '6 fresh questions with no help, compared with your baseline.';
+    if (!canPost) postText += ' Complete a practice run after the latest baseline before taking the post-test.';
+    var t4 = U.h('div', 's-text'); t4.appendChild(U.h('b', '', '4. Post-test. ')); t4.appendChild(document.createTextNode(postText));
     s4.appendChild(t4);
-    var b4 = h('button', 'button button-primary small', rec.post ? 'Retake post-test' : 'Take post-test'); b4.type = 'button'; b4.disabled = !unlocked;
+    var b4 = U.h('button', 'button button-primary small', rec.post ? 'Retake post-test' : 'Take post-test'); b4.type = 'button'; b4.disabled = !canPost;
     b4.addEventListener('click', function () { startRun({ trick: { id: tr.id, phase: 'post' } }); });
     s4.appendChild(b4);
     steps.appendChild(s4);
@@ -1137,53 +995,75 @@
     /* before / after */
     if (rec.base && rec.post) {
       var change = (rec.base.med - rec.post.med) / Math.max(rec.base.med, 0.1);
-      box.appendChild(h('h3', '', 'Before and after'));
-      var table = h('table', 'compare');
-      var head = h('tr'); ['', 'Accuracy', 'Median time'].forEach(function (x) { head.appendChild(h('th', '', x)); }); table.appendChild(head);
+      box.appendChild(U.h('h3', '', 'Before and after'));
+      var table = U.h('table', 'compare');
+      var head = U.h('tr'); ['', 'Accuracy', 'Median time'].forEach(function (x) { head.appendChild(U.h('th', '', x)); }); table.appendChild(head);
       [['Before (baseline)', rec.base], ['After (post-test)', rec.post]].forEach(function (row) {
-        var trw = h('tr'); trw.appendChild(h('td', '', row[0])); trw.appendChild(h('td', '', pct(row[1].acc))); trw.appendChild(h('td', '', fmtSec(row[1].med))); table.appendChild(trw);
+        var trw = U.h('tr'); trw.appendChild(U.h('td', '', row[0])); trw.appendChild(U.h('td', '', U.pct(row[1].acc))); trw.appendChild(U.h('td', '', U.fmtSec(row[1].med))); table.appendChild(trw);
       });
       box.appendChild(table);
-      box.appendChild(h('p', 'coach-line', change > 0.05
-        ? 'You are ' + Math.round(change * 100) + '% faster with this trick (' + fmtSec(rec.base.med) + ' → ' + fmtSec(rec.post.med) + ').' + (isMastered(rec) ? ' Mastered.' : ' Practise a little more to master it (90% accuracy and a clear speed-up).')
-        : change < -0.05 ? 'Slower than your baseline for now (' + fmtSec(rec.base.med) + ' → ' + fmtSec(rec.post.med) + '). Practise the steps until they are automatic, then retake the post-test.'
+      box.appendChild(U.h('p', 'coach-line', change > 0.05
+        ? 'You are ' + Math.round(change * 100) + '% faster with this trick (' + U.fmtSec(rec.base.med) + ' → ' + U.fmtSec(rec.post.med) + ').' + (isMastered(rec) ? ' Mastered.' : ' Practise a little more to master it (90% accuracy and a clear speed-up).')
+        : change < -0.05 ? 'Slower than your baseline for now (' + U.fmtSec(rec.base.med) + ' → ' + U.fmtSec(rec.post.med) + '). Practise the steps until they are automatic, then retake the post-test.'
         : 'About the same speed as your baseline. Practise until the steps are automatic, then retake the post-test.'));
     }
   }
 
   function tk(id) {
-    if (!meta.tricks[id]) meta.tricks[id] = { base: null, post: null, practice: 0, skipBase: false, lastTs: 0 };
-    return meta.tricks[id];
+    if (!meta.tricks[id]) meta.tricks[id] = { base: null, post: null, practice: 0, practiceSinceBaseline: 0, skipBase: false, masteryRewarded: false, lastTs: 0 };
+    var rec = meta.tricks[id];
+    if (!Number.isInteger(rec.practiceSinceBaseline) || rec.practiceSinceBaseline < 0) rec.practiceSinceBaseline = 0;
+    /* Migrate previously mastered records so the one-time bonus cannot be farmed. */
+    return window.MathTrickProgression.migrateMasteryReward(rec);
   }
 
   function renderTricks() { renderTrickList(); renderTrickDetail(); }
 
   function finishTrick() {
-    var id = run.trick.id, phase = run.trick.phase, tr = E.TRICK_BY_ID[id];
-    var answered = run.attempts.filter(function (a) { return a.result !== 'skip'; });
-    if (answered.length < Math.ceil(run.count / 2)) {
-      trickBanner = 'That ' + TRICK_PHASES[phase].name.toLowerCase() + ' ended early, so it was not recorded.';
+    var s = MathRunState.state();
+    var id = s.trick.id, phase = s.trick.phase, tr = E.TRICK_BY_ID[id];
+    var answered = s.attempts.filter(function (a) { return a.result !== 'skip'; });
+    if (!trickAssessmentValid(phase, s.count, s.attempts)) {
+      trickBanner = (phase === 'baseline' || phase === 'post')
+        ? 'This ' + TRICK_PHASES[phase].name.toLowerCase() + ' needs all ' + s.count + ' questions answered without skips, so it was not recorded.'
+        : 'That practice run ended too early to record.';
     } else {
       var right = answered.filter(function (a) { return a.result === 'correct'; }).length;
       var stat = { n: answered.length, acc: right / answered.length, med: median(answered.map(function (a) { return a.time; })),
         ratio: median(answered.map(function (a) { return a.time / a.target; })), ts: Date.now() };
       var rec = tk(id);
       rec.lastTs = Date.now();
-      var xp = 0, wasMastered = isMastered(rec);
-      if (phase === 'baseline') { xp = rec.base ? 2 : 15; rec.base = stat; trickBanner = 'Baseline recorded: ' + pct(stat.acc) + ' right, ' + fmtSec(stat.med) + ' median. The lesson is unlocked below.'; }
-      else if (phase === 'practice') { xp = Math.max(2, 10 - 2 * (rec.practice || 0)); rec.practice = (rec.practice || 0) + 1; trickBanner = 'Practice done: ' + pct(stat.acc) + ' right. Take the post-test when the steps feel automatic.'; }
+      var xp = 0, wasMastered = isMastered(rec), newlyMastered = false;
+      if (wasMastered) rec.masteryRewarded = true;
+      if (phase === 'baseline') { xp = window.MathTrickProgression.replaceBaseline(rec, stat) ? 2 : 15; trickBanner = 'Baseline recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median. The previous post-test has been cleared; take a new post-test after practising.'; }
+      else if (phase === 'practice') { xp = Math.max(2, 10 - 2 * (rec.practice || 0)); window.MathTrickProgression.recordPractice(rec); trickBanner = 'Practice done: ' + U.pct(stat.acc) + ' right. Take the post-test when the steps feel automatic.'; }
       else {
         xp = rec.post ? 3 : 25; rec.post = stat;
-        if (isMastered(rec) && !wasMastered) xp += 30;
-        trickBanner = 'Post-test recorded: ' + pct(stat.acc) + ' right, ' + fmtSec(stat.med) + ' median.' + (rec.base ? ' Baseline was ' + fmtSec(rec.base.med) + '.' : '') + (isMastered(rec) ? ' ' + tr.name + ' mastered!' : '');
+        newlyMastered = window.MathTrickProgression.awardFirstMastery(rec);
+        if (newlyMastered) xp += 30;
+        trickBanner = 'Post-test recorded: ' + U.pct(stat.acc) + ' right, ' + U.fmtSec(stat.med) + ' median.' + (rec.base ? ' Baseline was ' + U.fmtSec(rec.base.med) + '.' : '') + (isMastered(rec) ? ' ' + tr.name + ' mastered!' : '');
       }
-      touchStreak();
-      var award = awardXp(xp);
+      MathXP.touchStreak();
+      var award = MathXP.awardXp(xp);
       trickBanner += ' +' + award.gained + ' XP' + (award.rankUp ? ' · new rank: ' + award.rankUp + '!' : '') + '.';
-      saveMeta();
+      MathXP.saveMeta();
+      awardMetaActivity('awardTrickPhase', {
+        runId: s.id,
+        completedAt: Date.now(),
+        completed: true,
+        verified: true,
+        trickId: id,
+        phase: phase,
+        attempted: answered.length,
+        questionCount: s.attempts.length,
+        requiredCount: s.count,
+        skipped: s.skipped,
+        accuracy: stat.acc,
+        firstMastery: newlyMastered
+      });
     }
     setOpenTrick(id);
-    run = null;
+    MathRunState.reset();
     renderTricks();
     show('screen-tricks');
   }
@@ -1207,7 +1087,7 @@
           $('io-note').textContent = 'That is a weak-spot analysis. Use “Upload analysis” in the coach panel at the top.';
           return;
         }
-        if (!data || data.app !== 'limitless-math' || !Array.isArray(data.runs) || !Array.isArray(data.attempts)) throw new Error('not a progress file');
+        if (!S.isValidProgressFile(data)) throw new Error('not a progress file');
         var runs = load(KEY_RUNS, []), have = {};
         runs.forEach(function (x) { have[x.id] = true; });
         var added = 0;
@@ -1239,7 +1119,7 @@
     if (!lastCfg) { startRun(); return; }
     prefs.mode = lastCfg.mode; if (lastCfg.tier) prefs.tier = lastCfg.tier;
     if (lastCfg.mode === 'drill') {
-      var d = lastCfg.drill; d.before = snapshotBefore(d.skills);
+      var d = lastCfg.drill; d.before = C.snapshotBefore(d.skills);
       startRun({ mode: 'drill', drill: d });
     } else startRun();
   });
@@ -1250,13 +1130,13 @@
     e.target.value = '';
   });
   $('btn-profile-export').addEventListener('click', exportProfile);
-  $('btn-res-profile').addEventListener('click', function () { exportProfile(); $('res-coach').appendChild(h('p', 'note', 'Downloaded. Upload that file next time to start drilling straight away.')); });
+  $('btn-res-profile').addEventListener('click', function () { exportProfile(); $('res-coach').appendChild(U.h('p', 'note', 'Downloaded. Upload that file next time to start drilling straight away.')); });
   $('file-profile').addEventListener('change', function (e) {
     if (e.target.files && e.target.files[0]) importProfile(e.target.files[0]);
     e.target.value = '';
   });
-  $('btn-coach-drill').addEventListener('click', function () { prefs.mode = 'drill'; save(KEY_PREFS, prefs); startRun({ mode: 'drill', drill: buildDrillCfg(true) }); });
-  $('btn-res-drill').addEventListener('click', function () { prefs.mode = 'drill'; save(KEY_PREFS, prefs); startRun({ mode: 'drill', drill: buildDrillCfg(true) }); });
+  $('btn-coach-drill').addEventListener('click', function () { prefs.mode = 'drill'; save(KEY_PREFS, prefs); startRun({ mode: 'drill', drill: C.buildDrillCfg(true, prefs.drillFocus, E.SKILLS, DRILL_KINDS) }); });
+  $('btn-res-drill').addEventListener('click', function () { prefs.mode = 'drill'; save(KEY_PREFS, prefs); startRun({ mode: 'drill', drill: C.buildDrillCfg(true, prefs.drillFocus, E.SKILLS, DRILL_KINDS) }); });
   $('drill-focus').addEventListener('change', function (e) { prefs.drillFocus = e.target.value; save(KEY_PREFS, prefs); renderDrillFocus(); });
   $('btn-tricks').addEventListener('click', function () { trickBanner = ''; renderTricks(); show('screen-tricks'); });
   $('btn-tricks-back').addEventListener('click', function () { show('screen-menu'); renderMenu(); });
@@ -1264,7 +1144,8 @@
   /* navbar: Math Trainer home / back to the open topic.
      Leaves at once, exactly like "Back to Limitless": an unfinished run is dropped, not saved. */
   function navigate(target) {
-    if (run && !run.ended) { run.ended = true; clearInterval(tickTimer); run = null; }
+    var s = MathRunState.state();
+    if (s && !s.ended) { MathRunState.markEnded(); clearInterval(tickTimer); MathRunState.reset(); }
     if (target === 'topic' && openTrickId) {
       trickBanner = ''; renderTricks(); show('screen-tricks');
       $('trick-detail').scrollIntoView({ block: 'start' });
@@ -1274,21 +1155,16 @@
   $('nav-topic').addEventListener('click', function () { navigate('topic'); });
 
   var answerBox = $('answer');
-  /* the answer box only accepts the characters an answer can contain:
-     digits, one decimal point, one slash (fractions like 5/36) and a leading minus */
+  /* Preserve numeric punctuation for the engine parser to validate instead of
+     silently rewriting malformed answers. Normalize Unicode minus for negatives. */
   function cleanAnswer(v) {
-    var out = '', dot = false, slash = false, i, c;
-    for (i = 0; i < v.length; i++) {
-      c = v.charAt(i);
-      if (c >= '0' && c <= '9') out += c;
-      else if (c === '-' && out === '') out += c;
-      else if (c === '.' && !dot && !slash) { dot = true; out += c; }
-      else if (c === '/' && !slash && /\d$/.test(out)) { slash = true; out += c; }
-    }
-    return out.slice(0, 14);
+    /* Normalize the alternate minus glyph, but do not delete other characters
+       or truncate pasted text: the parser must reject malformed input rather
+       than silently turning it into a different, potentially correct answer. */
+    return String(v).replace(/−/g, '-');
   }
   answerBox.addEventListener('beforeinput', function (e) {
-    if (e.inputType && e.inputType.indexOf('insert') === 0 && e.data && e.data.length === 1 && !/^[0-9.\/-]$/.test(e.data)) e.preventDefault();   /* pastes are cleaned afterwards */
+    if (e.inputType && e.inputType.indexOf('insert') === 0 && e.data && e.data.length === 1 && !/^[0-9.,\/−-]$/.test(e.data)) e.preventDefault();   /* pastes are cleaned afterwards */
   });
   answerBox.addEventListener('input', function () {
     var cleaned = cleanAnswer(answerBox.value);      /* also catches paste and autofill */
@@ -1297,23 +1173,25 @@
       answerBox.value = cleaned;
       try { answerBox.setSelectionRange(Math.max(0, pos - removed), Math.max(0, pos - removed)); } catch (er) {}
     }
-    if (!run || run.ended || run.busy) return;
-    var res = E.checkAnswer(run.q, answerBox.value, false);
+    var s = MathRunState.state();
+    if (!s || s.ended || s.busy) return;
+    var res = E.checkAnswer(s.q, answerBox.value, false);
     if (res.status === 'correct') resolve('correct', answerBox.value.trim());
   });
   answerBox.addEventListener('keydown', function (e) {
-    if (!run || run.ended) return;
+    var s = MathRunState.state();
+    if (!s || s.ended) return;
     if (e.key === 'Enter') {
       e.preventDefault();
       var val = answerBox.value;
       if (!val.trim()) return;
-      var res = E.checkAnswer(run.q, val, true);
+      var res = E.checkAnswer(s.q, val, true);
       if (res.status === 'correct') resolve('correct', val.trim());
       else if (res.status === 'wrong') resolve('wrong', val.trim());
       else { answerBox.classList.remove('is-shake'); void answerBox.offsetWidth; answerBox.classList.add('is-shake'); }
     } else if (e.key === 'Tab') {
       e.preventDefault();
-      resolve(DIFFS[run.diff].skipCosts ? 'wrong' : 'skip', '');
+      resolve(DIFFS[s.diff].skipCosts ? 'wrong' : 'skip', '');
     } else if (e.key === 'Escape') {
       e.preventDefault();
       finishRun('Run ended early');
@@ -1323,10 +1201,9 @@
 
   /* small hook for automated tests; harmless for players */
   window.MathGame = {
-    state: function () { return run; }, prefs: prefs, MODES: MODES, meta: meta,
-    analyse: analyse, prescription: prescription, buildProfile: buildProfile, rankFor: rankFor,
-    xpBreakdown: xpBreakdown, fadeFor: fadeFor, DIFFS: DIFFS,
-    startRun: startRun, KEYS: { runs: KEY_RUNS, att: KEY_ATT, meta: KEY_META, profile: KEY_PROFILE }
+    state: function () { return MathRunState.state(); }, prefs: prefs, MODES: MODES, meta: meta,
+    analyse: C.analyse, prescription: C.prescription, buildProfile: buildProfile, DIFFS: DIFFS,
+    startRun: startRun, KEYS: S.KEYS, isMastered: isMastered, trickAssessmentValid: trickAssessmentValid
   };
 
   renderMenu();

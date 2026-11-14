@@ -3,13 +3,13 @@ name: Maths Trainer Regression Tests
 on:
   pull_request:
     paths:
-      - "tools/math-refactored/**"
+      - "tools/math/**"
       - ".github/workflows/test-math-trainer.yml"
   push:
     branches:
       - main
     paths:
-      - "tools/math-refactored/**"
+      - "tools/math/**"
       - ".github/workflows/test-math-trainer.yml"
   workflow_dispatch:
 
@@ -40,7 +40,7 @@ jobs:
         run: |
           set -euo pipefail
           shopt -s nullglob
-          test_files=(tools/math-refactored/test-*.cjs tools/math-refactored/test-*.mjs)
+          test_files=(tools/math/test-*.cjs tools/math/test-*.mjs)
           if (( ${#test_files[@]} == 0 )); then
             echo "No maths trainer regression tests were found."
             exit 1
