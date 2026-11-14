@@ -510,10 +510,10 @@ const T2: TopicSource = {
       options: [
         { label: "a", text: "PET" },
         { label: "b", text: "Polystyrene" },
-        { label: "c", text: "Nylon 6" },
-        { label: "d", text: "Nylon 6,6" }
+        { label: "c", text: "Nylon 6,6" },
+        { label: "d", text: "Nylon 6" }
       ],
-      answer: "c",
+      answer: "d",
       why: "ε-Caprolactam (6 carbons, one monomer) opens to **nylon 6** — an *addition* reaction by chemistry (nothing eliminated), driven by relief of ring strain.",
       distractors: {
         a: "PET is made by step-growth polycondensation, not ring-opening polymerization of ε-caprolactam.",
