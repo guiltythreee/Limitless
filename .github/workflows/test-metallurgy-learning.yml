@@ -100,6 +100,7 @@ jobs:
           set -euo pipefail
           tests=(
             scripts/test-learning-core.mjs
+            app/platform/learning/intelligence.test.mjs
             scripts/test-capability-truth.mjs
             scripts/test-mt201-attempts.mjs
             scripts/test-mt202-attempts.mjs
