@@ -84,14 +84,16 @@ A populated IndexedDB v1 fixture opens in-browser without a version upgrade; act
 
 ## Remaining acceptance gates
 
-- Settings catalogues, defaults, option order and range definitions have been compared against the preserved source. Remaining settings work is runtime side-by-side acceptance of each visual/audio side effect; the Decorative details checkbox versus legacy two-chip control is recorded in `FEATURE_PARITY_MATRIX.md`. Do not rebuild the existing tabs or catalogues.
-- Finish the remaining library parity gaps recorded in `FEATURE_PARITY_MATRIX.md`: extract/render EPUB cover thumbnails using the existing `meta.cover` field without changing IndexedDB v1, and restore the legacy inline chapter-title editing/focus workflow. The Recent last-12 view, per-card author/section/progress display, move/remove actions, multi-file picker, drag/drop, Go to chapter, Detect again and Split evenly are already implemented and must not be duplicated.
+- The EPUB parser already contained bounded cover extraction, but the application was not passing it through to IndexedDB metadata or the library UI. That integration is now implemented using the existing v1 `meta.cover` field; opening older EPUBs backfills a missing cover, and the library renders only validated local image data URLs. The cover-image manifest token matcher was corrected and unit/E2E coverage added. Build and test execution remain to be refreshed.
+- Inline chapter-title editing now replaces the prompt workflow. The focused input supports Enter to save and Escape to cancel; an E2E regression covers the flow.
 - Reassess legacy shelf-tab keyboard navigation against the current native shelf selector; document an intentional equivalent if appropriate.
-- Verify real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard behaviour against the legacy reader; synthetic composition lifecycle automation now passes.
+- Restore the original two-chip Decorative details control if confirmed by the preserved source; keep the existing `deco=on|off` persistence contract.
+- Complete runtime side-by-side acceptance of settings visual/audio effects; do not rebuild catalogues or tabs.
+- Verify real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard behaviour against the legacy reader; synthetic IME composition lifecycle automation passes.
 - Test representative real-world PDFs and EPUBs, including long books, unusual chapter structures, malformed files and scanned/image-only PDFs.
 - Verify opening representative real user IndexedDB libraries and existing backup files without data loss.
 - Test on real mobile browsers, not only a desktop Chromium viewport.
 - Complete manual acceptance in the isolated preview before considering production cutover.
 
-**CI freshness note:** the documented 20/20 Chromium regression result belongs to the previously recorded workflow/commit. The current branch's E2E source now contains 23 test cases; do not assume the older 20/20 result covers the three later additions. Refresh and inspect CI before relying on the expanded suite for acceptance.
+**CI freshness note:** the E2E suite now contains 24 test cases. The documented 20/20 Chromium result is from an earlier commit and does not validate the new cover and inline-edit regressions. The current GitHub status reports only a Vercel build-rate-limit failure; no GitHub Actions run is associated with the latest commit. Do not treat either as a passing application build/test result.
 A successful build and the automated tests are necessary, but do not by themselves authorize replacing the standalone production reader.
