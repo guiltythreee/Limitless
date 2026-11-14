@@ -73,13 +73,19 @@ export function tidyChapters(
 export function evenChapters(total: number): BookkeysChapter[] {
   const count = Math.max(0, Math.floor(total));
   if (!count) return [];
-  if (count < 20) return [{ p: 0, title: "Beginning", req: true }];
-  const step = Math.ceil(count / 5);
-  return Array.from({ length: 5 }, (_, index) => ({
-    p: Math.min(count - 1, index * step),
-    title: index === 0 ? "Beginning" : ("Part " + (index + 1)),
-    req: true,
-  }));
+  // Match the legacy reader: aim for sections of about 20 pages, rather than
+  // always forcing five parts (which over-splits short books).
+  const partCount = Math.max(1, Math.round(count / 20));
+  const step = Math.ceil(count / partCount);
+  const chapters: BookkeysChapter[] = [];
+  for (let p = 0; p < count; p += step) {
+    chapters.push({
+      p,
+      title: chapters.length === 0 ? "Beginning" : ("Part " + (chapters.length + 1)),
+      req: true,
+    });
+  }
+  return chapters;
 }
 
 export interface RequiredRange {
