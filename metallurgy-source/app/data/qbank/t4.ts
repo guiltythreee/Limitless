@@ -75,8 +75,8 @@ const T4: TopicSource = {
       text: "Match each technique with the average it yields.",
       tableRows: [
         ["1", "Membrane osmometry", "", "(i) Mw"],
-        ["2", "Light scattering (Zimm)", "", "(ii) Mw"],
-        ["3", "Ultracentrifugation (sedimentation equilibrium; local curvature analysis)", "", "(iii) Mz"],
+        ["2", "Light scattering (Zimm)", "", "(i) Mw"],
+        ["3", "Ultracentrifugation (sedimentation equilibrium; local curvature analysis)", "", "(ii) Mz"],
         ["4", "Solution viscometry", "", "(iv) Mv"],
       ],
       options: [
