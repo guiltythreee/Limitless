@@ -21,4 +21,8 @@ const combinatorics = getPracticeRecommendations("Combinatorics", "Pigeonhole pr
 assert.ok(combinatorics.codeforces.some((item) => item.url.includes("combinatorics")));
 assert.equal(combinatorics.cses.length, 0);
 
+const unknown = getPracticeRecommendations("Unclassified subject", "unknown concept");
+assert.equal(unknown.codeforces.length, 0, "unknown subjects must not receive misleading default tags");
+assert.equal(unknown.cses.length, 0);
+
 console.log("CP practice recommendations: all assertions passed.");
