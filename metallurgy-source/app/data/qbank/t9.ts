@@ -268,7 +268,7 @@ const T9: TopicSource = {
         },
         {
             label: "b",
-            text: "PVC needs no stabilizer.",
+            text: "Allylic/tertiary C–Cl sites zip off as HCl (dehydrochlorination), the liberated HCl autocatalyzes further degradation, and polyene sequences discolour the polymer. Metal soaps (Ca/Zn) or organotins remove HCl and repair labile sites.",
         },
         {
             label: "c",
@@ -276,10 +276,10 @@ const T9: TopicSource = {
         },
         {
             label: "d",
-            text: "Allylic/tertiary C–Cl sites zip off as HCl (dehydrochlorination), the liberated HCl autocatalyzes further degradation, and polyene sequences discolour the polymer. Metal soaps (Ca/Zn) or organotins remove HCl and repair labile sites.",
+            text: "PVC needs no stabilizer.",
         }
       ],
-      answer: "d",
+      answer: "b",
       why: "PVC undergoes dehydrochlorination at labile sites: HCl is eliminated and the resulting conjugated polyene sequences cause discoloration. The liberated HCl can accelerate further degradation. Stabilizer mechanisms vary: some systems neutralize or scavenge HCl, while others also replace or passivate labile chlorine sites. The exact mechanism depends on the stabilizer package.",
       concept: "HCl autocatalysis ⇒ PVC needs thermal stabilizers",
       tags: ["confused"],
