@@ -239,12 +239,12 @@ html[data-theme="light"] .cr-book-grid a{color:#1769a8}
   gap: 0;
   overflow: hidden;
   transition:
-    min-height .22s ease,
-    padding .22s ease,
-    transform .22s ease,
-    box-shadow .22s ease,
-    border-color .22s ease;
-  transform-origin: center top;
+    min-height .48s cubic-bezier(.22,.61,.36,1),
+    padding .48s cubic-bezier(.22,.61,.36,1),
+    box-shadow .38s ease,
+    border-color .38s ease,
+    background-color .38s ease;
+  transform: none;
 }
 .cr-book-grid article > span,
 .cr-book-grid article > a {
@@ -255,9 +255,9 @@ html[data-theme="light"] .cr-book-grid a{color:#1769a8}
   opacity: 0;
   pointer-events: none;
   transition:
-    max-height .28s ease,
-    margin .22s ease,
-    opacity .18s ease;
+    max-height .48s cubic-bezier(.22,.61,.36,1),
+    margin .42s ease,
+    opacity .32s ease;
 }
 .cr-book-grid article:hover,
 .cr-book-grid article:focus-within {
@@ -267,7 +267,7 @@ html[data-theme="light"] .cr-book-grid a{color:#1769a8}
   padding: 16px;
   gap: 8px;
   overflow: visible;
-  transform: scale(1.035);
+  transform: none;
   border-color: rgba(105,158,213,.55);
   box-shadow: 0 14px 30px rgba(0,0,0,.2);
 }
@@ -392,8 +392,26 @@ html[data-theme="light"] .cr-week-contest-actions #contest-unlog:disabled {
 .cr-week-auto-note{margin:0;color:#9eb5ce;font-size:10px;line-height:1.5}
 html[data-theme="light"] .cr-week-auto-note{color:#526d87}
 
-/* Collapsible training workspace. The problem explorer remains a separate sibling section. */
-.cr-training-collapse { padding:0; overflow:clip; }
+/* Collapsible training workspace. Animate the browser's details content region,
+   rather than animating the inner dashboard height; this avoids layout flicker. */
+.cr-training-collapse {
+  padding:0;
+  overflow:clip;
+  interpolate-size:allow-keywords;
+}
+.cr-training-collapse::details-content {
+  display:block;
+  block-size:0;
+  overflow:clip;
+  content-visibility:hidden;
+  transition:
+    block-size .42s cubic-bezier(.22,.61,.36,1),
+    content-visibility .42s allow-discrete;
+}
+.cr-training-collapse[open]::details-content {
+  block-size:auto;
+  content-visibility:visible;
+}
 .cr-training-toggle { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:22px; cursor:pointer; list-style:none; }
 .cr-training-toggle::-webkit-details-marker { display:none; }
 .cr-training-toggle::marker { content:""; }
@@ -410,4 +428,14 @@ html[data-theme="light"] .cr-training-toggle-hint { color:#205a87; background:#e
   .cr-training-toggle { align-items:flex-start; flex-direction:column; padding:16px; }
   .cr-training-content { padding:0 16px 16px; }
   .cr-training-toggle-hint { align-self:flex-start; }
+}
+
+/* Reduced-motion preference: keep disclosures immediate for users who request it. */
+@media(prefers-reduced-motion:reduce) {
+  .cr-book-grid article,
+  .cr-book-grid article>span,
+  .cr-book-grid article>a,
+  .cr-training-collapse::details-content {
+    transition:none !important;
+  }
 }
