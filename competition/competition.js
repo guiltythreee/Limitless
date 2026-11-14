@@ -339,7 +339,27 @@
     $('days-remaining').textContent = Number.isFinite(target.getTime()) ? Math.max(0, Math.ceil((target - today) / 86400000)) : '—';
   }
 
+  function masteryDonut(counts, total, pct, label) {
+    var values = [
+      { key:'mastered', color:'#42d6c0' },
+      { key:'practiced', color:'#a58aff' },
+      { key:'learning', color:'#ffbd62' },
+      { key:'not-started', color:'#49627e' }
+    ];
+    var cursor = 0, stops = [];
+    values.forEach(function (item) {
+      var amount = total ? counts[item.key] / total * 100 : 0;
+      var end = cursor + amount;
+      stops.push(item.color + ' ' + cursor.toFixed(2) + '% ' + end.toFixed(2) + '%');
+      cursor = end;
+    });
+    var gradient = total ? 'conic-gradient(' + stops.join(',') + ')' : 'conic-gradient(#49627e 0 100%)';
+    return '<span class="mastery-donut" role="img" aria-label="' + esc(label) + ': ' + pct + '% mastered" style="--donut-fill:' + gradient + '"><span><strong>' + pct + '%</strong><small>mastered</small></span></span>';
+  }
+
   function renderSubjects() {
+    var accents = {logic:'blue',combinatorics:'violet',probability:'teal',graphs:'amber',dp:'cyan'};
+    var symbols = {logic:'∴',combinatorics:'✳',probability:'◉',graphs:'⌘',dp:'⌁'};
     $('subject-grid').innerHTML = SUBJECTS.map(function (subject) {
       var counts = { 'not-started':0, learning:0, practiced:0, mastered:0 };
       WEEKS.forEach(function (week, wi) {
@@ -349,11 +369,22 @@
       });
       var total = counts['not-started'] + counts.learning + counts.practiced + counts.mastered;
       var pct = total ? Math.round(counts.mastered / total * 100) : 0;
-      return '<a class="subject-card subject-card-link" href="#roadmap" data-subject-roadmap="' + subject.id + '" aria-label="Open ' + esc(subject.name) + ' roadmap">' +
+      var distribution = [
+        {label:'Mastered',key:'mastered',color:'#42d6c0'},
+        {label:'Practiced',key:'practiced',color:'#a58aff'},
+        {label:'Learning',key:'learning',color:'#ffbd62'},
+        {label:'Not started',key:'not-started',color:'#49627e'}
+      ];
+      var bars = distribution.map(function(item){
+        var width = total ? counts[item.key] / total * 100 : 0;
+        return '<span class="subject-state-bar" title="' + item.label + ': ' + counts[item.key] + '" style="width:' + width.toFixed(2) + '%;background:' + item.color + '"></span>';
+      }).join('');
+      return '<a class="subject-card subject-card-link subject-card-' + accents[subject.id] + '" href="#roadmap" data-subject-roadmap="' + subject.id + '" aria-label="Open ' + esc(subject.name) + ' roadmap">' +
+        '<div class="subject-card-top"><span class="subject-symbol" aria-hidden="true">' + symbols[subject.id] + '</span><span class="subject-card-index">' + String(SUBJECTS.indexOf(subject)+1).padStart(2,'0') + ' / 05</span></div>' +
         '<h3>' + esc(subject.name) + '</h3><p>' + esc(subject.note) + '</p>' +
-        '<div class="subject-count"><span>' + counts.mastered + ' / ' + total + ' mastered</span><span>' + pct + '% mastery</span></div>' +
-        '<div class="progress-track"><span style="width:' + pct + '%"></span></div>' +
-        '<div class="subject-breakdown"><span>' + counts.learning + ' learning</span><span>' + counts.practiced + ' practiced</span><span>' + counts['not-started'] + ' not started</span></div>' +
+        '<div class="subject-analytics-row">' + masteryDonut(counts,total,pct,subject.name) + '<div class="subject-analytics-copy"><strong>' + counts.mastered + ' <small>/ ' + total + ' mastered</small></strong><span>' + counts.practiced + ' practiced · ' + counts.learning + ' learning</span><span>' + counts['not-started'] + ' not started</span></div></div>' +
+        '<div class="subject-count"><span>Topic distribution</span><span>' + pct + '% mastery</span></div><div class="subject-state-bar-track" role="img" aria-label="Mastered, practiced, learning and not started topic distribution">' + bars + '</div>' +
+        '<span class="subject-card-action">Explore subject roadmap <b aria-hidden="true">→</b></span>' +
         '</a>';
     }).join('');
   }
@@ -792,6 +823,41 @@
     return '<section class="week-deliverables"><div class="deliverable-heading"><div><b>Weekly completion criteria</b><small>Use evidence, not calendar position, to decide whether to move on.</small></div><strong>'+done+'/'+labels.length+'</strong></div>'+checks+'<p class="difficulty-target">Problem difficulty target: <b>'+DIFFICULTY_BANDS[band]+'</b> — independent reasoning matters more than platform rating.</p><p class="workload-guidance">'+timePlan+'</p></section>';
   }
 
+
+  function renderRoadmapAnalytics() {
+    var target = $('roadmap-analytics');
+    if (!target) return;
+    var phases = ['Foundations','Core concepts','Integrated problem-solving','Competition readiness'];
+    var colors = ['#55aaff','#a58aff','#42d6c0','#ffbd62'];
+    target.innerHTML = phases.map(function(phase,pi){
+      var weeks = WEEKS.map(function(week,wi){return {week:week,index:wi};}).filter(function(item){return item.week.phase===phase;});
+      var counts = {'not-started':0,learning:0,practiced:0,mastered:0};
+      var total=0,mastered=0;
+      weeks.forEach(function(item){
+        item.week.topics.forEach(function(topic,ti){
+          var status=statusOf(topicKey(item.index,ti));counts[status]++;total++;
+          if(status==='mastered')mastered++;
+        });
+      });
+      var pct=total?Math.round(mastered/total*100):0;
+      var weekBars=weeks.map(function(item){
+        var wTotal=item.week.topics.length;
+        var wDone=item.week.topics.filter(function(topic,ti){return statusOf(topicKey(item.index,ti))==='mastered';}).length;
+        var height=wTotal?Math.max(4,wDone/wTotal*100):4;
+        return '<button type="button" class="phase-week-bar" data-phase-week="' + item.index + '" title="Week ' + (item.index+1) + ': ' + wDone + ' of ' + wTotal + ' mastered" aria-label="Open week ' + (item.index+1) + ', ' + wDone + ' of ' + wTotal + ' topics mastered"><span style="height:' + height + '%"></span><small>' + (item.index+1) + '</small></button>';
+      }).join('');
+      var donut=masteryDonut(counts,total,pct,phase);
+      return '<article class="phase-analytics-card phase-tone-' + pi + '"><div class="phase-analytics-head"><span class="phase-index">PHASE 0' + (pi+1) + '</span><span class="phase-analytics-name">' + esc(phase) + '</span></div><div class="phase-analytics-main">' + donut + '<div><strong>' + mastered + ' / ' + total + '</strong><small>topics mastered</small><span class="phase-progress-label">' + pct + '% complete</span></div></div><div class="phase-week-chart" role="group" aria-label="' + esc(phase) + ' weekly mastery bar chart">' + weekBars + '</div><div class="phase-chart-legend"><span><i></i> Mastered topics by week</span><small>WEEK</small></div></article>';
+    }).join('');
+    target.querySelectorAll('[data-phase-week]').forEach(function(button){
+      button.addEventListener('click',function(){
+        var index=Number(button.dataset.phaseWeek);
+        var cards=$('week-list').querySelectorAll('.week-card');
+        var card=cards[index];
+        if(card){card.open=true;card.scrollIntoView({behavior:'smooth',block:'center'});}
+      });
+    });
+  }
 
   function renderWeeks() {
     var openWeeks = {};
