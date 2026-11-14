@@ -75,3 +75,48 @@ test("preserves custom artwork entries in the original files store", async () =>
   assert.equal(await db.getArtwork("art:gothic"), undefined);
   db.close();
 });
+
+
+test("opens a populated legacy v1 database without changing existing records", async () => {
+  const factory = new IDBFactory();
+  const legacy = factory.open(BOOKKEYS_DATABASE, BOOKKEYS_DATABASE_VERSION);
+  const legacyDb = await new Promise<IDBDatabase>((resolve, reject) => {
+    legacy.onupgradeneeded = () => {
+      const db = legacy.result;
+      db.createObjectStore("meta", { keyPath: "id" });
+      db.createObjectStore("files");
+    };
+    legacy.onsuccess = () => resolve(legacy.result);
+    legacy.onerror = () => reject(legacy.error);
+  });
+
+  const seed = legacyDb.transaction(["meta", "files"], "readwrite");
+  seed.objectStore("meta").put({
+    ...metadata("legacy-book"),
+    legacyReaderFlag: "keep-me",
+    customNestedData: { revision: 7 },
+  });
+  seed.objectStore("files").put(new Blob(["legacy bytes"], { type: "application/epub+zip" }), "legacy-book");
+  seed.objectStore("files").put("data:image/png;base64,BBBB", "art:garden");
+  await new Promise<void>((resolve, reject) => {
+    seed.oncomplete = () => resolve();
+    seed.onerror = () => reject(seed.error);
+    seed.onabort = () => reject(seed.error);
+  });
+  legacyDb.close();
+
+  const db = await openBookkeysDatabase(factory);
+  assert.equal(db.raw.version, BOOKKEYS_DATABASE_VERSION);
+  assert.deepEqual([...db.raw.objectStoreNames].sort(), ["files", "meta"]);
+
+  const retainedMetadata = await db.getMetadata("legacy-book");
+  assert.equal(retainedMetadata?.legacyReaderFlag, "keep-me");
+  assert.deepEqual(retainedMetadata?.customNestedData, { revision: 7 });
+  assert.equal(await (await db.getFile("legacy-book"))?.text(), "legacy bytes");
+  assert.equal(await db.getArtwork("art:garden"), "data:image/png;base64,BBBB");
+
+  await db.putBook(metadata("new-book"), new Blob(["new bytes"]));
+  assert.equal(await (await db.getFile("legacy-book"))?.text(), "legacy bytes");
+  assert.equal(await (await db.getFile("new-book"))?.text(), "new bytes");
+  db.close();
+});
