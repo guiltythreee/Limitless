@@ -173,10 +173,11 @@ const T4: TopicSource = {
         { label: "d", text: "25,000" }
       ],
       answer: "d",
-      why: "$\\frac{1}{M_n} = \\frac{0.99}{50000} + \\frac{0.01}{500} = 1.98\\times10^{-5} + 2.0\\times10^{-5} = 3.98\\times10^{-5}$ → $M_n \\approx \\mathbf{25{,}000}$ — the trace oligomer **halves** the number-average.",
+      why: "Use the weight-fraction form: $1/M_n=0.99/50000+0.01/500=3.98\\times10^{-5}$ mol/g, so $M_n\\approx25{,}126$ g/mol (about 25,000 g/mol). Although the oligomer is only 1 wt%, its molecule count is large: the number of oligomer molecules per gram is 100 times that of the 50,000 g/mol polymer. Number-average molecular weight therefore falls strongly.",
       distractors: {
-        b: "49,500 is the new *Mw* (≈ unchanged) — the classic mix-up.",
-        c: "5,000 would need ~10 wt% oligomer.",
+        a: "45,000 is too high; it does not account for the large number of low-mass oligomer molecules.",
+        b: "49,500 treats the 1 wt% oligomer as though number-average molecular weight were a simple weight-fraction average; it is not.",
+        c: "5,000 would require a much larger oligomer fraction or a different oligomer molar mass.",
       },
       concept: "$1/M_n = \\sum w_i/M_i$",
       tags: ["numeric", "formula", "confused"],
@@ -310,7 +311,9 @@ const T4: TopicSource = {
       answer: "d",
       why: "Statements 1–3 are correct as general sensitivity trends: Mn is strongly affected by numerous short chains, while Mz is strongly affected by the high-molecular-weight tail. Statement 4 is false — osmometry measures a colligative property (particle count) and gives **Mn**, not Mz.",
       distractors: {
-        a: "Item 4 confuses osmometry (Mn) with sedimentation-equilibrium (Mz).",
+        a: "Includes statement 4, which is false: osmometry is a colligative method associated with Mn.",
+        b: "Omits true statement 2 and includes false statement 3? Statement 3 is true; this combination is incorrect because it omits statement 2.",
+        c: "Includes false statement 4 and omits true statements 1 and 3.",
       },
       tags: ["confused"],
     },
@@ -416,7 +419,7 @@ const T4: TopicSource = {
         { label: "d", text: "It counts individual polymer particles electronically as they pass through a detector, giving a direct molecule count." }
       ],
       answer: "a",
-      why: "SEC separates on **coil size** (hydrodynamic volume), not mass. Calibration with narrow-PS standards gives PS-equivalent MW; absolute MW needs in-line light scattering or viscometry.",
+      why: "SEC separates molecules by hydrodynamic volume (effective coil size). A conventional calibration curve made with narrow-distribution standards converts elution volume into a relative or standard-equivalent molecular weight. Coupling SEC to multi-angle light scattering can provide an absolute molar-mass estimate; a viscometer supplies hydrodynamic information and can support universal calibration or branching analysis.",
       concept: "SEC = relative technique (Mark–Houwink correction needed)",
       tags: ["confused"],
     },
