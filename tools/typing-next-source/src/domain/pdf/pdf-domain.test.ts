@@ -77,6 +77,7 @@ test("even chapter fallback matches the legacy target of about 20 pages per sect
   assert.deepEqual(evenChapters(20).map((chapter) => chapter.p), [0]);
   assert.deepEqual(evenChapters(50).map((chapter) => chapter.p), [0, 17, 34]);
   assert.deepEqual(evenChapters(100).map((chapter) => chapter.p), [0, 20, 40, 60, 80]);
+  assert.ok(evenChapters(50).every((chapter) => chapter.req === true));
 });
 
 test("chapter detection falls back to balanced parts when no headings are found", () => {
