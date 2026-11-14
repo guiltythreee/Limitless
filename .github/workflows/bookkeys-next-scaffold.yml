@@ -11,6 +11,7 @@ on:
     branches:
       - work/bookkeys-typescript-migration-20261107
       - work/bookkeys-typescript-mainline-20261107
+      - work/bookkeys-current-main-reconciliation-20261114
     paths:
       - "tools/typing-next-source/**"
       - "tools/typing/**"
