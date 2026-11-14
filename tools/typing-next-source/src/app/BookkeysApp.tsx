@@ -817,11 +817,30 @@ export default function BookkeysApp() {
     }
   }
 
-  async function importFile(file: File) {
+  async function importFiles(files: FileList | File[]) {
+    const selected = Array.from(files);
+    if (!selected.length) return;
+    if (selected.length === 1) {
+      await importFile(selected[0]);
+      return;
+    }
+    if (!database) {
+      setStatus("Browser library storage is unavailable. Import one book at a time for this session.");
+      await importFile(selected[0]);
+      return;
+    }
+    let added = 0;
+    for (const file of selected) {
+      if (await importFile(file, false)) added += 1;
+    }
+    setStatus(added + " of " + selected.length + " selected books added to this browser's library.");
+  }
+
+  async function importFile(file: File, openAfterImport = true): Promise<boolean> {
     const extension = file.name.toLowerCase().split(".").pop();
     if (extension !== "pdf" && extension !== "epub" && extension !== "txt") {
       setStatus("Choose a PDF, EPUB or plain-text file.");
-      return;
+      return false;
     }
     const format: BookFormat = extension === "epub" ? "epub" : extension === "txt" ? "text" : "pdf";
     setBusy(true);
@@ -853,6 +872,10 @@ export default function BookkeysApp() {
         await database.putBook(metadata, file);
         setLibrary((await database.listMetadata()).sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
       }
+      if (!openAfterImport) {
+        setStatus(database ? "Added " + parsed.title + " to this browser's library." : "Imported for this session.");
+        return true;
+      }
       const openedBook = { ...savedBook, chapters: loadChapterSettings(savedBook.bookKey, libraryId, savedBook.chapters, savedBook.sections.length) };
       const savedPage = readBookkeysPosition(window.localStorage, savedBook.bookKey, libraryId, savedBook.sections.length);
       bookCache.current[openedBook.bookKey] = openedBook;
@@ -864,8 +887,10 @@ export default function BookkeysApp() {
       setStatus(database
         ? "Imported and saved to this browser's library."
         : "Imported for this session. Browser library storage is unavailable.");
+      return true;
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "The file could not be read.");
+      return false;
     } finally {
       setBusy(false);
       if (fileInput.current) fileInput.current.value = "";
@@ -1458,7 +1483,13 @@ export default function BookkeysApp() {
       </header>
 
       {view === "home" || !book ? (
-        <section className="bk-library">
+        <section className="bk-library"
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={(event) => {
+            event.preventDefault();
+            if (event.dataTransfer.files.length) void importFiles(event.dataTransfer.files);
+          }}
+        >
           <div className="bk-intro">
             <div>
               <h2>Your library</h2>
@@ -1485,10 +1516,11 @@ export default function BookkeysApp() {
               ref={fileInput}
               className="bk-hidden"
               type="file"
+              multiple
               accept=".pdf,.epub,.txt,application/pdf,application/epub+zip,text/plain"
               onChange={(event) => {
-                const file = event.currentTarget.files?.[0];
-                if (file) void importFile(file);
+                const files = event.currentTarget.files;
+                if (files?.length) void importFiles(files);
               }}
             />
           </div>
