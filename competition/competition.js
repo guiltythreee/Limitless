@@ -690,7 +690,7 @@
     // Older/imported records without either remain visible in history but
     // must not create immediately-overdue or colliding revision entries.
     var date = typeof problem.date === 'string' ? problem.date : '';
-    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || formatDateOffset(date, 0) !== date ||
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || formatDateOffset(date, 0) !== date ||
         problem.id == null || String(problem.id).trim() === '') return [];
     return [1,7,14,30].map(function(days){
       return {days:days,date:formatDateOffset(date,days),key:String(problem.id)+'-'+days};
@@ -728,7 +728,7 @@
       subjects[subject]=(subjects[subject]||0)+1;
       // Group case and punctuation variants without changing the saved source text.
       var concept=String(problem.concept||'').trim();
-      var conceptKey=concept.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\\s+/g,' ');
+      var conceptKey=concept.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
       if(conceptKey){
         if(!concepts[conceptKey]) concepts[conceptKey]={label:concept,subject:subject,count:0};
         concepts[conceptKey].count++;
