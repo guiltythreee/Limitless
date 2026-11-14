@@ -1467,7 +1467,7 @@ export default function BookkeysApp() {
                           <i style={{ background: option.v?.accent ?? "#D2AE5C" }} />
                           <i style={{ background: option.v?.ink ?? "#2A2540" }} />
                         </span>
-                        <span className="bk-theme-name">{option.name}</span>
+                        <span className="bk-theme-name" style={{ color: option.v?.ink ?? "#FFFFFF" }}>{option.name}</span>
                       </button>
                     ))}
                   </div>
