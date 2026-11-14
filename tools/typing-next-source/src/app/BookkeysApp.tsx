@@ -1170,6 +1170,7 @@ export default function BookkeysApp() {
   }
 
   function persistSettings(next: BookkeysSettings) {
+    settingsRef.current = next;
     setSettings(next);
     try {
       window.localStorage.setItem("bookkeys:settings", JSON.stringify(next));
@@ -1825,6 +1826,11 @@ export default function BookkeysApp() {
                   <input type="checkbox" checked={settings.bgMatch !== false}
                     onChange={(event) => { clearThemeOverride(); persistSettings({ ...settings, bgMatch: event.currentTarget.checked }); }} />
                 </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Center reading text</span>
+                  <input type="checkbox" aria-label="Center reading text" checked={settings.centered === true}
+                    onChange={(event) => persistSettings({ ...settings, centered: event.currentTarget.checked })} />
+                </label>
                 <p className="bk-settings-note">When enabled, each original background selects its matching reader palette. Custom accent and text colours remain independent.</p>
                 {themeOverride && <p className="bk-settings-note">The header's quick theme override is active. Change this setting or choose a background to return to matched colors.</p>}
                 <p className="bk-settings-note">Time of Day switches from Morning at 06:00, to Evening at 17:00, and Night at 20:00. The three photographs use portrait crops on tall screens. Picture backgrounds always keep at least 70% text backdrop for readability.</p>                <p className="bk-settings-note">Theme can also be changed using the sun/moon control in the header.</p>
@@ -1861,8 +1867,7 @@ export default function BookkeysApp() {
                   <span>Custom text color</span>
                   <input type="color" aria-label="Custom text color"
                     value={safeReaderTextColor(settings.fontColorCustom) ?? "#FF8A00"}
-                    onClick={() => { if (settings.fontColor !== "custom") persistSettings({ ...settings, fontColor: "custom" }); }}
-                    onChange={(event) => persistSettings({ ...settings, fontColor: "custom", fontColorCustom: event.currentTarget.value })} />
+                    onChange={(event) => persistSettings({ ...settingsRef.current, fontColor: "custom", fontColorCustom: event.currentTarget.value })} />
                 </label>
                 <label className="bk-setting">
                   <span>Size <strong>{settings.size}px</strong></span>
@@ -1965,11 +1970,6 @@ export default function BookkeysApp() {
                   <span>Low thud on a mistake</span>
                   <input type="checkbox" checked={settings.errSound !== false}
                     onChange={(event) => persistSettings({ ...settings, errSound: event.currentTarget.checked })} />
-                </label>
-                <label className="bk-setting bk-setting-check">
-                  <span>Center reading text</span>
-                  <input type="checkbox" aria-label="Center reading text" checked={settings.centered === true}
-                    onChange={(event) => persistSettings({ ...settings, centered: event.currentTarget.checked })} />
                 </label>
                 <label className="bk-setting bk-setting-check">
                   <span>Confetti when a page is finished</span>
