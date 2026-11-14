@@ -201,9 +201,17 @@
       return '<div class="activity-row"><strong>' + escapeHTML(name ? name.textContent : 'Problem review') +
         '</strong><span>' + escapeHTML(subject ? subject.textContent : '') +
         (date ? ' · ' + escapeHTML(date.textContent) : '') + '</span></div>';
-    }).join('') : '<p>Nothing yet. Open Problems to log your first review.</p>';
+    }).join('') : '<div class="activity-empty"><span class="activity-empty-icon" aria-hidden="true">◷</span><div><strong>Your activity timeline starts here</strong><p>Log a problem or complete a roadmap checkpoint to build a record of your preparation.</p></div><button type="button" class="activity-empty-action" data-activity-problems>Log your first problem →</button></div>';
   }
   refreshActivity();
+  var activityTarget = document.getElementById('overview-activity');
+  if (activityTarget) activityTarget.addEventListener('click', function(event){
+    var action = event.target.closest('[data-activity-problems]');
+    if (!action) return;
+    activate('problems', true);
+    var logButton = document.querySelector('#problem-review .section-heading-row .action-button');
+    if (logButton) logButton.click();
+  });
   var history = document.getElementById('problem-history');
   if (history) {
     var historyObserver = new MutationObserver(refreshActivity);
