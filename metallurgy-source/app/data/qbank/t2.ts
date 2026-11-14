@@ -275,15 +275,15 @@ const T2: TopicSource = {
       id: "t2-13",
       type: "sequence",
       diff: 1,
-      text: "Order the stages of free-radical polymerization: (1) propagation (2) initiator decomposition (3) termination (4) initiation (5) chain transfer (possible at any point)",
+      text: "Order the core stages of free-radical polymerization: (1) propagation (2) initiator decomposition (3) termination (4) initiation. Chain transfer may occur during chain growth.",
       options: [
-        { label: "a", text: "1 → 2 → 4 → 3 → 5" },
-        { label: "b", text: "2 → 4 → 3 → 1 → 5" },
-        { label: "c", text: "2 → 4 → 1 → 5 → 3" },
-        { label: "d", text: "4 → 2 → 1 → 3 → 5" }
+        { label: "a", text: "1 → 2 → 4 → 3" },
+        { label: "b", text: "2 → 4 → 3 → 1" },
+        { label: "c", text: "2 → 4 → 1 → 3" },
+        { label: "d", text: "4 → 2 → 1 → 3" }
       ],
       answer: "c",
-      why: "Initiator first decomposes (**2**), the radical adds to monomer (**4** initiation), chains then propagate (**1**); transfer (**5**) may redirect the radical any time; chains end by termination (**3**).",
+      why: "Initiator decomposition (**2**) generates radicals; addition of a radical to monomer is initiation (**4**); chain growth proceeds by propagation (**1**) and ultimately ends by termination (**3**). Chain transfer can occur during propagation, but it is not a fixed sequential stage.",
       tags: ["revision"],
     },
     {
@@ -480,7 +480,9 @@ const T2: TopicSource = {
       answer: "c",
       why: "Radicals are **chemically tolerant** (unlike ionic systems, they survive trace impurities and water) and can run in bulk, solution, suspension or emulsion — ideal for commodity production.",
       distractors: {
-        d: "Stereoregularity requires *coordination* catalysts — precisely what radical polymerization cannot do.",
+        a: "Radical polymerization requires an initiator and appropriate process control; it is not safe or suitable for every monomer in an open vessel.",
+        b: "Ionic polymerization is generally more sensitive to water and other impurities than conventional free-radical polymerization.",
+        d: "Stereoregularity is associated with suitable stereospecific coordination catalysts; radical polymerization does not guarantee it.",
       },
       tags: ["revision"],
     },
@@ -498,7 +500,9 @@ const T2: TopicSource = {
       answer: "c",
       why: "ε-Caprolactam (6 carbons, one monomer) opens to **nylon 6** — an *addition* reaction by chemistry (nothing eliminated), driven by relief of ring strain.",
       distractors: {
-        d: "Nylon 6,6 is a step-growth polycondensation of two different monomers.",
+        a: "PET is made by step-growth polycondensation, not ring-opening polymerization of ε-caprolactam.",
+        b: "Polystyrene is made by chain-growth polymerization of styrene, not by ring-opening ε-caprolactam.",
+        d: "Nylon 6,6 is a step-growth polycondensation of a diamine and a diacid (or derivative), not the product of ε-caprolactam ring opening.",
       },
       tags: ["revision"],
     },
@@ -506,7 +510,7 @@ const T2: TopicSource = {
       id: "t2-25",
       type: "graph",
       diff: 3,
-      text: "Two curves of MW vs conversion are shown: curve A rises steeply only near p → 1; curve B is high from the start. Identify the mechanisms.",
+      text: "A schematic plot shows two molecular-weight-versus-conversion trends: curve A rises steeply only near p → 1; curve B is already high at low conversion. Identify the mechanisms.",
       tableRows: [
         ["p (conversion)", "0.5", "0.9", "0.98", "0.999"],
         ["Curve A: DP", "2", "10", "50", "1000"],
@@ -519,7 +523,7 @@ const T2: TopicSource = {
         { label: "d", text: "Both are chain-growth" }
       ],
       answer: "b",
-      why: "Curve A follows Carothers exactly ($DP = 1/(1-p)$: 2, 10, 50, 1000) → **step-growth**. Curve B shows high MW from low conversion → **chain-growth**.",
+      why: "Curve A follows the stoichiometric Carothers relation ($DP_n = 1/(1-p)$: 2, 10, 50, 1000) and represents step-growth. Curve B illustrates the characteristic high molecular mass at low conversion in chain-growth polymerization; its tabulated values are schematic, not a universal quantitative law.",
       distractors: {
         c: "Reversed — the 1/(1−p) signature belongs to step-growth.",
       },
@@ -546,7 +550,9 @@ const T2: TopicSource = {
       answer: "c",
       why: "1, 2, 4 correct. Item 3 false — ionic systems often **lack** bimolecular termination entirely (that is what makes living anionic polymerization possible).",
       distractors: {
-        a: "Item 3 projects radical-kinetics intuition onto ionic systems — the classic error.",
+        a: "Includes statement 3, which is false: ionic systems do not generally require the same bimolecular termination mechanism as radical chains.",
+        b: "Omits true statements 1 and 2 and includes false statement 3.",
+        d: "Omits statement 4, which is also correct for monomers bearing electron-withdrawing groups that stabilize anionic chain ends.",
       },
       tags: ["confused"],
     },
@@ -585,7 +591,9 @@ const T2: TopicSource = {
       answer: "a",
       why: "$p = 1 - 1/DP = 1 - 1/200 = 1 - 0.005 = 0.995$ → **99.5%**.",
       distractors: {
-        b: "99% gives DP = 100 only.",
+        b: "99% conversion gives $DP_n=100$ for the balanced system, not 200.",
+        c: "95% conversion gives $DP_n=20$ for a balanced system.",
+        d: "90% conversion gives $DP_n=10$ for a balanced system.",
       },
       concept: "$p = 1 - 1/DP_n$",
       tags: ["numeric", "formula"],
@@ -602,7 +610,12 @@ const T2: TopicSource = {
         { label: "d", text: "Metallocenes often act as single-site catalysts, giving more uniform active sites, narrower MWD and better comonomer control." }
       ],
       answer: "d",
-      why: "One crystallographically uniform **single site** = uniform chains → **narrow MWD** (PDI ≈ 2) and controlled tacticity. Multi-site Ziegler–Natta gives broader distributions.",
+      why: "Metallocenes commonly provide more uniform, well-defined active sites than conventional multi-site Ziegler–Natta catalysts. This often gives narrower molecular-weight distributions and improved control of comonomer incorporation; it does not mean every metallocene system has identical behaviour.",
+      distractors: {
+        a: "Metallocenes are coordination catalysts; they do not work only by anionic initiation.",
+        b: "Metallocenes can polymerize ethylene; their active sites are widely used for olefin polymerization.",
+        c: "Conventional Ziegler–Natta systems are not generally living or monodisperse; chain transfer and termination can occur.",
+      },
       tags: ["revision"],
     },
     {
