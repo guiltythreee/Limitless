@@ -17,4 +17,28 @@ assert.equal(normalized.source.course, "MT203");
 assert.equal(validateQuestion(normalized, {
   id: "test", rules: { optionCount: 4, requireExplanation: true, requireDifficulty: true },
 }).passed, true);
-console.log("5 MT203 adapter tests passed");
+
+const expectedFormats = {
+  recall: "single-choice",
+  concept: "single-choice",
+  compare: "single-choice",
+  apply: "single-choice",
+  higher: "single-choice",
+  numerical: "numerical",
+  assertreason: "assertion-reason",
+  statement: "single-choice",
+  match: "match",
+  sequence: "sequence",
+  graph: "graph-data",
+};
+for (const [type, format] of Object.entries(expectedFormats)) {
+  assert.equal(adaptMT203Question({ ...source, type }, topic).format, format, type);
+}
+assert.throws(() => adaptMT203Question({ ...source, type: "unmapped" }, topic), /Unsupported MT203 question type/);
+const assertionReason = adaptMT203Question({
+  ...source, type: "assertreason", text: undefined,
+  assertion: "Assertion text", reason: "Reason text",
+}, topic);
+assert.equal(assertionReason.stem, "Assertion text\\nReason text");
+
+console.log("MT203 adapter tests passed (native taxonomy mapping + unknown-type guard)");
