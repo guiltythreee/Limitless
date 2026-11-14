@@ -26,7 +26,7 @@ const values = (name) => argv.flatMap((a, i) => (a === name && argv[i + 1] ? [ar
 const strict = flag("--strict");
 const verbose = flag("--verbose");
 const wantTopics = values("--topic");
-const wantRules = values("--rule);
+const wantRules = values("--rule");
 
 let enforcedTopics = null;
 if (flag("--enforced")) {
