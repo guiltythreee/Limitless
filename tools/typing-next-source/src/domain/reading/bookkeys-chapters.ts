@@ -19,7 +19,7 @@ export const SECTION_OPTIONAL: ReadonlySet<string> = new Set(OPTIONAL_HEADINGS);
 
 export function sectionBody(value: unknown): string {
   let text = normalize(value).toLowerCase();
-  text = text.replace(/^(?:(?:chapter|chap\.?|part|book|volume|vol\.?|section|act|scene|canto|letter)\s+)?(?:\d{1,4}|[ivxlcdm]{1,7})(?=\s|$|[.):,\\-])[\\s.):,\\-]*/i, "");
+  text = text.replace(/^(?:(?:chapter|chap\.?|part|book|volume|vol\.?|section|act|scene|canto|letter)\s+)?(?:\d{1,4}|[ivxlcdm]{1,7})(?=\s|$|[.):,-])[\s.):,-]*/i, "");
   text = text.replace(/^(?:the|a|an)\s+/i, "");
   return normalize(text).toLowerCase();
 }
