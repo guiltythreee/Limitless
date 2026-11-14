@@ -462,3 +462,26 @@ test("first-time restore skips malformed book progress records", () => {
   const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
   assert.deepEqual(Object.keys(game.book), ["valid-book"]);
 });
+
+
+test("replace restore sanitizes malformed book progress records", () => {
+  const storage = new MemoryStorage();
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:game": JSON.stringify({
+        xp: 20,
+        book: {
+          "valid-book": { p: [0], e: [], c: [], x: [], done: 1 },
+          "invalid-book": "not-an-object",
+        },
+      }),
+    },
+  }));
+
+  restoreBookkeysBackup(storage, backup, "replace");
+
+  const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
+  assert.equal(game.xp, 20);
+  assert.deepEqual(Object.keys(game.book), ["valid-book"]);
+});
