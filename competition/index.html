@@ -237,6 +237,13 @@
         </label>
         <button type="submit" class="action-button">Save problem review</button>
       </form>
+      <div class="problem-catalogue-controls" aria-label="Filter problem catalogue">
+        <label>Search problems<input id="problem-search" type="search" placeholder="Search name, concept, observation or source"></label>
+        <label>Subject<select id="problem-filter-subject"><option value="all">All subjects</option><option>Logical Reasoning</option><option>Combinatorics</option><option>Probability</option><option>Graph Theory</option><option>Dynamic Programming</option><option>C++ / Implementation</option></select></label>
+        <label>First attempt<select id="problem-filter-outcome"><option value="all">All outcomes</option><option value="independent">Solved independently</option><option value="hint">Solved after a hint</option><option value="editorial">Solved after editorial</option><option value="unsolved">Not solved yet</option></select></label>
+        <label>Difficulty<select id="problem-filter-band"><option value="all">All challenge levels</option><option>Basic application</option><option>Multiple-concept application</option><option>Non-obvious observation</option><option>Mathematical derivation</option><option>Unseen competition-level</option></select></label>
+        <p id="problem-catalogue-count" role="status">Showing all logged problems</p>
+      </div>
       <div id="problem-history" class="problem-history"><p class="empty-state">No problem reviews recorded yet.</p></div>
     </section>
 
