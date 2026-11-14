@@ -798,3 +798,139 @@ html[data-theme="light"] .settings-card{background:#f8fbff;border-color:#d1dfeb}
 html[data-theme="light"] .settings-card>summary{color:#203e5a}
 html[data-theme="light"] .settings-card>summary span{color:#58728c}
 html[data-theme="light"] .competition-page :focus-visible{outline-color:#287fc0}
+
+
+/* =========================================================
+   Regional Qualification — subject mastery analytics + roadmap charts
+   ========================================================= */
+.subject-grid{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:14px;
+  margin-top:20px;
+}
+.subject-card-link{
+  grid-column:span 2;
+  min-height:270px;
+  display:flex;
+  flex-direction:column;
+  padding:19px;
+  border-radius:16px;
+  background:linear-gradient(145deg,rgba(15,34,58,.96),rgba(8,22,40,.97));
+  border:1px solid rgba(105,166,225,.23);
+  box-shadow:0 10px 26px rgba(0,0,0,.13);
+}
+.subject-card-link:nth-child(4){grid-column:2 / span 2}
+.subject-card-link:nth-child(5){grid-column:4 / span 2}
+.subject-card-blue{--subject-accent:#55aaff;--subject-soft:rgba(85,170,255,.12)}
+.subject-card-violet{--subject-accent:#a58aff;--subject-soft:rgba(165,138,255,.12)}
+.subject-card-teal{--subject-accent:#42d6c0;--subject-soft:rgba(66,214,192,.12)}
+.subject-card-amber{--subject-accent:#ffbd62;--subject-soft:rgba(255,189,98,.12)}
+.subject-card-cyan{--subject-accent:#61cbe9;--subject-soft:rgba(97,203,233,.12)}
+.subject-card-link::before{
+  content:"";height:3px;width:100%;margin:-19px 0 15px;
+  background:linear-gradient(90deg,var(--subject-accent),transparent 90%);
+  border-radius:4px;
+}
+.subject-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.subject-symbol{
+  display:grid;place-items:center;width:38px;height:38px;border-radius:12px;
+  color:var(--subject-accent);background:var(--subject-soft);
+  border:1px solid color-mix(in srgb,var(--subject-accent) 35%,transparent);
+  font-size:20px;font-weight:700
+}
+.subject-card-index{color:var(--comp-muted);font:600 9px Arial,sans-serif;letter-spacing:1.4px}
+.subject-card-link h3{margin:0 0 6px;color:var(--comp-ink);font-size:16px}
+.subject-card-link p{min-height:35px;margin:0;color:var(--comp-muted);font-size:11px;line-height:1.5}
+.subject-analytics-row{display:flex;align-items:center;gap:14px;margin:13px 0 10px}
+.mastery-donut{
+  flex:0 0 auto;display:grid;place-items:center;width:76px;height:76px;
+  border-radius:50%;background:var(--donut-fill);
+  box-shadow:0 0 0 1px rgba(255,255,255,.04),0 5px 18px rgba(0,0,0,.14);
+}
+.mastery-donut>span{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:55px;height:55px;border-radius:50%;background:#0b1a2c;
+  box-shadow:inset 0 0 0 1px rgba(130,174,215,.13)
+}
+.mastery-donut strong{color:var(--comp-ink);font-size:14px;line-height:1.1}
+.mastery-donut small{margin-top:3px;color:var(--comp-muted);font-size:8px}
+.subject-analytics-copy{display:flex;flex-direction:column;gap:5px;color:var(--comp-muted);font-size:10px}
+.subject-analytics-copy>strong{color:var(--comp-ink);font-size:17px}
+.subject-analytics-copy>strong small{color:var(--comp-muted);font-size:10px;font-weight:400}
+.subject-count{display:flex;justify-content:space-between;gap:8px;margin:5px 0 7px;color:var(--comp-muted);font-size:9px}
+.subject-state-bar-track{display:flex;width:100%;height:8px;overflow:hidden;border-radius:10px;background:rgba(100,130,160,.13)}
+.subject-state-bar{height:100%;min-width:0;transition:width .25s ease}
+.subject-card-action{
+  display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px;
+  border-top:1px solid rgba(105,166,225,.14);color:var(--subject-accent);
+  font-size:10px;font-weight:700
+}
+.subject-card-action b{font-size:17px;transition:transform .18s}
+.subject-card-link:hover .subject-card-action b{transform:translateX(4px)}
+.roadmap-analytics{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 16px
+}
+.phase-analytics-card{
+  min-width:0;padding:15px;border:1px solid rgba(105,166,225,.2);border-radius:14px;
+  background:linear-gradient(145deg,rgba(13,30,51,.94),rgba(8,20,37,.96));
+  box-shadow:0 8px 22px rgba(0,0,0,.1)
+}
+.phase-tone-0{--phase-accent:#55aaff;--phase-soft:rgba(85,170,255,.12)}
+.phase-tone-1{--phase-accent:#a58aff;--phase-soft:rgba(165,138,255,.12)}
+.phase-tone-2{--phase-accent:#42d6c0;--phase-soft:rgba(66,214,192,.12)}
+.phase-tone-3{--phase-accent:#ffbd62;--phase-soft:rgba(255,189,98,.12)}
+.phase-analytics-head{display:flex;flex-direction:column;gap:5px;min-height:42px}
+.phase-index{color:var(--phase-accent);font-size:8px;font-weight:700;letter-spacing:1.5px}
+.phase-analytics-name{color:var(--comp-ink);font-size:12px;font-weight:700;line-height:1.3}
+.phase-analytics-main{display:flex;align-items:center;gap:12px;margin:10px 0 12px}
+.phase-analytics-main .mastery-donut{width:62px;height:62px}
+.phase-analytics-main .mastery-donut>span{width:45px;height:45px}
+.phase-analytics-main .mastery-donut strong{font-size:12px}
+.phase-analytics-main>div:last-child{display:flex;flex-direction:column;gap:3px}
+.phase-analytics-main>div:last-child>strong{color:var(--comp-ink);font-size:17px}
+.phase-analytics-main>div:last-child>small{color:var(--comp-muted);font-size:9px}
+.phase-progress-label{color:var(--phase-accent);font-size:10px;font-weight:700}
+.phase-week-chart{display:flex;align-items:flex-end;gap:7px;height:76px;padding:8px 5px 0;border-bottom:1px solid rgba(105,166,225,.18)}
+.phase-week-bar{
+  flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;
+  padding:0;border:0;background:transparent;cursor:pointer
+}
+.phase-week-bar>span{
+  display:block;width:min(100%,22px);min-height:3px;border-radius:5px 5px 2px 2px;
+  background:linear-gradient(180deg,var(--phase-accent),color-mix(in srgb,var(--phase-accent) 48%,#17263a));
+  transition:height .2s ease,filter .2s ease
+}
+.phase-week-bar:hover>span{filter:brightness(1.35)}
+.phase-week-bar small{color:var(--comp-muted);font-size:8px}
+.phase-chart-legend{display:flex;justify-content:space-between;align-items:center;margin-top:8px;color:var(--comp-muted);font-size:8px}
+.phase-chart-legend span{display:flex;align-items:center;gap:6px}
+.phase-chart-legend i{width:7px;height:7px;border-radius:2px;background:var(--phase-accent)}
+.phase-chart-legend small{letter-spacing:1px}
+html[data-theme="light"] .subject-card-link{
+  background:linear-gradient(145deg,#fff,#f0f6fc);border-color:#d1dfeb;
+  box-shadow:0 9px 24px rgba(40,70,100,.08)
+}
+html[data-theme="light"] .subject-symbol{background:color-mix(in srgb,var(--subject-accent) 12%,white)}
+html[data-theme="light"] .mastery-donut>span{background:#f5f9fd;box-shadow:inset 0 0 0 1px rgba(68,112,151,.15)}
+html[data-theme="light"] .phase-analytics-card{
+  background:linear-gradient(145deg,#fff,#f0f6fc);border-color:#d1dfeb;
+  box-shadow:0 8px 22px rgba(40,70,100,.07)
+}
+html[data-theme="light"] .phase-week-bar>span{
+  background:linear-gradient(180deg,var(--phase-accent),color-mix(in srgb,var(--phase-accent) 65%,white))
+}
+@media(max-width:1100px){
+  .roadmap-analytics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:900px){
+  .subject-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .subject-card-link,.subject-card-link:nth-child(4),.subject-card-link:nth-child(5){grid-column:auto}
+}
+@media(max-width:560px){
+  .subject-grid,.roadmap-analytics{grid-template-columns:1fr}
+  .subject-card-link{min-height:245px}
+}
+@media(prefers-reduced-motion:reduce){
+  .subject-state-bar,.phase-week-bar>span,.subject-card-action b{transition:none!important}
+}
