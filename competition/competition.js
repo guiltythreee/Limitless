@@ -1160,6 +1160,7 @@
             if (incoming[key] !== undefined && !isRecord(incoming[key])) throw new Error('Invalid backup');
           });
           if (incoming.problemLog !== undefined && (!Array.isArray(incoming.problemLog) || incoming.problemLog.some(function(item){return !isRecord(item);})) ) throw new Error('Invalid backup');
+          if (incoming.revisionAttempts !== undefined && (!Array.isArray(incoming.revisionAttempts) || incoming.revisionAttempts.some(function(item){return !isRecord(item) || typeof item.problemId !== 'string' || typeof item.date !== 'string' || ['correct','incorrect'].indexOf(item.outcome)===-1;}))) throw new Error('Invalid backup');
           if (incoming.mocks.some(function(item){return !isRecord(item) || typeof item.date !== 'string';})) throw new Error('Invalid backup');
           if (!incoming.mastery && incoming.completed) {
             incoming.mastery = {};
