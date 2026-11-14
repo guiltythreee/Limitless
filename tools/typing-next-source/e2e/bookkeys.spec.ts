@@ -780,16 +780,18 @@ test("reader preserves the original canvas scenes, photo crops, Time of Day and 
   await expect(article).toHaveAttribute("data-reader-background", expectedTimeScene);
   await expect(page.locator(".bk-picture-background")).toBeVisible();
 
-  await backgrounds.selectOption("pic-morning");
-  await page.setViewportSize({ width: 390, height: 844 });
-  const mobileImage = await page.locator(".bk-picture-background").evaluate((element) => getComputedStyle(element).backgroundImage);
-  expect(mobileImage).toContain("morning-mobile.webp");
-  expect(await page.locator(".bk-shell").evaluate((element) => getComputedStyle(element).getPropertyValue("--bk-panel-opacity").trim())).toBe("70%");
+  for (const photo of ["morning", "evening", "night"]) {
+    await backgrounds.selectOption(`pic-${photo}`);
+    await page.setViewportSize({ width: 390, height: 844 });
+    const mobileImage = await page.locator(".bk-picture-background").evaluate((element) => getComputedStyle(element).backgroundImage);
+    expect(mobileImage).toContain(`${photo}-mobile.webp`);
+    expect(await page.locator(".bk-shell").evaluate((element) => getComputedStyle(element).getPropertyValue("--bk-panel-opacity").trim())).toBe("70%");
 
-  await page.setViewportSize({ width: 1440, height: 900 });
-  const desktopImage = await page.locator(".bk-picture-background").evaluate((element) => getComputedStyle(element).backgroundImage);
-  expect(desktopImage).toContain("morning.webp");
-  expect(desktopImage).not.toContain("morning-mobile.webp");
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const desktopImage = await page.locator(".bk-picture-background").evaluate((element) => getComputedStyle(element).backgroundImage);
+    expect(desktopImage).toContain(`${photo}.webp`);
+    expect(desktopImage).not.toContain(`${photo}-mobile.webp`);
+  }
 
   await backgrounds.selectOption("snow");
   await expect.poll(() => canvas.getAttribute("data-animated")).toBe("true");
