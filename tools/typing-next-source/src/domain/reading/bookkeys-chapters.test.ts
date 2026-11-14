@@ -73,10 +73,13 @@ test("tidyChapters adds optional Beginning and classifies the rest", () => {
   assert.deepEqual(chapters.map((chapter) => chapter.req), [false, true, false]);
 });
 
-test("even sections are all required until the reader changes them", () => {
-  const chapters = evenChapters(100);
-  assert.deepEqual(chapters.map((chapter) => chapter.p), [0, 20, 40, 60, 80]);
-  assert.ok(chapters.every((chapter) => chapter.req));
+test("even sections match the legacy target of about 20 pages per section", () => {
+  assert.deepEqual(evenChapters(10).map((chapter) => chapter.p), [0]);
+  assert.deepEqual(evenChapters(20).map((chapter) => chapter.p), [0]);
+  assert.deepEqual(evenChapters(50).map((chapter) => chapter.p), [0, 17, 34]);
+  assert.deepEqual(evenChapters(100).map((chapter) => chapter.p), [0, 20, 40, 60, 80]);
+  assert.deepEqual(evenChapters(200).map((chapter) => chapter.p), [0, 20, 40, 60, 80, 100, 120, 140, 160, 180]);
+  assert.ok(evenChapters(100).every((chapter) => chapter.req));
 });
 
 test("required ranges exclude optional sections and book completion needs at least one required section", () => {
