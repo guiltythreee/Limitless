@@ -3,10 +3,20 @@ export function validateQuestion(question, profile) {
   const issues = [];
   const add = (rule, severity, message, field) =>
     issues.push({ rule, severity, message, ...(field ? { field } : {}) });
-  const rules = profile.rules || {};
 
-  if (!question?.id) add("CORE-001", "error", "Question id is missing", "id");
-  if (!question?.stem?.trim()) add("CORE-002", "error", "Question stem is empty", "stem");
+  if (!question || typeof question !== "object") {
+    add("CORE-000", "error", "Question record is missing");
+    return { questionId: "(missing-record)", profileId: profile.id, issues, passed: false };
+  }
+
+  const rules = profile.rules || {};
+  if (profile.format && question.format && question.format !== profile.format) {
+    add("CORE-006", "error",
+      `Profile expects format "${profile.format}"; question is "${question.format}"`, "format");
+  }
+
+  if (!question.id) add("CORE-001", "error", "Question id is missing", "id");
+  if (!question.stem?.trim()) add("CORE-002", "error", "Question stem is empty", "stem");
 
   if (rules.requireExplanation && !question.explanation?.trim()) {
     add("CORE-003", "error", "A worked or explanatory answer is required", "explanation");
@@ -52,7 +62,7 @@ export function validateQuestion(question, profile) {
   }
 
   return {
-    questionId: question?.id || "(missing-id)",
+    questionId: question.id || "(missing-id)",
     profileId: profile.id,
     issues,
     passed: !issues.some((issue) => issue.severity === "error"),
