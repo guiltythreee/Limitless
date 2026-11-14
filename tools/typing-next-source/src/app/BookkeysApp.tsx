@@ -397,6 +397,7 @@ export default function BookkeysApp() {
     // The legacy "bg" field is the reader scene (for example "pic-morning"),
     // not the light/dark UI theme. Keep it untouched in the persisted settings.
     const initialTheme = savedTheme === "light" ? "light" : "dark";
+    setThemeOverride(window.localStorage.getItem("limitless.typing.v1.themeOverride") === "1");
     const mappedScene: ReaderBackgroundId =
       isReaderBackgroundId(savedSettings.bg) ? savedSettings.bg : "none";
     setSettings({
@@ -455,7 +456,7 @@ export default function BookkeysApp() {
     { id: "garden" as const, label: "Garden artwork", image: safeArtworkDataUrl(artwork.garden) },
   ].filter((item) => Boolean(item.image));
   const chooseBackground = (nextBackground: ReaderBackgroundId) => {
-    setThemeOverride(false);
+    clearThemeOverride();
     const isCustomArtwork = nextBackground === "gothic" || nextBackground === "garden";
     persistSettings({
       ...settings,
@@ -464,7 +465,7 @@ export default function BookkeysApp() {
     });
   };
   const chooseTheme = (themeOption: (typeof THEMES)[number]) => {
-    setThemeOverride(false);
+    clearThemeOverride();
     persistSettings({ ...settings, skin: themeOption.id, bgMatch: false });
     if (themeOption.v) setTheme(themeOption.dark ? "dark" : "light");
   };
@@ -1000,10 +1001,16 @@ export default function BookkeysApp() {
     }
   }
 
+  function clearThemeOverride() {
+    setThemeOverride(false);
+    try { window.localStorage.removeItem("limitless.typing.v1.themeOverride"); } catch { /* preference cleanup */ }
+  }
+
   function toggleTheme() {
     const nextTheme = activeTone === "dark" ? "light" : "dark";
     setTheme(nextTheme);
     setThemeOverride(true);
+    try { window.localStorage.setItem("limitless.typing.v1.themeOverride", "1"); } catch { /* preference persistence */ }
   }
 
   function exportBackup() {
@@ -1032,7 +1039,7 @@ export default function BookkeysApp() {
       setShelves(readShelves(window.localStorage.getItem("bookkeys:shelves")));
       const restoredSettings = readSettings();
       setSettings(restoredSettings);
-      setThemeOverride(false);
+      clearThemeOverride();
       if (book) {
         const progress = game.book?.[book.bookKey];
         setCompletedPageIndexes([...new Set([...(progress?.p ?? []), ...(progress?.e ?? [])])]);
@@ -1460,9 +1467,10 @@ export default function BookkeysApp() {
                 <label className="bk-setting bk-setting-check">
                   <span>Match colors to background</span>
                   <input type="checkbox" checked={settings.bgMatch !== false}
-                    onChange={(event) => { setThemeOverride(false); persistSettings({ ...settings, bgMatch: event.currentTarget.checked }); }} />
+                    onChange={(event) => { clearThemeOverride(); persistSettings({ ...settings, bgMatch: event.currentTarget.checked }); }} />
                 </label>
                 <p className="bk-settings-note">When enabled, each original background selects its matching reader palette. Custom accent and text colours remain independent.</p>
+                {themeOverride && <p className="bk-settings-note">The header's quick theme override is active. Choose a background or change this setting to return to matched colors.</p>}
                 <div className="bk-setting">
                   <span>Color theme</span>
                   <div className="bk-theme-tiles" role="group" aria-label="Color theme">
