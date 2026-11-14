@@ -220,7 +220,7 @@ function MistakeRevisionPanel({ attempts }: { attempts: Attempt[] }) {
               <div className="text-xs font-semibold text-parchment">Recurring concept-level mistakes</div>
               {intelligence.recurringMistakes.slice(0, 3).map((item) => (
                 <div key={item.key} className="mt-2 flex items-center justify-between gap-2 text-xs">
-                  <span className="text-dim">{item.conceptLabel} · {MISTAKE_CATEGORIES.find((category) => category.id === item.category)?.label ?? item.category}</span>
+                  <span className="text-dim">{item.conceptLabel} · {MISTAKE_CATEGORIES.find((category) => category.id === (item.category as MistakeCategory))?.label ?? item.category}</span>
                   <strong className="text-gold">{item.occurrences} repeats</strong>
                 </div>
               ))}
