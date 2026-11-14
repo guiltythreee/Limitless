@@ -31,6 +31,8 @@ function probabilityAttempts(state) {
       outcome: row.status,
       occurredAt,
       elapsedMs: Number.isFinite(Number(row.ms)) ? Number(row.ms) : undefined,
+      independent: true,
+      hintCount: 0,
       mistakeCategory: CATEGORIES.has(row.mistakeCategory) ? row.mistakeCategory : undefined,
       reviewedAt: Number.isFinite(Number(row.reviewedAt)) ? Number(row.reviewedAt) : undefined,
     }];
