@@ -1,4 +1,5 @@
 import { toCodeforcesLearningAttempts } from "./learning-intelligence.mjs";
+import { createCompetitionRewardAdapter } from "./competition-rewards.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
 const MAX_SEEN_IDS = 5000;
@@ -72,6 +73,20 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
   }
 
   const newAttempts = firstSync ? [] : toCodeforcesLearningAttempts(acceptedForProjection);
+  let awardedExp = 0;
+  let rewardAwards = 0;
+  if (!firstSync) {
+    const rewards = createCompetitionRewardAdapter(storage);
+    for (const submission of newlyObserved) {
+      if (submission.verdict !== "OK") continue;
+      const record = rewards.awardCodeforcesSubmission(submission, normalizedHandle);
+      if (!record) return { ok: false, error: "reward-ledger-write-failed", baseline: false, added: 0 };
+      if (record.eligible && record.totalExp > 0) {
+        awardedExp += record.totalExp;
+        rewardAwards += 1;
+      }
+    }
+  }
   const previousAttempts = sameAccount && Array.isArray(previous.attempts) ? previous.attempts : [];
   const attemptsById = new Map(previousAttempts.map((item) => [item.id, item]));
   for (const attempt of newAttempts) attemptsById.set(attempt.id, attempt);
@@ -93,6 +108,8 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
     ok: true,
     baseline: firstSync,
     added: newAttempts.length,
+    rewardAwards,
+    awardedExp,
     observed: submissions.length,
     state: readCodeforcesSyncState(storage),
   };
