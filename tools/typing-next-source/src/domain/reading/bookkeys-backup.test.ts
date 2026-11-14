@@ -282,3 +282,34 @@ test("merge does not replace a valid local draft with an older or malformed-time
   assert.equal(malformedResult.unchanged, 1);
   assert.equal(storage.getItem("bookkeys:draft:book-b:1"), localDraft);
 });
+
+
+test("merge rejects non-finite draft timestamps and sanitizes malformed progress counters", () => {
+  const localDraft = JSON.stringify({
+    v: 1, page: 1, sig: "local", typed: "keep local", ok: 4, all: 5, spent: 9, t: 500,
+  });
+  const storage = new MemoryStorage();
+  storage.setItem("bookkeys:draft:book-c:1", localDraft);
+  storage.setItem("bookkeys:game", JSON.stringify({
+    book: { "book-c": { p: [0], e: [], c: [], x: [], done: 3 } },
+  }));
+
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:draft:book-c:1": JSON.stringify({
+        v: 1, page: 1, sig: "backup", typed: "invalid future draft", ok: 1, all: 2, spent: 3, t: "Infinity",
+      }),
+      "bookkeys:game": JSON.stringify({
+        book: { "book-c": { p: [9], e: [], c: [], x: [], done: "not-a-number" } },
+      }),
+    },
+  }));
+
+  restoreBookkeysBackup(storage, backup, "merge");
+
+  assert.equal(storage.getItem("bookkeys:draft:book-c:1"), localDraft);
+  const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
+  assert.equal(game.book["book-c"].done, 3);
+  assert.deepEqual(game.book["book-c"].p, [0]);
+});
