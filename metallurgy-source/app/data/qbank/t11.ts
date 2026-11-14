@@ -295,7 +295,7 @@ const T11: TopicSource = {
       options: [
         {
             label: "a",
-            text: "A moulded preform is heated to just above Tg and simultaneously stretched axially and blown radially — a *strain-induced* crystallizing step that gives strength and clarity.",
+            text: "A moulded preform is reheated into a suitable window above Tg, then stretched axially and blown radially. Biaxial orientation and controlled strain-induced crystallization strengthen the wall; clarity depends on keeping the crystalline morphology fine.",
         },
         {
             label: "b",
