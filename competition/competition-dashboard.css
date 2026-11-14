@@ -956,3 +956,49 @@ html[data-theme="light"] .phase-week-bar>span{
 .phase-analytics-main .mastery-donut .donut-ring-learning{inset:12px}
 .phase-analytics-main .mastery-donut .donut-ring-not-started{inset:18px}
 .phase-analytics-main .mastery-donut .donut-center{inset:22px}
+
+
+/* Phase-coded weekly roadmap cards and a compact collapsible study shelf. */
+.week-card{border-radius:14px;background:linear-gradient(145deg,rgba(12,28,48,.96),rgba(8,20,36,.97));border-left:3px solid var(--week-accent,#55aaff)}
+.week-phase-foundations{--week-accent:#55aaff}
+.week-phase-core{--week-accent:#a58aff}
+.week-phase-integration{--week-accent:#42d6c0}
+.week-phase-competition{--week-accent:#ffbd62}
+.week-summary{display:grid;grid-template-columns:76px minmax(0,1fr) minmax(112px,170px) 18px;align-items:center;gap:13px;padding:15px 17px;background:linear-gradient(90deg,color-mix(in srgb,var(--week-accent) 8%,transparent),transparent 65%)}
+.week-number{color:var(--week-accent);font-size:10px;font-weight:700;letter-spacing:1px}
+.week-heading-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.week-title{color:var(--comp-ink);font-size:13px;font-weight:700}
+.week-phase{width:max-content;padding:3px 7px;border:1px solid color-mix(in srgb,var(--week-accent) 32%,transparent);border-radius:20px;background:color-mix(in srgb,var(--week-accent) 10%,transparent);color:var(--week-accent);font-size:9px}
+.week-progress-wrap{display:flex;flex-direction:column;gap:6px}
+.week-progress{color:var(--comp-muted);font-size:9px;text-align:right}
+.week-progress-track{height:5px;overflow:hidden;border-radius:8px;background:rgba(105,145,184,.14)}
+.week-progress-track i{display:block;height:100%;border-radius:8px;background:var(--week-accent);transition:width .2s}
+.week-chevron{color:var(--week-accent);font-size:18px;transition:transform .18s}
+.week-card[open] .week-chevron{transform:rotate(180deg)}
+.roadmap-course-library{
+  margin:18px 0;border:1px solid rgba(105,166,225,.22);border-radius:14px;
+  background:linear-gradient(145deg,rgba(13,29,49,.94),rgba(8,21,37,.96));overflow:hidden
+}
+.course-library-heading{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:16px 18px;cursor:pointer;list-style:none
+}
+.course-library-heading::-webkit-details-marker{display:none}
+.course-library-heading>div{flex:0 0 auto}
+.course-library-heading h3{margin:5px 0 0;color:var(--comp-ink);font-size:15px}
+.course-library-heading p{max-width:650px;margin:0;color:var(--comp-muted);font-size:11px;line-height:1.5}
+.roadmap-course-library[open] .course-library-heading{border-bottom:1px solid rgba(105,166,225,.16);background:rgba(85,170,255,.045)}
+.course-library-grid{padding:16px 18px}
+html[data-theme="light"] .week-card{background:linear-gradient(145deg,#fff,#f0f6fc)}
+html[data-theme="light"] .week-summary{background:linear-gradient(90deg,color-mix(in srgb,var(--week-accent) 8%,white),transparent 65%)}
+html[data-theme="light"] .week-title{color:#203e5a}
+html[data-theme="light"] .week-progress-track{background:#e2ebf4}
+html[data-theme="light"] .roadmap-course-library{background:linear-gradient(145deg,#fff,#f0f6fc);border-color:#d1dfeb}
+html[data-theme="light"] .course-library-heading h3{color:#203e5a}
+@media(max-width:620px){
+  .week-summary{grid-template-columns:60px minmax(0,1fr) 18px;gap:9px;padding:13px}
+  .week-progress-wrap{grid-column:2;grid-row:2}
+  .week-chevron{grid-column:3;grid-row:1}
+  .week-progress{text-align:left}
+  .course-library-heading{align-items:flex-start;flex-direction:column;gap:8px}
+}
