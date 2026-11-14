@@ -49,12 +49,17 @@ assert.equal(repeats[1].eligible, true);
 assert.equal(repeats[2].eligible, false, "the existing LSR-1 daily repeat cap applies to repeated item completions");
 assert.equal(repeats[2].totalExp, 0);
 
-const otherAccount = adapter.awardCodeforcesSubmission({ ...accepted, id: 7001 }, "differenthandle");
+const otherAccount = adapter.awardCodeforcesSubmission({
+  ...accepted,
+  id: 7001,
+  creationTimeSeconds: accepted.creationTimeSeconds + 86400,
+  problem: { ...accepted.problem, index: "C" },
+}, "differenthandle");
 assert.ok(otherAccount);
 assert.notEqual(otherAccount.eventId, first.eventId, "event identity is scoped to the linked Codeforces account");
 
 const summary = readGlobalRewardSummary(storage);
 assert.equal(summary.byModule.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).awards, 4);
-assert.equal(summary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).exp, 94);
+assert.equal(summary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).exp, 106);
 assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), true);
 console.log("Competition LSR-1 rewards: all assertions passed.");
