@@ -46,7 +46,7 @@ export function tidyChapters(chapters: readonly EpubChapter[]): EpubChapter[] {
     if (!Number.isInteger(chapter.p) || chapter.p < 0 || seen.has(chapter.p)) continue;
     seen.add(chapter.p);
     const title = normalize(chapter.title) || `Part ${out.length + 1}`;
-    out.push({ p: chapter.p, title });
+    out.push({ p: chapter.p, title, ...(typeof chapter.req === "boolean" ? { req: chapter.req } : {}) });
   }
   return out.sort((a, b) => a.p - b.p);
 }
