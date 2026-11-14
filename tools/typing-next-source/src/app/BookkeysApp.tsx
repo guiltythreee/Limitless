@@ -624,6 +624,14 @@ export default function BookkeysApp() {
       .replace(/[—–]/g, "-")
       .replace(/…/g, "...");
   }, [book, pageIndex, settings.punct]);
+  const readerCharacters = useMemo(() => {
+    let offset = 0;
+    return Array.from(target, (character) => {
+      const index = offset;
+      offset += character.length;
+      return { character, index };
+    });
+  }, [target]);
 
   useEffect(() => {
     const article = sourceTextRef.current;
@@ -633,8 +641,8 @@ export default function BookkeysApp() {
       return;
     }
     const place = () => {
-      const index = Math.min(typed.length, target.length - 1);
-      const span = article.querySelector<HTMLElement>(`[data-char-index="${index}"]`);
+      const spans = Array.from(article.querySelectorAll<HTMLElement>("[data-char-index]"));
+      const span = spans.find((item) => typed.length < Number(item.dataset.charEndIndex)) ?? spans[spans.length - 1];
       if (!span) { caret.style.display = "none"; return; }
       const rect = span.getBoundingClientRect();
       const parent = article.getBoundingClientRect();
@@ -802,24 +810,27 @@ export default function BookkeysApp() {
 
   function playKeystrokeEffects(previousValue: string, nextValue: string) {
     if (nextValue.length <= previousValue.length) return;
-    const inserted = nextValue.slice(previousValue.length);
+    const inserted = Array.from(nextValue.slice(previousValue.length));
     const currentSettings = settingsRef.current;
     const sound = soundEngineRef.current;
     let hasMistake = false;
     let lastCorrect = false;
     let lastIndex = -1;
+    let lastCharacter = "";
+    let targetOffset = previousValue.length;
 
     for (let index = 0; index < inserted.length; index += 1) {
-      const targetIndex = previousValue.length + index;
       const character = inserted[index];
-      const correct = target[targetIndex] === character;
+      const correct = target.slice(targetOffset, targetOffset + character.length) === character;
       if (!correct) hasMistake = true;
       lastCorrect = correct;
-      lastIndex = targetIndex;
+      lastIndex = targetOffset;
+      lastCharacter = character;
       if (index < 3) {
-        if (correct) sound?.key(character === "\\n");
+        if (correct) sound?.key(character === "\n");
         else sound?.err();
       }
+      targetOffset += character.length;
     }
 
     if (hasMistake && currentSettings.efx !== "off" && !reducedMotionRef.current) {
@@ -846,9 +857,8 @@ export default function BookkeysApp() {
       }, 650);
     }
 
-    if (!lastCorrect || lastIndex < 0 || currentSettings.tfx === "none" && currentSettings.sparks === "off") return;
-    const character = nextValue[lastIndex];
-    if (!character || character === " " || character === "\\n") return;
+    if (!lastCorrect || lastIndex < 0 || (currentSettings.tfx === "none" && currentSettings.sparks === "off")) return;
+    if (!lastCharacter || lastCharacter === " " || lastCharacter === "\n") return;
     const span = sourceTextRef.current?.querySelector<HTMLElement>(`[data-char-index="${lastIndex}"]`);
     if (!span) return;
     const rect = span.getBoundingClientRect();
@@ -860,7 +870,7 @@ export default function BookkeysApp() {
     else if (currentSettings.sparks === "ripple") effects?.ripple(x, y);
     if (effects?.has(currentSettings.tfx)) {
       effects.effect(currentSettings.tfx, {
-        ch: character,
+        ch: lastCharacter,
         x0: rect.left,
         y0: rect.top,
         w: rect.width,
@@ -1475,16 +1485,17 @@ export default function BookkeysApp() {
                   };
                   return color ? { color } : undefined;
                 })()}
-              >{target.split("").map((character, index) => {
-                const entered = index < typed.length;
-                const correct = entered && typed[index] === character;
+              >{readerCharacters.map(({ character, index }) => {
+                const entered = typed.length > index;
+                const correct = entered && typed.slice(index, index + character.length) === character;
                 const wrong = entered && !correct;
-                const animated = correct && settings.tfx !== "none" && character !== " " && character !== "\\n";
+                const animated = correct && settings.tfx !== "none" && character !== " " && character !== "\n";
                 return (
                   <span
                     key={index}
                     data-char-index={index}
-                    className={"bk-char c" + (character === "\\n" ? " nl" : "") + (correct ? " ok" : "") + (wrong ? " bad" : "") + (animated ? " fx" : "")}
+                    data-char-end-index={index + character.length}
+                    className={"bk-char c" + (character === "\n" ? " nl" : "") + (correct ? " ok" : "") + (wrong ? " bad" : "") + (animated ? " fx" : "")}
                   >{character}</span>
                 );
               })}<div ref={caretRef} className="bk-reader-caret" aria-hidden="true" /></article>
