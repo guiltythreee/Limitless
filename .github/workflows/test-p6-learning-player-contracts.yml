@@ -79,6 +79,9 @@ jobs:
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/intelligence.test.mjs
           node ../shared/studies/overview.test.mjs
           node ../shared/studies/activity.test.mjs
+          node --check ../shared/studies/activity.mjs
+          node --check ../shared/studies/activity.test.mjs
+          node --check ../meta/meta.js
           node --check ../home-learning-intelligence.mjs
           node --check ../home-dashboard.js
           node ../competition/learning-intelligence.test.mjs
