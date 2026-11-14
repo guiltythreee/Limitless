@@ -108,5 +108,8 @@ assert.equal(combined.attempts.length, 2, "Codeforces attempts enter the shared 
 assert.equal(combined.mastery.length, 2, "Codeforces problem tags become concept evidence");
 assert.ok(combined.revision.some((item) => item.questionId === "codeforces:1900A"),
   "a problem with a failed submission remains eligible for revision");
+const persistedProjection = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), cfAttempts);
+assert.equal(persistedProjection.attempts.length, 2,
+  "already-normalized, persisted Codeforces attempts are accepted without being remapped");
 
 console.log("Competition learning adapter: all assertions passed.");
