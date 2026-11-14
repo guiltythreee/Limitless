@@ -77,6 +77,7 @@
       $("accounts-sync-note").textContent = syncResult.baseline
         ? "Codeforces connected. First sync established a historical baseline; older submissions do not award EXP."
         : "Codeforces connected. " + syncResult.added + " new submission attempt(s) added to learning analysis; repeat syncs are deduplicated.";
+      window.dispatchEvent(new Event("limitless:codeforces-learning-updated"));
     } catch (error) {
       state.textContent = "Could not load";
       state.classList.remove("is-connected");
