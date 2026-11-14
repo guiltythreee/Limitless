@@ -20,7 +20,7 @@ const T9: TopicSource = {
       id: "t9-01",
       type: "recall",
       diff: 1,
-      text: "For two polymers to form a miscible (single-phase) blend, the Gibbs free energy of mixing must satisfy:",
+      text: "For a homogeneous polymer blend at a given composition to be locally stable against small composition fluctuations, the Gibbs free energy of mixing must satisfy:",
       options: [
         { label: "a", text: "$\\Delta S_{mix} = 0$" },
         { label: "b", text: "$\\Delta G_{mix} > 0$" },
@@ -28,7 +28,7 @@ const T9: TopicSource = {
         { label: "d", text: "$\\Delta H_{mix} = 0$ only" }
       ],
       answer: "c",
-      why: "Mixing is spontaneous when **ΔG < 0**, and the mixture must also be stable against phase separation (second derivative positive — the curvature condition of the Flory–Huggins free-energy curve).",
+      why: "A negative $\\Delta G_{mix}$ makes mixing favourable relative to the unmixed state, while positive curvature ($\\partial^2\\Delta G/\\partial\\phi^2>0$) indicates local stability against small composition fluctuations. This curvature condition is local; global single-phase miscibility requires the free-energy curve to remain below the phase-separated common-tangent construction over the relevant composition range.",
       concept: "$\\Delta G = \\Delta H - T\\Delta S$ + curvature condition",
       tags: ["revision"],
     },
@@ -280,7 +280,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "d",
-      why: "**Dehydrochlorination** destroys a labile C–Cl bond, releasing HCl that catalyses the next loss — a self-accelerating 'unzipping' that forms coloured polyenes. **Thermal stabilizers** (organotin, mixed-metal soaps) substitute the labile chlorine and mop up HCl.",
+      why: "PVC undergoes dehydrochlorination at labile sites: HCl is eliminated and the resulting conjugated polyene sequences cause discoloration. The liberated HCl can accelerate further degradation. Stabilizer mechanisms vary: some systems neutralize or scavenge HCl, while others also replace or passivate labile chlorine sites. The exact mechanism depends on the stabilizer package.",
       concept: "HCl autocatalysis ⇒ PVC needs thermal stabilizers",
       tags: ["confused"],
     },
@@ -519,7 +519,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "c",
-      why: "The critical value is $\\chi_c = 0.5(1/\\sqrt{N_1} + 1/\\sqrt{N_2})^2$. For similar chain lengths this scales approximately as $1/N$ and shrinks as the polymers become longer, so high-molecular-weight pairs generally need very favourable interactions (often a negative effective χ) to mix.",
+      why: "Within the simple binary Flory–Huggins lattice model, the critical interaction parameter is $\\chi_c=\\tfrac12(1/\\sqrt{N_1}+1/\\sqrt{N_2})^2$. For comparable chain lengths it scales approximately as $1/N$, so the entropy-of-mixing contribution becomes small as chain length increases. This is a model result; specific interactions, composition dependence of χ and real blend morphology can affect observed miscibility.",
       concept: "$\\chi_c \\propto 1/N$",
       tags: ["confused"],
     },
@@ -603,7 +603,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "b",
-      why: "Each layer contributes a property: **PET** = structure, clarity, moisture barrier; **EVOH** = excellent O₂ barrier (but moisture-sensitive); a tie layer or careful structure protects it. This is the standard multilayer barrier design logic.",
+      why: "PET supplies structural strength and clarity; EVOH provides a strong oxygen barrier, especially under dry conditions, but its barrier performance falls as moisture uptake increases. A practical multilayer design therefore needs moisture-protective outer layers and, where the polymers are not directly compatible, suitable tie layers to maintain adhesion. The exact layer arrangement depends on the package and service environment.",
       concept: "multilayer = function per layer, not just cost",
       tags: ["confused"],
     },
