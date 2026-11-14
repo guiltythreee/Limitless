@@ -3,8 +3,9 @@
  * they do not need to change their existing storage schema.
  */
 export type QuestionFormat =
-  | "single-choice" | "multiple-choice" | "assertion-reason" | "numerical"
-  | "match" | "sequence" | "true-false" | "graph-data" | "short-answer" | "proof";
+  | "single-choice" | "multiple-choice" | "statement-selection"
+  | "assertion-reason" | "numerical" | "match" | "sequence"
+  | "true-false" | "data-reading" | "graph-data" | "short-answer" | "proof";
 
 export type Severity = "error" | "warning" | "review";
 
