@@ -247,7 +247,7 @@ test("merge keeps the newest draft while retaining local chapter and reading-pos
   assert.equal(storage.getItem("bookkeys:book-a"), "2");
 });
 
-test("merge does not replace a valid local draft with an older or malformed-timestamp backup draft", () => {
+test("merge does not replace a valid local draft with an older backup draft", () => {
   const storage = new MemoryStorage();
   const localDraft = JSON.stringify({
     v: 1, page: 1, sig: "local", typed: "keep local", ok: 4, all: 5, spent: 9, t: 500,
