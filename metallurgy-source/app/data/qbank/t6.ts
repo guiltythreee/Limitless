@@ -162,6 +162,11 @@ const T6: TopicSource = {
       ],
       answer: "d",
       why: "E′ is the in-phase storage modulus; E″ is the out-of-phase loss modulus; and $\\tan\\delta=E''/E'$ is a damping measure. In this question, Tg is defined operationally by the tan-δ maximum. DMA transition temperatures can differ when Tg is instead taken from the E′ onset or E″ peak, so the chosen criterion must be stated.",
+      distractors: {
+        a: "This swaps storage and loss moduli and also assigns tan δ and Tg to the wrong quantities.",
+        b: "The first two matches are correct, but tan δ is E″/E′ and Tg here is the tan-δ peak.",
+        c: "This assigns the damping ratio to E′ and the tan-δ peak to E″, so the quantities are mismatched.",
+      },
       tags: ["revision"],
     },
     {
