@@ -570,3 +570,231 @@ html[data-theme="dark"] .learning-panel,html[data-theme="dark"] .mock-analytics-
 
 /* Sidebar note label was gold on a light background (hard to read). */
 html[data-theme="light"] .competition-sidebar-note span{ color:#7a4f00; }
+
+
+/* =========================================================
+   Regional Qualification — coordinated Limitless color system
+   Keeps the campaign structure, data model and navigation intact.
+   ========================================================= */
+.competition-page{
+  --comp-panel:rgba(10,23,41,.88);
+  --comp-border:rgba(105,166,225,.24);
+  --comp-muted:#a9bfd7;
+  --comp-ink:#eaf3ff;
+  --comp-accent:#68b8ff;
+  --rq-blue:#55aaff;
+  --rq-teal:#42d6c0;
+  --rq-violet:#a58aff;
+  --rq-amber:#ffbd62;
+}
+.competition-page::after{
+  background:linear-gradient(180deg,rgba(3,9,18,.34),rgba(3,9,18,.28) 55%,rgba(3,9,18,.56));
+}
+.competition-sidebar{
+  border-right-color:rgba(105,166,225,.22);
+  background:linear-gradient(180deg,rgba(6,17,31,.94),rgba(8,21,38,.9));
+}
+.competition-sidebar-note span{color:#ffbd62}
+.competition-side-link span{color:#8bcaff}
+.competition-side-link:hover,.competition-side-link.active{
+  background:linear-gradient(100deg,rgba(45,130,213,.3),rgba(165,138,255,.09));
+}
+.competition-side-link.active{box-shadow:inset 2px 0 #68b8ff}
+.competition-heading .eyebrow,.competition-kicker,.card-label{color:#83c5ff}
+.competition-kicker{color:#a58aff}
+.competition-page input:focus,.competition-page select:focus{
+  outline:2px solid rgba(85,170,255,.32);
+  border-color:#68b8ff;
+  box-shadow:0 0 0 3px rgba(85,170,255,.1);
+}
+.overview-card,.safety-panel,.subject-card,.week-card,.mock-history,.data-section,
+.mock-form,.resource-card,.volume-card,.rating-panel,.mastery-key,
+.today-panel,.recent-activity,.learning-panel,.problem-entry,.entry-drawer{
+  border-color:rgba(105,166,225,.22);
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.overview-card{
+  position:relative;overflow:hidden;
+  background:linear-gradient(145deg,rgba(19,42,69,.91),rgba(9,24,43,.94));
+}
+.overview-card::before{
+  content:"";position:absolute;inset:0 0 auto;height:3px;
+  background:var(--rq-accent,#55aaff);
+}
+.overview-card:nth-child(1){--rq-accent:#55aaff}
+.overview-card:nth-child(2){--rq-accent:#a58aff}
+.overview-card:nth-child(3){--rq-accent:#ffbd62}
+.overview-card:nth-child(1) .metric-line strong{color:#83c5ff}
+.overview-card:nth-child(2) .metric-line strong{color:#c0adff}
+.overview-card:nth-child(3) .metric-line strong{color:#ffc77d}
+.overview-card .card-label{color:#9fcfff}
+.progress-track{background:rgba(105,166,225,.16)}
+.progress-track span{background:linear-gradient(90deg,#55aaff 0%,#a58aff 52%,#42d6c0 100%)}
+.mastery-key{
+  background:linear-gradient(120deg,rgba(12,29,50,.92),rgba(12,24,44,.92));
+}
+.mastery-key>div:nth-child(1) .status-dot{background:#7e91a8}
+.mastery-key>div:nth-child(2) .status-dot{background:#ffbd62;box-shadow:0 0 10px rgba(255,189,98,.3)}
+.mastery-key>div:nth-child(3) .status-dot{background:#55aaff;box-shadow:0 0 10px rgba(85,170,255,.28)}
+.mastery-key>div:nth-child(4) .status-dot{background:#42d6c0;box-shadow:0 0 10px rgba(66,214,192,.28)}
+.safety-panel{
+  border-color:rgba(255,189,98,.3);
+  background:linear-gradient(130deg,rgba(27,38,56,.94),rgba(12,25,43,.95));
+}
+.safety-copy h2{color:#ffc77d}
+.safety-result{
+  border-left-color:#ffbd62;
+  background:linear-gradient(100deg,rgba(255,189,98,.12),rgba(255,189,98,.035));
+}
+.safety-result strong{color:#ffd18d}
+.safe-target{color:#ffc77d}
+.section-heading-row h2{color:#edf6ff}
+.subject-card{
+  position:relative;overflow:hidden;
+  background:linear-gradient(145deg,rgba(17,39,65,.94),rgba(9,24,42,.95));
+  transition:transform .18s,border-color .18s,box-shadow .18s;
+}
+.subject-card:nth-child(5n+1){border-top:2px solid rgba(85,170,255,.8)}
+.subject-card:nth-child(5n+2){border-top:2px solid rgba(165,138,255,.8)}
+.subject-card:nth-child(5n+3){border-top:2px solid rgba(66,214,192,.8)}
+.subject-card:nth-child(5n+4){border-top:2px solid rgba(255,189,98,.8)}
+.subject-card:nth-child(5n){border-top:2px solid rgba(96,202,235,.8)}
+.subject-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(117,183,239,.42);
+  box-shadow:0 13px 28px rgba(0,0,0,.18);
+}
+.subject-card h3{color:#edf6ff}
+.subject-link{color:#83c5ff}
+.subject-card .progress-track span{background:linear-gradient(90deg,#55aaff,#42d6c0)}
+.phase-legend{
+  padding:12px 14px;border:1px solid rgba(105,166,225,.18);
+  border-radius:12px;background:rgba(10,24,42,.72)
+}
+.legend-dot.foundation{background:#55aaff}
+.legend-dot.core{background:#a58aff}
+.legend-dot.integration{background:#42d6c0}
+.legend-dot.competition{background:#ffbd62}
+.week-card{
+  background:linear-gradient(145deg,rgba(15,34,58,.95),rgba(8,22,39,.96));
+  transition:border-color .18s,box-shadow .18s;
+}
+.week-card[open]{border-color:rgba(85,170,255,.42);box-shadow:0 12px 30px rgba(0,0,0,.17)}
+.week-summary{background:linear-gradient(90deg,rgba(85,170,255,.055),transparent 65%)}
+.week-number{color:#83c5ff}
+.week-phase{color:#c0adff}
+.week-progress{color:#62e0ca}
+.week-content{background:rgba(5,16,29,.22)}
+.topic-check input,.daily-task input{accent-color:#42d6c0}
+.topic-check small{color:#9eb8d2}
+.assessment-note{
+  border-left-color:#ffbd62;
+  background:rgba(255,189,98,.08)
+}
+.assessment-note strong{color:#ffc77d}
+.daily-day[open] summary{color:#83c5ff}
+.action-button,.secondary-action{
+  border-color:rgba(85,170,255,.42);
+  background:linear-gradient(110deg,rgba(48,128,204,.2),rgba(95,115,205,.13));
+  color:#b8ddff;
+  transition:background .18s,border-color .18s,transform .18s
+}
+.action-button:hover,.secondary-action:hover{
+  border-color:rgba(85,170,255,.7);
+  background:linear-gradient(110deg,rgba(48,128,204,.32),rgba(95,115,205,.22));
+  transform:translateY(-1px)
+}
+.mock-form,.problem-form,.learning-panel,.mock-history,.data-section{
+  background:linear-gradient(145deg,rgba(13,29,49,.94),rgba(8,21,37,.95))
+}
+.mock-row strong{color:#83c5ff}
+.problem-entry{background:rgba(14,31,51,.82)}
+.problem-entry-head span{color:#c0adff}
+.resource-card{
+  background:linear-gradient(145deg,rgba(17,37,61,.94),rgba(9,23,40,.95))
+}
+.resource-card h3{color:#edf6ff}
+.resource-card a{color:#83c5ff}
+.roadmap-controls,.course-library-column,.weekly-resource-shelf,.weekly-resource-card{
+  border-color:rgba(105,166,225,.2)
+}
+.roadmap-controls select{accent-color:#55aaff}
+.cf-advanced-filters{border-color:rgba(165,138,255,.3)}
+.cf-advanced-filters>summary{color:#c0adff}
+.cf-chip.rating{color:#9bd0ff;border-color:rgba(85,170,255,.3);background:rgba(85,170,255,.12)}
+.cf-chip.solved{color:#72e2cb;border-color:rgba(66,214,192,.3);background:rgba(66,214,192,.1)}
+.cf-log-problem,.cf-save-problem{border-color:rgba(85,170,255,.35)}
+.settings-card{border-color:rgba(105,166,225,.22)}
+.settings-card>summary{background:linear-gradient(90deg,rgba(85,170,255,.07),transparent)}
+.competition-page :focus-visible{outline:2px solid #83c5ff;outline-offset:2px}
+
+/* Light theme: preserve the same semantic colors with accessible contrast. */
+html[data-theme="light"] .competition-page{
+  --comp-panel:rgba(255,255,255,.9);
+  --comp-border:rgba(105,145,184,.24);
+  --comp-muted:#58728c;
+  --comp-ink:#203b56;
+  --comp-accent:#287fc0;
+}
+html[data-theme="light"] .competition-sidebar{
+  background:linear-gradient(180deg,rgba(247,251,255,.97),rgba(233,242,251,.96));
+  border-right-color:#d2dfeb;
+}
+html[data-theme="light"] .competition-sidebar-note span{color:#a96d18}
+html[data-theme="light"] .competition-side-link span{color:#347fbd}
+html[data-theme="light"] .competition-side-link:hover,
+html[data-theme="light"] .competition-side-link.active{
+  background:linear-gradient(100deg,rgba(85,170,255,.16),rgba(165,138,255,.1));
+  color:#1c4e79
+}
+html[data-theme="light"] .competition-side-link.active{box-shadow:inset 2px 0 #398fd1}
+html[data-theme="light"] .competition-kicker{color:#7156bd}
+html[data-theme="light"] .overview-card{
+  background:linear-gradient(145deg,#fff,#eff6fd);
+  border-color:#d1e0ed
+}
+html[data-theme="light"] .overview-card:nth-child(1) .metric-line strong{color:#247fc5}
+html[data-theme="light"] .overview-card:nth-child(2) .metric-line strong{color:#7156bd}
+html[data-theme="light"] .overview-card:nth-child(3) .metric-line strong{color:#a96d18}
+html[data-theme="light"] .mastery-key{background:linear-gradient(120deg,#fff,#f0f6fc)}
+html[data-theme="light"] .mastery-key strong{color:#274761}
+html[data-theme="light"] .mastery-key small{color:#617b94}
+html[data-theme="light"] .safety-panel{background:linear-gradient(130deg,#fff8ed,#fff)}
+html[data-theme="light"] .safety-copy h2{color:#986019}
+html[data-theme="light"] .safety-result{background:linear-gradient(100deg,#fff1d9,#fff9ef)}
+html[data-theme="light"] .safety-result strong,html[data-theme="light"] .safe-target{color:#986019}
+html[data-theme="light"] .subject-card{background:linear-gradient(145deg,#fff,#f0f6fc);border-color:#d1dfeb}
+html[data-theme="light"] .subject-card h3{color:#203e5a}
+html[data-theme="light"] .subject-card p,html[data-theme="light"] .subject-count,html[data-theme="light"] .subject-breakdown{color:#58728c}
+html[data-theme="light"] .phase-legend{background:#f4f8fd;border-color:#d4e1ed}
+html[data-theme="light"] .week-card{background:linear-gradient(145deg,#fff,#f0f6fc);border-color:#d1dfeb}
+html[data-theme="light"] .week-card[open]{border-color:#8bbde7}
+html[data-theme="light"] .week-summary{background:linear-gradient(90deg,rgba(85,170,255,.09),transparent 65%)}
+html[data-theme="light"] .week-title{color:#203e5a}
+html[data-theme="light"] .week-phase{color:#7156bd}
+html[data-theme="light"] .week-progress{color:#168d7c}
+html[data-theme="light"] .week-objective,html[data-theme="light"] .topic-check{color:#405e79}
+html[data-theme="light"] .topic-check small{color:#627d96}
+html[data-theme="light"] .assessment-note{background:#fff5e4}
+html[data-theme="light"] .assessment-note strong{color:#986019}
+html[data-theme="light"] .action-button,html[data-theme="light"] .secondary-action{
+  background:linear-gradient(110deg,#e5f2ff,#f0edff);
+  border-color:#b9d1e6;color:#245e8e
+}
+html[data-theme="light"] .mock-form,html[data-theme="light"] .problem-form,
+html[data-theme="light"] .learning-panel,html[data-theme="light"] .mock-history,
+html[data-theme="light"] .data-section,html[data-theme="light"] .resource-card{
+  background:linear-gradient(145deg,#fff,#f1f6fc);border-color:#d1dfeb
+}
+html[data-theme="light"] .resource-card h3{color:#203e5a}
+html[data-theme="light"] .resource-card a,html[data-theme="light"] .subject-link{color:#216fae}
+html[data-theme="light"] .mock-row strong{color:#247fc5}
+html[data-theme="light"] .problem-entry{background:#f5f9fd;border-color:#d1dfeb}
+html[data-theme="light"] .problem-entry-head span{color:#7156bd}
+html[data-theme="light"] .phase-legend span{color:#49657f}
+html[data-theme="light"] .cf-advanced-filters{background:#f3efff;border-color:#d8cff5}
+html[data-theme="light"] .cf-advanced-filters>summary{color:#6651a7}
+html[data-theme="light"] .settings-card{background:#f8fbff;border-color:#d1dfeb}
+html[data-theme="light"] .settings-card>summary{color:#203e5a}
+html[data-theme="light"] .settings-card>summary span{color:#58728c}
+html[data-theme="light"] .competition-page :focus-visible{outline-color:#287fc0}
