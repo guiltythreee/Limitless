@@ -685,7 +685,16 @@
     return date.toISOString().slice(0,10);
   }
   function revisionMilestones(problem) {
-    return [1,7,14,30].map(function(days){return {days:days,date:formatDateOffset(problem.date,days),key:problem.id+'-'+days};});
+    if (!problem || typeof problem !== 'object' || Array.isArray(problem)) return [];
+    // A revision needs both a real calendar date and a stable record ID.
+    // Older/imported records without either remain visible in history but
+    // must not create immediately-overdue or colliding revision entries.
+    var date = typeof problem.date === 'string' ? problem.date : '';
+    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || formatDateOffset(date, 0) !== date ||
+        problem.id == null || String(problem.id).trim() === '') return [];
+    return [1,7,14,30].map(function(days){
+      return {days:days,date:formatDateOffset(date,days),key:String(problem.id)+'-'+days};
+    });
   }
   function renderLearningSystem() {
     var today = new Date().toISOString().slice(0,10), due=[], upcoming=[];
@@ -712,18 +721,37 @@
     });
 
     var categories={};MISTAKE_TYPES.forEach(function(item){categories[item[0]]=0;});
-    var subjects={};
+    var subjects={},concepts={};
     state.problemLog.forEach(function(problem){
       if(problem.mistakeType && categories[problem.mistakeType]!==undefined)categories[problem.mistakeType]++;
-      var key=problem.subject||'Other';subjects[key]=(subjects[key]||0)+1;
+      var subject=String(problem.subject||'Other').trim()||'Other';
+      subjects[subject]=(subjects[subject]||0)+1;
+      // Group case and punctuation variants without changing the saved source text.
+      var concept=String(problem.concept||'').trim();
+      var conceptKey=concept.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\\s+/g,' ');
+      if(conceptKey){
+        if(!concepts[conceptKey]) concepts[conceptKey]={label:concept,subject:subject,count:0};
+        concepts[conceptKey].count++;
+      }
     });
     var categoryRows=MISTAKE_TYPES.map(function(item){
       return '<div class="insight-row"><span>'+item[1]+'</span><strong>'+categories[item[0]]+'</strong></div>';
     }).join('');
+    var repeatedConcepts=Object.keys(concepts).map(function(key){return concepts[key];})
+      .filter(function(item){return item.count>1;})
+      .sort(function(a,b){return b.count-a.count;})
+      .slice(0,3);
+    var conceptRows=repeatedConcepts.map(function(item){
+      return '<div class="insight-row"><span>'+esc(item.label)+' · '+esc(item.subject)+'</span><strong>'+item.count+' logs</strong></div>';
+    }).join('');
     var repeat=Object.keys(subjects).sort(function(a,b){return subjects[b]-subjects[a];})[0];
     var topMistake=MISTAKE_TYPES.slice().sort(function(a,b){return categories[b[0]]-categories[a[0]];})[0];
-    var repair=topMistake&&categories[topMistake[0]]>0?'Most frequent issue: '+topMistake[1]+'. Revisit the underlying topic and solve two fresh questions before increasing difficulty.':(repeat?'Most logged practice subject: '+repeat+'. Add mistake categories to identify the recurring cause.':'Log problems with a mistake category to identify recurring weaknesses.');
-    $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div><p class="repair-suggestion">'+esc(repair)+'</p>';
+    var repair=repeatedConcepts.length
+      ?'Recurring concept: '+repeatedConcepts[0].label+' ('+repeatedConcepts[0].count+' logs). Re-solve two problems using this concept without notes, then try one unfamiliar variation.'
+      :topMistake&&categories[topMistake[0]]>0
+        ?'Most frequent issue: '+topMistake[1]+'. Revisit the underlying topic and solve two fresh questions before increasing difficulty.'
+        :(repeat?'Most logged practice subject: '+repeat+'. Add underlying concepts to reveal repeated weak spots.':'Log problems with a mistake category and underlying concept to identify recurring weaknesses.');
+    $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div>'+(conceptRows?'<div class="mistake-breakdown"><h4>Repeated concepts</h4>'+conceptRows+'</div>':'')+'<p class="repair-suggestion">'+esc(repair)+'</p>';
   }
   function renderMockAnalytics() {
     var tagged=state.mocks.filter(function(mock){return mock.subject && mock.subject!=='All subjects' && (Number(mock.oneMax)>0 || Number(mock.twoMax)>0);});
