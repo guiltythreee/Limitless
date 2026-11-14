@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "id": "t2-22",
+      "rule": "numeric-key-wrong",
+      "since": "2026-11-15",
+      "reason": "Number-average DP = monomers consumed / dead chains formed. Per termination event (2 kinetic chains, 2*nu monomers): combination leaves 1 chain, disproportionation 2. With 60%/40% events: 2*1000/(0.6*1+0.4*2) = 1429, so option c (1400) is the nearest. The keyed 1600 weights DP per chain by event fraction, which is a different quantity unless the stem says 60% of the dead CHAINS come from combination. Fix the stem or the key, then delete this entry."
+    }
+  ]
+}

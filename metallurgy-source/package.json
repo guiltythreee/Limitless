@@ -9,6 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "quality:mt203": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/quality-mt203.mjs",
+    "test:mt203-quality": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203-quality.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203-player-grading.mjs",
     "test:lsr1": "node --import ./scripts/ts-resolve-hook.mjs scripts/test-lsr1.mjs"
   },
   "dependencies": {

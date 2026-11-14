@@ -18,6 +18,13 @@ on:
       - "metallurgy-source/scripts/test-mt203.mjs"
       - "metallurgy-source/scripts/test-mt203-migration.mjs"
       - "metallurgy-source/scripts/validate-mt203.mjs"
+      - "metallurgy-source/scripts/quality-mt203.mjs"
+      - "metallurgy-source/scripts/test-mt203-quality.mjs"
+      - "metallurgy-source/scripts/test-mt203-player-grading.mjs"
+      - "metallurgy-source/scripts/quality/**"
+      - "metallurgy-source/app/data/lessons-mt203.ts"
+      - "metallurgy-source/app/courses/**"
+      - "metallurgy-source/app/learning-player/**"
       - "metallurgy-source/package.json"
       - "metallurgy-source/package-lock.json"
       - ".github/workflows/test-metallurgy-question-quality.yml"
@@ -95,6 +102,16 @@ jobs:
           node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203.mjs
           node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203-migration.mjs
           node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/validate-mt203.mjs
+
+      - name: MT203 semantic quality gate (per-format rules, review dimensions, numeric recalculation, review ledger)
+        working-directory: metallurgy-source
+        run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/quality-mt203.mjs
+
+      - name: Test the semantic quality layer (planted defects) and grade every real MT203 question through the player adapter
+        working-directory: metallurgy-source
+        run: |
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203-quality.mjs
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/ts-resolve-hook.mjs scripts/test-mt203-player-grading.mjs
 
       - name: Production build
         working-directory: metallurgy-source
