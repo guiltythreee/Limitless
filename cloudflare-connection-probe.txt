@@ -1,0 +1,2 @@
+Temporary harmless probe to test whether the Cloudflare GitHub integration reports a preview deployment.
+No application source or configuration is changed.
