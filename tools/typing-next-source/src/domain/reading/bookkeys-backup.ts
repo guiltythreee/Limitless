@@ -227,7 +227,10 @@ export function restoreBookkeysBackup(
     for (const [key, incomingRaw] of Object.entries(backup.keys)) {
       if (!isBookkeysBackupKey(key) || typeof incomingRaw !== "string") continue;
       try {
-        storage.setItem(key, incomingRaw);
+        const replacement = key === "bookkeys:game"
+          ? mergeGame(null, parseRecord(incomingRaw) ?? {})
+          : incomingRaw;
+        storage.setItem(key, replacement);
         written += 1;
       } catch {
         failed += 1;
