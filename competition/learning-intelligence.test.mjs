@@ -34,7 +34,7 @@ assert.equal(attempts[1].hintCount, 1);
 assert.equal(attempts[1].elapsedMs, 35 * 60_000);
 assert.equal(attempts[1].conceptIds[0], "pigeonhole principle!");
 
-const analysis = analyzeCompetitionLearning(logs, Date.parse("2026-11-10T00:00:00Z"));
+const analysis = analyzeCompetitionLearning(logs, [], Date.parse("2026-11-10T00:00:00Z"));
 assert.equal(analysis.mastery.length, 1, "concept variants should group");
 assert.equal(analysis.mastery[0].attempts, 3);
 assert.equal(analysis.recurringMistakes.length, 1);
@@ -42,5 +42,24 @@ assert.equal(analysis.recurringMistakes[0].occurrences, 2);
 assert.equal(analysis.recurringMistakes[0].category, "observation");
 assert.equal(analysis.revision.length, 2);
 assert.equal(logs.length, 5, "adapter must not mutate source records");
+
+const successfulRevision = analyzeCompetitionLearning(logs, [
+  { id: "rev-1", problemId: "cp-3", date: "2026-11-05T12:00:00.000Z", outcome: "correct" },
+], Date.parse("2026-11-10T00:00:00Z"));
+const afterSuccess = successfulRevision.revision.find((item) => item.questionId === "cp-3");
+assert.ok(afterSuccess, "failed problem remains scheduled after a successful revision");
+assert.equal(afterSuccess.lastReviewedAt, Date.parse("2026-11-05T12:00:00.000Z"));
+assert.equal(afterSuccess.dueAt, Date.parse("2026-11-12T12:00:00.000Z"), "successful revision advances to the 7-day interval");
+
+const failedAgain = analyzeCompetitionLearning(logs, [
+  { id: "rev-1", problemId: "cp-3", date: "2026-11-05T12:00:00.000Z", outcome: "correct" },
+  { id: "rev-2", problemId: "cp-3", date: "2026-11-06T12:00:00.000Z", outcome: "incorrect", mistakeType: "observation" },
+], Date.parse("2026-11-10T00:00:00Z"));
+const afterFailure = failedAgain.revision.find((item) => item.questionId === "cp-3");
+assert.ok(afterFailure);
+assert.equal(afterFailure.dueAt, Date.parse("2026-11-07T12:00:00.000Z"), "a failed revision resets the interval to one day");
+assert.equal(afterFailure.failures, 2);
+assert.equal(failedAgain.attempts.length, 5, "revision attempts are included in learning evidence");
+
 
 console.log("Competition learning adapter: all assertions passed.");
