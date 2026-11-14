@@ -5,6 +5,18 @@ on:
     paths:
       - "shared/learning-player/**"
       - "shared/studies/**"
+      - "home-dashboard.js"
+      - "home-dashboard.css"
+      - "home-learning-intelligence.mjs"
+      - "competition/learning-intelligence.mjs"
+      - "competition/learning-intelligence.test.mjs"
+      - "competition/competition.js"
+      - "metallurgy-source/app/mt203/dashboard.tsx"
+      - "metallurgy-source/app/platform/learning/**"
+      - "metallurgy-source/app/lib/mt203-progress.ts"
+      - "metallurgy-source/scripts/test-mt203-learning-intelligence.mjs"
+      - "probability-source/app/lib/learning-intelligence.ts"
+      - "probability-source/app/lib/learning-intelligence.test.mjs"
       - "scripts/generate-studies-catalog.mjs"
       - "studies-catalog.js"
       - "tools.js"
@@ -64,6 +76,14 @@ jobs:
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/cross-discipline.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/player-shell.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/registry.test.mjs
+          node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/intelligence.test.mjs
+          node ../shared/studies/overview.test.mjs
+          node --check ../home-learning-intelligence.mjs
+          node --check ../home-dashboard.js
+          node ../competition/learning-intelligence.test.mjs
+          node --check ../competition/learning-intelligence.mjs
+          node --check ../competition/competition.js
+          if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; fi
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-utility-nav.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-mode-tabs.test.mjs
@@ -80,6 +100,7 @@ jobs:
           --module ESNext --moduleResolution bundler --jsx react-jsx
           ../shared/learning-player/contracts.ts
           ../shared/studies/contracts.ts
+          ../shared/studies/intelligence.ts
           ../shared/studies/registry.ts
           ../shared/studies/StudyModeTabs.ts
           app/studies/registration.ts
