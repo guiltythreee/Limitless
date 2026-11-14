@@ -88,7 +88,9 @@ const T5: TopicSource = {
       answer: "d",
       why: "The bulky phenyl groups are placed **randomly** (atactic) along the chain, so no repeating lattice can form — the polymer is transparent and amorphous. Isotactic PS, by contrast, is crystalline.",
       distractors: {
-        b: "MW has no bearing on atacticity.",
+        a: "Aromatic rings are compatible with crystallinity; the issue is the irregular stereochemical placement of the phenyl groups.",
+        b: "Molecular weight does not remove the configurational disorder that characterises atactic polystyrene.",
+        c: "Ordinary polystyrene is not permanently cross-linked; its amorphous nature follows from irregular chain packing."
       },
       concept: "stereoregularity is a prerequisite for crystallinity",
       tags: ["confused"],
@@ -107,7 +109,9 @@ const T5: TopicSource = {
       answer: "c",
       why: "Linear HDPE packs efficiently → **higher crystallinity, density and Tm**. Branches in LDPE disrupt packing → lower on all three.",
       distractors: {
-        d: "Reversed — branching lowers crystallinity, and HDPE is the linear one.",
+        a: "Both grades are semicrystalline; their branching levels produce a meaningful difference in packing and density.",
+        b: "Both HDPE and LDPE are thermoplastics, and LDPE is not limited to film applications.",
+        d: "This reverses the structures: HDPE is more linear, while LDPE is more branched."
       },
       concept: "branching ↓ crystallinity ↓ density ↓ Tm",
       tags: ["confused"],
@@ -149,6 +153,11 @@ const T5: TopicSource = {
       ],
       answer: "b",
       why: "Crystallization is **kinetically controlled**: it needs time as well as a temperature between Tg and Tm. Fast cooling traps the amorphous state; slow cooling lets lamellae grow.",
+      distractors: {
+        a: "Cooling rate affects how much time chains have to nucleate and grow; molecular weight is not the only control.",
+        c: "Quenching is a thermal process and does not inherently break the covalent backbone.",
+        d: "Quenching changes the kinetics and morphology; it does not raise the equilibrium melting point."
+      },
       concept: "crystallinity = kinetic (cooling rate) outcome",
       tags: ["confused"],
     },
@@ -166,7 +175,9 @@ const T5: TopicSource = {
       answer: "b",
       why: "Crystallites are optically anisotropic and **scatter light** → opaque/translucent. Transparency therefore requires an amorphous state (quenched PET, PS, PMMA, PC).",
       distractors: {
-        a: "HDPE's large spherulites scatter strongly — it is the classic *opaque* polymer.",
+        a: "Slowly cooled HDPE commonly develops light-scattering crystalline structures, reducing transparency.",
+        c: "Cross-linking does not guarantee optical clarity; phase structure, additives and defects can scatter light.",
+        d: "Crystallinity and crystal size can strongly affect haze and transmission."
       },
       concept: "crystallinity ↔ opacity",
       tags: ["revision"],
