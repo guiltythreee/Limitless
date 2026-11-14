@@ -1,5 +1,5 @@
 /* Regression tests for effective-target pace analysis.
-   Run: node tools/math-refactored/test-math-coach-targets.cjs */
+   Run: node tools/math/tests/test-math-coach-targets.cjs */
 'use strict';
 
 const assert = require('node:assert/strict');
@@ -25,7 +25,7 @@ const ui = {
 };
 const window = { MathEngine: {}, MathStorage: storage, MathUI: ui };
 vm.runInNewContext(
-  fs.readFileSync(require.resolve('./math-coach.js'), 'utf8'),
+  fs.readFileSync(require.resolve('../math-coach.js'), 'utf8'),
   { window, globalThis: window, module: undefined },
   { filename: 'math-coach.js' }
 );

@@ -24,7 +24,7 @@ const ui = {
 };
 const window = { MathEngine: {}, MathStorage: storage, MathUI: ui };
 vm.runInNewContext(
-  fs.readFileSync(require.resolve('./math-coach.js'), 'utf8'),
+  fs.readFileSync(require.resolve('../math-coach.js'), 'utf8'),
   { window, globalThis: window, module: undefined },
   { filename: 'math-coach.js' }
 );

@@ -3,8 +3,8 @@ import {
   MATH_REWARD_MODULE_ID,
   MATH_REWARD_STORAGE_KEY,
   createMathRewardAdapter,
-} from "./math-rewards.mjs";
-import { readGlobalRewardSummary } from "../../shared/rewards.mjs";
+} from "../math-rewards.mjs";
+import { readGlobalRewardSummary } from "../../../shared/rewards.mjs";
 
 function createStorage(initial = {}) {
   const values = new Map(Object.entries(initial));
