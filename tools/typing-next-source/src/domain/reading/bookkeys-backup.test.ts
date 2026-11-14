@@ -214,3 +214,58 @@ test("replace restore rolls back the entire snapshot when obsolete-key cleanup f
   assert.equal(storage.getItem("bookkeys:new"), null);
   assert.equal(storage.getItem("limitless.typing.v1.theme"), "dark");
 });
+
+
+test("merge keeps the newest draft while retaining local chapter and reading-position choices", () => {
+  const storage = new MemoryStorage();
+  storage.setItem("bookkeys:draft:book-a:2", JSON.stringify({
+    v: 1, page: 2, sig: "local", typed: "local draft", ok: 6, all: 8, spent: 12, t: 200,
+  }));
+  storage.setItem("bookkeys:chap:book-a", JSON.stringify({
+    v: 3, src: "edited", list: [{ p: 0, title: "Local chapter", req: true }],
+  }));
+  storage.setItem("bookkeys:book-a", "2");
+
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:draft:book-a:2": JSON.stringify({
+        v: 1, page: 2, sig: "backup", typed: "newer backup draft", ok: 9, all: 10, spent: 18, t: 300,
+      }),
+      "bookkeys:chap:book-a": JSON.stringify({
+        v: 3, src: "toc", list: [{ p: 0, title: "Backup chapter", req: true }],
+      }),
+      "bookkeys:book-a": "0",
+    },
+  }));
+
+  const result = restoreBookkeysBackup(storage, backup, "merge");
+
+  assert.equal(result.written, 1);
+  assert.equal(JSON.parse(storage.getItem("bookkeys:draft:book-a:2") ?? "{}").typed, "newer backup draft");
+  assert.equal(JSON.parse(storage.getItem("bookkeys:chap:book-a") ?? "{}").list[0].title, "Local chapter");
+  assert.equal(storage.getItem("bookkeys:book-a"), "2");
+});
+
+test("merge does not replace a valid local draft with an older or malformed-timestamp backup draft", () => {
+  const storage = new MemoryStorage();
+  const localDraft = JSON.stringify({
+    v: 1, page: 1, sig: "local", typed: "keep local", ok: 4, all: 5, spent: 9, t: 500,
+  });
+  storage.setItem("bookkeys:draft:book-b:1", localDraft);
+
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:draft:book-b:1": JSON.stringify({
+        v: 1, page: 1, sig: "backup", typed: "stale backup", ok: 1, all: 2, spent: 3, t: 100,
+      }),
+    },
+  }));
+
+  const result = restoreBookkeysBackup(storage, backup, "merge");
+
+  assert.equal(result.written, 0);
+  assert.equal(result.unchanged, 1);
+  assert.equal(storage.getItem("bookkeys:draft:book-b:1"), localDraft);
+});
