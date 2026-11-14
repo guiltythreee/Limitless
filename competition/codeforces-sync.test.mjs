@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   readCodeforcesSyncState,
@@ -27,6 +28,8 @@ assert.equal(first.baseline, true, "first sync establishes a baseline");
 assert.equal(first.added, 0, "historical submissions never become new learning attempts");
 assert.equal(readCodeforcesSyncState(storage).attempts.length, 0);
 assert.equal(values.has(CODEFORCES_SYNC_STORAGE_KEY), true);
+assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), false,
+  "the first historical baseline creates no EXP ledger entries");
 
 const newSubmission = {
   id: 102, contestId: 2000, creationTimeSeconds: 1795000001,
@@ -53,6 +56,11 @@ assert.equal(pendingSync.added, 0);
 const finalized = syncCodeforcesSubmissions(storage, "ExampleHandle", [{ ...pending, verdict: "OK" }], 1795000004000);
 assert.equal(finalized.added, 1, "a pending submission is not marked seen before its verdict becomes terminal");
 assert.equal(finalized.state.attempts.find((attempt) => attempt.id === "codeforces:103").outcome, "correct");
+assert.equal(finalized.rewardAwards, 1, "a newly accepted post-baseline submission earns one reward");
+assert.equal(finalized.awardedExp, 24, "a foundational accepted submission receives the LSR-1 focused-practice award");
+const repeatedFinalized = syncCodeforcesSubmissions(storage, "ExampleHandle", [{ ...pending, verdict: "OK" }], 1795000005000);
+assert.equal(repeatedFinalized.added, 0);
+assert.equal(repeatedFinalized.rewardAwards, 0, "repeated sync does not award EXP twice");
 
 const switched = syncCodeforcesSubmissions(storage, "DifferentHandle", history, 1796000000000);
 assert.equal(switched.baseline, true, "changing accounts establishes a fresh baseline");
