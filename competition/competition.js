@@ -1078,7 +1078,15 @@
       reader.onload = function () {
         try {
           var parsed = JSON.parse(reader.result), incoming = parsed.data || parsed;
-          if (!incoming || typeof incoming !== 'object' || (!incoming.mastery && !incoming.completed) || !Array.isArray(incoming.mocks)) throw new Error('Invalid backup');
+          function isRecord(value) {
+            return !!value && typeof value === 'object' && !Array.isArray(value);
+          }
+          if (!isRecord(incoming) || (!isRecord(incoming.mastery) && !isRecord(incoming.completed)) || !Array.isArray(incoming.mocks)) throw new Error('Invalid backup');
+          ['mastery','completed','dayChecks','weekChecks','revisionChecks'].forEach(function(key){
+            if (incoming[key] !== undefined && !isRecord(incoming[key])) throw new Error('Invalid backup');
+          });
+          if (incoming.problemLog !== undefined && (!Array.isArray(incoming.problemLog) || incoming.problemLog.some(function(item){return !isRecord(item);})) ) throw new Error('Invalid backup');
+          if (incoming.mocks.some(function(item){return !isRecord(item) || typeof item.date !== 'string';})) throw new Error('Invalid backup');
           if (!incoming.mastery && incoming.completed) {
             incoming.mastery = {};
             Object.keys(incoming.completed).forEach(function (key) {
