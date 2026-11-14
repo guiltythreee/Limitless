@@ -184,6 +184,7 @@
       $('sync-status').textContent = 'Live Codeforces data · rating, accepted problems and contest participation synced just now.' +
         (learningResult.baseline ? ' First learning sync established a historical baseline; older submissions are excluded.' :
           ' ' + learningResult.added + ' new submission attempt(s) added to learning analysis.');
+      window.dispatchEvent(new Event('limitless:codeforces-learning-updated'));
     } catch (error) {
       $('sync-status').textContent = (error.name === 'AbortError' ? 'Codeforces API timed out after 15 seconds.' : (error.message || 'Unable to connect to Codeforces.')) + ' Check the handle in Competition and retry.';
       $('milestone-list').innerHTML = '<p class="cr-loading">Rating data is unavailable right now. Milestones will appear when Codeforces responds.</p>';
