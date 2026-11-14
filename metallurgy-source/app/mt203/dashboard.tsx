@@ -14,7 +14,8 @@ import {
   TOTAL_QUESTIONS,
   topicsOfModule,
 } from "../data/qbank/meta";
-import { buildConceptMastery, recommendConceptPractice } from "../../../shared/studies/intelligence.mjs";
+import { buildConceptMastery, buildConceptMistakeSummary, recommendConceptPractice } from "../../../shared/studies/intelligence.mjs";
+import { MISTAKE_CATEGORIES, type MistakeCategory } from "../../../shared/studies/mistakes";
 import type { LearningAttempt } from "../../../shared/studies/intelligence.mjs";
 import {
   BONUS,
@@ -67,10 +68,14 @@ export default function Dashboard({
       occurredAt: attempt.ts,
       elapsedMs: attempt.ms,
       mode: attempt.mode,
+      independent: attempt.independent === true,
+      hintCount: attempt.hintCount ?? 0,
+      mistakeCategory: attempt.mistakeCategory,
     }];
   });
   const sharedMastery = buildConceptMastery(intelligenceAttempts);
   const sharedWeak = recommendConceptPractice(sharedMastery, 5);
+  const sharedMistakes = buildConceptMistakeSummary(intelligenceAttempts).slice(0, 3);
 
   const mods = MODULE_META.map((m) => ({
     meta: m,
@@ -205,6 +210,16 @@ export default function Dashboard({
             <p className="sub" style={{ marginTop: "0.7rem" }}>
               Suggested focus: {sharedWeak.slice(0, 3).map((item) => item.label).join(" · ")}.
             </p>
+          )}
+          {sharedMistakes.length > 0 && (
+            <div style={{ marginTop: "0.8rem", borderTop: "1px solid var(--line)", paddingTop: "0.7rem" }}>
+              <div className="eyebrow">Recurring mistake causes</div>
+              {sharedMistakes.map((item) => (
+                <p key={item.key} className="sub" style={{ marginTop: "0.35rem" }}>
+                  {item.conceptLabel} · {MISTAKE_CATEGORIES.find((category) => category.id === (item.category as MistakeCategory))?.label ?? item.category} · {item.occurrences} repeat{item.occurrences === 1 ? "" : "s"}
+                </p>
+              ))}
+            </div>
           )}
         </section>
       )}
