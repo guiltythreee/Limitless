@@ -1534,7 +1534,7 @@ export default function BookkeysApp() {
                     >{"\n"}</span>
                   )}
                 </div>
-              ))<div ref={caretRef} className="bk-reader-caret" aria-hidden="true" /></article>
+              ))}<div ref={caretRef} className="bk-reader-caret" aria-hidden="true" /></article>
               <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
               <textarea
                 id="bk-typing"
