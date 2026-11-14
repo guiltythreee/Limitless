@@ -8,6 +8,7 @@ import {
 class MemoryStorage implements BookkeysStorage {
   readonly values = new Map<string, string>();
   failKey: string | null = null;
+  failRemoveKey: string | null = null;
   get length() { return this.values.size; }
   key(index: number) { return [...this.values.keys()][index] ?? null; }
   getItem(key: string) { return this.values.get(key) ?? null; }
@@ -15,7 +16,10 @@ class MemoryStorage implements BookkeysStorage {
     if (key === this.failKey) throw new Error("storage full");
     this.values.set(key, value);
   }
-  removeItem(key: string) { this.values.delete(key); }
+  removeItem(key: string) {
+    if (key === this.failRemoveKey) throw new Error("storage removal failed");
+    this.values.delete(key);
+  }
 }
 
 test("exports only Bookkeys localStorage keys in the v1 envelope", () => {
@@ -181,5 +185,32 @@ test("replace restore rolls back overwritten data when a storage write fails", (
   assert.equal(storage.getItem("bookkeys:game"), '{"xp":900,"pages":12}');
   assert.equal(storage.getItem("bookkeys:settings"), '{"size":17}');
   assert.equal(storage.getItem("bookkeys:probe"), null);
+  assert.equal(storage.getItem("limitless.typing.v1.theme"), "dark");
+});
+
+
+test("replace restore rolls back the entire snapshot when obsolete-key cleanup fails", () => {
+  const storage = new MemoryStorage();
+  storage.setItem("bookkeys:game", '{"xp":900,"pages":12}');
+  storage.setItem("bookkeys:settings", '{"size":17}');
+  storage.setItem("bookkeys:obsolete", "keep-until-commit");
+  storage.setItem("limitless.typing.v1.theme", "dark");
+  storage.failRemoveKey = "bookkeys:obsolete";
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:game": '{"xp":5,"pages":1}',
+      "bookkeys:new": "new-value",
+    },
+  }));
+
+  const result = restoreBookkeysBackup(storage, backup, "replace");
+
+  assert.equal(result.written, 0);
+  assert.ok(result.failed >= 1);
+  assert.equal(storage.getItem("bookkeys:game"), '{"xp":900,"pages":12}');
+  assert.equal(storage.getItem("bookkeys:settings"), '{"size":17}');
+  assert.equal(storage.getItem("bookkeys:obsolete"), "keep-until-commit");
+  assert.equal(storage.getItem("bookkeys:new"), null);
   assert.equal(storage.getItem("limitless.typing.v1.theme"), "dark");
 });
