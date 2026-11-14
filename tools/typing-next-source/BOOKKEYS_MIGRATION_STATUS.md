@@ -14,7 +14,7 @@ Two Bookkeys migration tracks exist and must remain distinguishable:
 The TypeScript/React reader is an isolated migration implementation. It is not the production reader and is not wired into the live /tools/typing/ route.
 
 - Active current-main reconciliation branch: `work/bookkeys-current-main-reconciliation-20261114` (draft PR #166).
-- PR #166 starts directly from current `main` at `f37f99f` and selectively imports the Bookkeys migration files; it does not merge the stale histories of PR #111 or PR #144.
+- PR #166 was created against `main` at the earlier base checkpoint `cba5655aa60ddac0dc64273079566f7ff1205b75` and selectively imports the Bookkeys migration files; it does not merge the stale histories of PR #111 or PR #144. Current `main` has since advanced, so the PR must be evaluated against the latest base before integration.
 - PR #144's advanced migration and IME work, PR #111's preservation-first extraction scaffold, and all `backup/bookkeys-*` recovery branches remain intact.
 - The current preview is isolated at `/tools/typing-next-preview/`.
 - Production `tools/typing/index.html` and `tools/typing/bookkeys.html` are unchanged.
@@ -33,15 +33,15 @@ These branches were built from an earlier repository checkpoint. The earlier not
 
 ## Latest branch comparison
 
-On 15 November 2026, current `main` is `4ee712cc9837318821ca29c06d00f0ae57076407` and the migration branch head is `d27c3736a9dd5cfaf9306d7d608a45b4feaee418` (the latest code-validation commit is `570360a63f9e7a51dd02caabdf1f1edfd472cd8c`; subsequent commits only update this status document). GitHub reports the migration branch as 152 commits ahead and 19 behind current main. The 67-file comparison contains the isolated Bookkeys preview/migration changes and one additional migration-specific workflow, `.github/workflows/bookkeys-next-scaffold.yml`; no unrelated Limitless application files are changed by the migration branch.
+On 15 November 2026, current `main` is `fd32ab485da9977efbb7046b37b752701af214f3` and the migration branch head is `a361a61d423aa2e6103505398f4d949aedeb57cb`. GitHub compares the migration branch as 155 commits ahead and 24 behind current `main`. The 67-file PR diff contains only the isolated Bookkeys preview/migration additions and the migration-specific workflow `.github/workflows/bookkeys-next-scaffold.yml`; no existing Limitless application files are modified by this PR. GitHub currently reports the PR as mergeable, but it remains a draft.
 
-The 19 commits now on `main` since the shared base include ongoing Limitless work across Codeforces/competition, Math Trainer, Metallurgy, Probability/studies, site navigation and favicon assets. They do not appear in the migration branch's 67-file diff because that diff measures the migration branch's additions relative to the shared base. The migration branch therefore needs a controlled reconciliation with current `main` before any eventual integration; do not merge the PR or reset either branch. The current branch's Cloudflare preview deployment for `d27c373` reports build and deployment success. Keep the PR draft and do not merge until current-main reconciliation and manual data/device acceptance are complete.
+The 24 commits now on `main` since the PR's shared base include recent Limitless work across Codeforces/competition, Math Trainer, Metallurgy, Probability/studies, site navigation and favicon assets. The migration branch does not contain those commits, but the current PR diff remains limited to 67 added Bookkeys/migration files. The PR targets the `main` branch, so integration would apply those additions on top of the then-current main; nevertheless, do not merge or deploy until the base comparison is refreshed and manual data/device acceptance is complete. No production reader files are part of the PR diff.
 
 ## Verified in CI
 
-The latest successful current-main migration workflow is [43646307669](https://github.com/guiltythreee/Limitless/actions/runs/43646307669), with the separate legacy regression workflow [43646312324](https://github.com/guiltythreee/Limitless/actions/runs/43646312324). Both completed successfully on commit `570360a63f9e7a51dd02caabdf1f1edfd472cd8c`.
+The latest successful current-main migration workflow is [43649399229](https://github.com/guiltythreee/Limitless/actions/runs/43649399229), with the separate legacy regression workflow [43649399234](https://github.com/guiltythreee/Limitless/actions/runs/43649399234). Both completed successfully on code commit `a361a61d423aa2e6103505398f4d949aedeb57cb`.
 
-- **113/113 TypeScript tests passed**, covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, newest-draft selection and malformed draft timestamps, shelves and reward logic.
+- **116/116 TypeScript tests passed**, including first-time restore sanitization for malformed progress counters and replace-restore rollback under storage quota pressure.
 - **99/99 legacy preservation tests passed** against the original standalone HTML implementation. The archived 91-test baseline and current branch's 99/99 result are recorded in `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
 - TypeScript type-check passed.
 - Next.js static production build passed.
