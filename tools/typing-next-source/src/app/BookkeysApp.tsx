@@ -1933,11 +1933,16 @@ export default function BookkeysApp() {
                     value={safeReaderTextColor(settings.accentCustom) ?? "#E11D48"}
                     onChange={(event) => persistSettings({ ...settings, accent: "custom", accentCustom: event.currentTarget.value })} />
                 </label>
-                <label className="bk-setting bk-setting-check">
-                  <span>Decorative details</span>
-                  <input type="checkbox" checked={settings.deco !== "off"}
-                    onChange={(event) => persistSettings({ ...settings, deco: event.currentTarget.checked ? "on" : "off" })} />
-                </label>
+                <div className="bk-setting">
+                  <span>Theme decoration</span>
+                  <div className="bk-choice-chips" role="group" aria-label="Theme decoration">
+                    <button type="button" aria-pressed={settings.deco !== "off"}
+                      onClick={() => persistSettings({ ...settings, deco: "on" })}>On</button>
+                    <button type="button" aria-pressed={settings.deco === "off"}
+                      onClick={() => persistSettings({ ...settings, deco: "off" })}>Off</button>
+                  </div>
+                  <span className="bk-settings-note">Gothic Night and Letter Garden add decorative details to Home, cards and dialogs. The typing text is never decorated.</span>
+                </div>
                 <div className="bk-setting">
                   <span>Custom artwork <small>Stored in this browser, not in backups.</small></span>
                   <div className="bk-artwork-actions">
