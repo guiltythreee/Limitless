@@ -355,8 +355,9 @@ const T2: TopicSource = {
       answer: "b",
       why: "$R_p \\propto [I]^{1/2}$ → $4^{1/2} = 2$. **Rate doubles** when initiator quadruples.",
       distractors: {
-        a: "Linear dependence would hold only without bimolecular termination.",
-        c: "More initiator never slows the reaction (it lowers MW instead).",
+        a: "A fourfold increase would require a linear rate dependence; under the usual steady-state radical model the dependence is proportional to the square root of initiator concentration.",
+        c: "The square-root dependence predicts a rate increase, not a decrease.",
+        d: "The rate depends on initiator concentration, so it does not remain unchanged.",
       },
       concept: "$R_p \\propto [M][I]^{1/2}$",
       tags: ["numeric", "formula"],
@@ -390,6 +391,11 @@ const T2: TopicSource = {
       ],
       answer: "a",
       why: "The propagating radical is most stable on the **substituted carbon**; adding the next monomer so the radical lands there gives the regular **head-to-tail** sequence.",
+      distractors: {
+        b: "The two alkene carbons are not equivalent in a substituted vinyl monomer.",
+        c: "Head-to-tail addition is common in radical vinyl polymerisation; it is not exclusive to ionic mechanisms.",
+        d: "Placing substituents next to each other generally increases steric crowding rather than reducing it."
+      },
       tags: ["revision"],
     },
     {
@@ -404,7 +410,12 @@ const T2: TopicSource = {
         { label: "d", text: "CO₂" }
       ],
       answer: "a",
-      why: "Azobisisobutyronitrile loses **N₂**, leaving two cyano-stabilized carbon radicals.",
+      why: "Azobisisobutyronitrile (AIBN) decomposes by losing **N₂**, leaving two carbon-centred radicals stabilised by adjacent nitrile groups.",
+      distractors: {
+        b: "Water is not the characteristic gas released by AIBN decomposition.",
+        c: "Oxygen is not released; oxygen can instead inhibit radical polymerisation.",
+        d: "Carbon dioxide is not the gas formed in the normal AIBN decomposition pathway."
+      },
       tags: ["revision"],
     },
     {
@@ -442,6 +453,11 @@ const T2: TopicSource = {
       ],
       answer: "c",
       why: "**Site-controlled insertion** at a stereospecific catalyst site favours placement of successive methyl groups on the same side of the chain, producing **isotactic polypropylene**. The tacticity depends on the catalyst's stereoselectivity; it is not guaranteed by every coordination catalyst.",
+      distractors: {
+        a: "The reason does explain the assertion: controlled monomer orientation leads to stereoselective insertion.",
+        b: "The assertion is true for a suitable stereospecific catalyst, and the stated reason is also true.",
+        d: "The assertion is not false; stereospecific Ziegler–Natta catalysts can produce isotactic polypropylene."
+      },
       concept: "stereospecific coordination insertion",
       tags: ["revision"],
     },
