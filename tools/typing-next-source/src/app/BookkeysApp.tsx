@@ -522,6 +522,12 @@ export default function BookkeysApp() {
     ),
     [settings, effectiveBackground, theme, systemReducedMotion, themeOverride],
   );
+  const homeArtwork = resolvedAppearance.decoration === "gothic" ? safeArtworkDataUrl(artwork.gothic)
+    : resolvedAppearance.decoration === "garden" ? safeArtworkDataUrl(artwork.garden) : null;
+  const shellStyle = {
+    ...backgroundStyle,
+    "--bk-home-art": homeArtwork ? `url("${homeArtwork}")` : "none",
+  } as CSSProperties;
   const activeTone = resolvedAppearance.tone;
   const contrastHintText = useMemo(() => {
     const scenePalette = BGPAL[effectiveBackground];
@@ -1340,7 +1346,7 @@ export default function BookkeysApp() {
 
 
   return (
-    <main className="bk-shell" style={backgroundStyle}>
+    <main className="bk-shell" style={shellStyle}>
       <canvas ref={backgroundCanvasRef} className="bk-background-canvas" aria-hidden="true" hidden />
       <canvas ref={effectsCanvasRef} className="bk-effects-canvas" aria-hidden="true" />
       {picturePreset && (
