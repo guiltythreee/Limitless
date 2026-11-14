@@ -60,6 +60,7 @@ assert.equal(report.sections.find((x) => x.id === "metallurgy").attempts, 7);
 assert.equal(report.totalAttempts, 14);
 assert.equal(report.trackedConcepts, 6, "concepts stay scoped by discipline and course");
 assert.ok(report.mastery.some((item) => item.label === "MT203 t1"));
+assert.equal(report.mastery.find((item) => item.disciplineId === "probability")?.independentAttempts, 3);
 assert.ok(report.recurringMistakes.some((item) => item.category === "mathematical"));
 assert.ok(report.recurringMistakes.some((item) => item.category === "conceptual"));
 assert.ok(report.recurringMistakes.some((item) => item.category === "units"));
