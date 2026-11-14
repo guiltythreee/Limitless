@@ -165,7 +165,11 @@ export function tidyChapters(chapters: readonly PdfChapter[], total: number): Pd
   for (const chapter of [...chapters].sort((a, b) => a.p - b.p)) {
     if (!Number.isInteger(chapter.p) || chapter.p < 0 || chapter.p >= limit || seen.has(chapter.p)) continue;
     seen.add(chapter.p);
-    out.push({ p: chapter.p, title: normalize(chapter.title) || `Part ${out.length + 1}` });
+    out.push({
+      p: chapter.p,
+      title: normalize(chapter.title) || `Part ${out.length + 1}`,
+      ...(typeof chapter.req === "boolean" ? { req: chapter.req } : {}),
+    });
   }
   if (!seen.has(0)) out.unshift({ p: 0, title: "Beginning" });
   return out.sort((a, b) => a.p - b.p);
