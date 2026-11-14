@@ -14,6 +14,7 @@ on:
       - "tools.js"
       - "index.html"
       - "metallurgy-source/app/layout.tsx"
+      - "metallurgy-source/app/mt203/dashboard.tsx"
       - "probability-source/app/layout.tsx"
       - "probability-source/app/page.tsx"
       - "metallurgy-source/app/learning-player/**"
