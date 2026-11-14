@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { BOOKKEYS_BACKGROUND_CATALOG, BOOKKEYS_SCENE_IDS, createBookkeysBackgroundEngine } from "../domain/reading/bookkeys-backgrounds";
-import { ACC, FCOLS, FONTS, THEMES, TOK, resolveBookkeysAppearance } from "../domain/reading/bookkeys-appearance";
+import { createBookkeysEffectsEngine } from "../domain/reading/bookkeys-effects";
+import { createBookkeysSoundEngine } from "../domain/reading/bookkeys-sound";
+import { ACC, CARETS, FCOLS, FONTS, THEMES, TOK, resolveBookkeysAppearance } from "../domain/reading/bookkeys-appearance";
 import type { BookkeysChapter, BookkeysLibraryMetadata, BookkeysShelf } from "../domain/persistence/bookkeys-v1-contracts";
 import { openBookkeysDatabase, type BookkeysDatabase } from "../domain/persistence/bookkeys-v1-database";
 import { readEpub } from "../domain/epub/epub-importer";
@@ -330,9 +332,18 @@ export default function BookkeysApp() {
   const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 20, lineH: 1.7, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
-  const [settingsTab, setSettingsTab] = useState<"theme" | "background" | "font" | "data">("theme");
+  const [settingsTab, setSettingsTab] = useState<"theme" | "background" | "font" | "typing" | "cursor" | "data">("theme");
   const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
   const backgroundEngineRef = useRef<ReturnType<typeof createBookkeysBackgroundEngine> | null>(null);
+  const effectsCanvasRef = useRef<HTMLCanvasElement>(null);
+  const effectsEngineRef = useRef<ReturnType<typeof createBookkeysEffectsEngine> | null>(null);
+  const soundEngineRef = useRef<ReturnType<typeof createBookkeysSoundEngine> | null>(null);
+  const sourceTextRef = useRef<HTMLElement>(null);
+  const caretRef = useRef<HTMLDivElement>(null);
+  const settingsRef = useRef(settings);
+  const reducedMotionRef = useRef(false);
+  const caretTypingTimerRef = useRef<number | null>(null);
+  const errorFeedbackTimerRef = useRef<number | null>(null);
   const [clockMinute, setClockMinute] = useState(() => new Date().getMinutes());
   const [systemReducedMotion, setSystemReducedMotion] = useState(false);
   const [themeReady, setThemeReady] = useState(false);
@@ -354,6 +365,7 @@ export default function BookkeysApp() {
   const keyStatsRef = useRef<BookkeysKeyStats>({ ok: 0, all: 0, lastTyped: "" });
   const composingRef = useRef(false);
   const [keyStats, setKeyStats] = useState({ ok: 0, all: 0 });
+  settingsRef.current = settings;
 
   // Keep reward verification tied to the actual parsed page content. The
   // bridge stores only a stable signature and character count, never book text.
@@ -427,6 +439,25 @@ export default function BookkeysApp() {
   }, []);
 
   useEffect(() => {
+    const canvas = effectsCanvasRef.current;
+    if (!canvas) return;
+    const effects = createBookkeysEffectsEngine(
+      canvas,
+      () => Number(settingsRef.current.fxInt ?? 1),
+      () => reducedMotionRef.current,
+    );
+    const sound = createBookkeysSoundEngine(() => settingsRef.current);
+    effectsEngineRef.current = effects;
+    soundEngineRef.current = sound;
+    return () => {
+      effects.destroy();
+      sound.destroy();
+      effectsEngineRef.current = null;
+      soundEngineRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
     const timer = window.setInterval(() => setClockMinute(new Date().getMinutes()), 60_000);
     return () => window.clearInterval(timer);
   }, []);
@@ -490,6 +521,8 @@ export default function BookkeysApp() {
     [settings, effectiveBackground, theme, systemReducedMotion, themeOverride],
   );
   const activeTone = resolvedAppearance.tone;
+  const isReducedMotion = settings.motion === "reduce" || (settings.motion !== "full" && systemReducedMotion);
+  reducedMotionRef.current = isReducedMotion;
 
   useEffect(() => {
     if (!themeReady) return;
@@ -591,6 +624,38 @@ export default function BookkeysApp() {
       .replace(/[—–]/g, "-")
       .replace(/…/g, "...");
   }, [book, pageIndex, settings.punct]);
+
+  useEffect(() => {
+    const article = sourceTextRef.current;
+    const caret = caretRef.current;
+    if (!article || !caret || !target.length) {
+      if (caret) caret.style.display = "none";
+      return;
+    }
+    const place = () => {
+      const index = Math.min(typed.length, target.length - 1);
+      const span = article.querySelector<HTMLElement>(`[data-char-index="${index}"]`);
+      if (!span) { caret.style.display = "none"; return; }
+      const rect = span.getBoundingClientRect();
+      const parent = article.getBoundingClientRect();
+      const atEnd = typed.length >= target.length;
+      let left = rect.left - parent.left + (atEnd ? rect.width : 0);
+      let top = rect.top - parent.top;
+      let width = Math.max(8, rect.width);
+      let height = rect.height || Number.parseFloat(getComputedStyle(article).lineHeight) || 20;
+      if (settings.cstyle === "bar") { left -= 1; width = 2; }
+      else if (settings.cstyle === "underline") { top += height - 3; height = 3; }
+      caret.style.display = "";
+      caret.style.left = left + "px";
+      caret.style.top = top + "px";
+      caret.style.width = width + "px";
+      caret.style.height = height + "px";
+    };
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [typed, target, settings.cstyle, settings.font, settings.size, settings.lineH, settings.spacing, effectiveBackground]);
+
   const textAccuracy = typingAccuracy(target, typed);
   const liveAccuracy = {
     ...textAccuracy,
@@ -734,6 +799,77 @@ export default function BookkeysApp() {
     }
   }
 
+
+  function playKeystrokeEffects(previousValue: string, nextValue: string) {
+    if (nextValue.length <= previousValue.length) return;
+    const inserted = nextValue.slice(previousValue.length);
+    const currentSettings = settingsRef.current;
+    const sound = soundEngineRef.current;
+    let hasMistake = false;
+    let lastCorrect = false;
+    let lastIndex = -1;
+
+    for (let index = 0; index < inserted.length; index += 1) {
+      const targetIndex = previousValue.length + index;
+      const character = inserted[index];
+      const correct = target[targetIndex] === character;
+      if (!correct) hasMistake = true;
+      lastCorrect = correct;
+      lastIndex = targetIndex;
+      if (index < 3) {
+        if (correct) sound?.key(character === "\\n");
+        else sound?.err();
+      }
+    }
+
+    if (hasMistake && currentSettings.efx !== "off" && !reducedMotionRef.current) {
+      const shell = document.querySelector<HTMLElement>(".bk-shell");
+      if (shell) {
+        shell.classList.remove("errshake", "errflash");
+        void shell.offsetWidth;
+        shell.classList.add(currentSettings.efx === "shake" ? "errshake" : "errflash");
+        if (errorFeedbackTimerRef.current !== null) window.clearTimeout(errorFeedbackTimerRef.current);
+        errorFeedbackTimerRef.current = window.setTimeout(() => {
+          shell.classList.remove("errshake", "errflash");
+          errorFeedbackTimerRef.current = null;
+        }, 380);
+      }
+    }
+
+    const caret = caretRef.current;
+    if (caret) {
+      caret.classList.add("typing");
+      if (caretTypingTimerRef.current !== null) window.clearTimeout(caretTypingTimerRef.current);
+      caretTypingTimerRef.current = window.setTimeout(() => {
+        caret.classList.remove("typing");
+        caretTypingTimerRef.current = null;
+      }, 650);
+    }
+
+    if (!lastCorrect || lastIndex < 0 || currentSettings.tfx === "none" && currentSettings.sparks === "off") return;
+    const character = nextValue[lastIndex];
+    if (!character || character === " " || character === "\\n") return;
+    const span = sourceTextRef.current?.querySelector<HTMLElement>(`[data-char-index="${lastIndex}"]`);
+    if (!span) return;
+    const rect = span.getBoundingClientRect();
+    const style = getComputedStyle(span);
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const effects = effectsEngineRef.current;
+    if (currentSettings.sparks === "sparks") effects?.sparks(x, y);
+    else if (currentSettings.sparks === "ripple") effects?.ripple(x, y);
+    if (effects?.has(currentSettings.tfx)) {
+      effects.effect(currentSettings.tfx, {
+        ch: character,
+        x0: rect.left,
+        y0: rect.top,
+        w: rect.width,
+        h: rect.height,
+        font: `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`,
+      });
+    }
+  }
+
   function onTyping(value: string, inputType = "insertText") {
     setTyped(value);
     if (!book) return;
@@ -743,6 +879,7 @@ export default function BookkeysApp() {
     if (book.isSample) {
       if (!completedThisPage.current && target.length > 0 && value.length >= target.length) {
         completedThisPage.current = true;
+        if (settingsRef.current.celebrate) effectsEngineRef.current?.confetti();
         setStatus("Sample page complete · no XP awarded and no book progress saved.");
       }
       return;
@@ -756,6 +893,7 @@ export default function BookkeysApp() {
 
     if (completedThisPage.current || !target || value.length < target.length) return;
     completedThisPage.current = true;
+    if (settingsRef.current.celebrate) effectsEngineRef.current?.confetti();
     const previousGame = readGame();
     const result = completeBookkeysPage(
       previousGame, book.bookKey, pageIndex, target, value, Date.now() - startedAt.current,
@@ -1141,6 +1279,7 @@ export default function BookkeysApp() {
   return (
     <main className="bk-shell" style={backgroundStyle}>
       <canvas ref={backgroundCanvasRef} className="bk-background-canvas" aria-hidden="true" hidden />
+      <canvas ref={effectsCanvasRef} className="bk-effects-canvas" aria-hidden="true" />
       {picturePreset && (
         <div
           className="bk-picture-background"
@@ -1321,6 +1460,7 @@ export default function BookkeysApp() {
           {target ? (
             <>
               <article
+                ref={sourceTextRef}
                 className="bk-source-text"
                 data-reader-background={effectiveBackground}
                 data-reader-centered={settings.centered ? "true" : "false"}
@@ -1335,7 +1475,19 @@ export default function BookkeysApp() {
                   };
                   return color ? { color } : undefined;
                 })()}
-              >{target}</article>
+              >{target.split("").map((character, index) => {
+                const entered = index < typed.length;
+                const correct = entered && typed[index] === character;
+                const wrong = entered && !correct;
+                const animated = correct && settings.tfx !== "none" && character !== " " && character !== "\\n";
+                return (
+                  <span
+                    key={index}
+                    data-char-index={index}
+                    className={"bk-char c" + (character === "\\n" ? " nl" : "") + (correct ? " ok" : "") + (wrong ? " bad" : "") + (animated ? " fx" : "")}
+                  >{character}</span>
+                );
+              })}<div ref={caretRef} className="bk-reader-caret" aria-hidden="true" /></article>
               <label className="bk-type-label" htmlFor="bk-typing">Type the section below</label>
               <textarea
                 id="bk-typing"
@@ -1345,6 +1497,7 @@ export default function BookkeysApp() {
                   const nativeEvent = event.nativeEvent;
                   if (composingRef.current || (nativeEvent instanceof InputEvent && nativeEvent.isComposing)) return;
                   const inputType = nativeEvent instanceof InputEvent ? nativeEvent.inputType : "insertText";
+                  playKeystrokeEffects(typed, event.currentTarget.value);
                   onTyping(event.currentTarget.value, inputType);
                   event.currentTarget.setSelectionRange(event.currentTarget.value.length, event.currentTarget.value.length);
                 }}
@@ -1353,6 +1506,7 @@ export default function BookkeysApp() {
                 }}
                 onCompositionEnd={(event) => {
                   composingRef.current = false;
+                  playKeystrokeEffects(typed, event.currentTarget.value);
                   onTyping(event.currentTarget.value, "insertCompositionText");
                   event.currentTarget.setSelectionRange(event.currentTarget.value.length, event.currentTarget.value.length);
                 }}
@@ -1466,6 +1620,8 @@ export default function BookkeysApp() {
               <button className={settingsTab === "theme" ? "active" : ""} onClick={() => setSettingsTab("theme")}>Theme</button>
               <button className={settingsTab === "background" ? "active" : ""} onClick={() => setSettingsTab("background")}>Background</button>
               <button className={settingsTab === "font" ? "active" : ""} onClick={() => setSettingsTab("font")}>Font</button>
+              <button className={settingsTab === "typing" ? "active" : ""} onClick={() => setSettingsTab("typing")}>Typing</button>
+              <button className={settingsTab === "cursor" ? "active" : ""} onClick={() => setSettingsTab("cursor")}>Cursor</button>
               <button className={settingsTab === "data" ? "active" : ""} onClick={() => setSettingsTab("data")}>Data</button>
             </nav>
             {settingsTab === "theme" ? (
@@ -1624,18 +1780,7 @@ export default function BookkeysApp() {
                 </label>
                 <p className="bk-settings-note">When enabled, each original background selects its matching reader palette. Custom accent and text colours remain independent.</p>
                 {themeOverride && <p className="bk-settings-note">The header's quick theme override is active. Change this setting or choose a background to return to matched colors.</p>}
-                <p className="bk-settings-note">Time of Day switches from Morning at 06:00, to Evening at 17:00, and Night at 20:00. The three photographs use portrait crops on tall screens. Picture backgrounds always keep at least 70% text backdrop for readability.</p>
-                <label className="bk-setting bk-setting-check">
-                  <span>Center reading text</span>
-                  <input type="checkbox" checked={settings.centered === true}
-                    onChange={(event) => persistSettings({ ...settings, centered: event.currentTarget.checked })} />
-                </label>
-                <label className="bk-setting bk-setting-check">
-                  <span>Completion celebrations</span>
-                  <input type="checkbox" checked={settings.celebrate}
-                    onChange={(event) => persistSettings({ ...settings, celebrate: event.currentTarget.checked })} />
-                </label>
-                <p className="bk-settings-note">Theme can also be changed using the sun/moon control in the header.</p>
+                <p className="bk-settings-note">Time of Day switches from Morning at 06:00, to Evening at 17:00, and Night at 20:00. The three photographs use portrait crops on tall screens. Picture backgrounds always keep at least 70% text backdrop for readability.</p>                <p className="bk-settings-note">Theme can also be changed using the sun/moon control in the header.</p>
               </div>
             ) : settingsTab === "font" ? (
               <div className="bk-settings-content">
@@ -1702,6 +1847,133 @@ export default function BookkeysApp() {
                     onChange={(event) => persistSettings({ ...settings, lglow: event.currentTarget.checked })} />
                 </label>
                 <p className="bk-settings-note">Letter glow is a soft halo for typed text over dark scenes. It is suppressed on light palettes.</p>
+              </div>
+            ) : settingsTab === "typing" ? (
+              <div className="bk-settings-content">
+                <div className="bk-setting">
+                  <span>Motion</span>
+                  <div className="bk-choice-chips" role="group" aria-label="Motion">
+                    {(["system", "reduce", "full"] as const).map((value) => (
+                      <button key={value} type="button" aria-pressed={(settings.motion ?? "system") === value}
+                        onClick={() => persistSettings({ ...settings, motion: value })}>
+                        {value === "system" ? "Follow system" : value === "reduce" ? "Reduce" : "Full"}
+                      </button>
+                    ))}
+                  </div>
+                  <span className="bk-settings-note">Reduce stops moving backgrounds, letter animations, keystroke particles, confetti and mistake flashes. Follow system respects your device's reduced-motion setting.</span>
+                </div>
+                <div className="bk-setting">
+                  <span>Letter animation</span>
+                  <div className="bk-choice-chips" role="group" aria-label="Letter animation">
+                    {[
+                      ["none", "None"], ["glow", "Glow"], ["rise", "Rise"], ["fade", "Fade in"], ["flash", "Flash"],
+                      ["crunch", "Crunch"], ["explode", "Explode"], ["fireworks", "Fireworks"], ["shatter", "Shatter"],
+                      ["sparkle", "Sparkle"], ["burn", "Burn"], ["float", "Float"], ["shock", "Shock"],
+                      ["ink", "Ink corrupt"], ["pixelate", "Pixelate"], ["embers", "Embers"],
+                    ].map(([value, label]) => (
+                      <button key={value} type="button" aria-pressed={(settings.tfx ?? "none") === value}
+                        onClick={() => persistSettings({ ...settings, tfx: value })}>{label}</button>
+                    ))}
+                  </div>
+                </div>
+                <label className="bk-setting">
+                  <span>Effect intensity <strong>{Number(settings.fxInt ?? 1).toFixed(1)}×</strong></span>
+                  <input type="range" min="0.4" max="2" step="0.1" value={Number(settings.fxInt ?? 1)}
+                    onChange={(event) => persistSettings({ ...settings, fxInt: Number(event.currentTarget.value) })} />
+                </label>
+                <div className="bk-setting">
+                  <span>Mistake feedback</span>
+                  <div className="bk-choice-chips" role="group" aria-label="Mistake feedback">
+                    {[["off", "Off"], ["flash", "Red flash"], ["shake", "Shake"]].map(([value, label]) => (
+                      <button key={value} type="button" aria-pressed={(settings.efx ?? "flash") === value}
+                        onClick={() => persistSettings({ ...settings, efx: value })}>{label}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="bk-setting">
+                  <span>Keystroke particles</span>
+                  <div className="bk-choice-chips" role="group" aria-label="Keystroke particles">
+                    {[["off", "Off"], ["sparks", "Sparks"], ["ripple", "Ripple"]].map(([value, label]) => (
+                      <button key={value} type="button" aria-pressed={(settings.sparks ?? "off") === value}
+                        onClick={() => persistSettings({ ...settings, sparks: value })}>{label}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="bk-setting">
+                  <span>Key sound</span>
+                  <div className="bk-choice-chips" role="group" aria-label="Key sound">
+                    {[["off", "Off"], ["click", "Click"], ["soft", "Soft"], ["typewriter", "Typewriter"]].map(([value, label]) => (
+                      <button key={value} type="button" aria-pressed={(settings.sound ?? "off") === value}
+                        onClick={() => persistSettings({ ...settings, sound: value })}>{label}</button>
+                    ))}
+                  </div>
+                </div>
+                <label className="bk-setting">
+                  <span>Volume <strong>{Number(settings.volume ?? 50)}%</strong></span>
+                  <input type="range" min="0" max="100" step="5" value={Number(settings.volume ?? 50)}
+                    onChange={(event) => persistSettings({ ...settings, volume: Number(event.currentTarget.value) })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Low thud on a mistake</span>
+                  <input type="checkbox" checked={settings.errSound !== false}
+                    onChange={(event) => persistSettings({ ...settings, errSound: event.currentTarget.checked })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Keep the current line centered</span>
+                  <input type="checkbox" checked={settings.centered === true}
+                    onChange={(event) => persistSettings({ ...settings, centered: event.currentTarget.checked })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Confetti when a page is finished</span>
+                  <input type="checkbox" checked={settings.celebrate !== false}
+                    onChange={(event) => persistSettings({ ...settings, celebrate: event.currentTarget.checked })} />
+                </label>
+                <p className="bk-settings-note">Typewriter plays a bell on a line break. Effect intensity scales particle counts. Motion effects and particles stop when reduced motion is active.</p>
+              </div>
+            ) : settingsTab === "cursor" ? (
+              <div className="bk-settings-content">
+                <div className="bk-setting">
+                  <span>Cursor shape</span>
+                  <div className="bk-choice-chips" role="group" aria-label="Cursor shape">
+                    {[["block", "Block"], ["bar", "Bar"], ["underline", "Underline"], ["outline", "Outline"]].map(([value, label]) => (
+                      <button key={value} type="button" aria-pressed={(settings.cstyle ?? "block") === value}
+                        onClick={() => persistSettings({ ...settings, cstyle: value })}>{label}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="bk-setting">
+                  <span>Blink</span>
+                  <div className="bk-choice-chips" role="group" aria-label="Cursor blink">
+                    {[["off", "Steady"], ["blink", "Blink"], ["pulse", "Pulse"]].map(([value, label]) => (
+                      <button key={value} type="button" aria-pressed={(settings.cblink ?? "blink") === value}
+                        onClick={() => persistSettings({ ...settings, cblink: value })}>{label}</button>
+                    ))}
+                  </div>
+                </div>
+                <label className="bk-setting bk-setting-check">
+                  <span>Smooth movement</span>
+                  <input type="checkbox" checked={settings.csmooth !== false}
+                    onChange={(event) => persistSettings({ ...settings, csmooth: event.currentTarget.checked })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Cursor glow</span>
+                  <input type="checkbox" checked={settings.cglow === true}
+                    onChange={(event) => persistSettings({ ...settings, cglow: event.currentTarget.checked })} />
+                </label>
+                <div className="bk-setting">
+                  <span>Cursor color</span>
+                  <div className="bk-font-color-swatches" role="group" aria-label="Cursor color">
+                    {CARETS.map((option) => (
+                      <button key={option.v} type="button" className="bk-font-color-swatch"
+                        aria-label={option.name} title={option.name}
+                        aria-pressed={(settings.ccolor ?? "accent") === option.v}
+                        style={{ background: option.c ?? "linear-gradient(135deg, var(--accent), var(--panel))" }}
+                        onClick={() => persistSettings({ ...settings, ccolor: option.v })}>
+                        <span>{option.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="bk-settings-content">
