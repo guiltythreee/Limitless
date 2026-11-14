@@ -530,7 +530,7 @@ export default function BookkeysApp() {
   } as CSSProperties;
   const activeTone = resolvedAppearance.tone;
   const contrastHintText = useMemo(() => {
-    const scenePalette = BGPAL[effectiveBackground];
+    const scenePalette = BGPAL[effectiveBackground as keyof typeof BGPAL];
     const background = scenePalette?.v?.bg ?? resolvedAppearance.variables.bg;
     const selectedText = settings.fontColor === "custom"
       ? settings.fontColorCustom
