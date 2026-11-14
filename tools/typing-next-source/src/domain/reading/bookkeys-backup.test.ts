@@ -334,3 +334,38 @@ test("first-time game restore sanitizes malformed backup completion counters", (
   const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
   assert.equal(game.book["new-book"].done, 0);
 });
+
+
+test("replace rollback frees newly added keys before restoring old values under quota pressure", () => {
+  class QuotaStorage extends MemoryStorage {
+    readonly quota = 12;
+    setItem(key: string, value: string) {
+      const current = this.values.get(key)?.length ?? 0;
+      const total = [...this.values.values()].reduce((sum, item) => sum + item.length, 0);
+      if (total - current + value.length > this.quota) throw new Error("quota exceeded");
+      super.setItem(key, value);
+    }
+  }
+
+  const storage = new QuotaStorage();
+  storage.setItem("bookkeys:game", "0123456789");
+  storage.setItem("bookkeys:obsolete", "x");
+
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:game": "g",
+      "bookkeys:new-a": "12345678",
+      "bookkeys:new-b": "abcdefghij",
+    },
+  }));
+
+  const result = restoreBookkeysBackup(storage, backup, "replace");
+
+  assert.equal(result.written, 0);
+  assert.ok(result.failed >= 1);
+  assert.equal(storage.getItem("bookkeys:game"), "0123456789");
+  assert.equal(storage.getItem("bookkeys:obsolete"), "x");
+  assert.equal(storage.getItem("bookkeys:new-a"), null);
+  assert.equal(storage.getItem("bookkeys:new-b"), null);
+});
