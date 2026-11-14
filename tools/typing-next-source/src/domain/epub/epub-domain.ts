@@ -249,6 +249,19 @@ export function epubChapterList(
   for (const item of toc) {
     if (item.p >= 0 && item.p < total && !partStarts.has(item.p)) candidates.push(item);
   }
+  // The legacy reader evenly divided EPUBs when their TOC/spine yielded fewer
+  // than two useful chapter starts. Keep the same roughly 20-section fallback.
+  if (candidates.length < 2 && total > 0) {
+    const partCount = Math.max(1, Math.round(total / 20));
+    const step = Math.ceil(total / partCount);
+    candidates.length = 0;
+    for (let start = 0; start < total; start += step) {
+      candidates.push({
+        p: start,
+        title: candidates.length === 0 ? "Beginning" : `Part ${candidates.length + 1}`,
+      });
+    }
+  }
   return tidyChapters(candidates);
 }
 
