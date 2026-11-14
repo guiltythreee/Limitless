@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import { BOOKKEYS_SCENE_IDS, createBookkeysBackgroundEngine } from "../domain/reading/bookkeys-backgrounds";
+import { BOOKKEYS_BACKGROUND_CATALOG, BOOKKEYS_SCENE_IDS, createBookkeysBackgroundEngine } from "../domain/reading/bookkeys-backgrounds";
 import type { BookkeysChapter, BookkeysLibraryMetadata, BookkeysShelf } from "../domain/persistence/bookkeys-v1-contracts";
 import { openBookkeysDatabase, type BookkeysDatabase } from "../domain/persistence/bookkeys-v1-database";
 import { readEpub } from "../domain/epub/epub-importer";
@@ -67,6 +67,19 @@ function effectiveReaderBackground(value: ReaderBackgroundId, now = new Date()):
   if (value !== "tod") return value;
   const hour = now.getHours();
   return hour >= 20 || hour < 6 ? "pic-night" : hour >= 17 ? "pic-evening" : "pic-morning";
+}
+
+function readerBackgroundTileStyle(id: string): CSSProperties {
+  const preset = READER_BACKGROUND_PRESETS.find((item) => item.id === id);
+  if (preset && "image" in preset) {
+    return { backgroundImage: `url("${preset.image}")`, backgroundSize: "cover", backgroundPosition: "center" };
+  }
+  if (id === "none") return { background: "linear-gradient(135deg, #211d2a, #09080e)" };
+  if (id === "tod") return { background: "linear-gradient(90deg, #e8c79a 0 33%, #77577c 33% 66%, #101a35 66%)" };
+  const original = BOOKKEYS_BACKGROUND_CATALOG.find((item) => item.id === id);
+  if (original) return { background: original.thumb };
+  if (preset && "background" in preset) return { background: preset.background };
+  return {};
 }
 
 type BookFormat = "pdf" | "epub" | "text";
@@ -438,6 +451,18 @@ export default function BookkeysApp() {
   const selectedArtwork = effectiveBackground === "gothic" ? artwork.gothic
     : effectiveBackground === "garden" ? artwork.garden : undefined;
   const safeBackgroundArtwork = safeArtworkDataUrl(selectedArtwork);
+  const backgroundArtworkTiles = [
+    { id: "gothic" as const, label: "Gothic artwork", image: safeArtworkDataUrl(artwork.gothic) },
+    { id: "garden" as const, label: "Garden artwork", image: safeArtworkDataUrl(artwork.garden) },
+  ].filter((item) => Boolean(item.image));
+  const chooseBackground = (nextBackground: ReaderBackgroundId) => {
+    const isCustomArtwork = nextBackground === "gothic" || nextBackground === "garden";
+    persistSettings({
+      ...settings,
+      readerBackground: nextBackground,
+      ...(!isCustomArtwork ? { bg: nextBackground } : {}),
+    });
+  };
   const isPictureBackground = effectiveBackground.startsWith("pic-");
   const isCanvasScene = BOOKKEYS_SCENE_IDS.includes(effectiveBackground);
   const backdropPercent = Math.max(
@@ -1381,17 +1406,10 @@ export default function BookkeysApp() {
                 <label className="bk-setting">
                   <span>Reading background</span>
                   <select
+                    className="bk-visually-hidden"
                     aria-label="Reader background"
                     value={settings.readerBackground ?? "none"}
-                    onChange={(event) => {
-                      const nextBackground = event.currentTarget.value as ReaderBackgroundId;
-                      const isCustomArtwork = nextBackground === "gothic" || nextBackground === "garden";
-                      persistSettings({
-                        ...settings,
-                        readerBackground: nextBackground,
-                        ...(!isCustomArtwork ? { bg: nextBackground } : {}),
-                      });
-                    }}
+                    onChange={(event) => chooseBackground(event.currentTarget.value as ReaderBackgroundId)}
                   >
                     <option value="none">No Background</option>
                     <option value="tod">Time of Day (automatic)</option>
@@ -1405,6 +1423,47 @@ export default function BookkeysApp() {
                     <span className="bk-settings-note">No saved Bookkeys artwork was found in this browser.</span>
                   )}
                 </label>
+                <div className="bk-background-tiles" role="group" aria-label="Background choices">
+                  {BOOKKEYS_BACKGROUND_CATALOG.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="bk-background-tile"
+                      aria-pressed={selectedBackground === item.id}
+                      title={item.name}
+                      style={readerBackgroundTileStyle(item.id)}
+                      onClick={() => chooseBackground(item.id as ReaderBackgroundId)}
+                    >
+                      <span>{item.name}</span>
+                    </button>
+                  ))}
+                  {READER_BACKGROUND_PRESETS.filter((preset) => preset.id === "morning" || preset.id === "evening").map((preset) => (
+                    <button
+                      key={preset.id}
+                      type="button"
+                      className="bk-background-tile"
+                      aria-pressed={selectedBackground === preset.id}
+                      title={preset.label}
+                      style={readerBackgroundTileStyle(preset.id)}
+                      onClick={() => chooseBackground(preset.id)}
+                    >
+                      <span>{preset.label} · preview</span>
+                    </button>
+                  ))}
+                  {backgroundArtworkTiles.map((tile) => tile.image && (
+                    <button
+                      key={tile.id}
+                      type="button"
+                      className="bk-background-tile"
+                      aria-pressed={selectedBackground === tile.id}
+                      title={tile.label}
+                      style={{ backgroundImage: `url("${tile.image}")`, backgroundSize: "cover", backgroundPosition: "center" }}
+                      onClick={() => chooseBackground(tile.id)}
+                    >
+                      <span>{tile.label}</span>
+                    </button>
+                  ))}
+                </div>
                 <label className="bk-setting">
                   <span>Intensity <strong>{Number(settings.bgDensity ?? 1).toFixed(1)}×</strong></span>
                   <input type="range" min="0.3" max="2" step="0.1" value={Number(settings.bgDensity ?? 1)}
