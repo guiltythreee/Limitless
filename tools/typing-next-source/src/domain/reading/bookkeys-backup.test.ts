@@ -506,7 +506,7 @@ test("merge preserves valid data keys named __proto__ in settings and book progr
 
   const settings = JSON.parse(storage.getItem("bookkeys:settings") ?? "{}");
   const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
-  assert.equal(settings.size, 18);
+  assert.equal(settings.size, 20);
   assert.deepEqual(settings["__proto__"], { retainedSetting: true });
   assert.equal(game.xp, 100);
   assert.deepEqual(game.book["__proto__"], {
