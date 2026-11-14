@@ -290,6 +290,7 @@ assert.equal(global.sources.length, 1, "a registered module without a saved LSR-
 assert.deepEqual(global.registeredModules.map((module) => module.moduleId), [
   "probability", "math-trainer", "bookkeys",
   "metallurgy-mt201", "metallurgy-mt202", "metallurgy-mt203", "personal-projects",
+  "competitive-programming",
 ], "the registry lists only modules actually integrated with LSR-1");
 
 // Bespoke projects must be registered in advance with immutable criteria/value,

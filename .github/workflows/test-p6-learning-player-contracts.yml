@@ -10,7 +10,20 @@ on:
       - "home-learning-intelligence.mjs"
       - "competition/learning-intelligence.mjs"
       - "competition/learning-intelligence.test.mjs"
+      - "competition/codeforces-sync.mjs"
+      - "competition/codeforces-sync.test.mjs"
+      - "competition/competition-rewards.mjs"
+      - "competition/competition-rewards.test.mjs"
+      - "shared/rewards.mjs"
+      - "competition/accounts.js"
       - "competition/competition.js"
+      - "competition/competition.css"
+      - "competition/index.html"
+      - "competition/practice-recommendations.mjs"
+      - "competition/practice-recommendations.test.mjs"
+      - "scripts/test-learning-intelligence-ui-contract.mjs"
+      - "competition/competition-dashboard.css"
+      - "codeforces-red/codeforces-red.js"
       - "metallurgy-source/app/mt203/dashboard.tsx"
       - "metallurgy-source/app/platform/learning/**"
       - "metallurgy-source/app/lib/mt203-progress.ts"
@@ -78,11 +91,25 @@ jobs:
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/registry.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/intelligence.test.mjs
           node ../shared/studies/overview.test.mjs
+          node ../shared/studies/activity.test.mjs
+          node --check ../shared/studies/activity.mjs
+          node --check ../shared/studies/activity.test.mjs
+          node --check ../meta/meta.js
           node --check ../home-learning-intelligence.mjs
           node --check ../home-dashboard.js
           node ../competition/learning-intelligence.test.mjs
+          node ../competition/practice-recommendations.test.mjs
+          node ../scripts/test-learning-intelligence-ui-contract.mjs
+          node ../competition/codeforces-sync.test.mjs
+          node ../competition/competition-rewards.test.mjs
+          node --check ../competition/competition-rewards.mjs
+          node --check ../competition/competition-rewards.test.mjs
           node --check ../competition/learning-intelligence.mjs
+          node --check ../competition/codeforces-sync.mjs
+          node --check ../competition/codeforces-sync.test.mjs
+          node --check ../competition/accounts.js
           node --check ../competition/competition.js
+          node --check ../codeforces-red/codeforces-red.js
           if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; fi
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-utility-nav.test.mjs
