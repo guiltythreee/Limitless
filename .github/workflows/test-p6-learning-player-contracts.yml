@@ -12,6 +12,9 @@ on:
       - "competition/learning-intelligence.test.mjs"
       - "competition/codeforces-sync.mjs"
       - "competition/codeforces-sync.test.mjs"
+      - "competition/competition-rewards.mjs"
+      - "competition/competition-rewards.test.mjs"
+      - "shared/rewards.mjs"
       - "competition/accounts.js"
       - "competition/competition.js"
       - "codeforces-red/codeforces-red.js"
@@ -90,6 +93,9 @@ jobs:
           node --check ../home-dashboard.js
           node ../competition/learning-intelligence.test.mjs
           node ../competition/codeforces-sync.test.mjs
+          node ../competition/competition-rewards.test.mjs
+          node --check ../competition/competition-rewards.mjs
+          node --check ../competition/competition-rewards.test.mjs
           node --check ../competition/learning-intelligence.mjs
           node --check ../competition/codeforces-sync.mjs
           node --check ../competition/codeforces-sync.test.mjs
