@@ -326,6 +326,7 @@ export default function BookkeysApp() {
   const [typed, setTyped] = useState("");
   const [status, setStatus] = useState("Import a PDF, EPUB or text file, or paste text to begin.");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [themeOverride, setThemeOverride] = useState(false);
   const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 20, lineH: 1.7, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
@@ -454,6 +455,7 @@ export default function BookkeysApp() {
     { id: "garden" as const, label: "Garden artwork", image: safeArtworkDataUrl(artwork.garden) },
   ].filter((item) => Boolean(item.image));
   const chooseBackground = (nextBackground: ReaderBackgroundId) => {
+    setThemeOverride(false);
     const isCustomArtwork = nextBackground === "gothic" || nextBackground === "garden";
     persistSettings({
       ...settings,
@@ -462,6 +464,7 @@ export default function BookkeysApp() {
     });
   };
   const chooseTheme = (themeOption: (typeof THEMES)[number]) => {
+    setThemeOverride(false);
     persistSettings({ ...settings, skin: themeOption.id, bgMatch: false });
     if (themeOption.v) setTheme(themeOption.dark ? "dark" : "light");
   };
@@ -477,8 +480,13 @@ export default function BookkeysApp() {
     "--bk-panel-opacity": `${backdropPercent}%`,
   } as CSSProperties;
   const resolvedAppearance = useMemo(
-    () => resolveBookkeysAppearance(settings, effectiveBackground, theme === "dark", systemReducedMotion),
-    [settings, effectiveBackground, theme, systemReducedMotion],
+    () => resolveBookkeysAppearance(
+      themeOverride ? { ...settings, skin: "auto", bgMatch: false } : settings,
+      effectiveBackground,
+      theme === "dark",
+      systemReducedMotion,
+    ),
+    [settings, effectiveBackground, theme, systemReducedMotion, themeOverride],
   );
   const activeTone = resolvedAppearance.tone;
 
@@ -995,7 +1003,7 @@ export default function BookkeysApp() {
   function toggleTheme() {
     const nextTheme = activeTone === "dark" ? "light" : "dark";
     setTheme(nextTheme);
-    persistSettings({ ...settings, skin: "auto", bgMatch: false });
+    setThemeOverride(true);
   }
 
   function exportBackup() {
@@ -1024,6 +1032,7 @@ export default function BookkeysApp() {
       setShelves(readShelves(window.localStorage.getItem("bookkeys:shelves")));
       const restoredSettings = readSettings();
       setSettings(restoredSettings);
+      setThemeOverride(false);
       if (book) {
         const progress = game.book?.[book.bookKey];
         setCompletedPageIndexes([...new Set([...(progress?.p ?? []), ...(progress?.e ?? [])])]);
@@ -1451,7 +1460,7 @@ export default function BookkeysApp() {
                 <label className="bk-setting bk-setting-check">
                   <span>Match colors to background</span>
                   <input type="checkbox" checked={settings.bgMatch !== false}
-                    onChange={(event) => persistSettings({ ...settings, bgMatch: event.currentTarget.checked })} />
+                    onChange={(event) => { setThemeOverride(false); persistSettings({ ...settings, bgMatch: event.currentTarget.checked }); }} />
                 </label>
                 <p className="bk-settings-note">When enabled, each original background selects its matching reader palette. Custom accent and text colours remain independent.</p>
                 <div className="bk-setting">
