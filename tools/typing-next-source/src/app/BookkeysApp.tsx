@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 import { BOOKKEYS_BACKGROUND_CATALOG, BOOKKEYS_SCENE_IDS, createBookkeysBackgroundEngine } from "../domain/reading/bookkeys-backgrounds";
 import { createBookkeysEffectsEngine } from "../domain/reading/bookkeys-effects";
 import { createBookkeysSoundEngine } from "../domain/reading/bookkeys-sound";
-import { ACC, CARETS, FCOLS, FONTS, THEMES, TOK, resolveBookkeysAppearance } from "../domain/reading/bookkeys-appearance";
+import { ACC, BGPAL, CARETS, FCOLS, FONTS, THEMES, TOK, resolveBookkeysAppearance } from "../domain/reading/bookkeys-appearance";
 import type { BookkeysChapter, BookkeysLibraryMetadata, BookkeysShelf } from "../domain/persistence/bookkeys-v1-contracts";
 import { openBookkeysDatabase, type BookkeysDatabase } from "../domain/persistence/bookkeys-v1-database";
 import { readEpub } from "../domain/epub/epub-importer";
@@ -523,6 +523,33 @@ export default function BookkeysApp() {
     [settings, effectiveBackground, theme, systemReducedMotion, themeOverride],
   );
   const activeTone = resolvedAppearance.tone;
+  const contrastHintText = useMemo(() => {
+    const scenePalette = BGPAL[effectiveBackground];
+    const background = scenePalette?.v?.bg ?? resolvedAppearance.variables.bg;
+    const selectedText = settings.fontColor === "custom"
+      ? settings.fontColorCustom
+      : FCOLS.find((option) => option.v === settings.fontColor)?.c;
+    const textColor = selectedText || resolvedAppearance.variables.ink;
+    const luminance = (hex: string) => {
+      if (!/^#[0-9a-fA-F]{6}$/.test(hex || "")) return null;
+      const channels = [1, 3, 5].map((offset) => parseInt(hex.slice(offset, offset + 2), 16) / 255)
+        .map((value) => value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4));
+      return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+    };
+    const bgLuminance = luminance(background);
+    const textLuminance = luminance(textColor);
+    if (bgLuminance === null || textLuminance === null) return "";
+    const high = Math.max(bgLuminance, textLuminance);
+    const low = Math.min(bgLuminance, textLuminance);
+    const ratio = (high + 0.05) / (low + 0.05);
+    const rating = ratio >= 7 ? "excellent" : ratio >= 4.5 ? "good"
+      : ratio >= 3 ? "low, tiring to read" : "very low, may be hard to see";
+    let message = `Contrast with the background: ${ratio.toFixed(1)}:1 (${rating}).`;
+    if (scenePalette && !settings.bgMatch && ratio < 4.5) {
+      message += " Try turning on “Match colors to background”.";
+    }
+    return message;
+  }, [effectiveBackground, resolvedAppearance, settings.fontColor, settings.fontColorCustom, settings.bgMatch]);
   const isReducedMotion = settings.motion === "reduce" || (settings.motion !== "full" && systemReducedMotion);
   reducedMotionRef.current = isReducedMotion;
 
@@ -1674,6 +1701,7 @@ export default function BookkeysApp() {
             </nav>
             {settingsTab === "theme" ? (
               <div className="bk-settings-content">
+                <p className="bk-settings-note">Takes the theme colors (text, panels, accent) from the selected background. Your own text color and accent picks still apply on top.</p>
                 <div className="bk-setting">
                   <span>Color theme</span>
                   <div className="bk-theme-tiles" role="group" aria-label="Color theme">
@@ -1826,12 +1854,6 @@ export default function BookkeysApp() {
                   <input type="checkbox" checked={settings.bgMatch !== false}
                     onChange={(event) => { clearThemeOverride(); persistSettings({ ...settings, bgMatch: event.currentTarget.checked }); }} />
                 </label>
-                <label className="bk-setting bk-setting-check">
-                  <span>Center reading text</span>
-                  <input type="checkbox" aria-label="Center reading text" checked={settings.centered === true}
-                    onChange={(event) => persistSettings({ ...settings, centered: event.currentTarget.checked })} />
-                </label>
-                <p className="bk-settings-note">When enabled, each original background selects its matching reader palette. Custom accent and text colours remain independent.</p>
                 {themeOverride && <p className="bk-settings-note">The header's quick theme override is active. Change this setting or choose a background to return to matched colors.</p>}
                 <p className="bk-settings-note">Time of Day switches from Morning at 06:00, to Evening at 17:00, and Night at 20:00. The three photographs use portrait crops on tall screens. Picture backgrounds always keep at least 70% text backdrop for readability.</p>                <p className="bk-settings-note">Theme can also be changed using the sun/moon control in the header.</p>
               </div>
@@ -1869,6 +1891,7 @@ export default function BookkeysApp() {
                     value={safeReaderTextColor(settings.fontColorCustom) ?? "#FF8A00"}
                     onInput={(event) => persistSettings({ ...settingsRef.current, fontColor: "custom", fontColorCustom: event.currentTarget.value })} />
                 </label>
+                {contrastHintText && <p className="bk-settings-note" aria-live="polite">{contrastHintText}</p>}
                 <label className="bk-setting">
                   <span>Size <strong>{settings.size}px</strong></span>
                   <input type="range" min="14" max="34" step="1" value={settings.size}
@@ -1970,6 +1993,11 @@ export default function BookkeysApp() {
                   <span>Low thud on a mistake</span>
                   <input type="checkbox" checked={settings.errSound !== false}
                     onChange={(event) => persistSettings({ ...settings, errSound: event.currentTarget.checked })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Keep the current line centered</span>
+                  <input type="checkbox" aria-label="Center reading text" checked={settings.centered === true}
+                    onChange={(event) => persistSettings({ ...settings, centered: event.currentTarget.checked })} />
                 </label>
                 <label className="bk-setting bk-setting-check">
                   <span>Confetti when a page is finished</span>
