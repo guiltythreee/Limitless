@@ -1018,6 +1018,10 @@
     renderMockHistory();
     renderMockAnalytics();
     renderLearningSystem();
+    window.addEventListener('limitless:codeforces-learning-updated', renderSharedConceptInsights);
+    window.addEventListener('storage', function (event) {
+      if (event.key === 'limitless.competition.codeforces-learning.v1') renderSharedConceptInsights();
+    });
 
     $('mock-date').value = new Date().toISOString().slice(0,10);
     $('problem-form').addEventListener('submit', function (event) {
