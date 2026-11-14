@@ -23,6 +23,9 @@ for (const moduleId of ["metallurgy-mt201", "metallurgy-mt202", "metallurgy-mt20
 }
 assert.ok(metaSource.includes("Metallurgy MT201–MT203"),
   "Meta empty state describes the Metallurgy integrations");
+assert.ok(metaSource.includes('award.moduleId === "competitive-programming"') &&
+  metaSource.includes("Codeforces · accepted problem"),
+  "Meta labels verified Codeforces reward records");
 assert.ok(
   (pageSource.includes('<nav class="nav-links" aria-label="Display settings">') ||
     pageSource.includes('<nav class="site-nav" aria-label="Site navigation">')) &&
