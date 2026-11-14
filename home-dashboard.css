@@ -240,3 +240,9 @@ html[data-theme="light"] .red-promo-copy h2 { color:#243c68; } html[data-theme="
 html[data-theme="light"] .learning-intel-totals strong { color:#1c3550; }
 html[data-theme="light"] .learning-intel-label { color:#315f8a; }
 html[data-theme="light"] .learning-intel-card { background:rgba(248,252,255,.92); }
+
+
+.learning-intel-focus-link{color:var(--home-ink);text-decoration:none}
+.learning-intel-focus-link:hover{color:#78bdff;text-decoration:underline;text-underline-offset:3px}
+.learning-intel-focus-link:focus-visible{outline:2px solid #78bdff;outline-offset:3px;border-radius:3px}
+html[data-theme="light"] .learning-intel-focus-link:hover{color:#155f99}
