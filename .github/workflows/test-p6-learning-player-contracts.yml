@@ -25,6 +25,8 @@ on:
       - "metallurgy-source/app/mt203/exam.tsx"
       - "probability-source/app/learning-player/**"
       - "probability-source/app/components/Practice.tsx"
+      - "probability-source/app/lib/learning-intelligence.ts"
+      - "probability-source/app/lib/learning-intelligence.test.mjs"
       - "probability-source/app/components/Test.tsx"
       - "metallurgy-source/next.config.ts"
       - "probability-source/next.config.ts"
@@ -79,6 +81,7 @@ jobs:
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/workspace-layout.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-navigation.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/probability-topic-picker.test.mjs
+          if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; fi
 
       - name: Type-check shared contract and fixtures
         working-directory: ${{ matrix.project }}
