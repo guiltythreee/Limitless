@@ -1094,3 +1094,29 @@ test("all selectable reader fonts load from embedded offline font faces", async 
   expect(loaded.filter((font) => font.loaded && font.available).map((font) => font.family)).toEqual(families);
   expect(externalFontRequests).toEqual([]);
 });
+
+
+test("progress-only backup import preserves the site-wide theme override", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("limitless.typing.v1.theme", "dark");
+    localStorage.setItem("limitless.typing.v1.themeOverride", "1");
+  });
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+  await page.locator('input[aria-label="Import Bookkeys backup"]').setInputFiles({
+    name: "progress-only-backup.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify({
+      app: "bookkeys",
+      v: 1,
+      keys: { "bookkeys:game": JSON.stringify({ xp: 25, book: {} }) },
+    })),
+  });
+
+  await expect(page.getByText(/Backup merged/)).toBeVisible();
+  await expect.poll(() => page.evaluate(() =>
+    localStorage.getItem("limitless.typing.v1.themeOverride"),
+  )).toBe("1");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
