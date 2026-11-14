@@ -18,6 +18,9 @@ on:
       - "metallurgy-source/app/mt203/dashboard.tsx"
       - "metallurgy-source/app/mt203/player.tsx"
       - "metallurgy-source/app/lib/mt203-progress.ts"
+      - "metallurgy-source/scripts/test-mt203-learning-intelligence.mjs"
+      - "metallurgy-source/app/mt203/player.tsx"
+      - "metallurgy-source/app/lib/mt203-progress.ts"
       - "metallurgy-source/scripts/test-bookmarks.mjs"
       - "metallurgy-source/scripts/test-question-timers.mjs"
       - "metallurgy-source/scripts/test-daily-goals.mjs"
@@ -102,6 +105,7 @@ jobs:
           tests=(
             scripts/test-learning-core.mjs
             app/platform/learning/intelligence.test.mjs
+            scripts/test-mt203-learning-intelligence.mjs
             scripts/test-capability-truth.mjs
             scripts/test-mt201-attempts.mjs
             scripts/test-mt202-attempts.mjs
