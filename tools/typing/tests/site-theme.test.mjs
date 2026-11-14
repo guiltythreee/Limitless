@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { JSDOM } from "jsdom";
 
 const source = readFileSync(
-  fileURLToPath(new URL("../../../../site-theme.js", import.meta.url)),
+  fileURLToPath(new URL("../../../site-theme.js", import.meta.url)),
   "utf8",
 );
 
