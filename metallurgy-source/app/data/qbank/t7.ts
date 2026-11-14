@@ -291,7 +291,7 @@ const T7: TopicSource = {
       type: "assertreason",
       diff: 3,
       assertion: "Wool garments shrink irreversibly and 'felt' when washed in hot soapy water with agitation.",
-      reason: "The external scales of the wool (α-keratin) fibres interlock, and heat plus moisture allow the fibres to stretch and entangle permanently.",
+      reason: "The overlapping cuticle scales on wool fibres create directional friction: fibres move more readily in one direction than the other. Moisture, warmth and agitation promote progressive fibre migration and entanglement, producing felting.",
       options: [
         { label: "a", text: "Both A and R are true, and R is the correct explanation of A" },
         { label: "b", text: "Both A and R are true, but R is NOT the correct explanation of A" },
@@ -299,7 +299,7 @@ const T7: TopicSource = {
         { label: "d", text: "A is false, R is true" },
       ],
       answer: "a",
-      why: "The **scales** give direction-dependent friction; agitation + heat/moisture let fibres slip, entangle and lock — an irreversible densification (the reason for shrink-proof chemical treatments).",
+      why: "The cuticle scales create a directional-friction effect rather than simply interlocking like hooks. During washing, repeated movement causes fibres to migrate preferentially along the scale direction and become entangled; the resulting felted structure is difficult to reverse.",
       concept: "felting: scales + mobility",
       tags: ["revision"],
     },
