@@ -724,7 +724,7 @@
     var repeat=Object.keys(subjects).sort(function(a,b){return subjects[b]-subjects[a];})[0];
     var topMistake=MISTAKE_TYPES.slice().sort(function(a,b){return categories[b[0]]-categories[a[0]];})[0];
     var repair=topMistake&&categories[topMistake[0]]>0?'Most frequent issue: '+topMistake[1]+'. Revisit the underlying topic and solve two fresh questions before increasing difficulty.':(repeat?'Most logged practice subject: '+repeat+'. Add mistake categories to identify the recurring cause.':'Log problems with a mistake category to identify recurring weaknesses.');
-    $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div><p class="repair-suggestion">'+esc(repair)+'</p>'<div id="concept-learning-insights"></div>';
+    $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div><p class="repair-suggestion">'+esc(repair)+'</p><div id="concept-learning-insights"></div>';
     renderSharedConceptInsights();
   }
   function renderSharedConceptInsights() {
