@@ -72,9 +72,11 @@ test("tidyChapters sorts, deduplicates and inserts a Beginning entry", () => {
   assert.deepEqual(chapters.map((chapter) => chapter.title), ["Beginning", "A", "B"]);
 });
 
-test("even chapter fallback creates five balanced parts for long books", () => {
-  assert.deepEqual(evenChapters(100).map((chapter) => chapter.p), [0, 20, 40, 60, 80]);
+test("even chapter fallback matches the legacy target of about 20 pages per section", () => {
   assert.deepEqual(evenChapters(10).map((chapter) => chapter.p), [0]);
+  assert.deepEqual(evenChapters(20).map((chapter) => chapter.p), [0]);
+  assert.deepEqual(evenChapters(50).map((chapter) => chapter.p), [0, 17, 34]);
+  assert.deepEqual(evenChapters(100).map((chapter) => chapter.p), [0, 20, 40, 60, 80]);
 });
 
 test("chapter detection falls back to balanced parts when no headings are found", () => {
