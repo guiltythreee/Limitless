@@ -121,10 +121,10 @@ const T2: TopicSource = {
       options: [
         { label: "a", text: "Transfer occurs only after termination has already removed every active chain from the reaction mixture." },
         { label: "b", text: "Transfer slows monomer addition at the radical, so each propagation step adds less mass to the chain." },
-        { label: "c", text: "The radical moves to another molecule; one chain stops, but a new radical can continue propagation with little rate change." },
-        { label: "d", text: "Transfer destroys all radicals irreversibly, so polymerization stops as soon as the first transfer event occurs." }
+        { label: "c", text: "Transfer destroys all radicals irreversibly, so polymerization stops as soon as the first transfer event occurs." },
+        { label: "d", text: "The radical moves to another molecule; one chain stops, but a new radical can continue propagation with little rate change." }
       ],
-      answer: "c",
+      answer: "d",
       why: "The active centre moves, it does not vanish: count of propagating radicals stays ~constant (rate unchanged) while **chain length — and hence MW — drops**.",
       concept: "transfer: lower MW, same rate",
       tags: ["confused"],
