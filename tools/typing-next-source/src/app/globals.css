@@ -19,7 +19,18 @@
   --pic-veil: 0%;
   --pic-blur: 0px;
 }
-html[data-tone="light"] { color-scheme: light; }
+html[data-tone="light"] {
+  color-scheme: light;
+  --bg: #f3efe7;
+  --panel: #faf7f0;
+  --ink: #2a251e;
+  --dim: #6d655a;
+  --accent: #8a652d;
+  --on-accent: #fffaf2;
+  --bad: #c0394b;
+  --bad-bg: #f8e1e4;
+  --line: #ded6ca;
+}
 html, body { min-height: 100%; margin: 0; }
 body { background: var(--bg); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 .bk-background-canvas, .bk-picture-background, .bk-static-background { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
