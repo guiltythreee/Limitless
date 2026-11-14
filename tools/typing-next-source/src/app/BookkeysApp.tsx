@@ -811,7 +811,7 @@ export default function BookkeysApp() {
       const savedBook = readGame().book?.[parsed.bookKey];
       setCompletedPageIndexes([...new Set([...(savedBook?.p ?? []), ...(savedBook?.e ?? [])])]);
       setPageIndex(savedPage);
-      await database.putBook({ ...entry, cover: entry.cover || safeArtworkDataUrl(parsed.coverDataUrl) || "", opened: Date.now() }, file);
+      await database.putBook({ ...entry, cover: safeArtworkDataUrl(entry.cover) || safeArtworkDataUrl(parsed.coverDataUrl) || "", opened: Date.now() }, file);
       setLibrary((await database.listMetadata()).sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
       setStatus("Book opened. Your typing drafts are saved in this browser.");
     } catch (error) {
