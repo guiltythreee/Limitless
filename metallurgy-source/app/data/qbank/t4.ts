@@ -188,12 +188,12 @@ const T4: TopicSource = {
       diff: 1,
       text: "PDI (polydispersity index) is defined as:",
       options: [
-        { label: "a", text: "Mz / Mw" },
-        { label: "b", text: "Mw / Mn" },
+        { label: "a", text: "Mw / Mn" },
+        { label: "b", text: "Mz / Mw" },
         { label: "c", text: "Mv / Mn" },
         { label: "d", text: "Mn / Mw" }
       ],
-      answer: "b",
+      answer: "a",
       why: "$\\text{PDI} = M_w/M_n \\ge 1$ always (equals 1 only for monodisperse). The older symbol $\\bar{X}_w/\\bar{X}_n$ is equivalent.",
       tags: ["revision"],
     },
