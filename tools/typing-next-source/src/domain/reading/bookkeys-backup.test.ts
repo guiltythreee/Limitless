@@ -247,14 +247,14 @@ test("merge keeps the newest draft while retaining local chapter and reading-pos
   assert.equal(storage.getItem("bookkeys:book-a"), "2");
 });
 
-test("merge does not replace a valid local draft with an older backup draft", () => {
-  const storage = new MemoryStorage();
+test("merge does not replace a valid local draft with an older or malformed-timestamp backup draft", () => {
   const localDraft = JSON.stringify({
     v: 1, page: 1, sig: "local", typed: "keep local", ok: 4, all: 5, spent: 9, t: 500,
   });
+  const storage = new MemoryStorage();
   storage.setItem("bookkeys:draft:book-b:1", localDraft);
 
-  const backup = parseBookkeysBackup(JSON.stringify({
+  const olderBackup = parseBookkeysBackup(JSON.stringify({
     app: "bookkeys", v: 1,
     keys: {
       "bookkeys:draft:book-b:1": JSON.stringify({
@@ -263,9 +263,22 @@ test("merge does not replace a valid local draft with an older backup draft", ()
     },
   }));
 
-  const result = restoreBookkeysBackup(storage, backup, "merge");
+  const olderResult = restoreBookkeysBackup(storage, olderBackup, "merge");
+  assert.equal(olderResult.written, 0);
+  assert.equal(olderResult.unchanged, 1);
+  assert.equal(storage.getItem("bookkeys:draft:book-b:1"), localDraft);
 
-  assert.equal(result.written, 0);
-  assert.equal(result.unchanged, 1);
+  const malformedBackup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:draft:book-b:1": JSON.stringify({
+        v: 1, page: 1, sig: "backup", typed: "malformed timestamp", ok: 1, all: 2, spent: 3, t: "not-a-time",
+      }),
+    },
+  }));
+
+  const malformedResult = restoreBookkeysBackup(storage, malformedBackup, "merge");
+  assert.equal(malformedResult.written, 0);
+  assert.equal(malformedResult.unchanged, 1);
   assert.equal(storage.getItem("bookkeys:draft:book-b:1"), localDraft);
 });
