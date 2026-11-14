@@ -467,3 +467,5 @@ html[data-theme="light"] .cr-training-launch-tile{background:linear-gradient(145
 html[data-theme="light"] .cr-training-launch-tile:hover{background:linear-gradient(145deg,#fff,#e5f1fb);border-color:#8eb6d7}
 html[data-theme="light"] .cr-internal-view-head h2,html[data-theme="light"] .cr-back-to-problems{color:#1c3d5c}
 @media(max-width:520px){.cr-training-launch-tile{width: min(190px,100%)}}
+
+.cr-training-launch[hidden]{display:none!important}
