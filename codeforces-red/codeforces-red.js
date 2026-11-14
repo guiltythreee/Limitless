@@ -167,6 +167,9 @@
       if (ratings.status !== 'OK') throw new Error(ratings.comment || 'Could not load contest history.');
       if (submissions.status !== 'OK') throw new Error(submissions.comment || 'Could not load accepted submissions.');
       const user = info.result[0], history = ratings.result, accepted=submissions.result.filter(x=>x.verdict==='OK'&&x.problem&&x.problem.contestId!=null);
+      const learningSync = await import('../competition/codeforces-sync.mjs');
+      const learningResult = learningSync.syncCodeforcesSubmissions(localStorage, handle, submissions.result);
+      if (!learningResult.ok) throw new Error('Codeforces learning history could not be saved safely.');
       const weekStart=new Date();weekStart.setHours(0,0,0,0);weekStart.setDate(weekStart.getDate()-((weekStart.getDay()+6)%7));const weekStartSec=Math.floor(weekStart.getTime()/1000);
       const weekProblems=new Set(accepted.filter(x=>x.creationTimeSeconds>=weekStartSec).map(x=>x.problem.contestId+'-'+(x.problem.index||'')));
       const weekContests=history.filter(x=>x.ratingUpdateTimeSeconds>=weekStartSec).length;
@@ -178,7 +181,9 @@
       roadmapState.weekly={solved:weekProblems.size,contests:weekContests+(roadmapState.weeklyManual?.contests||0)};saveRoadmap();
       render(peak);
       lastSuccessfulSyncAt=Date.now();
-      $('sync-status').textContent = 'Live Codeforces data · rating, accepted problems and contest participation synced just now.';
+      $('sync-status').textContent = 'Live Codeforces data · rating, accepted problems and contest participation synced just now.' +
+        (learningResult.baseline ? ' First learning sync established a historical baseline; older submissions are excluded.' :
+          ' ' + learningResult.added + ' new submission attempt(s) added to learning analysis.');
     } catch (error) {
       $('sync-status').textContent = (error.name === 'AbortError' ? 'Codeforces API timed out after 15 seconds.' : (error.message || 'Unable to connect to Codeforces.')) + ' Check the handle in Competition and retry.';
       $('milestone-list').innerHTML = '<p class="cr-loading">Rating data is unavailable right now. Milestones will appear when Codeforces responds.</p>';
