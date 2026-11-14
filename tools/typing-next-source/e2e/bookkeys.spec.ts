@@ -316,6 +316,20 @@ test("library supports Recent, moving books between shelves and removing a book 
   await expect(page.getByText("No books yet")).toBeVisible();
 });
 
+test("multiple EPUBs can be imported together without opening each one", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const first = await makeFixtureEpub(false);
+  const second = await makeFixtureEpub(true);
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles([
+    { name: "library-batch-one.epub", mimeType: "application/epub+zip", buffer: first },
+    { name: "library-batch-two.epub", mimeType: "application/epub+zip", buffer: second },
+  ]);
+
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toHaveCount(2);
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
+  await expect(page.getByText("2 of 2 selected books added to this browser's library.")).toBeVisible();
+});
+
 test("PDF import extracts readable text and records page completion", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const pdf = await makeFixturePdf();
