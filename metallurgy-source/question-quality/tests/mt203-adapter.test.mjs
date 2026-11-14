@@ -35,6 +35,9 @@ const expectedFormats = {
 for (const [type, format] of Object.entries(expectedFormats)) {
   assert.equal(adaptMT203Question({ ...source, type }, topic).format, format, type);
 }
+for (const format of new Set(Object.values(expectedFormats))) {
+  assert.equal(getProfile(`mt203.${format}.v1`).format, format, `registered profile: ${format}`);
+}
 assert.throws(() => adaptMT203Question({ ...source, type: "unmapped" }, topic), /Unsupported MT203 question type/);
 const assertionReason = adaptMT203Question({
   ...source, type: "assertreason", text: undefined,
