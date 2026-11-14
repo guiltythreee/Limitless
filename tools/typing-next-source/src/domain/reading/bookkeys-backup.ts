@@ -209,8 +209,27 @@ export function restoreBookkeysBackup(
     const incomingKeys = new Set(Object.keys(backup.keys).filter(isBookkeysBackupKey));
     for (const key of existing.keys()) {
       if (incomingKeys.has(key)) continue;
-      try { storage.removeItem(key); } catch { failed += 1; }
+      try {
+        storage.removeItem(key);
+      } catch {
+        failed += 1;
+        break;
+      }
     }
+
+    if (failed > 0) {
+      // A failed cleanup is still a failed replace. Restore the complete
+      // pre-restore snapshot, including keys already removed in this pass.
+      for (const [key, previousRaw] of existing) {
+        try { storage.setItem(key, previousRaw); } catch { failed += 1; }
+      }
+      for (const key of Object.keys(backup.keys)) {
+        if (!isBookkeysBackupKey(key) || existing.has(key)) continue;
+        try { storage.removeItem(key); } catch { failed += 1; }
+      }
+      return { written: 0, unchanged: 0, failed };
+    }
+
     return {
       written,
       unchanged: Object.keys(backup.keys).length - written,
