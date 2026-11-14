@@ -24,20 +24,16 @@ export function sectionBody(value: unknown): string {
   return normalize(text).toLowerCase();
 }
 
-function containsWholePhrase(text: string, phrase: string): boolean {
-  const words = text.replace(/[^a-z0-9']+/g, " ").trim().split(/\s+/).filter(Boolean);
-  const target = phrase.replace(/[^a-z0-9']+/g, " ").trim().split(/\s+/).filter(Boolean);
-  if (!target.length || target.length > words.length) return false;
-  for (let index = 0; index <= words.length - target.length; index += 1) {
-    if (target.every((word, offset) => words[index + offset] === word)) return true;
-  }
-  return false;
+function startsWithWholePhrase(text: string, phrase: string): boolean {
+  const source = text.replace(/[^a-z0-9']+/g, " ").trim();
+  const target = phrase.replace(/[^a-z0-9']+/g, " ").trim();
+  return Boolean(target) && (source === target || source.startsWith(target + " "));
 }
 
 export function sectionRequired(value: unknown): boolean {
   const title = sectionBody(value);
   if (!title) return true;
-  return !OPTIONAL_HEADINGS.some((heading) => containsWholePhrase(title, heading));
+  return !OPTIONAL_HEADINGS.some((heading) => startsWithWholePhrase(title, heading));
 }
 
 export function defaultReq(chapter: Pick<BookkeysChapter, "p" | "title">): boolean {
