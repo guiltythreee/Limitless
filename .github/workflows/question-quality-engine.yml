@@ -9,6 +9,7 @@ on:
       - "metallurgy-source/scripts/validate-mcq-qs.mjs"
       - "metallurgy-source/scripts/mcq-qs-enforced.json"
       - "metallurgy-source/app/mt203/types.ts"
+      - "metallurgy-source/app/data/qbank/**"
       - "metallurgy-source/package.json"
       - ".github/workflows/question-quality-engine.yml"
   push:
