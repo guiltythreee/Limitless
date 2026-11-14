@@ -84,7 +84,7 @@ A populated IndexedDB v1 fixture opens in-browser without a version upgrade; act
 
 ## Remaining acceptance gates
 
-- Complete a source-by-source comparison of all six existing settings tabs against the legacy implementation: exact Theme/accent/background palette options, Font catalogue and offline font loading, Typing effects/sound semantics, Cursor options and side effects. Correct only demonstrated parity gaps; do not rebuild existing tabs.
+- Complete the remaining source-by-source comparison of all six existing settings tabs: exact Theme/accent/background palette options, Typing effects/sound semantics, Cursor options and side effects, plus each control's defaults and range/step behaviour. The ten-font catalogue and all 22 static font-face assets now match the original and load in Chromium without external requests; Latin-only glyph coverage and system fallback for other scripts are documented. Correct only demonstrated parity gaps; do not rebuild existing tabs.
 - Verify real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard behaviour against the legacy reader; synthetic composition lifecycle automation now passes.
 - Complete a side-by-side inventory of every legacy Bookkeys screen, action, setting and keyboard interaction; port anything not represented in the new reader.
 - Test representative real-world PDFs and EPUBs, including long books, unusual chapter structures, malformed files and scanned/image-only PDFs.
