@@ -1123,3 +1123,43 @@ test("backup without valid appearance choices preserves the site-wide theme over
   )).toBe("1");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
+
+
+test("PDF and TXT files can be batch-imported into the local library", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const pdf = await makeFixturePdf();
+  const text = Buffer.from(
+    "A plain text book can be imported locally.\n\nThis second paragraph verifies that the TXT importer stores readable sections.",
+    "utf8",
+  );
+
+  await page.locator('input[type="file"][accept*=".pdf"]').setInputFiles([
+    { name: "Bookkeys Batch PDF.pdf", mimeType: "application/pdf", buffer: pdf },
+    { name: "Bookkeys Batch TXT.txt", mimeType: "text/plain", buffer: text },
+  ]);
+
+  await expect(page.getByRole("button", { name: /Bookkeys PDF Fixture/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Bookkeys Batch TXT/ })).toBeVisible();
+  await expect(page.getByText("2 of 2 selected books added to this browser's library.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
+});
+
+test("dropping a TXT file onto the library imports it into local storage", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await page.locator(".bk-library").evaluate((target) => {
+    const transfer = new DataTransfer();
+    transfer.items.add(new File(
+      ["Dropped text remains local and can be reopened after refresh."],
+      "Dropped Book.txt",
+      { type: "text/plain" },
+    ));
+    target.dispatchEvent(new DragEvent("dragover", { bubbles: true, dataTransfer: transfer }));
+    target.dispatchEvent(new DragEvent("drop", { bubbles: true, dataTransfer: transfer }));
+  });
+
+  const droppedBook = page.getByRole("button", { name: /Dropped Book/ });
+  await expect(droppedBook).toBeVisible();
+  await expect(page.getByText("Added Dropped Book to this browser's library.")).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("button", { name: /Dropped Book/ })).toBeVisible();
+});
