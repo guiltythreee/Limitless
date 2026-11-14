@@ -65,12 +65,12 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
   const backupBooks = isRecord(incoming.book) ? incoming.book : {};
   // Only accept book records with an object shape. A malformed backup value
   // must never replace a valid local progress record or enter the live state.
-  const books: Record<string, unknown> = Object.fromEntries(
+  const books: Record<string, unknown> = Object.assign(Object.create(null) as Record<string, unknown>, Object.fromEntries(
     Object.entries(backupBooks).flatMap(([key, value]) => {
       const sanitized = sanitizeBookProgress(value);
       return sanitized ? [[key, sanitized]] : [];
     }),
-  );
+  ));
   if (!local) {
     const restored = { ...incoming };
     if (Object.prototype.hasOwnProperty.call(incoming, "book")) restored.book = books;
@@ -79,7 +79,8 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
   for (const [key, backupValue] of Object.entries(backupBooks)) {
     const backup = sanitizeBookProgress(backupValue);
     if (!backup) continue;
-    const current = sanitizeBookProgress(localBooks[key]);
+    const currentValue = Object.prototype.hasOwnProperty.call(localBooks, key) ? localBooks[key] : undefined;
+    const current = sanitizeBookProgress(currentValue);
     if (!current) {
       books[key] = backup;
       continue;
@@ -101,13 +102,13 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
   const backupPaid = isRecord(incoming.paid) ? incoming.paid : {};
   const localAch = isRecord(local.ach) ? local.ach : {};
   const backupAch = isRecord(incoming.ach) ? incoming.ach : {};
-  const localOnlyBooks = Object.fromEntries(
+  const localOnlyBooks = Object.assign(Object.create(null) as Record<string, unknown>, Object.fromEntries(
     Object.entries(localBooks).flatMap(([key, value]) => {
-      if (isRecord(backupBooks[key])) return [];
+      if (Object.prototype.hasOwnProperty.call(backupBooks, key)) return [];
       const sanitized = sanitizeBookProgress(value);
       return sanitized ? [[key, sanitized]] : [];
     }),
-  );
+  ));
   return JSON.stringify({
     ...incoming,
     ...local,
@@ -119,7 +120,7 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
 
 function mergeSettings(local: Record<string, unknown> | null, incoming: Record<string, unknown>): string {
   if (!local) return JSON.stringify(incoming);
-  const merged = { ...local };
+  const merged: Record<string, unknown> = Object.assign(Object.create(null) as Record<string, unknown>, local);
   for (const [key, value] of Object.entries(incoming)) {
     // Keep backup-only settings fields so restores across app versions do not
     // silently discard preferences introduced by a newer reader.
