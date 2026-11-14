@@ -7,7 +7,7 @@ const FORMAT_BY_TYPE = Object.freeze({
   higher: "single-choice",
   numerical: "numerical",
   assertreason: "assertion-reason",
-  statement: "single-choice",
+  statement: "statement-selection",
   match: "match",
   sequence: "sequence",
   graph: "graph-data",
@@ -22,7 +22,7 @@ export function adaptMT203Question(q, topic) {
   return {
     id: q.id,
     format,
-    stem: q.text || [q.assertion, q.reason].filter(Boolean).join("\\n"),
+    stem: q.text || [q.assertion, q.reason].filter(Boolean).join("\n"),
     options: (q.options || []).map((o) => ({
       id: o.label,
       text: o.text,
