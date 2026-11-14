@@ -33,13 +33,13 @@ These branches were built from an earlier repository checkpoint. The earlier not
 
 ## Verified in CI
 
-The latest successful current-main migration workflow is [43640117020](https://github.com/guiltythreee/Limitless/actions/runs/43640117020), with the separate legacy regression workflow [43640121400](https://github.com/guiltythreee/Limitless/actions/runs/43640121400). Both completed successfully on commit `9b8d7eb`.
+The latest successful current-main migration workflow is [43646017645](https://github.com/guiltythreee/Limitless/actions/runs/43646017645), with the separate legacy regression workflow [43646017621](https://github.com/guiltythreee/Limitless/actions/runs/43646017621). Both completed successfully on commit `9cbf646ce4551f40dee56879cbdcdbe0e6dea466`.
 
-- **110/110 TypeScript tests passed**, covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, shelves and reward logic.
-- **98/98 legacy preservation tests passed** against the original standalone HTML implementation. The archived 91-test baseline and current 98/98 result are recorded in `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
+- **113/113 TypeScript tests passed**, covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, shelves and reward logic.
+- **99/99 legacy preservation tests passed** against the original standalone HTML implementation. The archived 91-test baseline and current branch's 99/99 result are recorded in `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
 - TypeScript type-check passed.
 - Next.js static production build passed.
-- Chromium browser regression suite: **24/24 passed**:
+- Chromium browser regression suite: **25/25 passed**:
   1. Import an EPUB, type a page, persist progress and reward records, reload, reopen, export a backup, import it into a fresh browser context and restore settings.
   2. Change theme, accent, custom text colour and reader settings; verify persistence, legacy background preferences, Gothic/Garden artwork on the home and reader surfaces, and the correct palette-driven shell theme after reload.
   3. Import a PDF, extract readable text and complete a page.
@@ -88,7 +88,7 @@ A populated IndexedDB v1 fixture opens in-browser without a version upgrade; act
 
 The following are genuinely outstanding; implemented features and passing fixture-based checks are not repeated here:
 
-- Run the newly added conflict-focused backup tests on the current branch head. The preceding CI run on `42b1a38` passed 99/99 legacy tests, 111/111 TypeScript tests, type-check, static production build and 25/25 Chromium E2E tests. Two additional unit tests have since been added for newest-draft selection and preservation of local chapter/position choices; they require CI confirmation on the new head.
+- Validate backup import against representative copies of actual legacy user backups, including multiple books, divergent progress, custom chapter selections, draft timestamps, settings extensions and older v1 envelopes. Do this with copies only; never experiment on the user's only live database.
 - Validate backup import against representative copies of actual legacy user backups, including multiple books, divergent progress, custom chapter selections, draft timestamps, settings extensions and older v1 envelopes. Do this with copies only; never experiment on the user's only live database.
 - Open representative real user IndexedDB v1 libraries in a separate browser profile after exporting a backup. Confirm metadata, original file blobs, artwork and saved progress. Automated coverage currently uses a populated synthetic v1 fixture.
 - Test representative real-world PDFs and EPUBs: long books, unusual chapter structures, malformed archives and scanned/image-only PDFs.
