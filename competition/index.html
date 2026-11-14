@@ -195,9 +195,9 @@
       </div>
       <div class="learning-system-grid">
         <article class="learning-panel">
-          <div class="learning-panel-heading"><h3>Spaced revision queue</h3><strong id="revision-summary">0 due · 0 scheduled</strong></div>
-          <p id="revision-upcoming" class="muted-note">Your next review will appear here.</p>
-          <div id="revision-queue" class="revision-queue"><p class="empty-state">Problem logs automatically enter the 1, 7, 14 and 30-day revision cycle.</p></div>
+          <div class="learning-panel-heading"><h3>Spaced revision queue</h3><strong id="revision-summary">Calculating revision schedule</strong></div>
+          <p id="revision-upcoming" class="muted-note">Due dates advance after successful independent re-solves.</p>
+          <div id="revision-queue" class="revision-queue"><p class="empty-state">Unresolved problems enter after one day. Successful independent re-solves advance the 7, 14 and 30-day intervals; a failed review resets to one day.</p></div>
         </article>
         <article class="learning-panel">
           <div class="learning-panel-heading"><h3>Mistake analysis</h3><span>Based on your problem log</span></div>
@@ -237,6 +237,13 @@
         </label>
         <button type="submit" class="action-button">Save problem review</button>
       </form>
+      <div class="problem-catalogue-controls" aria-label="Filter problem catalogue">
+        <label>Search problems<input id="problem-search" type="search" placeholder="Search name, concept, observation or source"></label>
+        <label>Subject<select id="problem-filter-subject"><option value="all">All subjects</option><option>Logical Reasoning</option><option>Combinatorics</option><option>Probability</option><option>Graph Theory</option><option>Dynamic Programming</option><option>C++ / Implementation</option></select></label>
+        <label>First attempt<select id="problem-filter-outcome"><option value="all">All outcomes</option><option value="independent">Solved independently</option><option value="hint">Solved after a hint</option><option value="editorial">Solved after editorial</option><option value="unsolved">Not solved yet</option></select></label>
+        <label>Difficulty<select id="problem-filter-band"><option value="all">All challenge levels</option><option>Basic application</option><option>Multiple-concept application</option><option>Non-obvious observation</option><option>Mathematical derivation</option><option>Unseen competition-level</option></select></label>
+        <p id="problem-catalogue-count" role="status">Showing all logged problems</p>
+      </div>
       <div id="problem-history" class="problem-history"><p class="empty-state">No problem reviews recorded yet.</p></div>
     </section>
 
