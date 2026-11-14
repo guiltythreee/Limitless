@@ -33,33 +33,43 @@ These branches were built from an earlier repository checkpoint. The earlier not
 
 ## Verified in CI
 
-The latest successful current-main workflow run [43616767485](https://github.com/guiltythreee/Limitless/actions/runs/43616767485) includes:
+The latest successful current-main migration workflow is [43634884272](https://github.com/guiltythreee/Limitless/actions/runs/43634884272), with the separate legacy regression workflow [43634884262](https://github.com/guiltythreee/Limitless/actions/runs/43634884262). Both completed successfully on commit `2f37b37`.
 
-- 107 TypeScript tests covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, shelves and reward logic.
-- The current 98-test legacy suite in tools/typing/tests is also rerun in CI against the preserved standalone HTML implementation. The archived 91-test baseline and current 98/98 result are recorded in tools/typing/BOOKKEYS_TEST_BASELINE.md.
-- TypeScript type-check.
-- Next.js static production build.
-- 18 Playwright browser regressions:
+- **107/107 TypeScript tests passed**, covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, shelves and reward logic.
+- **98/98 legacy preservation tests passed** against the original standalone HTML implementation. The archived 91-test baseline and current 98/98 result are recorded in `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
+- TypeScript type-check passed.
+- Next.js static production build passed.
+- Chromium browser regression suite: **20/20 passed**:
   1. Import an EPUB, type a page, persist progress and reward records, reload, reopen, export a backup, import it into a fresh browser context and restore settings.
-  2. Import a PDF, extract readable text and complete a page.
-  3. Switch themes and change reader settings, then verify persistence after reload.
+  2. Change theme, accent, custom text colour and reader settings; verify persistence, legacy background preferences, Gothic/Garden artwork on the home and reader surfaces, and the correct palette-driven shell theme after reload.
+  3. Import a PDF, extract readable text and complete a page.
   4. Use the reader at a 390 px phone viewport and verify no horizontal overflow.
   5. Navigate to a second section, reload, use Continue reading and restore both the saved position and unfinished typing draft.
   6. Type the sample passage and verify that no XP, reward ledger or book progress is written.
-  7. Load the legacy bookkeys:size setting when the newer settings object has no size.
+  7. Load the legacy `bookkeys:size` setting when the newer settings object has no size.
   8. Remove a local book file and library entry while retaining completed typing progress.
   9. Add/remove chapter headings, persist both legacy chapter keys and restore edits after reload.
   10. Verify the shared Limitless EXP display aggregates Probability, Metallurgy and Bookkeys ledgers, updates when another tab awards EXP, and excludes legacy `bookkeys:game.xp`.
-  11. Open a pre-populated `bookkeys-lib` IndexedDB v1 library with existing metadata and a local EPUB blob, then confirm the schema remains v1 and restore a saved Gothic artwork background from the existing `files` store.
+  11. Open a pre-populated `bookkeys-lib` IndexedDB v1 library with existing metadata and a local EPUB blob, then confirm the schema remains v1 and restore saved Gothic artwork from the existing `files` store.
   12. Paste plain text, create a local TXT-backed book, type a page, reload and restore its draft/progress.
   13. Open the Akashic Archive and verify existing achievement timestamps and saved records remain unchanged.
   14. Simulate IME composition start, intermediate composing input, composition end and a possible final input event; verify the committed character is counted once, saved in the draft, and does not prematurely write page progress.
   15. Verify the original 22 procedural canvas scenes, the visual background tile catalogue, and the three photo backgrounds with both desktop and portrait crops.
   16. Verify Time of Day switching, reduced-motion behaviour, photo text-backdrop minimum, and background control persistence.
   17. Verify the legacy `bgdef1`/`bgdef2` migrations run once, preserve the expected photo/veil defaults and do not replay over later user choices.
-  18. Verify the custom artwork remains applied to the reader text surface after reload.
+  18. Verify the centered-reading preference is in the original Typing tab and changes the reader layout, then persists after reload.
+  19. Verify original background palettes, theme tiles, accent swatches and background-colour matching in the original Theme tab.
+  20. Load all ten selectable reader fonts from embedded offline WOFF2 faces and confirm no external font requests are made.
 
-PDF, EPUB and plain-text/TXT imports are supported, including a paste-text workflow that stores text as a local TXT-backed book. Existing Gothic and Garden artwork data is read from the original IndexedDB keys; uploaded images are validated, resized to at most 1600 × 900 and stored in those same keys. The original 22 procedural canvas scene definitions are restored, along with the 27-entry original background tile catalogue, three photographic scenes with desktop/portrait crops, Time of Day mode, density/animation controls, backdrop/veil/blur controls and the exact one-time `bgdef1`/`bgdef2` migrations. Photo backgrounds retain a minimum 70% reader text backdrop. The original 34 settings fields and defaults remain lossless, including unknown extension fields. The preview already contains all six settings tabs (Theme, Background, Font, Typing, Cursor and Data), with working controls for palettes, typography, typing effects/sound, cursor shape/blink/colour, background scenes and backup/restore. This is not yet proof of exact legacy parity: remaining work is a source-by-source comparison of every legacy setting's options, defaults, side effects and visual semantics, plus offline-font availability and real-device acceptance. The library also displays persisted Bookkeys page, chapter, book, word and character counters. The Akashic Archive now updates core counters only after eligible typing: words, characters, pages, daily and consecutive-day streaks, session bests, WPM/accuracy records, perfect pages, consecutive accuracy runs, flawless chapters and 100-page-book milestones. New achievement timestamps are written only when a user crosses a threshold; existing records are preserved and old thresholds are not backfilled. Typing accuracy now tracks key events rather than only the final text: inserted characters count, deletions do not, and retyped characters count again. Drafts retain those counters, and multi-character paste/drop input is blocked. Synthetic IME composition lifecycle is now covered by a passing browser regression. Real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard acceptance remain open. A populated IndexedDB v1 fixture is now opened in-browser without a version upgrade; actual user libraries still require a backup-first manual acceptance run. The Bookkeys header displays global Limitless EXP from the canonical LSR-1 source registry, including awards from other disciplines and updates from other tabs. Legacy `bookkeys:game.xp` is retained for data compatibility but is never counted as global EXP. The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical shared/rewards.mjs implementation.
+PDF, EPUB and plain-text/TXT imports are supported, including a paste-text workflow that stores text as a local TXT-backed book. Existing Gothic and Garden artwork data is read from the original IndexedDB keys; uploaded images are validated, resized to at most 1600 × 900 and stored in those same keys. The original 22 procedural canvas scene definitions are restored, along with the 27-entry original background tile catalogue, three photographic scenes with desktop/portrait crops, Time of Day mode, density/animation controls, backdrop/veil/blur controls and the exact one-time `bgdef1`/`bgdef2` migrations. Photo backgrounds retain a minimum 70% reader text backdrop. The original 34 settings fields and defaults remain lossless, including unknown extension fields.
+
+The preview contains all six settings tabs (Theme, Background, Font, Typing, Cursor and Data). The legacy control placements now match: background-colour matching is in Theme; centered reading is in Typing; the Font tab includes the live contrast ratio warning. Gothic/Garden uploads continue to work as selectable reader backgrounds and now also decorate the library home when their matching decorative theme is active.
+
+The original source contains 22 static WOFF2 `@font-face` declarations: ten selectable reader families and two decorative display families with their legacy weights/styles. All 22 definitions match the preview exactly. The browser test loads all ten selectable families locally without external font requests. Font files cover Latin glyphs; non-Latin scripts use system fallback fonts, as in the original subset.
+
+The library also displays persisted Bookkeys page, chapter, book, word and character counters. The Akashic Archive updates core counters only after eligible typing: words, characters, pages, daily and consecutive-day streaks, session bests, WPM/accuracy records, perfect pages, consecutive accuracy runs, flawless chapters and 100-page-book milestones. New achievement timestamps are written only when a user crosses a threshold; existing records are preserved and old thresholds are not backfilled. Typing accuracy tracks key events rather than only the final text: inserted characters count, deletions do not, and retyped characters count again. Drafts retain those counters, and multi-character paste/drop input is blocked. Synthetic IME composition lifecycle is covered by a passing browser regression. Real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard acceptance remain open.
+
+A populated IndexedDB v1 fixture opens in-browser without a version upgrade; actual user libraries still require a backup-first manual acceptance run. The Bookkeys header displays global Limitless EXP from the canonical LSR-1 source registry, including awards from other disciplines and updates from other tabs. Legacy `bookkeys:game.xp` is retained for data compatibility but is never counted as global EXP. The shared LSR-1 reward policy is mirrored inside this isolated Next.js project because the Next build boundary cannot import files outside the project root. A parity test compares its award calculations and ledger sanitization with the canonical `shared/rewards.mjs` implementation.
 
 ## Safety and data compatibility
 
