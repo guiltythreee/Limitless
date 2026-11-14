@@ -13,6 +13,8 @@
 
 import { createElement, useEffect, useRef, useState } from "react";
 import { awardAnswer, Mode, Progress, recordAnswer, saveProgress, toggleBookmark } from "../lib/mt203-progress";
+import { MISTAKE_CATEGORIES, type MistakeCategory } from "../../../shared/studies/mistakes";
+import { classifyMistake } from "../lib/mt203-progress";
 import { OptionList, QuestionBody, QuestionMeta, SolutionPanel } from "./qview";
 import type { Question } from "../courses/types";
 import {
@@ -302,6 +304,13 @@ export default function Player({
   }
 
   const chosen = picked[theQ.id];
+  const currentAttempt = isRevealed
+    ? [...progress.attempts].reverse().find((attempt) => attempt.q === theQ.id)
+    : undefined;
+  const selectMistakeCategory = (category: MistakeCategory) => {
+    if (!currentAttempt || currentAttempt.correct) return;
+    onProgress(classifyMistake(progress, theQ.id, currentAttempt.ts, category));
+  };
   const lastTimedAttempt = isRevealed
     ? [...progress.attempts].reverse().find((attempt) => attempt.q === theQ.id && attempt.ms > 0)
     : undefined;
@@ -366,6 +375,24 @@ export default function Player({
         <OptionList q={theQ} picked={chosen || selectedChoice} onPick={selectOption} locked={isRevealed} />
         {!isRevealed && <button className="btn btn-gold" disabled={!selectedChoice} onClick={submitAnswer}>Submit Answer ↵</button>}
         {isRevealed && <SolutionPanel q={theQ} picked={chosen} />}
+        {isRevealed && currentAttempt && !currentAttempt.correct && (
+          <div style={{ marginTop: "0.9rem", padding: "0.8rem", border: "1px solid rgba(212,175,55,.22)", borderRadius: "10px" }}>
+            <div className="eyebrow" style={{ marginBottom: "0.55rem" }}>What caused this mistake?</div>
+            <div className="qnav" style={{ justifyContent: "flex-start", flexWrap: "wrap" }}>
+              {MISTAKE_CATEGORIES.map((category) => (
+                <button
+                  key={category.id}
+                  type="button"
+                  className="btn"
+                  aria-pressed={currentAttempt.mistakeCategory === category.id}
+                  onClick={() => selectMistakeCategory(category.id)}
+                >
+                  {currentAttempt.mistakeCategory === category.id ? "✓ " : ""}{category.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="learning-player-actions">
           <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>
