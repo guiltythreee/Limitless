@@ -17,6 +17,7 @@ on:
       - "shared/rewards.mjs"
       - "competition/accounts.js"
       - "competition/competition.js"
+      - "competition/competition-dashboard.css"
       - "codeforces-red/codeforces-red.js"
       - "metallurgy-source/app/mt203/dashboard.tsx"
       - "metallurgy-source/app/platform/learning/**"
