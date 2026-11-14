@@ -55,6 +55,9 @@ test("untitled sections remain required and whole words are matched", () => {
   assert.equal(sectionRequired(undefined), true);
   assert.equal(sectionRequired("Indexing the Stars"), true);
   assert.equal(sectionRequired("Contest of Kings"), true);
+  assert.equal(sectionRequired("A Chapter on the Index of Metals"), true);
+  assert.equal(sectionRequired("A Chapter about the Author's Life"), true);
+  assert.equal(sectionRequired("Chapter 3: The Index"), false);
   assert.equal(sectionBody("12. Notes"), "notes");
 });
 
