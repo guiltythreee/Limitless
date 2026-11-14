@@ -140,9 +140,9 @@
       const done = peak >= item.rating;
       const active = !done && index === next;
       const status = done ? 'Achieved' : active ? 'Next milestone' : 'Upcoming';
-      return '<article class="cr-milestone ' + (done ? 'is-done' : active ? 'is-next' : '') + '">' +
+      return '<article class="cr-milestone ' + (done ? 'is-done' : active ? 'is-next' : '') + '" data-rank="' + (index + 1) + '">' +
         '<div class="cr-step">' + (done ? '✓' : String(index + 1)) + '</div>' +
-        '<div><h3>' + item.title + '</h3><p>' + item.detail + '</p></div>' +
+        '<div><h3>' + item.title + '</h3></div>' +
         '<div><div class="cr-threshold">' + item.rating + '</div><div class="cr-status">' + status + '</div></div></article>';
     }).join('');
   }
