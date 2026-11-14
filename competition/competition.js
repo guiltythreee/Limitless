@@ -681,24 +681,6 @@
   var DIFFICULTY_BANDS = [
     'Basic application','Multiple-concept application','Non-obvious observation','Mathematical derivation','Unseen competition-level'
   ];
-  function formatDateOffset(dateString, days) {
-    var date = new Date(dateString + 'T00:00:00Z');
-    if (!Number.isFinite(date.getTime())) return '';
-    date.setUTCDate(date.getUTCDate() + days);
-    return date.toISOString().slice(0,10);
-  }
-  function revisionMilestones(problem) {
-    if (!problem || typeof problem !== 'object' || Array.isArray(problem)) return [];
-    // A revision needs both a real calendar date and a stable record ID.
-    // Older/imported records without either remain visible in history but
-    // must not create immediately-overdue or colliding revision entries.
-    var date = typeof problem.date === 'string' ? problem.date : '';
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || formatDateOffset(date, 0) !== date ||
-        problem.id == null || String(problem.id).trim() === '') return [];
-    return [1,7,14,30].map(function(days){
-      return {days:days,date:formatDateOffset(date,days),key:String(problem.id)+'-'+days};
-    });
-  }
   function normalizeConceptKey(subject, concept) {
     var normalized = String(concept || '').trim().toLowerCase()
       .replace(/[^a-z0-9+#]+/g,' ').trim().replace(/\s+/g,' ');
@@ -987,6 +969,7 @@
     $('problem-history').querySelectorAll('[data-delete-problem]').forEach(function (button) {
       button.addEventListener('click', function () {
         state.problemLog = state.problemLog.filter(function (problem) { return problem.id !== button.dataset.deleteProblem; });
+        state.revisionAttempts = state.revisionAttempts.filter(function (attempt) { return attempt.problemId !== button.dataset.deleteProblem; });
         saveAndRender();
       });
     });
