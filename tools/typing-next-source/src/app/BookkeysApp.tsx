@@ -870,6 +870,9 @@ export default function BookkeysApp() {
           added: existing?.added ?? Date.now(),
           fp: parsed.fingerprint,
           cover: safeArtworkDataUrl(parsed.coverDataUrl) ?? safeArtworkDataUrl(existing?.cover) ?? "",
+          // An imported-and-opened book is part of Continue reading/Recent.
+          // Batch imports that are not opened retain their previous timestamp.
+          ...(openAfterImport ? { opened: Date.now() } : {}),
           ...(format !== "pdf" ? { fmt: format } : {}),
           ...(parsed.author ? { author: parsed.author } : {}),
         };
