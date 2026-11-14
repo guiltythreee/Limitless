@@ -40,7 +40,12 @@ const T7: TopicSource = {
         }
       ],
       answer: "c",
-      why: "Amino acids condense head-to-tail to give the **amide (peptide) linkage** — chemically the same bond as in nylon, which is why proteins are natural polyamides.",
+      why: "Amino acids join through the **amide (peptide) linkage** between the carboxyl group of one residue and the amino group of the next. The linkage is chemically the same functional group found in synthetic polyamides such as nylon.",
+      distractors: {
+        a: "An ester linkage is formed from carboxylic-acid and alcohol groups, not the amino-acid backbone linkage.",
+        b: "An ether linkage contains C–O–C and is not the peptide bond.",
+        d: "The backbone linkage between amino-acid residues is –CO–NH–, not a direct C–C bond.",
+      },
       tags: ["revision"],
     },
     {
@@ -61,7 +66,12 @@ const T7: TopicSource = {
         { label: "d", text: "1-iii, 2-iv, 3-i, 4-ii" },
       ],
       answer: "a",
-      why: "Sequence (primary) → local H-bonded patterns (secondary) → whole-chain 3-D fold (tertiary) → multi-subunit assembly (quaternary).",
+      why: "Primary structure is the amino-acid sequence; secondary structure includes local α-helices and β-sheets; tertiary structure is the overall fold of one polypeptide; quaternary structure describes assembly of multiple folded chains.",
+      distractors: {
+        b: "This swaps primary with secondary and tertiary with quaternary.",
+        c: "This incorrectly assigns the multi-chain assembly to tertiary structure and the single-chain fold to quaternary structure.",
+        d: "This mismatches all four structural levels.",
+      },
       tags: ["revision"],
     },
     {
@@ -88,7 +98,12 @@ const T7: TopicSource = {
         }
       ],
       answer: "c",
-      why: "The helix repeats every **3.6 residues**, held by intra-chain H-bonds from the backbone $\\text{C}{=}\\text{O}$ to the $\\text{N–H}$ four residues along — H-bonds, not covalent links.",
+      why: "The α-helix has about **3.6 residues per turn**. Backbone hydrogen bonds form within the same chain, commonly between a residue's C=O group and the N–H group four residues ahead.",
+      distractors: {
+        a: "Disulfide bonds can cross-link protein chains, but they are not the principal repeating stabilizer of an α-helix.",
+        b: "Van der Waals interactions contribute to protein packing but do not alone define α-helix stabilization.",
+        d: "The α-helix is stabilized mainly by backbone hydrogen bonds, not covalent cross-links along the helix.",
+      },
       concept: "α-helix: intrachain H-bonds, 3.6 residues/turn",
       tags: ["revision"],
     },
@@ -132,7 +147,12 @@ const T7: TopicSource = {
         { label: "d", text: "A β-sheet stack" },
       ],
       answer: "b",
-      why: "Three left-handed helices wind into a **triple helix** whose tight packing needs the small residue **glycine** every third position; proline/hydroxyproline stiffen it. Hydrogen bonds (via water) stabilize the triple helix.",
+      why: "Three polypeptide chains form the collagen **triple helix**. Glycine at every third position permits tight packing at the centre; proline and hydroxyproline help constrain chain conformation, while hydrogen-bonding and hydration contribute to stability.",
+      distractors: {
+        a: "Collagen is not a single α-helix; its characteristic structure is a three-chain helix.",
+        c: "A random coil lacks the ordered triple-helical structure characteristic of native fibrillar collagen.",
+        d: "A β-sheet stack is characteristic of some other proteins, such as silk fibroin, not the collagen triple helix.",
+      },
       concept: "Gly-X-Y repeat; glycine is mandatory in position 1",
       tags: ["revision"],
     },
@@ -160,7 +180,12 @@ const T7: TopicSource = {
         }
       ],
       answer: "a",
-      why: "**Disulfide bridges** between cysteine residues (→ cystine) cross-link keratin. Waving reduces S–S to –SH, reshapes, then re-oxidizes into new S–S pairs.",
+      why: "**Disulfide bridges** between cysteine residues (cystine) cross-link keratin. A reducing treatment converts S–S links to thiols; after reshaping, oxidation forms new disulfide links.",
+      distractors: {
+        b: "Peptide bonds form the protein backbone and are not selectively rearranged in ordinary hair setting or waving.",
+        c: "Hydrogen bonds influence temporary styling and are disrupted by water, but they are not the principal bonds reset in a permanent wave.",
+        d: "Ionic interactions contribute to protein structure but are not the covalent cross-links targeted in permanent waving.",
+      },
       tags: ["revision"],
     },
     {
@@ -215,7 +240,12 @@ const T7: TopicSource = {
         }
       ],
       answer: "c",
-      why: "Fibroin's chains lie in **antiparallel β-sheets** with dense inter-chain H-bonding, giving high axial strength with limited elasticity (contrast the α-helical, extensible wool).",
+      why: "Fibroin contains closely packed **antiparallel β-sheets**. Their extended chains and extensive inter-strand hydrogen bonding provide high tensile strength, while the structure is less extensible than the α-helical arrangement in wool keratin.",
+      distractors: {
+        a: "A random coil lacks the ordered, tightly packed structure responsible for fibroin's characteristic strength.",
+        b: "The collagen triple helix is a different protein architecture.",
+        d: "Disulfide cross-links are important in keratin, but fibroin strength is primarily associated with its β-sheet structure.",
+      },
       tags: ["revision"],
     },
     {
@@ -242,7 +272,12 @@ const T7: TopicSource = {
         }
       ],
       answer: "d",
-      why: "Denaturation disrupts **non-covalent interactions** that maintain secondary, tertiary and (where present) quaternary structure. Ordinary heat or acid denaturation does not normally hydrolyse the peptide-bond sequence; reducing agents are needed to cleave disulfide bonds efficiently.",
+      why: "Denaturation disrupts interactions maintaining secondary, tertiary and (where present) quaternary structure. Ordinary heat or acid denaturation generally leaves the primary amino-acid sequence intact; it does not mean that every covalent bond is broken.",
+      distractors: {
+        a: "Primary structure is the peptide-bond-linked sequence and is usually retained during ordinary denaturation.",
+        b: "Denaturation does not break all covalent bonds; peptide bonds generally remain intact.",
+        c: "Denaturation is a real structural change with major effects on solubility and function, even when the primary sequence remains intact.",
+      },
       concept: "denaturation = loss of conformation, not of sequence",
       tags: ["confused"],
     },
@@ -258,7 +293,12 @@ const T7: TopicSource = {
         { label: "d", text: "Addition polymerization" },
       ],
       answer: "b",
-      why: "**Partial** breakdown of collagen gives soluble gelatin chains. On cooling they associate into junction zones → a **thermoreversible physical gel** (melts on re-heating) — the basis of jellies and photographic coatings.",
+      why: "Controlled partial hydrolysis and denaturation disrupt collagen's triple-helical organization and produce soluble gelatin chains. On cooling, portions of the chains associate into physical junction zones, giving a thermoreversible gel.",
+      distractors: {
+        a: "Complete hydrolysis to free amino acids would destroy the chain segments needed to form a gelatin network.",
+        c: "Oxidation of disulfide bonds is not the defining conversion of collagen into gelatin.",
+        d: "Gelatin is derived from a natural protein by hydrolysis/denaturation, not by addition polymerization.",
+      },
       concept: "physical gel: heat-reversible network",
       tags: ["confused"],
     },
@@ -282,7 +322,9 @@ const T7: TopicSource = {
       answer: "a",
       why: "1–3 correct. Item 4 is false — the **amide nitrogen** of every peptide bond makes nitrogen a defining element of protein composition.",
       distractors: {
-        b: "Item 4 denies the amide linkage itself.",
+        b: "Item 4 denies the amide linkage itself; proteins contain nitrogen in their peptide backbone.",
+        c: "Items 1, 2 and 3 are also correct; item 4 is the false statement.",
+        d: "Item 1 and item 3 are also correct, and item 4 is false.",
       },
       tags: ["revision"],
     },
@@ -327,7 +369,12 @@ const T7: TopicSource = {
         }
       ],
       answer: "c",
-      why: "Bond formation is $\\text{–COOH} + \\text{H}_2\\text{N–} \\rightarrow \\text{–CO–NH–} + \\text{H}_2\\text{O}$ — a **condensation** producing water, exactly like nylon formation.",
+      why: "The peptide linkage forms by reaction of a carboxyl group with an amino group, with loss of water in the idealized condensation description. Repetition gives a polyamide backbone.",
+      distractors: {
+        a: "The number of monomer types does not define condensation polymerization; proteins are assembled from many amino-acid types.",
+        b: "Double bonds are not the reason proteins are classified as condensation polymers.",
+        d: "Proteins are synthesized from amino acids, not ethylene.",
+      },
       concept: "amide formation = condensation + H₂O",
       tags: ["revision"],
     },
@@ -343,7 +390,12 @@ const T7: TopicSource = {
         { label: "d", text: "5,500 g/mol" },
       ],
       answer: "b",
-      why: "$M \\approx 100 \\times 110 = \\mathbf{11{,}000}$ g/mol (11 kDa) — the standard residue-mass estimate for protein MW.",
+      why: "$M \\approx 100 \\times 110 = \\mathbf{11{,}000}$ g/mol (11 kDa). This is an estimate because actual residue masses depend on amino-acid composition and terminal groups.",
+      distractors: {
+        a: "1,100 g/mol corresponds to roughly 10 residues at the stated average residue mass.",
+        c: "110,000 g/mol is ten times the estimate and would correspond to roughly 1,000 residues.",
+        d: "5,500 g/mol is half the correct estimate and corresponds to about 50 residues.",
+      },
       distractors: {
         a: "1,100 g/mol corresponds to only 10 residues.",
       },
@@ -374,7 +426,12 @@ const T7: TopicSource = {
         }
       ],
       answer: "d",
-      why: "**Formaldehyde bridges amino groups** into methylene cross-links, turning soluble protein into a thermoset network insoluble in water — the chemistry of galalith and of leather tanning.",
+      why: "**Formaldehyde can cross-link reactive protein groups**, creating a network that is less soluble and more dimensionally stable. The exact chemistry and extent of cross-linking depend on the protein and treatment conditions.",
+      distractors: {
+        a: "Dissolving in water does not create a network; it maintains or increases solubility.",
+        b: "Cooling below a glass-transition temperature is not a chemical cross-linking treatment.",
+        c: "A plasticizer generally increases flexibility and does not convert soluble chains into a covalent network.",
+      },
       concept: "protein cross-linking → insolubility & hardness",
       tags: ["revision"],
     },
