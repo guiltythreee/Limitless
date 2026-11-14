@@ -5,7 +5,7 @@ import {
   buildRevisionCandidates,
   normalizeConceptKey,
   recommendConceptPractice,
-} from "./intelligence.ts";
+} from "./intelligence.mjs";
 
 const base = {
   disciplineId: "maths",
