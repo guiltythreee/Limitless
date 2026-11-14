@@ -20,6 +20,7 @@ export interface PdfBlock {
 export interface PdfChapter {
   readonly p: number;
   readonly title: string;
+  readonly req?: boolean;
 }
 export interface PdfChapterHead {
   readonly key: string;
