@@ -10,6 +10,9 @@ on:
       - "home-learning-intelligence.mjs"
       - "competition/learning-intelligence.mjs"
       - "competition/learning-intelligence.test.mjs"
+      - "competition/codeforces-sync.mjs"
+      - "competition/codeforces-sync.test.mjs"
+      - "competition/accounts.js"
       - "competition/competition.js"
       - "metallurgy-source/app/mt203/dashboard.tsx"
       - "metallurgy-source/app/platform/learning/**"
@@ -85,7 +88,11 @@ jobs:
           node --check ../home-learning-intelligence.mjs
           node --check ../home-dashboard.js
           node ../competition/learning-intelligence.test.mjs
+          node ../competition/codeforces-sync.test.mjs
           node --check ../competition/learning-intelligence.mjs
+          node --check ../competition/codeforces-sync.mjs
+          node --check ../competition/codeforces-sync.test.mjs
+          node --check ../competition/accounts.js
           node --check ../competition/competition.js
           if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; fi
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
