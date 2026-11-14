@@ -38,6 +38,8 @@ export function toMetallurgyLearningAttempts(
       occurredAt: activity.ts,
       elapsedMs: activity.ms,
       mode: activity.mode,
+      independent: activity.source === "recorded",
+      hintCount: activity.source === "recorded" ? 0 : undefined,
       mistakeCategory: classification?.category ?? activity.mistakeCategory,
       reviewedAt: classification?.reviewedAt ?? activity.reviewedAt,
     }];
