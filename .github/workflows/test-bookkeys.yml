@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "tools/typing/**"
+      - "site-theme.js"
       - "shared/**"
       - ".github/workflows/test-bookkeys.yml"
   push:
