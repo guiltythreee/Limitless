@@ -469,3 +469,33 @@ html[data-theme="light"] .cr-internal-view-head h2,html[data-theme="light"] .cr-
 @media(max-width:520px){.cr-training-launch-tile{width: min(190px,100%)}}
 
 .cr-training-launch[hidden]{display:none!important}
+
+
+/* Training is a separate in-app destination; the CP dashboard must not bleed into it. */
+#cf-home-view[hidden],#cf-training-view[hidden]{display:none!important}
+.cr-training-pagebar{
+  display:flex;align-items:center;gap:24px;margin:0 0 22px;padding:16px 18px;
+  border:1px solid rgba(105,158,213,.28);border-radius:14px;
+  background:rgba(7,20,36,.88);backdrop-filter:blur(12px);
+}
+.cr-training-back-home{
+  display:flex;align-items:center;gap:13px;flex:0 0 auto;min-height:58px;padding:10px 18px;
+  border:1px solid rgba(105,170,225,.42);border-radius:11px;
+  background:rgba(40,113,174,.2);color:#e7f3ff;cursor:pointer;text-align:left;
+  transition:background .2s ease,border-color .2s ease;
+}
+.cr-training-back-home:hover{background:rgba(48,133,203,.32);border-color:rgba(125,190,245,.75)}
+.cr-training-back-home>span:first-child{font-size:27px;line-height:1}
+.cr-training-back-home strong,.cr-training-back-home small{display:block}
+.cr-training-back-home strong{font-size:14px}
+.cr-training-back-home small{margin-top:3px;color:#a9c5df;font-size:11px}
+.cr-training-page-title{min-width:0}
+.cr-training-page-title h1{margin:3px 0 0;color:#e8f2fc;font-size:25px}
+html[data-theme="light"] .cr-training-pagebar{background:rgba(247,251,255,.94);border-color:#c5d6e5}
+html[data-theme="light"] .cr-training-back-home{background:#e7f2fc;color:#1c3d5c;border-color:#b5cde2}
+html[data-theme="light"] .cr-training-back-home small{color:#526d87}
+html[data-theme="light"] .cr-training-page-title h1{color:#1c3d5c}
+@media(max-width:650px){
+ .cr-training-pagebar{align-items:stretch;flex-direction:column;gap:12px;padding:13px}
+ .cr-training-back-home{width:100%}
+}
