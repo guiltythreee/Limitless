@@ -3,13 +3,13 @@
   const STORAGE_KEY = 'limitless.competition.linked-accounts.v1';
   const DEFAULT_HANDLE = 'Unwonted_contriver';
   const milestones = [
-    { title:'Pupil', rating:1200 },
-    { title:'Specialist', rating:1400 },
-    { title:'Expert', rating:1600 },
-    { title:'Candidate Master', rating:1900 },
-    { title:'Master', rating:2100 },
-    { title:'International Master', rating:2300 },
-    { title:'Grandmaster · Red', rating:2400 }
+    { title:'Pupil', rating:1200, detail:'Build consistent problem-solving habits and strengthen implementation fundamentals.' },
+    { title:'Specialist', rating:1400, detail:'Apply standard techniques confidently across common problem patterns.' },
+    { title:'Expert', rating:1600, detail:'Combine core algorithms, data structures and careful complexity analysis.' },
+    { title:'Candidate Master', rating:1900, detail:'Solve multi-step problems with stronger observations and independent reasoning.' },
+    { title:'Master', rating:2100, detail:'Develop deeper algorithmic insight and handle less familiar constructions.' },
+    { title:'International Master', rating:2300, detail:'Use advanced techniques reliably under demanding contest constraints.' },
+    { title:'Grandmaster · Red', rating:2400, detail:'Sustain elite performance through speed, precision and broad problem mastery.' }
   ];
   const $ = id => document.getElementById(id);
   let handle = DEFAULT_HANDLE;
@@ -142,7 +142,7 @@
       const status = done ? 'Achieved' : active ? 'Next milestone' : 'Upcoming';
       return '<article class="cr-milestone ' + (done ? 'is-done' : active ? 'is-next' : '') + '" data-rank="' + (index + 1) + '">' +
         '<div class="cr-step">' + (done ? '✓' : String(index + 1)) + '</div>' +
-        '<div><h3>' + item.title + '</h3></div>' +
+        '<div><h3>' + item.title + '</h3><p>' + item.detail + '</p></div>' +
         '<div><div class="cr-threshold">' + item.rating + '</div><div class="cr-status">' + status + '</div></div></article>';
     }).join('');
   }
