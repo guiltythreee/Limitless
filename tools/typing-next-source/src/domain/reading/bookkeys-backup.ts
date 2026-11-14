@@ -104,7 +104,7 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
   const backupAch = isRecord(incoming.ach) ? incoming.ach : {};
   const localOnlyBooks = Object.assign(Object.create(null) as Record<string, unknown>, Object.fromEntries(
     Object.entries(localBooks).flatMap(([key, value]) => {
-      if (Object.prototype.hasOwnProperty.call(backupBooks, key)) return [];
+      if (Object.prototype.hasOwnProperty.call(backupBooks, key) && isRecord(backupBooks[key])) return [];
       const sanitized = sanitizeBookProgress(value);
       return sanitized ? [[key, sanitized]] : [];
     }),
