@@ -81,6 +81,7 @@ test("EPUBs without at least two chapter starts use the legacy even-section fall
   const chapters = epubChapterList([{ start: 0, count: 50, title: "Whole book" }], 50);
   assert.deepEqual(chapters.map((chapter) => chapter.p), [0, 17, 34]);
   assert.deepEqual(chapters.map((chapter) => chapter.title), ["Beginning", "Part 2", "Part 3"]);
+  assert.ok(chapters.every((chapter) => chapter.req === true));
 });
 
 test("EPUB errors have stable friendly messages", () => {
