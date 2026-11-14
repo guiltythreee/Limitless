@@ -1,5 +1,3 @@
-const DAY_MS = 86_400_000;
-
 function isRecord(value) {
   return !!value && typeof value === "object" && !Array.isArray(value);
 }
@@ -45,7 +43,7 @@ export function buildGlobalActivitySummary(attempts, now = Date.now(), historyDa
 
   let streakDays = 0;
   const cursor = counts.has(todayKey) ? 0 : -1;
-  for (let offset = cursor; offset > -days; offset--) {
+  for (let offset = cursor; offset > -36500; offset--) {
     const key = localDayKey(shiftLocalDay(today, offset).getTime());
     if (!counts.has(key)) break;
     streakDays++;
