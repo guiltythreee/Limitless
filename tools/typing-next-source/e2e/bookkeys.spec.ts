@@ -873,7 +873,7 @@ test("original background palettes, theme tiles and accent swatches apply consis
   await expect.poll(() => readRootToken("--bg")).toBe("#ECECE8");
 
   await dialog.getByRole("group", { name: "Accent color" }).getByRole("button", { name: "Blue" }).click();
-  await expect.poll(() => readRootToken("--accent")).toBe("#3B5BDB");
+  await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
 
   await dialog.getByRole("button", { name: "Appearance", exact: true }).click();
   await dialog.getByRole("group", { name: "Background choices" }).getByRole("button", { name: "Night Sky" }).click();
@@ -881,5 +881,5 @@ test("original background palettes, theme tiles and accent swatches apply consis
   await dialog.getByLabel("Match colors to background").check();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect.poll(() => readRootToken("--bg")).toBe("#04081A");
-  await expect.poll(() => readRootToken("--accent")).toBe("#3B5BDB");
+  await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
 });
