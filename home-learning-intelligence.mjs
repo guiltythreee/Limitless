@@ -50,7 +50,7 @@ function render(report, host) {
 
   const moduleLinks = {
     "competitive-programming": "competition/",
-    mathematics: "tools/math-refactored/index.html",
+    mathematics: "tools/math/index.html",
     probability: "probability/studies/",
     metallurgy: "metallurgy/",
   };
