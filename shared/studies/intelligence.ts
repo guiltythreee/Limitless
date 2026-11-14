@@ -172,7 +172,7 @@ export function buildConceptMistakeSummary(
   for (const attempt of attempts) {
     if (!validAttempt(attempt) || (attempt.outcome !== "incorrect" && attempt.outcome !== "partial") || !attempt.mistakeCategory) continue;
     const subjectId = attempt.subjectId || "general";
-    for (const rawConcept of attempt.conceptIds) {
+    for (const rawConcept of new Set(attempt.conceptIds)) {
       if (typeof rawConcept !== "string" || !rawConcept.trim()) continue;
       const conceptLabel = cleanLabel(rawConcept);
       const conceptKey = normalizeConceptKey(attempt.disciplineId, subjectId, conceptLabel);
@@ -214,21 +214,23 @@ export function buildRevisionCandidates(
     rows.sort((a, b) => a.occurredAt - b.occurredAt);
     let lastFailure: LearningAttempt | undefined;
     let successfulRevisions = 0;
+    let lastSuccessfulRevisionAt: number | undefined;
     let failures = 0;
     for (const row of rows) {
       if (row.outcome === "incorrect" || row.outcome === "partial") {
         lastFailure = row;
         failures += 1;
         successfulRevisions = 0;
+        lastSuccessfulRevisionAt = undefined;
       } else if (row.mode === "revision" && row.outcome === "correct" && lastFailure && row.occurredAt > lastFailure.occurredAt) {
         successfulRevisions += 1;
+        lastSuccessfulRevisionAt = row.occurredAt;
       }
     }
     if (!lastFailure) continue;
     const interval = intervalsDays[Math.min(successfulRevisions, intervalsDays.length - 1)] ?? 30;
     const dueAt = (lastSuccessfulRevisionAt ?? lastFailure.occurredAt) + interval * DAY_MS;
     const overdueDays = Math.max(0, Math.floor((now - dueAt) / DAY_MS));
-    const latest = rows[rows.length - 1];
     const candidate: RevisionCandidate = {
       key, disciplineId: lastFailure.disciplineId, courseId: lastFailure.courseId,
       contentId: lastFailure.contentId, questionId: lastFailure.questionId,
@@ -237,9 +239,7 @@ export function buildRevisionCandidates(
       dueAt, overdueDays,
       priority: (now >= dueAt ? 100 : 0) + failures * 10 + overdueDays,
     };
-    if (latest.mode === "revision" && latest.outcome === "correct" && latest.occurredAt > lastFailure.occurredAt) {
-      candidate.lastReviewedAt = latest.occurredAt;
-    }
+    if (lastSuccessfulRevisionAt !== undefined) candidate.lastReviewedAt = lastSuccessfulRevisionAt;
     result.push(candidate);
   }
   return result.sort((a, b) => b.priority - a.priority || a.dueAt - b.dueAt || a.key.localeCompare(b.key));
