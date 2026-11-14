@@ -35,46 +35,12 @@
 
   <main class="cr-main">
     <a class="cr-back" href="../">← All modules</a>
-    <section class="cr-account">
-      <div class="cr-account-actions">
-        <div class="cr-account-identity">
-          <span class="cr-account-avatar" aria-hidden="true">♟</span>
-          <div class="cr-account-meta">
-            <strong id="linked-handle">—</strong>
-            <span class="cr-account-connected"><span aria-hidden="true">⌁</span> Linked to Competition</span>
-            <a href="../competition/#linked-accounts">Change linked handle ↗</a>
-          </div>
-        </div>
-        <button id="refresh-rating" class="cr-refresh-button" type="button"><span aria-hidden="true">↻</span> Refresh rating</button>
-      </div>
-    </section>
-    <section class="cr-hero">
-      <div class="cr-eyebrow">A LONG-TERM RATING CAMPAIGN</div>
-      <div class="cr-title-row"><div><h1>Road to Codeforces Red</h1><p>One ladder. Seven official rating milestones. The destination is Grandmaster.</p></div><div class="cr-emblem" aria-hidden="true">♛</div></div>
-      <div class="cr-stats" aria-live="polite">
-        <article><span>PEAK RATING</span><strong id="peak-rating">—</strong></article>
-        <article><span>CURRENT RATING</span><strong id="current-rating">—</strong></article>
-        <article><span>CODEFORCES RANK</span><strong id="current-rank">—</strong></article>
-        <article><span>CONTESTS</span><strong id="contest-count">—</strong></article>
-      </div>
-      <div class="cr-progress-head"><span>Overall climb</span><strong id="overall-percent">—</strong></div>
-      <div class="cr-progress"><span id="overall-bar"></span></div>
-      <p class="cr-sync" id="sync-status" role="status">Connecting to Codeforces…</p>
-    </section>
-
-    <section class="cr-ladder-section">
-      <div class="cr-section-head"><div><div class="cr-eyebrow">THE RATING LADDER</div><h2>Milestones</h2></div><a href="https://codeforces.com/" target="_blank" rel="noopener noreferrer">Official Codeforces ↗</a></div>
-      <div id="milestone-list" class="cr-milestones">
-        <p class="cr-loading">Loading your rating milestones…</p>
-      </div>
-    </section>
-
-
     <section class="cr-training-workspace-view" id="cf-training-view" hidden>
-      <div class="cr-internal-view-head">
-        <button class="cr-back-to-problems" type="button" data-cf-view="problems">← Back to Problem Explorer</button>
-        <div class="cr-eyebrow">YOUR TRAINING WORKSPACE</div>
-        <h2>Road to Grandmaster</h2>
+      <div class="cr-training-pagebar">
+        <button class="cr-training-back-home" type="button" id="cf-training-back-home">
+          <span aria-hidden="true">←</span><span><strong>Back to CP Home</strong><small>Return to the Codeforces dashboard and Problem Explorer</small></span>
+        </button>
+        <div class="cr-training-page-title"><div class="cr-eyebrow">YOUR TRAINING WORKSPACE</div><h1>Road to Grandmaster</h1></div>
       </div>
       <div class="cr-training-content">
       <div class="cr-roadmap" id="roadmap">
@@ -119,6 +85,44 @@
       </div>
       </div>
     </section>
+
+    <section id="cf-home-view">
+    <section class="cr-account">
+      <div class="cr-account-actions">
+        <div class="cr-account-identity">
+          <span class="cr-account-avatar" aria-hidden="true">♟</span>
+          <div class="cr-account-meta">
+            <strong id="linked-handle">—</strong>
+            <span class="cr-account-connected"><span aria-hidden="true">⌁</span> Linked to Competition</span>
+            <a href="../competition/#linked-accounts">Change linked handle ↗</a>
+          </div>
+        </div>
+        <button id="refresh-rating" class="cr-refresh-button" type="button"><span aria-hidden="true">↻</span> Refresh rating</button>
+      </div>
+    </section>
+    <section class="cr-hero">
+      <div class="cr-eyebrow">A LONG-TERM RATING CAMPAIGN</div>
+      <div class="cr-title-row"><div><h1>Road to Codeforces Red</h1><p>One ladder. Seven official rating milestones. The destination is Grandmaster.</p></div><div class="cr-emblem" aria-hidden="true">♛</div></div>
+      <div class="cr-stats" aria-live="polite">
+        <article><span>PEAK RATING</span><strong id="peak-rating">—</strong></article>
+        <article><span>CURRENT RATING</span><strong id="current-rating">—</strong></article>
+        <article><span>CODEFORCES RANK</span><strong id="current-rank">—</strong></article>
+        <article><span>CONTESTS</span><strong id="contest-count">—</strong></article>
+      </div>
+      <div class="cr-progress-head"><span>Overall climb</span><strong id="overall-percent">—</strong></div>
+      <div class="cr-progress"><span id="overall-bar"></span></div>
+      <p class="cr-sync" id="sync-status" role="status">Connecting to Codeforces…</p>
+    </section>
+
+    <section class="cr-ladder-section">
+      <div class="cr-section-head"><div><div class="cr-eyebrow">THE RATING LADDER</div><h2>Milestones</h2></div><a href="https://codeforces.com/" target="_blank" rel="noopener noreferrer">Official Codeforces ↗</a></div>
+      <div id="milestone-list" class="cr-milestones">
+        <p class="cr-loading">Loading your rating milestones…</p>
+      </div>
+    </section>
+
+
+    
 
     <section class="cr-training-launch" aria-label="Training workspace">
       <button class="cr-training-launch-tile" type="button" data-cf-view="training" aria-controls="cf-training-view">
@@ -186,27 +190,45 @@
 
     <p class="cr-footnote">Milestones use peak rating, not current rating. Reaching 2400 peak is the Grandmaster threshold; a rating of 2399 is not red. Progress is read-only and does not award EXP.</p>
     </section>
-  </main>
+    </section>
+
+    </main>
 
 
   <script>
     (function () {
-      const problemsView = document.getElementById('cf-problems-view');
+      const homeView = document.getElementById('cf-home-view');
       const trainingView = document.getElementById('cf-training-view');
-      const launcher = document.querySelector('.cr-training-launch');
-      if (!problemsView || !trainingView || !launcher) return;
+      const launcher = document.querySelector('.cr-training-launch-tile');
+      const backButton = document.getElementById('cf-training-back-home');
+      if (!homeView || !trainingView || !launcher || !backButton) return;
+
       function showView(view) {
         const training = view === 'training';
-        problemsView.hidden = training;
-        launcher.hidden = training;
+        homeView.hidden = training;
         trainingView.hidden = !training;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.body.classList.toggle('cf-training-active', training);
+        window.scrollTo({ top: 0, behavior: 'auto' });
       }
-      document.querySelectorAll('[data-cf-view]').forEach(function (button) {
-        button.addEventListener('click', function () { showView(button.getAttribute('data-cf-view')); });
+
+      launcher.addEventListener('click', function () {
+        if (history.state && history.state.cfTraining) return showView('training');
+        history.pushState({ cfTraining: true }, '', '#training');
+        showView('training');
       });
+
+      backButton.addEventListener('click', function () {
+        if (history.state && history.state.cfTraining) history.back();
+        else showView('home');
+      });
+
+      window.addEventListener('popstate', function () {
+        showView(location.hash === '#training' ? 'training' : 'home');
+      });
+
+      if (location.hash === '#training') showView('training');
     })();
-  </script>
+  </script>t>
   <script src="../hub-theme.js" defer></script>
   <script src="./codeforces-red.js" defer></script>
   <script src="./codeforces-problems.js" defer></script>
