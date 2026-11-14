@@ -2,6 +2,7 @@ import { buildCrossDisciplineOverview } from "./shared/studies/overview.mjs";
 
 const STORAGE = {
   competition: "limitless.competition.regional-qualification.v1",
+  codeforces: "limitless.competition.codeforces-learning.v1",
   mathAttempts: "limitless.math.v1.attempts",
   mathRuns: "limitless.math.v1.runs",
   probability: "hc3-progress-v3",
@@ -94,6 +95,7 @@ export function renderLearningIntelligence() {
   if (!host) return;
   const snapshot = {
     competition: readStored(STORAGE.competition, {}),
+    codeforces: readStored(STORAGE.codeforces, {}),
     mathAttempts: readStored(STORAGE.mathAttempts, []),
     mathRuns: readStored(STORAGE.mathRuns, []),
     probability: readStored(STORAGE.probability, {}),
