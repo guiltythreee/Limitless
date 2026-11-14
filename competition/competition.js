@@ -954,7 +954,22 @@
   }
 
   function renderProblemHistory() {
-    var rows = state.problemLog.slice().reverse();
+    var query=String($('problem-search').value||'').trim().toLowerCase();
+    var subject=$('problem-filter-subject').value;
+    var outcome=$('problem-filter-outcome').value;
+    var band=$('problem-filter-band').value;
+    var allRows=state.problemLog.slice();
+    var rows = allRows.filter(function(problem){
+      if(subject!=='all'&&problem.subject!==subject)return false;
+      if(outcome!=='all'&&problem.outcome!==outcome)return false;
+      if(band!=='all'&&problem.challengeBand!==band)return false;
+      if(query){
+        var haystack=[problem.name,problem.subject,problem.difficulty,problem.challengeBand,problem.concept,problem.observation,problem.missed,problem.approach].join(' ').toLowerCase();
+        if(haystack.indexOf(query)===-1)return false;
+      }
+      return true;
+    }).reverse();
+    $('problem-catalogue-count').textContent='Showing '+rows.length+' of '+allRows.length+' logged problems';
     $('problem-history').innerHTML = rows.length ? rows.map(function (problem) {
       return '<article class="problem-entry" data-result="' + esc(problem.outcome || 'unknown') + '"><div class="problem-entry-head"><strong>' + esc(problem.name) + '</strong><span>' + esc(problem.subject) + '</span><small>' + esc(problem.date) + '</small><button type="button" data-delete-problem="' + esc(problem.id) + '">Remove</button></div>' +
         (problem.difficulty ? '<p><b>Source difficulty:</b> ' + esc(problem.difficulty) + '</p>' : '') +
@@ -1052,6 +1067,9 @@
     }
     renderSafety();
     renderProblemHistory();
+    ['problem-search','problem-filter-subject','problem-filter-outcome','problem-filter-band'].forEach(function(id){
+      $(id).addEventListener(id==='problem-search'?'input':'change',renderProblemHistory);
+    });
     renderMockHistory();
     renderMockAnalytics();
     renderLearningSystem();
