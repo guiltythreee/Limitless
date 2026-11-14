@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import JSZip from "jszip";
 
-async function makeFixtureEpub(twoChapters = false): Promise<Buffer> {
+async function makeFixtureEpub(twoChapters = false, withCover = false): Promise<Buffer> {
   const zip = new JSZip();
   const paragraph = (
     "This is a browser regression fixture for the Bookkeys reading and typing migration. " +
@@ -29,6 +29,7 @@ async function makeFixtureEpub(twoChapters = false): Promise<Buffer> {
     <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
     <item id="chapter" href="chapter.xhtml" media-type="application/xhtml+xml"/>
     ${twoChapters ? '<item id="chapter-two" href="chapter-two.xhtml" media-type="application/xhtml+xml"/>' : ''}
+    ${withCover ? '<item id="cover" href="cover.jpg" media-type="image/jpeg" properties="cover-image"/>' : ''}
   </manifest>
   <spine><itemref idref="chapter"/>${twoChapters ? '<itemref idref="chapter-two"/>' : ''}</spine>
 </package>`);
@@ -51,6 +52,7 @@ async function makeFixtureEpub(twoChapters = false): Promise<Buffer> {
   <body><section><h1 id="chapter-two-start">Chapter Two</h1><p>${secondParagraph}</p></section></body>
 </html>`);
   }
+  if (withCover) zip.file("OEBPS/cover.jpg", new Uint8Array([0xff, 0xd8, 0xff, 0xd9]));
   return zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" });
 }
 
@@ -80,6 +82,28 @@ async function makeFixturePdf(): Promise<Buffer> {
   return Buffer.from(pdf, "ascii");
 }
 
+test("EPUB covers persist in the library and chapter titles edit inline", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub(true, true);
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "cover-and-chapter-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
+  await page.getByRole("button", { name: "Edit", exact: true }).click();
+  await page.getByRole("button", { name: "Rename Chapter One" }).click();
+  const title = page.getByRole("textbox", { name: "Chapter title 1" });
+  await expect(title).toBeFocused();
+  await title.fill("Renamed Chapter One");
+  await title.press("Enter");
+  await expect(page.locator(".bk-chapter-row")).toContainText("Renamed Chapter One");
+
+  await page.getByRole("button", { name: "← Library" }).click();
+  const card = page.locator(".bk-book-card").filter({ hasText: "Bookkeys Migration Fixture" });
+  await expect(card.locator(".bk-book-cover")).toHaveAttribute("src", /^data:image\\/jpeg;base64,/);
+});
 test("EPUB import, progress, rewards and backup round-trip survive reload", async ({ page, browser }) => {
   await page.goto("/tools/typing-next-preview/");
   await expect(page.getByRole("heading", { name: "Bookkeys" })).toBeVisible();
