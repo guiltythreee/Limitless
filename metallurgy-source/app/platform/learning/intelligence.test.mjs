@@ -27,6 +27,8 @@ const adapted = toMetallurgyLearningAttempts(activities, topics, classifications
 assert.equal(adapted.length, 8);
 assert.equal(adapted[0].disciplineId, "metallurgy");
 assert.equal(adapted[0].conceptIds[0], "Crystal Structures");
+assert.equal(adapted[0].independent, true);
+assert.equal(adapted[0].hintCount, 0);
 assert.equal(adapted[7].mistakeCategory, "conceptual");
 assert.equal(adapted[7].reviewedAt, 1_800_000_100_000);
 
