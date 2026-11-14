@@ -18,7 +18,7 @@ export function adaptMT202Question(question, chapter) {
   }
 
   const stem = question.type === "C"
-    ? [question.assertion, question.reason].filter(Boolean).join("\\n")
+    ? [question.assertion, question.reason].filter(Boolean).join("\n")
     : question.text;
 
   return {
