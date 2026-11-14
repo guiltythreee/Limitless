@@ -78,6 +78,6 @@ export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], no
     mastery,
     weakConcepts: recommendConceptPractice(mastery, 3),
     recurringMistakes: buildConceptMistakeSummary(attempts).slice(0, 3),
-    revision: buildRevisionCandidates(attempts, now).slice(0, 20),
+    revision: buildRevisionCandidates(attempts, now),
   };
 }
