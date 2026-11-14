@@ -84,12 +84,14 @@ A populated IndexedDB v1 fixture opens in-browser without a version upgrade; act
 
 ## Remaining acceptance gates
 
-- Complete the remaining source-by-source comparison of all six existing settings tabs: exact Theme/accent/background palette options, Typing effects/sound semantics, Cursor options and side effects, plus each control's defaults and range/step behaviour. The ten-font catalogue and all 22 static font-face assets now match the original and load in Chromium without external requests; Latin-only glyph coverage and system fallback for other scripts are documented. Correct only demonstrated parity gaps; do not rebuild existing tabs.
+- Settings catalogues, defaults, option order and range definitions have been compared against the preserved source. Remaining settings work is runtime side-by-side acceptance of each visual/audio side effect; the Decorative details checkbox versus legacy two-chip control is recorded in `FEATURE_PARITY_MATRIX.md`. Do not rebuild the existing tabs or catalogues.
+- Finish the remaining library parity gaps recorded in `FEATURE_PARITY_MATRIX.md`: extract/render EPUB cover thumbnails using the existing `meta.cover` field without changing IndexedDB v1, and restore the legacy inline chapter-title editing/focus workflow. The Recent last-12 view, per-card author/section/progress display, move/remove actions, multi-file picker, drag/drop, Go to chapter, Detect again and Split evenly are already implemented and must not be duplicated.
+- Reassess legacy shelf-tab keyboard navigation against the current native shelf selector; document an intentional equivalent if appropriate.
 - Verify real Japanese/Chinese/Indic IMEs, composition candidate selection, mobile keyboards and hardware-specific keyboard behaviour against the legacy reader; synthetic composition lifecycle automation now passes.
-- Complete a side-by-side inventory of every legacy Bookkeys screen, action, setting and keyboard interaction; port anything not represented in the new reader.
 - Test representative real-world PDFs and EPUBs, including long books, unusual chapter structures, malformed files and scanned/image-only PDFs.
 - Verify opening representative real user IndexedDB libraries and existing backup files without data loss.
 - Test on real mobile browsers, not only a desktop Chromium viewport.
 - Complete manual acceptance in the isolated preview before considering production cutover.
 
+**CI freshness note:** the documented 20/20 Chromium regression result belongs to the previously recorded workflow/commit. The current branch's E2E source now contains 23 test cases; do not assume the older 20/20 result covers the three later additions. Refresh and inspect CI before relying on the expanded suite for acceptance.
 A successful build and the automated tests are necessary, but do not by themselves authorize replacing the standalone production reader.
