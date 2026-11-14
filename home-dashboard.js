@@ -1,9 +1,20 @@
 (function () {
   'use strict';
 
-  import('./home-learning-intelligence.mjs').then(function (module) {
+  var learningIntelligenceModule = import('./home-learning-intelligence.mjs').then(function (module) {
     module.renderLearningIntelligence();
-  }).catch(function () { /* individual modules remain usable if the overview cannot load */ });
+    return module;
+  }).catch(function () { /* individual modules remain usable if the overview cannot load */ return null; });
+  function refreshLearningIntelligence() {
+    learningIntelligenceModule.then(function (module) {
+      if (module) module.renderLearningIntelligence();
+    });
+  }
+  window.addEventListener('focus', refreshLearningIntelligence);
+  window.addEventListener('pageshow', refreshLearningIntelligence);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) refreshLearningIntelligence();
+  });
   var search = document.getElementById('module-search');
   if (!search) return;
   var searchResultsFocused = false;
