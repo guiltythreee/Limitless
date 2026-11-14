@@ -158,7 +158,7 @@ export default function ActivityHistoryPanel({
                 {intelligence.recurringMistakes.slice(0, 3).map((item) => (
                   <div className="study-utility-row" key={item.key} style={{ marginTop: "0.4rem" }}>
                     <div className="study-utility-row__title">{item.conceptLabel}</div>
-                    <div className="study-utility-row__meta">{mistakeCategoryLabel(item.category)} · {item.occurrences} repeat{item.occurrences === 1 ? "" : "s"}</div>
+                    <div className="study-utility-row__meta">{MISTAKE_CATEGORIES.find((category) => category.id === item.category)?.label ?? item.category} · {item.occurrences} repeat{item.occurrences === 1 ? "" : "s"}</div>
                   </div>
                 ))}
               </div>
