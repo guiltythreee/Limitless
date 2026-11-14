@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="icon" type="image/png" href="/compass-favicon.png?v=2">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#08070d">
@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../theme.css">
   <link rel="stylesheet" href="competition.css">
   <link rel="stylesheet" href="competition-dashboard.css">
+  <link rel="stylesheet" href="../site-header.css">
   <script>
     (function () {
       try {
@@ -21,13 +22,15 @@
 <script src="/site-theme.js" defer></script></head>
 <body class="competition-page">
   <div class="background-art" aria-hidden="true"></div>
-  <header class="competition-nav">
-    <a class="competition-brand" href="../">LIMITLESS</a>
-    <nav aria-label="Competition navigation">
-      <a href="../">Learning home</a>
-      <a href="#dashboard">Dashboard</a>
+  <header class="site-header">
+    <a class="brand" href="../" aria-label="Limitless home"><span class="brand-mark">∞</span><span class="brand-text">LIMITLESS</span></a>
+    <nav class="site-nav" aria-label="Site navigation">
+      <a href="../">Home</a>
+      <a href="../competition/" aria-current="page">Competition</a>
+      <a href="../meta/">Progression</a>
+      <a href="../tools/typing/">Bookkeys</a>
     </nav>
-    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch theme">Light mode</button>
+    <div class="topbar-actions"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch theme"></button></div>
   </header>
 
   <aside class="competition-sidebar" aria-label="Competition workspace navigation">
