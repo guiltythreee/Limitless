@@ -14,13 +14,13 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/probability/brand-icon-light.webp",
+        url: "/favicon.svg",
         type: "image/webp",
         sizes: "512x512",
       },
     ],
-    shortcut: ["/probability/brand-icon-light.webp"],
-    apple: ["/probability/brand-icon-light.webp"],
+    shortcut: ["/favicon.svg"],
+    apple: ["/favicon.svg"],
   },
 };
 
