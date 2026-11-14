@@ -313,3 +313,24 @@ test("merge rejects non-finite draft timestamps and sanitizes malformed progress
   assert.equal(game.book["book-c"].done, 3);
   assert.deepEqual(game.book["book-c"].p, [0]);
 });
+
+
+test("first-time game restore sanitizes malformed backup completion counters", () => {
+  const storage = new MemoryStorage();
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:game": JSON.stringify({
+        xp: 10,
+        book: {
+          "new-book": { p: [0], e: [], c: [], x: [], done: "Infinity" },
+        },
+      }),
+    },
+  }));
+
+  restoreBookkeysBackup(storage, backup, "merge");
+
+  const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
+  assert.equal(game.book["new-book"].done, 0);
+});
