@@ -40,15 +40,15 @@ const T4: TopicSource = {
       text: "A PS sample contains 1 chain of MW 20,000 g/mol and 3 chains of MW 10,000 g/mol. Its $M_n$, $M_w$ and PDI are:",
       options: [
         { label: "a", text: "Mn = 14,000; Mw = 12,500; PDI = 0.89" },
-        { label: "b", text: "Mn = 12,500; Mw = 16,000; PDI = 1.28" },
-        { label: "c", text: "Mn = 12,500; Mw = 14,000; PDI = 1.12" },
+        { label: "b", text: "Mn = 12,500; Mw = 14,000; PDI = 1.12" },
+        { label: "c", text: "Mn = 12,500; Mw = 16,000; PDI = 1.28" },
         { label: "d", text: "Mn = 15,000; Mw = 15,000; PDI = 1.00" }
       ],
-      answer: "c",
+      answer: "b",
       why: "$M_n = \\frac{1(20000)+3(10000)}{4} = \\frac{50000}{4} = \\mathbf{12{,}500}$. $M_w = \\frac{1(20000)^2+3(10000)^2}{1(20000)+3(10000)} = \\frac{7\\times10^8}{5\\times10^4} = \\mathbf{14{,}000}$. PDI $= 14000/12500 = \\mathbf{1.12}$.",
       distractors: {
         a: "Mn and Mw swapped — Mn is the number-average (linear in Mi), Mw is weight-weighted.",
-        b: "Mw would be 16,000 only if the heavy chain counted twice.",
+        c: "Mw would be 16,000 only if the heavy chain counted twice.",
       },
       concept: "$M_n=\\sum N_iM_i/\\sum N_i$ · $M_w=\\sum N_iM_i^2/\\sum N_iM_i$",
       tags: ["numeric", "formula"],
