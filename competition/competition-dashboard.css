@@ -494,6 +494,8 @@ html[data-theme="dark"] .action-button:hover { background:rgba(52,139,216,.27); 
 .revision-item input,.deliverable-item input{margin-top:.2rem;flex:0 0 auto}
 .revision-item span{display:grid;gap:.2rem;min-width:0}
 .revision-item small{font-size:.75rem;color:var(--muted,#8993a6)}
+.revision-item select{max-width:230px;min-width:160px;margin-left:auto;flex:0 1 auto}
+@media(max-width:560px){.revision-item{flex-wrap:wrap}.revision-item select{width:100%;max-width:none;margin-left:0}}
 .insight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin:.8rem 0}
 .insight-grid>div{padding:.7rem;border-radius:9px;background:rgba(127,155,190,.08);display:grid;gap:.15rem}
 .insight-grid strong{font-size:1.25rem}
