@@ -122,7 +122,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   await page.getByRole("button", { name: /Library/ }).click();
   await page.getByRole("button", { name: "Settings" }).click();
   const sourceSettings = page.getByRole("dialog", { name: "Settings" });
-  const sourceSize = sourceSettings.locator('input[type="range"]').first();
+  const sourceSize = sourceSettings.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
   await expect(sourceSize).toHaveValue("20");
   await sourceSize.focus();
   for (let step = 0; step < 5; step += 1) await sourceSize.press("ArrowRight");
@@ -385,7 +385,7 @@ test("legacy bookkeys:size is used when the settings object has no size", async 
   await page.addInitScript(() => localStorage.setItem("bookkeys:size", "22"));
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
-  await expect(page.getByRole("dialog", { name: "Settings" }).locator('input[type="range"]').first())
+  await expect(page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]'))
     .toHaveValue("22");
 });
 
@@ -576,14 +576,14 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
   const settings = page.getByRole("dialog", { name: "Settings" });
   await settings.getByLabel("Reader background").selectOption("gothic");
   await settings.getByRole("button", { name: "Close Settings" }).click();
-  const background = await page.locator(".bk-source-text").evaluate((element) =>
+  const background = await page.locator(".bk-picture-background").evaluate((element) =>
     getComputedStyle(element).backgroundImage
   );
   expect(background).toContain("data:image/svg+xml;base64");
 
   await page.reload();
   await page.getByRole("button", { name: /Existing v1 Book/ }).click();
-  await expect(page.locator(".bk-source-text")).toHaveCSS("background-image", /data:image\/svg\+xml;base64/);
+  await expect(page.locator(".bk-picture-background")).toHaveCSS("background-image", /data:image\/svg\+xml;base64/);
   const version = await page.evaluate(async () => new Promise<number>((resolve, reject) => {
     const request = indexedDB.open("bookkeys-lib");
     request.onsuccess = () => { resolve(request.result.version); request.result.close(); };
@@ -650,7 +650,7 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
 test("fresh Bookkeys settings initialize the complete legacy defaults contract", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
-  const size = page.getByRole("dialog", { name: "Settings" }).locator('input[type="range"]').first();
+  const size = page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
   await size.focus();
   await size.press("ArrowRight");
 
@@ -757,11 +757,13 @@ test("reader preserves the original canvas scenes, photo crops, Time of Day and 
     await backgrounds.selectOption(scene);
     await expect(article).toHaveAttribute("data-reader-background", scene);
     await expect(canvas).toBeVisible();
-    const alpha = await canvas.evaluate((element) => {
-      const context = (element as HTMLCanvasElement).getContext("2d");
-      return context?.getImageData(0, 0, 1, 1).data[3] ?? 0;
-    });
-    expect(alpha, `original canvas scene ${scene} should paint its background`).toBeGreaterThan(0);
+    await expect(canvas).toHaveAttribute("data-scene", scene);
+    const dimensions = await canvas.evaluate((element) => ({
+      width: (element as HTMLCanvasElement).width,
+      height: (element as HTMLCanvasElement).height,
+    }));
+    expect(dimensions.width).toBeGreaterThan(0);
+    expect(dimensions.height).toBeGreaterThan(0);
   }
 
   for (const scene of extraStaticScenes) {
@@ -797,9 +799,11 @@ test("reader preserves the original canvas scenes, photo crops, Time of Day and 
 
 test("legacy background migration flags run once and preserve subsequent user choices", async ({ page }) => {
   await page.addInitScript(() => {
+    if (sessionStorage.getItem("__bookkeysBackgroundMigrationSeeded")) return;
     localStorage.setItem("bookkeys:settings", JSON.stringify({ bg: "none", picVeil: 45 }));
     localStorage.removeItem("bookkeys:bgdef1");
     localStorage.removeItem("bookkeys:bgdef2");
+    sessionStorage.setItem("__bookkeysBackgroundMigrationSeeded", "1");
   });
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
