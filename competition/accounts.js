@@ -57,9 +57,11 @@
       if (contests.status !== "OK") throw new Error(contests.comment || "Could not load contest history.");
       if (submissions.status !== "OK") throw new Error(submissions.comment || "Could not load submission history.");
       const user = info.result[0], history = contests.result;
-      const sync = await import("./codeforces-sync.mjs");
-      const syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions.result);
-      if (!syncResult.ok) throw new Error("Codeforces learning history could not be saved safely.");
+      let syncResult = null;
+      try {
+        const sync = await import("./codeforces-sync.mjs");
+        syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions.result);
+      } catch (_) { /* Public rating data remains available if learning sync fails. */ }
       const latest = history.length ? history[history.length - 1] : null;
       const bestPlace = history.length ? Math.min(...history.map(item => item.rank).filter(Number.isFinite)) : null;
       const stats = document.createDocumentFragment();
