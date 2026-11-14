@@ -1,0 +1,43 @@
+name: Shared question-quality engine tests
+
+on:
+  pull_request:
+    paths:
+      - "metallurgy-source/question-quality/**"
+      - "metallurgy-source/scripts/lib/mcq-qs-rules.mjs"
+      - "metallurgy-source/scripts/test-mcq-qs.mjs"
+      - "metallurgy-source/scripts/validate-mcq-qs.mjs"
+      - "metallurgy-source/scripts/mcq-qs-enforced.json"
+      - "metallurgy-source/app/mt203/types.ts"
+      - "metallurgy-source/package.json"
+      - ".github/workflows/question-quality-engine.yml"
+  push:
+    branches:
+      - main
+      - mcq-qs-validator
+    paths:
+      - "metallurgy-source/question-quality/**"
+      - "metallurgy-source/scripts/lib/mcq-qs-rules.mjs"
+      - "metallurgy-source/scripts/test-mcq-qs.mjs"
+      - "metallurgy-source/scripts/validate-mcq-qs.mjs"
+      - "metallurgy-source/scripts/mcq-qs-enforced.json"
+      - "metallurgy-source/app/mt203/types.ts"
+      - "metallurgy-source/package.json"
+      - ".github/workflows/question-quality-engine.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: metallurgy-source/package-lock.json
+      - name: Install dependencies
+        run: npm ci --prefix metallurgy-source
+      - name: Run shared engine, MT203 adapter, and legacy MCQ-QS tests
+        run: npm run test:quality --prefix metallurgy-source
