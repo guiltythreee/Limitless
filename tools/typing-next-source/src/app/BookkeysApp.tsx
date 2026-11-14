@@ -98,6 +98,7 @@ interface ReaderBook {
   readonly chapters: BookkeysChapter[];
 }
 interface LibraryEntry extends BookkeysLibraryMetadata {}
+const RECENT_SHELF_ID = "recent";
 const SAMPLE_PASSAGE = "Reading is a deliberate kind of attention. A page gives the mind a small place to pause, follow an idea, and connect it with something already understood. The aim of practice is not speed alone: it is to build a steady rhythm, notice mistakes, and return to the sentence with greater precision. A short session repeated thoughtfully can become a lasting habit.";
 interface BookkeysSettings {
   readonly bg: string;
@@ -647,9 +648,20 @@ export default function BookkeysApp() {
     };
   }, []);
 
-  const shelfLibrary = useMemo(() => library.filter((entry) => entry.shelf === selectedShelf), [library, selectedShelf]);
-  const visibleLibrary = useMemo(() => filterAndSortBookkeysLibrary(shelfLibrary, libraryQuery, librarySort), [shelfLibrary, libraryQuery, librarySort]);
-  const continueEntry = shelfLibrary[0];
+  const shelfLibrary = useMemo(() => selectedShelf === RECENT_SHELF_ID
+    ? library.filter((entry) => Boolean(entry.opened))
+      .sort((a, b) => (b.opened ?? 0) - (a.opened ?? 0)).slice(0, 12)
+    : library.filter((entry) => entry.shelf === selectedShelf),
+  [library, selectedShelf]);
+  const visibleLibrary = useMemo(
+    () => filterAndSortBookkeysLibrary(shelfLibrary, libraryQuery, selectedShelf === RECENT_SHELF_ID ? "recent" : librarySort),
+    [shelfLibrary, libraryQuery, librarySort, selectedShelf],
+  );
+  const continueEntry = useMemo(
+    () => [...library].filter((entry) => Boolean(entry.opened))
+      .sort((a, b) => (b.opened ?? 0) - (a.opened ?? 0))[0],
+    [library],
+  );
   const target = useMemo(() => {
     const text = book?.sections[pageIndex]?.map((block) => block.text).join("\n") ?? "";
     if (book?.format !== "pdf" || settings.punct !== "simplify") return text;
@@ -828,7 +840,7 @@ export default function BookkeysApp() {
           // versions when an existing local book is imported again.
           ...(existing ?? {}),
           id: libraryId,
-          shelf: existing?.shelf ?? selectedShelf,
+          shelf: existing?.shelf ?? (selectedShelf === RECENT_SHELF_ID ? "main" : selectedShelf),
           name: parsed.title,
           size: file.size,
           pages: parsed.sections.length,
@@ -1094,6 +1106,40 @@ export default function BookkeysApp() {
     setTyped("");
     navTo("book", sample.bookKey, 0);
     setStatus("Sample passage ready. Typing here never earns XP or saves book progress.");
+  }
+
+  async function moveLibraryEntry(entry: LibraryEntry, shelfId: string) {
+    if (!database || !shelfId || shelfId === entry.shelf) return;
+    setBusy(true);
+    try {
+      const file = await database.getFile(entry.id);
+      if (!file) throw new Error("The original file is missing from this browser's library.");
+      await database.putBook({ ...entry, shelf: shelfId }, file);
+      setLibrary((await database.listMetadata()).sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
+      setStatus("Moved " + entry.name + " to " + (shelves.find((shelf) => shelf.id === shelfId)?.name ?? "the selected shelf") + ".");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Could not move this book.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function removeLibraryEntry(entry: LibraryEntry) {
+    if (!database || !window.confirm("Remove " + entry.name + " from this browser's library? Saved typing progress and backups will remain.")) return;
+    setBusy(true);
+    try {
+      await database.deleteBook(entry.id);
+      try {
+        window.localStorage.removeItem("bookkeys:lib:" + entry.id);
+        window.localStorage.removeItem("bookkeys:chap:lib:" + entry.id);
+      } catch { /* The library item is already removed; progress remains in the game ledger. */ }
+      setLibrary((await database.listMetadata()).sort((a, b) => (b.opened ?? b.added) - (a.opened ?? a.added)));
+      setStatus("Removed " + entry.name + " from this browser's library. Typing progress was retained.");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Could not remove this book.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function removeCurrentBook() {
@@ -1421,10 +1467,11 @@ export default function BookkeysApp() {
             <div className="bk-library-actions">
               <select className="bk-shelf-select" value={selectedShelf} onChange={(event) => setSelectedShelf(event.currentTarget.value)} aria-label="Choose shelf">
                 {shelves.map((shelf) => <option key={shelf.id} value={shelf.id}>{shelf.name}</option>)}
+                <option value={RECENT_SHELF_ID}>Recent</option>
               </select>
-              <button className="bk-quiet" onClick={addShelf}>New shelf</button>
-              <button className="bk-quiet" onClick={editShelfName}>Rename</button>
-              <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "main"}>Delete</button>
+              <button className="bk-quiet" onClick={addShelf} disabled={busy}>New shelf</button>
+              <button className="bk-quiet" onClick={editShelfName} disabled={busy || selectedShelf === RECENT_SHELF_ID}>Rename</button>
+              <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "main" || selectedShelf === RECENT_SHELF_ID}>Delete</button>
               {continueEntry && <button className="bk-primary" onClick={() => void loadEntry(continueEntry)}>Continue reading</button>}
               <button className="bk-quiet" onClick={() => setPasteOpen((open) => !open)}>Paste text</button>
               <button className="bk-quiet" onClick={startSample}>Try sample text</button>
@@ -1496,13 +1543,41 @@ export default function BookkeysApp() {
           </div>
           {visibleLibrary.length ? (
             <div className="bk-book-grid">
-              {visibleLibrary.map((entry) => (
-                <button className="bk-book" key={entry.id} onClick={() => void loadEntry(entry)} disabled={busy}>
-                  <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
-                  <strong>{entry.name}</strong>
-                  <span>{entry.pages} {entry.fmt ? "sections" : "pages"}</span>
-                </button>
-              ))}
+              {visibleLibrary.map((entry) => {
+                const progressKey = entry.fmt === "epub" || entry.fmt === "text" ? "f:" + entry.fp : entry.fp;
+                const savedProgress = gameProgress.book?.[progressKey];
+                const completed = savedProgress?.p?.length ?? 0;
+                const percent = entry.pages > 0 ? Math.min(100, Math.round(completed / entry.pages * 100)) : 0;
+                return (
+                  <div className="bk-book-card" key={entry.id}>
+                    <button className="bk-book" onClick={() => void loadEntry(entry)} disabled={busy}>
+                      <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
+                      <strong>{entry.name}</strong>
+                      {entry.author && <span className="bk-book-author">{entry.author}</span>}
+                      <span>{entry.pages} {entry.fmt ? "sections" : "pages"}</span>
+                      {completed > 0 && (
+                        <span className="bk-book-progress" aria-label={percent + "% typed"}>
+                          <i style={{ width: percent + "%" }} />
+                        </span>
+                      )}
+                    </button>
+                    <div className="bk-book-card-actions">
+                      <select
+                        aria-label={"Move " + entry.name + " to another shelf"}
+                        value=""
+                        disabled={busy || shelves.length < 2}
+                        onChange={(event) => { if (event.currentTarget.value) void moveLibraryEntry(entry, event.currentTarget.value); }}
+                      >
+                        <option value="">Move to…</option>
+                        {shelves.filter((shelf) => shelf.id !== entry.shelf).map((shelf) => (
+                          <option key={shelf.id} value={shelf.id}>{shelf.name}</option>
+                        ))}
+                      </select>
+                      <button className="bk-quiet" onClick={() => void removeLibraryEntry(entry)} disabled={busy}>Remove</button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <div className="bk-empty">
