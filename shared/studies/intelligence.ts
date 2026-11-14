@@ -128,7 +128,7 @@ export function buildConceptMastery(
   for (const attempt of attempts) {
     if (!validAttempt(attempt) || attempt.outcome === "skipped") continue;
     const subjectId = attempt.subjectId || "general";
-    for (const rawConcept of attempt.conceptIds) {
+    for (const rawConcept of new Set(attempt.conceptIds)) {
       if (typeof rawConcept !== "string" || !rawConcept.trim()) continue;
       const label = cleanLabel(rawConcept);
       const key = normalizeConceptKey(attempt.disciplineId, subjectId, label);
@@ -147,7 +147,7 @@ export function buildConceptMastery(
     const incorrect = rows.filter((row) => row.outcome === "incorrect").length;
     const score = correct + partial * 0.5;
     const accuracy = score / rows.length;
-    const independentRows = rows.filter((row) => row.independent === true && row.hintCount !== undefined && row.hintCount === 0);
+    const independentRows = rows.filter((row) => row.independent === true && (row.hintCount ?? 0) === 0);
     const independentCorrect = independentRows.filter((row) => row.outcome === "correct").length;
     const independentAccuracy = independentRows.length ? independentCorrect / independentRows.length : null;
     const status: ConceptMastery["status"] =
@@ -226,7 +226,7 @@ export function buildRevisionCandidates(
     }
     if (!lastFailure) continue;
     const interval = intervalsDays[Math.min(successfulRevisions, intervalsDays.length - 1)] ?? 30;
-    const dueAt = lastFailure.occurredAt + interval * DAY_MS;
+    const dueAt = (lastSuccessfulRevisionAt ?? lastFailure.occurredAt) + interval * DAY_MS;
     const overdueDays = Math.max(0, Math.floor((now - dueAt) / DAY_MS));
     const latest = rows[rows.length - 1];
     const candidate: RevisionCandidate = {
