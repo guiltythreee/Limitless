@@ -802,6 +802,7 @@ export function createBookkeysBackgroundEngine(canvas) {
   function set(name, nextDensity = 1, shouldAnimate = true) {
     stop();
     sceneName = name;
+    canvas.dataset.scene = name;
     density = nextDensity;
     animate = shouldAnimate;
     if (!SCENES[name]) {
