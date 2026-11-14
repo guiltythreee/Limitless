@@ -430,7 +430,9 @@ const T1: TopicSource = {
       answer: "c",
       why: "**DP = repeat units per chain**; $M \\approx DP \\times M_{repeat}$.",
       distractors: {
-        a: "The sample contains many chains, each with its own DP.",
+        a: "The sample contains many chains, each with its own DP; DP is defined per chain.",
+        b: "This is not a count of chains in a mole of sample; it counts repeat units along one chain.",
+        d: "Functional groups describe chemical functionality, not the chain-length measure DP.",
       },
       tags: ["revision"],
     },
