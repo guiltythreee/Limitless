@@ -576,14 +576,14 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
   const settings = page.getByRole("dialog", { name: "Settings" });
   await settings.getByLabel("Reader background").selectOption("gothic");
   await settings.getByRole("button", { name: "Close Settings" }).click();
-  const background = await page.locator(".bk-picture-background").evaluate((element) =>
+  const background = await page.locator(".bk-source-text").evaluate((element) =>
     getComputedStyle(element).backgroundImage
   );
   expect(background).toContain("data:image/svg+xml;base64");
 
   await page.reload();
   await page.getByRole("button", { name: /Existing v1 Book/ }).click();
-  await expect(page.locator(".bk-picture-background")).toHaveCSS("background-image", /data:image\/svg\+xml;base64/);
+  await expect(page.locator(".bk-source-text")).toHaveCSS("background-image", /data:image\/svg\+xml;base64/);
   const version = await page.evaluate(async () => new Promise<number>((resolve, reject) => {
     const request = indexedDB.open("bookkeys-lib");
     request.onsuccess = () => { resolve(request.result.version); request.result.close(); };
