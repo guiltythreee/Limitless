@@ -72,6 +72,25 @@
     .meta-button:hover { background: rgba(211,178,103,.18); }
     .meta-button:focus-visible, .meta-field input:focus-visible, .meta-field select:focus-visible, .meta-field textarea:focus-visible { outline: 2px solid var(--gold, #d3b267); outline-offset: 2px; }
     .meta-project-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin-top: .7rem; }
+
+    .activity-overview { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.7rem; margin:.8rem 0 1rem; }
+    .activity-overview > div { display:grid; gap:.2rem; padding:.85rem; border:1px solid rgba(211,178,103,.18); background:rgba(12,10,16,.45); }
+    .activity-overview strong { color:var(--gold,#d3b267); font-size:1.55rem; font-variant-numeric:tabular-nums; }
+    .activity-overview span { font-size:.72rem; opacity:.72; }
+    .activity-calendar { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); grid-auto-flow:row; gap:4px; }
+    .activity-day { display:block; aspect-ratio:1; min-width:0; border-radius:2px; background:rgba(140,140,140,.12); }
+    .activity-level-1 { background:rgba(211,178,103,.28); }
+    .activity-level-2 { background:rgba(211,178,103,.48); }
+    .activity-level-3 { background:rgba(211,178,103,.7); }
+    .activity-level-4 { background:rgba(211,178,103,.95); }
+    .activity-today-cell { outline:1px solid var(--gold,#d3b267); outline-offset:1px; }
+    .activity-legend { display:flex; align-items:center; justify-content:flex-end; gap:5px; margin-top:.6rem; font-size:.68rem; opacity:.7; }
+    .activity-legend i { display:block; width:11px; height:11px; border-radius:2px; }
+    .activity-goal-form { display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; margin-top:.7rem; }
+    .activity-goal-form label { font-size:.78rem; opacity:.8; }
+    .activity-goal-form input { width:72px; border:1px solid rgba(211,178,103,.3); background:rgba(5,5,8,.8); color:inherit; padding:.55rem; font:inherit; }
+    @media (max-width:540px) { .activity-calendar { gap:3px; } .activity-overview { gap:.4rem; } .activity-overview > div { padding:.6rem; } }
+
     .meta-level-notice { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .8rem; padding: .9rem 0; border-bottom: 1px solid rgba(211,178,103,.14); }
     .meta-level-notice strong { color: var(--gold, #d3b267); }
     @media (max-width: 540px) { .meta-form { grid-template-columns: 1fr; } .meta-field-full { grid-column: auto; } }
@@ -271,6 +290,28 @@
       </div>
     </section>
     <p class="meta-notice" id="rollout-note">Pilot rollout: only LSR-1 registered modules contribute EXP. Legacy XP remains separate until migration.</p>
+
+    <details class="meta-section" open>
+      <summary>Global activity</summary>
+      <div class="meta-section-body">
+        <p class="meta-muted">Recorded practice activity across Competition, Math Trainer, Probability and Metallurgy. Activity is not the same as mastery or EXP.</p>
+        <div class="activity-overview" aria-live="polite">
+          <div><strong id="activity-streak">—</strong><span>day streak</span></div>
+          <div><strong id="activity-today">—</strong><span>attempts today</span></div>
+          <div><strong id="activity-days">—</strong><span>active days · 12 weeks</span></div>
+        </div>
+        <div id="activity-calendar" class="activity-calendar" role="group" aria-label="Activity over the last 12 weeks"></div>
+        <div class="activity-legend"><span>Less</span><i class="activity-level-0"></i><i class="activity-level-1"></i><i class="activity-level-2"></i><i class="activity-level-3"></i><i class="activity-level-4"></i><span>More</span></div>
+        <p id="activity-goal-copy" class="meta-muted">Loading today's activity target…</p>
+        <form id="activity-goal-form" class="activity-goal-form">
+          <label for="activity-daily-goal">Daily target (recorded attempts)</label>
+          <input id="activity-daily-goal" type="number" min="1" max="20" step="1" value="1" required>
+          <button class="meta-button" type="submit">Save target</button>
+          <span id="activity-goal-status" class="meta-muted" role="status" aria-live="polite"></span>
+        </form>
+      </div>
+    </details>
+
 
     <details class="meta-section" open>
       <summary>Registered modules</summary>
