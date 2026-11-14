@@ -132,7 +132,16 @@ export function toCodeforcesLearningAttempts(submissions) {
 }
 
 export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], now = Date.now(), codeforcesSubmissions = []) {
-  const attempts = toCompetitionLearningAttempts(problemLog, revisionAttempts).concat(toCodeforcesLearningAttempts(codeforcesSubmissions)).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
+  const storedCodeforcesAttempts = Array.isArray(codeforcesSubmissions) && codeforcesSubmissions.some((item) =>
+    item && typeof item.id === "string" && item.id.startsWith("codeforces:") && item.disciplineId === "competitive-programming"
+  );
+  const codeforcesAttempts = storedCodeforcesAttempts
+    ? codeforcesSubmissions.filter((item) => item && typeof item.id === "string" &&
+      item.id.startsWith("codeforces:") && item.disciplineId === "competitive-programming" &&
+      Number.isFinite(item.occurredAt) && item.occurredAt > 0 &&
+      ["correct", "incorrect", "partial"].includes(item.outcome))
+    : toCodeforcesLearningAttempts(codeforcesSubmissions);
+  const attempts = toCompetitionLearningAttempts(problemLog, revisionAttempts).concat(codeforcesAttempts).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
   const mastery = buildConceptMastery(attempts);
   return {
     attempts,
