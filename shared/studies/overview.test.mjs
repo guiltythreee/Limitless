@@ -9,6 +9,18 @@ const snapshot = {
       concept: "Pigeonhole Principle", outcome: "independent", resolve: "yes",
       mistakeType: "", time: "20",
     }],
+    revisionAttempts: [{
+      id: "cp-revision-1", problemId: "cp-1",
+      date: new Date(now + 3).toISOString(), outcome: "incorrect", mistakeType: "observation",
+    }],
+  },
+  codeforces: {
+    attempts: [{
+      id: "codeforces:9002", disciplineId: "competitive-programming", courseId: "codeforces",
+      contentId: "1900A", questionId: "codeforces:1900A", subjectId: "implementation",
+      conceptIds: ["implementation"], outcome: "incorrect", occurredAt: now + 4,
+      independent: false, mode: "practice",
+    }],
   },
   mathRuns: [{ id: "r1", mode: "practice" }],
   mathAttempts: [
@@ -53,12 +65,15 @@ const snapshot = {
 const before = JSON.stringify(snapshot);
 const report = buildCrossDisciplineOverview(snapshot);
 assert.equal(report.sections.length, 4);
-assert.equal(report.sections.find((x) => x.id === "competitive-programming").attempts, 1);
+assert.equal(report.sections.find((x) => x.id === "competitive-programming").attempts, 3, "CP problem logs, revision attempts, and Codeforces sync all contribute");
 assert.equal(report.sections.find((x) => x.id === "mathematics").attempts, 3);
 assert.equal(report.sections.find((x) => x.id === "probability").attempts, 3);
 assert.equal(report.sections.find((x) => x.id === "metallurgy").attempts, 7);
-assert.equal(report.totalAttempts, 14);
-assert.equal(report.trackedConcepts, 6, "concepts stay scoped by discipline and course");
+assert.equal(report.totalAttempts, 16);
+assert.equal(report.trackedConcepts, 7, "concepts stay scoped by discipline and course");
+assert.ok(report.attempts.some((item) => item.id === "cp-revision-1" && item.mode === "revision"));
+assert.ok(report.attempts.some((item) => item.id === "codeforces:9002" && item.courseId === "codeforces"));
+assert.ok(report.recurringMistakes.some((item) => item.category === "observation" && item.disciplineId === "competitive-programming"));
 assert.ok(report.mastery.some((item) => item.label === "MT203 t1"));
 assert.equal(report.mastery.find((item) => item.disciplineId === "probability")?.independentAttempts, 3);
 assert.ok(report.recurringMistakes.some((item) => item.category === "mathematical"));
