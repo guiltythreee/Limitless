@@ -396,9 +396,6 @@ const T7: TopicSource = {
         c: "110,000 g/mol is ten times the estimate and would correspond to roughly 1,000 residues.",
         d: "5,500 g/mol is half the correct estimate and corresponds to about 50 residues.",
       },
-      distractors: {
-        a: "1,100 g/mol corresponds to only 10 residues.",
-      },
       concept: "$M_{protein} \\approx n_{residues}\\times110$ Da",
       tags: ["numeric"],
     },
