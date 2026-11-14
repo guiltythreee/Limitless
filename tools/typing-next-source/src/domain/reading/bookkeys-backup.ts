@@ -71,7 +71,11 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
       return sanitized ? [[key, sanitized]] : [];
     }),
   );
-  if (!local) return JSON.stringify({ ...incoming, book: books });
+  if (!local) {
+    const restored = { ...incoming };
+    if (Object.prototype.hasOwnProperty.call(incoming, "book")) restored.book = books;
+    return JSON.stringify(restored);
+  }
   for (const [key, backupValue] of Object.entries(backupBooks)) {
     const backup = sanitizeBookProgress(backupValue);
     if (!backup) continue;
