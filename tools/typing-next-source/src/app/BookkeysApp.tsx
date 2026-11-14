@@ -1395,7 +1395,7 @@ export default function BookkeysApp() {
                     <option value="tod">Time of Day (automatic)</option>
                     {artwork.gothic && <option value="gothic">Gothic artwork</option>}
                     {artwork.garden && <option value="garden">Garden artwork</option>}
-                    <optgroup label="Static scenes">
+                    <optgroup label="Background scenes">
                       {READER_BACKGROUND_PRESETS.map((preset) => <option key={preset.id} value={preset.id}>{preset.label}</option>)}
                     </optgroup>
                   </select>
