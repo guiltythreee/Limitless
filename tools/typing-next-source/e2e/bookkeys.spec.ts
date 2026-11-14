@@ -211,15 +211,18 @@ test("theme and reader settings are interactive and persist without overwriting 
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Theme", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
+  await expect(dialog.getByLabel("Match colors to background")).toBeChecked();
+  await dialog.getByRole("button", { name: "Background", exact: true }).click();
   await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-night");
   await dialog.getByRole("button", { name: "Font", exact: true }).click();
   const textColors = dialog.getByRole("group", { name: "Text color" });
   await expect(dialog.getByLabel("Custom text color")).toHaveValue("#654321");
   await dialog.getByLabel("Custom text color").fill("#2a7f62");
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColorCustom)).toBe("#2a7f62");
+  await expect(dialog.getByText(/Contrast with the background:/)).toBeVisible();
   await textColors.getByRole("button", { name: "Theme default" }).click();
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColor)).toBe("theme");
   await dialog.getByLabel("Custom text color").fill("#2a7f62");
@@ -235,9 +238,12 @@ test("theme and reader settings are interactive and persist without overwriting 
 
   const artwork = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#d2ae5c"/></svg>');
   await dialog.getByRole("button", { name: "Theme", exact: true }).click();
+  await dialog.getByRole("button", { name: "Gothic Night", exact: true }).click();
+  await dialog.getByLabel("Decorative details").check();
   const upload = dialog.getByLabel("Upload Gothic artwork");
   await expect(upload).toBeEnabled();
   await upload.setInputFiles({ name: "gothic-art.svg", mimeType: "image/svg+xml", buffer: artwork });
+  await expect.poll(() => page.locator(".bk-shell").evaluate((element) => getComputedStyle(element).getPropertyValue("--bk-home-art"))).toContain("data:image/jpeg");
   await dialog.getByRole("button", { name: "Background", exact: true }).click();
   await expect(dialog.getByRole("option", { name: "Gothic artwork" })).toBeAttached();
   await dialog.getByLabel("Reader background").selectOption("gothic");
