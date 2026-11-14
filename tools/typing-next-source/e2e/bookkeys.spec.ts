@@ -892,6 +892,15 @@ test("original background palettes, theme tiles and accent swatches apply consis
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect.poll(() => readRootToken("--bg")).toBe("#04081A");
   await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
+
+  // The legacy settings expose this same preference in the Background tab too.
+  await dialog.getByRole("button", { name: "Background", exact: true }).click();
+  const backgroundMatchColors = dialog.getByLabel("Match colors to background");
+  await expect(backgroundMatchColors).toBeChecked();
+  await backgroundMatchColors.uncheck();
+  await expect.poll(() => readRootToken("--bg")).toBe("#ECECE8");
+  await backgroundMatchColors.check();
+  await expect.poll(() => readRootToken("--bg")).toBe("#04081A");
 });
 
 
