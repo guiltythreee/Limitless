@@ -201,3 +201,10 @@ kbd { padding: 2px 7px; border: 1px solid var(--border); border-radius: 3px; bac
   .profile-strip { padding: 14px 16px; }
   .streak { text-align: left; }
 }
+
+/* Shared learning-intelligence evidence and mistake classification. */
+.mistake-causes { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.mistake-cause-button { padding: 5px 9px; border: 1px solid var(--border); background: var(--chip-bg); color: var(--muted); font: 11px Arial, sans-serif; cursor: pointer; }
+.mistake-cause-button:hover, .mistake-cause-button.is-selected { border-color: var(--gold); color: var(--gold-bright); background: var(--sel-bg); }
+.math-learning-insights { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--hair); }
+.math-learning-insights .coach-line { margin-bottom: 6px; font-size: 12px; }
