@@ -31,6 +31,10 @@ A fresh GitHub compare on 14 November 2026 shows substantial divergence from the
 
 These branches were built from an earlier repository checkpoint. The earlier note that the migration was reconciled with the deployment workflow does **not** mean it is current with today's `main`. Do not merge PR #111 or PR #144 directly. First preserve the existing branch heads, identify the exact Bookkeys-only commits and file changes, then replay/reconcile those changes onto a fresh branch from current `main`. Resolve conflicts without reverting unrelated Limitless changes, rerun all Bookkeys and repository checks, and keep the preview isolated until manual acceptance. The named `backup/bookkeys-*` branches are recovery points and must remain untouched during this process.
 
+## Latest branch comparison
+
+On 14 November 2026, current `main` is `8253434de10c04480a37f0d29b60bd38e7b36021` and the validated migration head is `570360a63f9e7a51dd02caabdf1f1edfd472cd8c`. GitHub reports the migration branch as 148 commits ahead and 12 behind current main. The 67-file comparison contains the isolated Bookkeys preview/migration changes and one additional migration-specific workflow, `.github/workflows/bookkeys-next-scaffold.yml`; no unrelated Limitless application files are changed by the migration branch. Keep the PR draft and do not merge until manual data/device acceptance is complete.
+
 ## Verified in CI
 
 The latest successful current-main migration workflow is [43646307669](https://github.com/guiltythreee/Limitless/actions/runs/43646307669), with the separate legacy regression workflow [43646312324](https://github.com/guiltythreee/Limitless/actions/runs/43646312324). Both completed successfully on commit `570360a63f9e7a51dd02caabdf1f1edfd472cd8c`.
