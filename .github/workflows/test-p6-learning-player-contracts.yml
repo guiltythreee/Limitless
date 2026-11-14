@@ -14,6 +14,7 @@ on:
       - "competition/codeforces-sync.test.mjs"
       - "competition/accounts.js"
       - "competition/competition.js"
+      - "codeforces-red/codeforces-red.js"
       - "metallurgy-source/app/mt203/dashboard.tsx"
       - "metallurgy-source/app/platform/learning/**"
       - "metallurgy-source/app/lib/mt203-progress.ts"
@@ -94,6 +95,7 @@ jobs:
           node --check ../competition/codeforces-sync.test.mjs
           node --check ../competition/accounts.js
           node --check ../competition/competition.js
+          node --check ../codeforces-red/codeforces-red.js
           if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; fi
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-utility-nav.test.mjs
