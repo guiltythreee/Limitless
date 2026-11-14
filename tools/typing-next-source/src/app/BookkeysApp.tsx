@@ -1861,6 +1861,7 @@ export default function BookkeysApp() {
                   <span>Custom text color</span>
                   <input type="color" aria-label="Custom text color"
                     value={safeReaderTextColor(settings.fontColorCustom) ?? "#FF8A00"}
+                    onClick={() => { if (settings.fontColor !== "custom") persistSettings({ ...settings, fontColor: "custom" }); }}
                     onChange={(event) => persistSettings({ ...settings, fontColor: "custom", fontColorCustom: event.currentTarget.value })} />
                 </label>
                 <label className="bk-setting">
@@ -1966,8 +1967,8 @@ export default function BookkeysApp() {
                     onChange={(event) => persistSettings({ ...settings, errSound: event.currentTarget.checked })} />
                 </label>
                 <label className="bk-setting bk-setting-check">
-                  <span>Keep the current line centered</span>
-                  <input type="checkbox" checked={settings.centered === true}
+                  <span>Center reading text</span>
+                  <input type="checkbox" aria-label="Center reading text" checked={settings.centered === true}
                     onChange={(event) => persistSettings({ ...settings, centered: event.currentTarget.checked })} />
                 </label>
                 <label className="bk-setting bk-setting-check">
