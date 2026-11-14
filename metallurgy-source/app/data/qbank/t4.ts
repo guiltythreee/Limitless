@@ -230,7 +230,7 @@ const T4: TopicSource = {
         { label: "c", text: "PDI: C < B < A" },
         { label: "d", text: "Cannot be inferred from peak shape" }
       ],
-      answer: "a",
+      answer: "d",
       why: "No. PDI is $M_w/M_n$ and depends on the full molecular-weight distribution, not just the visual peak width or width at half-height. Different distributions can have similar peak widths but different moments; a bimodal trace also does not determine the PDI without quantitative distribution data.",
       concept: "SEC: elution volume ↔ MW; width ↔ PDI",
       tags: ["confused"],
