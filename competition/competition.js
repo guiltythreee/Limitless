@@ -860,6 +860,7 @@
   }
 
   function renderWeeks() {
+    renderRoadmapAnalytics();
     var openWeeks = {};
     $('week-list').querySelectorAll('.week-card').forEach(function (details, index) { openWeeks[index] = details.open; });
     $('week-list').innerHTML = WEEKS.map(function (week, wi) {
