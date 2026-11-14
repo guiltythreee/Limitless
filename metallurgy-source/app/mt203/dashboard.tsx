@@ -14,6 +14,8 @@ import {
   TOTAL_QUESTIONS,
   topicsOfModule,
 } from "../data/qbank/meta";
+import { buildConceptMastery, recommendConceptPractice } from "../../../shared/studies/intelligence.mjs";
+import type { LearningAttempt } from "../../../shared/studies/intelligence.mjs";
 import {
   BONUS,
   dueInDays,
@@ -49,6 +51,26 @@ export default function Dashboard({
   const streak = streakInfo(progress);
   const stats = questionStats(progress, ALL_QUESTION_IDS);
   const byTopic = topicAggregate(progress, TOPIC_OF, ALL_QUESTION_IDS);
+  const intelligenceAttempts: LearningAttempt[] = progress.attempts.flatMap((attempt, index) => {
+    const topicId = TOPIC_OF[attempt.q];
+    const topic = TOPIC_META.find((item) => item.id === topicId);
+    if (!topic || !Number.isFinite(attempt.ts) || attempt.ts <= 0) return [];
+    return [{
+      id: `mt203:${attempt.q}:${attempt.ts}:${index}`,
+      disciplineId: "metallurgy",
+      courseId: "mt203",
+      contentId: topic.id,
+      questionId: attempt.q,
+      subjectId: "mt203",
+      conceptIds: [topic.title],
+      outcome: attempt.correct ? "correct" : "incorrect",
+      occurredAt: attempt.ts,
+      elapsedMs: attempt.ms,
+      mode: attempt.mode,
+    }];
+  });
+  const sharedMastery = buildConceptMastery(intelligenceAttempts);
+  const sharedWeak = recommendConceptPractice(sharedMastery, 5);
 
   const mods = MODULE_META.map((m) => ({
     meta: m,
@@ -160,6 +182,30 @@ export default function Dashboard({
               );
             })}
           </div>
+        </section>
+      )}
+
+      {/* Shared, discipline-neutral mastery projection. Existing MT203 mastery and revision rules remain authoritative. */}
+      {sharedMastery.length > 0 && (
+        <section className="panel dash-weak" aria-label="Shared learning intelligence">
+          <div className="eyebrow" style={{ marginBottom: "0.5rem" }}>Learning intelligence · topic mastery</div>
+          <div className="weak-grid">
+            {sharedMastery.map((item) => (
+              <div key={item.key} className="weak-chip">
+                <b>{item.label}</b>
+                <span>{item.attempts} attempts · {Math.round(item.accuracy * 100)}% · {
+                  item.status === "insufficient-data" ? "Building baseline" :
+                  item.status === "developing" ? "Developing" :
+                  item.status === "secure" ? "Secure" : "Mastered"
+                }</span>
+              </div>
+            ))}
+          </div>
+          {sharedWeak.length > 0 && (
+            <p className="sub" style={{ marginTop: "0.7rem" }}>
+              Suggested focus: {sharedWeak.slice(0, 3).map((item) => item.label).join(" · ")}.
+            </p>
+          )}
         </section>
       )}
 
