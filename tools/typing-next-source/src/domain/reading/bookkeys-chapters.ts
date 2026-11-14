@@ -2,19 +2,24 @@ import type { BookkeysChapter } from "../persistence/bookkeys-v1-contracts";
 import { normalize } from "../epub/epub-domain";
 
 const OPTIONAL_HEADINGS = [
-  "also by", "about the author", "acknowledgements", "acknowledgments",
-  "author's note", "author note", "bibliography", "copyright", "contents",
-  "dedication", "epigraph", "foreword", "glossary", "index", "introduction",
-  "notes", "note on the text", "publication information", "references", "sources",
-  "table of contents", "preface", "prologue", "epilogue", "afterword", "appendix",
-  "appendices", "translator's note", "editor's note", "colophon", "footnotes", "endnotes",
+  "cover", "title page", "half title", "frontispiece", "copyright", "publication",
+  "contents", "table of contents", "list of illustrations", "list of figures",
+  "list of plates", "list of maps", "list of tables", "epigraph", "dedication",
+  "foreword", "preface", "acknowledgements", "acknowledgments", "introduction",
+  "prologue", "epilogue", "afterword", "appendix", "appendices", "glossary",
+  "bibliography", "references", "sources", "endnotes", "notes", "footnotes",
+  "index", "author's note", "authors note", "about the author", "about the authors",
+  "about the editors", "about the contributors", "also by", "colophon", "errata",
+  "abbreviations", "chronology", "timeline", "cast of characters", "dramatis personae",
+  "translator's note", "translator's preface", "editor's note", "editor's preface",
+  "publisher's note", "note on the text", "note on the translation", "how to use this book",
 ] as const;
 
 export const SECTION_OPTIONAL: ReadonlySet<string> = new Set(OPTIONAL_HEADINGS);
 
 export function sectionBody(value: unknown): string {
   let text = normalize(value).toLowerCase();
-  text = text.replace(/^(?:(?:chapter|chap\.?|part|book)\s+)?(?:\d+|[ivxlcdm]+)[.)\s:-]+/i, "");
+  text = text.replace(/^(?:(?:chapter|chap\.?|part|book|volume|vol\.?|section|act|scene|canto|letter)\s+)?(?:\d{1,4}|[ivxlcdm]{1,7})(?=\s|$|[.):,\\-])[\\s.):,\\-]*/i, "");
   text = text.replace(/^(?:the|a|an)\s+/i, "");
   return normalize(text).toLowerCase();
 }
