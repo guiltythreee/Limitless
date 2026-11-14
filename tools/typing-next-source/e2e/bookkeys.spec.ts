@@ -863,13 +863,13 @@ test("original background palettes, theme tiles and accent swatches apply consis
   await dialog.getByRole("button", { name: "Background", exact: true }).click();
   const matchColors = dialog.getByLabel("Match colors to background");
   await expect(matchColors).toBeChecked();
-  await expect(dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper", exact: true })).toBeVisible();
 
   await matchColors.uncheck();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect.poll(() => readRootToken("--bg")).toBe("#08070d");
 
   await dialog.getByRole("button", { name: "Theme", exact: true }).click();
+  await expect(dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper", exact: true })).toBeVisible();
   await dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await expect.poll(() => readRootToken("--bg")).toBe("#ECECE8");
