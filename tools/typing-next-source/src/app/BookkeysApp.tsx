@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { BOOKKEYS_BACKGROUND_CATALOG, BOOKKEYS_SCENE_IDS, createBookkeysBackgroundEngine } from "../domain/reading/bookkeys-backgrounds";
+import { ACC, THEMES, TOK, resolveBookkeysAppearance } from "../domain/reading/bookkeys-appearance";
 import type { BookkeysChapter, BookkeysLibraryMetadata, BookkeysShelf } from "../domain/persistence/bookkeys-v1-contracts";
 import { openBookkeysDatabase, type BookkeysDatabase } from "../domain/persistence/bookkeys-v1-database";
 import { readEpub } from "../domain/epub/epub-importer";
@@ -328,7 +329,7 @@ export default function BookkeysApp() {
   const [settings, setSettings] = useState<BookkeysSettings>({ bg: "pic-morning", size: 20, lineH: 1.7, celebrate: true });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
-  const [settingsTab, setSettingsTab] = useState<"appearance" | "data">("appearance");
+  const [settingsTab, setSettingsTab] = useState<"theme" | "appearance" | "data">("theme");
   const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
   const backgroundEngineRef = useRef<ReturnType<typeof createBookkeysBackgroundEngine> | null>(null);
   const [clockMinute, setClockMinute] = useState(() => new Date().getMinutes());
@@ -410,10 +411,8 @@ export default function BookkeysApp() {
   useEffect(() => {
     if (!themeReady) return;
     document.documentElement.dataset.theme = theme;
-    document.documentElement.style.setProperty("--tsize", settings.size + "px");
-    document.documentElement.style.setProperty("--lineH", String(settings.lineH));
     try { window.localStorage.setItem("limitless.typing.v1.theme", theme); } catch { /* theme is a preference */ }
-  }, [theme, themeReady, settings.size, settings.lineH]);
+  }, [theme, themeReady]);
 
   useEffect(() => {
     const canvas = backgroundCanvasRef.current;
@@ -474,6 +473,11 @@ export default function BookkeysApp() {
     "--bk-picture-veil": String(Number(settings.picVeil ?? 0) / 100),
     "--bk-panel-opacity": `${backdropPercent}%`,
   } as CSSProperties;
+  const resolvedAppearance = useMemo(
+    () => resolveBookkeysAppearance(settings, effectiveBackground, theme === "dark", systemReducedMotion),
+    [settings, effectiveBackground, theme, systemReducedMotion],
+  );
+  const activeTone = resolvedAppearance.tone;
 
   useEffect(() => {
     if (!themeReady) return;
@@ -490,6 +494,41 @@ export default function BookkeysApp() {
   }, [
     themeReady, effectiveBackground, isCanvasScene, settings.bgDensity,
     settings.bgAnim, settings.motion, systemReducedMotion,
+  ]);
+
+  useEffect(() => {
+    if (!themeReady) return;
+    const root = document.documentElement;
+    TOK.forEach((token) => root.style.removeProperty(`--${token}`));
+    Object.entries(resolvedAppearance.variables).forEach(([token, value]) => {
+      root.style.setProperty(`--${token}`, String(value));
+    });
+    if (!resolvedAppearance.variables.typed) root.style.removeProperty("--typed");
+    root.style.setProperty("--caret", resolvedAppearance.caret || "var(--accent)");
+    root.style.setProperty("--font-text", resolvedAppearance.fontStack);
+    root.style.setProperty("--tsize", resolvedAppearance.fontSize);
+    root.style.setProperty("--lh", resolvedAppearance.lineHeight);
+    root.style.setProperty("--ls", resolvedAppearance.letterSpacing);
+    root.style.setProperty("--panel-op", `${backdropPercent}%`);
+    root.style.setProperty("--pic-veil", `${Number(settings.picVeil ?? 0)}%`);
+    root.style.setProperty("--pic-blur", `${Number(settings.picBlur ?? 0)}px`);
+    root.dataset.tone = resolvedAppearance.tone;
+    root.dataset.deco = resolvedAppearance.decoration;
+    root.dataset.bg = effectiveBackground;
+    root.dataset.pic = isPictureBackground ? "on" : "off";
+    root.dataset.calm = resolvedAppearance.calm;
+    root.dataset.lglow = resolvedAppearance.textGlow;
+    root.dataset.centered = resolvedAppearance.centered;
+    root.dataset.tfx = String(settings.tfx ?? "none");
+    root.dataset.cstyle = String(settings.cstyle ?? "block");
+    root.dataset.cblink = String(settings.cblink ?? "blink");
+    root.dataset.cglow = resolvedAppearance.cursorGlow;
+    root.dataset.csmooth = resolvedAppearance.cursorSmooth;
+    root.dataset.punct = String(settings.punct ?? "simplify");
+  }, [
+    themeReady, resolvedAppearance, effectiveBackground, isPictureBackground,
+    backdropPercent, settings.picVeil, settings.picBlur, settings.tfx,
+    settings.cstyle, settings.cblink, settings.punct,
   ]);
 
   useEffect(() => {
@@ -950,8 +989,9 @@ export default function BookkeysApp() {
   }
 
   function toggleTheme() {
-    const nextTheme = theme === "dark" ? "light" : "dark";
+    const nextTheme = activeTone === "dark" ? "light" : "dark";
     setTheme(nextTheme);
+    persistSettings({ ...settings, skin: "auto", bgMatch: false });
   }
 
   function exportBackup() {
