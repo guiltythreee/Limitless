@@ -462,6 +462,10 @@ export default function BookkeysApp() {
       ...(!isCustomArtwork ? { bg: nextBackground } : {}),
     });
   };
+  const chooseTheme = (themeOption: (typeof THEMES)[number]) => {
+    persistSettings({ ...settings, skin: themeOption.id, bgMatch: false });
+    if (themeOption.v) setTheme(themeOption.dark ? "dark" : "light");
+  };
   const isPictureBackground = effectiveBackground.startsWith("pic-");
   const isCanvasScene = BOOKKEYS_SCENE_IDS.includes(effectiveBackground);
   const backdropPercent = Math.max(
@@ -1438,10 +1442,78 @@ export default function BookkeysApp() {
               <button id="closeSettings" className="bk-quiet" onClick={() => setSettingsOpen(false)} aria-label="Close Settings">Close</button>
             </header>
             <nav className="bk-settings-tabs" aria-label="Settings sections">
+              <button className={settingsTab === "theme" ? "active" : ""} onClick={() => setSettingsTab("theme")}>Theme</button>
               <button className={settingsTab === "appearance" ? "active" : ""} onClick={() => setSettingsTab("appearance")}>Appearance</button>
               <button className={settingsTab === "data" ? "active" : ""} onClick={() => setSettingsTab("data")}>Data</button>
             </nav>
-            {settingsTab === "appearance" ? (
+            {settingsTab === "theme" ? (
+              <div className="bk-settings-content">
+                <label className="bk-setting bk-setting-check">
+                  <span>Match colors to background</span>
+                  <input type="checkbox" checked={settings.bgMatch !== false}
+                    onChange={(event) => persistSettings({ ...settings, bgMatch: event.currentTarget.checked })} />
+                </label>
+                <p className="bk-settings-note">When enabled, each original background selects its matching reader palette. Custom accent and text colours remain independent.</p>
+                <div className="bk-setting">
+                  <span>Color theme</span>
+                  <div className="bk-theme-tiles" role="group" aria-label="Color theme">
+                    {THEMES.map((option) => (
+                      <button key={option.id} type="button" className="bk-theme-tile"
+                        aria-pressed={settings.skin === option.id}
+                        style={{ background: option.v?.bg ?? "linear-gradient(90deg, #EEEAF6 0 50%, #0B0D14 50% 100%)" }}
+                        onClick={() => chooseTheme(option)}>
+                        <span className="bk-theme-preview-swatches" aria-hidden="true">
+                          <i style={{ background: option.v?.panel ?? "#FFFCF6" }} />
+                          <i style={{ background: option.v?.accent ?? "#D2AE5C" }} />
+                          <i style={{ background: option.v?.ink ?? "#2A2540" }} />
+                        </span>
+                        <span className="bk-theme-name">{option.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="bk-setting">
+                  <span>Accent color</span>
+                  <div className="bk-accent-swatches" role="group" aria-label="Accent color">
+                    {ACC.map((option) => (
+                      <button key={option.v} type="button" className="bk-accent-swatch"
+                        aria-label={option.name} title={option.name} aria-pressed={settings.accent === option.v}
+                        style={{ background: option.c ?? "linear-gradient(135deg, #EEEAF6, #0B0D14)" }}
+                        onClick={() => persistSettings({ ...settings, accent: option.v })}>
+                        <span>{option.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <label className="bk-setting">
+                  <span>Custom accent</span>
+                  <input type="color" aria-label="Custom accent"
+                    value={safeReaderTextColor(settings.accentCustom) ?? "#E11D48"}
+                    onChange={(event) => persistSettings({ ...settings, accent: "custom", accentCustom: event.currentTarget.value })} />
+                </label>
+                <label className="bk-setting bk-setting-check">
+                  <span>Decorative details</span>
+                  <input type="checkbox" checked={settings.deco !== "off"}
+                    onChange={(event) => persistSettings({ ...settings, deco: event.currentTarget.checked ? "on" : "off" })} />
+                </label>
+                <div className="bk-setting">
+                  <span>Custom artwork <small>Stored in this browser, not in backups.</small></span>
+                  <div className="bk-artwork-actions">
+                    <label>Gothic picture
+                      <input type="file" accept="image/*" aria-label="Upload Gothic artwork" disabled={!database || artworkBusy !== null}
+                        onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void saveArtwork("gothic", file); event.currentTarget.value = ""; }} />
+                    </label>
+                    {artwork.gothic && <button type="button" className="bk-quiet" disabled={artworkBusy !== null} onClick={() => void removeArtwork("gothic")}>Remove Gothic</button>}
+                    <label>Garden picture
+                      <input type="file" accept="image/*" aria-label="Upload Garden artwork" disabled={!database || artworkBusy !== null}
+                        onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void saveArtwork("garden", file); event.currentTarget.value = ""; }} />
+                    </label>
+                    {artwork.garden && <button type="button" className="bk-quiet" disabled={artworkBusy !== null} onClick={() => void removeArtwork("garden")}>Remove Garden</button>}
+                  </div>
+                  <span className="bk-settings-note" role="status">{artworkStatus || "Images are resized to at most 1600 × 900 before local storage."}</span>
+                </div>
+              </div>
+            ) : settingsTab === "appearance" ? (
               <div className="bk-settings-content">
                 <label className="bk-setting">
                   <span>Reading background</span>
@@ -1530,22 +1602,6 @@ export default function BookkeysApp() {
                     onChange={(event) => persistSettings({ ...settings, bgAnim: event.currentTarget.checked })} />
                 </label>
                 <p className="bk-settings-note">Time of Day switches from Morning at 06:00, to Evening at 17:00, and Night at 20:00. The three photographs use portrait crops on tall screens. Picture backgrounds always keep at least 70% text backdrop for readability.</p>
-                <div className="bk-setting">
-                  <span>Custom artwork <small>Stored in this browser, not in backups.</small></span>
-                  <div className="bk-artwork-actions">
-                    <label>Gothic picture
-                      <input type="file" accept="image/*" aria-label="Upload Gothic artwork" disabled={!database || artworkBusy !== null}
-                        onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void saveArtwork("gothic", file); event.currentTarget.value = ""; }} />
-                    </label>
-                    {artwork.gothic && <button type="button" className="bk-quiet" disabled={artworkBusy !== null} onClick={() => void removeArtwork("gothic")}>Remove Gothic</button>}
-                    <label>Garden picture
-                      <input type="file" accept="image/*" aria-label="Upload Garden artwork" disabled={!database || artworkBusy !== null}
-                        onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void saveArtwork("garden", file); event.currentTarget.value = ""; }} />
-                    </label>
-                    {artwork.garden && <button type="button" className="bk-quiet" disabled={artworkBusy !== null} onClick={() => void removeArtwork("garden")}>Remove Garden</button>}
-                  </div>
-                  <span className="bk-settings-note" role="status">{artworkStatus || "Images are resized to at most 1600 × 900 before local storage."}</span>
-                </div>
                 <label className="bk-setting">
                   <span>Reading text colour</span>
                   <select
