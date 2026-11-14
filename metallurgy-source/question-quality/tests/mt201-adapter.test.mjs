@@ -59,7 +59,7 @@ const assertionReason = adaptMT201Question({
   options: [{ label: "a", text: "A" }, { label: "b", text: "B" }, { label: "c", text: "C" }, { label: "d", text: "D" }],
   answer: "b", detailed: "The reason correctly explains the assertion.",
 }, fixtureChapter);
-assert.equal(assertionReason.stem, "Assertion text\\nReason text");
+assert.equal(assertionReason.stem, "Assertion text\nReason text");
 assert.equal(assertionReason.difficulty.scale, 4);
 assert.throws(() => adaptMT201Question({ n: 1, type: "X" }, fixtureChapter), /Unsupported MT201 question type/);
 
