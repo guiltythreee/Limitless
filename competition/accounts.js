@@ -76,11 +76,13 @@
       target.replaceChildren(stats);
       state.textContent = "Connected";
       state.classList.add("is-connected");
-      $("accounts-sync-note").textContent = syncResult.baseline
-        ? "Codeforces connected. First sync established a historical baseline; older submissions do not award EXP."
-        : "Codeforces connected. " + syncResult.added + " new submission attempt(s) added to learning analysis; " +
-          syncResult.awardedExp + " EXP awarded from " + syncResult.rewardAwards + " new accepted submission(s).";
-      window.dispatchEvent(new Event("limitless:codeforces-learning-updated"));
+      $("accounts-sync-note").textContent = !syncResult || !syncResult.ok
+        ? "Codeforces statistics loaded, but the learning ledger could not be saved. Retry the sync."
+        : syncResult.baseline
+          ? "Codeforces connected. First sync established a historical baseline; older submissions do not award EXP."
+          : "Codeforces connected. " + syncResult.added + " new submission attempt(s) added to learning analysis; " +
+            syncResult.awardedExp + " EXP awarded from " + syncResult.rewardAwards + " new accepted submission(s).";
+      if (syncResult && syncResult.ok) window.dispatchEvent(new Event("limitless:codeforces-learning-updated"));
     } catch (error) {
       state.textContent = "Could not load";
       state.classList.remove("is-connected");
