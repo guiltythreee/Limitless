@@ -52,7 +52,7 @@ const T1: TopicSource = {
       why: "Addition polymerization **opens the $\\pi$ bond** of $C{=}C$: each monomer carbon forms a new $\\sigma$ bond to its neighbours, leaving a saturated $\\text{–CH}_2\\text{–CH}_2\\text{–}$ repeat unit.",
       distractors: {
         d: "The product is saturated — no $C{=}C$ remains (that is why PE is chemically inert).",
-        a: "The change is permanent and irreversible; the bond does not re-form.",
+        a: "Ordinary addition polymerization consumes the alkene π bond to form backbone σ bonds; this option incorrectly treats the double bond as only temporarily opened.",
       },
       concept: "count atoms on the *repeat unit*, not the monomer",
       tags: ["confused"],
@@ -204,7 +204,8 @@ const T1: TopicSource = {
       why: "LDPE's **branches** sterically block close packing → less crystalline → lower density. HDPE is essentially **linear** and packs efficiently (≈80% crystalline).",
       distractors: {
         a: "LDPE is a thermoplastic; branching ≠ cross-linking.",
-        b: "Density here is set by packing, not by chain length.",
+        b: "Molecular weight alone does not explain the density difference; the long-chain branching in LDPE disrupts packing.",
+        c: "LDPE does not have stronger intermolecular forces; its lower density and crystallinity arise mainly from less efficient packing.",
       },
       concept: "linear → HDPE (dense) · branched → LDPE (less dense)",
       tags: ["confused"],
@@ -319,8 +320,13 @@ const T1: TopicSource = {
         { label: "d", text: "A is false, R is true" }
       ],
       answer: "b",
-      why: "Vinyl alcohol's enol form spontaneously **tautomerizes** to the more stable aldehyde, so the monomer does not exist stably. Hence the industrial route: **hydrolyse (alcoholize) PVAc → PVA**.",
-      concept: "enol ↔ keto tautomerism",
+      why: "Vinyl alcohol is the enol tautomer of acetaldehyde and readily tautomerizes to the more stable aldehyde. PVA is therefore commonly made by hydrolysing or alcoholysing poly(vinyl acetate), rather than by polymerizing vinyl alcohol directly.",
+      distractors: {
+        a: "The assertion is true, but the reason is also true and explains why direct vinyl-alcohol polymerization is not the practical route.",
+        c: "The reason is not merely related background: tautomerization is the chemical reason vinyl alcohol is not a stable monomer feedstock.",
+        d: "The assertion is not false; vinyl alcohol readily tautomerizes to acetaldehyde.",
+      },
+      concept: "enol–keto tautomerism",
       tags: ["confused"],
     },
     {
@@ -414,7 +420,7 @@ const T1: TopicSource = {
       id: "t1-19",
       type: "recall",
       diff: 1,
-      text: "Degree of polymerization (DP) is defined as the number of:",
+      text: "For an individual linear polymer chain, degree of polymerization (DP) is the number of:"
       options: [
         { label: "a", text: "monomer molecules in the whole sample" },
         { label: "b", text: "chains in one mole of polymer" },
@@ -434,15 +440,17 @@ const T1: TopicSource = {
       diff: 2,
       text: "Distinguish a *branched* polymer from a *cross-linked* polymer.",
       options: [
-        { label: "a", text: "A branch extends from one backbone; a cross-link forms a covalent bridge between separate chains." },
+        { label: "a", text: "A branch is a side-chain segment attached to a backbone; cross-links connect chain segments into a network." },
         { label: "b", text: "Branching and cross-linking are both side chains on one molecule; neither connects two separate polymer chains." },
         { label: "c", text: "Branches are intermolecular attractions between chains, while cross-links are weak intramolecular side chains." },
         { label: "d", text: "The terms describe the same architecture; both mean a polymer with more than one linear chain segment." }
       ],
       answer: "a",
-      why: "**Branching** = a side-chain growing from one backbone (LDPE). **Cross-linking** = a covalent bridge joining two *separate* chains, forming a 3-D network (vulcanized rubber, thermosets).",
+      why: "Branching describes side-chain segments attached to a polymer backbone. Cross-linking describes covalent connections between chain segments that build a network. A simple cross-link may join two separate chains, but the defining result is a connected network.",
       distractors: {
-        c: "Branches are covalent too — they are made during polymerization.",
+        b: "Branching creates covalently attached side-chain segments; cross-linking creates additional covalent connections between chain segments.",
+        c: "Branches are covalent parts of the polymer architecture, not intermolecular attractions; cross-links are covalent network connections.",
+        d: "Branching and cross-linking are different topologies: a branched molecule can remain soluble, while sufficient cross-linking creates a network.",
       },
       concept: "topology: linear / branched / cross-linked",
       tags: ["confused"],
@@ -635,7 +643,9 @@ const T1: TopicSource = {
       answer: "d",
       why: "Statements 1, 2 and 4 are correct. Statement 2 describes ideal dendrimers: their branching is highly regular and their molar-mass distributions are typically narrow, although real samples can contain structural defects. Statement 3 is false — **conformation** changes by bond rotation without bond breakage; it is *configuration* that requires a change in bonding.",
       distractors: {
-        a: "Item 3 is the classic configuration/conformation mix-up.",
+        a: "Includes statement 3, which is false: conformation can change by bond rotation without breaking covalent bonds.",
+        b: "Includes false statement 3 and omits true statements 1 and 4.",
+        c: "Includes false statement 3 and omits true statements 1 and 2.",
       },
       concept: "configuration = fixed by bonding · conformation = rotation",
       tags: ["confused"],
@@ -652,7 +662,12 @@ const T1: TopicSource = {
         { label: "d", text: "There is no difference — the terms are interchangeable." }
       ],
       answer: "b",
-      why: "**Alternating** (…*alt*…) has a regular A–B sequence. A **random** copolymer is designated with the more specific connective -ran- and has a statistically irregular sequence. The general connective -co- does not, by itself, specify the sequence arrangement. Sequence order and overall monomer composition are separate properties.",
+      why: "**Alternating** has a regular A–B–A–B sequence. **Random** describes a statistically irregular sequence in which the local order varies; it does not mean the two monomers must be present in equal overall amounts. The general label copolymer alone does not specify sequence architecture.",
+      distractors: {
+        a: "Cross-linking describes network architecture, not the sequence arrangement of two monomers along a copolymer chain.",
+        c: "This confuses sequence order with overall composition; a random copolymer need not contain equal amounts of A and B.",
+        d: "The terms are not interchangeable: alternating specifies a regular sequence, while random specifies statistical sequence placement.",
+      },
       tags: ["revision"],
     },
     {
@@ -680,7 +695,7 @@ const T1: TopicSource = {
       id: "t1-31",
       type: "concept",
       diff: 2,
-      text: "Why can the *same* base polymer be sold both as a rigid engineering plastic and as a soft elastomer?",
+      text: "Why can polyurethane chemistry be formulated into products ranging from rigid plastics to soft elastomers and foams?",
       options: [
         { label: "a", text: "The two products must have different repeat-unit chemistry, because one polymer backbone cannot be formulated across different properties." },
         { label: "b", text: "A single polymer chemistry cannot be made rigid or elastomeric; its properties remain fixed after the monomer has been chosen." },
@@ -688,7 +703,7 @@ const T1: TopicSource = {
         { label: "d", text: "Formulation and morphology can be tuned with plasticizer, reinforcement, crystallinity and cross-linking to change stiffness and elasticity." }
       ],
       answer: "d",
-      why: "The **balance** of intermolecular forces, chain flexibility, crystallinity and cross-link density decides the end use. The same chemistry can be moved across the plastic–elastomer space by compounding and structure control.",
+      why: "Polyurethanes can be built from different isocyanates, polyols and chain extenders. Changing soft- and hard-segment structure, functionality, cross-link density and formulation produces materials with very different stiffness and elasticity. This is a polyurethane-family example, not a rule that every polymer backbone spans the same property range.",
       concept: "property requirements drive polymer utilization (Module 2 §1)",
       tags: ["revision"],
     },
