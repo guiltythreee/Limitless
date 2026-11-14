@@ -33,9 +33,9 @@ These branches were built from an earlier repository checkpoint. The earlier not
 
 ## Verified in CI
 
-The latest successful current-main migration workflow is [43646017645](https://github.com/guiltythreee/Limitless/actions/runs/43646017645), with the separate legacy regression workflow [43646017621](https://github.com/guiltythreee/Limitless/actions/runs/43646017621). Both completed successfully on commit `9cbf646ce4551f40dee56879cbdcdbe0e6dea466`.
+The latest successful current-main migration workflow is [43646307669](https://github.com/guiltythreee/Limitless/actions/runs/43646307669), with the separate legacy regression workflow [43646312324](https://github.com/guiltythreee/Limitless/actions/runs/43646312324). Both completed successfully on commit `570360a63f9e7a51dd02caabdf1f1edfd472cd8c`.
 
-- **113/113 TypeScript tests passed**, covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, shelves and reward logic.
+- **113/113 TypeScript tests passed**, covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, newest-draft selection and malformed draft timestamps, shelves and reward logic.
 - **99/99 legacy preservation tests passed** against the original standalone HTML implementation. The archived 91-test baseline and current branch's 99/99 result are recorded in `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
 - TypeScript type-check passed.
 - Next.js static production build passed.
