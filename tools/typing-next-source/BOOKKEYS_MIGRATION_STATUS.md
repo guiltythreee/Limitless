@@ -19,6 +19,18 @@ The TypeScript/React reader is an isolated migration implementation. It is not t
 - The migration branch was reconciled with the latest main deployment workflow and is kept additive.
 - Production tools/typing/index.html and tools/typing/bookkeys.html are unchanged.
 
+## Reconciliation warning against current main
+
+A fresh GitHub compare on 14 November 2026 shows substantial divergence from the repository's current `main`:
+
+| Branch | Commits ahead of current main | Commits behind current main |
+|---|---:|---:|
+| `work/bookkeys-typescript-mainline-20261107` | 224 | 224 |
+| `work/bookkeys-ime-compatibility-20261107` | 245 | 224 |
+| `work/bookkeys-migration-rebased-20261107` | 35 | 224 |
+
+These branches were built from an earlier repository checkpoint. The earlier note that the migration was reconciled with the deployment workflow does **not** mean it is current with today's `main`. Do not merge PR #111 or PR #144 directly. First preserve the existing branch heads, identify the exact Bookkeys-only commits and file changes, then replay/reconcile those changes onto a fresh branch from current `main`. Resolve conflicts without reverting unrelated Limitless changes, rerun all Bookkeys and repository checks, and keep the preview isolated until manual acceptance. The named `backup/bookkeys-*` branches are recovery points and must remain untouched during this process.
+
 ## Verified in CI
 
 The latest successful workflow run [42379353637](https://github.com/guiltythreee/Limitless/actions/runs/42379353637) includes:
