@@ -142,7 +142,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   const restorePage = await restoreContext.newPage();
   await restorePage.goto("/tools/typing-next-preview/");
   await restorePage.getByRole("button", { name: "Toggle light and dark theme" }).click();
-  await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "dark");
   await restorePage.locator('input[type="file"][accept="application/json,.json"]').setInputFiles({
     name: "bookkeys-backup.json",
     mimeType: "application/json",
@@ -842,4 +842,40 @@ test("legacy background migration flags run once and preserve subsequent user ch
   await page.getByRole("button", { name: "Settings" }).click();
   await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("none");
+});
+
+
+test("original background palettes, theme tiles and accent swatches apply consistently", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  const readRootToken = (token: string) => page.evaluate((name) =>
+    getComputedStyle(document.documentElement).getPropertyValue(name).trim(), token
+  );
+  await expect.poll(() => readRootToken("--bg")).toBe("#EEEAF6");
+  await expect.poll(() => readRootToken("--accent")).toBe("#6A4DBF");
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  const matchColors = dialog.getByLabel("Match colors to background");
+  await expect(matchColors).toBeChecked();
+  await expect(dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper" })).toBeVisible();
+
+  await matchColors.uncheck();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect.poll(() => readRootToken("--bg")).toBe("#08070d");
+
+  await dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect.poll(() => readRootToken("--bg")).toBe("#ECECE8");
+
+  await dialog.getByRole("group", { name: "Accent color" }).getByRole("button", { name: "Blue" }).click();
+  await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
+
+  await dialog.getByRole("button", { name: "Appearance", exact: true }).click();
+  await dialog.getByRole("group", { name: "Background choices" }).getByRole("button", { name: "Night Sky" }).click();
+  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
+  await dialog.getByLabel("Match colors to background").check();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect.poll(() => readRootToken("--bg")).toBe("#04081A");
+  await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
 });
