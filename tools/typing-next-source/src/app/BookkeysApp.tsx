@@ -1867,7 +1867,7 @@ export default function BookkeysApp() {
                   <span>Custom text color</span>
                   <input type="color" aria-label="Custom text color"
                     value={safeReaderTextColor(settings.fontColorCustom) ?? "#FF8A00"}
-                    onChange={(event) => persistSettings({ ...settingsRef.current, fontColor: "custom", fontColorCustom: event.currentTarget.value })} />
+                    onInput={(event) => persistSettings({ ...settingsRef.current, fontColor: "custom", fontColorCustom: event.currentTarget.value })} />
                 </label>
                 <label className="bk-setting">
                   <span>Size <strong>{settings.size}px</strong></span>
