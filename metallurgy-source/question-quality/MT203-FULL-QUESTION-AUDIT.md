@@ -206,3 +206,27 @@ Highest-priority substantive fixes:
 - T9-15 — silane coupling-agent claim overgeneralized.
 
 This report records findings only. Apply corrections in a separate reviewed pass with source references and regression tests.
+
+## Implementation update — 15 November 2026
+
+The eight high-priority substantive findings have now been corrected in the source question records on this branch:
+
+- **T2-11:** corrected the stoichiometric-imbalance Carothers denominator to 1+r-2rp.
+- **T2-22:** clarified that the 60%/40% fractions refer to termination events, counted the two molecules produced by disproportionation, and changed the calculated number-average DP to approximately 1,429.
+- **T2-36:** narrowed the example to a diacid/diol step-growth polyester made with a slight diol excess, which can produce hydroxyl-terminated chains; removed the incorrect blanket claim about polyamides.
+- **T4-12:** made the question ask what can be inferred from half-height peak-width descriptions alone; the answer is now that PDI cannot be uniquely ranked from that information.
+- **T5-20:** changed the answer to the conclusion supported by the graph (diminishing incremental modulus increase); the graph no longer claims to prove a tie-molecule mechanism.
+- **T7-12:** corrected the wool-felting explanation to directional friction from cuticle scales plus fibre migration and entanglement under moisture, warmth and agitation.
+- **T9-08:** distinguishes PVC dehydrochlorination (HCl elimination and polyene formation) from ordinary backbone chain scission.
+- **T9-15:** corrected statement 3 to be false as a universal claim; the answer is now statements 1 and 2 only, with matrix-compatible silane functionality explained.
+
+The MT203 adapter/profile implementation was also improved:
+
+- Assertion–reason fallback now joins assertion and reason with an actual newline, not the literal characters backslash+n.
+- The adapter now preserves assertion, reason, statement-list and match-table data in normalized metadata.
+- Native statement questions now map to statement-selection, rather than being mislabeled as ordinary single-choice questions.
+- Separate MT203 profiles are registered for single-choice, numerical, assertion–reason, statement-selection, match, sequence and graph-data formats.
+- The core validator now checks that assertion–reason records contain both statements, statement-selection records contain at least two statements, and match records contain table rows.
+- Adapter regression tests were updated to check the actual newline and the new native-format structure rules.
+
+**Validation status:** regression tests have been updated but have not yet been executed in a repository runtime. No passing test or build result is claimed in this report. The next step is to run `npm run test:quality` in `metallurgy-source`, fix any failures, then continue with the five course-source verifications and the remaining question-level wording/explanation revisions.
