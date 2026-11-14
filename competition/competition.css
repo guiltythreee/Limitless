@@ -337,3 +337,21 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 
 #week-list .reference-task a{color:var(--comp-accent);text-decoration:underline;text-underline-offset:2px}
 #week-list .reference-task a:hover{color:var(--comp-ink)}
+
+
+/* CP problem catalogue and outcome-driven spaced revision */
+.problem-catalogue-controls{display:grid;grid-template-columns:minmax(180px,2fr) repeat(3,minmax(145px,1fr));gap:10px;align-items:end;margin-top:18px;padding:14px;border:1px solid var(--comp-border);background:var(--comp-panel)}
+.problem-catalogue-controls label{display:grid;gap:6px;color:var(--comp-muted);font:10px Arial,sans-serif}
+.problem-catalogue-controls input,.problem-catalogue-controls select{width:100%;min-width:0;box-sizing:border-box;padding:10px;border:1px solid var(--comp-border);border-radius:4px;background:var(--comp-card);color:var(--comp-ink);font:12px Arial,sans-serif}
+.problem-catalogue-controls p{grid-column:1/-1;margin:0;color:var(--comp-muted);font:10px Arial,sans-serif}
+.revision-queue{display:grid;gap:9px}
+.revision-item{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px;border:1px solid var(--comp-border);background:var(--comp-card);color:var(--comp-ink)}
+.revision-item>div:first-child{display:grid;gap:4px;min-width:0}
+.revision-item strong{font:600 12px/1.4 Arial,sans-serif;overflow-wrap:anywhere}
+.revision-item small{color:var(--comp-muted);font:10px/1.5 Arial,sans-serif}
+.revision-actions{display:flex;flex-wrap:wrap;gap:7px;flex:none}
+.revision-actions button{min-height:32px;padding:7px 10px}
+.revision-actions .secondary-button{border-color:var(--comp-border);background:transparent;color:var(--comp-muted)}
+.revision-actions .secondary-button:hover{border-color:var(--comp-accent);color:var(--comp-accent)}
+@media(max-width:850px){.problem-catalogue-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.problem-catalogue-controls{grid-template-columns:1fr}.problem-catalogue-controls p{grid-column:auto}.revision-item{align-items:flex-start;flex-direction:column}.revision-actions{width:100%}.revision-actions button{flex:1}}
