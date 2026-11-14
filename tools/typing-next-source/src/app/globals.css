@@ -50,6 +50,15 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .bk-xp span { color: #a9a0b1; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
 .bk-xp strong { color: #e7c985; font-size: 22px; font-variant-numeric: tabular-nums; }
 .bk-library, .bk-reader { margin-top: 28px; padding: clamp(18px, 4vw, 30px); border: 1px solid rgba(90, 80, 104, .68); background: rgba(17, 16, 25, .82); backdrop-filter: blur(2px); }
+.bk-library { position: relative; isolation: isolate; }
+.bk-library::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  left: 0; right: 0; top: 0; height: 440px;
+  background: var(--bk-home-art, none) center top / cover no-repeat;
+  opacity: .5;
+  -webkit-mask-image: linear-gradient(#000 35%, transparent);
+  mask-image: linear-gradient(#000 35%, transparent);
+}
 .bk-intro { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .bk-intro h2 { margin: 0 0 7px; font-size: 24px; }
 .bk-intro p { margin: 0; max-width: 600px; color: #b9b1c1; line-height: 1.55; font-size: 14px; }
