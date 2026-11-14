@@ -696,6 +696,13 @@
       return {days:days,date:formatDateOffset(date,days),key:String(problem.id)+'-'+days};
     });
   }
+  function normalizeConceptKey(subject, concept) {
+    var normalized = String(concept || '').trim().toLowerCase()
+      .replace(/[^a-z0-9+#]+/g,' ').trim().replace(/\s+/g,' ');
+    if (!normalized) return '';
+    return String(subject || 'Other').trim().toLowerCase() + '|' + normalized;
+  }
+
   function renderLearningSystem() {
     var today = new Date().toISOString().slice(0,10), due=[], upcoming=[];
     state.problemLog.forEach(function(problem){
@@ -728,7 +735,7 @@
       subjects[subject]=(subjects[subject]||0)+1;
       // Group case and punctuation variants without changing the saved source text.
       var concept=String(problem.concept||'').trim();
-      var conceptKey=concept.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+      var conceptKey=normalizeConceptKey(subject,concept);
       if(conceptKey){
         if(!concepts[conceptKey]) concepts[conceptKey]={label:concept,subject:subject,count:0};
         concepts[conceptKey].count++;
