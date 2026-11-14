@@ -1122,3 +1122,225 @@ html[data-theme="light"] .cf-vc-contest{background:#f6faff;border-color:#ccdeed}
 @media(prefers-reduced-motion:reduce){
   .cr-stats article,.cr-milestone,.cf-problem-card,.cr-training-launch-tile{transition:none!important}
 }
+
+
+/* Keep workspace launch cards at a deliberate desktop size.
+   Their previous aspect ratio made height grow with the full viewport width. */
+#cf-home-view .cr-training-launch-tile{
+  width:min(100%,560px);
+  height:280px;
+  min-height:280px;
+  max-height:280px;
+  aspect-ratio:auto;
+  justify-self:center;
+}
+#cf-home-view .cr-training-launch{
+  align-items:center;
+}
+@media(max-width:760px){
+  #cf-home-view .cr-training-launch-tile{
+    width:100%;
+    max-width:560px;
+    height:260px;
+    min-height:260px;
+    max-height:260px;
+  }
+}
+@media(max-width:560px){
+  #cf-home-view .cr-training-launch-tile{
+    width:100%;
+    height:220px;
+    min-height:220px;
+    max-height:220px;
+    padding:20px;
+  }
+}
+
+
+/* Keep the rating ladder visually balanced with the overview panel.
+   Show four milestone rows at once; the remaining milestones stay reachable
+   in this independently scrolling list. */
+#cf-home-view>.cr-ladder-section{
+  align-self:start;
+  max-height:none;
+  overflow:visible;
+}
+#cf-home-view .cr-milestones{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-auto-rows:minmax(72px,auto);
+  align-content:start;
+  gap:9px;
+  max-height:315px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:2px 6px 2px 1px;
+  scrollbar-gutter:stable;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(106,157,212,.42) transparent;
+}
+#cf-home-view .cr-milestones::-webkit-scrollbar{width:6px}
+#cf-home-view .cr-milestones::-webkit-scrollbar-thumb{
+  border-radius:8px;
+  background:rgba(106,157,212,.42);
+}
+#cf-home-view .cr-milestones::-webkit-scrollbar-track{background:transparent}
+@media(max-width:850px){
+  #cf-home-view .cr-milestones{
+    max-height:315px;
+  }
+}
+@media(max-width:560px){
+  #cf-home-view .cr-milestones{
+    max-height:315px;
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+html[data-theme="light"] #cf-home-view .cr-milestones{
+  scrollbar-color:rgba(91,137,179,.38) transparent;
+}
+
+
+/* =========================================================
+   Codeforces color system — richer accents, same Limitless base
+   ========================================================= */
+#cf-home-view>.cr-account{
+  background:
+    radial-gradient(ellipse at 8% 0%,rgba(64,169,255,.13),transparent 45%),
+    linear-gradient(120deg,rgba(13,29,49,.97),rgba(10,24,43,.96));
+  border-color:rgba(79,166,239,.34);
+}
+#cf-home-view>.cr-hero{
+  background:
+    radial-gradient(ellipse at 92% 4%,rgba(79,166,239,.2),transparent 36%),
+    radial-gradient(ellipse at 0% 100%,rgba(76,213,191,.09),transparent 42%),
+    linear-gradient(145deg,rgba(13,31,54,.98),rgba(8,19,35,.97));
+}
+#cf-home-view .cr-stats article{
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(105,158,213,.23);
+  background:linear-gradient(145deg,rgba(19,42,69,.82),rgba(10,25,44,.9));
+}
+#cf-home-view .cr-stats article::before{
+  content:"";
+  position:absolute;inset:0 0 auto;height:3px;
+  background:var(--metric-accent,#55aaff);
+  opacity:.9;
+}
+#cf-home-view .cr-stats article:nth-child(1){--metric-accent:#55aaff}
+#cf-home-view .cr-stats article:nth-child(2){--metric-accent:#42d6c0}
+#cf-home-view .cr-stats article:nth-child(3){--metric-accent:#a58aff}
+#cf-home-view .cr-stats article:nth-child(4){--metric-accent:#ffbd62}
+#cf-home-view .cr-stats article:nth-child(1) strong{color:#83c5ff}
+#cf-home-view .cr-stats article:nth-child(2) strong{color:#62e0ca}
+#cf-home-view .cr-stats article:nth-child(3) strong{color:#c0adff}
+#cf-home-view .cr-stats article:nth-child(4) strong{color:#ffc77d}
+#cf-home-view .cr-progress{
+  background:linear-gradient(90deg,rgba(85,170,255,.13),rgba(165,138,255,.13),rgba(66,214,192,.13));
+}
+#cf-home-view .cr-progress span{
+  background:linear-gradient(90deg,#55aaff 0%,#8f8cff 48%,#42d6c0 100%);
+}
+#cf-home-view>.cr-ladder-section{
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(165,138,255,.11),transparent 40%),
+    linear-gradient(145deg,rgba(17,30,54,.98),rgba(9,21,39,.98));
+  border-color:rgba(150,137,230,.27);
+}
+#cf-home-view .cr-milestone{
+  position:relative;
+  border-left:3px solid rgba(116,151,195,.32);
+}
+#cf-home-view .cr-milestone:nth-child(4n+1){--rank-accent:#55aaff}
+#cf-home-view .cr-milestone:nth-child(4n+2){--rank-accent:#a58aff}
+#cf-home-view .cr-milestone:nth-child(4n+3){--rank-accent:#42d6c0}
+#cf-home-view .cr-milestone:nth-child(4n){--rank-accent:#ffbd62}
+#cf-home-view .cr-milestone:not(.is-next):not(.is-done) .cr-step{
+  background:color-mix(in srgb,var(--rank-accent) 16%,transparent);
+  color:var(--rank-accent);
+}
+#cf-home-view .cr-milestone.is-next{
+  border-left-color:#55aaff;
+}
+#cf-home-view .cr-milestone.is-done{
+  border-left-color:#42d6c0;
+}
+#cf-home-view .cr-milestone.is-done .cr-step{
+  background:rgba(66,214,192,.18);
+  color:#65e2ce;
+}
+#cf-home-view .cr-milestone.is-done .cr-status{color:#65e2ce}
+#cf-home-view .cr-milestone.is-next .cr-status{color:#83c5ff}
+#cf-home-view .cr-section-head>a{
+  border-color:rgba(165,138,255,.3);
+  background:rgba(165,138,255,.09);
+}
+#cf-home-view .cr-launch-training{
+  background:
+    radial-gradient(circle at 88% 8%,rgba(91,190,255,.35),transparent 37%),
+    linear-gradient(135deg,#124b83 0%,#176eae 54%,#1685b6 100%);
+}
+#cf-home-view .cr-launch-contests{
+  background:
+    radial-gradient(circle at 88% 8%,rgba(198,169,255,.34),transparent 37%),
+    linear-gradient(135deg,#40347e 0%,#5c4b9e 54%,#376da0 100%);
+}
+#cf-home-view .cr-launch-icon{
+  border-color:rgba(255,255,255,.3);
+  background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.07));
+  box-shadow:0 5px 18px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.18);
+}
+#cf-home-view #cf-problems-view .cr-problem-explorer-section:first-child{
+  border-top:2px solid rgba(66,214,192,.6);
+}
+#cf-home-view #cf-vc-section{
+  border-top:2px solid rgba(165,138,255,.62);
+}
+#cf-home-view .cf-quick-toolbar input:focus,
+#cf-home-view .cf-quick-toolbar select:focus,
+#cf-home-view .cf-filter-grid input:focus,
+#cf-home-view .cf-filter-grid select:focus,
+#cf-home-view .cf-vc-band-field select:focus{
+  border-color:#65baff;
+  box-shadow:0 0 0 3px rgba(85,170,255,.14);
+  outline:none;
+}
+html[data-theme="light"] #cf-home-view>.cr-account{
+  background:radial-gradient(ellipse at 8% 0%,rgba(64,169,255,.1),transparent 45%),linear-gradient(120deg,#fff,#f0f7ff);
+  border-color:#c4dcef;
+}
+html[data-theme="light"] #cf-home-view>.cr-hero{
+  background:radial-gradient(ellipse at 92% 4%,rgba(79,166,239,.14),transparent 36%),radial-gradient(ellipse at 0% 100%,rgba(76,213,191,.09),transparent 42%),linear-gradient(145deg,#f8fbff,#eaf3fc);
+}
+html[data-theme="light"] #cf-home-view .cr-stats article{
+  background:linear-gradient(145deg,#fff,#f2f7fd);
+  border-color:#d3e1ee;
+}
+html[data-theme="light"] #cf-home-view .cr-stats article:nth-child(1) strong{color:#247fc5}
+html[data-theme="light"] #cf-home-view .cr-stats article:nth-child(2) strong{color:#168d7c}
+html[data-theme="light"] #cf-home-view .cr-stats article:nth-child(3) strong{color:#7156bd}
+html[data-theme="light"] #cf-home-view .cr-stats article:nth-child(4) strong{color:#b87820}
+html[data-theme="light"] #cf-home-view>.cr-ladder-section{
+  background:radial-gradient(ellipse at 100% 0%,rgba(165,138,255,.1),transparent 40%),linear-gradient(145deg,#f8faff,#edf3fc);
+  border-color:#d1d9ef;
+}
+html[data-theme="light"] #cf-home-view .cr-milestone:not(.is-next):not(.is-done) .cr-step{
+  background:color-mix(in srgb,var(--rank-accent) 13%,white);
+}
+html[data-theme="light"] #cf-home-view .cr-milestone.is-done .cr-step{
+  background:#d8f4ec;color:#168d7c;
+}
+html[data-theme="light"] #cf-home-view .cr-milestone.is-done .cr-status{color:#168d7c}
+html[data-theme="light"] #cf-home-view .cr-milestone.is-next .cr-status{color:#247fc5}
+html[data-theme="light"] #cf-home-view .cr-section-head>a{
+  border-color:#d9d0f5;background:#f2efff;color:#6651a7;
+}
+html[data-theme="light"] #cf-home-view .cf-quick-toolbar input:focus,
+html[data-theme="light"] #cf-home-view .cf-quick-toolbar select:focus,
+html[data-theme="light"] #cf-home-view .cf-filter-grid input:focus,
+html[data-theme="light"] #cf-home-view .cf-filter-grid select:focus,
+html[data-theme="light"] #cf-home-view .cf-vc-band-field select:focus{
+  border-color:#398fd1;box-shadow:0 0 0 3px rgba(57,143,209,.13);
+}
