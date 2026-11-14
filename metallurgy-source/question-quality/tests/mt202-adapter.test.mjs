@@ -56,7 +56,7 @@ const assertionReason = adaptMT202Question({
   options: [{ label: "a", text: "A" }, { label: "b", text: "B" }, { label: "c", text: "C" }, { label: "d", text: "D" }],
   answer: "c", keyExplanation: "The reason correctly explains the assertion.",
 }, fixtureChapter);
-assert.equal(assertionReason.stem, "Assertion text\\nReason text");
+assert.equal(assertionReason.stem, "Assertion text\nReason text");
 assert.throws(() => adaptMT202Question({ n: 1, type: "X" }, fixtureChapter), /Unsupported MT202 question type/);
 
 console.log(`MT202 adapter: ${total} source questions passed across 7 native types`);
