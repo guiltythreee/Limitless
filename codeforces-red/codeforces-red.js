@@ -3,13 +3,13 @@
   const STORAGE_KEY = 'limitless.competition.linked-accounts.v1';
   const DEFAULT_HANDLE = 'Unwonted_contriver';
   const milestones = [
-    { title:'Pupil', rating:1200, detail:'Build dependable fundamentals and solve common Div. 2 problems independently.' },
-    { title:'Specialist', rating:1400, detail:'Strengthen implementation, greedy reasoning and standard data structures.' },
-    { title:'Expert', rating:1600, detail:'Develop breadth across graphs, dynamic programming, number theory and data structures.' },
-    { title:'Candidate Master', rating:1900, detail:'Handle harder constructive, combinatorial and multi-step problems consistently.' },
-    { title:'Master', rating:2100, detail:'Improve proof quality, speed and reliability on advanced problems.' },
-    { title:'International Master', rating:2300, detail:'Sustain high-level performance across difficult mixed contests.' },
-    { title:'Grandmaster · Red', rating:2400, detail:'The red rank threshold. Peak rating must reach 2400.' }
+    { title:'Pupil', rating:1200 },
+    { title:'Specialist', rating:1400 },
+    { title:'Expert', rating:1600 },
+    { title:'Candidate Master', rating:1900 },
+    { title:'Master', rating:2100 },
+    { title:'International Master', rating:2300 },
+    { title:'Grandmaster · Red', rating:2400 }
   ];
   const $ = id => document.getElementById(id);
   let handle = DEFAULT_HANDLE;
