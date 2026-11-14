@@ -563,3 +563,10 @@ html[data-theme="dark"] .learning-panel,html[data-theme="dark"] .mock-analytics-
   white-space: normal;
   overflow-wrap: anywhere;
 }
+
+
+/* Shared header is a fixed 62px on every width, so the mobile sidebar sticks right below it. */
+@media(max-width:720px){ .competition-sidebar{ top:62px; } }
+
+/* Sidebar note label was gold on a light background (hard to read). */
+html[data-theme="light"] .competition-sidebar-note span{ color:#7a4f00; }

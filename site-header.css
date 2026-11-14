@@ -1,0 +1,30 @@
+/* Shared Limitless header: same logo, links and account menu on every page.
+   Markup: <header class="site-header"> ... </header> */
+.site-header {
+  --sh-bg: rgba(4, 12, 23, .94); --sh-border: rgba(101, 166, 226, .22); --sh-ink: #d9ecff; --sh-muted: #a9c3de;
+  --sh-hover-bg: rgba(104, 181, 255, .12); --sh-active-bg: rgba(60, 143, 229, .22); --sh-active-ink: #ffffff;
+  position: sticky; top: 0; z-index: 1000; width: 100%; height: 62px; min-height: 62px;
+  display: grid; grid-template-columns: 245px minmax(0, 1fr) auto; align-items: center; gap: 24px; padding: 0 25px;
+  background: var(--sh-bg); border-bottom: 1px solid var(--sh-border); backdrop-filter: blur(18px);
+  font-family: Arial, sans-serif; animation: none;
+}
+html[data-theme="light"] .site-header {
+  --sh-bg: rgba(247, 251, 255, .97); --sh-border: rgba(35, 75, 115, .22); --sh-ink: #183a5d; --sh-muted: #3f5f80;
+  --sh-hover-bg: rgba(35, 105, 159, .09); --sh-active-bg: rgba(35, 105, 159, .16); --sh-active-ink: #123a63;
+}
+html .site-header .brand { display:flex; align-items:center; gap:10px; color:var(--sh-ink); font:700 17px Arial,sans-serif; letter-spacing:3px; text-transform:uppercase; text-shadow:none; white-space:nowrap; text-decoration:none; transition:none; }
+html .site-header .brand:hover { color:var(--sh-ink); letter-spacing:3px; text-shadow:none; }
+.site-header .brand-mark { display:grid; place-items:center; width:31px; height:31px; flex:0 0 31px; border-radius:50%; background:linear-gradient(135deg,#1685ef,#174d9b); color:#fff; font-size:26px; line-height:1; letter-spacing:0; }
+.site-nav { display:flex; align-items:center; gap:6px; min-width:0; overflow-x:auto; scrollbar-width:none; }
+.site-nav::-webkit-scrollbar { display:none; }
+.site-nav a { flex:0 0 auto; padding:8px 14px; border-radius:18px; color:var(--sh-muted); font:13px Arial,sans-serif; text-decoration:none; text-shadow:none; transition:background .15s,color .15s; }
+.site-nav a:hover { background:var(--sh-hover-bg); color:var(--sh-ink); text-shadow:none; }
+.site-nav a[aria-current="page"] { background:var(--sh-active-bg); color:var(--sh-active-ink); font-weight:700; }
+.site-nav a:focus-visible { outline:2px solid currentColor; outline-offset:2px; }
+.site-header .topbar-actions { display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:nowrap; }
+.site-header .ll-account { flex:0 0 auto; margin-left:0; }
+.site-header .theme-toggle { flex:0 0 auto; padding:8px 13px; border:1px solid var(--sh-border); border-radius:18px; background:var(--sh-hover-bg); color:var(--sh-ink); cursor:pointer; font:12px Arial,sans-serif; white-space:nowrap; }
+.site-header .theme-toggle:hover { background:var(--sh-active-bg); }
+@media(max-width:1100px) { .site-header { grid-template-columns:200px minmax(0,1fr) auto; gap:16px; } }
+@media(max-width:720px) { .site-header { grid-template-columns:auto minmax(0,1fr) auto; gap:10px; padding:0 12px; } html .site-header .brand { font-size:14px; letter-spacing:2px; } .site-nav a { padding:7px 10px; font-size:12px; } }
+@media(max-width:520px) { html .site-header .brand .brand-text { display:none; } }
