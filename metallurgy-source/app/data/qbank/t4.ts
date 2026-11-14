@@ -219,7 +219,7 @@ const T4: TopicSource = {
       id: "t4-12",
       type: "graph",
       diff: 3,
-      text: "GPC/SEC traces show: peak A narrow & symmetric; peak B broad with a low-MW tail; peak C broad bimodal. Which PDI ordering is correct?",
+      text: "Three GPC/SEC traces are described only by their relative peak widths at half-height: A is narrow and symmetric, B is broader with a low-MW tail, and C is broad and bimodal. Can their PDI values be ranked uniquely from this information?",
       tableRows: [
         ["Peak", "A", "B", "C"],
         ["Relative width at half-height", "narrow", "medium", "very broad"],
@@ -231,7 +231,7 @@ const T4: TopicSource = {
         { label: "d", text: "Cannot be inferred from peak shape" }
       ],
       answer: "a",
-      why: "GPC separates by hydrodynamic volume — **peak width maps directly to MWD breadth**. Narrow symmetric (A) = low PDI; broad (B) higher; bimodal (C) mixes two populations → highest PDI.",
+      why: "No. PDI is $M_w/M_n$ and depends on the full molecular-weight distribution, not just the visual peak width or width at half-height. Different distributions can have similar peak widths but different moments; a bimodal trace also does not determine the PDI without quantitative distribution data.",
       concept: "SEC: elution volume ↔ MW; width ↔ PDI",
       tags: ["confused"],
     },
