@@ -2,6 +2,8 @@ import { readGlobalRewardSummary } from "../shared/rewards.mjs";
 import { completeProject, listRegisteredProjects, registerProject } from "../shared/projects.mjs";
 import { equipReward, readEquippedRewards, unequipReward } from "../shared/profile.mjs";
 import { acknowledgeLevelNotification, syncLevelNotifications } from "../shared/level-notifications.mjs";
+import { buildCrossDisciplineOverview } from "../shared/studies/overview.mjs";
+import { buildGlobalActivitySummary } from "../shared/studies/activity.mjs";
 
 const byId = (id) => document.getElementById(id);
 const number = (n) => Math.max(0, Math.floor(Number(n) || 0)).toLocaleString();
@@ -324,6 +326,97 @@ function installProjectForm() {
   });
 }
 
+
+const ACTIVITY_GOAL_KEY = "limitless.global-activity-goal.v1";
+const ACTIVITY_STORAGE = {
+  competition: "limitless.competition.regional-qualification.v1",
+  mathAttempts: "limitless.math.v1.attempts",
+  mathRuns: "limitless.math.v1.runs",
+  probability: "hc3-progress-v3",
+  mt201: "mm-mt201-v1",
+  mt202: "mm-mt202-v1",
+  mt203: "mm-mt203-v1",
+  classifications: "limitless.study.mistake-classifications.v1",
+};
+
+function readActivityValue(key, fallback) {
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function readDailyActivityGoal() {
+  const value = Number(readActivityValue(ACTIVITY_GOAL_KEY, 1));
+  return Number.isInteger(value) ? Math.min(20, Math.max(1, value)) : 1;
+}
+
+function renderActivityCalendar() {
+  const host = byId("activity-calendar");
+  if (!host) return;
+  const snapshot = {
+    competition: readActivityValue(ACTIVITY_STORAGE.competition, {}),
+    mathAttempts: readActivityValue(ACTIVITY_STORAGE.mathAttempts, []),
+    mathRuns: readActivityValue(ACTIVITY_STORAGE.mathRuns, []),
+    probability: readActivityValue(ACTIVITY_STORAGE.probability, {}),
+    metallurgy: {
+      mt201: readActivityValue(ACTIVITY_STORAGE.mt201, {}),
+      mt202: readActivityValue(ACTIVITY_STORAGE.mt202, {}),
+      mt203: readActivityValue(ACTIVITY_STORAGE.mt203, {}),
+    },
+    classifications: readActivityValue(ACTIVITY_STORAGE.classifications, {}),
+  };
+  const report = buildCrossDisciplineOverview(snapshot);
+  const goal = readDailyActivityGoal();
+  const activity = buildGlobalActivitySummary(report.attempts, Date.now(), 84, goal);
+
+  byId("activity-streak").textContent = String(activity.streakDays);
+  byId("activity-today").textContent = String(activity.todayCount);
+  byId("activity-days").textContent = String(activity.activeDays);
+  byId("activity-goal-copy").textContent = activity.todayGoalMet
+    ? "Daily activity target reached."
+    : (goal - activity.todayCount) + " more recorded attempt" + (goal - activity.todayCount === 1 ? "" : "s") + " to reach today's target.";
+  const input = byId("activity-daily-goal");
+  if (input && document.activeElement !== input) input.value = String(goal);
+
+  host.replaceChildren();
+  const fragment = document.createDocumentFragment();
+  for (const day of activity.history) {
+    const cell = document.createElement("span");
+    const intensity = day.count === 0 ? 0 : day.count === 1 ? 1 : day.count <= 3 ? 2 : day.count <= 6 ? 3 : 4;
+    cell.className = "activity-day activity-level-" + intensity;
+    cell.title = day.date + ": " + day.count + " recorded attempt" + (day.count === 1 ? "" : "s");
+    cell.setAttribute("aria-label", cell.title);
+    cell.setAttribute("role", "img");
+    if (day.date === activity.today) cell.classList.add("activity-today-cell");
+    fragment.append(cell);
+  }
+  host.append(fragment);
+}
+
+function installActivityGoal() {
+  const form = byId("activity-goal-form");
+  if (!form) return;
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const input = byId("activity-daily-goal");
+    const value = Number(input.value);
+    if (!Number.isInteger(value) || value < 1 || value > 20) {
+      byId("activity-goal-status").textContent = "Choose a daily target from 1 to 20 attempts.";
+      return;
+    }
+    try {
+      window.localStorage.setItem(ACTIVITY_GOAL_KEY, String(value));
+      byId("activity-goal-status").textContent = "Daily activity target saved.";
+      renderActivityCalendar();
+    } catch {
+      byId("activity-goal-status").textContent = "Could not save the target in browser storage.";
+    }
+  });
+}
+
 function render() {
   let summary;
   try {
@@ -346,6 +439,7 @@ function render() {
     number(summary.level.xpToNextLevel) + " EXP to level " + (summary.level.level + 1) +
     " (threshold " + number(summary.level.nextLevelAt) + ").";
 
+  renderActivityCalendar();
   renderLevelNotifications(summary.level.level);
   renderUnlocks(summary);
   renderProjects();
@@ -403,7 +497,9 @@ function render() {
 }
 
 installProjectForm();
+installActivityGoal();
 render();
 window.addEventListener("storage", render);
+window.addEventListener("focus", renderActivityCalendar);
 window.addEventListener("limitless:rewards-updated", render);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
