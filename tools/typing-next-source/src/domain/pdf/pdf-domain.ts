@@ -186,11 +186,12 @@ export function pickChapters(headsByPage: readonly (readonly PdfChapterHead[])[]
 export function evenChapters(total: number): PdfChapter[] {
   const count = Math.max(0, Math.floor(total));
   if (!count) return [];
-  if (count < 20) return [{ p: 0, title: "Beginning" }];
-  const chunks = 5;
-  const step = Math.ceil(count / chunks);
-  return Array.from({ length: chunks }, (_, index) => ({
-    p: Math.min(count - 1, index * step),
-    title: index === 0 ? "Beginning" : `Part ${index + 1}`,
-  })).filter((chapter, index, all) => index === 0 || chapter.p > all[index - 1].p);
+  // Keep the original reader's approximately 20-page fallback sections.
+  const partCount = Math.max(1, Math.round(count / 20));
+  const step = Math.ceil(count / partCount);
+  const chapters: PdfChapter[] = [];
+  for (let p = 0; p < count; p += step) {
+    chapters.push({ p, title: chapters.length === 0 ? "Beginning" : `Part ${chapters.length + 1}` });
+  }
+  return chapters;
 }
