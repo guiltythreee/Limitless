@@ -397,7 +397,7 @@ test("legacy bookkeys:size is used when the settings object has no size", async 
   await page.addInitScript(() => localStorage.setItem("bookkeys:size", "22"));
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
   await expect(page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]'))
     .toHaveValue("22");
 });
@@ -664,7 +664,7 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
 test("fresh Bookkeys settings initialize the complete legacy defaults contract", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
   const size = page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]');
   await size.focus();
   await size.press("ArrowRight");
