@@ -6,6 +6,7 @@ import { Explanation, Rich } from "../lib/rich";
 import { allQuestions, correctSet, grade, isMulti, questionByKey, type Q, type Status } from "../lib/questions";
 import { clearDraft, latestByQuestion, recordAttempt, recordTest, saveDraft, toggleBookmark, useStore, type Attempt, type TestRecord, classifyMistake, markMistakeReviewed } from "../lib/store";
 import { MISTAKE_CATEGORIES, buildRevisionList, mistakeCategoryLabel, type MistakeCategory } from "../../../shared/studies/mistakes";
+import { analyzeProbabilityLearning } from "../lib/learning-intelligence";
 import { fmtTime, summarize } from "../lib/stats";
 import { StatsPanel } from "./Dashboard";
 import {
@@ -191,6 +192,7 @@ function MistakeRevisionPanel({ attempts }: { attempts: Attempt[] }) {
     count: attempts.filter((attempt) => attempt.status !== "correct" && attempt.mistakeCategory === category.id).length,
   }));
   const unclassified = attempts.filter((attempt) => attempt.status !== "correct" && !attempt.mistakeCategory).length;
+  const intelligence = useMemo(() => analyzeProbabilityLearning(attempts), [attempts]);
   return (
     <section className="study-utility-panel mb-5">
       <header className="study-utility-panel__header"><div className="study-utility-panel__heading"><h2 className="study-utility-panel__title">Mistake analysis & revision queue</h2><p className="study-utility-panel__description">Recurring classified errors are ranked first. Classify incorrect answers in the question review.</p></div><span className="study-utility-panel__count">{queue.length} revision items</span></header>
@@ -199,6 +201,40 @@ function MistakeRevisionPanel({ attempts }: { attempts: Attempt[] }) {
           {grouped.map((item) => <div key={item.id} className="study-utility-metric"><span className="study-utility-metric__label">{item.label}</span><strong className="study-utility-metric__value">{item.count}</strong></div>)}
         </div>
         {unclassified > 0 && <p className="mt-3 text-xs text-dim">{unclassified} incorrect attempts still need classification.</p>}
+        <div className="mt-4 rounded-lg border border-gold/15 p-3">
+          <h3 className="text-sm font-semibold text-parchment">Concept mastery intelligence</h3>
+          {intelligence.mastery.length === 0 ? (
+            <p className="mt-2 text-xs text-dim">Concept mastery will appear as dated attempts accumulate for each lesson.</p>
+          ) : (
+            <div className="mt-2 space-y-2">
+              {intelligence.mastery.map((item) => (
+                <div key={item.key} className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <span className="text-parchment">{item.label}<span className="ml-2 text-dim">{item.attempts} attempts · {Math.round(item.accuracy * 100)}% weighted accuracy</span></span>
+                  <strong className="text-gold">{item.status === "insufficient-data" ? "Building baseline" : item.status === "developing" ? "Developing" : item.status === "secure" ? "Secure" : "Mastered"}</strong>
+                </div>
+              ))}
+            </div>
+          )}
+          {intelligence.recurringMistakes.length > 0 && (
+            <div className="mt-3 border-t border-gold/10 pt-3">
+              <div className="text-xs font-semibold text-parchment">Recurring concept-level mistakes</div>
+              {intelligence.recurringMistakes.slice(0, 3).map((item) => (
+                <div key={item.key} className="mt-2 flex items-center justify-between gap-2 text-xs">
+                  <span className="text-dim">{item.conceptLabel} · {mistakeCategoryLabel(item.category)}</span>
+                  <strong className="text-gold">{item.occurrences} repeats</strong>
+                </div>
+              ))}
+            </div>
+          )}
+          {intelligence.weakConcepts.length > 0 && (
+            <div className="mt-3 border-t border-gold/10 pt-3">
+              <div className="text-xs font-semibold text-parchment">Suggested focus</div>
+              {intelligence.weakConcepts.slice(0, 3).map((item) => (
+                <div key={item.key} className="mt-2 text-xs text-dim">{item.label} — {item.status === "insufficient-data" ? "collect more attempts" : "prioritise fresh practice"}</div>
+              ))}
+            </div>
+          )}
+        </div>
         {queue.length === 0 ? <p className="py-5 text-center text-sm text-dim">No classified mistakes yet. Classify an incorrect answer to start building your revision list.</p> : (
           <div className="mt-4 space-y-2">
             {queue.slice(0, 20).map((item) => {
