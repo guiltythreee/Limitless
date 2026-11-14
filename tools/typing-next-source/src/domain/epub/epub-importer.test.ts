@@ -89,6 +89,24 @@ test("maps a TOC anchor to the section containing its heading", async () => {
   assert.equal(result.sections[partTwo.p][0].text, "Part Two");
 });
 
+test("extracts an EPUB 3 cover image as a bounded local data URL", async () => {
+  const bytes = await makeEpub();
+  const zip = await JSZip.loadAsync(bytes);
+  const opf = await zip.file("OEBPS/content.opf")!.async("string");
+  zip.file("OEBPS/content.opf", opf.replace(
+    "</manifest>",
+    '<item id="cover" href="images/cover.jpg" media-type="image/jpeg" properties="cover-image"/></manifest>',
+  ));
+  zip.file("OEBPS/images/cover.jpg", new Uint8Array([0xff, 0xd8, 0xff, 0xd9]));
+  const result = await readEpub(await zip.generateAsync({ type: "uint8array" }), new parser());
+  assert.equal(result.coverDataUrl, "data:image/jpeg;base64,/9j/2Q==");
+});
+
+test("keeps cover art optional when an EPUB has no supported cover image", async () => {
+  const result = await readEpub(await makeEpub(), new parser());
+  assert.equal(result.coverDataUrl, undefined);
+});
+
 test("rejects ZIP files that are not EPUBs with a friendly error flag", async () => {
   const zip = new JSZip();
   zip.file("hello.txt", "not an epub");
