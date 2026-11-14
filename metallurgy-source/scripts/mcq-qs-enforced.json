@@ -1,0 +1,4 @@
+{
+  "_note": "Topics listed here must pass every MCQ-QS error rule in CI (validate-mcq-qs.mjs --strict --enforced). Add a topic id (e.g. \"t1\") only after its questions have been reworked and reviewed.",
+  "enforcedTopics": []
+}
