@@ -32,7 +32,7 @@ function parseRecord(raw: string | null): Record<string, unknown> | null {
 
 function numberArray(value: unknown): number[] {
   return Array.isArray(value)
-    ? value.filter((item): item is number => Number.isInteger(item))
+    ? value.filter((item): item is number => Number.isSafeInteger(item) && item >= 0)
     : [];
 }
 
@@ -44,18 +44,26 @@ function nonNegativeFinite(value: unknown): number {
   return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : 0;
 }
 
+function sanitizeBookProgress(value: unknown): unknown {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return value;
+  const record = value as Record<string, unknown>;
+  return {
+    ...record,
+    p: numberArray(record.p),
+    e: numberArray(record.e),
+    c: numberArray(record.c),
+    x: numberArray(record.x),
+    done: nonNegativeFinite(record.done),
+  };
+}
+
 function mergeGame(local: Record<string, unknown> | null, incoming: Record<string, unknown>): string {
   const localBooks = local?.book && typeof local.book === "object" ? local.book as Record<string, unknown> : {};
   const backupBooks = incoming.book && typeof incoming.book === "object" ? incoming.book as Record<string, unknown> : {};
   // Sanitize even backup-only books and first-time restores; malformed counters
   // must not leak into the live game state merely because no local game exists.
   const books: Record<string, unknown> = Object.fromEntries(
-    Object.entries(backupBooks).map(([key, value]) => [
-      key,
-      value && typeof value === "object" && !Array.isArray(value)
-        ? { ...(value as Record<string, unknown>), done: nonNegativeFinite((value as Record<string, unknown>).done) }
-        : value,
-    ]),
+    Object.entries(backupBooks).map(([key, value]) => [key, sanitizeBookProgress(value)]),
   );
   if (!local) return JSON.stringify({ ...incoming, book: books });
   for (const [key, backupValue] of Object.entries(backupBooks)) {
@@ -84,7 +92,14 @@ function mergeGame(local: Record<string, unknown> | null, incoming: Record<strin
   return JSON.stringify({
     ...incoming,
     ...local,
-    book: { ...books, ...Object.fromEntries(Object.entries(localBooks).filter(([key]) => !(key in backupBooks))) },
+    book: {
+      ...books,
+      ...Object.fromEntries(
+        Object.entries(localBooks)
+          .filter(([key]) => !(key in backupBooks))
+          .map(([key, value]) => [key, sanitizeBookProgress(value)]),
+      ),
+    },
     paid: { ...backupPaid, ...localPaid },
     ach: { ...backupAch, ...localAch },
   });
