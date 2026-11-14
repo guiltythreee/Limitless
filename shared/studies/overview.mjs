@@ -47,6 +47,14 @@ function topicFromQuestion(courseId, questionId) {
 function metallurgyActivityAttempts(courseId, state, classifications) {
   if (!state || typeof state !== "object") return [];
   let rows = Array.isArray(state.activities) ? state.activities : [];
+  if (!rows.length && courseId === "mt203" && Array.isArray(state.attempts)) {
+    rows = state.attempts.map((attempt) => ({
+      ...attempt,
+      courseId,
+      topicId: topicFromQuestion(courseId, attempt.q),
+      picked: typeof attempt.picked === "string" ? attempt.picked : "",
+    }));
+  }
   if (!rows.length && state.answered && typeof state.answered === "object" && !Array.isArray(state.answered)) {
     rows = Object.entries(state.answered).map(([q, answer]) => ({
       courseId, q, topicId: topicFromQuestion(courseId, q),
