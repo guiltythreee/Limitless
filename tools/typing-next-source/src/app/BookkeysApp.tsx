@@ -1363,14 +1363,32 @@ export default function BookkeysApp() {
   async function importBackup(file: File) {
     try {
       const backup = parseBookkeysBackup(await file.text());
+      const incomingSettingsRaw = backup.keys["bookkeys:settings"];
+      let restoresAppearanceChoice = false;
+      if (typeof incomingSettingsRaw === "string") {
+        try {
+          const incomingSettings: unknown = JSON.parse(incomingSettingsRaw);
+          if (incomingSettings && typeof incomingSettings === "object" && !Array.isArray(incomingSettings)) {
+            const record = incomingSettings as Record<string, unknown>;
+            restoresAppearanceChoice =
+              Object.prototype.hasOwnProperty.call(record, "skin") ||
+              Object.prototype.hasOwnProperty.call(record, "bgMatch");
+          }
+        } catch {
+          // Invalid settings are ignored by the settings reader; do not clear a
+          // site-wide theme override when the backup contains no usable choice.
+        }
+      }
       const result = restoreBookkeysBackup(window.localStorage, backup, "merge");
       const game = readGame();
       setGameProgress(game);
-      
+
       setShelves(readShelves(window.localStorage.getItem("bookkeys:shelves")));
       const restoredSettings = readSettings();
       setSettings(restoredSettings);
-      clearThemeOverride();
+      // A backup that actually carries Bookkeys appearance choices may replace
+      // the local override. Progress-only or typing-only backups must not.
+      if (restoresAppearanceChoice) clearThemeOverride();
       if (book) {
         const progress = game.book?.[book.bookKey];
         setCompletedPageIndexes([...new Set([...(progress?.p ?? []), ...(progress?.e ?? [])])]);
