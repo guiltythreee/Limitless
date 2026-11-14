@@ -15,3 +15,40 @@
 .cf-vc-contest[hidden],.cf-vc-list-view[hidden]{display:none}
 html[data-theme="light"] .cf-vc-band-field select{background:#fff;color:#243c54;color-scheme:light}
 html[data-theme="light"] .cf-vc-controls{background:rgba(230,241,251,.55)}
+
+
+/* Virtual contest cards and active contest workspace — shared Limitless styling. */
+.cf-vc-toolbar{
+  align-items:center;padding-bottom:14px;border-bottom:1px solid rgba(105,166,225,.14)
+}
+.cf-vc-band-field select{min-height:40px;border-radius:9px}
+.cf-vc-title{color:#edf6ff;font-size:13px;font-weight:700}
+.cf-vc-card{min-height:78px;align-items:center}
+.cf-vc-card .cf-problem-meta{margin-top:8px}
+.cf-vc-contest{
+  padding:17px;border:1px solid rgba(105,166,225,.2);border-radius:12px;
+  background:rgba(5,17,30,.48)
+}
+.cf-vc-contest-head{
+  align-items:center;gap:13px;padding-bottom:14px;
+  border-bottom:1px solid rgba(105,166,225,.14)
+}
+.cf-vc-contest-head h3{color:#edf6ff;font-size:16px}
+.cf-vc-controls{
+  align-items:center;gap:12px;margin:14px 0;padding:13px 15px;
+  border:1px solid rgba(105,166,225,.18);border-radius:10px;
+  background:rgba(15,35,57,.48)
+}
+.cf-vc-note{color:#a9bfd7;font-size:11px;line-height:1.55}
+.cf-vc-clock{color:#8fcaff;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
+.cf-vc-letter{
+  width:25px;height:25px;margin-right:8px;border:1px solid rgba(105,166,225,.24);
+  border-radius:8px;background:rgba(63,139,210,.13);color:#9fd0ff;font-size:10px
+}
+.cf-vc-primary{background:linear-gradient(135deg,#238ce9,#1763b5)!important;color:#fff!important}
+html[data-theme="light"] .cf-vc-title,html[data-theme="light"] .cf-vc-contest-head h3{color:#1c3d5c}
+html[data-theme="light"] .cf-vc-contest{background:#f5f9fd;border-color:#c8d9e8}
+html[data-theme="light"] .cf-vc-controls{background:#edf5fc;border-color:#c8d9e8}
+html[data-theme="light"] .cf-vc-note{color:#526d87}
+html[data-theme="light"] .cf-vc-clock{color:#1769a8}
+html[data-theme="light"] .cf-vc-letter{background:#e5f2ff;border-color:#bfdcf4;color:#17629b}
