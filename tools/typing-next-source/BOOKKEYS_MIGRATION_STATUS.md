@@ -1,11 +1,21 @@
 # Bookkeys migration status
 
+## Repository audit: migration tracks
+
+Two Bookkeys migration tracks exist and must remain distinguishable:
+
+- **PR #111 — preservation-first extraction scaffold:** based on current `main`; extracts original text/chapter/XP logic, EPUB helpers, IndexedDB v1 adapter and localStorage/backup helpers into modules. It is an additive, isolated scaffold with 23 focused tests and the original 98-test suite. It explicitly leaves PDF/EPUB orchestration, library UI, typing/drafts, chapter editor, settings/theme rendering, backup envelope and full reward merge on the production implementation.
+- **PR #144 — advanced TypeScript/React preview:** based on `work/bookkeys-typescript-mainline-20261107`; includes the fuller reader implementation and the later IME compatibility regression. Its latest documented checkpoint is 107 TypeScript tests, 14 Playwright browser regressions, type-check and static build, plus the 98-test legacy preservation suite. This is the more advanced preview track, but it is still isolated and not a production cutover.
+- The numerous `backup/bookkeys-*` branches preserve subsystem checkpoints (backup/restore, rewards, data safety, empty-page history, EPUB/PDF importers, IME, legacy settings, local reader preview, main-shelf safety, PDF chapter parity and PDF runtime). Do not delete or force-update these while reconciling branches.
+- PR #111 and PR #144 are both unmerged. PR #144 is the current feature-validation track; PR #111 remains a separate extraction baseline. Do not merge both blindly or assume the scaffold is equivalent to the preview.
+
 ## Current state
 
 The TypeScript/React reader is an isolated migration implementation. It is not the production reader and is not wired into the live /tools/typing/ route.
 
 - Active migration branch: work/bookkeys-typescript-mainline-20261107
-- Preserved migration backup: work/bookkeys-typescript-migration-20261107
+- Current validation overlay: work/bookkeys-ime-compatibility-20261107 (PR #144)
+- Preservation-first extraction scaffold: work/bookkeys-migration-rebased-20261107 (PR #111)
 - The migration branch was reconciled with the latest main deployment workflow and is kept additive.
 - Production tools/typing/index.html and tools/typing/bookkeys.html are unchanged.
 
