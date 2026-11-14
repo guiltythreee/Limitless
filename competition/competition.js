@@ -751,11 +751,14 @@
         :'<p class="empty-state">No reviews due. Unresolved problems enter the queue after one day.</p>';
       $('revision-queue').querySelectorAll('[data-revision-result]').forEach(function(button){
         button.addEventListener('click',function(){
+          if (button.disabled) return;
+          button.disabled = true;
           state.revisionAttempts.push({
             id:'revision-'+String(Date.now())+'-'+Math.random().toString(36).slice(2,7),
             problemId:button.dataset.problemId,
             date:new Date().toISOString(),
-            outcome:button.dataset.revisionResult
+            outcome:button.dataset.revisionResult,
+            mistakeType:button.dataset.revisionResult === 'incorrect' ? (state.problemLog.find(function(problem){return problem.id === button.dataset.problemId;}) || {}).mistakeType || '' : ''
           });
           persist();
           renderLearningSystem();
@@ -947,7 +950,9 @@
       ' This projection assumes the mock cohort is representative; it is not a guaranteed selection result.</span>';
   }
 
+  var problemHistoryRenderToken = 0;
   function renderProblemHistory() {
+    var token = ++problemHistoryRenderToken;
     var query=String($('problem-search').value||'').trim().toLowerCase();
     var subject=$('problem-filter-subject').value;
     var outcome=$('problem-filter-outcome').value;
@@ -977,7 +982,7 @@
         '<p><b>Independent re-solve:</b> ' + (problem.resolve === 'yes' ? 'Yes' : problem.resolve === 'no' ? 'Not yet' : 'Not tested') + '</p></article>';
     }).join('') : '<p class="empty-state">No problem reviews recorded yet.</p>';
     practiceRecommendationsPromise.then(function (practiceApi) {
-      if (!practiceApi) return;
+      if (!practiceApi || token !== problemHistoryRenderToken) return;
       $('problem-history').querySelectorAll('.problem-entry').forEach(function (entry, index) {
         var problem = rows[index];
         if (!problem) return;
@@ -1180,7 +1185,7 @@
             if (incoming[key] !== undefined && !isRecord(incoming[key])) throw new Error('Invalid backup');
           });
           if (incoming.problemLog !== undefined && (!Array.isArray(incoming.problemLog) || incoming.problemLog.some(function(item){return !isRecord(item);})) ) throw new Error('Invalid backup');
-          if (incoming.revisionAttempts !== undefined && (!Array.isArray(incoming.revisionAttempts) || incoming.revisionAttempts.some(function(item){return !isRecord(item) || typeof item.problemId !== 'string' || typeof item.date !== 'string' || ['correct','incorrect'].indexOf(item.outcome)===-1;}))) throw new Error('Invalid backup');
+          if (incoming.revisionAttempts !== undefined && (!Array.isArray(incoming.revisionAttempts) || incoming.revisionAttempts.some(function(item){return !isRecord(item) || typeof item.id !== 'string' || !item.id || typeof item.problemId !== 'string' || !item.problemId || typeof item.date !== 'string' || !Number.isFinite(Date.parse(item.date)) || ['correct','incorrect'].indexOf(item.outcome)===-1;}))) throw new Error('Invalid backup');
           if (incoming.mocks.some(function(item){return !isRecord(item) || typeof item.date !== 'string';})) throw new Error('Invalid backup');
           if (!incoming.mastery && incoming.completed) {
             incoming.mastery = {};
