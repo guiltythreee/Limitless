@@ -98,7 +98,7 @@ test("EPUB covers persist in the library and chapter titles edit inline", async 
   await expect(title).toBeFocused();
   await title.fill("Renamed Chapter One");
   await title.press("Enter");
-  await expect(page.locator(".bk-chapter-row")).toContainText("Renamed Chapter One");
+  await expect(page.locator(".bk-chapter-row").filter({ hasText: "Renamed Chapter One" })).toBeVisible();
 
   await page.getByRole("button", { name: "← Library" }).click();
   const card = page.locator(".bk-book-card").filter({ hasText: "Bookkeys Migration Fixture" });
@@ -263,7 +263,7 @@ test("theme and reader settings are interactive and persist without overwriting 
   const artwork = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#d2ae5c"/></svg>');
   await dialog.getByRole("button", { name: "Theme", exact: true }).click();
   await dialog.getByRole("button", { name: "Gothic Night", exact: true }).click();
-  await dialog.getByLabel("Decorative details").check();
+  await dialog.getByRole("group", { name: "Theme decoration" }).getByRole("button", { name: "On", exact: true }).click();
   const upload = dialog.getByLabel("Upload Gothic artwork");
   await expect(upload).toBeEnabled();
   await upload.setInputFiles({ name: "gothic-art.svg", mimeType: "image/svg+xml", buffer: artwork });
@@ -523,8 +523,11 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
   page.once("dialog", (dialog) => dialog.accept("Custom Opening"));
   await page.getByRole("button", { name: "Add chapter" }).click();
   await expect(page.locator(".bk-chapter-list")).toContainText("Custom Opening");
-  page.once("dialog", (dialog) => dialog.accept("Renamed Opening"));
   await page.getByRole("button", { name: "Rename Custom Opening" }).click();
+  const chapterTitle = page.getByRole("textbox", { name: "Chapter title 2" });
+  await expect(chapterTitle).toBeFocused();
+  await chapterTitle.fill("Renamed Opening");
+  await chapterTitle.press("Enter");
   await expect(page.locator(".bk-chapter-list")).toContainText("Renamed Opening");
 
   const chapterKeys = await page.evaluate(() =>
