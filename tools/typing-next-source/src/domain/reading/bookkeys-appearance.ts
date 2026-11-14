@@ -179,7 +179,7 @@ export {
   onColor,
 };
 
-export function resolveBookkeysAppearance(settings, effectiveBackground, systemDark) {
+export function resolveBookkeysAppearance(settings, effectiveBackground, systemDark, systemReducedMotion) {
   const matchedTheme = settings.bgMatch && BGPAL[effectiveBackground]
     ? BGPAL[effectiveBackground]
     : pick(THEMES, "id", settings.skin);
@@ -225,7 +225,7 @@ export function resolveBookkeysAppearance(settings, effectiveBackground, systemD
     cursorSmooth: settings.csmooth ? "on" : "off",
     centered: settings.centered ? "on" : "off",
     typingEffect: settings.tfx,
-    calm: settings.motion === "reduce" || (settings.motion !== "full" && systemDark === "reduced") ? "on" : "off",
+    calm: settings.motion === "reduce" || (settings.motion !== "full" && systemReducedMotion) ? "on" : "off",
   };
 }
 
