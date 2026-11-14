@@ -693,7 +693,7 @@ test("centered reading preference changes reader layout and persists", async ({ 
   await expect(article).toBeVisible();
   await expect(article).toHaveAttribute("data-reader-centered", "false");
   await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Typing", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await dialog.getByLabel("Center reading text").check();
   await expect(article).toHaveAttribute("data-reader-centered", "true");
@@ -885,4 +885,29 @@ test("original background palettes, theme tiles and accent swatches apply consis
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect.poll(() => readRootToken("--bg")).toBe("#04081A");
   await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
+});
+
+
+test("all selectable reader fonts load from embedded offline font faces", async ({ page }) => {
+  const externalFontRequests: string[] = [];
+  page.on("request", (request) => {
+    if (/^https?:\/\//i.test(request.url()) && /font|googleapis|gstatic/i.test(request.url())) {
+      externalFontRequests.push(request.url());
+    }
+  });
+  await page.goto("/tools/typing-next-preview/");
+  const families = [
+    "Newsreader", "Literata", "Lora", "Source Serif 4", "Libre Baskerville",
+    "Atkinson Hyperlegible", "IBM Plex Mono", "JetBrains Mono", "Courier Prime", "Special Elite",
+  ];
+  const loaded = await page.evaluate(async (names) => {
+    const results = [];
+    for (const family of names) {
+      const faces = await document.fonts.load(`16px "${family}"`, "Bookkeys offline font check");
+      results.push({ family, loaded: faces.length > 0, available: document.fonts.check(`16px "${family}"`) });
+    }
+    return results;
+  }, families);
+  expect(loaded.filter((font) => font.loaded && font.available).map((font) => font.family)).toEqual(families);
+  expect(externalFontRequests).toEqual([]);
 });
