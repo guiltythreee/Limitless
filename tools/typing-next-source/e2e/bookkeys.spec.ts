@@ -258,7 +258,7 @@ test("theme and reader settings are interactive and persist without overwriting 
   await dialog.getByRole("button", { name: "Close Settings" }).click();
 
   await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.getByRole("button", { name: "Settings" }).click();
   await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
   const restored = page.getByRole("dialog", { name: "Settings" });
@@ -868,7 +868,7 @@ test("original background palettes, theme tiles and accent swatches apply consis
 
   await page.getByRole("button", { name: "Settings" }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
-  await dialog.getByRole("button", { name: "Background", exact: true }).click();
+  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
   const matchColors = dialog.getByLabel("Match colors to background");
   await expect(matchColors).toBeChecked();
 
@@ -887,6 +887,7 @@ test("original background palettes, theme tiles and accent swatches apply consis
 
   await dialog.getByRole("button", { name: "Background", exact: true }).click();
   await dialog.getByRole("group", { name: "Background choices" }).getByRole("button", { name: "Night Sky" }).click();
+  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
   await matchColors.check();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect.poll(() => readRootToken("--bg")).toBe("#04081A");
