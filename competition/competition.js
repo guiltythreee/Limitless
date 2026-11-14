@@ -691,7 +691,7 @@
     // Older/imported records without either remain visible in history but
     // must not create immediately-overdue or colliding revision entries.
     var date = typeof problem.date === 'string' ? problem.date : '';
-    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || formatDateOffset(date, 0) !== date ||
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || formatDateOffset(date, 0) !== date ||
         problem.id == null || String(problem.id).trim() === '') return [];
     return [1,7,14,30].map(function(days){
       return {days:days,date:formatDateOffset(date,days),key:String(problem.id)+'-'+days};
@@ -699,7 +699,7 @@
   }
   function normalizeConceptKey(subject, concept) {
     var normalized = String(concept || '').trim().toLowerCase()
-      .replace(/[^a-z0-9+#]+/g,' ').trim().replace(/\\s+/g,' ');
+      .replace(/[^a-z0-9+#]+/g,' ').trim().replace(/\s+/g,' ');
     if (!normalized) return '';
     return String(subject || 'Other').trim().toLowerCase() + '|' + normalized;
   }
