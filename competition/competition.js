@@ -16,7 +16,8 @@
     mocks: [],
     problemLog: [],
     weekChecks: {},
-    revisionChecks: {}
+    revisionChecks: {},
+    revisionAttempts: []
   };
 
   var SUBJECTS = [
@@ -262,6 +263,7 @@
       if (!Array.isArray(merged.problemLog)) merged.problemLog = [];
       if (!merged.weekChecks || typeof merged.weekChecks !== 'object') merged.weekChecks = {};
       if (!merged.revisionChecks || typeof merged.revisionChecks !== 'object') merged.revisionChecks = {};
+      if (!Array.isArray(merged.revisionAttempts)) merged.revisionAttempts = [];
       // Migrate the old binary checklist conservatively: a checked topic becomes
       // "practiced", never "mastered", because the old tracker had no mastery test.
       if (saved.completed && typeof saved.completed === 'object') {
@@ -700,15 +702,33 @@
     due.sort(function(a,b){return a.item.date.localeCompare(b.item.date);});
     upcoming.sort(function(a,b){return a.item.date.localeCompare(b.item.date);});
     var queue=due.slice(0,18).map(function(entry){
-      return '<label class="revision-item"><input type="checkbox" data-revision="'+esc(entry.item.key)+'"><span><strong>'+esc(entry.problem.name)+'</strong><small>'+esc(entry.problem.subject)+' · '+entry.item.days+'-day review · due '+entry.item.date+'</small></span></label>';
+      return '<div class="revision-item"><span><strong>'+esc(entry.problem.name)+'</strong><small>'+esc(entry.problem.subject)+' · '+entry.item.days+'-day review · due '+entry.item.date+'</small></span><select data-revision-outcome="'+esc(entry.item.key)+'" aria-label="Record outcome for '+esc(entry.problem.name)+'"><option value="">Record result…</option><option value="correct">Solved independently</option><option value="incorrect">Needed help / could not solve</option></select></div>';
     }).join('');
     $('revision-queue').innerHTML=queue||'<p class="empty-state">No reviews due today. New problem logs automatically enter the 1, 7, 14 and 30-day revision cycle.</p>';
     $('revision-summary').textContent=due.length+' due · '+upcoming.length+' scheduled';
     $('revision-upcoming').textContent=upcoming.length?('Next review: '+upcoming[0].date+' — '+upcoming[0].problem.name):'No upcoming reviews';
-    $('revision-queue').querySelectorAll('[data-revision]').forEach(function(input){
-      input.addEventListener('change',function(){
-        if(input.checked) state.revisionChecks[input.dataset.revision]=true;
-        persist(); renderLearningSystem();
+    $('revision-queue').querySelectorAll('[data-revision-outcome]').forEach(function(select){
+      select.addEventListener('change',function(){
+        var outcome = select.value;
+        if (outcome !== 'correct' && outcome !== 'incorrect') return;
+        var key = select.dataset.revisionOutcome;
+        var parts = key.match(/^(.*)-(1|7|14|30)$/);
+        if (!parts) return;
+        var problem = state.problemLog.find(function(item){ return item.id === parts[1]; });
+        if (!problem) return;
+        var revision = {
+          id: 'revision:' + key + ':' + Date.now(),
+          problemId: problem.id,
+          date: new Date().toISOString(),
+          outcome: outcome
+        };
+        if (outcome === 'incorrect' && MISTAKE_TYPES.some(function(item){ return item[0] === problem.mistakeType; })) {
+          revision.mistakeType = problem.mistakeType;
+        }
+        state.revisionAttempts.push(revision);
+        state.revisionChecks[key] = true;
+        persist();
+        renderLearningSystem();
       });
     });
 
@@ -737,7 +757,7 @@
         var synced = JSON.parse(localStorage.getItem('limitless.competition.codeforces-learning.v1') || 'null');
         if (synced && Array.isArray(synced.attempts)) codeforcesAttempts = synced.attempts;
       } catch (_) {}
-      var analysis = api.analyzeCompetitionLearning(state.problemLog, [], Date.now(), codeforcesAttempts);
+      var analysis = api.analyzeCompetitionLearning(state.problemLog, state.revisionAttempts, Date.now(), codeforcesAttempts);
       var masteryRows = analysis.mastery.slice(0, 6).map(function (item) {
         var label = item.status === 'insufficient-data' ? 'Building baseline' :
           item.status === 'developing' ? 'Developing' :
