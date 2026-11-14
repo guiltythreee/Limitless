@@ -36,7 +36,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         {/* Load the same account and cloud-sync runtime on every exported route,
             including nested book pages (not just the Probability landing page). */}
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" />
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0" />
         <script src="/supabase/config.js" />
         <script src="/supabase/client.js" />
         <script src="/supabase/cloud-sync.js" />
