@@ -168,8 +168,8 @@ html[data-theme="light"] .bk-shelf-select { color: #30281d; background: #f5f0e7;
 .bk-settings-panel { width: min(500px, 100%); max-height: min(680px, calc(100vh - 40px)); overflow: auto; color: #f4ead6; background: #111019; border: 1px solid #494153; box-shadow: 0 24px 80px rgba(0,0,0,.45); }
 .bk-settings-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; border-bottom: 1px solid #302b38; }
 .bk-settings-header h2 { margin: 0; font-size: 22px; }
-.bk-settings-tabs { display: flex; gap: 4px; padding: 10px 18px 0; border-bottom: 1px solid #302b38; }
-.bk-settings-tabs button { padding: 10px 14px; color: #b9b1c1; background: transparent; border: 0; border-bottom: 2px solid transparent; }
+.bk-settings-tabs { display: flex; flex-wrap: nowrap; gap: 4px; padding: 10px 18px 0; border-bottom: 1px solid #302b38; overflow-x: auto; scrollbar-width: thin; }
+.bk-settings-tabs button { flex: 0 0 auto; white-space: nowrap; padding: 10px 14px; color: #b9b1c1; background: transparent; border: 0; border-bottom: 2px solid transparent; }
 .bk-settings-tabs button.active { color: #e7c985; border-bottom-color: #d8b978; }
 .bk-settings-content { display: grid; gap: 22px; padding: 24px 22px 28px; }
 .bk-settings-content h3 { margin: 0; font-size: 16px; }
