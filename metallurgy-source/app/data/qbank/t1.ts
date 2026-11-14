@@ -420,7 +420,7 @@ const T1: TopicSource = {
       id: "t1-19",
       type: "recall",
       diff: 1,
-      text: "For an individual linear polymer chain, degree of polymerization (DP) is the number of:"
+      text: "For an individual linear polymer chain, degree of polymerization (DP) is the number of:",
       options: [
         { label: "a", text: "monomer molecules in the whole sample" },
         { label: "b", text: "chains in one mole of polymer" },
