@@ -540,7 +540,12 @@ const T4: TopicSource = {
       ],
       answer: "b",
       why: "SEC separates by **hydrodynamic volume**. A branched coil is more compact than a linear coil of the same molar mass, so a linear-chain calibration can assign it an artificially low apparent MW. Multi-angle light scattering can estimate absolute molar mass when concentration and optical inputs (including $dn/dc$) are correctly supplied; the two methods therefore need not agree for branched chains.",
-      concept: "relative MW techniques assume linear standards",
+      distractors: {
+        a: "A lower SEC value is not proof of detector failure; SEC calibration reports hydrodynamic-volume-equivalent mass.",
+        c: "Light scattering responds to molar mass through scattering intensity; it does not simply count branch points, and accuracy depends on correct optical inputs.",
+        d: "Branching changes chain conformation and hydrodynamic size; it does not remove repeat units or automatically lower the true molar mass.",
+      },
+      concept: "SEC calibration reports apparent MW when chain architecture differs from standards",
       tags: ["confused"],
     },
     {
