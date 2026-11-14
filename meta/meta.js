@@ -353,7 +353,7 @@ function readDailyActivityGoal() {
   return Number.isInteger(value) ? Math.min(20, Math.max(1, value)) : 1;
 }
 
-function renderActivityCalendar() {
+function renderActivityCalendarUnsafe() {
   const host = byId("activity-calendar");
   if (!host) return;
   const snapshot = {
@@ -394,6 +394,15 @@ function renderActivityCalendar() {
     fragment.append(cell);
   }
   host.append(fragment);
+}
+
+function renderActivityCalendar() {
+  try {
+    renderActivityCalendarUnsafe();
+  } catch {
+    const host = byId("activity-calendar");
+    if (host) host.textContent = "Activity history is temporarily unavailable. Your module progress remains unchanged.";
+  }
 }
 
 function installActivityGoal() {
