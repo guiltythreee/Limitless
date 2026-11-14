@@ -18,6 +18,19 @@ export function validateQuestion(question, profile) {
   if (!question.id) add("CORE-001", "error", "Question id is missing", "id");
   if (!question.stem?.trim()) add("CORE-002", "error", "Question stem is empty", "stem");
 
+  if (rules.requireAssertionReason &&
+      (!question.metadata?.assertion?.trim() || !question.metadata?.reason?.trim())) {
+    add("FORMAT-007", "error", "Assertion–reason format requires both assertion and reason text", "metadata");
+  }
+  if (rules.requireStatements &&
+      (!Array.isArray(question.metadata?.statements) || question.metadata.statements.length < 2)) {
+    add("FORMAT-008", "error", "Statement-selection format requires at least two source statements", "metadata.statements");
+  }
+  if (rules.requireTableRows &&
+      (!Array.isArray(question.metadata?.tableRows) || question.metadata.tableRows.length < 1)) {
+    add("FORMAT-009", "error", "Match format requires table rows", "metadata.tableRows");
+  }
+
   if (rules.requireExplanation && !question.explanation?.trim()) {
     add("CORE-003", "error", "A worked or explanatory answer is required", "explanation");
   }
