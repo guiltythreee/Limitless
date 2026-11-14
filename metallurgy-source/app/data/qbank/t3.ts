@@ -130,7 +130,7 @@ const T3: TopicSource = {
       id: "t3-06",
       type: "recall",
       diff: 1,
-      text: "Which technique is the industrial standard for PET and nylon 6,6?",
+      text: "Which polymerization technique is commonly used to produce PET and nylon 6,6 by condensation polymerization?",
       options: [
         { label: "a", text: "Emulsion polymerization" },
         { label: "b", text: "Melt polycondensation" },
@@ -138,7 +138,7 @@ const T3: TopicSource = {
         { label: "d", text: "Solution polymerization" }
       ],
       answer: "b",
-      why: "**Melt polycondensation** — the monomer melt is the reaction medium; no solvent means no chain transfer and no solvent-removal cost.",
+      why: "**Melt polycondensation** is a common route for these condensation polymers: the reacting material is processed in the melt, and small-molecule by-products are removed to drive chain growth. The question asks for the technique, not a claim that it is the only industrial route.",
       tags: ["revision"],
     },
     {
