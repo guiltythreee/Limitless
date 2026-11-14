@@ -362,16 +362,16 @@ const T5: TopicSource = {
       id: "t5-20",
       type: "higher",
       diff: 4,
-      text: "Plotting tensile modulus vs %crystallinity for PE gives a steep rise up to ~60% then a plateau. The plateau is best explained by:",
+      text: "A plot of tensile modulus against polyethylene crystallinity rises steeply up to about 60% crystallinity and then approaches a plateau. What conclusion is supported by the plotted trend alone?",
       options: [
         { label: "a", text: "Polyethylene cannot crystallize above about 60%, so the measured modulus has no physical route to increase further." },
         { label: "b", text: "The plateau is a plotting artifact; modulus is unrelated to morphology and should not depend on crystallinity." },
         { label: "c", text: "Crystallinity has no effect on modulus; the initial increase must instead come from changes in molecular weight." },
-        { label: "d", text: "Once tie molecules constrain the amorphous phase, adding crystallites yields diminishing stiffness gains." }
+        { label: "d", text: "The incremental increase in modulus becomes smaller at higher crystallinity; the plot alone does not identify the molecular mechanism causing the plateau." }
       ],
       answer: "d",
-      why: "Stiffness depends on the **load-bearing crystalline network and the tie molecules bridging it**. Once the amorphous phase is highly constrained, extra crystallinity gives diminishing returns — the plateau.",
-      concept: "tie molecules transmit load between lamellae",
+      why: "The graph supports a diminishing incremental increase in modulus at higher crystallinity. It does not, by itself, establish whether the plateau is caused by tie molecules, lamellar connectivity, orientation, or another feature of the morphology; additional structural evidence would be needed to identify the mechanism.",
+      concept: "modulus–crystallinity trend; a graph alone does not identify the molecular cause of a plateau",
       tags: ["confused"],
     },
   ],
