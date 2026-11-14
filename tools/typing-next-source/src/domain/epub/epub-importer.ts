@@ -89,7 +89,6 @@ async function readCoverDataUrl(
   zip: JSZip,
   manifest: ReadonlyMap<string, ManifestItem>,
   opf: Document,
-  opfDir: string,
 ): Promise<string | undefined> {
   const coverId =
     Array.from(opf.getElementsByTagNameNS("*", "item"))
@@ -196,7 +195,7 @@ export async function readEpub(
       }
     }
 
-    const coverDataUrl = await readCoverDataUrl(zip, manifest, opf, opfDir);
+    const coverDataUrl = await readCoverDataUrl(zip, manifest, opf);
 
     const sections: EpubBlock[][] = [];
     const chapterStarts: { start: number; count: number; title: string }[] = [];
