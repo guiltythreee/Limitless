@@ -33,13 +33,13 @@ These branches were built from an earlier repository checkpoint. The earlier not
 
 ## Verified in CI
 
-The latest successful current-main migration workflow is [43634884272](https://github.com/guiltythreee/Limitless/actions/runs/43634884272), with the separate legacy regression workflow [43634884262](https://github.com/guiltythreee/Limitless/actions/runs/43634884262). Both completed successfully on commit `2f37b37`.
+The latest successful current-main migration workflow is [43640117020](https://github.com/guiltythreee/Limitless/actions/runs/43640117020), with the separate legacy regression workflow [43640121400](https://github.com/guiltythreee/Limitless/actions/runs/43640121400). Both completed successfully on commit `9b8d7eb`.
 
-- **107/107 TypeScript tests passed**, covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, shelves and reward logic.
+- **110/110 TypeScript tests passed**, covering IndexedDB v1 compatibility, PDF/EPUB parsing, chapters, reading sessions, key-event accuracy, archive counters/achievements, backup rollback safety, shelves and reward logic.
 - **98/98 legacy preservation tests passed** against the original standalone HTML implementation. The archived 91-test baseline and current 98/98 result are recorded in `tools/typing/BOOKKEYS_TEST_BASELINE.md`.
 - TypeScript type-check passed.
 - Next.js static production build passed.
-- Chromium browser regression suite: **20/20 passed**:
+- Chromium browser regression suite: **24/24 passed**:
   1. Import an EPUB, type a page, persist progress and reward records, reload, reopen, export a backup, import it into a fresh browser context and restore settings.
   2. Change theme, accent, custom text colour and reader settings; verify persistence, legacy background preferences, Gothic/Garden artwork on the home and reader surfaces, and the correct palette-driven shell theme after reload.
   3. Import a PDF, extract readable text and complete a page.
@@ -60,6 +60,8 @@ The latest successful current-main migration workflow is [43634884272](https://g
   18. Verify the centered-reading preference is in the original Typing tab and changes the reader layout, then persists after reload.
   19. Verify original background palettes, theme tiles, accent swatches and background-colour matching in the original Theme tab.
   20. Load all ten selectable reader fonts from embedded offline WOFF2 faces and confirm no external font requests are made.
+
+Additional browser coverage in the latest run verifies EPUB cover extraction and persistence in IndexedDB v1, library thumbnail rendering, inline chapter-title editing with focus and Enter-to-save, Continue reading after reload, the two-chip Theme decoration control, and the corrected chapter-editing/settings interactions. The latest run also confirms that importing a book directly marks it as opened for Continue reading/Recent, while multi-file imports that are not opened do not change their opened timestamp.
 
 PDF, EPUB and plain-text/TXT imports are supported, including a paste-text workflow that stores text as a local TXT-backed book. Existing Gothic and Garden artwork data is read from the original IndexedDB keys; uploaded images are validated, resized to at most 1600 × 900 and stored in those same keys. The original 22 procedural canvas scene definitions are restored, along with the 27-entry original background tile catalogue, three photographic scenes with desktop/portrait crops, Time of Day mode, density/animation controls, backdrop/veil/blur controls and the exact one-time `bgdef1`/`bgdef2` migrations. Photo backgrounds retain a minimum 70% reader text backdrop. The original 34 settings fields and defaults remain lossless, including unknown extension fields.
 
