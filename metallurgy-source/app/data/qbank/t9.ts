@@ -188,7 +188,7 @@ const T9: TopicSource = {
       diff: 2,
       text: "Match each degradation route with its cause.",
       tableRows: [
-        ["1", "Thermal", "", "(i) heat, with scission of the weakest bonds (e.g. PVC → HCl)"],
+        ["1", "Thermal", "", "(i) heat-induced bond breakdown or elimination (e.g. PVC dehydrochlorination: HCl loss and polyene formation)"],
         ["2", "Photo-oxidative", "", "(ii) UV + O₂ via radical chain reactions"],
         ["3", "Hydrolytic", "", "(iii) water attack on ester/amide bonds"],
         ["4", "Mechanical", "", "(iv) repeated stressing/abrasion during processing"],
@@ -200,7 +200,7 @@ const T9: TopicSource = {
         { label: "d", text: "1-ii, 2-i, 3-iv, 4-iii" }
       ],
       answer: "a",
-      why: "Thermal → bond scission (PVC dehydrochlorination); photo-oxidative → UV + oxygen radicals; hydrolytic → ester/amide hydrolysis; mechanical → processing stresses.",
+      why: "Thermal degradation includes heat-induced bond breakdown and elimination reactions. In PVC, the characteristic early process is dehydrochlorination: HCl is eliminated and conjugated polyene sequences form; it should not be described simply as ordinary backbone chain scission. Photo-oxidative degradation involves UV and oxygen-driven radical reactions; hydrolysis attacks susceptible ester/amide bonds; mechanical degradation arises from repeated stress or abrasion.",
       tags: ["revision"],
     },
     {
@@ -378,12 +378,13 @@ const T9: TopicSource = {
         { label: "a", text: "1, 2, 3 and 4" },
         { label: "b", text: "1, 2 and 3 only" },
         { label: "c", text: "4 only" },
-        { label: "d", text: "1 and 4 only" }
+        { label: "d", text: "1 and 2 only" }
       ],
-      answer: "b",
-      why: "1–3 correct. Item 4 is false — rigid fillers/reinforcements **raise** modulus; they may reduce ductility and impact toughness, but not stiffness.",
+      answer: "d",
+      why: "Statements 1 and 2 are correct: mineral fillers such as CaCO₃ and talc often reduce cost and increase stiffness, while glass fibres can raise modulus and HDT. Statement 3 is too broad: a silane's organic functionality must be compatible or reactive with the polymer matrix; a generic silane does not automatically couple hydrophilic glass to every non-polar polymer. Statement 4 is false because rigid fillers generally raise, not lower, modulus.",
       distractors: {
-        a: "Item 4 confuses modulus (stiffness) with toughness.",
+        a: "Includes statement 3, whose broad claim about silane coupling to any non-polar matrix is not justified, and statement 4, which reverses the usual stiffness effect of rigid fillers.",
+        b: "Includes statement 3, which needs a matrix-compatible organofunctional silane rather than a generic coupling-agent claim.",
       },
       tags: ["confused"],
     },
