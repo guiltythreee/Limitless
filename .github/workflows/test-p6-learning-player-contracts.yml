@@ -9,10 +9,6 @@ on:
       - "home-dashboard.css"
       - "home-learning-intelligence.mjs"
       - "index.html"
-      - "home-dashboard.js"
-      - "home-dashboard.css"
-      - "home-learning-intelligence.mjs"
-      - "index.html"
       - "competition/learning-intelligence.mjs"
       - "competition/learning-intelligence.test.mjs"
       - "competition/competition.js"
@@ -20,7 +16,6 @@ on:
       - "scripts/generate-studies-catalog.mjs"
       - "studies-catalog.js"
       - "tools.js"
-      - "index.html"
       - "metallurgy-source/app/layout.tsx"
       - "metallurgy-source/app/mt203/dashboard.tsx"
       - "probability-source/app/layout.tsx"
@@ -80,9 +75,6 @@ jobs:
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/learning-player/player-shell.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/registry.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/intelligence.test.mjs
-          node ../shared/studies/overview.test.mjs
-          node --check ../home-learning-intelligence.mjs
-          node --check ../home-dashboard.js
           node ../shared/studies/overview.test.mjs
           node --check ../home-learning-intelligence.mjs
           node --check ../home-dashboard.js
