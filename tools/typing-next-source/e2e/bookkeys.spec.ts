@@ -121,6 +121,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
 
   await page.getByRole("button", { name: /Library/ }).click();
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   const sourceSettings = page.getByRole("dialog", { name: "Settings" });
   const sourceSize = sourceSettings.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
   await expect(sourceSize).toHaveValue("20");
@@ -149,6 +150,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   });
   await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
   await restorePage.getByRole("button", { name: "Settings" }).click();
+  await restorePage.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   const restoredSettings = restorePage.getByRole("dialog", { name: "Settings" });
   await expect(restoredSettings.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]')).toHaveValue("25");
   await restoreContext.close();
@@ -209,6 +211,7 @@ test("theme and reader settings are interactive and persist without overwriting 
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-night");
@@ -248,6 +251,7 @@ test("theme and reader settings are interactive and persist without overwriting 
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   const restored = page.getByRole("dialog", { name: "Settings" });
   await expect(restored.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]')).toHaveValue("22");
   await expect(restored.getByLabel("Reader background")).toHaveValue("gothic");
@@ -259,11 +263,13 @@ test("theme and reader settings are interactive and persist without overwriting 
   await restored.getByRole("button", { name: "Close Settings" }).click();
   await page.reload();
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("nebula");
   await page.getByRole("dialog").getByLabel("Reader background").selectOption("pic-night");
   await page.getByRole("dialog").getByRole("button", { name: "Close Settings" }).click();
   await page.reload();
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("pic-night");
 });
 
@@ -385,6 +391,7 @@ test("legacy bookkeys:size is used when the settings object has no size", async 
   await page.addInitScript(() => localStorage.setItem("bookkeys:size", "22"));
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   await expect(page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]'))
     .toHaveValue("22");
 });
@@ -573,6 +580,7 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
   await expect(page.locator(".bk-source-text")).toContainText("browser regression fixture");
   await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 1");
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   const settings = page.getByRole("dialog", { name: "Settings" });
   await settings.getByLabel("Reader background").selectOption("gothic");
   await settings.getByRole("button", { name: "Close Settings" }).click();
@@ -650,6 +658,7 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
 test("fresh Bookkeys settings initialize the complete legacy defaults contract", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   const size = page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]');
   await size.focus();
   await size.press("ArrowRight");
@@ -678,6 +687,7 @@ test("centered reading preference changes reader layout and persists", async ({ 
   await expect(article).toBeVisible();
   await expect(article).toHaveAttribute("data-reader-centered", "false");
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await dialog.getByLabel("Center reading text").check();
   await expect(article).toHaveAttribute("data-reader-centered", "true");
@@ -744,6 +754,7 @@ test("reader preserves the original canvas scenes, photo crops, Time of Day and 
   await expect(article).toBeVisible();
 
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   const backgrounds = dialog.getByLabel("Reader background");
   const backgroundTiles = dialog.getByRole("group", { name: "Background choices" });
@@ -813,6 +824,7 @@ test("legacy background migration flags run once and preserve subsequent user ch
   });
   await page.goto("/tools/typing-next-preview/");
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-morning");
   const migrated = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
@@ -828,5 +840,6 @@ test("legacy background migration flags run once and preserve subsequent user ch
   });
   await page.reload();
   await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Appearance", exact: true }).click();
   await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("none");
 });
