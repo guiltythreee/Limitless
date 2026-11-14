@@ -539,7 +539,7 @@ const T4: TopicSource = {
         { label: "d", text: "Branching lowers the actual molecular weight because each branch removes repeat units from the polymer backbone." }
       ],
       answer: "b",
-      why: "SEC separates by **hydrodynamic volume**. A branched coil is more compact than a linear coil of the same molar mass, so a linear-chain calibration can assign it an artificially low apparent MW. Multi-angle light scattering can estimate absolute molar mass when concentration and optical inputs (including $dn/dc$) are correctly supplied; the two methods therefore need not agree for branched chains."
+      why: "SEC separates by **hydrodynamic volume**. A branched coil is more compact than a linear coil of the same molar mass, so a linear-chain calibration can assign it an artificially low apparent MW. Multi-angle light scattering can estimate absolute molar mass when concentration and optical inputs (including $dn/dc$) are correctly supplied; the two methods therefore need not agree for branched chains.",
       concept: "relative MW techniques assume linear standards",
       tags: ["confused"],
     },
