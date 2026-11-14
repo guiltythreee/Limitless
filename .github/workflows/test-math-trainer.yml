@@ -51,3 +51,6 @@ jobs:
             node "${test_file}"
             echo "::endgroup::"
           done
+          node tools/math/learning-intelligence.test.mjs
+          node --check tools/math/learning-intelligence.mjs
+          node --check tools/math/game.js
