@@ -920,6 +920,13 @@
             item.conceptLabel + ' — ' + item.category + ' (' + item.occurrences + ' repeats)'));
         });
       }
+      if (report.weakConcepts.length) {
+        host.appendChild(U.h('p', 'coach-line', 'Suggested focus'));
+        report.weakConcepts.slice(0, 3).forEach(function (item) {
+          host.appendChild(U.h('p', 'coach-line',
+            item.label + ' — ' + (item.status === 'insufficient-data' ? 'build more evidence' : 'prioritise fresh practice')));
+        });
+      }
     });
   }
 
