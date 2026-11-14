@@ -37,6 +37,7 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .bk-book-title span { color: #a9a0b1; font-size: 12px; }
 .bk-counter { color: #d8b978; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .bk-reader-meta { display: flex; justify-content: space-between; gap: 12px; margin: 18px 0 12px; color: #b9b1c1; font-size: 12px; }
+.bk-source-text[data-reader-centered="true"] { text-align: center; }
 .bk-source-text { min-height: 210px; max-height: 420px; overflow: auto; padding: 22px; color: #eee3d1; background: #0b0a11; border: 1px solid #2d2835; font-family: Georgia, "Times New Roman", serif; font-size: var(--tsize, 17px); line-height: var(--lineH, 1.8); white-space: pre-wrap; overflow-wrap: anywhere; }
 .bk-type-label { display: block; margin: 20px 0 8px; color: #d8b978; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .bk-typing { display: block; width: 100%; min-height: 190px; resize: vertical; padding: 18px; color: #f4ead6; background: #17141f; border: 1px solid #494153; border-radius: 3px; outline: none; line-height: 1.8; }

@@ -123,6 +123,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   await page.getByRole("button", { name: "Settings" }).click();
   const sourceSettings = page.getByRole("dialog", { name: "Settings" });
   const sourceSize = sourceSettings.locator('input[type="range"]').first();
+  await expect(sourceSize).toHaveValue("20");
   await sourceSize.focus();
   for (let step = 0; step < 5; step += 1) await sourceSize.press("ArrowRight");
   await sourceSettings.getByRole("button", { name: "Close Settings" }).click();
@@ -139,14 +140,17 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   const restoreContext = await browser.newContext();
   const restorePage = await restoreContext.newPage();
   await restorePage.goto("/tools/typing-next-preview/");
+  await restorePage.getByRole("button", { name: "Toggle light and dark theme" }).click();
+  await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
   await restorePage.locator('input[type="file"][accept="application/json,.json"]').setInputFiles({
     name: "bookkeys-backup.json",
     mimeType: "application/json",
     buffer: backupBytes,
   });
+  await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
   await restorePage.getByRole("button", { name: "Settings" }).click();
   const restoredSettings = restorePage.getByRole("dialog", { name: "Settings" });
-  await expect(restoredSettings.locator('input[type="range"]').first()).toHaveValue("22");
+  await expect(restoredSettings.locator('input[type="range"]').first()).toHaveValue("25");
   await restoreContext.close();
 
   await page.goBack();
@@ -161,10 +165,38 @@ test("theme and reader settings are interactive and persist without overwriting 
     localStorage.setItem("bookkeys:settings", JSON.stringify({
       bg: "pic-night",
       skin: "sepia",
+      accent: "custom",
+      accentCustom: "#123456",
+      fontColor: "custom",
+      fontColorCustom: "#654321",
       bgMatch: true,
+      deco: "off",
+      bgDensity: 0.8,
+      bgAnim: false,
+      backdrop: 2,
+      picVeil: 0.25,
+      picBlur: 3,
+      font: "newsreader",
       size: 17,
       lineH: 1.7,
+      spacing: 0.2,
+      punct: "simplify",
+      lglow: false,
+      tfx: "none",
+      fxInt: 2,
+      efx: "flash",
+      sparks: "off",
+      sound: "off",
+      volume: 35,
+      errSound: false,
+      centered: true,
       celebrate: true,
+      motion: "system",
+      cstyle: "block",
+      cblink: "blink",
+      csmooth: false,
+      cglow: true,
+      ccolor: "accent",
     }));
     localStorage.setItem("bookkeys:bgdef1", "1");
     localStorage.setItem("bookkeys:bgdef2", "1");
@@ -180,7 +212,23 @@ test("theme and reader settings are interactive and persist without overwriting 
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-night");
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").bg)).toBe("pic-night");
+  await expect(dialog.getByLabel("Reading text colour", { exact: true })).toHaveValue("custom");
+  await expect(dialog.getByLabel("Custom reading text colour")).toHaveValue("#654321");
+  await dialog.getByLabel("Custom reading text colour").fill("#2a7f62");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColorCustom)).toBe("#2a7f62");
+  await dialog.getByLabel("Reading text colour", { exact: true }).selectOption("theme");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColor)).toBe("theme");
+  await dialog.getByLabel("Reading text colour", { exact: true }).selectOption("custom");
+  await dialog.getByLabel("Custom reading text colour").fill("#2a7f62");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"))).toMatchObject({
+    bg: "pic-night", skin: "sepia", accent: "custom", accentCustom: "#123456",
+    fontColor: "custom", fontColorCustom: "#2a7f62", bgMatch: true, deco: "off",
+    bgDensity: 0.8, bgAnim: false, backdrop: 2, picVeil: 0.25, picBlur: 3,
+    font: "newsreader", spacing: 0.2, punct: "simplify", lglow: false,
+    tfx: "none", fxInt: 2, efx: "flash", sparks: "off", sound: "off",
+    volume: 35, errSound: false, centered: true, celebrate: true, motion: "system",
+    cstyle: "block", cblink: "blink", csmooth: false, cglow: true, ccolor: "accent",
+  });
 
   const artwork = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#d2ae5c"/></svg>');
   const upload = dialog.getByLabel("Upload Gothic artwork");
@@ -595,4 +643,89 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
   const saved = await page.evaluate(() => localStorage.getItem("bookkeys:game"));
   await archive.getByRole("button", { name: "Close Archive" }).click();
   expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBe(saved);
+});
+
+
+test("fresh Bookkeys settings initialize the complete legacy defaults contract", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Settings" }).click();
+  const size = page.getByRole("dialog", { name: "Settings" }).locator('input[type="range"]').first();
+  await size.focus();
+  await size.press("ArrowRight");
+
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
+  expect(saved).toMatchObject({
+    skin: "auto", accent: "theme", accentCustom: "#E11D48",
+    fontColor: "theme", fontColorCustom: "#FF8A00", bgMatch: true, deco: "on",
+    bg: "pic-morning", bgDensity: 1, bgAnim: true, backdrop: 0, picVeil: 0, picBlur: 0,
+    font: "newsreader", lineH: 1.7, spacing: 0, punct: "simplify", lglow: true,
+    tfx: "none", fxInt: 1, efx: "flash", sparks: "off", sound: "off", volume: 50,
+    errSound: true, centered: false, celebrate: true, motion: "system",
+    cstyle: "block", cblink: "blink", csmooth: true, cglow: false, ccolor: "accent",
+  });
+});
+
+test("centered reading preference changes reader layout and persists", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "centered-reading-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const article = page.locator(".bk-source-text");
+  await expect(article).toBeVisible();
+  await expect(article).toHaveAttribute("data-reader-centered", "false");
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await dialog.getByLabel("Center reading text").check();
+  await expect(article).toHaveAttribute("data-reader-centered", "true");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").centered)).toBe(true);
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
+  await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
+  const restoredArticle = page.locator(".bk-source-text");
+  await expect(restoredArticle).toHaveAttribute("data-reader-centered", "true");
+  await expect(restoredArticle).toHaveCSS("text-align", "center");
+});
+
+test("IME composition commits once, saves the draft and does not count intermediate composition input", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "ime-composition-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const typing = page.locator("#bk-typing");
+  await expect(typing).toBeVisible();
+
+  await typing.evaluate((element) => {
+    const input = element as HTMLTextAreaElement;
+    input.dispatchEvent(new CompositionEvent("compositionstart", { bubbles: true }));
+    input.value = "T";
+    input.dispatchEvent(new InputEvent("input", {
+      bubbles: true,
+      inputType: "insertCompositionText",
+      data: "T",
+      isComposing: true,
+    }));
+    input.dispatchEvent(new CompositionEvent("compositionend", { bubbles: true, data: "T" }));
+    // Browsers may emit a final non-composing input event after compositionend.
+    input.dispatchEvent(new InputEvent("input", {
+      bubbles: true,
+      inputType: "insertText",
+      data: "T",
+    }));
+  });
+
+  await expect(typing).toHaveValue("T");
+  await expect(page.locator(".bk-typing-metrics")).toContainText("1");
+  const savedDraft = await page.evaluate(() => {
+    const key = Object.keys(localStorage).find((item) => item.startsWith("bookkeys:draft:"));
+    return key ? JSON.parse(localStorage.getItem(key) ?? "null") as { typed?: string; all?: number } : null;
+  });
+  expect(savedDraft?.typed).toBe("T");
+  expect(savedDraft?.all).toBe(1);
+  expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBeNull();
 });
