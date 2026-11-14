@@ -114,6 +114,7 @@
         <div><div class="card-label">16-WEEK CURRICULUM</div><h2>Weekly learning plan</h2></div>
         <p>Each week contains explicit subject checkpoints and a daily execution plan. Advance based on evidence; carry unfinished topics forward instead of ticking them off to stay on schedule.</p>
       </div>
+      <div class="roadmap-analytics" id="roadmap-analytics" aria-label="Curriculum phase progress charts"></div>
       <div class="roadmap-controls">
         <label for="roadmap-subject-filter">Roadmap subject
           <select id="roadmap-subject-filter">
@@ -135,11 +136,11 @@
         <span><i class="legend-dot integration"></i> Integrated problem-solving</span>
         <span><i class="legend-dot competition"></i> Competition readiness</span>
       </div>
-      <div class="roadmap-course-library" aria-labelledby="roadmap-library-title">
-        <div class="course-library-heading">
+      <details class="roadmap-course-library" aria-labelledby="roadmap-library-title">
+        <summary class="course-library-heading">
           <div><div class="card-label">YOUR SHARED STUDY SHELF</div><h3 id="roadmap-library-title">Course library</h3></div>
           <p>These are the books, notes and lecture courses used across the full 16-week roadmap. You do not need to finish every book. The weekly checklists below tell you the exact section and lecture to use.</p>
-        </div>
+        </summary>
         <div class="course-library-grid">
           <article class="course-library-column">
             <h4>Books &amp; written material</h4>
@@ -163,7 +164,7 @@
             <p class="course-library-note">When a video is assigned, its exact lecture number and direct link appear beside the corresponding book/notes assignment in that week's checklist.</p>
           </article>
         </div>
-      </div>
+      </details>
       <div id="week-list" class="week-list"></div>
     </section>
 
