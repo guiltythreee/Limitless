@@ -30,7 +30,9 @@ const T3: TopicSource = {
       answer: "c",
       why: "Suspension polymerization disperses **monomer droplets** in water; the initiator dissolves in the monomer droplet, where polymerization occurs. This is the fastest way to tell suspension from emulsion.",
       distractors: {
-        a: "A water-soluble initiator defines *emulsion* polymerization.",
+        a: "A water-soluble initiator is characteristic of conventional emulsion polymerization, not suspension polymerization.",
+        b: "The initiator is normally dissolved in the monomer phase; it is not generally insoluble in both phases.",
+        d: "A radical initiator is used to start the polymerization; suspension is not an initiator-free process.",
       },
       concept: "suspension: I ∈ monomer · emulsion: I ∈ water",
       tags: ["confused"],
@@ -116,6 +118,11 @@ const T3: TopicSource = {
       ],
       answer: "c",
       why: "Under suitable recipe and particle conditions, **compartmentalization** allows many particles to polymerize in parallel while the average number of radicals per particle remains low. This can reduce the frequency of bimolecular termination within a particle, allowing a high overall rate together with relatively long chains. The advantage depends on particle nucleation, surfactant, initiator and operating conditions; it is not unconditional.",
+      distractors: {
+        a: "Increasing activation energy would slow propagation; it does not explain the characteristic combination of high rate and high chain molecular weight.",
+        b: "Emulsion polymerization is not simply bulk polymerization diluted with water; particle compartmentalization changes radical kinetics.",
+        d: "Heat removal is an important process advantage, but it alone does not explain the simultaneous high rate and high molecular weight.",
+      },
       concept: "compartmentalization effect",
       tags: ["confused"],
     },
@@ -168,9 +175,11 @@ const T3: TopicSource = {
         { label: "d", text: "4 only" }
       ],
       answer: "a",
-      why: "1–3 are bulk's defining trade-offs. Item 4 is false — thermally sensitive monomers (vinyl chloride, acrylates) go to suspension/emulsion precisely because bulk's heat removal is poor.",
+      why: "Statements 1–3 describe common bulk-polymerization features and trade-offs. Statement 4 is false: bulk is not preferred for every monomer because viscous reaction mixtures can make heat removal difficult.",
       distractors: {
-        b: "Item 4 ignores the heat-removal limitation that drives technique choice.",
+        b: "Includes statement 4, which is too broad: technique selection depends on monomer chemistry, heat removal and product requirements.",
+        c: "Omits statement 1, which is generally true because no solvent or suspending agent is added to the reaction mixture.",
+        d: "Statements 1–3 are also correct under the usual bulk-polymerization description; statement 4 alone is not.",
       },
       tags: ["revision"],
     },
@@ -186,7 +195,7 @@ const T3: TopicSource = {
         { label: "d", text: "Suspension polymerization" }
       ],
       answer: "d",
-      why: "≈80% of commercial PVC comes from **suspension** polymerization — the monomer droplets solidify into porous **beads/pearls** ideal for absorbing plasticizers during compounding.",
+      why: "**Suspension polymerization** produces discrete PVC resin grains from dispersed vinyl-chloride droplets. The resulting porous particles are suitable for downstream compounding, including plasticizer uptake. The exact commercial share varies by source and product mix, so no percentage is asserted here.",
       distractors: {
         a: "Emulsion gives a fine latex that must be coagulated — used only for paste/plastisol grades.",
       },
