@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Activity, AttemptMode, Period } from "../platform/learning";
 import { PERIODS, dayKey, latestByQuestion, selectActivities, summarise } from "../platform/learning";
 import { MISTAKE_CATEGORIES, buildRevisionList, mistakeCategoryLabel, isMistakeCategory, type MistakeCategory } from "../../../shared/studies/mistakes";
+import { analyzeMetallurgyLearning, metallurgyActivityKey } from "../platform/learning/intelligence";
 
 export type ActivityHistoryTopic = {
   id: string;
@@ -51,7 +52,7 @@ export default function ActivityHistoryPanel({
       setClassifications(safe);
     } catch { /* keep an empty local classification map */ }
   }, []);
-  const activityKey = (a: Activity) => [a.courseId, a.q, a.ts, a.mode, a.picked].join("|");
+  const activityKey = metallurgyActivityKey;
   const saveClassifications = (next: typeof classifications) => {
     setClassifications(next);
     try { window.localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* progress remains usable if storage is unavailable */ }
@@ -61,6 +62,7 @@ export default function ActivityHistoryPanel({
     return { questionId: a.courseId + " · " + a.q, correct: a.correct, category: classification?.category, occurredAt: a.ts, reviewedAt: classification?.reviewedAt };
   })), [activities, classifications]);
   const topicById = useMemo(() => new Map(topics.map((topic) => [topic.id, topic])), [topics]);
+  const intelligence = useMemo(() => analyzeMetallurgyLearning(activities, topics, classifications), [activities, topics, classifications]);
 
   const filtered = useMemo(
     () => selectActivities(activities, { period, mode }, {}, Date.now()),
@@ -135,6 +137,32 @@ export default function ActivityHistoryPanel({
                 <strong className="study-utility-metric__value">{activities.filter((a) => !a.correct && classifications[activityKey(a)]?.category === category.id).length}</strong>
               </div>
             ))}
+          </div>
+          <div className="study-utility-visual" style={{ marginTop: "1rem" }}>
+            <div style={{ fontWeight: 650, marginBottom: "0.65rem" }}>Topic mastery intelligence</div>
+            {intelligence.mastery.length ? intelligence.mastery.map((item) => (
+              <div className="study-utility-row" key={item.key} style={{ marginTop: "0.45rem" }}>
+                <div className="study-utility-row__title">{item.label}</div>
+                <div className="study-utility-row__meta">
+                  {item.attempts} attempts · {Math.round(item.accuracy * 100)}% accuracy · {
+                    item.status === "insufficient-data" ? "Building baseline" :
+                    item.status === "developing" ? "Developing" :
+                    item.status === "secure" ? "Secure" : "Mastered"
+                  }
+                </div>
+              </div>
+            )) : <p className="study-utility-row__meta">Topic mastery will appear as dated attempts accumulate.</p>}
+            {intelligence.recurringMistakes.length > 0 && (
+              <div style={{ marginTop: "0.9rem" }}>
+                <div style={{ fontWeight: 600, fontSize: "0.85rem" }}>Recurring topic mistakes</div>
+                {intelligence.recurringMistakes.slice(0, 3).map((item) => (
+                  <div className="study-utility-row" key={item.key} style={{ marginTop: "0.4rem" }}>
+                    <div className="study-utility-row__title">{item.conceptLabel}</div>
+                    <div className="study-utility-row__meta">{mistakeCategoryLabel(item.category)} · {item.occurrences} repeat{item.occurrences === 1 ? "" : "s"}</div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <p className="study-utility-row__meta" style={{ marginTop: "0.65rem" }}>{revisionItems.filter((item) => !item.reviewed).length} revision items awaiting review · repeated categories/questions rank higher.</p>
           {revisionItems.slice(0, 8).map((item) => (
