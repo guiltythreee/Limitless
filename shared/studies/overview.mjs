@@ -1,5 +1,5 @@
 import { toCompetitionLearningAttempts } from "../../competition/learning-intelligence.mjs";
-import { toMathTrainerLearningAttempts } from "../../tools/math-refactored/learning-intelligence.mjs";
+import { toMathTrainerLearningAttempts } from "../../tools/math/learning-intelligence.mjs";
 import {
   buildConceptMastery,
   buildConceptMistakeSummary,
