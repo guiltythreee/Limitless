@@ -729,3 +729,48 @@ test("IME composition commits once, saves the draft and does not count intermedi
   expect(savedDraft?.all).toBe(1);
   expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBeNull();
 });
+
+test("reader preserves the complete scene catalogue, artwork crops and reduced-motion behaviour", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+    name: "visual-parity-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const article = page.locator(".bk-source-text");
+  await expect(article).toBeVisible();
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  const backgrounds = dialog.getByLabel("Reader background");
+  const expectedScenes = [
+    "morning", "evening", "night", "snow", "aurora", "rain", "digital",
+    "underwater", "shafts", "candle", "hearth", "crt", "warp", "nebula",
+    "fireflies", "synthwave", "sakura", "autumn", "lava", "storm",
+    "bokeh", "mesh", "constellation", "mist",
+  ];
+
+  for (const scene of expectedScenes) {
+    await backgrounds.selectOption(scene);
+    await expect(article).toHaveAttribute("data-reader-background", scene);
+    const backgroundImage = await article.evaluate((element) => getComputedStyle(element).backgroundImage);
+    expect(backgroundImage, `scene ${scene} should render its visual background`).not.toBe("none");
+    expect(backgroundImage, `scene ${scene} should retain its layered artwork`).toContain("gradient");
+  }
+
+  await backgrounds.selectOption("pic-morning");
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileImage = await article.evaluate((element) => getComputedStyle(element).backgroundImage);
+  expect(mobileImage).toContain("morning-mobile.webp");
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const desktopImage = await article.evaluate((element) => getComputedStyle(element).backgroundImage);
+  expect(desktopImage).toContain("morning.webp");
+  expect(desktopImage).not.toContain("morning-mobile.webp");
+
+  await backgrounds.selectOption("snow");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const reducedMotionAnimation = await article.evaluate((element) => getComputedStyle(element).animationName);
+  expect(reducedMotionAnimation).toBe("none");
+});
