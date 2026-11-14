@@ -759,11 +759,13 @@
       $('revision-upcoming').textContent=upcoming.length
         ?'Next review: '+new Date(upcoming[0].dueAt).toLocaleDateString()+' — '+(byId[upcoming[0].questionId]||{}).name
         :'No future reviews scheduled';
-      $('revision-queue').innerHTML=due.length?due.map(function(item){
-        var problem=byId[item.questionId];
-        if(!problem)return '';
-        return '<article class="revision-item"><div><strong>'+esc(problem.name)+'</strong><small>'+esc(problem.subject)+' · '+item.failures+' unsuccessful attempt(s) · '+(item.overdueDays?'overdue by '+item.overdueDays+' day(s)':'due now')+'</small></div><div class="revision-actions"><button type="button" class="action-button" data-revision-result="correct" data-problem-id="'+esc(problem.id)+'">Solved independently</button><button type="button" class="action-button secondary-button" data-revision-result="incorrect" data-problem-id="'+esc(problem.id)+'">Still stuck</button></div></article>';
-      }).join('')||'<p class="empty-state">No reviews due. Unresolved problems enter the queue after one day.</p>';
+      $('revision-queue').innerHTML=due.length
+        ?(due.map(function(item){
+          var problem=byId[item.questionId];
+          if(!problem)return '';
+          return '<article class="revision-item"><div><strong>'+esc(problem.name)+'</strong><small>'+esc(problem.subject)+' · '+item.failures+' unsuccessful attempt(s) · '+(item.overdueDays?'overdue by '+item.overdueDays+' day(s)':'due now')+'</small></div><div class="revision-actions"><button type="button" class="action-button" data-revision-result="correct" data-problem-id="'+esc(problem.id)+'">Solved independently</button><button type="button" class="action-button secondary-button" data-revision-result="incorrect" data-problem-id="'+esc(problem.id)+'">Still stuck</button></div></article>';
+        }).join('')||'<p class="empty-state">No reviews due. Unresolved problems enter the queue after one day.</p>')
+        :'<p class="empty-state">No reviews due. Unresolved problems enter the queue after one day.</p>';
       $('revision-queue').querySelectorAll('[data-revision-result]').forEach(function(button){
         button.addEventListener('click',function(){
           state.revisionAttempts.push({
