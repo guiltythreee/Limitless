@@ -18,6 +18,18 @@ assert.equal(classified.mistakeCategory, "observation");
 assert.equal(classified.independent, true);
 assert.equal(classified.hintCount, 0);
 
+globalThis.window = {
+  localStorage: {
+    getItem: () => JSON.stringify({ attempts: [classified] }),
+    setItem: () => {},
+  },
+};
+const reloaded = loadProgress();
+assert.equal(reloaded.attempts[0].mistakeCategory, "observation", "classification must survive storage sanitisation");
+assert.equal(reloaded.attempts[0].independent, true, "independent evidence must survive reload");
+assert.equal(reloaded.attempts[0].hintCount, 0);
+delete globalThis.window;
+
 const before = progress;
 const unchanged = classifyMistake(progress, "t1-001", recorded.ts + 1, "conceptual", false);
 assert.equal(unchanged, before, "unknown attempt timestamps must not alter progress");
