@@ -75,8 +75,8 @@ const T4: TopicSource = {
       text: "Match each technique with the average it yields.",
       tableRows: [
         ["1", "Membrane osmometry", "", "(i) Mw"],
-        ["2", "Light scattering (Zimm)", "", "(ii) Mz"],
-        ["3", "Ultracentrifugation (sedimentation equilibrium)", "", "(iii) Mn"],
+        ["2", "Light scattering (Zimm)", "", "(ii) Mw"],
+        ["3", "Ultracentrifugation (sedimentation equilibrium; local curvature analysis)", "", "(iii) Mz"],
         ["4", "Solution viscometry", "", "(iv) Mv"],
       ],
       options: [
@@ -86,7 +86,7 @@ const T4: TopicSource = {
         { label: "d", text: "1-iv, 2-iii, 3-ii, 4-i" }
       ],
       answer: "c",
-      why: "Osmometry (colligative) → Mn · light scattering (intensity ∝ mass) → Mw · sedimentation equilibrium (mass × distance) → Mz · viscometry → Mv.",
+      why: "Membrane osmometry is colligative and gives Mn. Static light scattering (Zimm analysis) gives Mw. In sedimentation equilibrium, the local concentration-profile slope gives a local weight-average value, while curvature relative to the slope gives the local z-average moment; the question specifies the latter analysis. Solution viscometry gives viscosity-average Mv.",
       tags: ["revision"],
     },
     {
