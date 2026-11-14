@@ -92,7 +92,7 @@ async function readCoverDataUrl(
 ): Promise<string | undefined> {
   const coverId =
     Array.from(opf.getElementsByTagNameNS("*", "item"))
-      .find((item) => item.getAttribute("properties")?.split(/\\s+/).includes("cover-image"))
+      .find((item) => item.getAttribute("properties")?.split(/\s+/).includes("cover-image"))
       ?.getAttribute("id") ??
     Array.from(opf.getElementsByTagNameNS("*", "meta"))
       .find((meta) => meta.getAttribute("name")?.toLowerCase() === "cover")
