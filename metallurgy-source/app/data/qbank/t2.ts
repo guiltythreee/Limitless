@@ -608,7 +608,7 @@ const T2: TopicSource = {
       why: "$p = 1 - 1/DP = 1 - 1/200 = 1 - 0.005 = 0.995$ → **99.5%**.",
       distractors: {
         b: "99% conversion gives $DP_n=100$ for the balanced system, not 200.",
-        c: "95% conversion gives $DP_n=20$ for a balanced system.",
+        a: "95% conversion gives $DP_n=20$ for a balanced system.",
         d: "90% conversion gives $DP_n=10$ for a balanced system.",
       },
       concept: "$p = 1 - 1/DP_n$",
