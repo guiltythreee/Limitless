@@ -518,7 +518,7 @@ const T2: TopicSource = {
       distractors: {
         a: "PET is made by step-growth polycondensation, not ring-opening polymerization of ε-caprolactam.",
         b: "Polystyrene is made by chain-growth polymerization of styrene, not by ring-opening ε-caprolactam.",
-        d: "Nylon 6,6 is a step-growth polycondensation of a diamine and a diacid (or derivative), not the product of ε-caprolactam ring opening.",
+        c: "Nylon 6,6 is a step-growth polycondensation of a diamine and a diacid (or derivative), not the product of ε-caprolactam ring opening.",
       },
       tags: ["revision"],
     },
