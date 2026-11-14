@@ -47,7 +47,7 @@ const T6: TopicSource = {
         { label: "d", text: "Tg occurs only in semicrystalline polymers because the crystalline fraction drives the glass transition." }
       ],
       answer: "b",
-      why: "Melting is **thermodynamic** (sharp, latent heat $\\Delta H_m$, only in semi-crystalline polymers). Glass transition is **kinetic** (a step in Cp, depends on cooling/heating rate, exists in all amorphous material).",
+      why: "Melting is a first-order transition of crystalline regions and involves latent heat. The glass transition is a rate-dependent change in segmental mobility of the amorphous phase, commonly observed as a step in heat capacity rather than a latent-heat peak. A polymer can show Tg whether it is fully amorphous or semi-crystalline, because semi-crystalline polymers also contain an amorphous fraction.",
       distractors: {
         a: "Tg shows a step in heat capacity, not an endotherm.",
       },
@@ -233,7 +233,7 @@ const T6: TopicSource = {
         { label: "d", text: "Use unplasticized PVC because a Tg near 80 °C means it remains stiff and stable at a 90 °C service temperature." }
       ],
       answer: "a",
-      why: "Service temperature must sit well below the relevant transition. A **reinforced semi-crystalline** polymer retains modulus up to near its high Tm; its crystallites plus fibres bear load. Unplasticized PVC (Tg 80 °C) is above its glass transition at 90 °C → softens.",
+      why: "Selection should be based on the grade's heat-deflection temperature and long-term creep at the actual stress, not Tg alone. In a reinforced semi-crystalline grade, fibres and crystalline regions can help carry load above Tg, but the amorphous phase still softens and creep must be checked. Unplasticized PVC with Tg near 80 °C is above Tg at 90 °C and is a poor choice for stiffness retention.",
       distractors: {
         d: "At 90 °C unplasticized PVC is already past Tg → it creeps.",
         b: "Plasticizer moves Tg well below 90 °C — worst choice.",
@@ -299,7 +299,7 @@ const T6: TopicSource = {
         { label: "d", text: "Crystallites act as physical cross-links that hold shape above Tg until the crystalline phase approaches Tm." }
       ],
       answer: "d",
-      why: "Above Tg only the **amorphous** fraction softens; the surrounding crystallites stay intact until Tm, so the material keeps its shape and much of its modulus — the basis of engineering use of PE, PP and nylons above their Tg.",
+      why: "Above Tg, the amorphous fraction gains segmental mobility and softens, but the crystalline regions remain ordered until temperatures approach Tm. These crystallites act as physical junctions that help preserve shape and load-bearing capacity; they do not prevent all softening or creep in the amorphous phase.",
       concept: "semi-crystalline: service window extends to Tm, not Tg",
       tags: ["confused"],
     },
@@ -315,7 +315,7 @@ const T6: TopicSource = {
         { label: "d", text: "270 K" }
       ],
       answer: "a",
-      why: "$T_g \\approx \\tfrac{2}{3}\\times540 = \\mathbf{360}$ K ($\\approx 87$ °C), which is a reasonable estimate for many polymers (PET: Tm 538 K, Tg ~ 342 K).",
+      why: "The rough empirical estimate is $T_g\\approx(2/3)(540)=\\mathbf{360}$ K. This is only a rule of thumb; the actual Tg depends on chemical structure, molecular weight, crystallinity and thermal history, so it should not be used as a design value.",
       distractors: {
         d: "270 K would use the ½ rule, a poorer fit for polar/aromatic chains.",
       },
@@ -386,7 +386,7 @@ const T6: TopicSource = {
       id: "t6-21",
       type: "concept",
       diff: 2,
-      text: "A random copolymer has a single Tg intermediate between those of its two homopolymers because:",
+      text: "A homogeneous random copolymer commonly shows one Tg between those of its two homopolymers. What best explains this typical behaviour?",
       options: [
         { label: "a", text: "Randomly linked units share one amorphous phase, giving one Tg typically between the two homopolymer values." },
         { label: "b", text: "Random incorporation of unlike repeat units necessarily raises crystallinity, which merges the two glass transitions." },
@@ -394,7 +394,7 @@ const T6: TopicSource = {
         { label: "d", text: "The two homopolymer Tgs are added together to create one transition whose temperature depends only on chain length." }
       ],
       answer: "a",
-      why: "In a **random** copolymer the two units share one chain, so there is one amorphous environment → **one Tg** between the homopolymer values. (A *block* or *immiscible blend* instead shows two Tgs — a key miscibility test.)",
+      why: "In a homogeneous random copolymer, unlike repeat units are distributed along the same chains and usually form one amorphous phase, so one Tg is commonly observed between the homopolymer values. This is not guaranteed for every composition or system; phase separation or strong compositional heterogeneity can produce more than one transition. Block copolymers and immiscible blends can show separate Tgs.",
       concept: "random copolymer: 1 Tg · immiscible blend: 2 Tgs",
       tags: ["confused"],
     },
@@ -410,7 +410,7 @@ const T6: TopicSource = {
         { label: "d", text: "PET's glass transition is about 265 °C and its melting point is 69 °C, so the bottle is safely below Tg at 60 °C." }
       ],
       answer: "c",
-      why: "Because Tg (69 °C) is close to the fill temperature, an **amorphous** bottle is dimensionally marginal. **Heat-setting** the preform develops crystallites that act as physical cross-links and raise the HDT, while keeping the bottle transparent (small crystallites).",
+      why: "At 60 °C, amorphous PET is close to its Tg and can lose dimensional stability. Heat-setting develops crystalline regions that act as physical junctions and improve stiffness and heat resistance. Transparency is retained only if the crystalline morphology (especially crystallite/spherulite size) is sufficiently fine; increased crystallinity does not automatically guarantee clarity.",
       concept: "crystallinity ⇒ higher HDT above Tg",
       tags: ["confused"],
     },
