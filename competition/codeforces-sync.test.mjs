@@ -52,7 +52,7 @@ const pendingSync = syncCodeforcesSubmissions(storage, "ExampleHandle", [pending
 assert.equal(pendingSync.added, 0);
 const finalized = syncCodeforcesSubmissions(storage, "ExampleHandle", [{ ...pending, verdict: "OK" }], 1795000004000);
 assert.equal(finalized.added, 1, "a pending submission is not marked seen before its verdict becomes terminal");
-assert.equal(finalized.state.attempts[0].outcome, "correct");
+assert.equal(finalized.state.attempts.find((attempt) => attempt.id === "codeforces:103").outcome, "correct");
 
 const switched = syncCodeforcesSubmissions(storage, "DifferentHandle", history, 1796000000000);
 assert.equal(switched.baseline, true, "changing accounts establishes a fresh baseline");
