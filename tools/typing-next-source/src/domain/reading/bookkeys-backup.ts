@@ -213,12 +213,14 @@ export function restoreBookkeysBackup(
     }
 
     if (failed > 0) {
-      for (const [key, previousRaw] of existing) {
-        try { storage.setItem(key, previousRaw); } catch { failed += 1; }
-      }
+      // Remove newly introduced keys first to free quota before restoring
+      // overwritten values from the pre-restore snapshot.
       for (const key of Object.keys(backup.keys)) {
         if (!isBookkeysBackupKey(key) || existing.has(key)) continue;
         try { storage.removeItem(key); } catch { failed += 1; }
+      }
+      for (const [key, previousRaw] of existing) {
+        try { storage.setItem(key, previousRaw); } catch { failed += 1; }
       }
       return { written: 0, unchanged: 0, failed };
     }
@@ -237,12 +239,13 @@ export function restoreBookkeysBackup(
     if (failed > 0) {
       // A failed cleanup is still a failed replace. Restore the complete
       // pre-restore snapshot, including keys already removed in this pass.
-      for (const [key, previousRaw] of existing) {
-        try { storage.setItem(key, previousRaw); } catch { failed += 1; }
-      }
+      // Free space from newly introduced keys before restoring the snapshot.
       for (const key of Object.keys(backup.keys)) {
         if (!isBookkeysBackupKey(key) || existing.has(key)) continue;
         try { storage.removeItem(key); } catch { failed += 1; }
+      }
+      for (const [key, previousRaw] of existing) {
+        try { storage.setItem(key, previousRaw); } catch { failed += 1; }
       }
       return { written: 0, unchanged: 0, failed };
     }
