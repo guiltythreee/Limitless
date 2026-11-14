@@ -312,7 +312,7 @@ const T4: TopicSource = {
       why: "Statements 1–3 are correct as general sensitivity trends: Mn is strongly affected by numerous short chains, while Mz is strongly affected by the high-molecular-weight tail. Statement 4 is false — osmometry measures a colligative property (particle count) and gives **Mn**, not Mz.",
       distractors: {
         a: "Includes statement 4, which is false: osmometry is a colligative method associated with Mn.",
-        b: "Omits true statement 2 and includes false statement 3? Statement 3 is true; this combination is incorrect because it omits statement 2.",
+        b: "Statements 1 and 3 are true, but the option is incomplete because it omits true statement 2.",
         c: "Includes false statement 4 and omits true statements 1 and 3.",
       },
       tags: ["confused"],
