@@ -552,6 +552,22 @@ body { background: var(--bg); color: var(--ink); }
   overflow-wrap: break-word;
 }
 .bk-source-text .bk-char { color: var(--dim); border-radius: 2px; }
+.bk-source-text .bk-text-block { margin: 0 0 .8em; }
+.bk-source-text .bk-text-heading {
+  font-size: 1.32em;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-top: 1em;
+  margin-bottom: .55em;
+}
+.bk-source-text > .bk-text-heading:first-child { margin-top: 0; }
+.bk-source-text .bk-char.nl::before {
+  content: "↵";
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: .62em;
+  padding-inline: .35em;
+  color: var(--dim);
+}
 .bk-source-text .bk-char.ok { color: var(--typed, var(--ink)); }
 .bk-source-text .bk-char.bad {
   color: #fff;
