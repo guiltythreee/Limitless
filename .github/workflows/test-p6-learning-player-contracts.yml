@@ -11,6 +11,8 @@ on:
       - "index.html"
       - "competition/learning-intelligence.mjs"
       - "competition/learning-intelligence.test.mjs"
+      - "competition/practice-recommendations.mjs"
+      - "competition/practice-recommendations.test.mjs"
       - "competition/competition.js"
       - "competition/index.html"
       - "scripts/generate-studies-catalog.mjs"
@@ -79,6 +81,7 @@ jobs:
           node --check ../home-learning-intelligence.mjs
           node --check ../home-dashboard.js
           node ../competition/learning-intelligence.test.mjs
+          node ../competition/practice-recommendations.test.mjs
           node --check ../competition/learning-intelligence.mjs
           node --check ../competition/competition.js
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
