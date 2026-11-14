@@ -410,7 +410,6 @@ export default function BookkeysApp() {
 
   useEffect(() => {
     if (!themeReady) return;
-    document.documentElement.dataset.theme = theme;
     try { window.localStorage.setItem("limitless.typing.v1.theme", theme); } catch { /* theme is a preference */ }
   }, [theme, themeReady]);
 
@@ -517,6 +516,7 @@ export default function BookkeysApp() {
     root.style.setProperty("--pic-veil", `${Number(settings.picVeil ?? 0)}%`);
     root.style.setProperty("--pic-blur", `${Number(settings.picBlur ?? 0)}px`);
     root.dataset.tone = resolvedAppearance.tone;
+    root.dataset.theme = resolvedAppearance.tone;
     root.dataset.deco = resolvedAppearance.decoration;
     root.dataset.bg = effectiveBackground;
     root.dataset.pic = isPictureBackground ? "on" : "off";
