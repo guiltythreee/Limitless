@@ -41,6 +41,13 @@ assert.equal(analysis.recurringMistakes.length, 1);
 assert.equal(analysis.recurringMistakes[0].occurrences, 2);
 assert.equal(analysis.recurringMistakes[0].category, "observation");
 assert.equal(analysis.revision.length, 2);
+
+const manyUnresolved = Array.from({ length: 27 }, (_, index) => ({
+  id: "many-" + index, date: "2026-11-01", name: "Problem " + index,
+  subject: "Graph Theory", concept: "BFS", outcome: "unsolved", resolve: "no",
+}));
+const fullQueue = analyzeCompetitionLearning(manyUnresolved, [], Date.parse("2026-11-10T00:00:00Z"));
+assert.equal(fullQueue.revision.length, 27, "the revision queue must not silently hide candidates beyond the first 20");
 assert.equal(logs.length, 5, "adapter must not mutate source records");
 
 const successfulRevision = analyzeCompetitionLearning(logs, [
