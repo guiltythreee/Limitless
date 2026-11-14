@@ -399,3 +399,66 @@ test("merge sanitizes progress arrays in backup-only and local-only books", () =
   assert.deepEqual(game.book["local-only"], { p: [], e: [0], c: [2], x: [], done: 0 });
   assert.deepEqual(game.book["backup-only"], { p: [0], e: [1], c: [], x: [3], done: 2 });
 });
+
+
+test("malformed backup book records cannot replace valid local progress", () => {
+  const storage = new MemoryStorage();
+  storage.setItem("bookkeys:game", JSON.stringify({
+    xp: 700,
+    book: {
+      "local-book": { p: [0, 1], e: [2], c: [], x: [0], done: 3, custom: "keep" },
+      "local-only": { p: [4], e: [], c: [], x: [], done: 1 },
+    },
+  }));
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:game": JSON.stringify({
+        xp: 1,
+        book: {
+          "local-book": "corrupt-record",
+          "invalid-backup-only": null,
+          "backup-book": { p: [5], e: [], c: [], x: [5], done: 2 },
+        },
+      }),
+    },
+  }));
+
+  restoreBookkeysBackup(storage, backup, "merge");
+
+  const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
+  assert.equal(game.xp, 700);
+  assert.deepEqual(game.book["local-book"], {
+    p: [0, 1], e: [2], c: [], x: [0], done: 3, custom: "keep",
+  });
+  assert.deepEqual(game.book["local-only"], {
+    p: [4], e: [], c: [], x: [], done: 1,
+  });
+  assert.deepEqual(game.book["backup-book"], {
+    p: [5], e: [], c: [], x: [5], done: 2,
+  });
+  assert.equal("invalid-backup-only" in game.book, false);
+});
+
+
+test("first-time restore skips malformed book progress records", () => {
+  const storage = new MemoryStorage();
+  const backup = parseBookkeysBackup(JSON.stringify({
+    app: "bookkeys", v: 1,
+    keys: {
+      "bookkeys:game": JSON.stringify({
+        xp: 10,
+        book: {
+          "valid-book": { p: [0], e: [], c: [], x: [], done: 1 },
+          "invalid-book": "not-an-object",
+          "invalid-array": [0, 1],
+        },
+      }),
+    },
+  }));
+
+  restoreBookkeysBackup(storage, backup, "merge");
+
+  const game = JSON.parse(storage.getItem("bookkeys:game") ?? "{}");
+  assert.deepEqual(Object.keys(game.book), ["valid-book"]);
+});
