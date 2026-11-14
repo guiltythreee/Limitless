@@ -1,5 +1,9 @@
 (function () {
   'use strict';
+
+  import('./home-learning-intelligence.mjs').then(function (module) {
+    module.renderLearningIntelligence();
+  }).catch(function () { /* individual modules remain usable if the overview cannot load */ });
   var search = document.getElementById('module-search');
   if (!search) return;
   var searchResultsFocused = false;
