@@ -1,11 +1,11 @@
 /* Regression tests for rounded-answer validation in the maths engine.
    Run from the repository root:
-     node tools/math/tests/test-math-answer-validation.cjs
+     node tools/math-refactored/test-math-answer-validation.cjs
 */
 'use strict';
 
 const assert = require('node:assert/strict');
-const E = require('../engine.js');
+const E = require('./engine.js');
 
 // sqrt(3) is displayed to two decimal places as 1.73.
 // Values that round to 1.73 should pass; values that round to 1.74 must not.

@@ -1,8 +1,8 @@
 /* Mixed-skill variety and 80-in-8 deck ordering regression tests.
-   Run: node tools/math/tests/test-math-skill-variety.cjs */
+   Run: node tools/math-refactored/test-math-skill-variety.cjs */
 'use strict';
 const assert = require('node:assert/strict');
-const E = require('../engine.js');
+const E = require('./engine.js');
 
 const SAMPLE_COUNT = 12000;
 const DECK_SESSIONS = 250;

@@ -2,7 +2,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
-const P = require('../trick-progression.js');
+const P = require('./trick-progression.js');
 
 const baseline = { n: 6, acc: 0.5, med: 5, ratio: 1.1, ts: 1 };
 const masteredPost = { n: 6, acc: 1, med: 4, ratio: 0.9, ts: 2 };

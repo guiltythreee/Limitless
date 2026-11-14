@@ -1,8 +1,8 @@
 /* Tier-aware ratio/average generator regression tests.
-   Run: node tools/math/tests/test-math-skill-progression.cjs */
+   Run: node tools/math-refactored/test-math-skill-progression.cjs */
 'use strict';
 const assert = require('node:assert/strict');
-const E = require('../engine.js');
+const E = require('./engine.js');
 
 const SKILLS_UNDER_TEST = ['Ratios', 'Averages'];
 const SAMPLES_PER_TIER = 2500;

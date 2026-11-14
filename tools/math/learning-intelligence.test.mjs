@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   analyzeMathTrainerLearning,
   toMathTrainerLearningAttempts,
-} from "../learning-intelligence.mjs";
+} from "./learning-intelligence.mjs";
 
 const runs = [{ id: "run-a", mode: "drill" }];
 const attempts = [

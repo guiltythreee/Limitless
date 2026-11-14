@@ -1,8 +1,8 @@
 /* Skill-specific drill tier coverage regression tests.
-   Run: node tools/math/tests/test-math-drill-tier-coverage.cjs */
+   Run: node tools/math-refactored/test-math-drill-tier-coverage.cjs */
 'use strict';
 const assert = require('node:assert/strict');
-const E = require('../engine.js');
+const E = require('./engine.js');
 
 const SAMPLES_PER_PAIR = 200;
 const TIER_INDEX = Object.fromEntries(E.TIERS.map((tier, index) => [tier.id, index]));

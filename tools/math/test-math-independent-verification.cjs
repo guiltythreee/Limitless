@@ -2,7 +2,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
-const E = require('../engine.js');
+const E = require('./engine.js');
 
 const SAMPLE_COUNT = 200;
 const SEED = 20261028;

@@ -40,17 +40,17 @@ jobs:
         run: |
           set -euo pipefail
           shopt -s nullglob
-          test_files=(tools/math/tests/test-*.cjs tools/math/tests/test-*.mjs)
+          test_files=(tools/math/test-*.cjs tools/math/test-*.mjs)
           if (( ${#test_files[@]} == 0 )); then
             echo "No maths trainer regression tests were found."
             exit 1
           fi
-          printf 'Found %s maths trainer regression test files.\\n' "${#test_files[@]}"
+          printf 'Found %s maths trainer regression test files.\n' "${#test_files[@]}"
           for test_file in "${test_files[@]}"; do
             echo "::group::${test_file}"
             node "${test_file}"
             echo "::endgroup::"
           done
-          node tools/math/tests/learning-intelligence.test.mjs
+          node tools/math/learning-intelligence.test.mjs
           node --check tools/math/learning-intelligence.mjs
           node --check tools/math/game.js

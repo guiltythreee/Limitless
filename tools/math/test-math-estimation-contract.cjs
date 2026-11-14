@@ -1,8 +1,8 @@
 /* Estimation rounding/tolerance contract regression tests.
-   Run: node tools/math/tests/test-math-estimation-contract.cjs */
+   Run: node tools/math-refactored/test-math-estimation-contract.cjs */
 'use strict';
 const assert = require('node:assert/strict');
-const E = require('../engine.js');
+const E = require('./engine.js');
 
 const cases = [
   { label: 'Archon division', settings: { kind: 'div', nlo: 2000, nhi: 99999, dlo: 13, dhi: 98 } },

@@ -1,8 +1,8 @@
 /* Focused and mixed drill skill coverage regression tests.
-   Run: node tools/math/tests/test-math-drill-focus.cjs */
+   Run: node tools/math-refactored/test-math-drill-focus.cjs */
 'use strict';
 const assert = require('node:assert/strict');
-const E = require('../engine.js');
+const E = require('./engine.js');
 
 const PER_SKILL_TIER = 500;
 const MIXED_SAMPLE = 12000;

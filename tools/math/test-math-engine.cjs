@@ -1,11 +1,11 @@
 /* Deterministic property/regression tests for the maths question engine.
    Run from the repository root:
-     node tools/math/tests/test-math-engine.cjs
+     node tools/math-refactored/test-math-engine.cjs
 */
 'use strict';
 
 const assert = require('node:assert/strict');
-const E = require('../engine.js');
+const E = require('./engine.js');
 
 function validateQuestion(q, context) {
   assert.ok(q && typeof q.text === 'string' && q.text.length > 0, 'question text is required');
