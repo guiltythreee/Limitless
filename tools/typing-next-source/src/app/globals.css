@@ -6,8 +6,6 @@ body { background: #08070d; color: #f4ead6; font-family: Inter, ui-sans-serif, s
 .bk-background-canvas[hidden] { display: none; }
 .bk-picture-background { inset: -24px; width: calc(100% + 48px); height: calc(100% + 48px); background-image: var(--bk-photo-desktop, none); background-position: center; background-size: cover; background-repeat: no-repeat; filter: blur(var(--bk-picture-blur, 0px)); }
 .bk-picture-background::after { content: ""; position: absolute; inset: 0; background: rgba(8, 7, 13, var(--bk-picture-veil, 0)); }
-.bk-artwork-background { filter: none; }
-.bk-artwork-background::after { display: none; }
 .bk-static-background { background-position: center; background-size: cover; background-repeat: no-repeat; }
 .bk-shell { position: relative; z-index: 1; isolation: isolate; }
 button, textarea { font: inherit; }
