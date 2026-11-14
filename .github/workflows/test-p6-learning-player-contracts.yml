@@ -82,6 +82,7 @@ jobs:
           node --check ../home-dashboard.js
           node ../competition/learning-intelligence.test.mjs
           node ../competition/practice-recommendations.test.mjs
+          node ../scripts/test-learning-intelligence-ui-contract.mjs
           node --check ../competition/learning-intelligence.mjs
           node --check ../competition/competition.js
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
