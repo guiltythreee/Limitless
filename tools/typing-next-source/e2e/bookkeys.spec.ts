@@ -257,7 +257,9 @@ test("theme and reader settings are interactive and persist without overwriting 
   const restored = page.getByRole("dialog", { name: "Settings" });
   await expect(restored.locator(".bk-setting").filter({ hasText: "Reading text size" }).locator('input[type="range"]')).toHaveValue("22");
   await expect(restored.getByLabel("Reader background")).toHaveValue("gothic");
+  await restored.getByRole("button", { name: "Theme", exact: true }).click();
   await restored.getByRole("button", { name: "Remove Gothic" }).click();
+  await restored.getByRole("button", { name: "Appearance", exact: true }).click();
   await expect(restored.getByRole("option", { name: "Gothic" })).toHaveCount(0);
   await expect(restored.getByLabel("Reader background")).toHaveValue("none");
   await restored.getByLabel("Reader background").selectOption("nebula");
@@ -860,13 +862,13 @@ test("original background palettes, theme tiles and accent swatches apply consis
   const dialog = page.getByRole("dialog", { name: "Settings" });
   const matchColors = dialog.getByLabel("Match colors to background");
   await expect(matchColors).toBeChecked();
-  await expect(dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper" })).toBeVisible();
+  await expect(dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper", exact: true })).toBeVisible();
 
   await matchColors.uncheck();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect.poll(() => readRootToken("--bg")).toBe("#08070d");
 
-  await dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper" }).click();
+  await dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await expect.poll(() => readRootToken("--bg")).toBe("#ECECE8");
 
