@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  var learningIntelligencePromise = import('./learning-intelligence.mjs').catch(function () { return null; });
   var STORAGE_KEY = 'limitless.competition.regional-qualification.v1';
   var DEFAULTS = {
     startDate: '2026-11-02',
@@ -724,7 +725,41 @@
     var topMistake=MISTAKE_TYPES.slice().sort(function(a,b){return categories[b[0]]-categories[a[0]];})[0];
     var repair=topMistake&&categories[topMistake[0]]>0?'Most frequent issue: '+topMistake[1]+'. Revisit the underlying topic and solve two fresh questions before increasing difficulty.':(repeat?'Most logged practice subject: '+repeat+'. Add mistake categories to identify the recurring cause.':'Log problems with a mistake category to identify recurring weaknesses.');
     $('mistake-analytics').innerHTML='<div class="insight-grid"><div><strong>'+state.problemLog.length+'</strong><small>problem reviews logged</small></div><div><strong>'+state.problemLog.filter(function(p){return p.outcome==='independent';}).length+'</strong><small>independent first solves</small></div><div><strong>'+due.length+'</strong><small>reviews due</small></div></div><div class="mistake-breakdown"><h4>Mistake patterns</h4>'+categoryRows+'</div><p class="repair-suggestion">'+esc(repair)+'</p>';
+    renderSharedConceptInsights();
   }
+  function renderSharedConceptInsights() {
+    var host = $('concept-learning-insights');
+    if (!host) return;
+    learningIntelligencePromise.then(function (api) {
+      if (!api) return;
+      var analysis = api.analyzeCompetitionLearning(state.problemLog);
+      var masteryRows = analysis.mastery.slice(0, 6).map(function (item) {
+        var label = item.status === 'insufficient-data' ? 'Building baseline' :
+          item.status === 'developing' ? 'Developing' :
+          item.status === 'secure' ? 'Secure' : 'Mastered';
+        return '<div class="insight-row"><span>' + esc(item.label) + '<small>' +
+          item.attempts + ' attempts · ' + Math.round(item.accuracy * 100) +
+          '% weighted accuracy · ' + item.independentAttempts + ' independent</small></span><strong>' +
+          label + '</strong></div>';
+      }).join('');
+      var mistakeRows = analysis.recurringMistakes.map(function (item) {
+        var category = MISTAKE_TYPES.find(function (entry) { return entry[0] === item.category; });
+        return '<div class="insight-row"><span>' + esc(item.conceptLabel) + '<small>' +
+          esc(category ? category[1] : item.category) + '</small></span><strong>' +
+          item.occurrences + ' repeats</strong></div>';
+      }).join('');
+      var nextSteps = analysis.weakConcepts.slice(0, 3).map(function (item) {
+        return '<div class="insight-row"><span>' + esc(item.label) + '</span><strong>' +
+          (item.status === 'insufficient-data' ? 'Need more evidence' : 'Practise next') + '</strong></div>';
+      }).join('');
+      host.innerHTML = '<div class="mistake-breakdown"><h4>Concept mastery</h4>' +
+        (masteryRows || '<p class="empty-state">Add an underlying concept when logging a problem to build concept-level mastery.</p>') +
+        '</div>' +
+        (mistakeRows ? '<div class="mistake-breakdown"><h4>Recurring concept mistakes</h4>' + mistakeRows + '</div>' : '') +
+        (nextSteps ? '<div class="mistake-breakdown"><h4>Suggested focus</h4>' + nextSteps + '</div>' : '');
+    });
+  }
+
   function renderMockAnalytics() {
     var tagged=state.mocks.filter(function(mock){return mock.subject && mock.subject!=='All subjects' && (Number(mock.oneMax)>0 || Number(mock.twoMax)>0);});
     var rows=SUBJECTS.map(function(subject){
