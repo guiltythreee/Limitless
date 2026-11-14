@@ -63,7 +63,7 @@ export default function Dashboard({
       questionId: attempt.q,
       subjectId: "mt203",
       conceptIds: [topic.title],
-      outcome: attempt.correct ? "correct" : "incorrect",
+      outcome: attempt.correct ? "correct" as const : "incorrect" as const,
       occurredAt: attempt.ts,
       elapsedMs: attempt.ms,
       mode: attempt.mode,
