@@ -1,0 +1,1219 @@
+import { expect, test } from "@playwright/test";
+import { readFile } from "node:fs/promises";
+import JSZip from "jszip";
+
+async function makeFixtureEpub(twoChapters = false, withCover = false): Promise<Buffer> {
+  const zip = new JSZip();
+  const paragraph = (
+    "This is a browser regression fixture for the Bookkeys reading and typing migration. " +
+    "The text is intentionally long enough to qualify for verified page rewards. "
+  ).repeat(4);
+  const secondParagraph = (
+    "This is the second chapter used to verify saved reading position and unfinished typing drafts. "
+  ).repeat(4);
+
+  zip.file("mimetype", "application/epub+zip", { compression: "STORE" });
+  zip.file("META-INF/container.xml", `<?xml version="1.0" encoding="UTF-8"?>
+<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
+  <rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles>
+</container>`);
+  zip.file("OEBPS/content.opf", `<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="book-id">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <dc:identifier id="book-id">bookkeys-e2e-fixture</dc:identifier>
+    <dc:title>Bookkeys Migration Fixture</dc:title>
+    <dc:creator>Limitless Tests</dc:creator>
+    <dc:language>en</dc:language>
+  </metadata>
+  <manifest>
+    <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
+    <item id="chapter" href="chapter.xhtml" media-type="application/xhtml+xml"/>
+    ${twoChapters ? '<item id="chapter-two" href="chapter-two.xhtml" media-type="application/xhtml+xml"/>' : ''}
+    ${withCover ? '<item id="cover" href="cover.jpg" media-type="image/jpeg" properties="cover-image"/>' : ''}
+  </manifest>
+  <spine><itemref idref="chapter"/>${twoChapters ? '<itemref idref="chapter-two"/>' : ''}</spine>
+</package>`);
+  zip.file("OEBPS/nav.xhtml", `<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <body><nav epub:type="toc"><ol>
+    <li><a href="chapter.xhtml#chapter-start">Chapter One</a></li>
+    ${twoChapters ? '<li><a href="chapter-two.xhtml#chapter-two-start">Chapter Two</a></li>' : ''}
+  </ol></nav></body>
+</html>`);
+  zip.file("OEBPS/chapter.xhtml", `<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head><title>Chapter One</title></head>
+  <body><section><h1 id="chapter-start">Chapter One</h1><p>${paragraph}</p></section></body>
+</html>`);
+  if (twoChapters) {
+    zip.file("OEBPS/chapter-two.xhtml", `<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head><title>Chapter Two</title></head>
+  <body><section><h1 id="chapter-two-start">Chapter Two</h1><p>${secondParagraph}</p></section></body>
+</html>`);
+  }
+  if (withCover) zip.file("OEBPS/cover.jpg", new Uint8Array([0xff, 0xd8, 0xff, 0xd9]));
+  return zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" });
+}
+
+async function makeFixturePdf(): Promise<Buffer> {
+  const lines = Array.from({ length: 8 }, () => "PDF import regression text for Bookkeys.");
+  const stream = `BT /F1 12 Tf 72 720 Td ${lines.map((line, index) =>
+    (index ? "0 -18 Td " : "") + "(" + line + ") Tj"
+  ).join(" ")} ET`;
+  const objects = [
+    "<< /Type /Catalog /Pages 2 0 R >>",
+    "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+    "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>",
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+    `<< /Length ${Buffer.byteLength(stream)} >>\nstream\n${stream}\nendstream`,
+    "<< /Title (Bookkeys PDF Fixture) >>",
+  ];
+  let pdf = "%PDF-1.4\n";
+  const offsets = [0];
+  for (let index = 0; index < objects.length; index += 1) {
+    offsets.push(Buffer.byteLength(pdf));
+    pdf += `${index + 1} 0 obj\n${objects[index]}\nendobj\n`;
+  }
+  const xrefOffset = Buffer.byteLength(pdf);
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  for (const offset of offsets.slice(1)) pdf += `${String(offset).padStart(10, "0")} 00000 n \n`;
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R /Info 6 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  return Buffer.from(pdf, "ascii");
+}
+
+test("home composition keeps the production header, hero and demo visible over a transparent shelf", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.locator("html")).toHaveAttribute("data-deco", "garden");
+
+  const header = page.locator(".bk-header");
+  await expect(header).toBeVisible();
+  await expect(header.locator(".bk-home-icon")).toBeVisible();
+  await expect(header.locator(".bk-settings-button")).toBeVisible();
+  await expect(header.locator(".bk-mode-button")).toBeVisible();
+
+  await expect(page.locator(".bk-home-hero")).toBeVisible();
+  await expect(page.locator(".bk-home-demo")).toBeVisible();
+  await expect(page.locator(".bk-home-tabrow")).toBeVisible();
+
+  await expect(page.locator(".bk-xp-status")).toContainText(/Chronicle · Lv \d+/);
+  await expect(page.getByRole("progressbar", { name: "Progress to next Chronicle level" })).toBeVisible();
+
+  const hero = page.locator(".bk-home-hero");
+  const heroHeading = hero.locator("h1");
+  await expect(heroHeading).toBeVisible();
+  const heroStyle = await heroHeading.evaluate((element) => ({
+    fontStyle: getComputedStyle(element).fontStyle,
+    fontFamily: getComputedStyle(element).fontFamily,
+  }));
+  expect(heroStyle.fontStyle).toBe("italic");
+  expect(heroStyle.fontFamily).toContain("Cormorant Garamond");
+
+  const primaryStyle = await hero.locator(".bk-primary").first().evaluate((element) =>
+    getComputedStyle(element).backgroundColor
+  );
+  expect(primaryStyle).toBe("rgb(106, 77, 191)");
+
+  const demoBackground = await page.locator(".bk-home-demo").evaluate((element) =>
+    getComputedStyle(element).backgroundColor
+  );
+  expect(demoBackground).toBe("rgba(0, 0, 0, 0)");
+
+  const shelfBackground = await page.locator(".bk-library").evaluate((element) =>
+    getComputedStyle(element).backgroundColor
+  );
+  expect(shelfBackground).toBe("rgba(0, 0, 0, 0)");
+});
+
+test("EPUB covers persist in the library and chapter titles edit inline", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub(true, true);
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "cover-and-chapter-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
+  await page.getByRole("button", { name: "Edit", exact: true }).click();
+  await page.getByRole("button", { name: "Rename Chapter One" }).click();
+  const title = page.getByRole("textbox", { name: "Chapter title 1" });
+  await expect(title).toBeFocused();
+  await title.fill("Renamed Chapter One");
+  await title.press("Enter");
+  await expect(page.locator(".bk-chapter-row").filter({ hasText: "Renamed Chapter One" })).toBeVisible();
+
+  await page.getByRole("button", { name: "← Library" }).click();
+  const card = page.locator(".bk-book-card").filter({ hasText: "Bookkeys Migration Fixture" });
+  await expect(card.locator(".bk-book-cover")).toHaveAttribute("src", /^data:image\/jpeg;base64,/);
+});
+test("EPUB import, progress, rewards and backup round-trip survive reload", async ({ page, browser }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.getByRole("heading", { name: "Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs." })).toBeVisible();
+
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "migration-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  expect(source!.length).toBeGreaterThan(150);
+  await page.locator("#bk-typing").pressSequentially(source!, { delay: 31 });
+
+  await expect(page.locator(".bk-typing-metrics")).toContainText("100%");
+  await expect(page.locator(".bk-reader-meta")).toContainText("1/1 required complete");
+  await expect.poll(async () => page.evaluate(() => {
+    const value = localStorage.getItem("bookkeys-lsr1-v1");
+    return value ? JSON.parse(value).rewardLedger?.length ?? 0 : 0;
+  })).toBe(1);
+
+  await page.getByRole("button", { name: /Library/ }).click();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:game") ?? "{}").pages)).toBe(1);
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs." })).toBeVisible();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:game") ?? "{}").pages)).toBe(1);
+  await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
+  await expect(page.locator("#bk-typing")).toHaveValue(source!);
+  await expect(page.locator(".bk-reader-meta")).toContainText("1/1 required complete");
+
+  await page.getByRole("button", { name: /Library/ }).click();
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
+  const sourceSettings = page.getByRole("dialog", { name: "Settings" });
+  const sourceSize = sourceSettings.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]');
+  await expect(sourceSize).toHaveValue("20");
+  await sourceSize.focus();
+  for (let step = 0; step < 5; step += 1) await sourceSize.press("ArrowRight");
+  await sourceSettings.getByRole("button", { name: "Close Settings" }).click();
+  await page.getByRole("button", { name: "Settings" }).click();
+  const backupSettings = page.getByRole("dialog", { name: "Settings" });
+  await backupSettings.getByRole("button", { name: "Data", exact: true }).click();
+
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    page.getByRole("button", { name: "Export backup" }).click(),
+  ]);
+  expect(download.suggestedFilename()).toMatch(/^bookkeys-backup-.*\.json$/);
+  const backupPath = await download.path();
+  expect(backupPath).toBeTruthy();
+  const backupBytes = await readFile(backupPath!);
+
+  const restoreContext = await browser.newContext();
+  const restorePage = await restoreContext.newPage();
+  await restorePage.addInitScript(() => {
+    localStorage.setItem("limitless.typing.v1.theme", "dark");
+    localStorage.setItem("limitless.typing.v1.themeOverride", "1");
+  });
+  await restorePage.goto("/tools/typing-next-preview/");
+  await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "dark");
+  await restorePage.locator('input[type="file"][accept="application/json,.json"]').setInputFiles({
+    name: "bookkeys-backup.json",
+    mimeType: "application/json",
+    buffer: backupBytes,
+  });
+  await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "light");
+  await restorePage.getByRole("button", { name: "Settings" }).click();
+  await restorePage.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
+  const restoredSettings = restorePage.getByRole("dialog", { name: "Settings" });
+  await expect(restoredSettings.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]')).toHaveValue("25");
+  await restoreContext.close();
+
+  await page.goBack();
+  await expect(page.locator("#bk-typing")).toBeVisible();
+  await page.goForward();
+  await expect(page.getByRole("heading", { name: "Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs." })).toBeVisible();
+});
+
+test("theme and reader settings are interactive and persist without overwriting legacy background preferences", async ({ page }) => {
+  await page.addInitScript(() => {
+    if (sessionStorage.getItem("__bookkeysLegacySettingsSeeded")) return;
+    localStorage.setItem("bookkeys:settings", JSON.stringify({
+      bg: "pic-night",
+      skin: "sepia",
+      accent: "custom",
+      accentCustom: "#123456",
+      fontColor: "custom",
+      fontColorCustom: "#654321",
+      bgMatch: true,
+      deco: "off",
+      bgDensity: 0.8,
+      bgAnim: false,
+      backdrop: 2,
+      picVeil: 0.25,
+      picBlur: 3,
+      font: "newsreader",
+      size: 17,
+      lineH: 1.7,
+      spacing: 0.2,
+      punct: "simplify",
+      lglow: false,
+      tfx: "none",
+      fxInt: 2,
+      efx: "flash",
+      sparks: "off",
+      sound: "off",
+      volume: 35,
+      errSound: false,
+      centered: true,
+      celebrate: true,
+      motion: "system",
+      cstyle: "block",
+      cblink: "blink",
+      csmooth: false,
+      cglow: true,
+      ccolor: "accent",
+    }));
+    localStorage.setItem("bookkeys:bgdef1", "1");
+    localStorage.setItem("bookkeys:bgdef2", "1");
+    sessionStorage.setItem("__bookkeysLegacySettingsSeeded", "1");
+  });
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Theme", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByLabel("Match colors to background")).toBeChecked();
+  await dialog.getByRole("button", { name: "Background", exact: true }).click();
+  await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-night");
+  await dialog.getByRole("button", { name: "Font", exact: true }).click();
+  const textColors = dialog.getByRole("group", { name: "Text color" });
+  await expect(dialog.getByLabel("Custom text color")).toHaveValue("#654321");
+  await dialog.getByLabel("Custom text color").fill("#2a7f62");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColorCustom)).toBe("#2a7f62");
+  await expect(dialog.getByText(/Contrast with the background:/)).toBeVisible();
+  await textColors.getByRole("button", { name: "Theme default" }).click();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").fontColor)).toBe("theme");
+  await dialog.getByLabel("Custom text color").fill("#2a7f62");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"))).toMatchObject({
+    bg: "pic-night", skin: "sepia", accent: "custom", accentCustom: "#123456",
+    fontColor: "custom", fontColorCustom: "#2a7f62", bgMatch: true, deco: "off",
+    bgDensity: 0.8, bgAnim: false, backdrop: 2, picVeil: 0.25, picBlur: 3,
+    font: "newsreader", spacing: 0.2, punct: "simplify", lglow: false,
+    tfx: "none", fxInt: 2, efx: "flash", sparks: "off", sound: "off",
+    volume: 35, errSound: false, centered: true, celebrate: true, motion: "system",
+    cstyle: "block", cblink: "blink", csmooth: false, cglow: true, ccolor: "accent",
+  });
+
+  const artwork = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#d2ae5c"/></svg>');
+  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
+  await dialog.getByRole("button", { name: "Gothic Night", exact: true }).click();
+  await dialog.getByRole("group", { name: "Theme decoration" }).getByRole("button", { name: "On", exact: true }).click();
+  const upload = dialog.getByLabel("Upload Gothic artwork");
+  await expect(upload).toBeEnabled();
+  await upload.setInputFiles({ name: "gothic-art.svg", mimeType: "image/svg+xml", buffer: artwork });
+  await expect.poll(() => page.locator(".bk-shell").evaluate((element) => getComputedStyle(element).getPropertyValue("--bk-home-art"))).toContain("data:image/jpeg");
+  await dialog.getByRole("button", { name: "Background", exact: true }).click();
+  await expect(dialog.getByRole("option", { name: "Gothic artwork" })).toBeAttached();
+  await dialog.getByLabel("Reader background").selectOption("gothic");
+  await dialog.getByRole("button", { name: "Font", exact: true }).click();
+
+  const size = dialog.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]');
+  await size.focus();
+  for (let step = 0; step < 5; step += 1) await size.press("ArrowRight");
+  await expect(dialog.locator(".bk-setting").filter({ hasText: "Size" })).toContainText("22px");
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("bookkeys:size"))).toBe("22");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").bg)).toBe("pic-night");
+  await dialog.getByRole("button", { name: "Close Settings" }).click();
+
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
+  const restored = page.getByRole("dialog", { name: "Settings" });
+  await expect(restored.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]')).toHaveValue("22");
+  await restored.getByRole("button", { name: "Background", exact: true }).click();
+  await expect(restored.getByLabel("Reader background")).toHaveValue("gothic");
+  await restored.getByRole("button", { name: "Theme", exact: true }).click();
+  await restored.getByRole("button", { name: "Remove Gothic" }).click();
+  await restored.getByRole("button", { name: "Background", exact: true }).click();
+  await expect(restored.getByRole("option", { name: "Gothic" })).toHaveCount(0);
+  await expect(restored.getByLabel("Reader background")).toHaveValue("none");
+  await restored.getByLabel("Reader background").selectOption("nebula");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").bg)).toBe("nebula");
+  await restored.getByRole("button", { name: "Close Settings" }).click();
+  await page.reload();
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("nebula");
+  await page.getByRole("dialog").getByLabel("Reader background").selectOption("pic-night");
+  await page.getByRole("dialog").getByRole("button", { name: "Close Settings" }).click();
+  await page.reload();
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("pic-night");
+});
+
+test("library supports Recent, moving books between shelves and removing a book from its card", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "library-actions-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  await page.getByRole("button", { name: "← Library" }).click();
+
+  await page.locator("details.bk-manage-shelves > summary").click();
+  await page.getByLabel("Shelf name").fill("Favourites");
+  await page.getByRole("button", { name: "New shelf" }).click();
+  const shelfTabs = page.getByRole("tablist", { name: "Shelves" });
+  const shelfTab = (name: string) => shelfTabs.getByRole("tab", { name, exact: true });
+  await shelfTab("Library").focus();
+  await shelfTab("Library").press("End");
+  await expect(shelfTab("Recent")).toHaveAttribute("aria-selected", "true");
+  await shelfTab("Recent").press("ArrowLeft");
+  await expect(shelfTab("Favourites")).toHaveAttribute("aria-selected", "true");
+
+  await shelfTab("Library").click();
+  const migrationCard = page.locator(".bk-book-card").filter({ has: page.getByRole("button", { name: /Bookkeys Migration Fixture/ }) });
+  await migrationCard.hover();
+  const move = page.getByLabel("Move Bookkeys Migration Fixture to another shelf");
+  await move.selectOption({ label: "Favourites" });
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toHaveCount(0);
+
+  await shelfTab("Favourites").click();
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
+  await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
+  await page.getByRole("button", { name: "← Library" }).click();
+  await shelfTab("Recent").click();
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
+
+  await shelfTab("Favourites").click();
+  const favouriteCard = page.locator(".bk-book-card").filter({
+    has: page.getByRole("button", { name: /Bookkeys Migration Fixture/ }),
+  });
+  await favouriteCard.hover();
+  page.once("dialog", (dialog) => dialog.accept());
+  await favouriteCard.getByRole("button", { name: "Remove", exact: true }).click();
+  await expect(page.getByText("This shelf is empty. Use “Add books” to put books on it.")).toBeVisible();
+});
+
+test("multiple EPUBs can be imported together without opening each one", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
+  const first = await makeFixtureEpub(false);
+  const second = await makeFixtureEpub(true);
+  await page.locator("#bk-library-files").setInputFiles([
+    { name: "library-batch-one.epub", mimeType: "application/epub+zip", buffer: first },
+    { name: "library-batch-two.epub", mimeType: "application/epub+zip", buffer: second },
+  ]);
+
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toHaveCount(2);
+  await expect(page.getByRole("heading", { name: "Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs." })).toBeVisible();
+  await expect(page.getByText("2 of 2 selected books added to this browser's library.")).toBeVisible();
+});
+
+test("PDF import extracts readable text and records page completion", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const pdf = await makeFixturePdf();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "bookkeys-pdf-fixture.pdf",
+    mimeType: "application/pdf",
+    buffer: pdf,
+  });
+
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys PDF Fixture");
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  expect(source!.length).toBeGreaterThan(150);
+  await page.locator("#bk-typing").fill(source!);
+  await expect.poll(async () => page.evaluate(() => {
+    const value = localStorage.getItem("bookkeys-lsr1-v1");
+    return value ? JSON.parse(value).rewardLedger?.length ?? 0 : 0;
+  })).toBe(1);
+});
+
+test("reader remains usable without horizontal overflow on a phone viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "mobile-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await expect(page.locator(".bk-reader")).toBeVisible();
+  await expect(page.locator("#bk-typing")).toBeVisible();
+  const dimensions = await page.evaluate(() => ({
+    viewport: window.innerWidth,
+    document: document.documentElement.scrollWidth,
+    offenders: Array.from(document.querySelectorAll<HTMLElement>("body *"))
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          tag: element.tagName,
+          className: String(element.className).slice(0, 80),
+          left: Math.round(rect.left),
+          right: Math.round(rect.right),
+          width: Math.round(rect.width),
+          scrollWidth: element.scrollWidth,
+        };
+      })
+      .filter((element) => element.right > window.innerWidth + 1 || element.left < -1)
+      .slice(0, 15),
+  }));
+  expect(dimensions.document, JSON.stringify(dimensions.offenders))
+    .toBeLessThanOrEqual(dimensions.viewport + 1);
+});
+
+test("last section and unfinished typing draft restore after reopening a book", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub(true);
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "two-chapter-position-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 2");
+  const firstText = await page.locator(".bk-source-text").textContent();
+  expect(firstText).toBeTruthy();
+  await page.locator("#bk-typing").fill(firstText!);
+  await expect(page.locator(".bk-reader-meta")).toContainText("1/2 required complete");
+
+  await page.getByRole("button", { name: "Next section" }).click();
+  await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
+  const secondText = await page.locator(".bk-source-text").textContent();
+  expect(secondText).toBeTruthy();
+  const partialDraft = secondText!.slice(0, 55);
+  await page.locator("#bk-typing").fill(partialDraft);
+
+  const savedPosition = await page.evaluate(() =>
+    Object.entries(localStorage).some(([key, value]) =>
+      (key.startsWith("bookkeys:f:") || key.startsWith("bookkeys:lib:")) && value === "1"
+    )
+  );
+  expect(savedPosition).toBe(true);
+
+  await page.reload();
+  await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
+  await page.getByRole("button", { name: "Continue reading" }).click();
+  await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
+  await expect(page.locator("#bk-typing")).toHaveValue(partialDraft);
+  await expect(page.locator(".bk-reader-meta")).toContainText("1/2 required complete");
+});
+
+test("sample text is typable but never writes XP, reward or book progress", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Try the sample text" }).click();
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Sample Passage");
+
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  expect(source!.length).toBeGreaterThan(150);
+  await page.locator("#bk-typing").fill(source!);
+  await expect(page.getByRole("status")).toContainText("no XP awarded");
+
+  const saved = await page.evaluate(() => ({
+    game: localStorage.getItem("bookkeys:game"),
+    rewards: localStorage.getItem("bookkeys-lsr1-v1"),
+    sampleDrafts: Object.keys(localStorage).filter((key) => key.includes("sample")),
+  }));
+  expect(saved.game).toBeNull();
+  expect(saved.rewards).toBeNull();
+  expect(saved.sampleDrafts).toEqual([]);
+
+  await page.getByRole("button", { name: /Library/ }).click();
+  await expect(page.locator(".bk-empty")).toBeVisible();
+});
+
+test("legacy bookkeys:size is used when the settings object has no size", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("bookkeys:size", "22"));
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]'))
+    .toHaveValue("22");
+});
+
+test("removing a book deletes its local library entry but retains typing progress", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "remove-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  await page.locator("#bk-typing").fill(source!);
+
+  page.on("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Remove book" }).click();
+  await expect(page.locator(".bk-empty")).toBeVisible();
+  const retainedProgress = await page.evaluate(() => {
+    const raw = localStorage.getItem("bookkeys:game");
+    if (!raw) return false;
+    const game = JSON.parse(raw);
+    return Object.values(game.book ?? {}).some((record: any) => Array.isArray(record.p) && record.p.length > 0);
+  });
+  expect(retainedProgress).toBe(true);
+});
+
+test("manual chapter edits save to both legacy keys and restore after reload", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub(true);
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "chapter-editor-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await page.getByRole("button", { name: "Edit" }).click();
+  await page.getByRole("button", { name: "Remove Chapter Two" }).click();
+  await page.getByRole("button", { name: "Next section" }).click();
+  page.once("dialog", (dialog) => dialog.accept("Custom Opening"));
+  await page.getByRole("button", { name: "Add chapter" }).click();
+  await expect(page.locator(".bk-chapter-list")).toContainText("Custom Opening");
+  await page.getByRole("button", { name: "Rename Custom Opening" }).click();
+  const chapterTitle = page.getByRole("textbox", { name: "Chapter title 2" });
+  await expect(chapterTitle).toBeFocused();
+  await chapterTitle.fill("Renamed Opening");
+  await chapterTitle.press("Enter");
+  await expect(page.locator(".bk-chapter-list")).toContainText("Renamed Opening");
+
+  const chapterKeys = await page.evaluate(() =>
+    Object.keys(localStorage).filter((key) => key.startsWith("bookkeys:chap:"))
+  );
+  expect(chapterKeys).toHaveLength(2);
+
+  await page.reload();
+  await page.getByRole("button", { name: "Continue reading" }).click();
+  await page.getByRole("button", { name: "Edit" }).click();
+  await expect(page.locator(".bk-chapter-list")).toContainText("Renamed Opening");
+});
+
+test("chapter editor can jump to a chapter and re-detect EPUB headings", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub(true);
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "chapter-detection-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await page.getByRole("button", { name: "Edit" }).click();
+  await expect(page.locator(".bk-chapter-list")).toContainText("Chapter Two");
+  await page.getByRole("button", { name: "Go to Chapter Two" }).click();
+  await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
+
+  await page.getByRole("button", { name: "Remove Chapter Two" }).click();
+  await expect(page.locator(".bk-chapter-list")).not.toContainText("Chapter Two");
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Detect again" }).click();
+  await expect(page.locator(".bk-chapter-list")).toContainText("Chapter Two");
+});
+
+test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP total", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("bookkeys:game", JSON.stringify({ xp: 987654, book: {}, paid: {} }));
+    localStorage.setItem("hc3-progress-v3", JSON.stringify({
+      rewardLedger: [{
+        policyVersion: "LSR-1",
+        eventId: "probability:existing-award",
+        moduleId: "probability",
+        itemId: "probability:existing-item",
+        ts: 1800000000000,
+        activityClass: "standard-task",
+        difficulty: "foundational",
+        completionEvidence: "completed-problem",
+        completed: true,
+        eligible: true,
+        reason: "awarded",
+        countsTowardRepeatCap: true,
+        repeatOrdinal: 1,
+        baseExp: 10,
+        difficultyMultiplier: 1,
+        qualityBonus: 0,
+        passBonus: 0,
+        totalExp: 10,
+        checkpointId: null,
+      }],
+    }));
+  });
+  await page.goto("/tools/typing-next-preview/");
+  const display = page.locator(".bk-xp strong");
+  await expect(display).toHaveText("10");
+
+  // A different Limitless module can award EXP in another tab while Bookkeys is open.
+  const otherTab = await page.context().newPage();
+  await otherTab.goto("/tools/typing-next-preview/");
+  await otherTab.evaluate(() => localStorage.setItem("mm-mt201-v1", JSON.stringify({
+    rewardLedger: [{
+      policyVersion: "LSR-1",
+      eventId: "metallurgy:existing-award",
+      moduleId: "metallurgy-mt201",
+      itemId: "metallurgy:existing-item",
+      ts: 1800000000000,
+      activityClass: "focused-practice",
+      difficulty: "foundational",
+      completionEvidence: "completed-exercise",
+      completed: true,
+      eligible: true,
+      reason: "awarded",
+      countsTowardRepeatCap: true,
+      repeatOrdinal: 1,
+      baseExp: 20,
+      difficultyMultiplier: 1,
+      qualityBonus: 0,
+      passBonus: 0,
+      totalExp: 20,
+      checkpointId: null,
+    }],
+  })));
+  await expect(display).toHaveText("30");
+  await otherTab.close();
+
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "reward-ledger-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  await page.locator("#bk-typing").fill(source!);
+  await expect.poll(async () => Number((await display.textContent())?.replace(/,/g, "")))
+    .toBeGreaterThan(0);
+  expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeGreaterThan(30);
+  expect(Number((await display.textContent())?.replace(/,/g, ""))).toBeLessThan(987654);
+});
+
+test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its schema", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.getByRole("heading", { name: "Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs." })).toBeVisible();
+
+  const epub = await makeFixtureEpub();
+  const bytes = Array.from(epub);
+  await page.evaluate(async ({ bytes }) => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open("bookkeys-lib", 1);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    if (database.version !== 1) throw new Error("Unexpected IndexedDB version");
+    if (!database.objectStoreNames.contains("meta") || !database.objectStoreNames.contains("files")) {
+      throw new Error("The existing v1 stores were not preserved");
+    }
+
+    const transaction = database.transaction(["meta", "files"], "readwrite");
+    const id = "pre-existing-library-book";
+    transaction.objectStore("meta").put({
+      id,
+      shelf: "main",
+      name: "Existing v1 Book",
+      size: bytes.length,
+      pages: 1,
+      added: 1_800_000_000_000,
+      fp: "existing-v1-fingerprint",
+      cover: "",
+      fmt: "epub",
+      author: "Legacy Author",
+      legacyExtension: { source: "original-reader", flags: ["keep", "all"] },
+    });
+    transaction.objectStore("files").put(
+      new Blob([new Uint8Array(bytes)], { type: "application/epub+zip" }),
+      id,
+    );
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="#30243a"/></svg>';
+    transaction.objectStore("files").put(
+      "data:image/svg+xml;base64," + btoa(svg),
+      "art:gothic",
+    );
+    await new Promise<void>((resolve, reject) => {
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+    });
+    database.close();
+    localStorage.setItem("bookkeys:lib:" + id, "0");
+  }, { bytes });
+
+  await page.reload();
+  await expect(page.getByRole("button", { name: /Existing v1 Book/ })).toBeVisible();
+  await page.getByRole("button", { name: /Existing v1 Book/ }).click();
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
+  const legacyRecord = await page.evaluate(async () => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open("bookkeys-lib", 1);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const transaction = database.transaction(["meta", "files"], "readonly");
+    const metadata = await new Promise<any>((resolve, reject) => {
+      const request = transaction.objectStore("meta").get("pre-existing-library-book");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const file = await new Promise<Blob>((resolve, reject) => {
+      const request = transaction.objectStore("files").get("pre-existing-library-book");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    database.close();
+    return {
+      author: metadata.author,
+      extension: metadata.legacyExtension,
+      fileType: file.type,
+      fileSize: file.size,
+    };
+  });
+  expect(legacyRecord).toMatchObject({
+    author: "Legacy Author",
+    extension: { source: "original-reader", flags: ["keep", "all"] },
+    fileType: "application/epub+zip",
+    fileSize: bytes.length,
+  });
+  await expect(page.locator(".bk-source-text")).toContainText("browser regression fixture");
+  await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 1");
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  const settings = page.getByRole("dialog", { name: "Settings" });
+  await settings.getByLabel("Reader background").selectOption("gothic");
+  await settings.getByRole("button", { name: "Close Settings" }).click();
+  const background = await page.locator(".bk-source-text").evaluate((element) =>
+    getComputedStyle(element).backgroundImage
+  );
+  expect(background).toContain("data:image/svg+xml;base64");
+
+  await page.reload();
+  await page.getByRole("button", { name: /Existing v1 Book/ }).click();
+  await expect(page.locator(".bk-source-text")).toHaveCSS("background-image", /data:image\/svg\+xml;base64/);
+  const version = await page.evaluate(async () => new Promise<number>((resolve, reject) => {
+    const request = indexedDB.open("bookkeys-lib");
+    request.onsuccess = () => { resolve(request.result.version); request.result.close(); };
+    request.onerror = () => reject(request.error);
+  }));
+  expect(version).toBe(1);
+});
+
+test("pasted text becomes a persistent local text book with reading progress", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Open book" }).click();
+  const pasted = [
+    "Pasted-text import regression. This passage checks that plain text can be turned into a local Bookkeys reading session.",
+    "A second paragraph verifies paragraph boundaries, Unicode punctuation, and local persistence. The original text remains in this browser.",
+  ].join("\n\n");
+  await page.locator("#bk-paste-text").fill(pasted);
+  await page.getByRole("button", { name: "Practice this text" }).click();
+
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Pasted text");
+  await expect(page.locator(".bk-source-text")).toContainText("Pasted-text import regression");
+  await expect(page.locator(".bk-counter")).toHaveText("Section 1 / 1");
+  const source = await page.locator(".bk-source-text").textContent();
+  expect(source).toBeTruthy();
+  await page.locator("#bk-typing").pressSequentially(source!, { delay: 31 });
+  await page.getByRole("button", { name: /Library/ }).click();
+
+  const textBook = page.getByRole("button", { name: /Pasted text/ });
+  await expect(textBook).toBeVisible();
+  await expect(textBook).toContainText("TXT");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:game") ?? "{}").pages)).toBe(1);
+
+  await page.reload();
+  await page.getByRole("button", { name: /Pasted text/ }).click();
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Pasted text");
+  await expect(page.locator("#bk-typing")).toHaveValue(source!);
+});
+
+
+test("Akashic Archive restores saved Bookkeys achievements without changing their records", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("bookkeys:game", JSON.stringify({
+      xp: 900, words: 600, chars: 12000, pages: 12, chapters: 2, books: 1,
+      bestWpm: 55, perfect: 1, days: 4,
+      streak: { cur: 3, best: 7, last: "2026-11-07" },
+      ach: { words500: 123456789 },
+      book: {},
+    }));
+  });
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: /Chronicle · Lv 3/ }).click();
+  const archive = page.getByRole("dialog", { name: "The Akashic Archive" });
+  await expect(archive).toBeVisible();
+  await expect(archive.getByText("Novice Typist")).toBeVisible();
+  await expect(archive.getByText("1 of 60 unlocked")).toBeVisible();
+  await expect(archive.getByText("First Inscription", { exact: true })).toBeVisible();
+  await expect(archive.getByText("Unlocked", { exact: true })).toBeVisible();
+  await expect(archive.getByText("Threshold met · unlock record not saved", { exact: true }).first()).toBeVisible();
+  const saved = await page.evaluate(() => localStorage.getItem("bookkeys:game"));
+  await archive.getByRole("button", { name: "Close Archive" }).click();
+  expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBe(saved);
+});
+
+
+test("fresh Bookkeys settings initialize the complete legacy defaults contract", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Font", exact: true }).click();
+  const size = page.getByRole("dialog", { name: "Settings" }).locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]');
+  await size.focus();
+  await size.press("ArrowRight");
+
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
+  expect(saved).toMatchObject({
+    skin: "auto", accent: "theme", accentCustom: "#E11D48",
+    fontColor: "theme", fontColorCustom: "#FF8A00", bgMatch: true, deco: "on",
+    bg: "pic-morning", bgDensity: 1, bgAnim: true, backdrop: 0, picVeil: 0, picBlur: 0,
+    font: "newsreader", lineH: 1.7, spacing: 0, punct: "simplify", lglow: true,
+    tfx: "none", fxInt: 1, efx: "flash", sparks: "off", sound: "off", volume: 50,
+    errSound: true, centered: false, celebrate: true, motion: "system",
+    cstyle: "block", cblink: "blink", csmooth: true, cglow: false, ccolor: "accent",
+  });
+});
+
+test("unknown legacy settings extensions survive ordinary settings edits and reloads", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("bookkeys:settings", JSON.stringify({
+      bg: "pic-morning",
+      size: 20,
+      futureFeature: { enabled: true, mode: "preserve-me" },
+      pluginFlags: ["alpha", "beta"],
+    }));
+    localStorage.setItem("bookkeys:bgdef1", "1");
+    localStorage.setItem("bookkeys:bgdef2", "1");
+  });
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await dialog.getByRole("button", { name: "Font", exact: true }).click();
+  const sizeControl = dialog.locator(".bk-setting").filter({ hasText: "Size" }).locator('input[type="range"]');
+  await sizeControl.focus();
+  await sizeControl.press("ArrowRight");
+
+  const afterEdit = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
+  expect(afterEdit).toMatchObject({
+    size: 21,
+    futureFeature: { enabled: true, mode: "preserve-me" },
+    pluginFlags: ["alpha", "beta"],
+  });
+
+  await page.reload();
+  await page.getByRole("button", { name: "Settings" }).click();
+  const restored = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
+  expect(restored).toMatchObject({
+    futureFeature: { enabled: true, mode: "preserve-me" },
+    pluginFlags: ["alpha", "beta"],
+  });
+});
+
+test("centered reading preference changes reader layout and persists", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "centered-reading-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const article = page.locator(".bk-source-text");
+  await expect(article).toBeVisible();
+  await expect(article).toHaveAttribute("data-reader-centered", "false");
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Typing", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await dialog.getByLabel("Center reading text").check();
+  await expect(article).toHaveAttribute("data-reader-centered", "true");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").centered)).toBe(true);
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs." })).toBeVisible();
+  await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
+  const restoredArticle = page.locator(".bk-source-text");
+  await expect(restoredArticle).toHaveAttribute("data-reader-centered", "true");
+  await expect(restoredArticle).toHaveCSS("text-align", "center");
+});
+
+test("IME composition commits once, saves the draft and does not count intermediate composition input", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "ime-composition-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const typing = page.locator("#bk-typing");
+  await expect(typing).toBeVisible();
+
+  await typing.evaluate((element) => {
+    const input = element as HTMLTextAreaElement;
+    input.dispatchEvent(new CompositionEvent("compositionstart", { bubbles: true }));
+    input.value = "T";
+    input.dispatchEvent(new InputEvent("input", {
+      bubbles: true,
+      inputType: "insertCompositionText",
+      data: "T",
+      isComposing: true,
+    }));
+    input.dispatchEvent(new CompositionEvent("compositionend", { bubbles: true, data: "T" }));
+    // Browsers may emit a final non-composing input event after compositionend.
+    input.dispatchEvent(new InputEvent("input", {
+      bubbles: true,
+      inputType: "insertText",
+      data: "T",
+    }));
+  });
+
+  await expect(typing).toHaveValue("T");
+  await expect(page.locator(".bk-typing-metrics")).toContainText("1");
+  const savedDraft = await page.evaluate(() => {
+    const key = Object.keys(localStorage).find((item) => item.startsWith("bookkeys:draft:"));
+    return key ? JSON.parse(localStorage.getItem(key) ?? "null") as { typed?: string; all?: number } : null;
+  });
+  expect(savedDraft?.typed).toBe("T");
+  expect(savedDraft?.all).toBe(1);
+  expect(await page.evaluate(() => localStorage.getItem("bookkeys:game"))).toBeNull();
+});
+
+test("reader preserves the original canvas scenes, photo crops, Time of Day and reduced motion", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "visual-parity-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  const article = page.locator(".bk-source-text");
+  const canvas = page.locator(".bk-background-canvas");
+  await expect(article).toBeVisible();
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  const backgrounds = dialog.getByLabel("Reader background");
+  const backgroundTiles = dialog.getByRole("group", { name: "Background choices" });
+  await expect(backgroundTiles.getByRole("button")).toHaveCount(29);
+  await backgroundTiles.getByRole("button", { name: "Night Sky" }).click();
+  await expect(backgrounds).toHaveValue("night");
+  const originalCanvasScenes = [
+    "night", "snow", "aurora", "rain", "digital", "underwater", "shafts",
+    "candle", "hearth", "crt", "warp", "nebula", "fireflies", "synthwave",
+    "sakura", "autumn", "lava", "storm", "bokeh", "mesh", "constellation", "mist",
+  ];
+  const extraStaticScenes = ["morning", "evening"];
+
+  for (const scene of originalCanvasScenes) {
+    await backgrounds.selectOption(scene);
+    await expect(article).toHaveAttribute("data-reader-background", scene);
+    await expect(canvas).toBeVisible();
+    await expect(canvas).toHaveAttribute("data-scene", scene);
+    const dimensions = await canvas.evaluate((element) => ({
+      width: (element as HTMLCanvasElement).width,
+      height: (element as HTMLCanvasElement).height,
+    }));
+    expect(dimensions.width).toBeGreaterThan(0);
+    expect(dimensions.height).toBeGreaterThan(0);
+  }
+
+  for (const scene of extraStaticScenes) {
+    await backgrounds.selectOption(scene);
+    await expect(article).toHaveAttribute("data-reader-background", scene);
+    const staticBackground = page.locator(".bk-static-background");
+    await expect(staticBackground).toBeVisible();
+    expect(await staticBackground.evaluate((element) => getComputedStyle(element).backgroundImage)).toContain("gradient");
+  }
+
+  await backgrounds.selectOption("tod");
+  const hour = await page.evaluate(() => new Date().getHours());
+  const expectedTimeScene = hour >= 20 || hour < 6 ? "pic-night" : hour >= 17 ? "pic-evening" : "pic-morning";
+  await expect(article).toHaveAttribute("data-reader-background", expectedTimeScene);
+  await expect(page.locator(".bk-picture-background")).toBeVisible();
+
+  for (const photo of ["morning", "evening", "night"]) {
+    await backgrounds.selectOption(`pic-${photo}`);
+    await page.setViewportSize({ width: 390, height: 844 });
+    const mobileImage = await page.locator(".bk-picture-background").evaluate((element) => getComputedStyle(element).backgroundImage);
+    expect(mobileImage).toContain(`${photo}-mobile.webp`);
+    expect(await page.locator(".bk-shell").evaluate((element) => getComputedStyle(element).getPropertyValue("--bk-panel-opacity").trim())).toBe("70%");
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const desktopImage = await page.locator(".bk-picture-background").evaluate((element) => getComputedStyle(element).backgroundImage);
+    expect(desktopImage).toContain(`${photo}.webp`);
+    expect(desktopImage).not.toContain(`${photo}-mobile.webp`);
+  }
+
+  await backgrounds.selectOption("snow");
+  await expect.poll(() => canvas.getAttribute("data-animated")).toBe("true");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(() => canvas.getAttribute("data-animated")).toBe("false");
+});
+
+test("legacy background migration flags run once and preserve subsequent user choices", async ({ page }) => {
+  await page.addInitScript(() => {
+    if (sessionStorage.getItem("__bookkeysBackgroundMigrationSeeded")) return;
+    localStorage.setItem("bookkeys:settings", JSON.stringify({ bg: "none", picVeil: 45 }));
+    localStorage.removeItem("bookkeys:bgdef1");
+    localStorage.removeItem("bookkeys:bgdef2");
+    sessionStorage.setItem("__bookkeysBackgroundMigrationSeeded", "1");
+  });
+  await page.goto("/tools/typing-next-preview/");
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await expect(dialog.getByLabel("Reader background")).toHaveValue("pic-morning");
+  const migrated = await page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}"));
+  expect(migrated).toMatchObject({ bg: "pic-morning", bgMatch: true, picVeil: 0 });
+  expect(await page.evaluate(() => localStorage.getItem("bookkeys:bgdef1"))).toBe("1");
+  expect(await page.evaluate(() => localStorage.getItem("bookkeys:bgdef2"))).toBe("1");
+
+  await page.evaluate(() => {
+    const value = JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}");
+    value.bg = "none";
+    value.readerBackground = "none";
+    localStorage.setItem("bookkeys:settings", JSON.stringify(value));
+  });
+  await page.reload();
+  await page.getByRole("button", { name: "Settings" }).click();
+  await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Background", exact: true }).click();
+  await expect(page.getByRole("dialog").getByLabel("Reader background")).toHaveValue("none");
+});
+
+
+test("original background palettes, theme tiles and accent swatches apply consistently", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("limitless.typing.v1.theme", "dark"));
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  const readRootToken = (token: string) => page.evaluate((name) =>
+    getComputedStyle(document.documentElement).getPropertyValue(name).trim(), token
+  );
+  await expect.poll(() => readRootToken("--bg")).toBe("#EEEAF6");
+  await expect.poll(() => readRootToken("--accent")).toBe("#6A4DBF");
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
+  const decoration = dialog.getByRole("group", { name: "Theme decoration" });
+  await expect(decoration.getByRole("button", { name: "On" })).toHaveAttribute("aria-pressed", "true");
+  await decoration.getByRole("button", { name: "Off" }).click();
+  await expect(decoration.getByRole("button", { name: "Off" })).toHaveAttribute("aria-pressed", "true");
+  await decoration.getByRole("button", { name: "On" }).click();
+  await expect(decoration.getByRole("button", { name: "On" })).toHaveAttribute("aria-pressed", "true");
+
+  const matchColors = dialog.getByLabel("Match colors to background");
+  await expect(matchColors).toBeChecked();
+
+  await matchColors.uncheck();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect.poll(() => readRootToken("--bg")).toBe("#08070d");
+
+  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
+  await expect(dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper", exact: true })).toBeVisible();
+  await dialog.getByRole("group", { name: "Color theme" }).getByRole("button", { name: "Paper", exact: true }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect.poll(() => readRootToken("--bg")).toBe("#ECECE8");
+
+  await dialog.getByRole("group", { name: "Accent color" }).getByRole("button", { name: "Blue" }).click();
+  await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
+
+  await dialog.getByRole("button", { name: "Background", exact: true }).click();
+  await dialog.getByRole("group", { name: "Background choices" }).getByRole("button", { name: "Night Sky" }).click();
+  await dialog.getByRole("button", { name: "Theme", exact: true }).click();
+  await matchColors.check();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect.poll(() => readRootToken("--bg")).toBe("#04081A");
+  await expect.poll(() => readRootToken("--accent")).toBe("#3B82F6");
+
+});
+
+
+test("all selectable reader fonts load from embedded offline font faces", async ({ page }) => {
+  const externalFontRequests: string[] = [];
+  page.on("request", (request) => {
+    if (/^https?:\/\//i.test(request.url()) && /font|googleapis|gstatic/i.test(request.url())) {
+      externalFontRequests.push(request.url());
+    }
+  });
+  await page.goto("/tools/typing-next-preview/");
+  const families = [
+    "Newsreader", "Literata", "Lora", "Source Serif 4", "Libre Baskerville",
+    "Atkinson Hyperlegible", "IBM Plex Mono", "JetBrains Mono", "Courier Prime", "Special Elite",
+  ];
+  const loaded = await page.evaluate(async (names) => {
+    const results = [];
+    for (const family of names) {
+      const faces = await document.fonts.load(`16px "${family}"`, "Bookkeys offline font check");
+      results.push({ family, loaded: faces.length > 0, available: document.fonts.check(`16px "${family}"`) });
+    }
+    return results;
+  }, families);
+  expect(loaded.filter((font) => font.loaded && font.available).map((font) => font.family)).toEqual(families);
+  expect(externalFontRequests).toEqual([]);
+});
+
+
+test("backup without valid appearance choices preserves the site-wide theme override", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("limitless.typing.v1.theme", "dark");
+    localStorage.setItem("limitless.typing.v1.themeOverride", "1");
+  });
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+  await page.locator('input[aria-label="Import Bookkeys backup"]').setInputFiles({
+    name: "progress-only-backup.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify({
+      app: "bookkeys",
+      v: 1,
+      keys: {
+        "bookkeys:game": JSON.stringify({ xp: 25, book: {} }),
+        "bookkeys:settings": JSON.stringify({ size: 22, lineH: 1.8, skin: null, bgMatch: "false" }),
+      },
+    })),
+  });
+
+  await expect(page.getByText(/Backup merged/)).toBeVisible();
+  await expect.poll(() => page.evaluate(() =>
+    localStorage.getItem("limitless.typing.v1.themeOverride"),
+  )).toBe("1");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
+
+
+test("PDF and TXT files can be batch-imported into the local library", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  const pdf = await makeFixturePdf();
+  const text = Buffer.from(
+    "A plain text book can be imported locally.\n\nThis second paragraph verifies that the TXT importer stores readable sections.",
+    "utf8",
+  );
+
+  await page.locator("#bk-library-files").setInputFiles([
+    { name: "Bookkeys Batch PDF.pdf", mimeType: "application/pdf", buffer: pdf },
+    { name: "Bookkeys Batch TXT.txt", mimeType: "text/plain", buffer: text },
+  ]);
+
+  await expect(page.getByRole("button", { name: /Bookkeys PDF Fixture/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Bookkeys Batch TXT/ })).toBeVisible();
+  await expect(page.getByText("2 of 2 selected books added to this browser's library.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs." })).toBeVisible();
+});
+
+test("dropping a TXT file onto the library imports it into local storage", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
+  await page.locator(".bk-library").evaluate((target) => {
+    const transfer = new DataTransfer();
+    transfer.items.add(new File(
+      ["Dropped text remains local and can be reopened after refresh."],
+      "Dropped Book.txt",
+      { type: "text/plain" },
+    ));
+    target.dispatchEvent(new DragEvent("dragover", { bubbles: true, dataTransfer: transfer }));
+    target.dispatchEvent(new DragEvent("drop", { bubbles: true, dataTransfer: transfer }));
+  });
+
+  const droppedBook = page.getByRole("button", { name: /Dropped Book/ });
+  await expect(droppedBook).toBeVisible();
+  await expect(page.getByText("Added Dropped Book to this browser's library.")).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("button", { name: /Dropped Book/ })).toBeVisible();
+});
