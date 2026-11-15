@@ -245,11 +245,19 @@ export function encodeRewardLedgerArchive(records) {
   return { version: REWARD_ARCHIVE_VERSION, strings, records: tuples };
 }
 
+export function isValidRewardLedgerArchive(raw) {
+  if (raw == null) return true;
+  if (!isRecord(raw) || raw.version !== REWARD_ARCHIVE_VERSION ||
+      !Array.isArray(raw.records) || !Array.isArray(raw.strings)) return false;
+  return decodeRewardLedgerArchive(raw).length === raw.records.length;
+}
+
 export function readRewardLedger(payload) {
-  if (!isRecord(payload)) return [];
+  if (!isRecord(payload) || !Array.isArray(payload.rewardLedger)) return [];
+  if (!isValidRewardLedgerArchive(payload.rewardLedgerArchive)) return [];
   return sanitiseRewardRecords([
     ...decodeRewardLedgerArchive(payload.rewardLedgerArchive),
-    ...(Array.isArray(payload.rewardLedger) ? payload.rewardLedger : []),
+    ...payload.rewardLedger,
   ]);
 }
 
