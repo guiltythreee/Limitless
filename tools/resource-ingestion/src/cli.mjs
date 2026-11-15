@@ -11,10 +11,10 @@ import { prepareMt203Patch } from "./prepare.mjs";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const COURSE_ROOT = path.join(ROOT, "metallurgy-source");
 const MAX_PDF_BYTES = 50_000_000;
-const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-6-astra";
+const DEFAULT_MODEL = process.env.OPENAI_MODEL;
 
 function usage() {
-  console.log("Limitless Resource Ingestion — local maintainer tool\n\nUsage:\n  node src/cli.mjs analyze --input <file.pdf> --course mt203 [--output-dir <dir>] [--model <model>]\n  node src/cli.mjs prepare --analysis <analysis.json> [--output <patch-plan.json>]\n\nCurrent pilot: MT203 Polymer Science and Technology; PDF only.\nEnvironment: OPENAI_API_KEY (required), OPENAI_MODEL (optional; default " + DEFAULT_MODEL + ").\nBoth commands write proposal artifacts only. They never edit course files.");
+  console.log("Limitless Resource Ingestion — local maintainer tool\n\nUsage:\n  node src/cli.mjs analyze --input <file.pdf> --course mt203 [--output-dir <dir>] [--model <model>]\n  node src/cli.mjs prepare --analysis <analysis.json> [--output <patch-plan.json>]\n\nCurrent pilot: MT203 Polymer Science and Technology; PDF only.\nEnvironment: OPENAI_API_KEY and OPENAI_MODEL are required.\nBoth commands write proposal artifacts only. They never edit course files.");
 }
 function arg(name, fallback) {
   const i = process.argv.indexOf(name);
@@ -85,6 +85,7 @@ async function analyze() {
   if (!input) throw new Error("--input <file.pdf> is required");
   if (course !== "mt203") throw new Error("The first pilot currently supports only --course mt203");
   if (!process.env.OPENAI_API_KEY) throw new Error("OPENAI_API_KEY is not set. Set it in your local shell; never put it in a repository file.");
+  if (!process.env.OPENAI_MODEL) throw new Error("OPENAI_MODEL is not set. Choose a model enabled for your API account that supports PDF input and Structured Outputs.");
   const inputPath = path.resolve(input);
   if (path.extname(inputPath).toLowerCase() !== ".pdf") throw new Error("The first pilot accepts PDF files only.");
   const bytes = await fs.readFile(inputPath);
