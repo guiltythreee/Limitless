@@ -39,9 +39,12 @@ The committed JavaScript CLI was run end-to-end against this exact PDF after the
 - 19 sparse pages processed by OCR; 14 passed the pilot quality gate and 5 were marked review-required (35, 102, 171, 178, 212).
 - No OCR command/page failures occurred.
 - 721 genuine image records were mapped to 118 source pages. The 759 extracted files comprise 721 images and 38 soft masks.
-- 157 source-page previews were generated; all planned previews exist and no preview failed.
+- 158 source-page previews were generated; all planned previews exist and no preview failed.
+- Context-aware table triage reduced the focused exception queue from 413 records across 77 pages to 269 records across 39 pages, without deleting or suppressing source records. The page-154 OCR permeability table is now flagged as a table candidate and exception.
 - The generated manifest, record inventory and review packet were parsed and inspected. Every record remains unapproved; the manifest approval status is `unreviewed`.
 - Preview images for pages 36, 154, 178 and 201 were visually inspected against the original PDF, covering equations, a numerical table, a single-screw extruder and injection-moulding diagrams.
+
+The review CLI was also run against the real inventory with an empty decision list. It generated `review-results.json`, `proposed-content-patch.json`, and `proposed-content-patch.md`; the patch had zero additions and zero rejections, all 2,449 record IDs remained unreviewed, and the patch safety flags confirmed no changes were applied. This was a smoke test only; no content decisions were made on the user's behalf.
 
 The full output directory is a local validation artifact and was not committed to Git. The original PDF and extracted assets were not added to the repository.
 
