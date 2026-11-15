@@ -16,13 +16,15 @@ export function createCodeforcesApiRequester(fetchImpl, options = {}) {
 
   let queue = Promise.resolve();
   let lastStartedAt = 0;
+  let hasStarted = false;
 
   return function requestCodeforcesApi(url, init) {
     const task = queue.then(async () => {
       const elapsed = now() - lastStartedAt;
-      const waitMs = lastStartedAt ? Math.max(0, minIntervalMs - elapsed) : 0;
+      const waitMs = hasStarted ? Math.max(0, minIntervalMs - elapsed) : 0;
       if (waitMs > 0) await sleep(waitMs);
       lastStartedAt = now();
+      hasStarted = true;
 
       const response = await fetchImpl(url, init);
       if (!response || !response.ok) throw new Error("Codeforces API request failed.");
