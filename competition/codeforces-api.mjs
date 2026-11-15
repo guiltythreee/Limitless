@@ -42,3 +42,57 @@ export function createCodeforcesApiRequester(fetchImpl, options = {}) {
 }
 
 export const requestCodeforcesApi = createCodeforcesApiRequester((url, init) => fetch(url, init));
+
+
+/**
+ * Fetch a complete Codeforces submission history in bounded pages.
+ * A small overlap between pages protects against a new submission shifting
+ * the offset while a multi-page sync is in progress. Submission IDs remove
+ * the overlap without changing the original API records.
+ */
+export async function fetchAllCodeforcesSubmissions(handle, options = {}) {
+  if (typeof handle !== "string" || !handle.trim()) {
+    throw new TypeError("A Codeforces handle is required");
+  }
+  const request = options.request || requestCodeforcesApi;
+  if (typeof request !== "function") throw new TypeError("A Codeforces API requester is required");
+  const pageSize = Number.isInteger(options.pageSize) && options.pageSize > 0
+    ? Math.min(options.pageSize, 1000) : 1000;
+  const overlap = Number.isInteger(options.overlap) && options.overlap >= 0
+    ? Math.min(options.overlap, pageSize - 1) : 10;
+  const maxPages = Number.isInteger(options.maxPages) && options.maxPages > 0
+    ? options.maxPages : 100;
+  const signal = options.signal;
+  const submissions = new Map();
+  let from = 1;
+
+  for (let pageNumber = 0; pageNumber < maxPages; pageNumber += 1) {
+    const url = "https://codeforces.com/api/user.status?handle=" +
+      encodeURIComponent(handle.trim()) + "&from=" + from + "&count=" + pageSize;
+    const payload = await request(url, signal ? { signal } : undefined);
+    if (!payload || !Array.isArray(payload.result)) {
+      throw new Error("Codeforces returned an invalid submission-history page.");
+    }
+    const page = payload.result;
+    let added = 0;
+    for (const submission of page) {
+      const key = submission && submission.id != null
+        ? String(submission.id)
+        : JSON.stringify([
+            submission?.creationTimeSeconds, submission?.contestId,
+            submission?.problem?.index, submission?.verdict,
+            submission?.programmingLanguage
+          ]);
+      if (!submissions.has(key)) {
+        submissions.set(key, submission);
+        added += 1;
+      }
+    }
+    if (page.length < pageSize) return Array.from(submissions.values());
+    if (added === 0) {
+      throw new Error("Codeforces submission pagination stopped making progress.");
+    }
+    from += Math.max(1, page.length - overlap);
+  }
+  throw new Error("Codeforces submission history exceeded the safe pagination limit. No partial sync was saved.");
+}
