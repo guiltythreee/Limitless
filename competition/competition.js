@@ -903,7 +903,7 @@
         var actions = dueNow
           ? '<div class="revision-actions"><button type="button" class="action-button" data-codeforces-revision-result="correct" data-question-id="' + esc(item.questionId) + '">Solved independently</button><button type="button" class="action-button secondary-button" data-codeforces-revision-result="incorrect" data-question-id="' + esc(item.questionId) + '">Still stuck</button></div>'
           : '';
-        return '<div class="codeforces-revision-item"><div class="insight-row"><span>' + esc(item.questionId.replace('codeforces:', '')) +
+        return '<div class="revision-item"><div class="insight-row"><span>' + esc(item.questionId.replace('codeforces:', '')) +
           '<small>' + item.failures + ' failed attempt(s) · ' + dueLabel + (problemLink ? ' · ' + problemLink : '') +
           '</small></span><strong>' + (dueNow ? 'Review' : 'Scheduled') + '</strong></div>' + actions + '</div>';
       }).join('');
