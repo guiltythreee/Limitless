@@ -95,6 +95,29 @@ test("home composition keeps the production header, hero and demo visible over a
   await expect(page.locator(".bk-home-demo")).toBeVisible();
   await expect(page.locator(".bk-home-tabrow")).toBeVisible();
 
+  await expect(page.locator(".bk-xp-status")).toContainText(/Chronicle · Lv \\d+/);
+  await expect(page.getByRole("progressbar", { name: "Progress to next Chronicle level" })).toBeVisible();
+
+  const hero = page.locator(".bk-home-hero");
+  const heroHeading = hero.locator("h1");
+  await expect(heroHeading).toBeVisible();
+  const heroStyle = await heroHeading.evaluate((element) => ({
+    fontStyle: getComputedStyle(element).fontStyle,
+    fontFamily: getComputedStyle(element).fontFamily,
+  }));
+  expect(heroStyle.fontStyle).toBe("italic");
+  expect(heroStyle.fontFamily).toContain("Georgia");
+
+  const primaryStyle = await hero.locator(".bk-primary").first().evaluate((element) =>
+    getComputedStyle(element).backgroundColor
+  );
+  expect(primaryStyle).toBe("rgb(112, 80, 196)");
+
+  const demoBackground = await page.locator(".bk-home-demo").evaluate((element) =>
+    getComputedStyle(element).backgroundColor
+  );
+  expect(demoBackground).not.toBe("rgba(0, 0, 0, 0)");
+
   const shelfBackground = await page.locator(".bk-library").evaluate((element) =>
     getComputedStyle(element).backgroundColor
   );
