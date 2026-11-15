@@ -35,6 +35,7 @@ The output directory contains:
 - `knowledge-records.json`: page-scoped text blocks and conservative candidate classifications.
 - `review-packet.md`: human review checklist and page-linked candidate inventory.
 - `assets/`: extracted embedded PDF images, when Poppler's `pdfimages` is available.
+- `assets/pages/`: 120-DPI source-page previews for equation/table candidates, embedded-figure pages, and extraction/OCR exceptions, when `pdftoppm` is available.
 
 ## Human review and patch proposal
 
