@@ -1431,3 +1431,53 @@ html[data-deco="garden"] .bk-home-demo-heading {
     height: 36px;
   }
 }
+
+
+/* Reference home surfaces: a framed welcome card and a separate reading preview. */
+.bk-shell[data-home="true"] .bk-home-hero {
+  position: relative;
+  padding: 24px 28px 26px;
+  border: 1.5px solid color-mix(in srgb, #d8b978 78%, var(--accent));
+  border-radius: 17px;
+  background: color-mix(in srgb, var(--panel) 84%, transparent);
+  box-shadow: 0 8px 28px rgba(23, 18, 38, .10);
+  backdrop-filter: blur(9px);
+}
+.bk-shell[data-home="true"] .bk-home-hero::before,
+.bk-shell[data-home="true"] .bk-home-hero::after {
+  position: absolute;
+  color: color-mix(in srgb, #d8b978 78%, var(--accent));
+  font-family: Georgia, serif;
+  font-size: 25px;
+  line-height: 1;
+  pointer-events: none;
+  opacity: .82;
+}
+.bk-shell[data-home="true"] .bk-home-hero::before {
+  content: "✦";
+  top: 13px;
+  left: 15px;
+}
+.bk-shell[data-home="true"] .bk-home-hero::after {
+  content: "✦";
+  right: 14px;
+  bottom: 12px;
+}
+.bk-shell[data-home="true"] .bk-home-demo {
+  min-height: 300px;
+  padding: 18px 28px 24px;
+  border: 1px solid color-mix(in srgb, #ffffff 52%, var(--line));
+  border-radius: 17px;
+  background: color-mix(in srgb, var(--panel) 76%, transparent);
+  box-shadow: 0 8px 28px rgba(23, 18, 38, .08);
+  backdrop-filter: blur(10px);
+}
+.bk-shell[data-home="true"] .bk-home-demo-heading { margin-bottom: 17px; }
+.bk-shell[data-home="true"] .bk-home-demo-text { height: 210px; }
+@media (max-width: 900px) {
+  .bk-shell[data-home="true"] .bk-home-demo { min-height: 0; }
+}
+@media (max-width: 640px) {
+  .bk-shell[data-home="true"] .bk-home-hero { padding: 20px 18px 22px; }
+  .bk-shell[data-home="true"] .bk-home-demo { padding: 16px 18px 20px; }
+}
