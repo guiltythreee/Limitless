@@ -468,6 +468,7 @@ test("reader remains usable without horizontal overflow on a phone viewport", as
 
 test("last section and unfinished typing draft restore after reopening a book", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
   const epub = await makeFixtureEpub(true);
   await page.locator("#bk-library-files").setInputFiles({
     name: "two-chapter-position-fixture.epub",
