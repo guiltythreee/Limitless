@@ -101,7 +101,7 @@ async function main(argv) {
     `- Proposed additions: ${patch.entries.length}`,
     `- Rejected records: ${patch.rejectedRecordIds.length}`,
     "", "> This is a review artifact only. No course files, questions, or learner data were changed.", "",
-    ...patch.entries.map((entry) => `## ${entry.destination} · page ${entry.sourcePage}\\n\\nRecord: \`${entry.recordId}\`\\n\\n${entry.text}\\n`),
+    ...patch.entries.map((entry) => `## ${entry.destination} · page ${entry.sourcePage}\n\nRecord: \`${entry.recordId}\`\n\n${entry.text}\n`),
   ].join("\n");
   await writeFile(join(output, "proposed-content-patch.md"), markdown + "\n");
   process.stdout.write(`Review staged (not applied): ${patch.entries.length} proposed additions.\n`);
