@@ -181,9 +181,9 @@ export default function Home() {
   ];
 
   return (
-    <main className="relative isolate min-h-screen">
+    <main className="probability-app relative isolate min-h-screen">
       {bgStyle && <div key={bgId} className="bg-layer" style={bgStyle} aria-hidden="true" />}
-      <header className="sticky top-0 z-30 border-b border-gold/15 bg-ink/90 backdrop-blur-xl">
+      <header className="probability-app-header sticky top-0 z-30 border-b border-gold/15 bg-ink/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-5 py-4 lg:px-10">
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Home" title="Back to the top of Probability" className="flex items-center gap-3 text-left">
             <div aria-hidden="true" className="brand-icon h-12 w-12 flex-none" style={{ "--brand-dark": `url(${BASE}/brand-icon-dark.webp)`, "--brand-light": `url(${BASE}/brand-icon-light.webp)` } as CSSProperties} />
@@ -210,11 +210,11 @@ export default function Home() {
         </nav>
       </header>
 
-      <section className="relative overflow-hidden border-b border-gold/10">
+      <section className="probability-hero relative overflow-hidden border-b border-gold/10">
         <div className="subtle-grid absolute inset-0 opacity-50" />
         <div className="pointer-events-none absolute -right-24 -top-32 h-[420px] w-[420px] rounded-full border border-gold/10" />
         <div className="pointer-events-none absolute -right-12 -top-20 h-[320px] w-[320px] rounded-full border border-gold/10" />
-        <div className="relative mx-auto grid max-w-[1440px] gap-10 px-5 py-14 md:grid-cols-[1.3fr_.7fr] md:items-center md:px-10 md:py-20">
+        <div className="probability-hero-inner relative mx-auto grid max-w-[1440px] gap-10 px-5 py-14 md:grid-cols-[1.3fr_.7fr] md:items-center md:px-10 md:py-20">
           <div className="art-text">
             <div className="eyebrow mb-5">A chamber beyond certainty</div>
             <h1 className="serif max-w-3xl text-4xl leading-[1.1] text-parchment sm:text-5xl md:text-7xl">Learn the laws<br/><span className="italic text-gold">of the uncertain.</span></h1>
@@ -224,7 +224,7 @@ export default function Home() {
               <button onClick={() => { setTab("experiment"); document.getElementById("study")?.scrollIntoView({ behavior: "smooth" }); }} className="border border-gold/25 bg-ink/55 px-5 py-3 text-xs uppercase tracking-[.15em] text-gold transition hover:bg-gold/10">Explore a simulation</button>
             </div>
           </div>
-          <div className="panel relative mx-auto w-full max-w-md p-6 md:p-8">
+          <div className="probability-record-panel panel relative mx-auto w-full max-w-md p-6 md:p-8">
             <div className="absolute right-6 top-5 text-3xl text-gold/70">☉</div>
             <div className="eyebrow">Your record</div>
             <div className="serif mt-5 text-3xl">{completedCount} <span className="text-lg text-dim">/ {lessons.length} lessons</span></div>
@@ -242,7 +242,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="study" className="mx-auto max-w-[1440px] px-5 py-12 md:px-10 md:py-16">
+      <section id="study" className="probability-study-section mx-auto max-w-[1440px] px-5 py-12 md:px-10 md:py-16">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="art-text"><div className="eyebrow mb-3">Choose your next revelation</div><h2 className="serif text-3xl md:text-4xl">The Archive</h2></div>
           {createStudyModeTabs(createElement, {
@@ -254,7 +254,7 @@ export default function Home() {
             ],
             activeId: tab,
             onSelect: (id) => setTab(id as "archive" | "analysis" | "experiment" | "coverage"),
-            className: "flex max-w-full flex-wrap border border-gold/20 bg-ink/70 p-1",
+            className: "probability-section-tabs flex max-w-full flex-wrap border border-gold/20 bg-ink/70 p-1",
             itemClassName: "px-4 py-2 text-xs uppercase tracking-[.12em]",
             activeClassName: "bg-gold text-ongold",
             inactiveClassName: "text-dim",
@@ -267,15 +267,15 @@ export default function Home() {
         ) : tab === "coverage" ? (
           <Coverage />
         ) : tab === "archive" ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-[270px_minmax(0,1fr)] lg:grid-cols-[300px_minmax(0,1fr)]">
+          <div className="probability-learning-grid grid grid-cols-1 gap-6 md:grid-cols-[270px_minmax(0,1fr)] lg:grid-cols-[300px_minmax(0,1fr)]">
             <TopicPicker activeId={opened ? activeId : ""} completed={completed} onChoose={chooseLesson} title={opened ? activeLesson.title : "Choose a topic"} unit={opened ? unitOf[activeLesson.id] : ""} pathwayId={pathwayId} onPathwayChange={changePathway} />
-            <aside className="panel hidden min-w-0 p-4 md:sticky md:top-24 md:block md:max-h-[calc(100vh-7rem)] md:self-start md:overflow-y-auto">
+            <aside className="probability-topic-rail panel hidden min-w-0 p-4 md:sticky md:top-24 md:block md:max-h-[calc(100vh-7rem)] md:self-start md:overflow-y-auto">
               <TopicTree activeId={opened ? activeId : ""} completed={completed} onChoose={(id) => chooseLesson(id)} pathwayId={pathwayId} onPathwayChange={changePathway} />
               <button onClick={resetProgress} className="mt-5 w-full border-t border-gold/15 pt-4 text-left text-[10px] uppercase tracking-[.14em] text-faint hover:text-gold">Reset saved progress</button>
             </aside>
 
             {!opened ? (
-              <article ref={articleRef} className="panel flex min-h-[320px] min-w-0 scroll-mt-24 items-center justify-center p-8 text-center">
+              <article ref={articleRef} className="probability-lesson-panel panel flex min-h-[320px] min-w-0 scroll-mt-24 items-center justify-center p-8 text-center">
                 <div>
                   <div className="eyebrow mb-3">The Archive</div>
                   <h3 className="serif text-2xl md:text-3xl">Choose a chapter to begin</h3>
@@ -283,7 +283,7 @@ export default function Home() {
                 </div>
               </article>
             ) : (
-            <article ref={articleRef} className="panel min-w-0 scroll-mt-24 p-5 sm:p-8 md:p-10">
+            <article ref={articleRef} className="probability-lesson-panel panel min-w-0 scroll-mt-24 p-5 sm:p-8 md:p-10">
               <div className="flex flex-wrap items-center gap-2"><span className="eyebrow">Chapter {unitOf[activeLesson.id]}</span><span className="text-faint">·</span><span className="text-xs text-dim">Sequence {pad2(activeLesson.rank)} · {rankName(activeLesson.rank)}</span><span className="ml-auto text-xs text-dim">{activeLesson.minutes} minute read</span></div>
               <h3 className="serif mt-4 text-3xl leading-tight md:text-4xl">{activeLesson.title}</h3>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-dim">{activeLesson.description}</p>
@@ -321,7 +321,7 @@ export default function Home() {
             )}
           </div>
         ) : (
-          <div className="grid gap-6 lg:grid-cols-[.8fr_1.2fr]">
+          <div className="probability-experiment-grid grid gap-6 lg:grid-cols-[.8fr_1.2fr]">
             <div className="panel p-6 md:p-8">
               <div className="eyebrow mb-3">Experiment 001</div>
               <h3 className="serif text-3xl">The six-sided oracle</h3>
