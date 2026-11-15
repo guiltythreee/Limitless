@@ -1,0 +1,17 @@
+{
+  "name": "limitless-resource-ingestion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local, AI-assisted study-resource ingestion for Limitless maintainers",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "analyze": "node src/cli.mjs analyze",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^5.4.149"
+  }
+}
