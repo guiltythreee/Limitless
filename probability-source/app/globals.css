@@ -681,7 +681,7 @@ main .max-w-6xl :where(h1, h2, h3) {
 }
 
 /* Standalone practice and resource-page headers */
-main > section:first-of-type:not(.probability-studies-hero) {
+main > section.mb-7 {
   border-radius: var(--prob-radius-lg);
   background: var(--prob-card-bg);
   box-shadow: 0 14px 38px rgba(0,0,0,.1);
