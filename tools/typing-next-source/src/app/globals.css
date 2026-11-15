@@ -956,3 +956,16 @@ body { overflow: hidden; }
 .bk-manage-row button { min-height: 34px; padding: 5px 12px; font-size: 13px; }
 @media (max-width: 860px) { .bk-home-top { grid-template-columns: 1fr; gap: 24px; } }
 @media (max-width: 640px) { .bk-shell { width: calc(100% - 20px); padding-top: 12px; } .bk-home-in { padding: 12px 4px 28px; } .bk-home-hero { padding: 18px 18px 20px; } .bk-home-tabrow .bk-shelf-tabs button { padding: 9px 12px; font-size: 13px; } .bk-book-grid { grid-template-columns: 1fr; } .bk-book-details { padding: 9px 10px; } .bk-book-details strong { font-size: 16px; } }
+
+
+/* Production Bookkeys toolbar geometry and controls. */
+.bk-header { min-height: 48px; gap: 10px; padding: 0 0 10px; border-bottom: 1px solid var(--line); }
+.bk-header-book { min-width: 0; flex: 1; overflow: hidden; color: var(--ink); font-family: var(--font-text); font-size: 15px; text-overflow: ellipsis; white-space: nowrap; }
+.bk-home-icon, .bk-settings-button, .bk-mode-button { display: inline-flex; align-items: center; justify-content: center; width: 38px; min-width: 38px; height: 38px; padding: 0; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); background: color-mix(in srgb, var(--panel) 82%, transparent); }
+.bk-home-icon:hover, .bk-settings-button:hover, .bk-mode-button:hover { border-color: var(--accent); }
+.bk-header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.bk-size-controls { display: flex; align-items: center; gap: 4px; }
+.bk-size-controls button { min-width: 38px; min-height: 36px; padding: 0 9px; font-size: 13px; }
+.bk-archive-button { min-height: 36px; padding: 0 12px; font-size: 13px; }
+.bk-mode-button svg { display: block; }
+@media (max-width: 620px) { .bk-header { gap: 6px; } .bk-header-actions { gap: 5px; } .bk-size-controls { gap: 2px; } .bk-size-controls button { min-width: 32px; padding: 0 6px; } .bk-archive-button { padding: 0 8px; font-size: 12px; } .bk-home-icon, .bk-settings-button, .bk-mode-button { width: 34px; min-width: 34px; height: 34px; } }
