@@ -90,7 +90,8 @@ console.log("Codeforces API rate limiting: all assertions passed.");
       overlap: 0,
       request: async () => {
         calls += 1;
-        const newest = 1000 - (calls - 1) * 2;
+        // The default overlap for a two-record page is one record.
+        const newest = 1000 - (calls - 1);
         return { status: "OK", result: [
           { id: newest, creationTimeSeconds: 300 },
           { id: newest - 1, creationTimeSeconds: 299 },
