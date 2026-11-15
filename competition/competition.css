@@ -404,3 +404,7 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 @media (prefers-reduced-motion: reduce) {
   #week-list .topic-study-chevron { transition:none; }
 }
+
+.today-review-summary{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin-top:14px;padding:10px 12px;border:1px solid var(--comp-border);border-radius:9px;background:var(--comp-bg);color:var(--comp-muted);font:11px/1.5 Arial,sans-serif}
+.today-review-summary a{color:var(--comp-accent);font-weight:600;text-decoration:none}
+.today-review-summary a:hover{text-decoration:underline}
