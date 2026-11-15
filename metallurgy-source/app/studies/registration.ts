@@ -86,8 +86,8 @@ for (const manifest of manifests) {
 
 /**
  * Metallurgy is one discipline with four separately described courses.
- * Course-level capability sets are retained because MT201, MT202 and MT203
- * MT200, MT201, MT202 and MT203 do not offer identical learning features.
+ * Course-level capability sets are retained because the four courses do not
+ * offer identical learning features.
  */
 export const METALLURGY_STUDIES_REGISTRATION = {
   descriptor: {
