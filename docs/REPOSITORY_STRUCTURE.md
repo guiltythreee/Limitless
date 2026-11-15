@@ -26,7 +26,7 @@ Removing the generated directories from Git is not a standalone cleanup. It requ
 
 ## Deployment ordering
 
-Source changes for Probability and Metallurgy must not trigger an immediate production deployment using stale generated output. The deployment workflow therefore ignores both source trees on its ordinary `push` trigger and deploys after the corresponding successful build workflow completes.
+Source changes for Probability and Metallurgy must not trigger an immediate production deployment using stale generated output. The deployment workflow ignores both source trees on its ordinary `push` trigger and also has a job-level guard: `paths-ignore` alone is insufficient when one push contains both source changes and unrelated files. The guard skips that direct deployment, and the corresponding successful build workflow triggers the later deployment.
 
 The build workflows use `GITHUB_TOKEN` to commit generated assets; those commits do not themselves trigger ordinary push workflows. The `workflow_run` trigger is the handoff that deploys the completed export.
 
