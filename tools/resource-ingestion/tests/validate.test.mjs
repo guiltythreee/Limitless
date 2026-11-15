@@ -36,5 +36,6 @@ test("warns on low confidence", () => {
   const value = fixture();
   value.theory_updates[0].confidence = 0.72;
   const result = validateAnalysis(value, pages);
-  assert.ok(result.warnings.some((x) => x.includes("below 0.90")));\n  assert.equal(value.theory_updates[0].status, "review");
+  assert.ok(result.warnings.some((x) => x.includes("below 0.90")));
+  assert.equal(value.theory_updates[0].status, "review");
 });
