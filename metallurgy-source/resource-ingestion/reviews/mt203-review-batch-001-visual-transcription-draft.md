@@ -118,7 +118,17 @@ The right-side resin-identification symbols show:
 
 ## Page 102 — silicone-based TPU reaction scheme
 
-No formula transcription is proposed in this draft. The visual contains chemical structures and repeat-unit notation that require a chemistry-aware, line-by-line review. The extracted OCR is not reliable enough to reconstruct the structures safely. Retain the source-page image and keep the records pending.
+The original page image is legible enough to identify the labelled reactants and reaction conditions, but this draft does not attempt a line-by-line transcription of the polymer repeat-unit structures.
+
+- H₁₂MDI (as labelled on the slide)
+- PTMG
+- PDMS-based diol segment
+- 1,4-BD (1,4-butanediol)
+- THF/DMAC as shown beside the reaction arrow
+- T-12 as shown beside the reaction arrow
+- Product: a silicone-containing thermoplastic polyurethane (TPU) structure, as depicted
+
+**Review flags:** preserve the original reaction scheme as the teaching reference. The page does not expand the abbreviation T-12 or provide a written explanation of the reaction sequence. Do not infer the exact catalyst identity, reaction stoichiometry, or detailed repeat-unit connectivity from the OCR. A reviewer may transcribe the structures directly from the diagram if a text version is required.
 
 ## Current decision state
 
