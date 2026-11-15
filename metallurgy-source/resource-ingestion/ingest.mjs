@@ -93,6 +93,18 @@ export function shouldUseOcr(pageText, minimumNativeCharacters = 24) {
   return pageText.replace(/\s/g, "").length < minimumNativeCharacters;
 }
 
+export function buildOcrSummary(pageStats) {
+  const attempted = pageStats.length;
+  const replaced = pageStats.filter((page) => page.selectedMethod === "ocr").length;
+  return {
+    attemptedPages: attempted,
+    replacedPages: replaced,
+    retainedNativePages: attempted - replaced,
+    failedPages: pageStats.filter((page) => page.status === "failed").map((page) => page.page),
+    pageStats,
+  };
+}
+
 export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout", pageExtractionMethods = [] }) {
   const records = [];
   pages.forEach((pageText, pageIndex) => {
@@ -173,6 +185,7 @@ export async function ingestPdf(options) {
   while (pages.length < pageCount) pages.push("");
   const pageExtractionMethods = pages.map(() => "pdftotext -layout");
   let ocrStatus = "not-needed";
+  const ocrPageStats = [];
   const sparsePages = pages.map((page, index) => ({ page, index })).filter(({ page }) => shouldUseOcr(page));
   if (sparsePages.length) {
     const hasCommand = (command) => spawnSync(command, ["-v"], { encoding: "utf8" }).status === 0;
@@ -185,8 +198,19 @@ export async function ingestPdf(options) {
           run("pdftoppm", ["-f", String(pageNumber), "-l", String(pageNumber), "-r", "220", "-png", input, prefix]);
           const imageName = (await readdir(tempDir)).find((name) => name.startsWith(`page-${pageNumber}-`) && name.endsWith(".png"));
           if (!imageName) continue;
+          const nativeCharacterCount = pages[index].replace(/\s/g, "").length;
           const ocrText = run("tesseract", [join(tempDir, imageName), "stdout", "--psm", "3"]).trim();
-          if (ocrText.replace(/\s/g, "").length > pages[index].replace(/\s/g, "").length) {
+          const ocrCharacterCount = ocrText.replace(/\s/g, "").length;
+          const useOcr = ocrCharacterCount > nativeCharacterCount;
+          ocrPageStats.push({
+            page: pageNumber,
+            nativeCharacterCount,
+            ocrCharacterCount,
+            selectedMethod: useOcr ? "ocr" : "native",
+            selectedCharacterCount: useOcr ? ocrCharacterCount : nativeCharacterCount,
+            status: "completed",
+          });
+          if (useOcr) {
             pages[index] = ocrText;
             pageExtractionMethods[index] = "tesseract OCR (220 DPI, page segmentation mode 3)";
           }
@@ -197,6 +221,14 @@ export async function ingestPdf(options) {
       }
     } else {
       ocrStatus = "skipped-missing-dependency";
+      for (const { index } of sparsePages) ocrPageStats.push({
+        page: index + 1,
+        nativeCharacterCount: pages[index].replace(/\s/g, "").length,
+        ocrCharacterCount: null,
+        selectedMethod: "native",
+        selectedCharacterCount: pages[index].replace(/\s/g, "").length,
+        status: "skipped-missing-dependency",
+      });
     }
   }
   const mappingHint = {
@@ -232,6 +264,7 @@ export async function ingestPdf(options) {
       text: "pdftotext -layout with optional OCR fallback",
       ocr: ocrStatus,
       ocrPages: pageExtractionMethods.flatMap((method, index) => method.includes("OCR") ? [index + 1] : []),
+      ocrQuality: buildOcrSummary(ocrPageStats),
       imageInventory: imageInventory.startsWith("pdfimages unavailable") || imageInventory.startsWith("Image extraction unavailable") ? "unavailable" : "pdfimages -list and -png",
       imageInventoryRaw: imageInventory,
     },
