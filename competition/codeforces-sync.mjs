@@ -2,6 +2,8 @@ import { toCodeforcesLearningAttempts } from "./learning-intelligence.mjs";
 import { createCompetitionRewardAdapter } from "./competition-rewards.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
+export const CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY = "limitless.competition.codeforces-learning-accounts.v1";
+function removeStorageKey(storage, key) { if (typeof storage.removeItem === "function") storage.removeItem(key); else storage.setItem(key, null); }
 // Incremental sync can safely fetch up to 100 pages of 1,000 submissions.
 // Keep the full bounded fetch window deduplicated across the current-week overlap.
 const MAX_SEEN_IDS = 100000;
@@ -193,16 +195,39 @@ export function readCodeforcesSyncState(storage) {
   };
 }
 
+/** Save the outgoing account and restore the requested account without mixing histories. */
+export function activateCodeforcesAccount(storage, handle) {
+  const normalized = typeof handle === "string" ? handle.trim().toLowerCase() : "";
+  if (!normalized || !storage || typeof storage.getItem !== "function" || typeof storage.setItem !== "function") return { ok: false, error: "invalid-input" };
+  let activeRaw = null, active = null, collection = { version: 1, accounts: {} };
+  try {
+    activeRaw = storage.getItem(CODEFORCES_SYNC_STORAGE_KEY);
+    if (activeRaw) { active = JSON.parse(activeRaw); if (!isRecord(active) || active.version !== 1 || typeof active.handle !== "string" || !Array.isArray(active.seenSubmissionIds) || !Array.isArray(active.attempts) || !isValidCodeforcesAttemptArchive(active.attemptsArchive)) return { ok: false, error: "invalid-active-learning-record" }; }
+    const raw = storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY);
+    if (raw) { collection = JSON.parse(raw); if (!isRecord(collection) || collection.version !== 1 || !isRecord(collection.accounts)) return { ok: false, error: "invalid-account-history" };
+      for (const [key, value] of Object.entries(collection.accounts)) if (!isRecord(value) || value.version !== 1 || value.handle !== key || !Array.isArray(value.seenSubmissionIds) || !Array.isArray(value.attempts) || !isValidCodeforcesAttemptArchive(value.attemptsArchive)) return { ok: false, error: "invalid-account-history" };
+    }
+  } catch { return { ok: false, error: "invalid-account-history" }; }
+  if (active && active.handle === normalized) return { ok: true, switched: false };
+  const accounts = { ...collection.accounts }; if (active && active.handle) accounts[active.handle] = active;
+  const target = accounts[normalized] || null, oldCollection = storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY);
+  try { storage.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, JSON.stringify({ version: 1, accounts })); if (target) storage.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(target)); else removeStorageKey(storage, CODEFORCES_SYNC_STORAGE_KEY); }
+  catch { try { if (oldCollection === null) removeStorageKey(storage, CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY); else storage.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, oldCollection); if (activeRaw === null) removeStorageKey(storage, CODEFORCES_SYNC_STORAGE_KEY); else storage.setItem(CODEFORCES_SYNC_STORAGE_KEY, activeRaw); } catch {} return { ok: false, error: "storage-write-failed" }; }
+  return { ok: true, switched: true, restored: !!target };
+}
+
 /**
  * First successful sync establishes a no-reward historical baseline.
  * Later syncs retain only unseen submissions created after that baseline.
- * A handle change starts a fresh baseline; no account's history transfers.
+ * Switching handles saves and restores isolated per-account sync histories.
  */
 export function syncCodeforcesSubmissions(storage, handle, submissions, now = Date.now()) {
   const normalizedHandle = typeof handle === "string" ? handle.trim().toLowerCase() : "";
   if (!normalizedHandle || !Array.isArray(submissions) || !Number.isFinite(now) || now <= 0) {
     return { ok: false, error: "invalid-input", baseline: false, added: 0 };
   }
+  const activation = activateCodeforcesAccount(storage, normalizedHandle);
+  if (!activation.ok) return { ok: false, error: activation.error, baseline: false, added: 0 };
   const previous = readState(storage);
   if (previous && previous.attemptsArchiveValid === false) {
     return { ok: false, error: "invalid-attempts-archive", baseline: false, added: 0 };
