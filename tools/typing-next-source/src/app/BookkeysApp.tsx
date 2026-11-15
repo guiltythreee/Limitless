@@ -1516,7 +1516,7 @@ export default function BookkeysApp() {
           </button>
           <button className="bk-quiet bk-mode-button" type="button" onClick={() => {
             const modes: ReaderBackgroundId[] = ["pic-morning", "pic-evening", "pic-night"];
-            const current = modes.indexOf(settings.readerBackground ?? settings.bg ?? "pic-morning");
+            const current = modes.indexOf((settings.readerBackground ?? settings.bg ?? "pic-morning") as ReaderBackgroundId);
             const nextMode = modes[(current + 1 + modes.length) % modes.length];
             persistSettings({ ...settings, bg: nextMode, readerBackground: nextMode });
           }} aria-label="Switch mode" title="Switch mode">
