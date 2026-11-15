@@ -69,10 +69,10 @@ assert.equal(ocrSummary.pageStats[3].ocrCharacterCount, 772);
 console.log("Page-level OCR quality summary tests passed.");
 
 const tsv = [
-  "level\\tpage_num\\tblock_num\\tpar_num\\tline_num\\tword_num\\tleft\\ttop\\twidth\\theight\\tconf\\ttext",
-  "5\\t1\\t1\\t1\\t1\\t1\\t10\\t10\\t50\\t20\\t90\\tPolymer",
-  "5\\t1\\t1\\t1\\t1\\t2\\t65\\t10\\t40\\t20\\t30\\tchains",
-].join("\\n");
+  "level\tpage_num\tblock_num\tpar_num\tline_num\tword_num\tleft\ttop\twidth\theight\tconf\ttext",
+  "5\t1\t1\t1\t1\t1\t10\t10\t50\t20\t90\tPolymer",
+  "5\t1\t1\t1\t1\t2\t65\t10\t40\t20\t30\tchains",
+].join("\n");
 const confidence = parseOcrTsv(tsv);
 assert.deepEqual(confidence, { wordCount: 2, meanWordConfidence: 60, lowConfidenceWordCount: 1, lowConfidenceRatio: 0.5 });
 const acceptedOcr = assessOcrQuality({ ocrCharacterCount: 300, nativeCharacterCount: 0, wordCount: 20, meanWordConfidence: 82, lowConfidenceRatio: 0.1 });
