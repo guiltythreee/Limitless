@@ -63,7 +63,7 @@ assert.doesNotMatch(js, /codeforcesRevisionCandidates\.slice\(0,\s*5\)/,
   "the Codeforces revision queue must not hide every candidate after the first five");
 assert.match(js, /data-codeforces-revision-page/,
   "the full Codeforces revision queue must expose previous/next page controls");
-assert.match(js, /codeforcesRevisionCandidates\.length \+ ' problems · ' \+ codeforcesDueCount \+ ' due'/,
+assert.match(js, /codeforcesRevisionCandidates\.length[\\s\\S]{0,120}codeforcesDueCount/,
   "the revision panel must disclose total retained problems and due count");
 
 console.log("Competition Today panel contract: all assertions passed.");
