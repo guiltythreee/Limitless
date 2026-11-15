@@ -1,6 +1,6 @@
 # Real-source validation: MT203 Polymer Science and Technology
 
-**Validation status:** completed on a user-supplied source PDF  
+**Validation status:** source-PDF diagnostics and selected-page inspection completed; latest JavaScript CLI end-to-end validation remains pending after an OCR invocation fix  
 **Course mapping:** MT203 (confirmed by the user; the source filename is a legacy naming error)  
 **Source filename:** `MT203 – PST 2026(1).pdf`  
 **Source SHA-256:** `ba86baeb56d8bae0a0cd875cd1e4b63eac5cf11cb502d9e84e5ed52cc1f6e546`  
@@ -10,8 +10,8 @@
 ## Extraction checks
 
 - Poppler reported 212 pages; text extraction returned 212 page segments.
-- 19 pages fell below the native-text threshold and were sent through OCR.
-- OCR produced output for all 19 pages; no rendering or OCR command failures occurred.
+- 19 pages fell below the native-text threshold. Direct Poppler/Tesseract diagnostics were run against all 19 sparse pages and produced OCR text for each.
+- These direct diagnostics are not evidence that the repository's JavaScript ingestion CLI completed successfully: a later code-path audit found an invalid argument order in its TSV-confidence invocation. That invocation has been corrected and covered by a unit test; a fresh end-to-end CLI run on this PDF remains pending.
 - 759 image files were extracted and matched to the PDF image inventory by PDF image number.
 - The image inventory contained 721 image entries and 38 soft-mask entries. Soft masks are not treated as independent figure records.
 - The pipeline's image-number matching was checked against selected pages below.
@@ -40,6 +40,6 @@ OCR character counts are only extraction diagnostics. They are not a measure of 
 
 ## Acceptance decision
 
-**Pass for source intake, traceability and human-review staging. Not approved for automatic content promotion.**
+**Pass for manual source inspection, source identity, and selected page/image traceability. Pending final acceptance of the current JavaScript ingestion CLI. Not approved for automatic content promotion.**
 
-All extracted records remain unverified and require reviewer approval. No lesson, question bank, learner progress, or production content was changed during this validation.
+All extracted records remain unverified and require reviewer approval. No lesson, question bank, learner progress, or production content was changed during this validation. The latest preview planner now schedules 120-DPI page renders for equation/table candidates, embedded-figure pages, and extraction exceptions; the resulting preview files and review packet still require a fresh end-to-end run before their actual output is accepted.
