@@ -106,3 +106,65 @@ This is a heading-and-question-prompt scan, not yet a page-by-page validated aud
 5. Check T7 recombinant spider-silk content against the exact source slide and all question records.
 6. Complete exact ID/subtopic-map reconciliation for all T1–T8 questions before finalizing gap counts. The prompt scan is deliberately not treated as a validated count of missing questions.
 
+
+
+## Exact T1–T8 question-to-objective reconciliation — 16 November 2026
+
+The earlier prompt scan has now been checked against all 208 T1–T8 question records and the current lesson text. The check used the question IDs, complete prompt/answer/explanation records, and lesson objectives; it is not a claim that every source slide has been independently re-audited visually.
+
+| Topic | Confirmed coverage and exact evidence | Confirmed assessment gaps / qualification |
+|---|---|---|
+| T1 | Definition/repeat unit/DP (01, 02, 06, 07, 19, 21); classification axes and architecture (08, 09, 13, 17, 18, 20, 23–25, 28–30, 32); cis/trans polyisoprene comparison (11); copolymer sequence nomenclature (12, 29). | **Confirmed gap:** the lecture's SBR composition trend on source p.16 is in the lesson but not directly assessed: increasing styrene content raises tensile strength while elongation and abrasion resistance decrease. Existing SBR identity question t8-16 does not assess this trend. |
+| T2 | Chain/step distinction (01, 12); radical stages/kinetics/transfer/termination/gel effect (02–06, 13, 15, 31, 33–36); ionic/coordination routes (07–09, 17–22, 24–30); Carothers/stoichiometry (10, 11, 14, 16, 23, 25, 26, 28–30, 32). | No major missing mechanism family was confirmed in this pass. The existing bank covers the key reaction-mechanism and quantitative objectives; monomer examples should still be checked during any later item-level scientific-quality review. |
+| T3 | Technique identification and comparisons (01, 03–05, 09, 10, 13, 17–20); bulk/solution/suspension/emulsion and melt polycondensation are represented; micellar nucleation and particle-size/process signatures appear in 04, 10, 20; emulsion particle-number/rate reasoning also appears in cross-topic item t2-32. | **Confirmed partial gap:** the lecture's solution-polymerization isolation routes—solvent evaporation and precipitation in a non-solvent—and difficulty removing final solvent traces (source pp.22–23) are described in the lesson but not directly tested as an isolation sequence/choice. Surfactant classes (anionic/cationic/non-ionic) and the lecture's surface-tension/CMC description (pp.28–30) are also not directly assessed as such; current items test micelles and emulsion consequences, not the complete lecture detail. |
+| T4 | Method-to-average mapping is directly tested (03, 04, 16, 25); osmometry, light scattering, viscometry/Mark–Houwink, GPC/SEC and distribution interpretation are represented (03, 04, 07, 12, 14–16, 20, 22–25, 29). | No missing method family was confirmed. **Source qualification:** the lesson explicitly records that the lecture's p.48 method grouping does not align cleanly with the broader method assignments elsewhere in the lesson. Do not silently harmonize this slide-level discrepancy in new questions. |
+| T5 | Crystallizability, density/DSC/XRD measurement, morphology, cooling rate, property effects and orientation are represented (01–20, including 16–17 for example classification and bottle/fibre morphology). | No confirmed major gap from this question-to-objective pass. Keep the lecture's p.49 named example/comparison list and its printed “Modified Polyphenylene Oxide (POM)” wording as source data; do not silently correct the slide's label. |
+| T6 | Tg/Tm and molecular mobility (01–03, 05–11, 16–19, 21); HDT and its variables (12, 14, 20, 22); **HDT vs Vicat is directly tested by t6-15**. | The earlier provisional request to verify HDT/Vicat coverage is resolved: it is covered. No confirmed missing major transition concept was identified in this pass. |
+| T7 | Peptide linkage and protein structure (01–04, 13–14); collagen, keratin, silk fibroin, denaturation, gelatin, casein and biomedical protein material content (05–12, 15–16). | **Confirmed gap:** recombinant spider-silk protein C16/ADF4 is in the lesson/source (pp.78–79), including the 45 kDa label, 16 C16 repeats and product forms, but no T7 question directly assesses recombinant production or this example. |
+| T8 | Industrial polymer families and selection: LDPE/HDPE, PP, PVC, styrenics/ABS, PC, PTFE, nylon, epoxy/phenolic, silicone, PAN carbon fibre, fuel-line PA, barrier polymers, POM, semi-synthetic cellulose acetate, thermosets and commodity/engineering tiers are represented across 01–30. | No confirmed major family-level gap from this pass. This is not a blanket endorsement of every distractor or every explanation; item-level scientific and source fidelity review remains separate. |
+
+### T1–T8 confirmed assessment priorities
+
+1. Add one focused T1 item on the lecture's SBR styrene-content/property trend.
+2. Add focused T3 assessment for solution-polymerization isolation routes and the lecture's surfactant classes/CMC details. Avoid duplicating the existing general technique comparisons and micellar-nucleation questions.
+3. Add one focused T7 item on the lecture's recombinant spider-silk C16/ADF4 example and/or its described production/product sequence.
+4. Do not add generic T2, T4, T5, T6 or T8 questions solely to increase counts. Revisit those topics only if a later source-page-level audit reveals a distinct uncovered objective.
+
+These are objective-level gaps, not yet an approved question-generation request. The exact number of new questions should be decided after reviewing whether each T3 objective can be assessed without over-fragmenting the lecture material.
+
+## Whole-bank integrity check — 16 November 2026
+
+Checked the current feature-branch source files qbank/t1.ts through qbank/t11.ts, qbank/meta.ts and qbank/subtopic-map.ts.
+
+| Integrity measure | Result |
+|---|---:|
+| Question records | 305 |
+| Unique question IDs | 305 |
+| Duplicate question IDs | 0 |
+| Metadata-declared total | 305 |
+| Per-topic records vs metadata | All 11 topics match |
+| Primary subtopic assignments | 305 |
+| Unique mapped IDs | 305 |
+| Missing primary mappings | 0 |
+| Orphan mapping IDs | 0 |
+| Duplicate mapping keys | 0 |
+| Mapping references to undeclared subtopics | 0 |
+
+Per-topic counts: T1 32; T2 36; T3 22; T4 30; T5 20; T6 22; T7 16; T8 30; T9 28; T10 36; T11 33.
+
+Question-type distribution: recall 46; concept 78; compare 30; statement 24; numerical 36; match 15; apply 37; assertion–reason 11; sequence 5; graph 9; higher 14.
+
+Difficulty distribution: level 1 = 48; level 2 = 97; level 3 = 122; level 4 = 38. No level-5 items are present in the current bank. This is an inventory result, not a recommendation to force level-5 questions into every topic.
+
+Three primary subtopic assignments intentionally cross topic boundaries and were retained rather than “corrected” by assumption: t2-32 → T3.3 (emulsion/surfactant technique); t3-22 → T2.2 (chain-growth mechanism); t4-26 → T2.5 (radical kinetics). All three destination subtopics exist. These cross-topic assignments should remain visible in any later coverage report.
+
+No question IDs, question counts, metadata, taxonomy, subtopic assignments or learner progress were changed by this audit.
+
+## CI status for the inspected branch head
+
+Inspected PR #246 at head 84cd90e8462a36ece99d4b7367d28fdc00af81c5. The PR remains open, draft, unmerged and mergeable. The PR-triggered runs associated with that exact head reported:
+- Shared question-quality engine: success.
+- Metallurgy question-quality test: success.
+- Metallurgy Regression Tests: cancelled.
+
+Therefore the exact head does **not** have a fully green three-check result. Do not describe the head as fully CI-green. The cancelled regression run needs a successful rerun before treating all checks as passed.
