@@ -1585,7 +1585,7 @@ export default function BookkeysApp() {
               </div>
               <span className="bk-home-spacer" />
               <label className="bk-primary bk-home-add">Add books
-                <input ref={fileInput} className="bk-hidden" type="file" multiple
+                <input id="bk-library-files" ref={fileInput} className="bk-hidden" type="file" multiple
                   accept=".pdf,.epub,.txt,application/pdf,application/epub+zip,text/plain"
                   onChange={(event) => {
                     const files = event.currentTarget.files;
