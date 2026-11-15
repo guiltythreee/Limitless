@@ -90,4 +90,23 @@ const compactSummary = readGlobalRewardSummary(storage);
 assert.equal(compactSummary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).awards, 34);
 assert.equal(compactSummary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).exp, 826);
 
+// A malformed or duplicate recent record must block new awards. Otherwise a
+// later compaction could silently rewrite the ledger without the bad record.
+const damagedValues = new Map([[COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({
+  ...compactPayload,
+  rewardLedger: compactPayload.rewardLedger.map((record, index) =>
+    index === 0 ? { ...record, eventId: "" } : record),
+})]]);
+const damagedStorage = {
+  getItem(key) { return damagedValues.has(key) ? damagedValues.get(key) : null; },
+  setItem(key, value) { damagedValues.set(key, value); },
+};
+const damagedAdapter = createCompetitionRewardAdapter(damagedStorage);
+const damagedBefore = damagedValues.get(COMPETITION_REWARD_STORAGE_KEY);
+assert.equal(damagedAdapter.awardCodeforcesSubmission({
+  ...accepted, id: 99999, contestId: 99999,
+}, "examplehandle"), null, "malformed recent ledger records block new awards");
+assert.equal(damagedValues.get(COMPETITION_REWARD_STORAGE_KEY), damagedBefore,
+  "a rejected award leaves the damaged source bytes untouched");
+
 console.log("Competition LSR-1 rewards: all assertions passed.");
