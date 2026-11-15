@@ -71,7 +71,7 @@ export async function prepareMt203Patch({artifact,courseRoot}) {
       if(item.status!=="ready" || item.confidence<0.9) {blocked.push({...ref,reason:"not high-confidence ready; targeted review required"});continue;}
       const id=topicId+"-"+String(next).padStart(2,"0"), mapped=mapQuestion(item,id,current);
       if(mapped.errors.length){blocked.push({...ref,reason:mapped.errors.join("; ")});continue;}
-      if(existing.has(mapped.key)){blocked.push({...ref,reason:"exact normalized question stem already exists"});continue;}
+      if(existing.has(mapped.key)){blocked.push({...ref,reason:"exact duplicate: normalized question stem already exists"});continue;}
       if(used.has(id)){blocked.push({...ref,reason:"generated question ID collides with existing ID"});continue;}
       proposals.push({target:"metallurgy-source/"+relative,expected_file_sha256:digest(source),proposed_id:id,source:{sha256:artifact.source.sha256,page:item.source_page,evidence_quote:item.evidence_quote},question:mapped.question});
       used.add(id);existing.add(mapped.key);next++;
