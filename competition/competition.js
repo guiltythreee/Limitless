@@ -1266,8 +1266,10 @@
       }
     });
 
-    $('export-data').addEventListener('click', function () {
-      var blob = new Blob([JSON.stringify({ version:2, exportedAt:new Date().toISOString(), data:state },null,2)], {type:'application/json'});
+    $('export-data').addEventListener('click', async function () {
+      var backupApi = await import('./competition-backup.mjs');
+      var backup = backupApi.createCompetitionBackup(localStorage, state);
+      var blob = new Blob([JSON.stringify(backup,null,2)], {type:'application/json'});
       var url = URL.createObjectURL(blob);
       var anchor = document.createElement('a');
       anchor.href = url;
@@ -1279,7 +1281,7 @@
       var file = $('import-data').files[0];
       if (!file) return;
       var reader = new FileReader();
-      reader.onload = function () {
+      reader.onload = async function () {
         try {
           var parsed = JSON.parse(reader.result), incoming = parsed.data || parsed;
           function isRecord(value) {
@@ -1299,8 +1301,11 @@
             });
           }
           delete incoming.completed;
-          state = Object.assign(cloneDefaults(), incoming);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          var nextState = Object.assign(cloneDefaults(), incoming);
+          var backupApi = await import('./competition-backup.mjs');
+          var restored = backupApi.restoreCompetitionBackup(localStorage, STORAGE_KEY, nextState, parsed);
+          if (!restored.ok) throw new Error('Could not safely restore all competition backup data.');
+          state = nextState;
           location.reload();
         } catch (_) { alert('That file is not a valid Limitless competition backup.'); }
       };
