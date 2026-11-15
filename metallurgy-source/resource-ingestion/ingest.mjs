@@ -47,10 +47,11 @@ function classify(text, kind) {
 function classifyLine(line) {
   const trimmed = line.trim();
   if (!trimmed) return null;
-  if (/^(?:\d+(?:\.\d+)*[.)]?\s+)?[A-Z][^.!?]{2,100}$/.test(trimmed) && trimmed.length < 110) return "heading";
-  if (/^(?:[-*•▪]|\d+[.)])\s+/.test(trimmed)) return "bullet";
-  if (/[=≈≃≤≥∝∑√]|\\frac|\sum|\b(?:MPa|GPa|kJ|mol|mm|cm)\b/.test(trimmed) && trimmed.length < 240) return "equation";
-  if (/\s{2,}|\t/.test(line)) return "table-row";
+  // Detect mathematical operators before uppercase-heading heuristics.
+  if (/[=≈≃≤≥∝∑√]|\\\\frac|\\\\sum|\\b(?:MPa|GPa|kJ|mol|mm|cm)\\b/.test(trimmed) && trimmed.length < 240) return "equation";
+  if (/^(?:[-*•▪]|\\d+[.)])\\s+/.test(trimmed)) return "bullet";
+  if (/^(?:\\d+(?:\\.\\d+)*[.)]?\\s+)?[A-Z][^.!?]{2,100}$/.test(trimmed) && trimmed.length < 110) return "heading";
+  if (/\\s{2,}|\\t/.test(line)) return "table-row";
   return "paragraph";
 }
 
