@@ -1,5 +1,5 @@
 import { sanitiseRewardRecords } from "../shared/rewards.mjs";
-import { isValidCodeforcesAttemptArchive } from "./codeforces-sync.mjs";
+import { isValidCodeforcesAttemptArchive, CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY } from "./codeforces-sync.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
 export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming-lsr1-v1";
@@ -22,6 +22,7 @@ export function createCompetitionBackup(storage, state, exportedAt = new Date().
     exportedAt,
     data: state,
     codeforcesLearning: readStoredJson(storage, CODEFORCES_SYNC_STORAGE_KEY),
+    codeforcesAccountHistories: readStoredJson(storage, CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY),
     codeforcesRewards: readStoredJson(storage, COMPETITION_REWARD_STORAGE_KEY),
   };
 }
@@ -54,9 +55,16 @@ function inspectBackupExtras(parsed) {
   if (!isRecord(parsed)) return { ok: false, error: "invalid-backup" };
   const hasLearning = Object.prototype.hasOwnProperty.call(parsed, "codeforcesLearning");
   const hasRewards = Object.prototype.hasOwnProperty.call(parsed, "codeforcesRewards");
+  const hasAccountHistories = Object.prototype.hasOwnProperty.call(parsed, "codeforcesAccountHistories");
   if (hasLearning && parsed.codeforcesLearning !== null && !validCodeforcesLearning(parsed.codeforcesLearning)) {
     return { ok: false, error: "invalid-codeforces-learning" };
   }
+  if (hasAccountHistories && parsed.codeforcesAccountHistories !== null &&
+      (!isRecord(parsed.codeforcesAccountHistories) || parsed.codeforcesAccountHistories.version !== 1 || !isRecord(parsed.codeforcesAccountHistories.accounts) ||
+       Object.entries(parsed.codeforcesAccountHistories.accounts).some(([handle, value]) => !isRecord(value) || value.version !== 1 || value.handle !== handle ||
+         !Array.isArray(value.seenSubmissionIds) || !value.seenSubmissionIds.every((id) => Number.isSafeInteger(id) && id > 0) || !isValidCodeforcesAttemptArchive(value.attemptsArchive) ||
+         !Array.isArray(value.attempts) || value.attempts.some((attempt) => !isRecord(attempt) || typeof attempt.id !== "string" || !attempt.id.startsWith("codeforces:") || !Number.isFinite(attempt.occurredAt) || attempt.occurredAt <= 0))))
+    return { ok: false, error: "invalid-codeforces-account-histories" };
   if (hasRewards && parsed.codeforcesRewards !== null && !validCodeforcesRewards(parsed.codeforcesRewards)) {
     return { ok: false, error: "invalid-codeforces-rewards" };
   }
@@ -64,6 +72,8 @@ function inspectBackupExtras(parsed) {
     ok: true,
     hasLearning,
     hasRewards,
+    hasAccountHistories,
+    codeforcesAccountHistories: parsed.codeforcesAccountHistories,
     codeforcesLearning: parsed.codeforcesLearning,
     codeforcesRewards: parsed.codeforcesRewards,
   };
@@ -83,6 +93,7 @@ export function restoreCompetitionBackup(storage, primaryKey, state, parsed) {
     key: CODEFORCES_SYNC_STORAGE_KEY,
     value: extras.codeforcesLearning === null ? null : JSON.stringify(extras.codeforcesLearning),
   });
+  if (extras.hasAccountHistories) updates.push({ key: CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, value: extras.codeforcesAccountHistories === null ? null : JSON.stringify(extras.codeforcesAccountHistories) });
   if (extras.hasRewards) updates.push({
     key: COMPETITION_REWARD_STORAGE_KEY,
     value: extras.codeforcesRewards === null ? null : JSON.stringify(extras.codeforcesRewards),
