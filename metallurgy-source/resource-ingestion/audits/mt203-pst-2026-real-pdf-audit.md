@@ -42,12 +42,28 @@ Mean word confidence is from Tesseract TSV output. It is a routing signal, not a
 | 201 | 16 | 308 | 83.3 | OCR candidate; inspect diagram labels |
 | 212 | 16 | 194 | 60.2 | Exception: recycling diagram labels |
 
-## Findings and next implementation work
+## Implemented on the isolated feature branch
 
-1. The current OCR selection rule (OCR character count > native character count) is too permissive. Add word-count and mean-confidence diagnostics, plus a conservative quality gate. Low-confidence pages must remain explicit exceptions; do not silently treat them as reliable text.
-2. Keep equations, chemical formulae, units, table cells, and diagram labels in a higher-risk review class even when OCR confidence is high.
-3. The current review packet still asks the user to inspect every candidate. This conflicts with the project's stated objective of reviewing exceptions rather than rechecking all extracted material. Introduce a risk-based exception queue while preserving page links, source hashes, and unverified status.
-4. Preserve the distinction between image assets and soft masks. The real-PDF pilot confirms the image-number mapping strategy for all 721 genuine image entries.
+The audit exposed a weakness in character-count-only OCR selection. The ingestion pipeline now records Tesseract TSV word counts, mean word confidence, low-confidence word counts, and a quality status.
+
+The conservative OCR quality gate marks a page as a routine OCR candidate only when:
+- OCR yields more non-whitespace characters than native extraction;
+- at least 5 words are recognized;
+- mean word confidence is at least 65; and
+- no more than 35% of recognized words have confidence below 40.
+
+The real-PDF measurements classify 14 of the 19 sparse pages as routine OCR candidates and 5 as review-required exceptions (pages 35, 102, 171, 178 and 212). OCR text is still retained for exception pages when it improves on native extraction, but the page and its records are flagged for focused review.
+
+The review packet now prioritizes exception records (low-confidence OCR, equations and table rows) rather than dumping every candidate into the main checklist. Routine records and page-mapped visual references remain available in the complete JSON inventory. Routine means lower extraction risk, not verified teaching content: every record remains unapproved until an explicit review decision. Image references are separately triaged so hundreds of figures do not flood the text exception queue.
+
+OCR failures are now captured as page-level exceptions rather than aborting the entire PDF ingestion run.
+
+## Remaining work
+
+1. Validate the new confidence gate on additional lecture PDFs before treating its thresholds as calibrated defaults.
+2. Improve diagram/figure understanding and figure-to-topic relevance; page mapping alone does not interpret an image.
+3. Improve risk rules for chemical formulae, units, table cells, and diagram labels, which can remain high-risk even when OCR confidence is high.
+4. Keep the image/soft-mask distinction and source-page mapping intact.
 5. Do not automatically modify lessons, question banks, learner progress, or generate questions. Any proposed content additions remain separately reviewable.
 
 ## Reproducibility
