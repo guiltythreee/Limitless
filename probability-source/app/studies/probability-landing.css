@@ -74,7 +74,6 @@
 .probability-studies-hero a:not(:first-child):hover { background: rgba(75, 151, 225, .15); }
 .probability-studies-hero > div[aria-hidden="true"] { border-color: rgba(105, 181, 255, .25) !important; }
 .probability-studies-hero .serif.text-7xl { color: #78bdff !important; }
-.probability-studies-hero .text-\\[9px\\] { color: #78bdff !important; }
 .probability-studies-progress {
   border-color: var(--pa-line) !important;
   background: var(--pa-surface) !important;
