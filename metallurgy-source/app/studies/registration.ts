@@ -1,6 +1,7 @@
 import { MT201_MANIFEST } from "../courses/manifests/mt201";
 import { MT202_MANIFEST } from "../courses/manifests/mt202";
 import { MT203_MANIFEST } from "../courses/manifests/mt203";
+import { MT200_MANIFEST } from "../courses/manifests/mt200";
 import type { CourseCapabilities } from "../courses/types";
 import { ALL_QUESTION_IDS, TOPIC_OF } from "../data/qbank/meta";
 import {
@@ -13,7 +14,7 @@ import type {
   StudyDisciplineRegistration,
 } from "../../../shared/studies/contracts";
 
-const manifests = [MT201_MANIFEST, MT202_MANIFEST, MT203_MANIFEST];
+const manifests = [MT200_MANIFEST, MT201_MANIFEST, MT202_MANIFEST, MT203_MANIFEST];
 
 function capabilitiesFor(source: CourseCapabilities): StudyCapability[] {
   const result: StudyCapability[] = [];
@@ -84,15 +85,15 @@ for (const manifest of manifests) {
 }
 
 /**
- * Metallurgy is one discipline with three separately described courses.
- * Course-level capability sets are retained because MT201, MT202 and MT203
- * do not offer identical learning features.
+ * Metallurgy is one discipline with four separately described courses.
+ * Course-level capability sets are retained because the four courses do not
+ * offer identical learning features.
  */
 export const METALLURGY_STUDIES_REGISTRATION = {
   descriptor: {
     id: "metallurgy",
     title: "Metallurgy",
-    description: "Metallurgical Thermodynamics, Physical Metallurgy, and Polymer Science and Technology.",
+    description: "Testing of Materials, Metallurgical Thermodynamics, Physical Metallurgy, and Polymer Science and Technology.",
     route: "/metallurgy",
     status: "active",
     capabilities: sharedCapabilities,
@@ -109,6 +110,27 @@ export const METALLURGY_STUDIES_REGISTRATION = {
 
     const snapshots = [];
     for (const manifest of manifests) {
+      if (manifest.id === "mt200") {
+        let answers: Record<string, string>;
+        try {
+          const raw = window.localStorage.getItem(manifest.storageKey);
+          if (raw === null) continue;
+          const parsed: unknown = JSON.parse(raw);
+          if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) continue;
+          const entries = Object.entries(parsed as Record<string, unknown>);
+          if (entries.some(([key, value]) => !/^(I|II|III|IV):[A-D]\d{1,2}$/.test(key) || typeof value !== "string")) continue;
+          answers = Object.fromEntries(entries) as Record<string, string>;
+        } catch {
+          continue;
+        }
+        for (const topic of manifest.topics) {
+          snapshots.push(activitySnapshot(`${manifest.id}:${topic.id}`, 0));
+        }
+        const attempted = Object.values(answers).filter((value) => value.trim().length > 0).length;
+        snapshots.push(activitySnapshot(manifest.id, attempted));
+        continue;
+      }
+
       const stored = readStoredProgress(
         (key) => window.localStorage.getItem(key),
         manifest.storageKey,

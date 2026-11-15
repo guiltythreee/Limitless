@@ -24,7 +24,9 @@ assert.ok(probabilityUnique < probabilityAppearances, "overlapping pathways must
 
 const metallurgy = METALLURGY_STUDIES_REGISTRATION;
 const courses = metallurgy.content.filter((item) => item.kind === "course");
-assert.deepEqual(courses.map((item) => item.id), ["mt201", "mt202", "mt203"]);
+assert.deepEqual(courses.map((item) => item.id), ["mt200", "mt201", "mt202", "mt203"]);
+const mt200 = courses.find((item) => item.id === "mt200");
+assert.ok(mt200.capabilities.includes("practice") && mt200.capabilities.includes("answer-review"), "MT200 must expose its written-answer practice workspace and model-solution reveal");
 const mt201 = courses.find((item) => item.id === "mt201");
 const mt202 = courses.find((item) => item.id === "mt202");
 const mt203 = courses.find((item) => item.id === "mt203");
@@ -43,6 +45,7 @@ const records = new Map([
     completed: ["sample-space"],
     attempts: [{ q: "known-question", ts: 100 }],
   })],
+  ["mm-mt200-practice-v1", JSON.stringify({ "I:A1": "worked solution", "I:A2": "" })],
   ["mm-mt201-v1", JSON.stringify({
     answered: { "ch01-q1": { choice: "A", correct: true, at: 123 } },
   })],
@@ -61,6 +64,7 @@ assert.equal(probabilityLesson?.status, "completed");
 assert.ok(probabilitySnapshots.some((item) => item.contentId === "probability-course" && item.status === "in-progress"));
 
 const metallurgySnapshots = metallurgy.readProgress();
+assert.ok(metallurgySnapshots.some((item) => item.contentId === "mt200" && item.status === "in-progress"));
 assert.ok(metallurgySnapshots.some((item) => item.contentId === "mt201:ch01" && item.status === "in-progress"));
 assert.ok(metallurgySnapshots.some((item) => item.contentId === "mt201" && item.status === "in-progress"));
 assert.ok(metallurgySnapshots.some((item) => item.contentId === "mt202" && item.status === "not-started"));

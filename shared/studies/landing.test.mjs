@@ -37,7 +37,7 @@ const metallurgy = flatten(createStudiesLanding(createElement, "Link", {
 const courseLinks = metallurgy.filter((node) =>
   node.type === "Link" && typeof node.props.href === "string" && node.props.href.startsWith("/mt")
 );
-assert.deepEqual(courseLinks.map((node) => node.props.href), ["/mt201", "/mt202", "/mt203"]);
+assert.deepEqual(courseLinks.map((node) => node.props.href), ["/mt200", "/mt201", "/mt202", "/mt203"]);
 assert.ok(metallurgy.some((node) => node.type === "h2" && node.children[0] === "Study progress"));
 console.log("Shared Studies landing composition checks passed.");
 
