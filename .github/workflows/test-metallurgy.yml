@@ -43,6 +43,9 @@ jobs:
       - name: Validate course manifests and content locks
         working-directory: metallurgy-source
         run: node --import ./scripts/ts-resolve-hook.mjs scripts/validate-courses.mjs
+      - name: MT200 semester-homepage registration and routing
+        working-directory: metallurgy-source
+        run: node scripts/test-mt200-landing.mjs
       - name: MT201 regression suite
         working-directory: metallurgy-source
         run: node --import ./scripts/ts-resolve-hook.mjs scripts/test-mt201.mjs
@@ -63,7 +66,11 @@ jobs:
         run: |
           test -f out/index.html
           test -d out/_next
-          echo "Metallurgy static export verified."
+          test -f out/mt200/index.html
+          test -f out/mt200/practice/index.html
+          test -f out/data/mt200/papers/paper-i.md
+          test -f out/data/mt200/solutions/paper-i.md
+          echo "Metallurgy static export, including MT200 routes and resources, verified."
 
       # Cloudflare serves the checked-in /metallurgy directory as static assets.
       # Keep it in sync with the source build on main; do not publish PR previews.
