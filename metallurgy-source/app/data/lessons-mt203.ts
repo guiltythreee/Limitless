@@ -298,7 +298,7 @@ export const LESSONS: Record<string, Lesson> = {
       },
       {
         h: "Recombinant proteins — spider-silk example",
-        p: "The lecture defines a **recombinant protein** as a manipulated form of protein generated in various ways to produce large quantities, modify gene sequences and manufacture useful commercial products. Its example is **recombinant spider-silk protein C16/ADF4**, labelled **45 kDa**, comprising **16 repeats** of a module named **C16** with the printed sequence GTSAGTSAGTSA (source PDF, p. 78). The following slide is titled *Recombinant Spider silk protein production* (p. 79); its production diagram is retained as a source visual because the extracted text does not preserve its process labels or sequence reliably.",
+        p: "The lecture defines a **recombinant protein** as a manipulated form of protein generated in various ways to produce large quantities, modify gene sequences and manufacture useful commercial products. Its example is **recombinant spider-silk protein C16/ADF4**, labelled **45 kDa**, comprising **16 repeats** of a module named **C16** with the printed sequence GTSAGTSAGTSA (source PDF, p. 78). The following slide (p. 79) diagrams spider genetic information being used to prepare a plasmid, transfer into *E. coli*, fermentation and protein production. It shows the resulting protein in several product forms: **fiber, film, foam, hydrogel, particles, non-wovens and capsules**. The diagram does not label the genetic-engineering steps more specifically, so no extraction, vector-construction or purification protocol is inferred.",
       },
     ],
     formulas: [
