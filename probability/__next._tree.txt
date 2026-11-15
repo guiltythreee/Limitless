@@ -1,3 +1,3 @@
-:HL["/probability/_next/static/chunks/1y2qgv-bhmker.css","style"]
+:HL["/probability/_next/static/chunks/1jln1mg2oa4z6.css","style"]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"SDQcqp08pXsUiJsa3fGJS","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"vZ_5uzScEIAs4dmiot8f4","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
