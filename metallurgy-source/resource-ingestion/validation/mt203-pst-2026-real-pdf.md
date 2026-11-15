@@ -58,3 +58,16 @@ The full output directory is a local validation artifact and was not committed t
 **Pass for source intake, traceability, and end-to-end execution of the current JavaScript CLI. Not approved for automatic content promotion.**
 
 All extracted records remain unverified and require reviewer approval. No lesson, question bank, learner progress, or production content was changed during this validation. The generated preview files and review packet were inspected for completeness and source-page linkage. OCR thresholds remain pilot heuristics and require validation on other lecture PDFs.
+
+
+## Additional local renderer and image-mapping check
+
+A follow-up direct Poppler run against the exact source PDF confirmed:
+
+- 759 extracted image files correspond to 759 sequential inventory entries (0–758).
+- 721 genuine images map to their original source pages; 38 soft masks are correctly excluded from independent figure records.
+- The genuine images occur on 118 distinct pages.
+- All 118 selected 120-DPI page previews were rendered successfully as PNGs, with a combined size of 39.7 MiB.
+- Image extraction took 23.7 seconds. Preview rendering was completed in two execution windows; the remaining 33 pages took 14.9 seconds after the first window stopped at 85 pages. No uninterrupted total runtime is asserted.
+
+This is direct Poppler validation, not a successful end-to-end run of the committed JavaScript CLI. Manifest, record, OCR orchestration, and review-packet output validation remain pending.
