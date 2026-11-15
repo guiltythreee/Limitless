@@ -68,3 +68,42 @@ Page 78 identifies recombinant spider-silk protein C16/ADF4 (45 kDa), 16 repeats
 Page 79 shows the production sequence: spider genetic information → plasmid carrying genetic information → *E. coli* → fermentation → protein. It also shows possible product forms: fiber, film, foam, hydrogel, particles, non-wovens and capsules.
 
 The T7 question file tests silk-fibroin structure/mechanical strength but contains no direct prompt on this recombinant production route or the listed product forms. The gap is now visually confirmed. Any future question must stay within the diagram; do not infer cloning vectors, host engineering steps, fermentation conditions or purification details absent from the slide.
+
+
+## Targeted T2, T6 and T8 verification — checkpoint 002
+
+The exact question prompts and answer explanations in `t2.ts`, `t6.ts` and `t8.ts` were compared with the relevant lecture pages and the reconciled lesson. This remains an assessment audit only.
+
+| Topic | Source objective | Existing assessment evidence | Finding |
+|---|---|---|---|
+| T2 | p.50 monomer functionality table: identify/count reactive groups and classify examples as mono-, bi- or trifunctional | Existing T2 questions assess Carothers stoichiometric balance, DP limits and step-growth generally. None directly tests the lecture's named functionality examples or asks the learner to count groups in a structure. | **Confirmed source-specific assessment gap.** A question should test group counting/classification (e.g. glycine/lactic acid/malic acid or the diacid/diol/diamine examples), without assuming unfamiliar chemistry beyond the slide. |
+| T6 | pp.64–66 Tg values and the structural factors illustrated by named polymers: intermolecular forces, substituent size, backbone stiffness | Existing T6 includes generic factors, one broad “lowest Tg” recall item and Fox/Fox–Flory calculations. It does not directly assess the lecture's complete named comparisons or distinguish the source's four structural examples. | **Partial coverage.** Consider one structure-to-Tg comparison item rather than multiple isolated value-recall questions. |
+| T6 | Source-value consistency for polyethylene Tg | Existing question `t6-06` gives polyethylene as approximately −120 °C. The lecture p.65 table and reconciled lesson give **−20 °C**. | **Source mismatch requiring review.** Do not silently change either value. Preserve the lecture's printed −20 °C as the source claim and decide separately whether the bank's −120 °C is an external reference value or a transcription error. No question edit made. |
+| T6 | p.67 effect of increasing long linear alkyl side-chain length on Tg | Existing questions assess broad side-group/flexibility effects, but none directly tests the lecture's specific side-chain-length trend or representative vinyl-polymer series. | **Partial coverage.** Can be combined with the p.64–66 structural comparison objective if the stem remains unambiguous. |
+| T8 | p.102 silicone-based TPU scheme: identify H12MDI, PTMG, PDMS-based diol and 1,4-BD, plus printed THF/DMAC and T-12 labels | T8 contains a general silicone-polymer question and broad polyurethane/thermoset material, but no direct question on the p.102 silicone-based TPU reactants or scheme. | **Confirmed source-specific assessment gap.** The scheme can support a reactant/component-identification or sequence question. Do not expand T-12, infer catalyst identity, or invent stoichiometry. |
+
+### Source transcription safeguards
+
+- **T2 p.50:** the slide's functionality is based on the number of reactive groups shown: acetic acid and benzoic acid are monofunctional; phthalic acid is bifunctional; ethyl alcohol and benzyl alcohol are monofunctional; ethylene glycol is bifunctional; aniline is monofunctional; hexyl diamine is bifunctional; methyl isocyanate is monofunctional; toluene diisocyanate is bifunctional; glycine and lactic acid are bifunctional; malic acid is trifunctional. Use the source's classifications; do not infer reaction pathways from the table.
+- **T6 pp.64–66:** the lecture prints PVA 85 °C, poly(4-vinylpyridine) 142 °C, polyethylene −20 °C, polypropylene 5 °C, polystyrene 100 °C, poly(2-vinylnaphthalene) 151 °C, aliphatic polyester −63 °C, PET 80 °C and polybenzimidazole 429 °C. The p.64 polystyrene structure drawing contains a nitrogen label, which conflicts with the printed polymer name; retain the named/value pair only with this source ambiguity flagged.
+- **T6 p.67:** the slide states that increasing the length of a linear alkyl side chain decreases Tg. Its table has crowded/overlapping structure labels; do not create a structure-identification numerical item from illegible row associations.
+- **T8 p.102:** the visible labels are H12MDI, PTMG, PDMS, 1,4-BD, THF/DMAC and T-12. The output is titled “Silicone based TPU”. The slide does not provide explicit stoichiometric ratios or an expanded catalyst name.
+
+## Revised targeted gap register
+
+Confirmed source-specific assessment gaps from the targeted checks now include:
+- T1: SBR styrene-content/property trend.
+- T2: direct functionality counting/classification from the p.50 table.
+- T3: solution-polymer isolation/use cases.
+- T4: selected molecular-weight measurement methods from p.48.
+- T7: recombinant spider-silk production/application sequence.
+- T8: silicone-based TPU scheme at p.102.
+
+Partial coverage / source reconciliation items:
+- T3 surfactant classes and micelle details.
+- T5 named crystalline/amorphous polymer examples.
+- T6 named Tg/structure comparisons and side-chain-length trend.
+- T6-06 polyethylene Tg value mismatch (bank −120 °C versus lecture −20 °C).
+- T4 sedimentation-velocity and remaining method-level mapping.
+
+No question-bank content, question IDs, counts, taxonomy, metadata, learner progress or lesson content was changed. The full T1–T8 audit remains open.
