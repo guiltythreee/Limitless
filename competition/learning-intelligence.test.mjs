@@ -171,6 +171,29 @@ assert.equal(acceptedOnlyMastery.independentAttempts, 0,
 assert.notEqual(acceptedOnlyMastery.status, "mastered",
   "public submission history alone cannot prove independent mastery");
 
+// Repeated attempts and independent re-solves of one problem cannot establish
+// concept breadth. Three distinct problems are required for CP mastery.
+const oneProblemRevisions = Array.from({ length: 8 }, (_, index) => ({
+  id: "codeforces:revision:" + index,
+  disciplineId: "competitive-programming",
+  courseId: "codeforces",
+  contentId: "1900A",
+  questionId: "codeforces:1900A",
+  subjectId: "codeforces",
+  conceptIds: ["greedy"],
+  outcome: "correct",
+  occurredAt: Date.parse("2026-11-01T12:00:00Z") + index * 1000,
+  independent: true,
+  hintCount: 0,
+  mode: "revision",
+}));
+const oneProblemMastery = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), oneProblemRevisions);
+const narrowMastery = oneProblemMastery.mastery.find((item) => item.label === "greedy");
+assert.equal(narrowMastery.attempts, 8);
+assert.equal(narrowMastery.distinctQuestions, 1);
+assert.equal(narrowMastery.status, "insufficient-data",
+  "repeated independent revisions of one problem cannot prove concept breadth");
+
 assert.equal(getCodeforcesProblemUrl("codeforces:1900A"),
   "https://codeforces.com/problemset/problem/1900/A",
   "regular Codeforces contest problems use the problemset route");
