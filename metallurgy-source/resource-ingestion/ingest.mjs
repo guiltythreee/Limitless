@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
@@ -23,6 +23,13 @@ function parseArgs(argv) {
   }
   if (!options.input || !options.out) throw new Error("Usage: node ingest.mjs --input <file.pdf> --out <output-dir> [--course MT203] [--topic T11] [--subtopic <name>] [--source-label <label>]");
   return options;
+}
+
+export function parseImageInventory(raw) {
+  return raw.split(/\r?\n/).flatMap((line) => {
+    const match = line.match(/^\s*(\d+)\s+(\d+)\s+(?:image|smask)\b/i);
+    return match ? [{ page: Number(match[1]), imageNumber: Number(match[2]) }] : [];
+  });
 }
 
 function classify(text, kind) {
@@ -69,7 +76,7 @@ function splitIntoBlocks(pageText) {
   return blocks;
 }
 
-export function buildRecords({ sourceId, pages, mappingHint = {}, extractionMethod = "pdftotext -layout" }) {
+export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout" }) {
   const records = [];
   pages.forEach((pageText, pageIndex) => {
     const blocks = splitIntoBlocks(pageText);
@@ -89,6 +96,10 @@ export function buildRecords({ sourceId, pages, mappingHint = {}, extractionMeth
         confidence: "unverified",
       });
     });
+  });
+  imageAssets.forEach((asset) => {
+    const digest = createHash("sha256").update(`${sourceId}|image:${asset.imageNumber}|page:${asset.page}|${asset.path}`).digest("hex").slice(0, 16);
+    records.push({ id: `src-${digest}`, sourceId, sourcePage: asset.page, blockIndex: `image-${asset.imageNumber}`, kind: "image-reference", text: asset.path, candidateType: "figure", mappingHint, reviewStatus: "needs-review", extractionMethod: "pdfimages -png", confidence: "unverified" });
   });
   return records;
 }
@@ -148,11 +159,20 @@ export async function ingestPdf(options) {
     topic: options.topic ?? null,
     subtopic: options.subtopic ?? null,
   };
-  const records = buildRecords({ sourceId, pages, mappingHint });
-  const imageInventory = (() => {
-    try { return run("pdfimages", ["-list", input]); }
-    catch { return "pdfimages unavailable; embedded image inventory not collected."; }
-  })();
+  let imageInventory = "pdfimages unavailable; embedded image inventory not collected.";
+  let imageAssets = [];
+  try {
+    imageInventory = run("pdfimages", ["-list", input]);
+    const imageRows = parseImageInventory(imageInventory).sort((a, b) => a.imageNumber - b.imageNumber);
+    const assetsDir = join(output, "assets");
+    await mkdir(assetsDir, { recursive: true });
+    run("pdfimages", ["-png", input, join(assetsDir, "image")]);
+    const extractedNames = (await readdir(assetsDir)).filter((name) => /^image-\\d+\\./.test(name)).sort();
+    imageAssets = extractedNames.map((name, index) => ({ ...(imageRows[index] ?? { page: null, imageNumber: index }), path: `assets/${name}` }));
+  } catch (error) {
+    imageInventory = `Image extraction unavailable: ${error.message}`;
+  }
+  const records = buildRecords({ sourceId, pages, mappingHint, imageAssets });
   const manifest = {
     schemaVersion: "1.0.0",
     sourceId,
@@ -164,10 +184,11 @@ export async function ingestPdf(options) {
     extractedAt: new Date().toISOString(),
     extraction: {
       text: "pdftotext -layout",
-      imageInventory: imageInventory.startsWith("pdfimages unavailable") ? "unavailable" : "pdfimages -list",
+      imageInventory: imageInventory.startsWith("pdfimages unavailable") || imageInventory.startsWith("Image extraction unavailable") ? "unavailable" : "pdfimages -list and -png",
       imageInventoryRaw: imageInventory,
     },
     mappingHint,
+    imageAssets,
     approvalStatus: "unreviewed",
   };
   await mkdir(output, { recursive: true });
