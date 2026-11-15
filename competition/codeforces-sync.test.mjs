@@ -234,6 +234,12 @@ assert.match(accountsSource, /const fetchStartedAt = Date\.now\(\)/,
   "the sync cursor must be anchored before a potentially long paginated fetch");
 assert.match(accountsSource, /syncCodeforcesSubmissions\(localStorage, handle, submissions, fetchStartedAt\)/,
   "the fetch-start timestamp must be persisted as the cursor to preserve the full overlap");
+assert.match(accountsSource, /let syncError = ""/,
+  "the account UI must retain a useful explanation when learning sync fails");
+assert.match(accountsSource, /syncError = error instanceof Error \? error\.message : String\(error\)/,
+  "the account UI must preserve the actual fetch failure instead of swallowing it");
+assert.match(accountsSource, /Reason: " \+ syncError/,
+  "the account UI must display the reason for a failed learning sync");
 const invalidPlanGuard = accountsSource.indexOf('if (plan.mode === "invalid")');
 const sinceSubmissionFetch = accountsSource.indexOf("fetchCodeforcesSubmissionsSince(handle, plan.sinceSeconds)");
 const fullSubmissionFetch = accountsSource.indexOf("fetchAllCodeforcesSubmissions(handle)");
