@@ -41,7 +41,7 @@ export function validateReview(records, decisions) {
   return validated;
 }
 
-export function buildProposedPatch(manifest, reviewedRecords) {
+export function buildProposedPatch(manifest, reviewedRecords, allRecords = []) {
   const approved = reviewedRecords.filter((record) => record.status === "approved" || record.status === "corrected");
   return {
     schemaVersion: "1.0.0",
@@ -57,7 +57,7 @@ export function buildProposedPatch(manifest, reviewedRecords) {
       reviewerNote: record.reviewerNote,
     })),
     rejectedRecordIds: reviewedRecords.filter((record) => record.status === "rejected").map((record) => record.recordId),
-    unreviewedRecordIds: [],
+    unreviewedRecordIds: allRecords.map((record) => record.id).filter((id) => !reviewedRecords.some((record) => record.recordId === id)),
     safety: {
       applied: false,
       modifiesCourseContent: false,
@@ -81,7 +81,7 @@ async function main(argv) {
   const [manifest, recordFile, decisions] = await Promise.all(["manifest", "records", "decisions"].map(async (key) => JSON.parse(await readFile(resolve(options[key]), "utf8"))));
   const records = Array.isArray(recordFile) ? recordFile : recordFile.records;
   const reviewed = validateReview(records, decisions);
-  const patch = buildProposedPatch(manifest, reviewed);
+  const patch = buildProposedPatch(manifest, reviewed, records);
   const output = resolve(options.out);
   await mkdir(output, { recursive: true });
   await writeFile(join(output, "review-results.json"), JSON.stringify({ sourceId: manifest.sourceId, decisions: reviewed }, null, 2) + "\n");
@@ -96,7 +96,7 @@ async function main(argv) {
     ...patch.entries.map((entry) => `## ${entry.destination} · page ${entry.sourcePage}\n\nRecord: \`${entry.recordId}\`\n\n${entry.text}\n`),
   ].join("\n");
   await writeFile(join(output, "proposed-content-patch.md"), markdown + "\n");
-  process.stdout.write(`Review staged (not applied): ${patch.entries.length} proposed additions.\\n`);
+  process.stdout.write(`Review staged (not applied): ${patch.entries.length} proposed additions.\n`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
