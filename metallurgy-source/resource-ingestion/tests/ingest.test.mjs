@@ -74,6 +74,8 @@ assert.deepEqual(failedOcrSummary.failedPages, [63]);
 assert.deepEqual(failedOcrSummary.reviewRequiredPages, [63]);
 console.log("Page-level OCR quality summary tests passed.");
 
+assert.deepEqual(buildTesseractTsvArgs("/tmp/page.png"), ["/tmp/page.png", "stdout", "--psm", "3", "tsv"], "Tesseract options must precede the TSV config file");
+
 const tsv = [
   "level\tpage_num\tblock_num\tpar_num\tline_num\tword_num\tleft\ttop\twidth\theight\tconf\ttext",
   "5\t1\t1\t1\t1\t1\t10\t10\t50\t20\t90\tPolymer",
