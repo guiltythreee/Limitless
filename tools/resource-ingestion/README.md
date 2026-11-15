@@ -24,7 +24,7 @@ cd tools/resource-ingestion
 npm install
 $env:OPENAI_API_KEY = "your-key"
 # Optional: choose a model available to your API account.
-$env:OPENAI_MODEL = "gpt-6-astra"
+$env:OPENAI_MODEL = "model-name-enabled-for-your-api-account"
 ```
 
 Do not put API keys in source files, committed .env files, command history, or reports.
