@@ -203,6 +203,37 @@ console.log("Codeforces API rate limiting: all assertions passed.");
   assert.equal(calls, 4);
 }
 
+// An empty incremental page is terminal only after the newest-ID probe
+// confirms that no submission arrived while the request was in flight.
+{
+  const pages = [
+    { status: "OK", result: [] },
+    { status: "OK", result: [] },
+  ];
+  let calls = 0;
+  const result = await fetchCodeforcesSubmissionsSince("empty_recent_handle", 100, {
+    request: async () => { calls += 1; return pages.shift(); },
+  });
+  assert.deepEqual(result, []);
+  assert.equal(calls, 2, "an empty recent window still performs a final newest-ID verification");
+}
+
+{
+  const pages = [
+    { status: "OK", result: [] },
+    { status: "OK", result: [{ id: 1, creationTimeSeconds: 200 }] },
+  ];
+  let calls = 0;
+  await assert.rejects(
+    fetchCodeforcesSubmissionsSince("new_during_empty_handle", 100, {
+      request: async () => { calls += 1; return pages.shift(); },
+    }),
+    /history changed during incremental pagination/,
+    "a submission arriving after an empty first page must not be missed"
+  );
+  assert.equal(calls, 2);
+}
+
 // Creation timestamps must also be non-increasing within each page because
 // incremental termination relies on the time boundary following ID order.
 await assert.rejects(
