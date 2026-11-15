@@ -403,3 +403,344 @@ body {
 .study-dark-surface .text-parchment { color: #f0f7ff; }
 .study-dark-surface .text-dim { color: #b7cde4; }
 .study-dark-surface .text-body { color: #d7e7f7; }
+
+
+/* ==========================================================================
+   Probability Archive — section-wide learning interface system
+   Applied only in this Next.js application bundle, across course, practice,
+   analysis, experiments, coverage, Book 01 and Book 02 routes.
+   No component state, data, persistence, or question behavior is changed.
+   ========================================================================== */
+
+:root {
+  --prob-radius-sm: 8px;
+  --prob-radius-md: 12px;
+  --prob-radius-lg: 18px;
+  --prob-space-panel: clamp(1rem, 2.2vw, 1.65rem);
+  --prob-focus: 0 0 0 3px color-mix(in srgb, var(--gold) 24%, transparent);
+  --prob-card-bg: linear-gradient(145deg, color-mix(in srgb, var(--panel) 92%, #173b5e 8%), color-mix(in srgb, var(--ink) 94%, #102b47 6%));
+  --prob-soft-bg: color-mix(in srgb, var(--inset) 78%, transparent);
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: var(--prob-focus);
+}
+
+:where(button, a, input, select, textarea):disabled {
+  cursor: not-allowed;
+}
+
+/* Shared page frame and navigation */
+main > header,
+main > div > header,
+body > div > header {
+  border-color: var(--panel-line);
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  backdrop-filter: blur(18px) saturate(135%);
+}
+header nav[aria-label] button,
+header nav[aria-label] a {
+  transition: color .16s ease, background .16s ease;
+}
+header nav[aria-label] button[aria-current="page"] {
+  color: var(--gold);
+  font-weight: 700;
+}
+header nav[aria-label] button:hover,
+header nav[aria-label] a:hover {
+  color: var(--paper);
+}
+
+/* Surface language: consistent depth, borders and corner geometry */
+.panel,
+.card,
+.study-utility-panel,
+.study-utility-visual {
+  border: 1px solid var(--panel-line);
+  border-radius: var(--prob-radius-md);
+  background: var(--prob-card-bg);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, .12), inset 0 1px rgba(255,255,255,.025);
+}
+.panel {
+  backdrop-filter: blur(12px);
+}
+.card {
+  padding: var(--prob-space-panel);
+}
+.study-utility-panel {
+  padding: var(--prob-space-panel);
+}
+.study-utility-panel__header {
+  align-items: center;
+  gap: .8rem 1.2rem;
+}
+.study-utility-panel__header .study-utility-panel__title {
+  letter-spacing: -.025em;
+}
+.study-utility-panel__content {
+  min-width: 0;
+}
+.tile,
+.study-utility-metric {
+  border: 1px solid var(--panel-line);
+  border-radius: var(--prob-radius-sm);
+  background: color-mix(in srgb, var(--panel) 72%, transparent);
+}
+.study-utility-metric {
+  padding: .9rem;
+}
+.study-utility-metric__value {
+  letter-spacing: -.035em;
+}
+
+/* Navigation tabs: clear selected state and consistent hit targets */
+.subnav {
+  gap: .4rem;
+  border-bottom: 1px solid var(--panel-line);
+  padding: .35rem .2rem .7rem;
+  scrollbar-width: thin;
+}
+.subnav button {
+  min-height: 40px;
+  padding: .65rem .95rem;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-weight: 600;
+  transition: color .16s ease, border-color .16s ease, background .16s ease;
+}
+.subnav button.on {
+  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+  background: color-mix(in srgb, var(--gold) 14%, var(--panel));
+  color: var(--paper);
+  box-shadow: inset 0 -2px var(--gold);
+}
+.subnav button:not(.on):hover {
+  border-color: var(--panel-line);
+  background: color-mix(in srgb, var(--panel) 65%, transparent);
+}
+[data-study-mode-tabs] {
+  gap: .3rem;
+  border-radius: var(--prob-radius-md);
+  border-color: var(--panel-line) !important;
+  background: color-mix(in srgb, var(--ink) 76%, transparent) !important;
+}
+[data-study-mode-tabs] [role="tab"] {
+  min-height: 40px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 650;
+  transition: background .16s ease, color .16s ease, border-color .16s ease;
+}
+[data-study-mode-tabs] [role="tab"][aria-selected="true"] {
+  border-color: color-mix(in srgb, var(--gold) 36%, transparent);
+  background: color-mix(in srgb, var(--gold) 15%, var(--panel)) !important;
+  color: var(--paper) !important;
+}
+[data-study-mode-tabs] [role="tab"]:not([aria-selected="true"]):hover {
+  background: color-mix(in srgb, var(--panel) 70%, transparent);
+  color: var(--paper);
+}
+
+/* Lesson navigation and reading hierarchy */
+.measure {
+  width: min(100%, 76ch);
+  margin-inline: auto;
+}
+.theory {
+  font-size: 1rem;
+  line-height: 1.9;
+  letter-spacing: .002em;
+}
+.theory :where(p, li) {
+  max-width: 76ch;
+}
+.theory :where(h2, h3, h4) {
+  color: var(--paper);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.35;
+  margin-block: 1.7em .65em;
+}
+.theory :where(blockquote) {
+  margin-block: 1.25rem;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--prob-radius-sm) var(--prob-radius-sm) 0;
+  background: color-mix(in srgb, var(--gold) 7%, transparent);
+  padding: .85rem 1rem;
+}
+.theory :where(code) {
+  border: 1px solid var(--panel-line);
+  border-radius: 5px;
+  background: var(--prob-soft-bg);
+  padding: .12em .35em;
+}
+.theory :where(table) {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid var(--panel-line);
+  border-radius: var(--prob-radius-sm);
+}
+.theory :where(th, td) {
+  border-bottom: 1px solid var(--panel-line);
+  padding: .7rem .85rem;
+  text-align: left;
+}
+.theory :where(th) {
+  background: color-mix(in srgb, var(--gold) 9%, var(--panel));
+  color: var(--paper);
+}
+.theory :where(tr:last-child td) {
+  border-bottom: 0;
+}
+
+/* Practice, quizzes and test setup */
+.optcard {
+  min-height: 62px;
+  border-radius: var(--prob-radius-md);
+  background: color-mix(in srgb, var(--panel) 78%, transparent);
+  padding: 1rem 1.1rem;
+}
+.optcard:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--gold) 8%, var(--panel));
+  transform: translateY(-1px);
+}
+.optletter {
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--gold) 25%, transparent);
+}
+.pill,
+.chip {
+  min-height: 36px;
+  border-radius: 8px;
+  transition: background .16s ease, border-color .16s ease, color .16s ease;
+}
+.pill-on {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 28%, transparent);
+}
+.rowq {
+  border-radius: var(--prob-radius-sm);
+  padding: .95rem .6rem;
+}
+.rowq:hover {
+  background: color-mix(in srgb, var(--gold) 6%, transparent);
+}
+.actionbar {
+  border-radius: var(--prob-radius-md);
+  box-shadow: 0 12px 34px rgba(0,0,0,.18);
+}
+.actionbar .btn-main,
+.actionbar .btn-side {
+  border-radius: 9px;
+}
+
+/* Book readers: turn dense source material into a calmer reading workspace */
+main .max-w-6xl {
+  padding-inline: clamp(1rem, 2.5vw, 2rem);
+}
+main .max-w-6xl > :where(div, section) {
+  min-width: 0;
+}
+main .max-w-6xl article.panel {
+  border-radius: var(--prob-radius-lg);
+  padding: clamp(1.1rem, 2.8vw, 2rem);
+}
+main .max-w-6xl pre {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  line-height: 1.85;
+}
+main .max-w-6xl :where(button, a).border {
+  border-radius: 8px;
+  transition: border-color .16s ease, background .16s ease, color .16s ease;
+}
+main .max-w-6xl :where(button, a).border:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--gold) 52%, transparent);
+}
+main .max-w-6xl .grid > aside {
+  border-radius: var(--prob-radius-md);
+}
+main .max-w-6xl .grid > aside button {
+  border-radius: 7px;
+}
+main .max-w-6xl .grid > article {
+  border-radius: var(--prob-radius-md);
+}
+main .max-w-6xl :where(h1, h2, h3) {
+  letter-spacing: -.025em;
+}
+
+/* Standalone practice and resource-page headers */
+main > section:first-of-type:not(.probability-studies-hero) {
+  border-radius: var(--prob-radius-lg);
+  background: var(--prob-card-bg);
+  box-shadow: 0 14px 38px rgba(0,0,0,.1);
+}
+main > nav[aria-label="Breadcrumb"] {
+  font-size: 10px;
+  letter-spacing: .14em;
+}
+main :where(input, select, textarea) {
+  border-radius: 8px;
+}
+main :where(input, select, textarea):focus-visible {
+  outline-offset: 1px;
+}
+
+/* Mobile: preserve readable controls and avoid horizontal tab overflow */
+@media (max-width: 760px) {
+  .subnav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .subnav button {
+    flex: 0 0 auto;
+  }
+  [data-study-mode-tabs] {
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  [data-study-mode-tabs] [role="tab"] {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  .study-utility-panel__header {
+    align-items: flex-start;
+  }
+  .actionbar {
+    bottom: 8px;
+    gap: .45rem;
+    padding: .55rem;
+  }
+  .actionbar .btn-main,
+  .actionbar .btn-side {
+    min-height: 44px;
+    padding-inline: .8rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .subnav button,
+  [data-study-mode-tabs] [role="tab"],
+  .optcard,
+  .pill,
+  .chip {
+    transition: none !important;
+  }
+  .optcard:hover:not(:disabled) {
+    transform: none;
+  }
+}
