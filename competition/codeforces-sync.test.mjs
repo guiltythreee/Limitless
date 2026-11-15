@@ -62,6 +62,39 @@ const repeatedFinalized = syncCodeforcesSubmissions(storage, "ExampleHandle", [{
 assert.equal(repeatedFinalized.added, 0);
 assert.equal(repeatedFinalized.rewardAwards, 0, "repeated sync does not award EXP twice");
 
+// A reward can be persisted even if the separate sync-state write fails.
+// Retrying must not report that already-persisted reward as newly awarded.
+const flakyValues = new Map();
+let failNextSyncWrite = false;
+const flakyStorage = {
+  getItem(key) { return flakyValues.has(key) ? flakyValues.get(key) : null; },
+  setItem(key, value) {
+    if (key === CODEFORCES_SYNC_STORAGE_KEY && failNextSyncWrite) {
+      failNextSyncWrite = false;
+      throw new Error("simulated sync-state quota failure");
+    }
+    flakyValues.set(key, value);
+  },
+};
+const retryBaseline = syncCodeforcesSubmissions(flakyStorage, "RetryHandle", [], 1795000000000);
+assert.equal(retryBaseline.ok, true);
+const retrySubmission = {
+  id: 104, contestId: 2000, creationTimeSeconds: 1795000001,
+  verdict: "OK", problem: { contestId: 2000, index: "D", rating: 800, tags: ["implementation"] },
+};
+failNextSyncWrite = true;
+const failedStateWrite = syncCodeforcesSubmissions(flakyStorage, "RetryHandle", [retrySubmission], 1795000005000);
+assert.equal(failedStateWrite.ok, false);
+assert.equal(failedStateWrite.error, "storage-write-failed");
+assert.equal(flakyValues.has(COMPETITION_REWARD_STORAGE_KEY), true,
+  "the independently persisted reward survives a sync-state write failure");
+const recoveredRetry = syncCodeforcesSubmissions(flakyStorage, "RetryHandle", [retrySubmission], 1795000006000);
+assert.equal(recoveredRetry.ok, true);
+assert.equal(recoveredRetry.added, 1, "the retry restores the missing learning attempt");
+assert.equal(recoveredRetry.rewardAwards, 0, "an already-persisted reward is not counted as a new award");
+assert.equal(recoveredRetry.awardedExp, 0, "retry does not report previously credited EXP as newly awarded");
+assert.equal(recoveredRetry.state.attempts.length, 1);
+
 const switched = syncCodeforcesSubmissions(storage, "DifferentHandle", history, 1796000000000);
 assert.equal(switched.baseline, true, "changing accounts establishes a fresh baseline");
 assert.equal(switched.added, 0);

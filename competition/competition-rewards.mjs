@@ -52,7 +52,7 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     const eventId = "codeforces:" + account + ":" + submission.id;
     const state = loadState();
     const existing = state.records.find((record) => record.eventId === eventId);
-    if (existing) return existing;
+    if (existing) return { ...existing, created: false };
 
     const rating = Number.isFinite(submission.problem.rating) ? submission.problem.rating : 0;
     const activity = {
@@ -78,7 +78,9 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       return null;
     }
     dispatchRewardUpdate();
-    return record;
+    // Report creation separately from the persisted reward record. This lets
+    // sync retries distinguish an idempotent lookup from a new award.
+    return { ...record, created: true };
   }
 
   function getRecords() {

@@ -81,7 +81,7 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
       if (submission.verdict !== "OK") continue;
       const record = rewards.awardCodeforcesSubmission(submission, normalizedHandle);
       if (!record) return { ok: false, error: "reward-ledger-write-failed", baseline: false, added: 0 };
-      if (record.eligible && record.totalExp > 0) {
+      if (record.created && record.eligible && record.totalExp > 0) {
         awardedExp += record.totalExp;
         rewardAwards += 1;
       }

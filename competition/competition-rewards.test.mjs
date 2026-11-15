@@ -29,6 +29,7 @@ assert.equal(adapter.awardCodeforcesSubmission({ ...accepted, verdict: "WRONG_AN
   "failed submissions never award EXP");
 const first = adapter.awardCodeforcesSubmission(accepted, "ExampleHandle");
 assert.ok(first);
+assert.equal(first.created, true, "a new ledger record is identified as newly created");
 assert.equal(first.moduleId, COMPETITION_REWARD_MODULE_ID);
 assert.equal(first.itemId, "codeforces-problem:2100-B");
 assert.equal(first.activityClass, "focused-practice");
@@ -36,8 +37,10 @@ assert.equal(first.difficulty, "intermediate");
 assert.equal(first.completionEvidence, "verified-codeforces-accepted-submission");
 assert.equal(first.baseExp, 20);
 assert.equal(first.totalExp, 29);
-assert.equal(adapter.awardCodeforcesSubmission(accepted, "examplehandle").eventId, first.eventId,
+const repeated = adapter.awardCodeforcesSubmission(accepted, "examplehandle");
+assert.equal(repeated.eventId, first.eventId,
   "the same account/submission pair is idempotent");
+assert.equal(repeated.created, false, "an existing ledger record is not reported as a new award");
 assert.equal(adapter.getRecords().length, 1);
 
 const sameDay = [7002, 7003, 7004].map((id) => ({
