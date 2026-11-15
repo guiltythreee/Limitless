@@ -66,14 +66,30 @@ The ingestion code now builds the invocation as `tesseract <image> stdout --psm 
 
 The source-page preview planner also now selects pages with equation/table candidates, embedded figure references, or extraction exceptions. Since the PDF has figure assets on 118 pages, the preview set will include at least those 118 pages; these are optional visual references, not 118 mandatory manual approvals.
 
+## Source-page preview spot check
+
+The seven high-risk/reference pages identified during the earlier visual audit were rendered directly from this same PDF with Poppler at 120 DPI using the same single-page PNG output mode intended by the preview implementation:
+
+| PDF page | Visual content confirmed |
+|---:|---|
+| 36 | Number-, weight-, and z-average molecular-weight equations and variable definitions |
+| 152 | Polymer permeability definition, transport stages, and influencing factors |
+| 153 | Permeability coefficient, solubility coefficient, and the relation `P = D·S` with units |
+| 154 | Permeability data table; individual values still require visual verification before reuse |
+| 178 | Single-screw extruder diagram and component labels |
+| 194 | Blown-film extrusion diagram |
+| 201 | Injection-moulding machine and mould/cross-section diagrams |
+
+All seven renders were produced successfully as PNG files. This validates the PDF renderer, page selection targets, and output mode against the source. It is a manual Poppler spot check, not yet a full execution of the JavaScript ingestion CLI; the latter still needs to be run end-to-end and its manifest/packet inspected.
+
 ## Remaining work
 
 1. Run the current JavaScript ingestion CLI end-to-end against this exact PDF and inspect the generated manifest, preview plan, record counts, and review packet. Do not claim end-to-end completion until this succeeds.
 2. Validate the new confidence gate on additional lecture PDFs before treating its thresholds as calibrated defaults.
-2. Improve diagram/figure understanding and figure-to-topic relevance; page mapping alone does not interpret an image.
-3. Improve risk rules for chemical formulae, units, table cells, and diagram labels, which can remain high-risk even when OCR confidence is high.
-4. Keep the image/soft-mask distinction and source-page mapping intact.
-5. Do not automatically modify lessons, question banks, learner progress, or generate questions. Any proposed content additions remain separately reviewable.
+3. Improve diagram/figure understanding and figure-to-topic relevance; page mapping alone does not interpret an image.
+4. Improve risk rules for chemical formulae, units, table cells, and diagram labels, which can remain high-risk even when OCR confidence is high.
+5. Keep the image/soft-mask distinction and source-page mapping intact.
+6. Do not automatically modify lessons, question banks, learner progress, or generate questions. Any proposed content additions remain separately reviewable.
 
 ## Reproducibility
 
