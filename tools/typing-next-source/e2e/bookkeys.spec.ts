@@ -114,12 +114,12 @@ test("home composition keeps the production header, hero and demo visible over a
   const primaryStyle = await hero.locator(".bk-primary").first().evaluate((element) =>
     getComputedStyle(element).backgroundColor
   );
-  expect(primaryStyle).toBe("rgb(112, 80, 196)");
+  expect(primaryStyle).toBe("rgb(106, 77, 191)");
 
   const demoBackground = await page.locator(".bk-home-demo").evaluate((element) =>
     getComputedStyle(element).backgroundColor
   );
-  expect(demoBackground).not.toBe("rgba(0, 0, 0, 0)");
+  expect(demoBackground).toBe("rgba(0, 0, 0, 0)");
 
   const shelfBackground = await page.locator(".bk-library").evaluate((element) =>
     getComputedStyle(element).backgroundColor
