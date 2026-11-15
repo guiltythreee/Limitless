@@ -266,18 +266,6 @@ assert.equal(codeforcesAfterFailure.dueAt, Date.parse("2026-11-04T12:00:00Z"),
 console.log("Competition learning adapter: all assertions passed.");
 
 
-    occurredAt: Date.parse("2026-11-03T12:00:00Z"), outcome: "incorrect",
-    independent: false, mode: "revision",
-  },
-]);
-const codeforcesAfterFailure = codeforcesFailedAgain.revision.find((item) => item.questionId === "codeforces:1900A");
-assert.equal(codeforcesAfterFailure.dueAt, Date.parse("2026-11-04T12:00:00Z"),
-  "failed Codeforces revision resets the schedule to one day");
-
-
-console.log("Competition learning adapter: all assertions passed.");
-
-
 const revisionQuestion = "codeforces:2500A";
 const revisionStart = Date.parse("2026-11-01T12:00:00.000Z");
 const compactRevisionState = updateCodeforcesRevisionState([], [
