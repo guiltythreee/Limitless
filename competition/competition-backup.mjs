@@ -15,7 +15,7 @@ function readStoredJsonForBackup(storage, key) {
   } catch {
     throw new Error("Competition backup could not read storage key: " + key);
   }
-  if (raw === null || raw === undefined || raw === "") return null;
+  if (raw === null || raw === undefined) return null;
   try {
     return JSON.parse(raw);
   } catch {
