@@ -25,7 +25,7 @@ assert.equal(patch.safety.applied, false);
 assert.equal(patch.safety.modifiesQuestionBanks, false);
 assert.throws(() => validateReview(records, [{ recordId: "missing", status: "approved", destination: "theory" }]), /existing recordId/);
 assert.throws(() => validateReview(records, [{ recordId: "r1", status: "approved" }]), /requires a destination/);
-assert.throws(() => validateReview(records, [{ recordId: "r1", status: "corrected", destination: "theory" }]), /requires (non-empty string )?correctedText/);
+assert.throws(() => validateReview(records, [{ recordId: "r1", status: "corrected", destination: "theory" }]), /requires .*correctedText/);
 assert.throws(() => validateReview(records, [decisions[0], decisions[0]]), /Duplicate decision/);
 
 assert.throws(() => validateReview(records, [{ recordId: "r1", status: "approved", destination: "unknown" }]), /Invalid destination/);
