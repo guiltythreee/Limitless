@@ -297,6 +297,10 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
   const baselineAt = sameAccount && Number.isFinite(previous.baselineAt) && previous.baselineAt > 0
     ? previous.baselineAt : now;
   const seen = new Set(sameAccount && Array.isArray(previous.seenSubmissionIds) ? previous.seenSubmissionIds : []);
+  // The seen-ID index is deliberately bounded. The lossless attempt archive
+  // remains the permanent idempotency backstop after an ID ages out of it.
+  const previousAttemptIds = new Set((sameAccount && Array.isArray(previous.attempts) ? previous.attempts : [])
+    .map((attempt) => attempt.id));
   const firstSync = !sameAccount || !baselineAt || !previous?.baselineAt;
   const newlyObserved = [];
   const acceptedForProjection = [];
@@ -310,6 +314,9 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
     // can later update the same submission ID with its terminal verdict.
     if (!mapped.length) continue;
     seen.add(id);
+    // A submission can reappear after its bounded seen-ID entry is evicted.
+    // Do not project its existing archived attempt into the scheduler twice.
+    if (previousAttemptIds.has("codeforces:" + id)) continue;
     const seconds = Number(submission.creationTimeSeconds);
     if (!firstSync && Number.isFinite(seconds) && seconds * 1000 >= baselineAt) {
       newlyObserved.push(submission);
