@@ -149,9 +149,9 @@ export async function fetchAllCodeforcesSubmissions(handle, options = {}) {
 
 /**
  * Fetch only submissions in a recent time window.
- * user.status is ordered by descending submission ID, so once a full page
- * crosses the time boundary, older pages cannot contain newer submissions.
- * A small overlap is expected; IDs deduplicate it across pages.
+ * Validate ID/time ordering and recheck the newest ID at the end so offset
+ * movement during a long scan cannot silently create a gap. A small overlap
+ * deduplicates records across stable pages.
  */
 export async function fetchCodeforcesSubmissionsSince(handle, sinceSeconds, options = {}) {
   if (typeof handle !== "string" || !handle.trim()) {
