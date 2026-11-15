@@ -295,3 +295,35 @@ Next actions:
 - The main-side comparison contains 167 changed paths. The PR currently changes 71 paths. Exact filename intersection: ZERO. The 22 main-side commits concern MT203/Metallurgy, Codeforces learning/revision, Probability builds, shared study intelligence and related generated site output; none touches the PR's Bookkeys migration paths or its preview Worker config.
 - This is a path-level non-overlap audit, not a merge/rebase test. It reduces the likelihood of direct file conflicts but does not authorize integration or prove runtime compatibility. Keep PR #232 draft and unmerged; do not rebase/merge until explicitly approved.
 - PR #232 still records base SHA `77e7c894ed8629d4494d7e22f2eed6a99af10a74` even though current `main` has advanced to `438b740cc821d2acc87a0ec67f3d1e8fff8d9c7c`. Resolve this stale base relationship deliberately at the integration stage, not by silently changing the PR during visual acceptance.
+
+
+## Preview shell/theme parity source audit — 16 November 2026
+
+Exact branch and verification checkpoint:
+- PR #232 head at audit: `06b9bc73d3e78ba502e1815ef1f2b5c15dce4a9a`.
+- Pre-audit backup: `backup/bookkeys-before-preview-shell-parity-audit-20261116` points to that exact SHA.
+- Bookkeys TypeScript Migration run `43748807092`: SUCCESS; all steps completed, including legacy preservation, persistence, type-check, static export and Chromium browser regressions.
+- Bookkeys Regression Tests run `43748807080`: SUCCESS.
+- Isolated Bookkeys preview deploy run `43748801242`: SUCCESS. The Cloudflare Worker deploy step completed for the exact PR head.
+- PR #232 remains open, draft and unmerged. No production route, Worker or user data was changed.
+
+Current-main divergence refresh:
+- Current `main` head: `364798a4bac3a403bb5f8f91f5529a13f2e3024a`.
+- Merge base remains `77e7c894ed8629d4494d7e22f2eed6a99af10a74`.
+- Working branch is 55 commits ahead and 22 behind current `main`; main-side comparison contains 22 commits and 167 changed paths.
+- PR changes 71 paths. Exact filename overlap with the 167 main-side paths remains ZERO.
+- The new main commit `364798a` is a generated Metallurgy build. The zero-overlap result is path-level only; it is not a merge/rebase or runtime compatibility test.
+
+Source-level findings relevant to visual parity:
+1. Production `tools/typing/index.html` is a full-screen host shell around the original `bookkeys.html` iframe. It hides the global navbar for this route. Its `syncBookkeys()` bridge explicitly sets the iframe's `data-theme` and `data-tone`, injects the site palette CSS variables, and applies the shared responsive Limitless background artwork to the iframe body. This host-shell behavior is part of the production render, not incidental chrome.
+2. The migrated preview renders its own React shell and home composition. The current source contains the `.bk-header`, `.bk-home-top`, separate `.bk-home-hero` and `.bk-home-demo`, and `.bk-library`. The home-composition Playwright test asserts the header/home controls, hero, demo, shelf tabs and transparent shelf background.
+3. The migrated stylesheet retains an older high-specificity light-theme rule for `html[data-theme="light"] .bk-library`. A later explicit override now sets the light-theme library background and border transparent. The deployed source includes that correction; do not reintroduce the opaque panel.
+4. The preview's appearance resolver uses the local Bookkeys settings and background palette. The production iframe instead receives theme/tone/palette/background from its parent host. Because the isolated preview is on a separate origin, it cannot read the production origin's `limitless.site.theme` preference directly. Theme/background differences must therefore be compared as an explicit shell-integration parity item; do not copy production localStorage or personal library data into the preview.
+5. This source audit does not establish pixel-level visual parity. It explains why a passing home-visibility test is insufficient: it checks the migrated composition exists, but does not compare the production host's injected theme/artwork with the preview render.
+
+Next action:
+- Hard-refresh the exact deployed preview and compare it with the production Bookkeys route at identical viewport and zoom. Focus on theme/tone, shared background artwork, header controls/geometry, hero typography, demo placement, shelf transparency and card state.
+- The earlier screenshot evidence predates the latest verified preview head `06b9bc7`; it cannot accept or reject this deployment. The production library's personal entries must remain isolated and must not be copied to preview.
+- If the current screenshot still shows a discrepancy, capture both current pages at the same viewport and make the smallest source-backed correction. Do not change theme defaults or shell behavior solely from stale screenshots.
+- Before any further product-source edit, create a new exact-head backup; after a compiling and verified milestone, immediately create another exact-head backup.
+
