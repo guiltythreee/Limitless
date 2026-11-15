@@ -83,7 +83,7 @@ The slide labels are:
 
 **Recommended minimal addition:** a seven-row reference table in T9, explicitly introduced as the resin-identification labels shown in the lecture slide. Preserve `V` as printed; do not silently replace it with `PVC` or another abbreviation. The slide does not enumerate the materials included in “OTHER”, so do not add examples.
 
-## Implementation record\n\nCommitted to the isolated branch `feat/study-resource-ingestion-foundation` in `app/data/lessons-mt203.ts`: T8 silicone-based TPU example, T9 resin-code table, T10 permeability data table (with unit/footnote caveat), and T11 extruder hardware/control details. No questions or course manifest entries changed. The T9 section syntax was repaired after CI caught an invalid insertion; the review-test assertion was also corrected to match the validator's explicit error text. Current branch head: `c962b141d99d086d6a47e8971249e23039d66405`.\n\n## Proposed patch scope
+## Implementation record\n\nCommitted to the isolated branch `feat/study-resource-ingestion-foundation` in `app/data/lessons-mt203.ts`: T8 silicone-based TPU example, T9 resin-code table, T10 permeability data table (with unit/footnote caveat), and T11 extruder hardware/control details. No questions or course manifest entries changed. The T9 section syntax was repaired after CI caught an invalid insertion; the review-test assertion was also corrected to match the validator's explicit error text. Implementation commits: `d536be7c63ea9c7448c2e415d318c5144e3c3ce3`, `982839a48ff6587767ea8142103a314f119769c8`, `0acc9b50855882432bcc1282e917b38222c00d85` and `c962b141d99d086d6a47e8971249e23039d66405`.\n\n## Proposed patch scope
 
 If approved, the smallest useful lesson update is:
 
