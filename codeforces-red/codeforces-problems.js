@@ -135,10 +135,10 @@
         status('Curated '+state.problems.length.toLocaleString()+' problems · up to 250 per rating · balanced across topics.');
       }
       populateFilters();
-      await loadSolved();
-      if (!/unavailable|failed|error|could not/i.test($('cf-problem-status').textContent)) {
-        status('Curated '+state.problems.length.toLocaleString()+' problems · '+state.solved.size.toLocaleString()+' solved · '+state.wrong.size.toLocaleString()+' with failed submissions · based on latest 10,000 submissions.');
-      }
+      const solvedLoaded = await loadSolved();
+      status(solvedLoaded
+        ? 'Curated '+state.problems.length.toLocaleString()+' problems · '+state.solved.size.toLocaleString()+' solved · '+state.wrong.size.toLocaleString()+' with failed submissions · based on latest 10,000 submissions.'
+        : 'Curated '+state.problems.length.toLocaleString()+' problems · solved status unavailable. Check your linked handle or retry the submission refresh.');
       render();
     } catch (error) { status(error.message + ' You can retry; your saved list remains available.'); }
     finally { state.loading = false; $('cf-refresh-problems').disabled = false; }
@@ -148,11 +148,19 @@
     if (!handle || handle === '—') {
       try { const linked = JSON.parse(localStorage.getItem('limitless.competition.linked-accounts.v1') || '{}'); handle = (linked.codeforcesHandle || '').trim(); } catch (_) {}
     }
-    if (!handle) { status('Catalogue loaded. Add a Codeforces handle above to include your solved status.'); return; }
+    if (!handle) {
+      state.solved = new Set();
+      state.wrong = new Map();
+      status('Catalogue loaded. Add a Codeforces handle above to include your solved status.');
+      return false;
+    }
     try {
-      const submissions = await api('user.status', { handle, from:1, count:10000 });
+      const client = await import('../competition/codeforces-api.mjs');
+      const payload = await client.requestCodeforcesApi(
+        'https://codeforces.com/api/user.status?handle=' + encodeURIComponent(handle) + '&from=1&count=10000'
+      );
       const solved = new Set(), wrong = new Map();
-      submissions.forEach(s => {
+      payload.result.forEach(s => {
         if (!s.problem || !s.verdict || s.verdict === 'TESTING') return;
         const key=(s.problem.contestId || 'gym') + '-' + (s.problem.index || '');
         if (s.verdict === 'OK') solved.add(key);
@@ -162,7 +170,13 @@
       state.wrong=wrong;
       const attempted=wrong.size, solvedCount=solved.size;
       status('Synced '+solvedCount.toLocaleString()+' solved problems · '+attempted.toLocaleString()+' problems with failed submissions · latest 10,000 submissions.');
-    } catch (error) { status('Problem catalogue loaded; submission history unavailable: ' + error.message); }
+      return true;
+    } catch (error) {
+      state.solved = new Set();
+      state.wrong = new Map();
+      status('Problem catalogue loaded; solved status unavailable: ' + error.message);
+      return false;
+    }
   }
   function populateFilters() {
     const tags = [...new Set(state.problems.flatMap(p => p.tags || []))].sort((a,b) => a.localeCompare(b));
@@ -206,7 +220,7 @@
     $('cf-problem-list').innerHTML = slice.map(p => {
       const key = (p.contestId || 'gym') + '-' + (p.index || ''), solved = state.solved.has(key), wrongCount=state.wrong.get(key)||0, saved = state.saved.has(key);
       const tags = (p.tags || []).map(tag => '<span class="cf-chip">' + esc(tag) + '</span>').join('');
-      const ratingLabel = Number.isFinite(p.rating) ? p.rating : 'Unrated';
+      const ratingLabel = Number.isFinite(p.rating) ? String(p.rating) : 'Unrated';
       const tagsDisclosure = tags ? '<details class="cf-problem-tags"><summary>Tags</summary><div>' + tags + '</div></details>' : '';
       const isGym = Number(p.contestId) >= 100000;
       const url = p.contestId ? (isGym ? 'https://codeforces.com/gym/' + p.contestId + '/problem/' : 'https://codeforces.com/problemset/problem/' + p.contestId + '/') + encodeURIComponent(p.index || '') : 'https://codeforces.com/problemset';
