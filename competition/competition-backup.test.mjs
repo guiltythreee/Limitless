@@ -66,6 +66,9 @@ const backup = createCompetitionBackup(source, state, "2026-11-15T00:00:00.000Z"
 assert.equal(backup.version, 3);
 assert.deepEqual(backup.codeforcesLearning, learning);
 assert.deepEqual(backup.codeforcesRewards.rewardLedger, [reward]);
+assert.equal(backup.codeforcesRewards.rewardLedgerArchive, undefined,
+  "legacy ledgers remain exportable without forced migration");
+
 
 const restored = makeStorage();
 restored.setItem("competition-state", "old-state");
