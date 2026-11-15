@@ -1333,3 +1333,45 @@ html[data-deco="garden"] .bk-home-demo-heading {
   .bk-shell[data-home="true"] .bk-book-details { padding: 9px 10px; }
   .bk-shell[data-home="true"] .bk-book-details strong { font-size: 16px; }
 }
+
+
+/* Restore the original full-width Bookkeys home toolbar.
+   The home content remains centered independently in .bk-home-in. */
+.bk-shell[data-home="true"] {
+  width: 100%;
+  max-width: none;
+  padding: 8px 16px 28px;
+}
+.bk-shell[data-home="true"] > .bk-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  width: 100%;
+  min-height: 40px;
+  margin: 0;
+  padding: 0 0 8px;
+  border: 0;
+  background: transparent;
+}
+.bk-shell[data-home="true"] .bk-xp-status {
+  background: color-mix(in srgb, var(--panel) 78%, transparent);
+  backdrop-filter: blur(8px);
+}
+.bk-shell[data-home="true"] .bk-header-actions .bk-archive-button:not(.bk-xp-status) {
+  display: none;
+}
+.bk-shell[data-home="true"] .bk-home-icon,
+.bk-shell[data-home="true"] .bk-settings-button,
+.bk-shell[data-home="true"] .bk-mode-button {
+  background: color-mix(in srgb, var(--panel) 78%, transparent);
+  backdrop-filter: blur(8px);
+}
+@media (max-width: 640px) {
+  .bk-shell[data-home="true"] {
+    padding: 8px 10px 24px;
+  }
+  .bk-shell[data-home="true"] > .bk-header {
+    min-height: 38px;
+    padding-bottom: 6px;
+  }
+}
