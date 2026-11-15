@@ -37,6 +37,9 @@ jobs:
       - name: Install dependencies
         working-directory: metallurgy-source
         run: npm ci
+      - name: Test source resource ingestion
+        working-directory: metallurgy-source
+        run: npm run test:ingestion
       - name: Test LSR-1 module adapters and legacy XP isolation
         working-directory: metallurgy-source
         run: npm run test:lsr1
