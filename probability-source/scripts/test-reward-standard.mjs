@@ -378,11 +378,14 @@ assert.equal(savedNotices.notifications.find((notice) => notice.level === 2).ack
 assert.equal(savedNotices.notifications.find((notice) => notice.level === 3).acknowledgedAt, null);
 
 
-const archiveInput = Array.from({ length: 45 }, (_, index) => calculateReward(activity({
-  eventId: "archive-event-" + index,
-  itemId: "archive-item-" + (index % 5),
-  ts: ts + Math.floor(index / 5) * 86400000,
-}), []));
+const archiveInput = [];
+for (let index = 0; index < 45; index += 1) {
+  archiveInput.push(calculateReward(activity({
+    eventId: "archive-event-" + index,
+    itemId: "archive-item-" + (index % 5),
+    ts,
+  }), archiveInput));
+}
 const compacted = compactRewardLedgerPayload({ rewardLedger: archiveInput });
 assert.equal(compacted.rewardLedger.length, 20);
 assert.equal(compacted.rewardLedgerArchive.records.length, 25);
