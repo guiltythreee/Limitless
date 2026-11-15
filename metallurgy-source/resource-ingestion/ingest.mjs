@@ -53,17 +53,17 @@ function classify(text, kind) {
 }
 
 export function hasTableContext(pageText) {
-  const openingLines = pageText.split(/\\r?\\n/).filter((line) => line.trim()).slice(0, 4).join(" ");
-  if (/\\b(?:vs\\.?|versus)\\b/i.test(openingLines)) return false;
+  const openingLines = pageText.split(/\r?\n/).filter((line) => line.trim()).slice(0, 4).join(" ");
+  if (/\b(?:vs\.?|versus)\b/i.test(openingLines)) return false;
   const patterns = [
-    /\\btable\\s+\\d+(?:\\.\\d+)?\\b/i,
-    /\\bmonomer\\b[\\s\\S]{0,100}\\bpolymer\\b/i,
-    /\\bfactor\\b[\\s\\S]{0,80}\\beffect\\b/i,
-    /\\btype\\b[\\s\\S]{0,80}\\bexample\\b[\\s\\S]{0,80}\\btypical\\s+use\\b/i,
-    /\\bcategory\\b[\\s\\S]{0,80}\\bfunction\\b/i,
-    /\\bproperty\\b[\\s\\S]{0,60}\\bunit\\b/i,
-    /\\bpolymer\\b[\\s\\S]{0,80}\\bpermeant\\b/i,
-    /\\bsl\\.?\\s*no\\.?\\b[\\s\\S]{0,100}\\b(?:co[- ]?rotating|counter[- ]?rotating)\\b/i,
+    /\btable\s+\d+(?:\.\d+)?\b/i,
+    /\bmonomer\b[\s\S]{0,100}\bpolymer\b/i,
+    /\bfactor\b[\s\S]{0,80}\beffect\b/i,
+    /\btype\b[\s\S]{0,80}\bexample\b[\s\S]{0,80}\btypical\s+use\b/i,
+    /\bcategory\b[\s\S]{0,80}\bfunction\b/i,
+    /\bproperty\b[\s\S]{0,60}\bunit\b/i,
+    /\bpolymer\b[\s\S]{0,80}\bpermeant\b/i,
+    /\bsl\.?\s*no\.?\b[\s\S]{0,100}\b(?:co[- ]?rotating|counter[- ]?rotating)\b/i,
   ];
   return patterns.some((pattern) => pattern.test(pageText));
 }
@@ -166,7 +166,7 @@ export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = 
     const tableContext = hasTableContext(pageText);
     blocks.forEach((block, blockIndex) => {
       const digest = createHash("sha256").update(`${sourceId}|page:${pageIndex + 1}|block:${blockIndex}| ${block.text}`).digest("hex").slice(0, 16);
-      const candidateType = tableContext && block.kind === "paragraph" && /\\d/.test(block.text)
+      const candidateType = tableContext && block.kind === "paragraph" && /\d/.test(block.text)
         ? "table"
         : classify(block.text, block.kind);
       records.push({
