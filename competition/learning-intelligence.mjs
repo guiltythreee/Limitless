@@ -187,7 +187,9 @@ export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], no
       })
     : toCodeforcesLearningAttempts(codeforcesSubmissions);
   const attempts = toCompetitionLearningAttempts(problemLog, revisionAttempts).concat(codeforcesAttempts).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
-  const mastery = buildConceptMastery(attempts);
+  // Repeated submissions and re-solves of one problem are useful attempt history,
+  // but mastery requires evidence across multiple distinct problems.
+  const mastery = buildConceptMastery(attempts, { minDistinctQuestions: 3 });
   return {
     attempts,
     mastery,
