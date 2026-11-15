@@ -6,7 +6,8 @@
 import {
   buildRewardRecords,
   dispatchRewardUpdate,
-  sanitiseRewardRecords,
+  readRewardLedger,
+  compactRewardLedgerPayload,
 } from "../shared/rewards.mjs";
 
 export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming-lsr1-v1";
@@ -33,7 +34,7 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       if (!raw) return { payload: {}, records: [] };
       const payload = JSON.parse(raw);
       if (!isRecord(payload)) return { payload: {}, records: [] };
-      return { payload, records: sanitiseRewardRecords(payload.rewardLedger) };
+      return { payload, records: readRewardLedger(payload) };
     } catch {
       return { payload: {}, records: [] };
     }
@@ -70,10 +71,12 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     const records = buildRewardRecords(activity, state.records);
     const record = records[0];
     try {
-      storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({
-        ...state.payload,
-        rewardLedger: [...state.records, ...records],
-      }));
+      storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(
+        compactRewardLedgerPayload({
+          ...state.payload,
+          rewardLedger: [...state.records, ...records],
+        })
+      ));
     } catch {
       return null;
     }
