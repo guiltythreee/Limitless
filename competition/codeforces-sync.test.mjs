@@ -103,3 +103,43 @@ assert.equal(switched.state.attempts.length, 0, "attempts from the previous acco
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
 console.log("Codeforces sync baseline: all assertions passed.");
+
+
+// The API returns newest submissions first. The bounded seen-ID window must
+// retain the newest IDs, not the oldest 5,000 from the end of that array.
+{
+  const many = Array.from({ length: 5005 }, (_, index) => {
+    const id = 10000 - index;
+    return {
+      id, contestId: 2000, creationTimeSeconds: 1794000000 + id,
+      verdict: "WRONG_ANSWER",
+      problem: { contestId: 2000, index: "A", tags: ["greedy"] },
+    };
+  });
+  const largeStorage = {
+    value: null,
+    getItem() { return this.value; },
+    setItem(_key, value) { this.value = value; },
+  };
+  const largeBaseline = syncCodeforcesSubmissions(largeStorage, "LargeHandle", many, 1795000000000);
+  assert.equal(largeBaseline.ok, true);
+  const retained = readCodeforcesSyncState(largeStorage).seenSubmissionIds;
+  assert.equal(retained.length, 5000);
+  assert.equal(retained[0], 5001);
+  assert.equal(retained.at(-1), 10000);
+}
+
+{
+  const legacyStorage = {
+    value: JSON.stringify({
+      version: 1, handle: "legacy", baselineAt: 1795000000000, lastSyncAt: 1795000000000,
+      seenSubmissionIds: Array.from({ length: 5000 }, (_, index) => 10000 - index),
+      attempts: [],
+    }),
+    getItem() { return this.value; },
+    setItem(_key, value) { this.value = value; },
+  };
+  const normalized = readCodeforcesSyncState(legacyStorage).seenSubmissionIds;
+  assert.equal(normalized[0], 5001);
+  assert.equal(normalized.at(-1), 10000);
+}
