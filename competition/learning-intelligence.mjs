@@ -10,14 +10,14 @@ const VALID_CATEGORIES = new Set([
 ]);
 
 function parseCalendarDate(value) {
-  if (typeof value !== "string" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) return NaN;
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return NaN;
   const timestamp = Date.parse(value + "T00:00:00.000Z");
   if (!Number.isFinite(timestamp) || new Date(timestamp).toISOString().slice(0, 10) !== value) return NaN;
   return timestamp;
 }
 
 function parseRevisionTimestamp(value) {
-  if (typeof value !== "string" || !/^\\d{4}-\\d{2}-\\d{2}T/.test(value)) return NaN;
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}T/.test(value)) return NaN;
   if (!Number.isFinite(parseCalendarDate(value.slice(0, 10)))) return NaN;
   const timestamp = Date.parse(value);
   return Number.isFinite(timestamp) && timestamp > 0 ? timestamp : NaN;
