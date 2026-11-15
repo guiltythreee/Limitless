@@ -132,11 +132,15 @@ export async function fetchCodeforcesSubmissionsSince(handle, sinceSeconds, opti
     }
     const page = payload.result;
     let added = 0;
-    let oldestSeconds = Infinity;
+    let pageIsOlderThanBoundary = page.length > 0;
     for (const submission of page) {
       const seconds = Number(submission?.creationTimeSeconds);
-      if (Number.isFinite(seconds)) oldestSeconds = Math.min(oldestSeconds, seconds);
-      if (!Number.isFinite(seconds) || seconds < sinceSeconds) continue;
+      if (!Number.isFinite(seconds)) {
+        pageIsOlderThanBoundary = false;
+        continue;
+      }
+      if (seconds >= sinceSeconds) pageIsOlderThanBoundary = false;
+      if (seconds < sinceSeconds) continue;
       const key = submission && submission.id != null
         ? String(submission.id)
         : JSON.stringify([
@@ -149,7 +153,7 @@ export async function fetchCodeforcesSubmissionsSince(handle, sinceSeconds, opti
         added += 1;
       }
     }
-    if (page.length < pageSize || oldestSeconds < sinceSeconds) {
+    if (page.length < pageSize || pageIsOlderThanBoundary) {
       return Array.from(submissions.values());
     }
     if (added === 0) {
