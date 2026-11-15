@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
-import { buildRecords, parseImageInventory, shouldUseOcr } from "../ingest.mjs";
+import { buildRecords, mapExtractedImages, parseImageInventory, shouldUseOcr } from "../ingest.mjs";
 
 const pages = [
   "POLYMER PROCESSING\n\nExtrusion is a continuous process used to shape polymer melts.\n\nStress = Force / Area\n\n- Feed zone conveys pellets\n- Compression zone melts material\n",
@@ -40,6 +40,11 @@ console.log(`Resource ingestion tests passed: ${first.length} deterministic revi
 
 const imageRows = parseImageInventory("page num type width height color comp bpc enc interp object ID x-ppi y-ppi size ratio\n   1   0 image 1200 800 rgb 3 8 jpeg no 12 0 300 300 120K 4%\n   1   1 smask 1200 800 gray 1 8 image no 13 0 300 300 12K 1%\n   2   2 image 900 600 rgb 3 8 jpeg no 14 0 200 200 80K 5%");
 assert.deepEqual(imageRows, [{ page: 1, imageNumber: 0 }, { page: 2, imageNumber: 2 }]);
+const mappedImages = mapExtractedImages(["image-000.png", "image-001.png", "image-002.png"], imageRows);
+assert.deepEqual(mappedImages, [
+  { page: 1, imageNumber: 0, path: "assets/image-000.png" },
+  { page: 2, imageNumber: 2, path: "assets/image-002.png" },
+], "soft-mask files must not shift subsequent image-to-page associations");
 const withFigure = buildRecords({ sourceId: "source-test", pages: ["This is a page text fragment with punctuation."], imageAssets: [{ page: 1, imageNumber: 0, path: "assets/image-000.png" }] });
 assert.equal(withFigure[0].kind, "paragraph");
 assert.equal(withFigure[1].kind, "image-reference");
