@@ -343,8 +343,12 @@ test("library supports Recent, moving books between shelves and removing a book 
   await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
 
   await shelfTab("Favourites").click();
+  const favouriteCard = page.locator(".bk-book-card").filter({
+    has: page.getByRole("button", { name: /Bookkeys Migration Fixture/ }),
+  });
+  await favouriteCard.hover();
   page.once("dialog", (dialog) => dialog.accept());
-  await page.getByRole("button", { name: "Remove", exact: true }).click();
+  await favouriteCard.getByRole("button", { name: "Remove", exact: true }).click();
   await expect(page.getByText("No books yet")).toBeVisible();
 });
 
