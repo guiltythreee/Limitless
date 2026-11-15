@@ -4,7 +4,7 @@ import { buildRecords } from "../ingest.mjs";
 
 const pages = [
   "POLYMER PROCESSING\n\nExtrusion is a continuous process used to shape polymer melts.\n\nStress = Force / Area\n\n- Feed zone conveys pellets\n- Compression zone melts material\n",
-  "RHEOLOGY\n\nThixotropy is time-dependent shear thinning at constant shear rate.\n\nProperty        Unit\nViscosity       Pa s\n",
+  "RHEOLOGY\n\nThixotropy is defined as time-dependent shear thinning at constant shear rate.\n\nProperty        Unit\nViscosity       Pa s\n",
 ];
 const mappingHint = { course: "MT203", topic: "T11", subtopic: "Extrusion" };
 const first = buildRecords({ sourceId: "source-test", pages, mappingHint });
