@@ -1641,7 +1641,13 @@ export default function BookkeysApp() {
                   return (
                     <div className="bk-book-card" key={entry.id}>
                       <button className="bk-book" onClick={() => void loadEntry(entry)} disabled={busy}>
-                        {safeArtworkDataUrl(entry.cover) && <img className="bk-book-cover" src={safeArtworkDataUrl(entry.cover)} alt="" loading="lazy" decoding="async" />}
+                        {safeArtworkDataUrl(entry.cover) ? (
+                          <img className="bk-book-cover" src={safeArtworkDataUrl(entry.cover)} alt="" loading="lazy" decoding="async" />
+                        ) : (
+                          <span className="bk-book-cover bk-book-cover-placeholder" aria-hidden="true">
+                            {(entry.name.replace(/[^A-Za-z0-9 ]/g, "").trim().slice(0, 2) || "?").toUpperCase()}
+                          </span>
+                        )}
                         <span className="bk-book-details">
                           <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
                           <strong>{entry.name}</strong>
@@ -1665,8 +1671,9 @@ export default function BookkeysApp() {
               </div>
             ) : (
               <div className="bk-empty">
-                <strong>No books yet</strong>
-                <span>Import a PDF, EPUB or text file, or paste text to create your local library.</span>
+                {selectedShelf === RECENT_SHELF_ID
+                  ? "Books you open will show up here."
+                  : "This shelf is empty. Use “Add books” to put books on it."}
               </div>
             )}
             <details className="bk-manage-shelves">
