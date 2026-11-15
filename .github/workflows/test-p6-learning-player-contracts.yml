@@ -21,6 +21,7 @@ on:
       - "competition/competition-backup.mjs"
       - "competition/competition-backup.test.mjs"
       - "competition/competition.js"
+      - "competition/today-plan-ui.test.mjs"
       - "competition/competition.css"
       - "competition/index.html"
       - "competition/practice-recommendations.mjs"
