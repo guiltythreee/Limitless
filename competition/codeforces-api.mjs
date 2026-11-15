@@ -54,6 +54,22 @@ function assertValidSubmissionPage(page) {
   if (!page.every(isValidSubmissionRecord)) {
     throw new Error("Codeforces returned a malformed submission record. No partial sync was saved.");
   }
+  for (let index = 1; index < page.length; index += 1) {
+    if (page[index - 1].id <= page[index].id) {
+      throw new Error("Codeforces returned submissions out of descending ID order. No partial sync was saved.");
+    }
+  }
+}
+
+async function readNewestSubmissionId(request, handle, signal) {
+  const url = "https://codeforces.com/api/user.status?handle=" +
+    encodeURIComponent(handle.trim()) + "&from=1&count=1";
+  const payload = await request(url, signal ? { signal } : undefined);
+  if (!payload || !Array.isArray(payload.result)) {
+    throw new Error("Codeforces returned an invalid submission-history verification page.");
+  }
+  assertValidSubmissionPage(payload.result);
+  return payload.result[0]?.id ?? null;
 }
 
 /**
@@ -77,6 +93,8 @@ export async function fetchAllCodeforcesSubmissions(handle, options = {}) {
   const signal = options.signal;
   const submissions = new Map();
   let from = 1;
+  let initialNewestId = null;
+  let capturedFirstPage = false;
 
   for (let pageNumber = 0; pageNumber < maxPages; pageNumber += 1) {
     const url = "https://codeforces.com/api/user.status?handle=" +
@@ -87,6 +105,10 @@ export async function fetchAllCodeforcesSubmissions(handle, options = {}) {
     }
     const page = payload.result;
     assertValidSubmissionPage(page);
+    if (!capturedFirstPage) {
+      initialNewestId = page[0]?.id ?? null;
+      capturedFirstPage = true;
+    }
     let added = 0;
     for (const submission of page) {
       const key = String(submission.id);
@@ -95,7 +117,13 @@ export async function fetchAllCodeforcesSubmissions(handle, options = {}) {
         added += 1;
       }
     }
-    if (page.length < pageSize) return Array.from(submissions.values());
+    if (page.length < pageSize) {
+      const finalNewestId = await readNewestSubmissionId(request, handle, signal);
+      if (finalNewestId !== initialNewestId) {
+        throw new Error("Codeforces submission history changed during pagination. Retry the full sync; no partial baseline was saved.");
+      }
+      return Array.from(submissions.values());
+    }
     if (added === 0) {
       throw new Error("Codeforces submission pagination stopped making progress.");
     }
