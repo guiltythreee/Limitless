@@ -1762,6 +1762,9 @@ export default function BookkeysApp() {
             <>
               <article
                 ref={sourceTextRef}
+                tabIndex={0}
+                aria-label="Reading text. Click to focus typing input."
+                onClick={() => document.getElementById("bk-typing")?.focus()}
                 className="bk-source-text"
                 data-reader-background={effectiveBackground}
                 data-reader-centered={settings.centered ? "true" : "false"}
