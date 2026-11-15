@@ -56,6 +56,7 @@
       const contests = await api.requestCodeforcesApi(urls[1]);
       const user = info.result[0], history = contests.result;
       let syncResult = null;
+      let syncError = "";
       try {
         const sync = await import("./codeforces-sync.mjs");
         const plan = sync.getCodeforcesSyncFetchPlan(localStorage, handle);
@@ -70,7 +71,11 @@
           ? await api.fetchCodeforcesSubmissionsSince(handle, plan.sinceSeconds)
           : await api.fetchAllCodeforcesSubmissions(handle);
         syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions, fetchStartedAt);
-      } catch (_) { /* Public rating data remains available if learning sync fails. */ }
+      } catch (error) {
+        // Keep public rating data available, but retain the actual sync failure
+        // so the user can distinguish a pagination cap from a transient API error.
+        syncError = error instanceof Error ? error.message : String(error);
+      }
       const latest = history.length ? history[history.length - 1] : null;
       const bestPlace = history.length ? Math.min(...history.map(item => item.rank).filter(Number.isFinite)) : null;
       const stats = document.createDocumentFragment();
@@ -86,7 +91,8 @@
       state.textContent = "Connected";
       state.classList.add("is-connected");
       $("accounts-sync-note").textContent = !syncResult || !syncResult.ok
-        ? "Codeforces statistics loaded, but the learning ledger could not be saved. Retry the sync."
+        ? "Codeforces statistics loaded, but the learning ledger sync did not complete. Retry the sync." +
+          (syncError ? " Reason: " + syncError : syncResult?.error ? " Reason: " + syncResult.error : "")
         : syncResult.baseline
           ? "Codeforces connected. First sync established a historical baseline; older submissions do not award EXP."
           : "Codeforces connected. " + syncResult.added + " new submission attempt(s) added to learning analysis; " +
