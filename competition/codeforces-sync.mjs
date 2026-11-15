@@ -232,26 +232,46 @@ export function getCodeforcesSyncFetchPlan(storage, handle) {
   };
 }
 
+function isValidAccountLearningRecord(value, expectedHandle) {
+  return isRecord(value) &&
+    value.version === 1 &&
+    typeof value.handle === "string" &&
+    (!expectedHandle || value.handle === expectedHandle) &&
+    Array.isArray(value.seenSubmissionIds) &&
+    value.seenSubmissionIds.every((id) => Number.isSafeInteger(id) && id > 0) &&
+    Array.isArray(value.attempts) &&
+    value.attempts.every((attempt) =>
+      isRecord(attempt) &&
+      typeof attempt.id === "string" &&
+      attempt.id.startsWith("codeforces:") &&
+      Number.isFinite(attempt.occurredAt) &&
+      attempt.occurredAt > 0
+    ) &&
+    isValidCodeforcesAttemptArchive(value.attemptsArchive) &&
+    (value.revisionState === undefined ||
+      (Array.isArray(value.revisionState) &&
+       sanitiseCodeforcesRevisionState(value.revisionState).length === value.revisionState.length));
+}
+
 /** Save the outgoing account and restore the requested account without mixing histories. */
 export function activateCodeforcesAccount(storage, handle) {
   const normalized = typeof handle === "string" ? handle.trim().toLowerCase() : "";
   if (!normalized || !storage || typeof storage.getItem !== "function" || typeof storage.setItem !== "function") return { ok: false, error: "invalid-input" };
-  let activeRaw = null, active = null, collection = { version: 1, accounts: {} };
+  let activeRaw = null, active = null, collectionRaw = null, collection = { version: 1, accounts: {} };
   try {
     activeRaw = storage.getItem(CODEFORCES_SYNC_STORAGE_KEY);
     if (activeRaw) {
       active = JSON.parse(activeRaw);
-      if (!isRecord(active) || active.version !== 1 || typeof active.handle !== "string" || !Array.isArray(active.seenSubmissionIds) || !Array.isArray(active.attempts)) return { ok: false, error: "invalid-active-learning-record" };
-      if (!isValidCodeforcesAttemptArchive(active.attemptsArchive)) return { ok: false, error: "invalid-attempts-archive" };
+      if (!isValidAccountLearningRecord(active)) return { ok: false, error: "invalid-active-learning-record" };
     }
-    const raw = storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY);
-    if (raw) { collection = JSON.parse(raw); if (!isRecord(collection) || collection.version !== 1 || !isRecord(collection.accounts)) return { ok: false, error: "invalid-account-history" };
-      for (const [key, value] of Object.entries(collection.accounts)) if (!isRecord(value) || value.version !== 1 || value.handle !== key || !Array.isArray(value.seenSubmissionIds) || !Array.isArray(value.attempts) || !isValidCodeforcesAttemptArchive(value.attemptsArchive)) return { ok: false, error: "invalid-account-history" };
+    collectionRaw = storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY);
+    if (collectionRaw) { collection = JSON.parse(collectionRaw); if (!isRecord(collection) || collection.version !== 1 || !isRecord(collection.accounts)) return { ok: false, error: "invalid-account-history" };
+      for (const [key, value] of Object.entries(collection.accounts)) if (!isValidAccountLearningRecord(value, key)) return { ok: false, error: "invalid-account-history" };
     }
   } catch { return { ok: false, error: "invalid-account-history" }; }
   if (active && active.handle === normalized) return { ok: true, switched: false };
   const accounts = { ...collection.accounts }; if (active && active.handle) accounts[active.handle] = active;
-  const target = accounts[normalized] || null, oldCollection = storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY);
+  const target = accounts[normalized] || null, oldCollection = collectionRaw;
   try { storage.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, JSON.stringify({ version: 1, accounts })); if (target) storage.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(target)); else removeStorageKey(storage, CODEFORCES_SYNC_STORAGE_KEY); }
   catch { try { if (oldCollection === null) removeStorageKey(storage, CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY); else storage.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, oldCollection); if (activeRaw === null) removeStorageKey(storage, CODEFORCES_SYNC_STORAGE_KEY); else storage.setItem(CODEFORCES_SYNC_STORAGE_KEY, activeRaw); } catch {} return { ok: false, error: "storage-write-failed" }; }
   return { ok: true, switched: true, restored: !!target };
