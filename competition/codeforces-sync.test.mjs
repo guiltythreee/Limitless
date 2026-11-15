@@ -109,6 +109,9 @@ assert.equal(returned.ok, true);
 assert.equal(returned.baseline, false, "returning to a known handle restores its original baseline");
 assert.equal(returned.state.attempts.length, 2, "switching back restores prior attempts");
 assert.equal(returned.state.handle, "examplehandle");
+assert.equal(readCodeforcesSyncState(storage, "DifferentHandle").handle, "differenthandle");
+assert.equal(readCodeforcesSyncState(storage, "DifferentHandle").lastSyncAt, 1796000000000,
+  "incremental fetch planning can read the saved cursor for an inactive account");
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
 
