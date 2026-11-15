@@ -991,9 +991,13 @@
     var openWeeks = {};
     var openCompartments = {};
     var openTopicStudies = {};
+    var openDailyDays = {};
     $('week-list').querySelectorAll('.week-card').forEach(function (details, index) { openWeeks[index] = details.open; });
     $('week-list').querySelectorAll('[data-topic-study]').forEach(function (details) {
       openTopicStudies[details.getAttribute('data-topic-study')] = details.open;
+    });
+    $('week-list').querySelectorAll('[data-daily-detail]').forEach(function (details) {
+      openDailyDays[details.getAttribute('data-daily-detail')] = details.open;
     });
     $('week-list').querySelectorAll('[data-week-compartment]').forEach(function (details) {
       var compartmentKey = details.getAttribute('data-week-compartment');
@@ -1024,7 +1028,7 @@
         var focus=day.subjects.length?day.subjects.map(function(id){var item=week.topics.find(function(entry){return entry[0]===id;});return item?item[1]:id;}).join(' + '):'Mixed contest + upsolving';
         var tasks=dayTasks.map(function(task,ti){var key=dayKey+'-'+ti,checked=!!state.dayChecks[key];return '<label class="daily-task"><input type="checkbox" data-day-task="'+key+'" '+(checked?'checked':'')+'><span>'+esc(task)+'</span></label>';}).join('');
         var done=dayTasks.filter(function(_,ti){return !!state.dayChecks[dayKey+'-'+ti];}).length;
-        return '<details class="daily-day"><summary><span>'+day.day+'</span><span>'+esc(focus)+'</span><small>'+done+'/'+dayTasks.length+'</small></summary><div class="daily-task-list">'+tasks+'</div></details>';
+        return '<details class="daily-day" data-daily-detail="'+dayKey+'" '+(openDailyDays[dayKey] ? 'open' : '')+'><summary><span>'+day.day+'</span><span>'+esc(focus)+'</span><small>'+done+'/'+dayTasks.length+'</small></summary><div class="daily-task-list">'+tasks+'</div></details>';
       }).join('');
       var weekStatuses = selectedTopics.map(function (item) { return statusOf(topicKey(wi,item.index)); });
       var mastered = weekStatuses.filter(function (x) { return x === 'mastered'; }).length;
