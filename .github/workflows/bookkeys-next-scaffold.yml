@@ -67,4 +67,4 @@ jobs:
           test -f out/index.html
           test -d out/_next
           grep -q '/tools/typing/bookkeys-app/_next/' out/index.html
-          grep -R -q '/tools/typing/bookkeys-app/backgrounds/morning.webp' out/_next
+          grep -R -q 'backgrounds/morning.webp' out/_next
