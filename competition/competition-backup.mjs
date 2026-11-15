@@ -1,4 +1,5 @@
 import { sanitiseRewardRecords } from "../shared/rewards.mjs";
+import { sanitiseCodeforcesRevisionState } from "./learning-intelligence.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
 export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming-lsr1-v1";
