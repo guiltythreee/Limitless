@@ -112,8 +112,8 @@ Observed result:
 | Genuine image references mapped | 721 |
 | Distinct pages containing mapped images | 118 |
 | Extracted image files | 759 (721 images + 38 soft masks) |
-| Source-page previews planned | 157 |
-| Source-page previews generated | 157 |
+| Source-page previews planned | 158 |
+| Source-page previews generated | 158 |
 | Preview failures or missing preview files | 0 |
 
 The generated `source-manifest.json`, `knowledge-records.json`, and `review-packet.md` were parsed and checked. Every record remains `needs-review` with `confidence: unverified`; manifest approval status is `unreviewed`. Record IDs are unique, all image references resolve to existing assets, all 158 preview paths resolve, all five OCR exception pages appear in the preview plan, and the seven high-risk pages (36, 152, 153, 154, 178, 194, 201) are included. The page-36 molecular-weight equations, page-154 permeability table, page-178 single-screw extruder, and page-201 injection-moulding diagrams were visually opened and checked against the original PDF.
