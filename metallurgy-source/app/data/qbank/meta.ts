@@ -29,20 +29,20 @@ export const MODULE_META: ModuleMeta[] = [
     title: "Industrial Polymers",
     topics: [
       { id: "t8", title: "Industrial Polymers", count: 30 },
-      { id: "t9", title: "Blends, Composites & Degradation", count: 24 },
+      { id: "t9", title: "Blends, Composites, Modification & Degradation", count: 28 },
     ],
   },
   {
     id: "m3",
     num: 3,
     title: "Properties of Polymers",
-    topics: [{ id: "t10", title: "Mechanical & Viscoelastic Properties", count: 28 }],
+    topics: [{ id: "t10", title: "Mechanical, Viscoelastic & Physical Properties", count: 36 }],
   },
   {
     id: "m4",
     num: 4,
     title: "Compounding & Processing",
-    topics: [{ id: "t11", title: "Compounding & Processing", count: 26 }],
+    topics: [{ id: "t11", title: "Compounding & Processing", count: 33 }],
   },
 ];
 

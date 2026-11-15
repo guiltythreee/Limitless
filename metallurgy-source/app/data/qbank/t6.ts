@@ -15,6 +15,8 @@ const T6: TopicSource = {
     { id: "T6.3", title: "Factors affecting Tg and Tm" },
     { id: "T6.4", title: "HDT, Vicat and the service window" },
     { id: "T6.5", title: "Copolymers, plasticizers, Fox & Fox–Flory" },
+    { id: "T6.6", title: "Thermal-transition measurement and DMA" },
+    { id: "T6.7", title: "Free-volume theory" },
   ],
   questions: [
     {

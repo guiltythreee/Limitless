@@ -15,6 +15,7 @@ const T8: TopicSource = {
     { id: "T8.3", title: "Engineering plastics (PA, PET, PC, POM, PMMA, PTFE)" },
     { id: "T8.4", title: "Thermosets & rubbers (PF, UF, epoxy, SBR, EPDM)" },
     { id: "T8.5", title: "Application-driven selection" },
+    { id: "T8.6", title: "Monomer–polymer identification and polymer origin" },
   ],
   questions: [
     {
