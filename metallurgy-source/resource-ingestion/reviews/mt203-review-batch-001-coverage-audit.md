@@ -1,21 +1,21 @@
 # MT203 review batch 001 — lesson coverage audit
 
-Status: **review recommendation only**  
+Status: **source audit plus implementation record**  
 Compared source: `MT203 – PST 2026(1).pdf`, PDF pages 36, 102, 154, 178 and 212  
 Existing lesson source: `app/data/lessons-mt203.ts`  
 Course structure source: `app/courses/manifests/mt203.ts`
 
-No lesson, question, manifest, topic count, learner-progress record or deployment asset was modified by this audit.
+The audit itself did not modify course data. A separately recorded, isolated-branch lesson patch now implements the T8, T9, T10 and T11 additions below; no question, manifest, topic count, learner-progress record or deployment asset was modified.
 
 ## Executive result
 
 | PDF page | Existing topic | Coverage finding | Recommended action |
 |---:|---|---|---|
 | 36 | T4 — Molecular Weight & Distribution | **Already covered.** The source's Mn, Mw and Mz equations match the existing lesson's equations. | No new theory. Record the source's lowercase (n_i) notation as a notation variant if desired; keep the current (N_i) convention intact. |
-| 102 | T8 — Industrial Polymers | **Partly covered.** T8 already identifies silicone polymers (Si–O backbone), TPU and thermoplastic elastomers. The specific silicone-based TPU reaction scheme and its labelled reactants/conditions are not covered. | Add the original slide as a source-linked visual reference under T8. Do not duplicate the whole reaction scheme as prose or reconstruct the repeat-unit structure from OCR. |
+| 102 | T8 — Industrial Polymers | **Partly covered.** The specific silicone-based TPU reaction scheme was absent. | Added a concise, source-linked description of the visible reactants and conditions to T8. No repeat-unit reconstruction or catalyst/stoichiometry inference. |
 | 154 | T10 — Mechanical, Viscoelastic & Physical Properties | **Principle covered; data not covered.** T10 already explains solution–diffusion and (P=D\times S). The comparative polymer/permeant table is absent. | Add the original table as a visual/reference asset under T10. Do not transcribe numeric values into lesson prose until units and footnotes are independently verified. |
-| 178 | T11 — Compounding & Processing | **Process principle covered; equipment diagram not covered.** T11 explains feed/compression/metering zones and the material flow path. The source diagram adds component labels, drive train and instrument-panel controls. | Add the original labelled diagram as a visual reference under T11. Avoid duplicating the existing zone explanation. |
-| 212 | T9 — Blends, Composites, Reactions & Degradation | **Partly covered.** T9 explains mechanical recycling of thermoplastics and why thermosets cannot be remelted. The resin-identification codes 1–7 and associated abbreviations/examples are absent. | Add a compact source-faithful resin-code table under T9, preserving the slide's label `V` for code 3 and `OTHER` for code 7. |
+| 178 | T11 — Compounding & Processing | **Process principle covered; equipment details not covered.** | Added the additional hardware, heating/cooling and instrument-panel labels to T11. Existing screw-zone explanation retained without duplication. |
+| 212 | T9 — Blends, Composites, Reactions & Degradation | **Partly covered.** The resin-identification codes were absent. | Added the seven-row source-faithful resin-code table to T9, preserving `V` and `OTHER` exactly as printed. |
 
 ## Detailed findings
 
@@ -83,7 +83,7 @@ The slide labels are:
 
 **Recommended minimal addition:** a seven-row reference table in T9, explicitly introduced as the resin-identification labels shown in the lecture slide. Preserve `V` as printed; do not silently replace it with `PVC` or another abbreviation. The slide does not enumerate the materials included in “OTHER”, so do not add examples.
 
-## Proposed patch scope
+## Implementation record\n\nCommitted to the isolated branch `feat/study-resource-ingestion-foundation` in `app/data/lessons-mt203.ts`: T8 silicone-based TPU example, T9 resin-code table, T10 permeability data table (with unit/footnote caveat), and T11 extruder hardware/control details. No questions or course manifest entries changed. The T9 section syntax was repaired after CI caught an invalid insertion; the review-test assertion was also corrected to match the validator's explicit error text. Current branch head: `c962b141d99d086d6a47e8971249e23039d66405`.\n\n## Proposed patch scope
 
 If approved, the smallest useful lesson update is:
 
@@ -101,6 +101,6 @@ No new topic, module, question, question ID, difficulty level or MCQ parameter i
 - Existing topic destinations confirmed: 5.
 - Topics with substantive new content/reference: T8, T9, T10, T11.
 - Topic already substantively covered: T4.
-- Proposed lesson changes applied: 0.
+- Proposed lesson changes applied: 4 topic additions (T8–T11 as applicable).
 - Question bank changes: 0.
 - Approvals recorded: 0.
