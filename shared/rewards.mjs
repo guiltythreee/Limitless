@@ -207,8 +207,11 @@ export function calculateReward(input, priorRecords = [], priorArchive = null) {
   const prior = sanitiseRewardRecords(priorRecords);
   const archive = priorArchive ? sanitiseRewardArchive(priorArchive, moduleId) : null;\n  const duplicate = eventId !== "" && (prior.some((r) => r.eventId === eventId) || archive?.eventIds.includes(eventId));
   const day = ts > 0 ? localDayKey(ts) : "";
+  const archivedRepeatCount = archive?.repeatCounts.find((entry) =>
+    entry.day === day && entry.moduleId === moduleId && entry.itemId === itemId
+  )?.count ?? 0;
   const repeatCount = moduleId && itemId && day
-    ? prior.filter((r) => r.moduleId === moduleId && r.itemId === itemId && localDayKey(r.ts) === day && r.countsTowardRepeatCap).length
+    ? archivedRepeatCount + prior.filter((r) => r.moduleId === moduleId && r.itemId === itemId && localDayKey(r.ts) === day && r.countsTowardRepeatCap).length
     : 0;
   const repeatOrdinal = repeatCount + 1;
   const validActivityClass = isProject
@@ -361,13 +364,19 @@ export function sanitiseRewardArchive(value, moduleId) {
       !Number.isSafeInteger(value.awardCount) || value.awardCount < 0 ||
       !Number.isSafeInteger(value.recordCount) || value.recordCount < 0 ||
       !Array.isArray(value.eventIds) || !Array.isArray(value.checkpointIds) ||
-      !Array.isArray(value.recentAwards)) return null;
+      !Array.isArray(value.repeatCounts) || !Array.isArray(value.recentAwards)) return null;
   const eventIds = [...new Set(value.eventIds.filter(isString))];
   const checkpointIds = [...new Set(value.checkpointIds.filter(isString))];
+  const repeatCounts = value.repeatCounts.filter((entry) => isRecord(entry) &&
+    isString(entry.day) && isString(entry.moduleId) && isString(entry.itemId) &&
+    Number.isSafeInteger(entry.count) && entry.count > 0).map((entry) => ({
+      day: entry.day, moduleId: entry.moduleId, itemId: entry.itemId, count: entry.count,
+    }));
   const recentAwards = sanitiseRewardRecords(value.recentAwards)
     .filter((record) => record.moduleId === moduleId && record.eligible && record.totalExp > 0)
     .sort((a, b) => b.ts - a.ts).slice(0, 20);
-  if (eventIds.length !== value.eventIds.length || checkpointIds.length !== value.checkpointIds.length) return null;
+  if (eventIds.length !== value.eventIds.length || checkpointIds.length !== value.checkpointIds.length ||
+      repeatCounts.length !== value.repeatCounts.length) return null;
   return {
     version: 1,
     moduleId,
@@ -376,6 +385,7 @@ export function sanitiseRewardArchive(value, moduleId) {
     recordCount: value.recordCount,
     eventIds,
     checkpointIds,
+    repeatCounts,
     recentAwards,
   };
 }
@@ -392,7 +402,7 @@ export function appendRewardRecords(payload, newRecords, moduleId, now = Date.no
   }
   const archive = existingArchive ?? {
     version: 1, moduleId, totalExp: 0, awardCount: 0, recordCount: 0,
-    eventIds: [], checkpointIds: [], recentAwards: [],
+    eventIds: [], checkpointIds: [], repeatCounts: [], recentAwards: [],
   };
   const records = sanitiseRewardRecords([
     ...sanitiseRewardRecords(payload.rewardLedger),
@@ -417,6 +427,20 @@ export function appendRewardRecords(payload, newRecords, moduleId, now = Date.no
       ...archive.checkpointIds,
       ...compacted.filter((record) => record.checkpointId && record.passBonus > 0).map((record) => record.checkpointId),
     ],
+    repeatCounts: (() => {
+      const counts = new Map(archive.repeatCounts.map((entry) => [
+        [entry.day, entry.moduleId, entry.itemId].join("|"), { ...entry },
+      ]));
+      for (const record of compacted) {
+        if (!record.countsTowardRepeatCap) continue;
+        const day = localDayKey(record.ts);
+        const key = [day, record.moduleId, record.itemId].join("|");
+        const entry = counts.get(key) ?? { day, moduleId: record.moduleId, itemId: record.itemId, count: 0 };
+        entry.count += 1;
+        counts.set(key, entry);
+      }
+      return [...counts.values()];
+    })(),
     recentAwards,
   }, moduleId);
   if (!nextArchive) throw new Error("Could not construct a valid reward archive");
