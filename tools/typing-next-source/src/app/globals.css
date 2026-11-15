@@ -1041,3 +1041,12 @@ body { overflow: hidden; }
 }
 .bk-book:not(:has(.bk-book-cover))::before { content: none; }
 .bk-empty { font-size: var(--fs-sm); }
+
+
+/* The legacy light-theme panel rule has higher specificity than the transparent
+   full-viewport home composition above. Explicitly reset it after all legacy
+   theme/decorative rules so the scenic background remains visible through the shelf. */
+html[data-theme="light"] .bk-library {
+  background: transparent;
+  border-color: transparent;
+}
