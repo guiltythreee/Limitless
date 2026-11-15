@@ -106,7 +106,7 @@ test("EPUB covers persist in the library and chapter titles edit inline", async 
 });
 test("EPUB import, progress, rewards and backup round-trip survive reload", async ({ page, browser }) => {
   await page.goto("/tools/typing-next-preview/");
-  await expect(page.getByRole("heading", { name: "Bookkeys" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs." })).toBeVisible();
 
   const epub = await makeFixtureEpub();
   await page.locator("#bk-library-files").setInputFiles({
@@ -167,8 +167,11 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
 
   const restoreContext = await browser.newContext();
   const restorePage = await restoreContext.newPage();
+  await restorePage.addInitScript(() => {
+    localStorage.setItem("limitless.typing.v1.theme", "dark");
+    localStorage.setItem("limitless.typing.v1.themeOverride", "1");
+  });
   await restorePage.goto("/tools/typing-next-preview/");
-  await restorePage.getByRole("button", { name: "Toggle light and dark theme" }).click();
   await expect(restorePage.locator("html")).toHaveAttribute("data-theme", "dark");
   await restorePage.locator('input[type="file"][accept="application/json,.json"]').setInputFiles({
     name: "bookkeys-backup.json",
@@ -234,7 +237,10 @@ test("theme and reader settings are interactive and persist without overwriting 
   await page.goto("/tools/typing-next-preview/");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 
-  await page.getByRole("button", { name: "Toggle light and dark theme" }).click();
+  await page.getByRole("button", { name: "Settings" }).click();
+  const initialThemeDialog = page.getByRole("dialog", { name: "Settings" });
+  await initialThemeDialog.getByRole("button", { name: "Letter Garden" }).click();
+  await initialThemeDialog.getByRole("button", { name: "Close Settings" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 
   await page.getByRole("button", { name: "Settings" }).click();
@@ -322,7 +328,8 @@ test("library supports Recent, moving books between shelves and removing a book 
   });
   await page.getByRole("button", { name: "← Library" }).click();
 
-  page.once("dialog", (dialog) => dialog.accept("Favourites"));
+  await page.locator("details.bk-manage-shelves > summary").click();
+  await page.getByLabel("Shelf name").fill("Favourites");
   await page.getByRole("button", { name: "New shelf" }).click();
   const shelfTabs = page.getByRole("tablist", { name: "Shelves" });
   const shelfTab = (name: string) => shelfTabs.getByRole("tab", { name, exact: true });
@@ -456,7 +463,7 @@ test("last section and unfinished typing draft restore after reopening a book", 
 
 test("sample text is typable but never writes XP, reward or book progress", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
-  await page.getByRole("button", { name: "Try sample text" }).click();
+  await page.getByRole("button", { name: "Try the sample text" }).click();
   await expect(page.locator(".bk-book-title strong")).toHaveText("Sample Passage");
 
   const source = await page.locator(".bk-source-text").textContent();
@@ -750,13 +757,13 @@ test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its 
 
 test("pasted text becomes a persistent local text book with reading progress", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
-  await page.getByRole("button", { name: "Paste text" }).click();
+  await page.getByRole("button", { name: "Open book" }).click();
   const pasted = [
     "Pasted-text import regression. This passage checks that plain text can be turned into a local Bookkeys reading session.",
     "A second paragraph verifies paragraph boundaries, Unicode punctuation, and local persistence. The original text remains in this browser.",
   ].join("\n\n");
   await page.locator("#bk-paste-text").fill(pasted);
-  await page.getByRole("button", { name: "Create text book" }).click();
+  await page.getByRole("button", { name: "Practice this text" }).click();
 
   await expect(page.locator(".bk-book-title strong")).toHaveText("Pasted text");
   await expect(page.locator(".bk-source-text")).toContainText("Pasted-text import regression");
