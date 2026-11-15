@@ -1,6 +1,6 @@
 # Real-source validation: MT203 Polymer Science and Technology
 
-**Validation status:** source-PDF diagnostics and selected-page inspection completed; latest JavaScript CLI end-to-end validation remains pending after an OCR invocation fix  
+**Validation status:** latest committed JavaScript ingestion CLI completed end-to-end against this source PDF; generated outputs inspected; content remains unapproved  
 **Course mapping:** MT203 (confirmed by the user; the source filename is a legacy naming error)  
 **Source filename:** `MT203 – PST 2026(1).pdf`  
 **Source SHA-256:** `ba86baeb56d8bae0a0cd875cd1e4b63eac5cf11cb502d9e84e5ed52cc1f6e546`  
@@ -11,7 +11,7 @@
 
 - Poppler reported 212 pages; text extraction returned 212 page segments.
 - 19 pages fell below the native-text threshold. Direct Poppler/Tesseract diagnostics were run against all 19 sparse pages and produced OCR text for each.
-- These direct diagnostics are not evidence that the repository's JavaScript ingestion CLI completed successfully: a later code-path audit found an invalid argument order in its TSV-confidence invocation. That invocation has been corrected and covered by a unit test; a fresh end-to-end CLI run on this PDF remains pending.
+- The corrected Tesseract TSV invocation is covered by a unit test and was exercised by the complete JavaScript ingestion CLI run described below.
 - 759 image files were extracted and matched to the PDF image inventory by PDF image number.
 - The image inventory contained 721 image entries and 38 soft-mask entries. Soft masks are not treated as independent figure records.
 - The pipeline's image-number matching was checked against selected pages below.
@@ -30,6 +30,21 @@ OCR character counts are only extraction diagnostics. They are not a measure of 
 | 194 | Blown-film extrusion diagram | Diagram extracted as PDF image 734 and matched to page 194. Major stages and labels are retained. |
 | 201 | Injection-moulding diagrams | Main illustration extracted as image 742 and second diagram as image 743; image 744 is its soft mask. All are associated with page 201; the soft mask is not a separate figure candidate. |
 
+## Latest full-pipeline execution
+
+The committed JavaScript CLI was run end-to-end against this exact PDF after the Tesseract TSV argument-order correction.
+
+- Source SHA-256 matched the value above.
+- 212 pages processed; 2,449 knowledge records created with unique IDs.
+- 19 sparse pages processed by OCR; 14 passed the pilot quality gate and 5 were marked review-required (35, 102, 171, 178, 212).
+- No OCR command/page failures occurred.
+- 721 genuine image records were mapped to 118 source pages. The 759 extracted files comprise 721 images and 38 soft masks.
+- 157 source-page previews were generated; all planned previews exist and no preview failed.
+- The generated manifest, record inventory and review packet were parsed and inspected. Every record remains unapproved; the manifest approval status is `unreviewed`.
+- Preview images for pages 36, 154, 178 and 201 were visually inspected against the original PDF, covering equations, a numerical table, a single-screw extruder and injection-moulding diagrams.
+
+The full output directory is a local validation artifact and was not committed to Git. The original PDF and extracted assets were not added to the repository.
+
 ## Findings and limits
 
 1. **Image-to-page mapping:** selected image-heavy pages map correctly when extracted file numbers are matched to PDF image numbers. This also avoids soft-mask entries shifting subsequent associations.
@@ -40,6 +55,6 @@ OCR character counts are only extraction diagnostics. They are not a measure of 
 
 ## Acceptance decision
 
-**Pass for manual source inspection, source identity, and selected page/image traceability. Pending final acceptance of the current JavaScript ingestion CLI. Not approved for automatic content promotion.**
+**Pass for source intake, traceability, and end-to-end execution of the current JavaScript CLI. Not approved for automatic content promotion.**
 
-All extracted records remain unverified and require reviewer approval. No lesson, question bank, learner progress, or production content was changed during this validation. The latest preview planner now schedules 120-DPI page renders for equation/table candidates, embedded-figure pages, and extraction exceptions; the resulting preview files and review packet still require a fresh end-to-end run before their actual output is accepted.
+All extracted records remain unverified and require reviewer approval. No lesson, question bank, learner progress, or production content was changed during this validation. The generated preview files and review packet were inspected for completeness and source-page linkage. OCR thresholds remain pilot heuristics and require validation on other lecture PDFs.
