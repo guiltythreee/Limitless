@@ -205,7 +205,8 @@ export function calculateReward(input, priorRecords = [], priorArchive = null) {
   const baseExp = isProject ? (assignedProjectBase ?? 0) : (ACTIVITY_BASE_EXP[activityClass] ?? 0);
   const multiplier = DIFFICULTY_MULTIPLIER[difficulty] ?? 1;
   const prior = sanitiseRewardRecords(priorRecords);
-  const archive = priorArchive ? sanitiseRewardArchive(priorArchive, moduleId) : null;\n  const duplicate = eventId !== "" && (prior.some((r) => r.eventId === eventId) || archive?.eventIds.includes(eventId));
+  const archive = priorArchive ? sanitiseRewardArchive(priorArchive, moduleId) : null;
+  const duplicate = eventId !== "" && (prior.some((r) => r.eventId === eventId) || archive?.eventIds.includes(eventId));
   const day = ts > 0 ? localDayKey(ts) : "";
   const archivedRepeatCount = archive?.repeatCounts.find((entry) =>
     entry.day === day && entry.moduleId === moduleId && entry.itemId === itemId
