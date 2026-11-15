@@ -226,6 +226,10 @@ await assert.rejects(
       { id: 28, creationTimeSeconds: 280 },
       { id: 27, creationTimeSeconds: 270 },
     ] },
+    { status: "OK", result: [
+      { id: 26, creationTimeSeconds: 90 },
+      { id: 25, creationTimeSeconds: 80 },
+    ] },
     { status: "OK", result: [{ id: 31, creationTimeSeconds: 310 }] },
   ];
   let calls = 0;
@@ -238,7 +242,7 @@ await assert.rejects(
     /history changed during incremental pagination/,
     "incremental pagination must reject a moving offset window"
   );
-  assert.equal(calls, 3, "incremental scan performs the final newest-ID verification");
+  assert.equal(calls, 4, "incremental scan verifies the newest ID after reaching the time boundary");
 }
 
 // API pages must preserve descending submission-ID order.
