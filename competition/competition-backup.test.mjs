@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { compactRewardLedgerPayload } from "../shared/rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   COMPETITION_REWARD_STORAGE_KEY,
