@@ -106,6 +106,13 @@
             doc.body.style.backgroundAttachment = 'fixed';
             doc.body.style.backgroundRepeat = 'no-repeat';
           }
+          // Keep the React reader aligned with the site theme unless the
+          // reader has an explicit, user-selected Bookkeys theme override.
+          if (doc.defaultView && doc.defaultView.CustomEvent) {
+            doc.defaultView.dispatchEvent(new doc.defaultView.CustomEvent('limitless:host-themechange', {
+              detail: { theme: current() }
+            }));
+          }
         } catch (e) { /* The standalone frame remains usable if same-origin access is unavailable. */ }
       }
       if (frame) frame.addEventListener('load', syncBookkeys);

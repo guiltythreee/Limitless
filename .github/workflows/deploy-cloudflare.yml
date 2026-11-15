@@ -40,6 +40,24 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Bookkeys dependencies
+        working-directory: tools/typing-next-source
+        run: npm install --no-audit --no-fund
+      - name: Build production Bookkeys app
+        working-directory: tools/typing-next-source
+        env:
+          NEXT_PUBLIC_BOOKKEYS_BASE_PATH: /tools/typing/bookkeys-app
+        run: npm run build
+      - name: Stage production Bookkeys app
+        run: |
+          mkdir -p tools/typing/bookkeys-app
+          cp -R tools/typing-next-source/out/. tools/typing/bookkeys-app/
+          test -f tools/typing/bookkeys-app/index.html
+          test -d tools/typing/bookkeys-app/_next
       - name: Deploy Worker and static assets
         uses: cloudflare/wrangler-action@v3
         with:

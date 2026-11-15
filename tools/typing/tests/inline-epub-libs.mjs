@@ -1,6 +1,6 @@
-// One-off: inline JSZip and epub.js into bookkeys.html, mirroring the embedded pdf.js convention.
+// One-off: inline JSZip and epub.js into bookkeys-legacy.html, mirroring the embedded pdf.js convention.
 // Run from the repo root: node tools/typing/tests/inline-epub-libs.mjs
-// The vendor sources this reads (jszip.min.js and epub.min.js beside bookkeys.html) were deleted
+// The vendor sources this reads (jszip.min.js and epub.min.js beside bookkeys-legacy.html) were deleted
 // after the inlining, so only one copy of each library lives in the repo. To run an update,
 // download jszip@3.10.1 and epubjs@0.3.93 dist files under those names, then run this script;
 // its guards refuse to double-insert or to embed anything that would break an inline script block.
@@ -10,7 +10,7 @@ import { dirname, join } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const typingDir = join(here, "..");
-const pagePath = join(typingDir, "bookkeys.html");
+const pagePath = join(typingDir, "bookkeys-legacy.html");
 
 const page = readFileSync(pagePath, "utf8");
 const jszip = readFileSync(join(typingDir, "jszip.min.js"), "utf8").replace(/\s+$/, "");

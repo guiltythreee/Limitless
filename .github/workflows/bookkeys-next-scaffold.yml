@@ -56,3 +56,15 @@ jobs:
       - name: Browser regression tests
         working-directory: tools/typing-next-source
         run: npm run e2e
+      - name: Build production-path static export
+        working-directory: tools/typing-next-source
+        env:
+          NEXT_PUBLIC_BOOKKEYS_BASE_PATH: /tools/typing/bookkeys-app
+        run: npm run build
+      - name: Verify production static asset paths
+        working-directory: tools/typing-next-source
+        run: |
+          test -f out/index.html
+          test -d out/_next
+          grep -q '/tools/typing/bookkeys-app/_next/' out/index.html
+          grep -R -q 'backgrounds/morning.webp' out/_next

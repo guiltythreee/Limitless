@@ -5,6 +5,7 @@ on:
     branches:
       - work/bookkeys-current-main-reconciliation-20261114
       - work/bookkeys-clean-main-integration-20261115
+      - work/bookkeys-production-cutover-20261116
     paths:
       - "tools/typing-next-source/**"
       - "wrangler.bookkeys-preview.jsonc"

@@ -14,7 +14,7 @@ import { dirname, join } from "node:path";
 import { buildEpub, longPara } from "./helpers.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const pageHtml = readFileSync(join(here, "..", "bookkeys.html"), "utf8");
+const pageHtml = readFileSync(join(here, "..", "bookkeys-legacy.html"), "utf8");
 
 const pageErrors = [];
 const vc = new VirtualConsole();

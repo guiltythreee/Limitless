@@ -397,6 +397,61 @@ test("library supports Recent, moving books between shelves and removing a book 
   await expect(page.getByText("This shelf is empty. Use “Add books” to put books on it.")).toBeVisible();
 });
 
+test("deleting a shelf keeps it intact when one of its original book files is missing", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "Bookkeys Migration Fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  await page.getByRole("button", { name: "← Library" }).click();
+
+  await page.locator("details.bk-manage-shelves > summary").click();
+  await page.getByLabel("Shelf name").fill("Favourites");
+  await page.getByRole("button", { name: "New shelf" }).click();
+  await page.getByRole("tab", { name: "Library", exact: true }).click();
+  const card = page.locator(".bk-book-card").filter({
+    has: page.getByRole("button", { name: /Bookkeys Migration Fixture/ }),
+  });
+  await card.hover();
+  await card.getByLabel(/Move Bookkeys Migration Fixture to another shelf/).selectOption({ label: "Favourites" });
+  await page.getByRole("tab", { name: "Favourites", exact: true }).click();
+
+  await page.evaluate(async () => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open("bookkeys-lib", 1);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const metadata = await new Promise<Array<{ id: string; shelf: string }>>((resolve, reject) => {
+      const transaction = database.transaction("meta", "readonly");
+      const request = transaction.objectStore("meta").getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const shelf = JSON.parse(localStorage.getItem("bookkeys:shelves") ?? "[]")
+      .find((item: { name: string }) => item.name === "Favourites");
+    const entry = metadata.find((item) => item.shelf === shelf.id);
+    if (!entry) throw new Error("Could not find the fixture book metadata.");
+    await new Promise<void>((resolve, reject) => {
+      const transaction = database.transaction("files", "readwrite");
+      transaction.objectStore("files").delete(entry.id);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+    });
+    database.close();
+  });
+
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Delete shelf" }).click();
+  await expect(page.getByRole("status")).toContainText("original file");
+  await expect(page.getByRole("tab", { name: "Favourites", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
+});
+
 test("multiple EPUBs can be imported together without opening each one", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
@@ -468,6 +523,7 @@ test("reader remains usable without horizontal overflow on a phone viewport", as
 
 test("last section and unfinished typing draft restore after reopening a book", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
   const epub = await makeFixtureEpub(true);
   await page.locator("#bk-library-files").setInputFiles({
     name: "two-chapter-position-fixture.epub",
