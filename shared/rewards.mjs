@@ -178,6 +178,93 @@ export function sanitiseRewardRecords(raw) {
   return valid;
 }
 
+// Compact historical LSR-1 records into dictionary-backed tuples. Event IDs,
+// daily repeat evidence and checkpoint identities remain lossless; only JSON
+// property-name repetition is removed. The newest 20 records stay readable.
+export const REWARD_ARCHIVE_VERSION = 1;
+export const REWARD_RECENT_RECORD_LIMIT = 20;
+const ARCHIVE_STRING_FIELDS = [0, 1, 2, 4, 5, 6, 8, 17];
+const ARCHIVE_RECORD_WIDTH = 18;
+
+export function decodeRewardLedgerArchive(raw) {
+  if (!isRecord(raw) || raw.version !== REWARD_ARCHIVE_VERSION ||
+      !Array.isArray(raw.strings) || !Array.isArray(raw.records)) return [];
+  const strings = raw.strings;
+  if (!strings.every((value) => typeof value === "string")) return [];
+  const decoded = [];
+  for (const tuple of raw.records) {
+    if (!Array.isArray(tuple) || tuple.length !== ARCHIVE_RECORD_WIDTH) continue;
+    let valid = true;
+    const values = tuple.slice();
+    for (const index of ARCHIVE_STRING_FIELDS) {
+      const dictionaryIndex = values[index];
+      if (index === 17 && dictionaryIndex === -1) {
+        values[index] = null;
+        continue;
+      }
+      if (!Number.isInteger(dictionaryIndex) || dictionaryIndex < 0 || dictionaryIndex >= strings.length) {
+        valid = false;
+        break;
+      }
+      values[index] = strings[dictionaryIndex];
+    }
+    if (!valid) continue;
+    const [eventId, moduleId, itemId, ts, activityClass, difficulty, completionEvidence,
+      completed, eligible, reason, countsTowardRepeatCap, repeatOrdinal, baseExp,
+      difficultyMultiplier, qualityBonus, passBonus, totalExp, checkpointId] = values;
+    const record = sanitiseRewardRecord({
+      policyVersion: REWARD_POLICY_VERSION, eventId, moduleId, itemId, ts,
+      activityClass, difficulty, completionEvidence, completed, eligible, reason,
+      countsTowardRepeatCap, repeatOrdinal, baseExp, difficultyMultiplier,
+      qualityBonus, passBonus, totalExp, checkpointId,
+    });
+    if (record) decoded.push(record);
+  }
+  return sanitiseRewardRecords(decoded);
+}
+
+export function encodeRewardLedgerArchive(records) {
+  const valid = sanitiseRewardRecords(records);
+  const strings = [];
+  const indices = new Map();
+  const intern = (value) => {
+    if (value === null) return -1;
+    if (!indices.has(value)) {
+      indices.set(value, strings.length);
+      strings.push(value);
+    }
+    return indices.get(value);
+  };
+  const tuples = valid.map((record) => [
+    intern(record.eventId), intern(record.moduleId), intern(record.itemId), record.ts,
+    intern(record.activityClass), intern(record.difficulty), intern(record.completionEvidence),
+    record.completed, record.eligible, intern(record.reason), record.countsTowardRepeatCap,
+    record.repeatOrdinal, record.baseExp, record.difficultyMultiplier, record.qualityBonus,
+    record.passBonus, record.totalExp, intern(record.checkpointId),
+  ]);
+  return { version: REWARD_ARCHIVE_VERSION, strings, records: tuples };
+}
+
+export function readRewardLedger(payload) {
+  if (!isRecord(payload)) return [];
+  return sanitiseRewardRecords([
+    ...decodeRewardLedgerArchive(payload.rewardLedgerArchive),
+    ...(Array.isArray(payload.rewardLedger) ? payload.rewardLedger : []),
+  ]);
+}
+
+export function compactRewardLedgerPayload(payload, recentLimit = REWARD_RECENT_RECORD_LIMIT) {
+  const source = isRecord(payload) ? payload : {};
+  const records = readRewardLedger(source);
+  const keep = Number.isInteger(recentLimit) && recentLimit >= 0 ? recentLimit : REWARD_RECENT_RECORD_LIMIT;
+  const splitAt = Math.max(0, records.length - keep);
+  return {
+    ...source,
+    rewardLedgerArchive: encodeRewardLedgerArchive(records.slice(0, splitAt)),
+    rewardLedger: records.slice(splitAt),
+  };
+}
+
 /**
  * Deterministic award calculation. A completed activity is counted even when a
  * daily repeat cap makes its EXP award zero. Duplicate event IDs never award twice.
@@ -387,7 +474,7 @@ export function readGlobalRewardSummary(storage) {
       continue;
     }
     if (!isRecord(payload)) continue;
-    const records = sanitiseRewardRecords(payload.rewardLedger).filter((r) => r.moduleId === source.moduleId);
+    const records = readRewardLedger(payload).filter((r) => r.moduleId === source.moduleId);
     all.push(...records);
     sources.push({
       moduleId: source.moduleId,
