@@ -14,7 +14,7 @@
 .competition-side-link:hover,.competition-side-link.active { color:#f2f8ff; background:linear-gradient(100deg,rgba(27,112,203,.32),rgba(27,112,203,.07)); }
 .competition-side-link.active { box-shadow:inset 2px 0 #64b4ff; }
 .competition-sidebar-note { margin-top:auto; padding:16px 12px 0; border-top:1px solid var(--comp-border); }
-.competition-sidebar-note span { color:#e8b94d; font:700 8px Arial,sans-serif; letter-spacing:1.5px; }
+.competition-sidebar-note span { color:#65b8ff; font:700 8px Arial,sans-serif; letter-spacing:1.5px; }
 .competition-sidebar-note p { color:#9eb5ce; font:italic 11px/1.65 Georgia,serif; }
 .competition-shell { width:min(1480px,calc(100% - 295px)); max-width:none; margin:0 25px 0 270px; padding:28px 0 65px; }
 .competition-heading { padding:5px 0 20px; }
