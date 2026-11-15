@@ -144,9 +144,36 @@ console.log("Codeforces sync baseline: all assertions passed.");
   assert.equal(result.ok, true);
   assert.equal(result.added, 5005);
   const retainedAttempts = readCodeforcesSyncState(largeStorage).attempts;
-  assert.equal(retainedAttempts.length, 5000);
-  assert.equal(retainedAttempts[0].id, "codeforces:300005");
+  assert.equal(retainedAttempts.length, 5005,
+    "older attempts remain available to revision and mastery calculations");
+  assert.equal(retainedAttempts[0].id, "codeforces:300000");
   assert.equal(retainedAttempts.at(-1).id, "codeforces:305004");
+  const persisted = JSON.parse(largeStorage.value);
+  assert.equal(persisted.attempts.length, 5000,
+    "only the newest 5,000 attempts remain expanded");
+  assert.equal(persisted.attemptsArchive.version, 1);
+  assert.equal(persisted.attemptsArchive.records.length, 5,
+    "older attempts move into a compact archive rather than being evicted");
+  assert.ok(
+    JSON.stringify(persisted.attemptsArchive).length <
+      JSON.stringify(submissions.slice(0, 5).map((submission) => ({
+        id: "codeforces:" + submission.id,
+        disciplineId: "competitive-programming",
+        courseId: "codeforces",
+        contentId: "2000A",
+        questionId: "codeforces:2000A",
+        subjectId: "codeforces",
+        conceptIds: ["greedy"],
+        outcome: "incorrect",
+        occurredAt: submission.creationTimeSeconds * 1000,
+        mode: "practice",
+      }))).length,
+    "dictionary archive is smaller than expanded attempt objects",
+  );
+  const noOpSync = syncCodeforcesSubmissions(largeStorage, "AttemptHandle", [], 1796000005000);
+  assert.equal(noOpSync.ok, true);
+  assert.equal(readCodeforcesSyncState(largeStorage).attempts.length, 5005,
+    "subsequent syncs do not discard archived learning history");
 }
 
 
