@@ -1061,8 +1061,9 @@ html[data-theme="light"] .bk-library {
 }
 .bk-shell[data-home="true"] .bk-header-book { display: none; }
 .bk-shell[data-home="true"] .bk-header-actions { margin-left: auto; }
-.bk-shell[data-home="true"] .bk-size-controls,
-.bk-shell[data-home="true"] .bk-archive-button { display: none; }
+ .bk-shell[data-home="true"] .bk-size-controls { display: none; }
+.bk-shell[data-home="true"] .bk-xp { display: none; }
+.bk-shell[data-home="true"] .bk-xp-status { cursor: pointer; }
 .bk-xp-status {
   display: inline-flex;
   align-items: center;
