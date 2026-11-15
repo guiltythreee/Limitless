@@ -8,6 +8,13 @@ export type ActivityClass =
   | "bespoke-project";
 export type Difficulty = "foundational" | "intermediate" | "advanced";
 
+export const REWARD_SOURCE_REGISTRY: readonly {
+  readonly moduleId: string;
+  readonly label: string;
+  readonly storageKey: string;
+  readonly shape: string;
+}[];
+
 export interface RewardInput {
   eventId: string;
   moduleId: string;
