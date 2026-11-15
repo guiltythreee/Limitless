@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
 import { analyzeCompetitionLearning } from "./learning-intelligence.mjs";
 import {
@@ -7,6 +8,7 @@ import {
   readCodeforcesSyncState,
   syncCodeforcesSubmissions,
   appendCodeforcesRevisionAttempt,
+  getCodeforcesSyncFetchPlan,
 } from "./codeforces-sync.mjs";
 
 const values = new Map();
@@ -33,6 +35,16 @@ assert.equal(readCodeforcesSyncState(storage).attempts.length, 0);
 assert.equal(values.has(CODEFORCES_SYNC_STORAGE_KEY), true);
 assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), false,
   "the first historical baseline creates no EXP ledger entries");
+
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "EXAMPLEHANDLE"),
+  { mode: "since", sinceSeconds: 1794913600 },
+  "repeat sync uses a 24-hour overlap from the successful active-account cursor");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "newhandle"),
+  { mode: "all", sinceSeconds: null },
+  "a new handle must fetch full history to establish its own baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, ""),
+  { mode: "invalid", sinceSeconds: null },
+  "an empty handle must not produce a fetch plan");
 
 const newSubmission = {
   id: 102, contestId: 2000, creationTimeSeconds: 1795000001,
@@ -104,6 +116,12 @@ assert.equal(switched.added, 0);
 assert.equal(switched.state.handle, "differenthandle");
 assert.equal(switched.state.attempts.length, 0, "a new account starts with isolated learning history");
 assert.ok(JSON.parse(storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY)).accounts.examplehandle);
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "DifferentHandle"),
+  { mode: "since", sinceSeconds: 1795913600 },
+  "the newly active account uses its own cursor after its baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "ExampleHandle"),
+  { mode: "since", sinceSeconds: 1794913605 },
+  "an inactive saved handle retains its own incremental cursor");
 const returned = syncCodeforcesSubmissions(storage, "ExampleHandle", [], 1797000000000);
 assert.equal(returned.ok, true);
 assert.equal(returned.baseline, false, "returning to a known handle restores its original baseline");
@@ -114,6 +132,13 @@ assert.equal(readCodeforcesSyncState(storage, "DifferentHandle").lastSyncAt, 179
   "incremental fetch planning can read the saved cursor for an inactive account");
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
+const accountsSource = await readFile(new URL("./accounts.js", import.meta.url), "utf8");
+assert.match(accountsSource, /getCodeforcesSyncFetchPlan\(localStorage, handle\)/,
+  "account linking must select a fetch window using the requested handle's saved cursor");
+assert.match(accountsSource, /fetchCodeforcesSubmissionsSince\(handle, plan\.sinceSeconds\)/,
+  "repeat connections must fetch incrementally with a 24-hour overlap");
+assert.match(accountsSource, /fetchAllCodeforcesSubmissions\(handle\)/,
+  "first connections and unknown handles must establish a complete historical baseline");
 
 const corruptArchiveStorage = {
   value: JSON.stringify({
@@ -260,3 +285,41 @@ console.log("Codeforces sync baseline: all assertions passed.");
   assert.equal(byEvent.get("codeforces:orderedhandle:203").eligible, true);
   assert.equal(byEvent.get("codeforces:orderedhandle:204").reason, "daily-repeat-cap");
 }
+
+
+// Durable scheduler snapshots survive raw-attempt compaction and remain isolated per handle.
+{
+  const schedulerValues = new Map();
+  const schedulerStorage = {
+    getItem(key) { return schedulerValues.has(key) ? schedulerValues.get(key) : null; },
+    setItem(key, value) { schedulerValues.set(key, value); },
+    removeItem(key) { schedulerValues.delete(key); },
+  };
+  syncCodeforcesSubmissions(schedulerStorage, "SchedulerA", [], 1_795_000_000_000);
+  const failedSubmission = {
+    id: 990001, contestId: 9900, creationTimeSeconds: 1_795_000_001,
+    verdict: "WRONG_ANSWER", problem: { contestId: 9900, index: "A", tags: ["dp", "greedy"] },
+  };
+  syncCodeforcesSubmissions(schedulerStorage, "SchedulerA", [failedSubmission], 1_795_000_002_000);
+  const afterFailure = readCodeforcesSyncState(schedulerStorage);
+  assert.equal(afterFailure.revisionState.length, 1);
+  assert.equal(afterFailure.revisionState[0].questionId, "codeforces:9900A");
+  assert.equal(afterFailure.revisionState[0].failures, 1);
+  assert.equal(afterFailure.revisionState[0].successfulRevisions, 0);
+
+  const revision = appendCodeforcesRevisionAttempt(schedulerStorage, "codeforces:9900A", "correct", 1_795_086_403_000);
+  assert.equal(revision.ok, true);
+  const afterRevision = readCodeforcesSyncState(schedulerStorage);
+  assert.equal(afterRevision.revisionState[0].successfulRevisions, 1);
+  assert.equal(afterRevision.revisionState[0].lastSuccessfulRevisionAt, 1_795_086_403_000);
+
+  syncCodeforcesSubmissions(schedulerStorage, "SchedulerB", [], 1_795_100_000_000);
+  assert.equal(readCodeforcesSyncState(schedulerStorage).revisionState.length, 0,
+    "a new account must not inherit another handle's revision candidates");
+  syncCodeforcesSubmissions(schedulerStorage, "SchedulerA", [], 1_795_200_000_000);
+  assert.equal(readCodeforcesSyncState(schedulerStorage).revisionState[0].successfulRevisions, 1,
+    "switching back restores the original account's scheduler snapshot");
+
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "ExampleHandle"),
+  { mode: "since", sinceSeconds: 1796913600 },
+  "switching back advances the restored account's cursor independently");}

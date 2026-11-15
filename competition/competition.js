@@ -504,7 +504,7 @@
       var stored = syncApi.readCodeforcesSyncState(localStorage);
       if (!stored.attemptsArchiveValid || !stored.attempts.length) return;
       var now = Date.now();
-      var analysis = api.analyzeCompetitionLearning(state.problemLog, state.revisionAttempts, now, stored.attempts);
+      var analysis = api.analyzeCompetitionLearning(state.problemLog, state.revisionAttempts, now, stored.attempts, stored.revisionState);
       var candidates = analysis.revision.filter(function (item) { return item.courseId === 'codeforces'; });
       if (!candidates.length) return;
       var due = candidates.filter(function (item) { return item.dueAt <= now; });
@@ -1473,11 +1473,17 @@
       reader.readAsText(file);
       $('import-data').value = '';
     });
-    $('reset-data').addEventListener('click', function () {
-      if (!confirm('Reset all competition progress, topic mastery, mock results and settings in this browser? Export a backup first if you may need this data.')) return;
-      state = cloneDefaults();
-      localStorage.removeItem(STORAGE_KEY);
-      location.reload();
+    $('reset-data').addEventListener('click', async function () {
+      if (!confirm('Reset all Competition progress, Codeforces learning history for every saved handle, Competition rewards, topic mastery, mock results and settings in this browser? Export a backup first if you may need this data.')) return;
+      try {
+        var backupApi = await import('./competition-backup.mjs');
+        var reset = backupApi.resetCompetitionData(localStorage, STORAGE_KEY);
+        if (!reset.ok) throw new Error('Could not safely reset all Competition data.');
+        state = cloneDefaults();
+        location.reload();
+      } catch (_) {
+        alert('Could not safely reset Competition data. Your existing progress was preserved where possible.');
+      }
     });
 
     var themeButton = $('theme-toggle');

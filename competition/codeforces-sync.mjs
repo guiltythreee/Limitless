@@ -1,4 +1,4 @@
-import { toCodeforcesLearningAttempts } from "./learning-intelligence.mjs";
+import { toCodeforcesLearningAttempts, sanitiseCodeforcesRevisionState, updateCodeforcesRevisionState } from "./learning-intelligence.mjs";
 import { createCompetitionRewardAdapter } from "./competition-rewards.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
@@ -123,6 +123,7 @@ export function appendCodeforcesRevisionAttempt(storage, questionId, outcome, no
   try {
     storage.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify({
       ...payload,
+      revisionState: updateCodeforcesRevisionState(state.revisionState, [revision]),
       attemptsArchive: encodeCodeforcesAttemptArchive(allAttempts.slice(0, splitAt)),
       attempts: allAttempts.slice(splitAt),
     }));
@@ -168,7 +169,11 @@ function readState(storage) {
     for (const attempt of [...archivedAttempts, ...recentAttempts]) {
       if (isRecord(attempt) && typeof attempt.id === "string") byId.set(attempt.id, attempt);
     }
-    return { ...parsed, attempts: [...byId.values()], attemptsArchiveValid: archiveValid };
+    const attempts = [...byId.values()];
+    const revisionState = Array.isArray(parsed.revisionState)
+      ? sanitiseCodeforcesRevisionState(parsed.revisionState)
+      : updateCodeforcesRevisionState([], attempts);
+    return { ...parsed, attempts, revisionState, attemptsArchiveValid: archiveValid };
   } catch {
     return null;
   }
@@ -188,7 +193,7 @@ export function readCodeforcesSyncState(storage, requestedHandle = "") {
       else state = null;
     } catch { state = null; }
   }
-  if (!state) return { version: 1, handle: "", baselineAt: 0, lastSyncAt: 0, seenSubmissionIds: [], attempts: [], attemptsArchiveValid: true };
+  if (!state) return { version: 1, handle: "", baselineAt: 0, lastSyncAt: 0, seenSubmissionIds: [], attempts: [], revisionState: [], attemptsArchiveValid: true };
   return {
     version: 1,
     handle: typeof state.handle === "string" ? state.handle : "",
@@ -203,6 +208,27 @@ export function readCodeforcesSyncState(storage, requestedHandle = "") {
       Number.isFinite(item.occurredAt) && item.occurredAt > 0
     ) : [],
     attemptsArchiveValid: state.attemptsArchiveValid !== false,
+    revisionState: sanitiseCodeforcesRevisionState(state.revisionState),
+  };
+}
+
+/**
+ * Choose the smallest safe fetch window for the requested account. Recheck the
+ * last 24 hours so pending submissions whose verdict changed are observed.
+ * The account-aware reader also finds cursors for inactive saved handles.
+ */
+export function getCodeforcesSyncFetchPlan(storage, handle) {
+  const normalizedHandle = typeof handle === "string" ? handle.trim().toLowerCase() : "";
+  if (!normalizedHandle) return { mode: "invalid", sinceSeconds: null };
+  const previous = readCodeforcesSyncState(storage, normalizedHandle);
+  if (previous.handle !== normalizedHandle ||
+      !Number.isFinite(previous.lastSyncAt) || previous.lastSyncAt <= 0) {
+    return { mode: "all", sinceSeconds: null };
+  }
+  const overlapSeconds = 24 * 60 * 60;
+  return {
+    mode: "since",
+    sinceSeconds: Math.max(0, Math.floor(previous.lastSyncAt / 1000) - overlapSeconds),
   };
 }
 
@@ -310,6 +336,7 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
     seenSubmissionIds: [...seen].sort((a, b) => a - b).slice(-MAX_SEEN_IDS),
     attemptsArchive: encodeCodeforcesAttemptArchive(allAttempts.slice(0, attemptArchiveSplit)),
     attempts: allAttempts.slice(attemptArchiveSplit),
+    revisionState: updateCodeforcesRevisionState(previous?.revisionState ?? [], newAttempts),
   };
   try {
     storage.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(next));

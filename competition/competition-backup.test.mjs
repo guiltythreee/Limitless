@@ -1,11 +1,13 @@
 import assert from "node:assert/strict";
 import { encodeCodeforcesAttemptArchive } from "./codeforces-sync.mjs";
+import { encodeRewardLedgerArchive, readRewardLedger } from "../shared/rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
   COMPETITION_REWARD_STORAGE_KEY,
   createCompetitionBackup,
   restoreCompetitionBackup,
+  resetCompetitionData,
 } from "./competition-backup.mjs";
 
 function makeStorage(seed = new Map()) {
@@ -107,7 +109,56 @@ assert.equal(restoreCompetitionBackup(
 ).ok, false, "malformed attempt archives are rejected before any writes");
 assert.equal(invalidLearningTarget.getItem("competition-state"), "keep-state");
 
+
 assert.deepEqual(backup.codeforcesRewards.rewardLedger, [reward]);
+
+const schedulerSnapshot = {
+  disciplineId: "competitive-programming",
+  courseId: "codeforces",
+  questionId: "codeforces:2000A",
+  contentId: "2000A",
+  subjectId: "codeforces",
+  conceptIds: ["implementation"],
+  lastFailureAt: 1_800_000_000_000,
+  failures: 1,
+  successfulRevisions: 0,
+  lastSuccessfulRevisionAt: 0,
+};
+const learningWithScheduler = { ...learning, revisionState: [schedulerSnapshot] };
+const archivedReward = { ...reward, eventId: "codeforces:example:older", ts: 1_700_000_000_000 };
+const rewardPayloadWithArchive = {
+  rewardLedger: [reward],
+  rewardLedgerArchive: encodeRewardLedgerArchive([archivedReward]),
+};
+const backupWithArchivesSource = makeStorage();
+backupWithArchivesSource.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(learningWithScheduler));
+backupWithArchivesSource.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, JSON.stringify({
+  version: 1, accounts: { other: { ...learningWithScheduler, handle: "other" } },
+}));
+backupWithArchivesSource.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(rewardPayloadWithArchive));
+const backupWithArchives = createCompetitionBackup(backupWithArchivesSource, state);
+const archiveTarget = makeStorage();
+assert.deepEqual(restoreCompetitionBackup(archiveTarget, "competition-state", state, backupWithArchives), { ok: true });
+assert.deepEqual(JSON.parse(archiveTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY)).revisionState, [schedulerSnapshot],
+  "backup restore preserves the active account's durable scheduler snapshot");
+assert.deepEqual(JSON.parse(archiveTarget.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY)).accounts.other.revisionState, [schedulerSnapshot],
+  "backup restore preserves inactive accounts' scheduler snapshots");
+const restoredRewardPayload = JSON.parse(archiveTarget.getItem(COMPETITION_REWARD_STORAGE_KEY));
+assert.deepEqual(readRewardLedger(restoredRewardPayload), [
+  { ...archivedReward, checkpointId: null },
+  { ...reward, checkpointId: null },
+],
+  "backup restore preserves full archived reward records and the recent ledger");
+const invalidRewardArchiveTarget = makeStorage();
+invalidRewardArchiveTarget.setItem("competition-state", "untouched");
+const invalidRewardArchiveBackup = {
+  ...backupWithArchives,
+  codeforcesRewards: { rewardLedger: [reward], rewardLedgerArchive: { version: 1, strings: [], records: [[999]] } },
+};
+assert.equal(restoreCompetitionBackup(invalidRewardArchiveTarget, "competition-state", state, invalidRewardArchiveBackup).ok, false,
+  "malformed reward archives are rejected before any writes");
+assert.equal(invalidRewardArchiveTarget.getItem("competition-state"), "untouched");
+
 
 const restored = makeStorage();
 restored.setItem("competition-state", "old-state");
@@ -155,3 +206,96 @@ assert.equal(rollbackTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "old-reward
   "a failed multi-key restore rolls back earlier writes");
 
 console.log("Competition backup integrity: all assertions passed.");
+
+
+const resetTarget = makeStorage();
+resetTarget.setItem("competition-state", "old-state");
+resetTarget.setItem(CODEFORCES_SYNC_STORAGE_KEY, "active-learning");
+resetTarget.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "inactive-account-histories");
+resetTarget.setItem(COMPETITION_REWARD_STORAGE_KEY, "competition-rewards");
+resetTarget.setItem("limitless-probability-rewards-v1", "other-module-rewards");
+assert.deepEqual(resetCompetitionData(resetTarget, "competition-state"), { ok: true });
+for (const key of ["competition-state", CODEFORCES_SYNC_STORAGE_KEY,
+  CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, COMPETITION_REWARD_STORAGE_KEY]) {
+  assert.equal(resetTarget.getItem(key), null, "Competition reset clears " + key);
+}
+assert.equal(resetTarget.getItem("limitless-probability-rewards-v1"), "other-module-rewards",
+  "Competition reset leaves other modules' reward ledgers untouched");
+
+const failedResetTarget = makeStorage();
+failedResetTarget.setItem("competition-state", "old-state");
+failedResetTarget.setItem(CODEFORCES_SYNC_STORAGE_KEY, "active-learning");
+failedResetTarget.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "inactive-account-histories");
+failedResetTarget.setItem(COMPETITION_REWARD_STORAGE_KEY, "competition-rewards");
+const originalRemove = failedResetTarget.removeItem;
+let failAccountHistoryRemoval = true;
+failedResetTarget.removeItem = (key) => {
+  if (key === CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY && failAccountHistoryRemoval) {
+    failAccountHistoryRemoval = false;
+    throw new Error("simulated account-history removal failure");
+  }
+  originalRemove(key);
+};
+assert.deepEqual(resetCompetitionData(failedResetTarget, "competition-state"),
+  { ok: false, error: "storage-write-failed" });
+assert.equal(failedResetTarget.getItem("competition-state"), "old-state");
+assert.equal(failedResetTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY), "active-learning");
+assert.equal(failedResetTarget.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY), "inactive-account-histories",
+  "failed account-history removal restores the inactive account collection");
+assert.equal(failedResetTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "competition-rewards");
+
+// Exercise restore rollback at every write boundary, not only the final reward write.
+for (const failedKey of [
+  "competition-state",
+  CODEFORCES_SYNC_STORAGE_KEY,
+  CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
+  COMPETITION_REWARD_STORAGE_KEY,
+]) {
+  const target = makeStorage();
+  target.setItem("competition-state", "prior-state");
+  target.setItem(CODEFORCES_SYNC_STORAGE_KEY, "prior-learning");
+  target.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "prior-histories");
+  target.setItem(COMPETITION_REWARD_STORAGE_KEY, "prior-rewards");
+  target.failNextWriteFor(failedKey);
+  const result = restoreCompetitionBackup(target, "competition-state", state, backup);
+  assert.deepEqual(result, { ok: false, error: "storage-write-failed" },
+    "restore reports failure when writing " + failedKey);
+  assert.equal(target.getItem("competition-state"), "prior-state");
+  assert.equal(target.getItem(CODEFORCES_SYNC_STORAGE_KEY), "prior-learning");
+  assert.equal(target.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY), "prior-histories");
+  assert.equal(target.getItem(COMPETITION_REWARD_STORAGE_KEY), "prior-rewards",
+    "restore rollback preserves every prior key after failure at " + failedKey);
+}
+
+// Exercise reset rollback at every removal boundary, including the first and last key.
+for (const failedKey of [
+  "competition-state",
+  CODEFORCES_SYNC_STORAGE_KEY,
+  CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
+  COMPETITION_REWARD_STORAGE_KEY,
+]) {
+  const target = makeStorage();
+  const prior = new Map([
+    ["competition-state", "prior-state"],
+    [CODEFORCES_SYNC_STORAGE_KEY, "prior-learning"],
+    [CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "prior-histories"],
+    [COMPETITION_REWARD_STORAGE_KEY, "prior-rewards"],
+  ]);
+  for (const [key, value] of prior) target.setItem(key, value);
+  const remove = target.removeItem;
+  let shouldFail = true;
+  target.removeItem = (key) => {
+    if (key === failedKey && shouldFail) {
+      shouldFail = false;
+      throw new Error("simulated removal failure for " + failedKey);
+    }
+    remove(key);
+  };
+  assert.deepEqual(resetCompetitionData(target, "competition-state"),
+    { ok: false, error: "storage-write-failed" },
+    "reset reports failure when removing " + failedKey);
+  for (const [key, value] of prior) {
+    assert.equal(target.getItem(key), value,
+      "reset rollback preserves " + key + " after failure at " + failedKey);
+  }
+}
