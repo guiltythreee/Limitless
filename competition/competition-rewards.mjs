@@ -30,10 +30,10 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
   function loadState() {
     try {
       const raw = storage.getItem(COMPETITION_REWARD_STORAGE_KEY);
-      if (!raw) return { payload: {}, records: [] };
+      if (!raw) return { payload: {}, records: [], archive: null };
       const payload = JSON.parse(raw);
       if (!isRecord(payload)) return { payload: {}, records: [] };
-      return { payload, records: sanitiseRewardRecords(payload.rewardLedger) };
+      const archive = payload.rewardArchive == null ? null : sanitiseRewardArchive(payload.rewardArchive, COMPETITION_REWARD_MODULE_ID);\n      if (payload.rewardArchive != null && !archive) return { payload, records: [], archive: null, invalidArchive: true };\n      return { payload, records: sanitiseRewardRecords(payload.rewardLedger), archive };
     } catch {
       return { payload: {}, records: [] };
     }
@@ -67,7 +67,7 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       quality: 1,
     };
     if (!Number.isFinite(activity.ts) || activity.ts <= 0) return null;
-    const records = buildRewardRecords(activity, state.records);
+    const records = buildRewardRecords(activity, state.records, state.archive);
     const record = records[0];
     try {
       storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({
