@@ -35,7 +35,7 @@ Mean word confidence is from Tesseract TSV output. It is a routing signal, not a
 | 152 | 12 | 415 | 95.6 | Strong OCR candidate |
 | 153 | 3 | 365 | 85.0 | OCR candidate; inspect equation/units |
 | 154 | 0 | 456 | 84.1 | OCR candidate; inspect table values |
-| 156 | 17 | 214 | 66.0 | Exception-prone diagram labels |
+| 156 | 17 | 214 | 66.0 | OCR candidate; inspect diagram labels |
 | 171 | 21 | 162 | 50.4 | Exception: noisy diagram labels |
 | 178 | 19 | 304 | 59.6 | Exception: machinery diagram labels |
 | 194 | 19 | 55 | 95.2 | Strong OCR candidate |
@@ -62,7 +62,7 @@ OCR failures are now captured as page-level exceptions rather than aborting the 
 
 A code-path inspection found that the first implementation placed Tesseract's `tsv` config argument before the `--psm 3` options. That ordering is invalid for the Tesseract CLI and could turn a successful plain-text OCR attempt into a page-level failure when confidence parsing ran.
 
-The ingestion code now builds the invocation as `tesseract <image> stdout --psm 3 tsv`, with a unit test locking the argument order. The corrected command was executed successfully against the source PDF's page 35 and returned a TSV header plus word-level confidence rows. The full JavaScript ingestion command still needs a fresh end-to-end run against the source PDF after this correction; CI runs the automated ingestion tests, not this 212-page source PDF.
+The ingestion code now builds the invocation as `tesseract <image> stdout --psm 3 tsv`, with a unit test locking the argument order. The corrected command was executed successfully against source PDF page 35 and returned the TSV header plus word-level confidence rows. The full JavaScript ingestion CLI has now also completed end-to-end against the exact 212-page source PDF; its output was inspected independently of CI (see the run results below).
 
 The source-page preview planner also now selects pages with equation/table candidates, embedded figure references, or extraction exceptions. Since the PDF has figure assets on 118 pages, the preview set will include at least those 118 pages; these are optional visual references, not 118 mandatory manual approvals.
 
@@ -80,16 +80,53 @@ The seven high-risk/reference pages identified during the earlier visual audit w
 | 194 | Blown-film extrusion diagram |
 | 201 | Injection-moulding machine and mould/cross-section diagrams |
 
-All seven renders were produced successfully as PNG files. This validates the PDF renderer, page selection targets, and output mode against the source. It is a manual Poppler spot check, not yet a full execution of the JavaScript ingestion CLI; the latter still needs to be run end-to-end and its manifest/packet inspected.
+All seven renders were produced successfully as PNG files. This initial spot check validated the PDF renderer and selected page targets.
+
+## Latest JavaScript CLI end-to-end run
+
+The committed `ingest.mjs` at feature-branch head `71f0130f58250d784a618a7ffdd37479c900c474` was run locally against the exact source PDF. The PDF's SHA-256 matched the recorded source hash.
+
+Command (run from the isolated working environment):
+
+```bash
+node resource-ingestion/ingest.mjs \
+  --input "MT203 – PST 2026(1).pdf" \
+  --out "./resource-ingestion/output/mt203-pst-2026" \
+  --course MT203 \
+  --topic "Polymer Science and Technology"
+```
+
+Observed result:
+
+| Output/check | Result |
+|---|---:|
+| PDF pages | 212 |
+| Knowledge records | 2,449 |
+| Unique record IDs | 2,449 |
+| Sparse pages processed by OCR | 19 |
+| OCR candidates | 14 |
+| OCR review-required pages | 5 (35, 102, 171, 178, 212) |
+| OCR command/page failures | 0 |
+| Genuine image references mapped | 721 |
+| Distinct pages containing mapped images | 118 |
+| Extracted image files | 759 (721 images + 38 soft masks) |
+| Source-page previews planned | 157 |
+| Source-page previews generated | 157 |
+| Preview failures or missing preview files | 0 |
+
+The generated `source-manifest.json`, `knowledge-records.json`, and `review-packet.md` were parsed and checked. Every record remains `needs-review` with `confidence: unverified`; manifest approval status is `unreviewed`. Record IDs are unique, all image references resolve to existing assets, all 157 preview paths resolve, all five OCR exception pages appear in the preview plan, and the seven high-risk pages (36, 152, 153, 154, 178, 194, 201) are included. The page-36 molecular-weight equations, page-154 permeability table, page-178 single-screw extruder, and page-201 injection-moulding diagrams were visually opened and checked against the original PDF.
+
+The generated output is a local validation artifact and is intentionally not committed to the repository: it contains 759 extracted image files and 157 page renders. The source PDF is also not committed. No lesson, question bank, learner progress, production export, or deployed asset was modified.
+
+This closes the full-PDF CLI execution milestone. It does not approve extracted content or calibrate the OCR thresholds for other lecture PDFs.
 
 ## Remaining work
 
-1. Run the current JavaScript ingestion CLI end-to-end against this exact PDF and inspect the generated manifest, preview plan, record counts, and review packet. Do not claim end-to-end completion until this succeeds.
-2. Validate the new confidence gate on additional lecture PDFs before treating its thresholds as calibrated defaults.
-3. Improve diagram/figure understanding and figure-to-topic relevance; page mapping alone does not interpret an image.
-4. Improve risk rules for chemical formulae, units, table cells, and diagram labels, which can remain high-risk even when OCR confidence is high.
-5. Keep the image/soft-mask distinction and source-page mapping intact.
-6. Do not automatically modify lessons, question banks, learner progress, or generate questions. Any proposed content additions remain separately reviewable.
+1. Validate the OCR confidence gate on additional lecture PDFs before treating its thresholds as calibrated defaults.
+2. Improve diagram/figure understanding and figure-to-topic relevance; page mapping alone does not interpret an image.
+3. Improve risk rules for chemical formulae, units, table cells, and diagram labels, which can remain high-risk even when OCR confidence is high.
+4. Keep the image/soft-mask distinction and source-page mapping intact.
+5. Do not automatically modify lessons, question banks, learner progress, or generate questions. Any proposed content additions remain separately reviewable.
 
 ## Reproducibility
 
