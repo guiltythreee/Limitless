@@ -30,10 +30,12 @@ import { bookkeysArchiveSummary } from "../domain/reading/bookkeys-achievements"
 import { filterAndSortBookkeysLibrary, type BookkeysLibrarySort } from "../domain/reading/bookkeys-library-view";
 
 
+const BOOKKEYS_ASSET_BASE = process.env.NEXT_PUBLIC_BOOKKEYS_BASE_PATH || "/tools/typing-next-preview";
+
 const READER_BACKGROUND_PRESETS = [
-  { id: "pic-morning", label: "Morning picture", image: "/tools/typing-next-preview/backgrounds/morning.webp", mobileImage: "/tools/typing-next-preview/backgrounds/morning-mobile.webp", background: "linear-gradient(#6b5140,#c18a58)" },
-  { id: "pic-evening", label: "Evening picture", image: "/tools/typing-next-preview/backgrounds/evening.webp", mobileImage: "/tools/typing-next-preview/backgrounds/evening-mobile.webp", background: "linear-gradient(#30213c,#a65e50)" },
-  { id: "pic-night", label: "Night picture", image: "/tools/typing-next-preview/backgrounds/night.webp", mobileImage: "/tools/typing-next-preview/backgrounds/night-mobile.webp", background: "linear-gradient(#10172b,#34446a)" },
+  { id: "pic-morning", label: "Morning picture", image: `${BOOKKEYS_ASSET_BASE}/backgrounds/morning.webp`, mobileImage: `${BOOKKEYS_ASSET_BASE}/backgrounds/morning-mobile.webp`, background: "linear-gradient(#6b5140,#c18a58)" },
+  { id: "pic-evening", label: "Evening picture", image: `${BOOKKEYS_ASSET_BASE}/backgrounds/evening.webp`, mobileImage: `${BOOKKEYS_ASSET_BASE}/backgrounds/evening-mobile.webp`, background: "linear-gradient(#30213c,#a65e50)" },
+  { id: "pic-night", label: "Night picture", image: `${BOOKKEYS_ASSET_BASE}/backgrounds/night.webp`, mobileImage: `${BOOKKEYS_ASSET_BASE}/backgrounds/night-mobile.webp`, background: "linear-gradient(#10172b,#34446a)" },
   { id: "morning", label: "Morning glow", background: "radial-gradient(circle at 78% 15%, rgba(255,226,165,.45), transparent 34%), linear-gradient(155deg,#2c2634,#70513d 58%,#c18a58)" },
   { id: "evening", label: "Evening glow", background: "radial-gradient(circle at 75% 20%, rgba(245,156,105,.35), transparent 36%), linear-gradient(160deg,#17142c,#4d294c 62%,#a65e50)" },
   { id: "night", label: "Night sky", background: "radial-gradient(circle at 82% 17%,#e9efff 0 5px,transparent 6px), radial-gradient(circle at 82% 17%,rgba(190,210,255,.24),transparent 90px), linear-gradient(#04081a,#0e1a3d 60%,#1d2c57)" },
@@ -413,10 +415,16 @@ export default function BookkeysApp() {
   useEffect(() => {
     const savedSettings = readSettings();
     const savedTheme = window.localStorage.getItem("limitless.typing.v1.theme");
-    // The legacy "bg" field is the reader scene (for example "pic-morning"),
-    // not the light/dark UI theme. Keep it untouched in the persisted settings.
-    const initialTheme = savedTheme === "dark" ? "dark" : "light";
-    setThemeOverride(window.localStorage.getItem("limitless.typing.v1.themeOverride") === "1");
+    const savedSiteTheme = window.localStorage.getItem("limitless.site.theme");
+    const savedThemeOverride = window.localStorage.getItem("limitless.typing.v1.themeOverride") === "1";
+    // Preserve an explicit Bookkeys override; otherwise inherit the site theme.
+    // The legacy "bg" field remains the reader scene, not the light/dark UI theme.
+    const initialTheme = savedThemeOverride && (savedTheme === "dark" || savedTheme === "light")
+      ? savedTheme
+      : savedSiteTheme === "dark" || savedSiteTheme === "light"
+        ? savedSiteTheme
+        : savedTheme === "dark" ? "dark" : "light";
+    setThemeOverride(savedThemeOverride);
     const mappedScene: ReaderBackgroundId =
       isReaderBackgroundId(savedSettings.bg) ? savedSettings.bg : "none";
     setSettings({
@@ -427,6 +435,16 @@ export default function BookkeysApp() {
     });
     setTheme(initialTheme);
     setThemeReady(true);
+  }, []);
+
+  useEffect(() => {
+    const onHostThemeChange = (event: Event) => {
+      if (window.localStorage.getItem("limitless.typing.v1.themeOverride") === "1") return;
+      const nextTheme = (event as CustomEvent<{ theme?: string }>).detail?.theme;
+      if (nextTheme === "dark" || nextTheme === "light") setTheme(nextTheme);
+    };
+    window.addEventListener("limitless:host-themechange", onHostThemeChange);
+    return () => window.removeEventListener("limitless:host-themechange", onHostThemeChange);
   }, []);
 
   useEffect(() => {
