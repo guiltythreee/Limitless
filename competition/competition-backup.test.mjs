@@ -243,3 +243,59 @@ assert.equal(failedResetTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY), "active-lea
 assert.equal(failedResetTarget.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY), "inactive-account-histories",
   "failed account-history removal restores the inactive account collection");
 assert.equal(failedResetTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "competition-rewards");
+
+// Exercise restore rollback at every write boundary, not only the final reward write.
+for (const failedKey of [
+  "competition-state",
+  CODEFORCES_SYNC_STORAGE_KEY,
+  CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
+  COMPETITION_REWARD_STORAGE_KEY,
+]) {
+  const target = makeStorage();
+  target.setItem("competition-state", "prior-state");
+  target.setItem(CODEFORCES_SYNC_STORAGE_KEY, "prior-learning");
+  target.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "prior-histories");
+  target.setItem(COMPETITION_REWARD_STORAGE_KEY, "prior-rewards");
+  target.failNextWriteFor(failedKey);
+  const result = restoreCompetitionBackup(target, "competition-state", state, backup);
+  assert.deepEqual(result, { ok: false, error: "storage-write-failed" },
+    "restore reports failure when writing " + failedKey);
+  assert.equal(target.getItem("competition-state"), "prior-state");
+  assert.equal(target.getItem(CODEFORCES_SYNC_STORAGE_KEY), "prior-learning");
+  assert.equal(target.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY), "prior-histories");
+  assert.equal(target.getItem(COMPETITION_REWARD_STORAGE_KEY), "prior-rewards",
+    "restore rollback preserves every prior key after failure at " + failedKey);
+}
+
+// Exercise reset rollback at every removal boundary, including the first and last key.
+for (const failedKey of [
+  "competition-state",
+  CODEFORCES_SYNC_STORAGE_KEY,
+  CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
+  COMPETITION_REWARD_STORAGE_KEY,
+]) {
+  const target = makeStorage();
+  const prior = new Map([
+    ["competition-state", "prior-state"],
+    [CODEFORCES_SYNC_STORAGE_KEY, "prior-learning"],
+    [CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "prior-histories"],
+    [COMPETITION_REWARD_STORAGE_KEY, "prior-rewards"],
+  ]);
+  for (const [key, value] of prior) target.setItem(key, value);
+  const remove = target.removeItem;
+  let shouldFail = true;
+  target.removeItem = (key) => {
+    if (key === failedKey && shouldFail) {
+      shouldFail = false;
+      throw new Error("simulated removal failure for " + failedKey);
+    }
+    remove(key);
+  };
+  assert.deepEqual(resetCompetitionData(target, "competition-state"),
+    { ok: false, error: "storage-write-failed" },
+    "reset reports failure when removing " + failedKey);
+  for (const [key, value] of prior) {
+    assert.equal(target.getItem(key), value,
+      "reset rollback preserves " + key + " after failure at " + failedKey);
+  }
+}
