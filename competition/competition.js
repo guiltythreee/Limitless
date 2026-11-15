@@ -1001,9 +1001,9 @@
     });
     $('week-list').querySelectorAll('[data-week-compartment]').forEach(function (details) {
       var compartmentKey = details.getAttribute('data-week-compartment');
-      // Topic mastery panels should return to their compact default after a
-      // roadmap re-render; other compartments retain the user's open state.
-      if (!/-mastery$/.test(compartmentKey)) openCompartments[compartmentKey] = details.open;
+      // All compartments start collapsed on first render. Once opened, retain
+      // the user's choice when a checkbox or mastery change re-renders weeks.
+      openCompartments[compartmentKey] = details.open;
     });
     $('week-list').innerHTML = WEEKS.map(function (week, wi) {
       var statusOptions = function (key) {
