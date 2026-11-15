@@ -54,7 +54,10 @@ function selectCsesGroup(subject, concept) {
 
 /** Return official, topic-filtered practice entry points for a CP concept. */
 export function getPracticeRecommendations(subject, concept = "") {
-  const tags = CODEFORCES_TAGS[String(subject || "").trim().toLowerCase()] || [];
+  const subjectKey = String(subject || "").trim().toLowerCase();
+  const tags = subjectKey === "codeforces" && String(concept || "").trim()
+    ? [String(concept).trim().toLowerCase()]
+    : CODEFORCES_TAGS[subjectKey] || [];
   const codeforces = tags.map((tag) => ({
     label: "Codeforces · " + tag,
     url: "https://codeforces.com/problemset?tags=" + encodeURIComponent(tag),

@@ -145,6 +145,8 @@ assert.equal(cfAttempts[0].id, "codeforces:9002");
 assert.equal(cfAttempts[0].outcome, "incorrect");
 assert.equal(cfAttempts[0].questionId, "codeforces:1900A");
 assert.deepEqual(cfAttempts[0].conceptIds, ["implementation", "greedy"]);
+assert.equal(cfAttempts[0].subjectId, "codeforces",
+  "Codeforces tags are concepts, not mutually exclusive subject buckets");
 assert.equal(cfAttempts[1].outcome, "correct");
 assert.equal(cfAttempts[1].mode, "contest");
 assert.equal(cfAttempts[1].independent, true);
@@ -159,6 +161,15 @@ assert.ok(combined.revision.some((item) => item.questionId === "codeforces:1900A
 const persistedProjection = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), cfAttempts);
 assert.equal(persistedProjection.attempts.length, 2,
   "already-normalized, persisted Codeforces attempts are accepted without being remapped");
+assert.ok(persistedProjection.attempts.every((attempt) => attempt.subjectId === "codeforces"),
+  "legacy persisted attempts are normalized to the shared Codeforces subject");
+const mixedTagOrder = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), [
+  { ...cfAttempts[0], id: "codeforces:9100", subjectId: "implementation", conceptIds: ["implementation", "greedy"] },
+  { ...cfAttempts[0], id: "codeforces:9101", subjectId: "greedy", conceptIds: ["greedy", "implementation"] },
+]);
+assert.equal(mixedTagOrder.mastery.find((item) => item.label === "implementation").attempts, 2,
+  "the same tag accumulates mastery regardless of its position in a problem's tag list");
+assert.equal(mixedTagOrder.mastery.find((item) => item.label === "greedy").attempts, 2);
 
 
 console.log("Competition learning adapter: all assertions passed.");
