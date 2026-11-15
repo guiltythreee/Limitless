@@ -105,43 +105,48 @@ assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
 console.log("Codeforces sync baseline: all assertions passed.");
 
 
-// The API returns newest submissions first. The bounded seen-ID window must
-// retain the newest IDs, not the oldest 5,000 from the end of that array.
+// The bounded seen-ID window must cover the API's maximum safe fetch window
+// (100 pages × 1,000 submissions), not just a small arbitrary subset.
 {
-  const many = Array.from({ length: 5005 }, (_, index) => {
-    const id = 10000 - index;
-    return {
-      id, contestId: 2000, creationTimeSeconds: 1794000000 + id,
-      verdict: "WRONG_ANSWER",
-      problem: { contestId: 2000, index: "A", tags: ["greedy"] },
-    };
-  });
   const largeStorage = {
-    value: null,
-    getItem() { return this.value; },
-    setItem(_key, value) { this.value = value; },
-  };
-  const largeBaseline = syncCodeforcesSubmissions(largeStorage, "LargeHandle", many, 1795000000000);
-  assert.equal(largeBaseline.ok, true);
-  const retained = readCodeforcesSyncState(largeStorage).seenSubmissionIds;
-  assert.equal(retained.length, 5000);
-  assert.equal(retained[0], 5001);
-  assert.equal(retained.at(-1), 10000);
-}
-
-{
-  const legacyStorage = {
     value: JSON.stringify({
-      version: 1, handle: "legacy", baselineAt: 1795000000000, lastSyncAt: 1795000000000,
-      seenSubmissionIds: Array.from({ length: 5000 }, (_, index) => 10000 - index),
+      version: 1, handle: "largehandle", baselineAt: 1795000000000, lastSyncAt: 1795000000000,
+      seenSubmissionIds: Array.from({ length: 100005 }, (_, index) => 200000 - index),
       attempts: [],
     }),
     getItem() { return this.value; },
     setItem(_key, value) { this.value = value; },
   };
-  const normalized = readCodeforcesSyncState(legacyStorage).seenSubmissionIds;
-  assert.equal(normalized[0], 5001);
-  assert.equal(normalized.at(-1), 10000);
+  const normalized = syncCodeforcesSubmissions(largeStorage, "LargeHandle", [], 1795000005000);
+  assert.equal(normalized.ok, true);
+  const retained = readCodeforcesSyncState(largeStorage).seenSubmissionIds;
+  assert.equal(retained.length, 100000);
+  assert.equal(retained[0], 100001);
+  assert.equal(retained.at(-1), 200000);
+}
+
+// Learning history is bounded at 5,000 attempts, retaining the newest records.
+{
+  const largeStorage = {
+    value: null,
+    getItem() { return this.value; },
+    setItem(_key, value) { this.value = value; },
+  };
+  syncCodeforcesSubmissions(largeStorage, "AttemptHandle", [], 1795000000000);
+  const submissions = Array.from({ length: 5005 }, (_, index) => ({
+    id: 300000 + index,
+    contestId: 2000,
+    creationTimeSeconds: 1795000001 + index,
+    verdict: "WRONG_ANSWER",
+    problem: { contestId: 2000, index: "A", tags: ["greedy"] },
+  }));
+  const result = syncCodeforcesSubmissions(largeStorage, "AttemptHandle", submissions, 1796000000000);
+  assert.equal(result.ok, true);
+  assert.equal(result.added, 5005);
+  const retainedAttempts = readCodeforcesSyncState(largeStorage).attempts;
+  assert.equal(retainedAttempts.length, 5000);
+  assert.equal(retainedAttempts[0].id, "codeforces:300005");
+  assert.equal(retainedAttempts.at(-1).id, "codeforces:305004");
 }
 
 
