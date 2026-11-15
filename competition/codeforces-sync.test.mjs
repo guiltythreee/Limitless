@@ -217,7 +217,8 @@ const corruptArchiveStorage = {
 const corruptBefore = corruptArchiveStorage.value;
 const corruptSync = syncCodeforcesSubmissions(corruptArchiveStorage, "corrupt", history, 1796000000000);
 assert.equal(corruptSync.ok, false);
-assert.equal(corruptSync.error, "invalid-attempts-archive");
+assert.equal(corruptSync.error, "invalid-active-learning-record",
+  "account activation rejects a corrupted archive before sync can mutate it");
 const corruptRead = readCodeforcesSyncState(corruptArchiveStorage);
 assert.equal(corruptRead.attemptsArchiveValid, false);
 assert.equal(corruptRead.attempts.length, 0,
