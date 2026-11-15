@@ -40,15 +40,15 @@ const T4: TopicSource = {
       text: "A PS sample contains 1 chain of MW 20,000 g/mol and 3 chains of MW 10,000 g/mol. Its $M_n$, $M_w$ and PDI are:",
       options: [
         { label: "a", text: "Mn = 14,000; Mw = 12,500; PDI = 0.89" },
-        { label: "b", text: "Mn = 12,500; Mw = 16,000; PDI = 1.28" },
-        { label: "c", text: "Mn = 12,500; Mw = 14,000; PDI = 1.12" },
+        { label: "b", text: "Mn = 12,500; Mw = 14,000; PDI = 1.12" },
+        { label: "c", text: "Mn = 12,500; Mw = 16,000; PDI = 1.28" },
         { label: "d", text: "Mn = 15,000; Mw = 15,000; PDI = 1.00" }
       ],
-      answer: "c",
+      answer: "b",
       why: "$M_n = \\frac{1(20000)+3(10000)}{4} = \\frac{50000}{4} = \\mathbf{12{,}500}$. $M_w = \\frac{1(20000)^2+3(10000)^2}{1(20000)+3(10000)} = \\frac{7\\times10^8}{5\\times10^4} = \\mathbf{14{,}000}$. PDI $= 14000/12500 = \\mathbf{1.12}$.",
       distractors: {
         a: "Mn and Mw swapped — Mn is the number-average (linear in Mi), Mw is weight-weighted.",
-        b: "Mw would be 16,000 only if the heavy chain counted twice.",
+        c: "Mw would be 16,000 only if the heavy chain counted twice.",
       },
       concept: "$M_n=\\sum N_iM_i/\\sum N_i$ · $M_w=\\sum N_iM_i^2/\\sum N_iM_i$",
       tags: ["numeric", "formula"],
@@ -75,8 +75,8 @@ const T4: TopicSource = {
       text: "Match each technique with the average it yields.",
       tableRows: [
         ["1", "Membrane osmometry", "", "(i) Mw"],
-        ["2", "Light scattering (Zimm)", "", "(ii) Mz"],
-        ["3", "Ultracentrifugation (sedimentation equilibrium)", "", "(iii) Mn"],
+        ["2", "Light scattering (Zimm)", "", "(i) Mw"],
+        ["3", "Ultracentrifugation (sedimentation equilibrium; local curvature analysis)", "", "(ii) Mz"],
         ["4", "Solution viscometry", "", "(iv) Mv"],
       ],
       options: [
@@ -86,7 +86,7 @@ const T4: TopicSource = {
         { label: "d", text: "1-iv, 2-iii, 3-ii, 4-i" }
       ],
       answer: "c",
-      why: "Osmometry (colligative) → Mn · light scattering (intensity ∝ mass) → Mw · sedimentation equilibrium (mass × distance) → Mz · viscometry → Mv.",
+      why: "Membrane osmometry is colligative and gives Mn. Static light scattering (Zimm analysis) gives Mw. In sedimentation equilibrium, the local concentration-profile slope gives a local weight-average value, while curvature relative to the slope gives the local z-average moment; the question specifies the latter analysis. Solution viscometry gives viscosity-average Mv.",
       tags: ["revision"],
     },
     {
@@ -173,10 +173,11 @@ const T4: TopicSource = {
         { label: "d", text: "25,000" }
       ],
       answer: "d",
-      why: "$\\frac{1}{M_n} = \\frac{0.99}{50000} + \\frac{0.01}{500} = 1.98\\times10^{-5} + 2.0\\times10^{-5} = 3.98\\times10^{-5}$ → $M_n \\approx \\mathbf{25{,}000}$ — the trace oligomer **halves** the number-average.",
+      why: "Use the weight-fraction form: $1/M_n=0.99/50000+0.01/500=3.98\\times10^{-5}$ mol/g, so $M_n\\approx25{,}126$ g/mol (about 25,000 g/mol). Although the oligomer is only 1 wt%, its molecule count is large: the number of oligomer molecules per gram is 100 times that of the 50,000 g/mol polymer. Number-average molecular weight therefore falls strongly.",
       distractors: {
-        b: "49,500 is the new *Mw* (≈ unchanged) — the classic mix-up.",
-        c: "5,000 would need ~10 wt% oligomer.",
+        a: "45,000 is too high; it does not account for the large number of low-mass oligomer molecules.",
+        b: "49,500 treats the 1 wt% oligomer as though number-average molecular weight were a simple weight-fraction average; it is not.",
+        c: "5,000 would require a much larger oligomer fraction or a different oligomer molar mass.",
       },
       concept: "$1/M_n = \\sum w_i/M_i$",
       tags: ["numeric", "formula", "confused"],
@@ -187,12 +188,12 @@ const T4: TopicSource = {
       diff: 1,
       text: "PDI (polydispersity index) is defined as:",
       options: [
-        { label: "a", text: "Mz / Mw" },
-        { label: "b", text: "Mw / Mn" },
+        { label: "a", text: "Mw / Mn" },
+        { label: "b", text: "Mz / Mw" },
         { label: "c", text: "Mv / Mn" },
         { label: "d", text: "Mn / Mw" }
       ],
-      answer: "b",
+      answer: "a",
       why: "$\\text{PDI} = M_w/M_n \\ge 1$ always (equals 1 only for monodisperse). The older symbol $\\bar{X}_w/\\bar{X}_n$ is equivalent.",
       tags: ["revision"],
     },
@@ -203,11 +204,11 @@ const T4: TopicSource = {
       text: "The number-average DP of a polyamide (repeat unit M = 113 g/mol) with Mn = 33,900 g/mol is:",
       options: [
         { label: "a", text: "30" },
-        { label: "b", text: "300" },
-        { label: "c", text: "113" },
+        { label: "b", text: "113" },
+        { label: "c", text: "300" },
         { label: "d", text: "3,000" }
       ],
-      answer: "b",
+      answer: "c",
       why: "$DP_n = M_n/M_{repeat} = 33900/113 = \\mathbf{300}$.",
       distractors: {
         a: "30 corresponds to Mn = 3,390.",
@@ -219,7 +220,7 @@ const T4: TopicSource = {
       id: "t4-12",
       type: "graph",
       diff: 3,
-      text: "GPC/SEC traces show: peak A narrow & symmetric; peak B broad with a low-MW tail; peak C broad bimodal. Which PDI ordering is correct?",
+      text: "Three GPC/SEC traces are described only by their relative peak widths at half-height: A is narrow and symmetric, B is broader with a low-MW tail, and C is broad and bimodal. Can their PDI values be ranked uniquely from this information?",
       tableRows: [
         ["Peak", "A", "B", "C"],
         ["Relative width at half-height", "narrow", "medium", "very broad"],
@@ -230,8 +231,8 @@ const T4: TopicSource = {
         { label: "c", text: "PDI: C < B < A" },
         { label: "d", text: "Cannot be inferred from peak shape" }
       ],
-      answer: "a",
-      why: "GPC separates by hydrodynamic volume — **peak width maps directly to MWD breadth**. Narrow symmetric (A) = low PDI; broad (B) higher; bimodal (C) mixes two populations → highest PDI.",
+      answer: "d",
+      why: "No. PDI is $M_w/M_n$ and depends on the full molecular-weight distribution, not just the visual peak width or width at half-height. Different distributions can have similar peak widths but different moments; a bimodal trace also does not determine the PDI without quantitative distribution data.",
       concept: "SEC: elution volume ↔ MW; width ↔ PDI",
       tags: ["confused"],
     },
@@ -310,7 +311,9 @@ const T4: TopicSource = {
       answer: "d",
       why: "Statements 1–3 are correct as general sensitivity trends: Mn is strongly affected by numerous short chains, while Mz is strongly affected by the high-molecular-weight tail. Statement 4 is false — osmometry measures a colligative property (particle count) and gives **Mn**, not Mz.",
       distractors: {
-        a: "Item 4 confuses osmometry (Mn) with sedimentation-equilibrium (Mz).",
+        a: "Includes statement 4, which is false: osmometry is a colligative method associated with Mn.",
+        b: "Statements 1 and 3 are true, but the option is incomplete because it omits true statement 2.",
+        c: "Includes false statement 4 and omits true statements 1 and 3.",
       },
       tags: ["confused"],
     },
@@ -416,7 +419,7 @@ const T4: TopicSource = {
         { label: "d", text: "It counts individual polymer particles electronically as they pass through a detector, giving a direct molecule count." }
       ],
       answer: "a",
-      why: "SEC separates on **coil size** (hydrodynamic volume), not mass. Calibration with narrow-PS standards gives PS-equivalent MW; absolute MW needs in-line light scattering or viscometry.",
+      why: "SEC separates molecules by hydrodynamic volume (effective coil size). A conventional calibration curve made with narrow-distribution standards converts elution volume into a relative or standard-equivalent molecular weight. Coupling SEC to multi-angle light scattering can provide an absolute molar-mass estimate; a viscometer supplies hydrodynamic information and can support universal calibration or branching analysis.",
       concept: "SEC = relative technique (Mark–Houwink correction needed)",
       tags: ["confused"],
     },
@@ -536,8 +539,13 @@ const T4: TopicSource = {
         { label: "d", text: "Branching lowers the actual molecular weight because each branch removes repeat units from the polymer backbone." }
       ],
       answer: "b",
-      why: "SEC separates by **hydrodynamic volume**. A branched coil is compact for its mass → it elutes at a volume the calibration assigns to a *lower* MW linear chain → SEC (relative) under-reports. Absolute LS sees the true mass and disagrees — the diagnostic signature of branching.",
-      concept: "relative MW techniques assume linear standards",
+      why: "SEC separates by **hydrodynamic volume**. A branched coil is more compact than a linear coil of the same molar mass, so a linear-chain calibration can assign it an artificially low apparent MW. Multi-angle light scattering can estimate absolute molar mass when concentration and optical inputs (including $dn/dc$) are correctly supplied; the two methods therefore need not agree for branched chains.",
+      distractors: {
+        a: "A lower SEC value is not proof of detector failure; SEC calibration reports hydrodynamic-volume-equivalent mass.",
+        c: "Light scattering responds to molar mass through scattering intensity; it does not simply count branch points, and accuracy depends on correct optical inputs.",
+        d: "Branching changes chain conformation and hydrodynamic size; it does not remove repeat units or automatically lower the true molar mass.",
+      },
+      concept: "SEC calibration reports apparent MW when chain architecture differs from standards",
       tags: ["confused"],
     },
     {

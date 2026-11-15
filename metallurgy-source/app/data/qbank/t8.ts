@@ -118,7 +118,7 @@ const T8: TopicSource = {
         }
       ],
       answer: "d",
-      why: "**GPPS** (general-purpose PS) is glass-clear but brittle; **HIPS** adds polybutadiene rubber particles to absorb energy; **ABS** adds acrylonitrile (heat/chemical resistance) to the butadiene-toughened styrene system → the toughest of the three.",
+      why: "GPPS is generally the most brittle because it lacks a rubber toughening phase. HIPS incorporates rubber particles that absorb impact energy. ABS retains a rubber phase and adds acrylonitrile, which can improve stiffness, heat and chemical resistance. This is a typical qualitative ranking; exact HIPS-versus-ABS toughness depends on grade, rubber content and test conditions.",
       concept: "PS → HIPS → ABS = escalating toughness",
       tags: ["revision"],
     },
@@ -214,7 +214,7 @@ const T8: TopicSource = {
       ],
       answer: "a",
       why: "**PTFE** does melt near 327 °C, but its melt viscosity is so high that it does not flow like ordinary thermoplastics. It is therefore consolidated by **compression sintering** or formed into tape by **paste extrusion** rather than conventional melt extrusion.",
-      concept: "PTFE: no true melt processing",
+      concept: "PTFE melts but its melt viscosity prevents conventional melt-flow processing",
       tags: ["revision"],
     },
     {
@@ -316,7 +316,7 @@ const T8: TopicSource = {
       text: "Which statement(s) about silicone polymers is/are correct?",
       statements: [
         { num: 1, text: "Their backbone is a flexible Si–O chain, not C–C." },
-        { num: 2, text: "They tolerate a very wide temperature range and are chemically inert." },
+        { num: 2, text: "They tolerate a wide temperature range and are resistant to many chemicals, although they are not universally inert." },
         { num: 3, text: "They are used in sealants, medical implants and release coatings." },
         { num: 4, text: "They are highly polar and dissolve readily in water." },
       ],
@@ -327,7 +327,7 @@ const T8: TopicSource = {
         { label: "d", text: "1, 2, 3 and 4" }
       ],
       answer: "a",
-      why: "1–3 are the defining silicone properties. Item 4 is false — the organic substituents make silicones **hydrophobic** and water-repellent, not water-soluble.",
+      why: "Statements 1–3 describe common silicone features: a flexible Si–O backbone, broad thermal capability and resistance to many chemicals, with uses in sealants, medical devices and release coatings. “Chemically inert” should not be read as universal resistance to every reagent or condition. Statement 4 is false: common methyl-substituted silicones are hydrophobic and do not dissolve readily in water.",
       distractors: {
         d: "Item 4 inverts silicone's most familiar surface property.",
       },
@@ -407,7 +407,7 @@ const T8: TopicSource = {
         },
         {
             label: "b",
-            text: "PET: good O₂ barrier for bottles; EVOH: excellent O₂ barrier (used in multilayer films); PE: poor O₂ barrier but good moisture barrier",
+            text: "PET: useful O₂ barrier for bottles; EVOH: very high O₂ barrier under dry conditions (used in multilayer films); PE: poor O₂ barrier but good moisture barrier",
         },
         {
             label: "c",
@@ -419,7 +419,7 @@ const T8: TopicSource = {
         }
       ],
       answer: "b",
-      why: "**Polar, H-bonded polymers (EVOH, PET, nylon)** impede non-polar O₂; **non-polar polyolefins (PE, PP)** are good moisture barriers but poor O₂ barriers. Multilayer structures combine both.",
+      why: "EVOH provides an excellent oxygen barrier under dry conditions, but absorbed moisture plasticizes it and can reduce that barrier substantially. PET and nylon can provide useful oxygen-barrier performance depending on grade and conditions, while PE is generally a good moisture barrier but a relatively poor oxygen barrier. Multilayer designs use each layer for its strengths and protect moisture-sensitive EVOH.",
       concept: "polar ⇒ O₂ barrier · non-polar ⇒ moisture barrier",
       tags: ["confused"],
     },
@@ -645,7 +645,7 @@ const T8: TopicSource = {
         }
       ],
       answer: "d",
-      why: "**PMMA's C–C backbone has no UV-absorbing aromatic groups or residual unsaturation** to trigger photodegradation, so it stays clear for years; PS yellows and crazes outdoors.",
+      why: "PMMA generally has better outdoor optical durability than ordinary polystyrene and is more resistant to yellowing and weathering. Its performance reflects the overall polymer chemistry, low tendency to form strongly absorbing degradation chromophores and stabilizer/grade effects; it should not be attributed solely to the absence of aromatic groups. PS grades are generally more prone to outdoor yellowing and embrittlement.",
       concept: "aromatic groups ⇒ UV sensitivity",
       tags: ["revision"],
     },
@@ -764,7 +764,7 @@ const T8: TopicSource = {
         }
       ],
       answer: "b",
-      why: "The **nitrile groups are polar**, raising cohesive energy, modulus, chemical and heat resistance; the polybutadiene phase still provides toughening. The combination is what makes ABS the dominant engineering thermoplastic (appliance and automotive trim, toys).",
+      why: "Acrylonitrile introduces polar nitrile groups that generally improve chemical resistance, heat resistance and stiffness, while the butadiene-rich rubber phase continues to provide impact toughening. The magnitude of the ABS–HIPS difference depends on grade, acrylonitrile content, rubber morphology and test conditions; ABS is not universally superior in every property.",
       concept: "copolymer composition tunes the properties of ABS",
       tags: ["revision"],
     },

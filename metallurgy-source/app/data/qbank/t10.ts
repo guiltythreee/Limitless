@@ -276,7 +276,7 @@ const T10: TopicSource = {
       tableRows: [
         ["1", "Maxwell (spring + dashpot in series)", "", "(i) stress relaxation, finite relaxation time"],
         ["2", "Voigt/Kelvin (spring + dashpot in parallel)", "", "(ii) retarded elastic creep, no instantaneous elasticity"],
-        ["3", "Burgers (4 elements)", "", "(iii) both creep and relaxation, with permanent flow"],
+        ["3", "Burgers (4 elements)", "", "(iii) creep with instantaneous elasticity, retarded elasticity and permanent viscous flow"],
         ["4", "Ideal spring / dashpot", "", "(iv) purely elastic / purely viscous limits"],
       ],
       options: [
@@ -286,7 +286,7 @@ const T10: TopicSource = {
         { label: "d", text: "1-i, 2-ii, 3-iv, 4-iii" }
       ],
       answer: "a",
-      why: "**Maxwell** (series) relaxes stress; **Voigt** (parallel) shows delayed creep; **Burgers** (four elements) predicts both with irreversible flow; ideal spring/dashpot are the elastic/viscous extremes.",
+      why: "**Maxwell** (series) predicts stress relaxation and creep with instantaneous elastic strain plus viscous flow; **Voigt/Kelvin** (parallel) predicts retarded elastic creep with no instantaneous strain; **Burgers** combines Maxwell and Kelvin elements to represent instantaneous elasticity, delayed elasticity and long-term viscous flow in creep. The ideal spring and dashpot are the purely elastic and purely viscous limits.",
       tags: ["revision"],
     },
     {
@@ -361,7 +361,7 @@ const T10: TopicSource = {
         }
       ],
       answer: "d",
-      why: "**Time–temperature equivalence in one number**: if the material relaxes much slower than the experiment ($De \\gg 1$) it looks solid/glassy; if much faster ($De \\ll 1$) it flows like a liquid — 'the mountains flow' (long observation time).",
+      why: "The Deborah number compares the material relaxation time with the observation time. If $De\\gg1$, the material cannot relax appreciably during the experiment and appears solid-like; if $De\\ll1$, it relaxes within the observation time and appears more fluid-like. Whether that relaxed response is rubbery or terminally viscous depends on the material's relaxation spectrum and temperature.",
       concept: "De = relaxation time / observation time",
       tags: ["confused"],
     },
@@ -389,7 +389,7 @@ const T10: TopicSource = {
         }
       ],
       answer: "a",
-      why: "**TTS** exploits the equivalence of temperature and time: a shift factor $a_T$ (WLF above Tg, Arrhenius below) moves each isotherm horizontally. It is how a 20-year creep life is predicted from short lab tests.",
+      why: "Time–temperature superposition uses the fact that increasing temperature generally accelerates molecular relaxation. For many amorphous polymers, the WLF relation is useful near and above Tg, while Arrhenius-type shifts are often used sufficiently below Tg or for secondary processes. The appropriate relation and reference temperature must be validated for the material and temperature range before extrapolating long-term behaviour.",
       concept: "shift factor $a_T$; WLF above Tg, Arrhenius below",
       tags: ["confused"],
     },
@@ -465,7 +465,7 @@ const T10: TopicSource = {
       id: "t10-19",
       type: "apply",
       diff: 3,
-      text: "A polyolefin (δ ≈ 16 (J/cm³)^½) seal must be printed with solvent-based ink. Which solvent family is most compatible?",
+      text: "Using only the Hildebrand solubility-parameter match as a first screening criterion, which solvent family is most compatible with a polyolefin surface (δ ≈ 16 (J/cm³)^½)?",
       options: [
         {
             label: "a",
@@ -485,7 +485,7 @@ const T10: TopicSource = {
         }
       ],
       answer: "b",
-      why: "Matching δ is the rule: the **non-polar aliphatic hydrocarbon** matches the polyolefin. (In practice polyolefin surfaces are also corona/flame treated to add polar groups for adhesion.)",
+      why: "The non-polar aliphatic hydrocarbon has a Hildebrand parameter closest to the stated polyolefin value, so it is the best match under this simplified screening criterion. This does not prove that the solvent will dissolve the solid polymer or provide a durable ink bond under ordinary printing conditions. Polyolefin surfaces are often corona- or flame-treated to improve ink adhesion.",
       concept: "δ match → solubility/wetting/adhesion",
       tags: ["revision"],
     },
@@ -549,7 +549,7 @@ const T10: TopicSource = {
         { label: "d", text: "Both A and R are true, but R is NOT the correct explanation of A" }
       ],
       answer: "b",
-      why: "**Entanglement density scales with MW**: a growing crack must break or disentangle many load-bearing chains, absorbing far more energy. Toughness therefore rises with MW until the entanglement plateau.",
+      why: "Increasing molecular weight generally increases entanglement density and the number of load-bearing chain connections, which can improve impact strength and resistance to crack growth until an entanglement-related plateau is approached. The trend is not universal across all grades: crystallinity, phase morphology, defects, temperature and loading rate also influence toughness.",
       concept: "toughness ↑ with MW (entanglement network)",
       tags: ["revision"],
     },

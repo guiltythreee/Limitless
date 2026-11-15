@@ -30,7 +30,9 @@ const T3: TopicSource = {
       answer: "c",
       why: "Suspension polymerization disperses **monomer droplets** in water; the initiator dissolves in the monomer droplet, where polymerization occurs. This is the fastest way to tell suspension from emulsion.",
       distractors: {
-        a: "A water-soluble initiator defines *emulsion* polymerization.",
+        a: "A water-soluble initiator is characteristic of conventional emulsion polymerization, not suspension polymerization.",
+        b: "The initiator is normally dissolved in the monomer phase; it is not generally insoluble in both phases.",
+        d: "A radical initiator is used to start the polymerization; suspension is not an initiator-free process.",
       },
       concept: "suspension: I ∈ monomer · emulsion: I ∈ water",
       tags: ["confused"],
@@ -74,7 +76,12 @@ const T3: TopicSource = {
         { label: "d", text: "1-ii, 2-iv, 3-i, 4-iii" }
       ],
       answer: "d",
-      why: "Bulk = pure monomer + initiator. Solution = solvent dilution. Suspension = droplets → beads. Emulsion = micelles + water-soluble initiator → latex.",
+      why: "Bulk uses monomer with initiator and no continuous solvent; solution dissolves monomer and initiator in solvent; suspension uses monomer droplets in water and typically yields beads; emulsion uses surfactant-stabilized particles and typically yields latex.",
+      distractors: {
+        a: "This assigns the suspension droplet feature to bulk and the bulk formulation to suspension; the emulsion/solution pair is also reversed.",
+        b: "Bulk is correctly paired, but solution and suspension are mismatched, and emulsion is not the solvent-control route.",
+        c: "The suspension and bulk features are mismatched, while the emulsion feature is correctly described.",
+      },
       tags: ["revision"],
     },
     {
@@ -91,8 +98,9 @@ const T3: TopicSource = {
       answer: "b",
       why: "Every listed difference is a genuine discriminator: **micelles** and **water-soluble initiator** (emulsion) vs **plain droplets** and **monomer-soluble initiator** (suspension).",
       distractors: {
-        d: "Exactly reversed.",
-        c: "Emulsion needs surfactant above CMC to form micelles; suspension uses a suspending agent, not micelle-forming surfactant.",
+        a: "Temperature alone does not distinguish the processes; the dispersed-phase structure and initiator location are the key differences.",
+        d: "This reverses the defining morphologies: suspension uses larger monomer droplets, while emulsion polymerization involves much smaller particles and micellar nucleation.",
+        c: "Emulsion uses micelles/particles and a water-soluble initiator; suspension uses larger droplets and a monomer-soluble initiator.",
       },
       concept: "the suspension/emulsion contrast is heavily examined",
       tags: ["confused"],
@@ -109,7 +117,12 @@ const T3: TopicSource = {
         { label: "d", text: "Water removes reaction heat and permits more initiator, which alone explains both high rate and high molecular weight." }
       ],
       answer: "c",
-      why: "**Compartmentalization** decouples rate from MW: rate scales with the number of particles, while the isolated-radical condition inside each particle suppresses termination → both rate and MW rise together. In bulk, anything that raises rate also raises termination.",
+      why: "Under suitable recipe and particle conditions, **compartmentalization** allows many particles to polymerize in parallel while the average number of radicals per particle remains low. This can reduce the frequency of bimolecular termination within a particle, allowing a high overall rate together with relatively long chains. The advantage depends on particle nucleation, surfactant, initiator and operating conditions; it is not unconditional.",
+      distractors: {
+        a: "Increasing activation energy would slow propagation; it does not explain the characteristic combination of high rate and high chain molecular weight.",
+        b: "Emulsion polymerization is not simply bulk polymerization diluted with water; particle compartmentalization changes radical kinetics.",
+        d: "Heat removal is an important process advantage, but it alone does not explain the simultaneous high rate and high molecular weight.",
+      },
       concept: "compartmentalization effect",
       tags: ["confused"],
     },
@@ -117,7 +130,7 @@ const T3: TopicSource = {
       id: "t3-06",
       type: "recall",
       diff: 1,
-      text: "Which technique is the industrial standard for PET and nylon 6,6?",
+      text: "Which polymerization technique is commonly used to produce PET and nylon 6,6 by condensation polymerization?",
       options: [
         { label: "a", text: "Emulsion polymerization" },
         { label: "b", text: "Melt polycondensation" },
@@ -125,7 +138,7 @@ const T3: TopicSource = {
         { label: "d", text: "Solution polymerization" }
       ],
       answer: "b",
-      why: "**Melt polycondensation** — the monomer melt is the reaction medium; no solvent means no chain transfer and no solvent-removal cost.",
+      why: "**Melt polycondensation** is a common route for these condensation polymers: the reacting material is processed in the melt, and small-molecule by-products are removed to drive chain growth. The question asks for the technique, not a claim that it is the only industrial route.",
       tags: ["revision"],
     },
     {
@@ -162,9 +175,11 @@ const T3: TopicSource = {
         { label: "d", text: "4 only" }
       ],
       answer: "a",
-      why: "1–3 are bulk's defining trade-offs. Item 4 is false — thermally sensitive monomers (vinyl chloride, acrylates) go to suspension/emulsion precisely because bulk's heat removal is poor.",
+      why: "Statements 1–3 describe common bulk-polymerization features and trade-offs. Statement 4 is false: bulk is not preferred for every monomer because viscous reaction mixtures can make heat removal difficult.",
       distractors: {
-        b: "Item 4 ignores the heat-removal limitation that drives technique choice.",
+        b: "Includes statement 4, which is too broad: technique selection depends on monomer chemistry, heat removal and product requirements.",
+        c: "Omits statement 1, which is generally true because no solvent or suspending agent is added to the reaction mixture.",
+        d: "Statements 1–3 are also correct under the usual bulk-polymerization description; statement 4 alone is not.",
       },
       tags: ["revision"],
     },
@@ -180,7 +195,7 @@ const T3: TopicSource = {
         { label: "d", text: "Suspension polymerization" }
       ],
       answer: "d",
-      why: "≈80% of commercial PVC comes from **suspension** polymerization — the monomer droplets solidify into porous **beads/pearls** ideal for absorbing plasticizers during compounding.",
+      why: "**Suspension polymerization** produces discrete PVC resin grains from dispersed vinyl-chloride droplets. The resulting porous particles are suitable for downstream compounding, including plasticizer uptake. The exact commercial share varies by source and product mix, so no percentage is asserted here.",
       distractors: {
         a: "Emulsion gives a fine latex that must be coagulated — used only for paste/plastisol grades.",
       },
@@ -251,7 +266,9 @@ const T3: TopicSource = {
       answer: "c",
       why: "LDPE is made by high-pressure **bulk/mass** polymerization; PS and PVC as **suspension** beads; SBR as an **emulsion** latex; PET by **melt polycondensation** — all correct.",
       distractors: {
-        b: "PET is not bulk-polymerized; nylon fibres are not emulsion products.",
+        a: "Nylon fibres are commonly made by melt polycondensation followed by fibre spinning; epoxy resin is not the defining suspension product, and rigid PVC profiles are shaped after resin production.",
+        b: "PET is made by melt polycondensation, LDPE by high-pressure chain-growth routes, and PVC pipe is formed by extrusion rather than directly in the polymerization vessel.",
+        d: "The techniques create different polymerization environments and product forms; vessel size alone does not determine the product.",
       },
       tags: ["revision"],
     },
@@ -306,7 +323,7 @@ const T3: TopicSource = {
       id: "t3-17",
       type: "apply",
       diff: 4,
-      text: "A process must produce a polymer with the narrowest possible MWD and no solvent residues, at modest scale. Best choice?",
+      text: "A process must produce a polymer with a narrow molecular-weight distribution and avoid solvent residues, at modest scale. Which route is the best fit?",
       options: [
         { label: "a", text: "Emulsion polymerization with surfactant; compartmentalization raises rate but does not by itself guarantee the narrowest MWD." },
         { label: "b", text: "Solution polymerization with chain-transfer agent; transfer limits chain length but usually broadens the molecular-weight distribution." },
@@ -314,7 +331,7 @@ const T3: TopicSource = {
         { label: "d", text: "Living anionic polymerization with impurities and termination suppressed, allowing chains to grow at similar rates without solvent residue." }
       ],
       answer: "d",
-      why: "**Living anionic** polymerization (fast initiation, no termination) produces nearly all chains at the same rate → the narrowest MWD attainable (PDI ≈ 1.05–1.2), and running it in bulk avoids solvent residues.",
+      why: "Living anionic polymerization can produce a narrow molecular-weight distribution when initiation is rapid and uniform and impurities/termination are rigorously suppressed. A bulk process avoids solvent residues, although heat removal, viscosity and monomer compatibility still constrain practical operation. A specific PDI is not guaranteed for every formulation.",
       distractors: {
         a: "Emulsion adds surfactant residues and broadens particle/chain distributions.",
         b: "A chain-transfer agent deliberately *broadens* and lowers MW.",
@@ -433,7 +450,7 @@ const T3: TopicSource = {
         { label: "d", text: "Both generate radicals that stop the process completely once they react with a growing chain." }
       ],
       answer: "b",
-      why: "Two distinct knobs: **initiator** controls how many chains start (rate + MW); **transfer agent** controls how long each chain lives (MW only, ~unchanged rate). Industrial MW control often uses both.",
+      why: "An initiator generates radicals and sets the radical-generation rate. A chain-transfer agent transfers radical activity to another molecule, limiting the length of the original chain and potentially starting another chain. It commonly lowers molecular weight; its effect on the overall rate depends on the transfer chemistry and reaction conditions, so “molecular weight only” is too absolute.",
       tags: ["revision"],
     },
   ],

@@ -20,7 +20,7 @@ const T9: TopicSource = {
       id: "t9-01",
       type: "recall",
       diff: 1,
-      text: "For two polymers to form a miscible (single-phase) blend, the Gibbs free energy of mixing must satisfy:",
+      text: "For a homogeneous polymer blend at a given composition to be locally stable against small composition fluctuations, the Gibbs free energy of mixing must satisfy:",
       options: [
         { label: "a", text: "$\\Delta S_{mix} = 0$" },
         { label: "b", text: "$\\Delta G_{mix} > 0$" },
@@ -28,7 +28,7 @@ const T9: TopicSource = {
         { label: "d", text: "$\\Delta H_{mix} = 0$ only" }
       ],
       answer: "c",
-      why: "Mixing is spontaneous when **ΔG < 0**, and the mixture must also be stable against phase separation (second derivative positive — the curvature condition of the Flory–Huggins free-energy curve).",
+      why: "A negative $\\Delta G_{mix}$ makes mixing favourable relative to the unmixed state, while positive curvature ($\\partial^2\\Delta G/\\partial\\phi^2>0$) indicates local stability against small composition fluctuations. This curvature condition is local; global single-phase miscibility requires the free-energy curve to remain below the phase-separated common-tangent construction over the relevant composition range.",
       concept: "$\\Delta G = \\Delta H - T\\Delta S$ + curvature condition",
       tags: ["revision"],
     },
@@ -188,7 +188,7 @@ const T9: TopicSource = {
       diff: 2,
       text: "Match each degradation route with its cause.",
       tableRows: [
-        ["1", "Thermal", "", "(i) heat, with scission of the weakest bonds (e.g. PVC → HCl)"],
+        ["1", "Thermal", "", "(i) heat-induced bond breakdown or elimination (e.g. PVC dehydrochlorination: HCl loss and polyene formation)"],
         ["2", "Photo-oxidative", "", "(ii) UV + O₂ via radical chain reactions"],
         ["3", "Hydrolytic", "", "(iii) water attack on ester/amide bonds"],
         ["4", "Mechanical", "", "(iv) repeated stressing/abrasion during processing"],
@@ -200,7 +200,7 @@ const T9: TopicSource = {
         { label: "d", text: "1-ii, 2-i, 3-iv, 4-iii" }
       ],
       answer: "a",
-      why: "Thermal → bond scission (PVC dehydrochlorination); photo-oxidative → UV + oxygen radicals; hydrolytic → ester/amide hydrolysis; mechanical → processing stresses.",
+      why: "Thermal degradation includes heat-induced bond breakdown and elimination reactions. In PVC, the characteristic early process is dehydrochlorination: HCl is eliminated and conjugated polyene sequences form; it should not be described simply as ordinary backbone chain scission. Photo-oxidative degradation involves UV and oxygen-driven radical reactions; hydrolysis attacks susceptible ester/amide bonds; mechanical degradation arises from repeated stress or abrasion.",
       tags: ["revision"],
     },
     {
@@ -268,7 +268,7 @@ const T9: TopicSource = {
         },
         {
             label: "b",
-            text: "PVC needs no stabilizer.",
+            text: "Allylic/tertiary C–Cl sites zip off as HCl (dehydrochlorination), the liberated HCl autocatalyzes further degradation, and polyene sequences discolour the polymer. Metal soaps (Ca/Zn) or organotins remove HCl and repair labile sites.",
         },
         {
             label: "c",
@@ -276,11 +276,11 @@ const T9: TopicSource = {
         },
         {
             label: "d",
-            text: "Allylic/tertiary C–Cl sites zip off as HCl (dehydrochlorination), the liberated HCl autocatalyzes further degradation, and polyene sequences discolour the polymer. Metal soaps (Ca/Zn) or organotins remove HCl and repair labile sites.",
+            text: "PVC needs no stabilizer.",
         }
       ],
-      answer: "d",
-      why: "**Dehydrochlorination** destroys a labile C–Cl bond, releasing HCl that catalyses the next loss — a self-accelerating 'unzipping' that forms coloured polyenes. **Thermal stabilizers** (organotin, mixed-metal soaps) substitute the labile chlorine and mop up HCl.",
+      answer: "b",
+      why: "PVC undergoes dehydrochlorination at labile sites: HCl is eliminated and the resulting conjugated polyene sequences cause discoloration. The liberated HCl can accelerate further degradation. Stabilizer mechanisms vary: some systems neutralize or scavenge HCl, while others also replace or passivate labile chlorine sites. The exact mechanism depends on the stabilizer package.",
       concept: "HCl autocatalysis ⇒ PVC needs thermal stabilizers",
       tags: ["confused"],
     },
@@ -378,12 +378,13 @@ const T9: TopicSource = {
         { label: "a", text: "1, 2, 3 and 4" },
         { label: "b", text: "1, 2 and 3 only" },
         { label: "c", text: "4 only" },
-        { label: "d", text: "1 and 4 only" }
+        { label: "d", text: "1 and 2 only" }
       ],
-      answer: "b",
-      why: "1–3 correct. Item 4 is false — rigid fillers/reinforcements **raise** modulus; they may reduce ductility and impact toughness, but not stiffness.",
+      answer: "d",
+      why: "Statements 1 and 2 are correct: mineral fillers such as CaCO₃ and talc often reduce cost and increase stiffness, while glass fibres can raise modulus and HDT. Statement 3 is too broad: a silane's organic functionality must be compatible or reactive with the polymer matrix; a generic silane does not automatically couple hydrophilic glass to every non-polar polymer. Statement 4 is false because rigid fillers generally raise, not lower, modulus.",
       distractors: {
-        a: "Item 4 confuses modulus (stiffness) with toughness.",
+        a: "Includes statement 3, whose broad claim about silane coupling to any non-polar matrix is not justified, and statement 4, which reverses the usual stiffness effect of rigid fillers.",
+        b: "Includes statement 3, which needs a matrix-compatible organofunctional silane rather than a generic coupling-agent claim.",
       },
       tags: ["confused"],
     },
@@ -518,7 +519,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "c",
-      why: "The critical value is $\\chi_c = 0.5(1/\\sqrt{N_1} + 1/\\sqrt{N_2})^2$. For similar chain lengths this scales approximately as $1/N$ and shrinks as the polymers become longer, so high-molecular-weight pairs generally need very favourable interactions (often a negative effective χ) to mix.",
+      why: "Within the simple binary Flory–Huggins lattice model, the critical interaction parameter is $\\chi_c=\\tfrac12(1/\\sqrt{N_1}+1/\\sqrt{N_2})^2$. For comparable chain lengths it scales approximately as $1/N$, so the entropy-of-mixing contribution becomes small as chain length increases. This is a model result; specific interactions, composition dependence of χ and real blend morphology can affect observed miscibility.",
       concept: "$\\chi_c \\propto 1/N$",
       tags: ["confused"],
     },
@@ -602,7 +603,7 @@ const T9: TopicSource = {
         }
       ],
       answer: "b",
-      why: "Each layer contributes a property: **PET** = structure, clarity, moisture barrier; **EVOH** = excellent O₂ barrier (but moisture-sensitive); a tie layer or careful structure protects it. This is the standard multilayer barrier design logic.",
+      why: "PET supplies structural strength and clarity; EVOH provides a strong oxygen barrier, especially under dry conditions, but its barrier performance falls as moisture uptake increases. A practical multilayer design therefore needs moisture-protective outer layers and, where the polymers are not directly compatible, suitable tie layers to maintain adhesion. The exact layer arrangement depends on the package and service environment.",
       concept: "multilayer = function per layer, not just cost",
       tags: ["confused"],
     },

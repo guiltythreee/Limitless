@@ -28,7 +28,7 @@ const T5: TopicSource = {
         { label: "d", text: "Aromatic rings are essential because every crystalline polymer contains benzene-based repeat units." }
       ],
       answer: "a",
-      why: "Crystallization needs the chains to **pack into a repeating lattice** — possible only if the chain is linear (or lightly branched), stereoregular and not randomly copolymerized. MW only matters above a minimum.",
+      why: "Crystallization requires chain segments to pack into an ordered, repeating lattice. Regularity, stereoregularity and sufficiently compatible sequence structure favour this packing. Linear chains commonly crystallize readily, but branching does not categorically prevent crystallization; some branched polymers can still form ordered regions. Cross-linking and irregular comonomer placement often restrict crystallization.",
       distractors: {
         b: "Cross-linking actually *hinders* crystallization by locking in disorder.",
       },
@@ -59,7 +59,7 @@ const T5: TopicSource = {
       id: "t5-03",
       type: "numerical",
       diff: 3,
-      text: "A PET sample gives a DSC melting endotherm $\\Delta H_m = 42$ J/g and no cold-crystallization exotherm. Taking $\\Delta H_m^\\circ = 140$ J/g for 100% crystalline PET, the crystallinity is:",
+      text: "For this calculation, use $\\Delta H_m^\\circ = 140$ J/g as the stated reference enthalpy for 100% crystalline PET. A sample gives a DSC melting endotherm $\\Delta H_m = 42$ J/g and no cold-crystallization exotherm. Its crystallinity is:",
       options: [
         { label: "a", text: "42%" },
         { label: "b", text: "10%" },
@@ -88,7 +88,9 @@ const T5: TopicSource = {
       answer: "d",
       why: "The bulky phenyl groups are placed **randomly** (atactic) along the chain, so no repeating lattice can form — the polymer is transparent and amorphous. Isotactic PS, by contrast, is crystalline.",
       distractors: {
-        b: "MW has no bearing on atacticity.",
+        a: "Aromatic rings are compatible with crystallinity; the issue is the irregular stereochemical placement of the phenyl groups.",
+        b: "Molecular weight does not remove the configurational disorder that characterises atactic polystyrene.",
+        c: "Ordinary polystyrene is not permanently cross-linked; its amorphous nature follows from irregular chain packing."
       },
       concept: "stereoregularity is a prerequisite for crystallinity",
       tags: ["confused"],
@@ -107,7 +109,9 @@ const T5: TopicSource = {
       answer: "c",
       why: "Linear HDPE packs efficiently → **higher crystallinity, density and Tm**. Branches in LDPE disrupt packing → lower on all three.",
       distractors: {
-        d: "Reversed — branching lowers crystallinity, and HDPE is the linear one.",
+        a: "Both grades are semicrystalline; their branching levels produce a meaningful difference in packing and density.",
+        b: "Both HDPE and LDPE are thermoplastics, and LDPE is not limited to film applications.",
+        d: "This reverses the structures: HDPE is more linear, while LDPE is more branched."
       },
       concept: "branching ↓ crystallinity ↓ density ↓ Tm",
       tags: ["confused"],
@@ -149,6 +153,11 @@ const T5: TopicSource = {
       ],
       answer: "b",
       why: "Crystallization is **kinetically controlled**: it needs time as well as a temperature between Tg and Tm. Fast cooling traps the amorphous state; slow cooling lets lamellae grow.",
+      distractors: {
+        a: "Cooling rate affects how much time chains have to nucleate and grow; molecular weight is not the only control.",
+        c: "Quenching is a thermal process and does not inherently break the covalent backbone.",
+        d: "Quenching changes the kinetics and morphology; it does not raise the equilibrium melting point."
+      },
       concept: "crystallinity = kinetic (cooling rate) outcome",
       tags: ["confused"],
     },
@@ -166,7 +175,9 @@ const T5: TopicSource = {
       answer: "b",
       why: "Crystallites are optically anisotropic and **scatter light** → opaque/translucent. Transparency therefore requires an amorphous state (quenched PET, PS, PMMA, PC).",
       distractors: {
-        a: "HDPE's large spherulites scatter strongly — it is the classic *opaque* polymer.",
+        a: "Slowly cooled HDPE commonly develops light-scattering crystalline structures, reducing transparency.",
+        c: "Cross-linking does not guarantee optical clarity; phase structure, additives and defects can scatter light.",
+        d: "Crystallinity and crystal size can strongly affect haze and transmission."
       },
       concept: "crystallinity ↔ opacity",
       tags: ["revision"],
@@ -270,7 +281,7 @@ const T5: TopicSource = {
         { label: "d", text: "Add a cross-linker so irreversible covalent bonds replace crystal growth and shorten the thermoplastic moulding cycle." }
       ],
       answer: "b",
-      why: "A **nucleating agent** multiplies nucleation sites → many fine spherulites → shorter cycle time, improved toughness and (often) clarity. Large spherulites, by contrast, are brittle.",
+      why: "A suitable nucleating agent can increase the number of nuclei and produce finer crystalline morphology. In some semi-crystalline systems this speeds crystallization and can shorten the moulding cycle; smaller spherulites may also improve toughness or reduce visible light scattering. The effects depend on polymer, nucleant, loading and processing conditions, so they are not guaranteed for every grade.",
       concept: "spherulite size ∝ 1/nucleation density; large spherulites = brittle",
       tags: ["confused"],
     },
@@ -299,7 +310,7 @@ const T5: TopicSource = {
       statements: [
         { num: 1, text: "HDPE, isotactic PP, PET and nylon 6,6 are typically semi-crystalline." },
         { num: 2, text: "Atactic PS, PMMA and polycarbonate are typically amorphous." },
-        { num: 3, text: "Amorphous polymers are usually transparent; semi-crystalline ones are usually opaque." },
+        { num: 3, text: "Amorphous polymers are often transparent, while semi-crystalline polymers are often more opaque because crystalline regions scatter light; thickness and morphology can change this." },
         { num: 4, text: "A real bulk semi-crystalline polymer specimen is not generally 100% crystalline." },
       ],
       options: [
@@ -309,7 +320,12 @@ const T5: TopicSource = {
         { label: "d", text: "4 only" }
       ],
       answer: "c",
-      why: "All four are correct as practical descriptions: the listed polymer classes, the usual transparency trend, and the fact that real bulk semi-crystalline specimens retain defects and amorphous material rather than reaching a perfect 100% crystalline state.",
+      why: "All four are correct as typical descriptions. HDPE, isotactic PP, PET and nylon 6,6 can form crystalline regions; atactic PS, PMMA and PC are typically amorphous. Crystalline/amorphous interfaces and spherulites often scatter light, but transparency also depends on crystallite size, refractive-index contrast and specimen thickness. Real bulk semi-crystalline specimens retain amorphous material and defects rather than reaching 100% crystallinity.",
+      distractors: {
+        a: "This option omits statement 4, which is also correct for real bulk semi-crystalline polymers.",
+        b: "This option omits statements 1 and 3, which are also correct as typical material and optical descriptions.",
+        d: "This option includes only statement 4 and omits the other three correct typical descriptions.",
+      },
       tags: ["revision"],
     },
     {
@@ -362,16 +378,16 @@ const T5: TopicSource = {
       id: "t5-20",
       type: "higher",
       diff: 4,
-      text: "Plotting tensile modulus vs %crystallinity for PE gives a steep rise up to ~60% then a plateau. The plateau is best explained by:",
+      text: "A plot of tensile modulus against polyethylene crystallinity rises steeply up to about 60% crystallinity and then approaches a plateau. What conclusion is supported by the plotted trend alone?",
       options: [
         { label: "a", text: "Polyethylene cannot crystallize above about 60%, so the measured modulus has no physical route to increase further." },
         { label: "b", text: "The plateau is a plotting artifact; modulus is unrelated to morphology and should not depend on crystallinity." },
         { label: "c", text: "Crystallinity has no effect on modulus; the initial increase must instead come from changes in molecular weight." },
-        { label: "d", text: "Once tie molecules constrain the amorphous phase, adding crystallites yields diminishing stiffness gains." }
+        { label: "d", text: "The incremental increase in modulus becomes smaller at higher crystallinity; the plot alone does not identify the molecular mechanism causing the plateau." }
       ],
       answer: "d",
-      why: "Stiffness depends on the **load-bearing crystalline network and the tie molecules bridging it**. Once the amorphous phase is highly constrained, extra crystallinity gives diminishing returns — the plateau.",
-      concept: "tie molecules transmit load between lamellae",
+      why: "The graph supports a diminishing incremental increase in modulus at higher crystallinity. It does not, by itself, establish whether the plateau is caused by tie molecules, lamellar connectivity, orientation, or another feature of the morphology; additional structural evidence would be needed to identify the mechanism.",
+      concept: "modulus–crystallinity trend; a graph alone does not identify the molecular cause of a plateau",
       tags: ["confused"],
     },
   ],

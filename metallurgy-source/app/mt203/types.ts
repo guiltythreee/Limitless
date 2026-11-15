@@ -73,6 +73,22 @@ export type Question = {
   concept?: string; // governing equation / concept reference
   tags?: string[]; // "revision", "numeric", "confused", "formula"
   timedOk?: boolean; // safe to serve in a timed exam (default true)
+
+  // ── MCQ-QS v1.0 quality metadata (all optional; absent until a question is
+  //    reviewed against the standard — see scripts/validate-mcq-qs.mjs) ──────
+  /** Standard's 5-level scale: 1 Fundamental · 2 Conceptual · 3 Application ·
+   *  4 Analytical · 5 Challenging. Independent of the legacy `diff` (1–4). */
+  qsLevel?: 1 | 2 | 3 | 4 | 5;
+  /** Source traceability: the subtopic id this tests, e.g. "T1.4" (must exist in the topic's `subs`). */
+  sub?: string;
+  /** One entry per wrong option: the misconception it represents. `tag` is a
+   *  kebab-case code; `kind` maps onto the shared mistake categories. */
+  misconceptions?: Record<string, { tag: string; kind: "conceptual" | "observation" | "mathematical" }>;
+  /** Reviewer's 0–100 score from the standard's rubric (>=80 accepted). */
+  qsScore?: number;
+  /** Bumped when a question's meaning is rewritten under the same id, so
+   *  stored attempts made against the old wording can be told apart. */
+  rev?: number;
 };
 
 /** Exactly the shape source files store (topic/n injected by the loader). */
