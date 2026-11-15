@@ -79,3 +79,16 @@ The lesson now includes the source-backed material previously recorded as missin
 The p. 211 code 7 entry is “OTHER — Others or mixed plastics”; p. 212 prints “OTHER” without expansion. Both source wordings are now represented. The p. 212 chart does not expand “V” or “OTHER”.
 
 **Lesson commit:** `b3b0c806211b9de8c00a1b5f18345eac0884ca8a`.
+
+
+## Post-reconciliation status — 16 November 2026
+
+The page-by-page findings above have been incorporated into the current T9 lesson source. The current lesson contains the p.110–114 composite definition, matrix classes, matrix/reinforcement roles, design factors and fibre-orientation material; and the p.207–212 degradation, biodegradation, recycling and resin-code material. The lesson preserves the p.112 printed fibre-diameter anomaly and the p.211/p.212 code-3 wording difference.
+
+**Current status:** source-backed T9 material from the audited pages is represented. The lesson keeps the lecture's four-category degradation classification separate from the broader mechanism/stabilizer table. The p.209 thermal-category examples remain explicitly flagged as printed; no silent scientific reclassification has been made. The p.210 homogeneous/heterogeneous labels are recorded without inventing definitions not supplied by the slide.
+
+**Lesson checkpoints:** composites `98160eabeae375b26c232570d96dec473238cb0a`; degradation/recycling `b3b0c806211b9de8c00a1b5f18345eac0884ca8a`.
+
+### Reconciliation gate
+
+T9, T10 and T11 lesson coverage is now reconciled against the identified source gaps. This closes the lesson-content prerequisite for a question-bank audit; it does **not** approve extracted ingestion candidates or authorize blind question generation. The next phase is a source-traceable assessment audit: map existing MT203 questions to the reconciled lesson/source objectives, identify uncovered objectives and duplicate/weak items, and only then propose a controlled number of new questions. Existing question IDs, counts, metadata and learner progress must remain unchanged until a separately reviewed question patch is approved.
