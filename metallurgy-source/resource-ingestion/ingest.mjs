@@ -53,6 +53,8 @@ function classify(text, kind) {
 }
 
 export function hasTableContext(pageText) {
+  // Only explicit table captions/headers elevate ambiguous wide-gap rows to the exception queue.
+  // Comparison headings (for example, "A vs B") stay in the inventory but are lower priority.
   const openingLines = pageText.split(/\r?\n/).filter((line) => line.trim()).slice(0, 4).join(" ");
   if (/\b(?:vs\.?|versus)\b/i.test(openingLines)) return false;
   const patterns = [
