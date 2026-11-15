@@ -97,7 +97,7 @@ export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = 
         candidateType: classify(block.text, block.kind),
         mappingHint,
         reviewStatus: "needs-review",
-        extractionMethod,
+        extractionMethod: pageExtractionMethods[pageIndex] ?? extractionMethod,
         confidence: "unverified",
       });
     });
@@ -217,7 +217,8 @@ export async function ingestPdf(options) {
     extractedAt: new Date().toISOString(),
     extraction: {
       text: "pdftotext -layout with optional OCR fallback",
-      ocr: ocrStatus,\n      ocrPages: pageExtractionMethods.flatMap((method, index) => method.includes("OCR") ? [index + 1] : []),
+      ocr: ocrStatus,
+      ocrPages: pageExtractionMethods.flatMap((method, index) => method.includes("OCR") ? [index + 1] : []),
       imageInventory: imageInventory.startsWith("pdfimages unavailable") || imageInventory.startsWith("Image extraction unavailable") ? "unavailable" : "pdfimages -list and -png",
       imageInventoryRaw: imageInventory,
     },
