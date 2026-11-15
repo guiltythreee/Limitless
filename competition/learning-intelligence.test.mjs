@@ -158,6 +158,22 @@ assert.equal(cfAttempts[1].hintCount, undefined,
   "the public API does not expose whether hints were used");
 assert.equal(cfAttempts[1].elapsedMs, 900);
 assert.equal(toCodeforcesLearningAttempts(null).length, 0);
+
+const largeCodeforcesRevisionState = Array.from({ length: 5001 }, (_, index) => ({
+  questionId: "codeforces:" + (100000 + index) + "A",
+  contentId: String(100000 + index) + "A",
+  lastFailureAt: 1794000000000 + index,
+  failures: 1,
+  successfulRevisions: 0,
+  conceptIds: ["implementation"],
+}));
+const largeCodeforcesQueue = buildCodeforcesRevisionCandidates(
+  largeCodeforcesRevisionState, Date.parse("2026-11-16T00:00:00Z")
+);
+assert.equal(largeCodeforcesQueue.length, 5001,
+  "the Codeforces scheduler must retain every unresolved revision candidate beyond 5,000");
+assert.equal(new Set(largeCodeforcesQueue.map((item) => item.questionId)).size, 5001,
+  "large revision queues must not collapse distinct problems");
 const acceptedOnly = Array.from({ length: 8 }, (_, index) => ({
   id: 9300 + index,
   contestId: 1900 + index,
