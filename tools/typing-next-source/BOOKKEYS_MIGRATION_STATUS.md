@@ -121,3 +121,7 @@ The current main-to-branch compare and the PR changed-file inventory report diff
 At this checkpoint, main-to-branch compare reports 204 commits ahead and 22 behind. The PR's recorded base SHA is older than current main. This is another reason to reconcile against the current main head before integration.
 
 The latest Cloudflare preview deployment comment points to commit 4185987df09f0cb2dd74060ac75dbe07fb3daadd and reports Build: Success and Deployment: Success. The documentation-only commit 27f67ef478f1a942234f21fafd871fa11d7cbfd8 does not itself change the preview application. A direct live visual comparison has not yet been completed; passing CI and deployment status are not visual proof.
+
+## Isolated preview deployment
+
+The clean integration branch `work/bookkeys-clean-main-integration-20261115` is included in the dedicated Bookkeys preview workflow trigger. Its preview must be validated at the Bookkeys route `/tools/typing-next-preview/`; the repository-wide Cloudflare branch preview is not a substitute for this dedicated reader preview. Production remains unchanged until explicit release approval.
