@@ -2,17 +2,17 @@
 
 **Source:** `MT203 – PST 2026(1)_3.pdf`, pages 207–212 (212-page user-provided source; SHA-256 `ba86baeb56d8bae0a0cd875cd1e4b63eac5cf11cb502d9e84e5ed52cc1f6e546`).
 **Compared against:** `metallurgy-source/app/data/lessons-mt203.ts`, topic `t9`.
-**Scope:** source coverage only. No lesson, question-bank, metadata, or learner-progress changes were made.
+**Scope:** source-to-lesson coverage. T9 additions for pages 110–114 and 207–211 are recorded below; question-bank, metadata and learner-progress data were not changed.
 
 ## Page-by-page coverage
 
 | Source page | Source content | Existing T9 coverage | Status |
 |---|---|---|---|
-| 207 | Definition of polymer degradation as change in product/polymer properties under environmental factors (heat, light, acids, alkalis, some salts); usually undesirable cracking/disintegration, but sometimes desirable (biodegradation or deliberate molecular-weight reduction for recycling); changes termed **aging** | Lesson defines degradation as reducing molecular weight or undesirably altering chemical structure; lists several mechanisms and uses | **Partially covered.** Environmental-factor framing, property-change definition, cracking/disintegration examples, deliberate molecular-weight reduction for recycling, and the term *aging* are not explicitly captured. |
-| 208 | Historical framing: polymers synthesized from glycolic acid in the 1920s; degradation was then viewed negatively as deterioration of properties/performance with time. Diagram qualitatively shows molecular weight, strength and mass decreasing over time | No historical framing or linked qualitative trend diagram in T9 | **Missing.** Preserve this as the lecture's historical statement; do not infer a broader chronology from it. |
-| 209 | Four lecture categories: photoinduced (light, UV, gamma, IR etc.); thermal (slide lists pyrolysis, hydrogenation, grafting, ozonolysis, oxidation etc.); chemical (depolymerization); biological (microorganisms) | Existing lesson has a different, more granular table: thermal, mechanical/shear, oxidative, photo/UV, radiation, hydrolytic, ultrasonic | **Partially covered / classification mismatch.** Photo, thermal and radiation-related concepts overlap, but the lecture's four-category structure and its explicit chemical/depolymerization and biological/microorganism entries are absent. The slide's thermal examples should be transcribed faithfully and flagged for subject-matter review rather than silently reclassified or corrected. |
-| 210 | Biodegradation mechanisms: enzymatic degradation and hydrolysis; hydrolysis dependence on main-chain structure with order **anhydride > ester > carbonate**; homogeneous and heterogeneous degradation; statement that it is mandatory for biomedical applications | Existing T9 mentions PLA hydrolytic/enzymatic degradation and PHA/PHB biodegradability, but not the mechanism hierarchy, homogeneous/heterogeneous distinction, or biomedical-application statement | **Partially covered.** Missing the explicit mechanism structure, bond-class order, homogeneous/heterogeneous terms and biomedical note. |
-| 211 | Polymer recycling: making polymers degradable; incinerating combustible polymers; recycling by remolding, blending and depolymerization; finding innovative uses for used polymers. Introduces 1988 Society of the Plastic Industry (SPI) voluntary Plastic Container Coding System. Table gives codes 1–7 and names; code 3 is printed **“V or PVC”**; code 1 is printed PETE (PET) | Existing lesson covers thermoplastic/thermoset recycling distinctions and has a seven-code table, but omits the listed recycling routes, SPI attribution/date, and code-3 wording “V or PVC” | **Partially covered.** The current code-3 entry follows the next slide's abbreviated label rather than this table's “V or PVC”; record the source discrepancy (see below). |
+| 207 | Definition of polymer degradation as change in product/polymer properties under environmental factors (heat, light, acids, alkalis, some salts); usually undesirable cracking/disintegration, but sometimes desirable (biodegradation or deliberate molecular-weight reduction for recycling); changes termed **aging** | Lesson defines degradation as reducing molecular weight or undesirably altering chemical structure; lists several mechanisms and uses | **Covered after lesson update.** T9 now includes the source definition, environmental factors, desirable/undesirable distinction, cracking/disintegration examples, deliberate molecular-weight reduction for recycling, and *aging* (commit b3b0c80). |
+| 208 | Historical framing: polymers synthesized from glycolic acid in the 1920s; degradation was then viewed negatively as deterioration of properties/performance with time. Diagram qualitatively shows molecular weight, strength and mass decreasing over time | No historical framing or linked qualitative trend diagram in T9 | **Covered after lesson update.** The lecture's 1920s glycolic-acid statement and qualitative molecular-weight/strength/mass curves are included; no numerical kinetics are inferred. |
+| 209 | Four lecture categories: photoinduced (light, UV, gamma, IR etc.); thermal (slide lists pyrolysis, hydrogenation, grafting, ozonolysis, oxidation etc.); chemical (depolymerization); biological (microorganisms) | Existing lesson has a different, more granular table: thermal, mechanical/shear, oxidative, photo/UV, radiation, hydrolytic, ultrasonic | **Covered with source warning.** The four categories and examples are now reproduced as printed. The unusual placement of hydrogenation, grafting and ozonolysis under “Thermal degradation” is explicitly flagged for source/lecturer clarification. |
+| 210 | Biodegradation mechanisms: enzymatic degradation and hydrolysis; hydrolysis dependence on main-chain structure with order **anhydride > ester > carbonate**; homogeneous and heterogeneous degradation; statement that it is mandatory for biomedical applications | Existing T9 mentions PLA hydrolytic/enzymatic degradation and PHA/PHB biodegradability, but not the mechanism hierarchy, homogeneous/heterogeneous distinction, or biomedical-application statement | **Covered after lesson update.** Enzymatic degradation, hydrolysis, the printed anhydride > ester > carbonate order, homogeneous/heterogeneous labels and biomedical note are included. No quantitative rates are inferred. |
+| 211 | Polymer recycling: making polymers degradable; incinerating combustible polymers; recycling by remolding, blending and depolymerization; finding innovative uses for used polymers. Introduces 1988 Society of the Plastic Industry (SPI) voluntary Plastic Container Coding System. Table gives codes 1–7 and names; code 3 is printed **“V or PVC”**; code 1 is printed PETE (PET) | Existing lesson covers thermoplastic/thermoset recycling distinctions and has a seven-code table, but omits the listed recycling routes, SPI attribution/date, and code-3 wording “V or PVC” | **Covered after lesson update.** Recycling routes, the 1988 SPI voluntary coding-system context, and the full p. 211 table wording are included. The p. 211/p. 212 code-3 discrepancy is preserved. |
 | 212 | Visual recycling-code chart with categories 1 PETE, 2 HDPE, 3 V, 4 LDPE, 5 PP, 6 PS, 7 OTHER; bottle/container illustrations | Existing T9 table reproduces these seven labels and expansions, explicitly preserving **V** and **OTHER** | **Covered** for the seven labels. The slide does not expand V or OTHER. |
 
 ## Source discrepancy requiring preservation
@@ -35,7 +35,7 @@ The existing lesson's code-3 label **V** matches p. 212, but it does not represe
 7. Explicit reconciliation of the code-3 wording difference between p. 211 and p. 212.
 
 ### Existing T9 material not established by these six pages
-The existing T9 content on blend compatibilization, composite rule-of-mixtures, polymer modification, stabilizer chemistry, and biodegradable-polymer examples is not covered by pages 207–212. This audit does not mark those sections wrong or remove them; they require evidence from their own earlier source pages. Likewise, the existing degradation mechanisms table includes mechanical/shear, oxidative, hydrolytic and ultrasonic mechanisms that are not part of the four-category list on p. 209. Their presence should not be mistaken for a verbatim representation of that slide.
+The existing T9 content on blend compatibilization, composite rule-of-mixtures, polymer modification and stabilizer chemistry is not covered by pages 207–212; it is addressed through earlier source pages in the separate coverage checks. The four-category list on p. 209 is now presented separately from the more granular degradation-mechanism table so the two classifications are not conflated.
 
 ## Visual verification
 
@@ -47,7 +47,7 @@ All six pages (207–212) were rendered and visually inspected. This confirms:
 
 ## Change-control decision
 
-This is an audit only. No lesson text, topic structure, qbank records, question counts, metadata, or learner data were changed. The next step is to reconcile the T9, T10 and T11 audits against their respective source pages, then prepare a narrowly scoped, source-traceable lesson correction plan for explicit review before implementation.
+Lesson updates are recorded in commits 98160eabeae375b26c232570d96dec473238cb0a (composites, pp. 110–114) and b3b0c806211b9de8c00a1b5f18345eac0884ca8a (degradation/recycling, pp. 207–211). No topic IDs, qbank records, question counts, metadata or learner data were changed. The next step is to finish the T9/T10/T11 source reconciliation and verify remaining visual-critical pages.
 
 
 ## Additional T9 source coverage: composites (pp. 110–114)
@@ -65,3 +65,17 @@ A later source sequence on composites was also compared with T9 and added to the
 **Explicit source anomaly, p. 112:** the slide image visibly prints typical fibre diameters as **10 mm to 150 mm**. The lesson flags this exact printed range as a source-unit anomaly and does not use it as a design value. It must not be silently converted to micrometres or another unit.
 
 This additional coverage does not close the separate T9 gaps recorded for pages 207–211 (degradation classifications, biodegradation hierarchy, recycling routes and the p. 211/p. 212 resin-code wording difference). Those remain outstanding.
+
+
+## T9 lesson update — degradation and recycling (pp. 207–211)
+
+The lesson now includes the source-backed material previously recorded as missing/partial:
+- p. 207 definition of degradation, environmental factors, aging, and desirable/undesirable changes.
+- p. 208 historical statement and qualitative order of molecular-weight, strength and mass decline.
+- p. 209 four categories and examples exactly as printed, with the unusual “thermal” grouping flagged rather than corrected.
+- p. 210 enzymatic degradation, hydrolysis, anhydride > ester > carbonate, homogeneous/heterogeneous labels and biomedical note.
+- p. 211 recycling routes and 1988 SPI voluntary coding-system context; the p. 211 “V or PVC” vs p. 212 “V” discrepancy is preserved.
+
+The p. 211 code 7 entry is “OTHER — Others or mixed plastics”; p. 212 prints “OTHER” without expansion. Both source wordings are now represented. The p. 212 chart does not expand “V” or “OTHER”.
+
+**Lesson commit:** `b3b0c806211b9de8c00a1b5f18345eac0884ca8a`.
