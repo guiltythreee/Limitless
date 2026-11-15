@@ -1,4 +1,4 @@
 :HL["/metallurgy/_next/static/chunks/1sqdt0v-g4y8y.css","style"]
 :HC["/",""]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"eK-ECFmUzU6vPTuFRnc8I","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"T4Kk5KISQhgNeRG3-Y_Fz","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
