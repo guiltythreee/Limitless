@@ -33,6 +33,14 @@ export function parseImageInventory(raw) {
   });
 }
 
+export function mapExtractedImages(extractedNames, imageRows) {
+  return extractedNames.flatMap((name) => {
+    const imageNumber = Number(name.match(/^image-(\d+)\./)?.[1]);
+    const inventoryRow = imageRows.find((row) => row.imageNumber === imageNumber);
+    return inventoryRow ? [{ ...inventoryRow, path: `assets/${name}` }] : [];
+  });
+}
+
 function classify(text, kind) {
   if (kind === "heading") return "unknown";
   if (kind === "equation") return "equation";
@@ -205,14 +213,8 @@ export async function ingestPdf(options) {
     await mkdir(assetsDir, { recursive: true });
     run("pdfimages", ["-png", input, join(assetsDir, "image")]);
     const extractedNames = (await readdir(assetsDir)).filter((name) => /^image-\d+\./.test(name)).sort();
-    // pdfimages output numbering includes soft masks, while parseImageInventory
-    // intentionally keeps only actual image rows. Join by the PDF image number,
-    // not by array position, or every mask shifts subsequent page associations.
-    imageAssets = extractedNames.flatMap((name) => {
-      const imageNumber = Number(name.match(/^image-(\d+)\./)?.[1]);
-      const inventoryRow = imageRows.find((row) => row.imageNumber === imageNumber);
-      return inventoryRow ? [{ ...inventoryRow, path: `assets/${name}` }] : [];
-    });
+    // Match extracted files to actual image rows by PDF image number.
+    imageAssets = mapExtractedImages(extractedNames, imageRows);
   } catch (error) {
     imageInventory = `Image extraction unavailable: ${error.message}`;
   }
