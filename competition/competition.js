@@ -905,11 +905,15 @@
       var api = modules[0], practiceApi = modules[1];
       if (!api || token !== sharedInsightRenderToken) return;
       var codeforcesAttempts = [];
+      var codeforcesRevisionState;
       try {
         var synced = JSON.parse(localStorage.getItem('limitless.competition.codeforces-learning.v1') || 'null');
         if (synced && Array.isArray(synced.attempts)) codeforcesAttempts = synced.attempts;
+        if (synced && Array.isArray(synced.revisionState)) codeforcesRevisionState = synced.revisionState;
       } catch (_) {}
-      var analysis = api.analyzeCompetitionLearning(state.problemLog, state.revisionAttempts, Date.now(), codeforcesAttempts);
+      var analysis = api.analyzeCompetitionLearning(
+        state.problemLog, state.revisionAttempts, Date.now(), codeforcesAttempts, codeforcesRevisionState
+      );
       var masteryRows = analysis.mastery.slice(0, 6).map(function (item) {
         var label = item.status === 'insufficient-data' ? 'Building baseline' :
           item.status === 'developing' ? 'Developing' :
