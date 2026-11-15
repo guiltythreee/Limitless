@@ -122,7 +122,7 @@ const corruptArchiveStorage = {
     attempts: [],
     attemptsArchive: { version: 1, strings: [], records: [[999]] },
   }),
-  getItem() { return this.value; },
+  getItem(key) { return key === CODEFORCES_SYNC_STORAGE_KEY ? this.value : null; },
   setItem(_key, value) { this.value = value; },
 };
 const corruptBefore = corruptArchiveStorage.value;
@@ -148,7 +148,7 @@ console.log("Codeforces sync baseline: all assertions passed.");
       seenSubmissionIds: Array.from({ length: 100005 }, (_, index) => 200000 - index),
       attempts: [],
     }),
-    getItem() { return this.value; },
+    getItem(key) { return key === CODEFORCES_SYNC_STORAGE_KEY ? this.value : null; },
     setItem(_key, value) { this.value = value; },
   };
   const normalized = syncCodeforcesSubmissions(largeStorage, "LargeHandle", [], 1795000005000);
@@ -163,7 +163,7 @@ console.log("Codeforces sync baseline: all assertions passed.");
 {
   const largeStorage = {
     value: null,
-    getItem() { return this.value; },
+    getItem(key) { return key === CODEFORCES_SYNC_STORAGE_KEY ? this.value : null; },
     setItem(_key, value) { this.value = value; },
   };
   syncCodeforcesSubmissions(largeStorage, "AttemptHandle", [], 1795000000000);
