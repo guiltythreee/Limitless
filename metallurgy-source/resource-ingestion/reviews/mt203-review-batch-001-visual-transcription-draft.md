@@ -139,3 +139,22 @@ The original page image is legible enough to identify the labelled reactants and
 - Records rejected: 0.
 - Course content or question bank modified: no.
 - Patch applied: no.
+
+
+## Independent source-page comparison (2026-11-15)
+
+The draft was checked against freshly rendered source pages 102 and 212 (150 DPI) and the saved 120-DPI previews for pages 36, 154 and 178. This is a transcription-level comparison only; it does not create review decisions.
+
+- **Page 36:** the three displayed equations match the source image: the number-average, weight-average and z-average forms, including their equivalent weight-fraction expressions. The definitions of (n), (w), and (M) are consistent with the slide wording. Keep the notation as shown; do not silently standardize it.
+- **Page 102:** the source image confirms the slide title and visible reactants/reaction scheme. The draft correctly declines to reconstruct the chemical structures as text. Preserve the page image as the authoritative reference.
+- **Page 154:** the transcribed row values and column headings were checked against the rendered table. The table image shows the scale headings (P \times 10^{13}), (P_0 \times 10^7), and \(\Delta E\); the draft correctly leaves their unit interpretation and the off-page footnotes unresolved. Keep the original table image attached to any future structured transcription.
+- **Page 178:** the diagram labels in the draft correspond to the visible equipment and instrument-panel labels. Preserve label-to-arrow relationships by retaining the original diagram; the label list must not be promoted as standalone explanatory prose.
+- **Page 212:** the six left-side resin examples and seven right-side symbol labels match the source image. In particular, the fifth left-side example is **Polypropylene (PP)**; the draft uses this wording, matching the image. The source's spelling **Polyethylene Terephthalate (PETE)** is retained rather than silently normalized.
+
+### Outcome
+
+- Visual transcription cross-checks completed for pages 36, 102, 154, 178 and 212.
+- No obvious transcription mismatch was found in the draft's visible labels or numeric table entries at the inspected render resolution.
+- Page 102 remains image-first because chemical-structure fidelity needs specialist review.
+- Page 154 remains a visual table reference until units and footnotes are independently resolved.
+- **Review decisions remain zero:** no records approved, corrected, or rejected; no patch applied; no course or question-bank files modified.
