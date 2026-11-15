@@ -958,7 +958,7 @@ main :where(input, select, textarea):focus-visible {
   font-weight: 650;
   letter-spacing: .11em !important;
 }
-.probability-lesson-panel [aria-label="Lesson sections"] button[aria-pressed="true"],
+.probability-lesson-panel [aria-label="Lesson sections"] button[aria-selected="true"],
 .probability-lesson-panel [aria-label="Lesson sections"] button[aria-current="page"] {
   border: 1px solid var(--pa-border) !important;
   background: var(--pa-blue-soft);
