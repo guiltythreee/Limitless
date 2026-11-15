@@ -2,6 +2,7 @@ import { sanitiseRewardRecords } from "../shared/rewards.mjs";
 import { isValidCodeforcesAttemptArchive, CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY } from "./codeforces-sync.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
+export { CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY };
 export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming-lsr1-v1";
 
 const isRecord = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
