@@ -45,3 +45,26 @@ The uploaded `(2)` PDF is byte-identical to the source previously audited: 9,508
 - Follow-up verification: T4 sedimentation velocity; full T3 surfactant-class coverage; exact T7 source visual transcription.
 - No question generation or question-bank edits performed.
 - This checkpoint does not close the T1–T8 assessment audit.
+
+
+## Visual-source verification addendum
+
+The original PDF images for pages 48, 78 and 79 were rendered and inspected after the targeted question scan.
+
+### T4 — page 48 determination-method chart
+
+The chart explicitly groups methods by average:
+
+- **Number-average molecular weight (Mn):** end-group analysis; colligative properties — cryoscopy (freezing-point depression), ebulliometry (boiling-point elevation), vapour-phase osmometry and membrane osmometry; GPC.
+- **Viscosity-average molecular weight (Mv):** dilute-solution viscosity measurements — relative, specific, reduced, inherent and intrinsic viscosity.
+- **Weight-average molecular weight (Mw):** ultracentrifugation by sedimentation-velocity and sedimentation-equilibrium methods; light scattering; GPC.
+
+The T4 question-file scan directly tests membrane osmometry, light scattering, sedimentation-equilibrium analysis, solution viscometry and SEC/GPC. It does not show direct questions for end-group analysis, cryoscopy, ebulliometry, vapour-phase osmometry or sedimentation-velocity. These are **confirmed method-level assessment gaps** relative to the p.48 chart, subject to the final complete crosswalk. Do not write a single rote list question if distinct method-to-average discrimination can be tested more meaningfully.
+
+### T7 — pages 78–79 recombinant spider-silk source
+
+Page 78 identifies recombinant spider-silk protein C16/ADF4 (45 kDa), 16 repeats of a C16 module, and the printed sequence `GTSAGTSAGTSA`. It lists no toxicity, no immuno-reactivity, slow biodegradation and good mechanical properties. The diagram shows a dragline/core-shell structure and crystalline regions in an amorphous matrix.
+
+Page 79 shows the production sequence: spider genetic information → plasmid carrying genetic information → *E. coli* → fermentation → protein. It also shows possible product forms: fiber, film, foam, hydrogel, particles, non-wovens and capsules.
+
+The T7 question file tests silk-fibroin structure/mechanical strength but contains no direct prompt on this recombinant production route or the listed product forms. The gap is now visually confirmed. Any future question must stay within the diagram; do not infer cloning vectors, host engineering steps, fermentation conditions or purification details absent from the slide.
