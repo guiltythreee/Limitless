@@ -7,6 +7,7 @@ import {
   COMPETITION_REWARD_STORAGE_KEY,
   createCompetitionBackup,
   restoreCompetitionBackup,
+  resetCompetitionData,
 } from "./competition-backup.mjs";
 
 function makeStorage(seed = new Map()) {
@@ -202,3 +203,40 @@ assert.equal(rollbackTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "old-reward
   "a failed multi-key restore rolls back earlier writes");
 
 console.log("Competition backup integrity: all assertions passed.");
+
+
+const resetTarget = makeStorage();
+resetTarget.setItem("competition-state", "old-state");
+resetTarget.setItem(CODEFORCES_SYNC_STORAGE_KEY, "active-learning");
+resetTarget.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "inactive-account-histories");
+resetTarget.setItem(COMPETITION_REWARD_STORAGE_KEY, "competition-rewards");
+resetTarget.setItem("limitless-probability-rewards-v1", "other-module-rewards");
+assert.deepEqual(resetCompetitionData(resetTarget, "competition-state"), { ok: true });
+for (const key of ["competition-state", CODEFORCES_SYNC_STORAGE_KEY,
+  CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, COMPETITION_REWARD_STORAGE_KEY]) {
+  assert.equal(resetTarget.getItem(key), null, "Competition reset clears " + key);
+}
+assert.equal(resetTarget.getItem("limitless-probability-rewards-v1"), "other-module-rewards",
+  "Competition reset leaves other modules' reward ledgers untouched");
+
+const failedResetTarget = makeStorage();
+failedResetTarget.setItem("competition-state", "old-state");
+failedResetTarget.setItem(CODEFORCES_SYNC_STORAGE_KEY, "active-learning");
+failedResetTarget.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "inactive-account-histories");
+failedResetTarget.setItem(COMPETITION_REWARD_STORAGE_KEY, "competition-rewards");
+const originalRemove = failedResetTarget.removeItem;
+let failAccountHistoryRemoval = true;
+failedResetTarget.removeItem = (key) => {
+  if (key === CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY && failAccountHistoryRemoval) {
+    failAccountHistoryRemoval = false;
+    throw new Error("simulated account-history removal failure");
+  }
+  originalRemove(key);
+};
+assert.deepEqual(resetCompetitionData(failedResetTarget, "competition-state"),
+  { ok: false, error: "storage-write-failed" });
+assert.equal(failedResetTarget.getItem("competition-state"), "old-state");
+assert.equal(failedResetTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY), "active-learning");
+assert.equal(failedResetTarget.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY), "inactive-account-histories",
+  "failed account-history removal restores the inactive account collection");
+assert.equal(failedResetTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "competition-rewards");
