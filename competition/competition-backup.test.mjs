@@ -144,7 +144,10 @@ assert.deepEqual(JSON.parse(archiveTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY)).
 assert.deepEqual(JSON.parse(archiveTarget.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY)).accounts.other.revisionState, [schedulerSnapshot],
   "backup restore preserves inactive accounts' scheduler snapshots");
 const restoredRewardPayload = JSON.parse(archiveTarget.getItem(COMPETITION_REWARD_STORAGE_KEY));
-assert.deepEqual(readRewardLedger(restoredRewardPayload), [archivedReward, reward],
+assert.deepEqual(readRewardLedger(restoredRewardPayload), [
+  { ...archivedReward, checkpointId: null },
+  { ...reward, checkpointId: null },
+],
   "backup restore preserves full archived reward records and the recent ledger");
 const invalidRewardArchiveTarget = makeStorage();
 invalidRewardArchiveTarget.setItem("competition-state", "untouched");
