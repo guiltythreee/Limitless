@@ -120,6 +120,10 @@ const corruptBefore = corruptArchiveStorage.value;
 const corruptSync = syncCodeforcesSubmissions(corruptArchiveStorage, "corrupt", history, 1796000000000);
 assert.equal(corruptSync.ok, false);
 assert.equal(corruptSync.error, "invalid-attempts-archive");
+const corruptRead = readCodeforcesSyncState(corruptArchiveStorage);
+assert.equal(corruptRead.attemptsArchiveValid, false);
+assert.equal(corruptRead.attempts.length, 0,
+  "consumers do not mistake a partial recent window for complete history");
 assert.equal(corruptArchiveStorage.value, corruptBefore,
   "sync refuses to overwrite an unreadable archive");
 
