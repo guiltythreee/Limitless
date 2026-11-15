@@ -85,6 +85,9 @@ async function makeFixturePdf(): Promise<Buffer> {
 test("home composition keeps the production header, hero and demo visible over a transparent shelf", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
 
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.locator("html")).toHaveAttribute("data-deco", "garden");
+
   const header = page.locator(".bk-header");
   await expect(header).toBeVisible();
   await expect(header.locator(".bk-home-icon")).toBeVisible();
@@ -106,7 +109,7 @@ test("home composition keeps the production header, hero and demo visible over a
     fontFamily: getComputedStyle(element).fontFamily,
   }));
   expect(heroStyle.fontStyle).toBe("italic");
-  expect(heroStyle.fontFamily).toContain("Georgia");
+  expect(heroStyle.fontFamily).toContain("Cormorant Garamond");
 
   const primaryStyle = await hero.locator(".bk-primary").first().evaluate((element) =>
     getComputedStyle(element).backgroundColor
