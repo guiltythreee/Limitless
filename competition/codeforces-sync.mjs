@@ -212,6 +212,26 @@ export function readCodeforcesSyncState(storage, requestedHandle = "") {
   };
 }
 
+/**
+ * Choose the smallest safe fetch window for the requested account. Recheck the
+ * last 24 hours so pending submissions whose verdict changed are observed.
+ * The account-aware reader also finds cursors for inactive saved handles.
+ */
+export function getCodeforcesSyncFetchPlan(storage, handle) {
+  const normalizedHandle = typeof handle === "string" ? handle.trim().toLowerCase() : "";
+  if (!normalizedHandle) return { mode: "invalid", sinceSeconds: null };
+  const previous = readCodeforcesSyncState(storage, normalizedHandle);
+  if (previous.handle !== normalizedHandle ||
+      !Number.isFinite(previous.lastSyncAt) || previous.lastSyncAt <= 0) {
+    return { mode: "all", sinceSeconds: null };
+  }
+  const overlapSeconds = 24 * 60 * 60;
+  return {
+    mode: "since",
+    sinceSeconds: Math.max(0, Math.floor(previous.lastSyncAt / 1000) - overlapSeconds),
+  };
+}
+
 /** Save the outgoing account and restore the requested account without mixing histories. */
 export function activateCodeforcesAccount(storage, handle) {
   const normalized = typeof handle === "string" ? handle.trim().toLowerCase() : "";
