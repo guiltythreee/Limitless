@@ -65,6 +65,43 @@ source.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({ rewardLedger: [r
 const backup = createCompetitionBackup(source, state, "2026-11-15T00:00:00.000Z");
 assert.equal(backup.version, 3);
 assert.deepEqual(backup.codeforcesLearning, learning);
+const archivedLearning = {
+  ...learning,
+  attempts: [],
+  attemptsArchive: encodeCodeforcesAttemptArchive([{
+    ...learning.attempts[0],
+    mode: "practice",
+  }]),
+};
+const archivedLearningBackup = {
+  version: 3,
+  data: state,
+  codeforcesLearning: archivedLearning,
+  codeforcesRewards: null,
+};
+const archivedLearningTarget = makeStorage();
+assert.deepEqual(restoreCompetitionBackup(
+  archivedLearningTarget, "competition-state", state, archivedLearningBackup
+), { ok: true }, "backup restore accepts compact Codeforces attempt history");
+assert.deepEqual(
+  JSON.parse(archivedLearningTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY)).attemptsArchive,
+  archivedLearning.attemptsArchive,
+  "backup restore preserves the compact attempt archive",
+);
+const invalidLearningArchive = {
+  ...archivedLearningBackup,
+  codeforcesLearning: {
+    ...archivedLearning,
+    attemptsArchive: { version: 1, strings: [], records: [[999]] },
+  },
+};
+const invalidLearningTarget = makeStorage();
+invalidLearningTarget.setItem("competition-state", "keep-state");
+assert.equal(restoreCompetitionBackup(
+  invalidLearningTarget, "competition-state", state, invalidLearningArchive
+).ok, false, "malformed attempt archives are rejected before any writes");
+assert.equal(invalidLearningTarget.getItem("competition-state"), "keep-state");
+
 assert.deepEqual(backup.codeforcesRewards.rewardLedger, [reward]);
 
 const restored = makeStorage();
