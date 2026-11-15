@@ -206,6 +206,7 @@ console.log("Codeforces sync baseline: all assertions passed.");
   };
   const seedState = JSON.parse(manualValues.get(CODEFORCES_SYNC_STORAGE_KEY));
   seedState.attempts = [failed];
+  delete seedState.revisionState; // simulate a pre-snapshot v1 record being upgraded
   manualValues.set(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(seedState));
   const revision = {
     id: "codeforces:revision:manual-1",
