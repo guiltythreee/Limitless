@@ -8,24 +8,35 @@ export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming
 
 const isRecord = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
 
-function readStoredJson(storage, key) {
+function readStoredJsonForBackup(storage, key) {
+  let raw;
   try {
-    const raw = storage.getItem(key);
-    return raw ? JSON.parse(raw) : null;
+    raw = storage.getItem(key);
   } catch {
-    return null;
+    throw new Error("Competition backup could not read storage key: " + key);
+  }
+  if (raw === null || raw === undefined) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    // Never create a plausible-looking partial backup when an existing store
+    // is unreadable. The caller must resolve the damaged source first.
+    throw new Error("Competition backup found malformed JSON in storage key: " + key);
   }
 }
 
-/** Version 3 backups include the two additive Codeforces stores. */
+/** Version 3 backups include every additive Codeforces store or fail closed. */
 export function createCompetitionBackup(storage, state, exportedAt = new Date().toISOString()) {
+  if (!storage || typeof storage.getItem !== "function") {
+    throw new TypeError("Competition backup requires readable storage");
+  }
   return {
     version: 3,
     exportedAt,
     data: state,
-    codeforcesLearning: readStoredJson(storage, CODEFORCES_SYNC_STORAGE_KEY),
-    codeforcesAccountHistories: readStoredJson(storage, CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY),
-    codeforcesRewards: readStoredJson(storage, COMPETITION_REWARD_STORAGE_KEY),
+    codeforcesLearning: readStoredJsonForBackup(storage, CODEFORCES_SYNC_STORAGE_KEY),
+    codeforcesAccountHistories: readStoredJsonForBackup(storage, CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY),
+    codeforcesRewards: readStoredJsonForBackup(storage, COMPETITION_REWARD_STORAGE_KEY),
   };
 }
 

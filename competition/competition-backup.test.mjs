@@ -72,6 +72,28 @@ const backup = createCompetitionBackup(source, state, "2026-11-15T00:00:00.000Z"
 assert.equal(backup.version, 3);
 assert.deepEqual(backup.codeforcesLearning, learning);
 assert.deepEqual(backup.codeforcesAccountHistories, histories);
+
+// Existing but malformed stores must abort export instead of being serialized
+// as null, which would make a partial backup look complete.
+for (const [key, raw] of [
+  [CODEFORCES_SYNC_STORAGE_KEY, "{broken-json"],
+  [CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "{broken-json"],
+  [COMPETITION_REWARD_STORAGE_KEY, "{broken-json"],
+  [CODEFORCES_SYNC_STORAGE_KEY, ""],
+]) {
+  const damaged = makeStorage();
+  damaged.setItem(key, raw);
+  assert.throws(() => createCompetitionBackup(damaged, state), /malformed JSON/,
+    "backup export fails closed for malformed " + key);
+}
+const unreadable = makeStorage();
+const originalGetItem = unreadable.getItem;
+unreadable.getItem = (key) => {
+  if (key === CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY) throw new Error("simulated read failure");
+  return originalGetItem(key);
+};
+assert.throws(() => createCompetitionBackup(unreadable, state), /could not read storage key/,
+  "backup export fails closed when a store cannot be read");
 const archivedLearning = {
   ...learning,
   attempts: [],
