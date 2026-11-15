@@ -1,14 +1,16 @@
 name: Deploy Limitless to Cloudflare Workers
 
 on:
-  # Deploy other main-branch changes immediately. Probability source changes
-  # must wait for the static export workflow so stale generated files cannot
-  # be published ahead of the build.
+  # Deploy other main-branch changes immediately. Probability and Metallurgy
+  # source changes must wait for their static-export workflows so stale
+  # generated files cannot be published ahead of the builds.
   push:
     branches:
       - main
     paths-ignore:
       - "probability-source/**"
+      - "metallurgy-source/**"
+      - ".github/workflows/test-metallurgy.yml"
       - "shared/**"
       - "meta/**"
       - "tools.js"
