@@ -62,7 +62,22 @@ test("blocks exact duplicate stems and unreviewed source questions", async () =>
   } finally { await fs.rm(root,{recursive:true,force:true}); }
 });
 
-test("prepares theory and worked-example proposals without rewriting lesson source", async () => {\n  const root = await fixture();\n  try {\n    const value = artifact();\n    value.analysis.theory_updates.push({ topic_id: "t1", heading: "Polymer basics", proposed_markdown: "A polymer contains repeat units.", source_pages: [2], relation: "expansion", confidence: 0.97, status: "ready" });\n    value.analysis.worked_examples.push({ topic_id: "t1", title: "Degree of polymerization", source_page: 3, problem: "Given values.", solution: "Substitute.", final_answer: "10", units: "dimensionless", confidence: 0.96, status: "ready" });\n    const plan = await prepareMt203Patch({ artifact: value, courseRoot: root });\n    assert.equal(plan.theory_proposals[0].placement, "expand-existing-section");\n    assert.equal(plan.theory_proposals[0].status, "proposal");\n    assert.equal(plan.worked_example_proposals[0].status, "proposal");\n    const original = await fs.readFile(path.join(root,"app/data/lessons-mt203.ts"),"utf8");\n    assert.ok(!original.includes("A polymer contains repeat units."));\n  } finally { await fs.rm(root,{recursive:true,force:true}); }\n});\n\ntest("blocks records that do not map to a real MT203 subtopic", async () => {
+test("prepares theory and worked-example proposals without rewriting lesson source", async () => {
+  const root = await fixture();
+  try {
+    const value = artifact();
+    value.analysis.theory_updates.push({ topic_id: "t1", heading: "Polymer basics", proposed_markdown: "A polymer contains repeat units.", source_pages: [2], relation: "expansion", confidence: 0.97, status: "ready" });
+    value.analysis.worked_examples.push({ topic_id: "t1", title: "Degree of polymerization", source_page: 3, problem: "Given values.", solution: "Substitute.", final_answer: "10", units: "dimensionless", confidence: 0.96, status: "ready" });
+    const plan = await prepareMt203Patch({ artifact: value, courseRoot: root });
+    assert.equal(plan.theory_proposals[0].placement, "expand-existing-section");
+    assert.equal(plan.theory_proposals[0].status, "proposal");
+    assert.equal(plan.worked_example_proposals[0].status, "proposal");
+    const original = await fs.readFile(path.join(root,"app/data/lessons-mt203.ts"),"utf8");
+    assert.ok(!original.includes("A polymer contains repeat units."));
+  } finally { await fs.rm(root,{recursive:true,force:true}); }
+});
+
+test("blocks records that do not map to a real MT203 subtopic", async () => {
   const root = await fixture();
   try {
     const plan = await prepareMt203Patch({ artifact: artifact({ subtopic: "T1.99" }), courseRoot: root });
