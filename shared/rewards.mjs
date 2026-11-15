@@ -183,7 +183,7 @@ export function sanitiseRewardRecords(raw) {
 // property-name repetition is removed. The newest 20 records stay readable.
 export const REWARD_ARCHIVE_VERSION = 1;
 export const REWARD_RECENT_RECORD_LIMIT = 20;
-const ARCHIVE_STRING_FIELDS = [0, 1, 2, 4, 5, 6, 8, 17];
+const ARCHIVE_STRING_FIELDS = [0, 1, 2, 4, 5, 6, 9, 17];
 const ARCHIVE_RECORD_WIDTH = 18;
 
 export function decodeRewardLedgerArchive(raw) {
