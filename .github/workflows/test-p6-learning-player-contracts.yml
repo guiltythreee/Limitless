@@ -121,6 +121,7 @@ jobs:
           node --check ../competition/codeforces-api.mjs
           node --check ../competition/codeforces-api.test.mjs
           node --check ../competition/competition.js
+          node ../competition/today-plan-ui.test.mjs
           node ../competition/competition-backup.test.mjs
           node --check ../competition/competition-backup.mjs
           node --check ../competition/competition-backup.test.mjs
