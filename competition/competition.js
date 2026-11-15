@@ -487,6 +487,65 @@
     }
   }
 
+
+
+  // A compact daily view reuses the exact week-plan task keys. It is a second
+  // view of the same checklist, not a separate progress store.
+  function renderToday() {
+    var el = $('today-panel');
+    if (!el) return;
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    var start = new Date(state.startDate + 'T00:00:00');
+    var target = new Date(state.targetDate + 'T00:00:00');
+    var dateLabel = today.toLocaleDateString(undefined, { weekday:'long', day:'numeric', month:'long' });
+    function note(title, message) {
+      el.innerHTML = '<div class="today-head"><span class="today-label">TODAY · ' + esc(dateLabel.toUpperCase()) + '</span><h3>' + esc(title) + '</h3></div><p class="today-note">' + esc(message) + '</p>';
+    }
+    if (!Number.isFinite(start.getTime())) return note('Set a valid start date', 'Daily tasks appear here once the campaign start date is valid.');
+    if (today < start) return note('Campaign has not started', 'Daily tasks begin on ' + start.toLocaleDateString(undefined, { weekday:'long', day:'numeric', month:'long' }) + '.');
+    if (Number.isFinite(target.getTime()) && today > target) return note('Target date has passed', 'Update the target date above if the competition schedule has changed.');
+
+    var wi = currentWeekIndex();
+    var dayIds = [null, 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    var dayId = dayIds[today.getDay()];
+    if (!dayId) return note('Rest or light revision', 'Sunday has no completion target. Use it for recovery or optional review.');
+    var day = DAILY_PLAN.find(function (item) { return item.id === dayId; });
+    if (!day || !WEEKS[wi]) return note('No daily plan available', 'Check the campaign dates and weekly roadmap.');
+    var week = WEEKS[wi];
+    var tasks = dailyTasksForWeek(week, day);
+    var keyPrefix = 'w' + (wi + 1) + '-exec2-' + day.id + '-';
+    var done = tasks.filter(function (_, index) { return !!state.dayChecks[keyPrefix + index]; }).length;
+    var focus = day.subjects.length ? day.subjects.map(function (id) {
+      var topic = week.topics.find(function (entry) { return entry[0] === id; });
+      return topic ? topic[1] : id;
+    }).join(' + ') : 'Mixed contest + upsolving';
+    el.innerHTML = '<div class="today-head"><span class="today-label">TODAY · ' + esc(dateLabel.toUpperCase()) + ' · WEEK ' + (wi + 1) + '</span>' +
+      '<h3>' + esc(day.day + ' · ' + focus) + '</h3><span class="today-count">' + done + ' / ' + tasks.length + ' done</span></div>' +
+      '<div class="today-progress-track"><span style="width:' + Math.round(done / tasks.length * 100) + '%"></span></div>' +
+      '<div class="today-task-list">' + tasks.map(function (task, index) {
+        var key = keyPrefix + index;
+        return '<label class="daily-task"><input type="checkbox" data-today-task="' + key + '" ' + (state.dayChecks[key] ? 'checked' : '') + '><span>' + esc(task) + '</span></label>';
+      }).join('') + '</div>' +
+      '<button type="button" class="text-action today-open-week" data-open-current-week>Open Week ' + (wi + 1) + ' in the roadmap ↓</button>';
+    el.querySelectorAll('[data-today-task]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        state.dayChecks[input.dataset.todayTask] = input.checked;
+        persist();
+        renderToday();
+        renderWeeks();
+      });
+    });
+    var openWeekButton = el.querySelector('[data-open-current-week]');
+    if (openWeekButton) openWeekButton.addEventListener('click', function () {
+      var card = $('week-list').querySelector('[data-week-index="' + wi + '"]');
+      if (!card) return;
+      card.open = true;
+      var schedule = card.querySelector('[data-week-compartment="w' + (wi + 1) + '-schedule"]');
+      if (schedule) schedule.open = true;
+      card.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  }
   // Chapter-level assignments: the weekly topic is tied to a named source chapter
   // and a concrete set of exercises/problems. Checkboxes use the existing persisted
   // dayChecks store, so progress survives reloads and remains backward-compatible.
@@ -982,7 +1041,7 @@
       var scheduleContent='<div class="daily-roadmap"><p>Work through Monday to Saturday in this order. Revision reviews are included inside these study blocks. Sunday is rest or light revision.</p>' + days +
         '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div>';
       var masteryContent='<div class="topic-status-guide">Mark a topic <b>Learning</b> when you can explain it, <b>Practiced</b> when you solve representative problems independently, and <b>Mastered</b> when you solve unseen mixed problems under time and justify the method.</div><div class="roadmap-topic-list">' + topics + '</div>';
-      return '<details class="week-card week-phase-' + phaseClass + '" data-phase="' + esc(week.phase) + '" ' + (openWeeks[wi] === true ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span class="week-heading-copy"><span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + '</span></span><span class="week-progress-wrap"><span class="week-progress">' + mastered + ' / ' + selectedTopics.length + ' mastered</span><span class="week-progress-track"><i style="width:' + weekPct + '%"></i></span></span><span class="week-chevron" aria-hidden="true">⌄</span></summary>' +
+      return '<details class="week-card week-phase-' + phaseClass + '" data-week-index="' + wi + '" data-phase="' + esc(week.phase) + '" ' + (openWeeks[wi] === true ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span class="week-heading-copy"><span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + '</span></span><span class="week-progress-wrap"><span class="week-progress">' + mastered + ' / ' + selectedTopics.length + ' mastered</span><span class="week-progress-track"><i style="width:' + weekPct + '%"></i></span></span><span class="week-chevron" aria-hidden="true">⌄</span></summary>' +
         '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment +
         '<div class="week-compartment-grid">' +
         compartment('resources','resources','Learning resources','Books, exact readings, lectures and problem sets',resourcesContent,false) +
@@ -1004,6 +1063,7 @@
       input.addEventListener('change', function () {
         state.dayChecks[input.dataset.dayTask] = input.checked;
         persist();
+        renderToday();
         renderWeeks();
       });
     });
@@ -1150,6 +1210,7 @@
       persist();
       renderOverview();
       renderSafety();
+      renderToday();
     });
   }
   function validateScore(score, max, label) {
@@ -1181,6 +1242,7 @@
 
     renderOverview();
     renderSubjects();
+    renderToday();
     $('roadmap-subject-filter').addEventListener('change', function () {
       var labels = { all:'All five subjects plus C++ / implementation', logic:'Logical Reasoning', combinatorics:'Combinatorics', probability:'Probability', graphs:'Graph Theory', dp:'Dynamic Programming', coding:'C++ / Implementation' };
       $('roadmap-filter-note').textContent = labels[$('roadmap-subject-filter').value] + ': 16 weekly checkpoints, with topic-specific references and independent mastery tracking.';

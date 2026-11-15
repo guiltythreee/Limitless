@@ -21,6 +21,7 @@ on:
       - "competition/competition-backup.mjs"
       - "competition/competition-backup.test.mjs"
       - "competition/competition.js"
+      - "competition/today-plan-ui.test.mjs"
       - "competition/competition.css"
       - "competition/index.html"
       - "competition/practice-recommendations.mjs"
@@ -121,6 +122,7 @@ jobs:
           node --check ../competition/codeforces-api.mjs
           node --check ../competition/codeforces-api.test.mjs
           node --check ../competition/competition.js
+          node ../competition/today-plan-ui.test.mjs
           node ../competition/competition-backup.test.mjs
           node --check ../competition/competition-backup.mjs
           node --check ../competition/competition-backup.test.mjs
