@@ -34,4 +34,5 @@ assert.throws(() => validateReview(records, [{ recordId: "r1", status: "correcte
 assert.throws(() => validateReview(records, [{ recordId: "r1", status: "approved", destination: "theory", reviewerNote: 42 }]), /Reviewer note.*string/);
 assert.throws(() => validateReview([...records, { ...records[0] }], []), /Duplicate source record id/);
 assert.throws(() => validateReview([{ text: "missing id" }], []), /non-empty string id/);
-\nconsole.log("Review gate tests passed: approvals, corrections, rejections, malformed input and safety invariants.");
+
+console.log("Review gate tests passed: approvals, corrections, rejections, malformed input and safety invariants.");
