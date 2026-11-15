@@ -16,4 +16,17 @@ assert.match(css, /\.today-panel/);
 assert.match(js, /renderToday\(\);\s*renderWeeks\(\);/,
   "updating a daily task from the Today panel must refresh both synchronized views");
 
+assert.match(js, /data-codeforces-revision-result="correct"/,
+  "due Codeforces reviews must allow an independent-solve result");
+assert.match(js, /data-codeforces-revision-result="incorrect"/,
+  "due Codeforces reviews must allow a still-stuck result");
+assert.match(js, /mode: 'revision'/,
+  "Codeforces re-solves must enter the shared revision evidence stream");
+assert.match(js, /limitless\\.competition\\.codeforces-learning\\.v1/,
+  "Codeforces revision results must be saved with the existing sync record");
+assert.match(js, /limitless:codeforces-learning-updated/,
+  "saving a Codeforces revision must refresh shared mastery and scheduling");
+assert.match(css, /\\.revision-actions/,
+  "Codeforces revision controls must reuse the existing revision action layout");
+
 console.log("Competition Today panel contract: all assertions passed.");
