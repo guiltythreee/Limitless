@@ -3,6 +3,7 @@ import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
 import { analyzeCompetitionLearning } from "./learning-intelligence.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
+  CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
   readCodeforcesSyncState,
   syncCodeforcesSubmissions,
   appendCodeforcesRevisionAttempt,
@@ -101,7 +102,13 @@ const switched = syncCodeforcesSubmissions(storage, "DifferentHandle", history, 
 assert.equal(switched.baseline, true, "changing accounts establishes a fresh baseline");
 assert.equal(switched.added, 0);
 assert.equal(switched.state.handle, "differenthandle");
-assert.equal(switched.state.attempts.length, 0, "attempts from the previous account are not carried over");
+assert.equal(switched.state.attempts.length, 0, "a new account starts with isolated learning history");
+assert.ok(JSON.parse(storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY)).accounts.examplehandle);
+const returned = syncCodeforcesSubmissions(storage, "ExampleHandle", [], 1797000000000);
+assert.equal(returned.ok, true);
+assert.equal(returned.baseline, false, "returning to a known handle restores its original baseline");
+assert.equal(returned.state.attempts.length, 2, "switching back restores prior attempts");
+assert.equal(returned.state.handle, "examplehandle");
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
 
