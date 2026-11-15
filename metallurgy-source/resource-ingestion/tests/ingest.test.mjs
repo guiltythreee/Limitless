@@ -8,6 +8,9 @@ const pages = [
   "RHEOLOGY\n\nThixotropy is defined as time-dependent shear thinning at constant shear rate.\n\nProperty        Unit\nViscosity       Pa s\n",
 ];
 const mappingHint = { course: "MT203", topic: "T11", subtopic: "Extrusion" };
+assert.equal(hasTableContext("Property        Unit\\nViscosity       Pa s"), true, "property/unit tables should be recognized");
+assert.equal(hasTableContext("Table 4.5 Permeability in polymers at 25°C"), true, "captioned source tables should be recognized");
+assert.equal(hasTableContext("Properties of Homopolymer Vs Copolymer\\nTeflon       Polyethylene       PVC"), false, "comparison slides should not be treated as tables");
 assert.equal(shouldUseOcr("   "), true, "blank/scanned pages should be eligible for OCR");
 assert.equal(shouldUseOcr("A sufficiently long native text extraction from a PDF page."), false);
 const first = buildRecords({ sourceId: "source-test", pages, mappingHint });
@@ -31,6 +34,17 @@ const layoutRecords = buildRecords({
 });
 assert.ok(!layoutRecords.some((r) => r.kind === "table-row" && /MT203|Assistant Professor/.test(r.text)), "slide indentation must not be mistaken for table columns");
 assert.ok(layoutRecords.some((r) => r.kind === "table-row" && /Property/.test(r.text)), "genuine multi-column rows must remain detectable");
+
+const comparisonRecords = buildRecords({
+  sourceId: "source-comparison",
+  pages: ["Properties of Homopolymer Vs Copolymer\\nTeflon       Polyethylene       PVC"],
+});
+assert.ok(comparisonRecords.some((r) => r.candidateType === "table" && r.reviewPriority === "routine"), "comparison content stays available without flooding the table exception queue");
+const captionedTableRecords = buildRecords({
+  sourceId: "source-captioned-table",
+  pages: ["Permeability Data\\nTable 4.5 Permeability in polymers at 25°C\\nPolyethylene O2 2.2 66.5 42.7"],
+});
+assert.ok(captionedTableRecords.some((r) => r.candidateType === "table" && r.reviewPriority === "exception"), "captioned numeric tables must enter focused review");
 
 const ocrRecords = buildRecords({ sourceId: "source-test", pages: ["Scanned page OCR output."], pageExtractionMethods: ["tesseract OCR (220 DPI, page segmentation mode 3)"] });
 assert.equal(ocrRecords[0].extractionMethod, "tesseract OCR (220 DPI, page segmentation mode 3)");
@@ -100,7 +114,7 @@ assert.equal(triagedRecords[1].reviewPriority, "routine", "low-risk paragraphs s
 assert.equal(triagedRecords[1].reviewStatus, "needs-review", "triage must not approve content");
 
 
-import { buildPagePreviewPlan } from "../ingest.mjs";
+import { buildPagePreviewPlan, hasTableContext } from "../ingest.mjs";
 
 const previewPlan = buildPagePreviewPlan([
   { sourcePage: 36, candidateType: "equation" },
