@@ -402,7 +402,7 @@ test("deleting a shelf keeps it intact when one of its original book files is mi
   await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
   const epub = await makeFixtureEpub();
   await page.locator("#bk-library-files").setInputFiles({
-    name: "shelf-integrity-fixture.epub",
+    name: "Bookkeys Migration Fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
   });
@@ -413,10 +413,10 @@ test("deleting a shelf keeps it intact when one of its original book files is mi
   await page.getByRole("button", { name: "New shelf" }).click();
   await page.getByRole("tab", { name: "Library", exact: true }).click();
   const card = page.locator(".bk-book-card").filter({
-    has: page.getByRole("button", { name: /shelf-integrity-fixture/ }),
+    has: page.getByRole("button", { name: /Bookkeys Migration Fixture/ }),
   });
   await card.hover();
-  await card.getByLabel(/Move shelf-integrity-fixture to another shelf/).selectOption({ label: "Favourites" });
+  await card.getByLabel(/Move Bookkeys Migration Fixture to another shelf/).selectOption({ label: "Favourites" });
   await page.getByRole("tab", { name: "Favourites", exact: true }).click();
 
   await page.evaluate(async () => {
@@ -450,7 +450,7 @@ test("deleting a shelf keeps it intact when one of its original book files is mi
   await page.getByRole("button", { name: "Delete shelf" }).click();
   await expect(page.getByRole("status")).toContainText("original file");
   await expect(page.getByRole("tab", { name: "Favourites", exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: /shelf-integrity-fixture/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
 });
 
 test("multiple EPUBs can be imported together without opening each one", async ({ page }) => {
