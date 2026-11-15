@@ -187,6 +187,11 @@ assert.match(accountsSource, /fetchCodeforcesSubmissionsSince\(handle, plan\.sin
   "repeat connections must fetch incrementally with a 24-hour overlap");
 assert.match(accountsSource, /fetchAllCodeforcesSubmissions\(handle\)/,
   "first connections and unknown handles must establish a complete historical baseline");
+const invalidPlanGuard = accountsSource.indexOf('if (plan.mode === "invalid")');
+const sinceSubmissionFetch = accountsSource.indexOf("fetchCodeforcesSubmissionsSince(handle, plan.sinceSeconds)");
+const fullSubmissionFetch = accountsSource.indexOf("fetchAllCodeforcesSubmissions(handle)");
+assert.ok(invalidPlanGuard >= 0 && invalidPlanGuard < sinceSubmissionFetch && invalidPlanGuard < fullSubmissionFetch,
+  "an invalid sync plan is rejected before either submission-history endpoint is called");
 
 const corruptArchiveStorage = {
   value: JSON.stringify({
