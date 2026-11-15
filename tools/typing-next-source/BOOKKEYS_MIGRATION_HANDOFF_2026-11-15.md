@@ -170,3 +170,15 @@ Current state:
 - The pre-test-alignment exact-head backup `backup/bookkeys-before-ci-test-alignment-20261115` is preserved.
 - Test-only commit `3fb152e` is on the PR branch.
 - No production deploy or merge has occurred.
+
+
+## Preview redeployment result — 15 November 2026, 17:57 IST
+
+- The preview deployment workflow was independently queried through the GitHub Actions runs API (the specialized commit-workflow helper only exposes PR-triggered runs).
+- Push deployment run `43713633836` for commit `3fb152ebfe0cfc3dadcb6cf64f22ea1f23f16bcc` completed SUCCESS.
+- All deployment steps passed: dependency installation, isolated static build, staging under `/tools/typing-next-preview/`, and deploy of the separate `limitless-bookkeys-preview` Worker.
+- This successful deployment occurred AFTER the user's screenshots (the screenshots were sent at 12:08:48Z; the preview deployment completed after 12:23Z). Therefore the supplied preview screenshot predates this successful redeployment. This materially supports the stale-preview hypothesis for that screenshot; it does not yet prove the new deployed render is visually correct.
+- A second deployment run `43713692832` for the documentation-only current PR head `35ad6adcef9e5d1274c5df3d049cd74861591ab3` was still in progress when checked. The source code in that commit is unchanged from `3fb152e`; the successful deployment at `3fb152e` already includes the test-only assertion correction and all existing UI source.
+- New regression test run `43713699526` and migration verification run `43713699416` for current PR head `35ad6ad...` were in progress at the last check; no pass/fail claim yet.
+- User should hard-refresh the isolated preview URL after the successful deployment, preferably Ctrl+Shift+R, then inspect the same viewport. Do not clear or overwrite production local data. If it still differs, capture a fresh screenshot and investigate the current deployed HTML/CSS rather than assuming stale output.
+- Vercel's separate `build-rate-limit` status remains unrelated to the successful Cloudflare preview Worker deployment.
