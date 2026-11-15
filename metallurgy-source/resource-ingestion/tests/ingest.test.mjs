@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
-import { buildRecords, mapExtractedImages, parseImageInventory, shouldUseOcr } from "../ingest.mjs";
+import { buildOcrSummary, buildRecords, mapExtractedImages, parseImageInventory, shouldUseOcr } from "../ingest.mjs";
 
 const pages = [
   "POLYMER PROCESSING\n\nExtrusion is a continuous process used to shape polymer melts.\n\nStress = Force / Area\n\n- Feed zone conveys pellets\n- Compression zone melts material\n",
@@ -52,3 +52,17 @@ assert.equal(withFigure[1].candidateType, "figure");
 assert.equal(withFigure[1].sourcePage, 1);
 assert.equal(withFigure[1].reviewStatus, "needs-review");
 console.log("PDF image inventory and page-linked figure record tests passed.");
+
+const ocrSummary = buildOcrSummary([
+  { page: 31, nativeCharacterCount: 0, ocrCharacterCount: 366, selectedMethod: "ocr", selectedCharacterCount: 366, status: "completed" },
+  { page: 35, nativeCharacterCount: 12, ocrCharacterCount: 76, selectedMethod: "ocr", selectedCharacterCount: 76, status: "completed" },
+  { page: 45, nativeCharacterCount: 0, ocrCharacterCount: 456, selectedMethod: "ocr", selectedCharacterCount: 456, status: "completed" },
+  { page: 49, nativeCharacterCount: 0, ocrCharacterCount: 772, selectedMethod: "ocr", selectedCharacterCount: 772, status: "completed" },
+  { page: 50, nativeCharacterCount: 10, ocrCharacterCount: 774, selectedMethod: "ocr", selectedCharacterCount: 774, status: "completed" },
+]);
+assert.equal(ocrSummary.attemptedPages, 5);
+assert.equal(ocrSummary.replacedPages, 5);
+assert.equal(ocrSummary.retainedNativePages, 0);
+assert.deepEqual(ocrSummary.failedPages, []);
+assert.equal(ocrSummary.pageStats[3].ocrCharacterCount, 772);
+console.log("Page-level OCR quality summary tests passed.");
