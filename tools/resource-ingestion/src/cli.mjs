@@ -169,7 +169,7 @@ async function prepare() {
   );
   const outputPath = path.resolve(arg("--output", defaultOutput));
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
-  await fs.writeFile(outputPath, JSON.stringify(plan, null, 2) + "\\n", "utf8");
+  await fs.writeFile(outputPath, JSON.stringify(plan, null, 2) + "\n", "utf8");
   console.log("Proposal plan saved to: " + outputPath);
   console.log("Question proposals: " + plan.summary.question_proposals +
     "; theory: " + plan.summary.theory_proposals +
