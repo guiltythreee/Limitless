@@ -8,7 +8,15 @@ const DESTINATIONS = new Set(["theory", "illustration", "worked-example", "refer
 
 export function validateReview(records, decisions) {
   if (!Array.isArray(records) || !Array.isArray(decisions)) throw new Error("Records and decisions must be arrays.");
-  const byId = new Map(records.map((record) => [record.id, record]));
+  const byId = new Map();
+  for (const record of records) {
+    if (!record || typeof record.id !== "string" || !record.id.trim()) {
+      throw new Error("Every source record must have a non-empty string id.");
+    }
+    if (byId.has(record.id)) throw new Error(`Duplicate source record id: ${record.id}.`);
+    byId.set(record.id, record);
+  }
+
   const seen = new Set();
   const validated = [];
   for (const decision of decisions) {
@@ -19,14 +27,14 @@ export function validateReview(records, decisions) {
     seen.add(decision.recordId);
     if (!ALLOWED.has(decision.status)) throw new Error(`Unsupported review status for ${decision.recordId}.`);
     const record = byId.get(decision.recordId);
-    if (decision.status === "approved" && !decision.destination) {
-      throw new Error(`Approved record ${decision.recordId} requires a destination.`);
-    }
     if (decision.status !== "rejected" && !DESTINATIONS.has(decision.destination)) {
       throw new Error(`Invalid destination for ${decision.recordId}.`);
     }
-    if (decision.status === "corrected" && (!decision.correctedText || !decision.correctedText.trim())) {
-      throw new Error(`Corrected record ${decision.recordId} requires correctedText.`);
+    if (decision.status === "corrected" && (typeof decision.correctedText !== "string" || !decision.correctedText.trim())) {
+      throw new Error(`Corrected record ${decision.recordId} requires non-empty string correctedText.`);
+    }
+    if (decision.reviewerNote != null && typeof decision.reviewerNote !== "string") {
+      throw new Error(`Reviewer note for ${decision.recordId} must be a string.`);
     }
     validated.push({
       recordId: record.id,
@@ -93,7 +101,7 @@ async function main(argv) {
     `- Proposed additions: ${patch.entries.length}`,
     `- Rejected records: ${patch.rejectedRecordIds.length}`,
     "", "> This is a review artifact only. No course files, questions, or learner data were changed.", "",
-    ...patch.entries.map((entry) => `## ${entry.destination} · page ${entry.sourcePage}\n\nRecord: \`${entry.recordId}\`\n\n${entry.text}\n`),
+    ...patch.entries.map((entry) => `## ${entry.destination} · page ${entry.sourcePage}\\n\\nRecord: \`${entry.recordId}\`\\n\\n${entry.text}\\n`),
   ].join("\n");
   await writeFile(join(output, "proposed-content-patch.md"), markdown + "\n");
   process.stdout.write(`Review staged (not applied): ${patch.entries.length} proposed additions.\n`);
