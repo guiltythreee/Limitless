@@ -102,10 +102,15 @@ test("home composition keeps the production header, hero and demo visible over a
   await expect(header.locator(".bk-home-icon")).toBeVisible();
   await expect(header.locator(".bk-settings-button")).toBeVisible();
   await expect(header.locator(".bk-mode-button")).toBeVisible();
+  await expect(header.locator(".bk-background-button")).toBeVisible();
+  await expect(header.locator(".bk-size-controls")).toHaveCount(0);
+  await expect(header.locator(".bk-header-actions .bk-archive-button")).toHaveCount(0);
 
   await expect(page.locator(".bk-home-hero")).toBeVisible();
   await expect(page.locator(".bk-home-demo")).toBeVisible();
   await expect(page.locator(".bk-home-tabrow")).toBeVisible();
+  const homeContentWidth = await page.locator(".bk-home-in").evaluate((element) => element.getBoundingClientRect().width);
+  expect(homeContentWidth).toBeGreaterThan(1300);
 
   await expect(page.locator(".bk-xp-status")).toContainText(/Chronicle · Lv \d+/);
   await expect(page.getByRole("progressbar", { name: "Progress to next Chronicle level" })).toBeVisible();
