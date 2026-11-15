@@ -172,7 +172,7 @@ export function sanitiseCodeforcesRevisionState(raw) {
   const byQuestion = new Map();
   for (const item of raw) {
     if (!item || typeof item !== "object" || Array.isArray(item) ||
-        typeof item.questionId !== "string" || !/^codeforces:\\d+[A-Za-z][A-Za-z0-9]*$/.test(item.questionId) ||
+        typeof item.questionId !== "string" || !/^codeforces:[0-9]+[A-Za-z][A-Za-z0-9]*$/.test(item.questionId) ||
         typeof item.contentId !== "string" || !item.contentId ||
         !Number.isFinite(item.lastFailureAt) || item.lastFailureAt <= 0 ||
         !Number.isSafeInteger(item.failures) || item.failures < 1 ||
