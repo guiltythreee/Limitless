@@ -35,4 +35,5 @@ jobs:
           node --check src/schema.mjs
           node --check src/validate.mjs
           node --check src/report.mjs
+          node --check src/prepare.mjs
           node src/cli.mjs --help
