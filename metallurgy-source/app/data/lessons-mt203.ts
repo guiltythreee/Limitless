@@ -49,11 +49,11 @@ export const LESSONS: Record<string, Lesson> = {
         h: "Copolymer architectures",
         p: "| Type | Arrangement | Example |\n|---|---|---|\n| Random | –A–B–B–A–A–B– | SBR |\n| Alternating | –A–B–A–B–A–B– | styrene–maleic anhydride |\n| Block | –AAAA–BBBB– | SBS thermoplastic elastomer |\n| Graft | backbone A with B side-chains | HIPS, ABS |\n\nA **thermoplastic elastomer** like SBS works because the hard polystyrene end-blocks aggregate into glassy domains that act as *physical* cross-links anchoring a rubbery mid-block — no chemical vulcanization needed, so it can be re-melted.",
       },
-    ],
       {
         h: "Lecture example — homopolymer versus copolymer properties",
         p: "The lecture compares the homopolymers **Teflon (PTFE)**, **polyethylene (PE)** and **PVC** with the copolymer **styrene-butadiene rubber (SBR)** (source PDF, p. 16). The SBR slide depicts styrene-derived plastic-like units and butadiene-derived rubber-like units. It states that, as **styrene content increases**, **tensile strength increases**, while **elongation and abrasion resistance decrease**. This is the specific trend printed on the lecture slide; it is not generalized to every copolymer system.",
       },
+    ],
     formulas: [
       { name: "Degree of polymerization (from Mw)", expr: "DP = \\frac{M}{M_{repeat}}", vars: ["M — molar mass of the chain", "M_repeat — molar mass of one repeat unit"], note: "number-average DP uses Mn" },
       { name: "Number-average MW", expr: "M_n = \\frac{\\sum N_i M_i}{\\sum N_i}", vars: ["N_i — number of chains (or moles) of species i", "M_i — molar mass of species i"], note: "sensitive to low-MW chains" },
