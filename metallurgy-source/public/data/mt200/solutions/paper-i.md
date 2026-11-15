@@ -31,9 +31,9 @@ A1 True strain as ln(L/L₀) and additivity                                     
 
  Divide the elongation L0 → L into many small steps L0 → L1 → L2 → … → L. Measure each step's strain
  against the length at the start of that step:
-        δεi = (Li − Li−1)/Li−1, εT = Σ δεi = (L1−L0)/L0 + (L2−L1)/L1 + …
+$$\delta\varepsilon_i=\frac{L_i-L_{i-1}}{L_{i-1}},\quad \varepsilon_T=\sum_i\delta\varepsilon_i=\frac{L_1-L_0}{L_0}+\frac{L_2-L_1}{L_1}+\cdots$$
  Let the steps shrink to zero, so that each term becomes dL/L and the sum becomes an integral:
-        εT = ∫L0L dL/L = ln L − ln L0 = ln(L/L0)
+$$\varepsilon_T=\int_{L_0}^{L}\frac{dL}{L}=\ln L-\ln L_0=\ln\left(\frac{L}{L_0}\right)$$
  Additivity. ln(L2/L0) = ln(L1/L0) + ln(L2/L1), so true strains of successive steps add exactly. Engineering
  strain fails this: (L2−L0)/L0 ≠ (L1−L0)/L0 + (L2−L1)/L1, because the second step is measured on a
  different base length.
@@ -58,10 +58,10 @@ A2 Engineering ↔ true stress and strain                                       
 
 MT200 Testing of Materials · Solutions and Marking Scheme                                                         Page 1
 
-        σT = F/A = F(1 + εe)/A0 = σe(1 + εe)
-        εT = ln(L/L0) = ln(1 + εe)
+$$\sigma_T=\frac{F}{A}=\frac{F(1+\varepsilon_e)}{A_0}=\sigma_e(1+\varepsilon_e)$$
+$$\varepsilon_T=\ln\left(\frac{L}{L_0}\right)=\ln(1+\varepsilon_e)$$
  Invert the strain relation: 1 + εe = eεT. Substitute into the stress relation:
-        σT = σe · eεT
+$$\sigma_T=\sigma_e e^{\varepsilon_T}$$
  Validity. Only up to the onset of necking (the UTS). The derivation assumes the strain is uniform along
  the whole gauge length, so that one L and one A describe the specimen. After necking, the deformation
  localises, so the gauge-length extension no longer represents what happens in the neck, and A must be
@@ -84,7 +84,7 @@ A3 True stress and strain in compression                                        
 
  Volume constancy: A·h = A0h0, so A = A0h0/h. Let e = (h0 − h)/h0 be the (positive) compressive
  engineering strain.
-        σT = P/A = P h/(A0h0) = σe(1 − e)          εT = ln(h/h0) = ln(1 − e) < 0, magnitude |εT| = ln(h0/h)
+$$\sigma_T=\frac{P}{A}=\frac{Ph}{A_0h_0}=\sigma_e(1-e),\quad \varepsilon_T=\ln\left(\frac{h}{h_0}\right)=\ln(1-e)<0,\quad |\varepsilon_T|=\ln\left(\frac{h_0}{h}\right)$$
  Why the difference. In tension the area shrinks, so P/A exceeds P/A0: σT > σe. In compression the
  area grows, so P/A is smaller than P/A0: σT < σe. The ratio h/h0 is below 1, so its logarithm is negative;
  this is why compressive strain is negative by convention. In practice the magnitudes of both σ and ε are
@@ -99,14 +99,14 @@ A3 True stress and strain in compression                                        
 A4 Considère criterion and UTS                                                                                   [7]
 
  The load is P = σTA. Necking starts at maximum load, where dP = 0:
-        dP = A dσT + σT dA = 0 ⇒ dσT/σT = −dA/A
+$$dP=A\,d\sigma_T+\sigma_T\,dA=0\Rightarrow\frac{d\sigma_T}{\sigma_T}=-\frac{dA}{A}$$
  Volume constancy gives dA/A = −dL/L = −dεT. Hence:
         $\dfrac{d\sigma_T}{d\varepsilon_T}=\sigma_T$      (Considère criterion)
  With σT = KεT : dσT/dεT = nKεTn−1. Setting this equal to KεTn gives εT = n. The engineering UTS is the
                    n
 
  maximum load divided by the original area. Using A0/A = eεT:
-        σUTS = Pmax/A0 = σT·(A/A0) = Knn e−n = K(n/e)n
+$$\sigma_{\mathrm{UTS}}=\frac{P_{\max}}{A_0}=\sigma_T\frac{A}{A_0}=K n^n e^{-n}=K\left(\frac{n}{e}\right)^n$$
  Physical meaning. Strain hardening raises the stress a section can carry (dσT/dεT), while the shrinking
  area lowers the load it can carry (σT per unit strain). While hardening wins, any slightly thinner section
  hardens more and the strain spreads out (stable). At dσT/dεT = σT the two effects balance. Beyond this,
@@ -156,13 +156,13 @@ A6 Brinell hardness formula                                                     
 
  (a) Area of the spherical cap. Let the ball radius be R = D/2. A ring at polar angle θ (from the vertical
  axis through the centre) has radius R sinθ and arc width R dθ:
-         dA = 2π(R sinθ)(R dθ) = 2πR2 sinθ dθ ⇒ A = 2πR2(1 − cosθ0)
+$$dA=2\pi R^2\sin\theta\,d\theta\Rightarrow A=2\pi R^2(1-\cos\theta_0)$$
  The cap height is h = R − R cosθ0 = R(1 − cosθ0), so A = 2πRh = πDh.
  (b) Geometry. In the right triangle with hypotenuse R, one side R − h and the other d/2:
          (D/2 − h)2 + (d/2)2 = (D/2)2 ⇒ h = [D − √(D2 − d2)]/2
  (The smaller root is taken, since h < D/2 for a shallow impression.) Substituting into BHN = P/A =
  P/(πDh):
-         BHN = 2P / [πD(D − √(D2 − d2))]
+$$\mathrm{BHN}=\frac{2P}{\pi D\left(D-\sqrt{D^2-d^2}\right)}$$
  (c) Why the curved area. Brinell hardness is defined as load per unit contact (surface) area, which is
  the area the material actually resists over. The projected area πd2/4 gives the mean contact pressure
  instead (Meyer hardness), which is a different quantity. The two differ by the ratio of curved to flat area,
@@ -190,7 +190,7 @@ A7 Geometric similarity of the Brinell test                                     
                                                                                                    2     2
  Let φ be the angle subtended at the ball's centre by the impression. Then sin(φ/2) = d/D, so √(D − d )
  = D cos(φ/2), and h = (D/2)(1 − cos(φ/2)). Hence:
-        A = πDh = (πD2/2)(1 − cos(φ/2)) ⇒ BHN = 2P / [πD2(1 − cos(φ/2))] = (P/D2) · f(φ)
+$$A=\pi Dh=\frac{\pi D^2}{2}\left(1-\cos\frac{\phi}{2}\right)\Rightarrow\mathrm{BHN}=\frac{2P}{\pi D^2\left(1-\cos(\phi/2)\right)}=\frac{P}{D^2}f(\phi)$$
  Since φ is fixed by d/D, two tests with the same P/D2 and the same d/D give the same BHN. Equal d/D
  also means geometrically similar impressions with the same representative strain (about 0.2 d/D), so
  the material is deformed to the same degree. This is why standard tests fix P/D2 (30 for steels, lower for
@@ -212,8 +212,8 @@ A8 Vickers formula and the 136° angle                                          
  The base is a square with diagonal d, so its side is a = d/√2. The angle between opposite faces is 136°,
  so each face makes 68° with the axis. In the isosceles triangle forming one face, the slant height is s =
  (a/2)/sin 68°. Area of one face = ½ a s = a2/(4 sin 68°). Four faces:
-        A = 4 · a2/(4 sin 68°) = a2/sin 68° = d2/(2 sin 68°) = d2/1.8544
-        HV = P/A = 1.8544 P/d2 (P in kgf, d in mm gives kgf/mm2)
+$$A=4\frac{a^2}{4\sin68^\circ}=\frac{a^2}{\sin68^\circ}=\frac{d^2}{2\sin68^\circ}=\frac{d^2}{1.8544}$$
+$$\mathrm{HV}=\frac{P}{A}=\frac{1.8544P}{d^2}$$
  Why 136°. For a Brinell impression with d/D = 0.375 (the middle of the recommended 0.25 to 0.5),
  sin(φ/2) = 0.375, so φ ≈ 44.05°. The tangents to the ball at the rim of the impression then meet at 180°
  − 44.05° ≈ 136°. So Vickers is designed to give nearly the same number as Brinell in that range, and
@@ -225,15 +225,15 @@ A8 Vickers formula and the 136° angle                                          
                         2                 2
  Area of four faces = d /(2 sin 68°) = d /1.8544                                                             1
                          2
- HV = P/A = 1.8544P/d                                                                                        1
+$$\mathrm{HV}=\frac{P}{A}=\frac{1.8544P}{d^2}$$
  136° from tangents at d/D = 0.375, matching Brinell                                                         1
 
 A9 Knoop constant                                                                                            [3]
 
  Let the long diagonal be l, the short diagonal w and the depth t. The long edges (172.5°) and short
  edges (130°) give:
-        t = l / (2 tan 86.25°) = l/30.5 ⇒ w = 2t tan 65° ≈ 0.1406 l (so l/w ≈ 7.11)
-        Aproj = ½ l w = l2 tan(β/2)/(2 tan(α/2)) = 0.07028 l2 ⇒ HK = P/Aproj = 14.229 P/l2
+$$t=\frac{l}{2\tan86.25^\circ}=\frac{l}{30.5}\Rightarrow w=2t\tan65^\circ\approx0.1406l,\quad\frac{l}{w}\approx7.11$$
+$$A_{\mathrm{proj}}=\frac12lw=\frac{l^2\tan(\beta/2)}{2\tan(\alpha/2)}=0.07028l^2\Rightarrow H_K=\frac{P}{A_{\mathrm{proj}}}=\frac{14.229P}{l^2}$$
 
 
 
