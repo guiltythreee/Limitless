@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
 import { assessOcrQuality, buildOcrSummary, buildRecords, mapExtractedImages, parseImageInventory, parseOcrTsv, shouldUseOcr } from "../ingest.mjs";
+import { buildTesseractTsvArgs } from "../ingest.mjs";
 
 const pages = [
   "POLYMER PROCESSING\n\nExtrusion is a continuous process used to shape polymer melts.\n\nStress = Force / Area\n\n- Feed zone conveys pellets\n- Compression zone melts material\n",
