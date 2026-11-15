@@ -26,7 +26,7 @@ assert.ok(first.every((r) => r.confidence === "unverified"));
 
 const layoutRecords = buildRecords({
   sourceId: "source-layout",
-  pages: ["      MT203 –\\n            Assistant Professor,\\nProperty        Unit\\nViscosity       Pa s"],
+  pages: ["      MT203 –\n            Assistant Professor,\nProperty        Unit\nViscosity       Pa s"],
 });
 assert.ok(!layoutRecords.some((r) => r.kind === "table-row" && /MT203|Assistant Professor/.test(r.text)), "slide indentation must not be mistaken for table columns");
 assert.ok(layoutRecords.some((r) => r.kind === "table-row" && /Property/.test(r.text)), "genuine multi-column rows must remain detectable");
