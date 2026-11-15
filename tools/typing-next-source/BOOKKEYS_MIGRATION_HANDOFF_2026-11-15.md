@@ -91,3 +91,50 @@ Safety:
 - Do not deploy to production.
 - Preserve all existing backup branches.
 - Make a fresh backup before further product-source edits; after a successful build, immediately snapshot that exact commit.
+
+
+## User-provided visual comparison and CI diagnosis — 15 November 2026, 17:50 IST
+
+The user supplied two actual screenshots in the continuation chat:
+- Migration preview screenshot: 1912 × 987 px (first image).
+- Production screenshot at `https://limitless.beyondthelimits.workers.dev/tools/typing/`: 1917 × 977 px (second image).
+- The captures differ by only 5 px in width and 10 px in height; this small viewport difference cannot explain the major layout/style differences.
+
+Observed visual differences (directly from screenshots):
+1. Both show the same illustrated scenic background, but the preview's main library panel is an opaque, large white rectangle occupying most of the left/center viewport; production uses separate translucent hero/demo panels and a translucent shelf/card region.
+2. Production header has home control, Chronicle XP/level indicator, settings and appearance controls. Those are absent in the preview screenshot.
+3. Production hero heading is large italic serif, within a compact translucent panel on the left. Preview heading is smaller sans-serif inside a large opaque white panel.
+4. Production hero has purple buttons, including a prominent Continue Where You Left Off card; preview uses brown/gold controls and has no visible Continue card.
+5. Production reading demo is a separate right-side translucent panel with actual imported book text. Preview demo is embedded in the large white panel and shows the generic sample passage.
+6. Production shelf is a narrow translucent horizontal strip with three populated book cards visible below. Preview shelf is inside the large white panel and displays an empty state.
+7. Production screenshot has a light translucent/illustrated composition; preview panel opacity, dimensions, placement, typography and controls are visibly different.
+
+Important data distinction:
+- The production screenshot contains three personal library entries and a resume-reading item. The preview screenshot shows an empty library. Do not copy production user's books, reading progress, IndexedDB or localStorage into preview. This data-state difference is separate from visual parity and must remain isolated.
+- Screenshot viewport sizes are close but not pixel-identical. For final pixel comparison, recapture at exactly the same viewport and browser zoom.
+
+Current PR/branch state verified after screenshot receipt:
+- PR #232 is OPEN, DRAFT, UNMERGED; head branch `work/bookkeys-clean-main-integration-20261115`; head SHA at audit: `5c5428db2fdb9e11fc7b8f40bacc9b5f44bdda33`; base `main` at `77e7c894ed8629d4494d7e22f2eed6a99af10a74`.
+- New immutable safety backup created from that exact PR head: `backup/bookkeys-visual-audit-20261115` → `5c5428db2fdb9e11fc7b8f40bacc9b5f44bdda33`.
+- No product source files were changed during this audit. No production deployment or merge was attempted.
+
+CI diagnosis at the PR head:
+- Bookkeys Regression Tests run `43709804065` (run #1019): SUCCESS.
+- Bookkeys TypeScript Migration run `43709804007` (run #678): FAILURE in the Chromium browser regression step; 27/28 tests passed.
+- Earlier steps in the failed migration job passed: legacy preservation, dependency install, persistence tests, TypeScript type-check, static export build and Chromium installation.
+- The single browser failure is in `e2e/bookkeys.spec.ts`, test "library supports Recent, moving books between shelves and removing a book from its card". After removing the last book, the test expects legacy text `No books yet`, but the current UI intentionally renders the revised empty-state message `This shelf is empty. Use “Add books” to put books on it.`. This is a stale test assertion, not evidence of a product regression. Update the test expectation to match the current intended empty-state copy; do not revert the UI copy.
+- A separate Vercel commit status was FAILURE with target `https://vercel.com/ouroboros9?upgradeToPro=build-rate-limit`. This is a Vercel build-rate-limit status, not proof that the Cloudflare preview deployment failed or that a stale deployment is the cause. Do not conflate these systems.
+- The failed browser workflow means the latest head does not have fully green migration CI. Re-run after correcting the stale assertion and inspect the preview-specific deploy workflow independently.
+
+Next actions:
+1. Inspect the exact production `tools/typing/bookkeys.html` source and production theme/design-token styles; inspect preview entry point, preview-specific CSS imports and Worker/Pages routing/build workflow.
+2. Determine which exact commit and assets the preview URL is serving. The user's screenshot proves the currently viewed preview differs; do not assume stale deployment until deployment metadata or rendered asset evidence establishes it.
+3. Compare actual production and preview DOM/CSS structure and computed styles. Prioritize missing production header/hero/demo/shelf/card visual system and purple/light appearance, not isolated card typography.
+4. Fix the stale Playwright assertion to match the deliberate empty-state copy. Keep test and product behavior aligned.
+5. Before any product-source changes, create a fresh backup from the exact current branch head. After a compiling/tested milestone, immediately create a new backup branch from that exact commit.
+6. Run full migration checks, inspect preview deployment result and obtain a new preview screenshot. Do not claim visual acceptance until compared against a same-viewport production screenshot.
+
+Continuation safety:
+- Never merge PR #232 or deploy production without explicit user approval.
+- Never mutate production user data or import personal library records into the preview.
+- Preserve all existing backups, including `backup/bookkeys-visual-audit-20261115`.
