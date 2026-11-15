@@ -73,4 +73,4 @@ A follow-up direct Poppler run against the exact source PDF confirmed:
 - All 118 selected 120-DPI page previews were rendered successfully as PNGs, with a combined size of 39.7 MiB.
 - Image extraction took 23.7 seconds. Preview rendering was completed in two execution windows; the remaining 33 pages took 14.9 seconds after the first window stopped at 85 pages. No uninterrupted total runtime is asserted.
 
-This is direct Poppler validation, not a successful end-to-end run of the committed JavaScript CLI. Manifest, record, OCR orchestration, and review-packet output validation remain pending.
+This direct Poppler check is supplemental to the successful full JavaScript CLI run documented above. It validates the renderer and image-mapping behavior independently; it does not supersede or contradict the saved CLI run.
