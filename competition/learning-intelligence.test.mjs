@@ -156,6 +156,21 @@ assert.equal(cfAttempts[1].hintCount, undefined,
   "the public API does not expose whether hints were used");
 assert.equal(cfAttempts[1].elapsedMs, 900);
 assert.equal(toCodeforcesLearningAttempts(null).length, 0);
+const acceptedOnly = Array.from({ length: 8 }, (_, index) => ({
+  id: 9300 + index,
+  contestId: 1900 + index,
+  creationTimeSeconds: 1794000000 + index * 60,
+  verdict: "OK",
+  problem: { contestId: 1900 + index, index: "A", tags: ["greedy"] },
+  author: { participantType: "CONTESTANT" },
+}));
+const acceptedOnlyAnalysis = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), acceptedOnly);
+const acceptedOnlyMastery = acceptedOnlyAnalysis.mastery.find((item) => item.label === "greedy");
+assert.equal(acceptedOnlyMastery.independentAttempts, 0,
+  "accepted verdicts alone must not count as independent solve evidence");
+assert.notEqual(acceptedOnlyMastery.status, "mastered",
+  "public submission history alone cannot prove independent mastery");
+
 assert.equal(getCodeforcesProblemUrl("codeforces:1900A"),
   "https://codeforces.com/problemset/problem/1900/A",
   "regular Codeforces contest problems use the problemset route");
