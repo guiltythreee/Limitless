@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { encodeCodeforcesAttemptArchive } from "./codeforces-sync.mjs";
+import { encodeRewardLedgerArchive, readRewardLedger } from "../shared/rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
@@ -107,7 +108,53 @@ assert.equal(restoreCompetitionBackup(
 ).ok, false, "malformed attempt archives are rejected before any writes");
 assert.equal(invalidLearningTarget.getItem("competition-state"), "keep-state");
 
+
 assert.deepEqual(backup.codeforcesRewards.rewardLedger, [reward]);
+
+const schedulerSnapshot = {
+  disciplineId: "competitive-programming",
+  courseId: "codeforces",
+  questionId: "codeforces:2000A",
+  contentId: "2000A",
+  subjectId: "codeforces",
+  conceptIds: ["implementation"],
+  lastFailureAt: 1_800_000_000_000,
+  failures: 1,
+  successfulRevisions: 0,
+  lastSuccessfulRevisionAt: 0,
+};
+const learningWithScheduler = { ...learning, revisionState: [schedulerSnapshot] };
+const archivedReward = { ...reward, eventId: "codeforces:example:older", ts: 1_700_000_000_000 };
+const rewardPayloadWithArchive = {
+  rewardLedger: [reward],
+  rewardLedgerArchive: encodeRewardLedgerArchive([archivedReward]),
+};
+const backupWithArchivesSource = makeStorage();
+backupWithArchivesSource.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(learningWithScheduler));
+backupWithArchivesSource.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, JSON.stringify({
+  version: 1, accounts: { other: { ...learningWithScheduler, handle: "other" } },
+}));
+backupWithArchivesSource.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(rewardPayloadWithArchive));
+const backupWithArchives = createCompetitionBackup(backupWithArchivesSource, state);
+const archiveTarget = makeStorage();
+assert.deepEqual(restoreCompetitionBackup(archiveTarget, "competition-state", state, backupWithArchives), { ok: true });
+assert.deepEqual(JSON.parse(archiveTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY)).revisionState, [schedulerSnapshot],
+  "backup restore preserves the active account's durable scheduler snapshot");
+assert.deepEqual(JSON.parse(archiveTarget.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY)).accounts.other.revisionState, [schedulerSnapshot],
+  "backup restore preserves inactive accounts' scheduler snapshots");
+const restoredRewardPayload = JSON.parse(archiveTarget.getItem(COMPETITION_REWARD_STORAGE_KEY));
+assert.deepEqual(readRewardLedger(restoredRewardPayload), [archivedReward, reward],
+  "backup restore preserves full archived reward records and the recent ledger");
+const invalidRewardArchiveTarget = makeStorage();
+invalidRewardArchiveTarget.setItem("competition-state", "untouched");
+const invalidRewardArchiveBackup = {
+  ...backupWithArchives,
+  codeforcesRewards: { rewardLedger: [reward], rewardLedgerArchive: { version: 1, strings: [], records: [[999]] } },
+};
+assert.equal(restoreCompetitionBackup(invalidRewardArchiveTarget, "competition-state", state, invalidRewardArchiveBackup).ok, false,
+  "malformed reward archives are rejected before any writes");
+assert.equal(invalidRewardArchiveTarget.getItem("competition-state"), "untouched");
+
 
 const restored = makeStorage();
 restored.setItem("competition-state", "old-state");
