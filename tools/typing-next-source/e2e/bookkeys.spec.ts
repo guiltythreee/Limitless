@@ -85,7 +85,7 @@ async function makeFixturePdf(): Promise<Buffer> {
 test("EPUB covers persist in the library and chapter titles edit inline", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub(true, true);
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "cover-and-chapter-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -109,7 +109,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   await expect(page.getByRole("heading", { name: "Bookkeys" })).toBeVisible();
 
   const epub = await makeFixtureEpub();
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "migration-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -315,7 +315,7 @@ test("theme and reader settings are interactive and persist without overwriting 
 test("library supports Recent, moving books between shelves and removing a book from its card", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "library-actions-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -354,7 +354,7 @@ test("multiple EPUBs can be imported together without opening each one", async (
   await page.goto("/tools/typing-next-preview/");
   const first = await makeFixtureEpub(false);
   const second = await makeFixtureEpub(true);
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles([
+  await page.locator("#bk-library-files").setInputFiles([
     { name: "library-batch-one.epub", mimeType: "application/epub+zip", buffer: first },
     { name: "library-batch-two.epub", mimeType: "application/epub+zip", buffer: second },
   ]);
@@ -367,7 +367,7 @@ test("multiple EPUBs can be imported together without opening each one", async (
 test("PDF import extracts readable text and records page completion", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const pdf = await makeFixturePdf();
-  await page.locator('input[type="file"][accept*=".pdf"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "bookkeys-pdf-fixture.pdf",
     mimeType: "application/pdf",
     buffer: pdf,
@@ -388,7 +388,7 @@ test("reader remains usable without horizontal overflow on a phone viewport", as
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "mobile-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -421,7 +421,7 @@ test("reader remains usable without horizontal overflow on a phone viewport", as
 test("last section and unfinished typing draft restore after reopening a book", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub(true);
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "two-chapter-position-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -490,7 +490,7 @@ test("legacy bookkeys:size is used when the settings object has no size", async 
 test("removing a book deletes its local library entry but retains typing progress", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "remove-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -514,7 +514,7 @@ test("removing a book deletes its local library entry but retains typing progres
 test("manual chapter edits save to both legacy keys and restore after reload", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub(true);
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "chapter-editor-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -547,7 +547,7 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
 test("chapter editor can jump to a chapter and re-detect EPUB headings", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub(true);
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "chapter-detection-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -626,7 +626,7 @@ test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP tot
   await otherTab.close();
 
   const epub = await makeFixtureEpub();
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "reward-ledger-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -861,7 +861,7 @@ test("unknown legacy settings extensions survive ordinary settings edits and rel
 test("centered reading preference changes reader layout and persists", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "centered-reading-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -886,7 +886,7 @@ test("centered reading preference changes reader layout and persists", async ({ 
 test("IME composition commits once, saves the draft and does not count intermediate composition input", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "ime-composition-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -927,7 +927,7 @@ test("IME composition commits once, saves the draft and does not count intermedi
 test("reader preserves the original canvas scenes, photo crops, Time of Day and reduced motion", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub();
-  await page.locator('input[type="file"][accept*=".epub"]').setInputFiles({
+  await page.locator("#bk-library-files").setInputFiles({
     name: "visual-parity-fixture.epub",
     mimeType: "application/epub+zip",
     buffer: epub,
@@ -1136,7 +1136,7 @@ test("PDF and TXT files can be batch-imported into the local library", async ({ 
     "utf8",
   );
 
-  await page.locator('input[type="file"][accept*=".pdf"]').setInputFiles([
+  await page.locator("#bk-library-files").setInputFiles([
     { name: "Bookkeys Batch PDF.pdf", mimeType: "application/pdf", buffer: pdf },
     { name: "Bookkeys Batch TXT.txt", mimeType: "text/plain", buffer: text },
   ]);
