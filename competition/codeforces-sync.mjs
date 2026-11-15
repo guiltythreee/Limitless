@@ -124,7 +124,7 @@ function readState(storage) {
 /** Read only the isolated Codeforces learning sync record. */
 export function readCodeforcesSyncState(storage) {
   const state = readState(storage);
-  if (!state) return { version: 1, handle: "", baselineAt: 0, lastSyncAt: 0, seenSubmissionIds: [], attempts: [] };
+  if (!state) return { version: 1, handle: "", baselineAt: 0, lastSyncAt: 0, seenSubmissionIds: [], attempts: [], attemptsArchiveValid: true };
   return {
     version: 1,
     handle: typeof state.handle === "string" ? state.handle : "",
@@ -134,10 +134,11 @@ export function readCodeforcesSyncState(storage) {
       ? [...new Set(state.seenSubmissionIds.filter((id) => Number.isSafeInteger(id) && id > 0))]
         .sort((a, b) => a - b).slice(-MAX_SEEN_IDS)
       : [],
-    attempts: Array.isArray(state.attempts) ? state.attempts.filter((item) =>
+    attempts: state.attemptsArchiveValid === false ? [] : Array.isArray(state.attempts) ? state.attempts.filter((item) =>
       isRecord(item) && typeof item.id === "string" && item.id.startsWith("codeforces:") &&
       Number.isFinite(item.occurredAt) && item.occurredAt > 0
     ) : [],
+    attemptsArchiveValid: state.attemptsArchiveValid !== false,
   };
 }
 
