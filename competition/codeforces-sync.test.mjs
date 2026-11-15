@@ -260,3 +260,38 @@ console.log("Codeforces sync baseline: all assertions passed.");
   assert.equal(byEvent.get("codeforces:orderedhandle:203").eligible, true);
   assert.equal(byEvent.get("codeforces:orderedhandle:204").reason, "daily-repeat-cap");
 }
+
+
+// Durable scheduler snapshots survive raw-attempt compaction and remain isolated per handle.
+{
+  const schedulerValues = new Map();
+  const schedulerStorage = {
+    getItem(key) { return schedulerValues.has(key) ? schedulerValues.get(key) : null; },
+    setItem(key, value) { schedulerValues.set(key, value); },
+    removeItem(key) { schedulerValues.delete(key); },
+  };
+  syncCodeforcesSubmissions(schedulerStorage, "SchedulerA", [], 1_795_000_000_000);
+  const failedSubmission = {
+    id: 990001, contestId: 9900, creationTimeSeconds: 1_795_000_001,
+    verdict: "WRONG_ANSWER", problem: { contestId: 9900, index: "A", tags: ["dp", "greedy"] },
+  };
+  syncCodeforcesSubmissions(schedulerStorage, "SchedulerA", [failedSubmission], 1_795_000_002_000);
+  const afterFailure = readCodeforcesSyncState(schedulerStorage);
+  assert.equal(afterFailure.revisionState.length, 1);
+  assert.equal(afterFailure.revisionState[0].questionId, "codeforces:9900A");
+  assert.equal(afterFailure.revisionState[0].failures, 1);
+  assert.equal(afterFailure.revisionState[0].successfulRevisions, 0);
+
+  const revision = appendCodeforcesRevisionAttempt(schedulerStorage, "codeforces:9900A", "correct", 1_795_086_403_000);
+  assert.equal(revision.ok, true);
+  const afterRevision = readCodeforcesSyncState(schedulerStorage);
+  assert.equal(afterRevision.revisionState[0].successfulRevisions, 1);
+  assert.equal(afterRevision.revisionState[0].lastSuccessfulRevisionAt, 1_795_086_403_000);
+
+  syncCodeforcesSubmissions(schedulerStorage, "SchedulerB", [], 1_795_100_000_000);
+  assert.equal(readCodeforcesSyncState(schedulerStorage).revisionState.length, 0,
+    "a new account must not inherit another handle's revision candidates");
+  syncCodeforcesSubmissions(schedulerStorage, "SchedulerA", [], 1_795_200_000_000);
+  assert.equal(readCodeforcesSyncState(schedulerStorage).revisionState[0].successfulRevisions, 1,
+    "switching back restores the original account's scheduler snapshot");
+}
