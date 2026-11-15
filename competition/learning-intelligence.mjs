@@ -107,7 +107,8 @@ const CODEFORCES_VERDICTS = Object.freeze({
 /**
  * Convert public Codeforces API submissions into shared learning evidence.
  * Submission IDs are the stable attempt IDs; repeated API pages are deduplicated.
- * Verdicts are outcomes only: no mistake category is inferred from a verdict.
+ * Verdicts are outcomes only: public submissions do not reveal whether a solve
+ * was independent or used hints, so those fields are deliberately left unknown.
  */
 export function toCodeforcesLearningAttempts(submissions) {
   if (!Array.isArray(submissions)) return [];
@@ -140,8 +141,8 @@ export function toCodeforcesLearningAttempts(submissions) {
       occurredAt,
       elapsedMs: Number.isFinite(Number(submission.timeConsumedMillis)) && Number(submission.timeConsumedMillis) > 0
         ? Number(submission.timeConsumedMillis) : undefined,
-      independent: outcome === "correct",
-      hintCount: outcome === "correct" ? 0 : undefined,
+      // The public API exposes verdicts, not whether a solution was independent.
+      // Independent evidence is recorded only by an explicit re-solve action.
       mode: submission.author?.participantType === "CONTESTANT" ? "contest" : "practice",
     }];
   }).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
@@ -174,7 +175,16 @@ export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], no
       ["correct", "incorrect", "partial"].includes(item.outcome))
       // Older saved attempts used the first tag as their subject. Tags are
       // co-equal concepts, so normalize legacy records in the projection.
-      .map((item) => ({ ...item, subjectId: "codeforces" }))
+      .map((item) => {
+        const normalized = { ...item, subjectId: "codeforces" };
+        // Older projections treated every accepted verdict as an independent
+        // solve. Public submission records cannot support that inference.
+        if (/^codeforces:\\d+$/.test(item.id)) {
+          delete normalized.independent;
+          delete normalized.hintCount;
+        }
+        return normalized;
+      })
     : toCodeforcesLearningAttempts(codeforcesSubmissions);
   const attempts = toCompetitionLearningAttempts(problemLog, revisionAttempts).concat(codeforcesAttempts).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
   const mastery = buildConceptMastery(attempts);
