@@ -1,4 +1,5 @@
 import { sanitiseRewardRecords } from "../shared/rewards.mjs";
+import { isValidCodeforcesAttemptArchive } from "./codeforces-sync.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
 export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming-lsr1-v1";
@@ -33,6 +34,7 @@ function validCodeforcesLearning(value) {
     Number.isFinite(value.lastSyncAt) && value.lastSyncAt >= 0 &&
     Array.isArray(value.seenSubmissionIds) &&
     value.seenSubmissionIds.every((id) => Number.isSafeInteger(id) && id > 0) &&
+    isValidCodeforcesAttemptArchive(value.attemptsArchive) &&
     Array.isArray(value.attempts) &&
     value.attempts.every((attempt) =>
       isRecord(attempt) &&
