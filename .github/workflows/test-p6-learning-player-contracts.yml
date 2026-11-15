@@ -16,6 +16,8 @@ on:
       - "competition/competition-rewards.test.mjs"
       - "shared/rewards.mjs"
       - "competition/accounts.js"
+      - "competition/competition-backup.mjs"
+      - "competition/competition-backup.test.mjs"
       - "competition/competition.js"
       - "competition/competition.css"
       - "competition/index.html"
@@ -114,6 +116,9 @@ jobs:
           node --check ../competition/codeforces-sync.test.mjs
           node --check ../competition/accounts.js
           node --check ../competition/competition.js
+          node ../competition/competition-backup.test.mjs
+          node --check ../competition/competition-backup.mjs
+          node --check ../competition/competition-backup.test.mjs
           node --check ../codeforces-red/codeforces-red.js
           if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; node scripts/test-reward-standard.mjs; fi
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
