@@ -276,7 +276,7 @@ export default function Quiz({
 
         {revealed && <SolutionPanel q={q} />}
 
-        <div className="learning-player-actions">
+        <div className="learning-player-actions learning-player-actions--balanced">
           <div>
             <button className="btn" disabled={idx === 0} onClick={() => setSession((current) => navigatePlayer(current, "previous"))}>
               ← Prev
