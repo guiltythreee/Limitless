@@ -894,7 +894,7 @@
         return item.courseId === 'codeforces';
       });
       var codeforcesReviews = codeforcesRevisionCandidates.slice(0, 5).map(function (item) {
-        var match = /^codeforces:(\\d+)([A-Z]\\d*)$/.exec(item.questionId || '');
+        var match = /^codeforces:(\d+)([A-Z]\d*)$/.exec(item.questionId || '');
         var problemLink = match
           ? '<a href="https://codeforces.com/problemset/problem/' + match[1] + '/' + match[2] + '" target="_blank" rel="noopener noreferrer">Open problem ↗</a>'
           : '';
