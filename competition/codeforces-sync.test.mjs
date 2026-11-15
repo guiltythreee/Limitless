@@ -36,6 +36,16 @@ assert.equal(values.has(CODEFORCES_SYNC_STORAGE_KEY), true);
 assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), false,
   "the first historical baseline creates no EXP ledger entries");
 
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "EXAMPLEHANDLE"),
+  { mode: "since", sinceSeconds: 1794913600 },
+  "repeat sync uses a 24-hour overlap from the successful active-account cursor");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "newhandle"),
+  { mode: "all", sinceSeconds: null },
+  "a new handle must fetch full history to establish its own baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, ""),
+  { mode: "invalid", sinceSeconds: null },
+  "an empty handle must not produce a fetch plan");
+
 const newSubmission = {
   id: 102, contestId: 2000, creationTimeSeconds: 1795000001,
   verdict: "WRONG_ANSWER", problem: { contestId: 2000, index: "B", tags: ["dp"] },
@@ -309,16 +319,7 @@ console.log("Codeforces sync baseline: all assertions passed.");
   syncCodeforcesSubmissions(schedulerStorage, "SchedulerA", [], 1_795_200_000_000);
   assert.equal(readCodeforcesSyncState(schedulerStorage).revisionState[0].successfulRevisions, 1,
     "switching back restores the original account's scheduler snapshot");
-}
-assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "EXAMPLEHANDLE"),
-  { mode: "since", sinceSeconds: 1794913600 },
-  "repeat sync uses a 24-hour overlap from the successful active-account cursor");
-assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "newhandle"),
-  { mode: "all", sinceSeconds: null },
-  "a new handle must fetch full history to establish its own baseline");
-assert.deepEqual(getCodeforcesSyncFetchPlan(storage, ""),
-  { mode: "invalid", sinceSeconds: null },
-  "an empty handle must not produce a fetch plan");
+
 assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "ExampleHandle"),
   { mode: "since", sinceSeconds: 1796913600 },
-  "switching back advances the restored account's cursor independently");
+  "switching back advances the restored account's cursor independently");}
