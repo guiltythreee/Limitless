@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { createHash } from "node:crypto";
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
-import { basename, dirname, join, resolve } from "node:path";
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { basename, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
+import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 
 function run(command, args) {
@@ -76,7 +77,7 @@ function splitIntoBlocks(pageText) {
   return blocks;
 }
 
-export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout" }) {
+export function shouldUseOcr(pageText, minimumNativeCharacters = 24) {\n  return pageText.replace(/\\s/g, "").length < minimumNativeCharacters;\n}\n\nexport function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout", pageExtractionMethods = [] }) {
   const records = [];
   pages.forEach((pageText, pageIndex) => {
     const blocks = splitIntoBlocks(pageText);
@@ -172,7 +173,7 @@ export async function ingestPdf(options) {
   } catch (error) {
     imageInventory = `Image extraction unavailable: ${error.message}`;
   }
-  const records = buildRecords({ sourceId, pages, mappingHint, imageAssets });
+  const records = buildRecords({ sourceId, pages, mappingHint, imageAssets, pageExtractionMethods });
   const manifest = {
     schemaVersion: "1.0.0",
     sourceId,
@@ -183,7 +184,7 @@ export async function ingestPdf(options) {
     pageCount,
     extractedAt: new Date().toISOString(),
     extraction: {
-      text: "pdftotext -layout",
+      text: "pdftotext -layout with optional OCR fallback",\n      ocr: ocrStatus,\n      ocrPages: pageExtractionMethods.flatMap((method, index) => method.includes("OCR") ? [index + 1] : []),
       imageInventory: imageInventory.startsWith("pdfimages unavailable") || imageInventory.startsWith("Image extraction unavailable") ? "unavailable" : "pdfimages -list and -png",
       imageInventoryRaw: imageInventory,
     },
