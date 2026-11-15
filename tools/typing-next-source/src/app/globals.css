@@ -1026,3 +1026,18 @@ body { overflow: hidden; }
 .bk-book-progress i { background: var(--accent); }
 .bk-book-format { display: none; }
 .bk-book-card-actions { border-radius: var(--r-2); }
+
+
+/* Production parity pass 2: preserve the original empty-shelf and cover fallback. */
+.bk-book-cover { background: #fff; }
+.bk-book-cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-text);
+  font-size: 26px;
+  color: var(--on-accent);
+  background: linear-gradient(160deg, var(--accent), color-mix(in srgb, var(--accent) 40%, var(--bg)));
+}
+.bk-book:not(:has(.bk-book-cover))::before { content: none; }
+.bk-empty { font-size: var(--fs-sm); }
