@@ -33,10 +33,8 @@
   function status(message) { $('cf-problem-status').textContent = message; }
   async function api(method, params) {
     const query = new URLSearchParams(params || {}).toString();
-    const response = await fetch(API + method + (query ? '?' + query : ''));
-    if (!response.ok) throw new Error(method + ' request failed (' + response.status + ').');
-    const data = await response.json();
-    if (data.status !== 'OK') throw new Error(data.comment || 'Codeforces API returned an error.');
+    const client = await import('../competition/codeforces-api.mjs');
+    const data = await client.requestCodeforcesApi(API + method + (query ? '?' + query : ''));
     return data.result;
   }
   function curateProblemset(result) {
