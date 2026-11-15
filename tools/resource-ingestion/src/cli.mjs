@@ -107,8 +107,8 @@ async function analyze() {
     const prompt = [
       "Analyze the attached study resource for possible additions to MT203.",
       "Source file: " + path.basename(inputPath) + "; SHA-256: " + sourceSha256 + "; pages: " + pageCount + ".",
-      "Local PDF text extraction by page (may be incomplete for scanned/image-heavy pages):",
-      JSON.stringify(pages),
+      "Local PDF text-layer coverage; pages with fewer than 40 extracted characters require visual inspection:",
+      JSON.stringify(pages.filter((page) => page.text.length < 40).map((page) => page.page)),
       "Existing MT203 manifest, theory, topic metadata and all question-bank source files:",
       courseContext,
       "Return a complete coverage map, only source-present theory updates, illustration inventory, worked examples and source questions. Do not draft new questions."
@@ -118,6 +118,7 @@ async function analyze() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model,
+        max_output_tokens: 64000,
         input: [
           { role: "system", content: [{ type: "input_text", text: SYSTEM_PROMPT }] },
           { role: "user", content: [{ type: "input_file", file_id: uploadedFileId, detail: "high" }, { type: "input_text", text: prompt }] }
@@ -125,8 +126,9 @@ async function analyze() {
         text: { format: { type: "json_schema", name: "limitless_resource_analysis", strict: true, schema: ANALYSIS_SCHEMA } }
       })
     });
+    if (response.status && response.status !== "completed") throw new Error("Model response did not complete: " + JSON.stringify(response.incomplete_details ?? response.error ?? response.status));
     const raw = responseText(response);
-    if (!raw) throw new Error("The model returned no structured output.");
+    if (!raw) throw new Error("The model returned no structured output (possibly a refusal or incomplete response).");
     const analysis = JSON.parse(raw);
     const validation = validateAnalysis(analysis, pages);
     const stamp = new Date().toISOString().replace(/[:.]/g, "-");
