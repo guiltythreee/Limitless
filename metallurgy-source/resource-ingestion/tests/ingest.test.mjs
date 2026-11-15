@@ -51,6 +51,7 @@ assert.equal(withFigure[1].kind, "image-reference");
 assert.equal(withFigure[1].candidateType, "figure");
 assert.equal(withFigure[1].sourcePage, 1);
 assert.equal(withFigure[1].reviewStatus, "needs-review");
+assert.equal(withFigure[1].reviewPriority, "visual-reference");
 console.log("PDF image inventory and page-linked figure record tests passed.");
 
 const ocrSummary = buildOcrSummary([
