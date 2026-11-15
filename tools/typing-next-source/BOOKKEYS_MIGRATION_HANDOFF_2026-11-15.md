@@ -138,3 +138,35 @@ Continuation safety:
 - Never merge PR #232 or deploy production without explicit user approval.
 - Never mutate production user data or import personal library records into the preview.
 - Preserve all existing backups, including `backup/bookkeys-visual-audit-20261115`.
+
+
+## Follow-up source audit and CI test correction — 15 November 2026, 17:55 IST
+
+Source audit:
+- The current React source at `tools/typing-next-source/src/app/BookkeysApp.tsx` does render the production-style header, home hero, separate demo, shelf tabs, Add books control and Continue reading button (when a resumable entry exists).
+- The current CSS at `tools/typing-next-source/src/app/globals.css` contains explicit production-composition rules for `.bk-shell`, `.bk-library`, `.bk-home-in`, `.bk-home-top`, `.bk-home-hero`, `.bk-home-demo`, `.bk-home-tabrow`, `.bk-header`, `.bk-header-book`, `.bk-home-icon`, and appearance controls. These rules describe a transparent full-width library composition and two-column hero/demo layout, not the large opaque white rectangle shown in the user's preview screenshot.
+- Therefore, the screenshot's missing header and production composition is inconsistent with the current checked-in source. A stale preview deployment or a different asset/build being served is now a strong hypothesis. It is NOT yet proven; inspect the deployed HTML/build asset hashes or workflow deployment record before making that claim definitive.
+- The preview worker config points to `tools/typing-next-source/deploy`, and `.github/workflows/deploy-bookkeys-preview.yml` builds the Next static export, stages it at `/tools/typing-next-preview/`, and deploys a separate Worker named `limitless-bookkeys-preview`. Its push trigger includes the integration branch and paths under `tools/typing-next-source/**`.
+- The web browser/search retrieval clients could not access either Worker URL, so they cannot currently provide deployed DOM or asset hashes.
+
+Test-only correction committed:
+- Before editing, a new exact-head backup was created: `backup/bookkeys-before-ci-test-alignment-20261115` → `3970b44aa5809f408d02cadbd19eaa94ddb18158`.
+- Updated only `tools/typing-next-source/e2e/bookkeys.spec.ts` to assert the intended current empty-shelf text after deleting the last item: `This shelf is empty. Use “Add books” to put books on it.`
+- Test-only commit: `3fb152ebfe0cfc3dadcb6cf64f22ea1f23f16bcc`.
+- No product UI, CSS, database, user data, or production files were modified.
+- The PR-triggered workflow query did not yet return a run for this commit. The separate Vercel status continues to show `build-rate-limit`; it must not be treated as the Cloudflare preview Worker deployment result.
+- The preview deployment workflow is push-triggered, while the available commit-workflow query only returns pull-request-triggered runs. Thus absence from that query does not prove that the preview deploy did not run.
+
+Next:
+1. Check the new PR head's CI run and confirm the stale assertion is fixed.
+2. Independently verify whether the preview push deployment ran and which commit it deployed; do not infer this from Vercel status.
+3. If the preview is stale, redeploy the exact reviewed branch to the isolated preview Worker only, then inspect the resulting page. Do not touch production.
+4. Compare preview screenshot again. Only make product CSS/JS changes if the newly deployed exact current source still differs.
+5. Before any UI/source change, create a new backup from the exact current PR head; after a successful build, immediately back up that compiled commit.
+
+Current state:
+- PR #232 remains draft, open and unmerged.
+- The prior exact code+handoff backup `backup/bookkeys-visual-audit-20261115` is preserved.
+- The pre-test-alignment exact-head backup `backup/bookkeys-before-ci-test-alignment-20261115` is preserved.
+- Test-only commit `3fb152e` is on the PR branch.
+- No production deploy or merge has occurred.
