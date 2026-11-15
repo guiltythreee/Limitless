@@ -1520,7 +1520,7 @@ export default function BookkeysApp() {
 
   return (
     <main className="bk-shell" data-home={view === "home" || !book ? "true" : "false"} style={shellStyle}>
-      <canvas ref={backgroundCanvasRef} className="bk-background-canvas" aria-hidden="true" />
+      <canvas ref={backgroundCanvasRef} className="bk-background-canvas" aria-hidden="true" hidden={!isCanvasScene} />
       <canvas ref={effectsCanvasRef} className="bk-effects-canvas" aria-hidden="true" />
       {picturePreset && (
         <div
