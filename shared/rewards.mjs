@@ -497,8 +497,12 @@ export function readGlobalRewardSummary(storage) {
     .slice(0, 20);
   const totalExp = current.totalExp + archivedExp;
   const level = levelForExp(totalExp);
+  const byModule = sources.filter((source) => source.exp > 0)
+    .map((source) => ({ moduleId: source.moduleId, exp: source.exp, awards: source.awards }))
+    .sort((a, b) => b.exp - a.exp);
   return {
     ...current,
+    byModule,
     totalExp,
     awardCount: current.awardCount + archivedAwards,
     recordCount: current.recordCount + archivedRecords,
