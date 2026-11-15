@@ -118,7 +118,7 @@ export const METALLURGY_STUDIES_REGISTRATION = {
           const parsed: unknown = JSON.parse(raw);
           if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) continue;
           const entries = Object.entries(parsed as Record<string, unknown>);
-          if (entries.some(([key, value]) => !/^(I|II|III|IV):[A-D]\\d{1,2}$/.test(key) || typeof value !== "string")) continue;
+          if (entries.some(([key, value]) => !/^(I|II|III|IV):[A-D]\d{1,2}$/.test(key) || typeof value !== "string")) continue;
           answers = Object.fromEntries(entries) as Record<string, string>;
         } catch {
           continue;
