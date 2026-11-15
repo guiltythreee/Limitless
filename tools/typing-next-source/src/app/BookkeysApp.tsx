@@ -321,6 +321,7 @@ export default function BookkeysApp() {
   const [library, setLibrary] = useState<LibraryEntry[]>([]);
   const [shelves, setShelves] = useState<BookkeysShelf[]>([{ id: "main", name: "Library" }]);
   const [selectedShelf, setSelectedShelf] = useState("main");
+  const [shelfDraft, setShelfDraft] = useState("");
   const [libraryQuery, setLibraryQuery] = useState("");
   const [librarySort, setLibrarySort] = useState<BookkeysLibrarySort>("recent");
   const [book, setBook] = useState<ReaderBook | null>(null);
@@ -1085,8 +1086,11 @@ export default function BookkeysApp() {
   }
 
   function addShelf() {
-    const name = window.prompt("Name this shelf");
-    if (!name?.trim()) return;
+    const name = shelfDraft.trim();
+    if (!name) {
+      setStatus("Enter a shelf name.");
+      return;
+    }
     const next = createShelf(shelves, name, "shelf-" + window.crypto.randomUUID());
     if (next.length === shelves.length) {
       setStatus("A shelf with that name already exists.");
@@ -1094,19 +1098,23 @@ export default function BookkeysApp() {
     }
     persistShelves(next);
     setSelectedShelf(next[next.length - 1].id);
+    setShelfDraft("");
   }
 
   function editShelfName() {
     const current = shelves.find((shelf) => shelf.id === selectedShelf);
-    if (!current) return;
-    const name = window.prompt("Rename shelf", current.name);
-    if (!name?.trim()) return;
+    const name = shelfDraft.trim();
+    if (!current || !name) {
+      setStatus("Enter a shelf name.");
+      return;
+    }
     const next = renameShelf(shelves, selectedShelf, name);
     if (next.every((shelf, index) => shelf.name === shelves[index]?.name)) {
       setStatus("That shelf name is already in use.");
       return;
     }
     persistShelves(next);
+    setShelfDraft("");
   }
 
   function startPastedText() {
@@ -1505,6 +1513,7 @@ export default function BookkeysApp() {
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 10.6 12 4l8 6.6"/><path d="M6.2 9.6V20h11.6V9.6"/><path d="M10 20v-5h4v5"/></svg>
         </button>
         <div className="bk-header-book" title={book?.title ?? "Bookkeys"}>{book?.title ?? ""}</div>
+        <span className="bk-xp bk-xp-data" aria-hidden="true"><strong>{globalExp.toLocaleString()}</strong></span>
         <div className="bk-header-actions">
           <div className="bk-size-controls" role="group" aria-label="Text size">
             <button className="bk-quiet" type="button" aria-label="Smaller text" onClick={() => persistSettings({ ...settings, size: Math.max(14, settings.size - 1) })}>A-</button>
@@ -1660,10 +1669,11 @@ export default function BookkeysApp() {
                 <span>Import a PDF, EPUB or text file, or paste text to create your local library.</span>
               </div>
             )}
-            <div className="bk-status" role="status" aria-live="polite">{status}</div>
             <details className="bk-manage-shelves">
               <summary>Manage shelves</summary>
               <div className="bk-manage-row">
+                <input type="text" maxLength={40} placeholder="Shelf name" aria-label="Shelf name"
+                  value={shelfDraft} onChange={(event) => setShelfDraft(event.currentTarget.value)} />
                 <button className="bk-quiet" type="button" onClick={addShelf} disabled={busy}>New shelf</button>
                 <button className="bk-quiet" type="button" onClick={editShelfName} disabled={busy || selectedShelf === RECENT_SHELF_ID}>Rename this shelf</button>
                 <button className="bk-quiet" type="button" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "main" || selectedShelf === RECENT_SHELF_ID}>Delete shelf</button>
