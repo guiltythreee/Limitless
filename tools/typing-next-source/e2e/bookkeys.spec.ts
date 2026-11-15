@@ -354,6 +354,7 @@ test("library supports Recent, moving books between shelves and removing a book 
 
 test("multiple EPUBs can be imported together without opening each one", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
   const first = await makeFixtureEpub(false);
   const second = await makeFixtureEpub(true);
   await page.locator("#bk-library-files").setInputFiles([
