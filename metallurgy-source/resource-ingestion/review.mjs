@@ -6,16 +6,52 @@ import { pathToFileURL } from "node:url";
 const ALLOWED = new Set(["approved", "rejected", "corrected"]);
 const DESTINATIONS = new Set(["theory", "illustration", "worked-example", "reference"]);
 
-export function validateReview(records, decisions, expectedSourceId = null) {
+export function validateSourceManifest(manifest) {
+  if (!manifest || typeof manifest !== "object" || Array.isArray(manifest)) {
+    throw new Error("Source manifest must be an object.");
+  }
+  if (typeof manifest.sha256 !== "string" || !/^[a-f0-9]{64}$/i.test(manifest.sha256)) {
+    throw new Error("Manifest must contain a valid 64-character SHA-256 fingerprint.");
+  }
+  const expectedSourceId = `source-${manifest.sha256.slice(0, 16).toLowerCase()}`;
+  if (manifest.sourceId !== expectedSourceId) {
+    throw new Error(`Manifest sourceId must match its SHA-256 fingerprint (${expectedSourceId}).`);
+  }
+  if (typeof manifest.fileName !== "string" || !manifest.fileName.trim()) {
+    throw new Error("Manifest must contain a non-empty fileName.");
+  }
+  if (!Number.isInteger(manifest.pageCount) || manifest.pageCount < 1) {
+    throw new Error("Manifest must contain a positive integer pageCount.");
+  }
+  return manifest;
+}
+
+export function validateReview(records, decisions, expectedSourceId = null, expectedPageCount = null) {
   if (!Array.isArray(records) || !Array.isArray(decisions)) throw new Error("Records and decisions must be arrays.");
+  if (expectedPageCount !== null && (!Number.isInteger(expectedPageCount) || expectedPageCount < 1)) {
+    throw new Error("Expected page count must be a positive integer.");
+  }
   const byId = new Map();
   for (const record of records) {
     if (!record || typeof record.id !== "string" || !record.id.trim()) {
       throw new Error("Every source record must have a non-empty string id.");
     }
     if (byId.has(record.id)) throw new Error(`Duplicate source record id: ${record.id}.`);
+    if (typeof record.sourceId !== "string" || !record.sourceId.trim()) {
+      throw new Error(`Source record ${record.id} must have a non-empty sourceId.`);
+    }
     if (expectedSourceId && record.sourceId !== expectedSourceId) {
-      throw new Error(`Source record ${record.id} belongs to ${record.sourceId ?? "an unknown source"}, not manifest source ${expectedSourceId}.`);
+      throw new Error(`Source record ${record.id} belongs to ${record.sourceId}, not manifest source ${expectedSourceId}.`);
+    }
+    if (!Number.isInteger(record.sourcePage) || record.sourcePage < 1 ||
+        (expectedPageCount !== null && record.sourcePage > expectedPageCount)) {
+      throw new Error(`Source record ${record.id} has an invalid sourcePage for the manifest.`);
+    }
+    if (typeof record.text !== "string" || !record.text.trim()) {
+      throw new Error(`Source record ${record.id} must contain non-empty text or an asset path.`);
+    }
+    if (record.reviewStatus !== "needs-review") {
+      throw new Error(`Source record ${record.id} is not in the required needs-review state.`);
     }
     byId.set(record.id, record);
   }
@@ -92,10 +128,10 @@ async function main(argv) {
     options[key.slice(2)] = value;
   }
   for (const key of ["manifest", "records", "decisions", "out"]) if (!options[key]) throw new Error(`Missing --${key}`);
-  const [manifest, recordFile, decisions] = await Promise.all(["manifest", "records", "decisions"].map(async (key) => JSON.parse(await readFile(resolve(options[key]), "utf8"))));
+  const [manifestInput, recordFile, decisions] = await Promise.all(["manifest", "records", "decisions"].map(async (key) => JSON.parse(await readFile(resolve(options[key]), "utf8"))));
+  const manifest = validateSourceManifest(manifestInput);
   const records = Array.isArray(recordFile) ? recordFile : recordFile.records;
-  if (!manifest || typeof manifest.sourceId !== "string" || !manifest.sourceId.trim()) throw new Error("Manifest must contain a non-empty sourceId.");
-  const reviewed = validateReview(records, decisions, manifest.sourceId);
+  const reviewed = validateReview(records, decisions, manifest.sourceId, manifest.pageCount);
   const patch = buildProposedPatch(manifest, reviewed, records);
   const output = resolve(options.out);
   await mkdir(output, { recursive: true });
