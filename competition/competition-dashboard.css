@@ -569,7 +569,7 @@ html[data-theme="dark"] .learning-panel,html[data-theme="dark"] .mock-analytics-
 @media(max-width:720px){ .competition-sidebar{ top:62px; } }
 
 /* Sidebar note label was gold on a light background (hard to read). */
-html[data-theme="light"] .competition-sidebar-note span{ color:#7a4f00; }
+html[data-theme="light"] .competition-sidebar-note span{ color:#347fbd; }
 
 
 /* =========================================================
@@ -594,7 +594,7 @@ html[data-theme="light"] .competition-sidebar-note span{ color:#7a4f00; }
   border-right-color:rgba(105,166,225,.22);
   background:linear-gradient(180deg,rgba(6,17,31,.94),rgba(8,21,38,.9));
 }
-.competition-sidebar-note span{color:#ffbd62}
+.competition-sidebar-note span{color:#65b8ff}
 .competition-side-link span{color:#8bcaff}
 .competition-side-link:hover,.competition-side-link.active{
   background:linear-gradient(100deg,rgba(45,130,213,.3),rgba(165,138,255,.09));
@@ -740,7 +740,7 @@ html[data-theme="light"] .competition-sidebar{
   background:linear-gradient(180deg,rgba(247,251,255,.97),rgba(233,242,251,.96));
   border-right-color:#d2dfeb;
 }
-html[data-theme="light"] .competition-sidebar-note span{color:#a96d18}
+html[data-theme="light"] .competition-sidebar-note span{color:#347fbd}
 html[data-theme="light"] .competition-side-link span{color:#347fbd}
 html[data-theme="light"] .competition-side-link:hover,
 html[data-theme="light"] .competition-side-link.active{
