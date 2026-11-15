@@ -179,7 +179,7 @@ export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], no
         const normalized = { ...item, subjectId: "codeforces" };
         // Older projections treated every accepted verdict as an independent
         // solve. Public submission records cannot support that inference.
-        if (/^codeforces:\\d+$/.test(item.id)) {
+        if (/^codeforces:\d+$/.test(item.id)) {
           delete normalized.independent;
           delete normalized.hintCount;
         }
