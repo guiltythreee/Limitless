@@ -176,7 +176,7 @@ assert.equal(persistedProjection.attempts.length, 2,
 assert.ok(persistedProjection.attempts.every((attempt) => attempt.subjectId === "codeforces"),
   "legacy persisted attempts are normalized to the shared Codeforces subject");
 assert.ok(persistedProjection.attempts.every((attempt) =>
-  !/^codeforces:\\d+$/.test(attempt.id) || (attempt.independent === undefined && attempt.hintCount === undefined)),
+  !/^codeforces:\d+$/.test(attempt.id) || (attempt.independent === undefined && attempt.hintCount === undefined)),
   "legacy accepted submissions must not retain inferred independent-solve evidence");
 const mixedTagOrder = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), [
   { ...cfAttempts[0], id: "codeforces:9100", subjectId: "implementation", conceptIds: ["implementation", "greedy"] },
