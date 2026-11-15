@@ -1524,164 +1524,128 @@ export default function BookkeysApp() {
             if (event.dataTransfer.files.length) void importFiles(event.dataTransfer.files, false);
           }}
         >
-          <div className="bk-intro">
-            <div>
-              <h2>Your library</h2>
-              <p>Books are parsed locally. Original files and typing drafts stay in this browser.</p>
-            </div>
-            <div className="bk-library-actions">
-              <button className="bk-quiet" onClick={addShelf} disabled={busy}>New shelf</button>
-              <button className="bk-quiet" onClick={editShelfName} disabled={busy || selectedShelf === RECENT_SHELF_ID}>Rename</button>
-              <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "main" || selectedShelf === RECENT_SHELF_ID}>Delete</button>
-              {continueEntry && <button className="bk-primary" onClick={() => void loadEntry(continueEntry)}>Continue reading</button>}
-              <button className="bk-quiet" onClick={() => setPasteOpen((open) => !open)}>Paste text</button>
-              <button className="bk-quiet" onClick={startSample}>Try sample text</button>
-              <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
-              <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>
-              <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
-                {busy ? "Working…" : "Import PDF / EPUB / TXT"}
-              </button>
-            </div>
-            <input
-              ref={fileInput}
-              className="bk-hidden"
-              type="file"
-              multiple
-              accept=".pdf,.epub,.txt,application/pdf,application/epub+zip,text/plain"
-              onChange={(event) => {
-                const files = event.currentTarget.files;
-                if (files?.length) void importFiles(files);
-              }}
-            />
-          </div>
-          <div
-            className="bk-shelf-tabs"
-            role="tablist"
-            aria-label="Shelves"
-            onKeyDown={(event) => {
-              const tabs = Array.from(event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
-              const currentIndex = tabs.indexOf(document.activeElement as HTMLButtonElement);
-              if (currentIndex < 0) return;
-              let nextIndex = currentIndex;
-              if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % tabs.length;
-              else if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-              else if (event.key === "Home") nextIndex = 0;
-              else if (event.key === "End") nextIndex = tabs.length - 1;
-              else return;
-              event.preventDefault();
-              const nextTab = tabs[nextIndex];
-              nextTab.focus();
-              setSelectedShelf(nextTab.dataset.shelfId ?? "main");
-            }}
-          >
-            {shelves.concat([{ id: RECENT_SHELF_ID, name: "Recent" }]).map((shelf) => (
-              <button
-                key={shelf.id}
-                type="button"
-                role="tab"
-                data-shelf-id={shelf.id}
-                aria-selected={selectedShelf === shelf.id}
-                tabIndex={selectedShelf === shelf.id ? 0 : -1}
-                onClick={() => setSelectedShelf(shelf.id)}
-              >{shelf.name}</button>
-            ))}
-          </div>
-          {pasteOpen && (
-            <section className="bk-paste-panel" aria-label="Paste book text">
-              <label htmlFor="bk-paste-text">Paste a passage or a longer text</label>
-              <textarea
-                id="bk-paste-text"
-                value={pasteText}
-                onChange={(event) => setPasteText(event.currentTarget.value)}
-                placeholder="Paste text here. Blank lines separate paragraphs."
-                rows={7}
-              />
-              <div>
-                <button className="bk-primary" onClick={startPastedText} disabled={busy || !pasteText.trim()}>Create text book</button>
-                <button className="bk-quiet" onClick={() => setPasteOpen(false)}>Cancel</button>
+          <div className="bk-home-in">
+            <div className="bk-home-top">
+              <div className="bk-home-hero">
+                <h1>Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs.</h1>
+                <ul>
+                  <li>Improve your typing speed and accuracy on real literature</li>
+                  <li>Chapters are found for you, so you can practise one chapter at a time</li>
+                  <li>Earn XP, level up and unlock achievements as you read</li>
+                </ul>
+                <div className="bk-home-hero-actions">
+                  <button className="bk-primary" type="button" onClick={() => fileInput.current?.click()} disabled={busy}>Open book</button>
+                  {continueEntry && <button className="bk-primary" type="button" onClick={() => void loadEntry(continueEntry)}>Continue reading</button>}
+                  <button className="bk-quiet" type="button" onClick={startSample}>Try the sample text</button>
+                </div>
               </div>
-            </section>
-          )}
-          <section className="bk-progress-overview" aria-label="Bookkeys progress">
-            <div className="bk-progress-heading">
-              <strong>Reading progress</strong>
-              <span>Saved in this browser</span>
+              <div className="bk-home-demo" aria-hidden="true">
+                <div className="bk-home-demo-heading">Chapter 1</div>
+                <div className="bk-home-demo-text">
+                  <span>Reading is a deliberate kind of attention. A page gives the mind a small place to pause, follow an idea, and connect it with something already understood.</span>
+                  <i />
+                  <span>The aim of practice is not speed alone: it is to build a steady rhythm, notice mistakes, and return to the sentence with greater precision.</span>
+                </div>
+              </div>
             </div>
-            <div className="bk-progress-stats">
-              <div className="bk-progress-stat"><strong>{Number(gameProgress.pages ?? 0).toLocaleString()}</strong><span>Pages typed</span></div>
-              <div className="bk-progress-stat"><strong>{Number(gameProgress.chapters ?? 0).toLocaleString()}</strong><span>Chapters completed</span></div>
-              <div className="bk-progress-stat"><strong>{Number(gameProgress.books ?? 0).toLocaleString()}</strong><span>Books completed</span></div>
-              <div className="bk-progress-stat"><strong>{Number(gameProgress.words ?? 0).toLocaleString()}</strong><span>Words typed</span></div>
-              <div className="bk-progress-stat"><strong>{Number(gameProgress.chars ?? 0).toLocaleString()}</strong><span>Characters typed</span></div>
+            <div className="bk-home-tabrow">
+              <div className="bk-shelf-tabs" role="tablist" aria-label="Shelves"
+                onKeyDown={(event) => {
+                  const tabs = Array.from(event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+                  const currentIndex = tabs.indexOf(document.activeElement as HTMLButtonElement);
+                  if (currentIndex < 0) return;
+                  let nextIndex = currentIndex;
+                  if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % tabs.length;
+                  else if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                  else if (event.key === "Home") nextIndex = 0;
+                  else if (event.key === "End") nextIndex = tabs.length - 1;
+                  else return;
+                  event.preventDefault();
+                  const nextTab = tabs[nextIndex];
+                  nextTab.focus();
+                  setSelectedShelf(nextTab.dataset.shelfId ?? "main");
+                }}
+              >
+                {shelves.concat([{ id: RECENT_SHELF_ID, name: "Recent" }]).map((shelf) => (
+                  <button key={shelf.id} type="button" role="tab" data-shelf-id={shelf.id}
+                    aria-selected={selectedShelf === shelf.id}
+                    tabIndex={selectedShelf === shelf.id ? 0 : -1}
+                    onClick={() => setSelectedShelf(shelf.id)}
+                  >{shelf.name}</button>
+                ))}
+              </div>
+              <span className="bk-home-spacer" />
+              <label className="bk-primary bk-home-add">Add books
+                <input ref={fileInput} className="bk-hidden" type="file" multiple
+                  accept=".pdf,.epub,.txt,application/pdf,application/epub+zip,text/plain"
+                  onChange={(event) => {
+                    const files = event.currentTarget.files;
+                    if (files?.length) void importFiles(files);
+                  }}
+                />
+              </label>
             </div>
-          </section>
-          <div className="bk-library-tools">
-            <label className="bk-library-search">
-              <span>Search this shelf</span>
-              <input
-                type="search"
-                value={libraryQuery}
-                onChange={(event) => setLibraryQuery(event.currentTarget.value)}
-                placeholder="Search by book title or author…"
-                aria-label="Search books"
-              />
-            </label>
-            <label className="bk-library-sort">
-              <span>Sort by</span>
-              <select aria-label="Sort books" value={librarySort} onChange={(event) => setLibrarySort(event.currentTarget.value as BookkeysLibrarySort)}>
-                <option value="recent">Recently opened</option>
-                <option value="title-asc">Title A–Z</option>
-                <option value="title-desc">Title Z–A</option>
-              </select>
-            </label>
-          </div>
-          {visibleLibrary.length ? (
-            <div className="bk-book-grid">
-              {visibleLibrary.map((entry) => {
-                const progressKey = entry.fmt === "epub" || entry.fmt === "text" ? "f:" + entry.fp : entry.fp;
-                const savedProgress = gameProgress.book?.[progressKey];
-                const completed = savedProgress?.p?.length ?? 0;
-                const percent = entry.pages > 0 ? Math.min(100, Math.round(completed / entry.pages * 100)) : 0;
-                return (
-                  <div className="bk-book-card" key={entry.id}>
-                    <button className="bk-book" onClick={() => void loadEntry(entry)} disabled={busy}>
-                      {safeArtworkDataUrl(entry.cover) && (
-                        <img className="bk-book-cover" src={safeArtworkDataUrl(entry.cover)} alt="" loading="lazy" decoding="async" />
-                      )}
-                      <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
-                      <strong>{entry.name}</strong>
-                      {entry.author && <span className="bk-book-author">{entry.author}</span>}
-                      <span>{entry.pages} {entry.fmt ? "sections" : "pages"}</span>
-                      {completed > 0 && (
-                        <span className="bk-book-progress" aria-label={percent + "% typed"}>
-                          <i style={{ width: percent + "%" }} />
+            {pasteOpen && (
+              <section className="bk-paste-panel" aria-label="Paste book text">
+                <label htmlFor="bk-paste-text">Paste a passage or a longer text</label>
+                <textarea id="bk-paste-text" value={pasteText}
+                  onChange={(event) => setPasteText(event.currentTarget.value)}
+                  placeholder="Paste text here. Blank lines separate paragraphs." rows={7}
+                />
+                <div>
+                  <button className="bk-primary" onClick={startPastedText} disabled={busy || !pasteText.trim()}>Create text book</button>
+                  <button className="bk-quiet" onClick={() => setPasteOpen(false)}>Cancel</button>
+                </div>
+              </section>
+            )}
+            {visibleLibrary.length ? (
+              <div className="bk-book-grid">
+                {visibleLibrary.map((entry) => {
+                  const progressKey = entry.fmt === "epub" || entry.fmt === "text" ? "f:" + entry.fp : entry.fp;
+                  const savedProgress = gameProgress.book?.[progressKey];
+                  const completed = savedProgress?.p?.length ?? 0;
+                  const percent = entry.pages > 0 ? Math.min(100, Math.round(completed / entry.pages * 100)) : 0;
+                  return (
+                    <div className="bk-book-card" key={entry.id}>
+                      <button className="bk-book" onClick={() => void loadEntry(entry)} disabled={busy}>
+                        {safeArtworkDataUrl(entry.cover) && <img className="bk-book-cover" src={safeArtworkDataUrl(entry.cover)} alt="" loading="lazy" decoding="async" />}
+                        <span className="bk-book-details">
+                          <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
+                          <strong>{entry.name}</strong>
+                          {entry.author && <span className="bk-book-author">{entry.author}</span>}
+                          <span className="bk-book-page-count">{entry.pages} {entry.fmt ? "sections" : "pages"}</span>
+                          {completed > 0 && <span className="bk-book-progress" aria-label={percent + "% typed"}><i style={{ width: percent + "%" }} /></span>}
                         </span>
-                      )}
-                    </button>
-                    <div className="bk-book-card-actions">
-                      <select
-                        aria-label={"Move " + entry.name + " to another shelf"}
-                        value=""
-                        disabled={busy || shelves.length < 2}
-                        onChange={(event) => { if (event.currentTarget.value) void moveLibraryEntry(entry, event.currentTarget.value); }}
-                      >
-                        <option value="">Move to…</option>
-                        {shelves.filter((shelf) => shelf.id !== entry.shelf).map((shelf) => (
-                          <option key={shelf.id} value={shelf.id}>{shelf.name}</option>
-                        ))}
-                      </select>
-                      <button className="bk-quiet" onClick={() => void removeLibraryEntry(entry)} disabled={busy}>Remove</button>
+                      </button>
+                      <div className="bk-book-card-actions">
+                        <select aria-label={"Move " + entry.name + " to another shelf"} value="" disabled={busy || shelves.length < 2}
+                          onChange={(event) => { if (event.currentTarget.value) void moveLibraryEntry(entry, event.currentTarget.value); }}
+                        >
+                          <option value="">Move to…</option>
+                          {shelves.filter((shelf) => shelf.id !== entry.shelf).map((shelf) => <option key={shelf.id} value={shelf.id}>{shelf.name}</option>)}
+                        </select>
+                        <button className="bk-quiet" onClick={() => void removeLibraryEntry(entry)} disabled={busy}>Remove</button>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="bk-empty">
-              <strong>{libraryQuery.trim() ? "No matching books" : "No books yet"}</strong>
-              <span>{libraryQuery.trim() ? "Try another title or author, or clear the search." : "Import a PDF, EPUB or text file, or paste text to create your local library."}</span>
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="bk-empty">
+                <strong>No books yet</strong>
+                <span>Import a PDF, EPUB or text file, or paste text to create your local library.</span>
+              </div>
+            )}
+            <div className="bk-status" role="status" aria-live="polite">{status}</div>
+            <details className="bk-manage-shelves">
+              <summary>Manage shelves</summary>
+              <div className="bk-manage-row">
+                <button className="bk-quiet" type="button" onClick={addShelf} disabled={busy}>New shelf</button>
+                <button className="bk-quiet" type="button" onClick={editShelfName} disabled={busy || selectedShelf === RECENT_SHELF_ID}>Rename this shelf</button>
+                <button className="bk-quiet" type="button" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "main" || selectedShelf === RECENT_SHELF_ID}>Delete shelf</button>
+              </div>
+            </details>
+          </div>
         </section>
       ) : (
         <section className="bk-reader">
