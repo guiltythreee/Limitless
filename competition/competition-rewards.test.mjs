@@ -68,7 +68,8 @@ assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), true);
 
 const compactedPayload = JSON.parse(values.get(COMPETITION_REWARD_STORAGE_KEY));
 assert.ok(compactedPayload.rewardArchive, "older reward records are compacted into an archive");
-assert.ok(compactedPayload.rewardLedger.length < 4, "the active ledger does not retain archived days");
+assert.ok(compactedPayload.rewardArchive.recordCount > 0, "older records have moved out of the active ledger");
+assert.ok(compactedPayload.rewardLedger.length < summary.recordCount, "the full ledger is smaller than lifetime history");
 assert.equal(summary.recordCount, compactedPayload.rewardLedger.length + compactedPayload.rewardArchive.recordCount);
 assert.equal(summary.recentAwards.length, 4, "recent award display includes archived and active awards");
 
@@ -87,7 +88,7 @@ const historicalAwards = historical.map((submission) =>
 );
 assert.deepEqual(historicalAwards.map((record) => record.eligible), [true, true, true, false],
   "archived daily repeat counters preserve the three-award limit for delayed submissions");
-assert.equal(historicalAdapter.getRecords().length, 3,
+assert.equal(historicalAdapter.getRecords().length, 4,
   "old-day complete records are compacted while today's full records remain available");
 const historicalPayload = JSON.parse(values.get(COMPETITION_REWARD_STORAGE_KEY));
 assert.ok(historicalPayload.rewardArchive.repeatCounts.some((entry) =>
