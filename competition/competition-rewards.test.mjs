@@ -65,4 +65,36 @@ const summary = readGlobalRewardSummary(storage);
 assert.equal(summary.byModule.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).awards, 4);
 assert.equal(summary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).exp, 106);
 assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), true);
+
+const compactedPayload = JSON.parse(values.get(COMPETITION_REWARD_STORAGE_KEY));
+assert.ok(compactedPayload.rewardArchive, "older reward records are compacted into an archive");
+assert.ok(compactedPayload.rewardLedger.length < 4, "the active ledger does not retain archived days");
+assert.equal(summary.recordCount, compactedPayload.rewardLedger.length + compactedPayload.rewardArchive.recordCount);
+assert.equal(summary.recentAwards.length, 4, "recent award display includes archived and active awards");
+
+// A delayed batch for an older local day must preserve its repeat cap after
+// each record is compacted immediately.
+const historicalAdapter = createCompetitionRewardAdapter(storage, { now: () => 1_800_000_000_000 });
+const historical = [1, 2, 3, 4].map((id) => ({
+  id: 8100 + id,
+  contestId: 3100,
+  creationTimeSeconds: 1_799_000_000 + id,
+  verdict: "OK",
+  problem: { contestId: 3100, index: "A", rating: 800 },
+}));
+const historicalAwards = historical.map((submission) =>
+  historicalAdapter.awardCodeforcesSubmission(submission, "ExampleHandle")
+);
+assert.deepEqual(historicalAwards.map((record) => record.eligible), [true, true, true, false],
+  "archived daily repeat counters preserve the three-award limit for delayed submissions");
+assert.equal(historicalAdapter.getRecords().length, 3,
+  "old-day complete records are compacted while today's full records remain available");
+const historicalPayload = JSON.parse(values.get(COMPETITION_REWARD_STORAGE_KEY));
+assert.ok(historicalPayload.rewardArchive.repeatCounts.some((entry) =>
+  entry.itemId === "codeforces-problem:3100-A" && entry.count === 4
+));
+const archivedDuplicate = historicalAdapter.awardCodeforcesSubmission(historical[0], "ExampleHandle");
+assert.equal(archivedDuplicate.created, false,
+  "the compact event-ID index still blocks a duplicate accepted submission");
+
 console.log("Competition LSR-1 rewards: all assertions passed.");
