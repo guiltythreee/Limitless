@@ -828,15 +828,15 @@ const T11: TopicSource = {
       options: [
         { label: "a", text: "Use only extending filler for the tyre because it always maximizes strength." },
         { label: "b", text: "Use pigment as the sole reinforcing ingredient in both compounds." },
-        { label: "c", text: "Use a reinforcing filler such as carbon black or silica for the first compound; consider an extending filler for the cost-driven compound." },
-        { label: "d", text: "Avoid fillers because they cannot change rubber properties." }
+        { label: "c", text: "Avoid fillers because they cannot change rubber properties." },
+        { label: "d", text: "Use a reinforcing filler such as carbon black or silica for the first compound; consider an extending filler for the cost-driven compound." }
       ],
-      answer: "c",
+      answer: "d",
       why: "The lecture separates **reinforcing fillers**, which improve physical properties, from **extending fillers**, which primarily reduce cost and may alter stiffness. Carbon black and silica are identified as important reinforcing fillers.",
       distractors: {
         a: "Extending fillers are not defined as the strongest reinforcement route.",
         b: "Pigments provide colour; they are not the primary reinforcement strategy described.",
-        d: "Fillers are explicitly used to reinforce properties or reduce cost."
+        c: "Fillers are explicitly used to reinforce properties or reduce cost."
       },
       concept: "Reinforcing vs extending fillers.",
       tags: ["revision"]
@@ -849,15 +849,15 @@ const T11: TopicSource = {
       options: [
         { label: "a", text: "The compound should cross-link completely inside the mixer before shaping." },
         { label: "b", text: "Scorch time measures the optical transparency of the uncured rubber." },
-        { label: "c", text: "A uniform cure rate is unrelated to processing quality." },
-        { label: "d", text: "The compound must remain processable during mixing and shaping, then cure at a controlled and uniform rate in the intended curing stage." }
+        { label: "c", text: "The compound must remain processable during mixing and shaping, then cure at a controlled and uniform rate in the intended curing stage." },
+        { label: "d", text: "A uniform cure rate is unrelated to processing quality." }
       ],
-      answer: "d",
+      answer: "c",
       why: "The lecture lists **uniform plasticity and recovery, uniform scorch rate and uniform cure rate** as requirements for good rubber-compound processing. Premature cross-linking makes the stock difficult to shape.",
       distractors: {
         a: "Premature cure in the mixer is precisely what scorch control is intended to prevent.",
         b: "Scorch time concerns premature vulcanization, not optical properties.",
-        c: "The source explicitly identifies uniform cure behaviour as a processing requirement."
+        d: "The source explicitly identifies uniform cure behaviour as a processing requirement."
       },
       concept: "Processability before cure; controlled vulcanization after shaping.",
       tags: ["revision"]
