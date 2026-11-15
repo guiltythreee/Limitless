@@ -744,3 +744,320 @@ main :where(input, select, textarea):focus-visible {
     transform: none;
   }
 }
+
+
+
+/* Probability experience redesign: distinct information hierarchy and workspaces.
+   Scoped to the Probability application; no learning or persistence logic changes. */
+.probability-app {
+  --pa-blue: #83bfff;
+  --pa-blue-strong: #4b9be8;
+  --pa-blue-soft: rgba(83, 157, 226, .12);
+  --pa-surface: rgba(13, 24, 39, .88);
+  --pa-surface-raised: rgba(20, 34, 52, .94);
+  --pa-border: rgba(132, 184, 235, .2);
+  --pa-glow: rgba(64, 143, 218, .16);
+}
+:root[data-theme="light"] .probability-app {
+  --pa-blue: #176fbd;
+  --pa-blue-strong: #0b79d8;
+  --pa-blue-soft: rgba(35, 123, 203, .09);
+  --pa-surface: rgba(249, 250, 248, .94);
+  --pa-surface-raised: rgba(255, 255, 252, .98);
+  --pa-border: rgba(35, 105, 174, .22);
+  --pa-glow: rgba(64, 143, 218, .09);
+}
+.probability-app-header {
+  border-color: var(--pa-border) !important;
+  background: color-mix(in srgb, var(--ink) 88%, transparent) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+}
+.probability-app-header nav button,
+.probability-app-header nav a {
+  position: relative;
+  transition: color .18s ease;
+}
+.probability-app-header nav button[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -10px;
+  height: 2px;
+  background: var(--pa-blue);
+  box-shadow: 0 0 14px var(--pa-glow);
+}
+.probability-hero {
+  border-bottom: 1px solid var(--pa-border) !important;
+  background:
+    radial-gradient(ellipse at 78% 42%, rgba(65,145,222,.18), transparent 32rem),
+    linear-gradient(120deg, rgba(7,15,27,.97), rgba(11,28,47,.88) 58%, rgba(9,19,33,.94));
+}
+:root[data-theme="light"] .probability-hero {
+  background:
+    radial-gradient(ellipse at 78% 42%, rgba(65,145,222,.14), transparent 32rem),
+    linear-gradient(120deg, rgba(239,246,252,.98), rgba(226,239,251,.92) 58%, rgba(245,247,244,.96));
+}
+.probability-hero .subtle-grid { opacity: .2 !important; }
+.probability-hero-inner {
+  min-height: 430px;
+  padding-top: clamp(3.5rem, 7vw, 6.5rem) !important;
+  padding-bottom: clamp(3.5rem, 7vw, 6.5rem) !important;
+  gap: clamp(2rem, 6vw, 6rem) !important;
+}
+.probability-hero-inner > .art-text { max-width: 760px; }
+.probability-hero-inner .eyebrow {
+  color: var(--pa-blue) !important;
+  letter-spacing: .25em;
+}
+.probability-hero-inner h1 {
+  max-width: 780px;
+  font-size: clamp(3.2rem, 6.2vw, 6.2rem) !important;
+  line-height: .99 !important;
+  letter-spacing: -.045em;
+}
+.probability-hero-inner h1 span { color: var(--pa-blue) !important; }
+.probability-hero-inner .art-text > p {
+  max-width: 590px;
+  font-size: clamp(.95rem, 1.2vw, 1.08rem) !important;
+  line-height: 1.9 !important;
+}
+.probability-hero-inner .art-text > div:last-child button {
+  min-height: 48px;
+  border-radius: 7px;
+  letter-spacing: .12em;
+}
+.probability-record-panel {
+  max-width: 390px !important;
+  padding: clamp(1.5rem, 3vw, 2.25rem) !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 100% 0, var(--pa-glow), transparent 17rem),
+    var(--pa-surface-raised) !important;
+  box-shadow: 0 26px 70px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.05) !important;
+  backdrop-filter: blur(18px);
+}
+.probability-record-panel > .serif:first-of-type {
+  font-size: 2.65rem !important;
+  letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums;
+}
+.probability-record-panel .bg-gold { background: linear-gradient(90deg, var(--pa-blue-strong), #9bcfff) !important; }
+.probability-record-panel .eyebrow { color: var(--pa-blue) !important; }
+.probability-record-panel .gold-rule { background: linear-gradient(90deg, transparent, var(--pa-border), transparent); }
+.probability-study-section {
+  max-width: 1540px !important;
+  padding-top: clamp(3rem, 5vw, 5.25rem) !important;
+}
+.probability-study-section > .mb-8 {
+  align-items: center !important;
+  margin-bottom: 2rem !important;
+  gap: 1.5rem !important;
+}
+.probability-study-section > .mb-8 h2 {
+  font-size: clamp(2.2rem, 3.5vw, 3.25rem) !important;
+  letter-spacing: -.035em;
+}
+.probability-section-tabs {
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 10px;
+  padding: 5px !important;
+  background: var(--pa-surface) !important;
+  box-shadow: 0 8px 26px rgba(0,0,0,.12);
+}
+.probability-section-tabs button {
+  min-height: 40px;
+  border-radius: 7px;
+  padding-inline: clamp(.7rem, 1.4vw, 1.2rem) !important;
+  font-size: 10px !important;
+  font-weight: 650;
+  letter-spacing: .13em !important;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.probability-section-tabs button[aria-pressed="true"],
+.probability-section-tabs button[aria-current="page"] {
+  background: linear-gradient(135deg, var(--pa-blue), var(--pa-blue-strong)) !important;
+  color: #071a2d !important;
+  box-shadow: 0 4px 16px var(--pa-glow);
+}
+.probability-learning-grid {
+  align-items: start;
+  gap: clamp(1rem, 2vw, 1.65rem) !important;
+}
+.probability-topic-rail {
+  top: 6.25rem !important;
+  max-height: calc(100dvh - 7.5rem) !important;
+  padding: 1rem !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 13px;
+  background: var(--pa-surface) !important;
+  box-shadow: 0 18px 48px rgba(0,0,0,.12);
+}
+.probability-topic-rail [data-study-topic-tree] > div:first-child {
+  padding: .25rem .15rem .9rem;
+  border-bottom: 1px solid var(--pa-border);
+}
+.probability-topic-rail [data-study-topic-tree] > div:nth-child(2) { margin-top: 1rem; }
+.probability-topic-rail [data-study-topic-tree] > div:last-child > div > button {
+  border-radius: 7px;
+  border-color: transparent !important;
+  background: rgba(255,255,255,.015);
+}
+.probability-topic-rail [data-study-topic-tree] > div:last-child > div > button:hover {
+  border-color: var(--pa-border) !important;
+  background: var(--pa-blue-soft) !important;
+}
+.probability-topic-rail [data-study-topic-tree] > div:last-child > div > button[aria-expanded="true"] {
+  border-color: var(--pa-border) !important;
+  background: var(--pa-blue-soft) !important;
+}
+.probability-topic-rail [data-study-topic-tree] > div:last-child > div > div[hidden] { display: none; }
+.probability-lesson-panel {
+  min-height: 560px;
+  padding: clamp(1.25rem, 3vw, 2.75rem) !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at 100% 0, var(--pa-glow), transparent 30rem),
+    var(--pa-surface) !important;
+  box-shadow: 0 22px 65px rgba(0,0,0,.16), inset 0 1px rgba(255,255,255,.035);
+}
+.probability-lesson-panel > h3 {
+  font-size: clamp(2rem, 3vw, 3rem) !important;
+  letter-spacing: -.035em;
+}
+.probability-lesson-panel > p {
+  max-width: 760px;
+  font-size: 1rem !important;
+  line-height: 1.8 !important;
+}
+.probability-lesson-panel > .flex.flex-wrap.items-center.gap-2:first-child {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--pa-border);
+}
+.probability-lesson-panel .eyebrow { color: var(--pa-blue) !important; }
+.probability-lesson-panel .border-gold\/15,
+.probability-lesson-panel .border-gold\/20,
+.probability-lesson-panel .border-gold\/25 { border-color: var(--pa-border) !important; }
+.probability-lesson-panel [aria-label="Lesson sections"] {
+  display: flex;
+  gap: .45rem;
+  margin-top: 1.5rem !important;
+  padding: .4rem;
+  border: 1px solid var(--pa-border);
+  border-radius: 10px;
+  background: rgba(0,0,0,.12);
+}
+.probability-lesson-panel [aria-label="Lesson sections"] button {
+  flex: 1 1 auto;
+  min-height: 42px;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 7px;
+  text-align: center;
+  font-size: 10px !important;
+  font-weight: 650;
+  letter-spacing: .11em !important;
+}
+.probability-lesson-panel [aria-label="Lesson sections"] button[aria-selected="true"],
+.probability-lesson-panel [aria-label="Lesson sections"] button[aria-current="page"] {
+  border: 1px solid var(--pa-border) !important;
+  background: var(--pa-blue-soft);
+  color: var(--pa-blue) !important;
+}
+.probability-lesson-panel .measure { max-width: 780px; margin-inline: auto; }
+.probability-lesson-panel .theory {
+  font-size: 1.04rem;
+  line-height: 1.95;
+}
+.probability-lesson-panel .measure > div:first-child {
+  border-left-color: var(--pa-blue) !important;
+  border-radius: 0 9px 9px 0;
+  background: var(--pa-blue-soft) !important;
+  padding: 1.1rem 1.25rem !important;
+}
+.probability-lesson-panel .subtle-grid {
+  border-color: var(--pa-border) !important;
+  border-radius: 12px;
+  background-color: var(--pa-surface-raised) !important;
+}
+.probability-lesson-panel .measure > div:has(> .flex.items-baseline) {
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 12px;
+  background: var(--pa-surface-raised) !important;
+  padding: clamp(1.1rem, 2vw, 1.6rem) !important;
+}
+.probability-mode-content { min-height: 340px; }
+.probability-mode-content .card,
+.probability-mode-content .panel {
+  border-color: var(--pa-border) !important;
+  border-radius: 12px;
+  background: var(--pa-surface-raised) !important;
+  box-shadow: 0 12px 34px rgba(0,0,0,.1);
+}
+.probability-mode-content .pill,
+.probability-mode-content select {
+  min-height: 40px;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 7px;
+  background: var(--pa-surface-raised) !important;
+}
+.probability-mode-content .chip {
+  border: 1px solid var(--pa-border);
+  border-radius: 7px;
+  background: var(--pa-blue-soft);
+  padding: .6rem .85rem;
+}
+.probability-mode-content .btn-gold {
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--pa-blue), var(--pa-blue-strong));
+  color: #071a2d;
+  font-weight: 700;
+}
+.probability-analysis-view {
+  max-width: 1120px !important;
+}
+.probability-analysis-view > .grid { gap: 1rem !important; }
+.probability-analysis-view .study-utility-panel,
+.probability-analysis-view .study-utility-card {
+  border: 1px solid var(--pa-border);
+  border-radius: 13px;
+  background: var(--pa-surface) !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,.1);
+}
+.probability-experiment-grid { align-items: stretch; }
+.probability-experiment-grid > .panel {
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 14px;
+  background: var(--pa-surface) !important;
+  padding: clamp(1.2rem, 2.5vw, 2rem) !important;
+}
+.probability-experiment-grid input[type="range"] { accent-color: var(--pa-blue-strong); }
+.probability-experiment-grid .bg-bar { background: linear-gradient(90deg, var(--pa-blue-strong), #9bcfff) !important; }
+.probability-app button:focus-visible,
+.probability-app a:focus-visible,
+.probability-app select:focus-visible,
+.probability-app input:focus-visible {
+  outline: 2px solid var(--pa-blue) !important;
+  outline-offset: 3px;
+}
+@media (max-width: 767px) {
+  .probability-hero-inner {
+    min-height: 0;
+    grid-template-columns: minmax(0,1fr) !important;
+    padding-block: 3.25rem !important;
+  }
+  .probability-hero-inner h1 { font-size: clamp(3rem, 13vw, 4.6rem) !important; }
+  .probability-record-panel { max-width: none !important; }
+  .probability-study-section { padding-inline: 1rem !important; }
+  .probability-study-section > .mb-8 { align-items: stretch !important; }
+  .probability-section-tabs { width: 100%; display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .probability-section-tabs button { padding-inline: .4rem !important; }
+  .probability-lesson-panel { min-height: 0; }
+  .probability-lesson-panel [aria-label="Lesson sections"] { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .probability-lesson-panel [aria-label="Lesson sections"] button { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .probability-app *,
+  .probability-app *::before,
+  .probability-app *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}

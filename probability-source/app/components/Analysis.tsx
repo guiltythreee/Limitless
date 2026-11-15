@@ -27,7 +27,7 @@ export default function Analysis() {
   );
 
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
+    <div className="probability-analysis-view mx-auto max-w-4xl space-y-5">
       <div className="grid gap-5 md:grid-cols-2"><GoalCard /><StreakCard /></div>
       <StatsPanel scope={scope} poolSize={pool} scopeControl={control} />
     </div>
