@@ -1,4 +1,4 @@
 :HL["/metallurgy/_next/static/chunks/2k-htmcw4oads.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
-0:{"b":"7GZFOtaB0r5K8BhFKsI6c","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"u--YfPDkzPSlJOZ2mHZQX","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
