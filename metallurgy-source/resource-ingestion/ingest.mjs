@@ -93,6 +93,38 @@ export function shouldUseOcr(pageText, minimumNativeCharacters = 24) {
   return pageText.replace(/\s/g, "").length < minimumNativeCharacters;
 }
 
+export function parseOcrTsv(tsv) {
+  const lines = tsv.trim().split(/\r?\n/);
+  if (lines.length < 2) return { wordCount: 0, meanWordConfidence: null, lowConfidenceWordCount: 0, lowConfidenceRatio: 0 };
+  const headers = lines[0].split("\t");
+  const confidenceIndex = headers.indexOf("conf");
+  const textIndex = headers.indexOf("text");
+  if (confidenceIndex < 0 || textIndex < 0) throw new Error("Tesseract TSV is missing conf/text columns.");
+  const words = lines.slice(1).flatMap((line) => {
+    const columns = line.split("\t");
+    const text = (columns[textIndex] ?? "").trim();
+    const confidence = Number(columns[confidenceIndex]);
+    return text && Number.isFinite(confidence) && confidence >= 0 ? [{ text, confidence }] : [];
+  });
+  const lowConfidenceWordCount = words.filter((word) => word.confidence < 40).length;
+  return {
+    wordCount: words.length,
+    meanWordConfidence: words.length ? Number((words.reduce((sum, word) => sum + word.confidence, 0) / words.length).toFixed(1)) : null,
+    lowConfidenceWordCount,
+    lowConfidenceRatio: words.length ? Number((lowConfidenceWordCount / words.length).toFixed(3)) : 0,
+  };
+}
+
+export function assessOcrQuality({ ocrCharacterCount, nativeCharacterCount, wordCount, meanWordConfidence, lowConfidenceRatio }) {
+  const hasMoreText = ocrCharacterCount > nativeCharacterCount;
+  const qualityAccepted = hasMoreText && wordCount >= 5 && meanWordConfidence !== null && meanWordConfidence >= 65 && lowConfidenceRatio <= 0.35;
+  return {
+    selectedMethod: hasMoreText ? "ocr" : "native",
+    qualityStatus: qualityAccepted ? "candidate" : "review-required",
+    qualityAccepted,
+  };
+}
+
 export function buildOcrSummary(pageStats) {
   const attempted = pageStats.length;
   const replaced = pageStats.filter((page) => page.selectedMethod === "ocr").length;
@@ -101,11 +133,12 @@ export function buildOcrSummary(pageStats) {
     replacedPages: replaced,
     retainedNativePages: attempted - replaced,
     failedPages: pageStats.filter((page) => page.status === "failed").map((page) => page.page),
+    reviewRequiredPages: pageStats.filter((page) => page.qualityStatus === "review-required").map((page) => page.page),
     pageStats,
   };
 }
 
-export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout", pageExtractionMethods = [] }) {
+export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout", pageExtractionMethods = [], pageExtractionQuality = [] }) {
   const records = [];
   pages.forEach((pageText, pageIndex) => {
     const blocks = splitIntoBlocks(pageText);
@@ -122,13 +155,15 @@ export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = 
         mappingHint,
         reviewStatus: "needs-review",
         extractionMethod: pageExtractionMethods[pageIndex] ?? extractionMethod,
+        extractionQuality: pageExtractionQuality[pageIndex] ?? "not-scored",
+        reviewPriority: pageExtractionQuality[pageIndex] === "review-required" || block.kind === "equation" || block.kind === "table-row" ? "exception" : "routine",
         confidence: "unverified",
       });
     });
   });
   imageAssets.forEach((asset) => {
     const digest = createHash("sha256").update(`${sourceId}|image:${asset.imageNumber}|page:${asset.page}|${asset.path}`).digest("hex").slice(0, 16);
-    records.push({ id: `src-${digest}`, sourceId, sourcePage: asset.page, blockIndex: `image-${asset.imageNumber}`, kind: "image-reference", text: asset.path, candidateType: "figure", mappingHint, reviewStatus: "needs-review", extractionMethod: "pdfimages -png", confidence: "unverified" });
+    records.push({ id: `src-${digest}`, sourceId, sourcePage: asset.page, blockIndex: `image-${asset.imageNumber}`, kind: "image-reference", text: asset.path, candidateType: "figure", mappingHint, reviewStatus: "needs-review", extractionMethod: "pdfimages -png", extractionQuality: "page-mapped", reviewPriority: "visual-reference", confidence: "unverified" });
   });
   return records;
 }
@@ -136,6 +171,9 @@ export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = 
 function makeReviewPacket(manifest, records) {
   const byPage = new Map();
   for (const record of records) byPage.set(record.sourcePage, (byPage.get(record.sourcePage) ?? 0) + 1);
+  const exceptions = records.filter((record) => record.reviewPriority === "exception");
+  const routineCount = records.filter((record) => record.reviewPriority === "routine").length;
+  const visualCount = records.filter((record) => record.reviewPriority === "visual-reference").length;
   const lines = [
     "# Source review packet",
     "",
@@ -184,6 +222,7 @@ export async function ingestPdf(options) {
   if (pages.at(-1) === "") pages.pop();
   while (pages.length < pageCount) pages.push("");
   const pageExtractionMethods = pages.map(() => "pdftotext -layout");
+  const pageExtractionQuality = pages.map(() => "not-scored");
   let ocrStatus = "not-needed";
   const ocrPageStats = [];
   const sparsePages = pages.map((page, index) => ({ page, index })).filter(({ page }) => shouldUseOcr(page));
@@ -199,20 +238,24 @@ export async function ingestPdf(options) {
           const imageName = (await readdir(tempDir)).find((name) => name.startsWith(`page-${pageNumber}-`) && name.endsWith(".png"));
           if (!imageName) continue;
           const nativeCharacterCount = pages[index].replace(/\s/g, "").length;
-          const ocrText = run("tesseract", [join(tempDir, imageName), "stdout", "--psm", "3"]).trim();
+          const imagePath = join(tempDir, imageName);
+          const ocrText = run("tesseract", [imagePath, "stdout", "--psm", "3"]).trim();
           const ocrCharacterCount = ocrText.replace(/\s/g, "").length;
-          const useOcr = ocrCharacterCount > nativeCharacterCount;
+          const confidence = parseOcrTsv(run("tesseract", [imagePath, "stdout", "tsv", "--psm", "3"]));
+          const quality = assessOcrQuality({ ocrCharacterCount, nativeCharacterCount, ...confidence });
           ocrPageStats.push({
             page: pageNumber,
             nativeCharacterCount,
             ocrCharacterCount,
-            selectedMethod: useOcr ? "ocr" : "native",
-            selectedCharacterCount: useOcr ? ocrCharacterCount : nativeCharacterCount,
+            ...confidence,
+            ...quality,
+            selectedCharacterCount: quality.selectedMethod === "ocr" ? ocrCharacterCount : nativeCharacterCount,
             status: "completed",
           });
-          if (useOcr) {
+          if (quality.selectedMethod === "ocr") {
             pages[index] = ocrText;
             pageExtractionMethods[index] = "tesseract OCR (220 DPI, page segmentation mode 3)";
+            pageExtractionQuality[index] = quality.qualityStatus;
           }
         }
         ocrStatus = "available";
@@ -250,7 +293,7 @@ export async function ingestPdf(options) {
   } catch (error) {
     imageInventory = `Image extraction unavailable: ${error.message}`;
   }
-  const records = buildRecords({ sourceId, pages, mappingHint, imageAssets, pageExtractionMethods });
+  const records = buildRecords({ sourceId, pages, mappingHint, imageAssets, pageExtractionMethods, pageExtractionQuality });
   const manifest = {
     schemaVersion: "1.0.0",
     sourceId,
