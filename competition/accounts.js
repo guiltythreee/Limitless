@@ -50,12 +50,12 @@
         base + "user.rating?handle=" + encodeURIComponent(handle),
         base + "user.status?handle=" + encodeURIComponent(handle) + "&from=1&count=1000"
       ];
-      const responses = await Promise.all(urls.map(url => fetch(url)));
-      if (responses.some(r => !r.ok)) throw new Error("Codeforces API request failed.");
-      const [info, contests, submissions] = await Promise.all(responses.map(r => r.json()));
-      if (info.status !== "OK") throw new Error(info.comment || "Handle not found.");
-      if (contests.status !== "OK") throw new Error(contests.comment || "Could not load contest history.");
-      if (submissions.status !== "OK") throw new Error(submissions.comment || "Could not load submission history.");
+      const api = await import("./codeforces-api.mjs");
+      // Keep each Codeforces request at least 2.1 seconds apart. The API
+      // applies a per-IP request limit, so parallel fetches can be rejected.
+      const info = await api.requestCodeforcesApi(urls[0]);
+      const contests = await api.requestCodeforcesApi(urls[1]);
+      const submissions = await api.requestCodeforcesApi(urls[2]);
       const user = info.result[0], history = contests.result;
       let syncResult = null;
       try {
