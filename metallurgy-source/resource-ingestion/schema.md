@@ -23,11 +23,11 @@ Every record has:
 
 Candidate types are heuristics for triage, not semantic assertions. No record is approved by extraction.
 
-## Review gate
+## Review decisions and proposed patch
 
-The review packet is a staging artifact. Any future promotion tool must:
-1. require explicit approval per record;
-2. show source page and extracted text beside the proposed destination;
-3. generate a patch/diff instead of writing directly to production;
-4. preserve existing question IDs, metadata, and learner progress;
-5. exclude question creation from automated processing.
+`review.mjs` accepts explicit decisions keyed by `recordId`:
+- `approved`: requires a destination (`theory`, `illustration`, `worked-example`, or `reference`).
+- `corrected`: requires a destination and non-empty `correctedText`.
+- `rejected`: excluded from the proposed patch; may include a reviewer note.
+
+Unknown IDs, duplicate decisions, invalid statuses and missing required fields are rejected. The tool emits review results and a proposed patch in JSON and Markdown. The patch is marked `proposed-not-applied`; it never writes to course content, question banks, learner progress or deployment assets. Application requires a separate human review and implementation step. Questions remain manually authored.
