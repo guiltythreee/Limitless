@@ -4,6 +4,7 @@ import {
   CODEFORCES_SYNC_STORAGE_KEY,
   readCodeforcesSyncState,
   syncCodeforcesSubmissions,
+  getCodeforcesSyncFetchPlan,
 } from "./codeforces-sync.mjs";
 
 const values = new Map();
@@ -30,6 +31,19 @@ assert.equal(readCodeforcesSyncState(storage).attempts.length, 0);
 assert.equal(values.has(CODEFORCES_SYNC_STORAGE_KEY), true);
 assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), false,
   "the first historical baseline creates no EXP ledger entries");
+
+const initialPlan = getCodeforcesSyncFetchPlan(storage, "EXAMPLEHANDLE");
+assert.deepEqual(initialPlan, { mode: "since", sinceSeconds: 1794913600 },
+  "a successful sync must select an incremental window with a 24-hour pending-verdict overlap");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "differenthandle"),
+  { mode: "all", sinceSeconds: null },
+  "a different account must fetch a full history to establish its own baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(makeStorage(), "examplehandle"),
+  { mode: "all", sinceSeconds: null },
+  "a first connection must fetch full history before establishing the baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, ""),
+  { mode: "invalid", sinceSeconds: null },
+  "an empty handle must not produce a fetch plan");
 
 const newSubmission = {
   id: 102, contestId: 2000, creationTimeSeconds: 1795000001,
