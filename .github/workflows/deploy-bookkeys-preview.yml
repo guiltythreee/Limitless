@@ -1,0 +1,54 @@
+name: Deploy Bookkeys Preview
+
+on:
+  push:
+    branches:
+      - work/bookkeys-current-main-reconciliation-20261114
+    paths:
+      - "tools/typing-next-source/**"
+      - "wrangler.bookkeys-preview.jsonc"
+      - ".github/workflows/deploy-bookkeys-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bookkeys-preview-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Bookkeys dependencies
+        working-directory: tools/typing-next-source
+        run: npm install --no-audit --no-fund
+
+      - name: Build isolated static preview
+        working-directory: tools/typing-next-source
+        run: npm run build
+
+      - name: Stage preview under its URL base path
+        run: |
+          mkdir -p tools/typing-next-source/deploy/tools/typing-next-preview
+          cp -R tools/typing-next-source/out/. tools/typing-next-source/deploy/tools/typing-next-preview/
+          test -f tools/typing-next-source/deploy/tools/typing-next-preview/index.html
+          test -d tools/typing-next-source/deploy/tools/typing-next-preview/_next
+
+      - name: Deploy separate Bookkeys preview Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler.bookkeys-preview.jsonc
+          wranglerVersion: "4"
