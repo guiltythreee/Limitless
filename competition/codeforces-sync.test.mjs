@@ -102,6 +102,27 @@ assert.equal(switched.state.handle, "differenthandle");
 assert.equal(switched.state.attempts.length, 0, "attempts from the previous account are not carried over");
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
+
+const corruptArchiveStorage = {
+  value: JSON.stringify({
+    version: 1,
+    handle: "corrupt",
+    baselineAt: 1795000000000,
+    lastSyncAt: 1795000000000,
+    seenSubmissionIds: [],
+    attempts: [],
+    attemptsArchive: { version: 1, strings: [], records: [[999]] },
+  }),
+  getItem() { return this.value; },
+  setItem(_key, value) { this.value = value; },
+};
+const corruptBefore = corruptArchiveStorage.value;
+const corruptSync = syncCodeforcesSubmissions(corruptArchiveStorage, "corrupt", history, 1796000000000);
+assert.equal(corruptSync.ok, false);
+assert.equal(corruptSync.error, "invalid-attempts-archive");
+assert.equal(corruptArchiveStorage.value, corruptBefore,
+  "sync refuses to overwrite an unreadable archive");
+
 console.log("Codeforces sync baseline: all assertions passed.");
 
 
