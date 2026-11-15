@@ -29,7 +29,10 @@ export function readCodeforcesSyncState(storage) {
     handle: typeof state.handle === "string" ? state.handle : "",
     baselineAt: Number.isFinite(state.baselineAt) && state.baselineAt > 0 ? state.baselineAt : 0,
     lastSyncAt: Number.isFinite(state.lastSyncAt) && state.lastSyncAt > 0 ? state.lastSyncAt : 0,
-    seenSubmissionIds: Array.isArray(state.seenSubmissionIds) ? state.seenSubmissionIds.filter((id) => Number.isSafeInteger(id) && id > 0).slice(-MAX_SEEN_IDS) : [],
+    seenSubmissionIds: Array.isArray(state.seenSubmissionIds)
+      ? [...new Set(state.seenSubmissionIds.filter((id) => Number.isSafeInteger(id) && id > 0))]
+        .sort((a, b) => a - b).slice(-MAX_SEEN_IDS)
+      : [],
     attempts: Array.isArray(state.attempts) ? state.attempts.filter((item) =>
       isRecord(item) && typeof item.id === "string" && item.id.startsWith("codeforces:") &&
       Number.isFinite(item.occurredAt) && item.occurredAt > 0
@@ -96,7 +99,10 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
     handle: normalizedHandle,
     baselineAt,
     lastSyncAt: now,
-    seenSubmissionIds: [...seen].slice(-MAX_SEEN_IDS),
+    // Codeforces returns newest submissions first. Sort by monotonically
+    // increasing submission ID before truncation so the retained window keeps
+    // the newest IDs rather than the oldest tail of a descending API page.
+    seenSubmissionIds: [...seen].sort((a, b) => a - b).slice(-MAX_SEEN_IDS),
     attempts: [...attemptsById.values()].sort((a, b) => a.occurredAt - b.occurredAt).slice(-MAX_ATTEMPTS),
   };
   try {
