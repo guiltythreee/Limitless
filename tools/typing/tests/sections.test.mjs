@@ -17,16 +17,21 @@ const H = loadHelpers([
 test("front and back matter headings are optional by default", () => {
   for (const t of [
     "Contents", "Table of Contents", "Copyright", "Publication information", "Dedication",
-    "Foreword", "Preface", "Introduction", "Prologue", "Epilogue", "Afterword", "Appendix",
-    "Appendix A", "Glossary", "Bibliography", "References", "Sources", "Acknowledgements",
-    "Acknowledgments", "Author's Note", "Index", "Colophon", "About the Author", "Also by",
+    "Foreword", "Preface", "Afterword", "Appendix", "Appendix A", "Glossary", "Bibliography",
+    "References", "Sources", "Acknowledgements", "Acknowledgments", "Author's Note", "Index",
+    "Colophon", "About the Author", "Also by", "Translator's Note", "Editor's Note",
+    "Author Biography", "Translator Biography", "Publisher Information", "Publisher Advertisements",
+    "Further Reading", "Reading Group Questions", "Discussion Guide", "Series Information",
+    "Other Books by the Author",
   ]) assert.equal(H.sectionRequired(t), false, t + " should be optional");
 });
 
 test("actual chapters are required by default", () => {
   for (const t of [
     "Chapter One", "Chapter 7", "Chapter 1: The Gate", "Part II", "Book Three", "1", "12", "IV",
-    "The Palace", "Kalidasa", "A Gathering of Shadows", "The Beginning",
+    "Introduction", "Prologue", "Epilogue", "2. Introduction", "Chapter 3 — Introduction",
+    "Chapter 4 — Prologue", "Chapter 5 — Epilogue", "The Palace", "Kalidasa",
+    "A Gathering of Shadows", "The Beginning",
   ]) assert.equal(H.sectionRequired(t), true, t + " should be required");
 });
 
@@ -39,7 +44,9 @@ test("Roman-numeral parts and numbered chapters keep their numbering and stay re
   // ... while the numbering is taken off before a front/back-matter name is matched
   assert.equal(H.sectionRequired("I. Index"), false);
   assert.equal(H.sectionRequired("12. Notes"), false);
-  assert.equal(H.sectionRequired("2. Introduction"), false, "the introduction is optional even when numbered");
+  assert.equal(H.sectionRequired("2. Introduction"), true, "an introduction remains required even when numbered");
+  assert.equal(H.sectionRequired("2 — Acknowledgements"), false, "an optional section remains optional with an em dash");
+  assert.equal(H.sectionRequired("Chapter 4 — About the Author"), false, "numbered supplementary sections remain optional");
 });
 
 test("articles in front of a section name do not hide it", () => {

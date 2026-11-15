@@ -13,7 +13,7 @@ const H = loadHelpers([
   "epubHash", "epubFlattenToc", "epubResolveRel", "epubHrefKey", "epubSpineIndexFor",
   "epubInlineText", "epubHasBlockChild", "epubBlocksFromRoot",
   "epubLongPieces", "epubExpandBlocks", "epubPackSections", "epubChapterList",
-  "epubNavDir", "epubErr", "epubErrShort",
+  "epubNavDir", "epubHeadingIsBoundary", "epubErr", "epubErrShort",
 ], { ePub: dom.window.ePub });
 
 function xmlDoc(xhtml) {
@@ -160,6 +160,18 @@ test("epubPackSections closes a section at the target, never splits a block, and
   for (const sec of sections) for (const b of sec) assert.ok(blocks.includes(b), "intact block, present once");
 });
 
+test("EPUB heading boundary detection recognises unprefixed numbered headings and narrative openings", () => {
+  assert.equal(H.epubHeadingIsBoundary("2 — Introduction"), true);
+  assert.equal(H.epubHeadingIsBoundary("I — The Palace"), true);
+  assert.equal(H.epubHeadingIsBoundary("One — The Beginning"), true);
+  assert.equal(H.epubHeadingIsBoundary("Prologue"), true);
+  assert.equal(H.epubHeadingIsBoundary("Epilogue"), true);
+  assert.equal(H.epubHeadingIsBoundary("Acknowledgements"), true,
+    "optional supplementary headings still form selectable section boundaries");
+  assert.equal(H.epubHeadingIsBoundary("The Palace"), false,
+    "ordinary subheadings are not promoted to chapter boundaries");
+});
+
 test("epubPackSections keeps every block exactly once (no text lost or reordered)", () => {
   const blocks = Array.from({ length: 40 }, (_, i) => ({ t: "p", text: `block ${i} ` + "w".repeat(i * 37) }));
   const { sections, secOf } = H.epubPackSections(blocks, 900);
@@ -167,6 +179,25 @@ test("epubPackSections keeps every block exactly once (no text lost or reordered
   assert.deepEqual(out, blocks, "round trip must be exact");
   assert.equal(secOf.length, blocks.length);
   sections.forEach((sec, si) => sec.forEach((b) => assert.equal(blocks.indexOf(b) >= 0 && secOf[blocks.indexOf(b)], si)));
+});
+
+test("epubPackSections starts a fresh section at structural and supplementary headings", () => {
+  const blocks = [
+    { t: "h", text: "Part I — The Beginning" },
+    { t: "p", text: "Part opening." },
+    { t: "h", text: "Chapter 1 — The Palace" },
+    { t: "p", text: "First chapter." },
+    { t: "h", text: "Chapter 1 — The Return" },
+    { t: "p", text: "A repeated chapter number in another part." },
+    { t: "h", text: "Acknowledgements" },
+    { t: "p", text: "Thanks." },
+  ];
+  const { sections, secOf } = H.epubPackSections(blocks, 900);
+  assert.deepEqual(secOf, [0, 0, 1, 1, 2, 2, 3, 3]);
+  assert.deepEqual(sections.map((s) => s[0].text), [
+    "Part I — The Beginning", "Chapter 1 — The Palace",
+    "Chapter 1 — The Return", "Acknowledgements",
+  ]);
 });
 
 test("epubLongPieces splits a long paragraph at sentence ends and never mid-word", () => {
