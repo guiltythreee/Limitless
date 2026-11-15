@@ -1012,7 +1012,7 @@
         var topic = item.topic, ti = item.index;
         var key = topicKey(wi,ti);
         var subjectName = topic[0] === 'coding' ? 'C++ / Implementation' : SUBJECTS.find(function (s) { return s.id === topic[0]; }).name;
-        return '<div class="roadmap-topic"><div class="roadmap-topic-copy"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small>'+prerequisiteStatus(wi,ti,topic)+'<span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span>' + renderTopicAssignments(topic, wi, ti) + '</div>' +
+        return '<div class="roadmap-topic"><details class="topic-study-detail"><summary class="topic-study-summary"><span class="topic-study-heading"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small></span><span class="topic-study-chevron" aria-hidden="true">⌄</span></summary><div class="roadmap-topic-copy">'+prerequisiteStatus(wi,ti,topic)+'<span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span>' + renderTopicAssignments(topic, wi, ti) + '</div></details>' +
           '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
       }).join('') || '<p class="roadmap-empty">No topic checkpoint is assigned to this subject in this week.</p>';
       var days=DAILY_PLAN.map(function(day){

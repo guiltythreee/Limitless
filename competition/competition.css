@@ -379,3 +379,28 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 .today-note{margin:0;color:var(--comp-muted);font:12px/1.6 Arial,sans-serif}
 .today-open-week{display:block;margin:14px 0 0 auto}
 @media(max-width:650px){.today-panel{padding:14px}.today-head h3{font-size:14px}.today-count{margin-left:0}}
+
+
+/* Compact topic rows: keep the mastery control visible while study details
+   (checkpoint context, references and assignments) remain collapsed. */
+#week-list .topic-study-detail { min-width:0; }
+#week-list .topic-study-summary {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-width:0;
+  cursor:pointer;
+  list-style:none;
+}
+#week-list .topic-study-summary::-webkit-details-marker { display:none; }
+#week-list .topic-study-heading { display:flex; flex-direction:column; gap:3px; min-width:0; }
+#week-list .topic-study-heading strong { color:var(--comp-ink); font:12px/1.5 Arial,sans-serif; font-weight:500; }
+#week-list .topic-study-heading small { color:var(--comp-muted); font:9px Arial,sans-serif; }
+#week-list .topic-study-chevron { flex:0 0 auto; color:var(--comp-accent); transition:transform .18s ease; }
+#week-list .topic-study-detail[open] .topic-study-chevron { transform:rotate(180deg); }
+#week-list .topic-study-detail .roadmap-topic-copy { padding:10px 0 2px; }
+#week-list .topic-study-detail .prerequisite-status { margin-top:0; }
+@media (prefers-reduced-motion: reduce) {
+  #week-list .topic-study-chevron { transition:none; }
+}
