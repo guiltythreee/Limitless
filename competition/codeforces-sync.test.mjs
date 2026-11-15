@@ -141,7 +141,15 @@ assert.equal(readCodeforcesSyncState(storage, "DifferentHandle").lastSyncAt, 179
     version: 1, handle: "outgoing", baselineAt: 1000, lastSyncAt: 2000,
     seenSubmissionIds: [1], attempts: [], revisionState: [],
   });
-  const initialHistory = JSON.stringify({ version: 1, accounts: {} });
+  const initialHistory = JSON.stringify({
+    version: 1,
+    accounts: {
+      incoming: {
+        version: 1, handle: "incoming", baselineAt: 1500, lastSyncAt: 1800,
+        seenSubmissionIds: [2], attempts: [], revisionState: [],
+      },
+    },
+  });
   const values = new Map([[activeKey, initialActive], [historyKey, initialHistory]]);
   let failActiveWrite = false;
   const transactionalStorage = {
