@@ -32,17 +32,19 @@ export function validateAnalysis(analysis, extractedPages) {
     if (!item.source_pages.length) errors.push(where + ": source page references are required");
     item.source_pages.forEach((p) => page(p, where));
     confidence(item.confidence, where);
-    if (item.status === "ready" && item.confidence < 0.9) warnings.push(where + ": confidence is below the ready threshold");
+    if (item.confidence < 0.9 && item.status === "ready") item.status = "review";
   });
   analysis.illustrations.forEach((item, i) => {
     const where = "illustrations[" + i + "]";
     topic(item.topic_id, where); page(item.source_page, where); confidence(item.confidence, where);
+    if (item.confidence < 0.9) item.action = "review";
   });
   analysis.worked_examples.forEach((item, i) => {
     const where = "worked_examples[" + i + "]";
     topic(item.topic_id, where); page(item.source_page, where); confidence(item.confidence, where);
     if (!item.problem.trim() || !item.solution.trim()) errors.push(where + ": problem and worked solution are required");
     if (!item.units.trim()) warnings.push(where + ": explicitly state units or 'not applicable'");
+    if (item.confidence < 0.9 && item.status === "ready") item.status = "review";
   });
   analysis.source_questions.forEach((item, i) => {
     const where = "source_questions[" + i + "]";
@@ -59,6 +61,8 @@ export function validateAnalysis(analysis, extractedPages) {
     if (item.status === "ready" && (item.confidence < 0.9 || !quoteMatches)) item.status = "review";
     if (item.options.length && item.options.length < 2) { warnings.push(where + ": incomplete option set"); item.status = "review"; }
     if (item.difficulty < 1 || item.difficulty > 4) { warnings.push(where + ": difficulty does not map to MT203's 1–4 scale"); item.status = "review"; }
+    if (item.type === "unknown") { warnings.push(where + ": question type is not mapped to MT203"); item.status = "review"; }
+    if (item.confidence < 0.9 && item.status === "ready") item.status = "review";
   });
   return { errors, warnings };
 }
