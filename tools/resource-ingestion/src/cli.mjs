@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { ANALYSIS_SCHEMA } from "./schema.mjs";
 import { validateAnalysis } from "./validate.mjs";
 import { renderReviewReport } from "./report.mjs";
+import { prepareMt203Patch } from "./prepare.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const COURSE_ROOT = path.join(ROOT, "metallurgy-source");
@@ -13,7 +14,7 @@ const MAX_PDF_BYTES = 50_000_000;
 const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-6-astra";
 
 function usage() {
-  console.log("Limitless Resource Ingestion — local maintainer tool\n\nUsage:\n  node src/cli.mjs analyze --input <file.pdf> --course mt203 [--output-dir <dir>] [--model <model>]\n\nCurrent pilot: MT203 Polymer Science and Technology; PDF only.\nEnvironment: OPENAI_API_KEY (required), OPENAI_MODEL (optional; default " + DEFAULT_MODEL + ").\nThe command writes proposal artifacts only. It never edits course files.");
+  console.log("Limitless Resource Ingestion — local maintainer tool\n\nUsage:\n  node src/cli.mjs analyze --input <file.pdf> --course mt203 [--output-dir <dir>] [--model <model>]\n  node src/cli.mjs prepare --analysis <analysis.json> [--output <patch-plan.json>]\n\nCurrent pilot: MT203 Polymer Science and Technology; PDF only.\nEnvironment: OPENAI_API_KEY (required), OPENAI_MODEL (optional; default " + DEFAULT_MODEL + ").\nBoth commands write proposal artifacts only. They never edit course files.");
 }
 function arg(name, fallback) {
   const i = process.argv.indexOf(name);
@@ -158,7 +159,7 @@ async function analyze() {
 try {
   const command = process.argv[2];
   if (!command || command === "--help" || command === "help") usage();
-  else if (command === "analyze") await analyze();
+  else if (command === "analyze") await analyze();\n  else if (command === "prepare") await prepare();
   else throw new Error("Unknown command: " + command);
 } catch (error) {
   console.error("Resource ingestion failed: " + error.message);
