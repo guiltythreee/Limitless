@@ -29,6 +29,14 @@ $env:OPENAI_MODEL = "model-name-enabled-for-your-api-account"
 
 Do not put API keys in source files, committed .env files, command history, or reports.
 
+When this tool is checked out as a standalone repository, point it at a separate local Limitless source checkout:
+
+```powershell
+$env:LIMITLESS_COURSE_ROOT = "C:\\path\\to\\Limitless\\metallurgy-source"
+```
+
+When run from inside the Limitless repository, the course source path is detected automatically. The tool does not clone, modify, or deploy the source repository.
+
 ## Run
 
 ```powershell
