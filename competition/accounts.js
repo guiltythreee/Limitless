@@ -62,10 +62,14 @@
         if (plan.mode === "invalid") {
           throw new TypeError("A valid Codeforces handle is required before syncing submissions.");
         }
+        // Anchor the cursor to fetch start, not completion. A long paginated
+        // request must not move the next 24-hour overlap past records that
+        // could have been skipped while the API's offset window was shifting.
+        const fetchStartedAt = Date.now();
         const submissions = plan.mode === "since"
           ? await api.fetchCodeforcesSubmissionsSince(handle, plan.sinceSeconds)
           : await api.fetchAllCodeforcesSubmissions(handle);
-        syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions);
+        syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions, fetchStartedAt);
       } catch (_) { /* Public rating data remains available if learning sync fails. */ }
       const latest = history.length ? history[history.length - 1] : null;
       const bestPlace = history.length ? Math.min(...history.map(item => item.rank).filter(Number.isFinite)) : null;
