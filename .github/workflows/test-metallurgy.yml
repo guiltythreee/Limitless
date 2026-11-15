@@ -46,6 +46,9 @@ jobs:
       - name: MT200 semester-homepage registration and routing
         working-directory: metallurgy-source
         run: node scripts/test-mt200-landing.mjs
+      - name: MT200 practice-paper and model-solution coverage
+        working-directory: metallurgy-source
+        run: node scripts/test-mt200-practice-coverage.mjs
       - name: MT201 regression suite
         working-directory: metallurgy-source
         run: node --import ./scripts/ts-resolve-hook.mjs scripts/test-mt201.mjs
