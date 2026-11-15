@@ -989,3 +989,7 @@ body { overflow: hidden; }
    adding a visual counter that does not exist in the production toolbar. */
 .bk-xp-data { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
 .bk-manage-row input { flex: 1; min-width: 140px; min-height: 34px; padding: 5px 7px; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); background: var(--bg); font: inherit; }
+
+/* Keep card management controls above the full-card open button. */
+.bk-book-card-actions { z-index: 4; pointer-events: auto; }
+.bk-book-card:hover .bk-book-card-actions, .bk-book-card:focus-within .bk-book-card-actions { display: flex; visibility: visible; opacity: 1; }
