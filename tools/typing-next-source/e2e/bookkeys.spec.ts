@@ -349,7 +349,7 @@ test("library supports Recent, moving books between shelves and removing a book 
   await favouriteCard.hover();
   page.once("dialog", (dialog) => dialog.accept());
   await favouriteCard.getByRole("button", { name: "Remove", exact: true }).click();
-  await expect(page.getByText("No books yet")).toBeVisible();
+  await expect(page.getByText("This shelf is empty. Use “Add books” to put books on it.")).toBeVisible();
 });
 
 test("multiple EPUBs can be imported together without opening each one", async ({ page }) => {
