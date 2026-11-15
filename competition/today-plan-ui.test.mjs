@@ -56,3 +56,7 @@ assert.match(css, /\.revision-actions/,
   "Codeforces revision controls must reuse the existing revision action layout");
 
 console.log("Competition Today panel contract: all assertions passed.");
+
+
+assert.match(js, /resetCompetitionData\(localStorage, STORAGE_KEY\)/, "Competition reset must atomically clear primary progress and every additive Competition store");
+assert.match(js, /Codeforces learning history for every saved handle, Competition rewards/, "the reset confirmation must disclose that every saved Codeforces account is cleared");
