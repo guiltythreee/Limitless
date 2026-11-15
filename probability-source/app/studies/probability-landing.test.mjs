@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
+const root = resolve(fileURLToPath(new URL("../../..", import.meta.url)));
 const page = readFileSync(resolve(root, "probability-source/app/studies/page.tsx"), "utf8");
 const css = readFileSync(resolve(root, "probability-source/app/studies/probability-landing.css"), "utf8");
 
