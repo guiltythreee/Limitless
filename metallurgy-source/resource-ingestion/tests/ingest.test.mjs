@@ -96,3 +96,25 @@ assert.equal(triagedRecords[0].extractionQuality, "review-required");
 assert.equal(triagedRecords[1].reviewPriority, "routine", "low-risk paragraphs should not flood the exception queue");
 assert.equal(triagedRecords[1].reviewStatus, "needs-review", "triage must not approve content");
 
+
+import { buildPagePreviewPlan } from "../ingest.mjs";
+
+const previewPlan = buildPagePreviewPlan([
+  { sourcePage: 36, candidateType: "equation" },
+  { sourcePage: 154, candidateType: "table" },
+  { sourcePage: 178, candidateType: "figure" },
+  { sourcePage: 194, candidateType: "figure" },
+  { sourcePage: 201, candidateType: "figure" },
+  { sourcePage: 12, candidateType: "explanation", extractionQuality: "review-required" },
+], { reviewRequiredPages: [31, 154] });
+assert.deepEqual(previewPlan, [
+  { page: 12, reasons: ["extraction-review-required"] },
+  { page: 31, reasons: ["ocr-review-required"] },
+  { page: 36, reasons: ["equation-candidate"] },
+  { page: 154, reasons: ["ocr-review-required", "table-candidate"] },
+  { page: 178, reasons: ["embedded-figure"] },
+  { page: 194, reasons: ["embedded-figure"] },
+  { page: 201, reasons: ["embedded-figure"] },
+], "preview selection should cover review exceptions, equations, tables and figures once per page");
+assert.deepEqual(buildPagePreviewPlan([{ sourcePage: 1, candidateType: "paragraph" }]), []);
+console.log("Focused source-page preview selection tests passed.");
