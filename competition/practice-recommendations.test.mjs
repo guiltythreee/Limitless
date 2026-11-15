@@ -21,6 +21,12 @@ const combinatorics = getPracticeRecommendations("Combinatorics", "Pigeonhole pr
 assert.ok(combinatorics.codeforces.some((item) => item.url.includes("combinatorics")));
 assert.equal(combinatorics.cses.length, 0);
 
+const codeforcesConcept = getPracticeRecommendations("Codeforces", "implementation");
+assert.ok(codeforcesConcept.codeforces.some((item) => item.url.endsWith("?tags=implementation")),
+  "Codeforces mastery concepts should link directly to their matching Codeforces tag");
+assert.equal(codeforcesConcept.cses.length, 0,
+  "do not invent CSES mappings for raw Codeforces tags");
+
 const unknown = getPracticeRecommendations("Unclassified subject", "unknown concept");
 assert.equal(unknown.codeforces.length, 0, "unknown subjects must not receive misleading default tags");
 assert.equal(unknown.cses.length, 0);
