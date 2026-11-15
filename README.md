@@ -19,7 +19,7 @@ A personal study and training hub, deployed as a Cloudflare Worker with static a
 | `probability/`, `metallurgy/` | Generated static exports; do not edit by hand |
 | `worker.js`, `wrangler.jsonc` | Cloudflare Worker and static-asset configuration |
 | `scripts/` | Catalogue generators |
-| `docs/` | Architecture notes |
+| `docs/` | Architecture notes and repository/deployment map (`docs/REPOSITORY_STRUCTURE.md`) |
 
 ## Run and test locally
 

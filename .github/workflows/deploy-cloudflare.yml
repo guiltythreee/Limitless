@@ -1,14 +1,16 @@
 name: Deploy Limitless to Cloudflare Workers
 
 on:
-  # Deploy other main-branch changes immediately. Probability source changes
-  # must wait for the static export workflow so stale generated files cannot
-  # be published ahead of the build.
+  # Deploy other main-branch changes immediately. Probability and Metallurgy
+  # source changes must wait for their static-export workflows so stale
+  # generated files cannot be published ahead of the builds.
   push:
     branches:
       - main
     paths-ignore:
       - "probability-source/**"
+      - "metallurgy-source/**"
+      - ".github/workflows/test-metallurgy.yml"
       - "shared/**"
       - "meta/**"
       - "tools.js"
@@ -40,7 +42,25 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      # paths-ignore alone does not suppress a push containing both source
+      # changes and unrelated files. Guard the direct-push path as well.
+      - name: Check whether a source build must finish first
+        id: deploy_guard
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: |
+          changed_files="$(git diff --name-only "$BEFORE_SHA" "$AFTER_SHA")"
+          if grep -Eq '^(probability-source|metallurgy-source)/' <<< "$changed_files"; then
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+            echo "A study source changed; waiting for its successful build workflow."
+          else
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Deploy Worker and static assets
+        if: steps.deploy_guard.outputs.deploy != 'false'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
