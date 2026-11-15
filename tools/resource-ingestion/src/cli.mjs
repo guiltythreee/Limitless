@@ -160,7 +160,8 @@ async function analyze() {
 try {
   const command = process.argv[2];
   if (!command || command === "--help" || command === "help") usage();
-  else if (command === "analyze") await analyze();\n  else if (command === "prepare") await prepare();
+  else if (command === "analyze") await analyze();
+  else if (command === "prepare") await prepare();
   else throw new Error("Unknown command: " + command);
 } catch (error) {
   console.error("Resource ingestion failed: " + error.message);
