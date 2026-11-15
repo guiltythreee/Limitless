@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
@@ -116,6 +117,14 @@ assert.equal(switched.state.handle, "differenthandle");
 assert.equal(switched.state.attempts.length, 0, "attempts from the previous account are not carried over");
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
+const accountsSource = await readFile(new URL("./accounts.js", import.meta.url), "utf8");
+assert.match(accountsSource, /getCodeforcesSyncFetchPlan\(localStorage, handle\)/,
+  "the account connection must select its fetch window from the saved sync cursor");
+assert.match(accountsSource, /fetchCodeforcesSubmissionsSince\(handle, plan\.sinceSeconds\)/,
+  "repeat connections must use incremental submission fetching");
+assert.match(accountsSource, /fetchAllCodeforcesSubmissions\(handle\)/,
+  "first connections and account switches must still establish a complete historical baseline");
+
 console.log("Codeforces sync baseline: all assertions passed.");
 
 
