@@ -20,6 +20,15 @@ assert.match(js, /function renderTodayReviewSummary\(\)/,
   "the Today panel must include a summary of due Codeforces revisions");
 assert.match(js, /renderTodayReviewSummary\(\);/,
   "the due-review summary must refresh whenever the Today panel renders");
+assert.match(js, /analysis\.recurringMistakes\.slice\(0, 3\)/,
+  "the CP dashboard must render recurring concept-and-cause mistake patterns");
+assert.match(js, /getPracticeRecommendations\(item\.subjectId, item\.conceptLabel\)/,
+  "recurring mistakes must link to curated practice for the same concept");
+assert.match(js, /mistakeGuidance\[item\.category\]/,
+  "each recurring mistake category must produce a targeted repair instruction");
+assert.match(css, /\.mistake-repair-row/,
+  "targeted mistake repairs must use the dedicated compact layout");
+
 assert.match(js, /id="codeforces-revision"/,
   "the Today panel summary must link to the existing Codeforces revision queue");
 assert.match(js, /today-review-summary/,
