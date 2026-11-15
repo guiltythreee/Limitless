@@ -60,7 +60,7 @@ The command emits `review-results.json`, `proposed-content-patch.json`, and `pro
 
 ## Extraction semantics
 
-The first adapter uses Poppler's layout-preserving text extraction. Pages with fewer than 24 non-whitespace native-text characters are treated as sparse. When both `pdftoppm` and `tesseract` are installed, those pages are rendered at 220 DPI and OCR is used only when it returns more text than native extraction. The selected extraction method is recorded per page and in the source manifest. If either optional dependency is missing, OCR is skipped without failing ingestion.
+The first adapter uses Poppler's layout-preserving text extraction. Pages with fewer than 24 non-whitespace native-text characters are treated as sparse. When both `pdftoppm` and `tesseract` are installed, those pages are rendered at 220 DPI and OCR is used only when it returns more text than native extraction. The selected extraction method is recorded per page and in the source manifest. The manifest also includes per-page native/OCR character counts, which method was selected, and aggregate attempted/replaced/skipped counts. These counts are extraction diagnostics, not an OCR accuracy score. If either optional dependency is missing, OCR is skipped without failing ingestion.
 
 Text is segmented into paragraphs, likely headings, equations and table-like rows. These are triage heuristics, not semantic validation. The pipeline does not validate equations or claim to understand diagrams. Image assets are extracted separately and linked to their source page when page metadata can be determined; otherwise they remain in the source image inventory for manual matching.
 
