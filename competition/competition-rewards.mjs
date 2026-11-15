@@ -32,12 +32,12 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
   function loadState() {
     try {
       const raw = storage.getItem(COMPETITION_REWARD_STORAGE_KEY);
-      if (!raw) return { payload: {}, records: [] };
+      if (!raw) return { payload: {}, records: [], valid: true };
       const payload = JSON.parse(raw);
-      if (!isRecord(payload)) return { payload: {}, records: [] };
+      if (!isRecord(payload)) return { payload: {}, records: [], valid: false };
       return { payload, records: readRewardLedger(payload), valid: isValidRewardLedgerArchive(payload.rewardLedgerArchive) && Array.isArray(payload.rewardLedger) };
     } catch {
-      return { payload: {}, records: [] };
+      return { payload: {}, records: [], valid: false };
     }
   }
 
