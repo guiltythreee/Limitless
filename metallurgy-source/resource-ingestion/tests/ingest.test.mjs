@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
-import { buildRecords, parseImageInventory } from "../ingest.mjs";
+import { buildRecords, parseImageInventory, shouldUseOcr } from "../ingest.mjs";
 
 const pages = [
   "POLYMER PROCESSING\n\nExtrusion is a continuous process used to shape polymer melts.\n\nStress = Force / Area\n\n- Feed zone conveys pellets\n- Compression zone melts material\n",
   "RHEOLOGY\n\nThixotropy is defined as time-dependent shear thinning at constant shear rate.\n\nProperty        Unit\nViscosity       Pa s\n",
 ];
-const mappingHint = { course: "MT203", topic: "T11", subtopic: "Extrusion" };
+const mappingHint = { course: "MT203", topic: "T11", subtopic: "Extrusion" };\nassert.equal(shouldUseOcr("   "), true, "blank/scanned pages should be eligible for OCR");\nassert.equal(shouldUseOcr("A sufficiently long native text extraction from a PDF page."), false);
 const first = buildRecords({ sourceId: "source-test", pages, mappingHint });
 const second = buildRecords({ sourceId: "source-test", pages, mappingHint });
 
@@ -22,7 +22,7 @@ assert.ok(first.some((r) => r.sourcePage === 2 && r.candidateType === "definitio
 assert.ok(first.some((r) => r.sourcePage === 2 && r.kind === "table-row"));
 assert.ok(first.every((r) => r.confidence === "unverified"));
 
-const noMapping = buildRecords({ sourceId: "source-test", pages: ["A simple paragraph."] });
+const ocrRecords = buildRecords({ sourceId: "source-test", pages: ["Scanned page OCR output."], pageExtractionMethods: ["tesseract OCR (220 DPI, page segmentation mode 3)"] });\nassert.equal(ocrRecords[0].extractionMethod, "tesseract OCR (220 DPI, page segmentation mode 3)");\n\nconst noMapping = buildRecords({ sourceId: "source-test", pages: ["A simple paragraph."] });
 assert.equal(noMapping[0].mappingHint.course, undefined);
 console.log(`Resource ingestion tests passed: ${first.length} deterministic review-only records.`);
 
