@@ -1500,19 +1500,26 @@ export default function BookkeysApp() {
         <div className="bk-static-background" aria-hidden="true" style={{ backgroundImage: staticPreset.background }} />
       )}
       <header className="bk-header">
-        <div>
-          <p className="bk-eyebrow">LIMITLESS / BOOKKEYS PREVIEW</p>
-          <h1>Bookkeys</h1>
-        </div>
+        <button className="bk-home-icon" type="button" onClick={() => { navTo("home"); setTyped(""); }} aria-label="Bookkeys home" title="Bookkeys home">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 10.6 12 4l8 6.6"/><path d="M6.2 9.6V20h11.6V9.6"/><path d="M10 20v-5h4v5"/></svg>
+        </button>
+        <div className="bk-header-book" title={book?.title ?? "Bookkeys"}>{book?.title ?? ""}</div>
         <div className="bk-header-actions">
+          <div className="bk-size-controls" role="group" aria-label="Text size">
+            <button className="bk-quiet" type="button" aria-label="Smaller text" onClick={() => persistSettings({ ...settings, size: Math.max(14, settings.size - 1) })}>A-</button>
+            <button className="bk-quiet" type="button" aria-label="Larger text" onClick={() => persistSettings({ ...settings, size: Math.min(34, settings.size + 1) })}>A+</button>
+          </div>
           <button className="bk-quiet bk-archive-button" onClick={() => setArchiveOpen(true)} aria-haspopup="dialog">Archive · Lv {archive.level}</button>
           <button id="openSettings" className="bk-quiet bk-settings-button" onClick={() => setSettingsOpen(true)} aria-label="Settings" title="Settings" aria-haspopup="dialog" aria-expanded={settingsOpen}>
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 15 .1.1a1.8 1.8 0 0 1-2.5 2.5l-.1-.1a1.8 1.8 0 0 0-3 .9v.2a1.8 1.8 0 0 1-3.6 0v-.2a1.8 1.8 0 0 0-3-.9l-.1.1a1.8 1.8 0 0 1-2.5-2.5l.1-.1a1.8 1.8 0 0 0-.9-3h-.2a1.8 1.8 0 0 1 0-3.6h.2a1.8 1.8 0 0 0 .9-3l-.1-.1a1.8 1.8 0 0 1 2.5-2.5l.1.1a1.8 1.8 0 0 0 3-.9v-.2a1.8 1.8 0 0 1 3.6 0v.2a1.8 1.8 0 0 0 3 .9l.1-.1a1.8 1.8 0 0 1 2.5 2.5l-.1.1a1.8 1.8 0 0 0 .9 3h.2a1.8 1.8 0 0 1 0 3.6h-.2a1.8 1.8 0 0 0-.9 3Z"/></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
-          <button className="bk-quiet bk-theme-toggle" onClick={toggleTheme} aria-label="Toggle light and dark theme">
-            {activeTone === "dark" ? "Light mode" : "Dark mode"}
+          <button className="bk-quiet bk-mode-button" type="button" onClick={() => {
+            const modes = ["pic-morning", "pic-evening", "pic-night"];
+            const current = modes.indexOf(settings.bg);
+            persistSettings({ ...settings, bg: modes[(current + 1 + modes.length) % modes.length] });
+          }} aria-label="Switch mode" title="Switch mode">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
           </button>
-          <div className="bk-xp"><span>Limitless EXP</span><strong>{globalExp.toLocaleString()}</strong></div>
         </div>
       </header>
 
