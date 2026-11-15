@@ -62,11 +62,11 @@ The lesson retains grams because that is the unit printed on the source slide; i
 1. **T1 / T5:** inspect the remaining figure-heavy slides from pp. 5–16 and 49; verify examples and labels against lesson content.
 2. **T2 / T3:** visually verify the functionality examples on p. 50 and micelle/technique diagrams on pp. 22–32.
 3. **T4:** inspect p. 48's determination-of-molecular-weight diagram; confirm source example transcription against all pages 37–41. (The numerical worked example has been added.)
-4. **T5 / T6:** inspect p. 67's long-alkyl-side-chain Tg table and any clipped/unclear values. Do not use OCR-only values.
-5. **T8:** complete figure-by-figure check of the industrial polymer and reaction slides, especially where structural schemes carry more information than extracted text.
-6. **T10:** retain all existing source anomaly flags for p. 115–154 until the exact slide/units/footnotes can be verified.
-7. **T11:** finish the figure/label check for compounding and processing diagrams pp. 155–206.
-8. Reconcile the audit with all existing batch review documents and confirm every material lesson addition has a source-page citation.
+5. **T5 / T6:** p. 67 visually inspected. The slide states that increasing side-chain length decreases Tg, but the table is clipped at the bottom and some displayed values do not follow a simple monotonic sequence. No table values have been added; the exact table remains unresolved pending a complete source slide.
+6. **T8:** complete figure-by-figure check of the industrial polymer and reaction slides, especially where structural schemes carry more information than extracted text.
+7. **T10:** retain all existing source anomaly flags for p. 115–154 until the exact slide/units/footnotes can be verified.
+8. **T11:** finish the figure/label check for compounding and processing diagrams pp. 155–206.
+9. Reconcile the audit with all existing batch review documents and confirm every material lesson addition has a source-page citation.
 
 ## Freeze criteria
 
