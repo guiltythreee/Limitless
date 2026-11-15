@@ -159,6 +159,7 @@ console.log("Codeforces API rate limiting: all assertions passed.");
       { id: 26, creationTimeSeconds: 260 },
       { id: 25, creationTimeSeconds: 250 },
     ] },
+    { status: "OK", result: [{ id: 24, creationTimeSeconds: 240 }] },
     // A new submission appeared while pagination was in progress.
     { status: "OK", result: [{ id: 31, creationTimeSeconds: 310 }] },
   ];
@@ -172,7 +173,7 @@ console.log("Codeforces API rate limiting: all assertions passed.");
     /history changed during pagination/,
     "a moving history must not be returned as a complete baseline"
   );
-  assert.equal(calls, 3);
+  assert.equal(calls, 4);
 }
 
 // API pages must preserve descending submission-ID order.
