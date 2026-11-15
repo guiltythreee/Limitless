@@ -19,10 +19,10 @@
 <text x="554" y="374" text-anchor="end">0</text><text x="554" y="295.25" text-anchor="end">500</text><text x="554" y="216.5" text-anchor="end">1000</text><text x="554" y="137.75" text-anchor="end">1500</text><text x="554" y="59" text-anchor="end">2000</text>
 </g>
 <!-- Full curves: stress scale 0–2000 MPa, strain 0–35%. -->
-<polyline points="70,370 76,105 90,82 130,65 139,70" fill="none" stroke="#c44b32" stroke-width="4"/>
-<polyline points="70,370 82,325 104,318 207,311 412,313" fill="none" stroke="#126b78" stroke-width="4"/>
-<polyline points="70,370 76,315" fill="none" stroke="#c28a12" stroke-width="4"/>
-<polyline points="70,370 88,333 110,326 276,322 299,326" fill="none" stroke="#6755a1" stroke-width="4"/>
+<polyline points="70,370 76,112 93,91 133,84 139,84" fill="none" stroke="#c44b32" stroke-width="4"/>
+<polyline points="70,370 76,327 104,320 207,310 413,313" fill="none" stroke="#126b78" stroke-width="4"/>
+<polyline points="70,370 76,320" fill="none" stroke="#c28a12" stroke-width="4"/>
+<polyline points="70,370 93,334 110,327 276,320 299,320" fill="none" stroke="#6755a1" stroke-width="4"/>
 <g font-family="Arial" font-size="16" font-weight="bold"><text x="137" y="59" fill="#c44b32">A ×</text><text x="415" y="308" fill="#126b78">B ×</text><text x="78" y="308" fill="#c28a12">C ×</text><text x="300" y="338" fill="#6755a1">D ×</text></g>
 <!-- First 1% strain zoom: A reaches about 1800 MPa; B yields near 300 MPa; C fractures near 350 MPa; D yields near 250 MPa. -->
 <polyline points="570,370 950,87" fill="none" stroke="#c44b32" stroke-width="4"/>
