@@ -245,3 +245,17 @@ Remaining visual acceptance:
 - Browser web retrieval could not access the Cloudflare Worker URL; do not claim direct remote DOM inspection.
 - Next step is to ask user to hard-refresh the currently deployed preview and provide a screenshot at the same viewport as production. Then compare actual header, hero/demo positions, transparent shelf, card grid and artwork. Only then decide whether a separate header/layout implementation change is necessary.
 - Do not make another speculative CSS change before this screenshot. No production merge/deploy and no data migration/copy.
+
+
+## Home-header visual regression coverage — 15 November 2026, 21:28 IST
+
+- Created exact pre-change backup branch: `backup/bookkeys-before-home-header-e2e-20261115` → `8f157133a35f6dcfd2adf1fc2e9b64357354c7ad`.
+- Added one focused Playwright test to `tools/typing-next-source/e2e/bookkeys.spec.ts` in commit `edf7ae239f8dbf9fb1a9f94592d670dc7191ad36`.
+- The new test checks that the home header, home icon, settings button, appearance-mode button, hero, demo text and shelf tab row are all visible, and that the shelf's computed background is transparent.
+- Regression workflow `43732650658`: SUCCESS, including the new test.
+- Isolated preview deploy workflow `43732645821`: SUCCESS. Exact commit `edf7ae2` is deployed to the preview Worker.
+- Static export build, TypeScript type-check and legacy/persistence verification steps in full migration workflow `43732650685` all passed. Chromium installation passed; browser regression step was still running at the time of this note. Do not yet claim the full migration workflow has passed.
+- Exact built/deployed commit backup: `backup/bookkeys-header-e2e-built-20261115` → `edf7ae239f8dbf9fb1a9f94592d670dc7191ad36`.
+- The new test establishes that the intended header and home composition render in Playwright's browser environment; it does not prove the user's manually opened Worker tab is displaying the same deployed bundle. User has not yet supplied a screenshot captured after this latest deploy.
+- Next: confirm workflow `43732650685` finishes successfully; then ask user to hard-refresh the preview and capture the latest page. If the screenshot still omits the header despite the passing browser test, investigate deployed Worker/browser asset mismatch (request caching, stale tab, route fallback, wrong origin/build) rather than changing CSS blindly.
+- No product UI code changed in this step; only E2E coverage was added. PR #232 remains draft and unmerged. Production remains untouched.
