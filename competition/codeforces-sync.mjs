@@ -175,8 +175,19 @@ function readState(storage) {
 }
 
 /** Read only the isolated Codeforces learning sync record. */
-export function readCodeforcesSyncState(storage) {
-  const state = readState(storage);
+export function readCodeforcesSyncState(storage, requestedHandle = "") {
+  let state = readState(storage);
+  const normalized = typeof requestedHandle === "string" ? requestedHandle.trim().toLowerCase() : "";
+  if (normalized && (!state || state.handle !== normalized)) {
+    try {
+      const raw = storage?.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY);
+      const collection = raw ? JSON.parse(raw) : null;
+      const saved = isRecord(collection) && collection.version === 1 && isRecord(collection.accounts)
+        ? collection.accounts[normalized] : null;
+      if (saved) state = readState({ getItem: (key) => key === CODEFORCES_SYNC_STORAGE_KEY ? JSON.stringify(saved) : null });
+      else state = null;
+    } catch { state = null; }
+  }
   if (!state) return { version: 1, handle: "", baselineAt: 0, lastSyncAt: 0, seenSubmissionIds: [], attempts: [], attemptsArchiveValid: true };
   return {
     version: 1,
