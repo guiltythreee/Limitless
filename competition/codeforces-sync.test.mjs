@@ -6,6 +6,7 @@ import {
   CODEFORCES_SYNC_STORAGE_KEY,
   CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
   readCodeforcesSyncState,
+  activateCodeforcesAccount,
   syncCodeforcesSubmissions,
   appendCodeforcesRevisionAttempt,
   getCodeforcesSyncFetchPlan,
@@ -130,6 +131,61 @@ assert.equal(returned.state.handle, "examplehandle");
 assert.equal(readCodeforcesSyncState(storage, "DifferentHandle").handle, "differenthandle");
 assert.equal(readCodeforcesSyncState(storage, "DifferentHandle").lastSyncAt, 1796000000000,
   "incremental fetch planning can read the saved cursor for an inactive account");
+
+// Account switching must reject malformed saved snapshots and roll back both
+// storage keys if persisting the active account fails after the collection write.
+{
+  const activeKey = CODEFORCES_SYNC_STORAGE_KEY;
+  const historyKey = CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY;
+  const initialActive = JSON.stringify({
+    version: 1, handle: "outgoing", baselineAt: 1000, lastSyncAt: 2000,
+    seenSubmissionIds: [1], attempts: [], revisionState: [],
+  });
+  const initialHistory = JSON.stringify({
+    version: 1,
+    accounts: {
+      incoming: {
+        version: 1, handle: "incoming", baselineAt: 1500, lastSyncAt: 1800,
+        seenSubmissionIds: [2], attempts: [], revisionState: [],
+      },
+    },
+  });
+  const values = new Map([[activeKey, initialActive], [historyKey, initialHistory]]);
+  let failActiveWrite = false;
+  const transactionalStorage = {
+    getItem(key) { return values.has(key) ? values.get(key) : null; },
+    setItem(key, value) {
+      if (key === activeKey && failActiveWrite) throw new Error("simulated active-account write failure");
+      values.set(key, value);
+    },
+    removeItem(key) { values.delete(key); },
+  };
+  failActiveWrite = true;
+  const failedSwitch = activateCodeforcesAccount(transactionalStorage, "incoming");
+  assert.equal(failedSwitch.ok, false);
+  assert.equal(failedSwitch.error, "storage-write-failed");
+  assert.equal(values.get(activeKey), initialActive,
+    "failed account activation restores the previous active record");
+  assert.equal(values.get(historyKey), initialHistory,
+    "failed account activation restores the previous account collection");
+
+  const malformedHistory = JSON.stringify({
+    version: 1,
+    accounts: {
+      incoming: {
+        version: 1, handle: "incoming", baselineAt: 1000, lastSyncAt: 1000,
+        seenSubmissionIds: [0], attempts: [], revisionState: [],
+      },
+    },
+  });
+  values.set(historyKey, malformedHistory);
+  const rejectedHistory = activateCodeforcesAccount(transactionalStorage, "incoming");
+  assert.equal(rejectedHistory.ok, false);
+  assert.equal(rejectedHistory.error, "invalid-account-history",
+    "invalid submission IDs in a saved account are rejected rather than silently filtered");
+  assert.equal(values.get(historyKey), malformedHistory,
+    "invalid saved history remains byte-for-byte untouched");
+}
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
 const accountsSource = await readFile(new URL("./accounts.js", import.meta.url), "utf8");
