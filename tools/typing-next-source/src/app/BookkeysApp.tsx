@@ -1226,16 +1226,25 @@ export default function BookkeysApp() {
     if (!window.confirm("Delete " + (current?.name ?? "this shelf") + " and move its books to Library?")) return;
     setBusy(true);
     try {
-      for (const entry of library.filter((item) => item.shelf === selectedShelf)) {
+      // Preflight every original file before changing any metadata. A missing
+      // file must not silently leave a book assigned to a shelf that is deleted.
+      const entriesToMove = library.filter((item) => item.shelf === selectedShelf);
+      const entriesWithFiles = await Promise.all(entriesToMove.map(async (entry) => {
         const file = await database.getFile(entry.id);
-        if (file) await database.putBook({ ...entry, shelf: "main" }, file);
+        if (!file) {
+          throw new Error("Cannot delete this shelf because the original file for " + entry.name + " is missing. The shelf was kept unchanged.");
+        }
+        return { entry, file };
+      }));
+      for (const { entry, file } of entriesWithFiles) {
+        await database.putBook({ ...entry, shelf: "main" }, file);
       }
       setLibrary(await database.listMetadata());
       persistShelves(deleteShelf(shelves, selectedShelf));
       setSelectedShelf("main");
       setStatus("Shelf deleted. Its books were moved to Library.");
-    } catch {
-      setStatus("Could not move every book out of that shelf.");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Could not move every book out of that shelf.");
     } finally {
       setBusy(false);
     }
