@@ -7,6 +7,7 @@ const records = [
   { id: "r1", sourceId: "source-abc", sourcePage: 2, text: "Original theory text", reviewStatus: "needs-review" },
   { id: "r2", sourceId: "source-abc", sourcePage: 3, text: "Incorrect OCR text", reviewStatus: "needs-review" },
   { id: "r3", sourceId: "source-abc", sourcePage: 4, text: "Duplicate fragment", reviewStatus: "needs-review" },
+  { id: "r4", sourceId: "source-abc", sourcePage: 5, text: "Not reviewed yet", reviewStatus: "needs-review" },
 ];
 const decisions = [
   { recordId: "r1", status: "approved", destination: "theory" },
@@ -14,11 +15,12 @@ const decisions = [
   { recordId: "r3", status: "rejected", reviewerNote: "Duplicate" },
 ];
 const reviewed = validateReview(records, decisions);
-const patch = buildProposedPatch(manifest, reviewed);
+const patch = buildProposedPatch(manifest, reviewed, records);
 assert.equal(patch.patchStatus, "proposed-not-applied");
 assert.equal(patch.entries.length, 2);
 assert.equal(patch.entries[1].text, "Corrected worked example");
 assert.deepEqual(patch.rejectedRecordIds, ["r3"]);
+assert.deepEqual(patch.unreviewedRecordIds, ["r4"]);
 assert.equal(patch.safety.applied, false);
 assert.equal(patch.safety.modifiesQuestionBanks, false);
 assert.throws(() => validateReview(records, [{ recordId: "missing", status: "approved", destination: "theory" }]), /existing recordId/);
