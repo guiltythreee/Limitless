@@ -48,3 +48,20 @@ All six pages (207–212) were rendered and visually inspected. This confirms:
 ## Change-control decision
 
 This is an audit only. No lesson text, topic structure, qbank records, question counts, metadata, or learner data were changed. The next step is to reconcile the T9, T10 and T11 audits against their respective source pages, then prepare a narrowly scoped, source-traceable lesson correction plan for explicit review before implementation.
+
+
+## Additional T9 source coverage: composites (pp. 110–114)
+
+A later source sequence on composites was also compared with T9 and added to the lesson in commit `98160eabeae375b26c232570d96dec473238cb0a`.
+
+| Source page | Source content | T9 coverage after update | Status |
+|---:|---|---|---|
+| 110 | Composite definition: chemically distinct, insoluble phases with a recognizable interface; MMC, CMC and PMC/OMC matrix classes | Definition and all three matrix classes added | covered |
+| 111 | PMC matrix is relatively soft/flexible; reinforcement strong, stiff and brittle; matrix transfers load and protects fibres; fibre reinforcement benefits | Matrix/reinforcement roles and listed benefits added | covered |
+| 112 | FRP design factors; aspect ratio $l/d$; strength improves with larger aspect ratio; smaller diameter reduces surface flaws; longer fibres have fewer low-load ends | Design factors and qualitative relationships added | partially covered |
+| 113 | Chopped E-glass/epoxy plot: composite strength increases with fibre length | Trend described; numerical plot values not extracted | covered qualitatively |
+| 114 | Maximum strength with long fibres parallel to applied load; other orientations illustrated | Directional statement added; other orientations retained as source visual | covered qualitatively |
+
+**Explicit source anomaly, p. 112:** the slide image visibly prints typical fibre diameters as **10 mm to 150 mm**. The lesson flags this exact printed range as a source-unit anomaly and does not use it as a design value. It must not be silently converted to micrometres or another unit.
+
+This additional coverage does not close the separate T9 gaps recorded for pages 207–211 (degradation classifications, biodegradation hierarchy, recycling routes and the p. 211/p. 212 resin-code wording difference). Those remain outstanding.
