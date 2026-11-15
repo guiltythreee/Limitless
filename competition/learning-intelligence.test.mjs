@@ -22,6 +22,8 @@ const logs = [
     mistakeType: "observation", time: "45",
   },
   { id: "bad-date", date: "not-a-date", subject: "Combinatorics", concept: "X", outcome: "unsolved" },
+  { id: "impossible-date", date: "2026-02-30", subject: "Combinatorics", concept: "X", outcome: "unsolved" },
+  { id: "bad-date-format", date: "2026-2-03", subject: "Combinatorics", concept: "X", outcome: "unsolved" },
   { id: "", date: "2026-11-03", subject: "Combinatorics", concept: "X", outcome: "unsolved" },
 ];
 
@@ -53,6 +55,18 @@ const revisionEvidence = toCompetitionLearningAttempts(logs, [
     id: "revision:invalid",
     problemId: "missing-problem",
     date: "2026-11-07T12:00:00.000Z",
+    outcome: "correct",
+  },
+  {
+    id: "revision:impossible-date",
+    problemId: "cp-3",
+    date: "2026-02-30T12:00:00.000Z",
+    outcome: "correct",
+  },
+  {
+    id: "revision:bad-date",
+    problemId: "cp-3",
+    date: "2026-2-03T12:00:00.000Z",
     outcome: "correct",
   },
 ]);
