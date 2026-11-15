@@ -202,7 +202,11 @@ export function activateCodeforcesAccount(storage, handle) {
   let activeRaw = null, active = null, collection = { version: 1, accounts: {} };
   try {
     activeRaw = storage.getItem(CODEFORCES_SYNC_STORAGE_KEY);
-    if (activeRaw) { active = JSON.parse(activeRaw); if (!isRecord(active) || active.version !== 1 || typeof active.handle !== "string" || !Array.isArray(active.seenSubmissionIds) || !Array.isArray(active.attempts) || !isValidCodeforcesAttemptArchive(active.attemptsArchive)) return { ok: false, error: "invalid-active-learning-record" }; }
+    if (activeRaw) {
+      active = JSON.parse(activeRaw);
+      if (!isRecord(active) || active.version !== 1 || typeof active.handle !== "string" || !Array.isArray(active.seenSubmissionIds) || !Array.isArray(active.attempts)) return { ok: false, error: "invalid-active-learning-record" };
+      if (!isValidCodeforcesAttemptArchive(active.attemptsArchive)) return { ok: false, error: "invalid-attempts-archive" };
+    }
     const raw = storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY);
     if (raw) { collection = JSON.parse(raw); if (!isRecord(collection) || collection.version !== 1 || !isRecord(collection.accounts)) return { ok: false, error: "invalid-account-history" };
       for (const [key, value] of Object.entries(collection.accounts)) if (!isRecord(value) || value.version !== 1 || value.handle !== key || !Array.isArray(value.seenSubmissionIds) || !Array.isArray(value.attempts) || !isValidCodeforcesAttemptArchive(value.attemptsArchive)) return { ok: false, error: "invalid-account-history" };
