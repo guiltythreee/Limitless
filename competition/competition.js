@@ -1428,15 +1428,20 @@
     });
 
     $('export-data').addEventListener('click', async function () {
-      var backupApi = await import('./competition-backup.mjs');
-      var backup = backupApi.createCompetitionBackup(localStorage, state);
-      var blob = new Blob([JSON.stringify(backup,null,2)], {type:'application/json'});
-      var url = URL.createObjectURL(blob);
-      var anchor = document.createElement('a');
-      anchor.href = url;
-      anchor.download = 'limitless-competition-progress.json';
-      anchor.click();
-      URL.revokeObjectURL(url);
+      try {
+        var backupApi = await import('./competition-backup.mjs');
+        var backup = backupApi.createCompetitionBackup(localStorage, state);
+        var blob = new Blob([JSON.stringify(backup,null,2)], {type:'application/json'});
+        var url = URL.createObjectURL(blob);
+        var anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'limitless-competition-progress.json';
+        anchor.click();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error('Competition backup export failed:', error);
+        alert('Backup export stopped because Competition data could not be read safely. No partial backup was downloaded. Check browser storage before trying again.');
+      }
     });
     $('import-data').addEventListener('change', function () {
       var file = $('import-data').files[0];
