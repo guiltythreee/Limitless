@@ -79,7 +79,9 @@ function splitIntoBlocks(pageText) {
 
 export function shouldUseOcr(pageText, minimumNativeCharacters = 24) {
   return pageText.replace(/\\s/g, "").length < minimumNativeCharacters;
-}\n\nexport function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout", pageExtractionMethods = [] }) {
+}
+
+export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout", pageExtractionMethods = [] }) {
   const records = [];
   pages.forEach((pageText, pageIndex) => {
     const blocks = splitIntoBlocks(pageText);
@@ -214,7 +216,8 @@ export async function ingestPdf(options) {
     pageCount,
     extractedAt: new Date().toISOString(),
     extraction: {
-      text: "pdftotext -layout with optional OCR fallback",\n      ocr: ocrStatus,\n      ocrPages: pageExtractionMethods.flatMap((method, index) => method.includes("OCR") ? [index + 1] : []),
+      text: "pdftotext -layout with optional OCR fallback",
+      ocr: ocrStatus,\n      ocrPages: pageExtractionMethods.flatMap((method, index) => method.includes("OCR") ? [index + 1] : []),
       imageInventory: imageInventory.startsWith("pdfimages unavailable") || imageInventory.startsWith("Image extraction unavailable") ? "unavailable" : "pdfimages -list and -png",
       imageInventoryRaw: imageInventory,
     },
