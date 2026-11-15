@@ -27,4 +27,11 @@ assert.throws(() => validateReview(records, [{ recordId: "missing", status: "app
 assert.throws(() => validateReview(records, [{ recordId: "r1", status: "approved" }]), /requires a destination/);
 assert.throws(() => validateReview(records, [{ recordId: "r1", status: "corrected", destination: "theory" }]), /requires correctedText/);
 assert.throws(() => validateReview(records, [decisions[0], decisions[0]]), /Duplicate decision/);
-console.log("Review gate tests passed: approvals, corrections, rejections and safety invariants.");
+
+assert.throws(() => validateReview(records, [{ recordId: "r1", status: "approved", destination: "unknown" }]), /Invalid destination/);
+assert.throws(() => validateReview(records, [{ recordId: "r1", status: "corrected", destination: "theory", correctedText: "   " }]), /non-empty string correctedText/);
+assert.throws(() => validateReview(records, [{ recordId: "r1", status: "corrected", destination: "theory", correctedText: 42 }]), /non-empty string correctedText/);
+assert.throws(() => validateReview(records, [{ recordId: "r1", status: "approved", destination: "theory", reviewerNote: 42 }]), /Reviewer note.*string/);
+assert.throws(() => validateReview([...records, { ...records[0] }], []), /Duplicate source record id/);
+assert.throws(() => validateReview([{ text: "missing id" }], []), /non-empty string id/);
+\nconsole.log("Review gate tests passed: approvals, corrections, rejections, malformed input and safety invariants.");
