@@ -3,6 +3,7 @@ import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   readCodeforcesSyncState,
+  recordCodeforcesRevisionAttempt,
   syncCodeforcesSubmissions,
 } from "./codeforces-sync.mjs";
 
