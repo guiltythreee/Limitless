@@ -12,18 +12,18 @@ Branch: `feat/study-resource-ingestion-foundation`
 | PDF page(s) | Source content | Lesson coverage / action | Status |
 |---|---|---|---|
 | 155 | Natural rubber latex as a colloidal dispersion of cis-polyisoprene; *Hevea* collection; coagulation; Tg −70°C; raw rubber temperature behaviour; Goodyear/vulcanization note | Added source-specific natural rubber description and historical note. | Covered |
-| 156–157 | Rubber coagulation and prevention of coagulation | Slides are image-led and extracted text does not preserve their detailed labels. Explicitly left as unresolved visual references; no process recipe inferred. | Visual review required |
+| 156–157 | Rubber coagulation and prevention of coagulation | Visually inspected: negatively charged protein membranes repel; formic-acid hydrogen ions neutralize charge, particles collide and membranes rupture. For prevention, the slide shows bacterial lactic-acid production and ammonia hydroxide neutralizing hydrogen ions. | Visually verified and integrated |
 | 158 | Stabilizers, antioxidants, UV protectants, lubricants, colorants, flame retardants | Added listed categories, examples and source statements about dyes/pigments and flammability. | Covered |
 | 159–160 | Rubber compounding definition, objectives, knowledge of materials/equipment | Added definition and three objectives. | Covered |
 | 161 | Compounding ingredient classification | Added all categories printed on the slide, including special-purpose materials. | Covered |
-| 162 | Good-processing requirements and ODR cure curve | Added uniform plasticity/recovery, scorch-rate and cure-rate requirements. ODR plot not reconstructed from text. | Partially covered; diagram labels need visual review |
+| 162 | Good-processing requirements and ODR cure curve | Added uniform plasticity/recovery, scorch-rate and cure-rate requirements; visual review confirmed the ODR torque-time trace and labels for induction/scorch, curing, overcuring, marching, plateau, reversion, scorch time, minimum viscosity and maximum torque. | Covered |
 | 163 | Vulcanizing agents and rubber/curative table | Added source table, preserving the duplicated Vamac entry and source category names. | Covered with source duplication flagged |
 | 164–165 | Accelerator function and examples | Added the source's aldehyde–amine, hexamethylene tetramine, DPG and ETU examples and stated uses. | Covered |
 | 166 | Activators, retarders and antidegradants | Added listed examples and deterioration factors. | Covered |
 | 167 | Processing aids and trade-name examples | Added their process functions; did not reconstruct unclear table alignment/trade-name pairings. | Partially covered |
 | 168 | Reinforcing/extending fillers; carbon-black grades and non-black examples | Added the listed N220, N330, N550, N762, N990 grades and non-black examples. | Covered |
 | 169–170 | Plasticizer compatibility and material categories | Added the lecture's compatibility statements and listed petroleum-oil/ester examples. | Covered |
-| 171 | Ideal rubber processing | Image-led slide; no reliable text extraction. No process flow inferred. | Visual review required |
+| 171 | Ideal rubber processing | Visually inspected and transcribed the flow: raw rubber → shear/mastication → plasticization → filler mixing → vulcanization → end product. The diagram labels raw rubber sticky/poor-strength/viscous and final vulcanized rubber non-sticky/high-strength/visco-elastic; sulfur and peroxide cross-link sketches are shown. | Visually verified and integrated |
 | 172–173 | Rubber mixing equipment; two-roll mill/internal mixer; nip, rolling bank | Added mixing mechanisms and two-roll mill context. | Covered |
 | 174 | Polymer processing as control of spatial chain arrangement/superstructure | Added the source's chain-structuring definition and film/fibre/moulded-article examples. | Covered |
 | 175–176 | Continuous extrusion principle and products | Existing T11 single-screw section covers the general process; product examples extended from p. 192. | Covered |
@@ -48,9 +48,9 @@ Branch: `feat/study-resource-ingestion-foundation`
 
 ## Changes made
 
-- Added natural rubber latex and processing-additive content (pp. 155–158).
-- Added rubber compounding objectives, ingredient classes, curatives, accelerator examples, activators/retarders, antidegradants, fillers and plasticizer-selection details (pp. 159–170).
-- Added processing as control of polymer structure (p. 174).
+- Added natural rubber latex and processing-additive content (pp. 155–158), including visual verification of coagulation and anti-coagulation diagrams (pp. 156–157).
+- Added rubber compounding objectives, ingredient classes, curatives, accelerator examples, activators/retarders, antidegradants, fillers and plasticizer-selection details (pp. 159–170); visually verified and added the ODR cure-characteristics diagram (p. 162).
+- Added processing as control of polymer structure (p. 174) and the visually verified ideal rubber-processing sequence (p. 171).
 - Added twin-screw extruder comparison (pp. 188–191).
 - Added extrusion application/material table and compression/injection moulding details (pp. 192–201).
 - Added two-roll mill mixing, rolling-bank and processibility material (pp. 202–206).
