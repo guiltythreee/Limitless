@@ -9,7 +9,7 @@ import { renderReviewReport } from "./report.mjs";
 import { prepareMt203Patch } from "./prepare.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
-const COURSE_ROOT = path.join(ROOT, "metallurgy-source");
+const COURSE_ROOT = path.resolve(process.env.LIMITLESS_COURSE_ROOT || path.join(ROOT, "metallurgy-source"));
 const MAX_PDF_BYTES = 50_000_000;
 const DEFAULT_MODEL = process.env.OPENAI_MODEL;
 
