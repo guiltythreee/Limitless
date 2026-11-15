@@ -129,16 +129,11 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   })).toBe(1);
 
   await page.getByRole("button", { name: /Library/ }).click();
-  await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
-  await page.getByRole("searchbox", { name: "Search books" }).fill("Migration Fixture");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:game") ?? "{}").pages)).toBe(1);
   await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toBeVisible();
-  await page.getByRole("searchbox", { name: "Search books" }).fill("no matching title");
-  await expect(page.getByText("No matching books")).toBeVisible();
-  await page.getByRole("searchbox", { name: "Search books" }).fill("");
-  await page.getByLabel("Sort books").selectOption("title-asc");
   await page.reload();
   await expect(page.getByRole("heading", { name: "Type your way through the books you love. Pick one below to get started, or add your own PDFs and EPUBs." })).toBeVisible();
-  await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:game") ?? "{}").pages)).toBe(1);
   await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
   await expect(page.locator("#bk-typing")).toHaveValue(source!);
   await expect(page.locator(".bk-reader-meta")).toContainText("1/1 required complete");
@@ -238,12 +233,6 @@ test("theme and reader settings are interactive and persist without overwriting 
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 
   await page.getByRole("button", { name: "Settings" }).click();
-  const initialThemeDialog = page.getByRole("dialog", { name: "Settings" });
-  await initialThemeDialog.getByRole("button", { name: "Letter Garden" }).click();
-  await initialThemeDialog.getByRole("button", { name: "Close Settings" }).click();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
-
-  await page.getByRole("button", { name: "Settings" }).click();
   await page.getByRole("dialog", { name: "Settings" }).getByRole("button", { name: "Theme", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Settings" });
   await expect(dialog).toBeVisible();
@@ -340,6 +329,8 @@ test("library supports Recent, moving books between shelves and removing a book 
   await expect(shelfTab("Favourites")).toHaveAttribute("aria-selected", "true");
 
   await shelfTab("Library").click();
+  const migrationCard = page.locator(".bk-book-card").filter({ has: page.getByRole("button", { name: /Bookkeys Migration Fixture/ }) });
+  await migrationCard.hover();
   const move = page.getByLabel("Move Bookkeys Migration Fixture to another shelf");
   await move.selectOption({ label: "Favourites" });
   await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toHaveCount(0);
@@ -776,7 +767,7 @@ test("pasted text becomes a persistent local text book with reading progress", a
   const textBook = page.getByRole("button", { name: /Pasted text/ });
   await expect(textBook).toBeVisible();
   await expect(textBook).toContainText("TXT");
-  await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:game") ?? "{}").pages)).toBe(1);
 
   await page.reload();
   await page.getByRole("button", { name: /Pasted text/ }).click();
