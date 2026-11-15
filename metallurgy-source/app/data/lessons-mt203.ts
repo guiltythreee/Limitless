@@ -250,6 +250,10 @@ export const LESSONS: Record<string, Lesson> = {
         p: "An **engineering** (not thermodynamic) measure: the temperature at which a standard bar deflects a specified amount under a fixed bending stress. It correlates with, but is **not identical to**, Tg (amorphous) or Tm (semi-crystalline). HDT is what a datasheet quotes for **maximum service temperature under load**.\n\nFor an amorphous plastic, HDT < Tg because the material softens under load before the free Tg is reached.",
       },
       {
+        h: "Lecture examples of Tg versus chemical structure",
+        p: "The lecture compares these representative values (source PDF, pp. 64–66):\n\n| Polymer as labelled on the lecture slide | Tg (°C) | Structural factor shown/discussed |\n|---|---:|---|\n| Poly(vinyl alcohol) | 85 | Hydrogen bonding |\n| Poly(4-vinylpyridine) | 142 | Dipole–dipole interaction of the pyridine ring |\n| Polyethylene | −20 | Hydrogen substituent |\n| Polypropylene | 5 | Methyl substituent |\n| Polystyrene | 100 | Phenyl substituent |\n| Poly(2-vinylnaphthalene) | 151 | Bulky fused aromatic substituent |\n| Aliphatic polyester | −63 | Flexible aliphatic backbone |\n| PET | 80 | Aromatic polyester backbone |\n| Polybenzimidazole | 429 | Rigid aromatic heterocyclic backbone |\n\nThese values are transcribed from the lecture as illustrative comparisons. **Source ambiguity, p. 64:** the slide labels one structure “Polystyrene” but the drawn ring contains nitrogen; the next row is labelled poly(4-vinylpyridine). The structure/label pairing on p. 64 is therefore not used to define polystyrene chemistry. The unambiguous Tg values and named comparisons above are retained, but that disputed diagram requires lecturer/source correction before reuse.",
+      },
+      {
         h: "Free-volume numbers worth knowing",
         p: "At Tg the **critical fractional free volume** is roughly 0.025 (2.5%). Below Tg the free volume is frozen; above it, free volume grows with $\\alpha_f$, the expansion coefficient. Plasticizers raise the free volume at a given temperature, so less heating is needed to reach the critical value — hence a lower Tg.",
       },
