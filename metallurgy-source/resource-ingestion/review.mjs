@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 const ALLOWED = new Set(["approved", "rejected", "corrected"]);
 const DESTINATIONS = new Set(["theory", "illustration", "worked-example", "reference"]);
 
-export function validateReview(records, decisions) {
+export function validateReview(records, decisions, expectedSourceId = null) {
   if (!Array.isArray(records) || !Array.isArray(decisions)) throw new Error("Records and decisions must be arrays.");
   const byId = new Map();
   for (const record of records) {
@@ -14,6 +14,9 @@ export function validateReview(records, decisions) {
       throw new Error("Every source record must have a non-empty string id.");
     }
     if (byId.has(record.id)) throw new Error(`Duplicate source record id: ${record.id}.`);
+    if (expectedSourceId && record.sourceId !== expectedSourceId) {
+      throw new Error(`Source record ${record.id} belongs to ${record.sourceId ?? "an unknown source"}, not manifest source ${expectedSourceId}.`);
+    }
     byId.set(record.id, record);
   }
 
@@ -91,7 +94,8 @@ async function main(argv) {
   for (const key of ["manifest", "records", "decisions", "out"]) if (!options[key]) throw new Error(`Missing --${key}`);
   const [manifest, recordFile, decisions] = await Promise.all(["manifest", "records", "decisions"].map(async (key) => JSON.parse(await readFile(resolve(options[key]), "utf8"))));
   const records = Array.isArray(recordFile) ? recordFile : recordFile.records;
-  const reviewed = validateReview(records, decisions);
+  if (!manifest || typeof manifest.sourceId !== "string" || !manifest.sourceId.trim()) throw new Error("Manifest must contain a non-empty sourceId.");
+  const reviewed = validateReview(records, decisions, manifest.sourceId);
   const patch = buildProposedPatch(manifest, reviewed, records);
   const output = resolve(options.out);
   await mkdir(output, { recursive: true });
