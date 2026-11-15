@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { encodeCodeforcesAttemptArchive } from "./codeforces-sync.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   COMPETITION_REWARD_STORAGE_KEY,
