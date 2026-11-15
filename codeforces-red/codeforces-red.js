@@ -153,7 +153,7 @@
     $('sync-status').textContent = 'Refreshing public Codeforces rating data…';
     $('refresh-rating').disabled = true;
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 180000);
+    const timeoutId = setTimeout(() => controller.abort(), 300000);
     try {
       const base = 'https://codeforces.com/api/';
       const api = await import('../competition/codeforces-api.mjs');
