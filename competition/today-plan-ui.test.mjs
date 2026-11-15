@@ -60,4 +60,5 @@ assert.match(js, /resetCompetitionData\(localStorage, STORAGE_KEY\)/,
   "Competition reset must atomically clear primary progress and every additive Competition store");
 assert.match(js, /Codeforces learning history for every saved handle, Competition rewards/,
   "the reset confirmation must disclose that all saved Codeforces accounts are cleared");
-\nconsole.log("Competition Today panel contract: all assertions passed.");
+
+console.log("Competition Today panel contract: all assertions passed.");
