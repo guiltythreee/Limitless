@@ -286,3 +286,12 @@ Next actions:
 2. If the preview still differs, use fresh screenshots and exact production source comparisons to identify the specific discrepancy. Do not make speculative CSS changes.
 3. Separately inspect the 21 commits now on `main` but not in this branch, identifying overlap with Bookkeys files before proposing any rebase or merge. Keep PR #232 draft and unmerged until the user explicitly approves integration.
 4. Preserve the existing backup branches and do not deploy production.
+
+
+## Main-branch divergence audit — 16 November 2026
+
+- Compared the PR's recorded merge base `77e7c894ed8629d4494d7e22f2eed6a99af10a74` against current `main` at `438b740cc821d2acc87a0ec67f3d1e8fff8d9c7c`.
+- GitHub reports the integration branch 53 commits ahead and 21 behind current `main`. The comparison enumerates 22 main-side commits; one is an empty/no-message commit, which accounts for the count difference.
+- The main-side comparison contains 167 changed paths. The PR currently changes 71 paths. Exact filename intersection: ZERO. The 22 main-side commits concern MT203/Metallurgy, Codeforces learning/revision, Probability builds, shared study intelligence and related generated site output; none touches the PR's Bookkeys migration paths or its preview Worker config.
+- This is a path-level non-overlap audit, not a merge/rebase test. It reduces the likelihood of direct file conflicts but does not authorize integration or prove runtime compatibility. Keep PR #232 draft and unmerged; do not rebase/merge until explicitly approved.
+- PR #232 still records base SHA `77e7c894ed8629d4494d7e22f2eed6a99af10a74` even though current `main` has advanced to `438b740cc821d2acc87a0ec67f3d1e8fff8d9c7c`. Resolve this stale base relationship deliberately at the integration stage, not by silently changing the PR during visual acceptance.
