@@ -59,12 +59,13 @@
       try {
         const sync = await import("./codeforces-sync.mjs");
         const plan = sync.getCodeforcesSyncFetchPlan(localStorage, handle);
+        if (plan.mode === "invalid") {
+          throw new TypeError("A valid Codeforces handle is required before syncing submissions.");
+        }
         const submissions = plan.mode === "since"
           ? await api.fetchCodeforcesSubmissionsSince(handle, plan.sinceSeconds)
           : await api.fetchAllCodeforcesSubmissions(handle);
-        if (plan.mode !== "invalid") {
-          syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions);
-        }
+        syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions);
       } catch (_) { /* Public rating data remains available if learning sync fails. */ }
       const latest = history.length ? history[history.length - 1] : null;
       const bestPlace = history.length ? Math.min(...history.map(item => item.rank).filter(Number.isFinite)) : null;
