@@ -107,3 +107,40 @@ Partial coverage / source reconciliation items:
 - T4 sedimentation-velocity and remaining method-level mapping.
 
 No question-bank content, question IDs, counts, taxonomy, metadata, learner progress or lesson content was changed. The full T1–T8 audit remains open.
+
+
+## T2, T6 and T8 objective cross-check — 16 November 2026
+
+The source PDF was reopened for pages 50, 62–69 and 102. The live question files and current lesson source were inspected directly.
+
+| Topic | Lecture evidence | Question-bank evidence | Assessment decision |
+|---|---|---|---|
+| T2 functionality | p.50 table explicitly classifies acetic acid, benzoic acid, phthalic acid, ethyl alcohol, ethylene glycol, benzyl alcohol, aniline, hexyl diamine, methyl isocyanate, toluene diisocyanate, glycine, lactic acid and malic acid as mono-, bi- or trifunctional. | T2 has Carothers/stoichiometric-balance questions, but no item asks students to count reactive groups or classify the named source examples. | **Confirmed gap.** Add a source-grounded structure/group-count item after the whole-bank audit. |
+| T6 structure-to-Tg comparisons | pp.64–66 give named polymer/Tg comparisons for intermolecular forces, substituents and backbone stiffness. p.67 gives the long-linear-alkyl-side-chain trend. | T6-06 asks which polymer has the lowest Tg, but the remaining bank focuses mostly on general factors, Fox/Fox–Flory, DSC/DMA and HDT/Vicat. No direct item tests the source's named structural comparisons as a group. | **Partial coverage.** One comparison/application question can cover the distinct structural factors without turning every table row into recall. |
+| T6 polyethylene value | p.65 prints polyethylene Tg = **−20 °C**. | T6-06 prints polyethylene ≈ **−120 °C**. The reconciled lesson also records −20 °C. | **Confirmed bank/source discrepancy.** Question edit remains on hold; preserve the lecture's printed value and separately establish whether the bank value is an external reference or transcription error. |
+| T8 silicone-based TPU | p.102 scheme is labelled “Silicone based TPU” and names H12MDI, PTMG, PDMS, 1,4-BD, THF/DMAC and T-12. | T8-12 tests general silicone polymer features; the exact T8 prompt scan finds no question on this TPU scheme/components. | **Confirmed gap.** A component-identification question is supported; do not infer stoichiometry or expand T-12. |
+
+### Source-faithful details
+
+- **T2 p.50:** acetic acid and benzoic acid are monofunctional; phthalic acid bifunctional; ethyl alcohol and benzyl alcohol monofunctional; ethylene glycol bifunctional; aniline monofunctional; hexyl diamine bifunctional; methyl isocyanate monofunctional; toluene diisocyanate bifunctional; glycine and lactic acid bifunctional; malic acid trifunctional.
+- **T6 pp.64–66:** PVA 85 °C; poly(4-vinylpyridine) 142 °C; polyethylene −20 °C; polypropylene 5 °C; polystyrene 100 °C; poly(2-vinylnaphthalene) 151 °C; aliphatic polyester −63 °C; PET 80 °C; polybenzimidazole 429 °C. Page 64 has a structural drawing/label mismatch for the row printed “Polystyrene”; do not use that drawing to redefine the polymer.
+- **T6 p.67:** the slide states increasing linear alkyl side-chain length decreases Tg. The row labels/structures are crowded; do not turn ambiguous row pairings into numerical memorization.
+- **T8 p.102:** the output is titled “Silicone based TPU”. Visible reactant/component labels are H12MDI, PTMG, PDMS and 1,4-BD; process labels are THF/DMAC and T-12. No stoichiometric ratio or expanded catalyst identity is printed.
+
+## Updated confirmed gap register
+
+1. T1 — SBR styrene-content/property trend (p.16).
+2. T2 — monomer functionality counting/classification (p.50).
+3. T3 — solution-polymer isolation and source-specific use cases (pp.22–23).
+4. T4 — selected method-to-average distinctions from the p.48 chart.
+5. T7 — recombinant spider-silk production and product forms (pp.78–79).
+6. T8 — silicone-based TPU scheme/component identification (p.102).
+
+Partial/source reconciliation items:
+- T3 — all surfactant classes and micelle details.
+- T5 — full named example comparison from p.49.
+- T6 — named structure-to-Tg comparisons and p.67 side-chain trend.
+- T6-06 — polyethylene Tg mismatch: bank −120 °C; lecture and lesson −20 °C.
+- T4 — sedimentation-velocity and remaining method-level crosswalk.
+
+The T1–T8 audit is still targeted rather than complete. T9–T11's existing assessment audit remains the detailed 97-question comparison. No question-bank or lesson edits were made in this checkpoint.
