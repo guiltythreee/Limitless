@@ -64,7 +64,7 @@ MT200 Testing of Materials · Paper IV Solutions and Marking Scheme             
    A2          (2)       A true: $\sigma_T=\sigma_e(1+e)$. B true: $\ln(1+e)$ < e. C true: after the UTS the area loss outweighs
                          hardening for the engineering curve only. D false: valid only up to necking.
    A3          (1)       A true. B true: U = $\dfrac{\sigma_y^2}{2E}$, so a lower E gives more. C false: a strong but brittle ceramic has
-                         tiny toughness; toughness needs strength and ductility. D true: $\mathrm{J/m^3}$ = $\mathrm{N\cdot m/m^3}$ = $\mathrm{Pa}$$. 
+                         tiny toughness; toughness needs strength and ductility. D true: $\mathrm{J/m^3}=\mathrm{N\cdot m/m^3}=\mathrm{Pa}$.. 
    A4          (1)       A true. B false: slender specimens buckle; a short cylinder (d : h ≈ 2 : 3) is used. C false: no
                          necking in compression; stress keeps rising as the area grows. D true: hoop tension on the
                          bulged surface.
@@ -76,7 +76,7 @@ MT200 Testing of Materials · Paper IV Solutions and Marking Scheme             
                          cold-work strengthening. D true.
    A8          (1)       A true: ductile-to-brittle transition of BCC steels. B true: FCC has no transition. C true. D false:
                          a notch raises the triaxiality and promotes brittle fracture.
-   A9          (1)       A true: 6.895. B true: 200 × 9.81 = 1962 MPa$.  C true. D false: the two differ by a factor of
+   A9          (1)       A true: 6.895. B true: 200 × 9.81 = $1962\,\mathrm{MPa}$.  C true. D false: the two differ by a factor of
                          9.81.
   A10          (1)       A true. B false: %EL depends on the gauge length because the neck is localised. C true. D
                          false: %RA is measured at the neck and is independent of the gauge length.
@@ -205,9 +205,9 @@ C2 Tensile strength versus Vickers hardness for aluminium alloys                
  far the UTS lies above the flow stress at about 8% strain that the hardness measures. (Another valid
  reason is that HV and BHN are not identical scales.) A single factor should never be transferred between
  alloy families.
- (d) UTS ≈ 3.67 × 110 = 404 MPa$.  The point lies inside the data range (HV 30 to 150), and the ratios
+ (d) UTS ≈ 3.67 × 110 = $404\,\mathrm{MPa}$.  The point lies inside the data range (HV 30 to 150), and the ratios
  vary only between 3.63 and 3.75, so the prediction is good to about ±2 to 3%, that is, about 400 to 412
- MPa$. 
+$\mathrm{MPa}$.
 
  Marking scheme                                                                                           Marks
  (a) Ratios computed, line through the origin (k ≈ 3.67)                                                         2
@@ -299,8 +299,8 @@ $\sigma=K\varepsilon^n=850\times0.446^{0.30}=667\,\mathrm{MPa}$.
 This is the approximate yield strength on reloading.
 
 (d) The Considère criterion is $d\sigma/d\varepsilon=\sigma$. For the power law,
-$\dfrac{d\sigma}{d\varepsilon}=\dfrac{n\sigma}{\varepsilon}
-=0.30\times667/0.446=449\,\mathrm{MPa}$,
+$\dfrac{d\sigma}{d\varepsilon}=\dfrac{n\sigma}{\varepsilon}=0.30\times667/0.446=449\,\mathrm{MPa}$.
+
 which is below $\sigma=667\,\mathrm{MPa}$. The strip has no remaining uniform elongation and necks as soon as plastic tensile deformation begins. Equivalently, the prior strain $0.446$ exceeds $n=0.30$.
 
 (e) For the annealed strip,
@@ -371,8 +371,8 @@ D5 Choosing a material from its curve [8]
 - D: $250/0.0036\approx69\,\mathrm{GPa}$.
 
 The modulus of resilience is $U_r=\sigma_y^2/(2E)$; for brittle material C, use $\sigma_f^2/(2E)$. Toughness is the area under the stress–strain curve, estimated by trapezoids. For material A:
-$\tfrac12(0.009)(1800)+\tfrac12(1800+1950)(0.021)+\tfrac12(1950+2000)(0.030)
-\approx106.7\,\mathrm{MJ/m^3}$.
+$\tfrac12(0.009)(1800)+\tfrac12(1800+1950)(0.021)+\tfrac12(1950+2000)(0.030)\approx106.7\,\mathrm{MJ/m^3}$.
+
 
 (c) **Material choices.**
 1. **Coil spring — A.** Its resilience is $8.1\,\mathrm{MJ/m^3}$, much higher than the others, because it combines very high yield strength with a high modulus.
