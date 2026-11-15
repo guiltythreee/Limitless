@@ -15,7 +15,8 @@ A repository-only, human-in-the-loop pipeline for turning lecture PDFs into trac
 Node.js 22+ and Poppler command-line tools:
 - `pdfinfo`
 - `pdftotext`
-- `pdfimages` (optional; used only to inventory embedded images)
+- `pdfimages` (optional; used to inventory and extract embedded images)
+- `pdftoppm` and `tesseract` (optional; enable OCR fallback for sparse/scanned pages)
 
 On Debian/Ubuntu, install Poppler with `sudo apt-get install poppler-utils`. On Windows, install Poppler and ensure its `bin` directory is on PATH.
 
@@ -37,6 +38,8 @@ The output directory contains:
 
 ## Extraction semantics
 
-The first adapter uses Poppler's layout-preserving text extraction. It segments pages, paragraphs, likely headings, equations and table-like rows. It does not claim to understand diagrams or validate equations. Image assets are extracted separately and linked to their source page when page metadata can be determined; otherwise they remain in the source image inventory for manual matching.
+The first adapter uses Poppler's layout-preserving text extraction. Pages with fewer than 24 non-whitespace native-text characters are treated as sparse. When both `pdftoppm` and `tesseract` are installed, those pages are rendered at 220 DPI and OCR is used only when it returns more text than native extraction. The selected extraction method is recorded per page and in the source manifest. If either optional dependency is missing, OCR is skipped without failing ingestion.
+
+Text is segmented into paragraphs, likely headings, equations and table-like rows. These are triage heuristics, not semantic validation. The pipeline does not validate equations or claim to understand diagrams. Image assets are extracted separately and linked to their source page when page metadata can be determined; otherwise they remain in the source image inventory for manual matching.
 
 The next stages can add OCR and richer table/figure interpretation behind the same adapter contract. Do not promote records into lessons until a reviewer confirms their content, mapping, and source fidelity.
