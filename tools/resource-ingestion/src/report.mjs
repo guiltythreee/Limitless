@@ -25,7 +25,7 @@ export function renderReviewReport({ sourceName, sourceSha256, pageCount, analys
     "", "## Worked examples", "",
     ...analysis.worked_examples.map((x) => "### " + x.topic_id + ": " + x.title + " (page " + x.source_page + ")\n\n**Problem:** " + x.problem + "\n\n**Solution:** " + x.solution + "\n\n**Answer:** " + x.final_answer + " " + x.units + "\n\nStatus: " + x.status + "; confidence: " + Math.round(x.confidence * 100) + "%\n"),
     "## Source questions (extraction only)", "",
-    ...analysis.source_questions.map((x) => "- **" + x.topic_id + ", page " + x.source_page + " [" + x.type + "]** — " + x.source_question_text + "\n  - Answer in source: " + (x.answer || "not stated") + "\n  - Status: " + x.status + "; confidence: " + Math.round(x.confidence * 100) + "%\n  - Evidence: " + x.evidence_quote),
+    ...analysis.source_questions.map(renderQuestion),
     "", "## Review queue", "",
     ...analysis.review_items.map((x) => "- **" + x.severity.toUpperCase() + " — " + x.source_reference + ":** " + x.issue + "\n  - Recommended action: " + x.recommended_action),
     ...validation.warnings.map((x) => "- **VALIDATION:** " + x),
@@ -37,3 +37,23 @@ export function renderReviewReport({ sourceName, sourceSha256, pageCount, analys
   return lines.join("\n");
 }
 function cell(value) { return String(value ?? "").replaceAll("|", "\\|").replace(/\s+/g, " ").trim(); }
+
+function renderQuestion(x) {
+  const lines = [
+    "### " + x.topic_id + (x.subtopic ? " / " + x.subtopic : "") + " — page " + x.source_page + " (" + x.type + ")",
+    "",
+    x.source_question_text,
+    x.assertion ? "**Assertion:** " + x.assertion : "",
+    x.reason ? "**Reason:** " + x.reason : "",
+    ...(x.statements.length ? ["**Statements:**", ...x.statements.map((s, i) => (i + 1) + ". " + s)] : []),
+    ...(x.table_rows.length ? ["**Table data:**", ...x.table_rows.map((row) => "| " + row.join(" | ") + " |")] : []),
+    ...(x.options.length ? ["**Options:**", ...x.options.map((option, i) => (i + 1) + ". " + option)] : []),
+    "**Answer in source:** " + (x.answer || "not stated"),
+    "**Explanation:** " + (x.explanation || "not stated"),
+    ...(x.distractor_explanations.length ? ["**Distractor explanations:**", ...x.distractor_explanations.map((d) => "- " + d.label + ": " + d.explanation)] : []),
+    "**Status:** " + x.status + "; confidence: " + Math.round(x.confidence * 100) + "%",
+    "**Evidence quote:** " + x.evidence_quote,
+    ""
+  ];
+  return lines.filter(Boolean).join("\n");
+}
