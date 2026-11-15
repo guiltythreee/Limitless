@@ -222,11 +222,12 @@ export const LESSONS: Record<string, Lesson> = {
         h: "Effect of crystallinity on properties",
         p: "| Property | Effect of increasing crystallinity |\n|---|---|\n| Density | **increases** (tighter packing) |\n| Stiffness & tensile strength | **increase** |\n| Toughness / elongation at break | **decrease** (more brittle) |\n| Optical clarity | **decreases** — crystallites scatter light |\n| Solvent & gas resistance | **improves**; permeability falls |\n| Melting behaviour | a sharp **Tm** appears (in addition to Tg) |\n\n**Orientation** (drawing/stretching) aligns both amorphous tie molecules and crystallites along the draw direction, raising strength and modulus *anisotropically* — the basis of fibres and BOPP film.",
       },
-    ],
-      {
+       {
         h: "Lecture examples and comparison of crystalline and amorphous polymers",
         p: "The lecture's example slide (source PDF, p. 49) lists the following under **crystalline**: acetal; polyester (PET, PBT); polyamide (PA, nylon); fluorocarbon (PTFE etc.); polyethylene (PE); polypropylene. Under **amorphous**, it lists acrylonitrile-butadiene-styrene (ABS); acrylic (PMMA); polycarbonate (PC); “Modified Polyphenylene Oxide (POM)”; polystyrene (PS); and polyvinyl chloride (PVC).\n\nThe same slide contrasts the groups as follows:\n\n| Crystalline column (source wording) | Amorphous column (source wording) |\n|---|---|\n| Sharp melting point | Broad softening point |\n| Usually opaque | Usually transparent |\n| High shrinkage | Low shrinkage |\n| Solvent resistance | Solvent sensitive |\n| Fatigue/wear resistance | Poor fatigue/wear resistance |\n| High density | Low density |\n| Greater heat content | Lower heat content |\n| Effect of orientation greater | Effect of orientation lower |\n| Compressibility often greater | Compressibility sometimes lower |\n\n:::warning Source label anomaly\nThe p. 49 slide prints **“Modified Polyphenylene Oxide (POM)”**. The name/acronym pairing is retained exactly as printed and flagged for lecturer confirmation; it is not silently corrected or used as a reliable polymer identification. The table is a lecture comparison, not a universal rule for every grade or morphology.\n:::",
       },
+    ],
+
     formulas: [
       { name: "Degree of crystallinity (density)", expr: "x_c = \\frac{\\rho_c (\\rho_s - \\rho_a)}{\\rho_s (\\rho_c - \\rho_a)}", vars: ["\\rho_s — measured semicrystalline density", "\\rho_c — fully crystalline density", "\\rho_a — amorphous density"], note: "mass-fraction form; volume-fraction variant also appears" },
     ],
