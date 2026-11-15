@@ -227,7 +227,7 @@ D1 Ring on a shaft [8]
 
 (a) **Strains.** The ring bore is stretched in tension:
 $\varepsilon_{\mathrm{ring}}=(50.20-50.00)/50.00=0.0040=0.40\%$.
-The shaft is compressed:
+The shaft is compressed (the supplied solution assumes the same curve in compression):
 $\varepsilon_{\mathrm{shaft}}=0.20/50.20=0.003984\approx0.40\%$.
 
 (b) **Curve readings and failure.** The ring curve ends at a fracture strain of about $0.32\%$, at approximately $385\,\mathrm{MPa}$. The required strain is $0.40\%$, beyond fracture, so the brittle ring cracks. At $0.40\%$, the shaft carries about $330\,\mathrm{MPa}$. It has yielded (about $300\,\mathrm{MPa}$ at $0.15\%$) but its curve continues beyond $1\%$, so it does not fracture. The ring fails; the shaft survives with slight yielding.
