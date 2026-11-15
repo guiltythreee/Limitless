@@ -83,9 +83,9 @@ export default function Landing() {
   return (
     <div className="semester-hub">
       <header className="navbar">
-        <Link className="brand" href="/">LIMITLESS</Link>
+        <a className="brand" href="../" aria-label="Limitless home"><span className="brand-mark">∞</span><span className="brand-text">LIMITLESS</span></a>
         <nav className="nav-links" aria-label="Main navigation">
-          <Link href="/">Disciplines</Link>
+          <a href="../">Home</a>
           <Link href="/mt202/">Courses</Link>
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Switch theme">
             {theme === "dark" ? "◐" : "◑"}
@@ -95,7 +95,7 @@ export default function Landing() {
 
       <div className="semester-layout">
         <aside className="semester-sidebar" aria-label="Metallurgy courses">
-          <Link className="semester-back" href="/">← <span>Disciplines</span></Link>
+          <a className="semester-back" href="../">← <span>Home</span></a>
           <div className="semester-brand">
             <span className="semester-brand-mark">⚗</span>
             <div><strong>Metallurgy</strong><small>6 semesters · 3 courses</small></div>
