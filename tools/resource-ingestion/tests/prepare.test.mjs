@@ -24,7 +24,7 @@ const artifact = (overrides = {}) => ({
   course: { id: "mt203" },
   analysis: { source_questions: [{
     topic_id: "t1", subtopic: "T1.1", source_page: 4, source_question_text: "What is a new polymer?", evidence_quote: "What is a new polymer?",
-    type: "recall", difficulty: 1, options: ["A correct option", "A distractor"], assertion: "", reason: "", statements: [], table_rows: [],
+    type: "recall", difficulty: 1, options: ["A correct option", "Distractor B", "Distractor C", "Distractor D"], assertion: "", reason: "", statements: [], table_rows: [],
     answer: "a", explanation: "The source says this is correct.", distractor_explanations: [], concept: "Polymer definition", tags: [],
     confidence: 0.98, status: "ready", ...overrides
   }] }
