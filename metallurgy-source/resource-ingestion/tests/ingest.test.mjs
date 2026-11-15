@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
-import { buildOcrSummary, buildRecords, mapExtractedImages, parseImageInventory, shouldUseOcr } from "../ingest.mjs";
+import { assessOcrQuality, buildOcrSummary, buildRecords, mapExtractedImages, parseImageInventory, parseOcrTsv, shouldUseOcr } from "../ingest.mjs";
 
 const pages = [
   "POLYMER PROCESSING\n\nExtrusion is a continuous process used to shape polymer melts.\n\nStress = Force / Area\n\n- Feed zone conveys pellets\n- Compression zone melts material\n",
@@ -55,7 +55,7 @@ console.log("PDF image inventory and page-linked figure record tests passed.");
 
 const ocrSummary = buildOcrSummary([
   { page: 31, nativeCharacterCount: 0, ocrCharacterCount: 366, selectedMethod: "ocr", selectedCharacterCount: 366, status: "completed" },
-  { page: 35, nativeCharacterCount: 12, ocrCharacterCount: 76, selectedMethod: "ocr", selectedCharacterCount: 76, status: "completed" },
+  { page: 35, nativeCharacterCount: 12, ocrCharacterCount: 76, selectedMethod: "ocr", qualityStatus: "review-required", selectedCharacterCount: 76, status: "completed" },
   { page: 45, nativeCharacterCount: 0, ocrCharacterCount: 456, selectedMethod: "ocr", selectedCharacterCount: 456, status: "completed" },
   { page: 49, nativeCharacterCount: 0, ocrCharacterCount: 772, selectedMethod: "ocr", selectedCharacterCount: 772, status: "completed" },
   { page: 50, nativeCharacterCount: 10, ocrCharacterCount: 774, selectedMethod: "ocr", selectedCharacterCount: 774, status: "completed" },
@@ -64,5 +64,29 @@ assert.equal(ocrSummary.attemptedPages, 5);
 assert.equal(ocrSummary.replacedPages, 5);
 assert.equal(ocrSummary.retainedNativePages, 0);
 assert.deepEqual(ocrSummary.failedPages, []);
+assert.deepEqual(ocrSummary.reviewRequiredPages, [35]);
 assert.equal(ocrSummary.pageStats[3].ocrCharacterCount, 772);
 console.log("Page-level OCR quality summary tests passed.");
+
+const tsv = [
+  "level\\tpage_num\\tblock_num\\tpar_num\\tline_num\\tword_num\\tleft\\ttop\\twidth\\theight\\tconf\\ttext",
+  "5\\t1\\t1\\t1\\t1\\t1\\t10\\t10\\t50\\t20\\t90\\tPolymer",
+  "5\\t1\\t1\\t1\\t1\\t2\\t65\\t10\\t40\\t20\\t30\\tchains",
+].join("\\n");
+const confidence = parseOcrTsv(tsv);
+assert.deepEqual(confidence, { wordCount: 2, meanWordConfidence: 60, lowConfidenceWordCount: 1, lowConfidenceRatio: 0.5 });
+const acceptedOcr = assessOcrQuality({ ocrCharacterCount: 300, nativeCharacterCount: 0, wordCount: 20, meanWordConfidence: 82, lowConfidenceRatio: 0.1 });
+assert.deepEqual(acceptedOcr, { selectedMethod: "ocr", qualityStatus: "candidate", qualityAccepted: true });
+const rejectedOcr = assessOcrQuality({ ocrCharacterCount: 66, nativeCharacterCount: 23, wordCount: 9, meanWordConfidence: 41.2, lowConfidenceRatio: 0.667 });
+assert.deepEqual(rejectedOcr, { selectedMethod: "ocr", qualityStatus: "review-required", qualityAccepted: false });
+
+const triagedRecords = buildRecords({
+  sourceId: "source-triage",
+  pages: ["Stress = Force / Area", "A routine explanatory paragraph."],
+  pageExtractionQuality: ["review-required", "candidate"],
+});
+assert.equal(triagedRecords[0].reviewPriority, "exception", "equations must be routed to focused review");
+assert.equal(triagedRecords[0].extractionQuality, "review-required");
+assert.equal(triagedRecords[1].reviewPriority, "routine", "low-risk paragraphs should not flood the exception queue");
+assert.equal(triagedRecords[1].reviewStatus, "needs-review", "triage must not approve content");
+
