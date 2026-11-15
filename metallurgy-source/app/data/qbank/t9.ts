@@ -616,15 +616,15 @@ const T9: TopicSource = {
       diff: 3,
       text: "An EVA copolymer is reformulated with a higher vinyl-acetate content. Based on the lecture's polymer-modification examples, which trend is expected?",
       options: [
-        { label: "a", text: "It must become a highly cross-linked thermoset." },
-        { label: "b", text: "The material becomes progressively softer and more flexible." },
+        { label: "a", text: "The material becomes progressively softer and more flexible." },
+        { label: "b", text: "It must become a highly cross-linked thermoset." },
         { label: "c", text: "Its backbone changes into polyethylene oxide." },
         { label: "d", text: "Its molecular weight must become exactly twice as large." }
       ],
-      answer: "b",
+      answer: "a",
       why: "The lecture uses EVA to show that **copolymer composition can tune properties**: increasing vinyl-acetate content shifts the material from semi-rigid toward softer, more flexible behaviour.",
       distractors: {
-        a: "Changing comonomer composition is not the same as introducing a dense covalent network.",
+        b: "Changing comonomer composition is not the same as introducing a dense covalent network.",
         c: "Adding vinyl-acetate units does not replace the backbone with polyethylene oxide.",
         d: "Comonomer content alone does not prescribe an exact doubling of molecular weight."
       },
