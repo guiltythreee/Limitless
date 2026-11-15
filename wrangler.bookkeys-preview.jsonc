@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "limitless-bookkeys-preview",
+  "main": "tools/typing-next-source/preview-worker.js",
+  "compatibility_date": "2026-11-15",
+  "workers_dev": true,
+  "assets": {
+    "directory": "tools/typing-next-source/deploy",
+    "binding": "ASSETS"
+  }
+}
