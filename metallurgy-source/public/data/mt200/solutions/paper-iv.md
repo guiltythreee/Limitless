@@ -223,146 +223,169 @@ MT200 Testing of Materials · Paper IV Solutions and Marking Scheme             
 
 ## SECTION D · APPLIED STRESS–STRAIN PROBLEMS
 
-D1 Ring on a shaft                                                                                                      [8]
+D1 Ring on a shaft [8]
 
- (a) Strains. Ring (bore stretched, tension): $\varepsilon = \dfrac{50.20-50.00}{50.00}=0.40\\%$. Shaft (squeezed,
- compression; the curve is taken as the same in compression): ε = 0.20/50.20 = 0.40%.
- (b) Reading. The ring curve ends (fracture) at 0.32%, at about 385 MPa$.  The ring must stretch to
- 0.40%, which is beyond that, so the ring cracks. It is brittle, so it has no plastic strain to spare. The
- shaft at 0.40% carries about 330 MPa$.  It has passed its yield (300 MPa at 0.15%), so it deforms
- plastically, but its curve continues past 1%, so it is nowhere near fracture. Conclusion: the ring fails,
- the shaft survives (with slight yielding).
- (c) Shrink fit. Bore needed = 50.20 + 0.04 = 50.24 mm, so the strain is 0.24/50.00 = 0.48%. ΔT =
-                  −6
- 0.0048/(11 × 10 ) = 436 K, that is, heat the ring to about 456 °C (from 20 °C). Because the ring is
- free to expand, it takes no stress. This is why shrink fits work with brittle rings.
- (d) Cooling the shaft. Contraction = 12 × 10−6 × 216 × 50.20 = 0.130 mm, but 0.24 mm is needed.
- So no, cooling alone is not enough. A combination works: with the shaft cooled, the ring needs to supply
- only 0.24 − 0.130 = 0.110 mm, which needs ΔT = 0.110/(50 × 11 × 10−6) ≈ 200 K.
- Note on the method: the simple check gives each part the whole mismatch. A stricter Lamé analysis shares it, which
- lowers the ring's strain, but the conclusion for a very brittle ring at 0.40% against 0.32% is still that it is at serious
- risk, and the marking scheme follows the simple method.
+(a) **Strains.** The ring bore is stretched in tension:
+$\varepsilon_{\mathrm{ring}}=(50.20-50.00)/50.00=0.0040=0.40\%$.
+The shaft is compressed:
+$\varepsilon_{\mathrm{shaft}}=0.20/50.20=0.003984\approx0.40\%$.
 
- Marking scheme                                                                                                    Marks
- (a) Both strains 0.40% (with the correct base diameter)                                                                 2
- (b) Ring: fracture strain 0.32% is below 0.40%, so it cracks                                                          1.5
- (b) Shaft: about 330 MPa, yielded but not fractured                                                                   1.5
- (c) ΔT ≈ 436 K with the required bore 50.24 mm                                                                          2
- (d) Contraction 0.130 mm is less than 0.24 mm, so no                                                                    1
+(b) **Curve readings and failure.** The ring curve ends at a fracture strain of about $0.32\%$, at approximately $385\,\mathrm{MPa}$. The required strain is $0.40\%$, beyond fracture, so the brittle ring cracks. At $0.40\%$, the shaft carries about $330\,\mathrm{MPa}$. It has yielded (about $300\,\mathrm{MPa}$ at $0.15\%$) but its curve continues beyond $1\%$, so it does not fracture. The ring fails; the shaft survives with slight yielding.
 
-D2 Wire on a mandrel                                                                                                    [8]
+(c) **Shrink fit.** The required hot bore is $50.20+0.04=50.24\,\mathrm{mm}$, giving
+$\varepsilon=(50.24-50.00)/50.00=0.0048$.
+Thus
+$\Delta T=0.0048/(11\times10^{-6}\,\mathrm{K}^{-1})=436\,\mathrm{K}$,
+so heat the ring from $20\,^\circ\mathrm{C}$ to approximately $456\,^\circ\mathrm{C}$. The ring is free to expand, so this heating step does not create the press-fit stress.
 
- (a) Radius of the wire's neutral axis: $R_c=40/2+2/2=21\\,\mathrm{mm}$. Outer-fibre strain: $\varepsilon=(d/2)/R_c=1/21=
- 4.76%.
- (b) Between 4% (1200 MPa) and 6% (1270 MPa): σ ≈ 1227 MPa$.  The elastic limit is about 900 MPa (at
- 0.45%), and the wire fractures at 9%, so the wire has yielded but not fractured.
- (c) Elastic recovery = 1227/200,000 = 0.61%, so the permanent strain is 4.76 − 0.61 = 4.15%. This is
- why a bent wire springs back a little but keeps most of its new shape.
- (d) Fracture at ε = 9%: $R_c=1/0.09$ = 11.1 mm, so the mandrel radius is 10.1 mm, and the smallest
- mandrel diameter is 20.2 mm (about 10 wire diameters).
- (e) Fully elastic needs ε ≤ 0.45%: $R_c=1/0.0045$ = 222 mm, so the mandrel radius is 221 mm and the
- diameter is 442 mm (about 220 wire diameters). So elastic bending needs a very large radius. In other
- words, forming a wire into a tight coil always plastically deforms it. A coil spring works elastically
- because its wire is stressed in torsion, not because the wire was never bent, and only the thinnest wires
- can be bent elastically to small radii.
+(d) **Cooling the shaft.** Cooling from $20\,^\circ\mathrm{C}$ to $-196\,^\circ\mathrm{C}$ gives
+$\Delta d=12\times10^{-6}\times216\times50.20=0.130\,\mathrm{mm}$.
+The required clearance is $0.24\,\mathrm{mm}$, so cooling the shaft alone is insufficient. With the shaft cooled, the ring must supply the remaining $0.24-0.130=0.110\,\mathrm{mm}$, requiring
+$\Delta T=0.110/(50\times11\times10^{-6})\approx200\,\mathrm{K}$.
 
- Marking scheme                                                                                                    Marks
- (a) Rc = 21 mm and ε = 4.76%                                                                                            2
- (b) σ ≈ 1230 MPa read correctly, with the decision that it yielded but did not fracture                                 2
- (c) Springback 0.61% and permanent strain 4.15%                                                                         1
- (d) Smallest mandrel about 20.2 mm                                                                                      1
- (e) About 442 mm and the meaning of the result                                                                          2
+**Method note.** The simplified check assigns the full mismatch to each part separately. A Lamé analysis shares the mismatch according to the stiffness and geometry, reducing each strain. The marking scheme follows the stated simplified method.
 
-D3 Cold rolling                                                                                                         [8]
+| Marking scheme | Marks |
+|---|---:|
+| (a) Both strains approximately $0.40\%$, with the correct reference diameters | 2 |
+| (b) Ring fracture strain $0.32\%$ is below $0.40\%$ | 1.5 |
+| (b) Shaft carries about $330\,\mathrm{MPa}$, yields but does not fracture | 1.5 |
+| (c) $\Delta T\approx436\,\mathrm{K}$ and required bore $50.24\,\mathrm{mm}$ | 2 |
+| (d) Shaft contraction $0.130\,\mathrm{mm}$ is less than $0.24\,\mathrm{mm}$ | 1 |
 
- (a) Reduction = $(5.0-3.2)/5.0=36\\%$. True strain $\\varepsilon=\\ln(5.0/3.2)=0.446$.
- (b) $n=\\dfrac{\\ln(646/426)}{\\ln(0.40/0.10)}=0.30$. $K=426/0.10^{0.30}=850\\,\\mathrm{MPa}$.
+D2 Wire on a mandrel [8]
 
+(a) The neutral-axis radius is
+$R_c=40/2+2/2=21\,\mathrm{mm}$.
+The outer-fibre strain is
+$\varepsilon_{\max}=(d/2)/R_c=1/21=4.76\%$.
 
-MT200 Testing of Materials · Paper IV Solutions and Marking Scheme                                                    Page 5
+(b) Interpolating between $4\%$ strain ($1200\,\mathrm{MPa}$) and $6\%$ strain ($1270\,\mathrm{MPa}$) gives $\sigma\approx1227\,\mathrm{MPa}$. The elastic limit is about $900\,\mathrm{MPa}$ at $0.45\%$, and fracture occurs at $9\%$. The wire has yielded but has not fractured.
 
- (c) The strip has been strained to $\\varepsilon=0.446$, so on reloading it starts to flow at about the stress it
- reached: $\sigma=850\times0.446^{0.30}$ = 667 MPa$. 
- (d) Necking begins where $\dfrac{d\sigma}{d\varepsilon}=\sigma$. For the power law, $\dfrac{d\sigma}{d\varepsilon}=\dfrac{n\sigma}{\varepsilon}$ = 0.30 × 667/0.446 = 449 MPa,
- which is less than σ = 667 MPa$.  So the necking condition is already satisfied at the moment of
- yielding: the strip has no uniform elongation and necks straight away. Equivalent statement: the
- prior strain (0.446) is larger than n (0.30).
-                                   n
- (e) Annealed: UTS = K(n/e) = 439 MPa, so BHN ≈ 439/3.45 = 127. Rolled: UTS ≈ yield ≈ 667 MPa, so
- BHN ≈ 193. Rolling raises the hardness by about 50%.
-                                                                            −0.30
- (f) Some uniform ductility remains only if $\varepsilon<n=0.30$: $h/h_0=e^{-0.30}=0.741$, so the largest reduction
- is 26%. Above this, further rolling leaves the strip with no uniform elongation.
+(c) Elastic recovery is
+$\varepsilon_e=\sigma/E=1227/200{,}000=0.61\%$.
+The permanent strain is $4.76-0.61=4.15\%$. The wire springs back slightly but retains most of its deformation.
 
- Marking scheme                                                                                             Marks
- (a) 36% and 0.446                                                                                              1
- (b) n = 0.30 and K = 850 MPa                                                                                   1
- (c) Flow stress ≈ 667 MPa as the yield strength                                                                2
- (d) Considère check: dσ/dε below σ, so no uniform elongation (or prior strain greater than n)                  2
- (e) BHN ≈ 127 and ≈ 193                                                                                        1
- (f) About 26%                                                                                                  1
+(d) At fracture, $\varepsilon=0.09$, so
+$R_c=1/0.09=11.1\,\mathrm{mm}$.
+The mandrel radius is $11.1-1=10.1\,\mathrm{mm}$, giving a minimum mandrel diameter of $20.2\,\mathrm{mm}$ (about ten wire diameters).
 
-D4 Tightening a bolt by turns                                                                                  [8]
+(e) Fully elastic bending requires $\varepsilon\leq0.0045$, so
+$R_c=1/0.0045=222\,\mathrm{mm}$.
+The mandrel radius is approximately $221\,\mathrm{mm}$ and its diameter is approximately $442\,\mathrm{mm}$. This shows that elastic bending requires a very large radius. A tight coil plastically forms the wire; a coil spring subsequently works elastically because its wire is stressed mainly in torsion.
 
- (a) A quarter turn advances the nut 1.75/4 = 0.4375 mm. Strain = 0.4375/50 = 0.875%.
- (b) Between 0.8% (1000 MPa) and 1.0% (1030 MPa): σ ≈ 1011 MPa$.  Preload F = $\sigma A=1011\times84.3$ =
- 85.2 kN.
- (c) The elastic limit is about 900 MPa (0.45%), so the bolt is in the plastic range. Its fracture strain is
- 9%, so it will not fracture.
- (d) At 120° the advance is 1.75/3 = 0.5833 mm, so ε = 1.17% and σ ≈ 1042 MPa, giving F = 87.8 kN,
- which is only +3.0% (a 33% larger turn). If the bolt stayed perfectly elastic, force would be proportional
- to strain, and a 33% larger turn would give +33%. In the plastic range the curve is nearly flat, so the
- preload is insensitive to how far the nut is turned, and errors from friction, thread condition and turning
- accuracy hardly change it. That is why torque-turn and yield-controlled tightening are used: they reach
- close to the full strength of the bolt with a small scatter in preload.
- (e) Fracture strain 9%: stretch = 0.09 × 50 = 4.5 mm, so turns = 4.5/1.75 = 2.57 turns. (This is an
- idealised upper bound. A real bolt necks in the threads long before, so the practical margin is smaller.)
+| Marking scheme | Marks |
+|---|---:|
+| (a) $R_c=21\,\mathrm{mm}$ and $\varepsilon=4.76\%$ | 2 |
+| (b) $\sigma\approx1230\,\mathrm{MPa}$ and yielded-but-not-fractured conclusion | 2 |
+| (c) Elastic recovery $0.61\%$ and permanent strain $4.15\%$ | 1 |
+| (d) Minimum mandrel diameter approximately $20.2\,\mathrm{mm}$ | 1 |
+| (e) Fully elastic mandrel diameter approximately $442\,\mathrm{mm}$, with interpretation | 2 |
 
- Marking scheme                                                                                             Marks
- (a) 0.4375 mm and 0.875%                                                                                       2
- (b) σ ≈ 1011 MPa and F ≈ 85.2 kN                                                                               2
- (c) Plastic range, no fracture                                                                                 1
- (d) F ≈ 87.8 kN (+3.0%) against +33% for an elastic bolt, with the explanation                                 2
- (e) About 2.6 turns                                                                                            1
+D3 Cold rolling [8]
 
-D5 Choosing a material from its curve                                                                          [8]
+(a) Percentage reduction:
+$(5.0-3.2)/5.0=36\%$.
+True strain:
+$\varepsilon=\ln(5.0/3.2)=0.446$.
 
-                                                           Fracture strain     Resilience        Toughness
-        E ($\mathrm{GPa}$)        Yield (MPa)        UTS (MPa)
-                                                           (%)                 (MJ/m³)           (MJ/m³)
-  A         200             1800               2000                   6              8.10            106.7
-  B         200              300               450                   30              0.23            119.3
-  C         375         none (brittle)         300                   0.08            0.12             0.1
-  D          69              250               380                   20              0.45             68.1
+(b) From the two marked points,
+$n=\dfrac{\ln(646/426)}{\ln(0.40/0.10)}=0.30$,
+and
+$K=426/0.10^{0.30}=850\,\mathrm{MPa}$.
 
- Method. E is read from the zoom: for A, 1800/0.009 = 200 $\mathrm{GPa}$; for B, 300/0.0015 = 200 $\mathrm{GPa}$; for C,
- 300/0.0008 = 375 $\mathrm{GPa}$; for D, 250/0.0036 = 69 $\mathrm{GPa}$$.  Resilience = $\dfrac{\sigma_y^2}{2E}$ (for the brittle C, σf2/2E).
- Toughness is found with trapezoids between the vertices. For example, for A: 0.5(0.009)(1800) +
+(c) At the imposed strain, the flow stress is
+$\sigma=K\varepsilon^n=850\times0.446^{0.30}=667\,\mathrm{MPa}$.
+This is the approximate yield strength on reloading.
 
+(d) The Considère criterion is $d\sigma/d\varepsilon=\sigma$. For the power law,
+$\dfrac{d\sigma}{d\varepsilon}=\dfrac{n\sigma}{\varepsilon}
+=0.30\times667/0.446=449\,\mathrm{MPa}$,
+which is below $\sigma=667\,\mathrm{MPa}$. The strip has no remaining uniform elongation and necks as soon as plastic tensile deformation begins. Equivalently, the prior strain $0.446$ exceeds $n=0.30$.
 
+(e) For the annealed strip,
+$\mathrm{UTS}=K(n/e)^n=439\,\mathrm{MPa}$,
+so $\mathrm{BHN}\approx439/3.45=127$.
+For the rolled strip, $\mathrm{UTS}\approx\sigma_y\approx667\,\mathrm{MPa}$, so $\mathrm{BHN}\approx193$. Rolling raises the hardness by about $50\%$.
 
-MT200 Testing of Materials · Paper IV Solutions and Marking Scheme                                           Page 6
+(f) Some uniform ductility remains only while $\varepsilon<n=0.30$. Thus
+$h/h_0=e^{-0.30}=0.741$,
+and the largest reduction is approximately $1-0.741=25.9\%\approx26\%$.
 
- ½(1800 + 1950)(0.021) + ½(1950 + 2000)(0.030) ≈ 8.1 + 39.4 + 59.3 ≈ 107 $\mathrm{MJ/m^3}$.
- (c) Choices. (i) Spring: A. Its resilience is 8.1 $\mathrm{MJ/m^3}$, about 18 times that of the next best, because
- the yield strength is very high while E is unchanged. (ii) Crane hook: B. It has the highest toughness
-                  3
- (about 119 MJ/m ), a fracture strain of 30% and a clear yield plateau at 300 MPa, so it deforms visibly
- and gives warning before it fails. A is stronger but has only 6% ductility. (iii) Cutting-tool insert: C. It
- has the highest stiffness (375 $\mathrm{GPa}$) and, as a ceramic, high hardness and wear resistance. Its brittleness
- is tolerable because it is loaded mostly in compression and held rigidly.
+| Marking scheme | Marks |
+|---|---:|
+| (a) Reduction $36\%$ and true strain $0.446$ | 1 |
+| (b) $n=0.30$ and $K=850\,\mathrm{MPa}$ | 1 |
+| (c) Flow stress approximately $667\,\mathrm{MPa}$ | 2 |
+| (d) Correct Considère check and no remaining uniform elongation | 2 |
+| (e) Annealed and rolled hardness approximately 127 and 193 BHN | 1 |
+| (f) Maximum reduction approximately $26\%$ | 1 |
 
- Marking scheme                                                                                       Marks
- (a) E, yield, UTS and fracture strain for all four (0.75 each)                                            3
- (b) Resilience for all four                                                                              1.5
- (b) Toughness by trapezoids for all four                                                                 1.5
- (c) Spring: A, hook: B, insert: C, each with a reason                                                     2
+D4 Tightening a bolt by turns [8]
+
+(a) A quarter turn advances the nut by
+$1.75/4=0.4375\,\mathrm{mm}$.
+The bolt strain is
+$\varepsilon=0.4375/50=0.00875=0.875\%$.
+
+(b) Interpolating between $0.8\%$ strain ($1000\,\mathrm{MPa}$) and $1.0\%$ strain ($1030\,\mathrm{MPa}$) gives $\sigma\approx1011\,\mathrm{MPa}$. The preload is
+$F=\sigma A=1011\times84.3=85.2\,\mathrm{kN}$.
+
+(c) The elastic limit is about $900\,\mathrm{MPa}$ at $0.45\%$, so the bolt is in the plastic range. Its fracture strain is $9\%$, so it does not fracture.
+
+(d) At $120^\circ$, the nut advance is
+$1.75/3=0.5833\,\mathrm{mm}$,
+giving
+$\varepsilon=0.5833/50=1.17\%$.
+The stress is approximately $1042\,\mathrm{MPa}$ and the preload is
+$F=1042\times84.3=87.8\,\mathrm{kN}$,
+only a $3.0\%$ increase. If the bolt remained perfectly elastic, a $33\%$ increase in turn would produce a $33\%$ increase in force. In the plastic range the stress–strain curve is much flatter, so preload changes less with nut rotation. This is why yield-controlled tightening can reduce preload scatter.
+
+(e) At a fracture strain of $9\%$, the idealised extension is
+$0.09\times50=4.5\,\mathrm{mm}$.
+The corresponding number of turns is
+$4.5/1.75=2.57$ turns.
+This is an idealised upper bound; real bolts can neck in the threaded region earlier.
+
+| Marking scheme | Marks |
+|---|---:|
+| (a) Advance $0.4375\,\mathrm{mm}$ and strain $0.875\%$ | 2 |
+| (b) Stress approximately $1011\,\mathrm{MPa}$ and preload $85.2\,\mathrm{kN}$ | 2 |
+| (c) Plastic range, no fracture | 1 |
+| (d) Preload $87.8\,\mathrm{kN}$ ($+3.0\%$), compared with $+33\%$ elastically | 2 |
+| (e) Approximately 2.6 turns | 1 |
+
+D5 Choosing a material from its curve [8]
+
+| Material | $E$ (GPa) | Yield (MPa) | UTS (MPa) | Fracture strain (%) | Resilience (MJ/m³) | Toughness (MJ/m³) |
+|---|---:|---:|---:|---:|---:|---:|
+| A | 200 | 1800 | 2000 | 6 | 8.10 | 106.7 |
+| B | 200 | 300 | 450 | 30 | 0.23 | 119.3 |
+| C | 375 | None (brittle) | 300 | 0.08 | 0.12 | 0.1 |
+| D | 69 | 250 | 380 | 20 | 0.45 | 68.1 |
+
+**Method.** Read $E$ from the zoomed curves:
+- A: $1800/0.009=200\,\mathrm{GPa}$.
+- B: $300/0.0015=200\,\mathrm{GPa}$.
+- C: $300/0.0008=375\,\mathrm{GPa}$.
+- D: $250/0.0036\approx69\,\mathrm{GPa}$.
+
+The modulus of resilience is $U_r=\sigma_y^2/(2E)$; for brittle material C, use $\sigma_f^2/(2E)$. Toughness is the area under the stress–strain curve, estimated by trapezoids. For material A:
+$\tfrac12(0.009)(1800)+\tfrac12(1800+1950)(0.021)+\tfrac12(1950+2000)(0.030)
+\approx106.7\,\mathrm{MJ/m^3}$.
+
+(c) **Material choices.**
+1. **Coil spring — A.** Its resilience is $8.1\,\mathrm{MJ/m^3}$, much higher than the others, because it combines very high yield strength with a high modulus.
+2. **Crane hook — B.** It has the highest toughness (about $119\,\mathrm{MJ/m^3}$), a fracture strain of $30\%$, and a clear yield plateau near $300\,\mathrm{MPa}$, giving visible deformation before failure.
+3. **Cutting-tool insert — C.** It has the highest stiffness ($375\,\mathrm{GPa}$) and, as a ceramic, high hardness and wear resistance. Its brittleness is acceptable when it is loaded mainly in compression and rigidly supported.
+
+| Marking scheme | Marks |
+|---|---:|
+| (a) $E$, yield strength, UTS and fracture strain for all four materials | 3 |
+| (b) Resilience for all four materials | 1.5 |
+| (b) Toughness by trapezoids for all four materials | 1.5 |
+| (c) A for spring, B for crane hook and C for cutting insert, each with a reason | 2 |
 
 ---
 
 End of solutions.
-
-
-
-
-MT200 Testing of Materials · Paper IV Solutions and Marking Scheme                                      Page 7
