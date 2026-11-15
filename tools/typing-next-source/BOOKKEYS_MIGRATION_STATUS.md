@@ -111,3 +111,13 @@ The user has confirmed that there is no existing Bookkeys database/library data 
 Visual acceptance remains a separate requirement. The current preview must be checked against the live /tools/typing/ reader, not inferred from a passing build or source inventory. In particular compare the actual library landing view, artwork/background layers, reader typography and overlays, settings tab layout and appearance controls at desktop and narrow widths. Preserve the original visual result; do not simplify the UI to fit the migration.
 
 Latest verified CI head at this checkpoint: 4185987df09f0cb2dd74060ac75dbe07fb3daadd. Bookkeys TypeScript Migration and Bookkeys Regression Tests both completed successfully (15 November 2026). The migration run includes the legacy preservation suite, persistence tests, type-check, static export and Chromium browser regressions. This verifies code/build behavior, not live visual equivalence.
+
+## PR scope audit correction — 15 November 2026
+
+A fresh PR inventory audit found that PR #166 currently reports 259 changed files. The list includes unrelated Competition, Metallurgy, Probability, shared study infrastructure and generated static output in addition to the 67 Bookkeys migration files. The earlier statement that the PR contains only isolated Bookkeys files is not accurate for the current PR file inventory.
+
+The current main-to-branch compare and the PR changed-file inventory report different scopes. Treat this discrepancy as unresolved. Do not merge PR #166 or use its mergeable flag as approval. First construct/review a clean integration change containing only the intended Bookkeys files, then run the full relevant CI and verify its preview. Preserve all unrelated work and recovery branches.
+
+At this checkpoint, main-to-branch compare reports 204 commits ahead and 22 behind. The PR's recorded base SHA is older than current main. This is another reason to reconcile against the current main head before integration.
+
+The latest Cloudflare preview deployment comment points to commit 4185987df09f0cb2dd74060ac75dbe07fb3daadd and reports Build: Success and Deployment: Success. The documentation-only commit 27f67ef478f1a942234f21fafd871fa11d7cbfd8 does not itself change the preview application. A direct live visual comparison has not yet been completed; passing CI and deployment status are not visual proof.
