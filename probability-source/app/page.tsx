@@ -302,7 +302,7 @@ export default function Home() {
                 label: "Lesson sections",
               })}
 
-              <div className="mt-7">
+              <div className="probability-mode-content mt-7" data-active-mode={section}>
                 {section === "theory" && <Theory lesson={activeLesson} />}
                 {section === "practice" && (activeLesson.quiz.length ? <Practice key={activeLesson.id} lessonId={activeLesson.id} onSelectLesson={chooseLesson} initialView={practiceView} initialDifficulty={practiceDifficulty} initialScope={practiceScope} /> : <div className="border border-dashed border-gold/25 p-8 text-center text-sm text-dim">No practice questions for this topic yet.</div>)}
                 <div hidden={section !== "test"}><Test currentLessonId={activeLesson.id} pathwayId={pathwayId} /></div>
