@@ -90,6 +90,15 @@ test("home composition keeps the production header, hero and demo visible over a
 
   const header = page.locator(".bk-header");
   await expect(header).toBeVisible();
+  const toolbarGeometry = await header.evaluate((element) => ({
+    width: element.getBoundingClientRect().width,
+    position: getComputedStyle(element).position,
+    zIndex: getComputedStyle(element).zIndex,
+    viewportWidth: window.innerWidth,
+  }));
+  expect(toolbarGeometry.width).toBeGreaterThanOrEqual(toolbarGeometry.viewportWidth - 40);
+  expect(toolbarGeometry.position).toBe("sticky");
+  expect(toolbarGeometry.zIndex).toBe("20");
   await expect(header.locator(".bk-home-icon")).toBeVisible();
   await expect(header.locator(".bk-settings-button")).toBeVisible();
   await expect(header.locator(".bk-mode-button")).toBeVisible();
