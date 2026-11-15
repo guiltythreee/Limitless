@@ -504,7 +504,7 @@
       var stored = syncApi.readCodeforcesSyncState(localStorage);
       if (!stored.attemptsArchiveValid || !stored.attempts.length) return;
       var now = Date.now();
-      var analysis = api.analyzeCompetitionLearning(state.problemLog, state.revisionAttempts, now, stored.attempts);
+      var analysis = api.analyzeCompetitionLearning(state.problemLog, state.revisionAttempts, now, stored.attempts, stored.revisionState);
       var candidates = analysis.revision.filter(function (item) { return item.courseId === 'codeforces'; });
       if (!candidates.length) return;
       var due = candidates.filter(function (item) { return item.dueAt <= now; });
