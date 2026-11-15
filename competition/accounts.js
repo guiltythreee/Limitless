@@ -47,20 +47,19 @@
       const base = "https://codeforces.com/api/";
       const urls = [
         base + "user.info?handles=" + encodeURIComponent(handle),
-        base + "user.rating?handle=" + encodeURIComponent(handle),
-        base + "user.status?handle=" + encodeURIComponent(handle) + "&from=1&count=1000"
+        base + "user.rating?handle=" + encodeURIComponent(handle)
       ];
       const api = await import("./codeforces-api.mjs");
       // Keep each Codeforces request at least 2.1 seconds apart. The API
       // applies a per-IP request limit, so parallel fetches can be rejected.
       const info = await api.requestCodeforcesApi(urls[0]);
       const contests = await api.requestCodeforcesApi(urls[1]);
-      const submissions = await api.requestCodeforcesApi(urls[2]);
+      const submissions = await api.fetchAllCodeforcesSubmissions(handle);
       const user = info.result[0], history = contests.result;
       let syncResult = null;
       try {
         const sync = await import("./codeforces-sync.mjs");
-        syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions.result);
+        syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions);
       } catch (_) { /* Public rating data remains available if learning sync fails. */ }
       const latest = history.length ? history[history.length - 1] : null;
       const bestPlace = history.length ? Math.min(...history.map(item => item.rank).filter(Number.isFinite)) : null;

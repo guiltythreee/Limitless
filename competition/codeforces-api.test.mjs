@@ -35,3 +35,41 @@ const apiFailure = createCodeforcesApiRequester(async () => ({
 await assert.rejects(apiFailure("rate-limited"), /Call limit exceeded/);
 
 console.log("Codeforces API rate limiting: all assertions passed.");
+
+
+// Complete-history pagination: pages overlap, but submission IDs are unique.
+{
+  const pages = [
+    { status: "OK", result: [{ id: 5 }, { id: 4 }, { id: 3 }] },
+    { status: "OK", result: [{ id: 3 }, { id: 2 }, { id: 1 }] },
+    { status: "OK", result: [{ id: 1 }] },
+  ];
+  const calls = [];
+  const result = await (await import("./codeforces-api.mjs")).fetchAllCodeforcesSubmissions(
+    "example_handle",
+    {
+      pageSize: 3,
+      overlap: 1,
+      request: async (url) => {
+        calls.push(url);
+        return pages.shift();
+      },
+    }
+  );
+  assert.deepEqual(result.map((item) => item.id), [5, 4, 3, 2, 1]);
+  assert.equal(calls.length, 3);
+  assert.match(calls[0], /from=1&count=3$/);
+  assert.match(calls[1], /from=3&count=3$/);
+  assert.match(calls[2], /from=5&count=3$/);
+}
+
+{
+  await assert.rejects(
+    (await import("./codeforces-api.mjs")).fetchAllCodeforcesSubmissions("example_handle", {
+      pageSize: 2,
+      maxPages: 1,
+      request: async () => ({ status: "OK", result: [{ id: 2 }, { id: 1 }] }),
+    }),
+    /safe pagination limit/
+  );
+}
