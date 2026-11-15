@@ -51,3 +51,43 @@ The handoff-doc commit `a4f5cf9...` triggered another CI run; at the time this f
 
 ## Continuation instruction for a new chat
 Start by reading this file and checking the current PR #232 head and check-runs. Do not ask the user to restate the safety rules or project context. The latest explicit correction is that the preview still differs from live; preserving the near-identical original visuals is the priority.
+
+
+## Visual-parity recovery update — 15 November 2026, 17:00 IST
+
+Latest isolated integration code checkpoint:
+- PR #232 remains open, draft and unmerged.
+- Current source commit: `01d4754a7a188bc5716c17a061acab74b3ec70bb`.
+- Backup branch created from this exact compiled checkpoint: `backup/bookkeys-card-parity-pass-2-built-20261115`.
+- Previous compiled checkpoint: `1fa09b54c01501bb3f8ff42f04a6c751408665af`, preserved as `backup/bookkeys-card-parity-pass-1-built-20261115`.
+- Pre-edit checkpoint: `6d4df30e8754afc10ca36709253e6609f34b5f28`, preserved as `backup/bookkeys-before-card-parity-pass-1-20261115`.
+
+Source-based parity corrections made on the integration branch:
+1. Restored production design-token typography for the home hero, reading demonstration and book cards (22 px hero heading, 16 px hero bullets, 17 px demo text, 20 px book title, 15 px author, 17 px page count).
+2. Restored production author spacing, right-aligned page count, 8 px progress spacing and 3 px card radius.
+3. Restored production page-count formatting, including thousands separators, singular/plural and title-case labels.
+4. Restored two-letter generated cover placeholders for books without artwork.
+5. Restored the original distinct empty-state messages for Recent and ordinary shelves.
+6. Hid the migration-only format badge from the visual card.
+
+Validation at commit `01d4754a7a188bc5716c17a061acab74b3ec70bb`:
+- Bookkeys regression suite: passed.
+- Legacy preservation tests: passed.
+- Persistence tests: passed.
+- TypeScript type-check: passed.
+- Static export build: passed.
+- Chromium browser regressions: pending at checkpoint creation; recheck current PR head check-runs before relying on this.
+- The earlier pass-1 verification run was cancelled when pass 2 superseded it; do not describe it as a full pass.
+- Workers build result on the prior pass-1 commit: success.
+
+Manual visual acceptance remains unresolved:
+- The production URL and isolated preview URL could not be opened by the available browser/search clients in this session.
+- No same-viewport screenshots were available, so pixel-level parity has NOT been verified and must not be claimed.
+- The original live HTML source was inspected directly from the repository. The hero and demo are present in production too; do not remove them.
+- Continue with source-based comparisons only where exact production declarations can be established. For final visual acceptance, compare user-provided screenshots of live and preview at identical viewport dimensions.
+
+Safety:
+- Keep PR #232 draft and unmerged.
+- Do not deploy to production.
+- Preserve all existing backup branches.
+- Make a fresh backup before further product-source edits; after a successful build, immediately snapshot that exact commit.
