@@ -4,6 +4,8 @@ import {
   toCompetitionLearningAttempts,
   toCodeforcesLearningAttempts,
   getCodeforcesProblemUrl,
+  buildCodeforcesRevisionCandidates,
+  updateCodeforcesRevisionState,
 } from "./learning-intelligence.mjs";
 
 const logs = [
@@ -262,3 +264,43 @@ assert.equal(codeforcesAfterFailure.dueAt, Date.parse("2026-11-04T12:00:00Z"),
 
 
 console.log("Competition learning adapter: all assertions passed.");
+
+
+const revisionQuestion = "codeforces:2500A";
+const revisionStart = Date.parse("2026-11-01T12:00:00.000Z");
+const compactRevisionState = updateCodeforcesRevisionState([], [
+  {
+    id: "codeforces:25001", disciplineId: "competitive-programming", courseId: "codeforces",
+    contentId: "2500A", questionId: revisionQuestion, conceptIds: ["greedy"],
+    outcome: "incorrect", occurredAt: revisionStart, mode: "practice",
+  },
+  {
+    id: "codeforces:revision:1", disciplineId: "competitive-programming", courseId: "codeforces",
+    contentId: "2500A", questionId: revisionQuestion, conceptIds: ["implementation"],
+    outcome: "correct", occurredAt: revisionStart + 86_400_000, mode: "revision",
+  },
+  {
+    id: "codeforces:revision:2", disciplineId: "competitive-programming", courseId: "codeforces",
+    contentId: "2500A", questionId: revisionQuestion, conceptIds: ["greedy"],
+    outcome: "correct", occurredAt: revisionStart + 8 * 86_400_000, mode: "revision",
+  },
+  {
+    id: "codeforces:revision:3", disciplineId: "competitive-programming", courseId: "codeforces",
+    contentId: "2500A", questionId: revisionQuestion, conceptIds: ["greedy"],
+    outcome: "incorrect", occurredAt: revisionStart + 9 * 86_400_000, mode: "revision",
+  },
+  {
+    id: "codeforces:revision:4", disciplineId: "competitive-programming", courseId: "codeforces",
+    contentId: "2500A", questionId: revisionQuestion, conceptIds: ["implementation"],
+    outcome: "correct", occurredAt: revisionStart + 10 * 86_400_000, mode: "revision",
+  },
+]);
+assert.equal(compactRevisionState.length, 1);
+assert.equal(compactRevisionState[0].failures, 2, "a later failed re-solve increments the failure count");
+assert.equal(compactRevisionState[0].successfulRevisions, 1, "a later failure resets the successful revision ladder");
+assert.equal(compactRevisionState[0].lastFailureAt, revisionStart + 9 * 86_400_000);
+assert.deepEqual(compactRevisionState[0].conceptIds, ["greedy", "implementation"]);
+const compactCandidate = buildCodeforcesRevisionCandidates(compactRevisionState, revisionStart + 10 * 86_400_000)[0];
+assert.equal(compactCandidate.dueAt, revisionStart + 17 * 86_400_000,
+  "the first successful re-solve advances the interval to seven days");
+assert.equal(compactCandidate.failures, 2);
