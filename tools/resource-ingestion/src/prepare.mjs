@@ -37,7 +37,7 @@ function mapQuestion(item, id, topic) {
   if (!item.subtopic || !topic.subs.has(item.subtopic)) errors.push("subtopic does not match a current MT203 subtopic ID");
   if (!item.answer?.trim()) errors.push("answer key is missing");
   if (!item.explanation?.trim()) errors.push("explanation is missing");
-  if (!Array.isArray(item.options) || item.options.length < 2 || item.options.length > LABELS.length) errors.push("option count must be 2–6");
+  if (!Array.isArray(item.options) || item.options.length !== 4) errors.push("single-correct MT203 MCQs must have exactly four options");
   const options = (item.options ?? []).map((text,i)=>({label:LABELS[i],text}));
   const a = String(item.answer ?? "").trim().toLowerCase();
   const answer = options.some(o=>o.label===a) ? a : options.find(o=>norm(o.text)===norm(a))?.label;
