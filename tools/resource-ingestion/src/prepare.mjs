@@ -78,11 +78,56 @@ export async function prepareMt203Patch({artifact,courseRoot}) {
     }
     byTopic[topicId]={current_questions:current.questions.length,proposed_additions:proposals.filter(p=>p.question.id.startsWith(topicId+"-")).length,subtopics:[...current.subs]};
   }
+  const lessonRelative="app/data/lessons-mt203.ts";
+  const lessonSource=await fs.readFile(path.join(courseRoot,lessonRelative),"utf8");
+  const lessonAst=ts.createSourceFile(lessonRelative,lessonSource,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
+  const lessonHeadings={};
+  const readLesson=(node)=>{
+    if(ts.isPropertyAssignment(node) && node.name.getText().replace(/["']/g,"")==="sections" && ts.isArrayLiteralExpression(node.initializer)){
+      return node.initializer.elements.filter(ts.isObjectLiteralExpression).map(section=>str(prop(section,"h"))).filter(Boolean);
+    }
+    return undefined;
+  };
+  const findLessons=(node)=>{
+    if(ts.isPropertyAssignment(node)){
+      const id=node.name.getText().replace(/["']/g,"");
+      if(/^t([1-9]|10|11)$/.test(id) && ts.isObjectLiteralExpression(node.initializer)){
+        const sections=prop(node.initializer,"sections");
+        lessonHeadings[id]=objects(sections).map(section=>str(prop(section,"h"))).filter(Boolean);
+      }
+    }
+    ts.forEachChild(node,findLessons);
+  };
+  findLessons(lessonAst);
+  const lessonHash=digest(lessonSource);
+  const theoryProposals=[];
+  for(const item of artifact.analysis.theory_updates){
+    const headings=lessonHeadings[item.topic_id]??[];
+    const exactHeading=headings.find(h=>norm(h)===norm(item.heading));
+    const status=item.status==="ready" && item.confidence>=0.9 && item.relation!=="correction" && item.relation!=="duplicate" ? "proposal" : "review";
+    theoryProposals.push({
+      target:"metallurgy-source/"+lessonRelative,expected_file_sha256:lessonHash,topic_id:item.topic_id,
+      proposed_heading:item.heading,existing_section:exactHeading??null,placement:exactHeading?"expand-existing-section":"append-new-section",
+      relation:item.relation,status,confidence:item.confidence,source_pages:item.source_pages,markdown:item.proposed_markdown,
+      note: item.relation==="correction" ? "Potential correction: preserve current theory and request comparison against the cited source before editing." : undefined
+    });
+  }
+  const workedExampleProposals=artifact.analysis.worked_examples.map(item=>({
+    target:"metallurgy-source/"+lessonRelative,expected_file_sha256:lessonHash,topic_id:item.topic_id,title:item.title,
+    source_page:item.source_page,status:item.status==="ready" && item.confidence>=0.9 ? "proposal" : "review",
+    confidence:item.confidence,problem:item.problem,solution:item.solution,final_answer:item.final_answer,units:item.units,
+    format:":::example block proposal",source_sha256:artifact.source.sha256
+  }));
+  const illustrationInventory=artifact.analysis.illustrations.map(item=>({
+    topic_id:item.topic_id,kind:item.kind,source_page:item.source_page,description:item.description,caption:item.caption,
+    action:item.action,confidence:item.confidence,status:item.confidence>=0.9 && item.action!=="review" ? "catalogued" : "review",
+    asset_status:"page reference only; image crop/export is not yet implemented",source_sha256:artifact.source.sha256
+  }));
   const meta=await fs.readFile(path.join(courseRoot,"app/data/qbank/meta.ts"),"utf8");
   const counts=Object.fromEntries([...meta.matchAll(/\{\s*id:\s*"(t\d+)"[^}]*count:\s*(\d+)/g)].map(m=>[m[1],Number(m[2])]));
   for(const [id,entry] of Object.entries(byTopic)){
     entry.metadata_count=counts[id]??null;entry.metadata_matches_source=entry.metadata_count===entry.current_questions;
     if(!entry.metadata_matches_source) blocked.push({topic_id:id,reason:"metadata count differs from parsed source; metadata will not be auto-adjusted",source_count:entry.current_questions,metadata_count:entry.metadata_count});
   }
-  return {schema_version:"1.0",mode:"proposal-only",source:{filename:artifact.source.filename,sha256:artifact.source.sha256},course:{id:"mt203",name:"Polymer Science and Technology"},summary:{proposals:proposals.length,blocked:blocked.length,by_topic:byTopic},proposals,blocked,safeguards:["No source files were modified.","Existing IDs are not changed or reused.","Only source-extracted questions are proposed.","Every proposal includes source page and evidence quote.","Target SHA-256 fingerprints are included; stale targets must be re-read before any write.","Metadata counts are never adjusted automatically."]};
+  return {schema_version:"1.0",mode:"proposal-only",source:{filename:artifact.source.filename,sha256:artifact.source.sha256},course:{id:"mt203",name:"Polymer Science and Technology"},summary:{question_proposals:proposals.length,theory_proposals:theoryProposals.length,worked_example_proposals:workedExampleProposals.length,illustrations_catalogued:illustrationInventory.length,blocked:blocked.length,by_topic:byTopic},proposals,theory_proposals:theoryProposals,worked_example_proposals:workedExampleProposals,illustration_inventory:illustrationInventory,blocked,safeguards:["No source files were modified.","Existing IDs are not changed or reused.","Only source-extracted questions are proposed.","Every proposal includes source page and evidence quote.","Target SHA-256 fingerprints are included; stale targets must be re-read before any write.","Metadata counts are never adjusted automatically."]};
 }
