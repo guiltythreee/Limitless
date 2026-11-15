@@ -63,6 +63,41 @@ const repeated = syncCodeforcesSubmissions(storage, "ExampleHandle", [newSubmiss
 assert.equal(repeated.added, 0, "repeated API results do not duplicate learning attempts");
 assert.equal(repeated.state.attempts.length, 1);
 
+// An archived attempt remains an idempotency key after its bounded seen-ID
+// entry ages out. Replaying it must not increment scheduler failure counts.
+{
+  const replayValues = new Map();
+  const replayStorage = {
+    getItem(key) { return replayValues.has(key) ? replayValues.get(key) : null; },
+    setItem(key, value) { replayValues.set(key, value); },
+    removeItem(key) { replayValues.delete(key); },
+  };
+  syncCodeforcesSubmissions(replayStorage, "ReplayHandle", [], 1795000000000);
+  const oldFailure = {
+    id: 700, contestId: 2700, creationTimeSeconds: 1795000001,
+    verdict: "WRONG_ANSWER", problem: { contestId: 2700, index: "A", tags: ["dp"] },
+  };
+  const original = syncCodeforcesSubmissions(
+    replayStorage, "ReplayHandle", [oldFailure], 1795000005000
+  );
+  assert.equal(original.added, 1);
+  const beforeReplay = readCodeforcesSyncState(replayStorage);
+  assert.equal(beforeReplay.revisionState[0].failures, 1);
+  const persisted = JSON.parse(replayValues.get(CODEFORCES_SYNC_STORAGE_KEY));
+  persisted.seenSubmissionIds = Array.from({ length: 100000 }, (_, index) => 1000000 + index);
+  replayValues.set(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(persisted));
+
+  const replay = syncCodeforcesSubmissions(
+    replayStorage, "ReplayHandle", [oldFailure], 1796000000000
+  );
+  assert.equal(replay.ok, true);
+  assert.equal(replay.added, 0);
+  assert.equal(replay.state.attempts.length, 1);
+  assert.equal(replay.state.revisionState[0].failures, 1,
+    "a replayed archived submission cannot count as a second failure");
+}
+
+// A pending verdict is not marked seen before its verdict becomes terminal.
 const pending = {
   id: 103, contestId: 2000, creationTimeSeconds: 1795000002,
   verdict: "TESTING", problem: { contestId: 2000, index: "C", tags: ["dp"] },
