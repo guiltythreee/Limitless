@@ -166,6 +166,8 @@
         ? learningSync.readCodeforcesSyncState(localStorage)
         : {handle:'',lastSyncAt:0};
       const sameHandle = previousSync.handle === String(handle || '').trim().toLowerCase();
+      // Keep the current week complete for the dashboard and recheck a 48-hour
+      // overlap before the last successful sync so delayed verdicts can settle.
       const lastSyncSeconds = sameHandle && previousSync.lastSyncAt > 0
         ? Math.max(0, Math.floor(previousSync.lastSyncAt / 1000) - 48 * 60 * 60)
         : weekStartSec;
