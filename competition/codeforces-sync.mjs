@@ -80,7 +80,12 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
   let rewardAwards = 0;
   if (!firstSync) {
     const rewards = createCompetitionRewardAdapter(storage);
-    for (const submission of newlyObserved) {
+    // API pages are newest-first, but daily repeat caps must be assigned in
+    // chronological order so the earliest accepted solve gets the first award.
+    const rewardOrder = newlyObserved.slice().sort((a, b) =>
+      Number(a.creationTimeSeconds) - Number(b.creationTimeSeconds) || Number(a.id) - Number(b.id)
+    );
+    for (const submission of rewardOrder) {
       if (submission.verdict !== "OK") continue;
       const record = rewards.awardCodeforcesSubmission(submission, normalizedHandle);
       if (!record) return { ok: false, error: "reward-ledger-write-failed", baseline: false, added: 0 };
