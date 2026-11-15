@@ -182,7 +182,7 @@ export function sanitiseRewardRecords(raw) {
  * Deterministic award calculation. A completed activity is counted even when a
  * daily repeat cap makes its EXP award zero. Duplicate event IDs never award twice.
  */
-export function calculateReward(input, priorRecords = []) {
+export function calculateReward(input, priorRecords = [], priorArchive = null) {
   const ts = isFiniteNumber(input?.ts) ? Math.round(input.ts) : 0;
   const activityClass = input?.activityClass;
   const difficulty = input?.difficulty;
@@ -205,7 +205,7 @@ export function calculateReward(input, priorRecords = []) {
   const baseExp = isProject ? (assignedProjectBase ?? 0) : (ACTIVITY_BASE_EXP[activityClass] ?? 0);
   const multiplier = DIFFICULTY_MULTIPLIER[difficulty] ?? 1;
   const prior = sanitiseRewardRecords(priorRecords);
-  const duplicate = eventId !== "" && prior.some((r) => r.eventId === eventId);
+  const archive = priorArchive ? sanitiseRewardArchive(priorArchive, moduleId) : null;\n  const duplicate = eventId !== "" && (prior.some((r) => r.eventId === eventId) || archive?.eventIds.includes(eventId));
   const day = ts > 0 ? localDayKey(ts) : "";
   const repeatCount = moduleId && itemId && day
     ? prior.filter((r) => r.moduleId === moduleId && r.itemId === itemId && localDayKey(r.ts) === day && r.countsTowardRepeatCap).length
@@ -349,6 +349,80 @@ export function levelForExp(value) {
   };
 }
 
+/**
+ * Compact archived LSR-1 history while retaining exact lifetime totals and
+ * event identity. Full records for the current local day remain available for
+ * repeat-cap calculations; older records are reduced to aggregate totals,
+ * recent display records, and a compact idempotency index.
+ */
+export function sanitiseRewardArchive(value, moduleId) {
+  if (!isRecord(value) || value.version !== 1 || value.moduleId !== moduleId ||
+      !isFiniteNumber(value.totalExp) || value.totalExp < 0 ||
+      !Number.isSafeInteger(value.awardCount) || value.awardCount < 0 ||
+      !Number.isSafeInteger(value.recordCount) || value.recordCount < 0 ||
+      !Array.isArray(value.eventIds) || !Array.isArray(value.checkpointIds) ||
+      !Array.isArray(value.recentAwards)) return null;
+  const eventIds = [...new Set(value.eventIds.filter(isString))];
+  const checkpointIds = [...new Set(value.checkpointIds.filter(isString))];
+  const recentAwards = sanitiseRewardRecords(value.recentAwards)
+    .filter((record) => record.moduleId === moduleId && record.eligible && record.totalExp > 0)
+    .sort((a, b) => b.ts - a.ts).slice(0, 20);
+  if (eventIds.length !== value.eventIds.length || checkpointIds.length !== value.checkpointIds.length) return null;
+  return {
+    version: 1,
+    moduleId,
+    totalExp: Math.round(value.totalExp),
+    awardCount: value.awardCount,
+    recordCount: value.recordCount,
+    eventIds,
+    checkpointIds,
+    recentAwards,
+  };
+}
+
+/** Append records and compact records from earlier local days into rewardArchive. */
+export function appendRewardRecords(payload, newRecords, moduleId, now = Date.now()) {
+  if (!isRecord(payload) || !isString(moduleId) || !isFiniteNumber(now) || now <= 0) {
+    throw new TypeError("A reward payload, module ID, and valid timestamp are required");
+  }
+  const existingArchive = payload.rewardArchive == null
+    ? null : sanitiseRewardArchive(payload.rewardArchive, moduleId);
+  if (payload.rewardArchive != null && !existingArchive) {
+    throw new Error("The existing reward archive is invalid; refusing to overwrite it");
+  }
+  const archive = existingArchive ?? {
+    version: 1, moduleId, totalExp: 0, awardCount: 0, recordCount: 0,
+    eventIds: [], checkpointIds: [], recentAwards: [],
+  };
+  const records = sanitiseRewardRecords([
+    ...sanitiseRewardRecords(payload.rewardLedger),
+    ...sanitiseRewardRecords(newRecords),
+  ]).filter((record) => record.moduleId === moduleId);
+  const today = localDayKey(now);
+  const retained = records.filter((record) => localDayKey(record.ts) === today);
+  const compacted = records.filter((record) => localDayKey(record.ts) !== today);
+  const archivedAwards = compacted.filter((record) => record.eligible && record.totalExp > 0);
+  const recentAwards = [...archive.recentAwards, ...records.filter((record) => record.eligible && record.totalExp > 0)]
+    .sort((a, b) => b.ts - a.ts)
+    .filter((record, index, list) => list.findIndex((item) => item.eventId === record.eventId) === index)
+    .slice(0, 20);
+  const nextArchive = sanitiseRewardArchive({
+    version: 1,
+    moduleId,
+    totalExp: archive.totalExp + archivedAwards.reduce((sum, record) => sum + record.totalExp, 0),
+    awardCount: archive.awardCount + archivedAwards.length,
+    recordCount: archive.recordCount + compacted.length,
+    eventIds: [...archive.eventIds, ...compacted.map((record) => record.eventId)],
+    checkpointIds: [
+      ...archive.checkpointIds,
+      ...compacted.filter((record) => record.checkpointId && record.passBonus > 0).map((record) => record.checkpointId),
+    ],
+    recentAwards,
+  }, moduleId);
+  if (!nextArchive) throw new Error("Could not construct a valid reward archive");
+  return { ...payload, rewardLedger: retained, rewardArchive: nextArchive };
+}
+
 export function summariseRewards(records) {
   const valid = sanitiseRewardRecords(records);
   const byModule = new Map();
@@ -377,6 +451,9 @@ export function summariseRewards(records) {
 export function readGlobalRewardSummary(storage) {
   const all = [];
   const sources = [];
+  let archivedExp = 0;
+  let archivedAwards = 0;
+  let archivedRecords = 0;
   for (const source of REWARD_SOURCE_REGISTRY) {
     let payload;
     try {
@@ -388,16 +465,50 @@ export function readGlobalRewardSummary(storage) {
     }
     if (!isRecord(payload)) continue;
     const records = sanitiseRewardRecords(payload.rewardLedger).filter((r) => r.moduleId === source.moduleId);
+    const archive = payload.rewardArchive == null ? null : sanitiseRewardArchive(payload.rewardArchive, source.moduleId);
+    if (payload.rewardArchive != null && !archive) {
+      throw new Error("Invalid LSR-1 reward archive for " + source.moduleId);
+    }
     all.push(...records);
-    sources.push({
-      moduleId: source.moduleId,
-      label: source.label,
-      exp: records.filter((r) => r.eligible && r.totalExp > 0).reduce((n, r) => n + r.totalExp, 0),
-      awards: records.filter((r) => r.eligible && r.totalExp > 0).length,
-    });
+    const currentExp = records.filter((r) => r.eligible && r.totalExp > 0).reduce((n, r) => n + r.totalExp, 0);
+    const currentAwards = records.filter((r) => r.eligible && r.totalExp > 0).length;
+    const exp = currentExp + (archive?.totalExp ?? 0);
+    const awards = currentAwards + (archive?.awardCount ?? 0);
+    archivedExp += archive?.totalExp ?? 0;
+    archivedAwards += archive?.awardCount ?? 0;
+    archivedRecords += archive?.recordCount ?? 0;
+    sources.push({ moduleId: source.moduleId, label: source.label, exp, awards });
   }
-  const summary = summariseRewards(all);
-  return { ...summary, sources, registeredModules: REWARD_SOURCE_REGISTRY.map(({ moduleId, label }) => ({ moduleId, label })) };
+  const current = summariseRewards(all);
+  const recentAwards = [];
+  for (const source of REWARD_SOURCE_REGISTRY) {
+    try {
+      const raw = storage?.getItem(source.storageKey);
+      if (!raw) continue;
+      const payload = JSON.parse(raw);
+      if (!isRecord(payload)) continue;
+      const archive = payload.rewardArchive == null ? null : sanitiseRewardArchive(payload.rewardArchive, source.moduleId);
+      if (archive) recentAwards.push(...archive.recentAwards);
+    } catch { /* A malformed source is already excluded from current totals. */ }
+  }
+  const recent = [...recentAwards, ...current.recentAwards]
+    .sort((a, b) => b.ts - a.ts)
+    .filter((record, index, list) => list.findIndex((item) => item.eventId === record.eventId) === index)
+    .slice(0, 20);
+  const totalExp = current.totalExp + archivedExp;
+  const level = levelForExp(totalExp);
+  return {
+    ...current,
+    totalExp,
+    awardCount: current.awardCount + archivedAwards,
+    recordCount: current.recordCount + archivedRecords,
+    level,
+    unlockedRewards: unlockedRewardsForLevel(level.level),
+    nextReward: nextRewardForLevel(level.level),
+    recentAwards: recent,
+    sources,
+    registeredModules: REWARD_SOURCE_REGISTRY.map(({ moduleId, label }) => ({ moduleId, label })),
+  };
 }
 
 export function dispatchRewardUpdate() {
