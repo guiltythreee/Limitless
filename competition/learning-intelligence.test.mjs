@@ -171,5 +171,39 @@ assert.equal(mixedTagOrder.mastery.find((item) => item.label === "implementation
   "the same tag accumulates mastery regardless of its position in a problem's tag list");
 assert.equal(mixedTagOrder.mastery.find((item) => item.label === "greedy").attempts, 2);
 
+// Codeforces revision feedback is persisted as a revision-mode learning attempt.
+// A successful independent re-solve advances the same problem to the 7-day step.
+const codeforcesRevision = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), [
+  { ...cfAttempts[0], id: "codeforces:9200", questionId: "codeforces:1900A", occurredAt: Date.parse("2026-11-01T12:00:00Z") },
+  {
+    ...cfAttempts[0], id: "codeforces:revision:1", questionId: "codeforces:1900A",
+    occurredAt: Date.parse("2026-11-02T12:00:00Z"), outcome: "correct",
+    independent: true, hintCount: 0, mode: "revision",
+  },
+]);
+const codeforcesAfterSuccess = codeforcesRevision.revision.find((item) => item.questionId === "codeforces:1900A");
+assert.ok(codeforcesAfterSuccess, "a failed Codeforces problem remains scheduled after successful revision");
+assert.equal(codeforcesAfterSuccess.lastReviewedAt, Date.parse("2026-11-02T12:00:00Z"));
+assert.equal(codeforcesAfterSuccess.dueAt, Date.parse("2026-11-09T12:00:00Z"),
+  "successful Codeforces revision advances to the 7-day interval");
+
+// A subsequent failed re-solve resets the Codeforces problem to the 1-day interval.
+const codeforcesFailedAgain = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), [
+  { ...cfAttempts[0], id: "codeforces:9201", questionId: "codeforces:1900A", occurredAt: Date.parse("2026-11-01T12:00:00Z") },
+  {
+    ...cfAttempts[0], id: "codeforces:revision:2", questionId: "codeforces:1900A",
+    occurredAt: Date.parse("2026-11-02T12:00:00Z"), outcome: "correct",
+    independent: true, hintCount: 0, mode: "revision",
+  },
+  {
+    ...cfAttempts[0], id: "codeforces:revision:3", questionId: "codeforces:1900A",
+    occurredAt: Date.parse("2026-11-03T12:00:00Z"), outcome: "incorrect",
+    independent: false, mode: "revision",
+  },
+]);
+const codeforcesAfterFailure = codeforcesFailedAgain.revision.find((item) => item.questionId === "codeforces:1900A");
+assert.equal(codeforcesAfterFailure.dueAt, Date.parse("2026-11-04T12:00:00Z"),
+  "failed Codeforces revision resets the schedule to one day");
+
 
 console.log("Competition learning adapter: all assertions passed.");
