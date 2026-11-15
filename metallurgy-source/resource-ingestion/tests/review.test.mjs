@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { buildProposedPatch, validateReview } from "../review.mjs";
 
 const manifest = { sourceId: "source-abc", sha256: "abc123", fileName: "lecture.pdf" };
@@ -36,4 +42,28 @@ assert.throws(() => validateReview([...records, { ...records[0] }], []), /Duplic
 assert.throws(() => validateReview([{ text: "missing id" }], []), /non-empty string id/);
 assert.throws(() => validateReview([{ ...records[0], sourceId: "another-source" }], [], "source-abc"), /belongs to another-source.*not manifest source source-abc/);
 
-console.log("Review gate tests passed: approvals, corrections, rejections, malformed input and safety invariants.");
+// Exercise the CLI boundary too: mismatched source records must fail before any output is created.
+const tempDir = await mkdtemp(join(tmpdir(), "resource-review-source-guard-"));
+try {
+  const manifestPath = join(tempDir, "manifest.json");
+  const recordsPath = join(tempDir, "records.json");
+  const decisionsPath = join(tempDir, "decisions.json");
+  const outputPath = join(tempDir, "output");
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  await writeFile(recordsPath, JSON.stringify([{ ...records[0], sourceId: "another-source" }]));
+  await writeFile(decisionsPath, JSON.stringify([]));
+  const cli = spawnSync(process.execPath, [
+    fileURLToPath(new URL("../review.mjs", import.meta.url)),
+    "--manifest", manifestPath,
+    "--records", recordsPath,
+    "--decisions", decisionsPath,
+    "--out", outputPath,
+  ], { encoding: "utf8" });
+  assert.equal(cli.status, 1, cli.stderr || cli.stdout);
+  assert.match(cli.stderr, /belongs to another-source.*not manifest source source-abc/);
+  assert.equal(existsSync(outputPath), false, "Rejected cross-source input must not create review output.");
+} finally {
+  await rm(tempDir, { recursive: true, force: true });
+}
+
+console.log("Review gate tests passed: approvals, corrections, rejections, malformed input and source-bound CLI safety.");
