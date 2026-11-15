@@ -85,9 +85,9 @@ for (const manifest of manifests) {
 }
 
 /**
- * Metallurgy is one discipline with three separately described courses.
+ * Metallurgy is one discipline with four separately described courses.
  * Course-level capability sets are retained because MT201, MT202 and MT203
- * do not offer identical learning features.
+ * MT200, MT201, MT202 and MT203 do not offer identical learning features.
  */
 export const METALLURGY_STUDIES_REGISTRATION = {
   descriptor: {
@@ -117,8 +117,9 @@ export const METALLURGY_STUDIES_REGISTRATION = {
           if (raw === null) continue;
           const parsed: unknown = JSON.parse(raw);
           if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) continue;
-          if (Object.values(parsed).some((value) => typeof value !== "string")) continue;
-          answers = parsed as Record<string, string>;
+          const entries = Object.entries(parsed as Record<string, unknown>);
+          if (entries.some(([key, value]) => !/^(I|II|III|IV):[A-D]\\d{1,2}$/.test(key) || typeof value !== "string")) continue;
+          answers = Object.fromEntries(entries) as Record<string, string>;
         } catch {
           continue;
         }
