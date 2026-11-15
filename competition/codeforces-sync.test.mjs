@@ -39,7 +39,7 @@ assert.deepEqual(initialPlan, { mode: "since", sinceSeconds: 1794913600 },
 assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "differenthandle"),
   { mode: "all", sinceSeconds: null },
   "a different account must fetch a full history to establish its own baseline");
-assert.deepEqual(getCodeforcesSyncFetchPlan(makeStorage(), "examplehandle"),
+assert.deepEqual(getCodeforcesSyncFetchPlan({ getItem() { return null; } }, "examplehandle"),
   { mode: "all", sinceSeconds: null },
   "a first connection must fetch full history before establishing the baseline");
 assert.deepEqual(getCodeforcesSyncFetchPlan(storage, ""),
