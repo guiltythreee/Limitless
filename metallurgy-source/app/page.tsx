@@ -1,20 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { loadTheme, saveTheme } from "./lib/progress";
+import { MT200_MANIFEST } from "./courses/manifests/mt200";
 import { MT201_MANIFEST } from "./courses/manifests/mt201";
 import { MT202_MANIFEST } from "./courses/manifests/mt202";
 import { MT203_MANIFEST } from "./courses/manifests/mt203";
 import { METALLURGY_STUDIES_REGISTRATION } from "./studies/registration";
 
-const COURSES = [MT201_MANIFEST, MT202_MANIFEST, MT203_MANIFEST] as const;
+const COURSES = [MT200_MANIFEST, MT201_MANIFEST, MT202_MANIFEST, MT203_MANIFEST] as const;
 type CourseId = (typeof COURSES)[number]["id"];
 
 const totalFor = (course: (typeof COURSES)[number]) =>
   course.topics.reduce((sum, topic) => sum + topic.count, 0);
 
 export default function Landing() {
+  const router = useRouter();
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [selectedId, setSelectedId] = useState<CourseId>("mt201");
   const [courseOpen, setCourseOpen] = useState(false);
@@ -98,14 +101,14 @@ export default function Landing() {
           <a className="semester-back" href="../">← <span>Home</span></a>
           <div className="semester-brand">
             <span className="semester-brand-mark">⚗</span>
-            <div><strong>Metallurgy</strong><small>6 semesters · 3 courses</small></div>
+            <div><strong>Metallurgy</strong><small>6 semesters · {COURSES.length} courses</small></div>
           </div>
           <div className="semester-sidebar-label">SEMESTERS</div>
           <div className="semester-year-list">
             {semesters.map((number) => (
               <button key={number} className={"semester-year " + (semester === number ? "is-active" : "")} aria-pressed={semester === number} onClick={() => { setSemester(number); setCourseOpen(false); }}>
                 <span className="semester-year-number">{number}</span>
-                <span className="semester-year-copy"><strong>Semester {number}</strong><small>{number === "3" ? "3 courses available" : "No courses added yet"}</small></span>
+                <span className="semester-year-copy"><strong>Semester {number}</strong><small>{number === "3" ? `${COURSES.length} courses available` : "No courses added yet"}</small></span>
                 <span className="semester-year-arrow">{semester === number ? "−" : "+"}</span>
               </button>
             ))}
@@ -151,7 +154,7 @@ export default function Landing() {
                       type="button"
                       key={course.id}
                       className="semester-course-card"
-                      onClick={() => { setSelectedId(course.id); setCourseOpen(true); setQuery(""); setStatus("all"); setSort("number"); }}
+                      onClick={() => { if (course.id === "mt200") { router.push("/mt200/"); return; } setSelectedId(course.id); setCourseOpen(true); setQuery(""); setStatus("all"); setSort("number"); }}
                     >
                       <span className="semester-course-card-top">
                         <span className="semester-course-symbol">{course.symbol}</span>
@@ -160,7 +163,7 @@ export default function Landing() {
                       <span className="semester-course-card-code">{course.code} · SEMESTER {semester}</span>
                       <strong>{course.title}</strong>
                       <span className="semester-course-card-subtitle">{course.subtitle}</span>
-                      <span className="semester-course-card-meta">{course.topics.length} chapters <i>·</i> {totalFor(course).toLocaleString("en-IN")} questions</span>
+                      <span className="semester-course-card-meta">{course.id === "mt200" ? "5 modules · 4 practice papers" : `${course.topics.length} chapters · ${totalFor(course).toLocaleString("en-IN")} questions`}</span>
                       {course.id === "mt202" && <span className="semester-course-card-extra">522 chapter-wise MCQs</span>}
                       <span className="semester-course-card-progress"><i style={{ width: `${completion}%` }} /></span>
                       <span className="semester-course-card-footer">{completion}% complete <b>Open course <span aria-hidden="true">→</span></b></span>
