@@ -221,14 +221,31 @@ export function updateCodeforcesRevisionState(previousState, newAttempts) {
 
 export function buildCodeforcesRevisionCandidates(revisionState, now = Date.now()) {
   return sanitiseCodeforcesRevisionState(revisionState).map((item) => {
-    const interval = CODEFORCES_REVISION_INTERVALS[Math.min(item.successfulRevisions, CODEFORCES_REVISION_INTERVALS.length - 1)];
+    const interval = CODEFORCES_REVISION_INTERVALS[
+      Math.min(item.successfulRevisions, CODEFORCES_REVISION_INTERVALS.length - 1)
+    ];
     const dueAt = (item.lastSuccessfulRevisionAt || item.lastFailureAt) + interval * REVISION_DAY_MS;
     const overdueDays = Math.max(0, Math.floor((now - dueAt) / REVISION_DAY_MS));
-    return { ...item, dueAt, overdueDays, intervalDays: interval };
-  }).sort((a, b) => a.dueAt - b.dueAt || a.questionId.localeCompare(b.questionId));
+    const candidate = {
+      key: [item.disciplineId, item.courseId, item.questionId].join("::"),
+      disciplineId: item.disciplineId,
+      courseId: item.courseId,
+      contentId: item.contentId,
+      questionId: item.questionId,
+      conceptIds: item.conceptIds,
+      failures: item.failures,
+      lastFailureAt: item.lastFailureAt,
+      dueAt,
+      overdueDays,
+      priority: (now >= dueAt ? 100 : 0) + item.failures * 10 + overdueDays,
+    };
+    if (item.lastSuccessfulRevisionAt > 0) candidate.lastReviewedAt = item.lastSuccessfulRevisionAt;
+    return candidate;
+  }).sort((a, b) =>
+    b.priority - a.priority || a.dueAt - b.dueAt || a.key.localeCompare(b.key));
 }
 
-export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], now = Date.now(), codeforcesSubmissions = []) {
+export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], now = Date.now(), codeforcesSubmissions = [], codeforcesRevisionState) {
   const storedCodeforcesAttempts = Array.isArray(codeforcesSubmissions) && codeforcesSubmissions.some((item) =>
     item && typeof item.id === "string" && item.id.startsWith("codeforces:") && item.disciplineId === "competitive-programming"
   );
@@ -259,6 +276,10 @@ export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], no
     mastery,
     weakConcepts: recommendConceptPractice(mastery, 3),
     recurringMistakes: buildConceptMistakeSummary(attempts).slice(0, 3),
-    revision: buildRevisionCandidates(attempts, now),
+    revision: (codeforcesRevisionState === undefined
+      ? buildRevisionCandidates(attempts, now)
+      : buildRevisionCandidates(attempts.filter((attempt) => attempt.courseId !== "codeforces"), now)
+        .concat(buildCodeforcesRevisionCandidates(codeforcesRevisionState, now))
+        .sort((a, b) => b.priority - a.priority || a.dueAt - b.dueAt || a.key.localeCompare(b.key))),
   };
 }
