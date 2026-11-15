@@ -17,7 +17,7 @@ assert.equal((page.match(/className="probability-studies-card/g) ?? []).length, 
 for (const phrase of [
   "PROBABILITY_STUDIES_REGISTRATION.readProgress",
   "summarizeStudyProgress",
-  "localStorage progress",
+  "Read from your existing browser progress",
   "allQuestions.length",
   "pathways.map",
   "practiceHref(view)",
