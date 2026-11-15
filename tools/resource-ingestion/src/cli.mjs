@@ -9,8 +9,8 @@ import { renderReviewReport } from "./report.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const COURSE_ROOT = path.join(ROOT, "metallurgy-source");
-const MAX_PDF_BYTES = 50 * 1024 * 1024;
-const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-6";
+const MAX_PDF_BYTES = 50_000_000;
+const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-6-astra";
 
 function usage() {
   console.log("Limitless Resource Ingestion — local maintainer tool\n\nUsage:\n  node src/cli.mjs analyze --input <file.pdf> --course mt203 [--output-dir <dir>] [--model <model>]\n\nCurrent pilot: MT203 Polymer Science and Technology; PDF only.\nEnvironment: OPENAI_API_KEY (required), OPENAI_MODEL (optional; default " + DEFAULT_MODEL + ").\nThe command writes proposal artifacts only. It never edits course files.");
@@ -87,7 +87,7 @@ async function analyze() {
   const inputPath = path.resolve(input);
   if (path.extname(inputPath).toLowerCase() !== ".pdf") throw new Error("The first pilot accepts PDF files only.");
   const bytes = await fs.readFile(inputPath);
-  if (!bytes.length || bytes.length > MAX_PDF_BYTES) throw new Error("PDF must be non-empty and no larger than 50 MiB.");
+  if (!bytes.length || bytes.length > MAX_PDF_BYTES) throw new Error("PDF must be non-empty and under 50 MB.");
   const sourceSha256 = crypto.createHash("sha256").update(bytes).digest("hex");
   const { pages, pageCount } = await extractPdfPages(bytes);
   const courseContext = await buildMt203Context();
@@ -120,7 +120,7 @@ async function analyze() {
         model,
         input: [
           { role: "system", content: [{ type: "input_text", text: SYSTEM_PROMPT }] },
-          { role: "user", content: [{ type: "input_file", file_id: uploadedFileId }, { type: "input_text", text: prompt }] }
+          { role: "user", content: [{ type: "input_file", file_id: uploadedFileId, detail: "high" }, { type: "input_text", text: prompt }] }
         ],
         text: { format: { type: "json_schema", name: "limitless_resource_analysis", strict: true, schema: ANALYSIS_SCHEMA } }
       })
