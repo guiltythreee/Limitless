@@ -52,7 +52,7 @@ The full output directory is a local validation artifact and was not committed t
 
 1. **Image-to-page mapping:** selected image-heavy pages map correctly when extracted file numbers are matched to PDF image numbers. This also avoids soft-mask entries shifting subsequent associations.
 2. **OCR fallback:** useful for image-backed slides with sparse native text, but OCR output must remain unverified. Numerical tables and mathematical notation need visual checking.
-3. **Equation fidelity:** text extraction alone is insufficient for the molecular-weight equations on page 36. The current pipeline retains the source page number but does not yet create a full-page visual proof for text-native pages. A future review-packet improvement should provide page renders for equation/table candidates that cannot be safely represented as text.
+3. **Equation fidelity:** text extraction alone is insufficient for the molecular-weight equations on page 36 because layout linearization does not preserve the full fraction structure reliably. The current preview planner does include equation-candidate pages, and the full-page preview for page 36 was generated and visually inspected against the source. The remaining limitation is semantic extraction: the pipeline does not reconstruct or validate the equation from text, so reviewers must use the linked page image as the authority.
 4. **Table interpretation:** the permeability table on page 154 is available as an extracted image. Its OCR text should be treated as a search aid, not as a verified data transcription.
 5. **Course mapping:** use MT203 as explicitly confirmed by the user. The filename and embedded metadata are not authoritative for this source's course assignment.
 
