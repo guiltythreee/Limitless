@@ -1,4 +1,4 @@
-import { sanitiseRewardRecords } from "../shared/rewards.mjs";
+import { readRewardLedger, decodeRewardLedgerArchive } from "../shared/rewards.mjs";
 import { isValidCodeforcesAttemptArchive, CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY } from "./codeforces-sync.mjs";
 import { sanitiseCodeforcesRevisionState } from "./learning-intelligence.mjs";
 
@@ -54,8 +54,15 @@ function validCodeforcesLearning(value) {
 
 function validCodeforcesRewards(value) {
   if (!isRecord(value) || !Array.isArray(value.rewardLedger)) return false;
-  const clean = sanitiseRewardRecords(value.rewardLedger);
-  return clean.length === value.rewardLedger.length &&
+  const archived = value.rewardLedgerArchive == null
+    ? []
+    : decodeRewardLedgerArchive(value.rewardLedgerArchive);
+  if (value.rewardLedgerArchive != null &&
+      (!isRecord(value.rewardLedgerArchive) ||
+       !Array.isArray(value.rewardLedgerArchive.records) ||
+       archived.length !== value.rewardLedgerArchive.records.length)) return false;
+  const clean = readRewardLedger(value);
+  return clean.length === archived.length + value.rewardLedger.length &&
     clean.every((record) => record.moduleId === "competitive-programming");
 }
 
@@ -70,7 +77,7 @@ function inspectBackupExtras(parsed) {
   if (hasAccountHistories && parsed.codeforcesAccountHistories !== null &&
       (!isRecord(parsed.codeforcesAccountHistories) || parsed.codeforcesAccountHistories.version !== 1 || !isRecord(parsed.codeforcesAccountHistories.accounts) ||
        Object.entries(parsed.codeforcesAccountHistories.accounts).some(([handle, value]) => !isRecord(value) || value.version !== 1 || value.handle !== handle ||
-         !Array.isArray(value.seenSubmissionIds) || !value.seenSubmissionIds.every((id) => Number.isSafeInteger(id) && id > 0) || !isValidCodeforcesAttemptArchive(value.attemptsArchive) ||
+         !Array.isArray(value.seenSubmissionIds) || !value.seenSubmissionIds.every((id) => Number.isSafeInteger(id) && id > 0) || !isValidCodeforcesAttemptArchive(value.attemptsArchive) || !validCodeforcesRevisionSnapshot(value.revisionState) ||
          !Array.isArray(value.attempts) || value.attempts.some((attempt) => !isRecord(attempt) || typeof attempt.id !== "string" || !attempt.id.startsWith("codeforces:") || !Number.isFinite(attempt.occurredAt) || attempt.occurredAt <= 0))))
     return { ok: false, error: "invalid-codeforces-account-histories" };
   if (hasRewards && parsed.codeforcesRewards !== null && !validCodeforcesRewards(parsed.codeforcesRewards)) {
