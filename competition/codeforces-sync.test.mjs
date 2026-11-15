@@ -143,3 +143,32 @@ console.log("Codeforces sync baseline: all assertions passed.");
   assert.equal(normalized[0], 5001);
   assert.equal(normalized.at(-1), 10000);
 }
+
+
+// Reward repeat caps must be assigned oldest-first even when the API returns
+// the accepted submissions newest-first.
+{
+  const orderedValues = new Map();
+  const orderedStorage = {
+    getItem(key) { return orderedValues.has(key) ? orderedValues.get(key) : null; },
+    setItem(key, value) { orderedValues.set(key, value); },
+  };
+  syncCodeforcesSubmissions(orderedStorage, "OrderedHandle", [], 1795000000000);
+  const sameProblem = [4, 3, 2, 1].map((id) => ({
+    id: 200 + id,
+    contestId: 2000,
+    creationTimeSeconds: 1795000000 + id,
+    verdict: "OK",
+    problem: { contestId: 2000, index: "A", rating: 800, tags: ["greedy"] },
+  }));
+  const orderedSync = syncCodeforcesSubmissions(
+    orderedStorage, "OrderedHandle", sameProblem, 1795000010000
+  );
+  assert.equal(orderedSync.rewardAwards, 3);
+  const ledger = JSON.parse(orderedStorage.getItem(COMPETITION_REWARD_STORAGE_KEY)).rewardLedger;
+  const byEvent = new Map(ledger.map((record) => [record.eventId, record]));
+  assert.equal(byEvent.get("codeforces:orderedhandle:201").eligible, true);
+  assert.equal(byEvent.get("codeforces:orderedhandle:202").eligible, true);
+  assert.equal(byEvent.get("codeforces:orderedhandle:203").eligible, true);
+  assert.equal(byEvent.get("codeforces:orderedhandle:204").reason, "daily-repeat-cap");
+}
