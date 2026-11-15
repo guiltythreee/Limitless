@@ -153,24 +153,18 @@
     $('sync-status').textContent = 'Refreshing public Codeforces rating data…';
     $('refresh-rating').disabled = true;
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 180000);
     try {
       const base = 'https://codeforces.com/api/';
-      const [infoResponse, ratingResponse, statusResponse] = await Promise.all([
-        fetch(base + 'user.info?handles=' + encodeURIComponent(handle), {signal: controller.signal}),
-        fetch(base + 'user.rating?handle=' + encodeURIComponent(handle), {signal: controller.signal}),
-        fetch(base + 'user.status?handle=' + encodeURIComponent(handle) + '&from=1&count=1000', {signal: controller.signal})
-      ]);
-      if (!infoResponse.ok || !ratingResponse.ok || !statusResponse.ok) throw new Error('Codeforces API request failed.');
-      const [info, ratings, submissions] = await Promise.all([infoResponse.json(), ratingResponse.json(), statusResponse.json()]);
-      if (info.status !== 'OK') throw new Error(info.comment || 'Codeforces handle not found.');
-      if (ratings.status !== 'OK') throw new Error(ratings.comment || 'Could not load contest history.');
-      if (submissions.status !== 'OK') throw new Error(submissions.comment || 'Could not load accepted submissions.');
-      const user = info.result[0], history = ratings.result, accepted=submissions.result.filter(x=>x.verdict==='OK'&&x.problem&&x.problem.contestId!=null);
+      const api = await import('../competition/codeforces-api.mjs');
+      const info = await api.requestCodeforcesApi(base + 'user.info?handles=' + encodeURIComponent(handle), {signal: controller.signal});
+      const ratings = await api.requestCodeforcesApi(base + 'user.rating?handle=' + encodeURIComponent(handle), {signal: controller.signal});
+      const allSubmissions = await api.fetchAllCodeforcesSubmissions(handle, {signal: controller.signal});
+      const user = info.result[0], history = ratings.result, accepted=allSubmissions.filter(x=>x.verdict==='OK'&&x.problem&&x.problem.contestId!=null);
       let learningResult = null;
       try {
         const learningSync = await import('../competition/codeforces-sync.mjs');
-        learningResult = learningSync.syncCodeforcesSubmissions(localStorage, handle, submissions.result);
+        learningResult = learningSync.syncCodeforcesSubmissions(localStorage, handle, allSubmissions);
       } catch (_) { /* Rating and milestone data remain usable without the learning ledger. */ }
       const weekStart=new Date();weekStart.setHours(0,0,0,0);weekStart.setDate(weekStart.getDate()-((weekStart.getDay()+6)%7));const weekStartSec=Math.floor(weekStart.getTime()/1000);
       const weekProblems=new Set(accepted.filter(x=>x.creationTimeSeconds>=weekStartSec).map(x=>x.problem.contestId+'-'+(x.problem.index||'')));
@@ -190,7 +184,7 @@
             learningResult.awardedExp + ' EXP awarded from ' + learningResult.rewardAwards + ' new accepted submission(s).');
       if (learningResult && learningResult.ok) window.dispatchEvent(new Event('limitless:codeforces-learning-updated'));
     } catch (error) {
-      $('sync-status').textContent = (error.name === 'AbortError' ? 'Codeforces API timed out after 15 seconds.' : (error.message || 'Unable to connect to Codeforces.')) + ' Check the handle in Competition and retry.';
+      $('sync-status').textContent = (error.name === 'AbortError' ? 'Codeforces API timed out while loading the complete submission history.' : (error.message || 'Unable to connect to Codeforces.')) + ' Check the handle in Competition and retry.';
       $('milestone-list').innerHTML = '<p class="cr-loading">Rating data is unavailable right now. Milestones will appear when Codeforces responds.</p>';
       $('peak-rating').textContent = '—';
       $('current-rating').textContent = '—';
