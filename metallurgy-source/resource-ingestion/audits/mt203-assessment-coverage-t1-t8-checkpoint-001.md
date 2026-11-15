@@ -144,3 +144,41 @@ Partial/source reconciliation items:
 - T4 — sedimentation-velocity and remaining method-level crosswalk.
 
 The T1–T8 audit is still targeted rather than complete. T9–T11's existing assessment audit remains the detailed 97-question comparison. No question-bank or lesson edits were made in this checkpoint.
+
+
+## Original-slide visual cross-check — T1, T3, T4 and T5
+
+The original PDF images were opened for pages 16, 22–23, 28–30, 48 and 49. This confirms the visual/text details used in the earlier question-file comparisons.
+
+### T1 — page 16
+
+The slide compares homopolymers Teflon, polyethylene and PVC with the copolymer styrene–butadiene rubber. Its explicit directional statement is: as styrene (plastic) content increases, tensile strength increases, while elongation and abrasion resistance decrease. The trend is visible on the source slide and remains specific to this SBR example. The T1 question file has no direct question testing this composition/property relationship.
+
+### T3 — pages 22–23 and 28–30
+
+- **Solution polymerization, pp.22–23:** monomer is dissolved in a suitable inert solvent with chain-transfer agent; free-radical initiator is dissolved in the solvent; ionic and coordination catalysts may be dissolved or suspended. The slide lists viscosity/heat-transfer control, difficulty obtaining very high molecular weight, solvent evaporation or precipitation in a non-solvent, difficulty removing final traces, and solution-form adhesive/coating or precipitated-slurry use cases.
+- **Emulsion polymerization, p.28:** surfactants, protective colloids and buffers stabilize the system. The slide explicitly names anionic, cationic and non-ionic surfactant classes and says surfactants lower interfacial surface tension.
+- **Micelles, pp.29–30:** the slide defines CMC, describes polar groups facing outward and hydrocarbon chains gathering inward, and identifies the micelle interior as a hydrocarbon phase in which monomer is solubilized. The aqueous emulsifier solution is the continuous phase; monomer droplets and monomer-containing micelles are dispersed in it.
+
+The T3 bank tests CMC, micelles and emulsion/suspension distinctions, but the exact prompt scan found no direct classification question for the three surfactant classes/examples. This is a **partial-coverage gap**, not a reason to add another generic CMC item.
+
+### T4 — page 48
+
+The visual chart confirms the method-to-average grouping:
+
+- **Number-average molecular weight (Mn):** end-group analysis; colligative properties — cryoscopy/freezing-point depression, ebulliometry/boiling-point elevation, vapour-phase osmometry and membrane osmometry; GPC.
+- **Viscosity-average molecular weight (Mv):** dilute-solution viscosity measurements — relative, specific, reduced, inherent and intrinsic viscosity.
+- **Weight-average molecular weight (Mw):** ultracentrifugation — sedimentation velocity and sedimentation equilibrium; light scattering; GPC.
+
+The existing bank directly assesses membrane osmometry, light scattering, sedimentation-equilibrium analysis, solution viscometry and SEC/GPC. Direct assessment of end-group analysis, cryoscopy, ebulliometry, vapour-phase osmometry and sedimentation-velocity was not found in the T4 prompt scan. Keep this as method-level coverage gaps; do not infer that every method needs its own recall item.
+
+### T5 — page 49
+
+The source slide's first table lists examples as follows:
+
+- **Crystalline:** acetal; polyester (PET, PBT); polyamide (PA, nylon); fluorocarbon (PTFE etc.); polyethylene (PE); polypropylene.
+- **Amorphous:** acrylonitrile–butadiene–styrene (ABS); acrylic (PMMA); polycarbonate (PC); “Modified Polyphenylene Oxide (POM)” as printed; polystyrene (PS); polyvinyl chloride (PVC).
+
+The second table contrasts sharp melting point / broad softening point, usually opaque / usually transparent, high / low shrinkage, solvent resistance / solvent sensitive, fatigue-wear resistance / poor fatigue-wear resistance, high / low density, greater / lower heat content, orientation effects, and compressibility.
+
+The T5 bank already assesses several representative examples and the crystalline/amorphous property distinction. It does not directly test every named polymer in the slide's lists. The source's printed “Modified Polyphenylene Oxide (POM)” acronym mismatch must remain flagged; do not silently substitute a different polymer name or acronym. **Current decision: representative coverage, with a source-specific list/comparison gap; no one-question-per-polymer expansion is justified.**
