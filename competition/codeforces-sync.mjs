@@ -79,6 +79,57 @@ export function isValidCodeforcesAttemptArchive(raw) {
   return decodeCodeforcesAttemptArchive(raw).length === raw.records.length;
 }
 
+/** Append a manual Codeforces revision result without bypassing archive compaction. */
+export function appendCodeforcesRevisionAttempt(storage, questionId, outcome, now = Date.now()) {
+  if (!storage || typeof storage.getItem !== "function" || typeof storage.setItem !== "function" ||
+      typeof questionId !== "string" || !questionId.trim() ||
+      !["correct", "incorrect"].includes(outcome) || !Number.isFinite(now) || now <= 0) {
+    return { ok: false, error: "invalid-input" };
+  }
+  const state = readState(storage);
+  if (!state) return { ok: false, error: "learning-record-unavailable" };
+  if (!state.attemptsArchiveValid) return { ok: false, error: "invalid-attempts-archive" };
+  const sourceAttempt = state.attempts.filter((attempt) =>
+    attempt && attempt.questionId === questionId &&
+    attempt.disciplineId === "competitive-programming" && attempt.courseId === "codeforces"
+  ).sort((a, b) => a.occurredAt - b.occurredAt).pop();
+  if (!sourceAttempt) return { ok: false, error: "source-attempt-not-found" };
+
+  const revisionPrefix = "codeforces:revision:" + Math.round(now) + ":";
+  const usedIds = new Set(state.attempts.map((attempt) => attempt.id));
+  let suffix = 1;
+  while (usedIds.has(revisionPrefix + suffix)) suffix += 1;
+  const revision = {
+    id: revisionPrefix + suffix,
+    disciplineId: sourceAttempt.disciplineId,
+    courseId: sourceAttempt.courseId,
+    contentId: sourceAttempt.contentId,
+    questionId: sourceAttempt.questionId,
+    subjectId: "codeforces",
+    conceptIds: Array.isArray(sourceAttempt.conceptIds) ? sourceAttempt.conceptIds : [],
+    outcome,
+    occurredAt: Math.round(now),
+    independent: outcome === "correct",
+    ...(outcome === "correct" ? { hintCount: 0 } : {}),
+    mode: "revision",
+  };
+  const allAttempts = [...state.attempts, revision].sort((a, b) =>
+    a.occurredAt - b.occurredAt || a.id.localeCompare(b.id)
+  );
+  const splitAt = Math.max(0, allAttempts.length - MAX_ATTEMPTS);
+  const { attemptsArchiveValid, ...payload } = state;
+  try {
+    storage.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify({
+      ...payload,
+      attemptsArchive: encodeCodeforcesAttemptArchive(allAttempts.slice(0, splitAt)),
+      attempts: allAttempts.slice(splitAt),
+    }));
+  } catch {
+    return { ok: false, error: "storage-write-failed" };
+  }
+  return { ok: true, attempt: revision };
+}
+
 export function encodeCodeforcesAttemptArchive(attempts) {
   const strings = [];
   const indices = new Map();
