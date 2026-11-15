@@ -1591,6 +1591,9 @@ export default function BookkeysApp() {
               >{shelf.name}</button>
             ))}
           </div>
+          <div className="bk-shelf-actions">
+            <button className="bk-quiet" type="button" onClick={addShelf}>New shelf</button>
+          </div>
           {pasteOpen && (
             <section className="bk-paste-panel" aria-label="Paste book text">
               <label htmlFor="bk-paste-text">Paste a passage or a longer text</label>
