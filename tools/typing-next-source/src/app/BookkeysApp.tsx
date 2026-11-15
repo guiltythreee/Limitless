@@ -1525,22 +1525,27 @@ export default function BookkeysApp() {
           }}
         >
           <div className="bk-intro">
-            <div>
-              <h2>Your library</h2>
-              <p>Books are parsed locally. Original files and typing drafts stay in this browser.</p>
+            <div className="bk-home-hero">
+              <h2>Type your way through the books you love.</h2>
+              <p>Pick one below to get started, or add your own PDFs, EPUBs and text files.</p>
+              <ul>
+                <li>Improve your typing speed and accuracy on real literature</li>
+                <li>Practise one chapter at a time with automatically detected chapters</li>
+                <li>Earn XP, level up and unlock achievements as you read</li>
+              </ul>
+            </div>
+            <div className="bk-home-demo" aria-hidden="true">
+              <strong>Chapter 1</strong>
+              <p>A quiet morning settled over the old library. Sunlight moved slowly across the shelves, touching each book as if inviting someone to begin.</p>
+              <p>The first page was waiting. There was no hurry; only the next line, and the small rhythm of words becoming familiar.</p>
             </div>
             <div className="bk-library-actions">
-              <button className="bk-quiet" onClick={addShelf} disabled={busy}>New shelf</button>
-              <button className="bk-quiet" onClick={editShelfName} disabled={busy || selectedShelf === RECENT_SHELF_ID}>Rename</button>
-              <button className="bk-quiet" onClick={() => void removeShelf()} disabled={busy || selectedShelf === "main" || selectedShelf === RECENT_SHELF_ID}>Delete</button>
               {continueEntry && <button className="bk-primary" onClick={() => void loadEntry(continueEntry)}>Continue reading</button>}
-              <button className="bk-quiet" onClick={() => setPasteOpen((open) => !open)}>Paste text</button>
-              <button className="bk-quiet" onClick={startSample}>Try sample text</button>
-              <button className="bk-quiet" onClick={exportBackup}>Export backup</button>
-              <button className="bk-quiet" onClick={() => backupInput.current?.click()}>Import backup</button>
               <button className="bk-primary" onClick={() => fileInput.current?.click()} disabled={busy}>
-                {busy ? "Working…" : "Import PDF / EPUB / TXT"}
+                {busy ? "Working…" : "Open book"}
               </button>
+              <button className="bk-quiet" onClick={startSample}>Try sample text</button>
+              <button className="bk-quiet" onClick={() => setPasteOpen((open) => !open)}>Paste text</button>
             </div>
             <input
               ref={fileInput}
@@ -1648,15 +1653,17 @@ export default function BookkeysApp() {
                       {safeArtworkDataUrl(entry.cover) && (
                         <img className="bk-book-cover" src={safeArtworkDataUrl(entry.cover)} alt="" loading="lazy" decoding="async" />
                       )}
-                      <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
-                      <strong>{entry.name}</strong>
-                      {entry.author && <span className="bk-book-author">{entry.author}</span>}
-                      <span>{entry.pages} {entry.fmt ? "sections" : "pages"}</span>
-                      {completed > 0 && (
-                        <span className="bk-book-progress" aria-label={percent + "% typed"}>
-                          <i style={{ width: percent + "%" }} />
-                        </span>
-                      )}
+                      <span className="bk-book-details">
+                        <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
+                        <strong>{entry.name}</strong>
+                        {entry.author && <span className="bk-book-author">{entry.author}</span>}
+                        <span className="bk-book-page-count">{entry.pages} {entry.fmt ? "sections" : "pages"}</span>
+                        {completed > 0 && (
+                          <span className="bk-book-progress" aria-label={percent + "% typed"}>
+                            <i style={{ width: percent + "%" }} />
+                          </span>
+                        )}
+                      </span>
                     </button>
                     <div className="bk-book-card-actions">
                       <select
