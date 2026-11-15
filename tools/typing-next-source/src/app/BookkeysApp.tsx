@@ -1517,7 +1517,7 @@ export default function BookkeysApp() {
       </header>
 
       {view === "home" || !book ? (
-        <section className="bk-library"
+        <section className="bk-library" data-storage-ready={database ? "true" : "false"}
           onDragOver={(event) => event.preventDefault()}
           onDrop={(event) => {
             event.preventDefault();
