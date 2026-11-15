@@ -34,7 +34,7 @@ assert.match(js, /id="codeforces-revision"/,
   "the Today panel summary must link to the existing Codeforces revision queue");
 assert.match(js, /today-review-summary/,
   "the due-review summary must be a non-checkbox workload item");
-assert.match(js, /limitless\.competition\.codeforces-learning\.v1/,
+assert.match(sync, /limitless\.competition\.codeforces-learning\.v1/,
   "the summary must read the existing Codeforces learning record");
 
 
@@ -44,7 +44,7 @@ assert.match(js, /data-codeforces-revision-result="incorrect"/,
   "due Codeforces reviews must allow a still-stuck result");
 assert.match(sync, /mode: "revision"/,
   "Codeforces re-solves must enter the shared revision evidence stream");
-assert.match(js, /limitless\.competition\.codeforces-learning\.v1/,
+assert.match(sync, /limitless\.competition\.codeforces-learning\.v1/,
   "Codeforces revision results must be saved with the existing sync record");
 assert.match(js, /limitless:codeforces-learning-updated/,
   "saving a Codeforces revision must refresh shared mastery and scheduling");
