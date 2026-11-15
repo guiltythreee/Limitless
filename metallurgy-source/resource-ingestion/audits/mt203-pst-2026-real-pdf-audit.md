@@ -86,7 +86,7 @@ All seven renders were produced successfully as PNG files. This initial spot che
 
 ## Latest JavaScript CLI end-to-end run
 
-The committed `ingest.mjs` at code commit `5b2beffcdbb416c910209e0ee092fa989c9566c7` (feature-branch head after tests: `64ae8ca81e524916973a33183804b204f7c8fe25`) was run locally against the exact source PDF. The PDF's SHA-256 matched the recorded source hash.
+The committed `ingest.mjs` at code commit `5b2beffcdbb416c910209e0ee092fa989c9566c7` was run locally against the exact source PDF. The source file in the saved validation snapshot was independently compared with the Git blob at that commit; the blob SHA matched exactly (`86760a8191fe3be446b6cafbf3f0637a5865d277`). The PDF's SHA-256 matched the recorded source hash.
 
 Command (run from the isolated working environment):
 
@@ -147,7 +147,7 @@ A second direct Poppler validation was run against the exact source PDF after th
 - `pdfimages -png` produced 759 sequentially named files. Matching the filename sequence to the inventory mapped all 721 genuine image files to their source pages and left exactly the 38 soft-mask files unmapped as independent figure records.
 - The 721 genuine image rows occur on 118 distinct pages.
 - The 120-DPI, single-page preview operation was run for all 118 figure-bearing pages. All 118 PNGs were produced with no per-page renderer failures. Combined preview size was 39.7 MiB.
-- The preview run was split across two local execution windows because the first command window reached its execution limit after 85 pages. The remaining 33 pages completed in 14.9 seconds. Therefore, no single uninterrupted end-to-end CLI runtime is claimed.
+- The direct renderer-only preview check was split across two local execution windows because the first command window reached its execution limit after 85 pages. The remaining 33 pages completed in 14.9 seconds. This renderer-only check is distinct from the later full JavaScript CLI run, which generated 158 previews.
 - The independent `pdfimages -png` extraction completed in 23.7 seconds.
 
-These are direct Poppler checks of the same input and command modes used by the implementation. They validate source image numbering, soft-mask exclusion, page coverage, and preview output volume. They do not replace the still-pending execution of the exact committed JavaScript CLI, which also performs OCR, builds records, writes the manifest, and assembles the review packet.
+These direct Poppler checks validate source image numbering, soft-mask exclusion, page coverage, and preview output volume. The separate full JavaScript CLI execution described above completed successfully and validated OCR orchestration, record creation, manifest writing, preview generation, and review-packet assembly. The saved snapshot preserves its source files and outputs.
