@@ -46,6 +46,7 @@ on:
       - "metallurgy-source/app/layout.tsx"
       - "probability-source/app/layout.tsx"
       - "probability-source/app/page.tsx"
+      - "probability-source/app/studies/**"
       - "metallurgy-source/app/learning-player/**"
       - "metallurgy-source/app/mt201/quiz.tsx"
       - "metallurgy-source/app/mt202/quiz.tsx"
@@ -135,6 +136,7 @@ jobs:
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/workspace-layout.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-navigation.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/probability-topic-picker.test.mjs
+          if [ "${{ matrix.project }}" = "probability-source" ]; then node app/studies/probability-landing.test.mjs; fi
 
       - name: Type-check shared contract and fixtures
         working-directory: ${{ matrix.project }}
