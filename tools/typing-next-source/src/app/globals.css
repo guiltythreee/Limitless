@@ -969,3 +969,17 @@ body { overflow: hidden; }
 .bk-archive-button { min-height: 36px; padding: 0 12px; font-size: 13px; }
 .bk-mode-button svg { display: block; }
 @media (max-width: 620px) { .bk-header { gap: 6px; } .bk-header-actions { gap: 5px; } .bk-size-controls { gap: 2px; } .bk-size-controls button { min-width: 32px; padding: 0 6px; } .bk-archive-button { padding: 0 8px; font-size: 12px; } .bk-home-icon, .bk-settings-button, .bk-mode-button { width: 34px; min-width: 34px; height: 34px; } }
+
+
+/* Open-book dialog mirrors the production reader's centered loader overlay. */
+.bk-paste-backdrop { position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(8, 12, 16, .55); }
+.bk-paste-panel { width: min(560px, 100%); max-height: 100%; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--ink); box-shadow: 0 18px 60px rgba(0,0,0,.35); }
+.bk-paste-panel h2 { margin: 0; font-family: var(--font-text); font-size: 22px; font-weight: 500; }
+.bk-paste-panel p { margin: 0; color: var(--dim); font-size: 13px; }
+.bk-open-drop { display: block; padding: 22px 12px; border: 1.5px dashed var(--dim); border-radius: 8px; color: var(--dim); text-align: center; cursor: pointer; }
+.bk-open-drop:hover { border-color: var(--accent); color: var(--accent); }
+.bk-open-drop input { display: none; }
+.bk-paste-panel textarea { width: 100%; min-height: 110px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); font-family: var(--font-text); font-size: 15px; resize: vertical; }
+.bk-open-status { min-height: 1.4em; color: var(--dim); font-size: 13px; }
+.bk-open-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.bk-open-actions button { min-height: 36px; padding: 7px 12px; }
