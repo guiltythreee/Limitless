@@ -993,3 +993,36 @@ body { overflow: hidden; }
 /* Keep card management controls above the full-card open button. */
 .bk-book-card-actions { z-index: 4; pointer-events: auto; }
 .bk-book-card:hover .bk-book-card-actions, .bk-book-card:focus-within .bk-book-card-actions { display: flex; visibility: visible; opacity: 1; }
+
+
+/* Production parity pass 1: restore original home and library typography/geometry. */
+.bk-home-hero { font-family: var(--font-ui); }
+.bk-home-hero h1 { font-size: var(--fs-2xl); }
+.bk-home-hero ul { font-size: var(--fs-md); }
+.bk-home-demo-heading { font-size: var(--fs-md); }
+.bk-home-demo-text { font-size: var(--fs-lg); }
+.bk-book-card { border-radius: var(--r-1); }
+.bk-book-details { font-family: var(--font-ui); }
+.bk-book-details strong { font-size: var(--fs-xl); }
+.bk-book-author {
+  margin-top: 3px;
+  color: var(--dim);
+  font-size: var(--fs-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bk-book-page-count {
+  align-self: flex-end;
+  margin-top: auto;
+  color: var(--ink);
+  font-size: var(--fs-lg);
+}
+.bk-book-progress {
+  height: 3px;
+  margin-top: 8px;
+  background: color-mix(in srgb, var(--dim) 28%, transparent);
+}
+.bk-book-progress i { background: var(--accent); }
+.bk-book-format { display: none; }
+.bk-book-card-actions { border-radius: var(--r-2); }
