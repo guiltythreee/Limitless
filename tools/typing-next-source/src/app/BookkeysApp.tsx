@@ -415,7 +415,7 @@ export default function BookkeysApp() {
     const savedTheme = window.localStorage.getItem("limitless.typing.v1.theme");
     // The legacy "bg" field is the reader scene (for example "pic-morning"),
     // not the light/dark UI theme. Keep it untouched in the persisted settings.
-    const initialTheme = savedTheme === "light" ? "light" : "dark";
+    const initialTheme = savedTheme === "dark" ? "dark" : "light";
     setThemeOverride(window.localStorage.getItem("limitless.typing.v1.themeOverride") === "1");
     const mappedScene: ReaderBackgroundId =
       isReaderBackgroundId(savedSettings.bg) ? savedSettings.bg : "none";
