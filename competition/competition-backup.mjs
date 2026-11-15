@@ -38,7 +38,10 @@ function validCodeforcesLearning(value) {
       isRecord(attempt) &&
       typeof attempt.id === "string" && attempt.id.startsWith("codeforces:") &&
       Number.isFinite(attempt.occurredAt) && attempt.occurredAt > 0
-    );
+    ) &&
+    (value.revisionState === undefined ||
+      (Array.isArray(value.revisionState) &&
+        sanitiseCodeforcesRevisionState(value.revisionState).length === value.revisionState.length));
 }
 
 function validCodeforcesRewards(value) {
