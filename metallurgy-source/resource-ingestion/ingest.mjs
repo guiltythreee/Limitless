@@ -115,6 +115,11 @@ export function parseOcrTsv(tsv) {
   };
 }
 
+export function buildTesseractTsvArgs(imagePath) {
+  // Tesseract expects output options before the named TSV config file.
+  return [imagePath, "stdout", "--psm", "3", "tsv"];
+}
+
 export function assessOcrQuality({ ocrCharacterCount, nativeCharacterCount, wordCount, meanWordConfidence, lowConfidenceRatio }) {
   const hasMoreText = ocrCharacterCount > nativeCharacterCount;
   const qualityAccepted = hasMoreText && wordCount >= 5 && meanWordConfidence !== null && meanWordConfidence >= 65 && lowConfidenceRatio <= 0.35;
@@ -271,7 +276,7 @@ export async function ingestPdf(options) {
             const imagePath = join(tempDir, imageName);
             const ocrText = run("tesseract", [imagePath, "stdout", "--psm", "3"]).trim();
             const ocrCharacterCount = ocrText.replace(/\s/g, "").length;
-            const confidence = parseOcrTsv(run("tesseract", [imagePath, "stdout", "tsv", "--psm", "3"]));
+            const confidence = parseOcrTsv(run("tesseract", buildTesseractTsvArgs(imagePath)));
             const quality = assessOcrQuality({ ocrCharacterCount, nativeCharacterCount, ...confidence });
             pageExtractionQuality[index] = quality.qualityStatus;
             ocrPageStats.push({
