@@ -1357,12 +1357,11 @@ html[data-deco="garden"] .bk-home-demo-heading {
   background: color-mix(in srgb, var(--panel) 78%, transparent);
   backdrop-filter: blur(8px);
 }
-.bk-shell[data-home="true"] .bk-header-actions .bk-archive-button:not(.bk-xp-status) {
-  display: none;
-}
+.bk-shell[data-home="true"] .bk-header-actions { margin-left: auto; gap: 8px; }
 .bk-shell[data-home="true"] .bk-home-icon,
 .bk-shell[data-home="true"] .bk-settings-button,
-.bk-shell[data-home="true"] .bk-mode-button {
+.bk-shell[data-home="true"] .bk-mode-button,
+.bk-shell[data-home="true"] .bk-background-button {
   background: color-mix(in srgb, var(--panel) 78%, transparent);
   backdrop-filter: blur(8px);
 }
@@ -1373,5 +1372,62 @@ html[data-deco="garden"] .bk-home-demo-heading {
   .bk-shell[data-home="true"] > .bk-header {
     min-height: 38px;
     padding-bottom: 6px;
+  }
+}
+
+
+/* Match the reference home composition and its compact three-action toolbar. */
+.bk-shell[data-home="true"] .bk-home-in {
+  width: min(100%, 1460px);
+  max-width: 1460px;
+  margin-inline: auto;
+}
+.bk-shell[data-home="true"] .bk-header {
+  align-items: center;
+  gap: 12px;
+}
+.bk-shell[data-home="true"] .bk-xp-status {
+  min-width: 228px;
+  justify-content: flex-start;
+  padding: 5px 12px;
+  border-radius: 999px;
+  color: var(--ink);
+}
+.bk-shell[data-home="true"] .bk-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bk-shell[data-home="true"] .bk-home-icon,
+.bk-shell[data-home="true"] .bk-settings-button,
+.bk-shell[data-home="true"] .bk-mode-button,
+.bk-shell[data-home="true"] .bk-background-button {
+  width: 52px;
+  min-width: 52px;
+  height: 44px;
+  border-radius: 11px;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  color: var(--ink);
+  background: color-mix(in srgb, var(--panel) 76%, transparent);
+  box-shadow: 0 2px 8px rgba(20, 14, 30, .08);
+  backdrop-filter: blur(10px);
+}
+.bk-shell[data-home="true"] .bk-home-icon:hover,
+.bk-shell[data-home="true"] .bk-settings-button:hover,
+.bk-shell[data-home="true"] .bk-mode-button:hover,
+.bk-shell[data-home="true"] .bk-background-button:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--panel) 90%, transparent);
+}
+@media (max-width: 640px) {
+  .bk-shell[data-home="true"] .bk-xp-status { min-width: 0; flex: 1; font-size: 11px; }
+  .bk-shell[data-home="true"] .bk-header-actions { gap: 5px; }
+  .bk-shell[data-home="true"] .bk-home-icon,
+  .bk-shell[data-home="true"] .bk-settings-button,
+  .bk-shell[data-home="true"] .bk-mode-button,
+  .bk-shell[data-home="true"] .bk-background-button {
+    width: 38px;
+    min-width: 38px;
+    height: 36px;
   }
 }
