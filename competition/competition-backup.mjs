@@ -1,5 +1,6 @@
 import { sanitiseRewardRecords } from "../shared/rewards.mjs";
 import { isValidCodeforcesAttemptArchive, CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY } from "./codeforces-sync.mjs";
+import { sanitiseCodeforcesRevisionState } from "./learning-intelligence.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
 export { CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY };
@@ -28,6 +29,11 @@ export function createCompetitionBackup(storage, state, exportedAt = new Date().
   };
 }
 
+function validCodeforcesRevisionSnapshot(value) {
+  return value === undefined || (Array.isArray(value) &&
+    sanitiseCodeforcesRevisionState(value).length === value.length);
+}
+
 function validCodeforcesLearning(value) {
   return isRecord(value) &&
     value.version === 1 &&
@@ -37,6 +43,7 @@ function validCodeforcesLearning(value) {
     Array.isArray(value.seenSubmissionIds) &&
     value.seenSubmissionIds.every((id) => Number.isSafeInteger(id) && id > 0) &&
     isValidCodeforcesAttemptArchive(value.attemptsArchive) &&
+    validCodeforcesRevisionSnapshot(value.revisionState) &&
     Array.isArray(value.attempts) &&
     value.attempts.every((attempt) =>
       isRecord(attempt) &&
