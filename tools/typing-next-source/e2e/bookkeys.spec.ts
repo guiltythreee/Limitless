@@ -82,6 +82,25 @@ async function makeFixturePdf(): Promise<Buffer> {
   return Buffer.from(pdf, "ascii");
 }
 
+test("home composition keeps the production header, hero and demo visible over a transparent shelf", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+
+  const header = page.locator(".bk-header");
+  await expect(header).toBeVisible();
+  await expect(header.locator(".bk-home-icon")).toBeVisible();
+  await expect(header.locator(".bk-settings-button")).toBeVisible();
+  await expect(header.locator(".bk-mode-button")).toBeVisible();
+
+  await expect(page.locator(".bk-home-hero")).toBeVisible();
+  await expect(page.locator(".bk-home-demo")).toBeVisible();
+  await expect(page.locator(".bk-home-tabrow")).toBeVisible();
+
+  const shelfBackground = await page.locator(".bk-library").evaluate((element) =>
+    getComputedStyle(element).backgroundColor
+  );
+  expect(shelfBackground).toBe("rgba(0, 0, 0, 0)");
+});
+
 test("EPUB covers persist in the library and chapter titles edit inline", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
   const epub = await makeFixtureEpub(true, true);
