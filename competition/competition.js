@@ -930,7 +930,11 @@
   function renderWeeks() {
     renderRoadmapAnalytics();
     var openWeeks = {};
+    var openCompartments = {};
     $('week-list').querySelectorAll('.week-card').forEach(function (details, index) { openWeeks[index] = details.open; });
+    $('week-list').querySelectorAll('[data-week-compartment]').forEach(function (details) {
+      openCompartments[details.getAttribute('data-week-compartment')] = details.open;
+    });
     $('week-list').innerHTML = WEEKS.map(function (week, wi) {
       var statusOptions = function (key) {
         return MASTERY.map(function (option) {
@@ -961,12 +965,28 @@
       var weekPct = selectedTopics.length ? Math.round(mastered / selectedTopics.length * 100) : 0;
       var phaseClass = {'Foundations':'foundations','Core concepts':'core','Integrated problem-solving':'integration','Competition readiness':'competition'}[week.phase] || 'foundations';
       var assessment = week.assessment ? '<div class="assessment-note"><strong>Checkpoint</strong><p>' + esc(week.assessment) + '</p></div>' : '';
+      var weekKey='w'+(wi+1);
+      var compartment=function(id,kind,title,description,content,isOpen){
+        var key=weekKey+'-'+id;
+        return '<details class="week-compartment compartment-'+kind+'" data-week-compartment="'+key+'" '+(openCompartments[key] || isOpen ? 'open' : '')+'>' +
+          '<summary class="week-compartment-summary"><span class="compartment-icon" aria-hidden="true">'+
+          (kind==='resources'?'▤':kind==='criteria'?'✓':kind==='schedule'?'◷':'◎')+
+          '</span><span class="compartment-copy"><strong>'+title+'</strong><small>'+description+'</small></span><span class="compartment-chevron" aria-hidden="true">⌄</span></summary>' +
+          '<div class="week-compartment-body">'+content+'</div></details>';
+      };
+      var resourcesContent=renderWeeklyResourceShelf(week,wi);
+      var criteriaContent=renderWeekDeliverables(week,wi);
+      var scheduleContent='<div class="daily-roadmap"><p>Work through Monday to Saturday in this order. Revision reviews are included inside these study blocks. Sunday is rest or light revision.</p>' + days +
+        '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div>';
+      var masteryContent='<div class="topic-status-guide">Mark a topic <b>Learning</b> when you can explain it, <b>Practiced</b> when you solve representative problems independently, and <b>Mastered</b> when you solve unseen mixed problems under time and justify the method.</div><div class="roadmap-topic-list">' + topics + '</div>';
       return '<details class="week-card week-phase-' + phaseClass + '" data-phase="' + esc(week.phase) + '" ' + (openWeeks[wi] || wi === 0 ? 'open' : '') + '><summary class="week-summary"><span class="week-number">WEEK ' + String(wi+1).padStart(2,'0') + '</span><span class="week-heading-copy"><span class="week-title">' + esc(week.title) + '</span><span class="week-phase">' + esc(week.phase) + '</span></span><span class="week-progress-wrap"><span class="week-progress">' + mastered + ' / ' + selectedTopics.length + ' mastered</span><span class="week-progress-track"><i style="width:' + weekPct + '%"></i></span></span><span class="week-chevron" aria-hidden="true">⌄</span></summary>' +
-        '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment + renderWeeklyResourceShelf(week,wi) + renderWeekDeliverables(week,wi) +
-        '<div class="daily-roadmap"><h4>Weekly execution plan</h4><p>Work through Monday to Saturday in this order. Revision reviews are scheduled inside these study blocks, not added as extra hours. Each day names the exact topics; linked reading, lecture and problem checklists follow below in the same subject order. Sunday is rest or light revision.</p>' + days +
-         '<div class="daily-day sunday"><strong>Sunday</strong><span>Rest or light revision — no completion target.</span></div></div>' +
-         '<div class="topic-status-guide">After the daily work, mark each topic: <b>Learning</b> when you can explain it; <b>Practiced</b> when you solve representative problems independently; <b>Mastered</b> when you solve unseen mixed problems under time and justify the method.</div>' +
-         '<div class="roadmap-topic-list">' + topics + '</div></div></details>';
+        '<div class="week-content"><p class="week-objective">' + esc(week.objective) + '</p>' + assessment +
+        '<div class="week-compartment-grid">' +
+        compartment('resources','resources','Learning resources','Books, exact readings, lectures and problem sets',resourcesContent,false) +
+        compartment('criteria','criteria','Completion criteria','Four weekly requirements and workload guidance',criteriaContent,false) +
+        compartment('schedule','schedule','Weekly execution plan','Daily tasks from Monday to Sunday',scheduleContent,false) +
+        compartment('mastery','mastery','Topic mastery','Subject checkpoints, assignments and mastery status',masteryContent,false) +
+        '</div></div></details>';
     }).join('');
 
     $('week-list').querySelectorAll('[data-mastery]').forEach(function (select) {
