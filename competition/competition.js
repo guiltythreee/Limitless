@@ -489,11 +489,49 @@
 
 
 
+  // Surface due Codeforces revisions inside today's workload without creating
+  // another checklist or progress store. The existing revision queue remains
+  // the only place where a re-solve result is recorded.
+  var todayReviewRenderToken = 0;
+  function renderTodayReviewSummary() {
+    var host = $('today-panel');
+    if (!host) return;
+    var token = ++todayReviewRenderToken;
+    learningIntelligencePromise.then(function (api) {
+      if (!api || token !== todayReviewRenderToken || !host.isConnected) return;
+      var stored;
+      try {
+        stored = JSON.parse(localStorage.getItem('limitless.competition.codeforces-learning.v1') || 'null');
+      } catch (_) { return; }
+      if (!stored || !Array.isArray(stored.attempts) || !stored.attempts.length) return;
+      var now = Date.now();
+      var analysis = api.analyzeCompetitionLearning(state.problemLog, state.revisionAttempts, now, stored.attempts);
+      var candidates = analysis.revision.filter(function (item) { return item.courseId === 'codeforces'; });
+      if (!candidates.length) return;
+      var due = candidates.filter(function (item) { return item.dueAt <= now; });
+      var next = candidates.filter(function (item) { return item.dueAt > now; })
+        .sort(function (a, b) { return a.dueAt - b.dueAt; })[0];
+      var summary = document.createElement('div');
+      summary.className = 'today-review-summary';
+      var copy = document.createElement('span');
+      copy.textContent = due.length
+        ? due.length + ' Codeforces problem' + (due.length === 1 ? '' : 's') + ' due for revision today'
+        : 'No Codeforces reviews due today' + (next ? ' · Next review ' + new Date(next.dueAt).toLocaleDateString() : '');
+      var link = document.createElement('a');
+      link.href = '#codeforces-revision';
+      link.textContent = due.length ? 'Review due problems ↗' : 'View review schedule ↗';
+      summary.appendChild(copy);
+      summary.appendChild(link);
+      host.appendChild(summary);
+    }).catch(function () {});
+  }
+
   // A compact daily view reuses the exact week-plan task keys. It is a second
   // view of the same checklist, not a separate progress store.
   function renderToday() {
     var el = $('today-panel');
     if (!el) return;
+    renderTodayReviewSummary();
     var today = new Date();
     today.setHours(0,0,0,0);
     var start = new Date(state.startDate + 'T00:00:00');
@@ -911,7 +949,7 @@
         (masteryRows || '<p class="empty-state">Add an underlying concept when logging a problem to build concept-level mastery.</p>') +
         '</div>' +
         (nextSteps ? '<div class="mistake-breakdown"><h4>Suggested focus</h4>' + nextSteps + '</div>' : '') +
-        (codeforcesAttempts.length ? '<div class="mistake-breakdown"><h4>Codeforces revision</h4>' +
+        (codeforcesAttempts.length ? '<div class="mistake-breakdown"><h4 id="codeforces-revision">Codeforces revision</h4>' +
           (codeforcesReviews || '<p class="empty-state">No failed Codeforces problems currently need revision.</p>') + '</div>' : '');
       host.querySelectorAll('[data-codeforces-revision-result]').forEach(function (button) {
         button.addEventListener('click', function () {
