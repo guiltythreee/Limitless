@@ -821,11 +821,11 @@ export default function BookkeysApp() {
     }
   }
 
-  async function importFiles(files: FileList | File[]) {
+  async function importFiles(files: FileList | File[], openSingle = true) {
     const selected = Array.from(files);
     if (!selected.length) return;
     if (selected.length === 1) {
-      await importFile(selected[0]);
+      await importFile(selected[0], openSingle);
       return;
     }
     if (!database) {
@@ -1521,7 +1521,7 @@ export default function BookkeysApp() {
           onDragOver={(event) => event.preventDefault()}
           onDrop={(event) => {
             event.preventDefault();
-            if (event.dataTransfer.files.length) void importFiles(event.dataTransfer.files);
+            if (event.dataTransfer.files.length) void importFiles(event.dataTransfer.files, false);
           }}
         >
           <div className="bk-intro">
