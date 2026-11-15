@@ -23,8 +23,8 @@
 | 95 | Natural polymers: natural rubber, cellulose, protein and DNA structures | Cross-topic content is represented in T7 for natural rubber/protein and relevant course material; confirm full structural detail during T7/T8 final pass | partially covered |
 | 96 | Vinyl-polymer nomenclature table: monomer names, polymer names and IUPAC names | Common monomer/polymer pairs added; original IUPAC column retained as a visual reference because small bracket placement/punctuation is not reliably transcribed | partially covered |
 | 97–99 | TPU forms/components, history, polyol classes, chain extenders, one-/two-pot and prepolymer synthesis | Added source-specific text and historical examples | covered |
-| 100 | “Structure property relationship in TPU” heading | No extractable explanatory body text | needs source-image verification |
-| 101–103 | Named TPU synthesis schemes, including PTMC–PEO–PPO–PEO–PTMC, silicone-based TPU, and PCL–PEC–PDMS-based TPU | p. 102 silicone-based scheme is represented cautiously; p. 101 and p. 103 structures/process labels need visual transcription | partially covered / visual verification |
+| 100 | TPU segmented structure: polyol soft segment, di-isocyanate hard segment, chain extender and urethane linkage | Added the soft-/hard-segment distinction and source labels from the diagram | covered |
+| 101–103 | Two-pot PTMC–PEO–PPO–PEO–PTMC PECUU scheme; silicone-based TPU; one-pot PCL–PEC–PDMS TPU scheme with printed conditions | p. 101 reagents/sequence, p. 102 labelled reactants/solvent/catalyst, and p. 103 MDI/macrodiol/BD, conditions and final label transcribed cautiously | covered at scheme-label level |
 | 104–107 | Thermoset family survey; epoxy functionality/network, bisphenol-A/epichlorohydrin prepolymer and diamine hardener; melamine-formaldehyde network | Added named systems, depicted functionality, advantages and reactants; no missing cure conditions inferred | covered |
 | 108–109 | TPE definition, TPV curing note and six TPE categories | Added definition, melt processability, TPV note and category abbreviations | covered |
 
@@ -44,8 +44,19 @@
 
 ## Remaining review
 
-- Visually inspect pages 92, 100, 101 and 103.
+- Pages 92, 100, 101, 102 and 103 have now been visually inspected; p. 92 remains title-only, while the TPU diagrams are transcribed at the label/process level.
 - Revisit p. 95 structural detail against the T7 lesson and topic map.
 - Review the complete T8 content for overlap with T1, T2, T6, T7 and T9 before freezing coverage.
 - Do not generate new questions until all topic-level source coverage is frozen.
 - Existing question IDs, question counts, taxonomy and learner progress remain unchanged.
+
+
+### Visual TPU scheme follow-up
+
+Pages 100–103 were rendered and inspected at higher resolution. The lesson now records:
+- p. 100: polyol soft segment; di-isocyanate hard segment (crystallising or non-crystallising); chain extender; urethane linkage.
+- p. 101: two-pot PTMC–PEO–PPO–PEO–PTMC-based PECUU scheme; cyclic carbonate extension of the PEO–PPO–PEO macrodiol, followed by OCN(CH₂)₄NCO and H₂N(CH₂)₄NH₂.
+- p. 102: H₁₂MDI, PTMG, PDMS and 1,4-BD; THF/DMAC and catalyst label T-12. The catalyst identity is not expanded.
+- p. 103: MDI, macrodiol and BD; 60 °C, N₂ atmosphere, 6 h; DBTL (0.1 wt%) in dry THF; final labels SPU backbone and PCL–PEC–b–PDMS.
+
+The scheme transcription is source-label level, not a reconstructed reaction protocol.
