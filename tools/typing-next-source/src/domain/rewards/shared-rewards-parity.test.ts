@@ -3,6 +3,10 @@ import test from "node:test";
 import * as canonical from "../../../../../shared/rewards.mjs";
 import * as bundled from "./shared-rewards.mjs";
 
+test("isolated Bookkeys reward registry stays synchronized with current Limitless modules", () => {
+  assert.deepEqual(bundled.REWARD_SOURCE_REGISTRY, canonical.REWARD_SOURCE_REGISTRY);
+});
+
 test("isolated Bookkeys build uses the same LSR-1 award calculation as Limitless", () => {
   const activity = {
     eventId: "bookkeys:page:fixture:0",
