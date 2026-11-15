@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createCodeforcesApiRequester } from "./codeforces-api.mjs";
+import { createCodeforcesApiRequester, fetchCodeforcesSubmissionsSince } from "./codeforces-api.mjs";
 
 let clock = 10_000;
 const starts = [];
@@ -35,6 +35,50 @@ const apiFailure = createCodeforcesApiRequester(async () => ({
 await assert.rejects(apiFailure("rate-limited"), /Call limit exceeded/);
 
 console.log("Codeforces API rate limiting: all assertions passed.");
+{
+  const pages = [
+    { status: "OK", result: [
+      { id: 9, creationTimeSeconds: 300 },
+      { id: 8, creationTimeSeconds: 250 },
+      { id: 7, creationTimeSeconds: 200 },
+    ] },
+    { status: "OK", result: [
+      { id: 7, creationTimeSeconds: 200 },
+      { id: 6, creationTimeSeconds: 150 },
+      { id: 5, creationTimeSeconds: 100 },
+    ] },
+    { status: "OK", result: [
+      { id: 4, creationTimeSeconds: 90 },
+    ] },
+  ];
+  const calls = [];
+  const recent = await fetchCodeforcesSubmissionsSince("example_handle", 150, {
+    pageSize: 3,
+    overlap: 1,
+    request: async (url) => { calls.push(url); return pages.shift(); },
+  });
+  assert.deepEqual(recent.map((item) => item.id), [9, 8, 7, 6],
+    "recent fetch keeps submissions at/after the boundary and deduplicates overlap");
+  assert.equal(calls.length, 3, "recent fetch stops only after a whole page is older than the requested boundary");
+  assert.match(calls[0], /from=1&count=3$/);
+  assert.match(calls[1], /from=3&count=3$/);
+}
+
+{
+  await assert.rejects(
+    fetchCodeforcesSubmissionsSince("example_handle", 100, {
+      pageSize: 2,
+      maxPages: 1,
+      request: async () => ({ status: "OK", result: [
+        { id: 2, creationTimeSeconds: 300 },
+        { id: 1, creationTimeSeconds: 200 },
+      ] }),
+    }),
+    /safe pagination limit/,
+    "an incomplete recent window must fail rather than return partial submissions"
+  );
+}
+
 
 
 // Complete-history pagination: pages overlap, but submission IDs are unique.
