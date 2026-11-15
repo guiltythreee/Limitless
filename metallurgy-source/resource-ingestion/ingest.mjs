@@ -50,7 +50,10 @@ function classifyLine(line) {
   // Prioritize strong structural signals before broad heading heuristics.
   if (/[=≈≃≤≥∝∑√]|\\frac|\\sum|\b(?:MPa|GPa|kJ|mol|mm|cm)\b/.test(trimmed) && trimmed.length < 240) return "equation";
   if (/^(?:[-*•▪]|\d+[.)])\s+/.test(trimmed)) return "bullet";
-  if (/\s{2,}|\t/.test(line)) return "table-row";
+  // Layout extraction indents ordinary slide text; treat a line as a table row
+  // only when it contains at least two non-empty cells separated by a wide gap.
+  const cells = line.split(/\t| {3,}/).map((cell) => cell.trim()).filter(Boolean);
+  if (cells.length >= 2) return "table-row";
   if (/^(?:\d+(?:\.\d+)*[.)]?\s+)?[A-Z][^.!?]{2,100}$/.test(trimmed) && trimmed.length < 110) return "heading";
   return "paragraph";
 }
