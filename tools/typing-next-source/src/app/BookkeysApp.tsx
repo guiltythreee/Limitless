@@ -1512,13 +1512,16 @@ export default function BookkeysApp() {
         <button className="bk-home-icon" type="button" onClick={() => { navTo("home"); setTyped(""); }} aria-label="Bookkeys home" title="Bookkeys home">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 10.6 12 4l8 6.6"/><path d="M6.2 9.6V20h11.6V9.6"/><path d="M10 20v-5h4v5"/></svg>
         </button>
-        <div className="bk-xp-status" aria-label={`Chronicle, level ${archive.level}`}>
+        <button className="bk-xp-status bk-archive-button" type="button"
+          onClick={() => setArchiveOpen(true)} aria-haspopup="dialog"
+          title="Level, XP and achievements">
           <span>Chronicle · Lv {archive.level}</span>
           <span className="bk-xp-track" role="progressbar" aria-label="Progress to next Chronicle level"
             aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(archive.levelProgress)}>
             <span style={{ width: archive.levelProgress + "%" }} />
           </span>
-        </div>
+        </button>
+        <span className="bk-xp" aria-hidden="true"><strong>{globalExp.toLocaleString()}</strong></span>
         <div className="bk-header-actions">
           <div className="bk-size-controls" role="group" aria-label="Text size">
             <button className="bk-quiet" type="button" aria-label="Smaller text" onClick={() => persistSettings({ ...settings, size: Math.max(14, settings.size - 1) })}>A-</button>
