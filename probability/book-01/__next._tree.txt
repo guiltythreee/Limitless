@@ -1,4 +1,4 @@
-:HL["/probability/_next/static/chunks/1jln1mg2oa4z6.css","style"]
+:HL["/probability/_next/static/chunks/18nnl_5_z0gwj.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"book-01","h":96,"c":"$Q2"}]]
-0:{"b":"vZ_5uzScEIAs4dmiot8f4","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"tU3cRWYAjyw87GH4SIL9s","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
