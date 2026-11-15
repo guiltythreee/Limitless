@@ -36,10 +36,32 @@ The output directory contains:
 - `review-packet.md`: human review checklist and page-linked candidate inventory.
 - `assets/`: extracted embedded PDF images, when Poppler's `pdfimages` is available.
 
+## Human review and patch proposal
+
+Create a decisions JSON file. Each decision must reference an existing record ID and use `approved`, `corrected`, or `rejected`. Approved/corrected records require a destination: `theory`, `illustration`, `worked-example`, or `reference`. Corrected records also require `correctedText`. Rejected records may include a `reviewerNote`.
+
+Example:
+
+```json
+[
+  { "recordId": "src-…", "status": "approved", "destination": "theory" },
+  { "recordId": "src-…", "status": "corrected", "destination": "worked-example", "correctedText": "Verified wording from the source page." },
+  { "recordId": "src-…", "status": "rejected", "reviewerNote": "Duplicate fragment" }
+]
+```
+
+Run from `metallurgy-source/`:
+
+```bash
+node resource-ingestion/review.mjs --manifest ./resource-ingestion/output/lecture-2026/source-manifest.json --records ./resource-ingestion/output/lecture-2026/knowledge-records.json --decisions ./resource-ingestion/review-decisions.json --out ./resource-ingestion/output/lecture-2026/review
+```
+
+The command emits `review-results.json`, `proposed-content-patch.json`, and `proposed-content-patch.md`. These are proposals only. The tool does not edit course files, question banks, learner progress, or deployment assets. A separate human review and implementation step is required before any proposed addition is applied.
+
 ## Extraction semantics
 
 The first adapter uses Poppler's layout-preserving text extraction. Pages with fewer than 24 non-whitespace native-text characters are treated as sparse. When both `pdftoppm` and `tesseract` are installed, those pages are rendered at 220 DPI and OCR is used only when it returns more text than native extraction. The selected extraction method is recorded per page and in the source manifest. If either optional dependency is missing, OCR is skipped without failing ingestion.
 
 Text is segmented into paragraphs, likely headings, equations and table-like rows. These are triage heuristics, not semantic validation. The pipeline does not validate equations or claim to understand diagrams. Image assets are extracted separately and linked to their source page when page metadata can be determined; otherwise they remain in the source image inventory for manual matching.
 
-The next stages can add OCR and richer table/figure interpretation behind the same adapter contract. Do not promote records into lessons until a reviewer confirms their content, mapping, and source fidelity.
+OCR fallback and the human review/proposed-patch stage are implemented. Rich table/figure interpretation and applying approved patches remain separate future work. Do not promote records into lessons until a reviewer confirms their content, mapping, and source fidelity.
