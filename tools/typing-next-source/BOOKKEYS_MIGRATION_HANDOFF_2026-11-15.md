@@ -182,3 +182,32 @@ Current state:
 - New regression test run `43713699526` and migration verification run `43713699416` for current PR head `35ad6ad...` were in progress at the last check; no pass/fail claim yet.
 - User should hard-refresh the isolated preview URL after the successful deployment, preferably Ctrl+Shift+R, then inspect the same viewport. Do not clear or overwrite production local data. If it still differs, capture a fresh screenshot and investigate the current deployed HTML/CSS rather than assuming stale output.
 - Vercel's separate `build-rate-limit` status remains unrelated to the successful Cloudflare preview Worker deployment.
+
+
+## User rechecked preview; CSS cascade root cause and targeted fix — 15 November 2026, 18:05 IST
+
+User's new screenshot at 12:30:59Z confirms the preview still showed the large opaque light panel after the first successful redeployment. The previous stale-deployment explanation was not sufficient: the new preview was indeed still visually wrong.
+
+Direct source-level root cause identified:
+- `globals.css` contains a legacy higher-specificity light-theme rule at approximately line 161: `html[data-theme="light"] .bk-library { background: #fffdf8; border-color: #d8d0c3; }`
+- Later, the full-viewport home composition sets only the lower-specificity `.bk-library { background: transparent; border: 0; border-radius: 0; ... }` around line 916.
+- Because `html[data-theme="light"] .bk-library` has greater specificity than `.bk-library`, the legacy light-theme background wins even though it appears earlier in the file. This is why the full-width shelf remains an opaque white panel over the scenic background. This is a confirmed CSS cascade issue, not an inference about cache.
+- The JSX does render the two-column `.bk-home-top`, separate `.bk-home-hero` and `.bk-home-demo`, the shelf tab row and the `.bk-header`. The current source therefore contains the expected structural composition; the conflicting legacy theme override was overriding the transparent shelf.
+- A narrow CSS-only fix was committed: append an explicit later rule `html[data-theme="light"] .bk-library { background: transparent; border-color: transparent; }` after the legacy styles. No React, data, import, storage, production or unrelated code was changed.
+- Fix commit: `45b23fb54769dbc10ffadd1270c76a9208d3d34e`.
+- Exact pre-fix backup branch: `backup/bookkeys-before-light-library-cascade-fix-20261115` → `8773331465119039adc9bab43956967ce68f6b35`.
+- CI and isolated preview deployment for fix commit were queued/in progress at the time of this handoff update. Do not claim the fix works until a new screenshot is checked.
+
+CI baseline before the CSS fix:
+- Current PR head immediately before the CSS fix: `8773331465119039adc9bab43956967ce68f6b35`.
+- Bookkeys Regression Tests run `43713746194`: SUCCESS.
+- Bookkeys TypeScript Migration run `43713746213`: SUCCESS.
+- Isolated preview deployment run `43713737437`: SUCCESS.
+- These green checks validate the pre-fix source and test alignment; the CSS fix itself still requires its own CI/build/deploy.
+
+Next actions:
+1. Wait for CI and isolated preview deployment for `45b23fb...`.
+2. Once build passes, immediately create a backup branch from the exact successful fix commit.
+3. Ask user to hard-refresh the preview and inspect the new render. Compare the outer shelf transparency, two-column hero/demo and header against production at the same viewport.
+4. If header still does not appear, inspect its actual rendered DOM and computed styles separately; the CSS cascade fix above specifically addresses the confirmed opaque library panel and must not be misrepresented as having fixed every visual difference.
+5. Continue only from screenshot evidence; no speculative redesign, no production deploy, no merge.
