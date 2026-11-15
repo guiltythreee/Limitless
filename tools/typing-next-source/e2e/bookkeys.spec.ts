@@ -133,10 +133,33 @@ test("home composition keeps the production header, hero and demo visible over a
   );
   expect(primaryStyle).toBe("rgb(106, 77, 191)");
 
-  const demoBackground = await page.locator(".bk-home-demo").evaluate((element) =>
-    getComputedStyle(element).backgroundColor
-  );
-  expect(demoBackground).toBe("rgba(0, 0, 0, 0)");
+  const heroSurface = await hero.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      borderWidth: style.borderTopWidth,
+      borderRadius: style.borderTopLeftRadius,
+      background: style.backgroundColor,
+      ornament: getComputedStyle(element, "::before").content,
+    };
+  });
+  expect(parseFloat(heroSurface.borderWidth)).toBeGreaterThan(1);
+  expect(parseFloat(heroSurface.borderRadius)).toBeGreaterThanOrEqual(16);
+  expect(heroSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(heroSurface.ornament).toContain("✦");
+
+  const demoSurface = await page.locator(".bk-home-demo").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      background: style.backgroundColor,
+      borderWidth: style.borderTopWidth,
+      backdropFilter: style.backdropFilter,
+      height: element.getBoundingClientRect().height,
+    };
+  });
+  expect(demoSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(parseFloat(demoSurface.borderWidth)).toBeGreaterThan(0);
+  expect(demoSurface.backdropFilter).toContain("blur");
+  expect(demoSurface.height).toBeGreaterThanOrEqual(290);
 
   const shelfBackground = await page.locator(".bk-library").evaluate((element) =>
     getComputedStyle(element).backgroundColor
