@@ -103,3 +103,72 @@ assert.equal(switched.state.attempts.length, 0, "attempts from the previous acco
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
 console.log("Codeforces sync baseline: all assertions passed.");
+
+
+// The API returns newest submissions first. The bounded seen-ID window must
+// retain the newest IDs, not the oldest 5,000 from the end of that array.
+{
+  const many = Array.from({ length: 5005 }, (_, index) => {
+    const id = 10000 - index;
+    return {
+      id, contestId: 2000, creationTimeSeconds: 1794000000 + id,
+      verdict: "WRONG_ANSWER",
+      problem: { contestId: 2000, index: "A", tags: ["greedy"] },
+    };
+  });
+  const largeStorage = {
+    value: null,
+    getItem() { return this.value; },
+    setItem(_key, value) { this.value = value; },
+  };
+  const largeBaseline = syncCodeforcesSubmissions(largeStorage, "LargeHandle", many, 1795000000000);
+  assert.equal(largeBaseline.ok, true);
+  const retained = readCodeforcesSyncState(largeStorage).seenSubmissionIds;
+  assert.equal(retained.length, 5000);
+  assert.equal(retained[0], 5001);
+  assert.equal(retained.at(-1), 10000);
+}
+
+{
+  const legacyStorage = {
+    value: JSON.stringify({
+      version: 1, handle: "legacy", baselineAt: 1795000000000, lastSyncAt: 1795000000000,
+      seenSubmissionIds: Array.from({ length: 5000 }, (_, index) => 10000 - index),
+      attempts: [],
+    }),
+    getItem() { return this.value; },
+    setItem(_key, value) { this.value = value; },
+  };
+  const normalized = readCodeforcesSyncState(legacyStorage).seenSubmissionIds;
+  assert.equal(normalized[0], 5001);
+  assert.equal(normalized.at(-1), 10000);
+}
+
+
+// Reward repeat caps must be assigned oldest-first even when the API returns
+// the accepted submissions newest-first.
+{
+  const orderedValues = new Map();
+  const orderedStorage = {
+    getItem(key) { return orderedValues.has(key) ? orderedValues.get(key) : null; },
+    setItem(key, value) { orderedValues.set(key, value); },
+  };
+  syncCodeforcesSubmissions(orderedStorage, "OrderedHandle", [], 1795000000000);
+  const sameProblem = [4, 3, 2, 1].map((id) => ({
+    id: 200 + id,
+    contestId: 2000,
+    creationTimeSeconds: 1795000000 + id,
+    verdict: "OK",
+    problem: { contestId: 2000, index: "A", rating: 800, tags: ["greedy"] },
+  }));
+  const orderedSync = syncCodeforcesSubmissions(
+    orderedStorage, "OrderedHandle", sameProblem, 1795000010000
+  );
+  assert.equal(orderedSync.rewardAwards, 3);
+  const ledger = JSON.parse(orderedStorage.getItem(COMPETITION_REWARD_STORAGE_KEY)).rewardLedger;
+  const byEvent = new Map(ledger.map((record) => [record.eventId, record]));
+  assert.equal(byEvent.get("codeforces:orderedhandle:201").eligible, true);
+  assert.equal(byEvent.get("codeforces:orderedhandle:202").eligible, true);
+  assert.equal(byEvent.get("codeforces:orderedhandle:203").eligible, true);
+  assert.equal(byEvent.get("codeforces:orderedhandle:204").reason, "daily-repeat-cap");
+}
