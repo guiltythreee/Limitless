@@ -1,0 +1,147 @@
+/* Probability Archive landing refresh.
+   Scoped to the discipline dashboard; the lesson reader and other disciplines
+   retain their own visual systems and behavior. */
+.probability-studies-header {
+  border-color: rgba(94, 169, 235, .2) !important;
+  background: rgba(6, 13, 25, .88) !important;
+}
+.probability-studies-header a { color: #8bc5ff !important; }
+.probability-studies-header a:hover { background: rgba(70, 151, 230, .12) !important; }
+.probability-studies-page {
+  --pa-accent: #69b5ff;
+  --pa-accent-strong: #3195f5;
+  --pa-accent-soft: rgba(85, 166, 245, .12);
+  --pa-line: rgba(104, 177, 245, .23);
+  --pa-text: #e9f2ff;
+  --pa-muted: #a8bfdc;
+  --pa-surface: linear-gradient(145deg, rgba(12, 30, 54, .88), rgba(7, 17, 32, .92));
+  color: var(--pa-text);
+}
+:root[data-theme="light"] .probability-studies-page {
+  --pa-accent: #176fc0;
+  --pa-accent-strong: #0b79d8;
+  --pa-accent-soft: rgba(36, 125, 207, .09);
+  --pa-line: rgba(35, 105, 174, .23);
+  --pa-text: #172b43;
+  --pa-muted: #536b85;
+  --pa-surface: linear-gradient(145deg, rgba(247, 251, 255, .96), rgba(230, 241, 253, .94));
+}
+.probability-studies-page .eyebrow,
+.probability-studies-page .text-gold,
+.probability-studies-page .text-mutedgold { color: var(--pa-accent) !important; }
+.probability-studies-page .border-gold\/10,
+.probability-studies-page .border-gold\/15,
+.probability-studies-page .border-gold\/20,
+.probability-studies-page .border-gold\/25,
+.probability-studies-page .border-gold\/30,
+.probability-studies-page .border-gold\/35 { border-color: var(--pa-line) !important; }
+.probability-studies-page .bg-panel\/70 { background: var(--pa-surface) !important; }
+.probability-studies-page .text-parchment { color: var(--pa-text) !important; }
+.probability-studies-page .text-body { color: var(--pa-text) !important; }
+.probability-studies-page .text-dim,
+.probability-studies-page .text-faint { color: var(--pa-muted) !important; }
+.probability-studies-page .hover\:bg-gold\/5:hover { background: var(--pa-accent-soft) !important; }
+.probability-studies-hero {
+  min-height: 300px;
+  border-color: rgba(105, 181, 255, .32) !important;
+  background:
+    radial-gradient(circle at 83% 48%, rgba(59, 143, 226, .17), transparent 23rem),
+    linear-gradient(112deg, rgba(5, 20, 40, .98), rgba(9, 36, 68, .94) 55%, rgba(11, 29, 54, .91)) !important;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, .2), inset 0 1px rgba(185, 220, 255, .06);
+}
+.probability-studies-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background-image: linear-gradient(rgba(117, 185, 248, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(117, 185, 248, .07) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(90deg, black, transparent 75%);
+}
+.probability-studies-hero .eyebrow { color: #78bdff !important; }
+.probability-studies-hero h1 { color: #f0f6ff !important; letter-spacing: -.045em; }
+.probability-studies-hero p { color: #c2d7ef !important; }
+.probability-studies-hero a { position: relative; z-index: 2; border-color: rgba(116, 188, 255, .45) !important; }
+.probability-studies-hero a:first-child {
+  border-color: #69b5ff !important;
+  background: linear-gradient(135deg, #78c1ff, #398fe0) !important;
+  color: #07182b !important;
+  box-shadow: 0 8px 24px rgba(43, 133, 218, .22);
+}
+.probability-studies-hero a:first-child:hover { background: #9bd1ff !important; }
+.probability-studies-hero a:not(:first-child) { color: #d9ebff !important; background: rgba(8, 28, 52, .45); }
+.probability-studies-hero a:not(:first-child):hover { background: rgba(75, 151, 225, .15); }
+.probability-studies-hero > div[aria-hidden="true"] { border-color: rgba(105, 181, 255, .25) !important; }
+.probability-studies-hero .serif.text-7xl { color: #78bdff !important; }
+.probability-studies-progress {
+  border-color: var(--pa-line) !important;
+  background: var(--pa-surface) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, .12);
+}
+.probability-studies-progress .bg-gold { background: linear-gradient(90deg, #398fe0, #83c8ff) !important; }
+.probability-studies-progress .bg-track { background: rgba(95, 143, 190, .13) !important; }
+.probability-studies-progress .border-l { border-color: var(--pa-line) !important; }
+.probability-studies-progress .serif { font-variant-numeric: tabular-nums; }
+.probability-studies-grid { align-items: stretch; }
+.probability-studies-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-color: var(--pa-line) !important;
+  border-radius: 2px;
+  background: var(--pa-surface) !important;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, .12), inset 0 1px rgba(185, 220, 255, .035);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.probability-studies-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(105, 181, 255, .7), transparent);
+  opacity: .55;
+}
+.probability-studies-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(105, 181, 255, .52) !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, .18), 0 0 28px rgba(54, 135, 215, .07);
+}
+.probability-studies-card--continue {
+  background:
+    radial-gradient(circle at 100% 0, rgba(65, 153, 235, .2), transparent 18rem),
+    linear-gradient(145deg, rgba(15, 53, 91, .94), rgba(7, 21, 39, .97)) !important;
+  border-color: rgba(105, 181, 255, .42) !important;
+}
+.probability-studies-card h2 { color: var(--pa-text) !important; }
+.probability-studies-card .eyebrow { color: var(--pa-accent) !important; }
+.probability-studies-card a { border-color: var(--pa-line) !important; }
+.probability-studies-card a:hover {
+  color: var(--pa-text) !important;
+  background: var(--pa-accent-soft) !important;
+}
+.probability-studies-card--continue a { background: rgba(7, 22, 40, .38); }
+.probability-studies-card--continue a:hover { border-color: rgba(117, 190, 255, .55) !important; }
+.probability-studies-page > div:last-child { border-color: var(--pa-line) !important; }
+.probability-studies-page a:focus-visible {
+  outline: 2px solid var(--pa-accent);
+  outline-offset: 3px;
+}
+@media (max-width: 900px) {
+  .probability-studies-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .probability-studies-page { padding-inline: .85rem; }
+  .probability-studies-hero { min-height: 0; padding: 1.4rem !important; }
+  .probability-studies-hero > div[aria-hidden="true"] { display: none; }
+  .probability-studies-hero h1 { font-size: clamp(2.8rem, 13vw, 4rem) !important; }
+  .probability-studies-progress { padding: 1.1rem !important; }
+  .probability-studies-grid { grid-template-columns: minmax(0, 1fr); }
+  .probability-studies-card { padding: 1.1rem !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .probability-studies-card { transition: none; }
+  .probability-studies-card:hover { transform: none; }
+}
