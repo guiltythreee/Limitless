@@ -211,3 +211,14 @@ Next actions:
 3. Ask user to hard-refresh the preview and inspect the new render. Compare the outer shelf transparency, two-column hero/demo and header against production at the same viewport.
 4. If header still does not appear, inspect its actual rendered DOM and computed styles separately; the CSS cascade fix above specifically addresses the confirmed opaque library panel and must not be misrepresented as having fixed every visual difference.
 5. Continue only from screenshot evidence; no speculative redesign, no production deploy, no merge.
+
+
+## CSS cascade fix build/deploy checkpoint — 15 November 2026, 18:09 IST
+
+- CSS fix commit `45b23fb54769dbc10ffadd1270c76a9208d3d34e` built successfully and was deployed to the isolated Cloudflare preview Worker.
+- Deploy workflow run `43714388530`: SUCCESS. Dependency install, static build, base-path staging and Cloudflare Worker deployment all completed.
+- Regression suite run `43714392712` for the CSS-fix commit: SUCCESS.
+- The migration verification run for the CSS-fix commit `43714392701` was cancelled by a subsequent documentation-only push; a replacement full verification run `43714426696` for documentation commit `3d7a5ad2d460fa1481bef4be75bf518f67b3b846` is running. At last check, legacy preservation, dependency install, persistence tests and TypeScript type-check all passed; static export was running; Chromium/browser tests remain pending. Do not claim full migration verification until the run finishes.
+- New exact successful build/deploy backup created: `backup/bookkeys-light-library-fix-built-20261115` → `45b23fb54769dbc10ffadd1270c76a9208d3d34e`.
+- The latest docs commit `3d7a5ad...` contains the same CSS source plus this handoff update; it does not alter product source. A follow-on preview deployment for the docs commit may run separately.
+- User should now hard-refresh the preview URL and recheck. The specific light-theme cascade defect is fixed in the deployed commit; verify the rendered screenshot before asserting visual parity. Header visibility remains a separate screenshot-level check if still absent.
