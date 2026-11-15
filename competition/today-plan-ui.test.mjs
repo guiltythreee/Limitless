@@ -16,6 +16,18 @@ assert.match(css, /\.today-panel/);
 assert.match(js, /renderToday\(\);\s*renderWeeks\(\);/,
   "updating a daily task from the Today panel must refresh both synchronized views");
 
+assert.match(js, /function renderTodayReviewSummary\(\)/,
+  "the Today panel must include a summary of due Codeforces revisions");
+assert.match(js, /renderTodayReviewSummary\(\);/,
+  "the due-review summary must refresh whenever the Today panel renders");
+assert.match(js, /id="codeforces-revision"/,
+  "the Today panel summary must link to the existing Codeforces revision queue");
+assert.match(js, /today-review-summary/,
+  "the due-review summary must be a non-checkbox workload item");
+assert.match(js, /limitless\.competition\.codeforces-learning\.v1/,
+  "the summary must read the existing Codeforces learning record");
+
+
 assert.match(js, /data-codeforces-revision-result="correct"/,
   "due Codeforces reviews must allow an independent-solve result");
 assert.match(js, /data-codeforces-revision-result="incorrect"/,
