@@ -9,6 +9,20 @@ const VALID_CATEGORIES = new Set([
   "conceptual", "observation", "mathematical", "implementation", "time-management",
 ]);
 
+function parseCalendarDate(value) {
+  if (typeof value !== "string" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) return NaN;
+  const timestamp = Date.parse(value + "T00:00:00.000Z");
+  if (!Number.isFinite(timestamp) || new Date(timestamp).toISOString().slice(0, 10) !== value) return NaN;
+  return timestamp;
+}
+
+function parseRevisionTimestamp(value) {
+  if (typeof value !== "string" || !/^\\d{4}-\\d{2}-\\d{2}T/.test(value)) return NaN;
+  if (!Number.isFinite(parseCalendarDate(value.slice(0, 10)))) return NaN;
+  const timestamp = Date.parse(value);
+  return Number.isFinite(timestamp) && timestamp > 0 ? timestamp : NaN;
+}
+
 /** Adapt the CP tracker without changing its stored problem-log records. */
 export function toCompetitionLearningAttempts(problemLog, revisionAttempts = []) {
   if (!Array.isArray(problemLog)) return [];
@@ -18,7 +32,9 @@ export function toCompetitionLearningAttempts(problemLog, revisionAttempts = [])
   ).map((problem) => [problem.id, problem]));
   const originalAttempts = [...problems.values()].flatMap((problem) => {
     const id = problem.id.trim();
-    const date = typeof problem.date === "string" ? Date.parse(problem.date + "T00:00:00Z") : NaN;
+    const date = parseCalendarDate(problem.date);
+    // Keep malformed/legacy rows in their original history, but do not let
+    // impossible calendar dates create misleading revision deadlines.
     if (!Number.isFinite(date) || date <= 0) return [];
     const outcome = problem.outcome === "independent" ? "correct"
       : problem.outcome === "unsolved" ? "incorrect" : "partial";
@@ -46,7 +62,7 @@ export function toCompetitionLearningAttempts(problemLog, revisionAttempts = [])
     const problemId = typeof revision.problemId === "string" ? revision.problemId : "";
     const problem = problems.get(problemId);
     const id = typeof revision.id === "string" ? revision.id.trim() : "";
-    const occurredAt = typeof revision.date === "string" ? Date.parse(revision.date) : NaN;
+    const occurredAt = parseRevisionTimestamp(revision.date);
     if (!problem || !id || !Number.isFinite(occurredAt) || occurredAt <= 0 ||
         (revision.outcome !== "correct" && revision.outcome !== "incorrect")) return [];
     const concept = typeof problem.concept === "string" ? problem.concept.trim() : "";
