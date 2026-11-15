@@ -181,6 +181,15 @@
   margin-top: var(--lp-space-4);
   border-top: 1px solid var(--lp-color-border);
 }
+[data-learning-player] .learning-player-actions--balanced {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--lp-space-4);
+}
+[data-learning-player] .learning-player-actions--balanced > :last-child {
+  justify-self: end;
+}
 [data-learning-player] .learning-player-actions > :where(div, span) {
   display: flex;
   align-items: center;
@@ -194,6 +203,13 @@
   }
   [data-learning-player] .learning-player-actions > :where(div, span) {
     width: 100%;
+  }
+  [data-learning-player] .learning-player-actions--balanced {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--lp-space-2);
+  }
+  [data-learning-player] .learning-player-actions--balanced > :last-child {
+    justify-self: stretch;
   }
 }
 
