@@ -156,17 +156,29 @@
     const timeoutId = setTimeout(() => controller.abort(), 300000);
     try {
       const base = 'https://codeforces.com/api/';
+      const weekStart=new Date();weekStart.setHours(0,0,0,0);weekStart.setDate(weekStart.getDate()-((weekStart.getDay()+6)%7));const weekStartSec=Math.floor(weekStart.getTime()/1000);
       const api = await import('../competition/codeforces-api.mjs');
       const info = await api.requestCodeforcesApi(base + 'user.info?handles=' + encodeURIComponent(handle), {signal: controller.signal});
       const ratings = await api.requestCodeforcesApi(base + 'user.rating?handle=' + encodeURIComponent(handle), {signal: controller.signal});
-      const allSubmissions = await api.fetchAllCodeforcesSubmissions(handle, {signal: controller.signal});
-      const user = info.result[0], history = ratings.result, accepted=allSubmissions.filter(x=>x.verdict==='OK'&&x.problem&&x.problem.contestId!=null);
+      let learningSync = null;
+      try { learningSync = await import('../competition/codeforces-sync.mjs'); } catch (_) {}
+      const previousSync = learningSync
+        ? learningSync.readCodeforcesSyncState(localStorage)
+        : {handle:'',lastSyncAt:0};
+      const sameHandle = previousSync.handle === String(handle || '').trim().toLowerCase();
+      const lastSyncSeconds = sameHandle && previousSync.lastSyncAt > 0
+        ? Math.max(0, Math.floor(previousSync.lastSyncAt / 1000) - 48 * 60 * 60)
+        : weekStartSec;
+      const historySinceSeconds = Math.min(weekStartSec, lastSyncSeconds);
+      const recentSubmissions = await api.fetchCodeforcesSubmissionsSince(handle, historySinceSeconds, {signal: controller.signal});
+      const user = info.result[0], history = ratings.result;
       let learningResult = null;
-      try {
-        const learningSync = await import('../competition/codeforces-sync.mjs');
-        learningResult = learningSync.syncCodeforcesSubmissions(localStorage, handle, allSubmissions);
-      } catch (_) { /* Rating and milestone data remain usable without the learning ledger. */ }
-      const weekStart=new Date();weekStart.setHours(0,0,0,0);weekStart.setDate(weekStart.getDate()-((weekStart.getDay()+6)%7));const weekStartSec=Math.floor(weekStart.getTime()/1000);
+      if (learningSync) {
+        try {
+          learningResult = learningSync.syncCodeforcesSubmissions(localStorage, handle, recentSubmissions);
+        } catch (_) { /* Rating and milestone data remain usable without the learning ledger. */ }
+      }
+      const accepted=recentSubmissions.filter(x=>x.verdict==='OK'&&x.problem&&x.problem.contestId!=null);
       const weekProblems=new Set(accepted.filter(x=>x.creationTimeSeconds>=weekStartSec).map(x=>x.problem.contestId+'-'+(x.problem.index||'')));
       const weekContests=history.filter(x=>x.ratingUpdateTimeSeconds>=weekStartSec).length;
       const peak = Number.isFinite(user.maxRating) ? user.maxRating : (Number.isFinite(user.rating) ? user.rating : 0);
@@ -184,7 +196,7 @@
             learningResult.awardedExp + ' EXP awarded from ' + learningResult.rewardAwards + ' new accepted submission(s).');
       if (learningResult && learningResult.ok) window.dispatchEvent(new Event('limitless:codeforces-learning-updated'));
     } catch (error) {
-      $('sync-status').textContent = (error.name === 'AbortError' ? 'Codeforces API timed out while loading the complete submission history.' : (error.message || 'Unable to connect to Codeforces.')) + ' Check the handle in Competition and retry.';
+      $('sync-status').textContent = (error.name === 'AbortError' ? 'Codeforces API timed out while loading recent submissions.' : (error.message || 'Unable to connect to Codeforces.')) + ' Check the handle in Competition and retry.';
       $('milestone-list').innerHTML = '<p class="cr-loading">Rating data is unavailable right now. Milestones will appear when Codeforces responds.</p>';
       $('peak-rating').textContent = '—';
       $('current-rating').textContent = '—';
