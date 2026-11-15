@@ -44,6 +44,18 @@ export function createCodeforcesApiRequester(fetchImpl, options = {}) {
 export const requestCodeforcesApi = createCodeforcesApiRequester((url, init) => fetch(url, init));
 
 
+function isValidSubmissionRecord(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value) &&
+    Number.isSafeInteger(value.id) && value.id > 0 &&
+    Number.isFinite(value.creationTimeSeconds) && value.creationTimeSeconds >= 0;
+}
+
+function assertValidSubmissionPage(page) {
+  if (!page.every(isValidSubmissionRecord)) {
+    throw new Error("Codeforces returned a malformed submission record. No partial sync was saved.");
+  }
+}
+
 /**
  * Fetch a complete Codeforces submission history in bounded pages.
  * A small overlap between pages protects against a new submission shifting
@@ -74,15 +86,10 @@ export async function fetchAllCodeforcesSubmissions(handle, options = {}) {
       throw new Error("Codeforces returned an invalid submission-history page.");
     }
     const page = payload.result;
+    assertValidSubmissionPage(page);
     let added = 0;
     for (const submission of page) {
-      const key = submission && submission.id != null
-        ? String(submission.id)
-        : JSON.stringify([
-            submission?.creationTimeSeconds, submission?.contestId,
-            submission?.problem?.index, submission?.verdict,
-            submission?.programmingLanguage
-          ]);
+      const key = String(submission.id);
       if (!submissions.has(key)) {
         submissions.set(key, submission);
         added += 1;
@@ -131,23 +138,14 @@ export async function fetchCodeforcesSubmissionsSince(handle, sinceSeconds, opti
       throw new Error("Codeforces returned an invalid submission-history page.");
     }
     const page = payload.result;
+    assertValidSubmissionPage(page);
     let added = 0;
     let pageIsOlderThanBoundary = page.length > 0;
     for (const submission of page) {
-      const seconds = Number(submission?.creationTimeSeconds);
-      if (!Number.isFinite(seconds)) {
-        pageIsOlderThanBoundary = false;
-        continue;
-      }
+      const seconds = submission.creationTimeSeconds;
       if (seconds >= sinceSeconds) pageIsOlderThanBoundary = false;
       if (seconds < sinceSeconds) continue;
-      const key = submission && submission.id != null
-        ? String(submission.id)
-        : JSON.stringify([
-            submission?.creationTimeSeconds, submission?.contestId,
-            submission?.problem?.index, submission?.verdict,
-            submission?.programmingLanguage
-          ]);
+      const key = String(submission.id);
       if (!submissions.has(key)) {
         submissions.set(key, submission);
         added += 1;
