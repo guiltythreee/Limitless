@@ -1101,7 +1101,7 @@ html[data-theme="light"] .bk-library {
 .bk-shell[data-home="true"] .bk-home-hero h1 {
   margin: 0 0 17px;
   color: #30283a;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display, "Cormorant Garamond", Georgia, "Times New Roman", serif);
   font-size: clamp(24px, 2vw, 29px);
   font-style: italic;
   font-weight: 400;
@@ -1195,4 +1195,26 @@ html[data-theme="light"] .bk-library {
   .bk-shell[data-home="true"] .bk-home-hero { padding: 18px 18px 20px; }
   .bk-shell[data-home="true"] .bk-home-hero h1 { font-size: 22px; }
   .bk-shell[data-home="true"] .bk-home-hero ul { font-size: 12px; }
+}
+
+
+/* The live light appearance is the Garden skin: use its bundled display face
+   and the same editorial heading treatment as the original Bookkeys page. */
+html[data-deco="garden"] { --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif; }
+html[data-deco="garden"] .bk-home-hero h1 {
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.3;
+}
+html[data-deco="garden"] .bk-home-tabrow .bk-shelf-tabs button {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 500;
+}
+html[data-deco="garden"] .bk-home-demo-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
 }
