@@ -1146,6 +1146,7 @@ test("PDF and TXT files can be batch-imported into the local library", async ({ 
 
 test("dropping a TXT file onto the library imports it into local storage", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
+  await expect(page.locator(".bk-library")).toHaveAttribute("data-storage-ready", "true");
   await page.locator(".bk-library").evaluate((target) => {
     const transfer = new DataTransfer();
     transfer.items.add(new File(
