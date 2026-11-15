@@ -168,3 +168,14 @@ Inspected PR #246 at head 84cd90e8462a36ece99d4b7367d28fdc00af81c5. The PR remai
 - Metallurgy Regression Tests: cancelled.
 
 Therefore the exact head does **not** have a fully green three-check result. Do not describe the head as fully CI-green. The cancelled regression run needs a successful rerun before treating all checks as passed.
+
+
+## Proposed minimum additions after full-bank reconciliation
+
+The distinct uncovered objectives support a **four-question proposal**, not a broad expansion:
+- T1: 1 item testing the lecture-specific SBR styrene-content trend across tensile strength, elongation and abrasion resistance.
+- T3: 1 item testing the two solution-polymer isolation routes and the residual-solvent limitation.
+- T3: 1 item testing the lecture's surfactant classes, surface-tension role and CMC/micelle formation without repeating existing emulsion particle-nucleation questions.
+- T7: 1 item testing the recombinant spider-silk C16/ADF4 example and the source-described production/product sequence.
+
+This is a proposed minimum, subject to source-page recheck when drafting. It is not applied: the existing 305 questions and all learner data remain unchanged. No new question IDs have been reserved or generated.
