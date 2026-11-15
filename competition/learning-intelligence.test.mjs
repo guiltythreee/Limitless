@@ -150,7 +150,10 @@ assert.equal(cfAttempts[0].subjectId, "codeforces",
   "Codeforces tags are concepts, not mutually exclusive subject buckets");
 assert.equal(cfAttempts[1].outcome, "correct");
 assert.equal(cfAttempts[1].mode, "contest");
-assert.equal(cfAttempts[1].independent, true);
+assert.equal(cfAttempts[1].independent, undefined,
+  "an accepted public verdict does not prove the solve was independent");
+assert.equal(cfAttempts[1].hintCount, undefined,
+  "the public API does not expose whether hints were used");
 assert.equal(cfAttempts[1].elapsedMs, 900);
 assert.equal(toCodeforcesLearningAttempts(null).length, 0);
 assert.equal(getCodeforcesProblemUrl("codeforces:1900A"),
@@ -172,6 +175,9 @@ assert.equal(persistedProjection.attempts.length, 2,
   "already-normalized, persisted Codeforces attempts are accepted without being remapped");
 assert.ok(persistedProjection.attempts.every((attempt) => attempt.subjectId === "codeforces"),
   "legacy persisted attempts are normalized to the shared Codeforces subject");
+assert.ok(persistedProjection.attempts.every((attempt) =>
+  !/^codeforces:\\d+$/.test(attempt.id) || (attempt.independent === undefined && attempt.hintCount === undefined)),
+  "legacy accepted submissions must not retain inferred independent-solve evidence");
 const mixedTagOrder = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), [
   { ...cfAttempts[0], id: "codeforces:9100", subjectId: "implementation", conceptIds: ["implementation", "greedy"] },
   { ...cfAttempts[0], id: "codeforces:9101", subjectId: "greedy", conceptIds: ["greedy", "implementation"] },
@@ -195,6 +201,8 @@ assert.ok(codeforcesAfterSuccess, "a failed Codeforces problem remains scheduled
 assert.equal(codeforcesAfterSuccess.lastReviewedAt, Date.parse("2026-11-02T12:00:00Z"));
 assert.equal(codeforcesAfterSuccess.dueAt, Date.parse("2026-11-09T12:00:00Z"),
   "successful Codeforces revision advances to the 7-day interval");
+assert.equal(codeforcesRevision.mastery.find((item) => item.label === "implementation").independentAttempts, 1,
+  "only the explicitly reported independent revision contributes independent mastery evidence");
 
 // A subsequent failed re-solve resets the Codeforces problem to the 1-day interval.
 const codeforcesFailedAgain = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), [
