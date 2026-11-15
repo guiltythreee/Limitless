@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createCodeforcesApiRequester, fetchCodeforcesSubmissionsSince } from "./codeforces-api.mjs";
+import { createCodeforcesApiRequester, fetchCodeforcesSubmissionsSince, fetchAllCodeforcesSubmissions } from "./codeforces-api.mjs";
 
 let clock = 10_000;
 const starts = [];
@@ -84,9 +84,9 @@ console.log("Codeforces API rate limiting: all assertions passed.");
 // Complete-history pagination: pages overlap, but submission IDs are unique.
 {
   const pages = [
-    { status: "OK", result: [{ id: 5 }, { id: 4 }, { id: 3 }] },
-    { status: "OK", result: [{ id: 3 }, { id: 2 }, { id: 1 }] },
-    { status: "OK", result: [{ id: 1 }] },
+    { status: "OK", result: [{ id: 5, creationTimeSeconds: 500 }, { id: 4, creationTimeSeconds: 400 }, { id: 3, creationTimeSeconds: 300 }] },
+    { status: "OK", result: [{ id: 3, creationTimeSeconds: 300 }, { id: 2, creationTimeSeconds: 200 }, { id: 1, creationTimeSeconds: 100 }] },
+    { status: "OK", result: [{ id: 1, creationTimeSeconds: 100 }] },
   ];
   const calls = [];
   const result = await (await import("./codeforces-api.mjs")).fetchAllCodeforcesSubmissions(
@@ -112,8 +112,64 @@ console.log("Codeforces API rate limiting: all assertions passed.");
     (await import("./codeforces-api.mjs")).fetchAllCodeforcesSubmissions("example_handle", {
       pageSize: 2,
       maxPages: 1,
-      request: async () => ({ status: "OK", result: [{ id: 2 }, { id: 1 }] }),
+      request: async () => ({ status: "OK", result: [{ id: 2, creationTimeSeconds: 200 }, { id: 1, creationTimeSeconds: 100 }] }),
     }),
     /safe pagination limit/
   );
+}
+
+
+// A full page entirely older than the incremental boundary safely ends the scan.
+{
+  const pages = [
+    { status: "OK", result: [
+      { id: 12, creationTimeSeconds: 300 },
+      { id: 11, creationTimeSeconds: 200 },
+    ] },
+    { status: "OK", result: [
+      { id: 10, creationTimeSeconds: 99 },
+      { id: 9, creationTimeSeconds: 98 },
+    ] },
+  ];
+  let calls = 0;
+  const result = await fetchCodeforcesSubmissionsSince("example_handle", 100, {
+    pageSize: 2,
+    overlap: 1,
+    request: async () => { calls += 1; return pages.shift(); },
+  });
+  assert.deepEqual(result.map((item) => item.id), [12, 11]);
+  assert.equal(calls, 2, "a full page strictly older than the boundary ends incremental pagination");
+}
+
+// Malformed records must fail closed in both full and incremental history fetches.
+for (const malformed of [
+  { id: 0, creationTimeSeconds: 200 },
+  { id: 2.5, creationTimeSeconds: 200 },
+  { id: 2, creationTimeSeconds: Number.NaN },
+  null,
+]) {
+  await assert.rejects(
+    fetchAllCodeforcesSubmissions("example_handle", {
+      pageSize: 2,
+      request: async () => ({ status: "OK", result: [malformed, { id: 1, creationTimeSeconds: 100 }] }),
+    }),
+    /malformed submission record/,
+    "full-history fetch must reject malformed records rather than return partial history"
+  );
+  await assert.rejects(
+    fetchCodeforcesSubmissionsSince("example_handle", 100, {
+      pageSize: 2,
+      request: async () => ({ status: "OK", result: [malformed, { id: 1, creationTimeSeconds: 100 }] }),
+    }),
+    /malformed submission record/,
+    "incremental fetch must reject malformed records rather than silently skip them"
+  );
+}
+
+// An empty page is a valid terminal page for either pagination mode.
+{
+  const empty = await fetchAllCodeforcesSubmissions("example_handle", {
+    request: async () => ({ status: "OK", result: [] }),
+  });
+  assert.deepEqual(empty, []);
 }
