@@ -7,7 +7,8 @@ const pages = [
   "RHEOLOGY\n\nThixotropy is defined as time-dependent shear thinning at constant shear rate.\n\nProperty        Unit\nViscosity       Pa s\n",
 ];
 const mappingHint = { course: "MT203", topic: "T11", subtopic: "Extrusion" };
-assert.equal(shouldUseOcr("   "), true, "blank/scanned pages should be eligible for OCR");\nassert.equal(shouldUseOcr("A sufficiently long native text extraction from a PDF page."), false);
+assert.equal(shouldUseOcr("   "), true, "blank/scanned pages should be eligible for OCR");
+assert.equal(shouldUseOcr("A sufficiently long native text extraction from a PDF page."), false);
 const first = buildRecords({ sourceId: "source-test", pages, mappingHint });
 const second = buildRecords({ sourceId: "source-test", pages, mappingHint });
 
