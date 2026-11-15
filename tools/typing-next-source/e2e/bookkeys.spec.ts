@@ -90,13 +90,30 @@ test("home composition keeps the production header, hero and demo visible over a
 
   const header = page.locator(".bk-header");
   await expect(header).toBeVisible();
+  const toolbarGeometry = await header.evaluate((element) => ({
+    width: element.getBoundingClientRect().width,
+    position: getComputedStyle(element).position,
+    zIndex: getComputedStyle(element).zIndex,
+    viewportWidth: window.innerWidth,
+  }));
+  expect(toolbarGeometry.width).toBeGreaterThanOrEqual(toolbarGeometry.viewportWidth - 40);
+  expect(toolbarGeometry.position).toBe("sticky");
+  expect(toolbarGeometry.zIndex).toBe("20");
   await expect(header.locator(".bk-home-icon")).toBeVisible();
   await expect(header.locator(".bk-settings-button")).toBeVisible();
   await expect(header.locator(".bk-mode-button")).toBeVisible();
+  await expect(header.locator(".bk-background-button")).toBeVisible();
+  await expect(header.locator(".bk-size-controls")).toHaveCount(0);
+  await expect(header.locator(".bk-header-actions .bk-archive-button")).toHaveCount(0);
 
   await expect(page.locator(".bk-home-hero")).toBeVisible();
   await expect(page.locator(".bk-home-demo")).toBeVisible();
   await expect(page.locator(".bk-home-tabrow")).toBeVisible();
+  const homeContentWidth = await page.locator(".bk-home-in").evaluate((element) => ({
+    width: element.getBoundingClientRect().width,
+    viewportWidth: window.innerWidth,
+  }));
+  expect(homeContentWidth.width).toBeGreaterThanOrEqual(Math.min(homeContentWidth.viewportWidth - 64, 1460) - 16);
 
   await expect(page.locator(".bk-xp-status")).toContainText(/Chronicle · Lv \d+/);
   await expect(page.getByRole("progressbar", { name: "Progress to next Chronicle level" })).toBeVisible();
@@ -125,6 +142,22 @@ test("home composition keeps the production header, hero and demo visible over a
     getComputedStyle(element).backgroundColor
   );
   expect(shelfBackground).toBe("rgba(0, 0, 0, 0)");
+});
+
+test("procedural Bookkeys backgrounds render when selected", async ({ page }) => {
+  await page.goto("/tools/typing-next-preview/");
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  await dialog.getByRole("button", { name: "Background", exact: true }).click();
+  await dialog.getByLabel("Reader background").selectOption("nebula");
+  await dialog.getByRole("button", { name: "Close Settings" }).click();
+
+  await expect(page.locator("html")).toHaveAttribute("data-bg", "nebula");
+  const canvas = page.locator(".bk-background-canvas");
+  await expect(canvas).toBeVisible();
+  await expect.poll(() => canvas.getAttribute("data-animated")).toBe("true");
+  expect(await canvas.getAttribute("hidden")).toBeNull();
 });
 
 test("EPUB covers persist in the library and chapter titles edit inline", async ({ page }) => {

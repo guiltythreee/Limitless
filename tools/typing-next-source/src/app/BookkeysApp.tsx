@@ -1520,7 +1520,7 @@ export default function BookkeysApp() {
 
   return (
     <main className="bk-shell" data-home={view === "home" || !book ? "true" : "false"} style={shellStyle}>
-      <canvas ref={backgroundCanvasRef} className="bk-background-canvas" aria-hidden="true" hidden />
+      <canvas ref={backgroundCanvasRef} className="bk-background-canvas" aria-hidden="true" hidden={!isCanvasScene} />
       <canvas ref={effectsCanvasRef} className="bk-effects-canvas" aria-hidden="true" />
       {picturePreset && (
         <div
@@ -1550,11 +1550,6 @@ export default function BookkeysApp() {
         </button>
         <span className="bk-xp" aria-hidden="true"><strong>{globalExp.toLocaleString()}</strong></span>
         <div className="bk-header-actions">
-          <div className="bk-size-controls" role="group" aria-label="Text size">
-            <button className="bk-quiet" type="button" aria-label="Smaller text" onClick={() => persistSettings({ ...settings, size: Math.max(14, settings.size - 1) })}>A-</button>
-            <button className="bk-quiet" type="button" aria-label="Larger text" onClick={() => persistSettings({ ...settings, size: Math.min(34, settings.size + 1) })}>A+</button>
-          </div>
-          <button className="bk-quiet bk-archive-button" onClick={() => setArchiveOpen(true)} aria-haspopup="dialog">Archive · Lv {archive.level}</button>
           <button id="openSettings" className="bk-quiet bk-settings-button" onClick={() => setSettingsOpen(true)} aria-label="Settings" title="Settings" aria-haspopup="dialog" aria-expanded={settingsOpen}>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
@@ -1565,6 +1560,11 @@ export default function BookkeysApp() {
             persistSettings({ ...settings, bg: nextMode, readerBackground: nextMode });
           }} aria-label="Switch mode" title="Switch mode">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+          </button>
+          <button className="bk-quiet bk-background-button" type="button"
+            onClick={() => { setSettingsTab("background"); setSettingsOpen(true); }}
+            aria-label="Backgrounds" title="Backgrounds" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m21 15-5-5L5 19"/></svg>
           </button>
         </div>
       </header>
