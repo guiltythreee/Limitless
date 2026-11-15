@@ -304,3 +304,9 @@ const compactCandidate = buildCodeforcesRevisionCandidates(compactRevisionState,
 assert.equal(compactCandidate.dueAt, revisionStart + 17 * 86_400_000,
   "the first successful re-solve advances the interval to seven days");
 assert.equal(compactCandidate.failures, 2);
+const snapshotOnlyAnalysis = analyzeCompetitionLearning(
+  [], [], revisionStart + 10 * 86_400_000, [], compactRevisionState
+);
+assert.equal(snapshotOnlyAnalysis.revision.length, 1,
+  "the revision queue survives even when the raw attempt window no longer contains that problem");
+assert.equal(snapshotOnlyAnalysis.revision[0].questionId, revisionQuestion);
