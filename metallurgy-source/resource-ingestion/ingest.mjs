@@ -27,7 +27,7 @@ function parseArgs(argv) {
 
 export function parseImageInventory(raw) {
   return raw.split(/\r?\n/).flatMap((line) => {
-    const match = line.match(/^\s*(\d+)\s+(\d+)\s+(?:image|smask)\b/i);
+    const match = line.match(/^\s*(\d+)\s+(\d+)\s+image\b/i);
     return match ? [{ page: Number(match[1]), imageNumber: Number(match[2]) }] : [];
   });
 }
