@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
 import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
+import { analyzeCompetitionLearning } from "./learning-intelligence.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   readCodeforcesSyncState,
   syncCodeforcesSubmissions,
+  appendCodeforcesRevisionAttempt,
 } from "./codeforces-sync.mjs";
 
 const values = new Map();
@@ -160,10 +162,10 @@ console.log("Codeforces sync baseline: all assertions passed.");
   syncCodeforcesSubmissions(largeStorage, "AttemptHandle", [], 1795000000000);
   const submissions = Array.from({ length: 5005 }, (_, index) => ({
     id: 300000 + index,
-    contestId: 2000,
+    contestId: 2000 + index,
     creationTimeSeconds: 1795000001 + index,
     verdict: "WRONG_ANSWER",
-    problem: { contestId: 2000, index: "A", tags: ["greedy"] },
+    problem: { contestId: 2000 + index, index: "A", tags: ["greedy"] },
   }));
   const result = syncCodeforcesSubmissions(largeStorage, "AttemptHandle", submissions, 1796000000000);
   assert.equal(result.ok, true);
@@ -185,8 +187,8 @@ console.log("Codeforces sync baseline: all assertions passed.");
         id: "codeforces:" + submission.id,
         disciplineId: "competitive-programming",
         courseId: "codeforces",
-        contentId: "2000A",
-        questionId: "codeforces:2000A",
+        contentId: (2000 + index) + "A",
+        questionId: "codeforces:" + (2000 + index) + "A",
         subjectId: "codeforces",
         conceptIds: ["greedy"],
         outcome: "incorrect",
@@ -199,6 +201,25 @@ console.log("Codeforces sync baseline: all assertions passed.");
   assert.equal(noOpSync.ok, true);
   assert.equal(readCodeforcesSyncState(largeStorage).attempts.length, 5005,
     "subsequent syncs do not discard archived learning history");
+  const revisionAt = 1796000005000;
+  const revisionWrite = appendCodeforcesRevisionAttempt(
+    largeStorage, "codeforces:2000A", "correct", revisionAt
+  );
+  assert.equal(revisionWrite.ok, true,
+    "a problem retained only in the archive can still receive revision feedback");
+  const afterRevision = readCodeforcesSyncState(largeStorage);
+  assert.equal(afterRevision.attempts.length, 5006);
+  assert.ok(afterRevision.attempts.some((attempt) =>
+    attempt.questionId === "codeforces:2000A" && attempt.mode === "revision"
+  ));
+  assert.equal(JSON.parse(largeStorage.value).attemptsArchive.records.length, 6,
+    "adding a revision does not discard the archived original attempt");
+  const revisionAnalysis = analyzeCompetitionLearning([], [], revisionAt, afterRevision.attempts);
+  const revisedCandidate = revisionAnalysis.revision.find((item) => item.questionId === "codeforces:2000A");
+  assert.ok(revisedCandidate);
+  assert.equal(revisedCandidate.lastReviewedAt, revisionAt);
+  assert.equal(revisedCandidate.dueAt, revisionAt + 7 * 86400000,
+    "an archived problem's successful revision advances the normal 1/7/14/30-day schedule");
 }
 
 
