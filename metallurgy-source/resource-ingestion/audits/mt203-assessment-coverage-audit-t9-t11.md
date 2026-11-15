@@ -80,3 +80,29 @@ Priority: screw/heater variants, twin-screw arrangements, blown-film line, injec
 ## Decision and next steps
 
 No new questions are authorized by this audit. T9–T11 contain 97 existing questions and the gaps above. Next inspect T1–T8 against their reconciled lessons, then run a whole-bank integrity check for IDs, subtopic assignments, types and difficulty. Only after that prepare a proposed question set and exact count. Preserve all 305 existing IDs, counts, metadata, taxonomy and learner progress throughout the audit.
+
+
+## Preliminary T1–T8 assessment scan — 16 November 2026
+
+This is a heading-and-question-prompt scan, not yet a page-by-page validated audit. It is recorded separately from the more detailed T9–T11 assessment above. No question changes are made.
+
+| Topic | Reconciled lesson structure | Initial assessment observation |
+|---|---|---|
+| T1 Fundamentals, Classification & Architecture | Polymer definition; seven classification axes; nomenclature; molecular architecture; copolymer architectures; lecture homopolymer/copolymer example | Core terminology and architecture are represented. The lecture's specific SBR composition trend (styrene content vs tensile strength, elongation and abrasion resistance) is not clearly represented by a dedicated prompt; verify against all 32 records before marking as a confirmed gap. |
+| T2 Polymerization Mechanisms | Chain vs step classifications; reactive centres; step-growth; monomer functionality; radical kinetics; ring-opening polymerization | Strong apparent coverage across mechanisms, kinetics, conversion, stoichiometry and ROP. A detailed objective-to-question crosswalk is still needed for the lecture's monomer-functionality examples and the distinction between mechanism classes. |
+| T3 Polymerization Techniques | Technique vs mechanism; four classical techniques; solution-polymerization advantages/isolation; emulsifiers/micelles; melt polycondensation | Apparent coverage across bulk, solution, suspension, emulsion and melt polycondensation, including selection and process calculations. Verify whether the lecture-specific solution isolation sequence and emulsifier/micelle details are directly tested. |
+| T4 Molecular Weight & Distribution | Averages; PDI; worked examples; measurement methods; relationship to properties | Broad coverage appears present: Mn/Mw/Mv, PDI, GPC/SEC, osmometry, light scattering, viscometry, Mark–Houwink and distribution interpretation. Check that each lecture measurement method is assessed with the correct average and limitations. |
+| T5 Polymer Crystallinity | Crystallizability; morphology; property effects; lecture crystalline/amorphous examples | Broad coverage appears present: density/DSC/XRD, spherulites, cooling, clarity, crystallinity/property links and morphology. Verify direct coverage of the lecture's named polymer examples and its comparison table rather than assuming generic property questions cover them. |
+| T6 Thermal Transitions | Tg; factors; Tm; HDT; lecture Tg/structure examples; free-volume values | Broad coverage appears present: Tg/Tm distinction, plasticizers, Fox/Fox–Flory, DMA, HDT/Vicat and free volume. Verify lecture-specific example polymers and the distinction between HDT and Vicat. |
+| T7 Polymer Chemistry of Proteins | Proteins as step-growth copolymers; four structure levels; lecture details; biomedical biopolymers; recombinant spider-silk example | Protein linkage, structures, collagen, keratin, silk fibroin, denaturation, gelatin and casein are represented. Recombinant spider-silk production/application is not apparent in the scanned question prompts; verify against the full question records and source slide before confirming a gap. |
+| T8 Industrial Polymers | Property-based selection; commodity and engineering thermoplastics; lecture polymer families/linkages; polyurethane; epoxy/melamine; TPEs; thermosets; elastomers | Broad material-family coverage appears present across PE, PP, PVC, styrenics, PTFE, nylon, epoxy, silicone, rubbers and engineering plastics. Verify lesson-specific polymer examples and selection limits against each question explanation; no confirmed major gap from the prompt scan alone. |
+
+### Provisional T1–T8 follow-up priorities
+
+1. Inspect the exact T1 question records for the lecture's SBR composition/property trend.
+2. Check T3 for direct assessment of the lecture's solution-polymerization isolation steps and emulsifier/micelle details.
+3. Check T4 method-by-method alignment, especially what each technique measures rather than only naming the technique.
+4. Check T5 named crystalline/amorphous examples against the source slide, retaining its wording anomalies where present.
+5. Check T7 recombinant spider-silk content against the exact source slide and all question records.
+6. Complete exact ID/subtopic-map reconciliation for all T1–T8 questions before finalizing gap counts. The prompt scan is deliberately not treated as a validated count of missing questions.
+
