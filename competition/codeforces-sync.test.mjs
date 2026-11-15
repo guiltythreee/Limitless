@@ -6,6 +6,7 @@ import {
   CODEFORCES_SYNC_STORAGE_KEY,
   CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
   readCodeforcesSyncState,
+  activateCodeforcesAccount,
   syncCodeforcesSubmissions,
   appendCodeforcesRevisionAttempt,
   getCodeforcesSyncFetchPlan,
