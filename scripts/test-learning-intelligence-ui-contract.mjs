@@ -22,6 +22,13 @@ assert.ok(cpJs.includes("state.revisionAttempts.push("), "CP revision actions mu
 assert.ok(cpJs.includes("if (button.disabled) return;"), "CP revision actions must prevent double submissions");
 assert.ok(cpJs.includes("practiceRecommendationsPromise"), "CP catalogue must load targeted practice links");
 assert.ok(cpJs.includes("data-revision-result"), "CP revision queue must expose result actions");
+assert.ok(cpJs.includes("var openTopicStudies = {};"), "roadmap must capture expanded topic accordions before re-rendering");
+assert.ok(cpJs.includes("data-topic-study"), "topic accordions must have stable keys for open-state restoration");
+assert.ok(cpJs.includes("var openDailyDays = {};"), "roadmap must capture expanded daily-plan days before re-rendering");
+assert.ok(cpJs.includes("data-daily-detail"), "daily-plan days must have stable keys for open-state restoration");
+assert.ok(cpJs.includes("openCompartments[compartmentKey] = details.open;"), "all week compartments, including Topic mastery, must preserve their open state");
+assert.ok(!cpJs.includes("if (!/-mastery$/.test(compartmentKey))"), "Topic mastery must not be excluded from accordion state restoration");
+
 assert.ok(cpJs.includes("Invalid backup"), "CP import must reject malformed revision history");
 assert.ok(cpPractice.includes("https://codeforces.com/problemset?tags="));
 assert.ok(cpPractice.includes("https://cses.fi/problemset/task/"));
