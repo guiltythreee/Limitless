@@ -157,6 +157,27 @@ async function analyze() {
   }
 }
 
+async function prepare() {
+  const analysisPath = arg("--analysis");
+  if (!analysisPath) throw new Error("--analysis <analysis.json> is required");
+  const resolvedAnalysis = path.resolve(analysisPath);
+  const artifact = JSON.parse(await fs.readFile(resolvedAnalysis, "utf8"));
+  const plan = await prepareMt203Patch({ artifact, courseRoot: COURSE_ROOT });
+  const defaultOutput = path.join(
+    path.dirname(resolvedAnalysis),
+    path.basename(resolvedAnalysis, path.extname(resolvedAnalysis)) + ".patch-plan.json"
+  );
+  const outputPath = path.resolve(arg("--output", defaultOutput));
+  await fs.mkdir(path.dirname(outputPath), { recursive: true });
+  await fs.writeFile(outputPath, JSON.stringify(plan, null, 2) + "\\n", "utf8");
+  console.log("Proposal plan saved to: " + outputPath);
+  console.log("Question proposals: " + plan.summary.question_proposals +
+    "; theory: " + plan.summary.theory_proposals +
+    "; worked examples: " + plan.summary.worked_example_proposals +
+    "; illustrations: " + plan.summary.illustrations_catalogued +
+    "; blocked: " + plan.summary.blocked);
+}
+
 try {
   const command = process.argv[2];
   if (!command || command === "--help" || command === "help") usage();
