@@ -65,3 +65,8 @@ The first adapter uses Poppler's layout-preserving text extraction. Pages with f
 Text is segmented into paragraphs, likely headings, equations and table-like rows. These are triage heuristics, not semantic validation. The pipeline does not validate equations or claim to understand diagrams. Image assets are extracted separately and linked to their source page when page metadata can be determined; otherwise they remain in the source image inventory for manual matching.
 
 OCR fallback and the human review/proposed-patch stage are implemented. Rich table/figure interpretation and applying approved patches remain separate future work. Do not promote records into lessons until a reviewer confirms their content, mapping, and source fidelity.
+
+
+## Source page previews
+
+Ingestion renders a focused set of original PDF pages at 120 DPI for visual verification. Selection includes pages with equation/table candidates, embedded figure references, and extraction/OCR exceptions. Previews are saved under `assets/pages/` and listed in `source-manifest.json` and `review-packet.md`. A preview is a review aid only; it does not validate extracted text or approve a record. If `pdftoppm` is unavailable, ingestion continues and records the skipped status in the manifest.
