@@ -44,6 +44,26 @@ export function readCodeforcesSyncState(storage) {
 }
 
 /**
+ * Choose the smallest safe fetch window for the active Codeforces handle.
+ * A 24-hour overlap rechecks recent pending submissions whose verdict may
+ * have changed after the previous sync; stable IDs deduplicate known results.
+ */
+export function getCodeforcesSyncFetchPlan(storage, handle) {
+  const normalizedHandle = typeof handle === "string" ? handle.trim().toLowerCase() : "";
+  if (!normalizedHandle) return { mode: "invalid", sinceSeconds: null };
+  const previous = readState(storage);
+  if (!previous || previous.handle !== normalizedHandle ||
+      !Number.isFinite(previous.lastSyncAt) || previous.lastSyncAt <= 0) {
+    return { mode: "all", sinceSeconds: null };
+  }
+  const overlapSeconds = 24 * 60 * 60;
+  return {
+    mode: "since",
+    sinceSeconds: Math.max(0, Math.floor(previous.lastSyncAt / 1000) - overlapSeconds),
+  };
+}
+
+/**
  * First successful sync establishes a no-reward historical baseline.
  * Later syncs retain only unseen submissions created after that baseline.
  * A handle change starts a fresh baseline; no account's history transfers.
