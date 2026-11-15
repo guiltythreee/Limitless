@@ -445,7 +445,6 @@ test("deleting a shelf keeps it intact when one of its original book files is mi
     database.close();
   });
 
-  await page.locator("details.bk-manage-shelves > summary").click();
   page.once("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: "Delete shelf" }).click();
   await expect(page.getByRole("status")).toContainText("original file");
