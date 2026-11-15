@@ -207,7 +207,7 @@ function makeReviewPacket(manifest, records) {
     "",
     "## Exception queue",
     "",
-    ...exceptions.map((r) => `### Page ${r.sourcePage} · ${r.kind} · ${r.candidateType}\\n\\nID: \`${r.id}\` · Status: ${r.reviewStatus} · Priority: ${r.reviewPriority} · Extraction: ${r.extractionQuality}\\n\\n> ${r.text.replace(/\\n/g, "\\n> ")}\\n`),
+    ...exceptions.map((r) => `### Page ${r.sourcePage} · ${r.kind} · ${r.candidateType}\n\nID: \`${r.id}\` · Status: ${r.reviewStatus} · Priority: ${r.reviewPriority} · Extraction: ${r.extractionQuality}\n\n> ${r.text.replace(/\n/g, "\n> ")}\n`),
     "",
     "> All records remain unapproved in knowledge-records.json. Routine means lower extraction risk, not verified teaching content. No record is inserted into a course automatically.",
   ];
