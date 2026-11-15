@@ -98,7 +98,7 @@ test("home composition keeps the production header, hero and demo visible over a
   await expect(page.locator(".bk-home-demo")).toBeVisible();
   await expect(page.locator(".bk-home-tabrow")).toBeVisible();
 
-  await expect(page.locator(".bk-xp-status")).toContainText(/Chronicle · Lv \\d+/);
+  await expect(page.locator(".bk-xp-status")).toContainText(/Chronicle · Lv \d+/);
   await expect(page.getByRole("progressbar", { name: "Progress to next Chronicle level" })).toBeVisible();
 
   const hero = page.locator(".bk-home-hero");
@@ -837,7 +837,7 @@ test("Akashic Archive restores saved Bookkeys achievements without changing thei
     }));
   });
   await page.goto("/tools/typing-next-preview/");
-  await page.getByRole("button", { name: "Archive · Lv 3" }).click();
+  await page.getByRole("button", { name: /Chronicle · Lv 3/ }).click();
   const archive = page.getByRole("dialog", { name: "The Akashic Archive" });
   await expect(archive).toBeVisible();
   await expect(archive.getByText("Novice Typist")).toBeVisible();
@@ -1077,6 +1077,7 @@ test("legacy background migration flags run once and preserve subsequent user ch
 
 
 test("original background palettes, theme tiles and accent swatches apply consistently", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("limitless.typing.v1.theme", "dark"));
   await page.goto("/tools/typing-next-preview/");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   const readRootToken = (token: string) => page.evaluate((name) =>
