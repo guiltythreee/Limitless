@@ -3,6 +3,7 @@ import {
   analyzeCompetitionLearning,
   toCompetitionLearningAttempts,
   toCodeforcesLearningAttempts,
+  getCodeforcesProblemUrl,
 } from "./learning-intelligence.mjs";
 
 const logs = [
@@ -152,6 +153,14 @@ assert.equal(cfAttempts[1].mode, "contest");
 assert.equal(cfAttempts[1].independent, true);
 assert.equal(cfAttempts[1].elapsedMs, 900);
 assert.equal(toCodeforcesLearningAttempts(null).length, 0);
+assert.equal(getCodeforcesProblemUrl("codeforces:1900A"),
+  "https://codeforces.com/problemset/problem/1900/A",
+  "regular Codeforces contest problems use the problemset route");
+assert.equal(getCodeforcesProblemUrl("codeforces:100153E"),
+  "https://codeforces.com/gym/100153/problem/E",
+  "Gym problems use the Gym route rather than the regular problemset route");
+assert.equal(getCodeforcesProblemUrl("codeforces:invalid"), "",
+  "malformed question IDs must not produce a broken problem link");
 
 const combined = analyzeCompetitionLearning([], [], Date.parse("2026-11-15T00:00:00Z"), codeforcesSubmissions);
 assert.equal(combined.attempts.length, 2, "Codeforces attempts enter the shared learning projection");

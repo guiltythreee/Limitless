@@ -147,6 +147,22 @@ export function toCodeforcesLearningAttempts(submissions) {
   }).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
 }
 
+/**
+ * Build a navigable Codeforces problem URL from the stable learning question ID.
+ * Codeforces uses the /gym route for Gym contest IDs (100000+).
+ */
+export function getCodeforcesProblemUrl(questionId) {
+  const match = /^codeforces:(\d+)([A-Za-z][A-Za-z0-9]*)$/.exec(
+    typeof questionId === "string" ? questionId : ""
+  );
+  if (!match) return "";
+  const contestId = Number(match[1]);
+  const index = match[2];
+  return contestId >= 100000
+    ? "https://codeforces.com/gym/" + contestId + "/problem/" + index
+    : "https://codeforces.com/problemset/problem/" + contestId + "/" + index;
+}
+
 export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], now = Date.now(), codeforcesSubmissions = []) {
   const storedCodeforcesAttempts = Array.isArray(codeforcesSubmissions) && codeforcesSubmissions.some((item) =>
     item && typeof item.id === "string" && item.id.startsWith("codeforces:") && item.disciplineId === "competitive-programming"
