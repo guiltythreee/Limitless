@@ -79,6 +79,29 @@ console.log("Codeforces API rate limiting: all assertions passed.");
   );
 }
 
+// The production default is 100 pages. A window that remains newer than the
+// cursor through all 100 pages must fail closed rather than save a truncated set.
+{
+  let calls = 0;
+  await assert.rejects(
+    fetchCodeforcesSubmissionsSince("long_gap_handle", 100, {
+      pageSize: 2,
+      overlap: 0,
+      request: async () => {
+        calls += 1;
+        const newest = 1000 - (calls - 1) * 2;
+        return { status: "OK", result: [
+          { id: newest, creationTimeSeconds: 300 },
+          { id: newest - 1, creationTimeSeconds: 299 },
+        ] };
+      },
+    }),
+    /safe pagination limit/,
+    "the default 100-page cap must reject an unbounded recent window"
+  );
+  assert.equal(calls, 100, "the default incremental scan stops exactly at its 100-page safety cap");
+}
+
 
 
 // Complete-history pagination: pages overlap, but submission IDs are unique.
