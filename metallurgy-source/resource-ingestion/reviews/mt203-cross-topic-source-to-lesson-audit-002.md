@@ -17,9 +17,9 @@ The existing syllabus structure remains four modules and eleven topics. The exis
 | Source pages | Main source subject | Existing destination | Current reconciliation |
 |---|---|---|---|
 | 1–4 | Course identity, outcomes, assessment and syllabus | Course/module metadata; not a lesson topic | Administrative source. Verify against manifest, not add as lesson theory. |
-| 5–16 | Polymer definition, classification, thermoplastic/thermoset/elastomer, architecture, crystallinity, crosslinking, tacticity, homopolymer/copolymer | T1 Fundamentals, Classification & Architecture; T5 Crystallinity | Core concepts represented in T1/T5. T1's text/figure examples still require a final figure-label comparison. |
+| 5–16 | Polymer definition, classification, thermoplastic/thermoset/elastomer, architecture, crystallinity, crosslinking, tacticity, homopolymer/copolymer | T1 Fundamentals, Classification & Architecture; T5 Crystallinity | Core concepts represented in T1/T5. The source slides pp. 5–16 have been visually checked. The p. 16 SBR comparison is now added: increasing styrene content raises tensile strength and lowers elongation and abrasion resistance. Earlier slide concepts on classification, architecture, crosslinking and tacticity are already represented. |
 | 17–20 | Step-growth and chain-growth polymerization | T2 Polymerization Mechanisms | Core mechanism distinction represented. Source-specific examples and exact slide claims still need final coverage check. |
-| 21–32 | Solution, bulk, suspension, emulsion, micelles and melt polycondensation | T3 Polymerization Techniques | Main techniques and contrasts represented. Micelle figures and detailed source advantages/limitations remain a visual audit item. |
+| 21–32 | Solution, bulk, suspension, emulsion, micelles and melt polycondensation | T3 Polymerization Techniques | Main techniques and contrasts represented. Pages 28–30 have now been visually checked and the lecture's surfactant classes, surface-tension role, CMC and micelle structure/continuous phase are added. Page 31's particle-growth diagrams remain image-level evidence; no unsupported kinetic stages were inferred. |
 | 33 | Thermoplastic versus thermosetting comparison | T1; T8 | Overlap/recap slide. Avoid duplicate content; check if any distinct comparison is missing. |
 | 34–48 | Molecular weight, Mn/Mw, worked calculations, DP, MWD/PDI, property effects and determination methods | T4 Molecular Weight & Distribution | Core formulas and methods represented. The source's four-entity worked example from pp. 37–41 was missing and has now been added; source arithmetic/notation errors are explicitly flagged. Page 48 is figure-only and needs visual inspection before claiming the methods slide is fully captured. |
 | 49 | Crystalline versus amorphous polymer examples | T5 Polymer Crystallinity | p. 49 visually checked and the source's crystalline/amorphous example lists and comparison properties have been added to T5. The printed “Modified Polyphenylene Oxide (POM)” name/acronym mismatch is flagged. |
@@ -59,8 +59,8 @@ The lesson retains grams because that is the unit printed on the source slide; i
 
 ## Explicit open audit items
 
-1. **T1:** inspect the remaining figure-heavy slides from pp. 5–16 and verify examples and labels against lesson content.
-2. **T2 / T3:** functionality examples on p. 50 are visually checked and integrated; continue visual review of micelle/technique diagrams on pp. 22–32.
+1. **T1:** pp. 5–16 visually checked and the distinct p. 16 SBR composition trend added. Reconcile remaining slide labels and ensure no unique example is omitted.
+2. **T2 / T3:** p. 50 functionality examples and p. 28–30 emulsion/micelle details are integrated. Remaining T3 figure checks: pp. 22–27 and p. 31 particle-growth diagrams.
 3. **T4:** inspect p. 48's determination-of-molecular-weight diagram; confirm source example transcription against all pages 37–41. (The numerical worked example has been added.)
 5. **T5 / T6:** p. 67 visually inspected. The slide states that increasing side-chain length decreases Tg, but the table is clipped at the bottom and some displayed values do not follow a simple monotonic sequence. No table values have been added; the exact table remains unresolved pending a complete source slide.
 6. **T8:** complete figure-by-figure check of the industrial polymer and reaction slides, especially where structural schemes carry more information than extracted text.
