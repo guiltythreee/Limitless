@@ -1646,7 +1646,7 @@ export default function BookkeysApp() {
                           <span className="bk-book-format">{entry.fmt === "epub" ? "EPUB" : entry.fmt === "text" ? "TXT" : "PDF"}</span>
                           <strong>{entry.name}</strong>
                           {entry.author && <span className="bk-book-author">{entry.author}</span>}
-                          <span className="bk-book-page-count">{entry.pages} {entry.fmt ? "sections" : "pages"}</span>
+                          <span className="bk-book-page-count">{entry.pages.toLocaleString()}{entry.fmt === "epub" ? (entry.pages === 1 ? " Section" : " Sections") : (entry.pages === 1 ? " Page" : " Pages")}</span>
                           {completed > 0 && <span className="bk-book-progress" aria-label={percent + "% typed"}><i style={{ width: percent + "%" }} /></span>}
                         </span>
                       </button>
