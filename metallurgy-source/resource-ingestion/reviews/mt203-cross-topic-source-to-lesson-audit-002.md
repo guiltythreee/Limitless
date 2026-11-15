@@ -17,13 +17,13 @@ The existing syllabus structure remains four modules and eleven topics. The exis
 | Source pages | Main source subject | Existing destination | Current reconciliation |
 |---|---|---|---|
 | 1–4 | Course identity, outcomes, assessment and syllabus | Course/module metadata; not a lesson topic | Administrative source. Verify against manifest, not add as lesson theory. |
-| 5–16 | Polymer definition, classification, thermoplastic/thermoset/elastomer, architecture, crystallinity, crosslinking, tacticity, homopolymer/copolymer | T1 Fundamentals, Classification & Architecture; T5 Crystallinity | Core concepts represented in T1/T5. Figure-heavy structure slides require visual cross-check before declaring complete. |
+| 5–16 | Polymer definition, classification, thermoplastic/thermoset/elastomer, architecture, crystallinity, crosslinking, tacticity, homopolymer/copolymer | T1 Fundamentals, Classification & Architecture; T5 Crystallinity | Core concepts represented in T1/T5. T1's text/figure examples still require a final figure-label comparison. |
 | 17–20 | Step-growth and chain-growth polymerization | T2 Polymerization Mechanisms | Core mechanism distinction represented. Source-specific examples and exact slide claims still need final coverage check. |
 | 21–32 | Solution, bulk, suspension, emulsion, micelles and melt polycondensation | T3 Polymerization Techniques | Main techniques and contrasts represented. Micelle figures and detailed source advantages/limitations remain a visual audit item. |
 | 33 | Thermoplastic versus thermosetting comparison | T1; T8 | Overlap/recap slide. Avoid duplicate content; check if any distinct comparison is missing. |
 | 34–48 | Molecular weight, Mn/Mw, worked calculations, DP, MWD/PDI, property effects and determination methods | T4 Molecular Weight & Distribution | Core formulas and methods represented. The source's four-entity worked example from pp. 37–41 was missing and has now been added; source arithmetic/notation errors are explicitly flagged. Page 48 is figure-only and needs visual inspection before claiming the methods slide is fully captured. |
-| 49 | Crystalline versus amorphous polymer examples | T5 Polymer Crystallinity | Topic concepts represented; source examples require a final label-by-label comparison. |
-| 50 | Functionality and functional-group examples | T2 Polymerization Mechanisms | Existing lesson covers functionality conceptually. Exact source examples/table require visual comparison; do not infer unreadable chemical formulae. |
+| 49 | Crystalline versus amorphous polymer examples | T5 Polymer Crystallinity | p. 49 visually checked and the source's crystalline/amorphous example lists and comparison properties have been added to T5. The printed “Modified Polyphenylene Oxide (POM)” name/acronym mismatch is flagged. |
+| 50 | Functionality and functional-group examples | T2 Polymerization Mechanisms | p. 50 visually checked; the source table's functional-group counts and mono-/bi-/trifunctional examples have been added to T2. Chemical formula typography was not reconstructed where unnecessary. |
 | 51–55 | Commodity polymer repeat-unit examples; nylon/polyamide examples | T8 Industrial Polymers | Named repeat-unit examples and nylon 6,6 / 6,10 lecture examples added. Structural diagrams remain source-derived labels, not reconstructed connectivity. |
 | 56–63 | Structure–property design inputs, molecular weight, mechanical response, viscoelasticity, modulus and Tg/Tm | T5 and T6 | Core framework represented. Check the full source plots and the distinction between static and dynamic mechanical testing. |
 | 64–68 | Tg structure comparisons, Tg factors and transition-related property changes | T6 Thermal Transitions | Representative Tg values and source ambiguity on p. 64 recorded. Page 67 long-alkyl-side-chain table remains unresolved pending image/table verification. |
@@ -59,8 +59,8 @@ The lesson retains grams because that is the unit printed on the source slide; i
 
 ## Explicit open audit items
 
-1. **T1 / T5:** inspect the remaining figure-heavy slides from pp. 5–16 and 49; verify examples and labels against lesson content.
-2. **T2 / T3:** visually verify the functionality examples on p. 50 and micelle/technique diagrams on pp. 22–32.
+1. **T1:** inspect the remaining figure-heavy slides from pp. 5–16 and verify examples and labels against lesson content.
+2. **T2 / T3:** functionality examples on p. 50 are visually checked and integrated; continue visual review of micelle/technique diagrams on pp. 22–32.
 3. **T4:** inspect p. 48's determination-of-molecular-weight diagram; confirm source example transcription against all pages 37–41. (The numerical worked example has been added.)
 5. **T5 / T6:** p. 67 visually inspected. The slide states that increasing side-chain length decreases Tg, but the table is clipped at the bottom and some displayed values do not follow a simple monotonic sequence. No table values have been added; the exact table remains unresolved pending a complete source slide.
 6. **T8:** complete figure-by-figure check of the industrial polymer and reaction slides, especially where structural schemes carry more information than extracted text.
