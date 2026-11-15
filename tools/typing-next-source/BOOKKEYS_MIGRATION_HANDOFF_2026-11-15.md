@@ -222,3 +222,26 @@ Next actions:
 - New exact successful build/deploy backup created: `backup/bookkeys-light-library-fix-built-20261115` → `45b23fb54769dbc10ffadd1270c76a9208d3d34e`.
 - The latest docs commit `3d7a5ad...` contains the same CSS source plus this handoff update; it does not alter product source. A follow-on preview deployment for the docs commit may run separately.
 - User should now hard-refresh the preview URL and recheck. The specific light-theme cascade defect is fixed in the deployed commit; verify the rendered screenshot before asserting visual parity. Header visibility remains a separate screenshot-level check if still absent.
+
+
+## All-green verification and next visual checkpoint — 15 November 2026, 20:45 IST
+
+Current PR head:
+- `0742a941966271f012fc077e139c28357a3d252e`
+- PR #232 remains OPEN, DRAFT, UNMERGED; mergeable=true.
+- Full migration verification run `43714529639`: SUCCESS. All steps passed: legacy preservation, dependency install, persistence tests, TypeScript type-check, static export build, Chromium install and browser regressions.
+- Bookkeys regression run `43714529698`: SUCCESS.
+- Isolated Cloudflare preview deployment run `43714525113`: SUCCESS. All steps including static build, base-path staging and Worker deployment passed.
+- New immutable branch created at exact current all-green PR/handoff head: `backup/bookkeys-all-green-handoff-20261115` → `0742a941966271f012fc077e139c28357a3d252e`.
+- Existing exact product-source build backup remains: `backup/bookkeys-light-library-fix-built-20261115` → `45b23fb54769dbc10ffadd1270c76a9208d3d34e`.
+- The PR branch's latest changes after the product CSS fix are documentation-only.
+
+Remaining visual acceptance:
+- The latest successful deployment includes the CSS cascade override for `html[data-theme="light"] .bk-library`, making the library container transparent after the legacy light-theme rule.
+- User has NOT yet supplied a screenshot taken after this latest successful deployment. Their prior screenshot showing the opaque white rectangle predates the CSS fix deployment and therefore cannot validate or invalidate the new CSS.
+- JSX source includes a `.bk-header` with home, text-size, Archive, settings and appearance controls, plus separate hero and demo markup. The old screenshot showed no header; current rendered header visibility is not yet confirmed. Existing Playwright tests do not assert the full home header/hero visual composition.
+- The live production shell's visible header is not identical to the current migrated JSX header (production screenshot shows home, Chronicle Lv 1, settings and theme control). Do not assume merely showing a header is sufficient; compare exact visible controls and geometry against production.
+- The actual production page at `tools/typing/index.html` wraps the legacy `bookkeys.html` in a full-screen iframe and syncs site theme/artwork into it. This is useful architectural context for parity work.
+- Browser web retrieval could not access the Cloudflare Worker URL; do not claim direct remote DOM inspection.
+- Next step is to ask user to hard-refresh the currently deployed preview and provide a screenshot at the same viewport as production. Then compare actual header, hero/demo positions, transparent shelf, card grid and artwork. Only then decide whether a separate header/layout implementation change is necessary.
+- Do not make another speculative CSS change before this screenshot. No production merge/deploy and no data migration/copy.
