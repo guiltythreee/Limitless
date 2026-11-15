@@ -24,7 +24,8 @@ assert.ok(first.some((r) => r.sourcePage === 2 && r.candidateType === "definitio
 assert.ok(first.some((r) => r.sourcePage === 2 && r.kind === "table-row"));
 assert.ok(first.every((r) => r.confidence === "unverified"));
 
-const ocrRecords = buildRecords({ sourceId: "source-test", pages: ["Scanned page OCR output."], pageExtractionMethods: ["tesseract OCR (220 DPI, page segmentation mode 3)"] });\nassert.equal(ocrRecords[0].extractionMethod, "tesseract OCR (220 DPI, page segmentation mode 3)");
+const ocrRecords = buildRecords({ sourceId: "source-test", pages: ["Scanned page OCR output."], pageExtractionMethods: ["tesseract OCR (220 DPI, page segmentation mode 3)"] });
+assert.equal(ocrRecords[0].extractionMethod, "tesseract OCR (220 DPI, page segmentation mode 3)");
 
 const noMapping = buildRecords({ sourceId: "source-test", pages: ["A simple paragraph."] });
 assert.equal(noMapping[0].mappingHint.course, undefined);
