@@ -115,6 +115,10 @@ assert.equal(switched.baseline, true, "changing accounts establishes a fresh bas
 assert.equal(switched.added, 0);
 assert.equal(switched.state.handle, "differenthandle");
 assert.equal(switched.state.attempts.length, 0, "attempts from the previous account are not carried over");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "differenthandle").mode, "since",
+  "the newly active account uses its own incremental cursor after its baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "examplehandle").mode, "all",
+  "switching back to an account without an active cursor must establish a fresh baseline");
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
 const accountsSource = await readFile(new URL("./accounts.js", import.meta.url), "utf8");
