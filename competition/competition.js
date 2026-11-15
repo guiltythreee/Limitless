@@ -890,17 +890,22 @@
           (links ? '<div class="concept-practice-links">' + links + '</div>' : '') + '</div>';
       }).join('');
       if (token !== sharedInsightRenderToken) return;
-      var codeforcesReviews = analysis.revision.filter(function (item) {
+      var codeforcesRevisionCandidates = analysis.revision.filter(function (item) {
         return item.courseId === 'codeforces';
-      }).slice(0, 5).map(function (item) {
+      });
+      var codeforcesReviews = codeforcesRevisionCandidates.slice(0, 5).map(function (item) {
         var match = /^codeforces:(\d+)([A-Z]\d*)$/.exec(item.questionId || '');
         var problemLink = match
           ? '<a href="https://codeforces.com/problemset/problem/' + match[1] + '/' + match[2] + '" target="_blank" rel="noopener noreferrer">Open problem ↗</a>'
           : '';
-        var dueLabel = item.dueAt <= Date.now() ? 'Due now' : 'Due ' + new Date(item.dueAt).toLocaleDateString();
-        return '<div class="insight-row"><span>' + esc(item.questionId.replace('codeforces:', '')) +
+        var dueNow = item.dueAt <= Date.now();
+        var dueLabel = dueNow ? 'Due now' : 'Due ' + new Date(item.dueAt).toLocaleDateString();
+        var actions = dueNow
+          ? '<div class="revision-actions"><button type="button" class="action-button" data-codeforces-revision-result="correct" data-question-id="' + esc(item.questionId) + '">Solved independently</button><button type="button" class="action-button secondary-button" data-codeforces-revision-result="incorrect" data-question-id="' + esc(item.questionId) + '">Still stuck</button></div>'
+          : '';
+        return '<div class="revision-item"><div class="insight-row"><span>' + esc(item.questionId.replace('codeforces:', '')) +
           '<small>' + item.failures + ' failed attempt(s) · ' + dueLabel + (problemLink ? ' · ' + problemLink : '') +
-          '</small></span><strong>' + (item.dueAt <= Date.now() ? 'Review' : 'Scheduled') + '</strong></div>';
+          '</small></span><strong>' + (dueNow ? 'Review' : 'Scheduled') + '</strong></div>' + actions + '</div>';
       }).join('');
       host.innerHTML = '<div class="mistake-breakdown"><h4>Concept mastery</h4>' +
         (masteryRows || '<p class="empty-state">Add an underlying concept when logging a problem to build concept-level mastery.</p>') +
@@ -908,6 +913,59 @@
         (nextSteps ? '<div class="mistake-breakdown"><h4>Suggested focus</h4>' + nextSteps + '</div>' : '') +
         (codeforcesAttempts.length ? '<div class="mistake-breakdown"><h4>Codeforces revision</h4>' +
           (codeforcesReviews || '<p class="empty-state">No failed Codeforces problems currently need revision.</p>') + '</div>' : '');
+      host.querySelectorAll('[data-codeforces-revision-result]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          if (button.disabled) return;
+          button.disabled = true;
+          try {
+            var questionId = button.dataset.questionId;
+            var candidate = codeforcesRevisionCandidates.find(function (item) {
+              return item.questionId === questionId;
+            });
+            var stored = JSON.parse(localStorage.getItem('limitless.competition.codeforces-learning.v1') || 'null');
+            if (!candidate || !stored || !Array.isArray(stored.attempts)) {
+              throw new Error('The Codeforces learning record is unavailable.');
+            }
+            var sourceAttempt = stored.attempts.filter(function (attempt) {
+              return attempt && attempt.questionId === questionId &&
+                attempt.disciplineId === 'competitive-programming' && attempt.courseId === 'codeforces';
+            }).sort(function (a, b) { return a.occurredAt - b.occurredAt; }).pop();
+            if (!sourceAttempt) throw new Error('The original Codeforces attempt could not be found.');
+            var revision = {
+              id: 'codeforces:revision:' + String(Date.now()) + ':' + Math.random().toString(36).slice(2, 8),
+              disciplineId: sourceAttempt.disciplineId,
+              courseId: sourceAttempt.courseId,
+              contentId: sourceAttempt.contentId,
+              questionId: sourceAttempt.questionId,
+              subjectId: 'codeforces',
+              conceptIds: Array.isArray(candidate.conceptIds) ? candidate.conceptIds : [],
+              outcome: button.dataset.codeforcesRevisionResult,
+              occurredAt: Date.now(),
+              independent: button.dataset.codeforcesRevisionResult === 'correct',
+              hintCount: button.dataset.codeforcesRevisionResult === 'correct' ? 0 : undefined,
+              mode: 'revision'
+            };
+            stored.attempts.push(revision);
+            stored.attempts.sort(function (a, b) { return a.occurredAt - b.occurredAt; });
+            stored.attempts = stored.attempts.slice(-1000);
+            stored.lastSyncAt = Number.isFinite(stored.lastSyncAt) ? stored.lastSyncAt : 0;
+            localStorage.setItem('limitless.competition.codeforces-learning.v1', JSON.stringify(stored));
+            window.dispatchEvent(new CustomEvent('limitless:codeforces-learning-updated'));
+          } catch (error) {
+            button.disabled = false;
+            var feedback = host.querySelector('[data-codeforces-revision-feedback]');
+            if (!feedback) {
+              feedback = document.createElement('p');
+              feedback.className = 'empty-state';
+              feedback.dataset.codeforcesRevisionFeedback = 'true';
+              host.appendChild(feedback);
+            }
+            feedback.textContent = error && error.message
+              ? error.message
+              : 'Could not save this Codeforces revision result.';
+          }
+        });
+      });
     });
   }
 
