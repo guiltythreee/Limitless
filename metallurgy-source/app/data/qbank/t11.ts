@@ -722,16 +722,16 @@ const T11: TopicSource = {
       text: "A polymer decomposes at or below its melting temperature but dissolves in a volatile solvent. Which fibre-spinning route best fits the lecture's selection rule?",
       options: [
         { label: "a", text: "Melt spinning: melt the polymer and force it through a spinneret." },
-        { label: "b", text: "Dry spinning: extrude the solution into a heated chamber so the solvent evaporates." },
+        { label: "b", text: "Pultrusion: pull a fibre bundle through a heated die." },
         { label: "c", text: "Wet spinning: extrude the melt into air and cool it." },
-        { label: "d", text: "Pultrusion: pull a fibre bundle through a heated die." }
+        { label: "d", text: "Dry spinning: extrude the solution into a heated chamber so the solvent evaporates." }
       ],
-      answer: "b",
+      answer: "d",
       why: "Dry spinning is used when the polymer cannot be melt-spun safely but is soluble in a **volatile solvent**. The solution exits the spinneret and solvent evaporates in a heated chamber.",
       distractors: {
         a: "The stem says the polymer decomposes at or below its melting temperature.",
-        c: "Wet spinning uses a coagulating non-solvent bath, not a melt extruded into air.",
-        d: "Pultrusion makes continuous constant-section fibre-reinforced profiles, not solution-spun filaments."
+        b: "Pultrusion makes continuous constant-section fibre-reinforced profiles, not solution-spun filaments.",
+        c: "Wet spinning uses a coagulating non-solvent bath, not a melt extruded into air."
       },
       concept: "Melt if thermally stable; dry if volatile-solvent route; wet if coagulation bath is needed.",
       tags: ["revision"]
@@ -785,16 +785,16 @@ const T11: TopicSource = {
       text: "A rubber compound is being formulated, but the base elastomer is not specified. Which statement about selecting its vulcanizing system is scientifically defensible?",
       options: [
         { label: "a", text: "Sulfur is the universal curative for every elastomer." },
-        { label: "b", text: "Accelerators and curatives are interchangeable names for the same ingredient." },
+        { label: "b", text: "The curative must be selected for the elastomer chemistry; sulfur is widely used for natural rubber and several diene rubbers, while other elastomers may require peroxides, metal oxides, amines or phenolic resins." },
         { label: "c", text: "Vulcanizing agents are added only to reduce colour variation." },
-        { label: "d", text: "The curative must be selected for the elastomer chemistry; sulfur is widely used for natural rubber and several diene rubbers, while other elastomers may require peroxides, metal oxides, amines or phenolic resins." }
+        { label: "d", text: "Accelerators and curatives are interchangeable names for the same ingredient." }
       ],
-      answer: "d",
+      answer: "b",
       why: "The lecture's cure-system table assigns different curatives to different elastomer families. **Sulfur is widely used**, but peroxide, metallic-oxide, amine and phenolic-resin systems are also identified. Selection depends on polymer chemistry.",
       distractors: {
         a: "The source explicitly lists multiple cure systems; sulfur is not universal.",
-        b: "A curative forms cross-links; an accelerator increases the rate of vulcanization.",
-        c: "The purpose of a curative is chemical cross-linking, not colour control."
+        c: "The purpose of a curative is chemical cross-linking, not colour control.",
+        d: "A curative forms cross-links; an accelerator increases the rate of vulcanization."
       },
       concept: "Curative selection is elastomer-specific.",
       tags: ["confused"]
