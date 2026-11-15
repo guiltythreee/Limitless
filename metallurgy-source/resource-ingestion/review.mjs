@@ -27,6 +27,9 @@ export function validateReview(records, decisions) {
     seen.add(decision.recordId);
     if (!ALLOWED.has(decision.status)) throw new Error(`Unsupported review status for ${decision.recordId}.`);
     const record = byId.get(decision.recordId);
+    if (decision.status === "approved" && !decision.destination) {
+      throw new Error(`Approved record ${decision.recordId} requires a destination.`);
+    }
     if (decision.status !== "rejected" && !DESTINATIONS.has(decision.destination)) {
       throw new Error(`Invalid destination for ${decision.recordId}.`);
     }
