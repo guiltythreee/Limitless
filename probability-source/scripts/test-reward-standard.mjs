@@ -389,6 +389,11 @@ for (let index = 0; index < 45; index += 1) {
 const compacted = compactRewardLedgerPayload({ rewardLedger: archiveInput });
 assert.equal(compacted.rewardLedger.length, 20);
 assert.equal(compacted.rewardLedgerArchive.records.length, 25);
+assert.ok(
+  JSON.stringify(compacted.rewardLedgerArchive).length <
+    JSON.stringify(archiveInput.slice(0, 25)).length,
+  "dictionary-backed tuples reduce serialized size for archived records",
+);
 assert.deepEqual(readRewardLedger(compacted), archiveInput,
   "compact encoding round-trips every field and preserves chronological identity");
 const archivedDuplicate = calculateReward(activity({
