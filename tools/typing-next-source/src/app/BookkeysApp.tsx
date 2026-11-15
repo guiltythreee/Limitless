@@ -364,6 +364,7 @@ export default function BookkeysApp() {
   const [completedPageIndexes, setCompletedPageIndexes] = useState<number[]>([]);
   const archive = useMemo(() => bookkeysArchiveSummary(gameProgress as Readonly<Record<string, unknown>>), [gameProgress]);
   const fileInput = useRef<HTMLInputElement>(null);
+  const openBookInput = useRef<HTMLInputElement>(null);
   const backupInput = useRef<HTMLInputElement>(null);
   const startedAt = useRef(Date.now());
   const completedThisPage = useRef(false);
@@ -1542,7 +1543,7 @@ export default function BookkeysApp() {
                   <li>Earn XP, level up and unlock achievements as you read</li>
                 </ul>
                 <div className="bk-home-hero-actions">
-                  <button className="bk-primary" type="button" onClick={() => fileInput.current?.click()} disabled={busy}>Open book</button>
+                  <button className="bk-primary" type="button" onClick={() => setPasteOpen(true)} disabled={busy}>Open book</button>
                   {continueEntry && <button className="bk-primary" type="button" onClick={() => void loadEntry(continueEntry)}>Continue reading</button>}
                   <button className="bk-quiet" type="button" onClick={startSample}>Try the sample text</button>
                 </div>
@@ -1594,17 +1595,32 @@ export default function BookkeysApp() {
               </label>
             </div>
             {pasteOpen && (
-              <section className="bk-paste-panel" aria-label="Paste book text">
-                <label htmlFor="bk-paste-text">Paste a passage or a longer text</label>
-                <textarea id="bk-paste-text" value={pasteText}
-                  onChange={(event) => setPasteText(event.currentTarget.value)}
-                  placeholder="Paste text here. Blank lines separate paragraphs." rows={7}
-                />
-                <div>
-                  <button className="bk-primary" onClick={startPastedText} disabled={busy || !pasteText.trim()}>Create text book</button>
-                  <button className="bk-quiet" onClick={() => setPasteOpen(false)}>Cancel</button>
-                </div>
-              </section>
+              <div className="bk-paste-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setPasteOpen(false); }}>
+                <section className="bk-paste-panel" role="dialog" aria-modal="true" aria-labelledby="bk-open-book-title">
+                  <h2 id="bk-open-book-title">Open a book</h2>
+                  <label className="bk-open-drop" htmlFor="bk-open-book-file">
+                    Drop a PDF or EPUB here, or click to choose one
+                    <input id="bk-open-book-file" ref={openBookInput} type="file" accept="application/pdf,.pdf,application/epub+zip,.epub"
+                      onChange={(event) => {
+                        const file = event.currentTarget.files?.[0];
+                        if (file) { setPasteOpen(false); void importFile(file); }
+                        event.currentTarget.value = "";
+                      }}
+                    />
+                  </label>
+                  <p>Or paste any text to practice on. Leave a blank line between paragraphs.</p>
+                  <textarea id="bk-paste-text" value={pasteText}
+                    onChange={(event) => setPasteText(event.currentTarget.value)}
+                    placeholder="Paste text here" rows={6}
+                  />
+                  <div className="bk-open-status" role="status">{status}</div>
+                  <div className="bk-open-actions">
+                    <button className="bk-quiet" onClick={() => setPasteOpen(false)}>Close</button>
+                    <button className="bk-quiet" onClick={() => { setPasteOpen(false); startSample(); }}>Use sample text</button>
+                    <button className="bk-primary" onClick={startPastedText} disabled={busy || !pasteText.trim()}>Practice this text</button>
+                  </div>
+                </section>
+              </div>
             )}
             {visibleLibrary.length ? (
               <div className="bk-book-grid">
