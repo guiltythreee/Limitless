@@ -49,7 +49,7 @@ function classifyLine(line) {
   if (!trimmed) return null;
   if (/^(?:\d+(?:\.\d+)*[.)]?\s+)?[A-Z][^.!?]{2,100}$/.test(trimmed) && trimmed.length < 110) return "heading";
   if (/^(?:[-*•▪]|\d+[.)])\s+/.test(trimmed)) return "bullet";
-  if (/[=≈≃≤≥∝∑√]|\\frac|\\sum|\b(?:MPa|GPa|kJ|mol|mm|cm)\b/.test(trimmed) && trimmed.length < 240) return "equation";
+  if (/[=≈≃≤≥∝∑√]|\\frac|\sum|\b(?:MPa|GPa|kJ|mol|mm|cm)\b/.test(trimmed) && trimmed.length < 240) return "equation";
   if (/\s{2,}|\t/.test(line)) return "table-row";
   return "paragraph";
 }
@@ -78,7 +78,7 @@ function splitIntoBlocks(pageText) {
 }
 
 export function shouldUseOcr(pageText, minimumNativeCharacters = 24) {
-  return pageText.replace(/\\s/g, "").length < minimumNativeCharacters;
+  return pageText.replace(/\s/g, "").length < minimumNativeCharacters;
 }
 
 export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout", pageExtractionMethods = [] }) {
@@ -200,7 +200,7 @@ export async function ingestPdf(options) {
     const assetsDir = join(output, "assets");
     await mkdir(assetsDir, { recursive: true });
     run("pdfimages", ["-png", input, join(assetsDir, "image")]);
-    const extractedNames = (await readdir(assetsDir)).filter((name) => /^image-\\d+\\./.test(name)).sort();
+    const extractedNames = (await readdir(assetsDir)).filter((name) => /^image-\d+\./.test(name)).sort();
     imageAssets = extractedNames.map((name, index) => ({ ...(imageRows[index] ?? { page: null, imageNumber: index }), path: `assets/${name}` }));
   } catch (error) {
     imageInventory = `Image extraction unavailable: ${error.message}`;
