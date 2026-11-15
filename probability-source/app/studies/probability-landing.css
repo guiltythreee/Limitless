@@ -145,3 +145,191 @@
   .probability-studies-card { transition: none; }
   .probability-studies-card:hover { transform: none; }
 }
+
+
+/* V2: structural dashboard redesign.
+   Replace the previous four-equal-column composition with a deliberate
+   feature / curriculum / practice hierarchy. */
+.probability-studies-page {
+  max-width: 1500px;
+}
+.probability-studies-hero {
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  padding: clamp(2.2rem, 5vw, 4.5rem) !important;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 78% 45%, rgba(62, 151, 238, .24), transparent 28rem),
+    linear-gradient(115deg, #06162b 0%, #0b2b50 52%, #102c4c 100%) !important;
+}
+.probability-studies-hero::before {
+  opacity: .3;
+  background-size: 42px 42px;
+  mask-image: linear-gradient(90deg, black 0%, transparent 86%);
+}
+.probability-studies-hero > div[aria-hidden="true"]:first-child {
+  width: 470px;
+  height: 470px;
+  right: -105px;
+  top: -60px;
+  border-color: rgba(119, 190, 255, .2) !important;
+  box-shadow: 0 0 0 24px rgba(119, 190, 255, .045), 0 0 0 62px rgba(119, 190, 255, .035), 0 0 0 105px rgba(119, 190, 255, .025);
+}
+.probability-studies-hero > div[aria-hidden="true"]:nth-child(2) {
+  right: 7.5%;
+  width: 205px;
+  height: 205px;
+  border-color: rgba(119, 190, 255, .35) !important;
+  background: rgba(7, 25, 47, .72);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, .2), inset 0 0 35px rgba(64, 151, 235, .12);
+}
+.probability-studies-hero .relative.max-w-3xl {
+  max-width: min(68%, 790px);
+  z-index: 1;
+}
+.probability-studies-hero h1 {
+  font-size: clamp(3.8rem, 6vw, 5.8rem) !important;
+  line-height: .98 !important;
+}
+.probability-studies-hero p {
+  max-width: 650px;
+  font-size: 1rem !important;
+  line-height: 1.8 !important;
+}
+.probability-studies-hero a {
+  border-radius: 7px;
+  padding: .85rem 1.1rem;
+}
+.probability-studies-hero a:first-child {
+  padding-inline: 1.35rem;
+}
+.probability-studies-progress {
+  display: grid;
+  grid-template-columns: minmax(180px, .72fr) minmax(0, 2fr);
+  align-items: center;
+  column-gap: 2rem;
+  row-gap: .5rem;
+  padding: 1.5rem 1.8rem !important;
+  border-radius: 14px;
+  background: linear-gradient(110deg, rgba(10, 29, 52, .97), rgba(8, 20, 37, .94)) !important;
+}
+.probability-studies-progress > div:first-child {
+  grid-column: 1 / -1;
+  align-items: center;
+  margin-bottom: .35rem;
+}
+.probability-studies-progress > div:first-child h2 {
+  font-size: 1.65rem !important;
+}
+.probability-studies-progress > div:nth-child(2) {
+  display: contents;
+}
+.probability-studies-progress > div:nth-child(2) > div:first-child {
+  grid-column: 1;
+  align-self: center;
+}
+.probability-studies-progress > div:nth-child(2) > div:last-child {
+  grid-column: 2;
+}
+.probability-studies-progress > p,
+.probability-studies-progress > p + p {
+  grid-column: 1 / -1;
+}
+.probability-studies-progress > div:nth-child(2) > div:last-child > div {
+  border: 1px solid rgba(105, 181, 255, .16);
+  border-radius: 9px;
+  background: rgba(54, 117, 180, .08);
+  padding: .8rem .75rem;
+}
+.probability-studies-grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  gap: 1rem !important;
+}
+.probability-studies-card {
+  border-radius: 14px;
+  padding: 1.35rem !important;
+  background: linear-gradient(150deg, rgba(13, 34, 59, .96), rgba(7, 18, 33, .97)) !important;
+}
+.probability-studies-card:nth-child(1) { grid-column: span 5; }
+.probability-studies-card:nth-child(2) { grid-column: span 7; }
+.probability-studies-card:nth-child(3) { grid-column: span 7; }
+.probability-studies-card:nth-child(4) { grid-column: span 5; }
+.probability-studies-card h2 {
+  font-size: 1.65rem !important;
+  letter-spacing: -.025em;
+}
+.probability-studies-card .eyebrow {
+  letter-spacing: .19em;
+}
+.probability-studies-card:nth-child(2) > div:last-child {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .45rem .65rem;
+}
+.probability-studies-card:nth-child(2) > div:last-child a {
+  min-height: 58px;
+  border: 1px solid rgba(105, 181, 255, .14) !important;
+  border-radius: 8px;
+  background: rgba(62, 126, 190, .07);
+  padding: .7rem .75rem;
+}
+.probability-studies-card:nth-child(2) > div:last-child a:hover {
+  border-color: rgba(105, 181, 255, .45) !important;
+}
+.probability-studies-card:nth-child(3) > div:nth-child(3) a {
+  border-radius: 6px;
+  padding-inline: .6rem;
+}
+.probability-studies-card:nth-child(4) > div:last-child a {
+  min-height: 48px;
+  padding-inline: .65rem;
+}
+.probability-studies-card--continue {
+  min-height: 245px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 100% 0, rgba(65, 153, 235, .26), transparent 19rem),
+    linear-gradient(145deg, #103b66, #081b32 78%) !important;
+}
+.probability-studies-card--continue a {
+  min-height: 88px;
+  border-radius: 9px;
+  background: rgba(4, 17, 32, .42);
+}
+.probability-studies-card--continue a strong {
+  font-size: 1.18rem;
+}
+@media (max-width: 980px) {
+  .probability-studies-hero .relative.max-w-3xl { max-width: 74%; }
+  .probability-studies-progress { grid-template-columns: 1fr; }
+  .probability-studies-progress > div:nth-child(2) > div:first-child,
+  .probability-studies-progress > div:nth-child(2) > div:last-child { grid-column: 1; }
+  .probability-studies-card:nth-child(n) { grid-column: span 6; }
+}
+@media (max-width: 640px) {
+  .probability-studies-hero {
+    min-height: 0;
+    border-radius: 13px;
+    padding: 1.5rem !important;
+  }
+  .probability-studies-hero .relative.max-w-3xl { max-width: 100%; }
+  .probability-studies-hero h1 { font-size: clamp(3rem, 14vw, 4rem) !important; }
+  .probability-studies-hero > div[aria-hidden="true"] { display: none; }
+  .probability-studies-progress {
+    display: block;
+    padding: 1.2rem !important;
+    border-radius: 12px;
+  }
+  .probability-studies-progress > div:nth-child(2) { display: block; }
+  .probability-studies-progress > div:nth-child(2) > div:last-child {
+    margin-top: 1.1rem;
+  }
+  .probability-studies-progress > div:nth-child(2) > div:last-child > div {
+    padding: .6rem .5rem;
+  }
+  .probability-studies-card:nth-child(n) { grid-column: 1 / -1; }
+  .probability-studies-card:nth-child(2) > div:last-child { grid-template-columns: 1fr; }
+}
