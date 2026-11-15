@@ -22,6 +22,8 @@ const logs = [
     mistakeType: "observation", time: "45",
   },
   { id: "bad-date", date: "not-a-date", subject: "Combinatorics", concept: "X", outcome: "unsolved" },
+  { id: "impossible-date", date: "2026-02-30", subject: "Combinatorics", concept: "X", outcome: "unsolved" },
+  { id: "bad-date-format", date: "2026-2-03", subject: "Combinatorics", concept: "X", outcome: "unsolved" },
   { id: "", date: "2026-11-03", subject: "Combinatorics", concept: "X", outcome: "unsolved" },
 ];
 
@@ -55,6 +57,18 @@ const revisionEvidence = toCompetitionLearningAttempts(logs, [
     date: "2026-11-07T12:00:00.000Z",
     outcome: "correct",
   },
+  {
+    id: "revision:impossible-date",
+    problemId: "cp-3",
+    date: "2026-02-30T12:00:00.000Z",
+    outcome: "correct",
+  },
+  {
+    id: "revision:bad-date",
+    problemId: "cp-3",
+    date: "2026-2-03T12:00:00.000Z",
+    outcome: "correct",
+  },
 ]);
 assert.equal(revisionEvidence.length, 5, "only revisions linked to known problems enter learning evidence");
 assert.equal(revisionEvidence[3].mode, "revision");
@@ -78,7 +92,7 @@ const manyUnresolved = Array.from({ length: 27 }, (_, index) => ({
 }));
 const fullQueue = analyzeCompetitionLearning(manyUnresolved, [], Date.parse("2026-11-10T00:00:00Z"));
 assert.equal(fullQueue.revision.length, 27, "the revision queue must not silently hide candidates beyond the first 20");
-assert.equal(logs.length, 5, "adapter must not mutate source records");
+assert.equal(logs.length, 7, "adapter must not mutate source records");
 
 const successfulRevision = analyzeCompetitionLearning(logs, [
   { id: "rev-1", problemId: "cp-3", date: "2026-11-05T12:00:00.000Z", outcome: "correct" },
