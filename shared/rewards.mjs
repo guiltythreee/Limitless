@@ -302,8 +302,8 @@ export function calculateReward(input, priorRecords = [], priorArchive = null) {
  * award record. calculateReward remains a pure one-activity breakdown; this helper
  * splits a first-pass bonus before writing it to an authoritative ledger.
  */
-export function buildRewardRecords(input, priorRecords = []) {
-  const calculated = calculateReward(input, priorRecords);
+export function buildRewardRecords(input, priorRecords = [], priorArchive = null) {
+  const calculated = calculateReward(input, priorRecords, priorArchive);
   if (!calculated.passBonus || !calculated.checkpointId) return [calculated];
 
   const activityRecord = sanitiseRewardRecord({
