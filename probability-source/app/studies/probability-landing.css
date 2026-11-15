@@ -40,7 +40,7 @@
 .probability-studies-page .text-body { color: var(--pa-text) !important; }
 .probability-studies-page .text-dim,
 .probability-studies-page .text-faint { color: var(--pa-muted) !important; }
-.probability-studies-page .hover\\:bg-gold\\/5:hover { background: var(--pa-accent-soft) !important; }
+.probability-studies-page .hover\:bg-gold\/5:hover { background: var(--pa-accent-soft) !important; }
 .probability-studies-hero {
   min-height: 300px;
   border-color: rgba(105, 181, 255, .32) !important;
