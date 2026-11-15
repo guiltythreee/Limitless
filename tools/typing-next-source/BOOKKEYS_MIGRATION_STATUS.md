@@ -97,3 +97,17 @@ The following are genuinely outstanding; implemented features and passing fixtur
 - Vercel still reports a build-rate-limit failure. It is separate from the two passing GitHub Actions workflows.
 
 The user does not plan a separate manual acceptance/testing pass and will report issues encountered during ordinary use. Continue using automated regression, type-check, build and browser checks as the primary verification. This does not convert synthetic fixtures into proof of compatibility with every real-world file, device or input method, and does not authorize production cutover or deployment.
+
+## User-directed acceptance scope update — 15 November 2026
+
+The user has confirmed that there is no existing Bookkeys database/library data to migrate or preserve. Therefore:
+
+- Do not treat inspection or migration of a real pre-existing user IndexedDB database as a release blocker.
+- Do not require importing real-user backup files or running a one-off database migration. There is no source dataset for that work.
+- Keep the existing IndexedDB v1/localStorage compatibility code and automated fixtures where they support the reader's normal local-first operation; this is not a request to remove storage safeguards or change the storage contract.
+- Continue validating fresh-library creation, local file import, progress persistence, backup/restore, and automated regression behavior.
+- Real-device/IME edge cases can be handled through automated coverage where feasible and issues reported during ordinary use; do not claim they have been physically verified.
+
+Visual acceptance remains a separate requirement. The current preview must be checked against the live /tools/typing/ reader, not inferred from a passing build or source inventory. In particular compare the actual library landing view, artwork/background layers, reader typography and overlays, settings tab layout and appearance controls at desktop and narrow widths. Preserve the original visual result; do not simplify the UI to fit the migration.
+
+Latest verified CI head at this checkpoint: 4185987df09f0cb2dd74060ac75dbe07fb3daadd. Bookkeys TypeScript Migration and Bookkeys Regression Tests both completed successfully (15 November 2026). The migration run includes the legacy preservation suite, persistence tests, type-check, static export and Chromium browser regressions. This verifies code/build behavior, not live visual equivalence.
