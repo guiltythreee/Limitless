@@ -168,6 +168,25 @@ export function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = 
   return records;
 }
 
+export function buildPagePreviewPlan(records, ocrQuality = {}) {
+  const reasonsByPage = new Map();
+  const addReason = (page, reason) => {
+    if (!Number.isInteger(page) || page < 1) return;
+    const reasons = reasonsByPage.get(page) ?? new Set();
+    reasons.add(reason);
+    reasonsByPage.set(page, reasons);
+  };
+  for (const record of records) {
+    if (record.candidateType === "equation") addReason(record.sourcePage, "equation-candidate");
+    if (record.candidateType === "table") addReason(record.sourcePage, "table-candidate");
+    if (record.candidateType === "figure") addReason(record.sourcePage, "embedded-figure");
+    if (record.extractionQuality === "review-required") addReason(record.sourcePage, "extraction-review-required");
+  }
+  for (const page of ocrQuality.reviewRequiredPages ?? []) addReason(page, "ocr-review-required");
+  return [...reasonsByPage.entries()].sort(([a], [b]) => a - b)
+    .map(([page, reasons]) => ({ page, reasons: [...reasons].sort() }));
+}
+
 function makeReviewPacket(manifest, records) {
   const byPage = new Map();
   for (const record of records) byPage.set(record.sourcePage, (byPage.get(record.sourcePage) ?? 0) + 1);
@@ -184,6 +203,10 @@ function makeReviewPacket(manifest, records) {
     `- **Mapping hint:** ${[manifest.mappingHint.course, manifest.mappingHint.topic, manifest.mappingHint.subtopic].filter(Boolean).join(" / ") || "Not supplied"}`,
     "",
     "> Nothing in this packet is approved course content. Verify against the original page before using it.",
+    "",
+    "## Source page previews",
+    "",
+    ...(manifest.pagePreviews?.length ? manifest.pagePreviews.map((preview) => preview.path ? `- [Page ${preview.page}](./${preview.path}) — ${preview.reasons.join(", ")}` : `- Page ${preview.page} — preview ${preview.status}`) : ["No page previews were generated."]),
     "",
     "## Page inventory",
     "",
@@ -319,6 +342,29 @@ export async function ingestPdf(options) {
     imageInventory = `Image extraction unavailable: ${error.message}`;
   }
   const records = buildRecords({ sourceId, pages, mappingHint, imageAssets, pageExtractionMethods, pageExtractionQuality });
+  const previewPlan = buildPagePreviewPlan(records, buildOcrSummary(ocrPageStats));
+  const pagePreviews = [];
+  let pagePreviewStatus = "not-needed";
+  if (previewPlan.length) {
+    if (spawnSync("pdftoppm", ["-v"], { encoding: "utf8" }).status === 0) {
+      const pagesDir = join(output, "assets", "pages");
+      await mkdir(pagesDir, { recursive: true });
+      for (const item of previewPlan) {
+        const fileName = `page-${String(item.page).padStart(3, "0")}.png`;
+        const outputPrefix = join(pagesDir, fileName.slice(0, -4));
+        try {
+          run("pdftoppm", ["-f", String(item.page), "-l", String(item.page), "-r", "120", "-png", "-singlefile", input, outputPrefix]);
+          pagePreviews.push({ ...item, path: `assets/pages/${fileName}`, dpi: 120, status: "generated" });
+        } catch (error) {
+          pagePreviews.push({ ...item, path: null, dpi: 120, status: "failed", failureReason: error.message });
+        }
+      }
+      pagePreviewStatus = pagePreviews.every((preview) => preview.status === "generated") ? "generated" : "generated-with-failures";
+    } else {
+      pagePreviewStatus = "skipped-missing-dependency";
+      for (const item of previewPlan) pagePreviews.push({ ...item, path: null, dpi: 120, status: "skipped-missing-dependency" });
+    }
+  }
   const manifest = {
     schemaVersion: "1.0.0",
     sourceId,
@@ -333,11 +379,13 @@ export async function ingestPdf(options) {
       ocr: ocrStatus,
       ocrPages: pageExtractionMethods.flatMap((method, index) => method.includes("OCR") ? [index + 1] : []),
       ocrQuality: buildOcrSummary(ocrPageStats),
+      pagePreviews: pagePreviewStatus,
       imageInventory: imageInventory.startsWith("pdfimages unavailable") || imageInventory.startsWith("Image extraction unavailable") ? "unavailable" : "pdfimages -list and -png",
       imageInventoryRaw: imageInventory,
     },
     mappingHint,
     imageAssets,
+    pagePreviews,
     approvalStatus: "unreviewed",
   };
   await mkdir(output, { recursive: true });
