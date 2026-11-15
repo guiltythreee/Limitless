@@ -477,7 +477,7 @@ export default function BookkeysApp() {
     return () => query.removeEventListener("change", update);
   }, []);
 
-  const selectedBackground = (settings.readerBackground ?? "none") as ReaderBackgroundId;
+  const selectedBackground = (settings.readerBackground ?? settings.bg ?? "pic-morning") as ReaderBackgroundId;
   const effectiveBackground = useMemo(
     () => effectiveReaderBackground(selectedBackground),
     [selectedBackground, clockMinute],
@@ -1515,8 +1515,9 @@ export default function BookkeysApp() {
           </button>
           <button className="bk-quiet bk-mode-button" type="button" onClick={() => {
             const modes = ["pic-morning", "pic-evening", "pic-night"];
-            const current = modes.indexOf(settings.bg);
-            persistSettings({ ...settings, bg: modes[(current + 1 + modes.length) % modes.length] });
+            const current = modes.indexOf(settings.readerBackground ?? settings.bg ?? "pic-morning");
+            const nextMode = modes[(current + 1 + modes.length) % modes.length];
+            persistSettings({ ...settings, bg: nextMode, readerBackground: nextMode });
           }} aria-label="Switch mode" title="Switch mode">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
           </button>
