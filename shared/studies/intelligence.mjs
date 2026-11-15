@@ -47,7 +47,7 @@ export function normalizeConceptKey(disciplineId, subjectId, concept) {
 export function buildConceptMastery(attempts, options = {}) {
   const minSecure = options.minSecureAttempts ?? 5;
   const minMastery = options.minMasteryAttempts ?? 8;
-  const minDistinctQuestions = options.minDistinctQuestions ?? 1;
+  const minDistinctQuestions = options.minDistinctQuestions ?? 0;
   const groups = new Map();
 
   for (const attempt of attempts || []) {
