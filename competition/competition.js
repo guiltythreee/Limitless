@@ -985,7 +985,7 @@
             };
             stored.attempts.push(revision);
             stored.attempts.sort(function (a, b) { return a.occurredAt - b.occurredAt; });
-            stored.attempts = stored.attempts.slice(-1000);
+            stored.attempts = stored.attempts.slice(-5000);
             stored.lastSyncAt = Number.isFinite(stored.lastSyncAt) ? stored.lastSyncAt : 0;
             localStorage.setItem('limitless.competition.codeforces-learning.v1', JSON.stringify(stored));
             window.dispatchEvent(new CustomEvent('limitless:codeforces-learning-updated'));

@@ -2,8 +2,11 @@ import { toCodeforcesLearningAttempts } from "./learning-intelligence.mjs";
 import { createCompetitionRewardAdapter } from "./competition-rewards.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
-const MAX_SEEN_IDS = 5000;
-const MAX_ATTEMPTS = 1000;
+// Incremental sync can safely fetch up to 100 pages of 1,000 submissions.
+// Keep the full bounded fetch window deduplicated across the current-week overlap.
+const MAX_SEEN_IDS = 100000;
+// Retain a larger learning history so old unresolved problems are not evicted quickly.
+const MAX_ATTEMPTS = 5000;
 
 function isRecord(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
