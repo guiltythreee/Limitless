@@ -47,6 +47,9 @@ console.log("Codeforces API rate limiting: all assertions passed.");
       { id: 6, creationTimeSeconds: 150 },
       { id: 5, creationTimeSeconds: 100 },
     ] },
+    { status: "OK", result: [
+      { id: 4, creationTimeSeconds: 90 },
+    ] },
   ];
   const calls = [];
   const recent = await fetchCodeforcesSubmissionsSince("example_handle", 150, {
@@ -56,7 +59,7 @@ console.log("Codeforces API rate limiting: all assertions passed.");
   });
   assert.deepEqual(recent.map((item) => item.id), [9, 8, 7, 6],
     "recent fetch keeps submissions at/after the boundary and deduplicates overlap");
-  assert.equal(calls.length, 2, "recent fetch stops once the page crosses the requested time boundary");
+  assert.equal(calls.length, 3, "recent fetch stops only after a whole page is older than the requested boundary");
   assert.match(calls[0], /from=1&count=3$/);
   assert.match(calls[1], /from=3&count=3$/);
 }
