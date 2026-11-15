@@ -110,7 +110,7 @@ assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "DifferentHandle"),
   { mode: "since", sinceSeconds: 1795913600 },
   "the newly active account uses its own cursor after its baseline");
 assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "ExampleHandle"),
-  { mode: "since", sinceSeconds: 1794918605 },
+  { mode: "since", sinceSeconds: 1794913605 },
   "an inactive saved handle retains its own incremental cursor");
 const returned = syncCodeforcesSubmissions(storage, "ExampleHandle", [], 1797000000000);
 assert.equal(returned.ok, true);
