@@ -152,6 +152,9 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   await sourceSize.focus();
   for (let step = 0; step < 5; step += 1) await sourceSize.press("ArrowRight");
   await sourceSettings.getByRole("button", { name: "Close Settings" }).click();
+  await page.getByRole("button", { name: "Settings" }).click();
+  const backupSettings = page.getByRole("dialog", { name: "Settings" });
+  await backupSettings.getByRole("button", { name: "Data", exact: true }).click();
 
   const [download] = await Promise.all([
     page.waitForEvent("download"),
