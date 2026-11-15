@@ -17,7 +17,8 @@ async function fixture() {
       `const T: any = { id: "${id}", module: "m1", title: "Topic", subtitle: "", subs: [{ id: "T${i}.1", title: "Basics" }], questions: [${existing}] }; export default T;\n`);
   }
   await fs.writeFile(path.join(root, "app/data/lessons-mt203.ts"), `export const LESSONS = { t1: { sections: [{ h: "Polymer basics", p: "Existing theory" }] }, t2: { sections: [] }, t3: { sections: [] }, t4: { sections: [] }, t5: { sections: [] }, t6: { sections: [] }, t7: { sections: [] }, t8: { sections: [] }, t9: { sections: [] }, t10: { sections: [] }, t11: { sections: [] } };
-`);\n  await fs.writeFile(path.join(dir, "meta.ts"), `export const M = [ { id: "t1", count: 1 }, ${Array.from({length:10},(_,i)=>`{ id: "t${i+2}", count: 0 }`).join(", ")} ];\n`);
+`);
+  await fs.writeFile(path.join(dir, "meta.ts"), `export const M = [ { id: "t1", count: 1 }, ${Array.from({length:10},(_,i)=>`{ id: "t${i+2}", count: 0 }`).join(", ")} ];\n`);
   return root;
 }
 const artifact = (overrides = {}) => ({
