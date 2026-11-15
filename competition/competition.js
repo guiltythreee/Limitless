@@ -981,34 +981,15 @@
             var candidate = codeforcesRevisionCandidates.find(function (item) {
               return item.questionId === questionId;
             });
-            var stored = JSON.parse(localStorage.getItem('limitless.competition.codeforces-learning.v1') || 'null');
-            if (!candidate || !stored || !Array.isArray(stored.attempts)) {
-              throw new Error('The Codeforces learning record is unavailable.');
-            }
-            var sourceAttempt = stored.attempts.filter(function (attempt) {
-              return attempt && attempt.questionId === questionId &&
-                attempt.disciplineId === 'competitive-programming' && attempt.courseId === 'codeforces';
-            }).sort(function (a, b) { return a.occurredAt - b.occurredAt; }).pop();
-            if (!sourceAttempt) throw new Error('The original Codeforces attempt could not be found.');
-            var revision = {
-              id: 'codeforces:revision:' + String(Date.now()) + ':' + Math.random().toString(36).slice(2, 8),
-              disciplineId: sourceAttempt.disciplineId,
-              courseId: sourceAttempt.courseId,
-              contentId: sourceAttempt.contentId,
-              questionId: sourceAttempt.questionId,
-              subjectId: 'codeforces',
-              conceptIds: Array.isArray(candidate.conceptIds) ? candidate.conceptIds : [],
-              outcome: button.dataset.codeforcesRevisionResult,
-              occurredAt: Date.now(),
-              independent: button.dataset.codeforcesRevisionResult === 'correct',
-              hintCount: button.dataset.codeforcesRevisionResult === 'correct' ? 0 : undefined,
-              mode: 'revision'
-            };
-            stored.attempts.push(revision);
-            stored.attempts.sort(function (a, b) { return a.occurredAt - b.occurredAt; });
-            stored.attempts = stored.attempts.slice(-5000);
-            stored.lastSyncAt = Number.isFinite(stored.lastSyncAt) ? stored.lastSyncAt : 0;
-            localStorage.setItem('limitless.competition.codeforces-learning.v1', JSON.stringify(stored));
+            if (!candidate || !syncApi) throw new Error('The Codeforces learning record is unavailable.');
+            var result = syncApi.appendCodeforcesRevisionAttempt(
+              localStorage, questionId, button.dataset.codeforcesRevisionResult, Date.now()
+            );
+            if (!result.ok) throw new Error(
+              result.error === 'source-attempt-not-found'
+                ? 'The original Codeforces attempt could not be found.'
+                : 'Could not save this Codeforces revision result (' + result.error + ').'
+            );
             window.dispatchEvent(new CustomEvent('limitless:codeforces-learning-updated'));
           } catch (error) {
             button.disabled = false;
