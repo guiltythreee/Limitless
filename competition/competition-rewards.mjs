@@ -7,6 +7,7 @@ import {
   buildRewardRecords,
   dispatchRewardUpdate,
   readRewardLedger,
+  isValidRewardLedgerArchive,
   compactRewardLedgerPayload,
 } from "../shared/rewards.mjs";
 
@@ -34,7 +35,7 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       if (!raw) return { payload: {}, records: [] };
       const payload = JSON.parse(raw);
       if (!isRecord(payload)) return { payload: {}, records: [] };
-      return { payload, records: readRewardLedger(payload) };
+      return { payload, records: readRewardLedger(payload), valid: isValidRewardLedgerArchive(payload.rewardLedgerArchive) && Array.isArray(payload.rewardLedger) };
     } catch {
       return { payload: {}, records: [] };
     }
@@ -52,6 +53,7 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     const account = handle.trim().toLowerCase();
     const eventId = "codeforces:" + account + ":" + submission.id;
     const state = loadState();
+    if (!state.valid) return null;
     const existing = state.records.find((record) => record.eventId === eventId);
     if (existing) return { ...existing, created: false };
 
