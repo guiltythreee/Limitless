@@ -19,6 +19,10 @@ for (const id of [
 ]) assert.ok(cpHtml.includes('id="' + id + '"'), "CP HTML must expose #" + id);
 
 assert.ok(cpJs.includes("state.revisionAttempts.push("), "CP revision actions must record separate attempts");
+assert.ok(cpJs.includes("codeforcesSyncPromise"), "Competition intelligence must load the archive-aware Codeforces reader");
+assert.ok(cpJs.includes("readCodeforcesSyncState(localStorage)"), "Competition revision insights must consume the complete decoded attempt history");
+assert.ok(homeModule.includes("readCodeforcesSyncState(window.localStorage)"), "homepage intelligence must include archived Codeforces attempts");
+
 assert.ok(cpJs.includes("if (button.disabled) return;"), "CP revision actions must prevent double submissions");
 assert.ok(cpJs.includes("practiceRecommendationsPromise"), "CP catalogue must load targeted practice links");
 assert.ok(cpJs.includes("data-revision-result"), "CP revision queue must expose result actions");
