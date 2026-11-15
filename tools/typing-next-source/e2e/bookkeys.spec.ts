@@ -137,7 +137,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   await page.getByRole("searchbox", { name: "Search books" }).fill("");
   await page.getByLabel("Sort books").selectOption("title-asc");
   await page.reload();
-  await expect(page.getByRole("heading", { name: "Type your way through the books you love." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
   await expect(page.locator(".bk-progress-stat").filter({ hasText: "Pages typed" }).locator("strong")).toHaveText("1");
   await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
   await expect(page.locator("#bk-typing")).toHaveValue(source!);
@@ -185,7 +185,7 @@ test("EPUB import, progress, rewards and backup round-trip survive reload", asyn
   await page.goBack();
   await expect(page.locator("#bk-typing")).toBeVisible();
   await page.goForward();
-  await expect(page.getByRole("heading", { name: "Type your way through the books you love." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
 });
 
 test("theme and reader settings are interactive and persist without overwriting legacy background preferences", async ({ page }) => {
@@ -360,7 +360,7 @@ test("multiple EPUBs can be imported together without opening each one", async (
   ]);
 
   await expect(page.getByRole("button", { name: /Bookkeys Migration Fixture/ })).toHaveCount(2);
-  await expect(page.getByRole("heading", { name: "Type your way through the books you love." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
   await expect(page.getByText("2 of 2 selected books added to this browser's library.")).toBeVisible();
 });
 
@@ -642,7 +642,7 @@ test("Bookkeys EXP display uses LSR-1 and never imports the legacy module XP tot
 
 test("opens a pre-populated Bookkeys IndexedDB v1 library without upgrading its schema", async ({ page }) => {
   await page.goto("/tools/typing-next-preview/");
-  await expect(page.getByRole("heading", { name: "Type your way through the books you love." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
 
   const epub = await makeFixtureEpub();
   const bytes = Array.from(epub);
@@ -876,7 +876,7 @@ test("centered reading preference changes reader layout and persists", async ({ 
   await expect(article).toHaveAttribute("data-reader-centered", "true");
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("bookkeys:settings") ?? "{}").centered)).toBe(true);
   await page.reload();
-  await expect(page.getByRole("heading", { name: "Type your way through the books you love." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
   await page.getByRole("button", { name: /Bookkeys Migration Fixture/ }).click();
   const restoredArticle = page.locator(".bk-source-text");
   await expect(restoredArticle).toHaveAttribute("data-reader-centered", "true");
@@ -1144,7 +1144,7 @@ test("PDF and TXT files can be batch-imported into the local library", async ({ 
   await expect(page.getByRole("button", { name: /Bookkeys PDF Fixture/ })).toBeVisible();
   await expect(page.getByRole("button", { name: /Bookkeys Batch TXT/ })).toBeVisible();
   await expect(page.getByText("2 of 2 selected books added to this browser's library.")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Type your way through the books you love." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your library" })).toBeVisible();
 });
 
 test("dropping a TXT file onto the library imports it into local storage", async ({ page }) => {
