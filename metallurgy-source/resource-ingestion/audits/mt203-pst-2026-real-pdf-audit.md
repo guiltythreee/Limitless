@@ -58,9 +58,18 @@ The review packet now prioritizes exception records (low-confidence OCR, equatio
 
 OCR failures are now captured as page-level exceptions rather than aborting the entire PDF ingestion run.
 
+## Runtime audit correction
+
+A code-path inspection found that the first implementation placed Tesseract's `tsv` config argument before the `--psm 3` options. That ordering is invalid for the Tesseract CLI and could turn a successful plain-text OCR attempt into a page-level failure when confidence parsing ran.
+
+The ingestion code now builds the invocation as `tesseract <image> stdout --psm 3 tsv`, with a unit test locking the argument order. The corrected command was executed successfully against the source PDF's page 35 and returned a TSV header plus word-level confidence rows. The full JavaScript ingestion command still needs a fresh end-to-end run against the source PDF after this correction; CI runs the automated ingestion tests, not this 212-page source PDF.
+
+The source-page preview planner also now selects pages with equation/table candidates, embedded figure references, or extraction exceptions. Since the PDF has figure assets on 118 pages, the preview set will include at least those 118 pages; these are optional visual references, not 118 mandatory manual approvals.
+
 ## Remaining work
 
-1. Validate the new confidence gate on additional lecture PDFs before treating its thresholds as calibrated defaults.
+1. Run the current JavaScript ingestion CLI end-to-end against this exact PDF and inspect the generated manifest, preview plan, record counts, and review packet. Do not claim end-to-end completion until this succeeds.
+2. Validate the new confidence gate on additional lecture PDFs before treating its thresholds as calibrated defaults.
 2. Improve diagram/figure understanding and figure-to-topic relevance; page mapping alone does not interpret an image.
 3. Improve risk rules for chemical formulae, units, table cells, and diagram labels, which can remain high-risk even when OCR confidence is high.
 4. Keep the image/soft-mask distinction and source-page mapping intact.
