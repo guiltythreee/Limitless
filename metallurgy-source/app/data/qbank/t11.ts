@@ -721,15 +721,15 @@ const T11: TopicSource = {
       diff: 3,
       text: "A polymer decomposes at or below its melting temperature but dissolves in a volatile solvent. Which fibre-spinning route best fits the lecture's selection rule?",
       options: [
-        { label: "a", text: "Dry spinning: extrude the solution into a heated chamber so the solvent evaporates." },
-        { label: "b", text: "Melt spinning: melt the polymer and force it through a spinneret." },
+        { label: "a", text: "Melt spinning: melt the polymer and force it through a spinneret." },
+        { label: "b", text: "Dry spinning: extrude the solution into a heated chamber so the solvent evaporates." },
         { label: "c", text: "Wet spinning: extrude the melt into air and cool it." },
         { label: "d", text: "Pultrusion: pull a fibre bundle through a heated die." }
       ],
-      answer: "a",
+      answer: "b",
       why: "Dry spinning is used when the polymer cannot be melt-spun safely but is soluble in a **volatile solvent**. The solution exits the spinneret and solvent evaporates in a heated chamber.",
       distractors: {
-        b: "The stem says the polymer decomposes at or below its melting temperature.",
+        a: "The stem says the polymer decomposes at or below its melting temperature.",
         c: "Wet spinning uses a coagulating non-solvent bath, not a melt extruded into air.",
         d: "Pultrusion makes continuous constant-section fibre-reinforced profiles, not solution-spun filaments."
       },
