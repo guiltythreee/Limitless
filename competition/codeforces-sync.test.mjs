@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
 import { analyzeCompetitionLearning } from "./learning-intelligence.mjs";
 import {
@@ -7,6 +8,7 @@ import {
   readCodeforcesSyncState,
   syncCodeforcesSubmissions,
   appendCodeforcesRevisionAttempt,
+  getCodeforcesSyncFetchPlan,
 } from "./codeforces-sync.mjs";
 
 const values = new Map();
@@ -104,6 +106,12 @@ assert.equal(switched.added, 0);
 assert.equal(switched.state.handle, "differenthandle");
 assert.equal(switched.state.attempts.length, 0, "a new account starts with isolated learning history");
 assert.ok(JSON.parse(storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY)).accounts.examplehandle);
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "DifferentHandle"),
+  { mode: "since", sinceSeconds: 1795913600 },
+  "the newly active account uses its own cursor after its baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "ExampleHandle"),
+  { mode: "since", sinceSeconds: 1794918605 },
+  "an inactive saved handle retains its own incremental cursor");
 const returned = syncCodeforcesSubmissions(storage, "ExampleHandle", [], 1797000000000);
 assert.equal(returned.ok, true);
 assert.equal(returned.baseline, false, "returning to a known handle restores its original baseline");
@@ -114,6 +122,13 @@ assert.equal(readCodeforcesSyncState(storage, "DifferentHandle").lastSyncAt, 179
   "incremental fetch planning can read the saved cursor for an inactive account");
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
+const accountsSource = await readFile(new URL("./accounts.js", import.meta.url), "utf8");
+assert.match(accountsSource, /getCodeforcesSyncFetchPlan\(localStorage, handle\)/,
+  "account linking must select a fetch window using the requested handle's saved cursor");
+assert.match(accountsSource, /fetchCodeforcesSubmissionsSince\(handle, plan\.sinceSeconds\)/,
+  "repeat connections must fetch incrementally with a 24-hour overlap");
+assert.match(accountsSource, /fetchAllCodeforcesSubmissions\(handle\)/,
+  "first connections and unknown handles must establish a complete historical baseline");
 
 const corruptArchiveStorage = {
   value: JSON.stringify({
@@ -295,3 +310,15 @@ console.log("Codeforces sync baseline: all assertions passed.");
   assert.equal(readCodeforcesSyncState(schedulerStorage).revisionState[0].successfulRevisions, 1,
     "switching back restores the original account's scheduler snapshot");
 }
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "EXAMPLEHANDLE"),
+  { mode: "since", sinceSeconds: 1794913600 },
+  "repeat sync uses a 24-hour overlap from the successful active-account cursor");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "newhandle"),
+  { mode: "all", sinceSeconds: null },
+  "a new handle must fetch full history to establish its own baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, ""),
+  { mode: "invalid", sinceSeconds: null },
+  "an empty handle must not produce a fetch plan");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "ExampleHandle"),
+  { mode: "since", sinceSeconds: 1796913600 },
+  "switching back advances the restored account's cursor independently");
