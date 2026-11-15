@@ -239,32 +239,51 @@ export async function ingestPdf(options) {
       try {
         for (const { index } of sparsePages) {
           const pageNumber = index + 1;
-          const prefix = join(tempDir, `page-${pageNumber}`);
-          run("pdftoppm", ["-f", String(pageNumber), "-l", String(pageNumber), "-r", "220", "-png", input, prefix]);
-          const imageName = (await readdir(tempDir)).find((name) => name.startsWith(`page-${pageNumber}-`) && name.endsWith(".png"));
-          if (!imageName) continue;
           const nativeCharacterCount = pages[index].replace(/\s/g, "").length;
-          const imagePath = join(tempDir, imageName);
-          const ocrText = run("tesseract", [imagePath, "stdout", "--psm", "3"]).trim();
-          const ocrCharacterCount = ocrText.replace(/\s/g, "").length;
-          const confidence = parseOcrTsv(run("tesseract", [imagePath, "stdout", "tsv", "--psm", "3"]));
-          const quality = assessOcrQuality({ ocrCharacterCount, nativeCharacterCount, ...confidence });
-          ocrPageStats.push({
-            page: pageNumber,
-            nativeCharacterCount,
-            ocrCharacterCount,
-            ...confidence,
-            ...quality,
-            selectedCharacterCount: quality.selectedMethod === "ocr" ? ocrCharacterCount : nativeCharacterCount,
-            status: "completed",
-          });
-          if (quality.selectedMethod === "ocr") {
-            pages[index] = ocrText;
-            pageExtractionMethods[index] = "tesseract OCR (220 DPI, page segmentation mode 3)";
+          try {
+            const prefix = join(tempDir, `page-${pageNumber}`);
+            run("pdftoppm", ["-f", String(pageNumber), "-l", String(pageNumber), "-r", "220", "-png", input, prefix]);
+            const imageName = (await readdir(tempDir)).find((name) => name.startsWith(`page-${pageNumber}-`) && name.endsWith(".png"));
+            if (!imageName) throw new Error("Page render did not produce an image.");
+            const imagePath = join(tempDir, imageName);
+            const ocrText = run("tesseract", [imagePath, "stdout", "--psm", "3"]).trim();
+            const ocrCharacterCount = ocrText.replace(/\s/g, "").length;
+            const confidence = parseOcrTsv(run("tesseract", [imagePath, "stdout", "tsv", "--psm", "3"]));
+            const quality = assessOcrQuality({ ocrCharacterCount, nativeCharacterCount, ...confidence });
             pageExtractionQuality[index] = quality.qualityStatus;
+            ocrPageStats.push({
+              page: pageNumber,
+              nativeCharacterCount,
+              ocrCharacterCount,
+              ...confidence,
+              ...quality,
+              selectedCharacterCount: quality.selectedMethod === "ocr" ? ocrCharacterCount : nativeCharacterCount,
+              status: "completed",
+            });
+            if (quality.selectedMethod === "ocr") {
+              pages[index] = ocrText;
+              pageExtractionMethods[index] = "tesseract OCR (220 DPI, page segmentation mode 3)";
+            }
+          } catch (error) {
+            pageExtractionQuality[index] = "review-required";
+            ocrPageStats.push({
+              page: pageNumber,
+              nativeCharacterCount,
+              ocrCharacterCount: null,
+              wordCount: 0,
+              meanWordConfidence: null,
+              lowConfidenceWordCount: 0,
+              lowConfidenceRatio: 0,
+              selectedMethod: "native",
+              qualityStatus: "review-required",
+              qualityAccepted: false,
+              selectedCharacterCount: nativeCharacterCount,
+              status: "failed",
+              failureReason: error.message,
+            });
           }
         }
-        ocrStatus = "available";
+        ocrStatus = ocrPageStats.some((page) => page.status === "failed") ? "available-with-page-failures" : "available";
       } finally {
         await rm(tempDir, { recursive: true, force: true });
       }
