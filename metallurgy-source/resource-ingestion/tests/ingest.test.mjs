@@ -67,6 +67,11 @@ assert.equal(ocrSummary.retainedNativePages, 0);
 assert.deepEqual(ocrSummary.failedPages, []);
 assert.deepEqual(ocrSummary.reviewRequiredPages, [35]);
 assert.equal(ocrSummary.pageStats[3].ocrCharacterCount, 772);
+const failedOcrSummary = buildOcrSummary([
+  { page: 63, selectedMethod: "native", qualityStatus: "review-required", status: "failed", failureReason: "render failed" },
+]);
+assert.deepEqual(failedOcrSummary.failedPages, [63]);
+assert.deepEqual(failedOcrSummary.reviewRequiredPages, [63]);
 console.log("Page-level OCR quality summary tests passed.");
 
 const tsv = [
