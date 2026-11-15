@@ -1050,3 +1050,66 @@ html[data-theme="light"] .activity-empty-action{background:#e7f2fc;border-color:
   .activity-row{grid-template-columns:1fr;gap:4px}
   .activity-row span{text-align:left}
 }
+
+
+/* =========================================================
+   Weekly roadmap: nested compartments + readable subject colour
+   ========================================================= */
+.week-compartment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:15px 0 2px}
+.week-compartment{
+  --compartment-accent:#65b8ff;
+  --compartment-soft:rgba(101,184,255,.11);
+  min-width:0;overflow:hidden;border:1px solid color-mix(in srgb,var(--compartment-accent) 28%,var(--comp-border));
+  border-radius:13px;background:linear-gradient(145deg,color-mix(in srgb,var(--compartment-accent) 5%,var(--comp-panel)),var(--comp-panel));
+  transition:border-color .18s ease,background .18s ease
+}
+.week-compartment.compartment-resources{--compartment-accent:#65b8ff;--compartment-soft:rgba(101,184,255,.12)}
+.week-compartment.compartment-criteria{--compartment-accent:#b49aff;--compartment-soft:rgba(180,154,255,.12)}
+.week-compartment.compartment-schedule{--compartment-accent:#49d7c1;--compartment-soft:rgba(73,215,193,.12)}
+.week-compartment.compartment-mastery{--compartment-accent:#ffbd70;--compartment-soft:rgba(255,189,112,.12)}
+.week-compartment[open]{border-color:color-mix(in srgb,var(--compartment-accent) 52%,var(--comp-border));background:linear-gradient(145deg,color-mix(in srgb,var(--compartment-accent) 7%,var(--comp-panel)),var(--comp-panel))}
+.week-compartment-summary{display:flex;align-items:center;gap:12px;min-height:66px;padding:12px 14px;cursor:pointer;list-style:none}
+.week-compartment-summary::-webkit-details-marker{display:none}
+.week-compartment-summary::marker{content:""}
+.compartment-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border:1px solid color-mix(in srgb,var(--compartment-accent) 38%,transparent);border-radius:11px;background:var(--compartment-soft);color:var(--compartment-accent);font-size:18px;font-weight:700}
+.compartment-copy{display:grid;gap:4px;min-width:0;flex:1}
+.compartment-copy strong{color:var(--comp-ink);font-size:12px;font-weight:700;line-height:1.35}
+.compartment-copy small{color:var(--comp-muted);font-size:10px;line-height:1.45}
+.compartment-chevron{flex:0 0 auto;color:var(--compartment-accent);font-size:18px;transition:transform .18s ease}
+.week-compartment[open] .compartment-chevron{transform:rotate(180deg)}
+.week-compartment-summary:hover{background:color-mix(in srgb,var(--compartment-accent) 7%,transparent)}
+.week-compartment-summary:focus-visible{outline:2px solid var(--compartment-accent);outline-offset:-3px}
+.week-compartment-body{padding:0 13px 13px;border-top:1px solid color-mix(in srgb,var(--compartment-accent) 20%,var(--comp-border))}
+.week-compartment-body>.weekly-resource-shelf{margin:0;padding:12px 0 0;border:0;border-radius:0;background:transparent}
+.week-compartment-body>.weekly-resource-shelf>h4{color:var(--compartment-accent);font-size:13px}
+.week-compartment-body>.weekly-resource-shelf>p{font-size:11px}
+.week-compartment-body .weekly-resource-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr))}
+.week-compartment-body .weekly-resource-card{border-color:color-mix(in srgb,var(--compartment-accent) 22%,var(--comp-border));background:color-mix(in srgb,var(--compartment-accent) 4%,var(--comp-panel))}
+.week-compartment-body .weekly-resource-card a{color:var(--compartment-accent)}
+.week-compartment-body .week-deliverables{margin:12px 0 0;padding:0;border:0;background:transparent}
+.week-compartment-body .deliverable-heading b{color:var(--compartment-accent)}
+.week-compartment-body .deliverable-heading>strong{color:var(--compartment-accent)}
+.week-compartment-body .deliverable-item{border-color:color-mix(in srgb,var(--compartment-accent) 19%,var(--comp-border));background:color-mix(in srgb,var(--compartment-accent) 4%,var(--comp-panel));line-height:1.45}
+.week-compartment-body .deliverable-item input{accent-color:var(--compartment-accent)}
+.week-compartment-body .difficulty-target,.week-compartment-body .workload-guidance{color:var(--comp-muted);font-size:11px;line-height:1.55}
+.week-compartment-body .daily-roadmap{margin:12px 0 0;padding:0;border:0}
+.week-compartment-body .daily-roadmap>p{color:var(--comp-muted);font-size:11px;line-height:1.55}
+.week-compartment-body .daily-day{margin:7px 0;border-color:color-mix(in srgb,var(--compartment-accent) 24%,var(--comp-border));border-radius:9px;background:color-mix(in srgb,var(--compartment-accent) 4%,var(--comp-panel))}
+.week-compartment-body .daily-day summary{padding:11px 12px;font-size:11px}
+.week-compartment-body .daily-day summary span:first-child,.week-compartment-body .daily-day.sunday strong{color:var(--compartment-accent)}
+.week-compartment-body .daily-task-list{border-top-color:color-mix(in srgb,var(--compartment-accent) 18%,var(--comp-border))}
+.week-compartment-body .daily-task{font-size:11px;line-height:1.5}
+.week-compartment-body .daily-task input{accent-color:var(--compartment-accent)}
+.week-compartment-body .topic-status-guide{margin:12px 0;padding:10px 12px;border-left:3px solid var(--compartment-accent);border-radius:0 8px 8px 0;background:var(--compartment-soft);color:var(--comp-muted);font-size:11px;line-height:1.6}
+.week-compartment-body .roadmap-topic-list{margin-top:10px}
+.week-compartment-body .roadmap-topic{border-color:color-mix(in srgb,var(--compartment-accent) 20%,var(--comp-border));border-radius:9px;background:color-mix(in srgb,var(--compartment-accent) 3%,var(--comp-panel))}
+.week-compartment-body .mastery-select{border-color:color-mix(in srgb,var(--compartment-accent) 28%,var(--comp-border))}
+html[data-theme="light"] .week-compartment{background:linear-gradient(145deg,color-mix(in srgb,var(--compartment-accent) 5%,#fff),#f7faff)}
+html[data-theme="light"] .week-compartment[open]{background:linear-gradient(145deg,color-mix(in srgb,var(--compartment-accent) 8%,#fff),#f7faff)}
+html[data-theme="light"] .week-compartment-body .weekly-resource-card,
+html[data-theme="light"] .week-compartment-body .deliverable-item,
+html[data-theme="light"] .week-compartment-body .daily-day,
+html[data-theme="light"] .week-compartment-body .roadmap-topic{background:color-mix(in srgb,var(--compartment-accent) 5%,#fff)}
+@media(max-width:760px){.week-compartment-grid{grid-template-columns:1fr;gap:8px}.week-compartment-summary{min-height:60px}}
+@media(max-width:620px){.week-compartment-body{padding:0 10px 10px}.week-compartment-body .daily-task-list{grid-template-columns:1fr}.week-compartment-body .roadmap-topic{grid-template-columns:minmax(0,1fr) 125px}}
+@media(prefers-reduced-motion:reduce){.week-compartment,.compartment-chevron{transition:none}}
