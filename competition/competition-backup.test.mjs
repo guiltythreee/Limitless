@@ -79,6 +79,7 @@ for (const [key, raw] of [
   [CODEFORCES_SYNC_STORAGE_KEY, "{broken-json"],
   [CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "{broken-json"],
   [COMPETITION_REWARD_STORAGE_KEY, "{broken-json"],
+  [CODEFORCES_SYNC_STORAGE_KEY, ""],
 ]) {
   const damaged = makeStorage();
   damaged.setItem(key, raw);
