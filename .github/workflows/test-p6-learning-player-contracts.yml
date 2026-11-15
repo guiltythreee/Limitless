@@ -29,6 +29,7 @@ on:
       - "scripts/test-learning-intelligence-ui-contract.mjs"
       - "competition/competition-dashboard.css"
       - "codeforces-red/codeforces-red.js"
+      - "codeforces-red/codeforces-problems.js"
       - "meta/index.html"
       - "meta/meta.js"
       - "meta/test-meta.mjs"
