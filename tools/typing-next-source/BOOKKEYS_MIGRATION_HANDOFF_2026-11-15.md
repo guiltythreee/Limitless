@@ -259,3 +259,30 @@ Remaining visual acceptance:
 - The new test establishes that the intended header and home composition render in Playwright's browser environment; it does not prove the user's manually opened Worker tab is displaying the same deployed bundle. User has not yet supplied a screenshot captured after this latest deploy.
 - Next: confirm workflow `43732650685` finishes successfully; then ask user to hard-refresh the preview and capture the latest page. If the screenshot still omits the header despite the passing browser test, investigate deployed Worker/browser asset mismatch (request caching, stale tab, route fallback, wrong origin/build) rather than changing CSS blindly.
 - No product UI code changed in this step; only E2E coverage was added. PR #232 remains draft and unmerged. Production remains untouched.
+
+
+## Full migration verification and preview deployment — 16 November 2026
+
+Exact verified PR head:
+- `de3234804671993982cad988541dca38ae1a1917`.
+- PR #232 remains OPEN, DRAFT and UNMERGED.
+- The PR contains 53 commits at this checkpoint (the original 52 plus the test-only readiness correction).
+- New immutable exact-head backup created before this handoff update: `backup/bookkeys-full-verification-green-20261115` → `de3234804671993982cad988541dca38ae1a1917`.
+- The earlier pre-correction backup `backup/bookkeys-before-continue-reading-test-fix-20261115` remains preserved at `e942e3175911f1eb2325a1bf5f69013e72899552`.
+- The current PR head's migration verification workflow `43746699699` completed SUCCESS. The job log explicitly reports 29 browser tests passed in 56.9 seconds. This includes the home composition/header test, EPUB/PDF/TXT import and reload flows, progress and rewards, IndexedDB v1 compatibility, chapter edits, IME composition, mobile viewport, appearance settings and backup/restore coverage.
+- The separate Bookkeys Regression Tests workflow `43746699730` completed SUCCESS.
+- The isolated Cloudflare preview deployment workflow `43746694529` completed SUCCESS, including dependency installation, static export build, base-path staging and deployment of the separate `limitless-bookkeys-preview` Worker.
+- The full verification job also passed legacy preservation tests, persistence tests, TypeScript type-check, static export build and Chromium installation before the 29/29 browser suite passed.
+
+Important remaining qualifications:
+- The successful browser suite proves the tested source works in the CI browser; it does NOT prove pixel-level visual parity with the live production page.
+- No user screenshot captured after deployment of `de3234804671993982cad988541dca38ae1a1917` has been reviewed. Keep visual acceptance marked UNACCEPTED until the preview is compared with production at the same viewport and zoom.
+- The preview deployment is isolated. No production Worker deployment, production data copy, or merge occurred.
+- The combined GitHub commit status still shows a separate Vercel context failure with `build-rate-limit` as its description. The three GitHub Actions workflows listed above are successful; do not conflate the Vercel status with the successful Cloudflare preview deployment.
+- `main` has advanced since the PR base snapshot. At the latest comparison, the integration branch is 53 commits ahead and 21 behind `main`, with merge base `77e7c894ed8629d4494d7e22f2eed6a99af10a74`. This divergence must be reviewed before any future integration; do not merge automatically.
+
+Next actions:
+1. Ask the user to hard-refresh the deployed isolated preview at https://limitless-bookkeys-preview.beyondthelimits.workers.dev/tools/typing-next-preview/ and compare it with https://limitless.beyondthelimits.workers.dev/tools/typing/bookkeys.html at matching viewport dimensions and browser zoom.
+2. If the preview still differs, use fresh screenshots and exact production source comparisons to identify the specific discrepancy. Do not make speculative CSS changes.
+3. Separately inspect the 21 commits now on `main` but not in this branch, identifying overlap with Bookkeys files before proposing any rebase or merge. Keep PR #232 draft and unmerged until the user explicitly approves integration.
+4. Preserve the existing backup branches and do not deploy production.
