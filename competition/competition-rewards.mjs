@@ -7,6 +7,8 @@ import {
   buildRewardRecords,
   dispatchRewardUpdate,
   readRewardLedger,
+  decodeRewardLedgerArchive,
+  sanitiseRewardRecords,
   isValidRewardLedgerArchive,
   compactRewardLedgerPayload,
 } from "../shared/rewards.mjs";
@@ -34,8 +36,18 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       const raw = storage.getItem(COMPETITION_REWARD_STORAGE_KEY);
       if (!raw) return { payload: {}, records: [], valid: true };
       const payload = JSON.parse(raw);
-      if (!isRecord(payload)) return { payload: {}, records: [], valid: false };
-      return { payload, records: readRewardLedger(payload), valid: isValidRewardLedgerArchive(payload.rewardLedgerArchive) && Array.isArray(payload.rewardLedger) };
+      if (!isRecord(payload) || !Array.isArray(payload.rewardLedger)) {
+        return { payload: {}, records: [], valid: false };
+      }
+      const archived = payload.rewardLedgerArchive == null
+        ? []
+        : decodeRewardLedgerArchive(payload.rewardLedgerArchive);
+      const recent = sanitiseRewardRecords(payload.rewardLedger);
+      const records = readRewardLedger(payload);
+      const valid = isValidRewardLedgerArchive(payload.rewardLedgerArchive) &&
+        recent.length === payload.rewardLedger.length &&
+        records.length === archived.length + payload.rewardLedger.length;
+      return { payload, records, valid };
     } catch {
       return { payload: {}, records: [], valid: false };
     }
