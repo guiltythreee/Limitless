@@ -20,10 +20,10 @@ export const ANALYSIS_SCHEMA = {
       topic_id: { type: "string" }, title: { type: "string" }, source_page: { type: "integer" }, problem: { type: "string" }, solution: { type: "string" },
       final_answer: { type: "string" }, units: { type: "string" }, confidence: { type: "number" }, status: { type: "string", enum: ["ready","review","hold"] }
     }}},
-    source_questions: { type: "array", items: { type: "object", additionalProperties: false, required: ["topic_id","source_page","source_question_text","evidence_quote","type","difficulty","options","answer","explanation","confidence","status"], properties: {
-      topic_id: { type: "string" }, source_page: { type: "integer" }, source_question_text: { type: "string" }, evidence_quote: { type: "string" },
+    source_questions: { type: "array", items: { type: "object", additionalProperties: false, required: ["topic_id","subtopic","source_page","source_question_text","evidence_quote","type","difficulty","options","assertion","reason","statements","table_rows","answer","explanation","distractor_explanations","concept","tags","confidence","status"], properties: {
+      topic_id: { type: "string" }, source_page: { type: "integer" }, subtopic: { type: "string" }, source_question_text: { type: "string" }, evidence_quote: { type: "string" },
       type: { type: "string", enum: ["recall","concept","compare","apply","numerical","assertreason","statement","match","sequence","graph","higher","unknown"] },
-      difficulty: { type: "integer" }, options: { type: "array", items: { type: "string" } }, answer: { type: "string" }, explanation: { type: "string" },
+      difficulty: { type: "integer" }, options: { type: "array", items: { type: "string" } }, assertion: { type: "string" }, reason: { type: "string" }, statements: { type: "array", items: { type: "string" } }, table_rows: { type: "array", items: { type: "array", items: { type: "string" } } }, answer: { type: "string" }, explanation: { type: "string" }, distractor_explanations: { type: "array", items: { type: "object", additionalProperties: false, required: ["label","explanation"], properties: { label: { type: "string" }, explanation: { type: "string" } } } }, concept: { type: "string" }, tags: { type: "array", items: { type: "string" } },
       confidence: { type: "number" }, status: { type: "string", enum: ["ready","review","hold"] }
     }}},
     review_items: { type: "array", items: { type: "object", additionalProperties: false, required: ["severity","source_reference","issue","recommended_action"], properties: {
