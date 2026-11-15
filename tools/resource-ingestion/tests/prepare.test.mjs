@@ -16,13 +16,13 @@ async function fixture() {
     await fs.writeFile(path.join(dir, id + ".ts"),
       `const T: any = { id: "${id}", module: "m1", title: "Topic", subtitle: "", subs: [{ id: "T${i}.1", title: "Basics" }], questions: [${existing}] }; export default T;\n`);
   }
-  await fs.writeFile(path.join(dir, "meta.ts"), `export const M = [ { id: "t1", count: 1 }, ${Array.from({length:10},(_,i)=>`{ id: "t${i+2}", count: 0 }`).join(", ")} ];\n`);
+  await fs.writeFile(path.join(root, "app/data/lessons-mt203.ts"), `export const LESSONS = { t1: { sections: [{ h: "Polymer basics", p: "Existing theory" }] }, t2: { sections: [] }, t3: { sections: [] }, t4: { sections: [] }, t5: { sections: [] }, t6: { sections: [] }, t7: { sections: [] }, t8: { sections: [] }, t9: { sections: [] }, t10: { sections: [] }, t11: { sections: [] } };\\n`);\n  await fs.writeFile(path.join(dir, "meta.ts"), `export const M = [ { id: "t1", count: 1 }, ${Array.from({length:10},(_,i)=>`{ id: "t${i+2}", count: 0 }`).join(", ")} ];\n`);
   return root;
 }
 const artifact = (overrides = {}) => ({
   source: { filename: "source.pdf", sha256: "source-hash" },
   course: { id: "mt203" },
-  analysis: { source_questions: [{
+  analysis: { theory_updates: [], worked_examples: [], illustrations: [], source_questions: [{
     topic_id: "t1", subtopic: "T1.1", source_page: 4, source_question_text: "What is a new polymer?", evidence_quote: "What is a new polymer?",
     type: "recall", difficulty: 1, options: ["A correct option", "Distractor B", "Distractor C", "Distractor D"], assertion: "", reason: "", statements: [], table_rows: [],
     answer: "a", explanation: "The source says this is correct.", distractor_explanations: [], concept: "Polymer definition", tags: [],
@@ -60,7 +60,7 @@ test("blocks exact duplicate stems and unreviewed source questions", async () =>
   } finally { await fs.rm(root,{recursive:true,force:true}); }
 });
 
-test("blocks records that do not map to a real MT203 subtopic", async () => {
+test("prepares theory and worked-example proposals without rewriting lesson source", async () => {\n  const root = await fixture();\n  try {\n    const value = artifact();\n    value.analysis.theory_updates.push({ topic_id: "t1", heading: "Polymer basics", proposed_markdown: "A polymer contains repeat units.", source_pages: [2], relation: "expansion", confidence: 0.97, status: "ready" });\n    value.analysis.worked_examples.push({ topic_id: "t1", title: "Degree of polymerization", source_page: 3, problem: "Given values.", solution: "Substitute.", final_answer: "10", units: "dimensionless", confidence: 0.96, status: "ready" });\n    const plan = await prepareMt203Patch({ artifact: value, courseRoot: root });\n    assert.equal(plan.theory_proposals[0].placement, "expand-existing-section");\n    assert.equal(plan.theory_proposals[0].status, "proposal");\n    assert.equal(plan.worked_example_proposals[0].status, "proposal");\n    const original = await fs.readFile(path.join(root,"app/data/lessons-mt203.ts"),"utf8");\n    assert.ok(!original.includes("A polymer contains repeat units."));\n  } finally { await fs.rm(root,{recursive:true,force:true}); }\n});\n\ntest("blocks records that do not map to a real MT203 subtopic", async () => {
   const root = await fixture();
   try {
     const plan = await prepareMt203Patch({ artifact: artifact({ subtopic: "T1.99" }), courseRoot: root });
