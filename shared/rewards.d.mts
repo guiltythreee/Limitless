@@ -61,6 +61,7 @@ export const REWARD_ARCHIVE_VERSION: 1;
 export const REWARD_RECENT_RECORD_LIMIT: 20;
 export function decodeRewardLedgerArchive(raw: unknown): RewardRecord[];
 export function encodeRewardLedgerArchive(records: readonly RewardRecord[]): { version: 1; strings: string[]; records: unknown[][] };
+export function isValidRewardLedgerArchive(raw: unknown): boolean;
 export function readRewardLedger(payload: unknown): RewardRecord[];
 export function compactRewardLedgerPayload(payload: unknown, recentLimit?: number): Record<string, unknown> & { rewardLedgerArchive: { version: 1; strings: string[]; records: unknown[][] }; rewardLedger: RewardRecord[] };
 export function calculateReward(input: RewardInput, priorRecords?: readonly RewardRecord[]): RewardRecord;
