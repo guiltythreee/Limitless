@@ -927,6 +927,29 @@
           (item.status === 'insufficient-data' ? 'Need more evidence' : 'Practise next') + '</strong></div>' +
           (links ? '<div class="concept-practice-links">' + links + '</div>' : '') + '</div>';
       }).join('');
+      var mistakeGuidance = {
+        conceptual: 'Re-state the definition and its conditions; test it against a counterexample.',
+        observation: 'Write the key constraint or invariant before selecting an algorithm.',
+        mathematical: 'Derive the equation or transition line by line, then verify boundary cases.',
+        implementation: 'Dry-run a minimal case, duplicates and boundary inputs before submitting.',
+        'time-management': 'Set a time checkpoint; record the blocker and return after completing easier tasks.'
+      };
+      var recurringMistakes = analysis.recurringMistakes.slice(0, 3).map(function (item) {
+        var recommendations = practiceApi
+          ? practiceApi.getPracticeRecommendations(item.subjectId, item.conceptLabel)
+          : {codeforces:[],cses:[]};
+        var links = recommendations.codeforces.concat(recommendations.cses).map(function (link) {
+          return '<a href="' + esc(link.url) + '" target="_blank" rel="noopener noreferrer">' +
+            esc(link.label) + ' ↗</a>';
+        }).join(' · ');
+        var category = item.category.replace(/-/g, ' ');
+        var guidance = mistakeGuidance[item.category] || 'Review the reasoning, then solve a fresh problem using the same concept.';
+        return '<div class="mistake-repair-row"><div class="insight-row"><span>' +
+          esc(item.conceptLabel) + ' · ' + esc(category) +
+          '<small>' + item.occurrences + ' recurring occurrence' + (item.occurrences === 1 ? '' : 's') + '</small></span>' +
+          '<strong>Repair this</strong></div><p>' + esc(guidance) + '</p>' +
+          (links ? '<div class="concept-practice-links">' + links + '</div>' : '') + '</div>';
+      }).join('');
       if (token !== sharedInsightRenderToken) return;
       var codeforcesRevisionCandidates = analysis.revision.filter(function (item) {
         return item.courseId === 'codeforces';
@@ -949,6 +972,7 @@
         (masteryRows || '<p class="empty-state">Add an underlying concept when logging a problem to build concept-level mastery.</p>') +
         '</div>' +
         (nextSteps ? '<div class="mistake-breakdown"><h4>Suggested focus</h4>' + nextSteps + '</div>' : '') +
+        (recurringMistakes ? '<div class="mistake-breakdown"><h4>Recurring mistakes · targeted repair</h4>' + recurringMistakes + '</div>' : '') +
         (codeforcesAttempts.length ? '<div class="mistake-breakdown"><h4 id="codeforces-revision">Codeforces revision</h4>' +
           (codeforcesReviews || '<p class="empty-state">No failed Codeforces problems currently need revision.</p>') + '</div>' : '');
       host.querySelectorAll('[data-codeforces-revision-result]').forEach(function (button) {
