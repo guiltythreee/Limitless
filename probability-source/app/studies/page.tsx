@@ -7,6 +7,7 @@ import { allQuestions } from "../lib/questions";
 import type { StudyProgressSnapshot } from "../../../shared/studies/contracts";
 import { summarizeStudyProgress } from "../../../shared/studies/registry";
 import { PROBABILITY_STUDIES_REGISTRATION } from "./registration";
+import "./probability-landing.css";
 
 const practiceHref = (view: string, difficulty?: string) => {
   const params = new URLSearchParams({ view });
@@ -47,19 +48,19 @@ export default function ProbabilityStudiesLanding() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 border-b border-gold/15 bg-ink/90 backdrop-blur-xl">
+      <header className="probability-studies-header sticky top-0 z-30 border-b border-gold/15 bg-ink/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-5 py-4 lg:px-10">
           <Link href="/studies/" className="serif text-lg tracking-wide text-parchment">Probability Archive</Link>
           <a href="/" className="border border-gold/30 px-3 py-2 text-[10px] uppercase tracking-[.14em] text-gold transition hover:bg-gold/10">↖ Limitless</a>
         </div>
       </header>
 
-      <main className="mx-auto max-w-[1440px] px-5 pb-16 pt-7 md:px-10">
+      <main className="probability-studies-page mx-auto max-w-[1440px] px-5 pb-16 pt-7 md:px-10">
         <nav className="mb-5 flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[.16em] text-dim" aria-label="Breadcrumb">
           <a href="/" className="hover:text-gold">← Limitless</a><span>/</span><span>Studies &amp; Disciplines</span><span>/</span><span className="text-gold">Probability</span>
         </nav>
 
-        <section id="overview" className="study-dark-surface relative isolate overflow-hidden border border-gold/25 bg-[linear-gradient(100deg,rgba(5,23,47,.96),rgba(9,36,68,.88)_55%,rgba(12,31,57,.76))] px-7 py-9 md:px-12 md:py-12">
+        <section id="overview" className="probability-studies-hero study-dark-surface relative isolate overflow-hidden border border-gold/25 bg-[linear-gradient(100deg,rgba(5,23,47,.96),rgba(9,36,68,.88)_55%,rgba(12,31,57,.76))] px-7 py-9 md:px-12 md:py-12">
           <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-28 h-[430px] w-[430px] rounded-full border border-gold/15 shadow-[0_0_0_28px_rgba(108,176,241,.035),0_0_0_62px_rgba(108,176,241,.025)]" />
           <div aria-hidden="true" className="pointer-events-none absolute right-10 top-1/2 hidden h-56 w-56 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-gold/20 bg-gold/[.025] lg:flex">
             <span className="serif text-7xl leading-none text-gold">◇</span><span className="mt-3 text-[9px] tracking-[.35em] text-gold">LIMITLESS</span>
@@ -80,7 +81,7 @@ export default function ProbabilityStudiesLanding() {
           </div>
         </section>
 
-        <section className="mt-5 border border-gold/20 bg-panel/70 p-6 md:p-8" aria-labelledby="probability-progress-title">
+        <section className="probability-studies-progress mt-5 border border-gold/20 bg-panel/70 p-6 md:p-8" aria-labelledby="probability-progress-title">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div><div className="eyebrow">Your record</div><h2 id="probability-progress-title" className="serif mt-2 text-3xl text-parchment">Study progress</h2></div>
             <span className="text-[10px] text-dim">{progressReady ? "Read from your existing browser progress" : "Reading saved progress…"}</span>
@@ -104,8 +105,8 @@ export default function ProbabilityStudiesLanding() {
           {progressReady && summary.unknown === summary.totalContent && <p className="mt-2 text-xs text-dim">No recognised progress record was found. Your saved data has not been changed.</p>}
         </section>
 
-        <section className="mt-7 grid gap-4 xl:grid-cols-[1.05fr_1fr_1fr_1fr]">
-          <article className="study-dark-surface border border-gold/35 bg-[linear-gradient(145deg,rgba(19,74,132,.42),rgba(9,25,44,.9))] p-5">
+        <section className="probability-studies-grid mt-7 grid gap-4 xl:grid-cols-[1.05fr_1fr_1fr_1fr]">
+          <article className="probability-studies-card probability-studies-card--continue study-dark-surface border border-gold/35 bg-[linear-gradient(145deg,rgba(19,74,132,.42),rgba(9,25,44,.9))] p-5">
             <div className="eyebrow">Pick up where you left off</div>
             <h2 className="serif mt-3 text-2xl text-parchment">Continue learning</h2>
             <Link href={`/?lesson=${encodeURIComponent(nextLesson.id)}#study`} className="mt-5 flex items-center justify-between gap-3 border border-gold/30 p-4 transition hover:border-gold/70 hover:bg-gold/5">
@@ -113,14 +114,14 @@ export default function ProbabilityStudiesLanding() {
             </Link>
           </article>
 
-          <article id="pathways" className="border border-gold/20 bg-panel/70 p-5">
+          <article id="pathways" className="probability-studies-card border border-gold/20 bg-panel/70 p-5">
             <div className="eyebrow">Curriculum</div><h2 className="serif mt-3 text-2xl text-parchment">Learning pathways</h2>
             <div className="mt-4 space-y-1">
               {pathways.map((pathway, index) => <Link key={pathway.id} href={`/?pathway=${encodeURIComponent(pathway.id)}#study`} className="flex items-center gap-3 border-t border-gold/10 py-3 text-sm text-body transition hover:bg-gold/5"><span className="serif text-gold">{String(index + 1).padStart(2, "0")}</span><span className="min-w-0 flex-1">{pathway.label}</span><span className="text-xs text-dim">{pathway.lessonIds.length}</span><span className="text-gold">→</span></Link>)}
             </div>
           </article>
 
-          <article id="practice" className="border border-gold/20 bg-panel/70 p-5">
+          <article id="practice" className="probability-studies-card border border-gold/20 bg-panel/70 p-5">
             <div className="eyebrow">Question bank</div><h2 className="serif mt-3 text-2xl text-parchment">Practice</h2>
             <div className="mt-4 space-y-1">
               {[
@@ -141,7 +142,7 @@ export default function ProbabilityStudiesLanding() {
             </div>
           </article>
 
-          <article id="resources" className="border border-gold/20 bg-panel/70 p-5">
+          <article id="resources" className="probability-studies-card border border-gold/20 bg-panel/70 p-5">
             <div className="eyebrow">Reference library</div><h2 className="serif mt-3 text-2xl text-parchment">Resources</h2>
             <div className="mt-4 space-y-1">
               <Link href="/book-01/" className="flex items-center justify-between border-t border-gold/10 py-3 text-sm text-body hover:text-gold"><span>Book 01 · A First Course in Probability</span><span className="text-gold">→</span></Link>
