@@ -70,3 +70,25 @@ These checks establish visible slide content, not calibration of quantitative gr
 - No learner progress or generated exports have been changed.
 - No extracted candidate has been approved by this lesson audit.
 - This audit does not authorize question generation; source-to-lesson reconciliation for T10 and T9 remains outstanding.
+
+
+## Post-reconciliation status — 16 November 2026
+
+The matrix above is the original audit baseline. Subsequent lesson revisions have now filled the identified gaps. The current T11 lesson contains the following source-mapped material:
+
+| Source pages | Current lesson coverage | Status / qualification |
+|---:|---|---|
+| 174 | Processing as structuring; chain spatial arrangement, crystallinity, crystal size and orientation; film/fibre versus moulded-article aims | Covered; source's design aims are explicitly presented as lecture statements, not universal rules |
+| 177–184 | Batch/continuous taxonomy; nominal screw diameter and output (kg/h); compression and L/D ratios; five screw categories; heating methods and electric-heater subtypes | Covered; no unprovided geometry is inferred for nylon, vented or segmented screws |
+| 188–191 | Twin-screw definition, intermeshing, co-/counter-rotating arrangements and the slide's comparison | Covered; the ambiguous power-consumption row is not generalized beyond the printed wording |
+| 192 | Extrusion application/material matrix | Covered as listed on the lecture slide |
+| 193–195 | Blow moulding and distinct blown-film extrusion line/components | Covered in the moulding details section; source diagram terminology retained |
+| 196–198 | Compression moulding, flash and source's thermoplastic/thermoset heating distinction | Covered with an explicit qualification that the slide's simplified distinction is not asserted as a universal rule |
+| 199–201 | Plunger and reciprocating rotating-screw injection arrangements; sprue, runner, gate and multi-cavity mould details | Covered at the level shown in the lecture; no additional machine specifications inferred |
+| 202–206 | High-shear nip, kneading/blending, rolling bank, cutting/folding, ordered mill-mixing sequence, and Tokita–White four-region processibility model | Covered; the p.205 sequence is identified as the lecture's procedure, not a universal recipe |
+
+**Lesson update checkpoint:** screw taxonomy, equipment specifications and heating methods were added in commit `59028043d7161df1fd9896bc050249e4651685fd`. Other T11 reconciliation sections were already present in the current lesson source at the time of this update.
+
+### Remaining boundary
+
+T11's identified lecture gaps are now represented in the lesson without adding unsupported screw geometry, quantitative comparisons or generalized processing rules. The original source PDF remains the authority for diagrams. The MT203 question bank remains unchanged; question generation stays gated until T9 lesson reconciliation is complete and reviewed.
