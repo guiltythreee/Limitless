@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 const js = await readFile(new URL("./competition.js", import.meta.url), "utf8");
 const html = await readFile(new URL("./index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("./competition.css", import.meta.url), "utf8");
+const sync = await readFile(new URL("./codeforces-sync.mjs", import.meta.url), "utf8");
 
 assert.match(html, /id="today-panel"/);
 assert.match(js, /function renderToday\(\)/);
@@ -41,14 +42,16 @@ assert.match(js, /data-codeforces-revision-result="correct"/,
   "due Codeforces reviews must allow an independent-solve result");
 assert.match(js, /data-codeforces-revision-result="incorrect"/,
   "due Codeforces reviews must allow a still-stuck result");
-assert.match(js, /mode: 'revision'/,
+assert.match(sync, /mode: "revision"/,
   "Codeforces re-solves must enter the shared revision evidence stream");
 assert.match(js, /limitless\.competition\.codeforces-learning\.v1/,
   "Codeforces revision results must be saved with the existing sync record");
 assert.match(js, /limitless:codeforces-learning-updated/,
   "saving a Codeforces revision must refresh shared mastery and scheduling");
-assert.match(js, /stored\.attempts = stored\.attempts\.slice\(-5000\)/,
-  "manual Codeforces revision feedback must use the same expanded retention bound as sync");
+assert.match(js, /appendCodeforcesRevisionAttempt\(/,
+  "manual Codeforces revision feedback must use the archive-aware persistence helper");
+assert.match(sync, /attemptsArchive: encodeCodeforcesAttemptArchive/,
+  "manual revisions must preserve the compact archive when the recent window rolls forward");
 assert.match(css, /\.revision-actions/,
   "Codeforces revision controls must reuse the existing revision action layout");
 
