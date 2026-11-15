@@ -58,6 +58,8 @@ The review packet now prioritizes exception records (low-confidence OCR, equatio
 
 OCR failures are now captured as page-level exceptions rather than aborting the entire PDF ingestion run.
 
+A second real-source audit exposed over-triage from treating every wide-gap line as a table exception: side-by-side comparison slides (for example, homopolymer vs copolymer) were entering the same queue as actual data tables. The classifier now uses page-level table context (table captions and known column-header patterns) before assigning table candidates high-priority status. Comparison slides remain in the record inventory and still trigger a source-page preview, but no longer flood the exception queue. Captioned OCR tables, including the permeability table on page 154, are now explicitly routed to focused review.
+
 ## Runtime audit correction
 
 A code-path inspection found that the first implementation placed Tesseract's `tsv` config argument before the `--psm 3` options. That ordering is invalid for the Tesseract CLI and could turn a successful plain-text OCR attempt into a page-level failure when confidence parsing ran.
@@ -84,7 +86,7 @@ All seven renders were produced successfully as PNG files. This initial spot che
 
 ## Latest JavaScript CLI end-to-end run
 
-The committed `ingest.mjs` at feature-branch head `71f0130f58250d784a618a7ffdd37479c900c474` was run locally against the exact source PDF. The PDF's SHA-256 matched the recorded source hash.
+The committed `ingest.mjs` at code commit `5b2beffcdbb416c910209e0ee092fa989c9566c7` (feature-branch head after tests: `64ae8ca81e524916973a33183804b204f7c8fe25`) was run locally against the exact source PDF. The PDF's SHA-256 matched the recorded source hash.
 
 Command (run from the isolated working environment):
 
@@ -114,9 +116,13 @@ Observed result:
 | Source-page previews generated | 157 |
 | Preview failures or missing preview files | 0 |
 
-The generated `source-manifest.json`, `knowledge-records.json`, and `review-packet.md` were parsed and checked. Every record remains `needs-review` with `confidence: unverified`; manifest approval status is `unreviewed`. Record IDs are unique, all image references resolve to existing assets, all 157 preview paths resolve, all five OCR exception pages appear in the preview plan, and the seven high-risk pages (36, 152, 153, 154, 178, 194, 201) are included. The page-36 molecular-weight equations, page-154 permeability table, page-178 single-screw extruder, and page-201 injection-moulding diagrams were visually opened and checked against the original PDF.
+The generated `source-manifest.json`, `knowledge-records.json`, and `review-packet.md` were parsed and checked. Every record remains `needs-review` with `confidence: unverified`; manifest approval status is `unreviewed`. Record IDs are unique, all image references resolve to existing assets, all 158 preview paths resolve, all five OCR exception pages appear in the preview plan, and the seven high-risk pages (36, 152, 153, 154, 178, 194, 201) are included. The page-36 molecular-weight equations, page-154 permeability table, page-178 single-screw extruder, and page-201 injection-moulding diagrams were visually opened and checked against the original PDF.
 
-The generated output is a local validation artifact and is intentionally not committed to the repository: it contains 759 extracted image files and 157 page renders. The source PDF is also not committed. No lesson, question bank, learner progress, production export, or deployed asset was modified.
+The contextual table-triage change reduced the focused exception queue from 413 records across 77 pages on the first run to 269 records across 39 pages on the latest run (144 fewer records, about 35%), without removing any source records. Ambiguous comparison layouts remain tagged as table candidates in the complete inventory and continue to receive page previews; they are simply not all promoted to high-priority exceptions. The page-154 OCR table is now a table candidate and an exception.
+
+The review CLI was also smoke-tested against the real 2,449-record inventory with an empty decision set. It emitted all three review artifacts, proposed zero additions, rejected zero records, and correctly retained all 2,449 IDs as unreviewed. The patch remained `proposed-not-applied` with every safety flag false. No approval/rejection decisions were invented for the user.
+
+The generated output is a local validation artifact and is intentionally not committed to the repository: it contains 759 extracted image files and 158 page renders. The source PDF is also not committed. No lesson, question bank, learner progress, production export, or deployed asset was modified.
 
 This closes the full-PDF CLI execution milestone. It does not approve extracted content or calibrate the OCR thresholds for other lecture PDFs.
 
