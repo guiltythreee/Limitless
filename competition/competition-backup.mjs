@@ -103,3 +103,39 @@ export function restoreCompetitionBackup(storage, primaryKey, state, parsed) {
     return { ok: false, error: "storage-write-failed" };
   }
 }
+
+/**
+ * Reset Competition's own progress and its additive Codeforces learning/reward
+ * stores as one operation. A failed removal restores every previous key.
+ * Other modules' progress and reward ledgers are never touched.
+ */
+export function resetCompetitionData(storage, primaryKey) {
+  if (!storage || typeof storage.getItem !== "function" ||
+      typeof storage.removeItem !== "function" || typeof storage.setItem !== "function" ||
+      typeof primaryKey !== "string" || !primaryKey.trim()) {
+    return { ok: false, error: "invalid-storage" };
+  }
+  const keys = [...new Set([
+    primaryKey,
+    CODEFORCES_SYNC_STORAGE_KEY,
+    COMPETITION_REWARD_STORAGE_KEY,
+  ])];
+  let previous;
+  try {
+    previous = keys.map((key) => storage.getItem(key));
+  } catch {
+    return { ok: false, error: "storage-read-failed" };
+  }
+  try {
+    keys.forEach((key) => storage.removeItem(key));
+    return { ok: true };
+  } catch {
+    keys.forEach((key, index) => {
+      try {
+        if (previous[index] === null) storage.removeItem(key);
+        else storage.setItem(key, previous[index]);
+      } catch { /* Continue best-effort rollback for the remaining keys. */ }
+    });
+    return { ok: false, error: "storage-write-failed" };
+  }
+}
