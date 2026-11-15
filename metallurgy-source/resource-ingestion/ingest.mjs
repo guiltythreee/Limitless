@@ -77,7 +77,9 @@ function splitIntoBlocks(pageText) {
   return blocks;
 }
 
-export function shouldUseOcr(pageText, minimumNativeCharacters = 24) {\n  return pageText.replace(/\\s/g, "").length < minimumNativeCharacters;\n}\n\nexport function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout", pageExtractionMethods = [] }) {
+export function shouldUseOcr(pageText, minimumNativeCharacters = 24) {
+  return pageText.replace(/\\s/g, "").length < minimumNativeCharacters;
+}\n\nexport function buildRecords({ sourceId, pages, mappingHint = {}, imageAssets = [], extractionMethod = "pdftotext -layout", pageExtractionMethods = [] }) {
   const records = [];
   pages.forEach((pageText, pageIndex) => {
     const blocks = splitIntoBlocks(pageText);
@@ -155,6 +157,34 @@ export async function ingestPdf(options) {
   const pages = extracted.split("\f");
   if (pages.at(-1) === "") pages.pop();
   while (pages.length < pageCount) pages.push("");
+  const pageExtractionMethods = pages.map(() => "pdftotext -layout");
+  let ocrStatus = "not-needed";
+  const sparsePages = pages.map((page, index) => ({ page, index })).filter(({ page }) => shouldUseOcr(page));
+  if (sparsePages.length) {
+    const hasCommand = (command) => spawnSync(command, ["-v"], { encoding: "utf8" }).status === 0;
+    if (hasCommand("pdftoppm") && hasCommand("tesseract")) {
+      const tempDir = await mkdtemp(join(tmpdir(), "limitless-pdf-ocr-"));
+      try {
+        for (const { index } of sparsePages) {
+          const pageNumber = index + 1;
+          const prefix = join(tempDir, `page-${pageNumber}`);
+          run("pdftoppm", ["-f", String(pageNumber), "-l", String(pageNumber), "-r", "220", "-png", input, prefix]);
+          const imageName = (await readdir(tempDir)).find((name) => name.startsWith(`page-${pageNumber}-`) && name.endsWith(".png"));
+          if (!imageName) continue;
+          const ocrText = run("tesseract", [join(tempDir, imageName), "stdout", "--psm", "3"]).trim();
+          if (ocrText.replace(/\s/g, "").length > pages[index].replace(/\s/g, "").length) {
+            pages[index] = ocrText;
+            pageExtractionMethods[index] = "tesseract OCR (220 DPI, page segmentation mode 3)";
+          }
+        }
+        ocrStatus = "available";
+      } finally {
+        await rm(tempDir, { recursive: true, force: true });
+      }
+    } else {
+      ocrStatus = "skipped-missing-dependency";
+    }
+  }
   const mappingHint = {
     course: options.course ?? null,
     topic: options.topic ?? null,
