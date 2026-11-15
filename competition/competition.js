@@ -933,7 +933,10 @@
     var openCompartments = {};
     $('week-list').querySelectorAll('.week-card').forEach(function (details, index) { openWeeks[index] = details.open; });
     $('week-list').querySelectorAll('[data-week-compartment]').forEach(function (details) {
-      openCompartments[details.getAttribute('data-week-compartment')] = details.open;
+      var compartmentKey = details.getAttribute('data-week-compartment');
+      // Topic mastery panels should return to their compact default after a
+      // roadmap re-render; other compartments retain the user's open state.
+      if (!/-mastery$/.test(compartmentKey)) openCompartments[compartmentKey] = details.open;
     });
     $('week-list').innerHTML = WEEKS.map(function (week, wi) {
       var statusOptions = function (key) {
