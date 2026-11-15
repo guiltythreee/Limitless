@@ -134,7 +134,7 @@ export function toCodeforcesLearningAttempts(submissions) {
       courseId: "codeforces",
       contentId: contestId + index,
       questionId: "codeforces:" + contestId + index,
-      subjectId: tags[0] || "codeforces",
+      subjectId: "codeforces",
       conceptIds: tags,
       outcome,
       occurredAt,
@@ -156,6 +156,9 @@ export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], no
       item.id.startsWith("codeforces:") && item.disciplineId === "competitive-programming" &&
       Number.isFinite(item.occurredAt) && item.occurredAt > 0 &&
       ["correct", "incorrect", "partial"].includes(item.outcome))
+      // Older saved attempts used the first tag as their subject. Tags are
+      // co-equal concepts, so normalize legacy records in the projection.
+      .map((item) => ({ ...item, subjectId: "codeforces" }))
     : toCodeforcesLearningAttempts(codeforcesSubmissions);
   const attempts = toCompetitionLearningAttempts(problemLog, revisionAttempts).concat(codeforcesAttempts).sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id));
   const mastery = buildConceptMastery(attempts);
