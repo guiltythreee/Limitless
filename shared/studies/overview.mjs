@@ -139,7 +139,10 @@ export function buildCrossDisciplineOverview(snapshot = {}) {
     metallurgyActivityAttempts("mt203", snapshot.metallurgy?.mt203, snapshot.classifications),
   ].flat();
   const attempts = [...cp, ...codeforces, ...math, ...probability, ...metallurgy];
-  const mastery = buildConceptMastery(attempts);
+  const mastery = buildConceptMastery(attempts, {
+    // Keep the cross-discipline dashboard consistent with CP-specific analysis.
+    minDistinctQuestionsByDiscipline: { "competitive-programming": 3 },
+  });
   const recurringMistakes = buildConceptMistakeSummary(attempts).slice(0, 8);
   const labels = {
     "competitive-programming": "Competitive Programming",

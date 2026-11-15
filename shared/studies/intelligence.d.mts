@@ -33,6 +33,7 @@ export interface ConceptMastery {
   partial: number;
   incorrect: number;
   accuracy: number;
+  distinctQuestions: number;
   independentAttempts: number;
   independentAccuracy: number | null;
   lastPractisedAt: number;
@@ -68,7 +69,7 @@ export interface RevisionCandidate {
 export function normalizeConceptKey(disciplineId: string, subjectId: string | undefined, concept: string): string;
 export function buildConceptMastery(
   attempts: readonly LearningAttempt[],
-  options?: { minSecureAttempts?: number; minMasteryAttempts?: number },
+  options?: { minSecureAttempts?: number; minMasteryAttempts?: number; minDistinctQuestions?: number; minDistinctQuestionsByDiscipline?: Record<string, number> },
 ): ConceptMastery[];
 export function buildConceptMistakeSummary(attempts: readonly LearningAttempt[]): ConceptMistakeSummary[];
 export function buildRevisionCandidates(

@@ -47,6 +47,7 @@ export function normalizeConceptKey(disciplineId, subjectId, concept) {
 export function buildConceptMastery(attempts, options = {}) {
   const minSecure = options.minSecureAttempts ?? 5;
   const minMastery = options.minMasteryAttempts ?? 8;
+  const minDistinctQuestions = options.minDistinctQuestions ?? 0;
   const groups = new Map();
 
   for (const attempt of attempts || []) {
@@ -74,14 +75,19 @@ export function buildConceptMastery(attempts, options = {}) {
     const independentAccuracy = independent.length
       ? independent.filter((a) => a.outcome === "correct").length / independent.length
       : null;
-    const status = rows.length < 3 ? "insufficient-data"
+    const distinctQuestions = new Set(rows
+      .map((a) => typeof a.questionId === "string" ? a.questionId.trim() : "")
+      .filter(Boolean)).size;
+    const requiredDistinctQuestions = options.minDistinctQuestionsByDiscipline?.[group.disciplineId] ?? minDistinctQuestions;
+    const hasQuestionBreadth = distinctQuestions >= requiredDistinctQuestions;
+    const status = rows.length < 3 || !hasQuestionBreadth ? "insufficient-data"
       : rows.length >= minMastery && accuracy >= 0.9 && independent.length >= 3 && independentAccuracy >= 0.85 ? "mastered"
       : rows.length >= minSecure && accuracy >= 0.75 ? "secure" : "developing";
     return {
       key, disciplineId: group.disciplineId, subjectId: group.subjectId,
       conceptId: group.conceptId, label: group.label, attempts: rows.length,
-      correct, partial, incorrect, accuracy, independentAttempts: independent.length,
-      independentAccuracy,
+      correct, partial, incorrect, accuracy, distinctQuestions,
+      independentAttempts: independent.length, independentAccuracy,
       lastPractisedAt: Math.max(...rows.map((a) => a.occurredAt)),
       status,
     };

@@ -52,6 +52,19 @@ assert.equal(mastered[0].status, "mastered");
 assert.equal(mastered[0].accuracy, 1);
 assert.equal(mastered[0].independentAttempts, 8);
 
+const repeatedSingleQuestion = buildConceptMastery(Array.from({ length: 8 }, (_, i) =>
+  attempt("single-" + i, { questionId: "same-problem" }),
+), { minDistinctQuestions: 3 });
+assert.equal(repeatedSingleQuestion[0].distinctQuestions, 1);
+assert.equal(repeatedSingleQuestion[0].status, "insufficient-data",
+  "configured breadth gates mastery when attempts repeat one question");
+const variedQuestions = buildConceptMastery(Array.from({ length: 8 }, (_, i) =>
+  attempt("varied-" + i, { questionId: "problem-" + (i % 3) }),
+), { minDistinctQuestions: 3 });
+assert.equal(variedQuestions[0].distinctQuestions, 3);
+assert.equal(variedQuestions[0].status, "mastered",
+  "the configured breadth gate is satisfied by three distinct questions");
+
 const assisted = buildConceptMastery(Array.from({ length: 8 }, (_, i) =>
   attempt("a" + i, { independent: false, hintCount: 2 }),
 ));
