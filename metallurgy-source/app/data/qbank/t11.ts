@@ -721,17 +721,17 @@ const T11: TopicSource = {
       diff: 3,
       text: "A polymer decomposes at or below its melting temperature but dissolves in a volatile solvent. Which fibre-spinning route best fits the lecture's selection rule?",
       options: [
-        { label: "a", text: "Dry spinning: extrude the solution into a heated chamber so the solvent evaporates." },
-        { label: "b", text: "Melt spinning: melt the polymer and force it through a spinneret." },
+        { label: "a", text: "Melt spinning: melt the polymer and force it through a spinneret." },
+        { label: "b", text: "Pultrusion: pull a fibre bundle through a heated die." },
         { label: "c", text: "Wet spinning: extrude the melt into air and cool it." },
-        { label: "d", text: "Pultrusion: pull a fibre bundle through a heated die." }
+        { label: "d", text: "Dry spinning: extrude the solution into a heated chamber so the solvent evaporates." }
       ],
-      answer: "a",
+      answer: "d",
       why: "Dry spinning is used when the polymer cannot be melt-spun safely but is soluble in a **volatile solvent**. The solution exits the spinneret and solvent evaporates in a heated chamber.",
       distractors: {
-        b: "The stem says the polymer decomposes at or below its melting temperature.",
-        c: "Wet spinning uses a coagulating non-solvent bath, not a melt extruded into air.",
-        d: "Pultrusion makes continuous constant-section fibre-reinforced profiles, not solution-spun filaments."
+        a: "The stem says the polymer decomposes at or below its melting temperature.",
+        b: "Pultrusion makes continuous constant-section fibre-reinforced profiles, not solution-spun filaments.",
+        c: "Wet spinning uses a coagulating non-solvent bath, not a melt extruded into air."
       },
       concept: "Melt if thermally stable; dry if volatile-solvent route; wet if coagulation bath is needed.",
       tags: ["revision"]
@@ -785,16 +785,16 @@ const T11: TopicSource = {
       text: "A rubber compound is being formulated, but the base elastomer is not specified. Which statement about selecting its vulcanizing system is scientifically defensible?",
       options: [
         { label: "a", text: "Sulfur is the universal curative for every elastomer." },
-        { label: "b", text: "Accelerators and curatives are interchangeable names for the same ingredient." },
+        { label: "b", text: "The curative must be selected for the elastomer chemistry; sulfur is widely used for natural rubber and several diene rubbers, while other elastomers may require peroxides, metal oxides, amines or phenolic resins." },
         { label: "c", text: "Vulcanizing agents are added only to reduce colour variation." },
-        { label: "d", text: "The curative must be selected for the elastomer chemistry; sulfur is widely used for natural rubber and several diene rubbers, while other elastomers may require peroxides, metal oxides, amines or phenolic resins." }
+        { label: "d", text: "Accelerators and curatives are interchangeable names for the same ingredient." }
       ],
-      answer: "d",
+      answer: "b",
       why: "The lecture's cure-system table assigns different curatives to different elastomer families. **Sulfur is widely used**, but peroxide, metallic-oxide, amine and phenolic-resin systems are also identified. Selection depends on polymer chemistry.",
       distractors: {
         a: "The source explicitly lists multiple cure systems; sulfur is not universal.",
-        b: "A curative forms cross-links; an accelerator increases the rate of vulcanization.",
-        c: "The purpose of a curative is chemical cross-linking, not colour control."
+        c: "The purpose of a curative is chemical cross-linking, not colour control.",
+        d: "A curative forms cross-links; an accelerator increases the rate of vulcanization."
       },
       concept: "Curative selection is elastomer-specific.",
       tags: ["confused"]
@@ -828,15 +828,15 @@ const T11: TopicSource = {
       options: [
         { label: "a", text: "Use only extending filler for the tyre because it always maximizes strength." },
         { label: "b", text: "Use pigment as the sole reinforcing ingredient in both compounds." },
-        { label: "c", text: "Use a reinforcing filler such as carbon black or silica for the first compound; consider an extending filler for the cost-driven compound." },
-        { label: "d", text: "Avoid fillers because they cannot change rubber properties." }
+        { label: "c", text: "Avoid fillers because they cannot change rubber properties." },
+        { label: "d", text: "Use a reinforcing filler such as carbon black or silica for the first compound; consider an extending filler for the cost-driven compound." }
       ],
-      answer: "c",
+      answer: "d",
       why: "The lecture separates **reinforcing fillers**, which improve physical properties, from **extending fillers**, which primarily reduce cost and may alter stiffness. Carbon black and silica are identified as important reinforcing fillers.",
       distractors: {
         a: "Extending fillers are not defined as the strongest reinforcement route.",
         b: "Pigments provide colour; they are not the primary reinforcement strategy described.",
-        d: "Fillers are explicitly used to reinforce properties or reduce cost."
+        c: "Fillers are explicitly used to reinforce properties or reduce cost."
       },
       concept: "Reinforcing vs extending fillers.",
       tags: ["revision"]
@@ -849,15 +849,15 @@ const T11: TopicSource = {
       options: [
         { label: "a", text: "The compound should cross-link completely inside the mixer before shaping." },
         { label: "b", text: "Scorch time measures the optical transparency of the uncured rubber." },
-        { label: "c", text: "A uniform cure rate is unrelated to processing quality." },
-        { label: "d", text: "The compound must remain processable during mixing and shaping, then cure at a controlled and uniform rate in the intended curing stage." }
+        { label: "c", text: "The compound must remain processable during mixing and shaping, then cure at a controlled and uniform rate in the intended curing stage." },
+        { label: "d", text: "A uniform cure rate is unrelated to processing quality." }
       ],
-      answer: "d",
+      answer: "c",
       why: "The lecture lists **uniform plasticity and recovery, uniform scorch rate and uniform cure rate** as requirements for good rubber-compound processing. Premature cross-linking makes the stock difficult to shape.",
       distractors: {
         a: "Premature cure in the mixer is precisely what scorch control is intended to prevent.",
         b: "Scorch time concerns premature vulcanization, not optical properties.",
-        c: "The source explicitly identifies uniform cure behaviour as a processing requirement."
+        d: "The source explicitly identifies uniform cure behaviour as a processing requirement."
       },
       concept: "Processability before cure; controlled vulcanization after shaping.",
       tags: ["revision"]
