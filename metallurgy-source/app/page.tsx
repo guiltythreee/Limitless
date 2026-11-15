@@ -29,6 +29,20 @@ export default function Landing() {
   const semesters = ["3", "4", "5", "6", "7", "8"];
 
   useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      const state = event.state as { __limitlessMetallurgyCourse?: CourseId } | null;
+      if (state?.__limitlessMetallurgyCourse && COURSES.some((course) => course.id === state.__limitlessMetallurgyCourse)) {
+        setSelectedId(state.__limitlessMetallurgyCourse);
+        setCourseOpen(true);
+      } else {
+        setCourseOpen(false);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
     setTheme(loadTheme());
     try {
       setSnapshots(METALLURGY_STUDIES_REGISTRATION.readProgress?.() ?? []);
@@ -154,7 +168,7 @@ export default function Landing() {
                       type="button"
                       key={course.id}
                       className="semester-course-card"
-                      onClick={() => { if (course.id === "mt200") { router.push("/mt200/"); return; } setSelectedId(course.id); setCourseOpen(true); setQuery(""); setStatus("all"); setSort("number"); }}
+                      onClick={() => { if (course.id === "mt200") { router.push("/mt200/"); return; } window.history.pushState({ ...(window.history.state ?? {}), __limitlessMetallurgyCourse: course.id }, "", window.location.href); setSelectedId(course.id); setCourseOpen(true); setQuery(""); setStatus("all"); setSort("number"); }}
                     >
                       <span className="semester-course-card-top">
                         <span className="semester-course-symbol">{course.symbol}</span>
@@ -174,7 +188,7 @@ export default function Landing() {
             </section>
           </> : semester === "3" ? <>
           <div className="semester-course-back-row">
-            <button type="button" className="semester-course-back" onClick={() => setCourseOpen(false)}>← <span>Back to Semester {semester} courses</span></button>
+            <button type="button" className="semester-course-back" onClick={() => { if ((window.history.state as { __limitlessMetallurgyCourse?: CourseId } | null)?.__limitlessMetallurgyCourse) window.history.back(); else setCourseOpen(false); }}>← <span>Back to Semester {semester} courses</span></button>
           </div>
           <div className="semester-main-heading">
             <div>
