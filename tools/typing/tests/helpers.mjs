@@ -1,4 +1,4 @@
-// Shared test helpers for Bookkeys (tools/typing/bookkeys.html).
+// Shared test helpers for Bookkeys (tools/typing/bookkeys-legacy.html).
 //
 // The app page embeds everything it needs (pdf.js, JSZip, epub.js and the app itself) as inline
 // scripts, exactly so it works from a file with no internet. These helpers read those scripts back
@@ -9,7 +9,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { JSDOM } from "jsdom";
 
-const BOOKKEYS_PATH = fileURLToPath(new URL("../bookkeys.html", import.meta.url));
+const BOOKKEYS_PATH = fileURLToPath(new URL("../bookkeys-legacy.html", import.meta.url));
 
 let pageCache = null;
 export function pageSource() {
@@ -22,7 +22,7 @@ export function scriptById(id) {
   const html = pageSource();
   const open = `<script id="${id}">`;
   const i = html.indexOf(open);
-  if (i < 0) throw new Error(`no <script id="${id}"> in bookkeys.html`);
+  if (i < 0) throw new Error(`no <script id="${id}"> in bookkeys-legacy.html`);
   const j = html.indexOf("</script>", i);
   if (j < 0) throw new Error(`script #${id} is never closed`);
   return html.slice(i + open.length, j);
@@ -57,7 +57,7 @@ export function loadHelpers(names, extraParams = {}) {
 export function epubSandbox() {
   const dom = new JSDOM("<!doctype html><html><body></body></html>", {
     runScripts: "outside-only",
-    url: "https://local.test/tools/typing/bookkeys.html",
+    url: "https://local.test/tools/typing/bookkeys-legacy.html",
   });
   const w = dom.window;
   // jsdom provides no window.setImmediate. JSZip's bundle installs a setImmediate polyfill at
