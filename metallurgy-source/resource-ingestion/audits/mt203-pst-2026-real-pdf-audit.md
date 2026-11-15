@@ -131,3 +131,17 @@ This closes the full-PDF CLI execution milestone. It does not approve extracted 
 ## Reproducibility
 
 Audit outputs were generated locally from the Library source PDF. The source PDF and extracted assets are intentionally not added to Git. The current code's automated CI passing status is recorded separately; this audit is a real-document diagnostic, not a replacement for automated tests or human validation.
+
+
+## Additional local renderer and image-mapping validation
+
+A second direct Poppler validation was run against the exact source PDF after the previous spot check:
+
+- The image inventory has 759 sequential entries numbered 0–758, comprising 721 `image` rows and 38 `smask` rows.
+- `pdfimages -png` produced 759 sequentially named files. Matching the filename sequence to the inventory mapped all 721 genuine image files to their source pages and left exactly the 38 soft-mask files unmapped as independent figure records.
+- The 721 genuine image rows occur on 118 distinct pages.
+- The 120-DPI, single-page preview operation was run for all 118 figure-bearing pages. All 118 PNGs were produced with no per-page renderer failures. Combined preview size was 39.7 MiB.
+- The preview run was split across two local execution windows because the first command window reached its execution limit after 85 pages. The remaining 33 pages completed in 14.9 seconds. Therefore, no single uninterrupted end-to-end CLI runtime is claimed.
+- The independent `pdfimages -png` extraction completed in 23.7 seconds.
+
+These are direct Poppler checks of the same input and command modes used by the implementation. They validate source image numbering, soft-mask exclusion, page coverage, and preview output volume. They do not replace the still-pending execution of the exact committed JavaScript CLI, which also performs OCR, builds records, writes the manifest, and assembles the review packet.
