@@ -5,7 +5,7 @@ export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-lea
 // Incremental sync can safely fetch up to 100 pages of 1,000 submissions.
 // Keep the full bounded fetch window deduplicated across the current-week overlap.
 const MAX_SEEN_IDS = 100000;
-// Retain a larger learning history so old unresolved problems are not evicted quickly.
+// Keep the newest 5,000 attempts expanded; archive older attempts losslessly.
 const MAX_ATTEMPTS = 5000;
 
 function isRecord(value) {
@@ -79,7 +79,7 @@ export function isValidCodeforcesAttemptArchive(raw) {
   return decodeCodeforcesAttemptArchive(raw).length === raw.records.length;
 }
 
-function encodeCodeforcesAttemptArchive(attempts) {
+export function encodeCodeforcesAttemptArchive(attempts) {
   const strings = [];
   const indices = new Map();
   const intern = (value) => {
