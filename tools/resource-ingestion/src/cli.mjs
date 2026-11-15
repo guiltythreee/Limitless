@@ -123,7 +123,7 @@ async function analyze() {
         max_output_tokens: 64000,
         input: [
           { role: "system", content: [{ type: "input_text", text: SYSTEM_PROMPT }] },
-          { role: "user", content: [{ type: "input_file", file_id: uploadedFileId, detail: "high" }, { type: "input_text", text: prompt }] }
+          { role: "user", content: [{ type: "input_file", file_id: uploadedFileId }, { type: "input_text", text: prompt }] }
         ],
         text: { format: { type: "json_schema", name: "limitless_resource_analysis", strict: true, schema: ANALYSIS_SCHEMA } }
       })
