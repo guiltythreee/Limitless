@@ -50,6 +50,7 @@ console.log("Codeforces API rate limiting: all assertions passed.");
     { status: "OK", result: [
       { id: 4, creationTimeSeconds: 90 },
     ] },
+    { status: "OK", result: [{ id: 9, creationTimeSeconds: 300 }] },
   ];
   const calls = [];
   const recent = await fetchCodeforcesSubmissionsSince("example_handle", 150, {
@@ -59,7 +60,7 @@ console.log("Codeforces API rate limiting: all assertions passed.");
   });
   assert.deepEqual(recent.map((item) => item.id), [9, 8, 7, 6],
     "recent fetch keeps submissions at/after the boundary and deduplicates overlap");
-  assert.equal(calls.length, 3, "recent fetch stops only after a whole page is older than the requested boundary");
+  assert.equal(calls.length, 4, "recent fetch verifies the newest ID after crossing the time boundary");
   assert.match(calls[0], /from=1&count=3$/);
   assert.match(calls[1], /from=3&count=3$/);
 }
@@ -157,6 +158,7 @@ console.log("Codeforces API rate limiting: all assertions passed.");
       { id: 10, creationTimeSeconds: 99 },
       { id: 9, creationTimeSeconds: 98 },
     ] },
+    { status: "OK", result: [{ id: 12, creationTimeSeconds: 300 }] },
   ];
   let calls = 0;
   const result = await fetchCodeforcesSubmissionsSince("example_handle", 100, {
@@ -165,7 +167,7 @@ console.log("Codeforces API rate limiting: all assertions passed.");
     request: async () => { calls += 1; return pages.shift(); },
   });
   assert.deepEqual(result.map((item) => item.id), [12, 11]);
-  assert.equal(calls, 2, "a full page strictly older than the boundary ends incremental pagination");
+  assert.equal(calls, 3, "a full page strictly older than the boundary ends scanning, followed by a newest-ID verification");
 }
 
 // If new submissions shift offsets during a full-history scan, reject the
@@ -197,6 +199,46 @@ console.log("Codeforces API rate limiting: all assertions passed.");
     "a moving history must not be returned as a complete baseline"
   );
   assert.equal(calls, 4);
+}
+
+// Creation timestamps must also be non-increasing within each page because
+// incremental termination relies on the time boundary following ID order.
+await assert.rejects(
+  fetchCodeforcesSubmissionsSince("timestamp_order_handle", 100, {
+    pageSize: 2,
+    request: async () => ({ status: "OK", result: [
+      { id: 10, creationTimeSeconds: 100 },
+      { id: 9, creationTimeSeconds: 101 },
+    ] }),
+  }),
+  /descending creation-time order/
+);
+
+// A new submission during incremental pagination shifts offset positions.
+// The final newest-ID probe must reject the scan instead of returning a gap.
+{
+  const pages = [
+    { status: "OK", result: [
+      { id: 30, creationTimeSeconds: 300 },
+      { id: 29, creationTimeSeconds: 290 },
+    ] },
+    { status: "OK", result: [
+      { id: 28, creationTimeSeconds: 280 },
+      { id: 27, creationTimeSeconds: 270 },
+    ] },
+    { status: "OK", result: [{ id: 31, creationTimeSeconds: 310 }] },
+  ];
+  let calls = 0;
+  await assert.rejects(
+    fetchCodeforcesSubmissionsSince("moving_incremental_handle", 100, {
+      pageSize: 2,
+      overlap: 1,
+      request: async () => { calls += 1; return pages.shift(); },
+    }),
+    /history changed during incremental pagination/,
+    "incremental pagination must reject a moving offset window"
+  );
+  assert.equal(calls, 3, "incremental scan performs the final newest-ID verification");
 }
 
 // API pages must preserve descending submission-ID order.
