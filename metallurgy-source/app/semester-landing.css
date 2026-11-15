@@ -132,3 +132,235 @@
   .semester-course-grid {grid-template-columns:1fr}
   .semester-course-card {min-height:205px}
 }
+
+
+/* ------------------------------------------------------------------
+   Semester landing visual refresh
+   Scoped to the programme hub; course readers and quiz surfaces are untouched.
+------------------------------------------------------------------- */
+.semester-hub {
+  --hub-blue: #60a5fa;
+  --hub-violet: #a78bfa;
+  --hub-teal: #2dd4bf;
+  --hub-amber: #f0b86b;
+  background:
+    radial-gradient(ellipse at 72% 7%, color-mix(in srgb, var(--hub-blue) 11%, transparent), transparent 34%),
+    radial-gradient(ellipse at 96% 62%, color-mix(in srgb, var(--hub-violet) 8%, transparent), transparent 32%),
+    var(--page-bg);
+}
+.semester-hub .navbar {
+  border-bottom: 1px solid color-mix(in srgb, var(--hub-blue) 24%, var(--line));
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  backdrop-filter: blur(18px);
+}
+.semester-hub .brand {
+  color: var(--hub-blue);
+  letter-spacing: .16em;
+}
+.semester-layout {
+  width: min(1680px, 100%);
+  grid-template-columns: minmax(250px, 300px) minmax(0, 1fr);
+}
+.semester-sidebar {
+  background: color-mix(in srgb, var(--panel) 90%, transparent);
+  border-right-color: color-mix(in srgb, var(--hub-blue) 18%, var(--line));
+}
+.semester-brand-mark {
+  color: var(--hub-blue);
+  background: color-mix(in srgb, var(--hub-blue) 15%, var(--inset));
+  border: 1px solid color-mix(in srgb, var(--hub-blue) 30%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--hub-blue) 10%, transparent);
+}
+.semester-sidebar-label { color: var(--hub-blue); }
+.semester-year {
+  min-height: 58px;
+  border-radius: 12px;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.semester-year:hover { transform: translateX(2px); }
+.semester-year-number {
+  border-color: color-mix(in srgb, var(--hub-blue) 28%, var(--line));
+  color: var(--hub-blue);
+  background: color-mix(in srgb, var(--hub-blue) 7%, transparent);
+}
+.semester-year.is-active {
+  border-color: color-mix(in srgb, var(--hub-blue) 55%, var(--line));
+  background: linear-gradient(110deg, color-mix(in srgb, var(--hub-blue) 17%, var(--panel)), color-mix(in srgb, var(--hub-violet) 8%, var(--panel)));
+  box-shadow: inset 3px 0 0 var(--hub-blue), 0 8px 24px #00000012;
+}
+.semester-year.is-active .semester-year-number {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(145deg, var(--hub-blue), #3977d4);
+}
+.semester-year-arrow { color: var(--hub-blue); }
+.semester-sidebar-note {
+  border-color: color-mix(in srgb, var(--hub-violet) 26%, var(--line));
+  background: linear-gradient(145deg, color-mix(in srgb, var(--hub-violet) 9%, var(--panel)), color-mix(in srgb, var(--hub-blue) 5%, var(--panel)));
+}
+.semester-sidebar-note span { color: var(--hub-violet); }
+.semester-main { padding: clamp(1.25rem, 3.1vw, 3rem); }
+.semester-main-heading,
+.semester-course-panel,
+.semester-chapter-panel,
+.semester-empty-panel {
+  border-color: color-mix(in srgb, var(--hub-blue) 20%, var(--line));
+  border-radius: 18px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--panel) 96%, var(--hub-blue)), color-mix(in srgb, var(--panel) 98%, var(--hub-violet)));
+  box-shadow: 0 18px 55px #00000018, inset 0 1px #ffffff08;
+}
+.semester-main-heading {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.35rem, 2.3vw, 2rem);
+}
+.semester-main-heading::before {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  right: -110px;
+  top: -190px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--hub-blue) 22%, transparent), transparent 68%);
+}
+.semester-breadcrumb { color: var(--faint); }
+.semester-breadcrumb span { color: var(--hub-violet); }
+.semester-eyebrow { color: var(--hub-blue); }
+.semester-title-row h1 { letter-spacing: -.035em; }
+.semester-title-symbol {
+  width: 76px;
+  height: 76px;
+  border-color: color-mix(in srgb, var(--hub-blue) 40%, var(--line));
+  color: var(--hub-blue);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--hub-blue) 15%, var(--panel)), color-mix(in srgb, var(--hub-violet) 12%, var(--panel)));
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--hub-blue) 12%, transparent);
+}
+.semester-summary {
+  gap: .7rem;
+  border-top-color: color-mix(in srgb, var(--hub-blue) 22%, var(--line));
+}
+.semester-summary > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  min-height: 58px;
+  padding: .55rem .8rem;
+  border: 1px solid color-mix(in srgb, var(--hub-blue) 16%, var(--line));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--hub-blue) 5%, var(--inset));
+}
+.semester-summary > div:nth-child(2) {
+  border-color: color-mix(in srgb, var(--hub-violet) 24%, var(--line));
+  background: color-mix(in srgb, var(--hub-violet) 7%, var(--inset));
+}
+.semester-summary > div:nth-child(3) {
+  border-color: color-mix(in srgb, var(--hub-teal) 24%, var(--line));
+  background: color-mix(in srgb, var(--hub-teal) 6%, var(--inset));
+}
+.semester-summary > div:nth-child(4) {
+  border-color: color-mix(in srgb, var(--hub-amber) 24%, var(--line));
+  background: color-mix(in srgb, var(--hub-amber) 6%, var(--inset));
+}
+.semester-summary strong { font-size: 1.55rem; }
+.semester-summary > div:nth-child(1) strong { color: var(--hub-blue); }
+.semester-summary > div:nth-child(2) strong { color: var(--hub-violet); }
+.semester-summary > div:nth-child(3) strong { color: var(--hub-teal); }
+.semester-summary > div:nth-child(4) strong { color: var(--hub-amber); }
+.semester-course-panel { padding: clamp(1.1rem, 2vw, 1.6rem); }
+.semester-panel-heading { align-items: center; }
+.semester-panel-heading h2 { letter-spacing: -.025em; }
+.semester-tag {
+  color: var(--hub-blue);
+  border-color: color-mix(in srgb, var(--hub-blue) 36%, var(--line));
+  background: color-mix(in srgb, var(--hub-blue) 7%, transparent);
+}
+.semester-course-grid { gap: 1rem; }
+.semester-course-card {
+  --course-accent: var(--hub-blue);
+  position: relative;
+  isolation: isolate;
+  min-height: 276px;
+  padding: 1.25rem;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--course-accent) 27%, var(--line));
+  border-radius: 15px;
+  background:
+    linear-gradient(155deg, color-mix(in srgb, var(--course-accent) 10%, var(--inset)), color-mix(in srgb, var(--panel) 96%, var(--course-accent)));
+  box-shadow: 0 10px 28px #00000012, inset 0 1px #ffffff08;
+}
+.semester-course-card:nth-child(1) { --course-accent: var(--hub-amber); }
+.semester-course-card:nth-child(2) { --course-accent: var(--hub-blue); }
+.semester-course-card:nth-child(3) { --course-accent: var(--hub-teal); }
+.semester-course-card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 190px;
+  height: 190px;
+  right: -85px;
+  top: -95px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--course-accent) 20%, transparent), transparent 70%);
+  pointer-events: none;
+}
+.semester-course-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--course-accent) 68%, var(--line));
+  background: linear-gradient(155deg, color-mix(in srgb, var(--course-accent) 15%, var(--inset)), color-mix(in srgb, var(--panel) 94%, var(--course-accent)));
+  box-shadow: 0 18px 38px color-mix(in srgb, var(--course-accent) 12%, #000);
+}
+.semester-course-card-top .semester-course-symbol {
+  color: var(--course-accent);
+  border: 1px solid color-mix(in srgb, var(--course-accent) 35%, transparent);
+  background: color-mix(in srgb, var(--course-accent) 13%, var(--inset));
+  border-radius: 13px;
+}
+.semester-course-index { color: color-mix(in srgb, var(--course-accent) 78%, var(--faint)); }
+.semester-course-card-code { color: var(--course-accent); }
+.semester-course-card > strong { font-size: clamp(1.12rem, 1.3vw, 1.3rem); }
+.semester-course-card-subtitle { min-height: 2.8em; }
+.semester-course-card-meta i { color: var(--course-accent); }
+.semester-course-card-progress { height: 5px; border-radius: 99px; background: color-mix(in srgb, var(--course-accent) 13%, var(--track)); }
+.semester-course-card-progress i { height: 5px; background: linear-gradient(90deg, color-mix(in srgb, var(--course-accent) 70%, white), var(--course-accent)); }
+.semester-course-card-footer b { color: var(--course-accent); }
+.semester-course-back {
+  border-radius: 10px;
+  border-color: color-mix(in srgb, var(--hub-blue) 26%, var(--line));
+}
+.semester-course-back:hover { border-color: var(--hub-blue); color: var(--hub-blue); }
+.semester-chapter-panel { padding: clamp(1rem, 2vw, 1.6rem); }
+.semester-chapter { border-radius: 10px; }
+.semester-chapter:hover { background: color-mix(in srgb, var(--hub-blue) 8%, transparent); }
+.semester-chapter-number {
+  color: var(--hub-blue);
+  background: color-mix(in srgb, var(--hub-blue) 12%, var(--inset));
+}
+.semester-chapter-arrow { color: var(--hub-blue); }
+.semester-empty-icon {
+  color: var(--hub-violet);
+  border-color: color-mix(in srgb, var(--hub-violet) 32%, var(--line));
+  background: color-mix(in srgb, var(--hub-violet) 10%, var(--inset));
+}
+.semester-hub :where(button, a, input, select):focus-visible {
+  outline-color: var(--hub-blue);
+}
+@media (max-width: 900px) {
+  .semester-layout { grid-template-columns: minmax(220px, 260px) minmax(0, 1fr); }
+  .semester-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 620px) {
+  .semester-layout { display: block; }
+  .semester-main { padding: .8rem; }
+  .semester-main-heading { padding: 1rem; }
+  .semester-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .semester-summary > div { min-height: 52px; padding: .45rem .55rem; }
+  .semester-summary strong { font-size: 1.25rem; }
+  .semester-course-card { min-height: 240px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .semester-year, .semester-course-card { transition: none; }
+  .semester-year:hover, .semester-course-card:hover { transform: none; }
+}
