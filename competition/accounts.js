@@ -47,8 +47,7 @@
       const base = "https://codeforces.com/api/";
       const urls = [
         base + "user.info?handles=" + encodeURIComponent(handle),
-        base + "user.rating?handle=" + encodeURIComponent(handle),
-        base + "user.status?handle=" + encodeURIComponent(handle) + "&from=1&count=1000"
+        base + "user.rating?handle=" + encodeURIComponent(handle)
       ];
       const api = await import("./codeforces-api.mjs");
       // Keep each Codeforces request at least 2.1 seconds apart. The API
