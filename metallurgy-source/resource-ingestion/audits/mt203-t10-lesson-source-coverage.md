@@ -81,3 +81,24 @@ The page images are authoritative for diagram layout and small labels. This samp
 - T10 now lists all p. 152 permeability factors without inventing directional effects.
 - T10 now records the p. 153 units for $P$, $D$ and $S$. The p. 154 $P_0$ scaling, $\\Delta E$ units and superscript footnotes remain unresolved.
 - Lesson update commit: `068d84f70d9577d74c45b770f1ca4f51a480be10`.
+
+
+## Post-reconciliation status — 16 November 2026
+
+The coverage matrix above records the pre-reconciliation audit baseline. Subsequent source-faithful lesson updates are now present in `app/data/lessons-mt203.ts`. Do not read the original matrix's missing/partial labels as the current state without this update.
+
+| Source pages | Reconciliation now present in T10 | Current status |
+|---:|---|---|
+| 123–126 | Short-/long-term/surface classification; lecture terminology including gauge length, elongation at yield/break, yield point/strength, proportional limit, tensile and secant modulus | Covered |
+| 127–137 | Lecture A–F stress–strain/molecular sequence, tensile specimen and standards, UTM/test calculations, curve families, and temperature/strain-rate trends | Covered, with source wording/diagram-label discrepancies retained rather than silently normalized |
+| 138–142 | Flexural properties, three-/four-point loading, specimen, standards and lecture equations | Covered; source's stated rate/strain notation inconsistency is explicitly flagged in the lesson |
+| 143–147 | Impact definition, toughness relation, modifiers, listed standards, Izod/Charpy specimen dimensions, procedures and reporting | Covered; J/m on p. 143 and ft-lb-based method readings/results on pp. 146–147 remain distinct source statements |
+| 149–150 | Stress relaxation, stress-optical sensitivity and stress concentration | Covered |
+| 152–153 | Solution–diffusion sequence, all listed factors, P = D × S, and the slide's units/reference conditions for P, D and S | Covered |
+| 154 | Table values transcribed; headings P × 10¹³, P₀ × 10⁷, ΔE and superscript a/b recorded without unsupported interpretation | Partially unresolved: source does not define the scaling convention, P₀, ΔE meaning/units, or a/b footnotes on the slide |
+
+### Current boundary
+
+T10 lesson reconciliation is complete for the source material that can be represented without inventing definitions. Page 154 remains a documented source limitation, not an invitation to infer units or footnotes. Page 151 remains assigned to T9 and is not duplicated in T10. The MT203 question bank remains unchanged; no questions are to be generated until the remaining T9/T11 lesson reconciliation is complete and reviewed.
+
+**Lesson update checkpoint:** `96bf357b63ddfef2368fbdcce9a842f87c05adc0` (permeability source-limit clarification). Earlier T10 lesson commits contain the other reconciled sections.
