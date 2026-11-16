@@ -360,3 +360,18 @@ The earlier statements in this file that the audit was review-only, that no T9�
 ### Final answer-key and source-table cross-check
 
 A second source-to-answer-key pass checked the match-table mappings and process sequences before final validation. It confirmed the composite definition/matrix mapping in `t9-29`; the property grouping and tensile terminology in T10; the three-/four-point flexural fixture, Izod/Charpy orientation and reporting, and stress-optical/stress-concentration mappings; the extrusion product/material table in `t11-38`; and the compression-moulding heating distinction in `t11-40`. The 37-question regression now locks the expected answer label for each addition as well as its subtopic and MCQ-QS checks.
+
+
+## Current-bank reconciliation after final two source additions — 16 November 2026
+
+The earlier implementation checkpoint reported 342 questions and 37 additions. Two further source-traceable questions are now live:
+- `t4-32` — p.48 method chart: end-group analysis, cryoscopy, ebulliometry and osmometry.
+- `t8-32` — pp.155–157: natural-rubber latex coagulation and ammonia preservation.
+
+The current bank is **344 questions**, i.e. **39 additions over the original 305-question baseline**. Current per-topic counts: T1 34, T2 36, T3 24, T4 32, T5 20, T6 23, T7 17, T8 32, T9 35, T10 45, T11 46. T1–T8 now contain 218 questions; T9–T11 contain 126.
+
+The two additional items were checked against the uploaded source PDF, including visual inspection of p.48 and the p.156–157 diagrams. The p.48 chart places end-group analysis under number-average molecular weight; lists cryoscopy with freezing-point depression, ebulliometry with boiling-point elevation, and vapour-phase/membrane osmometry. Pages 156–157 show hydrogen ions from formic/lactic acid neutralizing the particle charge and ammonia hydroxide ions neutralizing hydrogen ions to prevent coagulation. The new T8 item follows the source's explanation and does not add an unshown chemical mechanism.
+
+No additional question is currently justified by the reconciled T9–T11 gap register. T10 p.154 remains a documented source limitation: the slide does not define the P/P₀ scaling convention, ΔE units/meaning or superscript footnotes. It should not be converted into a numerical question by inference. This is a source-completeness boundary, not an uncovered assessable objective.
+
+The latest CI failure was a stale assertion in `scripts/test-mt203.mjs` expecting 185 questions in module M1. M1 now correctly contains 186 after `t4-32`; the assertion was updated to 186. All five workflows on commit `ca595a84d8c2dbbbaddaf6cc7a91dfa572e04e42` then completed successfully: Metallurgy Regression Tests, Metallurgy question-quality test, Shared question-quality engine tests, Metallurgy Learning Regression Tests and Metallurgy Content Regression Tests.
