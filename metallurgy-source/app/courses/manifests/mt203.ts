@@ -68,16 +68,16 @@ export const MT203_MANIFEST: CourseManifest = {
   ],
   topics: [
     { id: "t1", unitId: "m1", num: 1, title: "Fundamentals, Classification & Architecture", count: 34, hasLesson: true },
-    { id: "t2", unitId: "m1", num: 2, title: "Polymerization Mechanisms", count: 36, hasLesson: true },
+    { id: "t2", unitId: "m1", num: 2, title: "Polymerization Mechanisms", count: 45, hasLesson: true },
     { id: "t3", unitId: "m1", num: 3, title: "Polymerization Techniques", count: 24, hasLesson: true },
     { id: "t4", unitId: "m1", num: 4, title: "Molecular Weight & Distribution", count: 31, hasLesson: true },
     { id: "t5", unitId: "m1", num: 5, title: "Polymer Crystallinity", count: 20, hasLesson: true },
     { id: "t6", unitId: "m1", num: 6, title: "Thermal Transitions: Tg, Tm & HDT", count: 23, hasLesson: true },
     { id: "t7", unitId: "m1", num: 7, title: "Polymer Chemistry of Proteins", count: 17, hasLesson: true },
     { id: "t8", unitId: "m2", num: 8, title: "Industrial Polymers", count: 31, hasLesson: true },
-    { id: "t9", unitId: "m2", num: 9, title: "Blends, Composites, Modification & Degradation", count: 28, hasLesson: true },
+    { id: "t9", unitId: "m2", num: 9, title: "Blends, Composites, Modification & Degradation", count: 35, hasLesson: true },
     { id: "t10", unitId: "m3", num: 10, title: "Mechanical, Viscoelastic & Physical Properties", count: 36, hasLesson: true },
-    { id: "t11", unitId: "m4", num: 11, title: "Compounding & Processing", count: 33, hasLesson: true },
+    { id: "t11", unitId: "m4", num: 11, title: "Compounding & Processing", count: 46, hasLesson: true },
   ],
   taxonomy: {
     types: [

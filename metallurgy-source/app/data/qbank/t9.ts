@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 9: Polymer Blends, Composites & Degradation
- * Source: Module 2 §6–7. 28 questions.
+ * Source: Module 2 §6–7. 35 questions.
  */
 const T9: TopicSource = {
   id: "t9",
@@ -694,6 +694,423 @@ const T9: TopicSource = {
       concept: "Thermoplastic mechanical recycling vs thermoset recovery.",
       tags: ["revision"]
     }
+    {
+      "id": "t9-29",
+      "type": "match",
+      "diff": 2,
+      "text": "Match each matrix-based composite abbreviation with the matrix material identified in the lecture.",
+      "tableRows": [
+        [
+          "1",
+          "MMC",
+          "",
+          "(i) metal matrix"
+        ],
+        [
+          "2",
+          "CMC",
+          "",
+          "(ii) ceramic matrix"
+        ],
+        [
+          "3",
+          "PMC / OMC",
+          "",
+          "(iii) polymer or organic matrix"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–ii, 2–i, 3–iii"
+        },
+        {
+          "label": "b",
+          "text": "1–iii, 2–ii, 3–i"
+        },
+        {
+          "label": "c",
+          "text": "1–i, 2–iii, 3–ii"
+        },
+        {
+          "label": "d",
+          "text": "1–i, 2–ii, 3–iii"
+        }
+      ],
+      "answer": "d",
+      "why": "The lecture defines a composite as two or more chemically distinct, insoluble phases with a recognizable interface. It classifies composites by matrix as metal-matrix (MMC), ceramic-matrix (CMC) and polymer-matrix (PMC), also called organic-matrix composites (OMC).",
+      "distractors": {
+        "a": "This assigns the metal matrix to ceramics and the ceramic matrix to metals, reversing both classes.",
+        "b": "This assigns the polymer or organic matrix to the metal-matrix abbreviation and misplaces the others.",
+        "c": "This assigns the metal matrix correctly but swaps the ceramic and polymer matrix classes."
+      },
+      "concept": "Matrix-based classification of MMC, CMC and PMC/OMC composites",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T9.4",
+      "misconceptions": {
+        "a": {
+          "tag": "reversed-metal-ceramic-matrix",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "misidentified-polymer-matrix",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "swapped-ceramic-polymer-matrix",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 94
+    },
+    {
+      "id": "t9-30",
+      "type": "concept",
+      "diff": 3,
+      "text": "For a fibre-reinforced polymer composite intended to carry tensile load along one direction, which design choice follows the lecture's guidance?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Use long, high-aspect-ratio fibres, a suitable fibre amount, a strong interface and alignment parallel to the applied load."
+        },
+        {
+          "label": "b",
+          "text": "Use short, low-aspect-ratio fibres, a weak interface and orientation perpendicular to the applied load."
+        },
+        {
+          "label": "c",
+          "text": "Use long fibres with a weak interface so the matrix prevents load transfer into the reinforcement."
+        },
+        {
+          "label": "d",
+          "text": "Use large-diameter fibres with random orientation so surface imperfections carry more of the applied load."
+        }
+      ],
+      "answer": "a",
+      "why": "The lecture identifies length, diameter, orientation, amount, constituent properties, bonding and manufacturing method as design factors. A large aspect ratio improves strength, long fibres reduce the relative influence of their ends, and long fibres parallel to the applied load give the greatest strength in the stated direction.",
+      "distractors": {
+        "b": "Short fibres and perpendicular alignment do not follow the source's stated preference for long, load-parallel reinforcement.",
+        "c": "A weak interface obstructs the transfer of load from the matrix into the reinforcing fibres.",
+        "d": "The slide links smaller fibre diameter with fewer surface flaws and identifies parallel orientation as the strongest direction."
+      },
+      "concept": "FRP design factors: aspect ratio, fibre length, interface and orientation",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T9.4",
+      "misconceptions": {
+        "b": {
+          "tag": "reversed-fibre-length-and-orientation",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "misunderstood-load-transfer",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "misread-diameter-and-orientation-effects",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t9-31",
+      "type": "concept",
+      "diff": 2,
+      "text": "Which statement matches the lecture's description of polymer degradation and the term aging?",
+      "options": [
+        {
+          "label": "a",
+          "text": "It is a change in molecular weight caused by heat during processing, while other product properties remain unchanged."
+        },
+        {
+          "label": "b",
+          "text": "It is a reversible change in specimen shape during loading that disappears when the applied force is removed."
+        },
+        {
+          "label": "c",
+          "text": "It is a change in properties such as tensile strength, colour or shape under environmental factors; these changes are termed aging."
+        },
+        {
+          "label": "d",
+          "text": "It is a change limited to biological breakdown and is generally beneficial during ordinary product service."
+        }
+      ],
+      "answer": "c",
+      "why": "The lecture defines degradation as a change in properties such as tensile strength, colour and shape under environmental factors including heat, light and chemicals. It states that these property changes are often termed aging; they are usually undesirable, although biodegradation or deliberate molecular-weight reduction can be desirable.",
+      "distractors": {
+        "a": "The source definition includes several product properties and environmental factors, not molecular weight during processing alone.",
+        "b": "This describes recoverable mechanical deformation, rather than the environmental property changes called aging.",
+        "d": "The lecture includes cracking and chemical disintegration as undesirable forms, alongside selected desirable degradation."
+      },
+      "concept": "Definition of polymer degradation and the lecture's use of aging",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T9.6",
+      "misconceptions": {
+        "a": {
+          "tag": "narrowed-degradation-to-molecular-weight",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "confused-with-elastic-deformation",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "confused-degradation-with-biodegradation-only",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t9-32",
+      "type": "graph",
+      "diff": 3,
+      "text": "The lecture's degradation graph plots molecular weight, strength and mass against time. Which sequence matches the order in which the three plotted quantities decline?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Strength decreases first, followed by molecular weight, and mass declines after both."
+        },
+        {
+          "label": "b",
+          "text": "Molecular weight decreases first, strength decreases next, and mass declines last."
+        },
+        {
+          "label": "c",
+          "text": "Mass decreases first, strength decreases next, and molecular weight declines after both."
+        },
+        {
+          "label": "d",
+          "text": "Molecular weight and mass decrease together before the strength curve begins to fall."
+        }
+      ],
+      "answer": "b",
+      "why": "On the p.208 graph, the molecular-weight curve falls first, the strength curve follows, and the mass curve declines last. This is a reading of the source's qualitative plot, not a universal kinetic law for every polymer.",
+      "distractors": {
+        "a": "The plotted molecular-weight curve begins to fall before the strength curve in the lecture figure.",
+        "c": "The mass curve is the last of the three curves to show its major decline in the source graph.",
+        "d": "The graph shows separated declines rather than molecular weight and mass falling together."
+      },
+      "concept": "Qualitative order of molecular-weight, strength and mass decline in the source graph",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T9.6",
+      "misconceptions": {
+        "a": {
+          "tag": "reversed-molecular-weight-and-strength-order",
+          "kind": "observation"
+        },
+        "c": {
+          "tag": "misread-mass-curve-position",
+          "kind": "observation"
+        },
+        "d": {
+          "tag": "merged-distinct-curve-onsets",
+          "kind": "observation"
+        }
+      },
+      "qsScore": 94
+    },
+    {
+      "id": "t9-33",
+      "type": "match",
+      "diff": 2,
+      "text": "Match the four degradation categories with the examples printed under each heading on the lecture slide.",
+      "tableRows": [
+        [
+          "1",
+          "Photoinduced",
+          "",
+          "(i) depolymerization"
+        ],
+        [
+          "2",
+          "Thermal",
+          "",
+          "(ii) microorganisms"
+        ],
+        [
+          "3",
+          "Chemical",
+          "",
+          "(iii) light, UV, gamma and IR"
+        ],
+        [
+          "4",
+          "Biological",
+          "",
+          "(iv) pyrolysis, hydrogenation, grafting, ozonolysis and oxidation"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–iv, 2–iii, 3–i, 4–ii"
+        },
+        {
+          "label": "b",
+          "text": "1–ii, 2–iv, 3–iii, 4–i"
+        },
+        {
+          "label": "c",
+          "text": "1–iii, 2–iv, 3–ii, 4–i"
+        },
+        {
+          "label": "d",
+          "text": "1–iii, 2–ii, 3–iv, 4–i"
+        }
+      ],
+      "answer": "c",
+      "why": "The p.209 slide lists photoinduced degradation with light, UV, gamma and IR; thermal degradation with pyrolysis, hydrogenation, grafting, ozonolysis and oxidation; chemical degradation with depolymerization; and biological degradation with microorganisms. The categories and examples here reproduce the slide as printed.",
+      "distractors": {
+        "a": "This places the chemical and biological examples under the wrong source headings and misassigns photoinduced degradation.",
+        "b": "This assigns depolymerization to photoinduced degradation and places the radiation examples under chemical degradation.",
+        "d": "This assigns the thermal examples to chemical degradation and the chemical example to the thermal heading."
+      },
+      "concept": "Source-listed examples for photoinduced, thermal, chemical and biological degradation",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T9.6",
+      "misconceptions": {
+        "a": {
+          "tag": "swapped-chemical-and-biological-examples",
+          "kind": "observation"
+        },
+        "b": {
+          "tag": "misassigned-photoinduced-examples",
+          "kind": "observation"
+        },
+        "d": {
+          "tag": "swapped-thermal-and-chemical-examples",
+          "kind": "observation"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t9-34",
+      "type": "match",
+      "diff": 3,
+      "text": "Which statement correctly combines the biodegradation mechanisms and the relative hydrolysis susceptibility order shown in the lecture?",
+      "options": [
+        {
+          "label": "a",
+          "text": "The slide lists enzymatic degradation and hydrolysis; the printed order is anhydride > ester > carbonate, with homogeneous and heterogeneous degradation also named."
+        },
+        {
+          "label": "b",
+          "text": "The slide lists oxidation and photolysis; the printed order is carbonate > ester > anhydride, with surface-only degradation named."
+        },
+        {
+          "label": "c",
+          "text": "The slide lists chain scission and cross-linking; the printed order is ester > carbonate > anhydride, with thermal and chemical degradation named."
+        },
+        {
+          "label": "d",
+          "text": "The slide lists microbial growth alone; the printed order is anhydride > carbonate > ester, with homogeneous degradation excluded."
+        }
+      ],
+      "answer": "a",
+      "why": "Page 210 lists enzymatic degradation and hydrolysis. It states that hydrolysis depends on main-chain structure and prints the order anhydride > ester > carbonate; it also names homogeneous and heterogeneous degradation and notes the importance for biomedical applications.",
+      "distractors": {
+        "b": "Oxidation and photolysis are not the two mechanisms listed on the biodegradation slide, and the order is reversed.",
+        "c": "The listed mechanism pair is enzymatic degradation and hydrolysis, not the stated chain-scission/cross-linking pair.",
+        "d": "The source names both homogeneous and heterogeneous degradation and does not restrict the mechanism to microbial growth."
+      },
+      "concept": "Biodegradation mechanisms and the source's hydrolysis susceptibility order",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T9.7",
+      "misconceptions": {
+        "b": {
+          "tag": "confused-with-photo-thermal-degradation",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "confused-with-general-degradation-mechanisms",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "omitted-enzymatic-and-hydrolysis-modes",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t9-35",
+      "type": "concept",
+      "diff": 2,
+      "text": "Which statement accurately describes the recycling routes and the 1988 SPI coding system as presented in the lecture?",
+      "options": [
+        {
+          "label": "a",
+          "text": "The SPI system is a mandatory process standard that specifies how every polymer must be chemically depolymerized."
+        },
+        {
+          "label": "b",
+          "text": "The 1988 SPI system is a voluntary plastic-container resin-code system; the lecture separately lists incineration, mechanical recycling and innovative reuse."
+        },
+        {
+          "label": "c",
+          "text": "The SPI codes identify the mechanical strength grade of a polymer and replace the need to identify its resin family."
+        },
+        {
+          "label": "d",
+          "text": "The lecture lists remoulding as a chemical route and depolymerization as an ordinary mechanical remelting operation."
+        }
+      ],
+      "answer": "b",
+      "why": "The slide attributes a voluntary plastic-container coding system to the Society of the Plastics Industry in 1988. It separately lists incineration of combustible polymers, mechanical recycling by remoulding, blending or depolymerization, and finding innovative uses for used polymers. The code-3 wording differs between the source table and following chart, so this item does not rely on that disputed label.",
+      "distractors": {
+        "a": "The source calls the SPI system voluntary and does not describe it as a mandatory processing standard.",
+        "c": "The table identifies plastic types by resin code rather than assigning mechanical-strength grades.",
+        "d": "The slide groups remoulding and blending with mechanical recycling and lists depolymerization in that same route."
+      },
+      "concept": "1988 voluntary SPI resin coding and the lecture's listed recycling routes",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T9.7",
+      "misconceptions": {
+        "a": {
+          "tag": "misread-voluntary-coding-as-mandatory",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "confused-resin-identification-with-property-grading",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "reversed-recycling-route-classification",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
   ],
 };
 

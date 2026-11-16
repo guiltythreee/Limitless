@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 11: Compounding & Processing
- * Source: Module 4. 33 questions.
+ * Source: Module 4. 46 questions.
  */
 const T11: TopicSource = {
   id: "t11",
@@ -862,6 +862,781 @@ const T11: TopicSource = {
       concept: "Processability before cure; controlled vulcanization after shaping.",
       tags: ["revision"]
     }
+    {
+      "id": "t11-34",
+      "type": "concept",
+      "diff": 2,
+      "text": "According to the lecture, what is the central purpose of polymer processing during fabrication?",
+      "options": [
+        {
+          "label": "a",
+          "text": "To change the chemical identity of every polymer chain before the material enters a mould."
+        },
+        {
+          "label": "b",
+          "text": "To remove all crystalline regions so the finished article remains completely amorphous."
+        },
+        {
+          "label": "c",
+          "text": "To maximize molecular weight without changing chain arrangement, crystal size or orientation."
+        },
+        {
+          "label": "d",
+          "text": "To control the spatial arrangement of chains and regulate superstructure such as crystal size, crystallinity and orientation."
+        }
+      ],
+      "answer": "d",
+      "why": "The p.174 slide describes polymer processing as structuring: it controls the spatial arrangement of molecular chains during fabrication. It identifies crystal size, crystallinity and orientation as key superstructure variables for the desired product performance.",
+      "distractors": {
+        "a": "The slide focuses on structuring and chain arrangement, not a required chemical transformation of every chain.",
+        "b": "The source gives different desired structures for films, fibres and moulded articles rather than removing crystallinity.",
+        "c": "The slide explicitly identifies crystal size, crystallinity and orientation as processing-control variables."
+      },
+      "concept": "Polymer processing as control of chain arrangement and superstructure",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T11.3",
+      "misconceptions": {
+        "a": {
+          "tag": "confused-processing-with-chemical-modification",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "misunderstood-product-specific-structure",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "missed-superstructure-control",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t11-35",
+      "type": "match",
+      "diff": 2,
+      "text": "Which option correctly matches the lecture's extruder classes with their examples and typical screw specifications?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Batch: single/twin/multi-screw; continuous: ram/reciprocating screw; compression ratio 20–22:1 and L/D 1.5–4:1."
+        },
+        {
+          "label": "b",
+          "text": "Batch: ram only; continuous: reciprocating-screw only; compression ratio 1:1 and L/D 4–6:1."
+        },
+        {
+          "label": "c",
+          "text": "Batch: ram and reciprocating-screw; continuous: single-, twin- and multi-screw; compression ratio 1.5–4:1 and L/D 20–22:1."
+        },
+        {
+          "label": "d",
+          "text": "Batch: multi-screw; continuous: ram and single-screw; compression ratio 20–22:1 and L/D 1.5–4:1."
+        }
+      ],
+      "answer": "c",
+      "why": "The lecture classifies ram and reciprocating-screw extruders as batch type, and single-, twin- and multi-screw extruders as continuous type. It gives a usual compression ratio of 1.5–4:1 and a usual screw L/D ratio of 20–22:1.",
+      "distractors": {
+        "a": "This reverses the batch and continuous examples and exchanges the compression-ratio and L/D ranges.",
+        "b": "The source lists two batch examples and three continuous screw types, with different specification ranges.",
+        "d": "This places the ram extruder in the continuous class and reverses the two screw specifications."
+      },
+      "concept": "Batch and continuous extruder classification, compression ratio and L/D",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T11.3",
+      "misconceptions": {
+        "a": {
+          "tag": "reversed-extruder-classification-and-ratios",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "incomplete-extruder-classification",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "misplaced-ram-extruder-and-specifications",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t11-36",
+      "type": "match",
+      "diff": 2,
+      "text": "Which set reproduces the screw designs and heating methods listed in the lecture?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Screws: general-purpose, PVC, nylon, two-stage/vented and segmented; heating: electric, fluid and steam, with induction, cast-in and band heaters under electric."
+        },
+        {
+          "label": "b",
+          "text": "Screws: ram, hydraulic, plunger and reciprocating; heating: infrared, microwave and friction, with ceramic and oil heaters under steam."
+        },
+        {
+          "label": "c",
+          "text": "Screws: only general-purpose and PVC; heating: electric and steam, with induction and cast-in heaters listed under fluid."
+        },
+        {
+          "label": "d",
+          "text": "Screws: single-flight, twin-flight and multi-flight only; heating: gas, water and oil, with mica and ceramic listed as screw materials."
+        }
+      ],
+      "answer": "a",
+      "why": "The p.183 slide lists general-purpose, PVC, nylon, two-stage/vented and segmented screws. Page 184 lists electric, fluid and steam heating; electric heating includes induction, cast-in and band heaters, with mica- and ceramic-insulated band types. Electric heating is described as common for accuracy, reliability and ease of connection.",
+      "distractors": {
+        "b": "The listed screw designs are not the ram/plunger machine types, and the heating categories differ from the source.",
+        "c": "The lecture includes nylon, two-stage/vented and segmented screw designs and places the named heaters under electric heating.",
+        "d": "The source lists specific screw designs and heating methods rather than the flight and gas categories in this option."
+      },
+      "concept": "Extruder screw designs and the lecture's heating-method classification",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T11.3",
+      "misconceptions": {
+        "b": {
+          "tag": "confused-screw-designs-with-machine-types",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "omitted-screw-types-and-misplaced-heaters",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "substituted-unlisted-screw-and-heating-types",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t11-37",
+      "type": "match",
+      "diff": 3,
+      "text": "Which comparison matches the lecture's co-rotating and counter-rotating twin-screw descriptions?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Co-rotating screws have more stagnation and lower shear; counter-rotating screws give better mixing and are preferred for most thermoplastics."
+        },
+        {
+          "label": "b",
+          "text": "Co-rotating screws provide more self-wiping, less stagnation and better mixing; counter-rotating screws are preferred for PVC and have lower shear."
+        },
+        {
+          "label": "c",
+          "text": "Co-rotating screws are preferred for PVC because they have lower shear; counter-rotating screws provide greater self-wiping and mixing."
+        },
+        {
+          "label": "d",
+          "text": "Both arrangements have identical wiping and mixing behaviour, with their use determined only by screw diameter."
+        }
+      ],
+      "answer": "b",
+      "why": "The comparison table states that co-rotating screws provide more complete self-wiping, less material stagnation, better mixing and greater total shear. The lecture says co-rotating screws are used for compounding thermoplastics except PVC, while counter-rotating screws are preferred for PVC.",
+      "distractors": {
+        "a": "This reverses the source's comparison of stagnation, shear and mixing between the two arrangements.",
+        "c": "This assigns the PVC preference and lower-shear description to the wrong screw arrangement.",
+        "d": "The source lists distinct wiping, stagnation, mixing and shear behaviour for the two arrangements."
+      },
+      "concept": "Co-rotating versus counter-rotating twin-screw behaviour and use",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T11.3",
+      "misconceptions": {
+        "a": {
+          "tag": "reversed-twin-screw-behaviour",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "swapped-pvc-and-shear-assignments",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "missed-arrangement-dependent-behaviour",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t11-38",
+      "type": "match",
+      "diff": 2,
+      "text": "Match each extrusion product with a material family listed for it in the lecture's applications table.",
+      "tableRows": [
+        [
+          "1",
+          "Pipe / tube",
+          "",
+          "(i) PP and nylon"
+        ],
+        [
+          "2",
+          "Monofilament",
+          "",
+          "(ii) HDPE, LDPE, LLDPE and PVC"
+        ],
+        [
+          "3",
+          "Primary wire insulation",
+          "",
+          "(iii) PVC"
+        ],
+        [
+          "4",
+          "Door / window profile",
+          "",
+          "(iv) LDPE and PVC"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–ii, 2–iv, 3–i, 4–iii"
+        },
+        {
+          "label": "b",
+          "text": "1–i, 2–ii, 3–iii, 4–iv"
+        },
+        {
+          "label": "c",
+          "text": "1–iii, 2–i, 3–iv, 4–ii"
+        },
+        {
+          "label": "d",
+          "text": "1–i, 2–iv, 3–ii, 4–iii"
+        }
+      ],
+      "answer": "b",
+      "why": "The p.192 table lists pipe/tube materials as HDPE, LDPE, LLDPE and PVC; monofilaments as PP and nylon; primary wire insulation as LDPE and PVC; and profiles such as doors and windows as PVC.",
+      "distractors": {
+        "a": "This assigns the pipe/tube family to the monofilament materials and misplaces the other applications.",
+        "c": "This assigns PVC profile material to pipe/tube and places the pipe materials under wire coating.",
+        "d": "This swaps the monofilament and wire-coating examples and misassigns the profile material."
+      },
+      "concept": "Extrusion product-to-material mappings from the lecture applications table",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T11.3",
+      "misconceptions": {
+        "a": {
+          "tag": "swapped-pipe-and-monofilament-materials",
+          "kind": "observation"
+        },
+        "c": {
+          "tag": "misassigned-profile-and-wire-materials",
+          "kind": "observation"
+        },
+        "d": {
+          "tag": "swapped-monofilament-and-wire-coating",
+          "kind": "observation"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t11-39",
+      "type": "concept",
+      "diff": 2,
+      "text": "Which description distinguishes blown-film extrusion from the blow-moulding process shown in the lecture?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Blown-film extrusion uses a closed mould and compressed air to expand a parison into a bottle-shaped cavity."
+        },
+        {
+          "label": "b",
+          "text": "Blow moulding forms a continuous flat sheet by passing a melt through a slit die and cooling rolls."
+        },
+        {
+          "label": "c",
+          "text": "Both processes use the same die and take-off arrangement, with the product shape determined after pelletizing."
+        },
+        {
+          "label": "d",
+          "text": "Blown-film extrusion forms an air-supported tube through a tubing die and take-off rolls; blow moulding expands polymer into a mould using compressed air."
+        }
+      ],
+      "answer": "d",
+      "why": "The p.194 diagram shows blown-film extrusion with a tubing die, air bubble, guide rolls and pinch rolls, producing film, sheet or bags. The p.195 blow-moulding slide shows compressed air spreading the polymer into a mould.",
+      "distractors": {
+        "a": "This describes the mould expansion principle of blow moulding rather than the blown-film line.",
+        "b": "This describes a sheet-forming route and omits the air-supported tube shown in blown-film extrusion.",
+        "c": "The source diagrams show different process arrangements and distinguish film take-off from mould expansion."
+      },
+      "concept": "Blown-film extrusion line versus compressed-air blow moulding",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T11.3",
+      "misconceptions": {
+        "a": {
+          "tag": "confused-blown-film-with-blow-moulding",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "confused-blown-film-with-cast-sheet",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "collapsed-distinct-processing-lines",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t11-40",
+      "type": "sequence",
+      "diff": 2,
+      "text": "Which sequence matches the compression-moulding description in the lecture?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Melt pellets in an extruder → force the melt through a die → inflate the extrudate with compressed air → cool the film."
+        },
+        {
+          "label": "b",
+          "text": "Feed polymer into a hopper → melt it in a heated barrel → inject through a nozzle → cool it in a closed cavity."
+        },
+        {
+          "label": "c",
+          "text": "Place polymer and additives in the mould cavity → heat and apply pressure as the mould closes → let the material conform to the cavity → remove flash after moulding."
+        },
+        {
+          "label": "d",
+          "text": "Place a parison between open halves → clamp the mould → introduce compressed air → remove the hollow article after cooling."
+        }
+      ],
+      "answer": "c",
+      "why": "The lecture states that polymer material is placed directly in a heated metal mould, softened by heat and forced to conform as the mould closes. It also describes polymer and additives being placed in the cavity, followed by heat and pressure, with excess flash removable after moulding.",
+      "distractors": {
+        "a": "This is an extrusion and blown-film sequence rather than the compression-moulding route.",
+        "b": "This describes injection moulding through a barrel and nozzle, not direct placement in the mould cavity.",
+        "d": "This describes blow moulding with a parison and compressed air rather than compression moulding."
+      },
+      "concept": "Compression-moulding sequence and flash removal",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T11.4",
+      "misconceptions": {
+        "a": {
+          "tag": "confused-with-extrusion-and-film-blowing",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "confused-with-injection-moulding",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "confused-with-blow-moulding",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t11-41",
+      "type": "concept",
+      "diff": 2,
+      "text": "Which statement correctly combines the injection-moulding machine arrangements and mould-feed features shown in the lecture?",
+      "options": [
+        {
+          "label": "a",
+          "text": "The lecture shows a ram extruder and a two-roll mill; the feed system uses a die and a cooling bath without a mould cavity."
+        },
+        {
+          "label": "b",
+          "text": "The lecture shows only a reciprocating screw arrangement; sprues and runners are parts of the external two-roll mill."
+        },
+        {
+          "label": "c",
+          "text": "The lecture shows a plunger arrangement and a reciprocating rotating screw; the moulded part diagram labels sprues, runners and gates."
+        },
+        {
+          "label": "d",
+          "text": "The lecture shows a compression plunger and a blow-moulding air nozzle; gates are the vents used to cool the mould."
+        }
+      ],
+      "answer": "c",
+      "why": "Pages 199–200 describe a plunger-based injection arrangement and a reciprocating rotating screw arrangement. The typical moulded part diagram also labels sprues, runners and gates, with multiple parts produced from one shot.",
+      "distractors": {
+        "a": "A two-roll mill and extrusion die are not the two injection-machine arrangements shown on the source slide.",
+        "b": "The source explicitly shows both a plunger and a reciprocating rotating screw arrangement.",
+        "d": "This combines components from compression and blow moulding with the injection mould's feed system."
+      },
+      "concept": "Injection-moulding machine arrangements and sprue/runner/gate features",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T11.3",
+      "misconceptions": {
+        "a": {
+          "tag": "confused-injection-with-milling-and-extrusion",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "omitted-plunger-arrangement",
+          "kind": "observation"
+        },
+        "d": {
+          "tag": "mixed-moulding-process-components",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t11-42",
+      "type": "match",
+      "diff": 3,
+      "text": "Match each extrusion phenomenon with the description given in the lecture.",
+      "tableRows": [
+        [
+          "1",
+          "Extrudate swell",
+          "",
+          "(i) surface roughening caused by tensile stress and rupture at the die exit"
+        ],
+        [
+          "2",
+          "Shark skin",
+          "",
+          "(ii) cross-sectional expansion and axial contraction as the melt relaxes"
+        ],
+        [
+          "3",
+          "Bambooing",
+          "",
+          "(iii) more severe snap-back when pressure is excessive or die temperature drops"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–ii, 2–i, 3–iii"
+        },
+        {
+          "label": "b",
+          "text": "1–i, 2–iii, 3–ii"
+        },
+        {
+          "label": "c",
+          "text": "1–iii, 2–ii, 3–i"
+        },
+        {
+          "label": "d",
+          "text": "1–i, 2–ii, 3–iii"
+        }
+      ],
+      "answer": "a",
+      "why": "Extrudate swell is cross-sectional expansion with contraction in the extrusion direction as constrained molecules relax; the slide defines the ratio as outer extrudate diameter divided by die-exit diameter. Shark skin is surface rupture from tensile stress at the die exit, while bambooing is a more intensive snap-back under conditions such as excessive pressure or reduced die temperature.",
+      "distractors": {
+        "b": "This assigns the swell ratio to shark skin and reverses the source descriptions of surface rupture and snap-back.",
+        "c": "This assigns the bambooing description to swell and the swell definition to shark skin.",
+        "d": "This assigns the swell definition to shark skin and misplaces the bambooing condition."
+      },
+      "concept": "Extrudate swell, shark-skin surface rupture and bambooing effect",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T11.7",
+      "misconceptions": {
+        "b": {
+          "tag": "swapped-swell-and-surface-rupture",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "misassigned-bambooing-and-swell",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "confused-swell-ratio-with-shark-skin",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t11-43",
+      "type": "sequence",
+      "diff": 3,
+      "text": "Which order best matches the lecture's two-roll mill mixing procedure after the elastomer is banded on the front roll?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Add curatives first → remove the rolling bank → add fillers rapidly at the centre → finish with a single pass through the nip."
+        },
+        {
+          "label": "b",
+          "text": "Pelletize the elastomer → melt it in a barrel → pass it through a screen pack → add curatives after extrusion."
+        },
+        {
+          "label": "c",
+          "text": "Add fillers before the elastomer is banded → keep the bank absent → add plasticizer after curing → cool the batch in a mould."
+        },
+        {
+          "label": "d",
+          "text": "Maintain a rolling bank during ingredient incorporation → cross-cut for dispersion → add fillers gradually with repeated cutting/folding → pig-roll and cross-blend → add curatives late, preferably on cold rolls → refine."
+        }
+      ],
+      "answer": "d",
+      "why": "The p.205 procedure bands elastomer on the front roll, maintains a rolling bank, incorporates dry ingredients, cross-cuts, adds fillers slowly while cutting strips and feeding them back, then pig-rolls and cross-blends. Vulcanizing agents are added late, preferably on cold rolls, before final refinement.",
+      "distractors": {
+        "a": "The source adds vulcanizing agents late and uses repeated cutting and folding rather than a single final pass.",
+        "b": "This is an extrusion/pelletizing route and does not describe the external two-roll mill mixing sequence.",
+        "c": "The lecture maintains a rolling bank and adds curatives near the end rather than before compounding."
+      },
+      "concept": "Two-roll mill mixing order, rolling bank, cutting/folding and late curative addition",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T11.6",
+      "misconceptions": {
+        "a": {
+          "tag": "curatives-added-too-early",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "confused-with-extrusion-processing",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "reversed-mill-mixing-sequence",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t11-44",
+      "type": "match",
+      "diff": 3,
+      "text": "Match the four Tokita–White mill-processibility regions with the rubber behaviour described in the lecture.",
+      "tableRows": [
+        [
+          "1",
+          "Region 1",
+          "",
+          "(i) breaks into pieces and falls underneath the rolls"
+        ],
+        [
+          "2",
+          "Region 2",
+          "",
+          "(ii) forms an elastic band that squeezes the roll"
+        ],
+        [
+          "3",
+          "Region 3",
+          "",
+          "(iii) sags and tears, losing elastic tension"
+        ],
+        [
+          "4",
+          "Region 4",
+          "",
+          "(iv) develops tack and forms a band without elastic tension"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–ii, 2–i, 3–iv, 4–iii"
+        },
+        {
+          "label": "b",
+          "text": "1–iv, 2–ii, 3–iii, 4–i"
+        },
+        {
+          "label": "c",
+          "text": "1–i, 2–iii, 3–ii, 4–iv"
+        },
+        {
+          "label": "d",
+          "text": "1–i, 2–ii, 3–iii, 4–iv"
+        }
+      ],
+      "answer": "d",
+      "why": "The p.206 slide describes region 1 as a charged piece breaking into pieces and falling underneath; region 2 as soft enough to form an elastic band; region 3 as softer material that sags and tears and loses elastic tension; and region 4 as tacky material forming a band without elastic tension.",
+      "distractors": {
+        "a": "This swaps the first two regions and assigns the tacky state to the wrong region.",
+        "b": "This assigns the first region to tacky banding and misplaces the final region's behaviour.",
+        "c": "This assigns region 1 to the correct behaviour but reverses the descriptions of regions 2 and 3."
+      },
+      "concept": "Tokita–White four regions of rubber mill processibility",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T11.6",
+      "misconceptions": {
+        "a": {
+          "tag": "swapped-regions-one-and-two",
+          "kind": "observation"
+        },
+        "b": {
+          "tag": "misplaced-tacky-band-region",
+          "kind": "observation"
+        },
+        "c": {
+          "tag": "swapped-elastic-band-and-sagging-regions",
+          "kind": "observation"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t11-45",
+      "type": "graph",
+      "diff": 3,
+      "text": "On the lecture's ODR cure-characteristics curve, which interpretation correctly distinguishes marching, plateau and reversion?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Marching is a continuing torque rise; plateau is a near-steady torque region; reversion is a later decrease in torque after the maximum."
+        },
+        {
+          "label": "b",
+          "text": "Marching is the initial scorch delay; plateau is the rapid torque rise; reversion is the first minimum-viscosity point."
+        },
+        {
+          "label": "c",
+          "text": "Marching is a falling torque after cure; plateau is the initial delay; reversion is a constant torque before vulcanization."
+        },
+        {
+          "label": "d",
+          "text": "Marching, plateau and reversion all describe the same constant-torque condition after the cure rise."
+        }
+      ],
+      "answer": "a",
+      "why": "The p.162 ODR figure labels a continuing torque increase as marching, a near-steady region as plateau, and a later decline as reversion. The same slide identifies scorch time and minimum and maximum torque on the cure-characteristics curve.",
+      "distractors": {
+        "b": "This assigns the initial scorch period and torque minimum to the wrong curve labels.",
+        "c": "This reverses the time order of the cure rise, plateau and reversion portions.",
+        "d": "The source figure distinguishes three different torque-time behaviours rather than one shared condition."
+      },
+      "concept": "ODR torque-time curve: marching, plateau, reversion and scorch",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T11.6",
+      "misconceptions": {
+        "b": {
+          "tag": "confused-scorch-with-marching",
+          "kind": "observation"
+        },
+        "c": {
+          "tag": "reversed-cure-curve-sequence",
+          "kind": "observation"
+        },
+        "d": {
+          "tag": "collapsed-distinct-odr-regions",
+          "kind": "observation"
+        }
+      },
+      "qsScore": 94
+    },
+    {
+      "id": "t11-46",
+      "type": "match",
+      "diff": 3,
+      "text": "Match each petroleum-oil plasticizer type with the elastomer families described as incompatible in the lecture.",
+      "tableRows": [
+        [
+          "1",
+          "Aromatic oil",
+          "",
+          "(i) SBR, butadiene, NBR and CR"
+        ],
+        [
+          "2",
+          "Paraffinic oil",
+          "",
+          "(ii) NR, isoprene, IIR and EPDM"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–i, 2–ii"
+        },
+        {
+          "label": "b",
+          "text": "1–ii, 2–i"
+        },
+        {
+          "label": "c",
+          "text": "1–i, 2–i"
+        },
+        {
+          "label": "d",
+          "text": "1–ii, 2–ii"
+        }
+      ],
+      "answer": "b",
+      "why": "The lecture lists compatibility, efficiency and cost as the important plasticizer-selection criteria. It states that aromatic oil is not compatible with NR, isoprene, IIR and EPDM, while paraffinic oil is not compatible with SBR, butadiene, NBR and CR.",
+      "distractors": {
+        "a": "This assigns the paraffinic-oil incompatibility list to aromatic oil and reverses the source examples.",
+        "c": "This assigns the same elastomer family to both oil types, contrary to the two separate lists.",
+        "d": "This reverses both source compatibility examples."
+      },
+      "concept": "Aromatic and paraffinic oil compatibility examples for rubber plasticizer selection",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T11.6",
+      "misconceptions": {
+        "a": {
+          "tag": "swapped-aromatic-and-paraffinic-compatibility",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "collapsed-distinct-oil-compatibility-lists",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "reversed-plasticizer-compatibility",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 93
+    },
   ],
 };
 
