@@ -42,7 +42,7 @@ The six IDs that the first regex missed were already in the question arrays usin
 No restoration or duplicate records remain. Eight source-gap additions remain live:
 `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17`, `t8-31`.
 
-A key-format-independent scan and the import-based validator find 342 IDs, 342 unique IDs, sequential numbering in each topic, 342 primary mappings, no missing mappings and no orphan mappings. Topic metadata, course manifest and content-lock all specify 342. The full CI suite passed on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`.
+A key-format-independent scan and the import-based validator find 342 IDs, 342 unique IDs, sequential numbering in each topic, 342 primary mappings, no missing mappings and no orphan mappings. Topic metadata, course manifest and content-lock all specify 342. The full CI suite passed on commit `1068214706ddff5859eac34c0c6c08559d2c0092`.
 
 ## 3. Coverage review by topic group
 
@@ -139,7 +139,7 @@ The 29 T9–T11 additions are live:
 - T10: `t10-37`–`t10-45`, scores 92–94.
 - T11: `t11-34`–`t11-46`, scores 92–94.
 
-Validated on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`:
+Validated on commit `1068214706ddff5859eac34c0c6c08559d2c0092`:
 - MT203 source validator: 342 questions across 11 topics; passed.
 - Course registry/content-lock: passed.
 - MT203 progress tests: 47 passed.
@@ -151,3 +151,10 @@ Validated on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`:
 - Production build: successful.
 
 Backup: `backup/mt203-342-stable-20261116`. PR #246 remains draft/open/unmerged; no deployment was performed.
+
+
+## 8. Final source-to-answer-key review
+
+Before the final green run, the match-table items were checked against their row definitions rather than relying only on the MCQ-QS structure checks. The corrected keys preserve the intended answer-position balance. T9-29 now assesses both the composite definition and matrix classes; T10-42 includes fixture, specimen and scope; T10-43 includes both impact-test setup and reporting; T11-38 uses the source's product/material pairs; and T11-40 tests the thermoplastic/thermoset heating distinction in addition to the compression sequence.
+
+The focused regression locks the expected answer key for all 37 T1–T11 additions. Final validation is on commit `1068214706ddff5859eac34c0c6c08559d2c0092`.

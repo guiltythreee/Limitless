@@ -127,4 +127,9 @@ The question-quality workflow also passed; the eight new T1–T8 additions score
 
 The bank has since grown from 313 to **342 questions** through 29 source-grounded additions in T9–T11. The current counts are T9=35, T10=45 and T11=46; T1–T8 remain at 216. The 29 IDs are mapped in the primary subtopic map and included in the course manifest/content-lock. Import-based source validation confirms 342 questions, sequential IDs and complete mapping.
 
-CI passed on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`: 47 MT203 progress tests, 123 migration assertions, 90 renderer assertions, answer-key balance and sequence checks, 37-question MCQ-QS focused regression, course registry/content-lock validation and production build. Answer-key totals are A=85, B=86, C=85, D=86.
+CI passed on commit `1068214706ddff5859eac34c0c6c08559d2c0092`: 47 MT203 progress tests, 123 migration assertions, 90 renderer assertions, answer-key balance and sequence checks, 37-question MCQ-QS focused regression, course registry/content-lock validation and production build. Answer-key totals are A=85, B=86, C=85, D=86.
+
+
+## Final corrected-head validation and backup
+
+The 342-question bank passed on commit `1068214706ddff5859eac34c0c6c08559d2c0092` after the final source-to-answer-key cross-check. The 37-question focused MCQ-QS test now also asserts the audited answer key for every addition. The final backup branch is `backup/mt203-342-final-20261116`.

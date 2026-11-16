@@ -337,7 +337,7 @@ All 29 source-gap items in the preceding proposal are now live, with four-option
 
 The live bank is now T9=35, T10=45 and T11=46. Together with T1–T8 (216), the full MT203 bank is **342 questions across 11 topics**. All 29 additions are mapped to their intended existing subtopics; no new syllabus headings were created.
 
-### Automated validation on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`
+### Automated validation on commit `1068214706ddff5859eac34c0c6c08559d2c0092`
 
 - MT203 source validator: 342 questions across 11 topics; all checks passed.
 - Course registry/content-lock validation: passed.
@@ -355,3 +355,8 @@ A stable backup branch `backup/mt203-342-stable-20261116` points to the validate
 ### Status supersession
 
 The earlier statements in this file that the audit was review-only, that no T9–T11 additions were authorized, and that the 29 items were proposal-only describe the state before the implementation phase. They are superseded by the implementation result above: all 29 questions are now live, mapped and validated. The current T9–T11 count is 126 (T9=35, T10=45, T11=46), not the historical baseline of 97.
+
+
+### Final answer-key and source-table cross-check
+
+A second source-to-answer-key pass checked the match-table mappings and process sequences before final validation. It confirmed the composite definition/matrix mapping in `t9-29`; the property grouping and tensile terminology in T10; the three-/four-point flexural fixture, Izod/Charpy orientation and reporting, and stress-optical/stress-concentration mappings; the extrusion product/material table in `t11-38`; and the compression-moulding heating distinction in `t11-40`. The 37-question regression now locks the expected answer label for each addition as well as its subtopic and MCQ-QS checks.

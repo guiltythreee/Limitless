@@ -221,4 +221,9 @@ The preliminary text scan missed six existing IDs because those records use quot
 
 ## T9–T11 completion and full-bank update — 16 November 2026
 
-Following the T1–T8 additions, the source-page audit identified 29 additional T9–T11 objectives. All 29 have now been implemented: seven in T9, nine in T10 and thirteen in T11. The current course total is 342 questions across 11 topics. The 29 items have scores of 92–94 and all passed MCQ-QS v1.0. The full validator, course registry/content-lock, migration, renderer, answer-key balance/sequence and production-build workflows passed on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`.
+Following the T1–T8 additions, the source-page audit identified 29 additional T9–T11 objectives. All 29 have now been implemented: seven in T9, nine in T10 and thirteen in T11. The current course total is 342 questions across 11 topics. The 29 items have scores of 92–94 and all passed MCQ-QS v1.0. The full validator, course registry/content-lock, migration, renderer, answer-key balance/sequence and production-build workflows passed on commit `1068214706ddff5859eac34c0c6c08559d2c0092`.
+
+
+## Final corrected-head validation
+
+The final answer-key and match-table cross-check was completed before the green run on commit `1068214706ddff5859eac34c0c6c08559d2c0092`. All 342 source records and 37 new-question answer keys passed. The final backup branch is `backup/mt203-342-final-20261116`.
