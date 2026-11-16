@@ -273,18 +273,18 @@ Match each structural factor with the example or trend stated in the lecture.
 | 4. Increasing linear alkyl side-chain length | (iv) Tg decreases |
 
 A. 1–ii, 2–i, 3–iii, 4–iv  
-B. 1–i, 2–ii, 3–iii, 4–iv  
+B. 1–i, 2–ii, 3–iv, 4–iii  
 C. 1–ii, 2–iii, 3–i, 4–iv  
-D. 1–iii, 2–i, 3–ii, 4–iv
+D. 1–iii, 2–iv, 3–ii, 4–i
 
 **Correct answer:** A
 
-**Explanation:** The lecture associates PVA's Tg (85 °C) with hydrogen bonding, poly(4-vinylpyridine)'s Tg (142 °C) with dipole–dipole interaction of the pyridine ring, and polybenzimidazole's high Tg (429 °C) with its rigid aromatic heterocyclic backbone. Page 67 explicitly states that increasing linear alkyl side-chain length decreases Tg. This question avoids the disputed polyethylene value and the ambiguous p.64 polystyrene drawing.
+**Explanation:** The lecture associates PVA's Tg (85 °C) with hydrogen bonding, poly(4-vinylpyridine)'s Tg (142 °C) with dipole–dipole interaction of the pyridine ring, and polybenzimidazole's high Tg (429 °C) with its rigid aromatic heterocyclic backbone. Page 67 explicitly states that increasing linear alkyl side-chain length decreases Tg; this is tested as the slide's stated trend, not generalized to every polymer architecture. This question avoids the disputed polyethylene value and the ambiguous p.64 polystyrene drawing.
 
 **Distractor rationales**
-- B: Swaps the hydrogen-bonding and dipole–dipole examples.
+- B: Swaps the PVA and pyridine examples and also misassigns the rigid-backbone and side-chain trends.
 - C: Assigns the rigid-backbone example to dipole–dipole interaction and the PVA example to backbone stiffness.
-- D: Reverses the PVA and polybenzimidazole assignments and misplaces the dipole–dipole example.
+- D: Reverses the PVA and polybenzimidazole assignments and assigns the side-chain trend to the wrong factor.
 
 ### T8 silicone-based TPU scheme
 
@@ -297,18 +297,18 @@ D. 1–iii, 2–i, 3–ii, 4–iv
 Which set of components is labelled in the lecture's “Silicone based TPU” reaction scheme?
 
 A. H12MDI, PTMG, PDMS and 1,4-butanediol (1,4-BD)  
-B. Toluene diisocyanate, ethylene glycol, natural rubber and styrene  
-C. H12MDI, PET, polystyrene and hexamethylene diamine  
-D. PTMG, nylon 6,6, polycarbonate and 1,6-hexanediol
+B. MDI, a PCL–PEC–PDMS macrodiol, 1,4-butanediol and DBTL  
+C. A PEO–PPO–PEO diol, a cyclic-carbonate-derived PTMC block, OCN(CH₂)₄NCO and H₂N(CH₂)₄NH₂  
+D. Toluene diisocyanate, ethylene glycol, natural rubber and styrene
 
 **Correct answer:** A
 
 **Explanation:** The p.102 scheme labels H12MDI, PTMG, PDMS and 1,4-BD as the components. It also prints THF/DMAC and T-12 beside the reaction arrow. The slide does not provide stoichiometric ratios or expand the T-12 label, so neither is inferred.
 
 **Distractor rationales**
-- B: These are not the four component labels shown in the p.102 silicone-based TPU scheme.
-- C: PET, polystyrene and hexamethylene diamine are not the listed components in this scheme.
-- D: Nylon 6,6 and polycarbonate are not reactants in the illustrated scheme.
+- B: These labels belong to the separate one-pot TPU example on p.103, not the p.102 silicone-based scheme.
+- C: These components belong to the two-pot example on p.101, not the p.102 scheme.
+- D: These are not the four component labels shown in the p.102 silicone-based TPU scheme.
 
 ## Eight-question proposal inventory
 
