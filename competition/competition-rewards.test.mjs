@@ -143,12 +143,16 @@ const batchSubmissions = [0, 1, 2, 3].map((index) => ({
   creationTimeSeconds: accepted.creationTimeSeconds + index,
   problem: { ...accepted.problem, index: "D", rating: 800 },
 }));
-const batchResults = batchAdapter.awardCodeforcesSubmissions(batchSubmissions, "batchhandle");
-assert.equal(batchResults.length, 4);
-assert.deepEqual(batchResults.map((record) => record.repeatOrdinal), [1, 2, 3, 4],
+const batchResults = batchAdapter.awardCodeforcesSubmissions(
+  [...batchSubmissions, batchSubmissions[0]], "batchhandle"
+);
+assert.equal(batchResults.length, 5);
+assert.deepEqual(batchResults.slice(0, 4).map((record) => record.repeatOrdinal), [1, 2, 3, 4],
   "batch reward ordinals follow the supplied chronological order");
 assert.deepEqual(batchResults.map((record) => record.eligible), [true, true, true, false],
   "the daily repeat cap is preserved inside a batch");
+assert.equal(batchResults[4].created, false,
+  "a duplicate event repeated inside one batch resolves to the first result without a second award");
 assert.equal(batchWrites, 1, "a reward batch is committed with one storage write");
 const batchRetry = batchAdapter.awardCodeforcesSubmissions(batchSubmissions, "batchhandle");
 assert.ok(batchRetry.every((record) => record.created === false),
