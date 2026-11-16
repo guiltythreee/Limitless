@@ -1076,7 +1076,7 @@ const T9: TopicSource = {
         },
         {
           "label": "b",
-          "text": "The 1988 SPI system is a voluntary plastic-container coding system; the lecture separately lists incineration of combustible polymers, recycling by remoulding, blending or depolymerization, and finding innovative uses for used polymers."
+          "text": "The 1988 SPI code is voluntary; the slide lists incineration of combustible polymers, recycling by remoulding, blending or depolymerization, and innovative reuse."
         },
         {
           "label": "c",
@@ -1088,11 +1088,11 @@ const T9: TopicSource = {
         }
       ],
       "answer": "b",
-      "why": "The slide attributes a voluntary plastic-container coding system to the Society of the Plastics Industry in 1988. It separately lists incineration of combustible polymers, mechanical recycling by remoulding, blending or depolymerization, and finding innovative uses for used polymers. The code-3 wording differs between the source table and following chart, so this item does not rely on that disputed label.",
+      "why": "The slide attributes a voluntary plastic-container coding system to the Society of the Plastics Industry in 1988. It separately lists incineration of combustible polymers, recycling by remoulding, blending or depolymerization, and finding innovative uses for used polymers. The code-3 wording differs between the source table and following chart, so this item does not rely on that disputed label.",
       "distractors": {
         "a": "The source calls the SPI system voluntary and does not describe it as a mandatory processing standard.",
         "c": "The table identifies plastic types by resin code rather than assigning mechanical-strength grades.",
-        "d": "The slide groups remoulding and blending with mechanical recycling and lists depolymerization in that same route."
+        "d": "The slide groups remoulding, blending and depolymerization under recycling rather than placing them in separate processing categories."
       },
       "concept": "1988 voluntary SPI resin coding and the lecture's listed recycling routes",
       "tags": [
