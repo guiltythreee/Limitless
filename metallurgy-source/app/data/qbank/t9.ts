@@ -1076,7 +1076,7 @@ const T9: TopicSource = {
         },
         {
           "label": "b",
-          "text": "The 1988 SPI system is a voluntary plastic-container resin-code system; the lecture separately lists incineration, mechanical recycling and innovative reuse."
+          "text": "The 1988 SPI system is a voluntary plastic-container coding system; the lecture separately lists incineration of combustible polymers, recycling by remoulding, blending or depolymerization, and finding innovative uses for used polymers."
         },
         {
           "label": "c",
