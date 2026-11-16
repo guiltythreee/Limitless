@@ -157,3 +157,192 @@ These are author self-scores, not independent acceptance results. The surfactant
 1. Confirm the proposed question types and text formatting in the live renderer.
 2. Obtain independent MCQ-QS review; revise any item below 80 and target 90+.
 3. Only after review, assign the next unused IDs and update the corresponding topic count, subtopic map and metadata atomically. Do not alter learner-progress data.
+
+
+---
+
+## Expanded proposal after the complete T1–T8 crosswalk
+
+The four questions above were the first confirmed-gap draft, not the complete minimum. The complete crosswalk and lesson comparison identify four additional distinct objectives. The resulting **minimum source-gap proposal is eight questions** across T1, T2, T3, T4, T6, T7 and T8. T5 remains representative coverage and does not justify one question per polymer example.
+
+### Subtopic correction
+
+- The T1 SBR-composition item belongs under **T1.5 — Copolymer architectures & thermoplastic elastomers**, not T1.3 (nomenclature/connectives). The T1.5 mapping matches the existing taxonomy and the lesson's dedicated copolymer-properties section.
+- The T7 recombinant spider-silk sequence item remains proposed for **T7.4 — Denaturation, cross-linking, uses**, whose “uses” scope includes the lesson's recombinant-protein/product-form material.
+- The functionality item below is proposed for **T1.1 — Monomers, repeat units, DP, functionality**. The lecture's p.50 table is cross-topic content also discussed in the T2 step-growth lesson; the existing subtopic title explicitly names functionality.
+
+### T3 surfactant draft revision — supersedes the longer T3 item above
+
+**Proposed home:** T3.3 (Suspension vs emulsion)  
+**Type / difficulty:** match / level 2  
+**Source:** p.28
+
+**Question**
+
+Match each surfactant class with an example listed in the lecture.
+
+| Class | Example |
+|---|---|
+| 1. Anionic | (i) Alkyl amine hydrochlorides |
+| 2. Cationic | (ii) Alkyl glycosides |
+| 3. Non-ionic | (iii) Alkali salts of fatty acids |
+
+A. 1–iii, 2–i, 3–ii  
+B. 1–i, 2–ii, 3–iii  
+C. 1–ii, 2–iii, 3–i  
+D. 1–iii, 2–ii, 3–i
+
+**Correct answer:** A
+
+**Explanation:** The p.28 slide lists alkali salts of fatty acids (and aryl/alkyl sulfonic acids) as anionic; alkyl amine hydrochlorides and alkyl ammonium halides as cationic; and alkyl glycosides and saccharose esters of fatty acids as non-ionic. It also states that surfactants lower surface tension at the monomer–water interface. CMC and micelle orientation are already covered by existing T3 items, so this question deliberately focuses on the untested class/example mapping.
+
+**Distractor rationales**
+- B: Assigns the cationic example to anionic and reverses the non-ionic class.
+- C: Cycles each example into the wrong class.
+- D: Correctly identifies the anionic example but swaps the cationic and non-ionic examples.
+
+### T2 cross-topic functionality classification
+
+**Proposed home:** T1.1 (Monomers, repeat units, DP, functionality)  
+**Type / difficulty:** match / level 2  
+**Source:** p.50; cross-referenced in the T2 step-growth lesson
+
+**Question**
+
+According to the lecture's functionality table, match each compound with its printed functionality.
+
+| Compound | Functionality |
+|---|---|
+| 1. Glycine | (i) Monofunctional |
+| 2. Lactic acid | (ii) Bifunctional |
+| 3. Malic acid | (iii) Trifunctional |
+
+A. 1–ii, 2–ii, 3–iii  
+B. 1–i, 2–ii, 3–iii  
+C. 1–ii, 2–iii, 3–i  
+D. 1–iii, 2–i, 3–ii
+
+**Correct answer:** A
+
+**Explanation:** The source counts one amino and one carboxyl group in glycine (bifunctional), one hydroxyl and one carboxyl group in lactic acid (bifunctional), and one hydroxyl plus two carboxyl groups in malic acid (trifunctional). The table prints those classifications directly.
+
+**Distractor rationales**
+- B: Treats glycine as having only one reactive group and misses its amino group.
+- C: Assigns lactic acid as trifunctional and malic acid as monofunctional.
+- D: Reverses the group counts for all three examples.
+
+### T4 source-chart method reading
+
+**Proposed home:** T4.3 (Techniques: osmometry, scattering, viscometry, GPC)  
+**Type / difficulty:** recall / level 2  
+**Source:** p.48
+
+**Question**
+
+On the lecture's molecular-weight determination chart, which two methods are listed under ultracentrifugation?
+
+A. Sedimentation velocity and sedimentation equilibrium  
+B. Membrane osmometry and vapour-phase osmometry  
+C. Relative viscosity and intrinsic viscosity  
+D. Light scattering and gel-permeation chromatography
+
+**Correct answer:** A
+
+**Explanation:** The p.48 chart places ultracentrifugation under the weight-average molecular-weight branch and lists two methods: sedimentation velocity and sedimentation equilibrium. This item tests what the lecture chart explicitly lists; it does not resolve the chart's broader method-to-average inconsistencies documented in the lesson.
+
+**Distractor rationales**
+- B: Both are listed under colligative methods in the number-average branch.
+- C: Both are dilute-solution viscosity measurements.
+- D: Both appear as separate methods under the weight-average branch, not as the two ultracentrifugation submethods.
+
+### T6 structure-to-Tg source comparison
+
+**Proposed home:** T6.3 (Factors affecting Tg and Tm)  
+**Type / difficulty:** match / level 3  
+**Source:** pp.64–67
+
+**Question**
+
+Match each structural factor with the example or trend stated in the lecture.
+
+| Structural factor | Lecture example / trend |
+|---|---|
+| 1. Hydrogen bonding | (i) Poly(4-vinylpyridine), dipole–dipole interaction of the pyridine ring |
+| 2. Dipole–dipole interaction | (ii) Poly(vinyl alcohol), Tg = 85 °C |
+| 3. Rigid aromatic backbone | (iii) Polybenzimidazole, Tg = 429 °C |
+| 4. Increasing linear alkyl side-chain length | (iv) Tg decreases |
+
+A. 1–ii, 2–i, 3–iii, 4–iv  
+B. 1–i, 2–ii, 3–iii, 4–iv  
+C. 1–ii, 2–iii, 3–i, 4–iv  
+D. 1–iii, 2–i, 3–ii, 4–iv
+
+**Correct answer:** A
+
+**Explanation:** The lecture associates PVA's Tg (85 °C) with hydrogen bonding, poly(4-vinylpyridine)'s Tg (142 °C) with dipole–dipole interaction of the pyridine ring, and polybenzimidazole's high Tg (429 °C) with its rigid aromatic heterocyclic backbone. Page 67 explicitly states that increasing linear alkyl side-chain length decreases Tg. This question avoids the disputed polyethylene value and the ambiguous p.64 polystyrene drawing.
+
+**Distractor rationales**
+- B: Swaps the hydrogen-bonding and dipole–dipole examples.
+- C: Assigns the rigid-backbone example to dipole–dipole interaction and the PVA example to backbone stiffness.
+- D: Reverses the PVA and polybenzimidazole assignments and misplaces the dipole–dipole example.
+
+### T8 silicone-based TPU scheme
+
+**Proposed home:** T8.4 (Thermosets & rubbers; includes elastomer/TPE material in the current lesson)  
+**Type / difficulty:** concept / level 2  
+**Source:** p.102
+
+**Question**
+
+Which set of components is labelled in the lecture's “Silicone based TPU” reaction scheme?
+
+A. H12MDI, PTMG, PDMS and 1,4-butanediol (1,4-BD)  
+B. Toluene diisocyanate, ethylene glycol, natural rubber and styrene  
+C. H12MDI, PET, polystyrene and hexamethylene diamine  
+D. PTMG, nylon 6,6, polycarbonate and 1,6-hexanediol
+
+**Correct answer:** A
+
+**Explanation:** The p.102 scheme labels H12MDI, PTMG, PDMS and 1,4-BD as the components. It also prints THF/DMAC and T-12 beside the reaction arrow. The slide does not provide stoichiometric ratios or expand the T-12 label, so neither is inferred.
+
+**Distractor rationales**
+- B: These are not the four component labels shown in the p.102 silicone-based TPU scheme.
+- C: PET, polystyrene and hexamethylene diamine are not the listed components in this scheme.
+- D: Nylon 6,6 and polycarbonate are not reactants in the illustrated scheme.
+
+## Eight-question proposal inventory
+
+| Topic / subtopic | Item | Type / difficulty | Source |
+|---|---|---|---|
+| T1.5 | SBR styrene-content/property trend | Concept / D2 | p.16 |
+| T1.1 | Functionality classification (cross-topic p.50) | Match / D2 | p.50 |
+| T3.2 | Solution-polymer isolation routes and residual solvent | Concept / D2 | pp.22–23 |
+| T3.3 | Surfactant class/example matching | Match / D2 | p.28 |
+| T4.3 | Ultracentrifugation submethods on source chart | Recall / D2 | p.48 |
+| T6.3 | Tg structural-factor/example matching | Match / D3 | pp.64–67 |
+| T7.4 | Recombinant spider-silk production sequence | Sequence / D3 | pp.78–79 |
+| T8.4 | Silicone-based TPU scheme components | Concept / D2 | p.102 |
+
+## Preliminary MCQ-QS v1.0 scoring
+
+Scores below are an author self-review, not independent approval. The scale is the existing 100-point rubric.
+
+| Item | Accuracy /20 | Distractors /20 | Reasoning /15 | No giveaways /15 | Clarity /15 | Explanation /10 | Relevance /5 | Total |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| T1 SBR trend | 20 | 18 | 13 | 14 | 15 | 10 | 5 | 95 |
+| T1.1 functionality | 20 | 18 | 13 | 14 | 15 | 10 | 5 | 95 |
+| T3 solution isolation | 20 | 18 | 13 | 14 | 15 | 10 | 5 | 95 |
+| T3 surfactant classes | 20 | 18 | 12 | 14 | 14 | 10 | 5 | 93 |
+| T4 ultracentrifugation methods | 20 | 17 | 11 | 14 | 15 | 10 | 5 | 92 |
+| T6 Tg structure matching | 20 | 17 | 13 | 13 | 14 | 10 | 5 | 92 |
+| T7 recombinant sequence | 20 | 18 | 13 | 14 | 15 | 10 | 5 | 95 |
+| T8 silicone-based TPU | 20 | 17 | 12 | 14 | 15 | 10 | 5 | 93 |
+
+All eight self-scores are above the 80-point provisional acceptance threshold. Independent review is still required, especially for distractor plausibility and the renderer's handling of match/sequence items.
+
+## Scope and count decision
+
+- **Eight is the current minimum proposal** for the distinct source-specific gaps identified by the T1–T8 crosswalk. It is not a claim that eight questions alone guarantee mastery of every lecture detail.
+- T5 receives no extra item because representative examples and property distinctions are already assessed; no one-question-per-polymer expansion is justified.
+- The original T3 surfactant item earlier in this file is superseded by the shorter match-format version above. It remains one proposed question, not two.
+- No questions have been added to the live bank. No IDs have been assigned, no metadata or mappings have been changed, and learner progress remains untouched.
