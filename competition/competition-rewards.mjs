@@ -64,7 +64,6 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     const pendingByEventId = new Map();
     const pending = [];
     const results = [];
-    let changed = false;
 
     for (const submission of submissions) {
       if (!isRecord(submission) || submission.verdict !== "OK" ||
@@ -119,7 +118,6 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       const resultIndex = pendingByEventId.get(record.eventId);
       results[resultIndex] = { ...record, created: true };
     }
-    changed = true;
 
     try {
       storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(
