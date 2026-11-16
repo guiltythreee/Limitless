@@ -419,3 +419,12 @@ Checkpoint 001 recorded the original 208 questions in T1–T8. Eight source-grou
 | `t8-31` | T8.4 | Silicone-based TPU component labels from p.102 |
 
 The original 208-question crosswalk remains as the baseline snapshot; this extension records the additions without rewriting the earlier audit evidence. The six confirmed source gaps and the two partial-coverage objectives now have direct assessment items. The T6-06 polyethylene value discrepancy remains flagged and was not changed.
+
+
+## Current T1–T8 inventory correction — 16 November 2026
+
+The earlier follow-up recorded 216 questions after the first eight additions. Two additional source-grounded items have since been added:
+- `t4-32 → T4.3`: p.48 method-chart mapping for end-group analysis, cryoscopy, ebulliometry and osmometry.
+- `t8-32 → T8.4`: pp.155–157 natural-rubber latex coagulation and ammonia preservation.
+
+The current T1–T8 inventory is **218 questions**, not 216. The complete MT203 bank is 344 questions across 11 topics. These are additions to the existing subtopics; no syllabus topic or subtopic was created.
