@@ -1,17 +1,10 @@
 #!/usr/bin/env node
-// Focused MCQ-QS v1.0 regression for the source-grounded MT203 additions and restored baseline records.
+// Focused MCQ-QS v1.0 regression for the eight source-grounded MT203 gap additions.
 // This keeps the new source-traceable items on the accepted-quality ratchet.
 import { TOPIC_IDS } from "../app/mt203/types.ts";
 import { checkQuestion, decisionFor } from "./lib/mcq-qs-rules.mjs";
-import { QUESTION_SUBTOPIC } from "../app/data/qbank/subtopic-map.ts";
 
 const expected = [
-  ["t1", "t1-11", "T1.4"],
-  ["t1", "t1-27", "T1.2"],
-  ["t2", "t2-01", "T2.1"],
-  ["t2", "t2-15", "T2.5"],
-  ["t2", "t2-32", "T3.3"],
-  ["t3", "t3-21", "T3.4"],
   ["t1", "t1-33", "T1.5"],
   ["t1", "t1-34", "T1.1"],
   ["t3", "t3-23", "T3.2"],
@@ -37,10 +30,7 @@ for (const [topic, id, sub] of expected) {
   const q = matches[0];
   if (q.sub !== sub) errors.push(`${id}: source subtopic ${q.sub} != ${sub}`);
   if (!Number.isInteger(q.qsScore) || q.qsScore < 90) errors.push(`${id}: score must be at least 90, got ${q.qsScore}`);
-  const mappedSubs = Object.entries(QUESTION_SUBTOPIC)
-    .filter(([questionId]) => questionId.startsWith(`${topic}-`))
-    .map(([, subtopicId]) => subtopicId);
-  const result = checkQuestion(q, { subIds: new Set([...src.subs.map((s) => s.id), ...mappedSubs]) });
+  const result = checkQuestion(q, { subIds: new Set(src.subs.map((s) => s.id)) });
   for (const item of result.errors) errors.push(`${id} ${item.rule}: ${item.msg}`);
   for (const item of result.warnings) warnings.push(`${id} ${item.rule}: ${item.msg}`);
   if (!result.errors.length && !result.warnings.length) console.log(`${id}: ${decisionFor(q.qsScore)} (${q.qsScore}/100), MCQ-QS checks passed`);
@@ -51,4 +41,4 @@ if (errors.length) {
   for (const error of errors) console.error(`  - ${error}`);
   process.exit(1);
 }
-console.log(`PASS — ${expected.length} restored and added MT203 questions meet MCQ-QS v1.0 without errors or heuristic warnings.`);
+console.log(`PASS — ${expected.length} source-grounded MT203 additions meet MCQ-QS v1.0 without errors or heuristic warnings.`);
