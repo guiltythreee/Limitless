@@ -917,7 +917,7 @@ const T11: TopicSource = {
     },
     {
       "id": "t11-35",
-      "type": "match",
+      "type": "concept",
       "diff": 2,
       "text": "Which option correctly matches the lecture's extruder classes with their examples and typical screw specifications?",
       "options": [
@@ -970,7 +970,7 @@ const T11: TopicSource = {
     },
     {
       "id": "t11-36",
-      "type": "match",
+      "type": "concept",
       "diff": 2,
       "text": "Which set reproduces the screw designs and heating methods listed in the lecture?",
       "options": [
@@ -984,11 +984,11 @@ const T11: TopicSource = {
         },
         {
           "label": "c",
-          "text": "Screws: only general-purpose and PVC; heating: electric and steam, with induction and cast-in heaters listed under fluid."
+          "text": "Screws: general-purpose and PVC; heating: electric and steam, with induction and cast-in heaters listed under fluid."
         },
         {
           "label": "d",
-          "text": "Screws: single-flight, twin-flight and multi-flight only; heating: gas, water and oil, with mica and ceramic listed as screw materials."
+          "text": "Screws: single-flight, twin-flight and multi-flight designs; heating: gas, water and oil, with mica and ceramic listed as screw materials."
         }
       ],
       "answer": "a",
@@ -1023,7 +1023,7 @@ const T11: TopicSource = {
     },
     {
       "id": "t11-37",
-      "type": "match",
+      "type": "concept",
       "diff": 3,
       "text": "Which comparison matches the lecture's co-rotating and counter-rotating twin-screw descriptions?",
       "options": [

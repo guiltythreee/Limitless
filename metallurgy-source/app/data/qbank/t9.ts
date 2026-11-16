@@ -1007,7 +1007,7 @@ const T9: TopicSource = {
     },
     {
       "id": "t9-34",
-      "type": "match",
+      "type": "concept",
       "diff": 3,
       "text": "Which statement correctly combines the biodegradation mechanisms and the relative hydrolysis susceptibility order shown in the lecture?",
       "options": [
