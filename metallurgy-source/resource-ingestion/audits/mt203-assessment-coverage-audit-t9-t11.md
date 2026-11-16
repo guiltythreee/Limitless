@@ -179,3 +179,16 @@ The distinct uncovered objectives support a **four-question proposal**, not a br
 - T7: 1 item testing the recombinant spider-silk C16/ADF4 example and the source-described production/product sequence.
 
 This is a proposed minimum, subject to source-page recheck when drafting. It is not applied: the existing 305 questions and all learner data remain unchanged. No new question IDs have been reserved or generated.
+
+
+## Drafted gap-filling questions — 16 November 2026
+
+Four source-grounded draft items have been prepared in `mt203-proposed-gap-questions-t1-t3-t7.md`:
+- T1 SBR styrene-content/property trend (source p.16; proposed home T1.5).
+- T3 solution-polymerization isolation routes and residual-solvent limitation (pp.22–23; T3.2).
+- T3 surfactant classes, interfacial role and CMC/micelle formation (pp.28–30; T3.3).
+- T7 recombinant spider-silk C16/ADF4 production sequence (pp.78–79; T7.3).
+
+All four drafts include four options, one intended answer, answer explanations and distractor rationales. A preliminary author self-review scores them 95–97/100 under MCQ-QS v1.0; these are not independent acceptance scores.
+
+The drafts are documentation only. They have no assigned question IDs and have not been inserted into the live bank. Topic counts remain 305 overall. No metadata, mapping, taxonomy or learner-progress data changed.
