@@ -354,7 +354,7 @@ export default function BookkeysApp() {
   const [systemReducedMotion, setSystemReducedMotion] = useState(false);
   const [themeReady, setThemeReady] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [chaptersOpen, setChaptersOpen] = useState(false);
+  const [chaptersOpen, setChaptersOpen] = useState(true);
   const [editingChapterIndex, setEditingChapterIndex] = useState<number | null>(null);
   const [editingChapterTitle, setEditingChapterTitle] = useState("");
   const [pasteOpen, setPasteOpen] = useState(false);
@@ -1743,7 +1743,7 @@ export default function BookkeysApp() {
               <button className="bk-quiet" onClick={() => setAllChapterRequirements(true)} disabled={busy}>All required</button>
               <button className="bk-quiet" onClick={() => setAllChapterRequirements(false)} disabled={busy}>All optional</button>
               <button className="bk-quiet" onClick={resetChapterRequirements} disabled={busy}>Use defaults</button>
-              <button className="bk-quiet" onClick={() => setChaptersOpen((open) => !open)}>{chaptersOpen ? "Hide" : "Edit"}</button>
+              <button className="bk-quiet" onClick={() => setChaptersOpen((open) => !open)}>{chaptersOpen ? "Hide chapters" : "Show chapters"}</button>
               {chaptersOpen && (
                 <>
                   <button className="bk-quiet" onClick={addChapter} disabled={busy}>Add chapter</button>
