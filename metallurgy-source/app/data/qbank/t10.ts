@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 10: Mechanical & Viscoelastic Properties
- * Source: Module 3 §1, §4 + Module 2 §5. 28 questions.
+ * Source: Module 3 §1, §4 + Module 2 §5. 36 questions.
  */
 const T10: TopicSource = {
   id: "t10",

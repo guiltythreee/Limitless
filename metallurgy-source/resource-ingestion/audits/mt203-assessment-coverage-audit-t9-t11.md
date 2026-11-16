@@ -235,3 +235,83 @@ The earlier 305-question integrity table remains a historical checkpoint. The cu
 A final distractor-discrimination review identified overlap between two incorrect options in `t1-33`. Option D was revised to test the distinct error of predicting a decrease in tensile strength while retaining the lecture's decrease in elongation and abrasion resistance. The keyed answer and source interpretation are unchanged. The proposal rationale file records this adjustment.
 
 The live bank remains at 313 questions with the eight IDs listed above. The latest branch head after the content and audit-note commits is `cb2a506c8084c4836cd90aa860169502358515ce`. This head contains documentation-only commits after the small T1 distractor wording change. The test runs associated with the T1 code commit were partly cancelled during subsequent pushes and must not be described as fully green; the preceding code head `c944c3175dc1d786591aef92628e3e6488aaae50` had all five workflows successful. Recheck the latest code commit's workflow state before merge readiness is assessed.
+
+
+---
+
+## Reverification against the supplied 212-page lecture PDF — 16 November 2026
+
+The topic crosswalk was checked directly against **MT203 – PST 2026(2).pdf** (212 pages), not only against the reconstructed lesson. The current lesson sections for T9–T11 were also checked against the same pages.
+
+### Source-page coverage verified
+
+| Topic | Source pages inspected | Confirmed lecture objectives |
+|---|---|---|
+| T9 | 110–114; 207–212 | Composite definition and matrix classes; FRP matrix/reinforcement roles; fibre design factors, aspect ratio, length and orientation; polymer degradation definition and aging; qualitative degradation sequence; four categories as printed; biodegradation mechanisms; recycling routes and SPI resin codes |
+| T10 | 122–150; 152–154 | Strain-induced crystallization; short-/long-term/surface property classification; tensile terminology and A–F deformation sequence; tensile standards/specimen/machine/formulae; temperature and strain-rate effects; flexural tests; Izod/Charpy impact methods; stress-optical sensitivity and stress concentration; permeability mechanism and coefficients |
+| T11 | 158–173; 174–195; 196–206 | Rubber additives and compounding; plasticizer compatibility; ODR cure curve; processing as structure control; extruder classes, specifications, screw zones and screw types; heating; twin-screw arrangements; extrusion applications and defects; blown-film extrusion; blow moulding; compression and injection moulding; two-roll mill mixing and Tokita–White processibility regions |
+
+The source slide numbering and the PDF page numbering coincide for the cited sections. Image-based checks were used for the flexural/impact fixtures, blown-film line, blow-moulding sequence, ODR curve, and extruder diagrams.
+
+### Confirmed residual source gaps
+
+The current 28-question T9, 36-question T10 and 33-question T11 banks contain useful coverage, but the following distinct lecture objectives still lack a sufficiently direct assessment item. Existing questions on general blend miscibility, rule of mixtures, tensile modulus, creep/relaxation, extrusion zones, and rubber cure ingredients remain valid and are not proposed for duplication.
+
+**T9 — seven proposed items**
+
+| Provisional ID | Primary home | Missing objective | Source |
+|---|---|---|---|
+| t9-29 | T9.4 | Lecture definition of a composite and classification by matrix: MMC, CMC and PMC/OMC | pp.110–111 |
+| t9-30 | T9.4 | FRP design factors; aspect ratio, fibre length, fibre diameter, interface and load-parallel orientation | pp.112–114 |
+| t9-31 | T9.6 | Lecture definition of degradation, environmental causes, aging, and desirable versus undesirable change | p.207 |
+| t9-32 | T9.6 | Read the qualitative graph: molecular weight decreases before strength, and mass decreases last | p.208 |
+| t9-33 | T9.6 | Match the four degradation categories with the examples exactly as the lecture prints them | p.209 |
+| t9-34 | T9.7 | Enzymatic degradation, hydrolysis, the printed anhydride > ester > carbonate order, and homogeneous/heterogeneous labels | p.210 |
+| t9-35 | T9.7 | Recycling routes and the 1988 SPI voluntary plastic-container coding system | pp.211–212 |
+
+**T10 — nine proposed items**
+
+| Provisional ID | Primary home | Missing objective | Source |
+|---|---|---|---|
+| t10-37 | T10.1 | Classify short-term, long-term and surface mechanical properties | p.124 |
+| t10-38 | T10.1 | Match gauge length, percentage elongation, yield point/strength, proportional limit, Young’s modulus and secant modulus to their lecture definitions | pp.125–126 |
+| t10-39 | T10.1 | Sequence the A–B, A–C, C–D, D–E and E–F molecular deformation stages | pp.127–129 |
+| t10-40 | T10.1 | Tensile-test standards, dumb-bell specimen, universal testing machine and the source-listed tensile calculations | pp.132–134 |
+| t10-41 | T10.1 | Interpret the source trend: decreasing temperature increases modulus and tensile strength but decreases elongation; increasing strain rate has the same stated effects | p.137 |
+| t10-42 | T10.2 | Compare three-point and four-point flexural loading, specimen form, rigid/semi-rigid scope and listed standards | pp.138–141 |
+| t10-43 | T10.2 | Distinguish Izod and Charpy specimen orientation, support/clamping and result reporting | pp.144–147 |
+| t10-44 | T10.3 | Distinguish stress-optical sensitivity from stress concentration using the lecture definitions | p.150 |
+| t10-45 | T10.8 | Sequence the three permeability stages and identify the lecture-listed structural/environmental factors | pp.152–154 |
+
+**T11 — thirteen proposed items**
+
+| Provisional ID | Primary home | Missing objective | Source |
+|---|---|---|---|
+| t11-34 | T11.3 | Processing as control of chain spatial arrangement, crystallinity, crystal size and orientation | p.174 |
+| t11-35 | T11.3 | Batch versus continuous extruder classification, screw compression ratio, L/D and equipment specifications | pp.177, 181 |
+| t11-36 | T11.3 | Screw types and the three heating methods; electric-heater subtypes and stated advantages | pp.183–184 |
+| t11-37 | T11.3 | Co-rotating versus counter-rotating twin screws: wiping, stagnation, mixing, shear and PVC use | pp.188–191 |
+| t11-38 | T11.3 | Match extrusion product families to the materials listed in the lecture | p.192 |
+| t11-39 | T11.3 | Distinguish blown-film extrusion from blow moulding using the source diagrams and process sequence | pp.193–195 |
+| t11-40 | T11.4 | Compression-moulding sequence, flash, and the lecture’s thermoplastic/thermoset heating distinction | pp.196–198 |
+| t11-41 | T11.3 | Plunger versus reciprocating-screw injection arrangements and sprue/runner/gate features | pp.199–201 |
+| t11-42 | T11.7 | Distinguish extrudate swell, shark skin and bambooing, including the swell ratio and source-stated causes | pp.185–187 |
+| t11-43 | T11.6 | Apply the two-roll mill sequence: banding, bank, cross-cutting, filler addition, pig-rolling and late curative addition | pp.202–205 |
+| t11-44 | T11.6 | Identify the four Tokita–White mill-processibility regions from their described material behaviour | p.206 |
+| t11-45 | T11.6 | Read the ODR cure-characteristics curve, including scorch, cure, overcure, marching, plateau and reversion | p.162 |
+| t11-46 | T11.6 | Apply the lecture’s plasticizer-selection criteria and aromatic/paraffinic oil compatibility examples | pp.169–170 |
+
+The provisional IDs above are planning labels only; they have **not** been assigned to the live bank.
+
+### Source anomalies retained as explicit review flags
+
+- **p.112:** the slide prints typical fibre diameters as 10–150 mm. This is retained as a source anomaly and is not used as a numerical design value.
+- **p.209:** hydrogenation, grafting and ozonolysis appear under the slide’s “Thermal degradation” heading. The proposed assessment will test the printed classification, not silently correct it.
+- **pp.211–212:** code 3 is printed as “V or PVC” in the table and “V” in the following chart. This difference remains visible; the proposed code item will not treat the two labels as perfectly reconciled.
+- **p.142:** the outer-fibre strain limit is printed as 0.05 mm/min, while the symbol definition gives strain in mm/mm. No numerical question will depend on reconciling this inconsistency.
+- **p.163:** Vamac appears in two curative rows. The duplicate is retained as printed.
+- **p.191:** the power-consumption comparison between co- and counter-rotating twin screws is internally difficult to interpret; no broader efficiency ranking is inferred.
+
+### T9–T11 proposal count
+
+Seven T9 + nine T10 + thirteen T11 items = **29 proposed additions**. If independently reviewed and accepted, the bank would increase from 313 to **342 questions**. This is a source-gap proposal, not a live-bank count. No T9–T11 question, metadata count, learner-progress record or live subtopic mapping was changed in this audit addendum.

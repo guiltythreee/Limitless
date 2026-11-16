@@ -212,3 +212,8 @@ Validated on commit `8b7c102d00038f172486b46a840e3c3d5f78a1b7`:
 - Production build: compiled successfully.
 
 All five relevant GitHub Actions workflows completed successfully. PR #246 remains draft/open/unmerged; no deployment was performed.
+
+
+## Follow-up correction — baseline ID reconciliation, 16 November 2026
+
+The initial post-addition inventory relied on metadata and subtopic-map totals. A direct question-array audit then exposed six pre-existing records missing from the source arrays: `t1-11`, `t1-27`, `t2-01`, `t2-15`, `t2-32` and `t3-21`. All six were recovered from the earlier source commit and restored without renumbering any question. The resulting T1–T8 counts are now T1=34, T2=36, T3=24, T4=31, T5=20, T6=23, T7=17 and T8=31, for 216 questions. Together with T9–T11 (97), the full bank contains 313 actual records. The restored cross-topic T2-32 item remains mapped to T3.3 as explicitly permitted by the validator.

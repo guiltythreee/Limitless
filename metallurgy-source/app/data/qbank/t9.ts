@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 9: Polymer Blends, Composites & Degradation
- * Source: Module 2 §6–7. 24 questions.
+ * Source: Module 2 §6–7. 28 questions.
  */
 const T9: TopicSource = {
   id: "t9",

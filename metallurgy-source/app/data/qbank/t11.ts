@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 11: Compounding & Processing
- * Source: Module 4. 26 questions.
+ * Source: Module 4. 33 questions.
  */
 const T11: TopicSource = {
   id: "t11",

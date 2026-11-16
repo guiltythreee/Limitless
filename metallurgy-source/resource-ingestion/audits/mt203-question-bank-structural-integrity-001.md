@@ -99,3 +99,10 @@ The checkpoint above was a 305-question baseline. Eight source-grounded question
 | **Total** | **305** | **313** |
 
 New IDs: `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17`, `t8-31`. Each is sequential within its topic and has one primary mapping. The metadata total is 313. The registry manifest and content-lock are updated in the same change set. Automated confirmation passed on commit `8b7c102d00038f172486b46a840e3c3d5f78a1b7`: MT203 validation reports 313 questions; course manifest/content-lock validation passes; MT203 unit and migration tests pass; question renderer tests pass; answer-key balance and sequence tests pass; all eight additions pass MCQ-QS v1.0 without errors or heuristic warnings; production build succeeds.
+
+
+## Reconciliation note — six restored baseline records, 16 November 2026
+
+A full-bank ID audit found six original records that were still present in the primary subtopic map and expected by the topic metadata but missing from the live question arrays: `t1-11`, `t1-27`, `t2-01`, `t2-15`, `t2-32` and `t3-21`. Their original question content was recovered from the October 2026 source commit, reviewed against the current lesson/subtopic homes, and restored in sequence. Their distractor explanations and MCQ-QS metadata were completed; `t2-32` retains its explicit cross-topic primary mapping to T3.3.
+
+After restoration: 313 actual question records, 313 unique IDs, sequential IDs in all 11 topics, 313 primary mappings, zero unmapped questions and zero orphan mappings. This corrects the earlier checkpoint's count-only assertion; automated validation is being rerun against the repaired sources.
