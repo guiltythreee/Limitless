@@ -870,11 +870,11 @@ const T11: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "To change the chemical identity of every polymer chain before the material enters a mould."
+          "text": "To change the chemical identity of polymer chains before the material enters a mould."
         },
         {
           "label": "b",
-          "text": "To remove all crystalline regions so the finished article remains completely amorphous."
+          "text": "To remove crystalline regions so the finished article remains amorphous."
         },
         {
           "label": "c",
@@ -1173,7 +1173,7 @@ const T11: TopicSource = {
         },
         {
           "label": "d",
-          "text": "Blown-film extrusion forms an air-supported tube through a tubing die and take-off rolls; blow moulding expands polymer into a mould using compressed air."
+          "text": "Blown film forms an air-supported tube through a tubing die and take-off rolls; blow moulding expands polymer into a mould with compressed air."
         }
       ],
       "answer": "d",

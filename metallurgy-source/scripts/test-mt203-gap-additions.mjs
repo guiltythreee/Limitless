@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Focused MCQ-QS v1.0 regression for the eight source-grounded MT203 gap additions.
-// This keeps the new source-traceable items on the accepted-quality ratchet.
+// Focused MCQ-QS v1.0 regression for all 37 source-grounded MT203 additions.
+// This keeps the T1–T11 source-traceable items on the accepted-quality ratchet.
 import { TOPIC_IDS } from "../app/mt203/types.ts";
 import { checkQuestion, decisionFor } from "./lib/mcq-qs-rules.mjs";
 

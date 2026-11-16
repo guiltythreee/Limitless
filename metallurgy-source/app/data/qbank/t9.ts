@@ -828,11 +828,11 @@ const T9: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "It is a change in molecular weight caused by heat during processing, while other product properties remain unchanged."
+          "text": "It is a change in molecular weight caused by heat during processing, while tensile strength, colour and shape remain unchanged."
         },
         {
           "label": "b",
-          "text": "It is a reversible change in specimen shape during loading that disappears when the applied force is removed."
+          "text": "It is a reversible change in specimen shape during loading that disappears when the applied force is removed after unloading."
         },
         {
           "label": "c",
@@ -840,7 +840,7 @@ const T9: TopicSource = {
         },
         {
           "label": "d",
-          "text": "It is a change limited to biological breakdown and is generally beneficial during ordinary product service."
+          "text": "It is a change limited to biological breakdown and is generally beneficial during ordinary product service and storage."
         }
       ],
       "answer": "c",
@@ -1017,7 +1017,7 @@ const T9: TopicSource = {
         },
         {
           "label": "b",
-          "text": "The slide lists oxidation and photolysis; the printed order is carbonate > ester > anhydride, with surface-only degradation named."
+          "text": "The slide lists oxidation and photolysis; the printed order is carbonate > ester > anhydride, with surface-limited degradation named."
         },
         {
           "label": "c",
@@ -1025,7 +1025,7 @@ const T9: TopicSource = {
         },
         {
           "label": "d",
-          "text": "The slide lists microbial growth alone; the printed order is anhydride > carbonate > ester, with homogeneous degradation excluded."
+          "text": "The slide lists microbial growth; the printed order is anhydride > carbonate > ester, with homogeneous degradation excluded."
         }
       ],
       "answer": "a",
@@ -1066,7 +1066,7 @@ const T9: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "The SPI system is a mandatory process standard that specifies how every polymer must be chemically depolymerized."
+          "text": "The SPI system is a mandatory process standard prescribing chemical depolymerization for every polymer container and specifying its recycling route."
         },
         {
           "label": "b",
@@ -1074,11 +1074,11 @@ const T9: TopicSource = {
         },
         {
           "label": "c",
-          "text": "The SPI codes identify the mechanical strength grade of a polymer and replace the need to identify its resin family."
+          "text": "The SPI codes identify mechanical-strength grades for polymer products and replace the need to identify the resin family during sorting."
         },
         {
           "label": "d",
-          "text": "The lecture lists remoulding as a chemical route and depolymerization as an ordinary mechanical remelting operation."
+          "text": "The lecture lists remoulding as a chemical route and depolymerization as a mechanical remelting operation, with innovative reuse outside that route."
         }
       ],
       "answer": "b",
