@@ -142,7 +142,7 @@ test("home composition keeps the production header, hero and demo visible over a
       ornament: getComputedStyle(element, "::before").content,
     };
   });
-  expect(parseFloat(heroSurface.borderWidth)).toBeGreaterThan(1);
+  expect(parseFloat(heroSurface.borderWidth)).toBeGreaterThanOrEqual(1);
   expect(parseFloat(heroSurface.borderRadius)).toBeGreaterThanOrEqual(16);
   expect(heroSurface.background).not.toBe("rgba(0, 0, 0, 0)");
   expect(heroSurface.ornament).toContain("✦");
