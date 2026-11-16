@@ -17,7 +17,7 @@ export const MODULE_META: ModuleMeta[] = [
       { id: "t1", title: "Fundamentals, Classification & Architecture", count: 34 },
       { id: "t2", title: "Polymerization Mechanisms", count: 36 },
       { id: "t3", title: "Polymerization Techniques", count: 24 },
-      { id: "t4", title: "Molecular Weight & Distribution", count: 31 },
+      { id: "t4", title: "Molecular Weight & Distribution", count: 32 },
       { id: "t5", title: "Polymer Crystallinity", count: 20 },
       { id: "t6", title: "Thermal Transitions: Tg, Tm & HDT", count: 23 },
       { id: "t7", title: "Polymer Chemistry of Proteins", count: 17 },

@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 4: Molecular Weight & Distribution
- * Source: Module 1 §3 + supplement. 31 questions, numerically heavy.
+ * Source: Module 1 §3 + supplement. 32 questions, numerically heavy.
  */
 const T4: TopicSource = {
   id: "t4",
@@ -600,6 +600,85 @@ const T4: TopicSource = {
       },
       qsScore: 92,
     },
+    {
+      "id": "t4-32",
+      "type": "match",
+      "diff": 2,
+      "text": "Match each method with the branch or colligative measurement printed in the lecture's p.48 molecular-weight chart.",
+      "tableRows": [
+        [
+          "1",
+          "End-group analysis",
+          "",
+          "(i) listed under number-average molecular weight"
+        ],
+        [
+          "2",
+          "Cryoscopy",
+          "",
+          "(ii) depression in freezing point"
+        ],
+        [
+          "3",
+          "Ebulliometry",
+          "",
+          "(iii) elevation in boiling point"
+        ],
+        [
+          "4",
+          "Osmometry",
+          "",
+          "(iv) vapour-phase and membrane osmometry"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–i, 2–ii, 3–iii, 4–iv"
+        },
+        {
+          "label": "b",
+          "text": "1–iv, 2–ii, 3–iii, 4–i"
+        },
+        {
+          "label": "c",
+          "text": "1–i, 2–iii, 3–ii, 4–iv"
+        },
+        {
+          "label": "d",
+          "text": "1–ii, 2–i, 3–iv, 4–iii"
+        }
+      ],
+      "answer": "a",
+      "why": "The p.48 chart places end-group analysis under number-average molecular weight. It identifies cryoscopy with freezing-point depression, ebulliometry with boiling-point elevation, and osmometry with vapour-phase and membrane osmometry. The same chart also lists GPC under both number-average and weight-average branches; this question reproduces the printed colligative labels without resolving that duplicated GPC placement.",
+      "distractors": {
+        "b": "This assigns osmometry to the end-group branch and places end-group analysis under the osmometry examples.",
+        "c": "This exchanges the freezing-point and boiling-point methods while retaining the other two labels.",
+        "d": "This assigns freezing-point depression to end-group analysis and moves osmometry into the wrong branch."
+      },
+      "concept": "Number-average branch and colligative molecular-weight methods shown on source p.48",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T4.3",
+      "misconceptions": {
+        "b": {
+          "tag": "misassigned-end-group-and-osmometry",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "swapped-cryoscopy-and-ebulliometry",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "misassigned-colligative-methods",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    }
   ],
 };
 

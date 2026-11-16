@@ -6,7 +6,7 @@
 // Proves the MT203 migration onto the shared course architecture changed no
 // behaviour:
 //   - the registry adapter's outline matches the manifest and app/data/qbank
-//     meta (11 topics, 4 units, 342 questions, same order)
+//     meta (11 topics, 4 units, 343 questions, same order)
 //   - every question keeps its source id (`t4-014`), n, topic, type, difficulty,
 //     answer, options, why/distractors/concept and tags — compared field-by-field
 //     against the raw app/data/qbank/t*.ts source
