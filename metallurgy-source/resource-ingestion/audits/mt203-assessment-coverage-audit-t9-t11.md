@@ -197,3 +197,34 @@ The drafts are documentation only. They have no assigned question IDs and have n
 ## Follow-up correction — complete T1–T8 crosswalk, 16 November 2026
 
 The four-item proposal recorded above was provisional. The subsequent complete T1–T8 crosswalk identified four additional uncovered objectives (functionality classification, the p.48 ultracentrifugation submethods, the p.64–67 Tg structure comparisons, and the p.102 silicone-based TPU scheme). The complete minimum proposal was therefore expanded to eight questions and all eight have now been implemented. See `mt203-t1-t8-question-objective-crosswalk-001.md` and `mt203-proposed-gap-questions-t1-t3-t7.md` for the item-by-item traceability.
+
+
+## Authoritative whole-bank checkpoint — 16 November 2026, current branch head
+
+This section supersedes earlier inventory statements in this file that describe the bank as 305 questions or state that the eight additions were not yet implemented. Those earlier entries remain as dated audit history.
+
+The eight source-grounded additions are live:
+- T1: `t1-33`, `t1-34`
+- T3: `t3-23`, `t3-24`
+- T4: `t4-31`
+- T6: `t6-23`
+- T7: `t7-17`
+- T8: `t8-31`
+
+Current metadata and topic files report **313 questions**. Per-topic counts are T1 34; T2 36; T3 24; T4 31; T5 20; T6 23; T7 17; T8 31; T9 28; T10 36; T11 33. The original T9–T11 inventory is unchanged at 97 questions.
+
+The current T1–T8 crosswalk extension records 216 live questions across those eight topics. The original 208-question crosswalk is retained as a historical baseline, not the current count. All eight new items have explicit primary subtopic mappings; the spider-silk item is mapped to existing T7.4, and no taxonomy node was added.
+
+Source-page spot-check of the new items was repeated against the uploaded lecture PDF:
+- p.16 SBR trend; p.50 functionality classifications.
+- pp.22–23 solution-polymer isolation; p.28 surfactant classes.
+- p.48 ultracentrifugation submethods.
+- pp.64–67 Tg structural examples and side-chain trend.
+- pp.78–79 recombinant spider-silk sequence.
+- p.102 silicone-based TPU component labels.
+
+The eight item records retain four options, one keyed answer, explanations, distractor rationales, MCQ-QS metadata and stable IDs. The author rubric scores recorded in the proposal range from 92 to 95; these are author scores, not independent human scores. The current question-quality and regression workflows provide automated checks, not a substitute for independent pedagogical review.
+
+At PR #246 head `c944c3175dc1d786591aef92628e3e6488aaae50`, the five PR-triggered workflows all completed successfully: Metallurgy Regression Tests, Shared question-quality engine tests, Metallurgy question-quality test, Metallurgy Content Regression Tests, and Metallurgy Learning Regression Tests. The PR remains open, draft, unmerged and mergeable. No merge or deployment was performed.
+
+The earlier 305-question integrity table remains a historical checkpoint. The current count and per-topic figures above are the authoritative inventory for this branch head. Learner-progress data was not edited as part of these eight insertions.
