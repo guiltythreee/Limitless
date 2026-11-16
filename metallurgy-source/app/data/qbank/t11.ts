@@ -1084,25 +1084,25 @@ const T11: TopicSource = {
           "1",
           "Pipe / tube",
           "",
-          "(i) PP and nylon"
+          "(i) HDPE, LDPE, LLDPE and PVC"
         ],
         [
           "2",
           "Monofilament",
           "",
-          "(ii) HDPE, LDPE, LLDPE and PVC"
+          "(ii) PP and nylon"
         ],
         [
           "3",
           "Primary wire insulation",
           "",
-          "(iii) PVC"
+          "(iii) LDPE and PVC"
         ],
         [
           "4",
           "Door / window profile",
           "",
-          "(iv) LDPE and PVC"
+          "(iv) PVC"
         ]
       ],
       "options": [
@@ -1152,7 +1152,7 @@ const T11: TopicSource = {
         }
       },
       "qsScore": 92
-    },
+    }
     {
       "id": "t11-39",
       "type": "concept",

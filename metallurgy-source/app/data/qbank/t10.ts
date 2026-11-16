@@ -919,28 +919,28 @@ const T10: TopicSource = {
       ],
       "options": [
         {
-          "label": "a",
-          "text": "1–ii, 2–i, 3–iii"
-        },
-        {
           "label": "b",
           "text": "1–iii, 2–ii, 3–i"
         },
         {
-          "label": "c",
-          "text": "1–i, 2–ii, 3–iii"
-        },
-        {
           "label": "d",
           "text": "1–i, 2–iii, 3–ii"
+        },
+        {
+          "label": "a",
+          "text": "1–ii, 2–i, 3–iii"
+        },
+        {
+          "label": "c",
+          "text": "1–i, 2–ii, 3–iii"
         }
       ],
       "answer": "c",
       "why": "The slide classifies plastics mechanical properties as short-term, long-term and surface properties. Short-term properties are measured at a constant rate of stress or strain in modes such as tension, compression, flexure and shear. Long-term properties measure deformation or stress decay with time, including creep and stress relaxation.",
       "distractors": {
-        "a": "This swaps the short-term loading tests with the time-dependent long-term measurements.",
-        "b": "This assigns surface properties to the constant-rate tests and places long-term measurements under the wrong description.",
-        "d": "This exchanges the source's short-term and surface descriptions and misplaces the time-dependent group."
+        "a": "This assigns the surface category to short-term and reverses the time-dependent and constant-rate groups.",
+        "b": "This assigns time-dependent behaviour to short-term and the surface category to long-term.",
+        "d": "This assigns time-dependent measurements to short-term and constant-rate tests to long-term."
       },
       "concept": "Short-term, long-term and surface mechanical-property classification",
       "tags": [
@@ -951,20 +951,20 @@ const T10: TopicSource = {
       "sub": "T10.1",
       "misconceptions": {
         "a": {
-          "tag": "swapped-short-and-long-term-properties",
-          "kind": "conceptual"
-        },
-        "b": {
           "tag": "misclassified-surface-properties",
           "kind": "conceptual"
         },
-        "d": {
+        "b": {
           "tag": "misassigned-property-measurement-groups",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "swapped-short-and-long-term-properties",
           "kind": "conceptual"
         }
       },
       "qsScore": 93
-    },
+    }
     {
       "id": "t10-38",
       "type": "match",
@@ -1280,13 +1280,13 @@ const T10: TopicSource = {
           "1",
           "Izod",
           "",
-          "(i) horizontal specimen supported at both ends"
+          "(i) specimen clamped vertically with notched end facing the striker"
         ],
         [
           "2",
           "Charpy",
           "",
-          "(ii) specimen clamped vertically with notched end facing the striker"
+          "(ii) horizontal specimen supported at both ends"
         ]
       ],
       "options": [
@@ -1336,7 +1336,7 @@ const T10: TopicSource = {
         }
       },
       "qsScore": 93
-    },
+    }
     {
       "id": "t10-44",
       "type": "match",
@@ -1358,10 +1358,6 @@ const T10: TopicSource = {
       ],
       "options": [
         {
-          "label": "a",
-          "text": "1–ii, 2–i"
-        },
-        {
           "label": "b",
           "text": "1–i, 2–ii"
         },
@@ -1372,14 +1368,18 @@ const T10: TopicSource = {
         {
           "label": "d",
           "text": "1–ii, 2–ii"
+        },
+        {
+          "label": "a",
+          "text": "1–ii, 2–i"
         }
       ],
       "answer": "d",
       "why": "Stress-optical sensitivity is the ability of a material to exhibit double refraction of light when placed under stress. Stress concentration is the magnification of applied stress near a notch, crack, void, inclusion or other stress raiser.",
       "distractors": {
-        "a": "This exchanges the optical response with the local magnification of applied stress.",
-        "b": "This assigns double refraction to stress concentration and notch-related stress magnification to optical sensitivity.",
-        "c": "This gives the same optical definition to both terms and does not distinguish the stress raiser effect."
+        "a": "This assigns double refraction to stress concentration and notch-related magnification to optical sensitivity.",
+        "b": "This gives the double-refraction definition to both terms and does not distinguish stress raisers.",
+        "c": "This assigns the same stress-raiser definition to both terms and omits the optical response."
       },
       "concept": "Stress-optical sensitivity versus stress concentration",
       "tags": [
@@ -1394,16 +1394,16 @@ const T10: TopicSource = {
           "kind": "conceptual"
         },
         "b": {
-          "tag": "confused-light-response-with-stress-raiser",
+          "tag": "collapsed-distinct-stress-terms",
           "kind": "conceptual"
         },
         "c": {
-          "tag": "collapsed-distinct-stress-terms",
+          "tag": "confused-light-response-with-stress-raiser",
           "kind": "conceptual"
         }
       },
       "qsScore": 92
-    },
+    }
     {
       "id": "t10-45",
       "type": "sequence",
