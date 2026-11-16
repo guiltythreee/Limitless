@@ -375,3 +375,6 @@ The two additional items were checked against the uploaded source PDF, including
 No additional question is currently justified by the reconciled T9–T11 gap register. T10 p.154 remains a documented source limitation: the slide does not define the P/P₀ scaling convention, ΔE units/meaning or superscript footnotes. It should not be converted into a numerical question by inference. This is a source-completeness boundary, not an uncovered assessable objective.
 
 The latest CI failure was a stale assertion in `scripts/test-mt203.mjs` expecting 185 questions in module M1. M1 now correctly contains 186 after `t4-32`; the assertion was updated to 186. All five workflows on commit `ca595a84d8c2dbbbaddaf6cc7a91dfa572e04e42` then completed successfully: Metallurgy Regression Tests, Metallurgy question-quality test, Shared question-quality engine tests, Metallurgy Learning Regression Tests and Metallurgy Content Regression Tests.
+
+
+The validated 344-question source snapshot is also preserved on `backup/mt203-344-stable-20261116`, pointing to `ca595a84d8c2dbbbaddaf6cc7a91dfa572e04e42`. The later commits on the working PR branch update tests/audit documentation; they do not change the 344-question source snapshot.
