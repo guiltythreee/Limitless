@@ -742,7 +742,7 @@ const T1: TopicSource = {
         { label: "a", text: "Tensile strength decreases, while elongation and abrasion resistance increase." },
         { label: "b", text: "Tensile strength increases, while elongation and abrasion resistance decrease." },
         { label: "c", text: "Tensile strength and elongation increase, while abrasion resistance decreases." },
-        { label: "d", text: "Tensile strength increases, while elongation increases and abrasion resistance decreases." }
+        { label: "d", text: "Tensile strength decreases, while elongation and abrasion resistance both decrease." }
       ],
       answer: "b",
       why: "The source p.16 slide states that increasing the styrene (plastic) content of SBR increases tensile strength, while elongation and abrasion resistance decrease. This is the lecture's specific SBR trend.",
