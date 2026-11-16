@@ -26,7 +26,7 @@ export const MT203_MANIFEST: CourseManifest = {
   title: "Polymer Science and Technology",
   subtitle: "Fundamentals, polymerization, properties, processing",
   description:
-    "342 questions across 11 topics in 4 modules — fundamentals, polymerization, molecular weight, crystallinity, Tg/Tm, industrial polymers, blends, properties and processing — with spaced revision, weak-area training, mastery tracking and a timed exam.",
+    "343 questions across 11 topics in 4 modules — fundamentals, polymerization, molecular weight, crystallinity, Tg/Tm, industrial polymers, blends, properties and processing — with spaced revision, weak-area training, mastery tracking and a timed exam.",
   symbol: "⛓",
   status: "live",
   route: "mt203",
@@ -70,7 +70,7 @@ export const MT203_MANIFEST: CourseManifest = {
     { id: "t1", unitId: "m1", num: 1, title: "Fundamentals, Classification & Architecture", count: 34, hasLesson: true },
     { id: "t2", unitId: "m1", num: 2, title: "Polymerization Mechanisms", count: 36, hasLesson: true },
     { id: "t3", unitId: "m1", num: 3, title: "Polymerization Techniques", count: 24, hasLesson: true },
-    { id: "t4", unitId: "m1", num: 4, title: "Molecular Weight & Distribution", count: 31, hasLesson: true },
+    { id: "t4", unitId: "m1", num: 4, title: "Molecular Weight & Distribution", count: 32, hasLesson: true },
     { id: "t5", unitId: "m1", num: 5, title: "Polymer Crystallinity", count: 20, hasLesson: true },
     { id: "t6", unitId: "m1", num: 6, title: "Thermal Transitions: Tg, Tm & HDT", count: 23, hasLesson: true },
     { id: "t7", unitId: "m1", num: 7, title: "Polymer Chemistry of Proteins", count: 17, hasLesson: true },
