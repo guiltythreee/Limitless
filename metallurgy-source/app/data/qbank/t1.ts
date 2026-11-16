@@ -773,25 +773,25 @@ const T1: TopicSource = {
         ["3", "Malic acid", "", "(iii) Trifunctional"]
       ],
       options: [
-        { label: "a", text: "1–ii, 2–ii, 3–iii" },
+        { label: "a", text: "1–ii, 2–iii, 3–i" },
         { label: "b", text: "1–i, 2–ii, 3–iii" },
-        { label: "c", text: "1–ii, 2–iii, 3–i" },
+        { label: "c", text: "1–ii, 2–ii, 3–iii" },
         { label: "d", text: "1–iii, 2–i, 3–ii" }
       ],
-      answer: "a",
+      answer: "c",
       why: "The p.50 table counts one amino and one carboxyl group in glycine, one hydroxyl and one carboxyl group in lactic acid, and one hydroxyl plus two carboxyl groups in malic acid.",
       distractors: {
+        a: "This assigns three groups to lactic acid and only one group to malic acid.",
         b: "This misses glycine's amino group when counting its reactive functionality.",
-        c: "This assigns three groups to lactic acid and only one to malic acid.",
-        d: "This reverses the functionality classifications shown for these compounds."
+        d: "This reverses the functionality classifications shown for these compounds.",
       },
       concept: "Functionality is the number of reactive groups counted in the source table",
       tags: ["reviewed", "revision"],
       qsLevel: 2,
       sub: "T1.1",
       misconceptions: {
+        a: { tag: "miscounted-functional-groups", kind: "conceptual" },
         b: { tag: "missed-amino-group", kind: "observation" },
-        c: { tag: "miscounted-functional-groups", kind: "conceptual" },
         d: { tag: "reversed-functionality", kind: "conceptual" }
       },
       qsScore: 95,

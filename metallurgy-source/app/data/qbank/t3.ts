@@ -494,26 +494,26 @@ const T3: TopicSource = {
         ["3", "Non-ionic", "", "(iii) Alkali salts of fatty acids"]
       ],
       options: [
-        { label: "a", text: "1–iii, 2–i, 3–ii" },
-        { label: "b", text: "1–i, 2–ii, 3–iii" },
-        { label: "c", text: "1–ii, 2–iii, 3–i" },
-        { label: "d", text: "1–iii, 2–ii, 3–i" }
+        { label: "a", text: "1–i, 2–ii, 3–iii" },
+        { label: "b", text: "1–iii, 2–ii, 3–i" },
+        { label: "c", text: "1–iii, 2–i, 3–ii" },
+        { label: "d", text: "1–ii, 2–iii, 3–i" }
       ],
-      answer: "a",
+      answer: "c",
       why: "The p.28 slide lists alkali salts of fatty acids as anionic, alkyl amine hydrochlorides as cationic, and alkyl glycosides as non-ionic examples. It also states that surfactants lower monomer–water interfacial tension.",
       distractors: {
-        b: "This assigns the cationic example to anionic and reverses the non-ionic example.",
-        c: "This cycles the three listed examples into the wrong surfactant classes.",
-        d: "This correctly identifies anionic surfactants but swaps the other two classes."
+        a: "This assigns the cationic example to anionic and reverses the non-ionic example.",
+        b: "This correctly identifies anionic surfactants but swaps the cationic and non-ionic examples.",
+        d: "This cycles the three listed examples into the wrong surfactant classes.",
       },
       concept: "Lecture examples of anionic, cationic and non-ionic surfactants",
       tags: ["reviewed", "revision"],
       qsLevel: 2,
       sub: "T3.3",
       misconceptions: {
-        b: { tag: "class-example-swap", kind: "conceptual" },
-        c: { tag: "class-example-cycle", kind: "conceptual" },
-        d: { tag: "cationic-nonionic-swap", kind: "conceptual" }
+        a: { tag: "class-example-cycle", kind: "conceptual" },
+        b: { tag: "cationic-nonionic-swap", kind: "conceptual" },
+        d: { tag: "class-example-cycle", kind: "conceptual" }
       },
       qsScore: 93,
     },

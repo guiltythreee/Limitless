@@ -351,3 +351,14 @@ All eight self-scores are above the 80-point provisional acceptance threshold. I
 ## Implementation status
 
 All eight proposed questions are now present in the live question bank under IDs `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17` and `t8-31`. Metadata counts and primary subtopic mappings have been updated. The current bank total is 313. Automated regression and course-lock checks are being rerun; this proposal file is retained as the source/distractor rationale record.
+
+
+## Answer-position balance update
+
+The four match/concept items below were re-ordered without changing their correct scientific content so the bank retains its answer-position balance:
+- `t1-34` correct option C
+- `t3-24` correct option C
+- `t6-23` correct option B
+- `t8-31` correct option D
+
+The corresponding distractor rationales and misconception tags were moved with the options. The other four new items retain their original answer positions.

@@ -868,26 +868,26 @@ const T8: TopicSource = {
       diff: 2,
       text: "Which set of components is labelled in the lecture's “Silicone based TPU” reaction scheme?",
       options: [
-        { label: "a", text: "H12MDI, PTMG, PDMS and 1,4-butanediol (1,4-BD)" },
-        { label: "b", text: "MDI, a PCL–PEC–PDMS macrodiol, 1,4-butanediol and DBTL" },
-        { label: "c", text: "A PEO–PPO–PEO diol, PTMC blocks, OCN(CH2)4NCO and H2N(CH2)4NH2" },
-        { label: "d", text: "Toluene diisocyanate, ethylene glycol, natural rubber and styrene" }
+        { label: "a", text: "MDI, a PCL–PEC–PDMS macrodiol, 1,4-butanediol and DBTL" },
+        { label: "b", text: "A PEO–PPO–PEO diol, PTMC blocks, OCN(CH2)4NCO and H2N(CH2)4NH2" },
+        { label: "c", text: "Toluene diisocyanate, ethylene glycol, natural rubber and styrene" },
+        { label: "d", text: "H12MDI, PTMG, PDMS and 1,4-butanediol (1,4-BD)" }
       ],
-      answer: "a",
+      answer: "d",
       why: "The p.102 scheme labels H12MDI, PTMG, PDMS and 1,4-BD. It also prints THF/DMAC and T-12 beside the reaction arrow; the slide does not give stoichiometric ratios or expand T-12.",
       distractors: {
-        b: "These labels belong to the separate one-pot TPU example shown on p.103.",
-        c: "These components belong to the two-pot TPU scheme shown on p.101.",
-        d: "These are not the four component labels shown in the p.102 silicone-based TPU scheme."
+        a: "These labels belong to the separate one-pot TPU example shown on p.103, not the p.102 silicone-based scheme.",
+        b: "These components belong to the two-pot TPU scheme shown on p.101, not the p.102 scheme.",
+        c: "These are not the four component labels shown in the p.102 silicone-based TPU scheme.",
       },
       concept: "Silicone-based TPU component labels on source p.102",
       tags: ["reviewed", "revision"],
       qsLevel: 2,
       sub: "T8.4",
       misconceptions: {
-        b: { tag: "confused-with-page-103-scheme", kind: "observation" },
-        c: { tag: "confused-with-page-101-scheme", kind: "observation" },
-        d: { tag: "unrelated-component-set", kind: "conceptual" }
+        a: { tag: "confused-with-page-103-scheme", kind: "observation" },
+        b: { tag: "confused-with-page-101-scheme", kind: "observation" },
+        c: { tag: "unrelated-component-set", kind: "conceptual" }
       },
       qsScore: 93,
     },
