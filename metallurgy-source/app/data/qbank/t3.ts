@@ -453,6 +453,70 @@ const T3: TopicSource = {
       why: "An initiator generates radicals and sets the radical-generation rate. A chain-transfer agent transfers radical activity to another molecule, limiting the length of the original chain and potentially starting another chain. It commonly lowers molecular weight; its effect on the overall rate depends on the transfer chemistry and reaction conditions, so “molecular weight only” is too absolute.",
       tags: ["revision"],
     },
+
+    {
+      id: "t3-23",
+      type: "concept",
+      diff: 2,
+      text: "After solution polymerization, which pair of routes does the lecture give for isolating the polymer, and what difficulty does it identify?",
+      options: [
+        { label: "a", text: "Solvent evaporation or precipitation in a non-solvent; final solvent traces are difficult to remove." },
+        { label: "b", text: "Filtration or water washing; protective-colloid residues are the main separation difficulty." },
+        { label: "c", text: "Centrifugation or bead screening; controlling monomer-droplet size is the main difficulty." },
+        { label: "d", text: "Melt extrusion or pelletizing; preventing micelle formation is the main separation difficulty." }
+      ],
+      answer: "a",
+      why: "The source pp.22–23 gives solvent evaporation and precipitation in a non-solvent as the two isolation routes. It specifically notes that removing the final traces of solvent is difficult.",
+      distractors: {
+        b: "Water washing and protective-colloid removal are not the two solution-polymer isolation routes listed.",
+        c: "Monomer-droplet size is associated with dispersion processes, not these solution isolation routes.",
+        d: "Melt extrusion and micelle formation do not describe the stated solution-polymer separation methods."
+      },
+      concept: "Solution-polymer isolation: evaporation or precipitation; residual solvent removal is difficult",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T3.2",
+      misconceptions: {
+        b: { tag: "confused-with-suspension", kind: "conceptual" },
+        c: { tag: "confused-with-dispersion", kind: "conceptual" },
+        d: { tag: "confused-with-melt-or-emulsion", kind: "conceptual" }
+      },
+      qsScore: 95,
+    },
+    {
+      id: "t3-24",
+      type: "match",
+      diff: 2,
+      text: "Match each surfactant class with an example listed in the lecture.",
+      tableRows: [
+        ["1", "Anionic", "", "(i) Alkyl amine hydrochlorides"],
+        ["2", "Cationic", "", "(ii) Alkyl glycosides"],
+        ["3", "Non-ionic", "", "(iii) Alkali salts of fatty acids"]
+      ],
+      options: [
+        { label: "a", text: "1–iii, 2–i, 3–ii" },
+        { label: "b", text: "1–i, 2–ii, 3–iii" },
+        { label: "c", text: "1–ii, 2–iii, 3–i" },
+        { label: "d", text: "1–iii, 2–ii, 3–i" }
+      ],
+      answer: "a",
+      why: "The p.28 slide lists alkali salts of fatty acids as anionic, alkyl amine hydrochlorides as cationic, and alkyl glycosides as non-ionic examples. It also states that surfactants lower monomer–water interfacial tension.",
+      distractors: {
+        b: "This assigns the cationic example to anionic and reverses the non-ionic example.",
+        c: "This cycles the three listed examples into the wrong surfactant classes.",
+        d: "This correctly identifies anionic surfactants but swaps the other two classes."
+      },
+      concept: "Lecture examples of anionic, cationic and non-ionic surfactants",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T3.3",
+      misconceptions: {
+        b: { tag: "class-example-swap", kind: "conceptual" },
+        c: { tag: "class-example-cycle", kind: "conceptual" },
+        d: { tag: "cationic-nonionic-swap", kind: "conceptual" }
+      },
+      qsScore: 93,
+    },
   ],
 };
 

@@ -569,6 +569,36 @@ const T4: TopicSource = {
       concept: "convert number→weight fractions before computing Mw",
       tags: ["numeric", "formula"],
     },
+
+    {
+      id: "t4-31",
+      type: "recall",
+      diff: 2,
+      text: "On the lecture's p.48 molecular-weight chart, which two methods are listed under ultracentrifugation?",
+      options: [
+        { label: "a", text: "Sedimentation velocity and sedimentation equilibrium" },
+        { label: "b", text: "Membrane osmometry and vapour-phase osmometry" },
+        { label: "c", text: "Relative viscosity and intrinsic viscosity" },
+        { label: "d", text: "Light scattering and gel-permeation chromatography" }
+      ],
+      answer: "a",
+      why: "The p.48 chart lists sedimentation velocity and sedimentation equilibrium as the two ultracentrifugation methods. This item asks what the lecture chart lists, without resolving its separate method-to-average inconsistencies.",
+      distractors: {
+        b: "Both osmometry methods appear under the chart's colligative-method branch.",
+        c: "These are dilute-solution viscosity measurements, not ultracentrifugation methods.",
+        d: "These are separate methods listed under the weight-average branch, not ultracentrifugation submethods."
+      },
+      concept: "Ultracentrifugation methods named on the source p.48 chart",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T4.3",
+      misconceptions: {
+        b: { tag: "confused-with-colligative-methods", kind: "conceptual" },
+        c: { tag: "confused-with-viscometry", kind: "conceptual" },
+        d: { tag: "confused-with-other-weight-average-methods", kind: "conceptual" }
+      },
+      qsScore: 92,
+    },
   ],
 };
 

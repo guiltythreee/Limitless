@@ -732,6 +732,70 @@ const T1: TopicSource = {
       concept: "flowable prepolymer → irreversible cure → infusible network",
       tags: ["confused"],
     },
+
+    {
+      id: "t1-33",
+      type: "concept",
+      diff: 2,
+      text: "According to the lecture's styrene-butadiene rubber (SBR) example, what happens as styrene content increases?",
+      options: [
+        { label: "a", text: "Tensile strength decreases, while elongation and abrasion resistance increase." },
+        { label: "b", text: "Tensile strength increases, while elongation and abrasion resistance decrease." },
+        { label: "c", text: "Tensile strength and elongation increase, while abrasion resistance decreases." },
+        { label: "d", text: "Tensile strength increases, while elongation increases and abrasion resistance decreases." }
+      ],
+      answer: "b",
+      why: "The source p.16 slide states that increasing the styrene (plastic) content of SBR increases tensile strength, while elongation and abrasion resistance decrease. This is the lecture's specific SBR trend.",
+      distractors: {
+        a: "This reverses the direction of all three properties stated on the slide.",
+        c: "This gives the wrong direction for elongation as styrene content increases.",
+        d: "This incorrectly predicts an increase in elongation instead of a decrease."
+      },
+      concept: "SBR styrene-content trend: tensile strength rises; elongation and abrasion resistance fall",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T1.5",
+      misconceptions: {
+        a: { tag: "trend-reversal", kind: "observation" },
+        c: { tag: "elongation-trend", kind: "observation" },
+        d: { tag: "elongation-trend", kind: "observation" }
+      },
+      qsScore: 95,
+    },
+    {
+      id: "t1-34",
+      type: "match",
+      diff: 2,
+      text: "According to the lecture's functionality table, match each compound with its printed functionality.",
+      tableRows: [
+        ["1", "Glycine", "", "(i) Monofunctional"],
+        ["2", "Lactic acid", "", "(ii) Bifunctional"],
+        ["3", "Malic acid", "", "(iii) Trifunctional"]
+      ],
+      options: [
+        { label: "a", text: "1–ii, 2–ii, 3–iii" },
+        { label: "b", text: "1–i, 2–ii, 3–iii" },
+        { label: "c", text: "1–ii, 2–iii, 3–i" },
+        { label: "d", text: "1–iii, 2–i, 3–ii" }
+      ],
+      answer: "a",
+      why: "The p.50 table counts one amino and one carboxyl group in glycine, one hydroxyl and one carboxyl group in lactic acid, and one hydroxyl plus two carboxyl groups in malic acid.",
+      distractors: {
+        b: "This misses glycine's amino group when counting its reactive functionality.",
+        c: "This assigns three groups to lactic acid and only one to malic acid.",
+        d: "This reverses the functionality classifications shown for these compounds."
+      },
+      concept: "Functionality is the number of reactive groups counted in the source table",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T1.1",
+      misconceptions: {
+        b: { tag: "missed-amino-group", kind: "observation" },
+        c: { tag: "miscounted-functional-groups", kind: "conceptual" },
+        d: { tag: "reversed-functionality", kind: "conceptual" }
+      },
+      qsScore: 95,
+    },
   ],
 };
 

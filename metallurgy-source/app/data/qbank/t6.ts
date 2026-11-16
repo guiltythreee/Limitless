@@ -421,6 +421,42 @@ const T6: TopicSource = {
       concept: "crystallinity ⇒ higher HDT above Tg",
       tags: ["confused"],
     },
+
+    {
+      id: "t6-23",
+      type: "match",
+      diff: 3,
+      text: "Match each structural factor with the example or trend stated in the lecture.",
+      tableRows: [
+        ["1", "Hydrogen bonding", "", "(i) Poly(4-vinylpyridine), dipole–dipole interaction of the pyridine ring"],
+        ["2", "Dipole–dipole interaction", "", "(ii) Poly(vinyl alcohol), Tg = 85 °C"],
+        ["3", "Rigid aromatic backbone", "", "(iii) Polybenzimidazole, Tg = 429 °C"],
+        ["4", "Increasing linear alkyl side-chain length", "", "(iv) Tg decreases"]
+      ],
+      options: [
+        { label: "a", text: "1–ii, 2–i, 3–iii, 4–iv" },
+        { label: "b", text: "1–i, 2–ii, 3–iv, 4–iii" },
+        { label: "c", text: "1–ii, 2–iii, 3–i, 4–iv" },
+        { label: "d", text: "1–iii, 2–iv, 3–ii, 4–i" }
+      ],
+      answer: "a",
+      why: "The lecture links PVA (85 °C) with hydrogen bonding, poly(4-vinylpyridine) (142 °C) with dipole–dipole interaction, and polybenzimidazole (429 °C) with a rigid aromatic heterocyclic backbone. Page 67 states that increasing linear alkyl side-chain length decreases Tg.",
+      distractors: {
+        b: "This swaps the PVA and pyridine examples and misassigns the backbone and side-chain trends.",
+        c: "This assigns polybenzimidazole to dipole interactions and misplaces the rigid-backbone example.",
+        d: "This reverses the PVA and polybenzimidazole examples and misassigns the side-chain trend."
+      },
+      concept: "Structural restrictions on segmental motion and the lecture's stated Tg examples",
+      tags: ["reviewed", "revision"],
+      qsLevel: 3,
+      sub: "T6.3",
+      misconceptions: {
+        b: { tag: "swapped-intermolecular-forces", kind: "conceptual" },
+        c: { tag: "misassigned-backbone-stiffness", kind: "conceptual" },
+        d: { tag: "reversed-structure-trends", kind: "conceptual" }
+      },
+      qsScore: 92,
+    },
   ],
 };
 
