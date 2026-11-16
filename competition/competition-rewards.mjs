@@ -34,7 +34,7 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
   function loadState() {
     try {
       const raw = storage.getItem(COMPETITION_REWARD_STORAGE_KEY);
-      if (!raw) return { payload: {}, records: [], valid: true };
+      if (raw == null) return { payload: {}, records: [], valid: true };
       const payload = JSON.parse(raw);
       if (!isRecord(payload) || !Array.isArray(payload.rewardLedger)) {
         return { payload: {}, records: [], valid: false };
