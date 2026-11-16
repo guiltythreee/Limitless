@@ -435,8 +435,8 @@ const T6: TopicSource = {
       ],
       options: [
         { label: "a", text: "1–i, 2–ii, 3–iv, 4–iii" },
-        { label: "c", text: "1–ii, 2–iii, 3–i, 4–iv" },
-        { label: "b", text: "1–ii, 2–i, 3–iii, 4–iv" },
+        { label: "b", text: "1–ii, 2–iii, 3–i, 4–iv" },
+        { label: "c", text: "1–ii, 2–i, 3–iii, 4–iv" },
         { label: "d", text: "1–iii, 2–iv, 3–ii, 4–i" }
       ],
       answer: "c",
