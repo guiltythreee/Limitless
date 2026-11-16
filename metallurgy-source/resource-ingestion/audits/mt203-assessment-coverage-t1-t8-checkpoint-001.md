@@ -196,3 +196,19 @@ On 16 November 2026, the eight items in `mt203-proposed-gap-questions-t1-t3-t7.m
 - T8: `t8-31` (silicone-based TPU components).
 
 The current bank has 313 questions. The T6-06 polyethylene Tg mismatch (question approximately −120 °C; source p.65 −20 °C) remains unresolved and unchanged. No prior question ID was renumbered or overwritten; the eight new IDs are appended to their respective topics. Learner-progress records were not edited.
+
+
+## Final automated validation — 16 November 2026
+
+Validated on commit `8b7c102d00038f172486b46a840e3c3d5f78a1b7`:
+- MT203 source validator: 313 questions across 11 topics; all checks passed.
+- Course registry/content-lock validator: all courses passed, MT203 total 313.
+- MT203 progress unit tests: 47 passed, 0 failed.
+- MT203 migration assertions: 123 passed, 0 failed.
+- Shared question renderer: 90 passed, 0 failed.
+- Answer-key balance: A=78, B=79, C=78, D=78; spread 1 globally and maximum spread 1 per topic.
+- Answer-sequence guard: passed run-length, rolling-window and repeated-pattern checks.
+- Focused MCQ-QS v1.0 gate: all eight new items scored 92–95, no errors and no heuristic warnings.
+- Production build: compiled successfully.
+
+All five relevant GitHub Actions workflows completed successfully. PR #246 remains draft/open/unmerged; no deployment was performed.

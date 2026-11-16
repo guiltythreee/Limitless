@@ -350,7 +350,7 @@ All eight self-scores are above the 80-point provisional acceptance threshold. I
 
 ## Implementation status
 
-All eight proposed questions are now present in the live question bank under IDs `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17` and `t8-31`. Metadata counts and primary subtopic mappings have been updated. The current bank total is 313. Automated regression and course-lock checks are being rerun; this proposal file is retained as the source/distractor rationale record.
+All eight proposed questions are now present in the live question bank under IDs `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17` and `t8-31`. Metadata counts and primary subtopic mappings have been updated. The current bank total is 313. Automated regression and course-lock checks passed on commit `8b7c102d00038f172486b46a840e3c3d5f78a1b7`. All eight items scored 92–95 and passed the focused MCQ-QS v1.0 gate with no errors or heuristic warnings. This proposal file is retained as the source/distractor rationale record.
 
 
 ## Answer-position balance update

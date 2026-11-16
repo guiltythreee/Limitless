@@ -98,4 +98,4 @@ The checkpoint above was a 305-question baseline. Eight source-grounded question
 | T11 | 33 | 33 |
 | **Total** | **305** | **313** |
 
-New IDs: `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17`, `t8-31`. Each is sequential within its topic and has one primary mapping. The metadata total is 313. The registry manifest and content-lock are updated in the same change set. Full automated confirmation is pending the MT203 regression and course-registry CI workflows.
+New IDs: `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17`, `t8-31`. Each is sequential within its topic and has one primary mapping. The metadata total is 313. The registry manifest and content-lock are updated in the same change set. Automated confirmation passed on commit `8b7c102d00038f172486b46a840e3c3d5f78a1b7`: MT203 validation reports 313 questions; course manifest/content-lock validation passes; MT203 unit and migration tests pass; question renderer tests pass; answer-key balance and sequence tests pass; all eight additions pass MCQ-QS v1.0 without errors or heuristic warnings; production build succeeds.
