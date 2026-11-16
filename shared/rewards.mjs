@@ -285,7 +285,7 @@ function rewardCheckpointKey(moduleId, checkpointId) {
   return JSON.stringify([moduleId, checkpointId]);
 }
 
-export function calculateReward(input, priorRecords = [], rewardContext = null) {
+function calculateRewardInternal(input, priorRecords = [], rewardContext = null) {
   const ts = isFiniteNumber(input?.ts) ? Math.round(input.ts) : 0;
   const activityClass = input?.activityClass;
   const difficulty = input?.difficulty;
@@ -402,6 +402,10 @@ export function calculateReward(input, priorRecords = [], rewardContext = null) 
   };
 }
 
+export function calculateReward(input, priorRecords = []) {
+  return calculateRewardInternal(input, priorRecords, null);
+}
+
 /**
  * Persistence adapters store checkpoint bonuses as their own uniquely identified
  * award record. calculateReward remains a pure one-activity breakdown; this helper
@@ -466,7 +470,7 @@ export function buildRewardRecordsBatch(inputs, priorRecords = []) {
   for (const record of prior) addRewardRecordToContext(context, record);
 
   return inputs.map((input) => {
-    const records = splitRewardRecords(calculateReward(input, [], context));
+    const records = splitRewardRecords(calculateRewardInternal(input, [], context));
     for (const record of records) addRewardRecordToContext(context, record);
     return records;
   });
