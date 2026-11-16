@@ -228,3 +228,10 @@ The eight item records retain four options, one keyed answer, explanations, dist
 At PR #246 head `c944c3175dc1d786591aef92628e3e6488aaae50`, the five PR-triggered workflows all completed successfully: Metallurgy Regression Tests, Shared question-quality engine tests, Metallurgy question-quality test, Metallurgy Content Regression Tests, and Metallurgy Learning Regression Tests. The PR remains open, draft, unmerged and mergeable. No merge or deployment was performed.
 
 The earlier 305-question integrity table remains a historical checkpoint. The current count and per-topic figures above are the authoritative inventory for this branch head. Learner-progress data was not edited as part of these eight insertions.
+
+
+## Post-review refinement — 16 November 2026
+
+A final distractor-discrimination review identified overlap between two incorrect options in `t1-33`. Option D was revised to test the distinct error of predicting a decrease in tensile strength while retaining the lecture's decrease in elongation and abrasion resistance. The keyed answer and source interpretation are unchanged. The proposal rationale file records this adjustment.
+
+The live bank remains at 313 questions with the eight IDs listed above. The latest branch head after the content and audit-note commits is `cb2a506c8084c4836cd90aa860169502358515ce`. This head contains documentation-only commits after the small T1 distractor wording change. The test runs associated with the T1 code commit were partly cancelled during subsequent pushes and must not be described as fully green; the preceding code head `c944c3175dc1d786591aef92628e3e6488aaae50` had all five workflows successful. Recheck the latest code commit's workflow state before merge readiness is assessed.
