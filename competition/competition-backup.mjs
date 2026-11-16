@@ -125,7 +125,12 @@ export function restoreCompetitionBackup(storage, primaryKey, state, parsed) {
     value: extras.codeforcesRewards === null ? null : JSON.stringify(extras.codeforcesRewards),
   });
 
-  const previous = updates.map(({ key }) => storage.getItem(key));
+  let previous;
+  try {
+    previous = updates.map(({ key }) => storage.getItem(key));
+  } catch {
+    return { ok: false, error: "storage-read-failed" };
+  }
   try {
     updates.forEach(({ key, value }) => {
       if (value === null) storage.removeItem(key);
