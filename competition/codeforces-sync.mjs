@@ -334,10 +334,10 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
     const rewardOrder = newlyObserved.slice().sort((a, b) =>
       Number(a.creationTimeSeconds) - Number(b.creationTimeSeconds) || Number(a.id) - Number(b.id)
     );
-    for (const submission of rewardOrder) {
-      if (submission.verdict !== "OK") continue;
-      const record = rewards.awardCodeforcesSubmission(submission, normalizedHandle);
-      if (!record) return { ok: false, error: "reward-ledger-write-failed", baseline: false, added: 0 };
+    const acceptedRewards = rewardOrder.filter((submission) => submission.verdict === "OK");
+    const rewardRecords = rewards.awardCodeforcesSubmissions(acceptedRewards, normalizedHandle);
+    if (!rewardRecords) return { ok: false, error: "reward-ledger-write-failed", baseline: false, added: 0 };
+    for (const record of rewardRecords) {
       if (record.created && record.eligible && record.totalExp > 0) {
         awardedExp += record.totalExp;
         rewardAwards += 1;
