@@ -27,7 +27,7 @@ The lecture compares styrene-butadiene rubber (SBR) with homopolymers and marks 
 A. Tensile strength decreases, while elongation and abrasion resistance increase.  
 B. Tensile strength increases, while elongation and abrasion resistance decrease.  
 C. Tensile strength and elongation both increase, while abrasion resistance is unchanged.  
-D. Tensile strength is unchanged, while elongation and abrasion resistance both decrease.
+D. Tensile strength decreases, while elongation and abrasion resistance both decrease.
 
 **Correct answer:** B
 
@@ -372,3 +372,12 @@ The bank's answer-position checks also enforce rolling eight-question windows an
 - `t7-17` is now keyed A.
 
 Options and wrong-answer rationales were moved with their labels. The underlying source-derived correct answers are unchanged.
+
+
+## Review addendum — distractor discrimination and current status
+
+The T1 SBR item’s option D was tightened so it tests a distinct partial misconception (incorrect tensile-strength direction) rather than repeating the elongation misconception in option C. The keyed answer and source-derived trend are unchanged.
+
+The eight live records were checked against their cited lecture pages and the existing MT203 question schema. The source spot-check confirms the keyed content for all eight items. Match and sequence formats are supported by the live `Question` type; the current PR head's question-quality, course regression and learning regression workflows pass. The author rubric scores remain 92–95 and are not represented as independent human-review scores.
+
+Current live IDs remain `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17` and `t8-31`; current bank total is 313. The original draft sections and earlier implementation note are retained as history.
