@@ -693,7 +693,7 @@ const T9: TopicSource = {
       },
       concept: "Thermoplastic mechanical recycling vs thermoset recovery.",
       tags: ["revision"]
-    }
+    },
     {
       "id": "t9-29",
       "type": "match",

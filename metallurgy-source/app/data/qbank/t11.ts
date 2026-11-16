@@ -861,7 +861,7 @@ const T11: TopicSource = {
       },
       concept: "Processability before cure; controlled vulcanization after shaping.",
       tags: ["revision"]
-    }
+    },
     {
       "id": "t11-34",
       "type": "concept",

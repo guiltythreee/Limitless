@@ -891,7 +891,7 @@ const T10: TopicSource = {
       },
       concept: "Optical clarity / scattering / birefringence; LOI definition.",
       tags: ["revision"]
-    }
+    },
     {
       "id": "t10-37",
       "type": "match",
