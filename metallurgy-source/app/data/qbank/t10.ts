@@ -1312,7 +1312,7 @@ const T10: TopicSource = {
       "distractors": {
         "a": "This exchanges the Izod clamping arrangement and the horizontal Charpy support arrangement.",
         "c": "This assigns the same orientation to both tests and omits the Charpy support condition.",
-        "d": "This reverses both specimen arrangements described in the source."
+        "d": "This reverses both specimen arrangements described in the source for the two pendulum impact methods."
       },
       "concept": "Izod and Charpy specimen orientation, support and result reporting",
       "tags": [

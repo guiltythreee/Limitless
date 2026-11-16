@@ -870,15 +870,15 @@ const T11: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "To change the chemical identity of polymer chains before the material enters a mould."
+          "text": "To chemically modify polymer chains during processing so the finished article has a different composition from the feed."
         },
         {
           "label": "b",
-          "text": "To remove crystalline regions so the finished article remains amorphous."
+          "text": "To melt and reshape the polymer while deliberately removing crystalline order from films, fibres and moulded products."
         },
         {
           "label": "c",
-          "text": "To maximize molecular weight without changing chain arrangement, crystal size or orientation."
+          "text": "To raise molecular weight during shaping while keeping chain arrangement and crystal orientation fixed."
         },
         {
           "label": "d",
@@ -1161,15 +1161,15 @@ const T11: TopicSource = {
       "options": [
         {
           "label": "a",
-          "text": "Blown-film extrusion uses a closed mould and compressed air to expand a parison into a bottle-shaped cavity."
+          "text": "Blown-film extrusion uses a closed mould and compressed air to expand a parison into a hollow bottle-shaped cavity."
         },
         {
           "label": "b",
-          "text": "Blow moulding forms a continuous flat sheet by passing a melt through a slit die and cooling rolls."
+          "text": "Blow moulding forms a continuous flat sheet by passing a polymer melt through a slit die and cooling rolls."
         },
         {
           "label": "c",
-          "text": "Both processes use the same die and take-off arrangement, with the product shape determined after pelletizing."
+          "text": "Both processes use the same die and take-off arrangement, with product geometry set during a later pelletizing stage."
         },
         {
           "label": "d",
@@ -1612,7 +1612,7 @@ const T11: TopicSource = {
       "distractors": {
         "a": "This assigns the paraffinic-oil incompatibility list to aromatic oil and reverses the source examples.",
         "c": "This assigns the same elastomer family to both oil types, contrary to the two separate lists.",
-        "d": "This reverses both source compatibility examples."
+        "d": "This reverses both source compatibility examples for aromatic and paraffinic plasticizer oils."
       },
       "concept": "Aromatic and paraffinic oil compatibility examples for rubber plasticizer selection",
       "tags": [
