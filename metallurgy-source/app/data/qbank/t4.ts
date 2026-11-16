@@ -585,8 +585,8 @@ const T4: TopicSource = {
       answer: "d",
       why: "The p.48 chart lists sedimentation velocity and sedimentation equilibrium as the two ultracentrifugation methods. This item asks what the lecture chart lists, without resolving its separate method-to-average inconsistencies.",
       distractors: {
-        a: "Both osmometry methods appear under the chart's colligative-method branch.",
-        b: "These are dilute-solution viscosity measurements, not ultracentrifugation methods.",
+        a: "Both osmometry methods appear under the chart's colligative-method branch, not under ultracentrifugation.",
+        b: "These are dilute-solution viscosity measurements, not the ultracentrifugation methods listed in the lecture chart.",
         c: "These are separate methods listed under the weight-average branch, not ultracentrifugation submethods."
       },
       concept: "Ultracentrifugation methods named on the source p.48 chart",

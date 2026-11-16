@@ -783,7 +783,7 @@ const T1: TopicSource = {
       distractors: {
         a: "This assigns three groups to lactic acid and only one group to malic acid.",
         b: "This misses glycine's amino group when counting its reactive functionality.",
-        d: "This reverses the functionality classifications shown for these compounds.",
+        d: "This reverses the functionality classifications shown for these compounds in the lecture table.",
       },
       concept: "Functionality is the number of reactive groups counted in the source table",
       tags: ["reviewed", "revision"],
