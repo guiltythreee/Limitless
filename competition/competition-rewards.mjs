@@ -4,7 +4,7 @@
  * is called. The ledger is separate from Competition's existing progress data.
  */
 import {
-  buildRewardRecords,
+  buildRewardRecordsBatch,
   dispatchRewardUpdate,
   readRewardLedger,
   decodeRewardLedgerArchive,
@@ -61,8 +61,11 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
 
     const nextRecords = state.records.slice();
     const byEventId = new Map(nextRecords.map((record) => [record.eventId, record]));
+    const pendingByEventId = new Map();
+    const pending = [];
     const results = [];
     let changed = false;
+
     for (const submission of submissions) {
       if (!isRecord(submission) || submission.verdict !== "OK" ||
           !Number.isSafeInteger(submission.id) || submission.id <= 0 ||
@@ -75,6 +78,10 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       const existing = byEventId.get(eventId);
       if (existing) {
         results.push({ ...existing, created: false });
+        continue;
+      }
+      if (pendingByEventId.has(eventId)) {
+        results.push({ pendingResultIndex: pendingByEventId.get(eventId) });
         continue;
       }
 
@@ -91,15 +98,29 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
         quality: 1,
       };
       if (!Number.isFinite(activity.ts) || activity.ts <= 0) return null;
-      const createdRecords = buildRewardRecords(activity, nextRecords);
+      const resultIndex = results.length;
+      pendingByEventId.set(eventId, resultIndex);
+      pending.push(activity);
+      results.push(null);
+    }
+
+    if (!pending.length) return results.map((result) =>
+      result && Number.isInteger(result.pendingResultIndex)
+        ? { ...results[result.pendingResultIndex], created: false }
+        : result
+    );
+
+    const createdBatches = buildRewardRecordsBatch(pending, nextRecords);
+    for (let index = 0; index < createdBatches.length; index += 1) {
+      const createdRecords = createdBatches[index];
       const record = createdRecords[0];
       nextRecords.push(...createdRecords);
       for (const createdRecord of createdRecords) byEventId.set(createdRecord.eventId, createdRecord);
-      results.push({ ...record, created: true });
-      changed = true;
+      const resultIndex = pendingByEventId.get(record.eventId);
+      results[resultIndex] = { ...record, created: true };
     }
+    changed = true;
 
-    if (!changed) return results;
     try {
       storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(
         compactRewardLedgerPayload({
@@ -111,7 +132,11 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       return null;
     }
     dispatchRewardUpdate();
-    return results;
+    return results.map((result) =>
+      result && Number.isInteger(result.pendingResultIndex)
+        ? { ...results[result.pendingResultIndex], created: false }
+        : result
+    );
   }
 
   function awardCodeforcesSubmission(submission, handle) {
