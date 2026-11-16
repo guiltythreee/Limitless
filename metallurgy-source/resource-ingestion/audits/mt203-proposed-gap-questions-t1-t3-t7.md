@@ -381,3 +381,10 @@ The T1 SBR item’s option D was tightened so it tests a distinct partial miscon
 The eight live records were checked against their cited lecture pages and the existing MT203 question schema. The source spot-check confirms the keyed content for all eight items. Match and sequence formats are supported by the live `Question` type; the current PR head's question-quality, course regression and learning regression workflows pass. The author rubric scores remain 92–95 and are not represented as independent human-review scores.
 
 Current live IDs remain `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17` and `t8-31`; current bank total is 313. The original draft sections and earlier implementation note are retained as history.
+
+
+## Final live-bank reconciliation — 16 November 2026
+
+The eight-question source-gap set in this document was implemented, then two further lecture gaps were covered by `t4-32` (p.48 molecular-weight method chart) and `t8-32` (pp.155–157 natural-rubber latex coagulation and ammonia preservation). Together with the 29 T9–T11 additions, the live bank now contains **344 questions: 39 above the original 305-question baseline**. The current T1–T8 count is 218 and T9–T11 count is 126.
+
+The two extra items are documented in the T1–T8 crosswalk and the consolidated T9–T11 assessment audit. No further addition is currently justified by the reconciled source-gap registers. The p.154 permeability-table notation remains unsuitable for a numerical item until the source supplies the missing scaling/footnote definitions.
