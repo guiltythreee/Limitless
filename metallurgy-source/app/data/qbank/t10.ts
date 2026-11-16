@@ -964,7 +964,7 @@ const T10: TopicSource = {
         }
       },
       "qsScore": 93
-    }
+    },
     {
       "id": "t10-38",
       "type": "match",
@@ -1336,7 +1336,7 @@ const T10: TopicSource = {
         }
       },
       "qsScore": 93
-    }
+    },
     {
       "id": "t10-44",
       "type": "match",
@@ -1403,7 +1403,7 @@ const T10: TopicSource = {
         }
       },
       "qsScore": 92
-    }
+    },
     {
       "id": "t10-45",
       "type": "sequence",

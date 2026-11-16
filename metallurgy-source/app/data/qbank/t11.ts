@@ -1152,7 +1152,7 @@ const T11: TopicSource = {
         }
       },
       "qsScore": 92
-    }
+    },
     {
       "id": "t11-39",
       "type": "concept",
