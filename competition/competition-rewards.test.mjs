@@ -122,4 +122,46 @@ assert.equal(emptyLedgerAdapter.awardCodeforcesSubmission({
 assert.equal(emptyLedgerValues.get(COMPETITION_REWARD_STORAGE_KEY), "",
   "rejecting an empty ledger leaves its original bytes untouched");
 
+// Batch syncs calculate rewards in chronological order but persist the
+// complete batch exactly once. A failed write must leave the original ledger
+// untouched, and retrying a committed batch must remain idempotent.
+let batchWrites = 0;
+const batchValues = new Map();
+const batchStorage = {
+  getItem(key) { return batchValues.has(key) ? batchValues.get(key) : null; },
+  setItem(key, value) { batchWrites += 1; batchValues.set(key, value); },
+};
+const batchAdapter = createCompetitionRewardAdapter(batchStorage);
+const batchSubmissions = [0, 1, 2, 3].map((index) => ({
+  ...accepted,
+  id: 110000 + index,
+  contestId: 4100,
+  creationTimeSeconds: accepted.creationTimeSeconds + index,
+  problem: { ...accepted.problem, index: "D", rating: 800 },
+}));
+const batchResults = batchAdapter.awardCodeforcesSubmissions(batchSubmissions, "batchhandle");
+assert.equal(batchResults.length, 4);
+assert.deepEqual(batchResults.map((record) => record.repeatOrdinal), [1, 2, 3, 4],
+  "batch reward ordinals follow the supplied chronological order");
+assert.deepEqual(batchResults.map((record) => record.eligible), [true, true, true, false],
+  "the daily repeat cap is preserved inside a batch");
+assert.equal(batchWrites, 1, "a reward batch is committed with one storage write");
+const batchRetry = batchAdapter.awardCodeforcesSubmissions(batchSubmissions, "batchhandle");
+assert.ok(batchRetry.every((record) => record.created === false),
+  "retrying a committed batch returns existing records without creating new awards");
+assert.equal(batchWrites, 1, "an idempotent retry performs no storage write");
+assert.equal(batchAdapter.getRecords().length, 4);
+
+let failedBatchWrites = 0;
+const failedBatchStorage = {
+  getItem() { return null; },
+  setItem() { failedBatchWrites += 1; throw new Error("quota exceeded"); },
+};
+const failedBatchAdapter = createCompetitionRewardAdapter(failedBatchStorage);
+assert.equal(failedBatchAdapter.awardCodeforcesSubmissions(batchSubmissions, "batchhandle"), null,
+  "a failed batch commit is reported as failure");
+assert.equal(failedBatchWrites, 1, "the batch attempts only one commit");
+assert.equal(failedBatchAdapter.getRecords().length, 0,
+  "a failed batch commit does not expose unpersisted reward records");
+
 console.log("Competition LSR-1 rewards: all assertions passed.");
