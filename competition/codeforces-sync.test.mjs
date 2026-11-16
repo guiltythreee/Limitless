@@ -113,6 +113,39 @@ const repeatedFinalized = syncCodeforcesSubmissions(storage, "ExampleHandle", [{
 assert.equal(repeatedFinalized.added, 0);
 assert.equal(repeatedFinalized.rewardAwards, 0, "repeated sync does not award EXP twice");
 
+// Multiple accepted solves in one sync are awarded in chronological order
+// and committed to the reward store with one atomic write.
+{
+  const batchValues = new Map();
+  let rewardWrites = 0;
+  const batchStorage = {
+    getItem(key) { return batchValues.has(key) ? batchValues.get(key) : null; },
+    setItem(key, value) {
+      if (key === COMPETITION_REWARD_STORAGE_KEY) rewardWrites += 1;
+      batchValues.set(key, value);
+    },
+  };
+  assert.equal(syncCodeforcesSubmissions(batchStorage, "BatchHandle", [], 1795000000000).ok, true);
+  const acceptedBatch = [0, 1, 2, 3].map((index) => ({
+    id: 120000 + index,
+    contestId: 4200,
+    creationTimeSeconds: 1795000001 + index,
+    verdict: "OK",
+    problem: { contestId: 4200, index: "A", rating: 800, tags: ["implementation"] },
+  })).reverse();
+  const batchSync = syncCodeforcesSubmissions(
+    batchStorage, "BatchHandle", acceptedBatch, 1795000005000
+  );
+  assert.equal(batchSync.ok, true);
+  assert.equal(batchSync.rewardAwards, 3,
+    "the three eligible same-day solves earn rewards; the fourth is recorded at zero EXP");
+  assert.equal(batchSync.awardedExp, 72);
+  assert.equal(rewardWrites, 1, "one sync batch performs one reward-ledger storage write");
+  const batchLedger = JSON.parse(batchValues.get(COMPETITION_REWARD_STORAGE_KEY));
+  assert.deepEqual(batchLedger.rewardLedger.map((record) => record.repeatOrdinal), [1, 2, 3, 4],
+    "newest-first API input is reordered chronologically before applying repeat caps");
+}
+
 // A reward can be persisted even if the separate sync-state write fails.
 // Retrying must not report that already-persisted reward as newly awarded.
 const flakyValues = new Map();
