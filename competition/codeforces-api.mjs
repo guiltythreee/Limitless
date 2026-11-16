@@ -44,6 +44,45 @@ export function createCodeforcesApiRequester(fetchImpl, options = {}) {
 export const requestCodeforcesApi = createCodeforcesApiRequester((url, init) => fetch(url, init));
 
 
+function isValidSubmissionRecord(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value) &&
+    Number.isSafeInteger(value.id) && value.id > 0 &&
+    Number.isFinite(value.creationTimeSeconds) && value.creationTimeSeconds >= 0;
+}
+
+function assertValidSubmissionPage(page) {
+  if (!page.every(isValidSubmissionRecord)) {
+    throw new Error("Codeforces returned a malformed submission record. No partial sync was saved.");
+  }
+  for (let index = 1; index < page.length; index += 1) {
+    if (page[index - 1].id <= page[index].id) {
+      throw new Error("Codeforces returned submissions out of descending ID order. No partial sync was saved.");
+    }
+    if (page[index - 1].creationTimeSeconds < page[index].creationTimeSeconds) {
+      throw new Error("Codeforces returned submissions out of descending creation-time order. No partial sync was saved.");
+    }
+  }
+}
+
+function assertSubmissionPageBoundary(previousLast, page) {
+  if (!previousLast || !page.length) return;
+  if (previousLast.id < page[0].id ||
+      previousLast.creationTimeSeconds < page[0].creationTimeSeconds) {
+    throw new Error("Codeforces submission pagination order changed between pages. No partial sync was saved.");
+  }
+}
+
+async function readNewestSubmissionId(request, handle, signal) {
+  const url = "https://codeforces.com/api/user.status?handle=" +
+    encodeURIComponent(handle.trim()) + "&from=1&count=1";
+  const payload = await request(url, signal ? { signal } : undefined);
+  if (!payload || !Array.isArray(payload.result)) {
+    throw new Error("Codeforces returned an invalid submission-history verification page.");
+  }
+  assertValidSubmissionPage(payload.result);
+  return payload.result[0]?.id ?? null;
+}
+
 /**
  * Fetch a complete Codeforces submission history in bounded pages.
  * A small overlap between pages protects against a new submission shifting
@@ -65,6 +104,9 @@ export async function fetchAllCodeforcesSubmissions(handle, options = {}) {
   const signal = options.signal;
   const submissions = new Map();
   let from = 1;
+  let initialNewestId = null;
+  let capturedFirstPage = false;
+  let previousPageLast = null;
 
   for (let pageNumber = 0; pageNumber < maxPages; pageNumber += 1) {
     const url = "https://codeforces.com/api/user.status?handle=" +
@@ -74,24 +116,31 @@ export async function fetchAllCodeforcesSubmissions(handle, options = {}) {
       throw new Error("Codeforces returned an invalid submission-history page.");
     }
     const page = payload.result;
+    assertValidSubmissionPage(page);
+    assertSubmissionPageBoundary(previousPageLast, page);
+    if (!capturedFirstPage) {
+      initialNewestId = page[0]?.id ?? null;
+      capturedFirstPage = true;
+    }
     let added = 0;
     for (const submission of page) {
-      const key = submission && submission.id != null
-        ? String(submission.id)
-        : JSON.stringify([
-            submission?.creationTimeSeconds, submission?.contestId,
-            submission?.problem?.index, submission?.verdict,
-            submission?.programmingLanguage
-          ]);
+      const key = String(submission.id);
       if (!submissions.has(key)) {
         submissions.set(key, submission);
         added += 1;
       }
     }
-    if (page.length < pageSize) return Array.from(submissions.values());
+    if (page.length < pageSize) {
+      const finalNewestId = await readNewestSubmissionId(request, handle, signal);
+      if (finalNewestId !== initialNewestId) {
+        throw new Error("Codeforces submission history changed during pagination. Retry the full sync; no partial baseline was saved.");
+      }
+      return Array.from(submissions.values());
+    }
     if (added === 0) {
       throw new Error("Codeforces submission pagination stopped making progress.");
     }
+    previousPageLast = page[page.length - 1];
     from += Math.max(1, page.length - overlap);
   }
   throw new Error("Codeforces submission history exceeded the safe pagination limit. No partial sync was saved.");
@@ -100,9 +149,9 @@ export async function fetchAllCodeforcesSubmissions(handle, options = {}) {
 
 /**
  * Fetch only submissions in a recent time window.
- * user.status is ordered by descending submission ID, so once a full page
- * crosses the time boundary, older pages cannot contain newer submissions.
- * A small overlap is expected; IDs deduplicate it across pages.
+ * Validate ID/time ordering and recheck the newest ID at the end so offset
+ * movement during a long scan cannot silently create a gap. A small overlap
+ * deduplicates records across stable pages.
  */
 export async function fetchCodeforcesSubmissionsSince(handle, sinceSeconds, options = {}) {
   if (typeof handle !== "string" || !handle.trim()) {
@@ -122,6 +171,9 @@ export async function fetchCodeforcesSubmissionsSince(handle, sinceSeconds, opti
   const signal = options.signal;
   const submissions = new Map();
   let from = 1;
+  let initialNewestId = null;
+  let capturedFirstPage = false;
+  let previousPageLast = null;
 
   for (let pageNumber = 0; pageNumber < maxPages; pageNumber += 1) {
     const url = "https://codeforces.com/api/user.status?handle=" +
@@ -131,34 +183,35 @@ export async function fetchCodeforcesSubmissionsSince(handle, sinceSeconds, opti
       throw new Error("Codeforces returned an invalid submission-history page.");
     }
     const page = payload.result;
+    assertValidSubmissionPage(page);
+    assertSubmissionPageBoundary(previousPageLast, page);
+    if (!capturedFirstPage) {
+      initialNewestId = page[0]?.id ?? null;
+      capturedFirstPage = true;
+    }
     let added = 0;
     let pageIsOlderThanBoundary = page.length > 0;
     for (const submission of page) {
-      const seconds = Number(submission?.creationTimeSeconds);
-      if (!Number.isFinite(seconds)) {
-        pageIsOlderThanBoundary = false;
-        continue;
-      }
+      const seconds = submission.creationTimeSeconds;
       if (seconds >= sinceSeconds) pageIsOlderThanBoundary = false;
       if (seconds < sinceSeconds) continue;
-      const key = submission && submission.id != null
-        ? String(submission.id)
-        : JSON.stringify([
-            submission?.creationTimeSeconds, submission?.contestId,
-            submission?.problem?.index, submission?.verdict,
-            submission?.programmingLanguage
-          ]);
+      const key = String(submission.id);
       if (!submissions.has(key)) {
         submissions.set(key, submission);
         added += 1;
       }
     }
     if (page.length < pageSize || pageIsOlderThanBoundary) {
+      const finalNewestId = await readNewestSubmissionId(request, handle, signal);
+      if (finalNewestId !== initialNewestId) {
+        throw new Error("Codeforces submission history changed during incremental pagination. Retry the sync; no partial update was saved.");
+      }
       return Array.from(submissions.values());
     }
     if (added === 0) {
       throw new Error("Codeforces submission pagination stopped making progress.");
     }
+    previousPageLast = page[page.length - 1];
     from += Math.max(1, page.length - overlap);
   }
   throw new Error("Codeforces recent submission window exceeded the safe pagination limit. No partial sync was saved.");

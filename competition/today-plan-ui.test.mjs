@@ -55,6 +55,19 @@ assert.match(sync, /attemptsArchive: encodeCodeforcesAttemptArchive/,
 assert.match(css, /\.revision-actions/,
   "Codeforces revision controls must reuse the existing revision action layout");
 
+assert.match(js, /CODEFORCES_REVISION_PAGE_SIZE = 50/,
+  "large Codeforces revision queues must render in bounded pages");
+assert.match(js, /slice\(codeforcesRevisionStart, codeforcesRevisionStart \+ CODEFORCES_REVISION_PAGE_SIZE\)/,
+  "revision pagination must render the selected page rather than silently truncate the queue");
+assert.doesNotMatch(js, /codeforcesRevisionCandidates\.slice\(0,\s*5\)/,
+  "the Codeforces revision queue must not hide every candidate after the first five");
+assert.match(js, /data-codeforces-revision-page/,
+  "the full Codeforces revision queue must expose previous/next page controls");
+assert.match(js, /codeforcesRevisionCandidates\.length/,
+  "the revision panel must disclose the total retained problem count");
+assert.match(js, /codeforcesDueCount/,
+  "the revision panel must disclose the due count");
+
 console.log("Competition Today panel contract: all assertions passed.");
 
 

@@ -895,6 +895,8 @@
     renderSharedConceptInsights();
   }
   var sharedInsightRenderToken = 0;
+  var codeforcesRevisionPage = 0;
+  var CODEFORCES_REVISION_PAGE_SIZE = 50;
   function renderSharedConceptInsights() {
     var host = $('concept-learning-insights');
     if (!host) return;
@@ -951,27 +953,52 @@
       var codeforcesRevisionCandidates = analysis.revision.filter(function (item) {
         return item.courseId === 'codeforces';
       });
-      var codeforcesReviews = codeforcesRevisionCandidates.slice(0, 5).map(function (item) {
-        var questionUrl = api.getCodeforcesProblemUrl(item.questionId);
-        var problemLink = questionUrl
-          ? '<a href="' + esc(questionUrl) + '" target="_blank" rel="noopener noreferrer">Open problem ↗</a>'
-          : '';
-        var dueNow = item.dueAt <= Date.now();
-        var dueLabel = dueNow ? 'Due now' : 'Due ' + new Date(item.dueAt).toLocaleDateString();
-        var actions = dueNow
-          ? '<div class="revision-actions"><button type="button" class="action-button" data-codeforces-revision-result="correct" data-question-id="' + esc(item.questionId) + '">Solved independently</button><button type="button" class="action-button secondary-button" data-codeforces-revision-result="incorrect" data-question-id="' + esc(item.questionId) + '">Still stuck</button></div>'
-          : '';
-        return '<div class="revision-item"><div class="insight-row"><span>' + esc(item.questionId.replace('codeforces:', '')) +
-          '<small>' + item.failures + ' failed attempt(s) · ' + dueLabel + (problemLink ? ' · ' + problemLink : '') +
-          '</small></span><strong>' + (dueNow ? 'Review' : 'Scheduled') + '</strong></div>' + actions + '</div>';
-      }).join('');
+      var codeforcesRevisionPageCount = Math.max(1, Math.ceil(codeforcesRevisionCandidates.length / CODEFORCES_REVISION_PAGE_SIZE));
+      codeforcesRevisionPage = Math.max(0, Math.min(codeforcesRevisionPage, codeforcesRevisionPageCount - 1));
+      var codeforcesRevisionStart = codeforcesRevisionPage * CODEFORCES_REVISION_PAGE_SIZE;
+      var codeforcesReviews = codeforcesRevisionCandidates
+        .slice(codeforcesRevisionStart, codeforcesRevisionStart + CODEFORCES_REVISION_PAGE_SIZE)
+        .map(function (item) {
+          var questionUrl = api.getCodeforcesProblemUrl(item.questionId);
+          var problemLink = questionUrl
+            ? '<a href="' + esc(questionUrl) + '" target="_blank" rel="noopener noreferrer">Open problem ↗</a>'
+            : '';
+          var dueNow = item.dueAt <= Date.now();
+          var dueLabel = dueNow ? 'Due now' : 'Due ' + new Date(item.dueAt).toLocaleDateString();
+          var actions = dueNow
+            ? '<div class="revision-actions"><button type="button" class="action-button" data-codeforces-revision-result="correct" data-question-id="' + esc(item.questionId) + '">Solved independently</button><button type="button" class="action-button secondary-button" data-codeforces-revision-result="incorrect" data-question-id="' + esc(item.questionId) + '">Still stuck</button></div>'
+            : '';
+          return '<div class="revision-item"><div class="insight-row"><span>' + esc(item.questionId.replace('codeforces:', '')) +
+            '<small>' + item.failures + ' failed attempt(s) · ' + dueLabel + (problemLink ? ' · ' + problemLink : '') +
+            '</small></span><strong>' + (dueNow ? 'Review' : 'Scheduled') + '</strong></div>' + actions + '</div>';
+        }).join('');
+      var codeforcesDueCount = codeforcesRevisionCandidates.filter(function (item) { return item.dueAt <= Date.now(); }).length;
+      var codeforcesRevisionPagination = codeforcesRevisionCandidates.length > CODEFORCES_REVISION_PAGE_SIZE
+        ? '<div class="revision-pagination"><span>Showing ' + (codeforcesRevisionStart + 1) + '–' +
+          Math.min(codeforcesRevisionStart + CODEFORCES_REVISION_PAGE_SIZE, codeforcesRevisionCandidates.length) +
+          ' of ' + codeforcesRevisionCandidates.length + '</span><div>' +
+          '<button type="button" class="text-action revision-page-button" data-codeforces-revision-page="-1" ' +
+          (codeforcesRevisionPage === 0 ? 'disabled' : '') + ' aria-label="Previous revision page">Previous</button>' +
+          '<span>Page ' + (codeforcesRevisionPage + 1) + ' of ' + codeforcesRevisionPageCount + '</span>' +
+          '<button type="button" class="text-action revision-page-button" data-codeforces-revision-page="1" ' +
+          (codeforcesRevisionPage >= codeforcesRevisionPageCount - 1 ? 'disabled' : '') +
+          ' aria-label="Next revision page">Next</button></div></div>'
+        : '';
       host.innerHTML = '<div class="mistake-breakdown"><h4>Concept mastery</h4>' +
         (masteryRows || '<p class="empty-state">Add an underlying concept when logging a problem to build concept-level mastery.</p>') +
         '</div>' +
         (nextSteps ? '<div class="mistake-breakdown"><h4>Suggested focus</h4>' + nextSteps + '</div>' : '') +
         (recurringMistakes ? '<div class="mistake-breakdown"><h4>Recurring mistakes · targeted repair</h4>' + recurringMistakes + '</div>' : '') +
-        (codeforcesAttempts.length ? '<div class="mistake-breakdown"><h4 id="codeforces-revision">Codeforces revision</h4>' +
-          (codeforcesReviews || '<p class="empty-state">No failed Codeforces problems currently need revision.</p>') + '</div>' : '');
+        (codeforcesAttempts.length ? '<div class="mistake-breakdown"><h4 id="codeforces-revision">Codeforces revision · ' +
+          codeforcesRevisionCandidates.length + ' problems · ' + codeforcesDueCount + ' due</h4>' +
+          (codeforcesReviews || '<p class="empty-state">No failed Codeforces problems currently need revision.</p>') +
+          codeforcesRevisionPagination + '</div>' : '');
+      host.querySelectorAll('[data-codeforces-revision-page]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          codeforcesRevisionPage = Math.max(0, codeforcesRevisionPage + Number(button.dataset.codeforcesRevisionPage));
+          renderSharedConceptInsights();
+        });
+      });
       host.querySelectorAll('[data-codeforces-revision-result]').forEach(function (button) {
         button.addEventListener('click', function () {
           if (button.disabled) return;

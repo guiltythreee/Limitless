@@ -4,7 +4,7 @@
  * is called. The ledger is separate from Competition's existing progress data.
  */
 import {
-  buildRewardRecords,
+  buildRewardRecordsBatch,
   dispatchRewardUpdate,
   readRewardLedger,
   decodeRewardLedgerArchive,
@@ -34,7 +34,7 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
   function loadState() {
     try {
       const raw = storage.getItem(COMPETITION_REWARD_STORAGE_KEY);
-      if (!raw) return { payload: {}, records: [], valid: true };
+      if (raw == null) return { payload: {}, records: [], valid: true };
       const payload = JSON.parse(raw);
       if (!isRecord(payload) || !Array.isArray(payload.rewardLedger)) {
         return { payload: {}, records: [], valid: false };
@@ -53,56 +53,97 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     }
   }
 
-  function awardCodeforcesSubmission(submission, handle) {
-    if (!isRecord(submission) || submission.verdict !== "OK" ||
-        !Number.isSafeInteger(submission.id) || submission.id <= 0 ||
-        !Number.isSafeInteger(submission.contestId) || submission.contestId <= 0 ||
-        !isRecord(submission.problem) || typeof submission.problem.index !== "string" ||
-        !/^[A-Z][0-9]*$/.test(submission.problem.index) ||
-        !Number.isFinite(submission.creationTimeSeconds) || submission.creationTimeSeconds <= 0 ||
-        !isString(handle)) return null;
-
+  function awardCodeforcesSubmissions(submissions, handle) {
+    if (!Array.isArray(submissions) || !isString(handle)) return null;
     const account = handle.trim().toLowerCase();
-    const eventId = "codeforces:" + account + ":" + submission.id;
     const state = loadState();
     if (!state.valid) return null;
-    const existing = state.records.find((record) => record.eventId === eventId);
-    if (existing) return { ...existing, created: false };
 
-    const rating = Number.isFinite(submission.problem.rating) ? submission.problem.rating : 0;
-    const activity = {
-      eventId,
-      moduleId: COMPETITION_REWARD_MODULE_ID,
-      itemId: "codeforces-problem:" + submission.contestId + "-" + submission.problem.index,
-      ts: Math.round(submission.creationTimeSeconds * 1000),
-      activityClass: "focused-practice",
-      difficulty: codeforcesDifficulty(rating),
-      completionEvidence: "verified-codeforces-accepted-submission",
-      completed: true,
-      quality: 1,
-    };
-    if (!Number.isFinite(activity.ts) || activity.ts <= 0) return null;
-    const records = buildRewardRecords(activity, state.records);
-    const record = records[0];
+    const nextRecords = state.records.slice();
+    const byEventId = new Map(nextRecords.map((record) => [record.eventId, record]));
+    const pendingByEventId = new Map();
+    const pending = [];
+    const results = [];
+
+    for (const submission of submissions) {
+      if (!isRecord(submission) || submission.verdict !== "OK" ||
+          !Number.isSafeInteger(submission.id) || submission.id <= 0 ||
+          !Number.isSafeInteger(submission.contestId) || submission.contestId <= 0 ||
+          !isRecord(submission.problem) || typeof submission.problem.index !== "string" ||
+          !/^[A-Z][0-9]*$/.test(submission.problem.index) ||
+          !Number.isFinite(submission.creationTimeSeconds) || submission.creationTimeSeconds <= 0) return null;
+
+      const eventId = "codeforces:" + account + ":" + submission.id;
+      const existing = byEventId.get(eventId);
+      if (existing) {
+        results.push({ ...existing, created: false });
+        continue;
+      }
+      if (pendingByEventId.has(eventId)) {
+        results.push({ pendingResultIndex: pendingByEventId.get(eventId) });
+        continue;
+      }
+
+      const rating = Number.isFinite(submission.problem.rating) ? submission.problem.rating : 0;
+      const activity = {
+        eventId,
+        moduleId: COMPETITION_REWARD_MODULE_ID,
+        itemId: "codeforces-problem:" + submission.contestId + "-" + submission.problem.index,
+        ts: Math.round(submission.creationTimeSeconds * 1000),
+        activityClass: "focused-practice",
+        difficulty: codeforcesDifficulty(rating),
+        completionEvidence: "verified-codeforces-accepted-submission",
+        completed: true,
+        quality: 1,
+      };
+      if (!Number.isFinite(activity.ts) || activity.ts <= 0) return null;
+      const resultIndex = results.length;
+      pendingByEventId.set(eventId, resultIndex);
+      pending.push(activity);
+      results.push(null);
+    }
+
+    if (!pending.length) return results.map((result) =>
+      result && Number.isInteger(result.pendingResultIndex)
+        ? { ...results[result.pendingResultIndex], created: false }
+        : result
+    );
+
+    const createdBatches = buildRewardRecordsBatch(pending, nextRecords);
+    for (let index = 0; index < createdBatches.length; index += 1) {
+      const createdRecords = createdBatches[index];
+      const record = createdRecords[0];
+      nextRecords.push(...createdRecords);
+      for (const createdRecord of createdRecords) byEventId.set(createdRecord.eventId, createdRecord);
+      const resultIndex = pendingByEventId.get(record.eventId);
+      results[resultIndex] = { ...record, created: true };
+    }
+
     try {
       storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(
         compactRewardLedgerPayload({
           ...state.payload,
-          rewardLedger: [...state.records, ...records],
+          rewardLedger: nextRecords,
         })
       ));
     } catch {
       return null;
     }
     dispatchRewardUpdate();
-    // Report creation separately from the persisted reward record. This lets
-    // sync retries distinguish an idempotent lookup from a new award.
-    return { ...record, created: true };
+    return results.map((result) =>
+      result && Number.isInteger(result.pendingResultIndex)
+        ? { ...results[result.pendingResultIndex], created: false }
+        : result
+    );
+  }
+
+  function awardCodeforcesSubmission(submission, handle) {
+    return awardCodeforcesSubmissions([submission], handle)?.[0] ?? null;
   }
 
   function getRecords() {
     return loadState().records;
   }
 
-  return { awardCodeforcesSubmission, getRecords };
+  return { awardCodeforcesSubmission, awardCodeforcesSubmissions, getRecords };
 }

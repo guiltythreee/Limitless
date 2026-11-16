@@ -63,6 +63,41 @@ const repeated = syncCodeforcesSubmissions(storage, "ExampleHandle", [newSubmiss
 assert.equal(repeated.added, 0, "repeated API results do not duplicate learning attempts");
 assert.equal(repeated.state.attempts.length, 1);
 
+// An archived attempt remains an idempotency key after its bounded seen-ID
+// entry ages out. Replaying it must not increment scheduler failure counts.
+{
+  const replayValues = new Map();
+  const replayStorage = {
+    getItem(key) { return replayValues.has(key) ? replayValues.get(key) : null; },
+    setItem(key, value) { replayValues.set(key, value); },
+    removeItem(key) { replayValues.delete(key); },
+  };
+  syncCodeforcesSubmissions(replayStorage, "ReplayHandle", [], 1795000000000);
+  const oldFailure = {
+    id: 700, contestId: 2700, creationTimeSeconds: 1795000001,
+    verdict: "WRONG_ANSWER", problem: { contestId: 2700, index: "A", tags: ["dp"] },
+  };
+  const original = syncCodeforcesSubmissions(
+    replayStorage, "ReplayHandle", [oldFailure], 1795000005000
+  );
+  assert.equal(original.added, 1);
+  const beforeReplay = readCodeforcesSyncState(replayStorage);
+  assert.equal(beforeReplay.revisionState[0].failures, 1);
+  const persisted = JSON.parse(replayValues.get(CODEFORCES_SYNC_STORAGE_KEY));
+  persisted.seenSubmissionIds = Array.from({ length: 100000 }, (_, index) => 1000000 + index);
+  replayValues.set(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(persisted));
+
+  const replay = syncCodeforcesSubmissions(
+    replayStorage, "ReplayHandle", [oldFailure], 1796000000000
+  );
+  assert.equal(replay.ok, true);
+  assert.equal(replay.added, 0);
+  assert.equal(replay.state.attempts.length, 1);
+  assert.equal(replay.state.revisionState[0].failures, 1,
+    "a replayed archived submission cannot count as a second failure");
+}
+
+// A pending verdict is not marked seen before its verdict becomes terminal.
 const pending = {
   id: 103, contestId: 2000, creationTimeSeconds: 1795000002,
   verdict: "TESTING", problem: { contestId: 2000, index: "C", tags: ["dp"] },
@@ -77,6 +112,39 @@ assert.equal(finalized.awardedExp, 24, "a foundational accepted submission recei
 const repeatedFinalized = syncCodeforcesSubmissions(storage, "ExampleHandle", [{ ...pending, verdict: "OK" }], 1795000005000);
 assert.equal(repeatedFinalized.added, 0);
 assert.equal(repeatedFinalized.rewardAwards, 0, "repeated sync does not award EXP twice");
+
+// Multiple accepted solves in one sync are awarded in chronological order
+// and committed to the reward store with one atomic write.
+{
+  const batchValues = new Map();
+  let rewardWrites = 0;
+  const batchStorage = {
+    getItem(key) { return batchValues.has(key) ? batchValues.get(key) : null; },
+    setItem(key, value) {
+      if (key === COMPETITION_REWARD_STORAGE_KEY) rewardWrites += 1;
+      batchValues.set(key, value);
+    },
+  };
+  assert.equal(syncCodeforcesSubmissions(batchStorage, "BatchHandle", [], 1795000000000).ok, true);
+  const acceptedBatch = [0, 1, 2, 3].map((index) => ({
+    id: 120000 + index,
+    contestId: 4200,
+    creationTimeSeconds: 1795000001 + index,
+    verdict: "OK",
+    problem: { contestId: 4200, index: "A", rating: 800, tags: ["implementation"] },
+  })).reverse();
+  const batchSync = syncCodeforcesSubmissions(
+    batchStorage, "BatchHandle", acceptedBatch, 1795000005000
+  );
+  assert.equal(batchSync.ok, true);
+  assert.equal(batchSync.rewardAwards, 3,
+    "the three eligible same-day solves earn rewards; the fourth is recorded at zero EXP");
+  assert.equal(batchSync.awardedExp, 72);
+  assert.equal(rewardWrites, 1, "one sync batch performs one reward-ledger storage write");
+  const batchLedger = JSON.parse(batchValues.get(COMPETITION_REWARD_STORAGE_KEY));
+  assert.deepEqual(batchLedger.rewardLedger.map((record) => record.repeatOrdinal), [1, 2, 3, 4],
+    "newest-first API input is reordered chronologically before applying repeat caps");
+}
 
 // A reward can be persisted even if the separate sync-state write fails.
 // Retrying must not report that already-persisted reward as newly awarded.
@@ -195,6 +263,21 @@ assert.match(accountsSource, /fetchCodeforcesSubmissionsSince\(handle, plan\.sin
   "repeat connections must fetch incrementally with a 24-hour overlap");
 assert.match(accountsSource, /fetchAllCodeforcesSubmissions\(handle\)/,
   "first connections and unknown handles must establish a complete historical baseline");
+assert.match(accountsSource, /const fetchStartedAt = Date\.now\(\)/,
+  "the sync cursor must be anchored before a potentially long paginated fetch");
+assert.match(accountsSource, /syncCodeforcesSubmissions\(localStorage, handle, submissions, fetchStartedAt\)/,
+  "the fetch-start timestamp must be persisted as the cursor to preserve the full overlap");
+assert.match(accountsSource, /let syncError = ""/,
+  "the account UI must retain a useful explanation when learning sync fails");
+assert.match(accountsSource, /syncError = error instanceof Error \? error\.message : String\(error\)/,
+  "the account UI must preserve the actual fetch failure instead of swallowing it");
+assert.match(accountsSource, /Reason: " \+ syncError/,
+  "the account UI must display the reason for a failed learning sync");
+const invalidPlanGuard = accountsSource.indexOf('if (plan.mode === "invalid")');
+const sinceSubmissionFetch = accountsSource.indexOf("fetchCodeforcesSubmissionsSince(handle, plan.sinceSeconds)");
+const fullSubmissionFetch = accountsSource.indexOf("fetchAllCodeforcesSubmissions(handle)");
+assert.ok(invalidPlanGuard >= 0 && invalidPlanGuard < sinceSubmissionFetch && invalidPlanGuard < fullSubmissionFetch,
+  "an invalid sync plan is rejected before either submission-history endpoint is called");
 
 const corruptArchiveStorage = {
   value: JSON.stringify({
@@ -212,7 +295,8 @@ const corruptArchiveStorage = {
 const corruptBefore = corruptArchiveStorage.value;
 const corruptSync = syncCodeforcesSubmissions(corruptArchiveStorage, "corrupt", history, 1796000000000);
 assert.equal(corruptSync.ok, false);
-assert.equal(corruptSync.error, "invalid-attempts-archive");
+assert.equal(corruptSync.error, "invalid-active-learning-record",
+  "account activation rejects a corrupted archive before sync can mutate it");
 const corruptRead = readCodeforcesSyncState(corruptArchiveStorage);
 assert.equal(corruptRead.attemptsArchiveValid, false);
 assert.equal(corruptRead.attempts.length, 0,

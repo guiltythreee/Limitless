@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createCodeforcesApiRequester, fetchCodeforcesSubmissionsSince } from "./codeforces-api.mjs";
+import { createCodeforcesApiRequester, fetchCodeforcesSubmissionsSince, fetchAllCodeforcesSubmissions } from "./codeforces-api.mjs";
 
 let clock = 10_000;
 const starts = [];
@@ -50,6 +50,7 @@ console.log("Codeforces API rate limiting: all assertions passed.");
     { status: "OK", result: [
       { id: 4, creationTimeSeconds: 90 },
     ] },
+    { status: "OK", result: [{ id: 9, creationTimeSeconds: 300 }] },
   ];
   const calls = [];
   const recent = await fetchCodeforcesSubmissionsSince("example_handle", 150, {
@@ -59,7 +60,7 @@ console.log("Codeforces API rate limiting: all assertions passed.");
   });
   assert.deepEqual(recent.map((item) => item.id), [9, 8, 7, 6],
     "recent fetch keeps submissions at/after the boundary and deduplicates overlap");
-  assert.equal(calls.length, 3, "recent fetch stops only after a whole page is older than the requested boundary");
+  assert.equal(calls.length, 4, "recent fetch verifies the newest ID after crossing the time boundary");
   assert.match(calls[0], /from=1&count=3$/);
   assert.match(calls[1], /from=3&count=3$/);
 }
@@ -79,14 +80,41 @@ console.log("Codeforces API rate limiting: all assertions passed.");
   );
 }
 
+// The production default is 100 pages. A window that remains newer than the
+// cursor through all 100 pages must fail closed rather than save a truncated set.
+{
+  let calls = 0;
+  await assert.rejects(
+    fetchCodeforcesSubmissionsSince("long_gap_handle", 100, {
+      pageSize: 2,
+      overlap: 0,
+      request: async () => {
+        calls += 1;
+        // The default overlap for a two-record page is one record.
+        const newest = 1000 - (calls - 1);
+        const newestTime = 300 - (calls - 1);
+        return { status: "OK", result: [
+          { id: newest, creationTimeSeconds: newestTime },
+          { id: newest - 1, creationTimeSeconds: newestTime - 1 },
+        ] };
+      },
+    }),
+    /safe pagination limit/,
+    "the default 100-page cap must reject an unbounded recent window"
+  );
+  assert.equal(calls, 100, "the default incremental scan stops exactly at its 100-page safety cap");
+}
+
 
 
 // Complete-history pagination: pages overlap, but submission IDs are unique.
 {
   const pages = [
-    { status: "OK", result: [{ id: 5 }, { id: 4 }, { id: 3 }] },
-    { status: "OK", result: [{ id: 3 }, { id: 2 }, { id: 1 }] },
-    { status: "OK", result: [{ id: 1 }] },
+    { status: "OK", result: [{ id: 5, creationTimeSeconds: 500 }, { id: 4, creationTimeSeconds: 400 }, { id: 3, creationTimeSeconds: 300 }] },
+    { status: "OK", result: [{ id: 3, creationTimeSeconds: 300 }, { id: 2, creationTimeSeconds: 200 }, { id: 1, creationTimeSeconds: 100 }] },
+    { status: "OK", result: [{ id: 1, creationTimeSeconds: 100 }] },
+    // Final one-record probe verifies that the newest ID did not move mid-scan.
+    { status: "OK", result: [{ id: 5, creationTimeSeconds: 500 }] },
   ];
   const calls = [];
   const result = await (await import("./codeforces-api.mjs")).fetchAllCodeforcesSubmissions(
@@ -101,10 +129,12 @@ console.log("Codeforces API rate limiting: all assertions passed.");
     }
   );
   assert.deepEqual(result.map((item) => item.id), [5, 4, 3, 2, 1]);
-  assert.equal(calls.length, 3);
+  assert.equal(calls.length, 4);
   assert.match(calls[0], /from=1&count=3$/);
   assert.match(calls[1], /from=3&count=3$/);
   assert.match(calls[2], /from=5&count=3$/);
+  assert.match(calls[3], /from=1&count=1$/,
+    "complete-history pagination rechecks the newest ID before returning");
 }
 
 {
@@ -112,8 +142,186 @@ console.log("Codeforces API rate limiting: all assertions passed.");
     (await import("./codeforces-api.mjs")).fetchAllCodeforcesSubmissions("example_handle", {
       pageSize: 2,
       maxPages: 1,
-      request: async () => ({ status: "OK", result: [{ id: 2 }, { id: 1 }] }),
+      request: async () => ({ status: "OK", result: [{ id: 2, creationTimeSeconds: 200 }, { id: 1, creationTimeSeconds: 100 }] }),
     }),
     /safe pagination limit/
   );
+}
+
+
+// A full page entirely older than the incremental boundary safely ends the scan.
+{
+  const pages = [
+    { status: "OK", result: [
+      { id: 12, creationTimeSeconds: 300 },
+      { id: 11, creationTimeSeconds: 200 },
+    ] },
+    { status: "OK", result: [
+      { id: 10, creationTimeSeconds: 99 },
+      { id: 9, creationTimeSeconds: 98 },
+    ] },
+    { status: "OK", result: [{ id: 12, creationTimeSeconds: 300 }] },
+  ];
+  let calls = 0;
+  const result = await fetchCodeforcesSubmissionsSince("example_handle", 100, {
+    pageSize: 2,
+    overlap: 1,
+    request: async () => { calls += 1; return pages.shift(); },
+  });
+  assert.deepEqual(result.map((item) => item.id), [12, 11]);
+  assert.equal(calls, 3, "a full page strictly older than the boundary ends scanning, followed by a newest-ID verification");
+}
+
+// If new submissions shift offsets during a full-history scan, reject the
+// scan instead of silently establishing an incomplete historical baseline.
+{
+  const pages = [
+    { status: "OK", result: [
+      { id: 30, creationTimeSeconds: 300 },
+      { id: 29, creationTimeSeconds: 290 },
+      { id: 28, creationTimeSeconds: 280 },
+    ] },
+    { status: "OK", result: [
+      { id: 27, creationTimeSeconds: 270 },
+      { id: 26, creationTimeSeconds: 260 },
+      { id: 25, creationTimeSeconds: 250 },
+    ] },
+    { status: "OK", result: [{ id: 24, creationTimeSeconds: 240 }] },
+    // A new submission appeared while pagination was in progress.
+    { status: "OK", result: [{ id: 31, creationTimeSeconds: 310 }] },
+  ];
+  let calls = 0;
+  await assert.rejects(
+    fetchAllCodeforcesSubmissions("moving_handle", {
+      pageSize: 3,
+      overlap: 1,
+      request: async () => { calls += 1; return pages.shift(); },
+    }),
+    /history changed during pagination/,
+    "a moving history must not be returned as a complete baseline"
+  );
+  assert.equal(calls, 4);
+}
+
+// An empty incremental page is terminal only after the newest-ID probe
+// confirms that no submission arrived while the request was in flight.
+{
+  const pages = [
+    { status: "OK", result: [] },
+    { status: "OK", result: [] },
+  ];
+  let calls = 0;
+  const result = await fetchCodeforcesSubmissionsSince("empty_recent_handle", 100, {
+    request: async () => { calls += 1; return pages.shift(); },
+  });
+  assert.deepEqual(result, []);
+  assert.equal(calls, 2, "an empty recent window still performs a final newest-ID verification");
+}
+
+{
+  const pages = [
+    { status: "OK", result: [] },
+    { status: "OK", result: [{ id: 1, creationTimeSeconds: 200 }] },
+  ];
+  let calls = 0;
+  await assert.rejects(
+    fetchCodeforcesSubmissionsSince("new_during_empty_handle", 100, {
+      request: async () => { calls += 1; return pages.shift(); },
+    }),
+    /history changed during incremental pagination/,
+    "a submission arriving after an empty first page must not be missed"
+  );
+  assert.equal(calls, 2);
+}
+
+// Creation timestamps must also be non-increasing within each page because
+// incremental termination relies on the time boundary following ID order.
+await assert.rejects(
+  fetchCodeforcesSubmissionsSince("timestamp_order_handle", 100, {
+    pageSize: 2,
+    request: async () => ({ status: "OK", result: [
+      { id: 10, creationTimeSeconds: 100 },
+      { id: 9, creationTimeSeconds: 101 },
+    ] }),
+  }),
+  /descending creation-time order/
+);
+
+// A new submission during incremental pagination shifts offset positions.
+// The final newest-ID probe must reject the scan instead of returning a gap.
+{
+  const pages = [
+    { status: "OK", result: [
+      { id: 30, creationTimeSeconds: 300 },
+      { id: 29, creationTimeSeconds: 290 },
+    ] },
+    { status: "OK", result: [
+      { id: 28, creationTimeSeconds: 280 },
+      { id: 27, creationTimeSeconds: 270 },
+    ] },
+    { status: "OK", result: [
+      { id: 26, creationTimeSeconds: 90 },
+      { id: 25, creationTimeSeconds: 80 },
+    ] },
+    { status: "OK", result: [{ id: 31, creationTimeSeconds: 310 }] },
+  ];
+  let calls = 0;
+  await assert.rejects(
+    fetchCodeforcesSubmissionsSince("moving_incremental_handle", 100, {
+      pageSize: 2,
+      overlap: 1,
+      request: async () => { calls += 1; return pages.shift(); },
+    }),
+    /history changed during incremental pagination/,
+    "incremental pagination must reject a moving offset window"
+  );
+  assert.equal(calls, 4, "incremental scan verifies the newest ID after reaching the time boundary");
+}
+
+// API pages must preserve descending submission-ID order.
+await assert.rejects(
+  fetchAllCodeforcesSubmissions("reordered_handle", {
+    pageSize: 3,
+    request: async () => ({ status: "OK", result: [
+      { id: 10, creationTimeSeconds: 100 },
+      { id: 12, creationTimeSeconds: 120 },
+      { id: 9, creationTimeSeconds: 90 },
+    ] }),
+  }),
+  /out of descending ID order/
+);
+
+// Malformed records must fail closed in both full and incremental history fetches.
+for (const malformed of [
+  { id: 0, creationTimeSeconds: 200 },
+  { id: 2.5, creationTimeSeconds: 200 },
+  { id: 2, creationTimeSeconds: Number.NaN },
+  null,
+]) {
+  await assert.rejects(
+    fetchAllCodeforcesSubmissions("example_handle", {
+      pageSize: 2,
+      request: async () => ({ status: "OK", result: [malformed, { id: 1, creationTimeSeconds: 100 }] }),
+    }),
+    /malformed submission record/,
+    "full-history fetch must reject malformed records rather than return partial history"
+  );
+  await assert.rejects(
+    fetchCodeforcesSubmissionsSince("example_handle", 100, {
+      pageSize: 2,
+      request: async () => ({ status: "OK", result: [malformed, { id: 1, creationTimeSeconds: 100 }] }),
+    }),
+    /malformed submission record/,
+    "incremental fetch must reject malformed records rather than silently skip them"
+  );
+}
+
+// An empty page is a valid terminal page for either pagination mode.
+{
+  let calls = 0;
+  const empty = await fetchAllCodeforcesSubmissions("example_handle", {
+    request: async () => { calls += 1; return { status: "OK", result: [] }; },
+  });
+  assert.deepEqual(empty, []);
+  assert.equal(calls, 2, "even an empty baseline is checked for submissions arriving during the scan");
 }

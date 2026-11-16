@@ -1,5 +1,9 @@
 import assert from "node:assert/strict";
-import { readGlobalRewardSummary } from "../shared/rewards.mjs";
+import {
+  readGlobalRewardSummary,
+  buildRewardRecords,
+  buildRewardRecordsBatch,
+} from "../shared/rewards.mjs";
 import {
   COMPETITION_REWARD_MODULE_ID,
   COMPETITION_REWARD_STORAGE_KEY,
@@ -108,5 +112,122 @@ assert.equal(damagedAdapter.awardCodeforcesSubmission({
 }, "examplehandle"), null, "malformed recent ledger records block new awards");
 assert.equal(damagedValues.get(COMPETITION_REWARD_STORAGE_KEY), damagedBefore,
   "a rejected award leaves the damaged source bytes untouched");
+
+// A present but empty storage value is corruption, not an absent ledger.
+const emptyLedgerValues = new Map([[COMPETITION_REWARD_STORAGE_KEY, ""]]);
+const emptyLedgerStorage = {
+  getItem(key) { return emptyLedgerValues.has(key) ? emptyLedgerValues.get(key) : null; },
+  setItem(key, value) { emptyLedgerValues.set(key, value); },
+};
+const emptyLedgerAdapter = createCompetitionRewardAdapter(emptyLedgerStorage);
+assert.equal(emptyLedgerAdapter.awardCodeforcesSubmission({
+  ...accepted, id: 100001, contestId: 100001,
+}, "examplehandle"), null, "an empty existing reward ledger blocks new awards");
+assert.equal(emptyLedgerValues.get(COMPETITION_REWARD_STORAGE_KEY), "",
+  "rejecting an empty ledger leaves its original bytes untouched");
+
+// Batch syncs calculate rewards in chronological order but persist the
+// complete batch exactly once. A failed write must leave the original ledger
+// untouched, and retrying a committed batch must remain idempotent.
+let batchWrites = 0;
+const batchValues = new Map();
+const batchStorage = {
+  getItem(key) { return batchValues.has(key) ? batchValues.get(key) : null; },
+  setItem(key, value) { batchWrites += 1; batchValues.set(key, value); },
+};
+const batchAdapter = createCompetitionRewardAdapter(batchStorage);
+const batchSubmissions = [0, 1, 2, 3].map((index) => ({
+  ...accepted,
+  id: 110000 + index,
+  contestId: 4100,
+  creationTimeSeconds: accepted.creationTimeSeconds + index,
+  problem: { ...accepted.problem, index: "D", rating: 800 },
+}));
+const batchResults = batchAdapter.awardCodeforcesSubmissions(
+  [...batchSubmissions, batchSubmissions[0]], "batchhandle"
+);
+assert.equal(batchResults.length, 5);
+assert.deepEqual(batchResults.slice(0, 4).map((record) => record.repeatOrdinal), [1, 2, 3, 4],
+  "batch reward ordinals follow the supplied chronological order");
+assert.deepEqual(batchResults.slice(0, 4).map((record) => record.eligible), [true, true, true, false],
+  "the daily repeat cap is preserved inside a batch");
+assert.equal(batchResults[4].created, false,
+  "a duplicate event repeated inside one batch resolves to the first result without a second award");
+assert.equal(batchWrites, 1, "a reward batch is committed with one storage write");
+const batchRetry = batchAdapter.awardCodeforcesSubmissions(batchSubmissions, "batchhandle");
+assert.ok(batchRetry.every((record) => record.created === false),
+  "retrying a committed batch returns existing records without creating new awards");
+assert.equal(batchWrites, 1, "an idempotent retry performs no storage write");
+assert.equal(batchAdapter.getRecords().length, 4);
+
+let failedBatchWrites = 0;
+const failedBatchStorage = {
+  getItem() { return null; },
+  setItem() { failedBatchWrites += 1; throw new Error("quota exceeded"); },
+};
+const failedBatchAdapter = createCompetitionRewardAdapter(failedBatchStorage);
+assert.equal(failedBatchAdapter.awardCodeforcesSubmissions(batchSubmissions, "batchhandle"), null,
+  "a failed batch commit is reported as failure");
+assert.equal(failedBatchWrites, 1, "the batch attempts only one commit");
+assert.equal(failedBatchAdapter.getRecords().length, 0,
+  "a failed batch commit does not expose unpersisted reward records");
+
+// The indexed batch calculator must be byte-for-byte equivalent to
+// sequential policy evaluation, including daily caps and one-time checkpoint
+// bonuses, while scaling to a large batch without rescanning the full ledger.
+const parityInputs = [
+  ...[0, 1, 2, 3].map((index) => ({
+    eventId: "parity:repeat:" + index,
+    moduleId: "parity-module",
+    itemId: "same-item",
+    ts: 1_800_000_000_000 + index,
+    activityClass: "standard-task",
+    difficulty: "foundational",
+    completionEvidence: "test-evidence",
+    completed: true,
+    quality: 1,
+  })),
+  ...[0, 1].map((index) => ({
+    eventId: "parity:checkpoint:" + index,
+    moduleId: "parity-module",
+    itemId: "checkpoint-item-" + index,
+    ts: 1_800_000_000_100 + index,
+    activityClass: "assessment",
+    difficulty: "foundational",
+    completionEvidence: "test-checkpoint",
+    completed: true,
+    passed: true,
+    checkpointId: "unit-1",
+    quality: 1,
+  })),
+];
+let sequentialPrior = [];
+const sequentialBatches = parityInputs.map((input) => {
+  const records = buildRewardRecords(input, sequentialPrior);
+  sequentialPrior = [...sequentialPrior, ...records];
+  return records;
+});
+assert.deepEqual(buildRewardRecordsBatch(parityInputs, []), sequentialBatches,
+  "indexed batch calculation matches sequential reward policy exactly");
+
+const largeRewardBatches = buildRewardRecordsBatch(
+  Array.from({ length: 5000 }, (_, index) => ({
+    eventId: "large-batch:" + index,
+    moduleId: "large-batch-module",
+    itemId: "single-repeated-item",
+    ts: 1_800_000_000_000 + index,
+    activityClass: "focused-practice",
+    difficulty: "foundational",
+    completionEvidence: "verified-batch-test",
+    completed: true,
+    quality: 1,
+  })),
+  []
+);
+assert.equal(largeRewardBatches.length, 5000);
+assert.equal(largeRewardBatches[0][0].repeatOrdinal, 1);
+assert.equal(largeRewardBatches[4999][0].repeatOrdinal, 5000);
+assert.equal(largeRewardBatches[4999][0].eligible, false,
+  "large batches preserve the daily repeat cap without dropping event records");
 
 console.log("Competition LSR-1 rewards: all assertions passed.");

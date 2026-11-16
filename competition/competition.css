@@ -411,3 +411,28 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 
 .mistake-repair-row{padding:7px 0;border-bottom:1px solid var(--comp-border)}
 .mistake-repair-row p{margin:4px 0 2px;color:var(--comp-muted);font:11px/1.55 Arial,sans-serif}
+
+
+/* Large Codeforces revision histories are paged so the full queue stays reachable
+   without mounting thousands of action controls in the dashboard at once. */
+.revision-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line, rgba(128, 128, 128, .2));
+  color: var(--muted, #777);
+  font-size: 12px;
+}
+.revision-pagination > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.revision-page-button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
