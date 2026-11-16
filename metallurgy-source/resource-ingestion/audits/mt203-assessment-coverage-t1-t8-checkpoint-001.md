@@ -217,3 +217,8 @@ All five relevant GitHub Actions workflows completed successfully. PR #246 remai
 ## Follow-up correction — quoted-key inventory, 16 November 2026
 
 The preliminary text scan missed six existing IDs because those records use quoted TypeScript keys (`"id":`). They were never absent from the live arrays and were not restored or duplicated in the final source. A key-format-independent scan confirms the T1–T8 counts: T1=34, T2=36, T3=24, T4=31, T5=20, T6=23, T7=17 and T8=31, for 216 questions. Together with T9–T11 (97), the full bank contains 313 actual records. T2-32 remains mapped to T3.3 under the existing explicit cross-topic allowance.
+
+
+## T9–T11 completion and full-bank update — 16 November 2026
+
+Following the T1–T8 additions, the source-page audit identified 29 additional T9–T11 objectives. All 29 have now been implemented: seven in T9, nine in T10 and thirteen in T11. The current course total is 342 questions across 11 topics. The 29 items have scores of 92–94 and all passed MCQ-QS v1.0. The full validator, course registry/content-lock, migration, renderer, answer-key balance/sequence and production-build workflows passed on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`.

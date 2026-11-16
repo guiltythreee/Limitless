@@ -4,13 +4,13 @@
 **Course:** MT203 — Polymer Science and Technology  
 **Current source:** `MT203 – PST 2026(2).pdf` (212 pages)  
 **Repository branch:** `feat/study-resource-ingestion-foundation`  
-**Status:** T9–T11 source audit complete; full-bank inventory reconciled; 29 further T9–T11 items proposed, not inserted.
+**Status:** T9–T11 source audit complete; 29 gap questions implemented; 342-question bank validated.
 
 ## 1. Executive result
 
-The current bank contains **313 question records across 11 topics**. The T1–T8 source-gap work added eight questions. A preliminary regex inventory appeared to omit six earlier IDs because their TypeScript object keys are quoted (`"id":`); those questions were already present. The temporary duplicate insertions were removed, and the pre-insertion topic sources were restored. The live bank remains at 313.
+The current bank contains **342 question records across 11 topics**. Eight source-grounded T1–T8 gap questions and 29 T9–T11 gap questions have been added. The six IDs missed by a preliminary regex scan were already present with quoted TypeScript keys; no restoration or duplicate records remain.
 
-T9–T11 have been checked against the supplied 212-page lecture PDF and the current lesson text. This review identifies **29 remaining direct-assessment gaps** across those topics. These are proposed items, not live questions. If accepted, the bank would rise to 342.
+T9–T11 were checked against the supplied 212-page lecture PDF and the current lesson text. All 29 identified direct-assessment gaps have now been addressed with live questions and mapped to the existing subtopic taxonomy.
 
 ## 2. Verified question inventory
 
@@ -24,10 +24,10 @@ T9–T11 have been checked against the supplied 212-page lecture PDF and the cur
 | T6 | 23 | Thermal transitions |
 | T7 | 17 | Polymer chemistry of proteins |
 | T8 | 31 | Industrial polymers |
-| T9 | 28 | Blends, composites, modification and degradation |
-| T10 | 36 | Mechanical, viscoelastic and physical properties |
-| T11 | 33 | Compounding and processing |
-| **Total** | **313** | **11 topics / 4 modules** |
+| T9 | 35 | Blends, composites, modification and degradation |
+| T10 | 45 | Mechanical, viscoelastic and physical properties |
+| T11 | 46 | Compounding and processing |
+| **Total** | **342** | **11 topics / 4 modules** |
 
 ### Structural reconciliation
 
@@ -42,7 +42,7 @@ The six IDs that the first regex missed were already in the question arrays usin
 No restoration or duplicate records remain. Eight source-gap additions remain live:
 `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17`, `t8-31`.
 
-A key-format-independent scan finds 313 IDs, 313 unique IDs, sequential numbering in each topic, 313 primary mappings, no missing mappings and no orphan mappings. Topic metadata and the course content-lock both specify 313. The import-based `validate-mt203.mjs` passed on commit `95f573d349c4d56c120934acbff1eec1acca7d94`, together with the course registry/content-lock validator, migration tests, renderer tests, answer-key balance/sequence checks and production build.
+A key-format-independent scan and the import-based validator find 342 IDs, 342 unique IDs, sequential numbering in each topic, 342 primary mappings, no missing mappings and no orphan mappings. Topic metadata, course manifest and content-lock all specify 342. The full CI suite passed on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`.
 
 ## 3. Coverage review by topic group
 
@@ -62,32 +62,32 @@ T2 and T5 did not receive a new source-gap item in that crosswalk. The T6-06 pol
 
 ### T9 — seven remaining gaps
 
-The 28-question bank already assesses blend miscibility, compatibilization, rubber toughening, rule-of-mixtures reasoning, polymer modification and selected degradation/recycling ideas. It still lacks direct items for the lecture-specific composite definition/classification, FRP design factors, degradation definition/aging graph, the four source-listed categories, biodegradation hierarchy and the full recycling/coding context.
+The 35-question bank now assesses blend miscibility, compatibilization, rubber toughening, rule-of-mixtures reasoning, polymer modification and selected degradation/recycling ideas. The seven additions directly assess the lecture-specific composite definition/classification, FRP design factors, degradation definition and graph, the four source-listed categories, biodegradation hierarchy and recycling/coding context.
 
 Proposed IDs: `t9-29` through `t9-35`. Source pages: 110–114 and 207–212.
 
 ### T10 — nine remaining gaps
 
-The 36-question bank already assesses stress–strain classes, modulus, toughness, creep, relaxation, viscoelastic models, TTS/WLF, rheology and selected transport/optical/flame properties. It lacks direct assessment of the lecture's property classification and tensile terminology, its A–F molecular deformation sequence, tensile standards/specimen, the plotted temperature/strain-rate effect, flexural methods, Izod/Charpy setup, stress-optical sensitivity/stress concentration and the three-stage permeability mechanism.
+The 45-question bank now assesses stress–strain classes, modulus, toughness, creep, relaxation, viscoelastic models, TTS/WLF, rheology and selected transport/optical/flame properties. The nine additions directly assess the lecture's property classification and tensile terminology, A–F molecular deformation sequence, tensile standards/specimen, temperature/strain-rate effect, flexural methods, Izod/Charpy setup, stress-optical sensitivity/stress concentration and three-stage permeability mechanism.
 
 Proposed IDs: `t10-37` through `t10-45`. Source pages: 122–150 and 152–154.
 
 ### T11 — thirteen remaining gaps
 
-The 33-question bank already assesses compounding fundamentals, additives, drying, MFI, shrinkage, core processing routes, fibre spinning, mastication, curatives and scorch/processability concepts. It lacks direct assessment of processing as structure control, extruder classification/specifications, screw types/heating, twin-screw comparison, the extrusion product/material table, blown-film versus blow moulding, compression/injection details, extrusion swell and surface defects, the two-roll mill sequence, Tokita–White regions, the ODR curve and plasticizer compatibility.
+The 46-question bank now assesses compounding fundamentals, additives, drying, MFI, shrinkage, core processing routes, fibre spinning, mastication, curatives and scorch/processability concepts. The thirteen additions directly assess processing as structure control, extruder classification/specifications, screw types/heating, twin-screw comparison, extrusion product/material table, blown-film versus blow moulding, compression/injection details, extrusion swell and surface defects, two-roll mill sequence, Tokita–White regions, ODR curve and plasticizer compatibility.
 
 Proposed IDs: `t11-34` through `t11-46`. Source pages: 158–173 and 174–206.
 
-## 4. Proposed minimum additions
+## 4. Implemented gap additions
 
-| Topic | Proposed count | Provisional ID range | Main objective clusters |
+| Topic | Implemented count | Live ID range | Main objective clusters |
 |---|---:|---|---|
 | T9 | 7 | t9-29–t9-35 | composites; FRP design; degradation/aging; graph reading; categories; biodegradation; recycling |
 | T10 | 9 | t10-37–t10-45 | property classification; tensile definitions/sequence/standards; temperature-rate effect; flexural; impact; stress optics; permeability |
 | T11 | 13 | t11-34–t11-46 | processing structure; extrusion equipment; twin screw; applications; moulding; extrusion defects; mill mixing; ODR; plasticizer compatibility |
 | **Total** | **29** | — | — |
 
-These are provisional planning labels. No IDs have been reserved and no new T9–T11 items have been added to the live bank.
+All 29 items are live, have the listed IDs and have primary mappings in `subtopic-map.ts`. Each passed the focused MCQ-QS v1.0 regression.
 
 ## 5. Source anomaly register
 
@@ -110,10 +110,10 @@ Any question that depends on an ambiguous or inconsistent source detail must eit
 - The six quoted-key records were already present; duplicate copies from a transient repair attempt were removed.
 - Eight newly added T1–T8 gap questions remain intact.
 - Learner-progress storage and answer history were not modified.
-- T9–T11 remain at 97 live questions until the 29 proposed additions pass source review and MCQ-QS v1.0.
+- T9–T11 now contain 126 live questions, including the 29 source-gap additions.
 - PR #246 remains draft/open/unmerged; no deployment was performed.
 
-**Next gate:** author and independently review the 29 T9–T11 questions, then update topic counts, source mappings, course manifest/content-lock and focused regression tests together. Re-run the full source validator, MCQ-QS gate, answer-key balance/sequence checks, migration tests and production build before considering merge.
+**Next gate:** independent academic review of the 29 new T9–T11 items and the source anomalies, followed by PR review. The counts, mappings, course manifest/content-lock, focused MCQ-QS gate, answer-key balance/sequence tests, migration tests and production build are already synchronized and passing.
 
 
 ## Final CI verification — 16 November 2026
@@ -130,3 +130,24 @@ Validated on the duplicate-free 313-question source commit `95f573d349c4d56c1209
 - Production build: compiled successfully.
 
 A backup branch `backup/mt203-313-stable-20261116` was created at this successful source commit. PR #246 remains draft/open/unmerged; no deployment was performed.
+
+
+## 7. Final implementation and CI result
+
+The 29 T9–T11 additions are live:
+- T9: `t9-29`–`t9-35`, scores 92–94.
+- T10: `t10-37`–`t10-45`, scores 92–94.
+- T11: `t11-34`–`t11-46`, scores 92–94.
+
+Validated on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`:
+- MT203 source validator: 342 questions across 11 topics; passed.
+- Course registry/content-lock: passed.
+- MT203 progress tests: 47 passed.
+- Migration assertions: 123 passed.
+- Question renderer: 90 passed.
+- Answer-key balance: A=85, B=86, C=85, D=86; global spread 1; maximum topic spread 1.
+- Answer-sequence regression: all 342 passed.
+- MCQ-QS v1.0 focused gate: all 37 new questions passed, no rule errors or heuristic warnings.
+- Production build: successful.
+
+Backup: `backup/mt203-342-stable-20261116`. PR #246 remains draft/open/unmerged; no deployment was performed.

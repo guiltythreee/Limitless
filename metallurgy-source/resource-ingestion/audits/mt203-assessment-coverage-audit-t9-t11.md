@@ -320,3 +320,33 @@ Seven T9 + nine T10 + thirteen T11 items = **29 proposed additions**. If indepen
 ## Automated validation confirmation — 16 November 2026
 
 The corrected 313-question bank passed the following checks on commit `95f573d349c4d56c120934acbff1eec1acca7d94`: source validator, course registry/content-lock validator, 47 MT203 progress tests, 123 migration assertions, 90 question-renderer assertions, answer-key balance, answer-sequence regression, and production build. The eight new T1–T8 additions also passed the focused MCQ-QS v1.0 gate (scores 92–95, no errors or heuristic warnings). The duplicate-insertion attempt was fully removed before this successful run.
+
+
+---
+
+## Implementation result — 29 T9–T11 questions added, 16 November 2026
+
+All 29 source-gap items in the preceding proposal are now live, with four-option distractors, correct-answer explanations, distractor rationales, misconception tags, MCQ-QS scores and primary subtopic mappings.
+
+| Topic | New IDs | Added | MCQ-QS scores |
+|---|---|---:|---|
+| T9 | `t9-29`–`t9-35` | 7 | 92–94 |
+| T10 | `t10-37`–`t10-45` | 9 | 92–94 |
+| T11 | `t11-34`–`t11-46` | 13 | 92–94 |
+| **Total** | — | **29** | **All accepted** |
+
+The live bank is now T9=35, T10=45 and T11=46. Together with T1–T8 (216), the full MT203 bank is **342 questions across 11 topics**. All 29 additions are mapped to their intended existing subtopics; no new syllabus headings were created.
+
+### Automated validation on commit `edab4d381090036a19f9f32d12e69c19e8c47c10`
+
+- MT203 source validator: 342 questions across 11 topics; all checks passed.
+- Course registry/content-lock validation: passed.
+- MT203 progress tests: 47 passed, 0 failed.
+- Migration assertions: 123 passed, 0 failed.
+- Question renderer: 90 passed, 0 failed.
+- Answer-key balance: A=85, B=86, C=85, D=86; global spread 1; maximum topic spread 1.
+- Answer-sequence regression: all 342 questions passed; maximum repeated-answer run 3, rolling-window balance and four-answer-pattern checks passed.
+- Focused MCQ-QS v1.0 gate: all 37 new T1–T11 questions passed, with scores 92–95 and no rule errors or heuristic warnings.
+- Production build: completed successfully.
+
+A stable backup branch `backup/mt203-342-stable-20261116` points to the validated source commit. PR #246 remains draft/open/unmerged; no deployment was performed.
