@@ -53,56 +53,74 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     }
   }
 
-  function awardCodeforcesSubmission(submission, handle) {
-    if (!isRecord(submission) || submission.verdict !== "OK" ||
-        !Number.isSafeInteger(submission.id) || submission.id <= 0 ||
-        !Number.isSafeInteger(submission.contestId) || submission.contestId <= 0 ||
-        !isRecord(submission.problem) || typeof submission.problem.index !== "string" ||
-        !/^[A-Z][0-9]*$/.test(submission.problem.index) ||
-        !Number.isFinite(submission.creationTimeSeconds) || submission.creationTimeSeconds <= 0 ||
-        !isString(handle)) return null;
-
+  function awardCodeforcesSubmissions(submissions, handle) {
+    if (!Array.isArray(submissions) || !isString(handle)) return null;
     const account = handle.trim().toLowerCase();
-    const eventId = "codeforces:" + account + ":" + submission.id;
     const state = loadState();
     if (!state.valid) return null;
-    const existing = state.records.find((record) => record.eventId === eventId);
-    if (existing) return { ...existing, created: false };
 
-    const rating = Number.isFinite(submission.problem.rating) ? submission.problem.rating : 0;
-    const activity = {
-      eventId,
-      moduleId: COMPETITION_REWARD_MODULE_ID,
-      itemId: "codeforces-problem:" + submission.contestId + "-" + submission.problem.index,
-      ts: Math.round(submission.creationTimeSeconds * 1000),
-      activityClass: "focused-practice",
-      difficulty: codeforcesDifficulty(rating),
-      completionEvidence: "verified-codeforces-accepted-submission",
-      completed: true,
-      quality: 1,
-    };
-    if (!Number.isFinite(activity.ts) || activity.ts <= 0) return null;
-    const records = buildRewardRecords(activity, state.records);
-    const record = records[0];
+    const nextRecords = state.records.slice();
+    const byEventId = new Map(nextRecords.map((record) => [record.eventId, record]));
+    const results = [];
+    let changed = false;
+    for (const submission of submissions) {
+      if (!isRecord(submission) || submission.verdict !== "OK" ||
+          !Number.isSafeInteger(submission.id) || submission.id <= 0 ||
+          !Number.isSafeInteger(submission.contestId) || submission.contestId <= 0 ||
+          !isRecord(submission.problem) || typeof submission.problem.index !== "string" ||
+          !/^[A-Z][0-9]*$/.test(submission.problem.index) ||
+          !Number.isFinite(submission.creationTimeSeconds) || submission.creationTimeSeconds <= 0) return null;
+
+      const eventId = "codeforces:" + account + ":" + submission.id;
+      const existing = byEventId.get(eventId);
+      if (existing) {
+        results.push({ ...existing, created: false });
+        continue;
+      }
+
+      const rating = Number.isFinite(submission.problem.rating) ? submission.problem.rating : 0;
+      const activity = {
+        eventId,
+        moduleId: COMPETITION_REWARD_MODULE_ID,
+        itemId: "codeforces-problem:" + submission.contestId + "-" + submission.problem.index,
+        ts: Math.round(submission.creationTimeSeconds * 1000),
+        activityClass: "focused-practice",
+        difficulty: codeforcesDifficulty(rating),
+        completionEvidence: "verified-codeforces-accepted-submission",
+        completed: true,
+        quality: 1,
+      };
+      if (!Number.isFinite(activity.ts) || activity.ts <= 0) return null;
+      const createdRecords = buildRewardRecords(activity, nextRecords);
+      const record = createdRecords[0];
+      nextRecords.push(...createdRecords);
+      for (const createdRecord of createdRecords) byEventId.set(createdRecord.eventId, createdRecord);
+      results.push({ ...record, created: true });
+      changed = true;
+    }
+
+    if (!changed) return results;
     try {
       storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(
         compactRewardLedgerPayload({
           ...state.payload,
-          rewardLedger: [...state.records, ...records],
+          rewardLedger: nextRecords,
         })
       ));
     } catch {
       return null;
     }
     dispatchRewardUpdate();
-    // Report creation separately from the persisted reward record. This lets
-    // sync retries distinguish an idempotent lookup from a new award.
-    return { ...record, created: true };
+    return results;
+  }
+
+  function awardCodeforcesSubmission(submission, handle) {
+    return awardCodeforcesSubmissions([submission], handle)?.[0] ?? null;
   }
 
   function getRecords() {
     return loadState().records;
   }
 
-  return { awardCodeforcesSubmission, getRecords };
+  return { awardCodeforcesSubmission, awardCodeforcesSubmissions, getRecords };
 }
