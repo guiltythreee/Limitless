@@ -378,3 +378,10 @@ The latest CI failure was a stale assertion in `scripts/test-mt203.mjs` expectin
 
 
 The validated 344-question source snapshot is also preserved on `backup/mt203-344-stable-20261116`, pointing to `ca595a84d8c2dbbbaddaf6cc7a91dfa572e04e42`. The later commits on the working PR branch update tests/audit documentation; they do not change the 344-question source snapshot.
+
+
+## Final bank-wide status supersession — 16 November 2026
+
+The latest branch-head reconciliation is **344 questions**, not the earlier 342-question checkpoint in this audit. The two additional T1–T8 items are `t4-32` and `t8-32`; they do not change the 29 T9–T11 additions. The complete addition set is 39 IDs across T1–T11. Current counts: T1=34, T2=36, T3=24, T4=32, T5=20, T6=23, T7=17, T8=32, T9=35, T10=45, T11=46.
+
+The current-head source validator and CI passed on `67c2c7efe848813ae5beeb6ade1875ecc97668f6`. The answer key is exactly balanced (A=86, B=86, C=86, D=86); all 344 questions pass sequence checks; the 39-item MCQ-QS gate passes without errors or heuristic warnings. The stable qbank backup is `backup/mt203-344-stable-20261116`. Historical statements earlier in this file describing a 313-question live bank or proposal-only T9–T11 items are audit history and are superseded by the implementation and validation records above.

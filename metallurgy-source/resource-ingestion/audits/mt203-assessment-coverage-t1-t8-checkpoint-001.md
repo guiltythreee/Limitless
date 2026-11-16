@@ -227,3 +227,14 @@ Following the T1–T8 additions, the source-page audit identified 29 additional 
 ## Final corrected-head validation
 
 The final answer-key and match-table cross-check was completed before the green run on commit `1068214706ddff5859eac34c0c6c08559d2c0092`. All 342 source records and 37 new-question answer keys passed. The final backup branch is `backup/mt203-342-final-20261116`.
+
+
+## Additional T1–T8 source-gap questions and current count — 16 November 2026
+
+Two further questions are live in addition to the original eight:
+- T4: `t4-32` — p.48 end-group analysis, cryoscopy, ebulliometry and osmometry labels.
+- T8: `t8-32` — natural-rubber latex coagulation and ammonia preservation.
+
+They are mapped to T4.3 and T8.4 respectively and included in the focused MCQ-QS v1.0 expected-ID/answer-key test. T1–T8 now contain 218 questions (T4=32, T8=32); together with T9–T11 (126), the current MT203 bank contains **344 questions**.
+
+The current-head run on `67c2c7efe848813ae5beeb6ade1875ecc97668f6` passed all five relevant workflows. The focused quality gate passed all 39 T1–T11 additions with no errors or heuristic warnings. The source-level T6-06 polyethylene Tg mismatch remains unresolved and unchanged.

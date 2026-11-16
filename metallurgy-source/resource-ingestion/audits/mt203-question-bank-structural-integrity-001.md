@@ -133,3 +133,12 @@ CI passed on commit `1068214706ddff5859eac34c0c6c08559d2c0092`: 47 MT203 progres
 ## Final corrected-head validation and backup
 
 The 342-question bank passed on commit `1068214706ddff5859eac34c0c6c08559d2c0092` after the final source-to-answer-key cross-check. The 37-question focused MCQ-QS test now also asserts the audited answer key for every addition. The final backup branch is `backup/mt203-342-final-20261116`.
+
+
+## Current structural integrity — 344-question bank
+
+The latest source and metadata reconciliation supersedes the earlier 342-question checkpoint. Current topic counts are T1=34, T2=36, T3=24, T4=32, T5=20, T6=23, T7=17, T8=32, T9=35, T10=45 and T11=46: **344 questions in total**.
+
+The two additional T1–T8 IDs beyond the earlier eight-item checkpoint are `t4-32` and `t8-32`. The focused test includes both and now locks **39** total added question IDs across T1–T11. The source validator reports 344 questions, the course manifest and content-lock agree, and the current-head CI confirms 344 balanced four-option items (A=86, B=86, C=86, D=86), sequence checks and the 39-item MCQ-QS gate.
+
+Current validated head: `67c2c7efe848813ae5beeb6ade1875ecc97668f6`. Stable qbank backup: `backup/mt203-344-stable-20261116`.
