@@ -394,15 +394,16 @@ const T4: TopicSource = {
       text: "Two monodisperse fractions (each PDI = 1) of Mn = 20,000 (5 g) and Mn = 80,000 (5 g) are blended. The blend's Mn and Mw are:",
       options: [
         { label: "a", text: "Mn = 25,000; Mw = 80,000" },
-        { label: "b", text: "Mn = 50,000; Mw = 50,000" },
+        { label: "b", text: "Mn = 32,000; Mw = 50,000" },
         { label: "c", text: "Mn = 40,000; Mw = 32,000" },
-        { label: "d", text: "Mn = 32,000; Mw = 50,000" }
+        { label: "d", text: "Mn = 50,000; Mw = 50,000" }
       ],
-      answer: "d",
+      answer: "b",
       why: "The two fractions have equal **mass fractions**, so $M_n = 1/(0.5/20000 + 0.5/80000) = 1/(3.125\\times10^{-5}) = \\mathbf{32{,}000}$. The weight average is the mass-weighted arithmetic mean: $M_w = 0.5(20000)+0.5(80000) = \\mathbf{50{,}000}$.",
       distractors: {
-        b: "50,000 is the simple arithmetic mean — valid only for mass-weighted Mw of equal masses, not Mn.",
-        c: "Mn and Mw swapped.",
+        a: "This assigns the blend number-average to the larger fraction rather than weighting chain counts by mass fraction.",
+        c: "This swaps the calculated number-average and weight-average values.",
+        d: "50,000 is the simple arithmetic mean — valid only for mass-weighted Mw of equal masses, not Mn.",
       },
       concept: "$1/M_n=\\sum w_i/M_i$ · $M_w=\\sum w_iM_i$",
       tags: ["numeric", "formula"],
@@ -576,26 +577,26 @@ const T4: TopicSource = {
       diff: 2,
       text: "On the lecture's p.48 molecular-weight chart, which two methods are listed under ultracentrifugation?",
       options: [
-        { label: "a", text: "Sedimentation velocity and sedimentation equilibrium" },
-        { label: "b", text: "Membrane osmometry and vapour-phase osmometry" },
-        { label: "c", text: "Relative viscosity and intrinsic viscosity" },
-        { label: "d", text: "Light scattering and gel-permeation chromatography" }
+        { label: "a", text: "Membrane osmometry and vapour-phase osmometry" },
+        { label: "b", text: "Relative viscosity and intrinsic viscosity" },
+        { label: "c", text: "Light scattering and gel-permeation chromatography" },
+        { label: "d", text: "Sedimentation velocity and sedimentation equilibrium" }
       ],
-      answer: "a",
+      answer: "d",
       why: "The p.48 chart lists sedimentation velocity and sedimentation equilibrium as the two ultracentrifugation methods. This item asks what the lecture chart lists, without resolving its separate method-to-average inconsistencies.",
       distractors: {
-        b: "Both osmometry methods appear under the chart's colligative-method branch.",
-        c: "These are dilute-solution viscosity measurements, not ultracentrifugation methods.",
-        d: "These are separate methods listed under the weight-average branch, not ultracentrifugation submethods."
+        a: "Both osmometry methods appear under the chart's colligative-method branch.",
+        b: "These are dilute-solution viscosity measurements, not ultracentrifugation methods.",
+        c: "These are separate methods listed under the weight-average branch, not ultracentrifugation submethods."
       },
       concept: "Ultracentrifugation methods named on the source p.48 chart",
       tags: ["reviewed", "revision"],
       qsLevel: 2,
       sub: "T4.3",
       misconceptions: {
-        b: { tag: "confused-with-colligative-methods", kind: "conceptual" },
-        c: { tag: "confused-with-viscometry", kind: "conceptual" },
-        d: { tag: "confused-with-other-weight-average-methods", kind: "conceptual" }
+        a: { tag: "confused-with-colligative-methods", kind: "conceptual" },
+        b: { tag: "confused-with-viscometry", kind: "conceptual" },
+        c: { tag: "confused-with-other-weight-average-methods", kind: "conceptual" }
       },
       qsScore: 92,
     },

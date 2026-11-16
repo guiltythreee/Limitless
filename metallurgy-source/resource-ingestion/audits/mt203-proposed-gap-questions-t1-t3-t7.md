@@ -362,3 +362,13 @@ The four match/concept items below were re-ordered without changing their correc
 - `t8-31` correct option D
 
 The corresponding distractor rationales and misconception tags were moved with the options. The other four new items retain their original answer positions.
+
+
+## Final local answer-sequence correction
+
+The bank's answer-position checks also enforce rolling eight-question windows and repeated four-answer patterns. To satisfy those constraints while preserving balanced topic/global distributions:
+- `t4-21` is now keyed B (its correct Mn/Mw pair is unchanged).
+- `t4-31` is now keyed D.
+- `t7-17` is now keyed A.
+
+Options and wrong-answer rationales were moved with their labels. The underlying source-derived correct answers are unchanged.
