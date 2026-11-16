@@ -702,49 +702,55 @@ const T9: TopicSource = {
       "tableRows": [
         [
           "1",
-          "MMC",
+          "Composite",
           "",
-          "(i) metal matrix"
+          "(i) two or more chemically distinct, insoluble phases with a recognizable interface"
         ],
         [
           "2",
-          "CMC",
+          "MMC",
           "",
-          "(ii) ceramic matrix"
+          "(ii) metal matrix"
         ],
         [
           "3",
+          "CMC",
+          "",
+          "(iii) ceramic matrix"
+        ],
+        [
+          "4",
           "PMC / OMC",
           "",
-          "(iii) polymer or organic matrix"
+          "(iv) polymer or organic matrix"
         ]
       ],
       "options": [
         {
           "label": "a",
-          "text": "1–ii, 2–i, 3–iii"
+          "text": "1–ii, 2–i, 3–iii, 4–iv"
         },
         {
           "label": "b",
-          "text": "1–iii, 2–ii, 3–i"
+          "text": "1–i, 2–iii, 3–ii, 4–iv"
         },
         {
           "label": "c",
-          "text": "1–i, 2–iii, 3–ii"
+          "text": "1–iv, 2–ii, 3–i, 4–iii"
         },
         {
           "label": "d",
-          "text": "1–i, 2–ii, 3–iii"
+          "text": "1–i, 2–ii, 3–iii, 4–iv"
         }
       ],
       "answer": "d",
       "why": "The lecture defines a composite as two or more chemically distinct, insoluble phases with a recognizable interface. It classifies composites by matrix as metal-matrix (MMC), ceramic-matrix (CMC) and polymer-matrix (PMC), also called organic-matrix composites (OMC).",
       "distractors": {
-        "a": "This assigns the metal matrix to ceramics and the ceramic matrix to metals, reversing both classes.",
-        "b": "This assigns the polymer or organic matrix to the metal-matrix abbreviation and misplaces the others.",
-        "c": "This assigns the metal matrix correctly but swaps the ceramic and polymer matrix classes."
+        "a": "This assigns the metal matrix to the composite definition and reverses the ceramic and polymer matrix classes.",
+        "b": "This assigns the composite definition correctly but swaps the metal and ceramic matrix abbreviations.",
+        "c": "This assigns the polymer matrix to the composite definition and misplaces the other three matches."
       },
-      "concept": "Matrix-based classification of MMC, CMC and PMC/OMC composites",
+      "concept": "Composite definition and matrix-based classification of MMC, CMC and PMC/OMC",
       "tags": [
         "reviewed",
         "revision"
@@ -753,15 +759,15 @@ const T9: TopicSource = {
       "sub": "T9.4",
       "misconceptions": {
         "a": {
-          "tag": "reversed-metal-ceramic-matrix",
+          "tag": "misassigned-composite-definition",
           "kind": "conceptual"
         },
         "b": {
-          "tag": "misidentified-polymer-matrix",
+          "tag": "swapped-metal-and-ceramic-matrix",
           "kind": "conceptual"
         },
         "c": {
-          "tag": "swapped-ceramic-polymer-matrix",
+          "tag": "misidentified-polymer-matrix",
           "kind": "conceptual"
         }
       },

@@ -1213,41 +1213,53 @@ const T10: TopicSource = {
           "1",
           "Three-point loading",
           "",
-          "(i) two equal loads between the supports"
+          "(i) one central load on a simply supported beam"
         ],
         [
           "2",
           "Four-point loading",
           "",
-          "(ii) one central load on a simply supported beam"
+          "(ii) two equal loads spaced from adjacent supports"
+        ],
+        [
+          "3",
+          "Test specimen",
+          "",
+          "(iii) rectangular bar cut from sheet, plate or moulded shape"
+        ],
+        [
+          "4",
+          "General scope",
+          "",
+          "(iv) rigid and semi-rigid materials; flexible materials when they break or fail in the outer fibre"
         ]
       ],
       "options": [
         {
           "label": "a",
-          "text": "1–ii, 2–i"
+          "text": "1–i, 2–ii, 3–iii, 4–iv"
         },
         {
           "label": "b",
-          "text": "1–i, 2–ii"
+          "text": "1–ii, 2–i, 3–iv, 4–iii"
         },
         {
           "label": "c",
-          "text": "1–ii, 2–ii"
+          "text": "1–i, 2–iii, 3–ii, 4–iv"
         },
         {
           "label": "d",
-          "text": "1–i, 2–i"
+          "text": "1–iii, 2–ii, 3–i, 4–iv"
         }
       ],
       "answer": "a",
-      "why": "The three-point method applies a central load to a simply supported beam. The four-point method applies two equal loads spaced from the adjacent supports, with the distance between the load points stated as one-third or one-half of the support span. The lecture lists ASTM D790, JIS-7203-1982 and BS-2782.",
+      "why": "The lecture describes three-point loading as a central load on a simply supported beam and four-point loading as two equal loads spaced from adjacent supports. It uses rectangular bars and states that the methods generally apply to rigid and semi-rigid materials; flexible materials are assessable when they break or fail in the outer fibre. Listed standards include ASTM D790, JIS-7203-1982 and BS-2782.",
       "distractors": {
-        "b": "This exchanges the central single load with the two-load arrangement described for four-point testing.",
-        "c": "This assigns the same two-load arrangement to both methods and loses the central-load distinction.",
-        "d": "This assigns the four-point arrangement to the three-point method and the central load to four-point testing."
+        "b": "This exchanges the central and two-load arrangements and misassigns specimen form and material scope.",
+        "c": "This assigns the rectangular specimen description to four-point loading and swaps the two loading methods.",
+        "d": "This assigns the specimen form to three-point loading and places the central-load description under the specimen row."
       },
-      "concept": "Three-point and four-point flexural loading arrangements",
+      "concept": "Flexural loading methods, specimen form, scope and listed test standards",
       "tags": [
         "reviewed",
         "revision"
@@ -1260,11 +1272,11 @@ const T10: TopicSource = {
           "kind": "conceptual"
         },
         "c": {
-          "tag": "missed-flexural-loading-distinction",
+          "tag": "misassigned-flexural-specimen",
           "kind": "conceptual"
         },
         "d": {
-          "tag": "reversed-flexural-fixture-definitions",
+          "tag": "confused-loading-method-with-specimen",
           "kind": "conceptual"
         }
       },
@@ -1280,13 +1292,13 @@ const T10: TopicSource = {
           "1",
           "Izod",
           "",
-          "(i) specimen clamped vertically with notched end facing the striker"
+          "(i) specimen clamped with notch facing the striker; energy read directly from the scale in in-lb or ft-lb"
         ],
         [
           "2",
           "Charpy",
           "",
-          "(ii) horizontal specimen supported at both ends"
+          "(ii) specimen horizontal and supported at both ends; complete breaks accepted; result per thickness in ft-lb/in"
         ]
       ],
       "options": [
@@ -1308,7 +1320,7 @@ const T10: TopicSource = {
         }
       ],
       "answer": "b",
-      "why": "For Izod, the specimen is clamped with its notched end facing the striking edge. For Charpy, the specimen is mounted horizontally and supported at both ends; the source says only specimens that break completely are acceptable and reports results per unit thickness or notch as specified.",
+      "why": "For Izod, the specimen is clamped with its notched end facing the striking edge, and the impact value is read directly from the scale in in-lb or ft-lb. For Charpy, the specimen is mounted horizontally and supported at both ends; only complete breaks are accepted, and the result is reported per specimen thickness in ft-lb/in. of notch for notched specimens and ft-lb/in. for unnotched specimens.",
       "distractors": {
         "a": "This exchanges the Izod clamping arrangement and the horizontal Charpy support arrangement.",
         "c": "This assigns the same orientation to both tests and omits the Charpy support condition.",

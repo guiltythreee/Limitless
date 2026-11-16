@@ -1222,7 +1222,7 @@ const T11: TopicSource = {
         },
         {
           "label": "c",
-          "text": "Place polymer and additives in the mould cavity → heat and apply pressure as the mould closes → let the material conform to the cavity → remove flash after moulding."
+          "text": "Place polymer and additives in the mould cavity → heat the mould and apply pressure → let the material conform and remove flash; thermoplastics are heated before moulding, while thermoset moulds are heated during moulding."
         },
         {
           "label": "d",
@@ -1230,13 +1230,13 @@ const T11: TopicSource = {
         }
       ],
       "answer": "c",
-      "why": "The lecture states that polymer material is placed directly in a heated metal mould, softened by heat and forced to conform as the mould closes. It also describes polymer and additives being placed in the cavity, followed by heat and pressure, with excess flash removable after moulding.",
+      "why": "The lecture places polymer and additives directly in the mould cavity, heats the mould and applies pressure until the material conforms to the cavity; excess flash may then be removed. It distinguishes heating plastic before moulding for thermoplastics from heating the mould during moulding for thermosets.",
       "distractors": {
         "a": "This is an extrusion and blown-film sequence rather than the compression-moulding route.",
         "b": "This describes injection moulding through a barrel and nozzle, not direct placement in the mould cavity.",
         "d": "This describes blow moulding with a parison and compressed air rather than compression moulding."
       },
-      "concept": "Compression-moulding sequence and flash removal",
+      "concept": "Compression-moulding sequence, flash removal and thermoplastic/thermoset heating distinction",
       "tags": [
         "reviewed",
         "revision"
