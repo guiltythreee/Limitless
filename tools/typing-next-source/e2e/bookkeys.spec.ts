@@ -201,7 +201,6 @@ test("EPUB covers persist in the library and chapter titles edit inline", async 
   });
 
   await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
-  await page.getByRole("button", { name: "Edit", exact: true }).click();
   await page.getByRole("button", { name: "Rename Chapter One" }).click();
   const title = page.getByRole("textbox", { name: "Chapter title 1" });
   await expect(title).toBeFocused();
@@ -721,7 +720,6 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
 
   await page.reload();
   await page.getByRole("button", { name: "Continue reading" }).click();
-  await page.getByRole("button", { name: "Edit" }).click();
   await expect(page.locator(".bk-chapter-list")).toContainText("Renamed Opening");
 });
 
