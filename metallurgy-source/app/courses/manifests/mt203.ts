@@ -26,7 +26,7 @@ export const MT203_MANIFEST: CourseManifest = {
   title: "Polymer Science and Technology",
   subtitle: "Fundamentals, polymerization, properties, processing",
   description:
-    "343 questions across 11 topics in 4 modules — fundamentals, polymerization, molecular weight, crystallinity, Tg/Tm, industrial polymers, blends, properties and processing — with spaced revision, weak-area training, mastery tracking and a timed exam.",
+    "344 questions across 11 topics in 4 modules — fundamentals, polymerization, molecular weight, crystallinity, Tg/Tm, industrial polymers, blends, properties and processing — with spaced revision, weak-area training, mastery tracking and a timed exam.",
   symbol: "⛓",
   status: "live",
   route: "mt203",
@@ -74,7 +74,7 @@ export const MT203_MANIFEST: CourseManifest = {
     { id: "t5", unitId: "m1", num: 5, title: "Polymer Crystallinity", count: 20, hasLesson: true },
     { id: "t6", unitId: "m1", num: 6, title: "Thermal Transitions: Tg, Tm & HDT", count: 23, hasLesson: true },
     { id: "t7", unitId: "m1", num: 7, title: "Polymer Chemistry of Proteins", count: 17, hasLesson: true },
-    { id: "t8", unitId: "m2", num: 8, title: "Industrial Polymers", count: 31, hasLesson: true },
+    { id: "t8", unitId: "m2", num: 8, title: "Industrial Polymers", count: 32, hasLesson: true },
     { id: "t9", unitId: "m2", num: 9, title: "Blends, Composites, Modification & Degradation", count: 35, hasLesson: true },
     { id: "t10", unitId: "m3", num: 10, title: "Mechanical, Viscoelastic & Physical Properties", count: 45, hasLesson: true },
     { id: "t11", unitId: "m4", num: 11, title: "Compounding & Processing", count: 46, hasLesson: true },

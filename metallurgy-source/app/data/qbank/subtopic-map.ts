@@ -137,6 +137,7 @@ export const QUESTION_SUBTOPIC: Record<string, string> = {
   "t6-23": "T6.3",
   "t7-17": "T7.4",
   "t8-31": "T8.4",
+  "t8-32": "T8.4",
   "t9-29": "T9.4",
   "t9-30": "T9.4",
   "t9-31": "T9.6",

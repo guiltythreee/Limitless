@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Focused MCQ-QS v1.0 regression for all 38 source-grounded MT203 additions.
+// Focused MCQ-QS v1.0 regression for all 39 source-grounded MT203 additions.
 // This keeps the T1–T11 source-traceable items on the accepted-quality ratchet.
 import { TOPIC_IDS } from "../app/mt203/types.ts";
 import { checkQuestion, decisionFor } from "./lib/mcq-qs-rules.mjs";
@@ -43,6 +43,7 @@ const expected = [
   ["t6", "t6-23", "T6.3"],
   ["t7", "t7-17", "T7.4"],
   ["t8", "t8-31", "T8.4"],
+  ["t8", "t8-32", "T8.4"],
 ];
 
 const expectedAnswers = {
@@ -52,9 +53,10 @@ const expectedAnswers = {
   "t3-24": "c",
   "t4-31": "d",
   "t4-32": "a",
-  "t6-23": "b",
+  "t6-23": "c",
   "t7-17": "a",
   "t8-31": "d",
+  "t8-32": "b",
   "t9-29": "d",
   "t9-30": "a",
   "t9-31": "c",

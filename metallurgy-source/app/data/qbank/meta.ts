@@ -28,7 +28,7 @@ export const MODULE_META: ModuleMeta[] = [
     num: 2,
     title: "Industrial Polymers",
     topics: [
-      { id: "t8", title: "Industrial Polymers", count: 31 },
+      { id: "t8", title: "Industrial Polymers", count: 32 },
       { id: "t9", title: "Blends, Composites, Modification & Degradation", count: 35 },
     ],
   },

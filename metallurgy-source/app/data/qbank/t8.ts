@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 8: Industrial Polymers
- * Source: Module 2 §1–4. 31 questions.
+ * Source: Module 2 §1–4. 32 questions.
  */
 const T8: TopicSource = {
   id: "t8",
@@ -888,6 +888,36 @@ const T8: TopicSource = {
         a: { tag: "confused-with-page-103-scheme", kind: "observation" },
         b: { tag: "confused-with-page-101-scheme", kind: "observation" },
         c: { tag: "unrelated-component-set", kind: "conceptual" }
+      },
+      qsScore: 93,
+    },
+
+    {
+      id: "t8-32",
+      type: "sequence",
+      diff: 2,
+      text: "Which sequence and preservation action match the lecture's explanation of natural-rubber latex coagulation?",
+      options: [
+        { label: "a", text: "Ammonia releases hydrogen ions → bacteria rupture the protein membrane → latex particles coagulate → formic acid stabilizes the dispersion." },
+        { label: "b", text: "Bacteria attack the protein membrane → lactic acid forms → hydrogen ions neutralize the particle charge and cause coagulation; ammonia solution supplies hydroxide ions that neutralize the hydrogen ions." },
+        { label: "c", text: "Sulfur vulcanizes cis-polyisoprene during collection → latex particles become positively charged → ammonia removes cross-links and restores dispersion." },
+        { label: "d", text: "Formic acid removes hydrogen ions → particle repulsion increases → latex remains dispersed; ammonia acidifies the latex further." }
+      ],
+      answer: "b",
+      why: "The p.155 slide identifies natural rubber latex as a colloidal dispersion of cis-polyisoprene. Page 157 states that bacteria attack the protein membrane and produce lactic acid; hydrogen ions from the acid cause coagulation. Ammonia solution supplies hydroxide ions that neutralize those hydrogen ions and helps prevent coagulation.",
+      distractors: {
+        a: "This reverses the roles of ammonia and acid and places membrane attack after neutralization.",
+        c: "The source describes colloidal destabilization by lactic acid, not vulcanization during latex collection.",
+        d: "The lecture says ammonia neutralizes hydrogen ions; it does not acidify latex or increase coagulation."
+      },
+      concept: "Natural-rubber latex coagulation and ammonia preservation",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T8.4",
+      misconceptions: {
+        a: { tag: "reversed-acid-and-ammonia-roles", kind: "conceptual" },
+        c: { tag: "confused-latex-coagulation-with-vulcanization", kind: "conceptual" },
+        d: { tag: "reversed-hydrogen-ion-neutralization", kind: "conceptual" }
       },
       qsScore: 93,
     },
