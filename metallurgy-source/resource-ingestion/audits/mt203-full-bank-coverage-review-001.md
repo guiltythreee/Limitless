@@ -42,7 +42,7 @@ The six IDs that the first regex missed were already in the question arrays usin
 No restoration or duplicate records remain. Eight source-gap additions remain live:
 `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17`, `t8-31`.
 
-A key-format-independent scan finds 313 IDs, 313 unique IDs, sequential numbering in each topic, 313 primary mappings, no missing mappings and no orphan mappings. Topic metadata and the course content-lock both specify 313. The import-based `validate-mt203.mjs` is the authoritative runtime check; CI is being rerun on the corrected head.
+A key-format-independent scan finds 313 IDs, 313 unique IDs, sequential numbering in each topic, 313 primary mappings, no missing mappings and no orphan mappings. Topic metadata and the course content-lock both specify 313. The import-based `validate-mt203.mjs` passed on commit `95f573d349c4d56c120934acbff1eec1acca7d94`, together with the course registry/content-lock validator, migration tests, renderer tests, answer-key balance/sequence checks and production build.
 
 ## 3. Coverage review by topic group
 
@@ -114,3 +114,19 @@ Any question that depends on an ambiguous or inconsistent source detail must eit
 - PR #246 remains draft/open/unmerged; no deployment was performed.
 
 **Next gate:** author and independently review the 29 T9–T11 questions, then update topic counts, source mappings, course manifest/content-lock and focused regression tests together. Re-run the full source validator, MCQ-QS gate, answer-key balance/sequence checks, migration tests and production build before considering merge.
+
+
+## Final CI verification — 16 November 2026
+
+Validated on the duplicate-free 313-question source commit `95f573d349c4d56c120934acbff1eec1acca7d94`:
+- MT203 source validation: 313 questions across 11 topics; all checks passed.
+- Course registry and content-lock validation: passed.
+- MT203 progress tests: 47 passed, 0 failed.
+- Migration assertions: 123 passed, 0 failed.
+- Question renderer: 90 passed, 0 failed.
+- Answer-key balance: A=78, B=79, C=78, D=78; global spread 1; maximum topic spread 1.
+- Answer-sequence regression: all 313 questions passed.
+- MCQ-QS v1.0 focused gate: all eight new T1–T8 additions passed, scores 92–95, no errors or heuristic warnings.
+- Production build: compiled successfully.
+
+A backup branch `backup/mt203-313-stable-20261116` was created at this successful source commit. PR #246 remains draft/open/unmerged; no deployment was performed.

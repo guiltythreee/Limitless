@@ -105,4 +105,19 @@ New IDs: `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17`, `t8-31`.
 
 A preliminary text-only inventory undercounted six question records because their TypeScript object keys use the quoted form (`"id":`) rather than the unquoted form (`id:`). The records `t1-11`, `t1-27`, `t2-01`, `t2-15`, `t2-32` and `t3-21` were already present in the live arrays; no restoration was necessary. A temporary duplicate insertion was removed, and the original topic source files were restored from the pre-insertion commit.
 
-A key-format-independent scan now finds 313 actual records, 313 unique IDs, sequential IDs in all 11 topics, 313 primary mappings, zero unmapped questions and zero orphan mappings. The repository's import-based `validate-mt203.mjs` remains the authoritative check; its CI run is pending on the corrected head.
+A key-format-independent scan now finds 313 actual records, 313 unique IDs, sequential IDs in all 11 topics, 313 primary mappings, zero unmapped questions and zero orphan mappings. The repository's import-based `validate-mt203.mjs` passed on commit `95f573d349c4d56c120934acbff1eec1acca7d94`: 313 questions across 11 topics; all IDs and mappings passed. The course registry/content-lock checks also passed.
+
+
+## CI confirmation — corrected 313-question source
+
+On commit `95f573d349c4d56c120934acbff1eec1acca7d94`, the content-regression workflow passed:
+- MT203 source validator: 313 questions, all checks passed.
+- Course registry/content-lock validator: all checks passed.
+- MT203 progress tests: 47 passed.
+- Migration assertions: 123 passed.
+- Question renderer: 90 passed.
+- Answer-key balance: A=78, B=79, C=78, D=78; global spread 1 and maximum topic spread 1.
+- Answer-sequence regression: all 313 questions passed.
+- Production build: compiled successfully.
+
+The question-quality workflow also passed; the eight new T1–T8 additions scored 92–95 and passed MCQ-QS v1.0 without errors or heuristic warnings.

@@ -315,3 +315,8 @@ The provisional IDs above are planning labels only; they have **not** been assig
 ### T9–T11 proposal count
 
 Seven T9 + nine T10 + thirteen T11 items = **29 proposed additions**. If independently reviewed and accepted, the bank would increase from 313 to **342 questions**. This is a source-gap proposal, not a live-bank count. No T9–T11 question, metadata count, learner-progress record or live subtopic mapping was changed in this audit addendum.
+
+
+## Automated validation confirmation — 16 November 2026
+
+The corrected 313-question bank passed the following checks on commit `95f573d349c4d56c120934acbff1eec1acca7d94`: source validator, course registry/content-lock validator, 47 MT203 progress tests, 123 migration assertions, 90 question-renderer assertions, answer-key balance, answer-sequence regression, and production build. The eight new T1–T8 additions also passed the focused MCQ-QS v1.0 gate (scores 92–95, no errors or heuristic warnings). The duplicate-insertion attempt was fully removed before this successful run.
