@@ -681,7 +681,7 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
     buffer: epub,
   });
 
-  await page.getByRole("button", { name: "Edit" }).click();
+  await expect(page.locator(".bk-chapter-list")).toBeVisible();
   await page.getByRole("button", { name: "Remove Chapter Two" }).click();
   await page.getByRole("button", { name: "Next section" }).click();
   page.once("dialog", (dialog) => dialog.accept("Custom Opening"));
