@@ -1,6 +1,6 @@
 # MT203 — proposed gap-filling assessment items (T1, T3, T7)
 
-Status: **proposal only — not added to the question bank**  
+Status: **eight source-grounded questions implemented in the live bank on 16 November 2026**  
 Source: *MT203 – PST 2026(1)*, user-provided 212-page lecture PDF.  
 Purpose: close the four confirmed assessment gaps recorded in the MT203 assessment coverage audit without changing existing question IDs, counts, metadata, mappings or learner progress.
 
@@ -346,3 +346,8 @@ All eight self-scores are above the 80-point provisional acceptance threshold. I
 - T5 receives no extra item because representative examples and property distinctions are already assessed; no one-question-per-polymer expansion is justified.
 - The original T3 surfactant item earlier in this file is superseded by the shorter match-format version above. It remains one proposed question, not two.
 - No questions have been added to the live bank. No IDs have been assigned, no metadata or mappings have been changed, and learner progress remains untouched.
+
+
+## Implementation status
+
+All eight proposed questions are now present in the live question bank under IDs `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17` and `t8-31`. Metadata counts and primary subtopic mappings have been updated. The current bank total is 313. Automated regression and course-lock checks are being rerun; this proposal file is retained as the source/distractor rationale record.

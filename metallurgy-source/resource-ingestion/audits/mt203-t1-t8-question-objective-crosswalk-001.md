@@ -401,3 +401,21 @@ Do not add questions until:
 4. New question IDs, metadata counts, primary mappings and learner-progress compatibility are validated together.
 
 No question-bank content, IDs, metadata, lesson text, exports, or learner progress were modified by this crosswalk.
+
+
+## Follow-up after eight live question additions — 16 November 2026
+
+Checkpoint 001 recorded the original 208 questions in T1–T8. Eight source-grounded items have since been added and mapped, bringing the current T1–T8 inventory to **216 questions**.
+
+| New ID | Primary subtopic | Objective |
+|---|---|---|
+| `t1-33` | T1.5 | SBR styrene-content trend across tensile strength, elongation and abrasion resistance |
+| `t1-34` | T1.1 | Source p.50 functionality classification: glycine, lactic acid and malic acid |
+| `t3-23` | T3.2 | Solution-polymer isolation routes and residual-solvent limitation |
+| `t3-24` | T3.3 | Anionic, cationic and non-ionic surfactant examples |
+| `t4-31` | T4.3 | Sedimentation-velocity and sedimentation-equilibrium methods listed on p.48 |
+| `t6-23` | T6.3 | Source examples linking structure and Tg across pp.64–67 |
+| `t7-17` | T7.4 | Recombinant spider-silk production sequence from p.79 |
+| `t8-31` | T8.4 | Silicone-based TPU component labels from p.102 |
+
+The original 208-question crosswalk remains as the baseline snapshot; this extension records the additions without rewriting the earlier audit evidence. The six confirmed source gaps and the two partial-coverage objectives now have direct assessment items. The T6-06 polyethylene value discrepancy remains flagged and was not changed.

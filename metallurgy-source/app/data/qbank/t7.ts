@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 7: Polymer Chemistry of Proteins
- * Source: Module 1 §5. 16 questions.
+ * Source: Module 1 §5. 17 questions.
  */
 const T7: TopicSource = {
   id: "t7",

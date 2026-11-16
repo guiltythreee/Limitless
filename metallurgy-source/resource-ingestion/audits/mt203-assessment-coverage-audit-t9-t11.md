@@ -192,3 +192,8 @@ Four source-grounded draft items have been prepared in `mt203-proposed-gap-quest
 All four drafts include four options, one intended answer, answer explanations and distractor rationales. A preliminary author self-review scores them 95–97/100 under MCQ-QS v1.0; these are not independent acceptance scores.
 
 The drafts are documentation only. They have no assigned question IDs and have not been inserted into the live bank. Topic counts remain 305 overall. No metadata, mapping, taxonomy or learner-progress data changed.
+
+
+## Follow-up correction — complete T1–T8 crosswalk, 16 November 2026
+
+The four-item proposal recorded above was provisional. The subsequent complete T1–T8 crosswalk identified four additional uncovered objectives (functionality classification, the p.48 ultracentrifugation submethods, the p.64–67 Tg structure comparisons, and the p.102 silicone-based TPU scheme). The complete minimum proposal was therefore expanded to eight questions and all eight have now been implemented. See `mt203-t1-t8-question-objective-crosswalk-001.md` and `mt203-proposed-gap-questions-t1-t3-t7.md` for the item-by-item traceability.

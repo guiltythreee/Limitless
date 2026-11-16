@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 8: Industrial Polymers
- * Source: Module 2 §1–4. 30 questions.
+ * Source: Module 2 §1–4. 31 questions.
  */
 const T8: TopicSource = {
   id: "t8",

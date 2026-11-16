@@ -183,7 +183,7 @@ eq(P.setGoal(fresh(), 0).goal, P.DEFAULT_GOAL, "goal falls back to default");
 section("meta helpers");
 eq(M.topicQuestionIds("t4", 3).join(","), "t4-01,t4-02,t4-03", "id generation");
 eq(M.TOPIC_OF["t10-07"], "t10", "TOPIC_OF handles two-digit topics");
-eq(M.moduleQuestionIds("m1").length, 178, "m1 question count");
+eq(M.moduleQuestionIds("m1").length, 185, "m1 question count");
 eq(M.ALL_QUESTION_IDS.length, M.TOTAL_QUESTIONS, "all ids match total");
 eq(M.moduleOfTopic("t11"), "m4", "moduleOfTopic");
 

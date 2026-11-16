@@ -6,7 +6,7 @@
 // Proves the MT203 migration onto the shared course architecture changed no
 // behaviour:
 //   - the registry adapter's outline matches the manifest and app/data/qbank
-//     meta (11 topics, 4 units, 305 questions, same order)
+//     meta (11 topics, 4 units, 313 questions, same order)
 //   - every question keeps its source id (`t4-014`), n, topic, type, difficulty,
 //     answer, options, why/distractors/concept and tags — compared field-by-field
 //     against the raw app/data/qbank/t*.ts source
@@ -200,7 +200,7 @@ const adapter = MT203_ENTRY.adapter;
 
   const agg = P.topicAggregate(p, META.TOPIC_OF, META.ALL_QUESTION_IDS);
   check(agg.t1.done >= 3, "topic aggregate reflects preserved history");
-  check(agg.t1.total === 32, "topic aggregate uses the full topic count");
+  check(agg.t1.total === 34, "topic aggregate uses the full topic count");
 }
 
 // --------------------------------------------------------- exam-completion flow

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-19",
+  "generated": "2026-11-16",
   "note": "Frozen content-lock baseline. scripts/validate-courses.mjs asserts this equals BOTH the registry manifests and the real source data. Update deliberately (and re-run the validator) after any intentional content change.",
   "courses": [
     {
@@ -48,16 +48,16 @@
       "id": "mt203",
       "units": 4,
       "topics": 11,
-      "total": 305,
+      "total": 313,
       "perTopic": {
-        "t1": 32,
+        "t1": 34,
         "t2": 36,
-        "t3": 22,
-        "t4": 30,
+        "t3": 24,
+        "t4": 31,
         "t5": 20,
-        "t6": 22,
-        "t7": 16,
-        "t8": 30,
+        "t6": 23,
+        "t7": 17,
+        "t8": 31,
         "t9": 28,
         "t10": 36,
         "t11": 33

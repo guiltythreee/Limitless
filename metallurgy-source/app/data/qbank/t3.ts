@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 3: Polymerization Techniques
- * Source: Module 1 §2.3 + supplement (melt polycondensation). 22 questions.
+ * Source: Module 1 §2.3 + supplement (melt polycondensation). 24 questions.
  */
 const T3: TopicSource = {
   id: "t3",

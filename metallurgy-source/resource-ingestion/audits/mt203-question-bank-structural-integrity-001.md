@@ -77,3 +77,25 @@ Scope: static source inspection of all 11 live question files, metadata and prim
 2. Complete the full objective-to-question crosswalk for T1–T8.
 3. Review the source mismatch in T6-06 (PE Tg: question −120 °C vs lecture −20 °C) before editing the question.
 4. Only after review, propose the exact question additions and corrections. Do not change the existing 305 IDs or learner progress during the audit.
+
+
+## Follow-up structural verification after eight question additions — 16 November 2026
+
+The checkpoint above was a 305-question baseline. Eight source-grounded questions have now been added with matching metadata and primary subtopic mappings.
+
+| Topic | Baseline | Current |
+|---|---:|---:|
+| T1 | 32 | 34 |
+| T2 | 36 | 36 |
+| T3 | 22 | 24 |
+| T4 | 30 | 31 |
+| T5 | 20 | 20 |
+| T6 | 22 | 23 |
+| T7 | 16 | 17 |
+| T8 | 30 | 31 |
+| T9 | 28 | 28 |
+| T10 | 36 | 36 |
+| T11 | 33 | 33 |
+| **Total** | **305** | **313** |
+
+New IDs: `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17`, `t8-31`. Each is sequential within its topic and has one primary mapping. The metadata total is 313. The registry manifest and content-lock are updated in the same change set. Full automated confirmation is pending the MT203 regression and course-registry CI workflows.

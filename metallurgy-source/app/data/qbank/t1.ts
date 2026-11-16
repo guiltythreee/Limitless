@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 1: Fundamentals, Classification & Architecture
- * Source: Module 1 §1, §3, §4 (+ supplement). 32 questions.
+ * Source: Module 1 §1, §3, §4 (+ supplement). 34 questions.
  */
 const T1: TopicSource = {
   id: "t1",

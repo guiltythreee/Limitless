@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 4: Molecular Weight & Distribution
- * Source: Module 1 §3 + supplement. 30 questions, numerically heavy.
+ * Source: Module 1 §3 + supplement. 31 questions, numerically heavy.
  */
 const T4: TopicSource = {
   id: "t4",

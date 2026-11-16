@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 6: Thermal Transitions (Tg, Tm, HDT)
- * Source: Module 3 §3 + Module 2 §5. 22 questions.
+ * Source: Module 3 §3 + Module 2 §5. 23 questions.
  */
 const T6: TopicSource = {
   id: "t6",

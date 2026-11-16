@@ -182,3 +182,17 @@ The source slide's first table lists examples as follows:
 The second table contrasts sharp melting point / broad softening point, usually opaque / usually transparent, high / low shrinkage, solvent resistance / solvent sensitive, fatigue-wear resistance / poor fatigue-wear resistance, high / low density, greater / lower heat content, orientation effects, and compressibility.
 
 The T5 bank already assesses several representative examples and the crystalline/amorphous property distinction. It does not directly test every named polymer in the slide's lists. The source's printed “Modified Polyphenylene Oxide (POM)” acronym mismatch must remain flagged; do not silently substitute a different polymer name or acronym. **Current decision: representative coverage, with a source-specific list/comparison gap; no one-question-per-polymer expansion is justified.**
+
+
+## Implementation checkpoint — eight gap questions added
+
+On 16 November 2026, the eight items in `mt203-proposed-gap-questions-t1-t3-t7.md` were added to the live qbank:
+
+- T1: `t1-33` (SBR styrene-content trend) and `t1-34` (functionality classification).
+- T3: `t3-23` (solution-polymer isolation) and `t3-24` (surfactant class examples).
+- T4: `t4-31` (ultracentrifugation submethods on the source chart).
+- T6: `t6-23` (structure-to-Tg source comparison).
+- T7: `t7-17` (recombinant spider-silk sequence).
+- T8: `t8-31` (silicone-based TPU components).
+
+The current bank has 313 questions. The T6-06 polyethylene Tg mismatch (question approximately −120 °C; source p.65 −20 °C) remains unresolved and unchanged. No prior question ID was renumbered or overwritten; the eight new IDs are appended to their respective topics. Learner-progress records were not edited.
