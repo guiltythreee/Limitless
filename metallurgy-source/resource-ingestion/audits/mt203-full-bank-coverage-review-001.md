@@ -60,19 +60,19 @@ T2 and T5 did not receive a new source-gap item in that crosswalk. The T6-06 pol
 
 **Scope qualification:** this pass did not repeat the page-by-page T1–T8 source extraction. The prior T1–T8 crosswalk and its recorded source anomalies remain the basis for that group; this review directly re-opened the current 2026(2) PDF for T9–T11.
 
-### T9 — seven remaining gaps
+### T9 — seven implemented additions
 
 The 35-question bank now assesses blend miscibility, compatibilization, rubber toughening, rule-of-mixtures reasoning, polymer modification and selected degradation/recycling ideas. The seven additions directly assess the lecture-specific composite definition/classification, FRP design factors, degradation definition and graph, the four source-listed categories, biodegradation hierarchy and recycling/coding context.
 
 Live IDs: `t9-29` through `t9-35`. Source pages: 110–114 and 207–212.
 
-### T10 — nine remaining gaps
+### T10 — nine implemented additions
 
 The 45-question bank now assesses stress–strain classes, modulus, toughness, creep, relaxation, viscoelastic models, TTS/WLF, rheology and selected transport/optical/flame properties. The nine additions directly assess the lecture's property classification and tensile terminology, A–F molecular deformation sequence, tensile standards/specimen, temperature/strain-rate effect, flexural methods, Izod/Charpy setup, stress-optical sensitivity/stress concentration and three-stage permeability mechanism.
 
 Live IDs: `t10-37` through `t10-45`. Source pages: 122–150 and 152–154.
 
-### T11 — thirteen remaining gaps
+### T11 — thirteen implemented additions
 
 The 46-question bank now assesses compounding fundamentals, additives, drying, MFI, shrinkage, core processing routes, fibre spinning, mastication, curatives and scorch/processability concepts. The thirteen additions directly assess processing as structure control, extruder classification/specifications, screw types/heating, twin-screw comparison, extrusion product/material table, blown-film versus blow moulding, compression/injection details, extrusion swell and surface defects, two-roll mill sequence, Tokita–White regions, ODR curve and plasticizer compatibility.
 
@@ -82,13 +82,14 @@ Live IDs: `t11-34` through `t11-46`. Source pages: 158–173 and 174–206.
 
 | Topic | Implemented count | Live ID range | Main objective clusters |
 |---|---:|---|---|
-| T1–T8 | 10 | t1-33, t1-34, t3-23, t3-24, t4-31, t4-32, t6-23, t7-17, t8-31, t8-32 | t9-29–t9-35 | composites; FRP design; degradation/aging; graph reading; categories; biodegradation; recycling |
+| T1–T8 | 10 | t1-33, t1-34, t3-23, t3-24, t4-31, t4-32, t6-23, t7-17, t8-31, t8-32 | SBR composition; functionality; solution isolation; surfactants; molecular-weight methods; Tg structure trend; spider-silk production; TPU chemistry; latex coagulation |
+| T9 | 7 | t9-29–t9-35 | composites; FRP design; degradation/aging; graph reading; degradation categories; biodegradation; recycling |
 | T10 | 9 | t10-37–t10-45 | property classification; tensile definitions/sequence/standards; temperature-rate effect; flexural; impact; stress optics; permeability |
 | T11 | 13 | t11-34–t11-46 | processing structure; extrusion equipment; twin screw; applications; moulding; extrusion defects; mill mixing; ODR; plasticizer compatibility |
 | **T9–T11 subtotal** | **29** | — | — |
 | **Full-bank total** | **39** | — | — |
 
-All 29 items are live, have the listed IDs and have primary mappings in `subtopic-map.ts`. Each passed the focused MCQ-QS v1.0 regression.
+All 39 additions are live, have the listed IDs and have primary mappings in `subtopic-map.ts`. Each passed the focused MCQ-QS v1.0 regression.
 
 ## 5. Source anomaly register
 
