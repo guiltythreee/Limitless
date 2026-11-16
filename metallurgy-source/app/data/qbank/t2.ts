@@ -57,7 +57,37 @@ const T2: TopicSource = {
       ]
     },
     {
-      id: "t2-02",
+    {
+      id: "t2-01",
+      type: "compare",
+      diff: 2,
+      text: "Which statement captures the key difference in how high molecular weight develops during chain-growth and step-growth polymerization?",
+      options: [
+        { label: "a", text: "Chain-growth can produce high-molecular-weight chains early, whereas step-growth needs very high conversion." },
+        { label: "b", text: "Chain-growth is slower because each monomer must first form a stable dimer." },
+        { label: "c", text: "Step-growth reactions release hydrogen chloride as the required small-molecule by-product." },
+        { label: "d", text: "Chain-growth requires two monomer molecules to collide together at every propagation step." }
+      ],
+      answer: "a",
+      why: "In chain-growth, an active chain end adds monomer repeatedly, so high-molecular-weight chains can appear early. In step-growth, high molecular weight develops mainly as conversion approaches completion.",
+      distractors: {
+        b: "The statement reverses the typical molecular-weight development and adds a dimer requirement not present in chain-growth.",
+        c: "Step-growth by-products vary with reaction chemistry, and some step-growth reactions release no small molecule.",
+        d: "Propagation adds monomer to an active chain end; two monomer molecules do not need to collide together each time."
+      },
+      concept: "chain-growth forms high molecular weight early; step-growth requires high conversion",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T2.1",
+      misconceptions: {
+        b: { tag: "reversed-molecular-weight-profile", kind: "conceptual" },
+        c: { tag: "condensation-byproduct-overgeneralization", kind: "conceptual" },
+        d: { tag: "misunderstood-propagation-step", kind: "conceptual" }
+      },
+      qsScore: 93,
+    },
+
+          id: "t2-02",
       type: "recall",
       diff: 1,
       text: "In free-radical polymerization, the step that generates the first reactive species is:",
@@ -342,7 +372,37 @@ const T2: TopicSource = {
       ]
     },
     {
-      id: "t2-16",
+    {
+      id: "t2-15",
+      type: "concept",
+      diff: 2,
+      text: "What is the Trommsdorff (gel) effect in bulk free-radical polymerization?",
+      options: [
+        { label: "a", text: "The reaction rate falls at high conversion because the remaining monomer becomes depleted." },
+        { label: "b", text: "Rising viscosity suppresses radical termination more strongly than propagation, causing autoacceleration." },
+        { label: "c", text: "Gamma radiation creates a cross-linked network after polymerization has finished." },
+        { label: "d", text: "Catalyst poisoning stops particle nucleation in an aqueous emulsion system." }
+      ],
+      answer: "b",
+      why: "As conversion increases, the mixture becomes more viscous. Diffusion-controlled bimolecular termination slows, while monomer can still reach active chain ends, so radical concentration and polymerization rate rise.",
+      distractors: {
+        a: "Monomer depletion can slow a reaction, but it is not the viscosity-driven autoacceleration called the gel effect.",
+        c: "Radiation-induced cross-linking is a different process from Trommsdorff autoacceleration.",
+        d: "The gel effect described here occurs in bulk free-radical polymerization, not by poisoning emulsion nucleation."
+      },
+      concept: "viscosity-limited termination produces the Trommsdorff autoacceleration",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T2.5",
+      misconceptions: {
+        a: { tag: "confused-with-monomer-depletion", kind: "conceptual" },
+        c: { tag: "confused-with-radiation-crosslinking", kind: "conceptual" },
+        d: { tag: "confused-with-emulsion-nucleation", kind: "conceptual" }
+      },
+      qsScore: 93,
+    },
+
+          id: "t2-16",
       type: "numerical",
       diff: 3,
       text: "If the initiator concentration is quadrupled ($[I] \\to 4[I]$) in a free-radical polymerization, $R_p$ becomes:",
@@ -704,7 +764,37 @@ const T2: TopicSource = {
       ]
     },
     {
-      id: "t2-33",
+    {
+      id: "t2-32",
+      type: "apply",
+      diff: 3,
+      text: "In emulsion polymerization, adding surfactant above the critical micelle concentration can increase both polymerization rate and molecular weight. Which explanation matches the lecture's particle-compartmentalization account?",
+      options: [
+        { label: "a", text: "More micelles create more polymer particles, while low radical occupancy per particle limits bimolecular termination." },
+        { label: "b", text: "The surfactant acts as a chain-transfer agent and deliberately shortens every growing polymer chain." },
+        { label: "c", text: "The process becomes equivalent to bulk polymerization once the surfactant concentration exceeds the CMC." },
+        { label: "d", text: "The surfactant increases initiator efficiency by converting every initiator molecule into two radicals." }
+      ],
+      answer: "a",
+      why: "Micelles provide additional loci for particle nucleation, increasing the number of particles and the overall rate. Compartmentalization keeps radical occupancy low in each particle, making bimolecular termination less frequent and allowing longer chains.",
+      distractors: {
+        b: "The lecture's explanation is particle compartmentalization, not surfactant-mediated chain transfer.",
+        c: "Emulsion polymerization remains a dispersed-particle process above the CMC; it does not become a bulk process.",
+        d: "The increase is not explained by a change in initiator efficiency or by doubling radical production."
+      },
+      concept: "emulsion compartmentalization can raise rate and molecular weight together",
+      tags: ["reviewed", "revision"],
+      qsLevel: 3,
+      sub: "T3.3",
+      misconceptions: {
+        b: { tag: "confused-with-chain-transfer", kind: "conceptual" },
+        c: { tag: "confused-with-bulk-polymerization", kind: "conceptual" },
+        d: { tag: "confused-with-initiator-efficiency", kind: "conceptual" }
+      },
+      qsScore: 92,
+    },
+
+          id: "t2-33",
       type: "compare",
       diff: 2,
       text: "Condensation (Carothers) vs addition polymerization — which statement is correct?",

@@ -439,7 +439,37 @@ const T3: TopicSource = {
       ]
     },
     {
-      id: "t3-22",
+    {
+      id: "t3-21",
+      type: "recall",
+      diff: 2,
+      text: "In melt polycondensation, which equipment arrangement gives a viscous melt a short diffusion path for the volatile by-product to escape?",
+      options: [
+        { label: "a", text: "A ball mill that repeatedly fractures solid polymer particles during mixing." },
+        { label: "b", text: "A thin-film or wiped-film arrangement that spreads the melt into a shallow layer." },
+        { label: "c", text: "A rotary kiln that tumbles the polymer through a heated gas stream." },
+        { label: "d", text: "A fluidized-bed quench that rapidly cools the polymer after extrusion." }
+      ],
+      answer: "b",
+      why: "A thin-film or wiped-film arrangement spreads the viscous melt into a shallow layer, shortening the diffusion path for water or another volatile by-product to escape.",
+      distractors: {
+        a: "Ball milling reduces solid particle size; it does not provide the melt-film geometry described here.",
+        c: "A rotary kiln is not the thin-layer melt arrangement used to shorten by-product diffusion distance.",
+        d: "A fluidized-bed quench cools material and does not remove condensation by-product from the viscous melt."
+      },
+      concept: "thin-film melt processing shortens the volatile by-product diffusion path",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T3.4",
+      misconceptions: {
+        a: { tag: "confused-with-solid-size-reduction", kind: "conceptual" },
+        c: { tag: "confused-with-kiln-processing", kind: "conceptual" },
+        d: { tag: "confused-with-quenching", kind: "conceptual" }
+      },
+      qsScore: 92,
+    },
+
+          id: "t3-22",
       type: "compare",
       diff: 3,
       text: "Chain transfer agent vs initiator: their roles in a radical process are:",

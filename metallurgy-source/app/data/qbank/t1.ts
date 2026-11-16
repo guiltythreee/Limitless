@@ -269,7 +269,37 @@ const T1: TopicSource = {
       ]
     },
     {
-      id: "t1-12",
+    {
+      id: "t1-11",
+      type: "concept",
+      diff: 3,
+      text: "Which explanation best accounts for the different physical behaviour of natural rubber and gutta-percha, although both are 1,4-polyisoprene?",
+      options: [
+        { label: "a", text: "They have the same chain geometry, but natural rubber has a higher average molecular weight." },
+        { label: "b", text: "The cis geometry introduces chain kinks that hinder regular packing, while trans chains pack into crystallites." },
+        { label: "c", text: "Natural rubber is permanently cross-linked before vulcanization, while gutta-percha has no covalent links." },
+        { label: "d", text: "Gutta-percha is a protein-based natural polymer, whereas natural rubber is a polyisoprene." }
+      ],
+      answer: "b",
+      why: "Both materials are polyisoprene; the important difference is double-bond configuration. The cis chain is kinked and packs poorly, while the trans chain is more regular and can crystallize.",
+      distractors: {
+        a: "Molecular weight alone does not explain the different packing behaviour of the two configurations.",
+        c: "Natural rubber is not permanently cross-linked before vulcanization; that is a separate treatment.",
+        d: "Gutta-percha is also polyisoprene, not a protein-based polymer."
+      },
+      concept: "cis/trans configuration changes chain regularity, packing and crystallinity",
+      tags: ["reviewed", "revision"],
+      qsLevel: 3,
+      sub: "T1.4",
+      misconceptions: {
+        a: { tag: "molecular-weight-confusion", kind: "conceptual" },
+        c: { tag: "confused-with-vulcanization", kind: "conceptual" },
+        d: { tag: "polymer-identity-confusion", kind: "conceptual" }
+      },
+      qsScore: 92,
+    },
+
+          id: "t1-12",
       type: "recall",
       diff: 1,
       text: "In source-based copolymer nomenclature, what does the connective -co- indicate?",
@@ -628,7 +658,37 @@ const T1: TopicSource = {
       ]
     },
     {
-      id: "t1-28",
+    {
+      id: "t1-27",
+      type: "recall",
+      diff: 1,
+      text: "Semi-synthetic polymers are derived from which starting material?",
+      options: [
+        { label: "a", text: "A fully synthetic polymer prepared from chemically synthesized monomers." },
+        { label: "b", text: "A natural polymer that is chemically modified after it has been obtained." },
+        { label: "c", text: "An inorganic material produced by refining a metallic or mineral ore." },
+        { label: "d", text: "A protein polymer isolated from an organism without subsequent chemical modification." }
+      ],
+      answer: "b",
+      why: "A semi-synthetic polymer starts from a naturally occurring polymer and is then chemically modified; cellulose acetate and cellulose nitrate are examples.",
+      distractors: {
+        a: "This describes a fully synthetic polymer rather than a chemically modified natural polymer.",
+        c: "Refining a mineral ore does not produce a semi-synthetic polymer.",
+        d: "An unmodified isolated protein is a natural polymer, not a semi-synthetic one."
+      },
+      concept: "semi-synthetic polymers retain a natural polymer starting backbone",
+      tags: ["reviewed", "revision"],
+      qsLevel: 1,
+      sub: "T1.2",
+      misconceptions: {
+        a: { tag: "confused-with-synthetic-class", kind: "conceptual" },
+        c: { tag: "confused-with-inorganic-materials", kind: "conceptual" },
+        d: { tag: "confused-with-natural-polymers", kind: "conceptual" }
+      },
+      qsScore: 92,
+    },
+
+          id: "t1-28",
       type: "statement",
       diff: 3,
       text: "Which statement(s) about polymer molecular architecture is/are correct?",
