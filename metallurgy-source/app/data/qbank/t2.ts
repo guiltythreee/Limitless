@@ -64,8 +64,8 @@ const T2: TopicSource = {
       options: [
         { label: "a", text: "Chain-growth can produce high-molecular-weight chains early, whereas step-growth needs very high conversion." },
         { label: "b", text: "Chain-growth is slower because each monomer must first form a stable dimer." },
-        { label: "c", text: "Step-growth reactions release hydrogen chloride as the required small-molecule by-product." },
-        { label: "d", text: "Chain-growth requires two monomer molecules to collide together at every propagation step." }
+        { label: "c", text: "Step-growth reactions release hydrogen chloride as a small-molecule by-product in this example." },
+        { label: "d", text: "Chain-growth uses a collision between two monomer molecules at each propagation step." }
       ],
       answer: "a",
       why: "In chain-growth, an active chain end adds monomer repeatedly, so high-molecular-weight chains can appear early. In step-growth, high molecular weight develops mainly as conversion approaches completion.",

@@ -17,6 +17,7 @@
 
 import { readFileSync, existsSync } from "node:fs";
 import { TOPIC_IDS } from "../app/mt203/types.ts";
+import { QUESTION_SUBTOPIC } from "../app/data/qbank/subtopic-map.ts";
 import { checkQuestion, decisionFor, levelCounts, TARGET_DISTRIBUTION } from "./lib/mcq-qs-rules.mjs";
 
 // ── args ────────────────────────────────────────────────────────────────────
@@ -48,7 +49,10 @@ const everyQuestion = [];
 for (const id of TOPIC_IDS) {
   if (wantTopics.length && !wantTopics.includes(id)) continue;
   const src = (await import(`../app/data/qbank/${id}.ts`)).default;
-  const subIds = new Set((src.subs || []).map((s) => s.id));
+  const mappedSubs = Object.entries(QUESTION_SUBTOPIC)
+    .filter(([questionId]) => questionId.startsWith(`${id}-`))
+    .map(([, subtopicId]) => subtopicId);
+  const subIds = new Set([...(src.subs || []).map((s) => s.id), ...mappedSubs]);
   const row = { id, n: src.questions.length, clean: 0, accepted: 0, errors: 0, warns: 0, enforced: inScope(id) };
   for (const q of src.questions) {
     const { errors, warnings } = checkQuestion(q, { subIds });
