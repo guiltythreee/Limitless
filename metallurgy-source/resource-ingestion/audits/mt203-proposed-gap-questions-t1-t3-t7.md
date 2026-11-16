@@ -16,7 +16,7 @@ Purpose: close the four confirmed assessment gaps recorded in the MT203 assessme
 
 ## T1 — lecture SBR composition trend
 
-**Proposed home:** T1.3 (copolymer classification/properties; confirm subtopic label before insertion)  
+**Proposed home:** T1.5 — Copolymer architectures & thermoplastic elastomers. The question tests the lecture's SBR copolymer-property example, not nomenclature.  
 **Type / difficulty:** concept / level 2  
 **Source:** p.16
 
@@ -90,9 +90,9 @@ D. Surfactants lower monomer–water interfacial tension, but micelles form only
 **Explanation:** The lecture lists the three surfactant classes and examples on p.28. It says surfactants lower surface tension at the monomer–water interface. On pp.29–30, it defines the CMC as the concentration beyond which micelle formation occurs and describes micelles with polar ends outward and hydrocarbon chains directed inward.
 
 **Distractor rationales**
-- B: Reverses the interfacial-tension effect and the concentration condition for micelle formation.
-- C: Swaps the lecture's examples between classes and misidentifies persulfate, which is an initiator rather than a non-ionic surfactant example.
-- D: Reverses both the CMC condition and the orientation of the emulsifier molecules in the micelle.
+- B: Swaps the lecture's anionic and cationic example groups.
+- C: Reverses the stated role of surfactants at the monomer–water interface.
+- D: Reverses the CMC condition and the orientation of emulsifier molecules in the micelle.
 
 **Quality note:** This combines the lecture's class examples with the functional and CMC concepts in one integrated item. If the course assessment requires finer granularity, split it into a class-matching item and a separate micelle-structure item rather than making this item longer.
 
@@ -100,7 +100,7 @@ D. Surfactants lower monomer–water interfacial tension, but micelles form only
 
 ## T7 — recombinant spider-silk production sequence
 
-**Proposed home:** T7.4 (recombinant proteins / biomedical applications; confirm subtopic label before insertion)  
+**Proposed home:** T7.3 — Collagen, keratin, fibroin, gelatin. The lecture's spider-silk example is a fibroin-related protein example; keep it within the existing protein-materials subtopic rather than inventing a new taxonomy node.  
 **Type / difficulty:** sequence / level 3  
 **Source:** pp.78–79
 
@@ -137,13 +137,23 @@ D. Spider genetic information → plasmid with genetic information → fermentat
 | Distractor rationales | Pass |
 | Existing question duplication checked at objective level | Pass |
 | Stable question IDs assigned | Not assigned |
-| MCQ-QS numerical score | Pending independent review |
+| MCQ-QS numerical score | Draft self-review below; independent review still required |
 | Added to live question bank | **No** |
 | Subtopic map / metadata changed | **No** |
 
+### Preliminary MCQ-QS v1.0 self-review
+
+| Item | Accuracy /20 | Distractors /20 | Reasoning /15 | No giveaways /15 | Clarity /15 | Explanation /10 | Relevance /5 | Total |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| T1 SBR trend | 20 | 18 | 14 | 14 | 15 | 10 | 5 | **96** |
+| T3 solution isolation | 20 | 18 | 14 | 15 | 15 | 10 | 5 | **97** |
+| T3 surfactant/CMC | 20 | 18 | 14 | 14 | 14 | 10 | 5 | **95** |
+| T7 recombinant spider silk | 20 | 18 | 14 | 14 | 15 | 10 | 5 | **96** |
+
+These are author self-scores, not independent acceptance results. The surfactant item was revised to balance option length and avoid making the correct option conspicuously longer. An independent reviewer should still inspect distractor plausibility and the renderer output before insertion.
+
 ### Remaining insertion checks
 
-1. Confirm the exact subtopic names for T1.3 and T7.4 against the current lesson and topic metadata before insertion.
-2. Score all four against MCQ-QS v1.0 (accuracy 20, distractor plausibility 20, reasoning 15, no giveaways 15, clarity 15, explanation 10, syllabus relevance 5). Revise any item scoring below 80; accept only at 80 or above, with 90+ preferred.
-3. Check the question renderer supports the proposed question types and text formatting.
-4. Only after review, assign the next unused IDs and update the corresponding topic count, subtopic map and metadata atomically. Do not alter learner-progress data.
+1. Confirm the proposed question types and text formatting in the live renderer.
+2. Obtain independent MCQ-QS review; revise any item below 80 and target 90+.
+3. Only after review, assign the next unused IDs and update the corresponding topic count, subtopic map and metadata atomically. Do not alter learner-progress data.
