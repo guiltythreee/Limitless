@@ -749,7 +749,7 @@ const T1: TopicSource = {
       distractors: {
         a: "This reverses the direction of all three properties stated on the slide.",
         c: "This gives the wrong direction for elongation as styrene content increases.",
-        d: "This incorrectly predicts an increase in elongation instead of a decrease."
+        d: "It gives the wrong direction for tensile strength; the lecture states that tensile strength increases."
       },
       concept: "SBR styrene-content trend: tensile strength rises; elongation and abrasion resistance fall",
       tags: ["reviewed", "revision"],
