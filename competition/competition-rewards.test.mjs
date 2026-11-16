@@ -1,5 +1,9 @@
 import assert from "node:assert/strict";
-import { readGlobalRewardSummary } from "../shared/rewards.mjs";
+import {
+  readGlobalRewardSummary,
+  buildRewardRecords,
+  buildRewardRecordsBatch,
+} from "../shared/rewards.mjs";
 import {
   COMPETITION_REWARD_MODULE_ID,
   COMPETITION_REWARD_STORAGE_KEY,
@@ -163,5 +167,63 @@ assert.equal(failedBatchAdapter.awardCodeforcesSubmissions(batchSubmissions, "ba
 assert.equal(failedBatchWrites, 1, "the batch attempts only one commit");
 assert.equal(failedBatchAdapter.getRecords().length, 0,
   "a failed batch commit does not expose unpersisted reward records");
+
+// The indexed batch calculator must be byte-for-byte equivalent to
+// sequential policy evaluation, including daily caps and one-time checkpoint
+// bonuses, while scaling to a large batch without rescanning the full ledger.
+const parityInputs = [
+  ...[0, 1, 2, 3].map((index) => ({
+    eventId: "parity:repeat:" + index,
+    moduleId: "parity-module",
+    itemId: "same-item",
+    ts: 1_800_000_000_000 + index,
+    activityClass: "standard-task",
+    difficulty: "foundational",
+    completionEvidence: "test-evidence",
+    completed: true,
+    quality: 1,
+  })),
+  ...[0, 1].map((index) => ({
+    eventId: "parity:checkpoint:" + index,
+    moduleId: "parity-module",
+    itemId: "checkpoint-item-" + index,
+    ts: 1_800_000_000_100 + index,
+    activityClass: "assessment",
+    difficulty: "foundational",
+    completionEvidence: "test-checkpoint",
+    completed: true,
+    passed: true,
+    checkpointId: "unit-1",
+    quality: 1,
+  })),
+];
+let sequentialPrior = [];
+const sequentialBatches = parityInputs.map((input) => {
+  const records = buildRewardRecords(input, sequentialPrior);
+  sequentialPrior = [...sequentialPrior, ...records];
+  return records;
+});
+assert.deepEqual(buildRewardRecordsBatch(parityInputs, []), sequentialBatches,
+  "indexed batch calculation matches sequential reward policy exactly");
+
+const largeRewardBatches = buildRewardRecordsBatch(
+  Array.from({ length: 5000 }, (_, index) => ({
+    eventId: "large-batch:" + index,
+    moduleId: "large-batch-module",
+    itemId: "single-repeated-item",
+    ts: 1_800_000_000_000 + index,
+    activityClass: "focused-practice",
+    difficulty: "foundational",
+    completionEvidence: "verified-batch-test",
+    completed: true,
+    quality: 1,
+  })),
+  []
+);
+assert.equal(largeRewardBatches.length, 5000);
+assert.equal(largeRewardBatches[0][0].repeatOrdinal, 1);
+assert.equal(largeRewardBatches[4999][0].repeatOrdinal, 5000);
+assert.equal(largeRewardBatches[4999][0].eligible, false,
+  "large batches preserve the daily repeat cap without dropping event records");
 
 console.log("Competition LSR-1 rewards: all assertions passed.");
