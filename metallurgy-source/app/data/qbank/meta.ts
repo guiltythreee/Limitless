@@ -42,7 +42,7 @@ export const MODULE_META: ModuleMeta[] = [
     id: "m4",
     num: 4,
     title: "Compounding & Processing",
-    topics: [{ id: "t11", title: "Compounding & Processing", count: 33 }],
+    topics: [{ id: "t11", title: "Compounding & Processing", count: 46 }],
   },
 ];
 
