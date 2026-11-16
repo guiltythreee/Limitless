@@ -109,4 +109,17 @@ assert.equal(damagedAdapter.awardCodeforcesSubmission({
 assert.equal(damagedValues.get(COMPETITION_REWARD_STORAGE_KEY), damagedBefore,
   "a rejected award leaves the damaged source bytes untouched");
 
+// A present but empty storage value is corruption, not an absent ledger.
+const emptyLedgerValues = new Map([[COMPETITION_REWARD_STORAGE_KEY, ""]]);
+const emptyLedgerStorage = {
+  getItem(key) { return emptyLedgerValues.has(key) ? emptyLedgerValues.get(key) : null; },
+  setItem(key, value) { emptyLedgerValues.set(key, value); },
+};
+const emptyLedgerAdapter = createCompetitionRewardAdapter(emptyLedgerStorage);
+assert.equal(emptyLedgerAdapter.awardCodeforcesSubmission({
+  ...accepted, id: 100001, contestId: 100001,
+}, "examplehandle"), null, "an empty existing reward ledger blocks new awards");
+assert.equal(emptyLedgerValues.get(COMPETITION_REWARD_STORAGE_KEY), "",
+  "rejecting an empty ledger leaves its original bytes untouched");
+
 console.log("Competition LSR-1 rewards: all assertions passed.");
