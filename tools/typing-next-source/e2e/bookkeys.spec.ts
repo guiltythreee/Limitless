@@ -161,6 +161,14 @@ test("home composition keeps the production header, hero and demo visible over a
   expect(demoSurface.backdropFilter).toContain("blur");
   expect(demoSurface.height).toBeGreaterThanOrEqual(290);
 
+  const shelfTabsSurface = await page.locator(".bk-home-tabrow").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { background: style.backgroundColor, border: style.borderTopWidth, blur: style.backdropFilter };
+  });
+  expect(shelfTabsSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(parseFloat(shelfTabsSurface.border)).toBeGreaterThan(0);
+  expect(shelfTabsSurface.blur).toContain("blur");
+
   const shelfBackground = await page.locator(".bk-library").evaluate((element) =>
     getComputedStyle(element).backgroundColor
   );
@@ -555,6 +563,18 @@ test("reader remains usable without horizontal overflow on a phone viewport", as
 
   await expect(page.locator(".bk-reader")).toBeVisible();
   await expect(page.locator("#bk-typing")).toBeVisible();
+  await expect(page.locator(".bk-chapter-list")).toBeVisible();
+  const readerSurface = await page.locator(".bk-source-text").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      background: style.backgroundColor,
+      border: style.borderTopWidth,
+      radius: style.borderTopLeftRadius,
+    };
+  });
+  expect(readerSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(parseFloat(readerSurface.border)).toBeGreaterThan(0);
+  expect(parseFloat(readerSurface.radius)).toBeGreaterThanOrEqual(10);
   const dimensions = await page.evaluate(() => ({
     viewport: window.innerWidth,
     document: document.documentElement.scrollWidth,
