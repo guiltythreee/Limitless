@@ -126,6 +126,16 @@ export const QUESTION_SUBTOPIC: Record<string, string> = {
   "t8-29": "T8.5", "t8-30": "T8.5",
   "t8-18": "T8.6", "t8-21": "T8.6",
 
+
+  // Source-grounded gap additions — 16 Nov 2026
+  "t1-33": "T1.5",
+  "t1-34": "T1.1",
+  "t3-23": "T3.2",
+  "t3-24": "T3.3",
+  "t4-31": "T4.3",
+  "t6-23": "T6.3",
+  "t7-17": "T7.4",
+  "t8-31": "T8.4",
 };
 
 export const MAPPED_TOPICS = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10", "t11"] as const;
