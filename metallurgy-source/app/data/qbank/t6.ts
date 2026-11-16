@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 6: Thermal Transitions (Tg, Tm, HDT)
- * Source: Module 3 §3 + Module 2 §5. 22 questions.
+ * Source: Module 3 §3 + Module 2 §5. 23 questions.
  */
 const T6: TopicSource = {
   id: "t6",
@@ -420,6 +420,42 @@ const T6: TopicSource = {
       why: "At 60 °C, amorphous PET is close to its Tg and can lose dimensional stability. Heat-setting develops crystalline regions that act as physical junctions and improve stiffness and heat resistance. Transparency is retained only if the crystalline morphology (especially crystallite/spherulite size) is sufficiently fine; increased crystallinity does not automatically guarantee clarity.",
       concept: "crystallinity ⇒ higher HDT above Tg",
       tags: ["confused"],
+    },
+
+    {
+      id: "t6-23",
+      type: "match",
+      diff: 3,
+      text: "Match each structural factor with the example or trend stated in the lecture.",
+      tableRows: [
+        ["1", "Hydrogen bonding", "", "(i) Poly(4-vinylpyridine), dipole–dipole interaction of the pyridine ring"],
+        ["2", "Dipole–dipole interaction", "", "(ii) Poly(vinyl alcohol), Tg = 85 °C"],
+        ["3", "Rigid aromatic backbone", "", "(iii) Polybenzimidazole, Tg = 429 °C"],
+        ["4", "Increasing linear alkyl side-chain length", "", "(iv) Tg decreases"]
+      ],
+      options: [
+        { label: "a", text: "1–i, 2–ii, 3–iv, 4–iii" },
+        { label: "b", text: "1–ii, 2–iii, 3–i, 4–iv" },
+        { label: "c", text: "1–ii, 2–i, 3–iii, 4–iv" },
+        { label: "d", text: "1–iii, 2–iv, 3–ii, 4–i" }
+      ],
+      answer: "c",
+      why: "The lecture links PVA (85 °C) with hydrogen bonding, poly(4-vinylpyridine) (142 °C) with dipole–dipole interaction, and polybenzimidazole (429 °C) with a rigid aromatic heterocyclic backbone. Page 67 states that increasing linear alkyl side-chain length decreases Tg.",
+      distractors: {
+        a: "This swaps the PVA and pyridine examples and misassigns the backbone and side-chain trends.",
+        b: "This assigns polybenzimidazole to dipole interactions and misplaces the rigid-backbone example.",
+        d: "This reverses the PVA and polybenzimidazole examples and misassigns the side-chain trend.",
+      },
+      concept: "Structural restrictions on segmental motion and the lecture's stated Tg examples",
+      tags: ["reviewed", "revision"],
+      qsLevel: 3,
+      sub: "T6.3",
+      misconceptions: {
+        a: { tag: "swapped-intermolecular-forces", kind: "conceptual" },
+        b: { tag: "misassigned-backbone-stiffness", kind: "conceptual" },
+        d: { tag: "reversed-structure-trends", kind: "conceptual" }
+      },
+      qsScore: 92,
     },
   ],
 };

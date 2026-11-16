@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 7: Polymer Chemistry of Proteins
- * Source: Module 1 §5. 16 questions.
+ * Source: Module 1 §5. 17 questions.
  */
 const T7: TopicSource = {
   id: "t7",
@@ -466,6 +466,36 @@ const T7: TopicSource = {
         b: "Hydroxyproline generally contributes to collagen triple-helix stability rather than universally disrupting it.",
         c: "Protein denaturation temperature depends on molecular sequence and interactions, not simply the boiling point of the solvent.",
       },
+    },
+
+    {
+      id: "t7-17",
+      type: "sequence",
+      diff: 3,
+      text: "The lecture's diagram for recombinant spider-silk protein production shows a sequence from spider genetic information to a protein product. Which order matches the diagram?",
+      options: [
+        { label: "a", text: "Spider genetic information → plasmid with genetic information → E. coli → fermentation → protein" },
+        { label: "b", text: "Spider genetic information → E. coli → plasmid with genetic information → fermentation → protein" },
+        { label: "c", text: "Plasmid with genetic information → spider genetic information → fermentation → E. coli → protein" },
+        { label: "d", text: "Spider genetic information → plasmid with genetic information → fermentation → protein → E. coli" }
+      ],
+      answer: "a",
+      why: "The p.79 diagram shows spider genetic information leading to a plasmid carrying genetic information, then E. coli, fermentation and the protein product. The p.78 example is recombinant spider-silk protein C16/ADF4.",
+      distractors: {
+        b: "This places E. coli before the plasmid stage, reversing the displayed sequence.",
+        c: "This reverses the first two stages and places fermentation before E. coli.",
+        d: "This places fermentation and protein production before the E. coli stage."
+      },
+      concept: "Source diagram: spider genetic information → plasmid → E. coli → fermentation → protein",
+      tags: ["reviewed", "revision"],
+      qsLevel: 3,
+      sub: "T7.4",
+      misconceptions: {
+        b: { tag: "host-before-plasmid", kind: "observation" },
+        c: { tag: "reversed-initial-stages", kind: "observation" },
+        d: { tag: "protein-before-host", kind: "observation" }
+      },
+      qsScore: 95,
     },
   ],
 };

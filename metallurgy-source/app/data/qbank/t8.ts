@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 8: Industrial Polymers
- * Source: Module 2 §1–4. 30 questions.
+ * Source: Module 2 §1–4. 32 questions.
  */
 const T8: TopicSource = {
   id: "t8",
@@ -860,6 +860,66 @@ const T8: TopicSource = {
         c: "Low-density polyethylene is flexible and relatively soft, so it is less suitable when lid stiffness and hot dimensional control matter.",
         a: "PETG clarity does not by itself establish adequate hot-contact performance, and it is not typically the lowest-cost commodity choice.",
       },
+    },
+
+    {
+      id: "t8-31",
+      type: "concept",
+      diff: 2,
+      text: "Which set of components is labelled in the lecture's “Silicone based TPU” reaction scheme?",
+      options: [
+        { label: "a", text: "MDI, a PCL–PEC–PDMS macrodiol, 1,4-butanediol and DBTL" },
+        { label: "b", text: "A PEO–PPO–PEO diol, PTMC blocks, OCN(CH2)4NCO and H2N(CH2)4NH2" },
+        { label: "c", text: "Toluene diisocyanate, ethylene glycol, natural rubber and styrene" },
+        { label: "d", text: "H12MDI, PTMG, PDMS and 1,4-butanediol (1,4-BD)" }
+      ],
+      answer: "d",
+      why: "The p.102 scheme labels H12MDI, PTMG, PDMS and 1,4-BD. It also prints THF/DMAC and T-12 beside the reaction arrow; the slide does not give stoichiometric ratios or expand T-12.",
+      distractors: {
+        a: "These labels belong to the separate one-pot TPU example shown on p.103, not the p.102 silicone-based scheme.",
+        b: "These components belong to the two-pot TPU scheme shown on p.101, not the p.102 scheme.",
+        c: "These are not the four component labels shown in the p.102 silicone-based TPU scheme.",
+      },
+      concept: "Silicone-based TPU component labels on source p.102",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T8.4",
+      misconceptions: {
+        a: { tag: "confused-with-page-103-scheme", kind: "observation" },
+        b: { tag: "confused-with-page-101-scheme", kind: "observation" },
+        c: { tag: "unrelated-component-set", kind: "conceptual" }
+      },
+      qsScore: 93,
+    },
+
+    {
+      id: "t8-32",
+      type: "sequence",
+      diff: 2,
+      text: "Which sequence and preservation action match the lecture's explanation of natural-rubber latex coagulation?",
+      options: [
+        { label: "a", text: "Ammonia releases hydrogen ions → bacteria rupture the protein membrane → latex particles coagulate → formic acid stabilizes the dispersion." },
+        { label: "b", text: "Bacteria attack the protein membrane → lactic acid forms → hydrogen ions neutralize the particle charge and cause coagulation; ammonia solution supplies hydroxide ions that neutralize the hydrogen ions." },
+        { label: "c", text: "Sulfur vulcanizes cis-polyisoprene during collection → latex particles become positively charged → ammonia removes cross-links and restores dispersion." },
+        { label: "d", text: "Formic acid removes hydrogen ions → particle repulsion increases → latex remains dispersed; ammonia acidifies the latex further." }
+      ],
+      answer: "b",
+      why: "The p.155 slide identifies natural rubber latex as a colloidal dispersion of cis-polyisoprene. Page 157 states that bacteria attack the protein membrane and produce lactic acid; hydrogen ions from the acid cause coagulation. Ammonia solution supplies hydroxide ions that neutralize those hydrogen ions and helps prevent coagulation.",
+      distractors: {
+        a: "This reverses the roles of ammonia and acid and places membrane attack after neutralization.",
+        c: "The source describes colloidal destabilization by lactic acid, not vulcanization during latex collection.",
+        d: "The lecture says ammonia neutralizes hydrogen ions; it does not acidify latex or increase coagulation."
+      },
+      concept: "Natural-rubber latex coagulation and ammonia preservation",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T8.4",
+      misconceptions: {
+        a: { tag: "reversed-acid-and-ammonia-roles", kind: "conceptual" },
+        c: { tag: "confused-latex-coagulation-with-vulcanization", kind: "conceptual" },
+        d: { tag: "reversed-hydrogen-ion-neutralization", kind: "conceptual" }
+      },
+      qsScore: 93,
     },
   ],
 };

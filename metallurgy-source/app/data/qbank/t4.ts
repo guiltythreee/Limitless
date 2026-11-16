@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 4: Molecular Weight & Distribution
- * Source: Module 1 §3 + supplement. 30 questions, numerically heavy.
+ * Source: Module 1 §3 + supplement. 32 questions, numerically heavy.
  */
 const T4: TopicSource = {
   id: "t4",
@@ -394,15 +394,16 @@ const T4: TopicSource = {
       text: "Two monodisperse fractions (each PDI = 1) of Mn = 20,000 (5 g) and Mn = 80,000 (5 g) are blended. The blend's Mn and Mw are:",
       options: [
         { label: "a", text: "Mn = 25,000; Mw = 80,000" },
-        { label: "b", text: "Mn = 50,000; Mw = 50,000" },
+        { label: "b", text: "Mn = 32,000; Mw = 50,000" },
         { label: "c", text: "Mn = 40,000; Mw = 32,000" },
-        { label: "d", text: "Mn = 32,000; Mw = 50,000" }
+        { label: "d", text: "Mn = 50,000; Mw = 50,000" }
       ],
-      answer: "d",
+      answer: "b",
       why: "The two fractions have equal **mass fractions**, so $M_n = 1/(0.5/20000 + 0.5/80000) = 1/(3.125\\times10^{-5}) = \\mathbf{32{,}000}$. The weight average is the mass-weighted arithmetic mean: $M_w = 0.5(20000)+0.5(80000) = \\mathbf{50{,}000}$.",
       distractors: {
-        b: "50,000 is the simple arithmetic mean — valid only for mass-weighted Mw of equal masses, not Mn.",
-        c: "Mn and Mw swapped.",
+        a: "This assigns the blend number-average to the larger fraction rather than weighting chain counts by mass fraction.",
+        c: "This swaps the calculated number-average and weight-average values.",
+        d: "50,000 is the simple arithmetic mean — valid only for mass-weighted Mw of equal masses, not Mn.",
       },
       concept: "$1/M_n=\\sum w_i/M_i$ · $M_w=\\sum w_iM_i$",
       tags: ["numeric", "formula"],
@@ -569,6 +570,115 @@ const T4: TopicSource = {
       concept: "convert number→weight fractions before computing Mw",
       tags: ["numeric", "formula"],
     },
+
+    {
+      id: "t4-31",
+      type: "recall",
+      diff: 2,
+      text: "On the lecture's p.48 molecular-weight chart, which two methods are listed under ultracentrifugation?",
+      options: [
+        { label: "a", text: "Membrane osmometry and vapour-phase osmometry" },
+        { label: "b", text: "Relative viscosity and intrinsic viscosity" },
+        { label: "c", text: "Light scattering and gel-permeation chromatography" },
+        { label: "d", text: "Sedimentation velocity and sedimentation equilibrium" }
+      ],
+      answer: "d",
+      why: "The p.48 chart lists sedimentation velocity and sedimentation equilibrium as the two ultracentrifugation methods. This item asks what the lecture chart lists, without resolving its separate method-to-average inconsistencies.",
+      distractors: {
+        a: "Both osmometry methods appear under the chart's colligative-method branch, not under ultracentrifugation.",
+        b: "These are dilute-solution viscosity measurements, not the ultracentrifugation methods listed in the lecture chart.",
+        c: "These are separate methods listed under the weight-average branch, not ultracentrifugation submethods."
+      },
+      concept: "Ultracentrifugation methods named on the source p.48 chart",
+      tags: ["reviewed", "revision"],
+      qsLevel: 2,
+      sub: "T4.3",
+      misconceptions: {
+        a: { tag: "confused-with-colligative-methods", kind: "conceptual" },
+        b: { tag: "confused-with-viscometry", kind: "conceptual" },
+        c: { tag: "confused-with-other-weight-average-methods", kind: "conceptual" }
+      },
+      qsScore: 92,
+    },
+    {
+      "id": "t4-32",
+      "type": "match",
+      "diff": 2,
+      "text": "Match each method with the branch or colligative measurement printed in the lecture's p.48 molecular-weight chart.",
+      "tableRows": [
+        [
+          "1",
+          "End-group analysis",
+          "",
+          "(i) listed under number-average molecular weight"
+        ],
+        [
+          "2",
+          "Cryoscopy",
+          "",
+          "(ii) depression in freezing point"
+        ],
+        [
+          "3",
+          "Ebulliometry",
+          "",
+          "(iii) elevation in boiling point"
+        ],
+        [
+          "4",
+          "Osmometry",
+          "",
+          "(iv) vapour-phase and membrane osmometry"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–i, 2–ii, 3–iii, 4–iv"
+        },
+        {
+          "label": "b",
+          "text": "1–iv, 2–ii, 3–iii, 4–i"
+        },
+        {
+          "label": "c",
+          "text": "1–i, 2–iii, 3–ii, 4–iv"
+        },
+        {
+          "label": "d",
+          "text": "1–ii, 2–i, 3–iv, 4–iii"
+        }
+      ],
+      "answer": "a",
+      "why": "The p.48 chart places end-group analysis under number-average molecular weight. It identifies cryoscopy with freezing-point depression, ebulliometry with boiling-point elevation, and osmometry with vapour-phase and membrane osmometry. The same chart also lists GPC under both number-average and weight-average branches; this question reproduces the printed colligative labels without resolving that duplicated GPC placement.",
+      "distractors": {
+        "b": "This assigns osmometry to the end-group branch and places end-group analysis under the osmometry examples.",
+        "c": "This exchanges the freezing-point and boiling-point methods while retaining the other two labels.",
+        "d": "This assigns freezing-point depression to end-group analysis and moves osmometry into the wrong branch."
+      },
+      "concept": "Number-average branch and colligative molecular-weight methods shown on source p.48",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T4.3",
+      "misconceptions": {
+        "b": {
+          "tag": "misassigned-end-group-and-osmometry",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "swapped-cryoscopy-and-ebulliometry",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "misassigned-colligative-methods",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    }
   ],
 };
 

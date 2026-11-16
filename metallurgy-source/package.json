@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "next lint",
     "test:lsr1": "node --import ./scripts/ts-resolve-hook.mjs scripts/test-lsr1.mjs",
-    "test:quality": "node question-quality/tests/validate.test.mjs && node question-quality/tests/mt203-adapter.test.mjs && node question-quality/tests/mt201-adapter.test.mjs && node question-quality/tests/mt202-adapter.test.mjs && node question-quality/tests/registry-profiles.test.mjs && node scripts/test-mcq-qs.mjs"
+    "test:quality": "node question-quality/tests/validate.test.mjs && node question-quality/tests/mt203-adapter.test.mjs && node question-quality/tests/mt201-adapter.test.mjs && node question-quality/tests/mt202-adapter.test.mjs && node question-quality/tests/registry-profiles.test.mjs && node scripts/test-mcq-qs.mjs",
+    "test:ingestion": "node resource-ingestion/tests/ingest.test.mjs && node resource-ingestion/tests/review.test.mjs"
   },
   "dependencies": {
     "katex": "^0.19.0",

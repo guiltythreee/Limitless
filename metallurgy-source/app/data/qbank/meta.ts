@@ -14,13 +14,13 @@ export const MODULE_META: ModuleMeta[] = [
     num: 1,
     title: "Fundamentals, Classification & Architecture",
     topics: [
-      { id: "t1", title: "Fundamentals, Classification & Architecture", count: 32 },
+      { id: "t1", title: "Fundamentals, Classification & Architecture", count: 34 },
       { id: "t2", title: "Polymerization Mechanisms", count: 36 },
-      { id: "t3", title: "Polymerization Techniques", count: 22 },
-      { id: "t4", title: "Molecular Weight & Distribution", count: 30 },
+      { id: "t3", title: "Polymerization Techniques", count: 24 },
+      { id: "t4", title: "Molecular Weight & Distribution", count: 32 },
       { id: "t5", title: "Polymer Crystallinity", count: 20 },
-      { id: "t6", title: "Thermal Transitions: Tg, Tm & HDT", count: 22 },
-      { id: "t7", title: "Polymer Chemistry of Proteins", count: 16 },
+      { id: "t6", title: "Thermal Transitions: Tg, Tm & HDT", count: 23 },
+      { id: "t7", title: "Polymer Chemistry of Proteins", count: 17 },
     ],
   },
   {
@@ -28,21 +28,21 @@ export const MODULE_META: ModuleMeta[] = [
     num: 2,
     title: "Industrial Polymers",
     topics: [
-      { id: "t8", title: "Industrial Polymers", count: 30 },
-      { id: "t9", title: "Blends, Composites, Modification & Degradation", count: 28 },
+      { id: "t8", title: "Industrial Polymers", count: 32 },
+      { id: "t9", title: "Blends, Composites, Modification & Degradation", count: 35 },
     ],
   },
   {
     id: "m3",
     num: 3,
     title: "Properties of Polymers",
-    topics: [{ id: "t10", title: "Mechanical, Viscoelastic & Physical Properties", count: 36 }],
+    topics: [{ id: "t10", title: "Mechanical, Viscoelastic & Physical Properties", count: 45 }],
   },
   {
     id: "m4",
     num: 4,
     title: "Compounding & Processing",
-    topics: [{ id: "t11", title: "Compounding & Processing", count: 33 }],
+    topics: [{ id: "t11", title: "Compounding & Processing", count: 46 }],
   },
 ];
 

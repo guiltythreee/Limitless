@@ -2,7 +2,7 @@ import type { TopicSource } from "../../mt203/types";
 
 /**
  * MT203 — Topic 10: Mechanical & Viscoelastic Properties
- * Source: Module 3 §1, §4 + Module 2 §5. 28 questions.
+ * Source: Module 3 §1, §4 + Module 2 §5. 45 questions.
  */
 const T10: TopicSource = {
   id: "t10",
@@ -891,7 +891,584 @@ const T10: TopicSource = {
       },
       concept: "Optical clarity / scattering / birefringence; LOI definition.",
       tags: ["revision"]
-    }
+    },
+    {
+      "id": "t10-37",
+      "type": "match",
+      "diff": 2,
+      "text": "Match each mechanical-property group with the measurement description given in the lecture.",
+      "tableRows": [
+        [
+          "1",
+          "Short-term",
+          "",
+          "(i) time-dependent deformation or stress decay"
+        ],
+        [
+          "2",
+          "Long-term",
+          "",
+          "(ii) constant-rate stress or strain tests"
+        ],
+        [
+          "3",
+          "Surface",
+          "",
+          "(iii) surface-related mechanical behaviour"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–iii, 2–ii, 3–i"
+        },
+        {
+          "label": "b",
+          "text": "1–i, 2–iii, 3–ii"
+        },
+        {
+          "label": "c",
+          "text": "1–ii, 2–i, 3–iii"
+        },
+        {
+          "label": "d",
+          "text": "1–i, 2–ii, 3–iii"
+        }
+      ],
+      "answer": "c",
+      "why": "The slide classifies plastics mechanical properties as short-term, long-term and surface properties. Short-term properties are measured at a constant rate of stress or strain in modes such as tension, compression, flexure and shear. Long-term properties measure deformation or stress decay with time, including creep and stress relaxation.",
+      "distractors": {
+        "a": "This assigns the surface category to short-term and reverses the time-dependent and constant-rate groups.",
+        "b": "This assigns time-dependent behaviour to short-term and the surface category to long-term.",
+        "d": "This assigns time-dependent measurements to short-term and constant-rate tests to long-term."
+      },
+      "concept": "Short-term, long-term and surface mechanical-property classification",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T10.1",
+      "misconceptions": {
+        "a": {
+          "tag": "misclassified-surface-properties",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "misassigned-property-measurement-groups",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "swapped-short-and-long-term-properties",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t10-38",
+      "type": "match",
+      "diff": 2,
+      "text": "Match each tensile-test term with the definition printed in the lecture.",
+      "tableRows": [
+        [
+          "1",
+          "Gauge length",
+          "",
+          "(i) original distance between the two marks on the test piece"
+        ],
+        [
+          "2",
+          "Yield point",
+          "",
+          "(ii) first point where strain increases without an increase in stress"
+        ],
+        [
+          "3",
+          "Proportional limit",
+          "",
+          "(iii) greatest stress sustained without deviation from stress–strain proportionality"
+        ],
+        [
+          "4",
+          "Secant modulus",
+          "",
+          "(iv) total stress divided by corresponding strain at a selected point"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–i, 2–ii, 3–iii, 4–iv"
+        },
+        {
+          "label": "b",
+          "text": "1–ii, 2–i, 3–iv, 4–iii"
+        },
+        {
+          "label": "c",
+          "text": "1–iii, 2–iv, 3–i, 4–ii"
+        },
+        {
+          "label": "d",
+          "text": "1–iv, 2–iii, 3–ii, 4–i"
+        }
+      ],
+      "answer": "a",
+      "why": "Gauge length is the original marked length over which elongation is measured. The slide defines yield point as the first point where strain increases without an increase in stress, proportional limit as the greatest stress retaining proportionality, and secant modulus as stress divided by corresponding strain at a selected point.",
+      "distractors": {
+        "b": "This assigns the gauge-length definition to yield point and exchanges the proportional-limit and secant-modulus definitions.",
+        "c": "This assigns the proportional-limit definition to gauge length and misplaces the other three terms.",
+        "d": "This reverses the source definitions for gauge length, yield point and secant modulus."
+      },
+      "concept": "Lecture definitions of gauge length, yield point, proportional limit and secant modulus",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T10.1",
+      "misconceptions": {
+        "b": {
+          "tag": "swapped-gauge-and-yield-definitions",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "confused-stress-limit-with-measurement-length",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "reversed-tensile-terminology",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t10-39",
+      "type": "sequence",
+      "diff": 3,
+      "text": "Which ordered description matches the A–F molecular deformation stages in the lecture's tensile stress–strain curve?",
+      "options": [
+        {
+          "label": "a",
+          "text": "A–B: chain slippage; A–C: fracture; C–D: instantaneous recovery; D–E: elastic bending; E–F: cross-link formation."
+        },
+        {
+          "label": "b",
+          "text": "A–B: necking; A–C: viscous flow; C–D: bond rupture; D–E: proportional elasticity; E–F: immediate recovery."
+        },
+        {
+          "label": "c",
+          "text": "A–B: molecular orientation; A–C: yielding; C–D: fracture; D–E: bond bending; E–F: elastic recovery."
+        },
+        {
+          "label": "d",
+          "text": "A–B: bond bending and stretching; A–C: recoverable elastic response to the proportionality limit; C–D: straightening without slippage; D–E: deformation without increased stress; E–F: slippage/orientation and failure."
+        }
+      ],
+      "answer": "d",
+      "why": "The source describes A–B as near-instantaneous bond bending and stretching, A–C as the recoverable elastic region up to the proportionality limit, C–D as molecular straightening without slippage, D–E as deformation without increased stress, and E–F as slippage and orientation followed by failure at F.",
+      "distractors": {
+        "a": "This places molecular slippage at the start and fracture before the proportionality limit, reversing the source sequence.",
+        "b": "This moves necking and viscous flow into early regions and assigns immediate recovery to the final stage.",
+        "c": "This places orientation before the elastic and straightening regions and misassigns fracture to C–D."
+      },
+      "concept": "A–F tensile deformation sequence from bond response to chain slippage and failure",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T10.1",
+      "misconceptions": {
+        "a": {
+          "tag": "reversed-early-and-late-deformation-stages",
+          "kind": "observation"
+        },
+        "b": {
+          "tag": "misplaced-necking-and-viscous-flow",
+          "kind": "observation"
+        },
+        "c": {
+          "tag": "misordered-orientation-and-fracture",
+          "kind": "observation"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t10-40",
+      "type": "recall",
+      "diff": 2,
+      "text": "Which combination matches the lecture's tensile-test standard, specimen and testing equipment?",
+      "options": [
+        {
+          "label": "a",
+          "text": "ASTM D790; rectangular flexural bar; pendulum impact tester for tensile loading."
+        },
+        {
+          "label": "b",
+          "text": "ASTM D256; notched Izod specimen; universal testing machine used only for impact testing."
+        },
+        {
+          "label": "c",
+          "text": "ASTM D638; rectangular beam specimen; a three-point loading fixture used for tensile strength."
+        },
+        {
+          "label": "d",
+          "text": "ASTM D638 with the listed IS/JIS/ISO/BS standards; a dumb-bell specimen tested on a universal testing machine."
+        }
+      ],
+      "answer": "d",
+      "why": "The lecture lists ASTM D638, IS-8453, JIS-7113, ISO-1184 and BS-2782 for tensile properties. It shows a dumb-bell-shaped specimen and a universal testing machine for tension or compression testing.",
+      "distractors": {
+        "a": "ASTM D790 and a rectangular bar belong to the flexural-property section rather than the tensile test.",
+        "b": "ASTM D256 and a notched specimen are listed for pendulum impact testing, not tensile testing.",
+        "c": "The lecture shows a dumb-bell specimen and does not describe tensile testing with a three-point flexural fixture."
+      },
+      "concept": "Tensile-test standards, dumb-bell specimen and universal testing machine",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T10.1",
+      "misconceptions": {
+        "a": {
+          "tag": "confused-with-flexural-testing",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "confused-with-impact-testing",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "confused-with-flexural-fixture",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 94
+    },
+    {
+      "id": "t10-41",
+      "type": "graph",
+      "diff": 3,
+      "text": "For the PMMA stress–strain plot in the lecture, what is the stated effect of decreasing temperature and increasing strain rate?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Decreasing temperature lowers modulus and tensile strength while increasing elongation; faster loading reverses those changes."
+        },
+        {
+          "label": "b",
+          "text": "Decreasing temperature raises modulus and tensile strength while lowering percentage elongation; increasing strain rate has the same stated effects."
+        },
+        {
+          "label": "c",
+          "text": "Decreasing temperature raises elongation while lowering tensile strength; increasing strain rate produces a softer response."
+        },
+        {
+          "label": "d",
+          "text": "Decreasing temperature changes modulus but leaves tensile strength and elongation unchanged; strain rate affects only failure time."
+        }
+      ],
+      "answer": "b",
+      "why": "The p.137 slide states that decreasing temperature increases modulus and tensile strength and decreases percentage elongation. It states that increasing strain rate produces the same effects as decreasing temperature for the plotted thermoplastic response.",
+      "distractors": {
+        "a": "This reverses the three directions stated beside the lecture's temperature-dependent PMMA plot.",
+        "c": "The source states that decreasing temperature lowers elongation and raises tensile strength, not the reverse.",
+        "d": "The slide lists changes in all three plotted properties rather than modulus alone."
+      },
+      "concept": "Temperature and strain-rate effects on thermoplastic tensile response",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 3,
+      "sub": "T10.1",
+      "misconceptions": {
+        "a": {
+          "tag": "reversed-temperature-property-trends",
+          "kind": "observation"
+        },
+        "c": {
+          "tag": "reversed-strength-and-elongation-trends",
+          "kind": "observation"
+        },
+        "d": {
+          "tag": "missed-multiple-property-effects",
+          "kind": "observation"
+        }
+      },
+      "qsScore": 94
+    },
+    {
+      "id": "t10-42",
+      "type": "match",
+      "diff": 2,
+      "text": "Match the flexural test arrangement with the loading description in the lecture.",
+      "tableRows": [
+        [
+          "1",
+          "Three-point loading",
+          "",
+          "(i) one central load on a simply supported beam"
+        ],
+        [
+          "2",
+          "Four-point loading",
+          "",
+          "(ii) two equal loads spaced from adjacent supports"
+        ],
+        [
+          "3",
+          "Test specimen",
+          "",
+          "(iii) rectangular bar cut from sheet, plate or moulded shape"
+        ],
+        [
+          "4",
+          "General scope",
+          "",
+          "(iv) rigid and semi-rigid materials; flexible materials when they break or fail in the outer fibre"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–i, 2–ii, 3–iii, 4–iv"
+        },
+        {
+          "label": "b",
+          "text": "1–ii, 2–i, 3–iv, 4–iii"
+        },
+        {
+          "label": "c",
+          "text": "1–i, 2–iii, 3–ii, 4–iv"
+        },
+        {
+          "label": "d",
+          "text": "1–iii, 2–ii, 3–i, 4–iv"
+        }
+      ],
+      "answer": "a",
+      "why": "The lecture describes three-point loading as a central load on a simply supported beam and four-point loading as two equal loads spaced from adjacent supports. It uses rectangular bars and states that the methods generally apply to rigid and semi-rigid materials; flexible materials are assessable when they break or fail in the outer fibre. Listed standards include ASTM D790, JIS-7203-1982 and BS-2782.",
+      "distractors": {
+        "b": "This exchanges the central and two-load arrangements and misassigns specimen form and material scope.",
+        "c": "This assigns the rectangular specimen description to four-point loading and swaps the two loading methods.",
+        "d": "This assigns the specimen form to three-point loading and places the central-load description under the specimen row."
+      },
+      "concept": "Flexural loading methods, specimen form, scope and listed test standards",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T10.2",
+      "misconceptions": {
+        "b": {
+          "tag": "swapped-three-and-four-point-tests",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "misassigned-flexural-specimen",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "confused-loading-method-with-specimen",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t10-43",
+      "type": "match",
+      "diff": 2,
+      "text": "Match each pendulum impact method with the specimen position and reporting detail stated in the lecture.",
+      "tableRows": [
+        [
+          "1",
+          "Izod",
+          "",
+          "(i) specimen clamped with notch facing the striker; energy read directly from the scale in in-lb or ft-lb"
+        ],
+        [
+          "2",
+          "Charpy",
+          "",
+          "(ii) specimen horizontal and supported at both ends; complete breaks accepted; result per thickness in ft-lb/in"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–ii, 2–i"
+        },
+        {
+          "label": "b",
+          "text": "1–i, 2–ii"
+        },
+        {
+          "label": "c",
+          "text": "1–i, 2–i"
+        },
+        {
+          "label": "d",
+          "text": "1–ii, 2–ii"
+        }
+      ],
+      "answer": "b",
+      "why": "For Izod, the specimen is clamped with its notched end facing the striking edge, and the impact value is read directly from the scale in in-lb or ft-lb. For Charpy, the specimen is mounted horizontally and supported at both ends; only complete breaks are accepted, and the result is reported per specimen thickness in ft-lb/in. of notch for notched specimens and ft-lb/in. for unnotched specimens.",
+      "distractors": {
+        "a": "This exchanges the Izod clamping arrangement and the horizontal Charpy support arrangement.",
+        "c": "This assigns the same orientation to both tests and omits the Charpy support condition.",
+        "d": "This reverses both specimen arrangements described in the source for the two pendulum impact methods."
+      },
+      "concept": "Izod and Charpy specimen orientation, support and result reporting",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T10.2",
+      "misconceptions": {
+        "a": {
+          "tag": "swapped-izod-charpy-setups",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "missed-distinct-specimen-position",
+          "kind": "conceptual"
+        },
+        "d": {
+          "tag": "reversed-impact-test-fixtures",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 93
+    },
+    {
+      "id": "t10-44",
+      "type": "match",
+      "diff": 2,
+      "text": "Match each stress-related term with the definition given on the lecture slide.",
+      "tableRows": [
+        [
+          "1",
+          "Stress-optical sensitivity",
+          "",
+          "(i) magnification of applied stress near a notch, crack, void or inclusion"
+        ],
+        [
+          "2",
+          "Stress concentration",
+          "",
+          "(ii) double refraction of light when a material is under stress"
+        ]
+      ],
+      "options": [
+        {
+          "label": "a",
+          "text": "1–i, 2–ii"
+        },
+        {
+          "label": "b",
+          "text": "1–i, 2–i"
+        },
+        {
+          "label": "c",
+          "text": "1–ii, 2–ii"
+        },
+        {
+          "label": "d",
+          "text": "1–ii, 2–i"
+        }
+      ],
+      "answer": "d",
+      "why": "Stress-optical sensitivity is the ability of a material to exhibit double refraction of light when placed under stress. Stress concentration is the magnification of applied stress near a notch, crack, void, inclusion or other stress raiser.",
+      "distractors": {
+        "a": "This assigns double refraction to stress concentration and notch-related magnification to optical sensitivity.",
+        "b": "This gives the double-refraction definition to both terms and does not distinguish stress raisers.",
+        "c": "This assigns the same stress-raiser definition to both terms and omits the optical response."
+      },
+      "concept": "Stress-optical sensitivity versus stress concentration",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T10.3",
+      "misconceptions": {
+        "a": {
+          "tag": "swapped-optical-and-concentration-definitions",
+          "kind": "conceptual"
+        },
+        "b": {
+          "tag": "collapsed-distinct-stress-terms",
+          "kind": "conceptual"
+        },
+        "c": {
+          "tag": "confused-light-response-with-stress-raiser",
+          "kind": "conceptual"
+        }
+      },
+      "qsScore": 92
+    },
+    {
+      "id": "t10-45",
+      "type": "sequence",
+      "diff": 2,
+      "text": "Which sequence gives the three stages of gas or vapour permeability through a polymer, in the order shown in the lecture?",
+      "options": [
+        {
+          "label": "a",
+          "text": "Diffusion through the polymer → absorption into the polymer → desorption from the far surface."
+        },
+        {
+          "label": "b",
+          "text": "Desorption from the polymer surface → absorption into the polymer → diffusion through the polymer."
+        },
+        {
+          "label": "c",
+          "text": "Absorption into the polymer → diffusion through the polymer → desorption from the surface and removal."
+        },
+        {
+          "label": "d",
+          "text": "Absorption into the polymer → desorption from the surface → diffusion through the polymer."
+        }
+      ],
+      "answer": "c",
+      "why": "The lecture lists absorption of the permeating species into the polymer, diffusion through the polymer, and desorption from the surface followed by removal. It identifies solubility and diffusivity, chain packing, side-group complexity, polarity, crystallinity, orientation, fillers, humidity and plasticization as factors.",
+      "distractors": {
+        "a": "This places diffusion before absorption and therefore reverses the first two stages in the source sequence.",
+        "b": "This begins with desorption before the species has entered or crossed the polymer.",
+        "d": "This places desorption before diffusion through the polymer, reversing the final two stages."
+      },
+      "concept": "Absorption, diffusion and desorption stages of polymer permeability",
+      "tags": [
+        "reviewed",
+        "revision"
+      ],
+      "qsLevel": 2,
+      "sub": "T10.8",
+      "misconceptions": {
+        "a": {
+          "tag": "reversed-absorption-and-diffusion",
+          "kind": "observation"
+        },
+        "b": {
+          "tag": "desorption-before-permeation",
+          "kind": "observation"
+        },
+        "d": {
+          "tag": "reversed-diffusion-and-desorption",
+          "kind": "observation"
+        }
+      },
+      "qsScore": 92
+    },
   ],
 };
 
