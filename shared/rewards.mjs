@@ -277,7 +277,15 @@ export function compactRewardLedgerPayload(payload, recentLimit = REWARD_RECENT_
  * Deterministic award calculation. A completed activity is counted even when a
  * daily repeat cap makes its EXP award zero. Duplicate event IDs never award twice.
  */
-export function calculateReward(input, priorRecords = []) {
+function rewardRepeatKey(moduleId, itemId, day) {
+  return JSON.stringify([moduleId, itemId, day]);
+}
+
+function rewardCheckpointKey(moduleId, checkpointId) {
+  return JSON.stringify([moduleId, checkpointId]);
+}
+
+export function calculateReward(input, priorRecords = [], rewardContext = null) {
   const ts = isFiniteNumber(input?.ts) ? Math.round(input.ts) : 0;
   const activityClass = input?.activityClass;
   const difficulty = input?.difficulty;
@@ -299,11 +307,15 @@ export function calculateReward(input, priorRecords = []) {
   const isProject = activityClass === "bespoke-project";
   const baseExp = isProject ? (assignedProjectBase ?? 0) : (ACTIVITY_BASE_EXP[activityClass] ?? 0);
   const multiplier = DIFFICULTY_MULTIPLIER[difficulty] ?? 1;
-  const prior = sanitiseRewardRecords(priorRecords);
-  const duplicate = eventId !== "" && prior.some((r) => r.eventId === eventId);
+  const prior = rewardContext ? null : sanitiseRewardRecords(priorRecords);
+  const duplicate = eventId !== "" && (rewardContext
+    ? rewardContext.eventIds.has(eventId)
+    : prior.some((r) => r.eventId === eventId));
   const day = ts > 0 ? localDayKey(ts) : "";
   const repeatCount = moduleId && itemId && day
-    ? prior.filter((r) => r.moduleId === moduleId && r.itemId === itemId && localDayKey(r.ts) === day && r.countsTowardRepeatCap).length
+    ? (rewardContext
+      ? rewardContext.repeatCounts.get(rewardRepeatKey(moduleId, itemId, day)) ?? 0
+      : prior.filter((r) => r.moduleId === moduleId && r.itemId === itemId && localDayKey(r.ts) === day && r.countsTowardRepeatCap).length)
     : 0;
   const repeatOrdinal = repeatCount + 1;
   const validActivityClass = isProject
@@ -324,9 +336,11 @@ export function calculateReward(input, priorRecords = []) {
   // The first-pass checkpoint bonus is a separate lifetime milestone. It remains
   // payable even when the ordinary activity award has reached its daily cap.
   if (basicValid && !duplicate && completed && input?.passed === true && checkpointId) {
-    const checkpointPreviouslyPassed = prior.some((r) =>
-      r.moduleId === moduleId && r.checkpointId === checkpointId && r.passBonus > 0
-    );
+    const checkpointPreviouslyPassed = rewardContext
+      ? rewardContext.passedCheckpoints.has(rewardCheckpointKey(moduleId, checkpointId))
+      : prior.some((r) =>
+        r.moduleId === moduleId && r.checkpointId === checkpointId && r.passBonus > 0
+      );
     if (!checkpointPreviouslyPassed) passBonus = 15;
   }
 
@@ -393,8 +407,7 @@ export function calculateReward(input, priorRecords = []) {
  * award record. calculateReward remains a pure one-activity breakdown; this helper
  * splits a first-pass bonus before writing it to an authoritative ledger.
  */
-export function buildRewardRecords(input, priorRecords = []) {
-  const calculated = calculateReward(input, priorRecords);
+function splitRewardRecords(calculated) {
   if (!calculated.passBonus || !calculated.checkpointId) return [calculated];
 
   const activityRecord = sanitiseRewardRecord({
@@ -420,6 +433,43 @@ export function buildRewardRecords(input, priorRecords = []) {
     totalExp: calculated.passBonus,
   });
   return [activityRecord, bonusRecord].filter(Boolean);
+}
+
+export function buildRewardRecords(input, priorRecords = []) {
+  return splitRewardRecords(calculateReward(input, priorRecords));
+}
+
+function addRewardRecordToContext(context, record) {
+  context.eventIds.add(record.eventId);
+  if (record.countsTowardRepeatCap) {
+    const key = rewardRepeatKey(record.moduleId, record.itemId, localDayKey(record.ts));
+    context.repeatCounts.set(key, (context.repeatCounts.get(key) ?? 0) + 1);
+  }
+  if (record.passBonus > 0 && record.checkpointId) {
+    context.passedCheckpoints.add(rewardCheckpointKey(record.moduleId, record.checkpointId));
+  }
+}
+
+/**
+ * Build multiple activities against one indexed view of prior records. This
+ * preserves sequential reward policy while avoiding a full ledger scan for
+ * every activity in a large imported or synchronised batch.
+ */
+export function buildRewardRecordsBatch(inputs, priorRecords = []) {
+  if (!Array.isArray(inputs)) return [];
+  const prior = sanitiseRewardRecords(priorRecords);
+  const context = {
+    eventIds: new Set(),
+    repeatCounts: new Map(),
+    passedCheckpoints: new Set(),
+  };
+  for (const record of prior) addRewardRecordToContext(context, record);
+
+  return inputs.map((input) => {
+    const records = splitRewardRecords(calculateReward(input, [], context));
+    for (const record of records) addRewardRecordToContext(context, record);
+    return records;
+  });
 }
 
 export function levelForExp(value) {
