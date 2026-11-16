@@ -919,19 +919,19 @@ const T10: TopicSource = {
       ],
       "options": [
         {
-          "label": "b",
+          "label": "a",
           "text": "1–iii, 2–ii, 3–i"
         },
         {
-          "label": "d",
+          "label": "b",
           "text": "1–i, 2–iii, 3–ii"
         },
         {
-          "label": "a",
+          "label": "c",
           "text": "1–ii, 2–i, 3–iii"
         },
         {
-          "label": "c",
+          "label": "d",
           "text": "1–i, 2–ii, 3–iii"
         }
       ],
@@ -1370,19 +1370,19 @@ const T10: TopicSource = {
       ],
       "options": [
         {
-          "label": "b",
+          "label": "a",
           "text": "1–i, 2–ii"
         },
         {
-          "label": "c",
+          "label": "b",
           "text": "1–i, 2–i"
         },
         {
-          "label": "d",
+          "label": "c",
           "text": "1–ii, 2–ii"
         },
         {
-          "label": "a",
+          "label": "d",
           "text": "1–ii, 2–i"
         }
       ],
