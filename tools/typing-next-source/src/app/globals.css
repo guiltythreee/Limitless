@@ -1481,3 +1481,73 @@ html[data-deco="garden"] .bk-home-demo-heading {
   .bk-shell[data-home="true"] .bk-home-hero { padding: 20px 18px 22px; }
   .bk-shell[data-home="true"] .bk-home-demo { padding: 16px 18px 20px; }
 }
+
+
+/* Reader/home glass parity: keep Bookkeys controls legible over scenic backgrounds. */
+.bk-shell[data-home="true"] .bk-home-demo {
+  background: color-mix(in srgb, var(--panel) 78%, transparent);
+  border: 1px solid color-mix(in srgb, #ffffff 48%, var(--line));
+  box-shadow: 0 8px 28px rgba(23, 18, 38, .10);
+  backdrop-filter: blur(11px);
+}
+.bk-shell[data-home="true"] .bk-home-tabrow {
+  min-height: 48px;
+  padding: 5px 8px 0;
+  border: 1px solid color-mix(in srgb, #ffffff 26%, var(--line));
+  border-bottom-color: color-mix(in srgb, #ffffff 48%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--panel) 66%, transparent);
+  box-shadow: 0 5px 20px rgba(23, 18, 38, .08);
+  backdrop-filter: blur(10px);
+}
+.bk-shell[data-home="false"] > .bk-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 8px 0 10px;
+  background: color-mix(in srgb, var(--bg) 46%, transparent);
+  backdrop-filter: blur(12px);
+}
+.bk-shell[data-home="false"] .bk-reader {
+  max-width: 1460px;
+  margin: 8px auto 32px;
+  padding: clamp(18px, 3vw, 32px);
+  border: 1px solid color-mix(in srgb, #d8b978 52%, var(--line));
+  border-radius: 17px;
+  background: color-mix(in srgb, var(--panel) 78%, transparent);
+  box-shadow: 0 12px 36px rgba(12, 9, 22, .18);
+  backdrop-filter: blur(12px);
+}
+.bk-shell[data-home="false"] .bk-reader-top {
+  position: relative;
+  padding-bottom: 16px;
+  border-bottom-color: color-mix(in srgb, #d8b978 32%, var(--line));
+}
+.bk-shell[data-home="false"] .bk-chapter-tools {
+  border-color: color-mix(in srgb, #d8b978 34%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+}
+.bk-shell[data-home="false"] .bk-chapter-list {
+  border-color: color-mix(in srgb, #d8b978 26%, var(--line));
+  border-radius: 0 0 10px 10px;
+  background: color-mix(in srgb, var(--panel) 90%, transparent);
+}
+.bk-shell[data-home="false"] .bk-source-text {
+  background: color-mix(in srgb, var(--panel) 76%, transparent);
+  border: 1px solid color-mix(in srgb, #d8b978 38%, var(--line));
+  border-radius: 12px;
+  backdrop-filter: blur(9px);
+  text-shadow: none;
+}
+.bk-shell[data-home="false"] .bk-typing {
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+}
+@media (max-width: 700px) {
+  .bk-shell[data-home="true"] .bk-home-tabrow { padding-inline: 5px; }
+  .bk-shell[data-home="false"] .bk-reader { margin-top: 4px; padding: 16px 12px; }
+  .bk-shell[data-home="false"] > .bk-header { margin-bottom: 8px; }
+}
