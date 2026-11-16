@@ -116,7 +116,7 @@ Any question that depends on an ambiguous or inconsistent source detail must eit
 **Next gate:** independent academic review of the 29 new T9–T11 items and the source anomalies, followed by PR review. The counts, mappings, course manifest/content-lock, focused MCQ-QS gate, answer-key balance/sequence tests, migration tests and production build are already synchronized and passing.
 
 
-## Final CI verification — 16 November 2026
+## Historical 313-question CI checkpoint — before T9–T11 additions
 
 Validated on the duplicate-free 313-question source commit `95f573d349c4d56c120934acbff1eec1acca7d94`:
 - MT203 source validation: 313 questions across 11 topics; all checks passed.

@@ -312,7 +312,7 @@ The provisional IDs above are planning labels only; they have **not** been assig
 - **p.163:** Vamac appears in two curative rows. The duplicate is retained as printed.
 - **p.191:** the power-consumption comparison between co- and counter-rotating twin screws is internally difficult to interpret; no broader efficiency ranking is inferred.
 
-### T9–T11 proposal count
+### T9–T11 proposal count (historical; superseded by the implementation result below)
 
 Seven T9 + nine T10 + thirteen T11 items = **29 proposed additions**. If independently reviewed and accepted, the bank would increase from 313 to **342 questions**. This is a source-gap proposal, not a live-bank count. No T9–T11 question, metadata count, learner-progress record or live subtopic mapping was changed in this audit addendum.
 
@@ -350,3 +350,8 @@ The live bank is now T9=35, T10=45 and T11=46. Together with T1–T8 (216), the 
 - Production build: completed successfully.
 
 A stable backup branch `backup/mt203-342-stable-20261116` points to the validated source commit. PR #246 remains draft/open/unmerged; no deployment was performed.
+
+
+### Status supersession
+
+The earlier statements in this file that the audit was review-only, that no T9–T11 additions were authorized, and that the 29 items were proposal-only describe the state before the implementation phase. They are superseded by the implementation result above: all 29 questions are now live, mapped and validated. The current T9–T11 count is 126 (T9=35, T10=45, T11=46), not the historical baseline of 97.
