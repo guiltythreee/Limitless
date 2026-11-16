@@ -149,7 +149,7 @@ const batchResults = batchAdapter.awardCodeforcesSubmissions(
 assert.equal(batchResults.length, 5);
 assert.deepEqual(batchResults.slice(0, 4).map((record) => record.repeatOrdinal), [1, 2, 3, 4],
   "batch reward ordinals follow the supplied chronological order");
-assert.deepEqual(batchResults.map((record) => record.eligible), [true, true, true, false],
+assert.deepEqual(batchResults.slice(0, 4).map((record) => record.eligible), [true, true, true, false],
   "the daily repeat cap is preserved inside a batch");
 assert.equal(batchResults[4].created, false,
   "a duplicate event repeated inside one batch resolves to the first result without a second award");
