@@ -266,6 +266,20 @@ assert.equal(failedResetTarget.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY), 
   "failed account-history removal restores the inactive account collection");
 assert.equal(failedResetTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "competition-rewards");
 
+// Snapshot reads happen before restore writes; a read failure must return safely
+// without beginning a partially recoverable restore.
+const unreadableRestoreTarget = makeStorage();
+unreadableRestoreTarget.setItem("competition-state", "prior-state");
+const originalGet = unreadableRestoreTarget.getItem;
+unreadableRestoreTarget.getItem = (key) => {
+  if (key === CODEFORCES_SYNC_STORAGE_KEY) throw new Error("simulated snapshot read failure");
+  return originalGet(key);
+};
+assert.deepEqual(restoreCompetitionBackup(unreadableRestoreTarget, "competition-state", state, backup),
+  { ok: false, error: "storage-read-failed" });
+assert.equal(originalGet.call(unreadableRestoreTarget, "competition-state"), "prior-state",
+  "a failed restore snapshot leaves every existing key untouched");
+
 // Exercise restore rollback at every write boundary, not only the final reward write.
 for (const failedKey of [
   "competition-state",
