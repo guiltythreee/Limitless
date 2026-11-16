@@ -44,6 +44,46 @@ const expected = [
   ["t8", "t8-31", "T8.4"],
 ];
 
+const expectedAnswers = {
+  "t1-33": "b",
+  "t1-34": "c",
+  "t3-23": "a",
+  "t3-24": "c",
+  "t4-31": "d",
+  "t6-23": "b",
+  "t7-17": "a",
+  "t8-31": "d",
+  "t9-29": "d",
+  "t9-30": "a",
+  "t9-31": "c",
+  "t9-32": "b",
+  "t9-33": "c",
+  "t9-34": "a",
+  "t9-35": "b",
+  "t10-37": "c",
+  "t10-38": "a",
+  "t10-39": "d",
+  "t10-40": "d",
+  "t10-41": "b",
+  "t10-42": "a",
+  "t10-43": "b",
+  "t10-44": "d",
+  "t10-45": "c",
+  "t11-34": "d",
+  "t11-35": "c",
+  "t11-36": "a",
+  "t11-37": "b",
+  "t11-38": "b",
+  "t11-39": "d",
+  "t11-40": "c",
+  "t11-41": "c",
+  "t11-42": "a",
+  "t11-43": "d",
+  "t11-44": "d",
+  "t11-45": "a",
+  "t11-46": "b",
+};
+
 const errors = [];
 const warnings = [];
 const byTopic = new Map();
@@ -58,6 +98,7 @@ for (const [topic, id, sub] of expected) {
   if (matches.length !== 1) { errors.push(`${id}: expected exactly one live question, found ${matches.length}`); continue; }
   const q = matches[0];
   if (q.sub !== sub) errors.push(`${id}: source subtopic ${q.sub} != ${sub}`);
+  if (expectedAnswers[id] && q.answer !== expectedAnswers[id]) errors.push(`${id}: answer key ${q.answer} != audited key ${expectedAnswers[id]}`);
   if (!Number.isInteger(q.qsScore) || q.qsScore < 90) errors.push(`${id}: score must be at least 90, got ${q.qsScore}`);
   const result = checkQuestion(q, { subIds: new Set(src.subs.map((s) => s.id)) });
   for (const item of result.errors) errors.push(`${id} ${item.rule}: ${item.msg}`);
