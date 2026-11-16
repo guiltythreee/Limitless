@@ -8,9 +8,9 @@
 
 ## 1. Executive result
 
-The current bank contains **313 actual question records across 11 topics**. The T1–T8 source-gap work added eight new questions. A separate integrity pass then recovered six earlier baseline records that had been missing from the arrays while still being counted in metadata and the primary subtopic map. The bank now has sequential IDs and one primary subtopic mapping for every live question.
+The current bank contains **313 question records across 11 topics**. The T1–T8 source-gap work added eight questions. A preliminary regex inventory appeared to omit six earlier IDs because their TypeScript object keys are quoted (`"id":`); those questions were already present. The temporary duplicate insertions were removed, and the pre-insertion topic sources were restored. The live bank remains at 313.
 
-T9–T11 have been checked against the supplied 212-page lecture PDF and the current lesson text. This review identifies **29 remaining direct-assessment gaps** across those topics. These are proposed items, not yet live questions. If accepted, the bank would rise to 342.
+T9–T11 have been checked against the supplied 212-page lecture PDF and the current lesson text. This review identifies **29 remaining direct-assessment gaps** across those topics. These are proposed items, not live questions. If accepted, the bank would rise to 342.
 
 ## 2. Verified question inventory
 
@@ -31,7 +31,7 @@ T9–T11 have been checked against the supplied 212-page lecture PDF and the cur
 
 ### Structural reconciliation
 
-The six restored original IDs are:
+The six IDs that the first regex missed were already in the question arrays using quoted object keys:
 - `t1-11` — cis/trans polyisoprene configuration and packing.
 - `t1-27` — semi-synthetic polymer classification.
 - `t2-01` — chain-growth versus step-growth molecular-weight development.
@@ -39,10 +39,10 @@ The six restored original IDs are:
 - `t2-32` — emulsion compartmentalization; primary subtopic T3.3.
 - `t3-21` — thin-film/wiped-film arrangement in melt polycondensation.
 
-The eight source-gap additions remain:
+No restoration or duplicate records remain. Eight source-gap additions remain live:
 `t1-33`, `t1-34`, `t3-23`, `t3-24`, `t4-31`, `t6-23`, `t7-17`, `t8-31`.
 
-Direct array inspection after restoration found 313 IDs, 313 unique IDs, sequential numbering in each topic, 313 primary mappings, no missing mappings and no orphan mappings. The topic metadata and course content-lock both specify 313. The CI validator is being rerun on the repaired commit; do not treat the earlier green run as validation of the corrected head.
+A key-format-independent scan finds 313 IDs, 313 unique IDs, sequential numbering in each topic, 313 primary mappings, no missing mappings and no orphan mappings. Topic metadata and the course content-lock both specify 313. The import-based `validate-mt203.mjs` is the authoritative runtime check; CI is being rerun on the corrected head.
 
 ## 3. Coverage review by topic group
 
@@ -56,7 +56,7 @@ The previous objective crosswalk remains the baseline for T1–T8. Eight source-
 - T7: recombinant spider-silk production sequence.
 - T8: silicone-based TPU scheme components.
 
-T2 and T5 did not receive a new source-gap item in that crosswalk. The six restored IDs above are baseline restoration, not additional newly discovered gaps. The T6-06 polyethylene Tg discrepancy remains flagged: the question is approximately −120 °C while source p.65 prints −20 °C. It has not been silently changed.
+T2 and T5 did not receive a new source-gap item in that crosswalk. The T6-06 polyethylene Tg discrepancy remains flagged: the question is approximately −120 °C while source p.65 prints −20 °C. It has not been silently changed.
 
 **Scope qualification:** this pass did not repeat the page-by-page T1–T8 source extraction. The prior T1–T8 crosswalk and its recorded source anomalies remain the basis for that group; this review directly re-opened the current 2026(2) PDF for T9–T11.
 
@@ -107,7 +107,7 @@ Any question that depends on an ambiguous or inconsistent source detail must eit
 ## 6. Preservation and next gate
 
 - Existing question IDs were not renumbered.
-- Six missing baseline records were restored to their original sequential positions.
+- The six quoted-key records were already present; duplicate copies from a transient repair attempt were removed.
 - Eight newly added T1–T8 gap questions remain intact.
 - Learner-progress storage and answer history were not modified.
 - T9–T11 remain at 97 live questions until the 29 proposed additions pass source review and MCQ-QS v1.0.
