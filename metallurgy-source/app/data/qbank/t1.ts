@@ -269,7 +269,6 @@ const T1: TopicSource = {
       ]
     },
     {
-    {
       id: "t1-11",
       type: "concept",
       diff: 3,
@@ -299,7 +298,8 @@ const T1: TopicSource = {
       qsScore: 92,
     },
 
-          id: "t1-12",
+    {
+      id: "t1-12",
       type: "recall",
       diff: 1,
       text: "In source-based copolymer nomenclature, what does the connective -co- indicate?",
@@ -658,7 +658,6 @@ const T1: TopicSource = {
       ]
     },
     {
-    {
       id: "t1-27",
       type: "recall",
       diff: 1,
@@ -688,7 +687,8 @@ const T1: TopicSource = {
       qsScore: 92,
     },
 
-          id: "t1-28",
+    {
+      id: "t1-28",
       type: "statement",
       diff: 3,
       text: "Which statement(s) about polymer molecular architecture is/are correct?",

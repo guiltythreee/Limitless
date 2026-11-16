@@ -439,7 +439,6 @@ const T3: TopicSource = {
       ]
     },
     {
-    {
       id: "t3-21",
       type: "recall",
       diff: 2,
@@ -469,7 +468,8 @@ const T3: TopicSource = {
       qsScore: 92,
     },
 
-          id: "t3-22",
+    {
+      id: "t3-22",
       type: "compare",
       diff: 3,
       text: "Chain transfer agent vs initiator: their roles in a radical process are:",

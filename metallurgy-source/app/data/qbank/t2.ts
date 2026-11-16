@@ -57,7 +57,6 @@ const T2: TopicSource = {
       ]
     },
     {
-    {
       id: "t2-01",
       type: "compare",
       diff: 2,
@@ -87,7 +86,8 @@ const T2: TopicSource = {
       qsScore: 93,
     },
 
-          id: "t2-02",
+    {
+      id: "t2-02",
       type: "recall",
       diff: 1,
       text: "In free-radical polymerization, the step that generates the first reactive species is:",
@@ -372,7 +372,6 @@ const T2: TopicSource = {
       ]
     },
     {
-    {
       id: "t2-15",
       type: "concept",
       diff: 2,
@@ -402,7 +401,8 @@ const T2: TopicSource = {
       qsScore: 93,
     },
 
-          id: "t2-16",
+    {
+      id: "t2-16",
       type: "numerical",
       diff: 3,
       text: "If the initiator concentration is quadrupled ($[I] \\to 4[I]$) in a free-radical polymerization, $R_p$ becomes:",
@@ -764,7 +764,6 @@ const T2: TopicSource = {
       ]
     },
     {
-    {
       id: "t2-32",
       type: "apply",
       diff: 3,
@@ -794,7 +793,8 @@ const T2: TopicSource = {
       qsScore: 92,
     },
 
-          id: "t2-33",
+    {
+      id: "t2-33",
       type: "compare",
       diff: 2,
       text: "Condensation (Carothers) vs addition polymerization — which statement is correct?",
