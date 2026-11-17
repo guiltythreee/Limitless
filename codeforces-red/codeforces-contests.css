@@ -52,3 +52,93 @@ html[data-theme="light"] .cf-vc-controls{background:#edf5fc;border-color:#c8d9e8
 html[data-theme="light"] .cf-vc-note{color:#526d87}
 html[data-theme="light"] .cf-vc-clock{color:#1769a8}
 html[data-theme="light"] .cf-vc-letter{background:#e5f2ff;border-color:#bfdcf4;color:#17629b}
+
+
+/* Featured official Codeforces archive: distinct from generated timed simulations. */
+.cf-featured-archive{
+  margin:0 0 20px;padding:16px;border:1px solid rgba(105,166,225,.18);
+  border-radius:12px;background:rgba(5,17,30,.28)
+}
+.cf-featured-head{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:18px;
+  margin-bottom:12px
+}
+.cf-featured-head h3{margin:3px 0 6px;color:#edf6ff;font:700 16px Arial,sans-serif}
+.cf-featured-head p{max-width:650px;margin:0;color:#a9bfd7;font:11px/1.6 Arial,sans-serif}
+.cf-featured-head>a{
+  flex:0 0 auto;padding:8px 10px;border:1px solid rgba(105,166,225,.28);
+  border-radius:8px;background:rgba(75,142,200,.1);color:#a9d7ff;
+  font:600 10px Arial,sans-serif;text-decoration:none
+}
+.cf-featured-head>a:hover{background:rgba(75,142,200,.2);border-color:rgba(105,185,255,.5)}
+.cf-featured-groups{display:grid;gap:8px}
+.cf-featured-group{
+  overflow:hidden;border:1px solid rgba(105,166,225,.16);
+  border-radius:9px;background:rgba(15,35,57,.35)
+}
+.cf-featured-group>summary{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:12px 13px;cursor:pointer;list-style:none
+}
+.cf-featured-group>summary::-webkit-details-marker{display:none}
+.cf-featured-group>summary>span:first-child{display:grid;gap:4px;min-width:0}
+.cf-featured-group>summary strong{color:#e4f1ff;font:700 11px Arial,sans-serif}
+.cf-featured-group>summary small{color:#9fb7d0;font:10px/1.45 Arial,sans-serif}
+.cf-featured-group>summary .cf-featured-count{
+  flex:0 0 auto;color:#8fcaff;font:600 10px Arial,sans-serif;
+  white-space:nowrap
+}
+.cf-featured-group[open]>summary{border-bottom:1px solid rgba(105,166,225,.14);background:rgba(75,142,200,.06)}
+.cf-featured-list{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;padding:10px
+}
+.cf-featured-card{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  min-width:0;padding:10px 11px;border:1px solid rgba(105,166,225,.14);
+  border-radius:8px;background:rgba(4,17,31,.35)
+}
+.cf-featured-card-copy{display:grid;gap:4px;min-width:0}
+.cf-featured-card-copy strong{color:#e0edfc;font:600 10px/1.4 Arial,sans-serif}
+.cf-featured-card-copy small{color:#91abc5;font:9px Arial,sans-serif}
+.cf-featured-card>a{
+  flex:0 0 auto;color:#8fcaff;font:600 9px Arial,sans-serif;
+  text-decoration:none;white-space:nowrap
+}
+.cf-featured-card>a:hover{text-decoration:underline;color:#d2eaff}
+.cf-featured-source{
+  display:inline-block;margin:0 10px 10px;color:#91abc5;
+  font:9px Arial,sans-serif;text-decoration:underline
+}
+.cf-featured-group summary:focus-visible,
+.cf-featured-card a:focus-visible,
+.cf-featured-head>a:focus-visible{
+  outline:2px solid #65baff;outline-offset:3px
+}
+html[data-theme="light"] .cf-featured-archive{
+  background:#f5f9fd;border-color:#c8d9e8
+}
+html[data-theme="light"] .cf-featured-head h3,
+html[data-theme="light"] .cf-featured-group>summary strong,
+html[data-theme="light"] .cf-featured-card-copy strong{color:#1c3d5c}
+html[data-theme="light"] .cf-featured-head p,
+html[data-theme="light"] .cf-featured-group>summary small,
+html[data-theme="light"] .cf-featured-card-copy small{color:#526d87}
+html[data-theme="light"] .cf-featured-head>a{
+  background:#e7f2fb;border-color:#bdd4e6;color:#235f8f
+}
+html[data-theme="light"] .cf-featured-group{background:#edf5fc;border-color:#cbdbea}
+html[data-theme="light"] .cf-featured-group[open]>summary{background:#e5f0f9}
+html[data-theme="light"] .cf-featured-group[open]>summary{border-bottom-color:#d5e2ed}
+html[data-theme="light"] .cf-featured-card{background:#fff;border-color:#d5e2ed}
+html[data-theme="light"] .cf-featured-card>a{color:#246da6}
+@media(max-width:700px){
+  .cf-featured-archive{padding:12px}
+  .cf-featured-head{display:grid;gap:10px}
+  .cf-featured-head>a{justify-self:start}
+  .cf-featured-list{grid-template-columns:1fr;padding:8px}
+  .cf-featured-group>summary{padding:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .cf-featured-head>a,.cf-featured-card>a{transition:none!important}
+}
