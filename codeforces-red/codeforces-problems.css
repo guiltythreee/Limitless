@@ -324,3 +324,43 @@ html[data-theme="light"] .cf-save-problem[aria-pressed="true"]{background:#fff7e
   .cf-problem-right{justify-content:flex-start}
   #cf-problem-list{height:min(62vh,520px);min-height:300px}
 }
+
+
+/* Keep the problem-result scroller fully keyboard accessible and easy to grip. */
+#cf-problem-list[role="region"]{
+  overscroll-behavior-y:contain;
+  touch-action:pan-y;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:auto;
+  scrollbar-color:rgba(106,157,212,.62) rgba(106,157,212,.08);
+  outline:none;
+}
+#cf-problem-list[role="region"]::-webkit-scrollbar{width:10px}
+#cf-problem-list[role="region"]::-webkit-scrollbar-track{
+  margin-block:3px;border-radius:10px;background:rgba(106,157,212,.08);
+}
+#cf-problem-list[role="region"]::-webkit-scrollbar-thumb{
+  min-height:36px;border:2px solid transparent;border-radius:10px;
+  background:rgba(106,157,212,.62);background-clip:padding-box;
+}
+#cf-problem-list[role="region"]::-webkit-scrollbar-thumb:hover{
+  background:rgba(106,157,212,.88);background-clip:padding-box;
+}
+#cf-problem-list[role="region"]:focus-visible{
+  outline:2px solid rgba(85,170,255,.72);outline-offset:3px;
+}
+html[data-theme="light"] #cf-problem-list[role="region"]{
+  scrollbar-color:rgba(91,137,179,.62) rgba(91,137,179,.08);
+}
+html[data-theme="light"] #cf-problem-list[role="region"]::-webkit-scrollbar-track{
+  background:rgba(91,137,179,.08);
+}
+html[data-theme="light"] #cf-problem-list[role="region"]::-webkit-scrollbar-thumb{
+  background:rgba(91,137,179,.62);background-clip:padding-box;
+}
+html[data-theme="light"] #cf-problem-list[role="region"]::-webkit-scrollbar-thumb:hover{
+  background:rgba(91,137,179,.86);background-clip:padding-box;
+}
+@media(prefers-reduced-motion:reduce){
+  #cf-problem-list[role="region"]{scroll-behavior:auto}
+}
