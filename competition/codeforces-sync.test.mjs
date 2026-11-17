@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
 import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
+import { analyzeCompetitionLearning } from "./learning-intelligence.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
+  CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
   readCodeforcesSyncState,
   syncCodeforcesSubmissions,
+  appendCodeforcesRevisionAttempt,
 } from "./codeforces-sync.mjs";
 
 const values = new Map();
@@ -99,9 +102,43 @@ const switched = syncCodeforcesSubmissions(storage, "DifferentHandle", history, 
 assert.equal(switched.baseline, true, "changing accounts establishes a fresh baseline");
 assert.equal(switched.added, 0);
 assert.equal(switched.state.handle, "differenthandle");
-assert.equal(switched.state.attempts.length, 0, "attempts from the previous account are not carried over");
+assert.equal(switched.state.attempts.length, 0, "a new account starts with isolated learning history");
+assert.ok(JSON.parse(storage.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY)).accounts.examplehandle);
+const returned = syncCodeforcesSubmissions(storage, "ExampleHandle", [], 1797000000000);
+assert.equal(returned.ok, true);
+assert.equal(returned.baseline, false, "returning to a known handle restores its original baseline");
+assert.equal(returned.state.attempts.length, 2, "switching back restores prior attempts");
+assert.equal(returned.state.handle, "examplehandle");
+assert.equal(readCodeforcesSyncState(storage, "DifferentHandle").handle, "differenthandle");
+assert.equal(readCodeforcesSyncState(storage, "DifferentHandle").lastSyncAt, 1796000000000,
+  "incremental fetch planning can read the saved cursor for an inactive account");
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
+
+const corruptArchiveStorage = {
+  value: JSON.stringify({
+    version: 1,
+    handle: "corrupt",
+    baselineAt: 1795000000000,
+    lastSyncAt: 1795000000000,
+    seenSubmissionIds: [],
+    attempts: [],
+    attemptsArchive: { version: 1, strings: [], records: [[999]] },
+  }),
+  getItem(key) { return key === CODEFORCES_SYNC_STORAGE_KEY ? this.value : null; },
+  setItem(_key, value) { this.value = value; },
+};
+const corruptBefore = corruptArchiveStorage.value;
+const corruptSync = syncCodeforcesSubmissions(corruptArchiveStorage, "corrupt", history, 1796000000000);
+assert.equal(corruptSync.ok, false);
+assert.equal(corruptSync.error, "invalid-attempts-archive");
+const corruptRead = readCodeforcesSyncState(corruptArchiveStorage);
+assert.equal(corruptRead.attemptsArchiveValid, false);
+assert.equal(corruptRead.attempts.length, 0,
+  "consumers do not mistake a partial recent window for complete history");
+assert.equal(corruptArchiveStorage.value, corruptBefore,
+  "sync refuses to overwrite an unreadable archive");
+
 console.log("Codeforces sync baseline: all assertions passed.");
 
 
@@ -114,7 +151,7 @@ console.log("Codeforces sync baseline: all assertions passed.");
       seenSubmissionIds: Array.from({ length: 100005 }, (_, index) => 200000 - index),
       attempts: [],
     }),
-    getItem() { return this.value; },
+    getItem(key) { return key === CODEFORCES_SYNC_STORAGE_KEY ? this.value : null; },
     setItem(_key, value) { this.value = value; },
   };
   const normalized = syncCodeforcesSubmissions(largeStorage, "LargeHandle", [], 1795000005000);
@@ -129,24 +166,70 @@ console.log("Codeforces sync baseline: all assertions passed.");
 {
   const largeStorage = {
     value: null,
-    getItem() { return this.value; },
+    getItem(key) { return key === CODEFORCES_SYNC_STORAGE_KEY ? this.value : null; },
     setItem(_key, value) { this.value = value; },
   };
   syncCodeforcesSubmissions(largeStorage, "AttemptHandle", [], 1795000000000);
   const submissions = Array.from({ length: 5005 }, (_, index) => ({
     id: 300000 + index,
-    contestId: 2000,
+    contestId: 2000 + index,
     creationTimeSeconds: 1795000001 + index,
     verdict: "WRONG_ANSWER",
-    problem: { contestId: 2000, index: "A", tags: ["greedy"] },
+    problem: { contestId: 2000 + index, index: "A", tags: ["greedy"] },
   }));
   const result = syncCodeforcesSubmissions(largeStorage, "AttemptHandle", submissions, 1796000000000);
   assert.equal(result.ok, true);
   assert.equal(result.added, 5005);
   const retainedAttempts = readCodeforcesSyncState(largeStorage).attempts;
-  assert.equal(retainedAttempts.length, 5000);
-  assert.equal(retainedAttempts[0].id, "codeforces:300005");
+  assert.equal(retainedAttempts.length, 5005,
+    "older attempts remain available to revision and mastery calculations");
+  assert.equal(retainedAttempts[0].id, "codeforces:300000");
   assert.equal(retainedAttempts.at(-1).id, "codeforces:305004");
+  const persisted = JSON.parse(largeStorage.value);
+  assert.equal(persisted.attempts.length, 5000,
+    "only the newest 5,000 attempts remain expanded");
+  assert.equal(persisted.attemptsArchive.version, 1);
+  assert.equal(persisted.attemptsArchive.records.length, 5,
+    "older attempts move into a compact archive rather than being evicted");
+  assert.ok(
+    JSON.stringify(persisted.attemptsArchive).length <
+      JSON.stringify(submissions.slice(0, 5).map((submission) => ({
+        id: "codeforces:" + submission.id,
+        disciplineId: "competitive-programming",
+        courseId: "codeforces",
+        contentId: String(submission.contestId) + "A",
+        questionId: "codeforces:" + submission.contestId + "A",
+        subjectId: "codeforces",
+        conceptIds: ["greedy"],
+        outcome: "incorrect",
+        occurredAt: submission.creationTimeSeconds * 1000,
+        mode: "practice",
+      }))).length,
+    "dictionary archive is smaller than expanded attempt objects",
+  );
+  const noOpSync = syncCodeforcesSubmissions(largeStorage, "AttemptHandle", [], 1796000005000);
+  assert.equal(noOpSync.ok, true);
+  assert.equal(readCodeforcesSyncState(largeStorage).attempts.length, 5005,
+    "subsequent syncs do not discard archived learning history");
+  const revisionAt = 1796000005000;
+  const revisionWrite = appendCodeforcesRevisionAttempt(
+    largeStorage, "codeforces:2000A", "correct", revisionAt
+  );
+  assert.equal(revisionWrite.ok, true,
+    "a problem retained only in the archive can still receive revision feedback");
+  const afterRevision = readCodeforcesSyncState(largeStorage);
+  assert.equal(afterRevision.attempts.length, 5006);
+  assert.ok(afterRevision.attempts.some((attempt) =>
+    attempt.questionId === "codeforces:2000A" && attempt.mode === "revision"
+  ));
+  assert.equal(JSON.parse(largeStorage.value).attemptsArchive.records.length, 6,
+    "adding a revision does not discard the archived original attempt");
+  const revisionAnalysis = analyzeCompetitionLearning([], [], revisionAt, afterRevision.attempts);
+  const revisedCandidate = revisionAnalysis.revision.find((item) => item.questionId === "codeforces:2000A");
+  assert.ok(revisedCandidate);
+  assert.equal(revisedCandidate.lastReviewedAt, revisionAt);
+  assert.equal(revisedCandidate.dueAt, revisionAt + 7 * 86400000,
+    "an archived problem's successful revision advances the normal 1/7/14/30-day schedule");
 }
 
 

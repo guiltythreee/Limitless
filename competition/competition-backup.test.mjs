@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
+import { encodeCodeforcesAttemptArchive } from "./codeforces-sync.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
+  CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY,
   COMPETITION_REWARD_STORAGE_KEY,
   createCompetitionBackup,
   restoreCompetitionBackup,
@@ -60,11 +62,51 @@ const reward = {
 const state = { mastery: { "w1-t0": "practiced" }, problemLog: [], mocks: [] };
 const source = makeStorage();
 source.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(learning));
+const histories = { version: 1, accounts: { other: { ...learning, handle: "other" } } };
+source.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, JSON.stringify(histories));
 source.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({ rewardLedger: [reward] }));
 
 const backup = createCompetitionBackup(source, state, "2026-11-15T00:00:00.000Z");
 assert.equal(backup.version, 3);
 assert.deepEqual(backup.codeforcesLearning, learning);
+assert.deepEqual(backup.codeforcesAccountHistories, histories);
+const archivedLearning = {
+  ...learning,
+  attempts: [],
+  attemptsArchive: encodeCodeforcesAttemptArchive([{
+    ...learning.attempts[0],
+    mode: "practice",
+  }]),
+};
+const archivedLearningBackup = {
+  version: 3,
+  data: state,
+  codeforcesLearning: archivedLearning,
+  codeforcesRewards: null,
+};
+const archivedLearningTarget = makeStorage();
+assert.deepEqual(restoreCompetitionBackup(
+  archivedLearningTarget, "competition-state", state, archivedLearningBackup
+), { ok: true }, "backup restore accepts compact Codeforces attempt history");
+assert.deepEqual(
+  JSON.parse(archivedLearningTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY)).attemptsArchive,
+  archivedLearning.attemptsArchive,
+  "backup restore preserves the compact attempt archive",
+);
+const invalidLearningArchive = {
+  ...archivedLearningBackup,
+  codeforcesLearning: {
+    ...archivedLearning,
+    attemptsArchive: { version: 1, strings: [], records: [[999]] },
+  },
+};
+const invalidLearningTarget = makeStorage();
+invalidLearningTarget.setItem("competition-state", "keep-state");
+assert.equal(restoreCompetitionBackup(
+  invalidLearningTarget, "competition-state", state, invalidLearningArchive
+).ok, false, "malformed attempt archives are rejected before any writes");
+assert.equal(invalidLearningTarget.getItem("competition-state"), "keep-state");
+
 assert.deepEqual(backup.codeforcesRewards.rewardLedger, [reward]);
 
 const restored = makeStorage();
@@ -74,6 +116,7 @@ assert.deepEqual(
   { ok: true },
 );
 assert.deepEqual(JSON.parse(restored.getItem(CODEFORCES_SYNC_STORAGE_KEY)), learning);
+assert.deepEqual(JSON.parse(restored.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY)), histories);
 assert.deepEqual(JSON.parse(restored.getItem(COMPETITION_REWARD_STORAGE_KEY)).rewardLedger, [reward]);
 assert.deepEqual(JSON.parse(restored.getItem("competition-state")), state);
 
@@ -86,24 +129,28 @@ assert.equal(invalidTarget.getItem("competition-state"), "keep-me",
 
 const legacyTarget = makeStorage();
 legacyTarget.setItem(CODEFORCES_SYNC_STORAGE_KEY, "keep-learning");
+legacyTarget.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "keep-histories");
 legacyTarget.setItem(COMPETITION_REWARD_STORAGE_KEY, "keep-rewards");
 assert.equal(restoreCompetitionBackup(legacyTarget, "competition-state", state, {
   version: 2, data: state,
 }).ok, true);
 assert.equal(legacyTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY), "keep-learning",
   "version 2 backups leave separate Codeforces learning data untouched");
+assert.equal(legacyTarget.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY), "keep-histories", "legacy backups leave account histories untouched");
 assert.equal(legacyTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "keep-rewards",
   "version 2 backups leave the reward ledger untouched");
 
 const rollbackTarget = makeStorage();
 rollbackTarget.setItem("competition-state", "old-state");
 rollbackTarget.setItem(CODEFORCES_SYNC_STORAGE_KEY, "old-learning");
+rollbackTarget.setItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY, "old-histories");
 rollbackTarget.setItem(COMPETITION_REWARD_STORAGE_KEY, "old-rewards");
 rollbackTarget.failNextWriteFor(COMPETITION_REWARD_STORAGE_KEY);
 const failedRestore = restoreCompetitionBackup(rollbackTarget, "competition-state", state, backup);
 assert.deepEqual(failedRestore, { ok: false, error: "storage-write-failed" });
 assert.equal(rollbackTarget.getItem("competition-state"), "old-state");
 assert.equal(rollbackTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY), "old-learning");
+assert.equal(rollbackTarget.getItem(CODEFORCES_ACCOUNT_HISTORY_STORAGE_KEY), "old-histories");
 assert.equal(rollbackTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "old-rewards",
   "a failed multi-key restore rolls back earlier writes");
 

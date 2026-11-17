@@ -163,7 +163,7 @@
       let learningSync = null;
       try { learningSync = await import('../competition/codeforces-sync.mjs'); } catch (_) {}
       const previousSync = learningSync
-        ? learningSync.readCodeforcesSyncState(localStorage)
+        ? learningSync.readCodeforcesSyncState(localStorage, handle)
         : {handle:'',lastSyncAt:0};
       const sameHandle = previousSync.handle === String(handle || '').trim().toLowerCase();
       // Keep the current week complete for the dashboard and recheck a 48-hour

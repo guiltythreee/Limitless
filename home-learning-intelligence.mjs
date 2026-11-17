@@ -1,4 +1,5 @@
 import { buildCrossDisciplineOverview } from "./shared/studies/overview.mjs";
+import { readCodeforcesSyncState } from "./competition/codeforces-sync.mjs";
 
 const STORAGE = {
   competition: "limitless.competition.regional-qualification.v1",
@@ -101,7 +102,9 @@ export function renderLearningIntelligence() {
   if (!host) return;
   const snapshot = {
     competition: readStored(STORAGE.competition, {}),
-    codeforces: readStored(STORAGE.codeforces, {}),
+    codeforces: Object.assign({}, readStored(STORAGE.codeforces, {}), {
+      attempts: readCodeforcesSyncState(window.localStorage).attempts,
+    }),
     mathAttempts: readStored(STORAGE.mathAttempts, []),
     mathRuns: readStored(STORAGE.mathRuns, []),
     probability: readStored(STORAGE.probability, {}),
@@ -113,7 +116,15 @@ export function renderLearningIntelligence() {
     classifications: readStored(STORAGE.classifications, {}),
   };
   try {
+    const syncState = readCodeforcesSyncState(window.localStorage);
+    snapshot.codeforces.attempts = syncState.attempts;
     render(buildCrossDisciplineOverview(snapshot), host);
+    if (!syncState.attemptsArchiveValid) {
+      const warning = document.createElement("p");
+      warning.className = "learning-intel-empty";
+      warning.textContent = "Codeforces learning history could not be fully read. Sync is paused to protect the saved archive.";
+      host.append(warning);
+    }
   } catch {
     host.innerHTML = '<p class="learning-intel-empty">The learning overview is temporarily unavailable. Your individual modules and saved progress are unaffected.</p>';
   }
