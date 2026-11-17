@@ -314,12 +314,12 @@
       render();
     });
     $('cf-clear-filters').addEventListener('click', () => {
-      $('cf-rating-preset').value = '1100-1400'; $('cf-rating-min').value = '1100'; $('cf-rating-max').value = '1400'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
+      $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
       $('cf-tag-filter').selectedIndex = -1; $('cf-category-filter').value = ''; $('cf-status-filter').value = 'all'; $('cf-sort').value = 'rating-asc'; state.page = 0; render();
     });
   }
   function init() {
-    readSaved(); $('cf-rating-preset').value = '1100-1400'; $('cf-rating-min').value = '1100'; $('cf-rating-max').value = '1400';
+    readSaved(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
     bindFilters(); loadProblemset(false);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
