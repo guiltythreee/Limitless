@@ -314,7 +314,9 @@
   function problemHistoryTimestamp(problem) {
     var precise = typeof problem.dateTime === 'string' ? Date.parse(problem.dateTime) : NaN;
     if (Number.isFinite(precise)) return precise;
-    var legacyDate = typeof problem.date === 'string' ? Date.parse(problem.date + 'T00:00:00Z') : NaN;
+    // Date-only legacy entries are interpreted as local midnight so they sort
+    // naturally against new timestamped entries on the same calendar day.
+    var legacyDate = typeof problem.date === 'string' ? Date.parse(problem.date + 'T00:00:00') : NaN;
     return Number.isFinite(legacyDate) ? legacyDate : 0;
   }
   function formatProblemDateTime(problem) {
