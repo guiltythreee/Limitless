@@ -1434,3 +1434,41 @@ html[data-theme="light"] #cf-home-view #milestone-list.cr-milestones::-webkit-sc
   #cf-home-view .cf-explorer select,
   #cf-home-view .cf-explorer summary{transition:none!important}
 }
+
+
+/* CP study-reference cards: readable, expandable chapter-by-chapter reading maps. */
+.cr-book-reference{min-width:0}
+.cr-book-detail{
+  margin-top:10px;padding:10px 11px;
+  border:1px solid rgba(105,166,225,.2);
+  border-radius:10px;background:rgba(5,17,30,.3);
+}
+.cr-book-detail summary{
+  color:#9bcfff;font-size:11px;font-weight:700;cursor:pointer;
+  list-style-position:inside;
+}
+.cr-book-detail summary:hover{color:#d3eaff}
+.cr-book-detail[open] summary{margin-bottom:10px}
+.cr-book-detail-group{
+  display:grid;gap:7px;margin-top:9px;padding-top:9px;
+  border-top:1px solid rgba(105,166,225,.14);
+}
+.cr-book-detail-group>b{
+  color:#76baff;font-size:10px;letter-spacing:.9px;text-transform:uppercase
+}
+.cr-book-detail-group p{
+  margin:0;color:#c0d0e2;font-size:10px;line-height:1.55
+}
+.cr-book-detail-group p strong{color:#edf6ff}
+html[data-theme="light"] .cr-book-detail{
+  background:rgba(235,244,252,.75);border-color:#cbdbea
+}
+html[data-theme="light"] .cr-book-detail summary{color:#236fa8}
+html[data-theme="light"] .cr-book-detail summary:hover{color:#174c78}
+html[data-theme="light"] .cr-book-detail-group{border-top-color:#d5e2ed}
+html[data-theme="light"] .cr-book-detail-group>b{color:#286fa8}
+html[data-theme="light"] .cr-book-detail-group p{color:#526d87}
+html[data-theme="light"] .cr-book-detail-group p strong{color:#1d3d5c}
+@media(prefers-reduced-motion:reduce){
+  .cr-book-detail summary{transition:none!important}
+}
