@@ -1,0 +1,39 @@
+name: Test Resource Ingestion
+
+on:
+  pull_request:
+    paths:
+      - "tools/resource-ingestion/**"
+      - ".github/workflows/test-resource-ingestion.yml"
+  push:
+    branches: [main]
+    paths:
+      - "tools/resource-ingestion/**"
+      - ".github/workflows/test-resource-ingestion.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        working-directory: tools/resource-ingestion
+        run: npm install --no-audit --no-fund
+      - name: Run unit tests
+        working-directory: tools/resource-ingestion
+        run: npm test
+      - name: Check JavaScript syntax and CLI help
+        working-directory: tools/resource-ingestion
+        run: |
+          node --check src/cli.mjs
+          node --check src/schema.mjs
+          node --check src/validate.mjs
+          node --check src/report.mjs
+          node --check src/prepare.mjs
+          node src/cli.mjs --help
