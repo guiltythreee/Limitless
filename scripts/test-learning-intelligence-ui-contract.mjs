@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 const cpHtml = read("../competition/index.html");
 const cpJs = read("../competition/competition.js");
+const cpLearning = read("../competition/learning-intelligence.mjs");
 const cpPractice = read("../competition/practice-recommendations.mjs");
 const homeHtml = read("../index.html");
 const homeModule = read("../home-learning-intelligence.mjs");
@@ -24,7 +25,7 @@ assert.ok(cpHtml.includes('id="problem-attempts" type="number" min="1" step="1"'
 assert.ok(cpHtml.includes('id="problem-first-submitted-at" type="datetime-local" step="1" required'), "problem log must capture first submission time");
 assert.ok(cpHtml.includes('id="problem-solved-at" type="datetime-local" step="1" required'), "solved problems must capture accepted submission time");
 assert.ok(cpHtml.includes('id="problem-elapsed-preview"'), "problem log must preview first-to-accepted elapsed time");
-assert.ok(cpJs.includes("solveElapsedMs"), "learning evidence must retain elapsed first-to-accepted time");
+assert.ok(cpLearning.includes("solveElapsedMs"), "learning adapter must retain elapsed first-to-accepted time");
 assert.ok(cpJs.includes("Total active solving time"), "problem history must distinguish active time from wall-clock elapsed time");
 assert.ok(cpJs.includes("dateTime:recordedAt.toISOString()"), "problem log must persist the full timestamp");
 assert.ok(cpJs.includes("attempts:attemptsValue"), "problem log must persist attempts made");
