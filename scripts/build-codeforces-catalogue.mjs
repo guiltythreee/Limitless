@@ -1,4 +1,5 @@
-// Builds codeforces-red/catalogue.json: the FIXED list of 250 topic-balanced problems per rating.
+// Builds codeforces-red/catalogue.json: the original topic-balanced baseline, up to 250 problems per rating.
+// Account-specific 800–1000 replacements are applied at runtime from the linked handle.
 // Run once (Node 18+):   node scripts/build-codeforces-catalogue.mjs
 // Offline test:          node scripts/build-codeforces-catalogue.mjs --input saved-problemset.json
 // Once catalogue.json is committed, the site always shows exactly this list until you run this again.
@@ -21,7 +22,7 @@ const code = [
   slice('  const MAX_PER_RATING', '  const $ = id'),
   slice('  const CATEGORIES', '  function readSaved'),
   slice('  function categoriesFor', '  function esc('),
-  slice('  function curateProblemset', '  async function readSnapshot')
+  slice('  function curateProblemset', '  async function loadProblemset')
 ] .join('\n') + '\nreturn curateProblemset;';
 const curateProblemset = new Function(code)();
 
@@ -38,7 +39,7 @@ if (inputIndex > -1) {
   result = data.result;
 }
 
-const problems = curateProblemset(result);
+const problems = curateProblemset(result, new Set());
 writeFileSync(outPath, JSON.stringify({ generatedAt: new Date().toISOString(), problems }) + '\n');
 
 const perRating = {};
