@@ -70,9 +70,85 @@
       <section class="cr-book-references">
         <div class="cr-eyebrow">BOOKS & STUDY REFERENCES</div><h3>Use one focused chapter at a time</h3>
         <div class="cr-book-grid">
-          <article><b>Foundations → Expert</b><span>Antti Laaksonen, <i>Competitive Programmer’s Handbook</i>: Foundations — Ch. 1–2, 3.1–3.2, 4–6 and 8. Specialist — Ch. 3.3, 4, 9 and 21–22. Read only the named section relevant to the current checklist item.</span><a href="https://cses.fi/book/book.pdf" target="_blank" rel="noopener noreferrer">Free book PDF ↗</a></article>
-          <article><b>Expert → Candidate Master</b><span>Core algorithms — Handbook Ch. 7, 9 and 11–17. Advanced reasoning — Ch. 10.5, 14, 18, 25–28. Use Antti Laaksonen’s <i>Guide to Competitive Programming</i> for deeper explanations; use Competitive Programming 4 as a topic catalogue, not a cover-to-cover assignment.</span><a href="https://cpbook.net/" target="_blank" rel="noopener noreferrer">Competitive Programming 4 ↗</a></article>
-          <article><b>Advanced topics</b><span>Mastery — Handbook Ch. 20 and 22–30 (flows, combinatorics, probability, games, strings, range structures, geometry and sweep line). FFT/NTT and advanced matching variants need CP-Algorithms/USACO Guide supplements. Use <i>Concrete Mathematics</i> for discrete mathematics and CLRS as a lookup reference, not a linear course.</span><a href="https://cp-algorithms.com/" target="_blank" rel="noopener noreferrer">CP-Algorithms ↗</a> · <a href="https://usaco.guide/" target="_blank" rel="noopener noreferrer">USACO Guide ↗</a></article>
+          <article class="cr-book-reference">
+            <b>Foundations → Expert</b>
+            <span>Antti Laaksonen, <i>Competitive Programmer’s Handbook</i>. Start with the Foundation pass, then use the Specialist pass when the matching roadmap topics appear. Page numbers below are the printed page numbers in the July 2018 PDF.</span>
+            <details class="cr-book-detail">
+              <summary>Open exact sections and page numbers</summary>
+              <div class="cr-book-detail-group">
+                <b>Foundation pass</b>
+                <p><strong>Ch. 1 — Introduction (pp. 3–16):</strong> 1.1 Programming languages; 1.2 Input and output; 1.3 Working with numbers; 1.4 Shortening code; 1.5 Mathematics; 1.6 Contests and resources.</p>
+                <p><strong>Ch. 2 — Time complexity (pp. 17–24):</strong> 2.1 Calculation rules; 2.2 Complexity classes; 2.3 Estimating efficiency; 2.4 Maximum subarray sum.</p>
+                <p><strong>Ch. 3 — Sorting:</strong> 3.1 Sorting theory (p. 25); 3.2 Sorting in C++ (p. 29).</p>
+                <p><strong>Ch. 4 — Data structures (first pass):</strong> 4.1 Dynamic arrays (p. 35); 4.2 Set structures (p. 37); 4.3 Map structures (p. 38).</p>
+                <p><strong>Ch. 5 — Complete search (pp. 47–56):</strong> 5.1 Generating subsets; 5.2 Generating permutations; 5.3 Backtracking; 5.4 Pruning the search; 5.5 Meet in the middle.</p>
+                <p><strong>Ch. 6 — Greedy algorithms (pp. 57–64):</strong> 6.1 Coin problem; 6.2 Scheduling; 6.3 Tasks and deadlines; 6.4 Minimizing sums; 6.5 Data compression.</p>
+                <p><strong>Ch. 8 — Amortized analysis (pp. 77–82):</strong> 8.1 Two pointers method; 8.2 Nearest smaller elements; 8.3 Sliding window minimum.</p>
+              </div>
+              <div class="cr-book-detail-group">
+                <b>Specialist pass</b>
+                <p><strong>Ch. 3 — Sorting:</strong> 3.3 Binary search (p. 31).</p>
+                <p><strong>Ch. 4 — Data structures (second pass):</strong> 4.4 Iterators and ranges (p. 39); 4.5 Other structures (p. 41); 4.6 Comparison to sorting (p. 44). Revisit set/map operations from 4.2–4.3 when solving problems that need ordered lookup or updates.</p>
+                <p><strong>Ch. 9 — Range queries (pp. 83–94):</strong> 9.1 Static array queries; 9.2 Binary indexed tree; 9.3 Segment tree; 9.4 Additional techniques.</p>
+                <p><strong>Ch. 21 — Number theory (pp. 197–206):</strong> 21.1 Primes and factors; 21.2 Modular arithmetic; 21.3 Solving equations; 21.4 Other results.</p>
+                <p><strong>Ch. 22 — Combinatorics (pp. 207–216):</strong> 22.1 Binomial coefficients; 22.2 Catalan numbers; 22.3 Inclusion-exclusion; 22.4 Burnside’s lemma; 22.5 Cayley’s formula.</p>
+              </div>
+            </details>
+            <a href="https://cses.fi/book/book.pdf" target="_blank" rel="noopener noreferrer">Free Handbook PDF ↗</a>
+          </article>
+          <article class="cr-book-reference">
+            <b>Expert → Candidate Master</b>
+            <span>Use the Handbook as a selective algorithm reference. The section list below maps each roadmap topic to the actual chapter heading instead of asking you to read whole chapters indiscriminately.</span>
+            <details class="cr-book-detail">
+              <summary>Open exact sections and page numbers</summary>
+              <div class="cr-book-detail-group">
+                <b>Core algorithms</b>
+                <p><strong>Ch. 7 — Dynamic programming (pp. 65–76):</strong> 7.1 Coin problem; 7.2 Longest increasing subsequence; 7.3 Paths in a grid; 7.4 Knapsack problems; 7.5 Edit distance; 7.6 Counting tilings.</p>
+                <p><strong>Ch. 9 — Range queries (pp. 83–94):</strong> 9.1 Static array queries; 9.2 Binary indexed tree; 9.3 Segment tree; 9.4 Additional techniques.</p>
+                <p><strong>Ch. 11 — Basics of graphs (pp. 109–116):</strong> 11.1 Graph terminology; 11.2 Graph representation.</p>
+                <p><strong>Ch. 12 — Graph traversal (pp. 117–122):</strong> 12.1 Depth-first search; 12.2 Breadth-first search; 12.3 Applications.</p>
+                <p><strong>Ch. 13 — Shortest paths (pp. 123–132):</strong> 13.1 Bellman–Ford algorithm; 13.2 Dijkstra’s algorithm; 13.3 Floyd–Warshall algorithm.</p>
+                <p><strong>Ch. 14 — Tree algorithms (pp. 133–140):</strong> 14.1 Tree traversal; 14.2 Diameter; 14.3 All longest paths; 14.4 Binary trees.</p>
+                <p><strong>Ch. 15 — Spanning trees (pp. 141–148):</strong> 15.1 Kruskal’s algorithm; 15.2 Union-find structure; 15.3 Prim’s algorithm.</p>
+                <p><strong>Ch. 16 — Directed graphs (pp. 149–156):</strong> 16.1 Topological sorting; 16.2 Dynamic programming; 16.3 Successor paths; 16.4 Cycle detection.</p>
+                <p><strong>Ch. 17 — Strong connectivity (pp. 157–162):</strong> 17.1 Kosaraju’s algorithm; 17.2 2SAT problem.</p>
+              </div>
+              <div class="cr-book-detail-group">
+                <b>Advanced reasoning and second passes</b>
+                <p><strong>Ch. 10 — Bit manipulation:</strong> 10.5 Dynamic programming (p. 102), i.e. bitmask dynamic programming.</p>
+                <p><strong>Ch. 14 — Tree algorithms, revisit:</strong> focus on 14.2 Diameter, 14.3 All longest paths, and 14.4 Binary trees (pp. 135–140), then derive solutions on trees without relying on memorised templates.</p>
+                <p><strong>Ch. 18 — Tree queries (pp. 163–172):</strong> 18.1 Finding ancestors; 18.2 Subtrees and paths; 18.3 Lowest common ancestor; 18.4 Offline algorithms.</p>
+                <p><strong>Ch. 25 — Game theory (pp. 235–242):</strong> 25.1 Game states; 25.2 Nim game; 25.3 Sprague–Grundy theorem.</p>
+                <p><strong>Ch. 26 — String algorithms (pp. 243–250):</strong> 26.1 String terminology; 26.2 Trie structure; 26.3 String hashing; 26.4 Z-algorithm.</p>
+                <p><strong>Ch. 27 — Square root algorithms (pp. 251–256):</strong> 27.1 Combining algorithms; 27.2 Integer partitions; 27.3 Mo’s algorithm.</p>
+                <p><strong>Ch. 28 — Segment trees revisited (pp. 257–264):</strong> 28.1 Lazy propagation; 28.2 Dynamic trees; 28.3 Data structures; 28.4 Two-dimensionality.</p>
+              </div>
+            </details>
+            <span>For a second explanation of the same concepts, use Antti Laaksonen’s <i>Guide to Competitive Programming</i>. Use Competitive Programming 4 as a topic catalogue, not a cover-to-cover assignment.</span>
+            <a href="https://cpbook.net/" target="_blank" rel="noopener noreferrer">Competitive Programming 4 ↗</a>
+          </article>
+          <article class="cr-book-reference">
+            <b>Advanced topics</b>
+            <span>Mastery reading is selective. These are the Handbook sections for flows, advanced combinatorics, probability, strings, data structures and geometry. FFT/NTT and advanced matching variants are outside this Handbook reading map; use the linked supplements for them.</span>
+            <details class="cr-book-detail">
+              <summary>Open exact sections and page numbers</summary>
+              <div class="cr-book-detail-group">
+                <b>Mastery sections</b>
+                <p><strong>Ch. 20 — Flows and cuts (pp. 181–194):</strong> 20.1 Ford–Fulkerson algorithm; 20.2 Disjoint paths; 20.3 Maximum matchings; 20.4 Path covers.</p>
+                <p><strong>Ch. 22 — Combinatorics, advanced revisit (pp. 207–216):</strong> 22.3 Inclusion-exclusion; 22.4 Burnside’s lemma; 22.5 Cayley’s formula. Revisit 22.1–22.2 when binomial coefficients or Catalan numbers are required.</p>
+                <p><strong>Ch. 23 — Matrices (pp. 217–224):</strong> 23.1 Operations; 23.2 Linear recurrences; 23.3 Graphs and matrices.</p>
+                <p><strong>Ch. 24 — Probability (pp. 225–234):</strong> 24.1 Calculation; 24.2 Events; 24.3 Random variables; 24.4 Markov chains; 24.5 Randomized algorithms.</p>
+                <p><strong>Ch. 25 — Game theory (pp. 235–242):</strong> 25.1 Game states; 25.2 Nim game; 25.3 Sprague–Grundy theorem.</p>
+                <p><strong>Ch. 26 — String algorithms (pp. 243–250):</strong> 26.1 String terminology; 26.2 Trie structure; 26.3 String hashing; 26.4 Z-algorithm.</p>
+                <p><strong>Ch. 27 — Square root algorithms (pp. 251–256):</strong> 27.1 Combining algorithms; 27.2 Integer partitions; 27.3 Mo’s algorithm.</p>
+                <p><strong>Ch. 28 — Segment trees revisited (pp. 257–264):</strong> 28.1 Lazy propagation; 28.2 Dynamic trees; 28.3 Data structures; 28.4 Two-dimensionality.</p>
+                <p><strong>Ch. 29 — Geometry (pp. 265–274):</strong> 29.1 Complex numbers; 29.2 Points and lines; 29.3 Polygon area; 29.4 Distance functions.</p>
+                <p><strong>Ch. 30 — Sweep line algorithms (pp. 275–280):</strong> 30.1 Intersection points; 30.2 Closest pair problem; 30.3 Convex hull problem.</p>
+              </div>
+            </details>
+            <span>Use <i>Concrete Mathematics</i> for discrete mathematics and CLRS as a lookup reference, not a linear course.</span>
+            <a href="https://cp-algorithms.com/" target="_blank" rel="noopener noreferrer">CP-Algorithms ↗</a> · <a href="https://usaco.guide/" target="_blank" rel="noopener noreferrer">USACO Guide ↗</a>
+          </article>
         </div>
       </section>
       <div class="cr-roadmap-tools">
