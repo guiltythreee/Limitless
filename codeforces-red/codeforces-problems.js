@@ -193,9 +193,10 @@
       }
       populateFilters();
       const solvedLoaded = await loadSolved();
+      const ratingPolicyNote = '800–1000 ratings excluded and replaced with unique 1100+ problems';
       status(solvedLoaded
-        ? 'Curated '+state.problems.length.toLocaleString()+' problems · '+state.solved.size.toLocaleString()+' solved · '+state.wrong.size.toLocaleString()+' with failed submissions · based on latest 10,000 submissions.'
-        : 'Curated '+state.problems.length.toLocaleString()+' problems · solved status unavailable. Check your linked handle or retry the submission refresh.');
+        ? 'Curated '+state.problems.length.toLocaleString()+' problems · '+ratingPolicyNote+' · '+state.solved.size.toLocaleString()+' solved · '+state.wrong.size.toLocaleString()+' with failed submissions · based on latest 10,000 submissions.'
+        : 'Curated '+state.problems.length.toLocaleString()+' problems · '+ratingPolicyNote+' · solved status unavailable. Check your linked handle or retry the submission refresh.');
       render();
     } catch (error) { status(error.message + ' You can retry; your saved list remains available.'); }
     finally { state.loading = false; $('cf-refresh-problems').disabled = false; }
