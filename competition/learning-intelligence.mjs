@@ -164,7 +164,118 @@ export function getCodeforcesProblemUrl(questionId) {
     : "https://codeforces.com/problemset/problem/" + contestId + "/" + index;
 }
 
-export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], now = Date.now(), codeforcesSubmissions = []) {
+const CODEFORCES_REVISION_INTERVALS = [1, 7, 14, 30];
+const REVISION_DAY_MS = 86_400_000;
+
+export function sanitiseCodeforcesRevisionState(raw) {
+  if (!Array.isArray(raw)) return [];
+  const byQuestion = new Map();
+  for (const item of raw) {
+    if (!item || typeof item !== "object" || Array.isArray(item) ||
+        typeof item.questionId !== "string" || !/^codeforces:[0-9]+[A-Za-z][A-Za-z0-9]*$/.test(item.questionId) ||
+        typeof item.contentId !== "string" || !item.contentId ||
+        !Number.isFinite(item.lastFailureAt) || item.lastFailureAt <= 0 ||
+        !Number.isSafeInteger(item.failures) || item.failures < 1 ||
+        !Number.isSafeInteger(item.successfulRevisions) || item.successfulRevisions < 0 ||
+        item.successfulRevisions > 3 ||
+        !Array.isArray(item.conceptIds) ||
+        (item.successfulRevisions > 0 &&
+          (!Number.isFinite(item.lastSuccessfulRevisionAt) || item.lastSuccessfulRevisionAt <= item.lastFailureAt))) continue;
+    byQuestion.set(item.questionId, {
+      disciplineId: "competitive-programming",
+      courseId: "codeforces",
+      questionId: item.questionId,
+      contentId: item.contentId,
+      subjectId: "codeforces",
+      conceptIds: [...new Set(item.conceptIds.filter((tag) => typeof tag === "string" && tag.trim()).map((tag) => tag.trim().toLowerCase()))],
+      lastFailureAt: item.lastFailureAt,
+      failures: item.failures,
+      successfulRevisions: item.successfulRevisions,
+      lastSuccessfulRevisionAt: item.successfulRevisions > 0 ? item.lastSuccessfulRevisionAt : 0,
+    });
+  }
+  return [...byQuestion.values()].sort((a, b) =>
+    a.lastFailureAt - b.lastFailureAt || a.questionId.localeCompare(b.questionId));
+}
+
+/**
+ * Maintain one compact scheduling snapshot per failed Codeforces problem.
+ * Recent raw attempts remain available for mastery analytics; these snapshots
+ * preserve revision candidates after raw attempt history is pruned.
+ */
+export function updateCodeforcesRevisionState(previousState, newAttempts) {
+  const byQuestion = new Map(sanitiseCodeforcesRevisionState(previousState)
+    .map((item) => [item.questionId, item]));
+  const ordered = Array.isArray(newAttempts)
+    ? newAttempts.filter((attempt) => attempt && typeof attempt === "object" &&
+      attempt.disciplineId === "competitive-programming" && attempt.courseId === "codeforces" &&
+      typeof attempt.questionId === "string" && attempt.questionId.startsWith("codeforces:") &&
+      Number.isFinite(attempt.occurredAt) && attempt.occurredAt > 0 &&
+      ["correct", "incorrect", "partial"].includes(attempt.outcome))
+      .slice().sort((a, b) => a.occurredAt - b.occurredAt || String(a.id).localeCompare(String(b.id)))
+    : [];
+  for (const attempt of ordered) {
+    const questionId = attempt.questionId;
+    const existing = byQuestion.get(questionId);
+    const conceptIds = [...new Set([
+      ...(existing?.conceptIds ?? []),
+      ...(Array.isArray(attempt.conceptIds) ? attempt.conceptIds : []),
+    ].filter((tag) => typeof tag === "string" && tag.trim()).map((tag) => tag.trim().toLowerCase()))];
+    if (attempt.outcome === "incorrect" || attempt.outcome === "partial") {
+      byQuestion.set(questionId, {
+        disciplineId: "competitive-programming",
+        courseId: "codeforces",
+        questionId,
+        contentId: typeof attempt.contentId === "string" ? attempt.contentId : (existing?.contentId ?? ""),
+        subjectId: "codeforces",
+        conceptIds,
+        lastFailureAt: attempt.occurredAt,
+        failures: (existing?.failures ?? 0) + 1,
+        successfulRevisions: 0,
+        lastSuccessfulRevisionAt: 0,
+      });
+    } else if (attempt.mode === "revision" && existing &&
+               attempt.occurredAt > existing.lastFailureAt) {
+      byQuestion.set(questionId, {
+        ...existing,
+        conceptIds,
+        successfulRevisions: Math.min(3, existing.successfulRevisions + 1),
+        lastSuccessfulRevisionAt: attempt.occurredAt,
+      });
+    } else if (existing && conceptIds.length !== existing.conceptIds.length) {
+      byQuestion.set(questionId, { ...existing, conceptIds });
+    }
+  }
+  return sanitiseCodeforcesRevisionState([...byQuestion.values()]);
+}
+
+export function buildCodeforcesRevisionCandidates(revisionState, now = Date.now()) {
+  return sanitiseCodeforcesRevisionState(revisionState).map((item) => {
+    const interval = CODEFORCES_REVISION_INTERVALS[
+      Math.min(item.successfulRevisions, CODEFORCES_REVISION_INTERVALS.length - 1)
+    ];
+    const dueAt = (item.lastSuccessfulRevisionAt || item.lastFailureAt) + interval * REVISION_DAY_MS;
+    const overdueDays = Math.max(0, Math.floor((now - dueAt) / REVISION_DAY_MS));
+    const candidate = {
+      key: [item.disciplineId, item.courseId, item.questionId].join("::"),
+      disciplineId: item.disciplineId,
+      courseId: item.courseId,
+      contentId: item.contentId,
+      questionId: item.questionId,
+      conceptIds: item.conceptIds,
+      failures: item.failures,
+      lastFailureAt: item.lastFailureAt,
+      dueAt,
+      overdueDays,
+      priority: (now >= dueAt ? 100 : 0) + item.failures * 10 + overdueDays,
+    };
+    if (item.lastSuccessfulRevisionAt > 0) candidate.lastReviewedAt = item.lastSuccessfulRevisionAt;
+    return candidate;
+  }).sort((a, b) =>
+    b.priority - a.priority || a.dueAt - b.dueAt || a.key.localeCompare(b.key));
+}
+
+export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], now = Date.now(), codeforcesSubmissions = [], codeforcesRevisionState) {
   const storedCodeforcesAttempts = Array.isArray(codeforcesSubmissions) && codeforcesSubmissions.some((item) =>
     item && typeof item.id === "string" && item.id.startsWith("codeforces:") && item.disciplineId === "competitive-programming"
   );
@@ -195,6 +306,10 @@ export function analyzeCompetitionLearning(problemLog, revisionAttempts = [], no
     mastery,
     weakConcepts: recommendConceptPractice(mastery, 3),
     recurringMistakes: buildConceptMistakeSummary(attempts).slice(0, 3),
-    revision: buildRevisionCandidates(attempts, now),
+    revision: (codeforcesRevisionState === undefined
+      ? buildRevisionCandidates(attempts, now)
+      : buildRevisionCandidates(attempts.filter((attempt) => attempt.courseId !== "codeforces"), now)
+        .concat(buildCodeforcesRevisionCandidates(codeforcesRevisionState, now))
+        .sort((a, b) => b.priority - a.priority || a.dueAt - b.dueAt || a.key.localeCompare(b.key))),
   };
 }

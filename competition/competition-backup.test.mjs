@@ -36,6 +36,12 @@ const learning = {
     subjectId: "implementation", conceptIds: ["implementation"],
     outcome: "correct", occurredAt: 1_800_000_001_000,
   }],
+  revisionState: [{
+    disciplineId: "competitive-programming", courseId: "codeforces",
+    questionId: "codeforces:2000A", contentId: "2000A", subjectId: "codeforces",
+    conceptIds: ["implementation"], lastFailureAt: 1_800_000_000_000,
+    failures: 1, successfulRevisions: 0, lastSuccessfulRevisionAt: 0,
+  }],
 };
 const reward = {
   policyVersion: "LSR-1",

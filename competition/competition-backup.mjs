@@ -1,4 +1,5 @@
 import { sanitiseRewardRecords } from "../shared/rewards.mjs";
+import { sanitiseCodeforcesRevisionState } from "./learning-intelligence.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
 export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming-lsr1-v1";
@@ -38,7 +39,10 @@ function validCodeforcesLearning(value) {
       isRecord(attempt) &&
       typeof attempt.id === "string" && attempt.id.startsWith("codeforces:") &&
       Number.isFinite(attempt.occurredAt) && attempt.occurredAt > 0
-    );
+    ) &&
+    (value.revisionState === undefined ||
+      (Array.isArray(value.revisionState) &&
+        sanitiseCodeforcesRevisionState(value.revisionState).length === value.revisionState.length));
 }
 
 function validCodeforcesRewards(value) {

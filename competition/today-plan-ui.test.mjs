@@ -47,8 +47,8 @@ assert.match(js, /limitless\.competition\.codeforces-learning\.v1/,
   "Codeforces revision results must be saved with the existing sync record");
 assert.match(js, /limitless:codeforces-learning-updated/,
   "saving a Codeforces revision must refresh shared mastery and scheduling");
-assert.match(js, /stored\.attempts = stored\.attempts\.slice\(-5000\)/,
-  "manual Codeforces revision feedback must use the same expanded retention bound as sync");
+assert.match(js, /recordCodeforcesRevisionAttempt/,
+  "manual Codeforces revision feedback must update the compact per-problem scheduler state");
 assert.match(css, /\.revision-actions/,
   "Codeforces revision controls must reuse the existing revision action layout");
 

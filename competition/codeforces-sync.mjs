@@ -1,4 +1,8 @@
-import { toCodeforcesLearningAttempts } from "./learning-intelligence.mjs";
+import {
+  sanitiseCodeforcesRevisionState,
+  toCodeforcesLearningAttempts,
+  updateCodeforcesRevisionState,
+} from "./learning-intelligence.mjs";
 import { createCompetitionRewardAdapter } from "./competition-rewards.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
@@ -26,7 +30,14 @@ function readState(storage) {
 /** Read only the isolated Codeforces learning sync record. */
 export function readCodeforcesSyncState(storage) {
   const state = readState(storage);
-  if (!state) return { version: 1, handle: "", baselineAt: 0, lastSyncAt: 0, seenSubmissionIds: [], attempts: [] };
+  if (!state) return {
+    version: 1, handle: "", baselineAt: 0, lastSyncAt: 0,
+    seenSubmissionIds: [], attempts: [], revisionState: [],
+  };
+  const attempts = Array.isArray(state.attempts) ? state.attempts.filter((item) =>
+    isRecord(item) && typeof item.id === "string" && item.id.startsWith("codeforces:") &&
+    Number.isFinite(item.occurredAt) && item.occurredAt > 0
+  ).slice(-MAX_ATTEMPTS) : [];
   return {
     version: 1,
     handle: typeof state.handle === "string" ? state.handle : "",
@@ -36,11 +47,43 @@ export function readCodeforcesSyncState(storage) {
       ? [...new Set(state.seenSubmissionIds.filter((id) => Number.isSafeInteger(id) && id > 0))]
         .sort((a, b) => a - b).slice(-MAX_SEEN_IDS)
       : [],
-    attempts: Array.isArray(state.attempts) ? state.attempts.filter((item) =>
-      isRecord(item) && typeof item.id === "string" && item.id.startsWith("codeforces:") &&
-      Number.isFinite(item.occurredAt) && item.occurredAt > 0
-    ).slice(-MAX_ATTEMPTS) : [],
+    attempts,
+    // Older v1 records are upgraded in memory from the attempts they still retain.
+    revisionState: Array.isArray(state.revisionState)
+      ? sanitiseCodeforcesRevisionState(state.revisionState)
+      : updateCodeforcesRevisionState([], attempts),
   };
+}
+
+/** Persist a manual Codeforces re-solve without losing its compact revision state. */
+export function recordCodeforcesRevisionAttempt(storage, revision) {
+  if (!storage || typeof storage.getItem !== "function" || typeof storage.setItem !== "function" ||
+      !isRecord(revision) || typeof revision.id !== "string" || !revision.id.trim() ||
+      revision.disciplineId !== "competitive-programming" || revision.courseId !== "codeforces" ||
+      typeof revision.questionId !== "string" || !revision.questionId.startsWith("codeforces:") ||
+      revision.mode !== "revision" || !["correct", "incorrect"].includes(revision.outcome) ||
+      !Number.isFinite(revision.occurredAt) || revision.occurredAt <= 0) {
+    return { ok: false, error: "invalid-revision" };
+  }
+  const raw = readState(storage);
+  if (!raw || typeof raw.handle !== "string" || !raw.handle) {
+    return { ok: false, error: "account-not-connected" };
+  }
+  const current = readCodeforcesSyncState(storage);
+  if (current.attempts.some((attempt) => attempt.id === revision.id)) {
+    return { ok: true, duplicate: true, state: current };
+  }
+  const attempts = [...current.attempts, revision]
+    .sort((a, b) => a.occurredAt - b.occurredAt || a.id.localeCompare(b.id))
+    .slice(-MAX_ATTEMPTS);
+  const revisionState = updateCodeforcesRevisionState(current.revisionState, [revision]);
+  const next = { ...raw, attempts, revisionState };
+  try {
+    storage.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    return { ok: false, error: "storage-write-failed" };
+  }
+  return { ok: true, duplicate: false, state: readCodeforcesSyncState(storage) };
 }
 
 /**
@@ -101,6 +144,12 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
   const previousAttempts = sameAccount && Array.isArray(previous.attempts) ? previous.attempts : [];
   const attemptsById = new Map(previousAttempts.map((item) => [item.id, item]));
   for (const attempt of newAttempts) attemptsById.set(attempt.id, attempt);
+  const priorRevisionState = sameAccount
+    ? (Array.isArray(previous.revisionState)
+      ? sanitiseCodeforcesRevisionState(previous.revisionState)
+      : updateCodeforcesRevisionState([], previousAttempts))
+    : [];
+  const revisionState = updateCodeforcesRevisionState(priorRevisionState, newAttempts);
 
   const next = {
     version: 1,
@@ -112,6 +161,7 @@ export function syncCodeforcesSubmissions(storage, handle, submissions, now = Da
     // the newest IDs rather than the oldest tail of a descending API page.
     seenSubmissionIds: [...seen].sort((a, b) => a - b).slice(-MAX_SEEN_IDS),
     attempts: [...attemptsById.values()].sort((a, b) => a.occurredAt - b.occurredAt).slice(-MAX_ATTEMPTS),
+    revisionState,
   };
   try {
     storage.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(next));

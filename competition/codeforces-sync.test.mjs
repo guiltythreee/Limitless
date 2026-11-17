@@ -3,6 +3,7 @@ import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   readCodeforcesSyncState,
+  recordCodeforcesRevisionAttempt,
   syncCodeforcesSubmissions,
 } from "./codeforces-sync.mjs";
 
@@ -135,10 +136,10 @@ console.log("Codeforces sync baseline: all assertions passed.");
   syncCodeforcesSubmissions(largeStorage, "AttemptHandle", [], 1795000000000);
   const submissions = Array.from({ length: 5005 }, (_, index) => ({
     id: 300000 + index,
-    contestId: 2000,
+    contestId: 2000 + index,
     creationTimeSeconds: 1795000001 + index,
     verdict: "WRONG_ANSWER",
-    problem: { contestId: 2000, index: "A", tags: ["greedy"] },
+    problem: { contestId: 2000 + index, index: "A", tags: ["greedy"] },
   }));
   const result = syncCodeforcesSubmissions(largeStorage, "AttemptHandle", submissions, 1796000000000);
   assert.equal(result.ok, true);
@@ -147,6 +148,11 @@ console.log("Codeforces sync baseline: all assertions passed.");
   assert.equal(retainedAttempts.length, 5000);
   assert.equal(retainedAttempts[0].id, "codeforces:300005");
   assert.equal(retainedAttempts.at(-1).id, "codeforces:305004");
+  const retainedRevisionState = readCodeforcesSyncState(largeStorage).revisionState;
+  assert.ok(retainedRevisionState.some((item) => item.questionId === "codeforces:2000A"),
+    "a failed problem remains in the revision scheduler after its raw attempt is evicted");
+  assert.equal(retainedRevisionState.length, 5005,
+    "the compact scheduler keeps one state per failed problem, not one full record per submission");
 }
 
 
@@ -176,4 +182,50 @@ console.log("Codeforces sync baseline: all assertions passed.");
   assert.equal(byEvent.get("codeforces:orderedhandle:202").eligible, true);
   assert.equal(byEvent.get("codeforces:orderedhandle:203").eligible, true);
   assert.equal(byEvent.get("codeforces:orderedhandle:204").reason, "daily-repeat-cap");
+}
+
+
+{
+  const manualValues = new Map();
+  const manualStorage = {
+    getItem(key) { return manualValues.has(key) ? manualValues.get(key) : null; },
+    setItem(key, value) { manualValues.set(key, value); },
+  };
+  syncCodeforcesSubmissions(manualStorage, "ManualHandle", [], 1_795_000_000_000);
+  const failed = {
+    id: "codeforces:revision-seed",
+    disciplineId: "competitive-programming",
+    courseId: "codeforces",
+    contentId: "2500A",
+    questionId: "codeforces:2500A",
+    subjectId: "codeforces",
+    conceptIds: ["greedy"],
+    outcome: "incorrect",
+    occurredAt: 1_795_000_001_000,
+    mode: "practice",
+  };
+  const seedState = JSON.parse(manualValues.get(CODEFORCES_SYNC_STORAGE_KEY));
+  seedState.attempts = [failed];
+  delete seedState.revisionState; // simulate a pre-snapshot v1 record being upgraded
+  manualValues.set(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(seedState));
+  const revision = {
+    id: "codeforces:revision:manual-1",
+    disciplineId: "competitive-programming",
+    courseId: "codeforces",
+    contentId: "2500A",
+    questionId: "codeforces:2500A",
+    subjectId: "codeforces",
+    conceptIds: ["greedy"],
+    outcome: "correct",
+    occurredAt: 1_795_086_401_000,
+    mode: "revision",
+  };
+  const saved = recordCodeforcesRevisionAttempt(manualStorage, revision);
+  assert.equal(saved.ok, true);
+  assert.equal(saved.state.revisionState[0].successfulRevisions, 1,
+    "manual independent re-solves update the durable revision ladder");
+  assert.equal(saved.state.attempts.at(-1).id, revision.id);
+  const duplicate = recordCodeforcesRevisionAttempt(manualStorage, revision);
+  assert.equal(duplicate.ok, true);
+  assert.equal(duplicate.duplicate, true, "replaying the same manual revision event is idempotent");
 }
