@@ -4,14 +4,17 @@ import {
   COMPETITION_REWARD_STORAGE_KEY,
   createCompetitionBackup,
   restoreCompetitionBackup,
+  resetCompetitionData,
 } from "./competition-backup.mjs";
 
 function makeStorage(seed = new Map()) {
   const values = new Map(seed);
   let failKey = "";
+  let failRemoveKey = "";
   return {
     values,
     failNextWriteFor(key) { failKey = key; },
+    failNextRemoveFor(key) { failRemoveKey = key; },
     getItem(key) { return values.has(key) ? values.get(key) : null; },
     setItem(key, value) {
       if (key === failKey) {
@@ -20,7 +23,13 @@ function makeStorage(seed = new Map()) {
       }
       values.set(key, String(value));
     },
-    removeItem(key) { values.delete(key); },
+    removeItem(key) {
+      if (key === failRemoveKey) {
+        failRemoveKey = "";
+        throw new Error("simulated storage removal failure");
+      }
+      values.delete(key);
+    },
   };
 }
 
@@ -106,5 +115,37 @@ assert.equal(rollbackTarget.getItem("competition-state"), "old-state");
 assert.equal(rollbackTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY), "old-learning");
 assert.equal(rollbackTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "old-rewards",
   "a failed multi-key restore rolls back earlier writes");
+
+
+
+const resetTarget = makeStorage();
+resetTarget.setItem("competition-state", "old-state");
+resetTarget.setItem(CODEFORCES_SYNC_STORAGE_KEY, "old-learning");
+resetTarget.setItem(COMPETITION_REWARD_STORAGE_KEY, "old-rewards");
+resetTarget.setItem("limitless-probability-rewards-v1", "other-module-rewards");
+assert.deepEqual(resetCompetitionData(resetTarget, "competition-state"), { ok: true });
+assert.equal(resetTarget.getItem("competition-state"), null);
+assert.equal(resetTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY), null,
+  "Competition reset must clear synced Codeforces learning evidence");
+assert.equal(resetTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), null,
+  "Competition reset must clear only the Competition reward ledger");
+assert.equal(resetTarget.getItem("limitless-probability-rewards-v1"), "other-module-rewards",
+  "reset must preserve every other module's reward data");
+
+const failedResetTarget = makeStorage();
+failedResetTarget.setItem("competition-state", "old-state");
+failedResetTarget.setItem(CODEFORCES_SYNC_STORAGE_KEY, "old-learning");
+failedResetTarget.setItem(COMPETITION_REWARD_STORAGE_KEY, "old-rewards");
+failedResetTarget.failNextRemoveFor(COMPETITION_REWARD_STORAGE_KEY);
+assert.deepEqual(
+  resetCompetitionData(failedResetTarget, "competition-state"),
+  { ok: false, error: "storage-write-failed" },
+);
+assert.equal(failedResetTarget.getItem("competition-state"), "old-state",
+  "a failed reset must roll back the primary Competition progress");
+assert.equal(failedResetTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY), "old-learning",
+  "a failed reset must roll back synced Codeforces learning data");
+assert.equal(failedResetTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "old-rewards",
+  "a failed reset must preserve the reward ledger");
 
 console.log("Competition backup integrity: all assertions passed.");
