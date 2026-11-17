@@ -2,10 +2,13 @@
   'use strict';
   const API = 'https://codeforces.com/api/';
   const STORAGE = 'limitless.competition.codeforces-problemset.v2';
-  const CACHE_KEY = 'limitless.codeforces-curated-catalogue.v2';
+  const CACHE_KEY = 'limitless.codeforces-curated-catalogue.v3';
   const MAX_PER_RATING = 250;
   const MIN_PER_TOPIC = 6;
   const TOPIC_BALANCE = 0.6;
+  const EXCLUDED_RATING_MIN = 800;
+  const EXCLUDED_RATING_MAX = 1000;
+  const REPLACEMENT_MIN_RATING = 1100;
   const $ = id => document.getElementById(id);
   const state = { problems: [], solved: new Set(), wrong: new Map(), saved: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
   const CATEGORIES = {
@@ -37,6 +40,9 @@
     const data = await client.requestCodeforcesApi(API + method + (query ? '?' + query : ''));
     return data.result;
   }
+  function problemKey(problem) {
+    return String(problem.contestId || 'gym') + '-' + String(problem.index || problem.name || '');
+  }
   function curateProblemset(result) {
     const problems = result.problems || [], stats = result.problemStatistics || [];
     const buckets = new Map();
@@ -47,10 +53,45 @@
       if (!buckets.has(problem.rating)) buckets.set(problem.rating, []);
       buckets.get(problem.rating).push(row);
     });
+
     const curated = [];
-    [...buckets.keys()].sort((a,b)=>a-b).forEach(rating => {
-      curated.push(...selectBalanced(buckets.get(rating), MAX_PER_RATING));
+    let replacementCount = 0;
+    const ratings = [...buckets.keys()].sort((a,b)=>a-b);
+    ratings.forEach(rating => {
+      const selected = selectBalanced(buckets.get(rating), MAX_PER_RATING);
+      if (rating >= EXCLUDED_RATING_MIN && rating <= EXCLUDED_RATING_MAX) {
+        replacementCount += selected.length;
+        return;
+      }
+      curated.push(...selected);
     });
+
+    // Replace every curated 800–1000 problem with a different 1100+ problem.
+    // Take replacements from the lowest available higher-rated buckets first,
+    // keeping each replacement bucket topic-balanced and capped at 250 extras.
+    const selectedKeys = new Set(curated.map(problemKey));
+    let remaining = replacementCount;
+    for (const rating of ratings.filter(value => value >= REPLACEMENT_MIN_RATING)) {
+      if (!remaining) break;
+      const available = (buckets.get(rating) || []).filter(problem => !selectedKeys.has(problemKey(problem)));
+      const quota = Math.min(remaining, MAX_PER_RATING, available.length);
+      if (!quota) continue;
+      const replacements = selectBalanced(available, quota);
+      replacements.forEach(problem => selectedKeys.add(problemKey(problem)));
+      curated.push(...replacements);
+      remaining -= replacements.length;
+    }
+    if (remaining > 0) {
+      throw new Error(
+        'Could not replace all ' + replacementCount + ' excluded 800–1000 problems. ' +
+        remaining + ' unique problems rated ' + REPLACEMENT_MIN_RATING + '+ are still needed.'
+      );
+    }
+
+    curated.sort((a,b) => a.rating-b.rating ||
+      (b.catalogueSolvedCount||0)-(a.catalogueSolvedCount||0) ||
+      (a.name||'').localeCompare(b.name||''));
+    Object.defineProperty(curated, 'replacementCount', {value:replacementCount, enumerable:false});
     return curated;
   }
   // Select a topic-balanced sample; within each topic, prefer the most-solved problems.
@@ -93,23 +134,41 @@
     }
     return rows.filter(row=>picked.has(row)).sort(popular);
   }
+  function hasExcludedRating(problems) {
+    return problems.some(problem => Number.isFinite(problem.rating) &&
+      problem.rating >= EXCLUDED_RATING_MIN && problem.rating <= EXCLUDED_RATING_MAX);
+  }
   function readCatalogueCache() {
     try {
       const cache=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-      if(cache && Array.isArray(cache.problems) && cache.problems.length) return cache.problems;
+      if(cache && cache.schemaVersion===2 && Array.isArray(cache.problems) &&
+          cache.problems.length && !hasExcludedRating(cache.problems)) return cache.problems;
     } catch (_) {}
     return null;
   }
   function saveCatalogueCache(problems) {
-    try { localStorage.setItem(CACHE_KEY,JSON.stringify({savedAt:Date.now(),problems})); } catch (_) {}
+    try {
+      localStorage.setItem(CACHE_KEY,JSON.stringify({
+        schemaVersion:2,
+        ratingPolicy:{excludedMin:EXCLUDED_RATING_MIN,excludedMax:EXCLUDED_RATING_MAX,replacementMin:REPLACEMENT_MIN_RATING},
+        savedAt:Date.now(),
+        problems
+      }));
+    } catch (_) {}
   }
   async function readSnapshot() {
     try {
       const response = await fetch('./catalogue.json', {cache:'no-cache'});
       if(!response.ok) return null;
       const data=await response.json();
-      const list=Array.isArray(data)?data:data && data.problems;
-      return Array.isArray(list) && list.length ? list : null;
+      const policy=data && data.ratingPolicy;
+      const list=data && data.problems;
+      if(!data || data.schemaVersion!==2 || !policy ||
+          policy.excludedMin!==EXCLUDED_RATING_MIN ||
+          policy.excludedMax!==EXCLUDED_RATING_MAX ||
+          policy.replacementMin!==REPLACEMENT_MIN_RATING ||
+          !Array.isArray(list) || !list.length || hasExcludedRating(list)) return null;
+      return list;
     } catch (_) { return null; }
   }
   async function loadProblemset(forceRefresh) {
@@ -125,12 +184,12 @@
         state.problems=cached; state.loaded=true;
         status('Loaded saved catalogue ('+cached.length.toLocaleString()+' problems).');
       } else {
-        status('Selecting up to 250 topic-balanced problems per rating from Codeforces…');
+        status('Removing 800–1000 problems and replacing each with a unique problem rated 1100+…');
         const result = await api('problemset.problems');
         state.problems=curateProblemset(result);
         saveCatalogueCache(state.problems);
         state.loaded=true;
-        status('Curated '+state.problems.length.toLocaleString()+' problems · up to 250 per rating · balanced across topics.');
+        status('Curated '+state.problems.length.toLocaleString()+' problems · excluded 800–1000 · '+(state.problems.replacementCount||0).toLocaleString()+' higher-rated replacements · topic-balanced.');
       }
       populateFilters();
       const solvedLoaded = await loadSolved();
@@ -258,12 +317,12 @@
     });
     $('cf-refresh-solved').addEventListener('click', async () => { status('Refreshing solved submissions…'); await loadSolved(); render(); });
     $('cf-clear-filters').addEventListener('click', () => {
-      $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
+      $('cf-rating-preset').value = '1100-1400'; $('cf-rating-min').value = '1100'; $('cf-rating-max').value = '1400'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
       $('cf-tag-filter').selectedIndex = -1; $('cf-category-filter').value = ''; $('cf-status-filter').value = 'all'; $('cf-sort').value = 'rating-asc'; state.page = 0; render();
     });
   }
   function init() {
-    readSaved(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
+    readSaved(); $('cf-rating-preset').value = '1100-1400'; $('cf-rating-min').value = '1100'; $('cf-rating-max').value = '1400';
     bindFilters(); loadProblemset(false);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
