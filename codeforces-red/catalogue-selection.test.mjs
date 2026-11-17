@@ -12,54 +12,85 @@ const code = [
   slice("  const MAX_PER_RATING", "  const $ = id"),
   slice("  const CATEGORIES", "  function readSaved"),
   slice("  function categoriesFor", "  function esc("),
-  slice("  function curateProblemset", "  async function readSnapshot")
+  slice("  function curateProblemset", "  async function loadProblemset")
 ].join("\n") + "\nreturn curateProblemset;";
 const curateProblemset = new Function(code)();
 
 const rows = [];
 const stats = [];
-let nextContestId = 10000;
-function addProblem(rating, count, tagSet) {
-  for (let index = 0; index < count; index += 1) {
+const ratings = [
+  [800, ["math", "number theory"]],
+  [850, ["greedy"]],
+  [900, ["dp", "math"]],
+  [950, ["graphs", "dfs and similar"]],
+  [1000, ["binary search"]],
+  [1100, ["implementation"]],
+  [1200, ["data structures"]]
+];
+for (const [rating, tags] of ratings) {
+  for (let index = 0; index < 252; index += 1) {
     rows.push({
-      contestId: nextContestId++,
+      contestId: rating * 10 + index,
       index: "A",
       name: "Rating " + rating + " problem " + index,
       rating,
-      tags: [tagSet[index % tagSet.length]]
+      tags: tags.slice()
     });
-    stats.push({solvedCount: (index * 37 + rating) % 10000});
+    // Keep the first 250 in the curated set; the last two are available replacements.
+    stats.push({solvedCount: index < 2 ? 20000 : index < 250 ? 10000 - index : 0});
   }
 }
-const topicTags = ["math", "greedy", "dp", "graphs", "binary search"];
-for (const rating of [800, 850, 900, 950, 1000]) addProblem(rating, 3, topicTags);
-addProblem(1100, 270, topicTags);
-addProblem(1200, 270, topicTags);
+const lowBandSolved = rows
+  .filter(problem => problem.rating === 900)
+  .slice(0, 2);
+const solvedKeys = new Set(lowBandSolved.map(problem => problem.contestId + "-" + problem.index));
+const curated = curateProblemset({problems: rows, problemStatistics: stats}, solvedKeys);
 
-const curated = curateProblemset({problems: rows, problemStatistics: stats});
-const removedCount = 5 * 3;
-assert.equal(curated.replacementCount, removedCount, "each selected 800–1000 item receives one replacement");
-assert.equal(curated.length, 500 + removedCount, "total catalogue size remains unchanged");
-assert.ok(curated.every((problem) => problem.rating < 800 || problem.rating > 1000),
-  "no problem rated 800 through 1000 may remain");
-assert.equal(curated.filter((problem) => problem.rating === 1100).length, 250 + removedCount,
-  "replacement problems come from the lowest available higher rating first");
-assert.equal(new Set(curated.map((problem) => problem.contestId + "-" + problem.index)).size, curated.length,
-  "all retained and replacement problems have unique contest/problem IDs");
-assert.ok(curated.filter((problem) => problem.rating > 1000).length >= removedCount);
+assert.equal(curated.replacementCount, 2, "only the two solved 900-rated entries are replaced");
+assert.equal(curated.length, ratings.length * 250, "total catalogue size is unchanged");
+assert.equal(new Set(curated.map(problem => problem.contestId + "-" + problem.index)).size, curated.length,
+  "the catalogue has no duplicate problem IDs");
+assert.ok(curated.every(problem => !solvedKeys.has(problem.contestId + "-" + problem.index)),
+  "solved low-band entries are absent after replacement");
 
-// If the API catalogue cannot supply enough distinct replacements, fail loudly
-// rather than silently shrinking the published problem set.
-const tooSmall = [
-  {contestId: 1, index: "A", name: "low A", rating: 800, tags: ["math"]},
-  {contestId: 2, index: "A", name: "low B", rating: 900, tags: ["greedy"]},
-  {contestId: 3, index: "A", name: "high A", rating: 1100, tags: ["dp"]},
-];
+for (const [rating] of ratings) {
+  assert.equal(curated.filter(problem => problem.rating === rating).length, 250,
+    "the number of problems at rating " + rating + " is unchanged");
+}
+for (const problem of lowBandSolved) {
+  const replacement = curated.find(candidate =>
+    candidate.rating === problem.rating &&
+    JSON.stringify(candidate.tags.slice().sort()) === JSON.stringify(problem.tags.slice().sort()));
+  assert.ok(replacement, "a replacement exists with the exact original rating and complete tag set");
+  assert.notEqual(replacement.contestId + "-" + replacement.index,
+    problem.contestId + "-" + problem.index, "replacement is a different problem");
+}
+assert.ok(curated.some(problem => problem.rating === 800), "unsolved 800-rated problems remain");
+assert.ok(curated.some(problem => problem.rating === 850), "unsolved 850-rated problems remain");
+assert.ok(curated.some(problem => problem.rating === 950), "unsolved 950-rated problems remain");
+assert.ok(curated.some(problem => problem.rating === 1000), "unsolved 1000-rated problems remain");
+assert.equal(curated.filter(problem => problem.rating === 1100).length, 250,
+  "other ratings are not used as replacement pools");
+
+// If an exact rating/tag group has insufficient unsolved alternatives, fail loudly.
+const insufficientRows = [];
+const insufficientStats = [];
+for (let index = 0; index < 252; index += 1) {
+  insufficientRows.push({
+    contestId: 8000 + index,
+    index: "A",
+    name: "Insufficient pool " + index,
+    rating: 800,
+    tags: ["math"]
+  });
+  insufficientStats.push({solvedCount: index < 250 ? 10000 - index : 0});
+}
+const allSelectedSolved = new Set(insufficientRows.slice(0, 250)
+  .map(problem => problem.contestId + "-" + problem.index));
 assert.throws(
-  () => curateProblemset({problems: tooSmall, problemStatistics: []}),
-  /Could not replace all 2 excluded 800–1000 problems/,
-  "insufficient replacement inventory must be reported"
+  () => curateProblemset({problems: insufficientRows, problemStatistics: insufficientStats}, allSelectedSolved),
+  /same rating and exact same tags/,
+  "the selector reports an impossible exact-match replacement instead of changing rating or tags"
 );
 
-console.log("Codeforces catalogue replacement: all assertions passed (" +
-  removedCount + " replacements, " + curated.length + " curated problems).");
+console.log("Codeforces handle-aware catalogue: all assertions passed (2 exact rating/tag replacements; all seven rating buckets preserved).");
