@@ -1551,3 +1551,57 @@ html[data-deco="garden"] .bk-home-demo-heading {
   .bk-shell[data-home="false"] .bk-reader { margin-top: 4px; padding: 16px 12px; }
   .bk-shell[data-home="false"] > .bk-header { margin-bottom: 8px; }
 }
+
+
+/* 2026-11-17 visual restoration corrections.
+   Keep the page chrome stationary and make the shelf the only home-page
+   vertical scroll region. The reader view retains normal document flow. */
+body:has(.bk-shell[data-home="true"]) { overflow: hidden; }
+.bk-shell[data-home="true"] {
+  box-sizing: border-box; height: 100vh; height: 100dvh; min-height: 0;
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.bk-shell[data-home="true"] > .bk-library {
+  flex: 1 1 auto; min-height: 0; overflow: hidden;
+}
+.bk-shell[data-home="true"] .bk-home-in {
+  box-sizing: border-box; height: 100%; min-height: 0;
+  display: flex; flex-direction: column; overflow: hidden; padding-bottom: 12px;
+}
+.bk-shell[data-home="true"] .bk-home-top,
+.bk-shell[data-home="true"] .bk-home-tabrow { flex: 0 0 auto; }
+.bk-shell[data-home="true"] .bk-home-demo {
+  box-sizing: border-box; padding: 18px 20px 20px;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  border-radius: 8px; background: color-mix(in srgb, var(--panel) 68%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.12);
+  backdrop-filter: blur(14px) saturate(1.12);
+  box-shadow: 0 12px 34px rgba(10, 8, 18, .16);
+}
+.bk-shell[data-home="true"] .bk-home-demo-text {
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
+  border-radius: 5px; background: color-mix(in srgb, var(--panel) 76%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
+.bk-shell[data-home="true"] .bk-book-grid {
+  flex: 1 1 auto; min-height: 0; max-height: none;
+  overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-gutter: stable; align-content: start; padding: 2px 5px 12px 0;
+}
+/* A fixed settings frame prevents each tab's different content height from
+   moving the dialog. Only the selected section scrolls. */
+.bk-settings-panel {
+  height: min(680px, calc(100vh - 40px)); height: min(680px, calc(100dvh - 40px));
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.bk-settings-header, .bk-settings-tabs { flex: 0 0 auto; }
+.bk-settings-content {
+  flex: 1 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto;
+  overscroll-behavior: contain; scrollbar-gutter: stable;
+}
+@media (max-width: 640px) {
+  .bk-shell[data-home="true"] .bk-home-in { padding-bottom: 8px; }
+  .bk-shell[data-home="true"] .bk-home-demo { padding: 14px 14px 16px; }
+  .bk-shell[data-home="true"] .bk-book-grid { padding-right: 3px; }
+}
