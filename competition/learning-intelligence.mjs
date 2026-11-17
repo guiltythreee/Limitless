@@ -32,9 +32,11 @@ export function toCompetitionLearningAttempts(problemLog, revisionAttempts = [])
   ).map((problem) => [problem.id, problem]));
   const originalAttempts = [...problems.values()].flatMap((problem) => {
     const id = problem.id.trim();
-    const date = parseCalendarDate(problem.date);
+    const preciseDateTime = parseRevisionTimestamp(problem.dateTime);
+    const date = Number.isFinite(preciseDateTime) ? preciseDateTime : parseCalendarDate(problem.date);
     // Keep malformed/legacy rows in their original history, but do not let
-    // impossible calendar dates create misleading revision deadlines.
+    // impossible calendar dates create misleading revision deadlines. New logs
+    // retain the exact timestamp; older records safely fall back to their date.
     if (!Number.isFinite(date) || date <= 0) return [];
     const outcome = problem.outcome === "independent" ? "correct"
       : problem.outcome === "unsolved" ? "incorrect" : "partial";
