@@ -54,12 +54,17 @@
       // applies a per-IP request limit, so parallel fetches can be rejected.
       const info = await api.requestCodeforcesApi(urls[0]);
       const contests = await api.requestCodeforcesApi(urls[1]);
-      const submissions = await api.fetchAllCodeforcesSubmissions(handle);
       const user = info.result[0], history = contests.result;
       let syncResult = null;
       try {
         const sync = await import("./codeforces-sync.mjs");
-        syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions);
+        const plan = sync.getCodeforcesSyncFetchPlan(localStorage, handle);
+        const submissions = plan.mode === "since"
+          ? await api.fetchCodeforcesSubmissionsSince(handle, plan.sinceSeconds)
+          : await api.fetchAllCodeforcesSubmissions(handle);
+        if (plan.mode !== "invalid") {
+          syncResult = sync.syncCodeforcesSubmissions(localStorage, handle, submissions);
+        }
       } catch (_) { /* Public rating data remains available if learning sync fails. */ }
       const latest = history.length ? history[history.length - 1] : null;
       const bestPlace = history.length ? Math.min(...history.map(item => item.rank).filter(Number.isFinite)) : null;
@@ -76,7 +81,7 @@
       state.textContent = "Connected";
       state.classList.add("is-connected");
       $("accounts-sync-note").textContent = !syncResult || !syncResult.ok
-        ? "Codeforces statistics loaded, but the learning ledger could not be saved. Retry the sync."
+        ? "Codeforces statistics loaded, but the learning sync could not complete. Retry the sync."
         : syncResult.baseline
           ? "Codeforces connected. First sync established a historical baseline; older submissions do not award EXP."
           : "Codeforces connected. " + syncResult.added + " new submission attempt(s) added to learning analysis; " +

@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { COMPETITION_REWARD_STORAGE_KEY } from "./competition-rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   readCodeforcesSyncState,
   syncCodeforcesSubmissions,
+  getCodeforcesSyncFetchPlan,
 } from "./codeforces-sync.mjs";
 
 const values = new Map();
@@ -30,6 +32,19 @@ assert.equal(readCodeforcesSyncState(storage).attempts.length, 0);
 assert.equal(values.has(CODEFORCES_SYNC_STORAGE_KEY), true);
 assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), false,
   "the first historical baseline creates no EXP ledger entries");
+
+const initialPlan = getCodeforcesSyncFetchPlan(storage, "EXAMPLEHANDLE");
+assert.deepEqual(initialPlan, { mode: "since", sinceSeconds: 1794913600 },
+  "a successful sync must select an incremental window with a 24-hour pending-verdict overlap");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "differenthandle"),
+  { mode: "all", sinceSeconds: null },
+  "a different account must fetch a full history to establish its own baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan({ getItem() { return null; } }, "examplehandle"),
+  { mode: "all", sinceSeconds: null },
+  "a first connection must fetch full history before establishing the baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, ""),
+  { mode: "invalid", sinceSeconds: null },
+  "an empty handle must not produce a fetch plan");
 
 const newSubmission = {
   id: 102, contestId: 2000, creationTimeSeconds: 1795000001,
@@ -100,8 +115,20 @@ assert.equal(switched.baseline, true, "changing accounts establishes a fresh bas
 assert.equal(switched.added, 0);
 assert.equal(switched.state.handle, "differenthandle");
 assert.equal(switched.state.attempts.length, 0, "attempts from the previous account are not carried over");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "differenthandle").mode, "since",
+  "the newly active account uses its own incremental cursor after its baseline");
+assert.deepEqual(getCodeforcesSyncFetchPlan(storage, "examplehandle").mode, "all",
+  "switching back to an account without an active cursor must establish a fresh baseline");
 
 assert.equal(syncCodeforcesSubmissions(storage, "", history).ok, false);
+const accountsSource = await readFile(new URL("./accounts.js", import.meta.url), "utf8");
+assert.match(accountsSource, /getCodeforcesSyncFetchPlan\(localStorage, handle\)/,
+  "the account connection must select its fetch window from the saved sync cursor");
+assert.match(accountsSource, /fetchCodeforcesSubmissionsSince\(handle, plan\.sinceSeconds\)/,
+  "repeat connections must use incremental submission fetching");
+assert.match(accountsSource, /fetchAllCodeforcesSubmissions\(handle\)/,
+  "first connections and account switches must still establish a complete historical baseline");
+
 console.log("Codeforces sync baseline: all assertions passed.");
 
 
