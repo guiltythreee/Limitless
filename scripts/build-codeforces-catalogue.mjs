@@ -39,9 +39,16 @@ if (inputIndex > -1) {
 }
 
 const problems = curateProblemset(result);
-writeFileSync(outPath, JSON.stringify({ generatedAt: new Date().toISOString(), problems }) + '\n');
+writeFileSync(outPath, JSON.stringify({
+  schemaVersion: 2,
+  ratingPolicy: {excludedMin: 800, excludedMax: 1000, replacementMin: 1100},
+  generatedAt: new Date().toISOString(),
+  replacementCount: problems.replacementCount || 0,
+  problems
+}) + '\n');
 
 const perRating = {};
 problems.forEach(p => { perRating[p.rating] = (perRating[p.rating] || 0) + 1; });
 console.log('Wrote ' + problems.length + ' problems to codeforces-red/catalogue.json');
+console.log('Replaced ' + (problems.replacementCount || 0) + ' problems rated 800–1000 with unique 1100+ problems.');
 console.log(perRating);
