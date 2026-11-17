@@ -364,3 +364,23 @@
   .semester-year, .semester-course-card { transition: none; }
   .semester-year:hover, .semester-course-card:hover { transform: none; }
 }
+
+
+/* Four Semester 3 courses: use the available desktop width instead of
+   leaving the fourth card stranded on a second row. */
+@media (min-width: 1280px) {
+  .semester-course-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: stretch;
+  }
+}
+@media (min-width: 900px) and (max-width: 1279px) {
+  .semester-course-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 621px) and (max-width: 899px) {
+  .semester-course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
