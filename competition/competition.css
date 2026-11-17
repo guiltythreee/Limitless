@@ -183,6 +183,8 @@ html[data-theme="light"] .problem-form select { background:rgba(255,252,244,.9);
   font:11px Arial,sans-serif;color-scheme:dark;
 }
 .problem-field-hint{color:var(--comp-muted);font:9px/1.4 Arial,sans-serif}
+#problem-solved-at-field[hidden]{display:none!important}
+#problem-elapsed-preview{display:block;margin-top:2px;line-height:1.5}
 html[data-theme="light"] .problem-form input[type="datetime-local"],
 html[data-theme="light"] .problem-form input[type="number"]{
   background:rgba(255,252,244,.9);color:#302719;color-scheme:light;
