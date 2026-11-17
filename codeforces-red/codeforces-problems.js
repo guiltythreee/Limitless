@@ -40,9 +40,6 @@
     const data = await client.requestCodeforcesApi(API + method + (query ? '?' + query : ''));
     return data.result;
   }
-  function problemKey(problem) {
-    return String(problem.contestId || 'gym') + '-' + String(problem.index || problem.name || '');
-  }
   function curateProblemset(result) {
     const problems = result.problems || [], stats = result.problemStatistics || [];
     const buckets = new Map();
@@ -93,6 +90,9 @@
       (a.name||'').localeCompare(b.name||''));
     Object.defineProperty(curated, 'replacementCount', {value:replacementCount, enumerable:false});
     return curated;
+  }
+  function problemKey(problem) {
+    return String(problem.contestId || 'gym') + '-' + String(problem.index || problem.name || '');
   }
   // Select a topic-balanced sample; within each topic, prefer the most-solved problems.
   function selectBalanced(rows, limit) {
