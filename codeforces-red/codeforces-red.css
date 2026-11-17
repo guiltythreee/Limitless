@@ -1344,3 +1344,93 @@ html[data-theme="light"] #cf-home-view .cf-filter-grid select:focus,
 html[data-theme="light"] #cf-home-view .cf-vc-band-field select:focus{
   border-color:#398fd1;box-shadow:0 0 0 3px rgba(57,143,209,.13);
 }
+
+
+/* =========================================================
+   CP interaction polish — independently navigable milestones
+   ========================================================= */
+#cf-home-view #milestone-list.cr-milestones{
+  max-height:min(420px,52vh);
+  min-height:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  touch-action:pan-y;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-gutter:stable;
+  scrollbar-width:auto;
+  scrollbar-color:rgba(106,157,212,.62) rgba(106,157,212,.08);
+  scroll-behavior:smooth;
+  outline:none;
+}
+#cf-home-view #milestone-list.cr-milestones::-webkit-scrollbar{width:10px}
+#cf-home-view #milestone-list.cr-milestones::-webkit-scrollbar-track{
+  margin-block:3px;
+  border-radius:10px;
+  background:rgba(106,157,212,.08);
+}
+#cf-home-view #milestone-list.cr-milestones::-webkit-scrollbar-thumb{
+  min-height:36px;
+  border:2px solid transparent;
+  border-radius:10px;
+  background:rgba(106,157,212,.62);
+  background-clip:padding-box;
+}
+#cf-home-view #milestone-list.cr-milestones::-webkit-scrollbar-thumb:hover{
+  background:rgba(106,157,212,.88);
+  background-clip:padding-box;
+}
+#cf-home-view #milestone-list.cr-milestones:focus-visible{
+  outline:2px solid rgba(85,170,255,.72);
+  outline-offset:3px;
+}
+#cf-home-view #milestone-list .cr-milestone{
+  scroll-margin-block:8px;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background-color .18s ease;
+}
+#cf-home-view #milestone-list .cr-milestone:hover{
+  transform:translateX(3px);
+  box-shadow:0 7px 18px rgba(24,73,119,.12);
+}
+#cf-home-view .cr-section-head>a,
+#cf-home-view .cr-training-launch-tile,
+#cf-home-view .cr-refresh-button,
+#cf-home-view .cf-explorer button,
+#cf-home-view .cf-explorer input,
+#cf-home-view .cf-explorer select,
+#cf-home-view .cf-explorer summary{
+  transition:color .18s ease,background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+#cf-home-view a:focus-visible,
+#cf-home-view button:focus-visible,
+#cf-home-view input:focus-visible,
+#cf-home-view select:focus-visible,
+#cf-home-view summary:focus-visible{
+  outline:2px solid #65baff;
+  outline-offset:3px;
+}
+html[data-theme="light"] #cf-home-view #milestone-list.cr-milestones{
+  scrollbar-color:rgba(91,137,179,.62) rgba(91,137,179,.08);
+}
+html[data-theme="light"] #cf-home-view #milestone-list.cr-milestones::-webkit-scrollbar-track{
+  background:rgba(91,137,179,.08);
+}
+html[data-theme="light"] #cf-home-view #milestone-list.cr-milestones::-webkit-scrollbar-thumb{
+  background:rgba(91,137,179,.62);
+  background-clip:padding-box;
+}
+html[data-theme="light"] #cf-home-view #milestone-list.cr-milestones::-webkit-scrollbar-thumb:hover{
+  background:rgba(91,137,179,.86);
+  background-clip:padding-box;
+}
+@media(prefers-reduced-motion:reduce){
+  #cf-home-view #milestone-list.cr-milestones{scroll-behavior:auto}
+  #cf-home-view #milestone-list .cr-milestone,
+  #cf-home-view .cr-section-head>a,
+  #cf-home-view .cr-training-launch-tile,
+  #cf-home-view .cr-refresh-button,
+  #cf-home-view .cf-explorer button,
+  #cf-home-view .cf-explorer input,
+  #cf-home-view .cf-explorer select,
+  #cf-home-view .cf-explorer summary{transition:none!important}
+}
