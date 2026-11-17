@@ -215,6 +215,7 @@
       </div>
       <form id="problem-form" class="problem-form">
         <label>Problem / source<input id="problem-name" type="text" maxlength="160" required placeholder="Problem name, ID or link"></label>
+        <label>Date &amp; time of this log entry<input id="problem-datetime" type="datetime-local" required></label>
         <label>Subject
           <select id="problem-subject"><option value="Logical Reasoning">Logical Reasoning</option><option value="Combinatorics">Combinatorics</option><option value="Probability">Probability</option><option value="Graph Theory">Graph Theory</option><option value="Dynamic Programming">Dynamic Programming</option><option value="C++ / Implementation">C++ / Implementation</option></select>
         </label>
@@ -227,6 +228,10 @@
         </label>
         <label>First-attempt result
           <select id="problem-outcome"><option value="independent">Solved independently</option><option value="hint">Solved after a hint</option><option value="editorial">Solved after reading editorial</option><option value="unsolved">Not solved yet</option></select>
+        </label>
+        <label>Attempts made (include the accepted attempt)
+          <input id="problem-attempts" type="number" min="1" step="1" value="1" required>
+          <small class="problem-field-hint">For unsolved problems, enter attempts made so far.</small>
         </label>
         <label>Time spent (minutes)<input id="problem-time" type="number" min="0" step="1" placeholder="Optional"></label>
 
