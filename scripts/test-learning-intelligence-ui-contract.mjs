@@ -21,6 +21,11 @@ for (const id of [
 
 assert.ok(cpHtml.includes('id="problem-datetime" type="datetime-local" required'), "problem log must capture date and time");
 assert.ok(cpHtml.includes('id="problem-attempts" type="number" min="1" step="1"'), "problem log must capture a positive integer attempt count");
+assert.ok(cpHtml.includes('id="problem-first-submitted-at" type="datetime-local" step="1" required'), "problem log must capture first submission time");
+assert.ok(cpHtml.includes('id="problem-solved-at" type="datetime-local" step="1" required'), "solved problems must capture accepted submission time");
+assert.ok(cpHtml.includes('id="problem-elapsed-preview"'), "problem log must preview first-to-accepted elapsed time");
+assert.ok(cpJs.includes("solveElapsedMs"), "learning evidence must retain elapsed first-to-accepted time");
+assert.ok(cpJs.includes("Total active solving time"), "problem history must distinguish active time from wall-clock elapsed time");
 assert.ok(cpJs.includes("dateTime:recordedAt.toISOString()"), "problem log must persist the full timestamp");
 assert.ok(cpJs.includes("attempts:attemptsValue"), "problem log must persist attempts made");
 assert.ok(cpJs.includes("formatProblemDateTime(problem)"), "problem history must display the recorded timestamp");
