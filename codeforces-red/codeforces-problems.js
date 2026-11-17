@@ -2,15 +2,13 @@
   'use strict';
   const API = 'https://codeforces.com/api/';
   const STORAGE = 'limitless.competition.codeforces-problemset.v2';
-  const CACHE_KEY = 'limitless.codeforces-curated-catalogue.v3';
   const MAX_PER_RATING = 250;
   const MIN_PER_TOPIC = 6;
   const TOPIC_BALANCE = 0.6;
-  const EXCLUDED_RATING_MIN = 800;
-  const EXCLUDED_RATING_MAX = 1000;
-  const REPLACEMENT_MIN_RATING = 1100;
+  const PERSONAL_REPLACEMENT_RATING_MIN = 800;
+  const PERSONAL_REPLACEMENT_RATING_MAX = 1000;
   const $ = id => document.getElementById(id);
-  const state = { problems: [], solved: new Set(), wrong: new Map(), saved: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
+  const state = { problems: [], problemsetResult: null, solved: new Set(), wrong: new Map(), saved: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
   const CATEGORIES = {
     'Implementation & Basics':['implementation','brute force','bitmasks','strings'],
     'Mathematics':['math','number theory','combinatorics','probabilities','geometry','matrices'],
@@ -40,7 +38,8 @@
     const data = await client.requestCodeforcesApi(API + method + (query ? '?' + query : ''));
     return data.result;
   }
-  function curateProblemset(result) {
+  function curateProblemset(result, solvedKeys) {
+    const solved = solvedKeys instanceof Set ? solvedKeys : new Set(solvedKeys || []);
     const problems = result.problems || [], stats = result.problemStatistics || [];
     const buckets = new Map();
     problems.forEach((problem, index) => {
@@ -51,38 +50,52 @@
       buckets.get(problem.rating).push(row);
     });
 
+    // Start with the original balanced catalogue: up to 250 problems at every rating.
     const curated = [];
-    let replacementCount = 0;
-    const ratings = [...buckets.keys()].sort((a,b)=>a-b);
-    ratings.forEach(rating => {
-      const selected = selectBalanced(buckets.get(rating), MAX_PER_RATING);
-      if (rating >= EXCLUDED_RATING_MIN && rating <= EXCLUDED_RATING_MAX) {
-        replacementCount += selected.length;
-        return;
-      }
-      curated.push(...selected);
+    [...buckets.keys()].sort((a,b)=>a-b).forEach(rating => {
+      curated.push(...selectBalanced(buckets.get(rating), MAX_PER_RATING));
     });
 
-    // Replace every curated 800–1000 problem with a different 1100+ problem.
-    // Take replacements from the lowest available higher-rated buckets first,
-    // keeping each replacement bucket topic-balanced and capped at 250 extras.
+    // Only replace entries already solved by this account in the 800–1000 band.
+    // The replacement must preserve both the exact rating and the complete tag set.
+    const replacementGroups = new Map();
+    curated.forEach((problem, index) => {
+      if (problem.rating < PERSONAL_REPLACEMENT_RATING_MIN ||
+          problem.rating > PERSONAL_REPLACEMENT_RATING_MAX ||
+          !solved.has(problemKey(problem))) return;
+      const signature = tagsSignature(problem.tags);
+      const groupKey = problem.rating + "|" + signature;
+      if (!replacementGroups.has(groupKey)) replacementGroups.set(groupKey, []);
+      replacementGroups.get(groupKey).push({problem, index});
+    });
+
     const selectedKeys = new Set(curated.map(problemKey));
-    let remaining = replacementCount;
-    for (const rating of ratings.filter(value => value >= REPLACEMENT_MIN_RATING)) {
-      if (!remaining) break;
-      const available = (buckets.get(rating) || []).filter(problem => !selectedKeys.has(problemKey(problem)));
-      const quota = Math.min(remaining, MAX_PER_RATING, available.length);
-      if (!quota) continue;
-      const replacements = selectBalanced(available, quota);
-      replacements.forEach(problem => selectedKeys.add(problemKey(problem)));
-      curated.push(...replacements);
-      remaining -= replacements.length;
-    }
-    if (remaining > 0) {
-      throw new Error(
-        'Could not replace all ' + replacementCount + ' excluded 800–1000 problems. ' +
-        remaining + ' unique problems rated ' + REPLACEMENT_MIN_RATING + '+ are still needed.'
-      );
+    let replacementCount = 0;
+    for (const targets of replacementGroups.values()) {
+      const original = targets[0].problem;
+      const signature = tagsSignature(original.tags);
+      const alternatives = (buckets.get(original.rating) || [])
+        .filter(problem => tagsSignature(problem.tags) === signature &&
+          !solved.has(problemKey(problem)) && !selectedKeys.has(problemKey(problem)))
+        .sort((a,b) =>
+          (b.catalogueSolvedCount || 0) - (a.catalogueSolvedCount || 0) ||
+          (a.name || '').localeCompare(b.name || ''));
+
+      if (alternatives.length < targets.length) {
+        const tags = (original.tags || []).slice().sort().join(', ');
+        throw new Error(
+          'Unable to replace solved 800–1000 problems with an unsolved alternative of the same rating and exact same tags. ' +
+          'Rating ' + original.rating + ', tags [' + tags + '] needs ' +
+          (targets.length - alternatives.length) + ' more matching alternative(s).'
+        );
+      }
+
+      targets.sort((a,b) => a.index-b.index).forEach((target, index) => {
+        const replacement = alternatives[index];
+        curated[target.index] = replacement;
+        selectedKeys.add(problemKey(replacement));
+        replacementCount += 1;
+      });
     }
 
     curated.sort((a,b) => a.rating-b.rating ||
@@ -93,6 +106,9 @@
   }
   function problemKey(problem) {
     return String(problem.contestId || 'gym') + '-' + String(problem.index || problem.name || '');
+  }
+  function tagsSignature(tags) {
+    return JSON.stringify([...new Set((tags || []).map(tag => String(tag)))].sort());
   }
   // Select a topic-balanced sample; within each topic, prefer the most-solved problems.
   function selectBalanced(rows, limit) {
@@ -134,72 +150,37 @@
     }
     return rows.filter(row=>picked.has(row)).sort(popular);
   }
-  function hasExcludedRating(problems) {
-    return problems.some(problem => Number.isFinite(problem.rating) &&
-      problem.rating >= EXCLUDED_RATING_MIN && problem.rating <= EXCLUDED_RATING_MAX);
+  function catalogueStatus(solvedLoaded) {
+    const replaced = state.problems.replacementCount || 0;
+    const base = 'Curated ' + state.problems.length.toLocaleString() +
+      ' problems · ' + replaced.toLocaleString() +
+      ' solved 800–1000 problems replaced one-for-one with unsolved alternatives of the same rating and exact tags';
+    return solvedLoaded
+      ? base + ' · ' + state.solved.size.toLocaleString() + ' solved · ' +
+        state.wrong.size.toLocaleString() + ' with failed submissions · based on latest 10,000 submissions.'
+      : 'Curated ' + state.problems.length.toLocaleString() +
+        ' problems · linked Codeforces handle unavailable, so no account-specific replacements were applied.';
   }
-  function readCatalogueCache() {
-    try {
-      const cache=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-      if(cache && cache.schemaVersion===2 && Array.isArray(cache.problems) &&
-          cache.problems.length && !hasExcludedRating(cache.problems)) return cache.problems;
-    } catch (_) {}
-    return null;
-  }
-  function saveCatalogueCache(problems) {
-    try {
-      localStorage.setItem(CACHE_KEY,JSON.stringify({
-        schemaVersion:2,
-        ratingPolicy:{excludedMin:EXCLUDED_RATING_MIN,excludedMax:EXCLUDED_RATING_MAX,replacementMin:REPLACEMENT_MIN_RATING},
-        savedAt:Date.now(),
-        problems
-      }));
-    } catch (_) {}
-  }
-  async function readSnapshot() {
-    try {
-      const response = await fetch('./catalogue.json', {cache:'no-cache'});
-      if(!response.ok) return null;
-      const data=await response.json();
-      const policy=data && data.ratingPolicy;
-      const list=data && data.problems;
-      if(!data || data.schemaVersion!==2 || !policy ||
-          policy.excludedMin!==EXCLUDED_RATING_MIN ||
-          policy.excludedMax!==EXCLUDED_RATING_MAX ||
-          policy.replacementMin!==REPLACEMENT_MIN_RATING ||
-          !Array.isArray(list) || !list.length || hasExcludedRating(list)) return null;
-      return list;
-    } catch (_) { return null; }
-  }
-  async function loadProblemset(forceRefresh) {
+  async function loadProblemset() {
     if (state.loading) return;
     state.loading = true; $('cf-refresh-problems').disabled = true;
     try {
-      const snapshot = await readSnapshot();
-      const cached = (snapshot || forceRefresh) ? null : readCatalogueCache();
-      if (snapshot) {
-        state.problems=snapshot; state.loaded=true;
-        status('Fixed catalogue loaded ('+snapshot.length.toLocaleString()+' problems).');
-      } else if (cached) {
-        state.problems=cached; state.loaded=true;
-        status('Loaded saved catalogue ('+cached.length.toLocaleString()+' problems).');
-      } else {
-        status('Removing 800–1000 problems and replacing each with a unique problem rated 1100+…');
-        const result = await api('problemset.problems');
-        state.problems=curateProblemset(result);
-        saveCatalogueCache(state.problems);
-        state.loaded=true;
-        status('Curated '+state.problems.length.toLocaleString()+' problems · excluded 800–1000 · '+(state.problems.replacementCount||0).toLocaleString()+' higher-rated replacements · topic-balanced.');
-      }
-      populateFilters();
+      // The solved set must be loaded before choosing catalogue entries.
       const solvedLoaded = await loadSolved();
-      const ratingPolicyNote = '800–1000 ratings excluded and replaced with unique 1100+ problems';
-      status(solvedLoaded
-        ? 'Curated '+state.problems.length.toLocaleString()+' problems · '+ratingPolicyNote+' · '+state.solved.size.toLocaleString()+' solved · '+state.wrong.size.toLocaleString()+' with failed submissions · based on latest 10,000 submissions.'
-        : 'Curated '+state.problems.length.toLocaleString()+' problems · '+ratingPolicyNote+' · solved status unavailable. Check your linked handle or retry the submission refresh.');
+      status('Loading the Codeforces problemset and personalising solved 800–1000 entries…');
+      const result = await api('problemset.problems');
+      state.problemsetResult = result;
+      state.problems = curateProblemset(result, state.solved);
+      state.loaded = true;
+      populateFilters();
+      status(catalogueStatus(solvedLoaded));
       render();
-    } catch (error) { status(error.message + ' You can retry; your saved list remains available.'); }
-    finally { state.loading = false; $('cf-refresh-problems').disabled = false; }
+    } catch (error) {
+      status(error.message + ' You can retry; your saved list remains available.');
+    } finally {
+      state.loading = false;
+      $('cf-refresh-problems').disabled = false;
+    }
   }
   async function loadSolved() {
     let handle = $('linked-handle') ? $('linked-handle').textContent.trim() : '';
@@ -316,7 +297,22 @@
       if (menu) menu.open = false;
       loadProblemset(true);
     });
-    $('cf-refresh-solved').addEventListener('click', async () => { status('Refreshing solved submissions…'); await loadSolved(); render(); });
+    $('cf-refresh-solved').addEventListener('click', async () => {
+      status('Refreshing solved submissions…');
+      const solvedLoaded = await loadSolved();
+      if (state.problemsetResult) {
+        try {
+          state.problems = curateProblemset(state.problemsetResult, state.solved);
+          state.page = 0;
+          populateFilters();
+          status(catalogueStatus(solvedLoaded));
+        } catch (error) {
+          status(error.message);
+          return;
+        }
+      }
+      render();
+    });
     $('cf-clear-filters').addEventListener('click', () => {
       $('cf-rating-preset').value = '1100-1400'; $('cf-rating-min').value = '1100'; $('cf-rating-max').value = '1400'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
       $('cf-tag-filter').selectedIndex = -1; $('cf-category-filter').value = ''; $('cf-status-filter').value = 'all'; $('cf-sort').value = 'rating-asc'; state.page = 0; render();
