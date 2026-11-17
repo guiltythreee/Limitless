@@ -1,4 +1,5 @@
-// Builds codeforces-red/catalogue.json: the FIXED list of 250 topic-balanced problems per rating.
+// Builds codeforces-red/catalogue.json: a topic-balanced catalogue that excludes 800–1000 ratings
+// and replaces every removed slot with a unique 1100+ problem.
 // Run once (Node 18+):   node scripts/build-codeforces-catalogue.mjs
 // Offline test:          node scripts/build-codeforces-catalogue.mjs --input saved-problemset.json
 // Once catalogue.json is committed, the site always shows exactly this list until you run this again.
