@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 const cpHtml = read("../competition/index.html");
 const cpJs = read("../competition/competition.js");
+const cpLearning = read("../competition/learning-intelligence.mjs");
 const cpPractice = read("../competition/practice-recommendations.mjs");
 const homeHtml = read("../index.html");
 const homeModule = read("../home-learning-intelligence.mjs");
@@ -16,8 +17,19 @@ for (const id of [
   "revision-summary", "revision-upcoming", "revision-queue",
   "problem-search", "problem-filter-subject", "problem-filter-outcome",
   "problem-filter-band", "problem-catalogue-count", "problem-history",
+  "problem-datetime", "problem-attempts",
 ]) assert.ok(cpHtml.includes('id="' + id + '"'), "CP HTML must expose #" + id);
 
+assert.ok(cpHtml.includes('id="problem-datetime" type="datetime-local" required'), "problem log must capture date and time");
+assert.ok(cpHtml.includes('id="problem-attempts" type="number" min="1" step="1"'), "problem log must capture a positive integer attempt count");
+assert.ok(cpHtml.includes('id="problem-first-submitted-at" type="datetime-local" step="1" required'), "problem log must capture first submission time");
+assert.ok(cpHtml.includes('id="problem-solved-at" type="datetime-local" step="1" required'), "solved problems must capture accepted submission time");
+assert.ok(cpHtml.includes('id="problem-elapsed-preview"'), "problem log must preview first-to-accepted elapsed time");
+assert.ok(cpLearning.includes("solveElapsedMs"), "learning adapter must retain elapsed first-to-accepted time");
+assert.ok(cpJs.includes("Total active solving time"), "problem history must distinguish active time from wall-clock elapsed time");
+assert.ok(cpJs.includes("dateTime:recordedAt.toISOString()"), "problem log must persist the full timestamp");
+assert.ok(cpJs.includes("attempts:attemptsValue"), "problem log must persist attempts made");
+assert.ok(cpJs.includes("formatProblemDateTime(problem)"), "problem history must display the recorded timestamp");
 assert.ok(cpJs.includes("state.revisionAttempts.push("), "CP revision actions must record separate attempts");
 assert.ok(cpJs.includes("if (button.disabled) return;"), "CP revision actions must prevent double submissions");
 assert.ok(cpJs.includes("practiceRecommendationsPromise"), "CP catalogue must load targeted practice links");

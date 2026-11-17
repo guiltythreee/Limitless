@@ -305,6 +305,79 @@
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
   }
+  function localDateTimeInputValue(date) {
+    var value = date || new Date();
+    var pad = function (number) { return String(number).padStart(2, '0'); };
+    return value.getFullYear() + '-' + pad(value.getMonth() + 1) + '-' + pad(value.getDate()) +
+      'T' + pad(value.getHours()) + ':' + pad(value.getMinutes()) + ':' + pad(value.getSeconds());
+  }
+  function parseProblemTimestamp(value) {
+    var timestamp = typeof value === 'string' ? Date.parse(value) : NaN;
+    return Number.isFinite(timestamp) && timestamp > 0 ? timestamp : NaN;
+  }
+  function elapsedProblemTime(firstAt, solvedAt) {
+    var first = parseProblemTimestamp(firstAt), solved = parseProblemTimestamp(solvedAt);
+    return Number.isFinite(first) && Number.isFinite(solved) && solved >= first ? solved - first : NaN;
+  }
+  function formatElapsedDuration(milliseconds) {
+    if (!Number.isFinite(milliseconds) || milliseconds < 0) return 'Not available';
+    var seconds = Math.floor(milliseconds / 1000);
+    var days = Math.floor(seconds / 86400); seconds -= days * 86400;
+    var hours = Math.floor(seconds / 3600); seconds -= hours * 3600;
+    var minutes = Math.floor(seconds / 60); seconds -= minutes * 60;
+    var parts = [];
+    if (days) parts.push(days + 'd');
+    if (hours) parts.push(hours + 'h');
+    if (minutes) parts.push(minutes + 'm');
+    if (seconds && parts.length < 2) parts.push(seconds + 's');
+    return parts.length ? parts.join(' ') : 'less than 1s';
+  }
+  function updateProblemElapsedPreview() {
+    var first = $('problem-first-submitted-at').value;
+    var solved = $('problem-solved-at').value;
+    var preview = $('problem-elapsed-preview');
+    if ($('problem-outcome').value === 'unsolved') {
+      preview.textContent = 'Unsolved so far · elapsed-to-solve will be available when an accepted submission is recorded.';
+      return;
+    }
+    if (!first || !solved) {
+      preview.textContent = 'Enter both timestamps to calculate first-submission-to-accepted time.';
+      return;
+    }
+    var elapsed = elapsedProblemTime(new Date(first).toISOString(), new Date(solved).toISOString());
+    preview.textContent = Number.isFinite(elapsed)
+      ? 'Elapsed from first submission to accepted submission: ' + formatElapsedDuration(elapsed)
+      : 'Accepted submission must not be earlier than the first submission.';
+  }
+  function syncProblemSolvedAtField() {
+    var isUnsolved = $('problem-outcome').value === 'unsolved';
+    var field = $('problem-solved-at-field');
+    var input = $('problem-solved-at');
+    field.hidden = isUnsolved;
+    input.required = !isUnsolved;
+    if (!isUnsolved && !input.value) input.value = localDateTimeInputValue();
+    updateProblemElapsedPreview();
+  }
+  function problemHistoryTimestamp(problem) {
+    var precise = typeof problem.dateTime === 'string' ? Date.parse(problem.dateTime) : NaN;
+    if (Number.isFinite(precise)) return precise;
+    // Date-only legacy entries are interpreted as local midnight so they sort
+    // naturally against new timestamped entries on the same calendar day.
+    var legacyDate = typeof problem.date === 'string' ? Date.parse(problem.date + 'T00:00:00') : NaN;
+    return Number.isFinite(legacyDate) ? legacyDate : 0;
+  }
+  function formatProblemDateTime(problem) {
+    var timestamp = typeof problem.dateTime === 'string' ? Date.parse(problem.dateTime) : NaN;
+    return Number.isFinite(timestamp)
+      ? new Date(timestamp).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
+      : (problem.date || 'Date not recorded');
+  }
+  function formatProblemTimestamp(value) {
+    var timestamp = parseProblemTimestamp(value);
+    return Number.isFinite(timestamp)
+      ? new Date(timestamp).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
+      : 'Not recorded';
+  }
   function topicKey(week, index) { return 'w' + (week + 1) + '-t' + index; }
   function allTopics() { return WEEKS.reduce(function (all, week) { return all.concat(week.topics); }, []); }
   function currentWeekIndex() {
@@ -1262,14 +1335,23 @@
         if(haystack.indexOf(query)===-1)return false;
       }
       return true;
-    }).reverse();
+    }).sort(function (a, b) { return problemHistoryTimestamp(b) - problemHistoryTimestamp(a); });
     $('problem-catalogue-count').textContent='Showing '+rows.length+' of '+allRows.length+' logged problems';
     $('problem-history').innerHTML = rows.length ? rows.map(function (problem) {
-      return '<article class="problem-entry" data-result="' + esc(problem.outcome || 'unknown') + '"><div class="problem-entry-head"><strong>' + esc(problem.name) + '</strong><span>' + esc(problem.subject) + '</span><small>' + esc(problem.date) + '</small><button type="button" data-delete-problem="' + esc(problem.id) + '">Remove</button></div>' +
+      return '<article class="problem-entry" data-result="' + esc(problem.outcome || 'unknown') + '"><div class="problem-entry-head"><strong>' + esc(problem.name) + '</strong><span>' + esc(problem.subject) + '</span><small>' + esc(formatProblemDateTime(problem)) + '</small><button type="button" data-delete-problem="' + esc(problem.id) + '">Remove</button></div>' +
         (problem.difficulty ? '<p><b>Source difficulty:</b> ' + esc(problem.difficulty) + '</p>' : '') +
         (problem.challengeBand ? '<p><b>Challenge level:</b> ' + esc(problem.challengeBand) + '</p>' : '') +
         (problem.mistakeType ? '<p><b>Mistake category:</b> ' + esc((MISTAKE_TYPES.find(function(x){return x[0]===problem.mistakeType;})||[])[1] || problem.mistakeType) + '</p>' : '') +
-        (problem.time ? '<p><b>Time spent:</b> ' + esc(problem.time) + ' min</p>' : '') +
+        (problem.time ? '<p><b>Total active solving time:</b> ' + esc(problem.time) + ' min across all attempts</p>' : '<p><b>Total active solving time:</b> Not recorded in this legacy entry</p>') +
+        (problem.firstSubmissionAt
+          ? '<p><b>First submission:</b> ' + esc(formatProblemTimestamp(problem.firstSubmissionAt)) + '</p>'
+          : '<p><b>First submission:</b> Not recorded in this legacy entry</p>') +
+        (problem.solvedAt
+          ? '<p><b>Accepted submission:</b> ' + esc(formatProblemTimestamp(problem.solvedAt)) + '</p><p><b>Elapsed first-to-accepted:</b> ' + formatElapsedDuration(elapsedProblemTime(problem.firstSubmissionAt, problem.solvedAt)) + '</p>'
+          : '<p><b>Elapsed first-to-accepted:</b> ' + (problem.outcome === 'unsolved' ? 'Not solved yet' : 'Not recorded in this legacy entry') + '</p>') +
+        (Number.isSafeInteger(Number(problem.attempts)) && Number(problem.attempts) >= 1
+          ? '<p><b>Attempts made:</b> ' + Number(problem.attempts) + (problem.outcome === 'unsolved' ? ' (unsolved so far)' : ' (including the successful attempt)') + '</p>'
+          : '<p><b>Attempts made:</b> Not recorded in this legacy entry</p>') +
         '<p><b>Key observation:</b> ' + esc(problem.observation) + '</p>' +
         (problem.missed ? '<p><b>Missed insight:</b> ' + esc(problem.missed) + '</p>' : '') +
         (problem.concept ? '<p><b>Underlying concept:</b> ' + esc(problem.concept) + '</p>' : '') +
@@ -1388,18 +1470,71 @@
     window.addEventListener('limitless:codeforces-learning-updated', renderSharedConceptInsights);
 
     $('mock-date').value = new Date().toISOString().slice(0,10);
+    $('problem-datetime').value = localDateTimeInputValue();
+    $('problem-first-submitted-at').value = localDateTimeInputValue();
+    $('problem-solved-at').value = localDateTimeInputValue();
+    $('problem-attempts').value = '1';
+    $('problem-outcome').addEventListener('change', syncProblemSolvedAtField);
+    ['problem-first-submitted-at','problem-solved-at'].forEach(function (id) {
+      $(id).addEventListener('input', updateProblemElapsedPreview);
+      $(id).addEventListener('change', updateProblemElapsedPreview);
+    });
+    syncProblemSolvedAtField();
     $('problem-form').addEventListener('submit', function (event) {
       event.preventDefault();
+      var dateTimeInput = $('problem-datetime').value;
+      var recordedAt = new Date(dateTimeInput);
+      var attemptsValue = Number($('problem-attempts').value);
+      var firstSubmittedInput = $('problem-first-submitted-at').value;
+      var firstSubmittedAt = new Date(firstSubmittedInput);
+      var solvedInput = $('problem-solved-at').value;
+      var solvedAt = solvedInput ? new Date(solvedInput) : null;
+      var isUnsolved = $('problem-outcome').value === 'unsolved';
+      var activeMinutes = Number($('problem-time').value);
+      if (!dateTimeInput || !Number.isFinite(recordedAt.getTime())) {
+        $('problem-datetime').reportValidity();
+        return;
+      }
+      if (!firstSubmittedInput || !Number.isFinite(firstSubmittedAt.getTime())) {
+        $('problem-first-submitted-at').reportValidity();
+        return;
+      }
+      if (!isUnsolved && (!solvedInput || !solvedAt || !Number.isFinite(solvedAt.getTime()))) {
+        $('problem-solved-at').reportValidity();
+        return;
+      }
+      if (!isUnsolved && solvedAt.getTime() < firstSubmittedAt.getTime()) {
+        $('problem-solved-at').setCustomValidity('Accepted submission must not be earlier than the first submission.');
+        $('problem-solved-at').reportValidity();
+        $('problem-solved-at').setCustomValidity('');
+        return;
+      }
+      if (!Number.isSafeInteger(activeMinutes) || activeMinutes < 1) {
+        $('problem-time').setCustomValidity('Enter total active solving time in whole minutes (at least 1).');
+        $('problem-time').reportValidity();
+        $('problem-time').setCustomValidity('');
+        return;
+      }
+      if (!Number.isSafeInteger(attemptsValue) || attemptsValue < 1) {
+        $('problem-attempts').setCustomValidity('Enter a whole number of attempts (at least 1).');
+        $('problem-attempts').reportValidity();
+        $('problem-attempts').setCustomValidity('');
+        return;
+      }
       state.problemLog.push({
         id:String(Date.now()) + '-' + Math.random().toString(36).slice(2,7),
-        date:new Date().toISOString().slice(0,10),
+        date:dateTimeInput.slice(0,10),
+        dateTime:recordedAt.toISOString(),
+        firstSubmissionAt:firstSubmittedAt.toISOString(),
+        solvedAt:!isUnsolved && solvedAt ? solvedAt.toISOString() : null,
+        attempts:attemptsValue,
         name:$('problem-name').value.trim(),
         subject:$('problem-subject').value,
         difficulty:$('problem-difficulty').value.trim(),
         challengeBand:$('problem-challenge-band').value,
         mistakeType:$('problem-mistake-type').value,
         outcome:$('problem-outcome').value,
-        time:$('problem-time').value,
+        time:String(activeMinutes),
         observation:$('problem-observation').value.trim() || 'No observation recorded',
         missed:$('problem-missed').value.trim(),
         concept:$('problem-concept').value.trim(),
@@ -1407,6 +1542,12 @@
         resolve:$('problem-resolve-status').value
       });
       $('problem-form').reset();
+      $('problem-datetime').value = localDateTimeInputValue();
+      $('problem-first-submitted-at').value = localDateTimeInputValue();
+      $('problem-solved-at').value = localDateTimeInputValue();
+      $('problem-attempts').value = '1';
+      $('problem-time').value = '';
+      syncProblemSolvedAtField();
       saveAndRender();
     });
 
@@ -1474,7 +1615,14 @@
           ['mastery','completed','dayChecks','weekChecks','revisionChecks'].forEach(function(key){
             if (incoming[key] !== undefined && !isRecord(incoming[key])) throw new Error('Invalid backup');
           });
-          if (incoming.problemLog !== undefined && (!Array.isArray(incoming.problemLog) || incoming.problemLog.some(function(item){return !isRecord(item);})) ) throw new Error('Invalid backup');
+          if (incoming.problemLog !== undefined && (!Array.isArray(incoming.problemLog) || incoming.problemLog.some(function(item){
+            return !isRecord(item) ||
+              (item.dateTime !== undefined && (typeof item.dateTime !== 'string' || !Number.isFinite(Date.parse(item.dateTime)))) ||
+              (item.firstSubmissionAt !== undefined && item.firstSubmissionAt !== null && (typeof item.firstSubmissionAt !== 'string' || !Number.isFinite(Date.parse(item.firstSubmissionAt)))) ||
+              (item.solvedAt !== undefined && item.solvedAt !== null && (typeof item.solvedAt !== 'string' || !Number.isFinite(Date.parse(item.solvedAt)))) ||
+              (item.firstSubmissionAt && item.solvedAt && Date.parse(item.solvedAt) < Date.parse(item.firstSubmissionAt)) ||
+              (item.attempts !== undefined && (!Number.isSafeInteger(item.attempts) || item.attempts < 1));
+          }))) throw new Error('Invalid backup');
           if (incoming.revisionAttempts !== undefined && (!Array.isArray(incoming.revisionAttempts) || incoming.revisionAttempts.some(function(item){return !isRecord(item) || typeof item.id !== 'string' || !item.id || typeof item.problemId !== 'string' || !item.problemId || typeof item.date !== 'string' || !Number.isFinite(Date.parse(item.date)) || ['correct','incorrect'].indexOf(item.outcome)===-1;}))) throw new Error('Invalid backup');
           if (incoming.mocks.some(function(item){return !isRecord(item) || typeof item.date !== 'string';})) throw new Error('Invalid backup');
           if (!incoming.mastery && incoming.completed) {
