@@ -133,10 +133,41 @@ test("home composition keeps the production header, hero and demo visible over a
   );
   expect(primaryStyle).toBe("rgb(106, 77, 191)");
 
-  const demoBackground = await page.locator(".bk-home-demo").evaluate((element) =>
-    getComputedStyle(element).backgroundColor
-  );
-  expect(demoBackground).toBe("rgba(0, 0, 0, 0)");
+  const heroSurface = await hero.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      borderWidth: style.borderTopWidth,
+      borderRadius: style.borderTopLeftRadius,
+      background: style.backgroundColor,
+      ornament: getComputedStyle(element, "::before").content,
+    };
+  });
+  expect(parseFloat(heroSurface.borderWidth)).toBeGreaterThanOrEqual(1);
+  expect(parseFloat(heroSurface.borderRadius)).toBeGreaterThanOrEqual(16);
+  expect(heroSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(heroSurface.ornament).toContain("✦");
+
+  const demoSurface = await page.locator(".bk-home-demo").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      background: style.backgroundColor,
+      borderWidth: style.borderTopWidth,
+      backdropFilter: style.backdropFilter,
+      height: element.getBoundingClientRect().height,
+    };
+  });
+  expect(demoSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(parseFloat(demoSurface.borderWidth)).toBeGreaterThan(0);
+  expect(demoSurface.backdropFilter).toContain("blur");
+  expect(demoSurface.height).toBeGreaterThanOrEqual(290);
+
+  const shelfTabsSurface = await page.locator(".bk-home-tabrow").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { background: style.backgroundColor, border: style.borderTopWidth, blur: style.backdropFilter };
+  });
+  expect(shelfTabsSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(parseFloat(shelfTabsSurface.border)).toBeGreaterThan(0);
+  expect(shelfTabsSurface.blur).toContain("blur");
 
   const shelfBackground = await page.locator(".bk-library").evaluate((element) =>
     getComputedStyle(element).backgroundColor
@@ -170,7 +201,6 @@ test("EPUB covers persist in the library and chapter titles edit inline", async 
   });
 
   await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
-  await page.getByRole("button", { name: "Edit", exact: true }).click();
   await page.getByRole("button", { name: "Rename Chapter One" }).click();
   const title = page.getByRole("textbox", { name: "Chapter title 1" });
   await expect(title).toBeFocused();
@@ -532,6 +562,18 @@ test("reader remains usable without horizontal overflow on a phone viewport", as
 
   await expect(page.locator(".bk-reader")).toBeVisible();
   await expect(page.locator("#bk-typing")).toBeVisible();
+  await expect(page.locator(".bk-chapter-list")).toBeVisible();
+  const readerSurface = await page.locator(".bk-source-text").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      background: style.backgroundColor,
+      border: style.borderTopWidth,
+      radius: style.borderTopLeftRadius,
+    };
+  });
+  expect(readerSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(parseFloat(readerSurface.border)).toBeGreaterThan(0);
+  expect(parseFloat(readerSurface.radius)).toBeGreaterThanOrEqual(10);
   const dimensions = await page.evaluate(() => ({
     viewport: window.innerWidth,
     document: document.documentElement.scrollWidth,
@@ -658,7 +700,7 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
     buffer: epub,
   });
 
-  await page.getByRole("button", { name: "Edit" }).click();
+  await expect(page.locator(".bk-chapter-list")).toBeVisible();
   await page.getByRole("button", { name: "Remove Chapter Two" }).click();
   await page.getByRole("button", { name: "Next section" }).click();
   page.once("dialog", (dialog) => dialog.accept("Custom Opening"));
@@ -678,7 +720,6 @@ test("manual chapter edits save to both legacy keys and restore after reload", a
 
   await page.reload();
   await page.getByRole("button", { name: "Continue reading" }).click();
-  await page.getByRole("button", { name: "Edit" }).click();
   await expect(page.locator(".bk-chapter-list")).toContainText("Renamed Opening");
 });
 
@@ -1305,4 +1346,45 @@ test("dropping a TXT file onto the library imports it into local storage", async
   await expect(page.getByText("Added Dropped Book to this browser's library.")).toBeVisible();
   await page.reload();
   await expect(page.getByRole("button", { name: /Dropped Book/ })).toBeVisible();
+});
+
+
+test("home shelf owns vertical scrolling and visual panels stay anchored across settings tabs", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/tools/typing-next-preview/");
+  const shell = page.locator(".bk-shell");
+  const shelf = page.locator(".bk-book-grid");
+  const demo = page.locator(".bk-home-demo");
+  await expect(shell).toHaveAttribute("data-home", "true");
+  await expect(demo).toBeVisible();
+
+  const homeLayout = await page.evaluate(() => ({
+    bodyOverflowY: getComputedStyle(document.body).overflowY,
+    shellHeight: document.querySelector(".bk-shell")?.getBoundingClientRect().height ?? 0,
+    demoBackdrop: getComputedStyle(document.querySelector(".bk-home-demo")!).backdropFilter,
+    demoSurface: getComputedStyle(document.querySelector(".bk-home-demo")!).backgroundColor,
+    shelfOverflowY: getComputedStyle(document.querySelector(".bk-book-grid")!).overflowY,
+    shelfHeight: document.querySelector(".bk-book-grid")?.getBoundingClientRect().height ?? 0,
+  }));
+  expect(homeLayout.bodyOverflowY).toBe("hidden");
+  expect(homeLayout.demoBackdrop).not.toBe("none");
+  expect(homeLayout.shelfOverflowY).toBe("auto");
+  expect(homeLayout.shelfHeight).toBeGreaterThan(0);
+  expect(homeLayout.shellHeight).toBe(844);
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  const panel = dialog;
+  const initial = await panel.boundingBox();
+  expect(initial).not.toBeNull();
+  for (const tab of ["Background", "Font", "Typing", "Cursor", "Data", "Theme"]) {
+    await dialog.getByRole("button", { name: tab, exact: true }).click();
+    const current = await panel.boundingBox();
+    expect(current).not.toBeNull();
+    expect(Math.abs((current?.y ?? 0) - (initial?.y ?? 0))).toBeLessThanOrEqual(1);
+    expect(Math.abs((current?.height ?? 0) - (initial?.height ?? 0))).toBeLessThanOrEqual(1);
+  }
+  const content = dialog.locator(".bk-settings-content");
+  await expect(content).toHaveCSS("overflow-y", "auto");
+  await expect(panel).toHaveCSS("overflow", "hidden");
 });
