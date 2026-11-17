@@ -170,10 +170,13 @@ console.log("Codeforces sync baseline: all assertions passed.");
     orderedStorage, "OrderedHandle", sameProblem, 1795000010000
   );
   assert.equal(orderedSync.rewardAwards, 3);
-  const ledger = JSON.parse(orderedStorage.getItem(COMPETITION_REWARD_STORAGE_KEY)).rewardLedger;
-  const byEvent = new Map(ledger.map((record) => [record.eventId, record]));
-  assert.equal(byEvent.get("codeforces:orderedhandle:201").eligible, true);
-  assert.equal(byEvent.get("codeforces:orderedhandle:202").eligible, true);
-  assert.equal(byEvent.get("codeforces:orderedhandle:203").eligible, true);
-  assert.equal(byEvent.get("codeforces:orderedhandle:204").reason, "daily-repeat-cap");
+  const rewardPayload = JSON.parse(orderedStorage.getItem(COMPETITION_REWARD_STORAGE_KEY));
+  const archive = rewardPayload.rewardArchive;
+  assert.ok(archive.eventIds.includes("codeforces:orderedhandle:201"));
+  assert.ok(archive.eventIds.includes("codeforces:orderedhandle:202"));
+  assert.ok(archive.eventIds.includes("codeforces:orderedhandle:203"));
+  assert.ok(archive.eventIds.includes("codeforces:orderedhandle:204"));
+  assert.equal(archive.awardCount, 3, "exactly three of the four same-day completions earned EXP");
+  assert.equal(archive.repeatCounts.find((entry) => entry.itemId === "codeforces-problem:2000-A").count, 4,
+    "the compact repeat index retains all four same-day attempts");
 }

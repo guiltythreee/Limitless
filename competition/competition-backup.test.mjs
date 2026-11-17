@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { appendRewardRecords } from "../shared/rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   COMPETITION_REWARD_STORAGE_KEY,
@@ -60,12 +61,16 @@ const reward = {
 const state = { mastery: { "w1-t0": "practiced" }, problemLog: [], mocks: [] };
 const source = makeStorage();
 source.setItem(CODEFORCES_SYNC_STORAGE_KEY, JSON.stringify(learning));
-source.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({ rewardLedger: [reward] }));
+const archivedRewards = appendRewardRecords(
+  { rewardLedger: [reward] }, [], "competitive-programming", reward.ts + 86_400_000,
+);
+source.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(archivedRewards));
 
 const backup = createCompetitionBackup(source, state, "2026-11-15T00:00:00.000Z");
 assert.equal(backup.version, 3);
 assert.deepEqual(backup.codeforcesLearning, learning);
-assert.deepEqual(backup.codeforcesRewards.rewardLedger, [reward]);
+assert.deepEqual(backup.codeforcesRewards.rewardLedger, []);
+assert.equal(backup.codeforcesRewards.rewardArchive.totalExp, 20);
 
 const restored = makeStorage();
 restored.setItem("competition-state", "old-state");
@@ -74,7 +79,8 @@ assert.deepEqual(
   { ok: true },
 );
 assert.deepEqual(JSON.parse(restored.getItem(CODEFORCES_SYNC_STORAGE_KEY)), learning);
-assert.deepEqual(JSON.parse(restored.getItem(COMPETITION_REWARD_STORAGE_KEY)).rewardLedger, [reward]);
+assert.deepEqual(JSON.parse(restored.getItem(COMPETITION_REWARD_STORAGE_KEY)).rewardLedger, []);
+assert.equal(JSON.parse(restored.getItem(COMPETITION_REWARD_STORAGE_KEY)).rewardArchive.totalExp, 20);
 assert.deepEqual(JSON.parse(restored.getItem("competition-state")), state);
 
 const invalid = { ...backup, codeforcesLearning: { version: 1, attempts: "not-an-array" } };

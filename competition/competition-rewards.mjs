@@ -4,8 +4,10 @@
  * is called. The ledger is separate from Competition's existing progress data.
  */
 import {
+  appendRewardRecords,
   buildRewardRecords,
   dispatchRewardUpdate,
+  sanitiseRewardArchive,
   sanitiseRewardRecords,
 } from "../shared/rewards.mjs";
 
@@ -30,12 +32,18 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
   function loadState() {
     try {
       const raw = storage.getItem(COMPETITION_REWARD_STORAGE_KEY);
-      if (!raw) return { payload: {}, records: [] };
+      if (!raw) return { payload: {}, records: [], archive: null };
       const payload = JSON.parse(raw);
-      if (!isRecord(payload)) return { payload: {}, records: [] };
-      return { payload, records: sanitiseRewardRecords(payload.rewardLedger) };
+      if (!isRecord(payload)) return { payload: {}, records: [], archive: null };
+      const archive = payload.rewardArchive == null
+        ? null
+        : sanitiseRewardArchive(payload.rewardArchive, COMPETITION_REWARD_MODULE_ID);
+      if (payload.rewardArchive != null && !archive) {
+        return { payload, records: [], archive: null, invalidArchive: true };
+      }
+      return { payload, records: sanitiseRewardRecords(payload.rewardLedger), archive };
     } catch {
-      return { payload: {}, records: [] };
+      return { payload: {}, records: [], archive: null };
     }
   }
 
@@ -51,8 +59,12 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     const account = handle.trim().toLowerCase();
     const eventId = "codeforces:" + account + ":" + submission.id;
     const state = loadState();
+    if (state.invalidArchive) return null;
     const existing = state.records.find((record) => record.eventId === eventId);
     if (existing) return { ...existing, created: false };
+    if (state.archive?.eventIds.includes(eventId)) {
+      return { eventId, created: false, eligible: false, totalExp: 0 };
+    }
 
     const rating = Number.isFinite(submission.problem.rating) ? submission.problem.rating : 0;
     const activity = {
@@ -67,19 +79,17 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       quality: 1,
     };
     if (!Number.isFinite(activity.ts) || activity.ts <= 0) return null;
-    const records = buildRewardRecords(activity, state.records);
+    const records = buildRewardRecords(activity, state.records, state.archive);
     const record = records[0];
     try {
-      storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({
-        ...state.payload,
-        rewardLedger: [...state.records, ...records],
-      }));
+      const nextPayload = appendRewardRecords(
+        state.payload, records, COMPETITION_REWARD_MODULE_ID, Math.round(now())
+      );
+      storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(nextPayload));
     } catch {
       return null;
     }
     dispatchRewardUpdate();
-    // Report creation separately from the persisted reward record. This lets
-    // sync retries distinguish an idempotent lookup from a new award.
     return { ...record, created: true };
   }
 
