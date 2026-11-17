@@ -56,8 +56,18 @@
     else if(target.dataset.action==='reset'){if(window.confirm('Reset this contest? Your result will be cleared.')){delete state.saved[id];persist();renderContest();}}
     else if(target.dataset.action==='back')closeContest();
   }
+  async function renderFeaturedArchive(){
+    const target=$('cf-featured-contests');
+    if(!target)return;
+    try{
+      const archive=await import('./featured-contests.mjs');
+      target.innerHTML=archive.renderFeaturedContestGroups();
+    }catch(_){
+      target.textContent='Featured archive rounds could not be loaded. The official Codeforces contest archive is still available above.';
+    }
+  }
   async function init(){
-    if(!$('cf-vc-list'))return;readSaved();$('cf-vc-section').addEventListener('click',onClick);
+    if(!$('cf-vc-list'))return;readSaved();renderFeaturedArchive();$('cf-vc-section').addEventListener('click',onClick);
     // Supabase hydrates localStorage asynchronously after authentication. Reload
     // contest records after hydration so a second device/account session sees the
     // cloud copy instead of the pre-sync browser snapshot.
@@ -66,7 +76,7 @@
       if(state.openId) renderContest(); else renderList();
     });
     try{const response=await fetch('./contests.json',{cache:'no-cache'});if(!response.ok)throw new Error('missing');const data=await response.json();state.bands=Array.isArray(data.bands)?data.bands.filter(b=>b&&Array.isArray(b.contests)&&b.contests.length):[];if(!state.bands.length)throw new Error('empty');}
-    catch(_){$('cf-vc-status').textContent='Virtual contests are not published yet. Build the catalogue and contest set with the two scripts in the repository README.';$('cf-vc-band').disabled=true;return;}
+    catch(_){$('cf-vc-status').textContent='Timed rating-band simulations are not published yet. The featured official Codeforces archive above remains available.';$('cf-vc-band').disabled=true;return;}
     state.bandId=state.bands[0].id;renderBandSelect();renderList();$('cf-vc-band').addEventListener('change',()=>{state.bandId=$('cf-vc-band').value;renderList();});
   }
   init();
