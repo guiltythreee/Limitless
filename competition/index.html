@@ -216,6 +216,12 @@
       <form id="problem-form" class="problem-form">
         <label>Problem / source<input id="problem-name" type="text" maxlength="160" required placeholder="Problem name, ID or link"></label>
         <label>Date &amp; time of this log entry<input id="problem-datetime" type="datetime-local" required></label>
+        <label>First submission date &amp; time<input id="problem-first-submitted-at" type="datetime-local" step="1" required></label>
+        <label id="problem-solved-at-field">Accepted submission date &amp; time
+          <input id="problem-solved-at" type="datetime-local" step="1" required>
+          <small class="problem-field-hint">Required when the problem is solved. Leave hidden for an unsolved problem.</small>
+          <small id="problem-elapsed-preview" class="problem-field-hint" role="status">Elapsed time will be calculated from the first submission to the accepted submission.</small>
+        </label>
         <label>Subject
           <select id="problem-subject"><option value="Logical Reasoning">Logical Reasoning</option><option value="Combinatorics">Combinatorics</option><option value="Probability">Probability</option><option value="Graph Theory">Graph Theory</option><option value="Dynamic Programming">Dynamic Programming</option><option value="C++ / Implementation">C++ / Implementation</option></select>
         </label>
@@ -233,7 +239,10 @@
           <input id="problem-attempts" type="number" min="1" step="1" value="1" required>
           <small class="problem-field-hint">For unsolved problems, enter attempts made so far.</small>
         </label>
-        <label>Time spent (minutes)<input id="problem-time" type="number" min="0" step="1" placeholder="Optional"></label>
+        <label>Total active solving time (minutes)
+          <input id="problem-time" type="number" min="1" step="1" required placeholder="Total focused minutes across attempts">
+          <small class="problem-field-hint">Add focused solving time across all attempts; exclude idle time between submissions.</small>
+        </label>
 
         <label>Key observation<input id="problem-observation" type="text" maxlength="240" required placeholder="What unlocked the problem?"></label>
         <label>Missed insight<input id="problem-missed" type="text" maxlength="240" placeholder="What did you fail to notice?"></label>
