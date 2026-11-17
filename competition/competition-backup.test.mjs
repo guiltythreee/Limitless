@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { compactRewardLedgerPayload } from "../shared/rewards.mjs";
 import {
   CODEFORCES_SYNC_STORAGE_KEY,
   COMPETITION_REWARD_STORAGE_KEY,
@@ -66,6 +67,9 @@ const backup = createCompetitionBackup(source, state, "2026-11-15T00:00:00.000Z"
 assert.equal(backup.version, 3);
 assert.deepEqual(backup.codeforcesLearning, learning);
 assert.deepEqual(backup.codeforcesRewards.rewardLedger, [reward]);
+assert.equal(backup.codeforcesRewards.rewardLedgerArchive, undefined,
+  "legacy ledgers remain exportable without forced migration");
+
 
 const restored = makeStorage();
 restored.setItem("competition-state", "old-state");
@@ -106,5 +110,38 @@ assert.equal(rollbackTarget.getItem("competition-state"), "old-state");
 assert.equal(rollbackTarget.getItem(CODEFORCES_SYNC_STORAGE_KEY), "old-learning");
 assert.equal(rollbackTarget.getItem(COMPETITION_REWARD_STORAGE_KEY), "old-rewards",
   "a failed multi-key restore rolls back earlier writes");
+
+
+const archivedRewards = compactRewardLedgerPayload({
+  rewardLedger: Array.from({ length: 25 }, (_, index) => ({
+    ...reward,
+    eventId: "codeforces:backup:" + index,
+    itemId: "codeforces-problem:" + (3000 + index) + "-A",
+    ts: reward.ts + index * 86400000,
+  })),
+});
+const archivedBackup = {
+  version: 3,
+  data: state,
+  codeforcesRewards: archivedRewards,
+};
+const archivedTarget = makeStorage();
+assert.deepEqual(restoreCompetitionBackup(archivedTarget, "competition-state", state, archivedBackup),
+  { ok: true }, "version 3 backup accepts and restores compact reward archives");
+assert.deepEqual(JSON.parse(archivedTarget.getItem(COMPETITION_REWARD_STORAGE_KEY)),
+  archivedRewards, "restore preserves the complete archive representation");
+const malformedArchiveBackup = {
+  ...archivedBackup,
+  codeforcesRewards: {
+    ...archivedRewards,
+    rewardLedgerArchive: { version: 1, strings: [], records: [[999]] },
+  },
+};
+const malformedArchiveTarget = makeStorage();
+malformedArchiveTarget.setItem("competition-state", "keep-me");
+assert.equal(restoreCompetitionBackup(
+  malformedArchiveTarget, "competition-state", state, malformedArchiveBackup
+).ok, false, "malformed compact archives are rejected before writes");
+assert.equal(malformedArchiveTarget.getItem("competition-state"), "keep-me");
 
 console.log("Competition backup integrity: all assertions passed.");

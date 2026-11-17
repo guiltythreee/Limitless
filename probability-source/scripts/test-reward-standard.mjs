@@ -26,6 +26,8 @@ import {
   unlockedRewardsForLevel,
   readGlobalRewardSummary,
   sanitiseRewardRecords,
+  compactRewardLedgerPayload,
+  readRewardLedger,
   summariseRewards,
 } from "../../shared/rewards.mjs";
 
@@ -374,6 +376,47 @@ assert.equal(acknowledgeLevelNotification(noticeStorage, 2, () => ts + 4000), fa
 const savedNotices = JSON.parse(noticeStorage.getItem(LEVEL_NOTIFICATION_STORAGE_KEY));
 assert.equal(savedNotices.notifications.find((notice) => notice.level === 2).acknowledgedAt, ts + 3000);
 assert.equal(savedNotices.notifications.find((notice) => notice.level === 3).acknowledgedAt, null);
+
+
+const archiveInput = [];
+for (let index = 0; index < 45; index += 1) {
+  archiveInput.push(calculateReward(activity({
+    eventId: "archive-event-" + index,
+    itemId: "archive-item-" + (index % 5),
+    ts,
+  }), archiveInput));
+}
+const compacted = compactRewardLedgerPayload({ rewardLedger: archiveInput });
+assert.equal(compacted.rewardLedger.length, 20);
+assert.equal(compacted.rewardLedgerArchive.records.length, 25);
+assert.ok(
+  JSON.stringify(compacted.rewardLedgerArchive).length <
+    JSON.stringify(archiveInput.slice(0, 25)).length,
+  "dictionary-backed tuples reduce serialized size for archived records",
+);
+assert.deepEqual(readRewardLedger(compacted), archiveInput,
+  "compact encoding round-trips every field and preserves chronological identity");
+const archivedDuplicate = calculateReward(activity({
+  eventId: "archive-event-0",
+  itemId: "archive-item-0",
+}), readRewardLedger(compacted));
+assert.equal(archivedDuplicate.reason, "duplicate-event",
+  "archived event IDs remain protected against duplicate rewards");
+const archivedRepeat = calculateReward(activity({
+  eventId: "archive-event-new",
+  itemId: "archive-item-0",
+  ts,
+}), readRewardLedger(compacted));
+assert.equal(archivedRepeat.reason, "daily-repeat-cap",
+  "archived daily repeat evidence remains authoritative");
+const archiveSummaryStorage = {
+  getItem(key) {
+    return key === "hc3-progress-v3" ? JSON.stringify(compacted) : null;
+  },
+};
+assert.equal(readGlobalRewardSummary(archiveSummaryStorage).totalExp,
+  archiveInput.reduce((sum, record) => sum + record.totalExp, 0),
+  "global totals include archived and recent records");
 
 console.log("LSR-1 reward standard tests passed.");
 console.log("- 21 activity-class × difficulty combinations verified.");

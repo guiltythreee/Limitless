@@ -64,5 +64,30 @@ assert.notEqual(otherAccount.eventId, first.eventId, "event identity is scoped t
 const summary = readGlobalRewardSummary(storage);
 assert.equal(summary.byModule.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).awards, 4);
 assert.equal(summary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).exp, 106);
+
 assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), true);
+
+// The compact archive must retain lifetime totals and old event identities.
+for (let index = 0; index < 30; index += 1) {
+  const record = adapter.awardCodeforcesSubmission({
+    ...accepted,
+    id: 8000 + index,
+    contestId: 3000 + index,
+    creationTimeSeconds: accepted.creationTimeSeconds + (index + 1) * 86400,
+    problem: { ...accepted.problem, index: "A", rating: 800 },
+  }, "examplehandle");
+  assert.equal(record?.created, true);
+}
+const compactPayload = JSON.parse(values.get(COMPETITION_REWARD_STORAGE_KEY));
+assert.equal(compactPayload.rewardLedger.length, 20, "only the newest twenty records remain expanded");
+assert.equal(compactPayload.rewardLedgerArchive.version, 1);
+assert.equal(compactPayload.rewardLedgerArchive.records.length, 15,
+  "older records move into the compact archive without being discarded");
+assert.equal(adapter.getRecords().length, 35, "the adapter reads the complete logical ledger");
+assert.equal(adapter.awardCodeforcesSubmission(accepted, "ExampleHandle").created, false,
+  "an archived submission remains idempotent");
+const compactSummary = readGlobalRewardSummary(storage);
+assert.equal(compactSummary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).awards, 34);
+assert.equal(compactSummary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).exp, 826);
+
 console.log("Competition LSR-1 rewards: all assertions passed.");

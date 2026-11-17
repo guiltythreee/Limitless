@@ -6,7 +6,9 @@
 import {
   buildRewardRecords,
   dispatchRewardUpdate,
-  sanitiseRewardRecords,
+  readRewardLedger,
+  isValidRewardLedgerArchive,
+  compactRewardLedgerPayload,
 } from "../shared/rewards.mjs";
 
 export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming-lsr1-v1";
@@ -30,12 +32,12 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
   function loadState() {
     try {
       const raw = storage.getItem(COMPETITION_REWARD_STORAGE_KEY);
-      if (!raw) return { payload: {}, records: [] };
+      if (!raw) return { payload: {}, records: [], valid: true };
       const payload = JSON.parse(raw);
-      if (!isRecord(payload)) return { payload: {}, records: [] };
-      return { payload, records: sanitiseRewardRecords(payload.rewardLedger) };
+      if (!isRecord(payload)) return { payload: {}, records: [], valid: false };
+      return { payload, records: readRewardLedger(payload), valid: isValidRewardLedgerArchive(payload.rewardLedgerArchive) && Array.isArray(payload.rewardLedger) };
     } catch {
-      return { payload: {}, records: [] };
+      return { payload: {}, records: [], valid: false };
     }
   }
 
@@ -51,6 +53,7 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     const account = handle.trim().toLowerCase();
     const eventId = "codeforces:" + account + ":" + submission.id;
     const state = loadState();
+    if (!state.valid) return null;
     const existing = state.records.find((record) => record.eventId === eventId);
     if (existing) return { ...existing, created: false };
 
@@ -70,10 +73,12 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     const records = buildRewardRecords(activity, state.records);
     const record = records[0];
     try {
-      storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({
-        ...state.payload,
-        rewardLedger: [...state.records, ...records],
-      }));
+      storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify(
+        compactRewardLedgerPayload({
+          ...state.payload,
+          rewardLedger: [...state.records, ...records],
+        })
+      ));
     } catch {
       return null;
     }

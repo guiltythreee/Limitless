@@ -1,4 +1,4 @@
-import { sanitiseRewardRecords } from "../shared/rewards.mjs";
+import { readRewardLedger, decodeRewardLedgerArchive } from "../shared/rewards.mjs";
 
 export const CODEFORCES_SYNC_STORAGE_KEY = "limitless.competition.codeforces-learning.v1";
 export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming-lsr1-v1";
@@ -43,8 +43,15 @@ function validCodeforcesLearning(value) {
 
 function validCodeforcesRewards(value) {
   if (!isRecord(value) || !Array.isArray(value.rewardLedger)) return false;
-  const clean = sanitiseRewardRecords(value.rewardLedger);
-  return clean.length === value.rewardLedger.length &&
+  const archived = value.rewardLedgerArchive == null
+    ? []
+    : decodeRewardLedgerArchive(value.rewardLedgerArchive);
+  if (value.rewardLedgerArchive != null &&
+      (!isRecord(value.rewardLedgerArchive) ||
+       !Array.isArray(value.rewardLedgerArchive.records) ||
+       archived.length !== value.rewardLedgerArchive.records.length)) return false;
+  const clean = readRewardLedger(value);
+  return clean.length === archived.length + value.rewardLedger.length &&
     clean.every((record) => record.moduleId === "competitive-programming");
 }
 
