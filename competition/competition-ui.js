@@ -168,7 +168,7 @@
   var mockForm = document.getElementById('mock-form');
   addEntryDrawer(document.getElementById('problem-review'), problemForm, 'Log problem', '#problem-history');
   addEntryDrawer(document.getElementById('mock-tests'), mockForm, 'Add test', '#mock-history');
-  compactForm(problemForm, ['problem-name', 'problem-datetime', 'problem-attempts', 'problem-outcome', 'problem-time'], 'More details');
+  compactForm(problemForm, ['problem-name', 'problem-datetime', 'problem-first-submitted-at', 'problem-solved-at', 'problem-attempts', 'problem-outcome', 'problem-time'], 'More details');
   compactForm(mockForm, ['mock-date', 'mock-one-score', 'mock-one-max', 'mock-two-score', 'mock-two-max', 'mock-note'], 'More details');
 
   document.querySelectorAll('#linked-accounts .linked-account-card > label').forEach(function (label) {
