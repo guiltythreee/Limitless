@@ -1347,3 +1347,44 @@ test("dropping a TXT file onto the library imports it into local storage", async
   await page.reload();
   await expect(page.getByRole("button", { name: /Dropped Book/ })).toBeVisible();
 });
+
+
+test("home shelf owns vertical scrolling and visual panels stay anchored across settings tabs", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/tools/typing-next-preview/");
+  const shell = page.locator(".bk-shell");
+  const shelf = page.locator(".bk-book-grid");
+  const demo = page.locator(".bk-home-demo");
+  await expect(shell).toHaveAttribute("data-home", "true");
+  await expect(demo).toBeVisible();
+
+  const homeLayout = await page.evaluate(() => ({
+    bodyOverflowY: getComputedStyle(document.body).overflowY,
+    shellHeight: document.querySelector(".bk-shell")?.getBoundingClientRect().height ?? 0,
+    demoBackdrop: getComputedStyle(document.querySelector(".bk-home-demo")!).backdropFilter,
+    demoSurface: getComputedStyle(document.querySelector(".bk-home-demo")!).backgroundColor,
+    shelfOverflowY: getComputedStyle(document.querySelector(".bk-book-grid")!).overflowY,
+    shelfHeight: document.querySelector(".bk-book-grid")?.getBoundingClientRect().height ?? 0,
+  }));
+  expect(homeLayout.bodyOverflowY).toBe("hidden");
+  expect(homeLayout.demoBackdrop).not.toBe("none");
+  expect(homeLayout.shelfOverflowY).toBe("auto");
+  expect(homeLayout.shelfHeight).toBeGreaterThan(0);
+  expect(homeLayout.shellHeight).toBe(844);
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  const dialog = page.getByRole("dialog", { name: "Settings" });
+  const panel = dialog;
+  const initial = await panel.boundingBox();
+  expect(initial).not.toBeNull();
+  for (const tab of ["Background", "Font", "Typing", "Cursor", "Data", "Theme"]) {
+    await dialog.getByRole("button", { name: tab, exact: true }).click();
+    const current = await panel.boundingBox();
+    expect(current).not.toBeNull();
+    expect(Math.abs((current?.y ?? 0) - (initial?.y ?? 0))).toBeLessThanOrEqual(1);
+    expect(Math.abs((current?.height ?? 0) - (initial?.height ?? 0))).toBeLessThanOrEqual(1);
+  }
+  const content = dialog.locator(".bk-settings-content");
+  await expect(content).toHaveCSS("overflow-y", "auto");
+  await expect(panel).toHaveCSS("overflow", "hidden");
+});
