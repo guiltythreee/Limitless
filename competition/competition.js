@@ -305,6 +305,24 @@
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
   }
+  function localDateTimeInputValue(date) {
+    var value = date || new Date();
+    var pad = function (number) { return String(number).padStart(2, '0'); };
+    return value.getFullYear() + '-' + pad(value.getMonth() + 1) + '-' + pad(value.getDate()) +
+      'T' + pad(value.getHours()) + ':' + pad(value.getMinutes());
+  }
+  function problemHistoryTimestamp(problem) {
+    var precise = typeof problem.dateTime === 'string' ? Date.parse(problem.dateTime) : NaN;
+    if (Number.isFinite(precise)) return precise;
+    var legacyDate = typeof problem.date === 'string' ? Date.parse(problem.date + 'T00:00:00Z') : NaN;
+    return Number.isFinite(legacyDate) ? legacyDate : 0;
+  }
+  function formatProblemDateTime(problem) {
+    var timestamp = typeof problem.dateTime === 'string' ? Date.parse(problem.dateTime) : NaN;
+    return Number.isFinite(timestamp)
+      ? new Date(timestamp).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
+      : (problem.date || 'Date not recorded');
+  }
   function topicKey(week, index) { return 'w' + (week + 1) + '-t' + index; }
   function allTopics() { return WEEKS.reduce(function (all, week) { return all.concat(week.topics); }, []); }
   function currentWeekIndex() {
@@ -1262,14 +1280,17 @@
         if(haystack.indexOf(query)===-1)return false;
       }
       return true;
-    }).reverse();
+    }).sort(function (a, b) { return problemHistoryTimestamp(b) - problemHistoryTimestamp(a); });
     $('problem-catalogue-count').textContent='Showing '+rows.length+' of '+allRows.length+' logged problems';
     $('problem-history').innerHTML = rows.length ? rows.map(function (problem) {
-      return '<article class="problem-entry" data-result="' + esc(problem.outcome || 'unknown') + '"><div class="problem-entry-head"><strong>' + esc(problem.name) + '</strong><span>' + esc(problem.subject) + '</span><small>' + esc(problem.date) + '</small><button type="button" data-delete-problem="' + esc(problem.id) + '">Remove</button></div>' +
+      return '<article class="problem-entry" data-result="' + esc(problem.outcome || 'unknown') + '"><div class="problem-entry-head"><strong>' + esc(problem.name) + '</strong><span>' + esc(problem.subject) + '</span><small>' + esc(formatProblemDateTime(problem)) + '</small><button type="button" data-delete-problem="' + esc(problem.id) + '">Remove</button></div>' +
         (problem.difficulty ? '<p><b>Source difficulty:</b> ' + esc(problem.difficulty) + '</p>' : '') +
         (problem.challengeBand ? '<p><b>Challenge level:</b> ' + esc(problem.challengeBand) + '</p>' : '') +
         (problem.mistakeType ? '<p><b>Mistake category:</b> ' + esc((MISTAKE_TYPES.find(function(x){return x[0]===problem.mistakeType;})||[])[1] || problem.mistakeType) + '</p>' : '') +
         (problem.time ? '<p><b>Time spent:</b> ' + esc(problem.time) + ' min</p>' : '') +
+        (Number.isSafeInteger(Number(problem.attempts)) && Number(problem.attempts) >= 1
+          ? '<p><b>Attempts made:</b> ' + Number(problem.attempts) + (problem.outcome === 'unsolved' ? ' (unsolved so far)' : ' (including the successful attempt)') + '</p>'
+          : '<p><b>Attempts made:</b> Not recorded in this legacy entry</p>') +
         '<p><b>Key observation:</b> ' + esc(problem.observation) + '</p>' +
         (problem.missed ? '<p><b>Missed insight:</b> ' + esc(problem.missed) + '</p>' : '') +
         (problem.concept ? '<p><b>Underlying concept:</b> ' + esc(problem.concept) + '</p>' : '') +
@@ -1388,11 +1409,28 @@
     window.addEventListener('limitless:codeforces-learning-updated', renderSharedConceptInsights);
 
     $('mock-date').value = new Date().toISOString().slice(0,10);
+    $('problem-datetime').value = localDateTimeInputValue();
+    $('problem-attempts').value = '1';
     $('problem-form').addEventListener('submit', function (event) {
       event.preventDefault();
+      var dateTimeInput = $('problem-datetime').value;
+      var recordedAt = new Date(dateTimeInput);
+      var attemptsValue = Number($('problem-attempts').value);
+      if (!dateTimeInput || !Number.isFinite(recordedAt.getTime())) {
+        $('problem-datetime').reportValidity();
+        return;
+      }
+      if (!Number.isSafeInteger(attemptsValue) || attemptsValue < 1) {
+        $('problem-attempts').setCustomValidity('Enter a whole number of attempts (at least 1).');
+        $('problem-attempts').reportValidity();
+        $('problem-attempts').setCustomValidity('');
+        return;
+      }
       state.problemLog.push({
         id:String(Date.now()) + '-' + Math.random().toString(36).slice(2,7),
-        date:new Date().toISOString().slice(0,10),
+        date:dateTimeInput.slice(0,10),
+        dateTime:recordedAt.toISOString(),
+        attempts:attemptsValue,
         name:$('problem-name').value.trim(),
         subject:$('problem-subject').value,
         difficulty:$('problem-difficulty').value.trim(),
@@ -1407,6 +1445,8 @@
         resolve:$('problem-resolve-status').value
       });
       $('problem-form').reset();
+      $('problem-datetime').value = localDateTimeInputValue();
+      $('problem-attempts').value = '1';
       saveAndRender();
     });
 
@@ -1474,7 +1514,11 @@
           ['mastery','completed','dayChecks','weekChecks','revisionChecks'].forEach(function(key){
             if (incoming[key] !== undefined && !isRecord(incoming[key])) throw new Error('Invalid backup');
           });
-          if (incoming.problemLog !== undefined && (!Array.isArray(incoming.problemLog) || incoming.problemLog.some(function(item){return !isRecord(item);})) ) throw new Error('Invalid backup');
+          if (incoming.problemLog !== undefined && (!Array.isArray(incoming.problemLog) || incoming.problemLog.some(function(item){
+            return !isRecord(item) ||
+              (item.dateTime !== undefined && (typeof item.dateTime !== 'string' || !Number.isFinite(Date.parse(item.dateTime)))) ||
+              (item.attempts !== undefined && (!Number.isSafeInteger(item.attempts) || item.attempts < 1));
+          }))) throw new Error('Invalid backup');
           if (incoming.revisionAttempts !== undefined && (!Array.isArray(incoming.revisionAttempts) || incoming.revisionAttempts.some(function(item){return !isRecord(item) || typeof item.id !== 'string' || !item.id || typeof item.problemId !== 'string' || !item.problemId || typeof item.date !== 'string' || !Number.isFinite(Date.parse(item.date)) || ['correct','incorrect'].indexOf(item.outcome)===-1;}))) throw new Error('Invalid backup');
           if (incoming.mocks.some(function(item){return !isRecord(item) || typeof item.date !== 'string';})) throw new Error('Invalid backup');
           if (!incoming.mastery && incoming.completed) {
