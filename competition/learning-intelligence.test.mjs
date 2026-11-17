@@ -13,7 +13,8 @@ const logs = [
     mistakeType: "", time: "20",
   },
   {
-    id: "cp-2", date: "2026-11-02", dateTime: "2026-11-02T16:30:00.000Z", attempts: 4,
+    id: "cp-2", date: "2026-11-02", dateTime: "2026-11-02T16:35:00.000Z",
+    firstSubmissionAt: "2026-11-02T16:00:00.000Z", solvedAt: "2026-11-02T16:30:00.000Z", attempts: 4,
     name: "B", subject: "Combinatorics",
     concept: "pigeonhole principle!", outcome: "hint", resolve: "no",
     mistakeType: "observation", time: "35",
@@ -37,7 +38,10 @@ assert.equal(attempts[2].outcome, "incorrect");
 assert.equal(attempts[0].independent, true);
 assert.equal(attempts[1].hintCount, 1);
 assert.equal(attempts[1].elapsedMs, 35 * 60_000);
-assert.equal(attempts[1].occurredAt, Date.parse("2026-11-02T16:30:00.000Z"), "new log entries use the exact recorded time");
+assert.equal(attempts[1].occurredAt, Date.parse("2026-11-02T16:00:00.000Z"), "learning chronology starts at the first submission");
+assert.equal(attempts[1].attemptCount, 4, "attempt count is preserved as learning evidence");
+assert.equal(attempts[1].solveElapsedMs, 30 * 60_000, "first-submission-to-accepted elapsed time is separate from active solving time");
+assert.equal(attempts[1].elapsedMs, 35 * 60_000, "total active solving time remains separately recorded");
 assert.equal(attempts[0].occurredAt, Date.parse("2026-11-01T00:00:00.000Z"), "legacy date-only entries retain their date fallback");
 assert.equal(attempts[1].conceptIds[0], "pigeonhole principle!");
 
