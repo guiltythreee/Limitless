@@ -32,8 +32,12 @@ export function toCompetitionLearningAttempts(problemLog, revisionAttempts = [])
   ).map((problem) => [problem.id, problem]));
   const originalAttempts = [...problems.values()].flatMap((problem) => {
     const id = problem.id.trim();
-    const preciseDateTime = parseRevisionTimestamp(problem.dateTime);
+    const firstSubmissionAt = parseRevisionTimestamp(problem.firstSubmissionAt);
+    const preciseDateTime = Number.isFinite(firstSubmissionAt) ? firstSubmissionAt : parseRevisionTimestamp(problem.dateTime);
     const date = Number.isFinite(preciseDateTime) ? preciseDateTime : parseCalendarDate(problem.date);
+    const solvedAt = parseRevisionTimestamp(problem.solvedAt);
+    const solveElapsedMs = Number.isFinite(firstSubmissionAt) && Number.isFinite(solvedAt) && solvedAt >= firstSubmissionAt
+      ? solvedAt - firstSubmissionAt : undefined;
     // Keep malformed/legacy rows in their original history, but do not let
     // impossible calendar dates create misleading revision deadlines. New logs
     // retain the exact timestamp; older records safely fall back to their date.
@@ -53,6 +57,8 @@ export function toCompetitionLearningAttempts(problemLog, revisionAttempts = [])
       occurredAt: date,
       elapsedMs: Number.isFinite(Number(problem.time)) && Number(problem.time) > 0
         ? Number(problem.time) * 60_000 : undefined,
+      attemptCount: Number.isSafeInteger(problem.attempts) && problem.attempts >= 1 ? problem.attempts : undefined,
+      solveElapsedMs,
       independent: problem.outcome === "independent" && problem.resolve === "yes",
       hintCount: problem.outcome === "independent" ? 0 : problem.outcome === "hint" ? 1 : problem.outcome === "editorial" ? 2 : undefined,
       mode: "practice",
