@@ -266,7 +266,7 @@
     if (!handle) {
       state.solved = new Set();
       state.wrong = new Map();
-      status('Catalogue loaded. Add a Codeforces handle above to include your solved status.');
+      status('Catalogue loaded. The one-time Codeforces snapshot is not available; no account-specific replacements were applied.');
       return false;
     }
     try {
@@ -294,7 +294,7 @@
       // Freeze this account snapshot after the first successful lookup.
       persistReplacementSnapshot(solved, wrong);
       const attempted=wrong.size, solvedCount=solved.size;
-      status('Synced '+solvedCount.toLocaleString()+' solved problems · '+attempted.toLocaleString()+' problems with failed submissions · latest 10,000 submissions.');
+      status('Captured one-time Codeforces snapshot · '+solvedCount.toLocaleString()+' solved · '+attempted.toLocaleString()+' attempted. Future refreshes will not query this handle.');
       return true;
     } catch (error) {
       state.solved = new Set();
