@@ -251,6 +251,7 @@
     { value:'mastered', label:'Mastered' }
   ];
   var MASTERY_VALUES = ['not-started','learning','practiced','mastered'];
+  var storageLoadError = false;
   var state = load();
   var $ = function (id) { return document.getElementById(id); };
 
@@ -283,7 +284,14 @@
       delete merged.cfRating;
       delete merged.cfRatingTarget;
       return merged;
-    } catch (_) { return cloneDefaults(); }
+    } catch (_) {
+      storageLoadError = true;
+      try {
+        var recovery = localStorage.getItem(STORAGE_KEY);
+        if (recovery && !localStorage.getItem(STORAGE_KEY + '.recovery')) localStorage.setItem(STORAGE_KEY + '.recovery', recovery);
+      } catch (ignored) { /* Storage may be unavailable; never block page startup. */ }
+      return cloneDefaults();
+    }
   }
 
   function persist() {
@@ -292,7 +300,9 @@
       localStorage.setItem(STORAGE_KEY, payload);
       if (localStorage.getItem(STORAGE_KEY) !== payload) throw new Error('Storage verification failed');
       var note = $('storage-note');
-      if (note) note.textContent = 'Saved and verified in this browser · Export a backup to move it to another device';
+      if (note) note.textContent = storageLoadError
+        ? 'Saved and verified. An unreadable previous record was preserved as a recovery copy; inspect it before resetting or importing.'
+        : 'Saved and verified in this browser · Export a backup to move it to another device';
     } catch (_) {
       var note = $('storage-note');
       if (note) note.textContent = 'Save failed or could not be verified. Export a backup to protect your changes.';
@@ -303,6 +313,13 @@
     renderOverview();
     renderSubjects();
     renderDailyPlan();
+    window.addEventListener('limitless:cloud-sync-status', function(event) {
+      var note = $('storage-note');
+      if (!note) return;
+      var sync = event.detail || {};
+      var labels = { ready:'Cloud sync connected', syncing:'Syncing progress to your account', offline:'Cloud sync offline · local progress is retained', error:'Cloud sync error · export a backup', 'signed-out':'Local progress only · sign in to sync across devices' };
+      note.textContent = note.textContent.split(' · Cloud sync:')[0] + ' · Cloud sync: ' + (labels[sync.state] || sync.message || sync.state || 'status unavailable');
+    });
     renderSafety();
     renderMockHistory();
     renderProblemHistory();
