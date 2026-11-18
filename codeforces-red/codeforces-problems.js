@@ -32,10 +32,13 @@
   }
   function esc(value) { return String(value == null ? '' : value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function status(message) { $('cf-problem-status').textContent = message; }
-  async function api(method, params) {
+  async function api(method, params, options) {
     const query = new URLSearchParams(params || {}).toString();
     const client = await import('../competition/codeforces-api.mjs');
-    const data = await client.requestCodeforcesApi(API + method + (query ? '?' + query : ''));
+    const data = await client.requestCodeforcesApi(
+      API + method + (query ? '?' + query : ''),
+      options && options.signal ? { signal: options.signal } : undefined
+    );
     return data.result;
   }
   function curateProblemset(result, solvedKeys) {
@@ -163,26 +166,65 @@
   }
   async function loadProblemset() {
     if (state.loading) return;
-    state.loading = true; $('cf-refresh-problems').disabled = true;
+    state.loading = true;
+    $('cf-refresh-problems').disabled = true;
+
+    // Fetch the public catalogue independently of the account's submission
+    // history. A large user.status response must never hold the whole explorer
+    // in its initial "Waiting for catalogue" state.
+    const catalogueController = new AbortController();
+    const catalogueTimeout = setTimeout(() => catalogueController.abort(), 25000);
+    let solvedPromise;
+
     try {
-      // The solved set must be loaded before choosing catalogue entries.
-      const solvedLoaded = await loadSolved();
-      status('Loading the Codeforces problemset and personalising solved 800–1000 entries…');
-      const result = await api('problemset.problems');
+      status('Loading the official Codeforces problem catalogue…');
+      state.solved = new Set();
+      state.wrong = new Map();
+
+      solvedPromise = loadSolved({ timeoutMs: 12000 });
+      const result = await api('problemset.problems', {}, { signal: catalogueController.signal });
+      if (!result || !Array.isArray(result.problems)) {
+        throw new Error('Codeforces returned an invalid problem catalogue.');
+      }
+
       state.problemsetResult = result;
       state.problems = curateProblemset(result, state.solved);
       state.loaded = true;
+      state.page = 0;
       populateFilters();
-      status(catalogueStatus(solvedLoaded));
+      status('Catalogue loaded · syncing your solved status…');
       render();
+
+      // Personalisation is a second pass. The catalogue is already usable if
+      // this request is slow, rate-limited, or unavailable.
+      const solvedLoaded = await solvedPromise;
+      if (solvedLoaded) {
+        try {
+          state.problems = curateProblemset(result, state.solved);
+          state.page = 0;
+          populateFilters();
+          status(catalogueStatus(true));
+          render();
+        } catch (error) {
+          status('Catalogue loaded, but account-specific replacements could not be applied: ' + error.message);
+        }
+      } else {
+        status(catalogueStatus(false));
+      }
     } catch (error) {
-      status(error.message + ' You can retry; your saved list remains available.');
+      const message = error.name === 'AbortError'
+        ? 'The Codeforces problem catalogue request timed out after 25 seconds.'
+        : (error.message || 'Unable to load the Codeforces problem catalogue.');
+      status(message + ' Use “Refresh catalogue” to retry.');
+      $('cf-result-count').textContent = 'Catalogue unavailable';
+      $('cf-problem-list').innerHTML = '<p class="cf-empty">' + esc(message) + ' The explorer will remain available for another attempt.</p>';
     } finally {
+      clearTimeout(catalogueTimeout);
       state.loading = false;
       $('cf-refresh-problems').disabled = false;
     }
   }
-  async function loadSolved() {
+  async function loadSolved(options = {}) {
     let handle = $('linked-handle') ? $('linked-handle').textContent.trim() : '';
     if (!handle || handle === '—') {
       try { const linked = JSON.parse(localStorage.getItem('limitless.competition.linked-accounts.v1') || '{}'); handle = (linked.codeforcesHandle || '').trim(); } catch (_) {}
@@ -195,9 +237,17 @@
     }
     try {
       const client = await import('../competition/codeforces-api.mjs');
-      const payload = await client.requestCodeforcesApi(
-        'https://codeforces.com/api/user.status?handle=' + encodeURIComponent(handle) + '&from=1&count=10000'
-      );
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), options.timeoutMs || 12000);
+      let payload;
+      try {
+        payload = await client.requestCodeforcesApi(
+          'https://codeforces.com/api/user.status?handle=' + encodeURIComponent(handle) + '&from=1&count=10000',
+          { signal: controller.signal }
+        );
+      } finally {
+        clearTimeout(timeoutId);
+      }
       const solved = new Set(), wrong = new Map();
       payload.result.forEach(s => {
         if (!s.problem || !s.verdict || s.verdict === 'TESTING') return;
