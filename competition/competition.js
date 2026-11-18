@@ -313,13 +313,6 @@
     renderOverview();
     renderSubjects();
     renderDailyPlan();
-    window.addEventListener('limitless:cloud-sync-status', function(event) {
-      var note = $('storage-note');
-      if (!note) return;
-      var sync = event.detail || {};
-      var labels = { synced:'Cloud sync complete', syncing:'Syncing progress to your account', error:'Cloud sync error · local progress remains saved; export a backup', 'signed-out':'Local progress only · sign in to sync across devices' };
-      note.textContent = note.textContent.split(' · Cloud sync:')[0] + ' · Cloud sync: ' + (labels[sync.state] || sync.message || sync.state || 'status unavailable');
-    });
     renderSafety();
     renderMockHistory();
     renderProblemHistory();
@@ -1498,6 +1491,17 @@
     renderOverview();
     renderSubjects();
     renderDailyPlan();
+    function updateCloudSyncStatus(event) {
+      var note = $('storage-note');
+      if (!note) return;
+      var sync = event.detail || {};
+      var labels = { synced:'Cloud sync complete', syncing:'Syncing progress to your account', error:'Cloud sync error · local progress remains saved; export a backup', 'signed-out':'Local progress only · sign in to sync across devices' };
+      note.textContent = note.textContent.split(' · Cloud sync:')[0] + ' · Cloud sync: ' + (labels[sync.state] || sync.message || sync.state || 'status unavailable');
+    }
+    window.addEventListener('limitless:cloud-sync-status', updateCloudSyncStatus);
+    if (window.LimitlessCloudSync && typeof window.LimitlessCloudSync.getStatus === 'function') {
+      updateCloudSyncStatus({detail:{state:window.LimitlessCloudSync.getStatus()}});
+    }
     $('roadmap-subject-filter').addEventListener('change', function () {
       var labels = { all:'All five subjects plus C++ / implementation', logic:'Logical Reasoning', combinatorics:'Combinatorics', probability:'Probability', graphs:'Graph Theory', dp:'Dynamic Programming', coding:'C++ / Implementation' };
       $('roadmap-filter-note').textContent = labels[$('roadmap-subject-filter').value] + ': 16 weekly checkpoints, with topic-specific references and independent mastery tracking.';
