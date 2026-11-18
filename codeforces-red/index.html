@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="./codeforces-red.css">
   <link rel="stylesheet" href="./codeforces-problems.css">
   <link rel="stylesheet" href="./codeforces-contests.css">
+  <link rel="stylesheet" href="./cp-learning-centre.css">
   <script>
     (function () {
       try { document.documentElement.setAttribute('data-theme', localStorage.getItem('limitless.site.theme') === 'light' ? 'light' : 'dark'); }
@@ -162,6 +163,22 @@
       </div>
     </section>
 
+    <section class="cr-learning-view" id="cf-learning-view" hidden>
+      <div class="cr-learning-header">
+        <div><div class="cr-eyebrow">CP LEARNING CENTRE</div><h1>Learn the idea. Learn the implementation.</h1><p>Two connected tracks for every topic: understand the competitive-programming technique, then learn only the C++ language and STL needed to implement it. Each module links to explanations, quizzes and tagged practice.</p></div>
+        <button class="cr-learning-back" type="button" id="cf-learning-back-home">← Back to CP Home</button>
+      </div>
+      <section class="lc-summary" aria-label="Learning Centre progress"><div class="lc-summary-head"><strong>Learning progress</strong><span id="lc-overall">0 learning steps completed</span></div><div class="lc-progress"><span id="lc-progress"></span></div></section>
+      <div class="lc-toolbar">
+        <label>Search topics<input id="lc-search" type="search" placeholder="e.g. binary search, vector, BFS"></label>
+        <label>Learning track<select id="lc-track"><option value="all">Both connected tracks</option><option value="concepts">Competitive Programming Concepts</option><option value="cpp">C++ for CP</option></select></label>
+        <label>Difficulty stage<select id="lc-stage"><option value="all">All stages</option><option>Foundations</option><option>Specialist</option><option>Core algorithms</option><option>Advanced reasoning</option><option>Mastery</option></select></label>
+        <button id="lc-reset" type="button">Reset progress</button>
+      </div>
+      <p class="lc-count" id="lc-count">Loading modules…</p>
+      <div id="lc-list" aria-live="polite"></div>
+    </section>
+
     <section id="cf-home-view">
     <section class="cr-account">
       <div class="cr-account-actions">
@@ -207,6 +224,13 @@
         <strong>Training Plan</strong>
         <span class="cr-launch-copy">Build skills stage by stage, track your checklist and follow a weekly routine.</span>
         <span class="cr-launch-action">Open training plan <span aria-hidden="true">→</span></span>
+      </button>
+      <button class="cr-training-launch-tile cr-launch-learning" type="button" data-cf-view="learning" aria-controls="cf-learning-view">
+        <span class="cr-launch-icon" aria-hidden="true">⌘</span>
+        <span class="cr-eyebrow">CONCEPTS + C++</span>
+        <strong>Learning Centre</strong>
+        <span class="cr-launch-copy">Study algorithms and data structures alongside the exact C++ and STL needed to implement them.</span>
+        <span class="cr-launch-action">Explore learning tracks <span aria-hidden="true">→</span></span>
       </button>
       <a class="cr-training-launch-tile cr-launch-contests" href="#cf-vc-section">
         <span class="cr-launch-icon" aria-hidden="true">◷</span>
@@ -297,40 +321,50 @@
     (function () {
       const homeView = document.getElementById('cf-home-view');
       const trainingView = document.getElementById('cf-training-view');
-      const launcher = document.querySelector('.cr-training-launch-tile');
-      const backButton = document.getElementById('cf-training-back-home');
-      if (!homeView || !trainingView || !launcher || !backButton) return;
+      const learningView = document.getElementById('cf-learning-view');
+      const launchers = document.querySelectorAll('[data-cf-view]');
+      const trainingBack = document.getElementById('cf-training-back-home');
+      const learningBack = document.getElementById('cf-learning-back-home');
+      if (!homeView || !trainingView || !learningView || !launchers.length || !trainingBack || !learningBack) return;
 
       function showView(view) {
-        const training = view === 'training';
-        homeView.hidden = training;
-        trainingView.hidden = !training;
-        document.body.classList.toggle('cf-training-active', training);
+        homeView.hidden = view !== 'home';
+        trainingView.hidden = view !== 'training';
+        learningView.hidden = view !== 'learning';
+        document.body.classList.toggle('cf-training-active', view === 'training');
+        document.body.classList.toggle('cf-learning-active', view === 'learning');
         window.scrollTo({ top: 0, behavior: 'auto' });
       }
 
-      launcher.addEventListener('click', function () {
-        if (history.state && history.state.cfTraining) return showView('training');
-        history.pushState({ cfTraining: true }, '', '#training');
-        showView('training');
+      launchers.forEach(function (launcher) {
+        launcher.addEventListener('click', function () {
+          const view = launcher.dataset.cfView;
+          if (history.state && history.state.cfView === view) return showView(view);
+          history.pushState({ cfView: view }, '', '#' + view);
+          showView(view);
+        });
       });
 
-      backButton.addEventListener('click', function () {
-        if (history.state && history.state.cfTraining) history.back();
+      function goHome() {
+        if (history.state && history.state.cfView) history.back();
         else showView('home');
-      });
+      }
+      trainingBack.addEventListener('click', goHome);
+      learningBack.addEventListener('click', goHome);
 
       window.addEventListener('popstate', function () {
-        showView(location.hash === '#training' ? 'training' : 'home');
+        showView(location.hash === '#training' ? 'training' : location.hash === '#learning' ? 'learning' : 'home');
       });
 
       if (location.hash === '#training') showView('training');
+      else if (location.hash === '#learning') showView('learning');
     })();
   </script>
   <script src="../hub-theme.js" defer></script>
   <script src="./codeforces-red.js" defer></script>
   <script src="./codeforces-problems.js" defer></script>
   <script src="./codeforces-contests.js" defer></script>
+  <script src="./cp-learning-centre.js" defer></script>
   <script src="../supabase/config.js"></script>
   <script src="../supabase/client.js"></script>
   <script src="../supabase/cloud-sync.js"></script>
