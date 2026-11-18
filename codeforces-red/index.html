@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="./codeforces-red.css">
   <link rel="stylesheet" href="./codeforces-problems.css">
   <link rel="stylesheet" href="./codeforces-contests.css">
+  <link rel="stylesheet" href="./cp-learning-centre.css">
   <script>
     (function () {
       try { document.documentElement.setAttribute('data-theme', localStorage.getItem('limitless.site.theme') === 'light' ? 'light' : 'dark'); }
@@ -71,7 +72,7 @@
         <div class="cr-eyebrow">BOOKS & STUDY REFERENCES</div><h3>Use one focused chapter at a time</h3>
         <div class="cr-book-grid">
           <article class="cr-book-reference">
-            <b>Foundations → Expert</b>
+            <b>Foundations → Expert</b><label class="cr-book-completion"><input type="checkbox" data-book-check="handbook-foundations"><span>Reading completed</span></label>
             <span>Antti Laaksonen, <i>Competitive Programmer’s Handbook</i>. <strong>Foundation:</strong> Ch. 1–2, 3.1–3.2, 4.1–4.3, 5–6 and 8. <strong>Specialist:</strong> 3.3, 4.4–4.6, 9 and 21–22. Expand the list for exact subsection titles and printed page numbers (July 2018 PDF).</span>
             <details class="cr-book-detail">
               <summary>Open exact sections and page numbers</summary>
@@ -97,7 +98,7 @@
             <a href="https://cses.fi/book/book.pdf" target="_blank" rel="noopener noreferrer">Free Handbook PDF ↗</a>
           </article>
           <article class="cr-book-reference">
-            <b>Expert → Candidate Master</b>
+            <b>Expert → Candidate Master</b><label class="cr-book-completion"><input type="checkbox" data-book-check="handbook-core"><span>Reading completed</span></label>
             <span><strong>Core algorithms:</strong> Ch. 7, 9 and 11–17. <strong>Advanced reasoning:</strong> 10.5, revisit 14.2–14.4, 18 and 25–28. Expand for the exact subsection titles and printed page numbers.</span>
             <details class="cr-book-detail">
               <summary>Open exact sections and page numbers</summary>
@@ -128,7 +129,7 @@
             <a href="https://cpbook.net/" target="_blank" rel="noopener noreferrer">Competitive Programming 4 ↗</a>
           </article>
           <article class="cr-book-reference">
-            <b>Advanced topics</b>
+            <b>Advanced topics</b><label class="cr-book-completion"><input type="checkbox" data-book-check="handbook-advanced"><span>Reading completed</span></label>
             <span><strong>Mastery:</strong> Ch. 20, 22.3–22.5 and 23–30, with 22.1–22.2 revisited when needed. The detailed list identifies the exact sections. FFT/NTT and advanced matching variants are outside this Handbook; use the linked supplements.</span>
             <details class="cr-book-detail">
               <summary>Open exact sections and page numbers</summary>
@@ -160,6 +161,54 @@
       <p class="cr-roadmap-disclaimer">Your checklist and weekly counters are saved in this browser. Rating milestones remain based on live Codeforces peak rating; checklist completion does not artificially change your rating or unlock a rank.</p>
       </div>
       </div>
+    </section>
+
+    <section class="cr-learning-view" id="cf-learning-view" hidden>
+      <div class="cr-learning-header">
+        <div><div class="cr-eyebrow">CP LEARNING CENTRE</div><h1>Learn the idea. Learn the implementation.</h1><p>Two connected tracks for every topic: understand the competitive-programming technique, then learn only the C++ language and STL needed to implement it. Each module links to explanations, quizzes and tagged practice.</p></div>
+        <button class="cr-learning-back" type="button" id="cf-learning-back-home">← Back to CP Home</button>
+      </div>
+      <div class="lc-visual-dashboard">
+        <article class="lc-visual-card lc-courses-card">
+          <div class="lc-card-topline"><span class="lc-card-symbol">≡</span><span class="lc-card-icon">▤</span></div>
+          <div class="lc-card-title"><h2>Structured<br>Courses</h2><p>Learn step by step with curated paths.</p></div>
+          <div class="lc-course-steps" id="lc-course-steps"></div>
+          <div class="lc-card-progress"><span class="lc-progress-orb">▥</span><div><span>Your progress</span><strong id="lc-course-percent">0%</strong><i><b id="lc-course-bar"></b></i></div></div>
+        </article>
+        <article class="lc-visual-card lc-practice-card">
+          <div class="lc-card-topline"><span class="lc-card-symbol">›_</span><span class="lc-year-chip">CP TRACK</span></div>
+          <div class="lc-card-title"><h2>Practice &amp;<br>Build</h2><p>Sharpen skills with focused practice and real challenges.</p></div>
+          <a class="lc-run-panel" href="https://www.programiz.com/cpp-programming/online-compiler/" target="_blank" rel="noopener noreferrer">
+            <span class="lc-run-button">▶</span><span><strong>Run Code</strong><small>Open the C++ compiler</small></span><span class="lc-run-arrow">↗</span>
+          </a>
+          <div class="lc-skill-bars" id="lc-skill-bars"></div>
+          <a class="lc-practice-link" href="https://codeforces.com/problemset" target="_blank" rel="noopener noreferrer">Open Codeforces practice <span>→</span></a>
+        </article>
+        <article class="lc-visual-card lc-reference-card">
+          <div class="lc-card-topline"><span class="lc-card-symbol">▣</span><span class="lc-search-ornament">⌕</span></div>
+          <div class="lc-card-title"><h2>Quick<br>References</h2><p>Find answers fast with docs, cheatsheets, and guides.</p></div>
+          <div class="lc-reference-links">
+            <a href="https://www.learncpp.com/" target="_blank" rel="noopener noreferrer"><span>⌗</span><b>Syntax Guides</b><i>›</i></a>
+            <a href="https://en.cppreference.com/w/" target="_blank" rel="noopener noreferrer"><span>▤</span><b>Cheatsheets &amp; STL</b><i>›</i></a>
+            <a href="https://cp-algorithms.com/" target="_blank" rel="noopener noreferrer"><span>⊙</span><b>Best Practices</b><i>›</i></a>
+            <a href="https://usaco.guide/" target="_blank" rel="noopener noreferrer"><span>⊞</span><b>Common Patterns</b><i>›</i></a>
+          </div>
+          <div class="lc-code-preview"><span class="lc-code-label">C++ · QUICK TEMPLATE</span><pre><code>ios::sync_with_stdio(false);
+cin.tie(nullptr);
+
+vector&lt;int&gt; a(n);
+sort(a.begin(), a.end());</code></pre></div>
+        </article>
+      </div>
+      <section class="lc-summary" aria-label="Learning Centre progress"><div class="lc-summary-head"><strong>Learning progress</strong><span id="lc-overall">0 learning steps completed</span></div><div class="lc-progress"><span id="lc-progress"></span></div></section>
+      <div class="lc-toolbar">
+        <label>Search topics<input id="lc-search" type="search" placeholder="e.g. binary search, vector, BFS"></label>
+        <label>Learning track<select id="lc-track"><option value="all">Both connected tracks</option><option value="concepts">Competitive Programming Concepts</option><option value="cpp">C++ for CP</option></select></label>
+        <label>Difficulty stage<select id="lc-stage"><option value="all">All stages</option><option>Foundations</option><option>Specialist</option><option>Core algorithms</option><option>Advanced reasoning</option><option>Mastery</option></select></label>
+        <button id="lc-reset" type="button">Reset progress</button>
+      </div>
+      <p class="lc-count" id="lc-count">Loading modules…</p>
+      <div id="lc-list" aria-live="polite"></div>
     </section>
 
     <section id="cf-home-view">
@@ -207,6 +256,13 @@
         <strong>Training Plan</strong>
         <span class="cr-launch-copy">Build skills stage by stage, track your checklist and follow a weekly routine.</span>
         <span class="cr-launch-action">Open training plan <span aria-hidden="true">→</span></span>
+      </button>
+      <button class="cr-training-launch-tile cr-launch-learning" type="button" data-cf-view="learning" aria-controls="cf-learning-view">
+        <span class="cr-launch-icon" aria-hidden="true">⌘</span>
+        <span class="cr-eyebrow">CONCEPTS + C++</span>
+        <strong>Learning Centre</strong>
+        <span class="cr-launch-copy">Study algorithms and data structures alongside the exact C++ and STL needed to implement them.</span>
+        <span class="cr-launch-action">Explore learning tracks <span aria-hidden="true">→</span></span>
       </button>
       <a class="cr-training-launch-tile cr-launch-contests" href="#cf-vc-section">
         <span class="cr-launch-icon" aria-hidden="true">◷</span>
@@ -293,40 +349,50 @@
     (function () {
       const homeView = document.getElementById('cf-home-view');
       const trainingView = document.getElementById('cf-training-view');
-      const launcher = document.querySelector('.cr-training-launch-tile');
-      const backButton = document.getElementById('cf-training-back-home');
-      if (!homeView || !trainingView || !launcher || !backButton) return;
+      const learningView = document.getElementById('cf-learning-view');
+      const launchers = document.querySelectorAll('[data-cf-view]');
+      const trainingBack = document.getElementById('cf-training-back-home');
+      const learningBack = document.getElementById('cf-learning-back-home');
+      if (!homeView || !trainingView || !learningView || !launchers.length || !trainingBack || !learningBack) return;
 
       function showView(view) {
-        const training = view === 'training';
-        homeView.hidden = training;
-        trainingView.hidden = !training;
-        document.body.classList.toggle('cf-training-active', training);
+        homeView.hidden = view !== 'home';
+        trainingView.hidden = view !== 'training';
+        learningView.hidden = view !== 'learning';
+        document.body.classList.toggle('cf-training-active', view === 'training');
+        document.body.classList.toggle('cf-learning-active', view === 'learning');
         window.scrollTo({ top: 0, behavior: 'auto' });
       }
 
-      launcher.addEventListener('click', function () {
-        if (history.state && history.state.cfTraining) return showView('training');
-        history.pushState({ cfTraining: true }, '', '#training');
-        showView('training');
+      launchers.forEach(function (launcher) {
+        launcher.addEventListener('click', function () {
+          const view = launcher.dataset.cfView;
+          if (history.state && history.state.cfView === view) return showView(view);
+          history.pushState({ cfView: view }, '', '#' + view);
+          showView(view);
+        });
       });
 
-      backButton.addEventListener('click', function () {
-        if (history.state && history.state.cfTraining) history.back();
+      function goHome() {
+        if (history.state && history.state.cfView) history.back();
         else showView('home');
-      });
+      }
+      trainingBack.addEventListener('click', goHome);
+      learningBack.addEventListener('click', goHome);
 
       window.addEventListener('popstate', function () {
-        showView(location.hash === '#training' ? 'training' : 'home');
+        showView(location.hash === '#training' ? 'training' : location.hash === '#learning' ? 'learning' : 'home');
       });
 
       if (location.hash === '#training') showView('training');
+      else if (location.hash === '#learning') showView('learning');
     })();
   </script>
   <script src="../hub-theme.js" defer></script>
   <script src="./codeforces-red.js" defer></script>
   <script src="./codeforces-problems.js" defer></script>
   <script src="./codeforces-contests.js" defer></script>
+  <script src="./cp-learning-centre.js" defer></script>
   <script src="../supabase/config.js"></script>
   <script src="../supabase/client.js"></script>
   <script src="../supabase/cloud-sync.js"></script>

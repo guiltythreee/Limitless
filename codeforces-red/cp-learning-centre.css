@@ -1,0 +1,91 @@
+/* Competitive Programming Learning Centre */
+.cr-learning-view{width:min(1120px,calc(100% - 36px));margin:0 auto;padding:28px 0 60px}
+.cr-learning-header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}
+.cr-learning-header h1{margin:7px 0;color:#edf6ff;font-size:clamp(27px,4vw,38px)}
+.cr-learning-header p{max-width:720px;margin:0;color:#a8bfd8;font-size:12px;line-height:1.7}
+.cr-learning-back{padding:10px 13px;border:1px solid rgba(105,158,213,.28);border-radius:9px;background:rgba(13,31,52,.7);color:#c5ddf5;cursor:pointer}
+.lc-summary{padding:18px;border:1px solid rgba(105,158,213,.22);border-radius:13px;background:rgba(8,20,36,.88)}
+.lc-summary-head{display:flex;justify-content:space-between;gap:12px;color:#c5ddf5;font-size:12px}.lc-summary-head strong{color:#8fc8ff}
+.lc-progress{height:7px;margin-top:10px;overflow:hidden;border-radius:8px;background:rgba(129,164,198,.17)}.lc-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#358fe0,#65c6f4);transition:width .2s}
+.lc-toolbar{display:grid;grid-template-columns:minmax(180px,1fr) 190px 190px auto;gap:10px;margin:16px 0}
+.lc-toolbar label{display:grid;gap:6px;color:#9db7d1;font-size:10px}.lc-toolbar input,.lc-toolbar select{width:100%;min-height:39px;padding:8px 10px;border:1px solid rgba(105,158,213,.25);border-radius:8px;background:rgba(7,19,34,.9);color:#e8f2fc}
+.lc-toolbar button{align-self:end;min-height:39px;padding:8px 12px;border:1px solid rgba(105,158,213,.25);border-radius:8px;background:rgba(21,52,82,.8);color:#c5ddf5;cursor:pointer}
+.lc-count{margin:0 0 10px;color:#8faac5;font-size:11px}
+.lc-module{margin:10px 0;padding:17px;border:1px solid rgba(105,158,213,.2);border-radius:12px;background:rgba(8,20,36,.88)}
+.lc-module-head{display:flex;justify-content:space-between;gap:12px}.lc-stage{color:#79bdff;font-size:9px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase}
+.lc-module h3{margin:6px 0;color:#e8f2fc;font-size:16px}.lc-tags{margin:0;color:#8faac5;font-size:10px}
+.lc-module-progress{display:grid;place-items:center;flex:0 0 34px;height:34px;border:1px solid rgba(105,158,213,.25);border-radius:50%;color:#a9d3ff;font-size:10px}
+.lc-module-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.lc-track-block{padding:13px;border:1px solid rgba(105,158,213,.14);border-radius:9px;background:rgba(16,38,62,.48)}
+.lc-track-block>b{color:#a8d4ff;font-size:11px}.lc-track-block p{margin:8px 0 11px;color:#b5c8dc;font-size:11px;line-height:1.65}
+.lc-links{display:flex;flex-wrap:wrap;gap:8px 13px}.lc-links a{color:#79c1ff;font-size:10px;text-decoration:underline;text-underline-offset:3px}
+.lc-checks{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:13px;padding-top:12px;border-top:1px solid rgba(117,164,207,.14)}
+.lc-check{display:flex;align-items:center;gap:7px;color:#a9bfd7;font-size:10px;cursor:pointer}.lc-check input{width:15px;height:15px;accent-color:#55b7ff}
+.lc-empty{padding:20px;color:#9db4cc;text-align:center}
+html[data-theme="light"] .cr-learning-header h1,html[data-theme="light"] .lc-module h3{color:#1c3d5c}
+html[data-theme="light"] .lc-summary,html[data-theme="light"] .lc-module{background:rgba(249,252,255,.94);border-color:rgba(59,112,159,.22)}
+html[data-theme="light"] .lc-track-block{background:rgba(232,242,252,.75);border-color:rgba(59,112,159,.18)}
+html[data-theme="light"] .lc-track-block p,html[data-theme="light"] .lc-check,html[data-theme="light"] .cr-learning-header p{color:#526d87}
+html[data-theme="light"] .lc-toolbar input,html[data-theme="light"] .lc-toolbar select{background:#fff;color:#1d3852}
+@media(max-width:720px){.cr-learning-header{flex-direction:column}.lc-toolbar{grid-template-columns:1fr 1fr}.lc-toolbar label:first-child{grid-column:1/-1}.lc-module-body{grid-template-columns:1fr}.lc-checks{flex-direction:column;gap:9px}}
+
+/* Reference-inspired neon learning dashboard: three glass panels with blue/cyan edge lighting. */
+.cr-learning-view{width:min(1160px,calc(100% - 34px));padding-top:24px}
+.lc-visual-dashboard{
+  display:grid;grid-template-columns:1fr 1.04fr 1fr;align-items:stretch;gap:18px;
+  margin:20px 0 24px;padding:14px 8px 18px;
+  perspective:1200px;
+}
+.lc-visual-card{
+  position:relative;display:flex;flex-direction:column;min-width:0;min-height:440px;
+  padding:23px 21px 18px;border:1px solid rgba(83,157,218,.46);border-radius:18px;
+  background:linear-gradient(155deg,rgba(12,28,47,.97),rgba(5,16,30,.98) 72%);
+  box-shadow:inset 0 1px 0 rgba(175,220,255,.06),0 18px 42px rgba(0,0,0,.28),0 0 22px rgba(32,122,208,.08);
+  overflow:hidden;
+}
+.lc-visual-card:before{content:"";position:absolute;inset:0 auto 0 0;width:2px;background:linear-gradient(180deg,transparent,#4d9dff 18%,#58c8ef 82%,transparent);opacity:.75}
+.lc-visual-card:after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;background:radial-gradient(ellipse at 5% 8%,rgba(49,142,236,.13),transparent 38%);opacity:.9}
+.lc-courses-card{border-color:rgba(78,151,244,.58);box-shadow:inset 0 1px 0 rgba(175,220,255,.06),0 18px 42px rgba(0,0,0,.28),-5px 0 24px rgba(45,117,255,.10)}
+.lc-practice-card{min-height:466px;border-color:rgba(65,218,226,.7);box-shadow:inset 0 1px 0 rgba(175,255,255,.08),0 20px 48px rgba(0,0,0,.32),0 0 27px rgba(39,218,225,.13);transform:translateY(-8px)}
+.lc-practice-card:before{background:linear-gradient(180deg,transparent,#54f2ec 16%,#43c9ef 82%,transparent);width:3px}
+.lc-reference-card{border-color:rgba(68,192,213,.56);box-shadow:inset 0 1px 0 rgba(175,255,255,.06),0 18px 42px rgba(0,0,0,.28),5px 0 24px rgba(31,194,218,.08)}
+.lc-card-topline{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;min-height:38px;margin-bottom:12px}
+.lc-card-symbol{display:grid;place-items:center;width:37px;height:37px;border:1px solid rgba(75,197,225,.65);border-radius:9px;background:rgba(32,118,160,.13);color:#72e6ed;font:700 22px/1 monospace;box-shadow:0 0 14px rgba(57,204,222,.12)}
+.lc-courses-card .lc-card-symbol{border-color:rgba(75,151,255,.65);background:rgba(34,100,194,.16);color:#69aaff}
+.lc-card-icon{display:grid;place-items:center;width:43px;height:43px;border:1px solid rgba(76,142,242,.45);border-radius:10px;color:#8abaff;font-size:25px}
+.lc-year-chip{padding:6px 9px;border:1px solid rgba(64,204,219,.3);border-radius:7px;background:rgba(35,152,165,.12);color:#72e3e6;font-size:11px;font-weight:700;letter-spacing:.5px}
+.lc-card-title{position:relative;z-index:1;min-height:112px}
+.lc-card-title h2{margin:0;color:#edf6ff;font-size:clamp(23px,2.4vw,28px);font-weight:650;letter-spacing:-.65px;line-height:1.06}
+.lc-card-title p{max-width:245px;margin:9px 0 0;color:#8da6bf;font-size:11px;line-height:1.55}
+.lc-course-steps{position:relative;z-index:1;display:grid;gap:7px;margin:2px 0 17px}
+.lc-course-step{position:relative;display:grid;grid-template-columns:29px minmax(0,1fr) 23px;align-items:center;gap:9px;min-height:38px;padding:5px 8px;border:1px solid rgba(87,133,184,.13);border-radius:8px;background:linear-gradient(90deg,rgba(28,54,82,.76),rgba(14,32,52,.86));color:#b8cbe0;text-align:left;font-size:10px;cursor:pointer;transition:border-color .18s,background .18s}
+.lc-course-step:hover{border-color:rgba(86,164,245,.55);background:rgba(32,73,112,.78)}
+.lc-step-number{display:grid;place-items:center;width:27px;height:27px;border:1px solid rgba(75,155,248,.42);border-radius:6px;background:rgba(38,104,187,.22);color:#8cc4ff;font-size:11px;font-weight:700}
+.lc-course-step i{display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:rgba(44,127,230,.15);color:#79b8ff;font-size:9px;font-style:normal;font-weight:700}
+.lc-course-step i.is-complete{background:#397ee6;color:white}
+.lc-card-progress{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-top:auto;padding:12px 10px;border:1px solid rgba(88,137,185,.17);border-radius:10px;background:rgba(15,34,55,.8)}
+.lc-progress-orb{display:grid;place-items:center;flex:0 0 32px;height:32px;border-radius:50%;background:rgba(55,129,225,.14);color:#79b9ff;font-size:17px}
+.lc-card-progress>div{display:grid;grid-template-columns:1fr auto;gap:6px;flex:1;color:#9db5cd;font-size:10px}
+.lc-card-progress strong{color:#80b8ff;font-size:11px}
+.lc-card-progress i{grid-column:1/-1;height:6px;overflow:hidden;border-radius:8px;background:rgba(110,146,183,.16)}
+.lc-card-progress i b{display:block;width:0;height:100%;border-radius:8px;background:linear-gradient(90deg,#286bdb,#56b8ff);box-shadow:0 0 10px rgba(69,155,255,.45)}
+.lc-run-panel{position:relative;z-index:1;display:flex;align-items:center;gap:14px;margin:1px 0 14px;padding:13px;border:1px solid rgba(82,149,191,.2);border-radius:11px;background:linear-gradient(110deg,rgba(18,42,65,.95),rgba(12,29,47,.9));color:#edf7ff;text-decoration:none;transition:border-color .2s,transform .2s}
+.lc-run-panel:hover{border-color:rgba(72,229,230,.65);transform:translateY(-2px)}
+.lc-run-button{display:grid;place-items:center;flex:0 0 72px;height:72px;border:3px solid #40e5e3;border-radius:50%;color:#4de9e7;font-size:25px;text-shadow:0 0 12px rgba(63,237,232,.75);box-shadow:0 0 0 5px rgba(54,220,219,.08),0 0 24px rgba(55,224,222,.24)}
+.lc-run-panel>span:nth-child(2){display:grid;gap:5px}.lc-run-panel strong{font-size:16px}.lc-run-panel small{color:#829eb8;font-size:10px}.lc-run-arrow{margin-left:auto;color:#5ce2e6;font-size:18px}
+.lc-skill-bars{position:relative;z-index:1;display:grid;gap:0;padding:5px 10px;border:1px solid rgba(85,142,179,.17);border-radius:10px;background:rgba(9,25,42,.75)}
+.lc-skill-row{display:grid;grid-template-columns:20px minmax(75px,1fr) minmax(54px,1.2fr) 31px;align-items:center;gap:8px;min-height:39px;border-bottom:1px solid rgba(111,151,185,.09);color:#a9bfd3}
+.lc-skill-row:last-child{border-bottom:0}.lc-skill-icon{color:#56dbe1;font:16px monospace}.lc-skill-row b{font-size:10px;font-weight:500}.lc-skill-row i{height:5px;overflow:hidden;border-radius:8px;background:rgba(121,156,186,.17)}.lc-skill-row i span{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#35b9d5,#4de9e4);box-shadow:0 0 8px rgba(58,218,224,.3)}.lc-skill-row small{color:#829eb8;font-size:9px;text-align:right}
+.lc-practice-link{position:relative;z-index:1;display:flex;justify-content:space-between;margin-top:auto;padding:12px 2px 0;color:#69dfe5;font-size:10px;text-decoration:none}
+.lc-practice-link span{font-size:16px}
+.lc-search-ornament{margin-right:4px;color:#66dce7;font-size:57px;line-height:.8;text-shadow:0 0 18px rgba(58,204,224,.25)}
+.lc-reference-links{position:relative;z-index:1;display:grid;gap:0;margin:2px 0 13px;border:1px solid rgba(88,151,184,.19);border-radius:10px;background:rgba(12,30,48,.83)}
+.lc-reference-links a{display:grid;grid-template-columns:24px 1fr 16px;align-items:center;gap:8px;min-height:39px;padding:0 10px;border-bottom:1px solid rgba(103,148,179,.13);color:#b5c9dc;text-decoration:none;font-size:10px}
+.lc-reference-links a:last-child{border-bottom:0}.lc-reference-links a:hover{background:rgba(42,106,135,.2);color:#e4fbff}.lc-reference-links a span{color:#5cc8e5;font-size:15px}.lc-reference-links a i{color:#809ab3;font-size:19px;font-style:normal;text-align:right}
+.lc-code-preview{position:relative;z-index:1;margin-top:auto;padding:11px 12px;border:1px solid rgba(76,145,186,.22);border-radius:10px;background:linear-gradient(130deg,rgba(14,32,52,.95),rgba(8,21,36,.96))}
+.lc-code-label{color:#58d4df;font-size:8px;font-weight:700;letter-spacing:1.2px}
+.lc-code-preview pre{margin:8px 0 0;overflow:hidden;color:#81c6d9;font:9px/1.65 Consolas,monospace;white-space:pre-wrap}
+.lc-summary{margin-top:18px}
+@media(max-width:900px){.lc-visual-dashboard{grid-template-columns:1fr 1fr}.lc-practice-card{transform:none;grid-column:1/-1;grid-row:1;min-height:410px}.lc-courses-card,.lc-reference-card{min-height:410px}}
+@media(max-width:620px){.lc-visual-dashboard{grid-template-columns:1fr;gap:13px;padding:8px 0}.lc-visual-card,.lc-practice-card{grid-column:auto;grid-row:auto;min-height:390px;padding:20px}.lc-card-title{min-height:100px}.lc-skill-row{grid-template-columns:20px minmax(75px,1fr) minmax(50px,1fr) 31px}}
+html[data-theme="light"] .lc-visual-card{background:linear-gradient(155deg,rgba(15,40,65,.98),rgba(8,25,43,.99));color:#edf6ff}

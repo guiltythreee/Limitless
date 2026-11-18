@@ -1,0 +1,126 @@
+(function () {
+  'use strict';
+  const KEY='limitless.cp.learning-centre.v1';
+  const $=id=>document.getElementById(id);
+  const GFG_ALGO_QUIZ='https://www.geeksforgeeks.org/dsa/algorithms-gq/';
+  const GFG_DS_QUIZ='https://www.geeksforgeeks.org/dsa/data-structure-quiz/';
+  const GFG_CPP_STL_QUIZ='https://www.geeksforgeeks.org/cpp/cpp-stl-quizzes/';
+  const GFG_CPP_FUND_QUIZ='https://www.geeksforgeeks.org/cpp/cpp-fundamental-quizzes/';
+  const TOPIC_QUIZZES={
+    'binary-search':'https://www.geeksforgeeks.org/quizzes/top-mcqs-on-binary-search-algorithm-with-answers/',
+    'brute-force':'https://www.geeksforgeeks.org/quizzes/top-mcqs-on-backtracking-algorithm-with-answers/',
+    'kmp':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'dp':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'bitmask-dp':'https://www.geeksforgeeks.org/quizzes/top-mcqs-on-bitwise-algorithms-and-bit-manipulations-with-answers/',
+    'arrays-vectors':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'stl-containers':'https://www.geeksforgeeks.org/quizzes/c-stl/',
+    'sorting':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'greedy':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'elementary-math':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'bfs-dfs':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'shortest-paths':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'dsu':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'hashing':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'fenwick-segtree':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'trees-lca':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'scc-bridges':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'flows-matching':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/'
+  };
+  const modules=[
+    {stage:'Foundations',id:'complexity',title:'Complexity and constraints',tags:'Big-O, time, memory, overflow',concept:'Estimate operations and memory from constraints; compare O(1), O(log n), O(n), O(n log n), O(n²). Identify when brute force is feasible and when integer overflow changes correctness.',cpp:'Integer types (int, long long), numeric limits, safe arithmetic, pass-by-reference for large inputs, and measuring input size before choosing an algorithm.',cf:'implementation',gfg:'time complexity analysis quiz',learn:'integer types and limits C++'},
+    {stage:'Foundations',id:'io-functions',title:'C++ implementation and input/output',tags:'cin, cout, functions, references',concept:'Translate a statement into input, state, operations and output. Split repeated logic into functions and test edge cases.',cpp:'Fast iostream setup, functions, parameters, return values, const references, scope, and basic debugging.',cf:'implementation',gfg:'C++ input output functions quiz',learn:'iostream functions references C++'},
+    {stage:'Foundations',id:'arrays-vectors',title:'Arrays, vectors and strings',tags:'arrays, vector, string, indexing',concept:'Traverse sequences, update elements, count frequencies, handle boundaries and reason about contiguous storage.',cpp:'std::vector, std::string, size(), indexing, push_back(), range-based loops, references, and safe index types.',cf:'implementation',gfg:'array vector string quiz C++',learn:'std vector std string C++'},
+    {stage:'Foundations',id:'sorting',title:'Sorting and custom order',tags:'sort, comparator, stable order',concept:'Sort to expose order, group equal values, and transform problems into adjacent comparisons or greedy choices.',cpp:'std::sort, reverse, pair, tuple, custom comparators and lambda expressions.',cf:'sortings',gfg:'sorting algorithms quiz',learn:'std sort comparator lambda C++'},
+    {stage:'Foundations',id:'brute-force',title:'Complete search and simulation',tags:'enumeration, simulation, backtracking',concept:'Enumerate small candidate spaces, simulate operations exactly, prune impossible branches and use brute force as a correctness oracle.',cpp:'Nested loops, bit operations for subsets, recursion, function parameters and early return/break.',cf:'brute force',gfg:'brute force algorithm quiz',learn:'loops recursion bitwise operators C++'},
+    {stage:'Foundations',id:'prefix-sums',title:'Prefix sums and difference arrays',tags:'range sums, frequency, updates',concept:'Precompute cumulative information to answer range queries; use difference arrays for repeated interval updates.',cpp:'Vectors for prefix arrays, long long accumulators, indexing conventions and careful half-open/inclusive ranges.',cf:'*',gfg:'prefix sum technique quiz',learn:'std vector arrays C++'},
+    {stage:'Foundations',id:'two-pointers',title:'Two pointers and sliding windows',tags:'two pointers, windows, sorted arrays',concept:'Maintain a window or two indices while preserving an invariant; recognise when monotonic movement avoids repeated work.',cpp:'Index variables, while loops, deque when maintaining a moving minimum/maximum, and avoiding invalid iterators.',cf:'two pointers',gfg:'two pointers sliding window quiz',learn:'std deque iterators C++'},
+    {stage:'Foundations',id:'greedy',title:'Greedy algorithms and invariants',tags:'sorting, intervals, exchange argument',concept:'Choose a locally optimal move only after establishing an invariant, exchange argument or counterexample-based proof.',cpp:'Sorting with comparators, pair/tuple, priority_queue for repeated best-choice extraction.',cf:'greedy',gfg:'greedy algorithms quiz',learn:'std sort priority queue C++'},
+    {stage:'Foundations',id:'elementary-math',title:'Elementary number theory',tags:'gcd, lcm, primes, modulo',concept:'Use divisibility, parity, gcd/lcm, prime factorisation and modular arithmetic to simplify constraints.',cpp:'std::gcd, integer division/remainder, long long, modular multiplication precautions and sieve arrays.',cf:'math',gfg:'number theory gcd modulo quiz',learn:'std gcd remainder operators C++'},
+    {stage:'Specialist',id:'binary-search',title:'Binary search and answer search',tags:'monotonic predicate, lower_bound',concept:'Search a sorted range or binary-search the answer when feasibility is monotonic; maintain a precise invariant.',cpp:'lower_bound, upper_bound, binary_search, iterators and overflow-safe midpoint calculation.',cf:'binary search',gfg:'binary search quiz',learn:'std lower_bound upper_bound C++'},
+    {stage:'Specialist',id:'stl-containers',title:'STL containers and adaptors',tags:'map, set, stack, queue, heap',concept:'Choose a data structure by required operations and complexity: lookup, ordered traversal, insertion, deletion or top-priority access.',cpp:'vector, pair, map, unordered_map, set, multiset, stack, queue, deque and priority_queue; common member functions and iterator use.',cf:'data structures',gfg:'C++ STL containers quiz',learn:'std map set stack queue priority_queue C++'},
+    {stage:'Specialist',id:'dsu',title:'Disjoint Set Union',tags:'DSU, union-find, connectivity',concept:'Maintain dynamic connected components using path compression and union by size/rank; apply to connectivity and Kruskal.',cpp:'vector parent/size arrays, iterative find, references, and sorting weighted edges.',cf:'dsu',gfg:'disjoint set union quiz',learn:'vector functions references C++'},
+    {stage:'Specialist',id:'hashing',title:'Hashing and frequency maps',tags:'unordered_map, collisions, strings',concept:'Count frequencies and support expected O(1) lookup; understand collisions and when ordered maps are safer.',cpp:'unordered_map, unordered_set, map, custom hash caveats, string iteration and pair keys.',cf:'hashing',gfg:'hashing data structure quiz',learn:'unordered map unordered set C++'},
+    {stage:'Specialist',id:'kmp',title:'Prefix function and KMP',tags:'pattern matching, borders, strings',concept:'Compute the longest proper prefix that is also a suffix and use it to match patterns in linear time.',cpp:'String indexing, vector<int> prefix arrays, loops and careful fallback transitions.',cf:'strings',gfg:'KMP string matching quiz',learn:'std string vector C++'},
+    {stage:'Specialist',id:'combinatorics',title:'Counting and modular arithmetic',tags:'combinations, factorials, inverses',concept:'Count arrangements and selections; use modular inverses when the modulus and factorial range permit them.',cpp:'Modular exponentiation, long long, arrays for factorial/inverse factorial and safe modular normalisation.',cf:'combinatorics',gfg:'combinatorics modular arithmetic quiz',learn:'integer arithmetic functions C++'},
+    {stage:'Core algorithms',id:'bfs-dfs',title:'BFS, DFS and components',tags:'graphs, traversal, trees, grids',concept:'Represent graphs, traverse components, detect bipartite structure and process trees; know when recursion depth is unsafe.',cpp:'vector<vector<int>>, queue, adjacency lists, visited arrays, iterative DFS stacks and lambda/recursive functions.',cf:'dfs and similar',gfg:'BFS DFS graph traversal quiz',learn:'std vector queue stack C++'},
+    {stage:'Core algorithms',id:'shortest-paths',title:'Shortest paths and topological order',tags:'BFS, Dijkstra, DAG, cycles',concept:'Use BFS for unweighted paths, Dijkstra for non-negative weights, and topological ordering for DAG dependencies.',cpp:'queue, priority_queue with greater, pair distances, adjacency lists and stale-heap-entry checks.',cf:'shortest paths',gfg:'Dijkstra topological sort quiz',learn:'std priority queue pair C++'},
+    {stage:'Core algorithms',id:'dp',title:'Dynamic programming foundations',tags:'state, transition, memoization, tabulation',concept:'Define a state, transition, base case and evaluation order. Start with knapsack, LIS, grid paths and counting DP.',cpp:'Vectors for 1D/2D DP, memoisation arrays, recursion, loop ordering and avoiding accidental copies.',cf:'dp',gfg:'dynamic programming quiz',learn:'std vector recursion C++'},
+    {stage:'Core algorithms',id:'fenwick-segtree',title:'Fenwick and segment trees',tags:'range query, point update, tree array',concept:'Select a structure for prefix sums, point updates, range queries and associative aggregates; understand operation complexity.',cpp:'Vector-backed tree arrays, bitwise lowbit operations, iterative loops and long long aggregates.',cf:'data structures',gfg:'Fenwick tree segment tree quiz',learn:'vector bitwise operators C++'},
+    {stage:'Core algorithms',id:'constructive',title:'Constructive algorithms',tags:'invariants, parity, permutations',concept:'Construct any valid object under constraints; derive necessary conditions, preserve invariants and verify edge cases.',cpp:'Vectors, sorting, reverse, swaps, permutations with next_permutation and custom validation functions.',cf:'constructive algorithms',gfg:'constructive algorithms quiz',learn:'std next_permutation reverse C++'},
+    {stage:'Advanced reasoning',id:'bitmask-dp',title:'Bitmask DP and subset techniques',tags:'bitmask, subsets, SOS DP',concept:'Encode subsets as bitmasks; derive transitions over set bits, submasks and assignment states.',cpp:'Bitwise &, |, ^, shifts, popcount, unsigned masks and integer-width limits.',cf:'bitmasks',gfg:'bitmask dynamic programming quiz',learn:'bitwise operators bit manipulation C++'},
+    {stage:'Advanced reasoning',id:'trees-lca',title:'Tree algorithms and LCA',tags:'tree DP, binary lifting, rerooting',concept:'Compute subtree information, ancestors, lowest common ancestors, path queries and rerooted answers.',cpp:'Adjacency vectors, DFS order arrays, binary-lifting tables, recursive versus iterative traversal.',cf:'trees',gfg:'lowest common ancestor tree DP quiz',learn:'vector arrays functions C++'},
+    {stage:'Advanced reasoning',id:'scc-bridges',title:'SCC, bridges and articulation points',tags:'Tarjan, Kosaraju, low-link',concept:'Find strongly connected components and critical edges/vertices using DFS order and low-link invariants.',cpp:'Adjacency and reverse-adjacency lists, discovery/low arrays, stacks and iterative DFS where needed.',cf:'dfs and similar',gfg:'strongly connected components bridges quiz',learn:'vector stack recursion C++'},
+    {stage:'Advanced reasoning',id:'offline-lazy',title:'Lazy propagation and offline queries',tags:'segment tree, Mo, sweep line',concept:'Reorder or batch queries when possible; maintain deferred updates and reason about query/update invariants.',cpp:'Structs for nodes/queries, custom sort, coordinate compression, vectors and comparator lambdas.',cf:'data structures',gfg:'lazy propagation Mo algorithm quiz',learn:'struct sort lambda vector C++'},
+    {stage:'Advanced reasoning',id:'advanced-strings',title:'Tries, Z-function and string automata',tags:'trie, Z, Aho-Corasick',concept:'Use prefix/suffix structure, tries and automata for multi-pattern or repeated-substring problems.',cpp:'Array-backed trie nodes, vector transitions, string indexing and queue for automaton BFS.',cf:'strings',gfg:'trie Z algorithm Aho Corasick quiz',learn:'struct vector string queue C++'},
+    {stage:'Advanced reasoning',id:'game-theory',title:'Game theory and Grundy numbers',tags:'winning states, mex, Nim',concept:'Classify winning/losing states and compute Grundy values for impartial games and disjoint sums.',cpp:'Vectors/sets for reachable states, bitwise xor for Nim sums and memoisation.',cf:'games',gfg:'game theory Grundy number quiz',learn:'std set vector bitwise operators C++'},
+    {stage:'Mastery',id:'flows-matching',title:'Flows, cuts and matching',tags:'residual graph, Dinic, bipartite matching',concept:'Model constraints as capacities; reason about residual edges, augmenting paths, max-flow/min-cut and matching.',cpp:'Edge structs, adjacency vectors, references/indices for reverse edges, BFS levels and DFS iterators.',cf:'flows',gfg:'maximum flow bipartite matching quiz',learn:'struct vector references C++'},
+    {stage:'Mastery',id:'fft-ntt',title:'FFT, NTT and convolution',tags:'polynomial multiplication, roots of unity',concept:'Understand convolution, transform-domain multiplication, modular roots and numerical precision trade-offs.',cpp:'Complex numbers, vectors, iterative bit reversal, modular exponentiation and long long multiplication.',cf:'fft',gfg:'FFT number theoretic transform quiz',learn:'complex numbers bitwise operators C++'},
+    {stage:'Mastery',id:'geometry',title:'Computational geometry',tags:'orientation, intersection, convex hull',concept:'Use cross products and orientation predicates; handle collinearity, integer overflow and floating-point precision.',cpp:'Structs for points, long long cross products, sorting custom points and epsilon comparisons only when necessary.',cf:'geometry',gfg:'computational geometry convex hull quiz',learn:'struct comparator numeric limits C++'},
+    {stage:'Mastery',id:'advanced-ds',title:'Advanced data structures',tags:'persistent trees, rollback DSU, sqrt decomposition',concept:'Choose specialised structures based on offline/online constraints, versioning, rollback and update/query trade-offs.',cpp:'Structs, vectors of nodes, index-based memory pools, stack snapshots and careful reference invalidation.',cf:'data structures',gfg:'persistent segment tree DSU rollback quiz',learn:'struct vector references C++'}
+  ];
+  let state={checks:{}},track='all',stage='all',query='';
+  function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');state={checks:x.checks&&typeof x.checks==='object'?x.checks:{}};}catch(_){state={checks:{}};}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){}}
+  function link(url,label){return '<a href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(label)+' ↗</a>';}
+  const COURSE_STAGES=['Foundations','Specialist','Core algorithms','Advanced reasoning','Mastery'];
+  function renderVisualDashboard(){
+    const stageHost=$('lc-course-steps');
+    if(!stageHost)return;
+    const stageRows=COURSE_STAGES.map((name,index)=>{
+      const rows=modules.filter(m=>m.stage===name);
+      const total=rows.length*3;
+      const done=rows.reduce((sum,m)=>sum+['concept','cpp','practice'].filter(t=>state.checks[m.id+':'+t]).length,0);
+      const percent=total?Math.round(done/total*100):0;
+      return '<button class="lc-course-step" type="button" data-lc-stage="'+esc(name)+'"><span class="lc-step-number">'+String(index+1).padStart(2,'0')+'</span><span>'+esc(name==='Foundations'?'Fundamentals':name==='Specialist'?'Core Concepts':name==='Core algorithms'?'Advanced Topics':'Real Projects')+'</span><i class="'+(percent===100?'is-complete':'')+'">'+(percent===100?'✓':percent+'%')+'</i></button>';
+    }).join('');
+    stageHost.innerHTML=stageRows;
+    const allTotal=modules.length*3;
+    const allDone=Object.keys(state.checks).filter(k=>state.checks[k]).length;
+    const percent=Math.round(allDone/allTotal*100);
+    $('lc-course-percent').textContent=percent+'%';
+    $('lc-course-bar').style.width=percent+'%';
+    const groups=[
+      {label:'Algorithms',ids:modules.filter(m=>['Specialist','Core algorithms','Advanced reasoning','Mastery'].includes(m.stage)).map(m=>m.id)},
+      {label:'Data Structures',ids:['arrays-vectors','stl-containers','dsu','hashing','fenwick-segtree','bfs-dfs','trees-lca','scc-bridges','offline-lazy','advanced-ds']},
+      {label:'C++ Language',ids:modules.map(m=>m.id)}
+    ];
+    $('lc-skill-bars').innerHTML=groups.map((g,i)=>{
+      const total=g.ids.length*(i===2?1:1);
+      const done=g.ids.filter(id=>state.checks[id+':'+(i===2?'cpp':'concept')]).length;
+      const pct=total?Math.round(done/total*100):0;
+      return '<div class="lc-skill-row"><span class="lc-skill-icon">'+(i===0?'⌘':i===1?'{}':'▣')+'</span><b>'+g.label+'</b><i><span style="width:'+pct+'%"></span></i><small>'+pct+'%</small></div>';
+    }).join('');
+    stageHost.querySelectorAll('[data-lc-stage]').forEach(button=>button.addEventListener('click',()=>{
+      stage=button.dataset.lcStage;
+      $('lc-stage').value=stage;
+      render();
+      $('lc-list').scrollIntoView({behavior:'smooth',block:'start'});
+    }));
+  }
+  function render(){
+    renderVisualDashboard();
+    const filtered=modules.filter(m=>(stage==='all'||m.stage===stage)&&((m.title+' '+m.tags+' '+m.concept+' '+m.cpp).toLowerCase().includes(query)));
+    const done=Object.keys(state.checks).filter(k=>state.checks[k]).length,total=modules.length*3;
+    $('lc-overall').textContent=done+' / '+total+' learning steps completed';
+    $('lc-progress').style.width=(done/total*100)+'%';
+    $('lc-count').textContent=filtered.length+' of '+modules.length+' modules';
+    $('lc-list').innerHTML=filtered.map(m=>{
+      const checks=['concept','cpp','practice'],labels=['Concept understood','C++ implementation studied','Practice completed'];
+      const checkHtml=checks.map((t,i)=>'<label class="lc-check"><input type="checkbox" data-lc-check="'+m.id+':'+t+'" '+(state.checks[m.id+':'+t]?'checked':'')+'><span>'+labels[i]+'</span></label>').join('');
+      const concept=track==='cpp'?'':('<div class="lc-track-block"><b>01 · Competitive programming concept</b><p>'+esc(m.concept)+'</p><div class="lc-links">'+link(TOPIC_QUIZZES[m.id]||(/dsu|hash|array|vector|bfs|shortest|tree|segment|fenwick|scc|flow/.test(m.id)?GFG_DS_QUIZ:GFG_ALGO_QUIZ),'GeeksforGeeks topic MCQs')+link('https://www.geeksforgeeks.org/explore','GeeksforGeeks practice problems')+link('https://codeforces.com/problemset?tags='+encodeURIComponent(m.cf==='*'?'implementation':m.cf),'Codeforces tagged problems')+'</div></div>');
+      const cpp=track==='concepts'?'':('<div class="lc-track-block"><b>02 · C++ required for implementation</b><p>'+esc(m.cpp)+'</p><div class="lc-links">'+link('https://www.learncpp.com/?s='+encodeURIComponent(m.learn),'LearnCpp: '+m.learn)+link(/map|set|stack|queue|vector|deque|priority|container|lower_bound|unordered/.test(m.cpp)?GFG_CPP_STL_QUIZ:GFG_CPP_FUND_QUIZ,'C++ language / STL MCQs')+'</div></div>');
+      return '<article class="lc-module"><div class="lc-module-head"><div><span class="lc-stage">'+esc(m.stage)+'</span><h3>'+esc(m.title)+'</h3><p class="lc-tags">'+esc(m.tags)+'</p></div><span class="lc-module-progress">'+checks.filter(t=>state.checks[m.id+':'+t]).length+'/3</span></div><div class="lc-module-body">'+concept+cpp+'</div><div class="lc-checks">'+checkHtml+'</div></article>';
+    }).join('')||'<p class="lc-empty">No modules match this filter. Clear the search or choose another stage.</p>';
+    $('lc-list').querySelectorAll('[data-lc-check]').forEach(input=>input.addEventListener('change',()=>{state.checks[input.dataset.lcCheck]=input.checked;save();render();}));
+  }
+  function bind(){
+    load();
+    $('lc-track').addEventListener('change',e=>{track=e.target.value;render();});
+    $('lc-stage').addEventListener('change',e=>{stage=e.target.value;render();});
+    $('lc-search').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();render();});
+    $('lc-reset').addEventListener('click',()=>{if(!confirm('Reset all Learning Centre completion checkboxes?'))return;state={checks:{}};save();render();});
+    render();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if($('lc-list'))bind();});else if($('lc-list'))bind();
+})();

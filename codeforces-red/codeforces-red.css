@@ -1472,3 +1472,15 @@ html[data-theme="light"] .cr-book-detail-group p strong{color:#1d3d5c}
 @media(prefers-reduced-motion:reduce){
   .cr-book-detail summary{transition:none!important}
 }
+
+
+/* Persistent reading completion controls for CP references */
+.cr-book-completion{display:inline-flex;align-items:center;gap:7px;margin:7px 0;color:#a9bfd7;font-size:11px;cursor:pointer}.cr-book-completion input{width:15px;height:15px;accent-color:#55b7ff;cursor:pointer}
+html[data-theme="light"] .cr-book-completion{color:#526d87}
+
+/* Three parallel CP workspaces: Training Plan, Learning Centre and Virtual Contests. */
+#cf-home-view .cr-training-launch{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cr-launch-learning{background:radial-gradient(circle at 88% 12%,rgba(107,202,186,.24),transparent 34%),linear-gradient(135deg,#174f62 0%,#176c83 52%,#168b91 100%)}
+html[data-theme="light"] .cr-launch-learning{background:linear-gradient(135deg,#237d8e,#319a9a)}
+#cf-learning-view[hidden]{display:none!important}
+@media(max-width:760px){#cf-home-view .cr-training-launch{grid-template-columns:1fr}}

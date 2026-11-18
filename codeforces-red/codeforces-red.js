@@ -75,9 +75,9 @@
       'Long-term review: track rating variance, recurring mistakes, implementation bugs and topic weaknesses.'
     ]}
   ];
-  let roadmapState = {checks:{},weekly:{solved:0,contests:0},weeklyManual:{contests:0},active:0,ready:[]};
+  let roadmapState = {checks:{},resourceChecks:{},weekly:{solved:0,contests:0},weeklyManual:{contests:0},active:0,ready:[]};
   function loadRoadmap() {
-    try { const saved=JSON.parse(localStorage.getItem(ROADMAP_KEY)||'{}'); roadmapState={...roadmapState,...saved,checks:saved.checks||{},weekly:saved.weekly||{solved:0,contests:0},weeklyManual:{contests:(saved.weeklyManual&&saved.weeklyManual.contests)||0},ready:saved.ready||[],nextBandCounts:saved.nextBandCounts||{}}; if(roadmapState.taskSchemaVersion!==2){roadmapState.legacyChecks=roadmapState.checks;roadmapState.checks={};roadmapState.taskSchemaVersion=2;saveRoadmap();} } catch (_) {}
+    try { const saved=JSON.parse(localStorage.getItem(ROADMAP_KEY)||'{}'); roadmapState={...roadmapState,...saved,checks:saved.checks||{},resourceChecks:saved.resourceChecks||{},weekly:saved.weekly||{solved:0,contests:0},weeklyManual:{contests:(saved.weeklyManual&&saved.weeklyManual.contests)||0},ready:saved.ready||[],nextBandCounts:saved.nextBandCounts||{}}; if(roadmapState.taskSchemaVersion!==2){roadmapState.legacyChecks=roadmapState.checks;roadmapState.checks={};roadmapState.taskSchemaVersion=2;saveRoadmap();} } catch (_) {}
   }
   function saveRoadmap() { try { localStorage.setItem(ROADMAP_KEY,JSON.stringify(roadmapState)); } catch (_) {} }
   function renderRoadmap(peak) {
@@ -110,6 +110,7 @@
       const tab=e.target.closest('[data-stage]');
       if(tab){roadmapState.active=Number(tab.dataset.stage);roadmapState.userSelected=true;saveRoadmap();renderRoadmap(lastPeak);return;}
     });
+    document.querySelectorAll('[data-book-check]').forEach(input=>{input.checked=!!roadmapState.resourceChecks[input.dataset.bookCheck];input.addEventListener('change',()=>{roadmapState.resourceChecks[input.dataset.bookCheck]=input.checked;saveRoadmap();});});
     $('stage-task-list').addEventListener('change',e=>{
       if(!e.target.matches('[data-task]'))return;
       const list=roadmapState.checks[roadmapState.active]||[],id=Number(e.target.dataset.task);

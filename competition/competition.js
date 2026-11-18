@@ -17,6 +17,7 @@
     mocks: [],
     problemLog: [],
     weekChecks: {},
+    resourceChecks: {},
     revisionChecks: {},
     revisionAttempts: []
   };
@@ -264,6 +265,7 @@
       if (!Array.isArray(merged.problemLog)) merged.problemLog = [];
       if (!Array.isArray(merged.revisionAttempts)) merged.revisionAttempts = [];
       if (!merged.weekChecks || typeof merged.weekChecks !== 'object') merged.weekChecks = {};
+      if (!merged.resourceChecks || typeof merged.resourceChecks !== 'object') merged.resourceChecks = {};
       if (!merged.revisionChecks || typeof merged.revisionChecks !== 'object') merged.revisionChecks = {};
       // Migrate the old binary checklist conservatively: a checked topic becomes
       // "practiced", never "mastered", because the old tracker had no mastery test.
@@ -698,6 +700,35 @@
       practice:['Implement the week’s data structure / algorithm without copying a template','Compile with warnings; test minimum, maximum, duplicate and boundary inputs']
     }
   };
+  // LearnCpp assignments are explicit per roadmap week. Chapter/section numbers
+  // follow the current LearnCpp table of contents; CP-specific STL gaps are linked separately.
+  var LEARNCPP_WEEKLY = [
+    {sections:['1.1–1.5: Program structure, variables, initialization and cin/cout','2.1–2.6: Functions, parameters, return values and local scope','4.4–4.6, 4.9–4.12: Integer types, fixed-width integers, bool, if and casts','8.2, 8.8, 8.10–8.11: if, while, for, break and continue','16.2, 16.8: std::vector and range-based for loops'],extra:['Practise reading input, processing test cases and printing exact output.']},
+    {sections:['5.7: std::string basics','13.7–13.10: Structs, aggregate initialization, passing and returning structs','16.2–16.4, 16.8: std::vector, passing vectors and range-based loops','18.2–18.3: Iterators and standard-library algorithms (LearnCpp marks this chapter under construction)'],extra:['For std::sort, std::pair, std::map and std::set, use the linked cppreference pages; LearnCpp does not provide a complete current tutorial for these CP library tools.']},
+    {sections:['2.1–2.6: Function decomposition and parameters','12.3–12.6: References and pass-by-reference / const reference','13.7–13.10: Structs and adjacency-list edge records','16.2, 16.8: Vector-backed adjacency lists','20.3: Recursion'],extra:['For std::stack and std::queue, use the linked cppreference container-adaptor references.']},
+    {sections:['16.2–16.4, 16.8: Vector construction, passing vectors and traversal','20.3: Recursion and call-stack behaviour','9.1–9.3: Testing and common semantic errors'],extra:['Implement visited arrays, queues and adjacency lists with std::vector; use cppreference for std::queue.']},
+    {sections:['8.8, 8.10–8.11: Loop control for greedy scans','13.7–13.10: Structs for intervals and tasks','16.2, 16.8: Vectors and traversal','18.2–18.3: Iterators and standard-library algorithms (under construction)'],extra:['Use cppreference std::sort documentation for the exact sorting API and complexity; prove the greedy choice separately.']},
+    {sections:['4.4–4.6: Signed integers, fixed-width types and size_t','10.1–10.8: Type conversions, narrowing, aliases and auto','11.1–11.5: Function overloading and default arguments','20.6–20.7: Lambda expressions and captures'],extra:['Use a comparator with std::sort; consult cppreference for std::sort and comparator requirements. Check integer bounds before arithmetic.']},
+    {sections:['13.7–13.10: Structs and edge records','16.2–16.4: Vectors and passing large containers','11.6–11.9: Function templates (only the basics needed to read STL interfaces)'],extra:['LearnCpp does not teach std::priority_queue in its main current chapters. Read the linked cppreference priority_queue page and practise min-heap/max-heap comparators.']},
+    {sections:['11.6–11.9: Function templates and template arguments','12.5–12.6: Pass by reference and const reference','20.6–20.7: Lambdas and captures','3.1–3.5: Syntax/semantic errors and debugging strategy'],extra:['Re-implement vector traversal, sorting, binary search and common container operations without copying a template.']},
+    {sections:['13.7–13.10: Structs, member access and passing structs','12.5–12.6: References for DSU operations','16.2, 16.8, 16.10: Vector, traversal, resizing and capacity','4.4–4.6: Integer types and index types'],extra:['Use cppreference std::sort for coordinate compression; DSU itself is an algorithm to implement, not an STL container.']},
+    {sections:['20.3: Recursion','13.7–13.10: Structs for weighted edges and tree data','16.2, 16.8: Vector adjacency lists and traversal','12.5–12.6: References and const references'],extra:['Use cppreference std::sort for Kruskal edge ordering; implement parent/depth arrays and traversal yourself.']},
+    {sections:['4.4–4.6: Integer ranges and fixed-width types','9.1–9.3: Testing, code coverage and semantic errors','3.2–3.5: Debugging process and tactics'],extra:['For each solution, compare the brute-force and optimised implementations and verify the stated complexity.']},
+    {sections:['3.1–3.10: Syntax/semantic errors, debugging strategy, breakpoints, watches and call stack','9.1–9.3: Testing, code coverage and common semantic errors'],extra:['Classify each failed problem as wrong idea, missed observation, complexity, boundary or implementation error.']},
+    {sections:['3.2–3.5: Debugging process and tactics','9.1–9.6: Testing, semantic errors, assertions and error detection','4.4–4.6: Integer types and size_t'],extra:['Turn each recurring bug into a minimal test case; re-solve the original problem without looking at the accepted code.']},
+    {sections:['8.2, 8.8, 8.10–8.11: Conditions, loops and loop control','16.2, 16.8: Vectors and range-based loops','2.1–2.6: Functions and decomposition','3.2–3.5, 9.1–9.3: Debugging and testing'],extra:['No new language topic this week: practise selecting the correct existing tool under time pressure.']},
+    {sections:['8.2, 8.8, 8.10–8.11: Control flow under timed conditions','16.2, 16.8: Vector construction and traversal','2.1–2.6: Function decomposition','3.2–3.5, 9.1–9.3: Debugging and test discipline'],extra:['Prepare and reuse your own short, tested C++ starter template; do not add unfamiliar features during the simulation.']},
+    {sections:['4.4–4.6: Integer types and bounds','8.8, 8.10–8.11: Loop control','16.2, 16.8: Vector and traversal','3.2–3.5, 9.1–9.3: Light debugging and testing review'],extra:['Do not start a new chapter. Review only the syntax and STL operations used in your final practice problems.']}
+  ];
+  function learnCppWeek(weekIndex){return LEARNCPP_WEEKLY[Math.min(weekIndex,LEARNCPP_WEEKLY.length-1)];}
+  var LEARNCPP_STL_LINKS = {
+    sort:'https://en.cppreference.com/w/cpp/algorithm/sort',
+    map:'https://en.cppreference.com/w/cpp/container/map',
+    set:'https://en.cppreference.com/w/cpp/container/set',
+    queue:'https://en.cppreference.com/w/cpp/container/queue',
+    stack:'https://en.cppreference.com/w/cpp/container/stack',
+    priority_queue:'https://en.cppreference.com/w/cpp/container/priority_queue'
+  };
   var CSES_TASKS = {
     graphs:[
       ['Building Roads','Message Route','Building Teams'],
@@ -844,8 +875,15 @@
         companion.sets.forEach(function(item){if(!group.sets.some(function(x){return x.url===item.url;}))group.sets.push(item);});
       }
       if(subjectId==='coding'){
+        var cppLinks=[];
+        if(/sorting|comparator|prefix sums|coordinate|sequence/i.test(topic[1]))cppLinks.push({label:'cppreference — std::sort',url:LEARNCPP_STL_LINKS.sort});
+        if(/maps\/sets|frequency|sorting/i.test(topic[1])){cppLinks.push({label:'cppreference — std::map',url:LEARNCPP_STL_LINKS.map});cppLinks.push({label:'cppreference — std::set',url:LEARNCPP_STL_LINKS.set});}
+        if(/queues|stacks|BFS|DFS/i.test(topic[1])){cppLinks.push({label:'cppreference — std::queue',url:LEARNCPP_STL_LINKS.queue});cppLinks.push({label:'cppreference — std::stack',url:LEARNCPP_STL_LINKS.stack});}
+        if(/Priority queues|Dijkstra/i.test(topic[1]))cppLinks.push({label:'cppreference — std::priority_queue',url:LEARNCPP_STL_LINKS.priority_queue});
+        if(!groups.LearnCpp){} 
         var learnKey='LearnCpp';
-        if(!groups[learnKey])groups[learnKey]={book:'LearnCpp — C++ language reference',url:'https://www.learncpp.com/',sections:['Use the relevant language, standard-library and implementation chapters needed for this week’s C++ tasks'],notes:[],lectures:[],sets:[]};
+        if(!groups[learnKey]){var cppWeek=learnCppWeek(weekIndex);groups[learnKey]={book:'LearnCpp — C++ language reference',url:'https://www.learncpp.com/',sections:cppWeek.sections.concat(cppWeek.extra.map(function(note){return 'CP-specific note: '+note;})),notes:[],lectures:[],sets:[],extraLinks:[]};}
+        cppLinks.forEach(function(item){if(!groups[learnKey].extraLinks.some(function(x){return x.url===item.url;}))groups[learnKey].extraLinks.push(item);});
       }
       if(subjectId==='probability' && !group.lectures.some(function(x){return x.url==='https://projects.iq.harvard.edu/stat110/online-learning';})){
         group.lectures.push({label:'STAT 110 video lectures',url:'https://projects.iq.harvard.edu/stat110/online-learning'});
@@ -857,17 +895,18 @@
         }
       }
     });
-    var cards=Object.keys(groups).map(function(key){
-      var g=groups[key];
+    var cards=Object.keys(groups).map(function(key,groupIndex){
+      var g=groups[key], resourceCheckKey='w'+(weekIndex+1)+'-resource-'+groupIndex, resourceChecked=!!state.resourceChecks[resourceCheckKey];
       var sectionHtml=g.sections.map(function(section){return '<li>'+esc(section)+'</li>';}).join('');
       var notesHtml=g.notes.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       var lectureHtml=g.lectures.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       var setsHtml=g.sets.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
-      return '<article class="weekly-resource-card"><div class="weekly-resource-book"><strong>'+esc(g.book)+'</strong><a href="'+g.url+'" target="_blank" rel="noopener noreferrer">Open book / primary reference ↗</a></div>'+
+      var extraLinksHtml=(g.extraLinks||[]).map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
+      return '<article class="weekly-resource-card"><div class="weekly-resource-book"><strong>'+esc(g.book)+'</strong><label class="resource-completion"><input type="checkbox" data-resource-check="'+resourceCheckKey+'" '+(resourceChecked?'checked':'')+'><span>Reading completed</span></label><a href="'+g.url+'" target="_blank" rel="noopener noreferrer">Open book / primary reference ↗</a></div>' +
         '<div class="weekly-resource-sections"><b>Read this week</b><ul>'+sectionHtml+'</ul></div>'+
         (notesHtml?'<div class="weekly-resource-links"><b>Written notes</b>'+notesHtml+'</div>':'')+
         (lectureHtml?'<div class="weekly-resource-links"><b>Video lectures</b>'+lectureHtml+'</div>':'')+
-        (setsHtml?'<div class="weekly-resource-links"><b>Problem sets</b>'+setsHtml+'</div>':'')+'</article>';
+        (setsHtml?'<div class="weekly-resource-links"><b>Problem sets</b>'+setsHtml+'</div>':'')+(extraLinksHtml?'<div class="weekly-resource-links"><b>C++ library references</b>'+extraLinksHtml+'</div>':'')+'</article>';
     }).join('');
     return '<section class="weekly-resource-shelf" aria-label="Books and learning resources for this week"><h4>Books &amp; learning resources for this week</h4><p>Start here: these are the references and exact sections used by this week’s plan. Matching video lectures and MIT problem sets are placed beside the relevant book.</p><div class="weekly-resource-grid">'+cards+'</div></section>';
   }
@@ -1260,6 +1299,7 @@
       });
     });
     $('week-list').querySelectorAll('[data-week-check]').forEach(function(input){input.addEventListener('change',function(){state.weekChecks[input.dataset.weekCheck]=input.checked;persist();renderWeeks();});});
+    $('week-list').querySelectorAll('[data-resource-check]').forEach(function(input){input.addEventListener('change',function(){state.resourceChecks[input.dataset.resourceCheck]=input.checked;persist();renderWeeks();});});
     $('week-list').querySelectorAll('[data-day-task]').forEach(function (input) {
       input.addEventListener('change', function () {
         state.dayChecks[input.dataset.dayTask] = input.checked;
