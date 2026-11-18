@@ -476,18 +476,18 @@
       {label:'Blitzstein & Hwang — Introduction to Probability',url:'https://projects.iq.harvard.edu/stat110/home'}
     ],
     graphs:[
-      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book/book.pdf'},
+      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book.pdf'},
       {label:'CP-Algorithms',url:'https://cp-algorithms.com/'},
       {label:'CSES Graph Algorithms',url:'https://cses.fi/problemset/'}
     ],
     dp:[
-      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book/book.pdf'},
+      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book.pdf'},
       {label:'CP-Algorithms',url:'https://cp-algorithms.com/'},
       {label:'CSES Dynamic Programming',url:'https://cses.fi/problemset/'}
     ],
     coding:[
       {label:'LearnCpp',url:'https://www.learncpp.com/'},
-      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book/book.pdf'}
+      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book.pdf'}
     ]
   };
 
@@ -681,20 +681,20 @@
     },
     graphs: {
       book:'Competitive Programmer’s Handbook (Antti Laaksonen)',
-      sections:['Ch. 5: Graph algorithms — representations, traversal, components, paths and trees','CP-Algorithms: BFS, DFS, topological sorting, shortest paths, DSU and spanning trees'],
-      link:'https://cses.fi/book/book.pdf',
+      sections:['Ch. 11: Basics of graphs; Ch. 12: Graph traversal','Ch. 13: Shortest paths; Ch. 14: Tree algorithms','Ch. 15: Spanning trees; Ch. 16: Directed graphs; Ch. 17: Strong connectivity','CP-Algorithms: BFS, DFS, topological sorting, shortest paths, DSU and spanning trees'],
+      link:'https://cses.fi/book.pdf',
       practice:['CSES Graph Algorithms: solve the named tasks listed for this topic below','Implement the algorithm from a blank file and state its time complexity']
     },
     dp: {
       book:'Competitive Programmer’s Handbook (Antti Laaksonen)',
-      sections:['Ch. 6: Dynamic programming — introductory, grid, knapsack and optimization patterns','CP-Algorithms: Dynamic Programming'],
-      link:'https://cses.fi/book/book.pdf',
+      sections:['Ch. 7: Dynamic programming — coin problems, longest increasing subsequence, grid paths, knapsack, edit distance and counting tilings','Ch. 16.2: Dynamic programming on directed graphs','CP-Algorithms: Dynamic Programming'],
+      link:'https://cses.fi/book.pdf',
       practice:['CSES Dynamic Programming: solve the named tasks listed for this topic below','For every problem, write state, transition, base case, iteration order and complexity before coding']
     },
     coding: {
       book:'Competitive Programmer’s Handbook (Antti Laaksonen) + LearnCpp',
-      sections:['Ch. 2: Programming techniques','Ch. 3: Data structures','Ch. 4: Sorting and searching'],
-      link:'https://cses.fi/book/book.pdf',
+      sections:['Ch. 1: Introduction — programming languages, input/output and working with numbers','Ch. 2: Time complexity','Ch. 3: Sorting','Ch. 4: Data structures','LearnCpp: relevant C++ language and standard-library lessons for the current exercise'],
+      link:'https://cses.fi/book.pdf',
       practice:['Implement the week’s data structure / algorithm without copying a template','Compile with warnings; test minimum, maximum, duplicate and boundary inputs']
     }
   };
