@@ -34,7 +34,8 @@
   <aside class="competition-sidebar" aria-label="Competition workspace navigation">
     <div class="competition-sidebar-label">WORKSPACE</div>
     <a class="competition-side-link active" href="#dashboard" data-screen-link="overview"><span>▦</span> Overview</a>
-    <a class="competition-side-link" href="#roadmap" data-screen-link="roadmap"><span>⌁</span> Roadmap</a>
+    <a class="competition-side-link" href="#daily-plan" data-screen-link="daily"><span>◷</span> Daily plan</a>
+    <a class="competition-side-link" href="#roadmap" data-screen-link="roadmap"><span>⌁</span> Weekly roadmap</a>
     <a class="competition-side-link" href="#codeforces-problems" data-screen-link="problems"><span>⌕</span> Problems</a>
     <a class="competition-side-link" href="#mock-tests" data-screen-link="mocks"><span>♜</span> Mock tests</a>
     <a class="competition-side-link" href="#resources" data-screen-link="resources"><span>▤</span> Resources</a>
@@ -108,12 +109,16 @@
       <div class="subject-grid" id="subject-grid"></div>
     </section>
 
+    <section class="section-block daily-plan-section" id="daily-plan" data-screen="daily">
+      <div class="section-heading-row"><div><div class="card-label">120-STEP EXECUTION PLAN</div><h2>Daily task planner</h2></div><p>Choose any task day from 1 to 120. Move forward or backward whenever you want; progress is not tied to the calendar.</p></div>
+      <div id="daily-plan-panel" class="daily-plan-panel" aria-live="polite"></div>
+    </section>
+
     <section class="section-block" id="roadmap" data-screen="roadmap">
       <div class="section-heading-row">
         <div><div class="card-label">16-WEEK CURRICULUM</div><h2>Weekly learning plan</h2></div>
-        <p>Each week contains explicit subject checkpoints and a daily execution plan. Advance based on evidence; carry unfinished topics forward instead of ticking them off to stay on schedule.</p>
+        <p>Each week contains subject checkpoints, learning resources and mastery criteria. Use the separate Daily plan to work through the 120 task-days in any order.</p>
       </div>
-      <div id="today-panel" class="today-panel" aria-live="polite"></div>
       <div class="roadmap-analytics" id="roadmap-analytics" aria-label="Curriculum phase progress charts"></div>
       <div class="roadmap-controls">
         <label for="roadmap-subject-filter">Roadmap subject
