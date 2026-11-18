@@ -39,6 +39,12 @@ assert.ok(redCss.includes("@media(prefers-reduced-motion:reduce)"));
 
 assert.ok(problemCss.includes("#cf-problem-list[role=\"region\"]"));
 assert.ok(problemCss.includes("#cf-problem-list[role=\"region\"]:focus-visible"));
+assert.match(problemCss, /#cf-problem-list\s*\{[^}]*overscroll-behavior:\s*auto/s,
+  "reaching either end of the problem list must allow scrolling to chain to the main page");
+assert.match(problemCss, /#cf-problem-list\[role="region"\]\s*\{[^}]*overscroll-behavior-y:\s*auto/s,
+  "the accessible results region must not trap wheel or touch scrolling at its boundaries");
+assert.doesNotMatch(problemCss, /#cf-problem-list[^}]*overscroll-behavior(?:-y)?:\s*contain/s,
+  "the problem list must not contain scroll chaining");
 assert.ok(problemCss.includes("scrollbar-color:rgba(106,157,212,.62)"));
 assert.ok(problemCss.includes("html[data-theme=\"light\"] #cf-problem-list[role=\"region\"]"));
 assert.ok(problemCss.includes("@media(prefers-reduced-motion:reduce)"));
