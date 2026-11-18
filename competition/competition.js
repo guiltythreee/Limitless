@@ -875,8 +875,15 @@
         companion.sets.forEach(function(item){if(!group.sets.some(function(x){return x.url===item.url;}))group.sets.push(item);});
       }
       if(subjectId==='coding'){
+        var cppLinks=[];
+        if(/sorting|comparator|prefix sums|coordinate|sequence/i.test(topic[1]))cppLinks.push({label:'cppreference — std::sort',url:LEARNCPP_STL_LINKS.sort});
+        if(/maps\/sets|frequency|sorting/i.test(topic[1])){cppLinks.push({label:'cppreference — std::map',url:LEARNCPP_STL_LINKS.map});cppLinks.push({label:'cppreference — std::set',url:LEARNCPP_STL_LINKS.set});}
+        if(/queues|stacks|BFS|DFS/i.test(topic[1])){cppLinks.push({label:'cppreference — std::queue',url:LEARNCPP_STL_LINKS.queue});cppLinks.push({label:'cppreference — std::stack',url:LEARNCPP_STL_LINKS.stack});}
+        if(/Priority queues|Dijkstra/i.test(topic[1]))cppLinks.push({label:'cppreference — std::priority_queue',url:LEARNCPP_STL_LINKS.priority_queue});
+        if(!groups.LearnCpp){} 
         var learnKey='LearnCpp';
-        if(!groups[learnKey]){var cppWeek=learnCppWeek(weekIndex);groups[learnKey]={book:'LearnCpp — C++ language reference',url:'https://www.learncpp.com/',sections:cppWeek.sections.slice(),notes:[],lectures:[],sets:cppWeek.extra.slice()};}
+        if(!groups[learnKey]){var cppWeek=learnCppWeek(weekIndex);groups[learnKey]={book:'LearnCpp — C++ language reference',url:'https://www.learncpp.com/',sections:cppWeek.sections.concat(cppWeek.extra.map(function(note){return 'CP-specific note: '+note;})),notes:[],lectures:[],sets:[],extraLinks:[]};}
+        cppLinks.forEach(function(item){if(!groups[learnKey].extraLinks.some(function(x){return x.url===item.url;}))groups[learnKey].extraLinks.push(item);});
       }
       if(subjectId==='probability' && !group.lectures.some(function(x){return x.url==='https://projects.iq.harvard.edu/stat110/online-learning';})){
         group.lectures.push({label:'STAT 110 video lectures',url:'https://projects.iq.harvard.edu/stat110/online-learning'});
@@ -894,11 +901,12 @@
       var notesHtml=g.notes.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       var lectureHtml=g.lectures.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       var setsHtml=g.sets.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
+      var extraLinksHtml=(g.extraLinks||[]).map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       return '<article class="weekly-resource-card"><div class="weekly-resource-book"><strong>'+esc(g.book)+'</strong><label class="resource-completion"><input type="checkbox" data-resource-check="'+resourceCheckKey+'" '+(resourceChecked?'checked':'')+'><span>Reading completed</span></label><a href="'+g.url+'" target="_blank" rel="noopener noreferrer">Open book / primary reference ↗</a></div>' +
         '<div class="weekly-resource-sections"><b>Read this week</b><ul>'+sectionHtml+'</ul></div>'+
         (notesHtml?'<div class="weekly-resource-links"><b>Written notes</b>'+notesHtml+'</div>':'')+
         (lectureHtml?'<div class="weekly-resource-links"><b>Video lectures</b>'+lectureHtml+'</div>':'')+
-        (setsHtml?'<div class="weekly-resource-links"><b>Problem sets</b>'+setsHtml+'</div>':'')+'</article>';
+        (setsHtml?'<div class="weekly-resource-links"><b>Problem sets</b>'+setsHtml+'</div>':'')+(extraLinksHtml?'<div class="weekly-resource-links"><b>C++ library references</b>'+extraLinksHtml+'</div>':'')+'</article>';
     }).join('');
     return '<section class="weekly-resource-shelf" aria-label="Books and learning resources for this week"><h4>Books &amp; learning resources for this week</h4><p>Start here: these are the references and exact sections used by this week’s plan. Matching video lectures and MIT problem sets are placed beside the relevant book.</p><div class="weekly-resource-grid">'+cards+'</div></section>';
   }
