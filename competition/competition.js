@@ -595,7 +595,7 @@
     state.selectedDay = selected;
     var coords = dailyPlanCoordinates(selected), week = coords.week, day = coords.day;
     var tasks = dailyPlanTasks(week, day);
-    var prefix = 'w' + (coords.weekIndex + 1) + '-exec2-' + day.id + '-';
+    var prefix = selected > 112 ? 'w16-extra-day' + selected + '-' : 'w' + (coords.weekIndex + 1) + '-exec2-' + day.id + '-';
     var done = tasks.filter(function (_, index) { return !!state.dayChecks[prefix + index]; }).length;
     var focus = day.subjects.length ? day.subjects.map(function (id) {
       var topic = week.topics.find(function (entry) { return entry[0] === id; });
