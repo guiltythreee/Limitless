@@ -188,7 +188,10 @@
       }
 
       state.problemsetResult = result;
-      state.problems = curateProblemset(result, state.solved);
+      // Build the public baseline from an immutable empty solved set. The account
+      // request runs concurrently and may finish first; its result belongs only in
+      // the optional personalisation pass below, never in initial catalogue loading.
+      state.problems = curateProblemset(result, new Set());
       state.loaded = true;
       state.page = 0;
       populateFilters();
