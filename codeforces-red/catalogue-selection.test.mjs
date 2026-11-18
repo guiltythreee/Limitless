@@ -2,6 +2,16 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("./codeforces-problems.js", import.meta.url), "utf8");
+assert.ok(source.includes("const REPLACEMENT_SNAPSHOT_KEY = 'limitless.competition.codeforces-replacement-snapshot.v1';"),
+  "the first successful account lookup must be persisted as a one-time replacement snapshot");
+assert.ok(source.includes("const snapshot = readReplacementSnapshot();") &&
+  source.includes("if (snapshot) {"),
+  "subsequent refreshes must reuse the saved snapshot before reading the linked handle");
+assert.ok(source.includes("persistReplacementSnapshot(solved, wrong);"),
+  "a successful initial handle lookup must freeze solved and attempted problem keys");
+
+assert.match(source, /state\.problems = curateProblemset\(result, new Set\(\)\);/,
+  "initial catalogue rendering must not depend on the timing of the account submission request");
 function slice(from, to) {
   const start = source.indexOf(from);
   const end = source.indexOf(to, start);

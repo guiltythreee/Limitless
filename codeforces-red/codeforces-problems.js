@@ -9,6 +9,31 @@
   const PERSONAL_REPLACEMENT_RATING_MAX = 1000;
   const $ = id => document.getElementById(id);
   const state = { problems: [], problemsetResult: null, solved: new Set(), wrong: new Map(), saved: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
+  // The linked handle is consulted once to create a durable local snapshot.
+  // Later catalogue refreshes reuse this snapshot and never query that handle again.
+  const REPLACEMENT_SNAPSHOT_KEY = 'limitless.competition.codeforces-replacement-snapshot.v1';
+  function readReplacementSnapshot() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(REPLACEMENT_SNAPSHOT_KEY) || 'null');
+      if (!saved || saved.version !== 1 || !Array.isArray(saved.solvedKeys)) return null;
+      return {
+        solved: new Set(saved.solvedKeys.filter(key => typeof key === 'string')),
+        wrong: new Map(Array.isArray(saved.wrongEntries)
+          ? saved.wrongEntries.filter(entry => Array.isArray(entry) && typeof entry[0] === 'string' && Number.isFinite(entry[1]))
+          : [])
+      };
+    } catch (_) { return null; }
+  }
+  function persistReplacementSnapshot(solved, wrong) {
+    try {
+      localStorage.setItem(REPLACEMENT_SNAPSHOT_KEY, JSON.stringify({
+        version: 1,
+        capturedAt: new Date().toISOString(),
+        solvedKeys: [...solved],
+        wrongEntries: [...wrong]
+      }));
+    } catch (_) {}
+  }
   const CATEGORIES = {
     'Implementation & Basics':['implementation','brute force','bitmasks','strings'],
     'Mathematics':['math','number theory','combinatorics','probabilities','geometry','matrices'],
@@ -159,10 +184,9 @@
       ' problems · ' + replaced.toLocaleString() +
       ' solved 800–1000 problems replaced one-for-one with unsolved alternatives of the same rating and exact tags';
     return solvedLoaded
-      ? base + ' · ' + state.solved.size.toLocaleString() + ' solved · ' +
-        state.wrong.size.toLocaleString() + ' with failed submissions · based on latest 10,000 submissions.'
+      ? base + ' · ' + state.solved.size.toLocaleString() + ' problems captured in your one-time Codeforces snapshot; this handle will not be queried again.'
       : 'Curated ' + state.problems.length.toLocaleString() +
-        ' problems · linked Codeforces handle unavailable, so no account-specific replacements were applied.';
+        ' problems · one-time Codeforces snapshot not available; no account-specific replacements were applied.';
   }
   async function loadProblemset() {
     if (state.loading) return;
@@ -188,7 +212,10 @@
       }
 
       state.problemsetResult = result;
-      state.problems = curateProblemset(result, state.solved);
+      // Build the public baseline from an immutable empty solved set. The account
+      // request runs concurrently and may finish first; its result belongs only in
+      // the optional personalisation pass below, never in initial catalogue loading.
+      state.problems = curateProblemset(result, new Set());
       state.loaded = true;
       state.page = 0;
       populateFilters();
@@ -225,6 +252,13 @@
     }
   }
   async function loadSolved(options = {}) {
+    const snapshot = readReplacementSnapshot();
+    if (snapshot) {
+      state.solved = snapshot.solved;
+      state.wrong = snapshot.wrong;
+      status('Using your saved one-time Codeforces snapshot · the linked handle will not be queried again.');
+      return true;
+    }
     let handle = $('linked-handle') ? $('linked-handle').textContent.trim() : '';
     if (!handle || handle === '—') {
       try { const linked = JSON.parse(localStorage.getItem('limitless.competition.linked-accounts.v1') || '{}'); handle = (linked.codeforcesHandle || '').trim(); } catch (_) {}
@@ -232,7 +266,7 @@
     if (!handle) {
       state.solved = new Set();
       state.wrong = new Map();
-      status('Catalogue loaded. Add a Codeforces handle above to include your solved status.');
+      status('Catalogue loaded. The one-time Codeforces snapshot is not available; no account-specific replacements were applied.');
       return false;
     }
     try {
@@ -257,8 +291,10 @@
       });
       state.solved=solved;
       state.wrong=wrong;
+      // Freeze this account snapshot after the first successful lookup.
+      persistReplacementSnapshot(solved, wrong);
       const attempted=wrong.size, solvedCount=solved.size;
-      status('Synced '+solvedCount.toLocaleString()+' solved problems · '+attempted.toLocaleString()+' problems with failed submissions · latest 10,000 submissions.');
+      status('Captured one-time Codeforces snapshot · '+solvedCount.toLocaleString()+' solved · '+attempted.toLocaleString()+' attempted. Future refreshes will not query this handle.');
       return true;
     } catch (error) {
       state.solved = new Set();
