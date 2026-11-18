@@ -317,7 +317,7 @@
       var note = $('storage-note');
       if (!note) return;
       var sync = event.detail || {};
-      var labels = { ready:'Cloud sync connected', syncing:'Syncing progress to your account', offline:'Cloud sync offline · local progress is retained', error:'Cloud sync error · export a backup', 'signed-out':'Local progress only · sign in to sync across devices' };
+      var labels = { synced:'Cloud sync complete', syncing:'Syncing progress to your account', error:'Cloud sync error · local progress remains saved; export a backup', 'signed-out':'Local progress only · sign in to sync across devices' };
       note.textContent = note.textContent.split(' · Cloud sync:')[0] + ' · Cloud sync: ' + (labels[sync.state] || sync.message || sync.state || 'status unavailable');
     });
     renderSafety();
