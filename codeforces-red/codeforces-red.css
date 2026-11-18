@@ -1484,3 +1484,25 @@ html[data-theme="light"] .cr-book-completion{color:#526d87}
 html[data-theme="light"] .cr-launch-learning{background:linear-gradient(135deg,#237d8e,#319a9a)}
 #cf-learning-view[hidden]{display:none!important}
 @media(max-width:760px){#cf-home-view .cr-training-launch{grid-template-columns:1fr}}
+
+
+/* CP Learning Centre launch tile: retain teal fill and legible white text
+   in bright mode. Earlier generic light-mode tile rules overrode this card. */
+html[data-theme="light"] #cf-home-view .cr-training-launch-tile.cr-launch-learning {
+  background:linear-gradient(135deg,#176779 0%,#197f8a 52%,#167a78 100%);
+  border-color:#167989;
+  color:#ffffff;
+}
+html[data-theme="light"] #cf-home-view .cr-training-launch-tile.cr-launch-learning:hover,
+html[data-theme="light"] #cf-home-view .cr-training-launch-tile.cr-launch-learning:focus-visible {
+  background:linear-gradient(135deg,#145a6d 0%,#176f7e 52%,#126e70 100%);
+  border-color:#0d5b70;
+  color:#ffffff;
+}
+html[data-theme="light"] #cf-home-view .cr-launch-learning .cr-eyebrow,
+html[data-theme="light"] #cf-home-view .cr-launch-learning .cr-launch-copy,
+html[data-theme="light"] #cf-home-view .cr-launch-learning .cr-launch-action,
+html[data-theme="light"] #cf-home-view .cr-launch-learning .cr-launch-icon,
+html[data-theme="light"] #cf-home-view .cr-launch-learning strong {
+  color:#ffffff;
+}
