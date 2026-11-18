@@ -26,6 +26,8 @@ assert.doesNotMatch(js, /function renderToday\(\)/, "the automatic Today rendere
 assert.doesNotMatch(js, /compartment\('schedule'/, "daily execution must be removed from weekly roadmap");
 assert.match(js, /Storage verification failed/, "writes must be read back and verified");
 assert.match(js, /\.recovery/, "unreadable saved progress must be preserved before fallback");
+assert.match(js, /LimitlessCloudSync\.getStatus/, "the UI must expose the actual account cloud-sync state");
+assert.match(js, /Cloud sync complete/, "successful account sync must be distinguishable from local saving");
 assert.match(js, /Saved and verified in this browser/, "successful saves must report verification");
 assert.match(css, /\.daily-plan-panel/);
 assert.match(css, /\.daily-plan-navigation/);
