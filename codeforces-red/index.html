@@ -168,6 +168,38 @@
         <div><div class="cr-eyebrow">CP LEARNING CENTRE</div><h1>Learn the idea. Learn the implementation.</h1><p>Two connected tracks for every topic: understand the competitive-programming technique, then learn only the C++ language and STL needed to implement it. Each module links to explanations, quizzes and tagged practice.</p></div>
         <button class="cr-learning-back" type="button" id="cf-learning-back-home">← Back to CP Home</button>
       </div>
+      <div class="lc-visual-dashboard">
+        <article class="lc-visual-card lc-courses-card">
+          <div class="lc-card-topline"><span class="lc-card-symbol">≡</span><span class="lc-card-icon">▤</span></div>
+          <div class="lc-card-title"><h2>Structured<br>Courses</h2><p>Learn step by step with curated paths.</p></div>
+          <div class="lc-course-steps" id="lc-course-steps"></div>
+          <div class="lc-card-progress"><span class="lc-progress-orb">▥</span><div><span>Your progress</span><strong id="lc-course-percent">0%</strong><i><b id="lc-course-bar"></b></i></div></div>
+        </article>
+        <article class="lc-visual-card lc-practice-card">
+          <div class="lc-card-topline"><span class="lc-card-symbol">›_</span><span class="lc-year-chip">CP TRACK</span></div>
+          <div class="lc-card-title"><h2>Practice &amp;<br>Build</h2><p>Sharpen skills with focused practice and real challenges.</p></div>
+          <a class="lc-run-panel" href="https://www.programiz.com/cpp-programming/online-compiler/" target="_blank" rel="noopener noreferrer">
+            <span class="lc-run-button">▶</span><span><strong>Run Code</strong><small>Open the C++ compiler</small></span><span class="lc-run-arrow">↗</span>
+          </a>
+          <div class="lc-skill-bars" id="lc-skill-bars"></div>
+          <a class="lc-practice-link" href="https://codeforces.com/problemset" target="_blank" rel="noopener noreferrer">Open Codeforces practice <span>→</span></a>
+        </article>
+        <article class="lc-visual-card lc-reference-card">
+          <div class="lc-card-topline"><span class="lc-card-symbol">▣</span><span class="lc-search-ornament">⌕</span></div>
+          <div class="lc-card-title"><h2>Quick<br>References</h2><p>Find answers fast with docs, cheatsheets, and guides.</p></div>
+          <div class="lc-reference-links">
+            <a href="https://www.learncpp.com/" target="_blank" rel="noopener noreferrer"><span>⌗</span><b>Syntax Guides</b><i>›</i></a>
+            <a href="https://en.cppreference.com/w/" target="_blank" rel="noopener noreferrer"><span>▤</span><b>Cheatsheets &amp; STL</b><i>›</i></a>
+            <a href="https://cp-algorithms.com/" target="_blank" rel="noopener noreferrer"><span>⊙</span><b>Best Practices</b><i>›</i></a>
+            <a href="https://usaco.guide/" target="_blank" rel="noopener noreferrer"><span>⊞</span><b>Common Patterns</b><i>›</i></a>
+          </div>
+          <div class="lc-code-preview"><span class="lc-code-label">C++ · QUICK TEMPLATE</span><pre><code>ios::sync_with_stdio(false);
+cin.tie(nullptr);
+
+vector&lt;int&gt; a(n);
+sort(a.begin(), a.end());</code></pre></div>
+        </article>
+      </div>
       <section class="lc-summary" aria-label="Learning Centre progress"><div class="lc-summary-head"><strong>Learning progress</strong><span id="lc-overall">0 learning steps completed</span></div><div class="lc-progress"><span id="lc-progress"></span></div></section>
       <div class="lc-toolbar">
         <label>Search topics<input id="lc-search" type="search" placeholder="e.g. binary search, vector, BFS"></label>
