@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("./codeforces-problems.js", import.meta.url), "utf8");
+assert.match(source, /state\.problems = curateProblemset\(result, new Set\(\)\);/,
+  "initial catalogue rendering must not depend on the timing of the account submission request");
 function slice(from, to) {
   const start = source.indexOf(from);
   const end = source.indexOf(to, start);
