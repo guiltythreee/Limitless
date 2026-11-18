@@ -1113,3 +1113,7 @@ html[data-theme="light"] .week-compartment-body .roadmap-topic{background:color-
 @media(max-width:760px){.week-compartment-grid{grid-template-columns:1fr;gap:8px}.week-compartment-summary{min-height:60px}}
 @media(max-width:620px){.week-compartment-body{padding:0 10px 10px}.week-compartment-body .daily-task-list{grid-template-columns:1fr}.week-compartment-body .roadmap-topic{grid-template-columns:minmax(0,1fr) 125px}}
 @media(prefers-reduced-motion:reduce){.week-compartment,.compartment-chevron{transition:none}}
+
+
+/* Persistent completion controls for weekly learning resources */
+.resource-completion{display:inline-flex;align-items:center;gap:7px;width:fit-content;color:var(--comp-muted);font:11px Arial,sans-serif;cursor:pointer}.resource-completion input{width:15px;height:15px;accent-color:#55b7ff;cursor:pointer}.weekly-resource-book{gap:.45rem}
