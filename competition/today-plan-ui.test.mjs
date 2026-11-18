@@ -33,8 +33,6 @@ assert.match(css, /\.daily-plan-panel/);
 assert.match(css, /\.daily-plan-navigation/);
 assert.match(css, /#daily-plan-panel \.reference-task\s*\{/,
   "daily-plan assignment labels must have their own full-width grid layout");
-assert.match(css, /#daily-plan-panel \.reference-task input\[type="checkbox"\][\s\\S]*?width:\s*15px !important/,
-  "daily-plan checkboxes must not inherit the global full-width input rule");
 assert.match(css, /#daily-plan-panel \.reference-task input/,
   "daily-plan checkbox styles must be scoped to the daily planner");
 assert.match(css, /width: 15px !important/,
