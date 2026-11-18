@@ -445,3 +445,96 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 .daily-assignment-detail{margin-top:9px}
 .daily-assignment-detail .topic-assignment{margin-top:10px}
 @media(max-width:700px){.daily-plan-toolbar{display:block}.daily-plan-navigation{margin-top:14px;display:grid;grid-template-columns:1fr 1fr}.daily-plan-navigation label{grid-column:1/-1}.daily-plan-navigation button{width:100%}.daily-assignment>div:first-child{display:grid;gap:3px}}
+
+
+/* The daily planner reuses the weekly assignment markup outside #week-list.
+   Apply the same explicit layout rules here so global form styles cannot
+   stretch checkboxes or collapse the assignment text into a narrow column. */
+#daily-plan-panel .daily-assignment-detail,
+#daily-plan-panel .topic-assignment {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#daily-plan-panel .topic-assignment {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-self: stretch;
+  gap: 9px;
+  margin-top: 9px;
+  padding: 12px;
+  border: 1px solid var(--comp-border);
+  border-radius: 9px;
+  background: var(--comp-panel);
+}
+#daily-plan-panel .assignment-heading {
+  min-width: 0;
+  color: var(--comp-ink);
+  font: 600 12px/1.4 Arial, sans-serif;
+}
+#daily-plan-panel .assignment-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 9px;
+  min-width: 0;
+  margin: 0 0 2px;
+  font: 12px/1.6 Arial, sans-serif;
+}
+#daily-plan-panel .assignment-source a {
+  display: inline-block;
+  max-width: 100%;
+  color: var(--comp-accent);
+  overflow-wrap: anywhere;
+}
+#daily-plan-panel .reference-task {
+  display: grid !important;
+  grid-template-columns: 16px minmax(0, 1fr) !important;
+  justify-content: initial !important;
+  align-items: start !important;
+  gap: 9px;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  color: var(--comp-muted);
+  font: 12px/1.6 Arial, sans-serif;
+  white-space: normal;
+  box-sizing: border-box;
+}
+#daily-plan-panel .reference-task input[type="checkbox"] {
+  display: block;
+  position: static !important;
+  justify-self: start;
+  align-self: start;
+  width: 15px !important;
+  height: 15px;
+  min-width: 15px !important;
+  max-width: 15px;
+  margin: 3px 0 0 !important;
+  padding: 0;
+  accent-color: var(--comp-accent);
+}
+#daily-plan-panel .reference-task > span {
+  display: block;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
+  line-height: 1.6;
+}
+#daily-plan-panel .reference-task b {
+  color: var(--comp-ink);
+}
+#daily-plan-panel .reference-task a {
+  color: var(--comp-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+@media (max-width: 650px) {
+  #daily-plan-panel .topic-assignment { padding: 10px; }
+  #daily-plan-panel .reference-task { font-size: 11px; }
+}
