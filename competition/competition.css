@@ -423,3 +423,25 @@ html[data-theme="light"] .mastery-select,html[data-theme="light"] .problem-form 
 
 .mistake-repair-row{padding:7px 0;border-bottom:1px solid var(--comp-border)}
 .mistake-repair-row p{margin:4px 0 2px;color:var(--comp-muted);font:11px/1.55 Arial,sans-serif}
+
+
+/* Independent 120-task daily planner */
+.daily-plan-panel{margin-top:16px;padding:20px;border:1px solid var(--comp-border);border-radius:12px;background:var(--comp-panel)}
+.daily-plan-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:16px}
+.daily-plan-eyebrow{color:var(--comp-muted);font:9px Arial,sans-serif;letter-spacing:.14em}
+.daily-plan-toolbar h3{margin:6px 0;color:var(--comp-ink);font:600 21px/1.3 Arial,sans-serif}
+.daily-plan-toolbar p{margin:0;color:var(--comp-muted);font:11px/1.5 Arial,sans-serif}
+.daily-plan-navigation{display:flex;align-items:end;gap:8px}
+.daily-plan-navigation label{display:grid;gap:5px;color:var(--comp-muted);font:10px Arial,sans-serif}
+.daily-plan-navigation select{min-width:112px;padding:9px;border:1px solid var(--comp-border);border-radius:6px;background:var(--comp-card);color:var(--comp-ink);font:12px Arial,sans-serif}
+.daily-plan-navigation button:disabled{opacity:.4;cursor:not-allowed}
+.daily-plan-assignments{margin-top:20px;border-top:1px solid var(--comp-border);padding-top:14px}
+.daily-plan-assignments>summary{cursor:pointer;color:var(--comp-accent);font:600 12px Arial,sans-serif}
+.daily-assignment-list{display:grid;gap:10px;margin-top:12px}
+.daily-assignment{padding:12px;border:1px solid var(--comp-border);border-radius:8px;background:var(--comp-card)}
+.daily-assignment>div:first-child{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.daily-assignment>div:first-child strong{color:var(--comp-ink);font:12px/1.5 Arial,sans-serif}
+.daily-assignment>div:first-child small{color:var(--comp-muted);font:10px Arial,sans-serif}
+.daily-assignment-detail{margin-top:9px}
+.daily-assignment-detail .topic-assignment{margin-top:10px}
+@media(max-width:700px){.daily-plan-toolbar{display:block}.daily-plan-navigation{margin-top:14px;display:grid;grid-template-columns:1fr 1fr}.daily-plan-navigation label{grid-column:1/-1}.daily-plan-navigation button{width:100%}.daily-assignment>div:first-child{display:grid;gap:3px}}
