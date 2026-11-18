@@ -878,7 +878,8 @@
         if(/Priority queues|Dijkstra/i.test(topic[1]))cppLinks.push({label:'cppreference — std::priority_queue',url:LEARNCPP_STL_LINKS.priority_queue});
         if(!groups.LearnCpp){} 
         var learnKey='LearnCpp';
-        if(!groups[learnKey]){var cppWeek=learnCppWeek(weekIndex);groups[learnKey]={book:'LearnCpp — C++ language reference',url:'https://www.learncpp.com/',sections:cppWeek.sections.concat(cppWeek.extra.map(function(note){return 'CP-specific note: '+note;})),notes:[],lectures:[],sets:[],extraLinks:[]};}
+        if(!groups[learnKey]){var cppWeek=learnCppWeek(weekIndex);groups[learnKey]={book:'LearnCpp — C++ language reference',url:'https://www.learncpp.com/',sections:cppWeek.sections.concat(cppWeek.extra.map(function(note){return 'CP-specific note: '+note;})),notes:[],lectures:[],sets:[],extraLinks:[],readingKeys:[]};}
+        groups[learnKey].readingKeys.push('w'+(weekIndex+1)+'-v2-ref-'+week.topics.indexOf(topic)+'-read');
         cppLinks.forEach(function(item){if(!groups[learnKey].extraLinks.some(function(x){return x.url===item.url;}))groups[learnKey].extraLinks.push(item);});
       }
       if(subjectId==='probability' && !group.lectures.some(function(x){return x.url==='https://projects.iq.harvard.edu/stat110/online-learning';})){
@@ -893,13 +894,14 @@
     });
     var cards=Object.keys(groups).map(function(key,groupIndex){
       var g=groups[key], resourceCheckKey='w'+(weekIndex+1)+'-resource-'+groupIndex;
-      var resourceChecked=g.readingKeys.length ? g.readingKeys.every(function(taskKey){return !!state.dayChecks[taskKey];}) : !!state.resourceChecks[resourceCheckKey];
+      var hasReadingProgress=g.readingKeys.some(function(taskKey){return Object.prototype.hasOwnProperty.call(state.dayChecks,taskKey);});
+      var resourceChecked=hasReadingProgress ? g.readingKeys.every(function(taskKey){return !!state.dayChecks[taskKey];}) : !!state.resourceChecks[resourceCheckKey];
       var sectionHtml=g.sections.map(function(section){return '<li>'+esc(section)+'</li>';}).join('');
       var notesHtml=g.notes.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       var lectureHtml=g.lectures.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       var setsHtml=g.sets.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       var extraLinksHtml=(g.extraLinks||[]).map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
-      return '<article class="weekly-resource-card"><div class="weekly-resource-book"><strong>'+esc(g.book)+'</strong><label class="resource-completion"><input type="checkbox" data-resource-check="'+resourceCheckKey+'" '+(resourceChecked?'checked':'')+'><span>Reading completed</span></label><a href="'+g.url+'" target="_blank" rel="noopener noreferrer">Open book / primary reference ↗</a></div>' +
+      return '<article class="weekly-resource-card"><div class="weekly-resource-book"><strong>'+esc(g.book)+'</strong><label class="resource-completion"><input type="checkbox" data-resource-check="'+resourceCheckKey+'" data-resource-reading-keys="'+g.readingKeys.join(',')+'" '+(resourceChecked?'checked':'')+'><span>Reading completed</span></label><a href="'+g.url+'" target="_blank" rel="noopener noreferrer">Open book / primary reference ↗</a></div>' +
         '<div class="weekly-resource-sections"><b>Read this week</b><ul>'+sectionHtml+'</ul></div>'+
         (notesHtml?'<div class="weekly-resource-links"><b>Written notes</b>'+notesHtml+'</div>':'')+
         (lectureHtml?'<div class="weekly-resource-links"><b>Video lectures</b>'+lectureHtml+'</div>':'')+
@@ -1282,7 +1284,11 @@
       });
     });
     $('week-list').querySelectorAll('[data-week-check]').forEach(function(input){input.addEventListener('change',function(){state.weekChecks[input.dataset.weekCheck]=input.checked;persist();renderWeeks();});});
-    $('week-list').querySelectorAll('[data-resource-check]').forEach(function(input){input.addEventListener('change',function(){state.resourceChecks[input.dataset.resourceCheck]=input.checked;persist();renderWeeks();});});
+    $('week-list').querySelectorAll('[data-resource-check]').forEach(function(input){input.addEventListener('change',function(){
+      state.resourceChecks[input.dataset.resourceCheck]=input.checked;
+      (input.dataset.resourceReadingKeys || '').split(',').filter(Boolean).forEach(function(taskKey){state.dayChecks[taskKey]=input.checked;});
+      persist();renderDailyPlan();renderWeeks();
+    });});
     $('week-list').querySelectorAll('[data-day-task]').forEach(function (input) {
       input.addEventListener('change', function () {
         state.dayChecks[input.dataset.dayTask] = input.checked;
@@ -1474,6 +1480,7 @@
 
     renderOverview();
     renderSubjects();
+    renderDailyPlan();
     $('roadmap-subject-filter').addEventListener('change', function () {
       var labels = { all:'All five subjects plus C++ / implementation', logic:'Logical Reasoning', combinatorics:'Combinatorics', probability:'Probability', graphs:'Graph Theory', dp:'Dynamic Programming', coding:'C++ / Implementation' };
       $('roadmap-filter-note').textContent = labels[$('roadmap-subject-filter').value] + ': 16 weekly checkpoints, with topic-specific references and independent mastery tracking.';
