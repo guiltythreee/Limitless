@@ -4,52 +4,33 @@ import { readFile } from "node:fs/promises";
 const js = await readFile(new URL("./competition.js", import.meta.url), "utf8");
 const html = await readFile(new URL("./index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("./competition.css", import.meta.url), "utf8");
+const ui = await readFile(new URL("./competition-ui.js", import.meta.url), "utf8");
 
-assert.match(html, /id="today-panel"/);
-assert.match(js, /function renderToday\(\)/);
-assert.match(js, /'w' \+ \(wi \+ 1\) \+ '-exec2-' \+ day\.id \+ '-'/,
-  "today view must reuse the existing weekly execution checklist key namespace");
-assert.match(js, /state\.dayChecks\[input\.dataset\.todayTask\] = input\.checked/);
-assert.match(js, /data-week-index="' \+ wi \+ '"/);
-assert.match(js, /data-week-compartment="w' \+ \(wi \+ 1\) \+ '-schedule"/);
-assert.match(css, /\.today-panel/);
-assert.match(js, /renderToday\(\);\s*renderWeeks\(\);/,
-  "updating a daily task from the Today panel must refresh both synchronized views");
+assert.match(html, /id="daily-plan"/, "the 120-task planner must be a separate section");
+assert.match(html, /id="daily-plan-panel"/, "the planner needs its own render host");
+assert.doesNotMatch(html, /id="today-panel"/, "the old roadmap Today panel must be removed");
+assert.doesNotMatch(ui, /todayPanel = document\.createElement/, "the old overview Today panel must also be removed");
+assert.match(ui, /location\.hash === '#daily-plan' \? 'daily'/, "the daily planner must open from a direct URL");
+assert.match(html, /href="#daily-plan"/, "the planner must have a direct sidebar link");
+assert.match(js, /selectedDay: 1/, "the selected task day must be persisted");
+assert.match(js, /function dailyPlanCoordinates\(dayNumber\)/);
+assert.match(js, /offset % 7/, "task selection must not depend on the current date");
+assert.match(js, /Array\.from\(\{length:120\}/, "the selector must expose all 120 task-days");
+assert.match(js, /data-day-next/, "the user must be able to advance manually");
+assert.match(js, /data-day-prev/, "the user must be able to move backwards");
+assert.match(js, /function renderDailyPlan\(\)/);
+assert.match(js, /state\.dayChecks\[input\.dataset\.dayTask\] = input\.checked/);
+assert.match(js, /renderDailyPlan\(\);\s*renderWeeks\(\);/,
+  "changing a shared task must refresh the planner and weekly roadmap");
+assert.doesNotMatch(js, /function renderToday\(\)/, "the automatic Today renderer must be removed");
+assert.doesNotMatch(js, /compartment\('schedule'/, "daily execution must be removed from weekly roadmap");
+assert.match(js, /Storage verification failed/, "writes must be read back and verified");
+assert.match(js, /\.recovery/, "unreadable saved progress must be preserved before fallback");
+assert.match(js, /LimitlessCloudSync\.getStatus/, "the UI must expose the actual account cloud-sync state");
+assert.match(js, /Cloud sync complete/, "successful account sync must be distinguishable from local saving");
+assert.match(js, /Saved and verified in this browser/, "successful saves must report verification");
+assert.match(css, /\.daily-plan-panel/);
+assert.match(css, /\.daily-plan-navigation/);
+assert.match(js, /g\.readingKeys\.every/, "resource completion must reflect the exact reading checkboxes");
 
-assert.match(js, /function renderTodayReviewSummary\(\)/,
-  "the Today panel must include a summary of due Codeforces revisions");
-assert.match(js, /renderTodayReviewSummary\(\);/,
-  "the due-review summary must refresh whenever the Today panel renders");
-assert.match(js, /analysis\.recurringMistakes\.slice\(0, 3\)/,
-  "the CP dashboard must render recurring concept-and-cause mistake patterns");
-assert.match(js, /getPracticeRecommendations\(item\.subjectId, item\.conceptLabel\)/,
-  "recurring mistakes must link to curated practice for the same concept");
-assert.match(js, /mistakeGuidance\[item\.category\]/,
-  "each recurring mistake category must produce a targeted repair instruction");
-assert.match(css, /\.mistake-repair-row/,
-  "targeted mistake repairs must use the dedicated compact layout");
-
-assert.match(js, /id="codeforces-revision"/,
-  "the Today panel summary must link to the existing Codeforces revision queue");
-assert.match(js, /today-review-summary/,
-  "the due-review summary must be a non-checkbox workload item");
-assert.match(js, /limitless\.competition\.codeforces-learning\.v1/,
-  "the summary must read the existing Codeforces learning record");
-
-
-assert.match(js, /data-codeforces-revision-result="correct"/,
-  "due Codeforces reviews must allow an independent-solve result");
-assert.match(js, /data-codeforces-revision-result="incorrect"/,
-  "due Codeforces reviews must allow a still-stuck result");
-assert.match(js, /mode: 'revision'/,
-  "Codeforces re-solves must enter the shared revision evidence stream");
-assert.match(js, /limitless\.competition\.codeforces-learning\.v1/,
-  "Codeforces revision results must be saved with the existing sync record");
-assert.match(js, /limitless:codeforces-learning-updated/,
-  "saving a Codeforces revision must refresh shared mastery and scheduling");
-assert.match(js, /stored\.attempts = stored\.attempts\.slice\(-5000\)/,
-  "manual Codeforces revision feedback must use the same expanded retention bound as sync");
-assert.match(css, /\.revision-actions/,
-  "Codeforces revision controls must reuse the existing revision action layout");
-
-console.log("Competition Today panel contract: all assertions passed.");
+console.log("120-task daily planner and shared progress contract: all assertions passed.");

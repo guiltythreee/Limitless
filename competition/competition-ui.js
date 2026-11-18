@@ -2,7 +2,8 @@
   'use strict';
   var links = Array.prototype.slice.call(document.querySelectorAll('[data-screen-link]'));
   var screens = Array.prototype.slice.call(document.querySelectorAll('[data-screen]'));
-  var initial = location.hash === '#roadmap' ? 'roadmap' :
+  var initial = location.hash === '#daily-plan' ? 'daily' :
+    location.hash === '#roadmap' ? 'roadmap' :
     (location.hash === '#codeforces-problems' || location.hash === '#problem-review') ? 'problems' :
     location.hash === '#mock-tests' ? 'mocks' :
     (location.hash === '#resources' || location.hash === '#linked-accounts') ? 'resources' :
@@ -52,79 +53,6 @@
   var campaignMeta = document.querySelector('.campaign-meta');
   var settingsContent = document.querySelector('.settings-card-content');
   if (campaignMeta && settingsContent) settingsContent.insertBefore(campaignMeta, settingsContent.firstChild);
-
-  var todayPanel = document.createElement('section');
-  todayPanel.className = 'today-panel';
-  todayPanel.setAttribute('data-screen', 'overview');
-  screens.push(todayPanel);
-  todayPanel.innerHTML = '<div class="card-label">TODAY / THIS WEEK</div><h2 id="today-week-title">This week</h2><div id="today-task-list"></div><a href="#roadmap" class="today-roadmap-link">Open full roadmap →</a>';
-  if (overviewGrid) overviewGrid.parentNode.insertBefore(todayPanel, overviewGrid.nextSibling);
-
-  function escapeHTML(value) {
-    return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
-      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
-    });
-  }
-  function renderToday() {
-    var weekNode = document.querySelector('.week-card[open]') || document.querySelector('.week-card');
-    var title = document.getElementById('today-week-title');
-    var list = document.getElementById('today-task-list');
-    if (!weekNode || !list) return;
-    var weekTitle = weekNode.querySelector('.week-title');
-    var currentWeek = document.getElementById('current-week');
-    if (title) title.textContent = (currentWeek ? currentWeek.textContent : 'Current week') + ' · ' + (weekTitle ? weekTitle.textContent : 'Foundations');
-
-    var dayNames = ['sunday', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-    var dayKey = dayNames[new Date().getDay()];
-    if (dayKey === 'sunday') {
-      list.innerHTML = '<p class="today-rest">Rest or light revision today.</p>';
-      return;
-    }
-    var dayNode = Array.prototype.slice.call(weekNode.querySelectorAll('.daily-day')).find(function (node) {
-      var summary = node.querySelector('summary');
-      return summary && summary.textContent.toLowerCase().indexOf(dayKey) >= 0;
-    });
-    if (!dayNode) {
-      list.innerHTML = '<p class="today-rest">No tasks scheduled for today.</p>';
-      return;
-    }
-    var tasks = Array.prototype.slice.call(dayNode.querySelectorAll('[data-day-task]'));
-    list.innerHTML = tasks.length ? tasks.map(function (input) {
-      var label = input.closest('label');
-      var copy = label ? label.querySelector('span') : null;
-      return '<label class="today-task-row"><input type="checkbox" data-overview-task="' +
-        escapeHTML(input.dataset.dayTask) + '" ' + (input.checked ? 'checked' : '') + '><span>' +
-        escapeHTML(copy ? copy.textContent : 'Study task') + '</span></label>';
-    }).join('') : '<p class="today-rest">No tasks scheduled for today.</p>';
-
-    list.querySelectorAll('[data-overview-task]').forEach(function (box) {
-      box.addEventListener('change', function () {
-        var original = weekNode.querySelector('[data-day-task="' + box.dataset.overviewTask + '"]');
-        if (original) {
-          original.checked = box.checked;
-          original.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      });
-    });
-  }
-  var roadmap = document.getElementById('week-list');
-  if (roadmap) {
-    var roadmapObserver = new MutationObserver(renderToday);
-    roadmapObserver.observe(roadmap, { childList: true, subtree: true, attributes: true, attributeFilter: ['open'] });
-  }
-  var weekMetric = document.getElementById('current-week');
-  if (weekMetric) {
-    var currentIndex = Number((weekMetric.textContent.match(/\d+/) || [])[0] || 1) - 1;
-    Array.prototype.slice.call(document.querySelectorAll('.week-card')).forEach(function (card, index) {
-      card.open = index === currentIndex;
-    });
-  }
-  renderToday();
-  var todayLink = todayPanel.querySelector('.today-roadmap-link');
-  if (todayLink) todayLink.addEventListener('click', function (event) {
-    event.preventDefault();
-    activate('roadmap', true);
-  });
 
   function addEntryDrawer(section, form, label, historySelector) {
     if (!section || !form) return;
