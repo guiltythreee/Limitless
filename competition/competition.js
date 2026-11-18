@@ -733,7 +733,7 @@
     'Playlist':1141,'Towers':1073,'Traffic Lights':1163,
     'Building Roads':1666,'Message Route':1667,'Building Teams':1668,
     'Counting Rooms':1192,'Labyrinth':1193,'Round Trip':1669,
-    'Course Schedule':1679,'Course Schedule II':2534,'Longest Flight Route':1680,
+    'Course Schedule':1679,'Course Schedule II':1757,'Longest Flight Route':1680,
     'Shortest Routes I':1671,'Shortest Routes II':1672,'High Score':1673,
     'Road Reparation':1675,'Road Construction':1676,'Flight Routes':1196,
     'Planets and Kingdoms':1683,'Flight Routes Check':1682,
