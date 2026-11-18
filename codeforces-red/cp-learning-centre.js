@@ -2,6 +2,30 @@
   'use strict';
   const KEY='limitless.cp.learning-centre.v1';
   const $=id=>document.getElementById(id);
+  const GFG_ALGO_QUIZ='https://www.geeksforgeeks.org/dsa/algorithms-gq/';
+  const GFG_DS_QUIZ='https://www.geeksforgeeks.org/dsa/data-structure-quiz/';
+  const GFG_CPP_STL_QUIZ='https://www.geeksforgeeks.org/cpp/cpp-stl-quizzes/';
+  const GFG_CPP_FUND_QUIZ='https://www.geeksforgeeks.org/cpp/cpp-fundamental-quizzes/';
+  const TOPIC_QUIZZES={
+    'binary-search':'https://www.geeksforgeeks.org/quizzes/top-mcqs-on-binary-search-algorithm-with-answers/',
+    'brute-force':'https://www.geeksforgeeks.org/quizzes/top-mcqs-on-backtracking-algorithm-with-answers/',
+    'kmp':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'dp':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'bitmask-dp':'https://www.geeksforgeeks.org/quizzes/top-mcqs-on-bitwise-algorithms-and-bit-manipulations-with-answers/',
+    'arrays-vectors':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'stl-containers':'https://www.geeksforgeeks.org/quizzes/c-stl/',
+    'sorting':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'greedy':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'elementary-math':'https://www.geeksforgeeks.org/dsa/algorithms-gq/',
+    'bfs-dfs':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'shortest-paths':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'dsu':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'hashing':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'fenwick-segtree':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'trees-lca':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'scc-bridges':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/',
+    'flows-matching':'https://www.geeksforgeeks.org/dsa/data-structure-quiz/'
+  };
   const modules=[
     {stage:'Foundations',id:'complexity',title:'Complexity and constraints',tags:'Big-O, time, memory, overflow',concept:'Estimate operations and memory from constraints; compare O(1), O(log n), O(n), O(n log n), O(n²). Identify when brute force is feasible and when integer overflow changes correctness.',cpp:'Integer types (int, long long), numeric limits, safe arithmetic, pass-by-reference for large inputs, and measuring input size before choosing an algorithm.',cf:'implementation',gfg:'time complexity analysis quiz',learn:'integer types and limits C++'},
     {stage:'Foundations',id:'io-functions',title:'C++ implementation and input/output',tags:'cin, cout, functions, references',concept:'Translate a statement into input, state, operations and output. Split repeated logic into functions and test edge cases.',cpp:'Fast iostream setup, functions, parameters, return values, const references, scope, and basic debugging.',cf:'implementation',gfg:'C++ input output functions quiz',learn:'iostream functions references C++'},
@@ -48,8 +72,8 @@
     $('lc-list').innerHTML=filtered.map(m=>{
       const checks=['concept','cpp','practice'],labels=['Concept understood','C++ implementation studied','Practice completed'];
       const checkHtml=checks.map((t,i)=>'<label class="lc-check"><input type="checkbox" data-lc-check="'+m.id+':'+t+'" '+(state.checks[m.id+':'+t]?'checked':'')+'><span>'+labels[i]+'</span></label>').join('');
-      const concept=track==='cpp'?'':('<div class="lc-track-block"><b>01 · Competitive programming concept</b><p>'+esc(m.concept)+'</p><div class="lc-links">'+link('https://www.geeksforgeeks.org/?s='+encodeURIComponent(m.gfg), 'GeeksforGeeks quiz / explanations')+link('https://codeforces.com/problemset?tags='+encodeURIComponent(m.cf),'Codeforces tagged problems')+'</div></div>');
-      const cpp=track==='concepts'?'':('<div class="lc-track-block"><b>02 · C++ required for implementation</b><p>'+esc(m.cpp)+'</p><div class="lc-links">'+link('https://www.learncpp.com/?s='+encodeURIComponent(m.learn),'LearnCpp: '+m.learn)+link('https://www.geeksforgeeks.org/c-plus-plus/','GeeksforGeeks C++ reference')+'</div></div>');
+      const concept=track==='cpp'?'':('<div class="lc-track-block"><b>01 · Competitive programming concept</b><p>'+esc(m.concept)+'</p><div class="lc-links">'+link(TOPIC_QUIZZES[m.id]||(/dsu|hash|array|vector|bfs|shortest|tree|segment|fenwick|scc|flow/.test(m.id)?GFG_DS_QUIZ:GFG_ALGO_QUIZ),'GeeksforGeeks topic MCQs')+link('https://www.geeksforgeeks.org/explore','GeeksforGeeks practice problems')+link('https://codeforces.com/problemset?tags='+encodeURIComponent(m.cf==='*'?'implementation':m.cf),'Codeforces tagged problems')+'</div></div>');
+      const cpp=track==='concepts'?'':('<div class="lc-track-block"><b>02 · C++ required for implementation</b><p>'+esc(m.cpp)+'</p><div class="lc-links">'+link('https://www.learncpp.com/?s='+encodeURIComponent(m.learn),'LearnCpp: '+m.learn)+link(/map|set|stack|queue|vector|deque|priority|container|lower_bound|unordered/.test(m.cpp)?GFG_CPP_STL_QUIZ:GFG_CPP_FUND_QUIZ,'C++ language / STL MCQs')+'</div></div>');
       return '<article class="lc-module"><div class="lc-module-head"><div><span class="lc-stage">'+esc(m.stage)+'</span><h3>'+esc(m.title)+'</h3><p class="lc-tags">'+esc(m.tags)+'</p></div><span class="lc-module-progress">'+checks.filter(t=>state.checks[m.id+':'+t]).length+'/3</span></div><div class="lc-module-body">'+concept+cpp+'</div><div class="lc-checks">'+checkHtml+'</div></article>';
     }).join('')||'<p class="lc-empty">No modules match this filter. Clear the search or choose another stage.</p>';
     $('lc-list').querySelectorAll('[data-lc-check]').forEach(input=>input.addEventListener('change',()=>{state.checks[input.dataset.lcCheck]=input.checked;save();render();}));
