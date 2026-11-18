@@ -4,10 +4,13 @@ import { readFile } from "node:fs/promises";
 const js = await readFile(new URL("./competition.js", import.meta.url), "utf8");
 const html = await readFile(new URL("./index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("./competition.css", import.meta.url), "utf8");
+const ui = await readFile(new URL("./competition-ui.js", import.meta.url), "utf8");
 
 assert.match(html, /id="daily-plan"/, "the 120-task planner must be a separate section");
 assert.match(html, /id="daily-plan-panel"/, "the planner needs its own render host");
-assert.doesNotMatch(html, /id="today-panel"/, "the old automatic Today panel must be removed");
+assert.doesNotMatch(html, /id="today-panel"/, "the old roadmap Today panel must be removed");
+assert.doesNotMatch(ui, /todayPanel = document\.createElement/, "the old overview Today panel must also be removed");
+assert.match(ui, /location\.hash === '#daily-plan' \? 'daily'/, "the daily planner must open from a direct URL");
 assert.match(html, /href="#daily-plan"/, "the planner must have a direct sidebar link");
 assert.match(js, /selectedDay: 1/, "the selected task day must be persisted");
 assert.match(js, /function dailyPlanCoordinates\(dayNumber\)/);
@@ -22,6 +25,7 @@ assert.match(js, /renderDailyPlan\(\);\s*renderWeeks\(\);/,
 assert.doesNotMatch(js, /function renderToday\(\)/, "the automatic Today renderer must be removed");
 assert.doesNotMatch(js, /compartment\('schedule'/, "daily execution must be removed from weekly roadmap");
 assert.match(js, /Storage verification failed/, "writes must be read back and verified");
+assert.match(js, /\.recovery/, "unreadable saved progress must be preserved before fallback");
 assert.match(js, /Saved and verified in this browser/, "successful saves must report verification");
 assert.match(css, /\.daily-plan-panel/);
 assert.match(css, /\.daily-plan-navigation/);
