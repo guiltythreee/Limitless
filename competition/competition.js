@@ -17,6 +17,7 @@
     mocks: [],
     problemLog: [],
     weekChecks: {},
+    resourceChecks: {},
     revisionChecks: {},
     revisionAttempts: []
   };
@@ -264,6 +265,7 @@
       if (!Array.isArray(merged.problemLog)) merged.problemLog = [];
       if (!Array.isArray(merged.revisionAttempts)) merged.revisionAttempts = [];
       if (!merged.weekChecks || typeof merged.weekChecks !== 'object') merged.weekChecks = {};
+      if (!merged.resourceChecks || typeof merged.resourceChecks !== 'object') merged.resourceChecks = {};
       if (!merged.revisionChecks || typeof merged.revisionChecks !== 'object') merged.revisionChecks = {};
       // Migrate the old binary checklist conservatively: a checked topic becomes
       // "practiced", never "mastered", because the old tracker had no mastery test.
@@ -857,13 +859,13 @@
         }
       }
     });
-    var cards=Object.keys(groups).map(function(key){
-      var g=groups[key];
+    var cards=Object.keys(groups).map(function(key,groupIndex){
+      var g=groups[key], resourceCheckKey='w'+(weekIndex+1)+'-resource-'+groupIndex, resourceChecked=!!state.resourceChecks[resourceCheckKey];
       var sectionHtml=g.sections.map(function(section){return '<li>'+esc(section)+'</li>';}).join('');
       var notesHtml=g.notes.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       var lectureHtml=g.lectures.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
       var setsHtml=g.sets.map(function(x){return '<a href="'+x.url+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+'</a>';}).join('');
-      return '<article class="weekly-resource-card"><div class="weekly-resource-book"><strong>'+esc(g.book)+'</strong><a href="'+g.url+'" target="_blank" rel="noopener noreferrer">Open book / primary reference ↗</a></div>'+
+      return '<article class="weekly-resource-card"><div class="weekly-resource-book"><strong>'+esc(g.book)+'</strong><label class="resource-completion"><input type="checkbox" data-resource-check="'+resourceCheckKey+'" '+(resourceChecked?'checked':'')+'><span>Reading completed</span></label><a href="'+g.url+'" target="_blank" rel="noopener noreferrer">Open book / primary reference ↗</a></div>' +
         '<div class="weekly-resource-sections"><b>Read this week</b><ul>'+sectionHtml+'</ul></div>'+
         (notesHtml?'<div class="weekly-resource-links"><b>Written notes</b>'+notesHtml+'</div>':'')+
         (lectureHtml?'<div class="weekly-resource-links"><b>Video lectures</b>'+lectureHtml+'</div>':'')+
@@ -1260,6 +1262,7 @@
       });
     });
     $('week-list').querySelectorAll('[data-week-check]').forEach(function(input){input.addEventListener('change',function(){state.weekChecks[input.dataset.weekCheck]=input.checked;persist();renderWeeks();});});
+    $('week-list').querySelectorAll('[data-resource-check]').forEach(function(input){input.addEventListener('change',function(){state.resourceChecks[input.dataset.resourceCheck]=input.checked;persist();renderWeeks();});});
     $('week-list').querySelectorAll('[data-day-task]').forEach(function (input) {
       input.addEventListener('change', function () {
         state.dayChecks[input.dataset.dayTask] = input.checked;
