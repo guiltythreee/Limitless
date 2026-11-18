@@ -63,7 +63,43 @@
   function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');state={checks:x.checks&&typeof x.checks==='object'?x.checks:{}};}catch(_){state={checks:{}};}}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){}}
   function link(url,label){return '<a href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(label)+' ↗</a>';}
+  const COURSE_STAGES=['Foundations','Specialist','Core algorithms','Advanced reasoning','Mastery'];
+  function renderVisualDashboard(){
+    const stageHost=$('lc-course-steps');
+    if(!stageHost)return;
+    const stageRows=COURSE_STAGES.map((name,index)=>{
+      const rows=modules.filter(m=>m.stage===name);
+      const total=rows.length*3;
+      const done=rows.reduce((sum,m)=>sum+['concept','cpp','practice'].filter(t=>state.checks[m.id+':'+t]).length,0);
+      const percent=total?Math.round(done/total*100):0;
+      return '<button class="lc-course-step" type="button" data-lc-stage="'+esc(name)+'"><span class="lc-step-number">'+String(index+1).padStart(2,'0')+'</span><span>'+esc(name==='Foundations'?'Fundamentals':name==='Specialist'?'Core Concepts':name==='Core algorithms'?'Advanced Topics':'Real Projects')+'</span><i class="'+(percent===100?'is-complete':'')+'">'+(percent===100?'✓':percent+'%')+'</i></button>';
+    }).join('');
+    stageHost.innerHTML=stageRows;
+    const allTotal=modules.length*3;
+    const allDone=Object.keys(state.checks).filter(k=>state.checks[k]).length;
+    const percent=Math.round(allDone/allTotal*100);
+    $('lc-course-percent').textContent=percent+'%';
+    $('lc-course-bar').style.width=percent+'%';
+    const groups=[
+      {label:'Algorithms',ids:modules.filter(m=>['Specialist','Core algorithms','Advanced reasoning','Mastery'].includes(m.stage)).map(m=>m.id)},
+      {label:'Data Structures',ids:['arrays-vectors','stl-containers','dsu','hashing','fenwick-segtree','bfs-dfs','trees-lca','scc-bridges','offline-lazy','advanced-ds']},
+      {label:'C++ Language',ids:modules.map(m=>m.id)}
+    ];
+    $('lc-skill-bars').innerHTML=groups.map((g,i)=>{
+      const total=g.ids.length*(i===2?1:1);
+      const done=g.ids.filter(id=>state.checks[id+':'+(i===2?'cpp':'concept')]).length;
+      const pct=total?Math.round(done/total*100):0;
+      return '<div class="lc-skill-row"><span class="lc-skill-icon">'+(i===0?'⌘':i===1?'{}':'▣')+'</span><b>'+g.label+'</b><i><span style="width:'+pct+'%"></span></i><small>'+pct+'%</small></div>';
+    }).join('');
+    stageHost.querySelectorAll('[data-lc-stage]').forEach(button=>button.addEventListener('click',()=>{
+      stage=button.dataset.lcStage;
+      $('lc-stage').value=stage;
+      render();
+      $('lc-list').scrollIntoView({behavior:'smooth',block:'start'});
+    }));
+  }
   function render(){
+    renderVisualDashboard();
     const filtered=modules.filter(m=>(stage==='all'||m.stage===stage)&&((m.title+' '+m.tags+' '+m.concept+' '+m.cpp).toLowerCase().includes(query)));
     const done=Object.keys(state.checks).filter(k=>state.checks[k]).length,total=modules.length*3;
     $('lc-overall').textContent=done+' / '+total+' learning steps completed';
