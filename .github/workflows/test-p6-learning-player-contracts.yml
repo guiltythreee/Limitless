@@ -31,6 +31,10 @@ on:
       - "codeforces-red/codeforces-red.js"
       - "codeforces-red/codeforces-problems.js"
       - "codeforces-red/codeforces-contests.js"
+      - "codeforces-red/index.html"
+      - "codeforces-red/codeforces-red.css"
+      - "codeforces-red/codeforces-problems.css"
+      - "codeforces-red/cp-scroll-usability.test.mjs"
       - "codeforces-red/codeforces-contests.css"
       - "codeforces-red/featured-contests.mjs"
       - "codeforces-red/featured-contests.test.mjs"
@@ -139,6 +143,7 @@ jobs:
           node --check ../scripts/build-codeforces-catalogue.mjs
           node ../codeforces-red/catalogue-selection.test.mjs
           node ../codeforces-red/featured-contests.test.mjs
+          node ../codeforces-red/cp-scroll-usability.test.mjs
           if [ "${{ matrix.project }}" = "probability-source" ]; then node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs app/lib/learning-intelligence.test.mjs; node scripts/test-reward-standard.mjs; fi
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/reference-registrations.test.mjs
           node --experimental-strip-types --experimental-loader ../shared/learning-player/ts-extension-loader.mjs ../shared/studies/study-utility-nav.test.mjs
