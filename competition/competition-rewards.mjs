@@ -60,11 +60,13 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       moduleId: COMPETITION_REWARD_MODULE_ID,
       itemId: "codeforces-problem:" + submission.contestId + "-" + submission.problem.index,
       ts: Math.round(submission.creationTimeSeconds * 1000),
-      activityClass: "focused-practice",
+      activityClass: "rated-problem",
+      problemRating: rating,
       difficulty: codeforcesDifficulty(rating),
       completionEvidence: "verified-codeforces-accepted-submission",
       completed: true,
-      quality: 1,
+      // Accepted is pass/fail; there is no quality signal, so no quality bonus.
+      quality: 0,
     };
     if (!Number.isFinite(activity.ts) || activity.ts <= 0) return null;
     const records = buildRewardRecords(activity, state.records);

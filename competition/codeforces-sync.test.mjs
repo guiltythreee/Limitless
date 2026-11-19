@@ -57,7 +57,7 @@ const finalized = syncCodeforcesSubmissions(storage, "ExampleHandle", [{ ...pend
 assert.equal(finalized.added, 1, "a pending submission is not marked seen before its verdict becomes terminal");
 assert.equal(finalized.state.attempts.find((attempt) => attempt.id === "codeforces:103").outcome, "correct");
 assert.equal(finalized.rewardAwards, 1, "a newly accepted post-baseline submission earns one reward");
-assert.equal(finalized.awardedExp, 24, "a foundational accepted submission receives the LSR-1 focused-practice award");
+assert.equal(finalized.awardedExp, 10, "an 800-rated accepted submission receives the rating-scaled base award");
 const repeatedFinalized = syncCodeforcesSubmissions(storage, "ExampleHandle", [{ ...pending, verdict: "OK" }], 1795000005000);
 assert.equal(repeatedFinalized.added, 0);
 assert.equal(repeatedFinalized.rewardAwards, 0, "repeated sync does not award EXP twice");

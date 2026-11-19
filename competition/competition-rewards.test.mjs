@@ -32,11 +32,11 @@ assert.ok(first);
 assert.equal(first.created, true, "a new ledger record is identified as newly created");
 assert.equal(first.moduleId, COMPETITION_REWARD_MODULE_ID);
 assert.equal(first.itemId, "codeforces-problem:2100-B");
-assert.equal(first.activityClass, "focused-practice");
+assert.equal(first.activityClass, "rated-problem");
 assert.equal(first.difficulty, "intermediate");
 assert.equal(first.completionEvidence, "verified-codeforces-accepted-submission");
-assert.equal(first.baseExp, 20);
-assert.equal(first.totalExp, 29);
+assert.equal(first.baseExp, 28, "rating 1400 -> round(10 * 2^1.5)");
+assert.equal(first.totalExp, 28, "no quality bonus and no second difficulty multiplier");
 const repeated = adapter.awardCodeforcesSubmission(accepted, "examplehandle");
 assert.equal(repeated.eventId, first.eventId,
   "the same account/submission pair is idempotent");
@@ -63,6 +63,6 @@ assert.notEqual(otherAccount.eventId, first.eventId, "event identity is scoped t
 
 const summary = readGlobalRewardSummary(storage);
 assert.equal(summary.byModule.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).awards, 4);
-assert.equal(summary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).exp, 106);
+assert.equal(summary.sources.find((item) => item.moduleId === COMPETITION_REWARD_MODULE_ID).exp, 76);
 assert.equal(values.has(COMPETITION_REWARD_STORAGE_KEY), true);
 console.log("Competition LSR-1 rewards: all assertions passed.");

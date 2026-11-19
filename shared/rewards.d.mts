@@ -5,7 +5,8 @@ export type ActivityClass =
   | "assessment"
   | "unit-milestone"
   | "major-completion"
-  | "bespoke-project";
+  | "bespoke-project"
+  | "rated-problem";
 export type DifficultyTier = "foundational" | "intermediate" | "advanced";
 export type RewardRecord = {
   policyVersion: "LSR-1";
@@ -38,6 +39,7 @@ export type RewardInput = {
   completionEvidence: string;
   completed: boolean;
   quality?: number;
+  problemRating?: number;
   passed?: boolean;
   checkpointId?: string | null;
   assignedBaseExp?: number;
