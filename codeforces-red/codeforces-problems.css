@@ -364,3 +364,6 @@ html[data-theme="light"] #cf-problem-list[role="region"]::-webkit-scrollbar-thum
 @media(prefers-reduced-motion:reduce){
   #cf-problem-list[role="region"]{scroll-behavior:auto}
 }
+
+/* Per-problem mistake diagnosis, separate from official Codeforces tags. */
+.cf-mistake-row{margin-top:9px}.cf-mistake-editor{display:inline-block;color:var(--comp-muted);font:11px Arial,sans-serif}.cf-mistake-editor summary{cursor:pointer;list-style-position:inside;color:var(--comp-muted)}.cf-mistake-options{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;padding:9px;border:1px solid var(--comp-border);border-radius:8px;background:rgba(75,142,200,.07)}.cf-mistake-option{display:inline-flex;align-items:center;gap:5px;color:var(--comp-ink);font:10px Arial,sans-serif;cursor:pointer}.cf-mistake-option input{margin:0;accent-color:#69b9ff}html[data-theme="light"] .cf-mistake-options{background:rgba(230,241,251,.85)}
