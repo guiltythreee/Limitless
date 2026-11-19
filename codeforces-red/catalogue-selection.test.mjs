@@ -4,6 +4,8 @@ import { readFileSync } from "node:fs";
 const source = readFileSync(new URL("./codeforces-problems.js", import.meta.url), "utf8");
 assert.ok(source.includes("const SHELF_HANDLES = ['lord_limitless'];"),
   "only lord_limitless removes problems from the shelf");
+assert.ok(source.includes("loadProblemset(true); // every page load syncs fresh data"),
+  "every page load must fetch fresh data, not only the Sync button");
 assert.ok(source.includes("loadProblemset(true);"),
   "the Sync button must force a fresh fetch of the linked handle");
 assert.ok(source.includes("persistReplacementSnapshot(fetched.solved, fetched.wrong, handle);"),

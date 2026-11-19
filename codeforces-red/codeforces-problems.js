@@ -14,7 +14,8 @@
   // Two separate jobs, kept apart on purpose:
   //   SHELF  - which problems are listed. Anything solved by a FIXED handle in
   //            SHELF_HANDLES (lord_limitless) is swapped out. Problems solved by
-  //            unwonted_contriver stay listed and just show the Solved badge. Each handle is fetched once, then reused.
+  //            unwonted_contriver stay listed and just show the Solved badge. Fetched fresh on every load and Sync;
+  //            the last saved copy is only a fallback if the request fails.
   //   BADGES - the Solved / Wrong badges. They follow the handle linked on the page and
   //            are re-fetched every time "Sync with Codeforces" is pressed.
   const SHELF_HANDLES = ['lord_limitless'];
@@ -283,14 +284,14 @@
   }
   // SHELF: solved keys of the two fixed handles. Each is fetched once and then reused
   // from the saved snapshot, so the list does not reshuffle on every Sync.
-  async function loadShelfExclusions() {
+  async function loadShelfExclusions(fresh) {
     const saved = readShelfSnapshot();
     const byHandle = Object.assign({}, saved);
     const missing = [];
-    const todo = SHELF_HANDLES.filter(handle => !byHandle[handle]);
+    const todo = fresh ? SHELF_HANDLES.slice() : SHELF_HANDLES.filter(handle => !byHandle[handle]);
     await Promise.all(todo.map(async handle => {
       try { byHandle[handle] = (await fetchHandle(handle)).solved; }
-      catch (_) { missing.push(handle); }
+      catch (_) { if (!byHandle[handle]) missing.push(handle); } // keep the last saved copy if there is one
     }));
     if (todo.length > missing.length) persistShelfSnapshot(byHandle);
     const excluded = new Set();
@@ -312,7 +313,7 @@
     if (!fresh && snapshotMatches) {
       state.solved = snapshot.solved;
       state.wrong = snapshot.wrong;
-      state.badgeNote = 'Solved badges follow ' + handle + ' (last synced; press Sync to refresh)';
+      state.badgeNote = 'Solved badges follow ' + handle + ' (last synced)';
       return true;
     }
     try {
@@ -352,7 +353,7 @@
       state.shelfMissing = [];
       state.badgeNote = '';
 
-      const shelfPromise = loadShelfExclusions();
+      const shelfPromise = loadShelfExclusions(fresh === true);
       const badgePromise = loadBadges(fresh === true);
       const result = await api('problemset.problems', {}, { signal: catalogueController.signal });
       if (!result || !Array.isArray(result.problems)) {
@@ -490,7 +491,7 @@
   }
   function init() {
     readSaved(); readMistakeTags(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
-    bindFilters(); loadProblemset(false);
+    bindFilters(); loadProblemset(true); // every page load syncs fresh data
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
