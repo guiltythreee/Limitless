@@ -2,13 +2,15 @@
   'use strict';
   const API = 'https://codeforces.com/api/';
   const STORAGE = 'limitless.competition.codeforces-problemset.v2';
+  const MISTAKE_STORAGE = 'limitless.competition.codeforces-mistake-tags.v1';
+  const MISTAKE_TYPES = [['conceptual','Conceptual error'],['observation','Observation error'],['mathematical','Mathematical error'],['implementation','Implementation error'],['syntax-gap','Syntax gap']];
   const MAX_PER_RATING = 250;
   const MIN_PER_TOPIC = 6;
   const TOPIC_BALANCE = 0.6;
   const PERSONAL_REPLACEMENT_RATING_MIN = 800;
   const PERSONAL_REPLACEMENT_RATING_MAX = 1000;
   const $ = id => document.getElementById(id);
-  const state = { problems: [], problemsetResult: null, solved: new Set(), wrong: new Map(), saved: new Set(), page: 0, pageSize: 40, loaded: false, loading: false };
+  const state = { problems: [], problemsetResult: null, solved: new Set(), wrong: new Map(), saved: new Set(), mistakeTags: {}, page: 0, pageSize: 40, loaded: false, loading: false };
   // The linked handle is consulted once to create a durable local snapshot.
   // Later catalogue refreshes reuse this snapshot and never query that handle again.
   const REPLACEMENT_SNAPSHOT_KEY = 'limitless.competition.codeforces-replacement-snapshot.v1';
@@ -50,6 +52,20 @@
     catch (_) { state.saved = new Set(); }
   }
   function persistSaved() { localStorage.setItem(STORAGE, JSON.stringify({ saved:[...state.saved] })); }
+  function readMistakeTags() {
+    try { const value = JSON.parse(localStorage.getItem(MISTAKE_STORAGE) || '{}'); state.mistakeTags = value && typeof value === 'object' && !Array.isArray(value) ? value : {}; }
+    catch (_) { state.mistakeTags = {}; }
+  }
+  function persistMistakeTags() { localStorage.setItem(MISTAKE_STORAGE, JSON.stringify(state.mistakeTags)); }
+  function mistakeTagsFor(key) {
+    const values = state.mistakeTags[key];
+    return Array.isArray(values) ? values.filter(value => MISTAKE_TYPES.some(([id]) => id === value)) : [];
+  }
+  function mistakeTagControls(key) {
+    const selected = new Set(mistakeTagsFor(key));
+    const labels = MISTAKE_TYPES.map(([id, label]) => '<label class="cf-mistake-option"><input type="checkbox" data-mistake-key="' + esc(key) + '" data-mistake="' + id + '"' + (selected.has(id) ? ' checked' : '') + '><span>' + label + '</span></label>').join('');
+    return '<details class="cf-mistake-editor"' + (selected.size ? ' open' : '') + '><summary>' + (selected.size ? 'My mistake tags (' + selected.size + ')' : 'Mark mistake tags') + '</summary><div class="cf-mistake-options">' + labels + '</div></details>';
+  }
   function categoriesFor(tags) {
     const lower = (tags || []).map(x => x.toLowerCase());
     const matches = Object.entries(CATEGORIES).filter(([, values]) => lower.some(tag => values.includes(tag))).map(([category]) => category);
@@ -315,6 +331,7 @@
     const max = $('cf-rating-max').value === '' ? Infinity : Number($('cf-rating-max').value);
     const tags = selectedTags(), category = $('cf-category-filter').value, search = $('cf-search').value.trim().toLowerCase();
     const statusFilter = $('cf-status-filter').value, sort = $('cf-sort').value;
+    const mistakeFilter = $('cf-mistake-filter').value;
     let rows = state.problems.filter(p => {
       const rating = Number.isFinite(p.rating) ? p.rating : null;
       if (rating === null ? !$('cf-include-unrated').checked : (rating < min || rating > max)) return false;
@@ -326,6 +343,7 @@
       if (statusFilter === 'unsolved' && (state.solved.has(key) || state.wrong.has(key))) return false;
       if (statusFilter === 'wrong' && !state.wrong.has(key)) return false;
       if (statusFilter === 'saved' && !state.saved.has(key)) return false;
+      if (mistakeFilter && !mistakeTagsFor(key).includes(mistakeFilter)) return false;
       return true;
     });
     rows.sort((a,b) => {
@@ -352,11 +370,18 @@
       const progressLabel=solved?'Solved':wrongCount?'Wrong submissions ('+wrongCount+')':'Unsolved';
       const progressClass=solved?'solved':wrongCount?'wrong':'unsolved';
       const wrongBadge=solved&&wrongCount?'<span class="cf-chip wrong">'+wrongCount+' failed before solve</span>':'';
-      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + progressClass + '">' + progressLabel + '</span>' + wrongBadge + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
+      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + progressClass + '">' + progressLabel + '</span>' + wrongBadge + tagsDisclosure + '</div><div class="cf-mistake-row">' + mistakeTagControls(key) + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
     }).join('') || '<p class="cf-empty">No problems match these filters. Try widening the rating range or removing a tag.</p>';
     $('cf-page-label').textContent = 'Page ' + (state.page + 1) + ' of ' + pages;
     $('cf-prev-page').disabled = state.page === 0;
     $('cf-next-page').disabled = state.page >= pages - 1;
+    $('cf-problem-list').querySelectorAll('[data-mistake]').forEach(input => input.addEventListener('change', () => {
+      const key = input.dataset.mistakeKey, type = input.dataset.mistake;
+      const selected = new Set(mistakeTagsFor(key));
+      if (input.checked) selected.add(type); else selected.delete(type);
+      if (selected.size) state.mistakeTags[key] = [...selected]; else delete state.mistakeTags[key];
+      persistMistakeTags(); render();
+    }));
     $('cf-problem-list').querySelectorAll('[data-save]').forEach(button => button.addEventListener('click', () => {
       const key = button.dataset.save;
       if (state.saved.has(key)) state.saved.delete(key); else state.saved.add(key);
@@ -365,7 +390,7 @@
 
   }
   function bindFilters() {
-    ['cf-rating-min','cf-rating-max','cf-include-unrated','cf-tag-filter','cf-category-filter','cf-search','cf-status-filter','cf-sort'].forEach(id => $(id).addEventListener(id === 'cf-search' ? 'input' : 'change', () => { state.page = 0; render(); }));
+    ['cf-rating-min','cf-rating-max','cf-include-unrated','cf-tag-filter','cf-category-filter','cf-search','cf-status-filter','cf-sort','cf-mistake-filter'].forEach(id => $(id).addEventListener(id === 'cf-search' ? 'input' : 'change', () => { state.page = 0; render(); }));
     $('cf-rating-preset').addEventListener('change', () => {
       const preset = $('cf-rating-preset').value;
       if (preset === 'custom') return;
@@ -385,11 +410,11 @@
     });
     $('cf-clear-filters').addEventListener('click', () => {
       $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200'; $('cf-include-unrated').checked = false; $('cf-search').value = '';
-      $('cf-tag-filter').selectedIndex = -1; $('cf-category-filter').value = ''; $('cf-status-filter').value = 'all'; $('cf-sort').value = 'rating-asc'; state.page = 0; render();
+      $('cf-tag-filter').selectedIndex = -1; $('cf-category-filter').value = ''; $('cf-status-filter').value = 'all'; $('cf-sort').value = 'rating-asc'; $('cf-mistake-filter').value = ''; state.page = 0; render();
     });
   }
   function init() {
-    readSaved(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
+    readSaved(); readMistakeTags(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
     bindFilters(); loadProblemset(false);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
