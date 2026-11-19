@@ -1355,8 +1355,23 @@ test("home shelf owns vertical scrolling and visual panels stay anchored across 
   const shell = page.locator(".bk-shell");
   const shelf = page.locator(".bk-book-grid");
   const demo = page.locator(".bk-home-demo");
+  const demoText = page.locator(".bk-home-demo-text");
   await expect(shell).toHaveAttribute("data-home", "true");
   await expect(demo).toBeVisible();
+  await expect(demo.locator(".bk-home-demo-heading")).toHaveText("Chapter 1");
+  await expect(demoText).toBeVisible();
+
+  const demoTextSurface = await demoText.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      background: style.backgroundColor,
+      borderWidth: style.borderTopWidth,
+      backdropFilter: style.backdropFilter,
+    };
+  });
+  expect(demoTextSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(parseFloat(demoTextSurface.borderWidth)).toBeGreaterThan(0);
+  expect(demoTextSurface.backdropFilter).toContain("blur");
 
   const homeLayout = await page.evaluate(() => ({
     bodyOverflowY: getComputedStyle(document.body).overflowY,
