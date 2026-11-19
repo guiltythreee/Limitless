@@ -98,7 +98,7 @@ for (let index = 0; index < 130; index += 1) {
 }
 for (let index = 0; index < 1000; index += 1) {
   selectedMatchRows.push({
-    contestId: 9200 + index,
+    contestId: 20000 + index,
     index: "A",
     name: "Same-rating filler " + index,
     rating: 800,
