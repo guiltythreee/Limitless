@@ -732,7 +732,7 @@ test("chapter editor can jump to a chapter and re-detect EPUB headings", async (
     buffer: epub,
   });
 
-  await page.locator(".bk-book-grid .bk-book").click();
+  // Importing an EPUB opens it directly in the reader; no shelf-card click is needed.
   await expect(page.locator(".bk-chapter-list")).toContainText("Chapter Two");
   await page.getByRole("button", { name: "Go to Chapter Two" }).click();
   await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
@@ -1358,6 +1358,10 @@ test("home shelf owns vertical scrolling and visual panels stay anchored across 
     mimeType: "application/epub+zip",
     buffer: shelfBook,
   });
+  // EPUB import opens the reader immediately. Return to the library before
+  // asserting the home shelf and its independent scrolling behavior.
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
+  await page.getByRole("button", { name: "← Library" }).click();
   await expect(page.locator(".bk-book-grid .bk-book")).toHaveCount(1);
   const shell = page.locator(".bk-shell");
   const shelf = page.locator(".bk-book-grid");
