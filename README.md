@@ -8,7 +8,8 @@ A personal study and training hub, deployed as a Cloudflare Worker with static a
 | --- | --- |
 | `index.html`, `tools.js`, `studies-catalog.js` | Hub home page and catalogue of tools and studies |
 | `tools/math/` | Math Trainer application; automated checks are isolated in `tools/math/tests/` |
-| `tools/typing/` | Bookkeys typing trainer |
+| `tools/typing/` | Bookkeys production redirect and reader shell |
+| `tools/typing-next-source/` | Bookkeys React/Next.js source and automated tests |
 | `competition/` | Competition tracker |
 | `codeforces-red/` | Codeforces problem and contest tracker |
 | `meta/` | Meta progression dashboard |
@@ -38,9 +39,14 @@ node --check tools/math/game.js
 ```
 
 ```bash
-# Bookkeys tests
-(cd tools/typing/tests && npm ci && npm test)
+# Bookkeys tests (React replacement)
+(cd tools/typing-next-source && npm ci && npm test && npm run typecheck && npm run build)
+(cd tools/typing-next-source && npx playwright install chromium && npm run e2e)
 ```
+
+The original HTML reader and its preservation tests are retained on the
+`backup/bookkeys-legacy-suite-20261119` branch; they are not runtime
+dependencies of the React application.
 
 ```bash
 # Probability app (Node 20.9+; CI uses Node 22)

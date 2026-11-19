@@ -732,7 +732,7 @@ test("chapter editor can jump to a chapter and re-detect EPUB headings", async (
     buffer: epub,
   });
 
-  await page.getByRole("button", { name: "Edit" }).click();
+  // Importing an EPUB opens it directly in the reader; no shelf-card click is needed.
   await expect(page.locator(".bk-chapter-list")).toContainText("Chapter Two");
   await page.getByRole("button", { name: "Go to Chapter Two" }).click();
   await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
@@ -1352,11 +1352,37 @@ test("dropping a TXT file onto the library imports it into local storage", async
 test("home shelf owns vertical scrolling and visual panels stay anchored across settings tabs", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/tools/typing-next-preview/");
+  const shelfBook = await makeFixtureEpub(true);
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "home-shelf-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: shelfBook,
+  });
+  // EPUB import opens the reader immediately. Return to the library before
+  // asserting the home shelf and its independent scrolling behavior.
+  await expect(page.locator(".bk-book-title strong")).toHaveText("Bookkeys Migration Fixture");
+  await page.getByRole("button", { name: "← Library" }).click();
+  await expect(page.locator(".bk-book-grid .bk-book")).toHaveCount(1);
   const shell = page.locator(".bk-shell");
   const shelf = page.locator(".bk-book-grid");
   const demo = page.locator(".bk-home-demo");
+  const demoText = page.locator(".bk-home-demo-text");
   await expect(shell).toHaveAttribute("data-home", "true");
   await expect(demo).toBeVisible();
+  await expect(demo.locator(".bk-home-demo-heading")).toHaveText("Chapter 1");
+  await expect(demoText).toBeVisible();
+
+  const demoTextSurface = await demoText.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      background: style.backgroundColor,
+      borderWidth: style.borderTopWidth,
+      backdropFilter: style.backdropFilter,
+    };
+  });
+  expect(demoTextSurface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(parseFloat(demoTextSurface.borderWidth)).toBeGreaterThan(0);
+  expect(demoTextSurface.backdropFilter).toContain("blur");
 
   const homeLayout = await page.evaluate(() => ({
     bodyOverflowY: getComputedStyle(document.body).overflowY,
