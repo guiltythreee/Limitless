@@ -1357,7 +1357,7 @@ test("home shelf owns vertical scrolling and visual panels stay anchored across 
     mimeType: "application/epub+zip",
     buffer: shelfBook,
   });
-  await expect(page.getByRole("button", { name: /chapter-detection-fixture|home-shelf-fixture/i })).toBeVisible().catch(() => {});
+  await expect(page.locator(".bk-book-grid .bk-book")).toHaveCount(1);
   const shell = page.locator(".bk-shell");
   const shelf = page.locator(".bk-book-grid");
   const demo = page.locator(".bk-home-demo");
