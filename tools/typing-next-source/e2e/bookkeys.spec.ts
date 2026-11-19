@@ -732,6 +732,7 @@ test("chapter editor can jump to a chapter and re-detect EPUB headings", async (
     buffer: epub,
   });
 
+  await page.locator(".bk-book-grid .bk-book").click();
   await expect(page.locator(".bk-chapter-list")).toContainText("Chapter Two");
   await page.getByRole("button", { name: "Go to Chapter Two" }).click();
   await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
