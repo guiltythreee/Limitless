@@ -118,10 +118,11 @@
     for (const targets of replacementGroups.values()) {
       const original = targets[0].problem;
       const signature = tagsSignature(original.tags);
-      const alternatives = (buckets.get(original.rating) || [])
-        .filter(problem => tagsSignature(problem.tags) === signature &&
-          !solved.has(problemKey(problem)) && !selectedKeys.has(problemKey(problem)))
+      const bucket = buckets.get(original.rating) || [];
+      const alternatives = bucket
+        .filter(problem => tagsSignature(problem.tags) === signature && !solved.has(problemKey(problem)))
         .sort((a,b) =>
+          Number(selectedKeys.has(problemKey(a))) - Number(selectedKeys.has(problemKey(b))) ||
           (b.catalogueSolvedCount || 0) - (a.catalogueSolvedCount || 0) ||
           (a.name || '').localeCompare(b.name || ''));
 
@@ -134,10 +135,41 @@
         );
       }
 
+      // Prefer unused catalogue entries. If the only exact matches are already
+      // selected, move one into the solved slot and refill its former slot with
+      // any other unused, unsolved problem at the same rating. This preserves
+      // rating counts, catalogue size, exact replacement tags, and uniqueness.
+      const replacements = alternatives.slice(0, targets.length);
+      const replacementKeys = new Set(replacements.map(problemKey));
+      const fillers = bucket
+        .filter(problem => !solved.has(problemKey(problem)) &&
+          !selectedKeys.has(problemKey(problem)) && !replacementKeys.has(problemKey(problem)))
+        .sort((a,b) =>
+          (b.catalogueSolvedCount || 0) - (a.catalogueSolvedCount || 0) ||
+          (a.name || '').localeCompare(b.name || ''));
+      let fillerIndex = 0;
+
       targets.sort((a,b) => a.index-b.index).forEach((target, index) => {
-        const replacement = alternatives[index];
+        const replacement = replacements[index];
+        const replacementKey = problemKey(replacement);
+        const currentIndex = curated.findIndex(problem => problemKey(problem) === replacementKey);
+        if (currentIndex !== -1) {
+          const filler = fillers[fillerIndex++];
+          if (!filler) {
+            const tags = (original.tags || []).slice().sort().join(', ');
+            throw new Error(
+              'Exact-match alternatives exist, but rating ' + original.rating +
+              ' has no unused unsolved problem available to preserve catalogue size while moving a selected alternative. Tags [' + tags + '].'
+            );
+          }
+          curated[currentIndex] = filler;
+          selectedKeys.delete(replacementKey);
+          selectedKeys.add(problemKey(filler));
+        }
+
+        selectedKeys.delete(problemKey(target.problem));
         curated[target.index] = replacement;
-        selectedKeys.add(problemKey(replacement));
+        selectedKeys.add(replacementKey);
         replacementCount += 1;
       });
     }
