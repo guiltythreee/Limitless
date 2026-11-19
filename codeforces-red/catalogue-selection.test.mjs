@@ -82,6 +82,54 @@ assert.ok(curated.some(problem => problem.rating === 1000), "unsolved 1000-rated
 assert.equal(curated.filter(problem => problem.rating === 1100).length, 250,
   "other ratings are not used as replacement pools");
 
+// Exact-tag alternatives may already be inside the curated sample. The selector
+// must move one into the solved slot and refill its former slot at the same rating.
+const selectedMatchRows = [];
+const selectedMatchStats = [];
+for (let index = 0; index < 130; index += 1) {
+  selectedMatchRows.push({
+    contestId: 9100 + index,
+    index: "A",
+    name: "Exact-tag selected " + index,
+    rating: 800,
+    tags: ["math", "number theory"]
+  });
+  selectedMatchStats.push({solvedCount: 20000 - index});
+}
+for (let index = 0; index < 1000; index += 1) {
+  selectedMatchRows.push({
+    contestId: 9200 + index,
+    index: "A",
+    name: "Same-rating filler " + index,
+    rating: 800,
+    tags: ["math"]
+  });
+  selectedMatchStats.push({solvedCount: 1000 - index});
+}
+const selectedSolved = new Set(selectedMatchRows.slice(0, 2)
+  .map(problem => problem.contestId + "-" + problem.index));
+const selectedMatchCatalogue = curateProblemset(
+  {problems: selectedMatchRows, problemStatistics: selectedMatchStats},
+  selectedSolved
+);
+assert.equal(selectedMatchCatalogue.replacementCount, 2,
+  "selected exact-tag alternatives are used when no unselected exact-tag alternatives exist");
+assert.equal(selectedMatchCatalogue.length, 250,
+  "moving selected alternatives does not change the catalogue size");
+assert.equal(new Set(selectedMatchCatalogue.map(problem => problem.contestId + "-" + problem.index)).size, 250,
+  "moving selected alternatives never introduces duplicate problem IDs");
+assert.ok(selectedMatchCatalogue.every(problem => !selectedSolved.has(problem.contestId + "-" + problem.index)),
+  "solved targets are removed when selected alternatives are moved");
+for (const original of selectedMatchRows.slice(0, 2)) {
+  assert.ok(selectedMatchCatalogue.some(problem =>
+    problem.rating === original.rating &&
+    JSON.stringify(problem.tags.slice().sort()) === JSON.stringify(original.tags.slice().sort()) &&
+    problem.contestId !== original.contestId),
+  "each moved replacement preserves the exact rating and complete tag set");
+}
+assert.equal(selectedMatchCatalogue.filter(problem => problem.rating === 800).length, 250,
+  "same-rating fillers preserve the original rating count");
+
 // If an exact rating/tag group has insufficient unsolved alternatives, fail loudly.
 const insufficientRows = [];
 const insufficientStats = [];
