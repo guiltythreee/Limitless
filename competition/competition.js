@@ -44,7 +44,7 @@
         ['probability','Random experiments, outcomes, events and sample spaces'],
         ['graphs','Vertices, edges, degree and basic graph types'],
         ['dp','Read constraints and distinguish exhaustive search from feasible algorithms'],
-        ['coding','C++ variables, conditions, loops, functions, arrays/vectors and basic complexity']
+        ['coding','C++ program structure, variables, input/output, arithmetic, conditions and simple loops']
       ],
       assessment:'Baseline diagnostic: attempt a short reasoning set and an introductory programming set. Record what you can solve without hints; do not use the result as a qualification prediction.'
     },
@@ -57,7 +57,7 @@
         ['probability','Complement, union, intersection and the addition rule'],
         ['graphs','Adjacency matrix/list, walks, paths, cycles and connected components'],
         ['dp','Recursion, base cases and tracing a recursion tree'],
-        ['coding','Sorting, pairs, maps/sets, frequency arrays and prefix sums']
+        ['coding','Functions, strings, arrays/vectors, nested loops and linear traversal']
       ]
     },
     {
@@ -69,7 +69,7 @@
         ['probability','Conditional probability using restricted sample spaces and tree diagrams'],
         ['graphs','BFS and DFS; traversal order and visited-state handling'],
         ['dp','Define a state, base case and transition; memoization versus tabulation'],
-        ['coding','Queues, stacks, recursion safety and graph adjacency lists']
+        ['coding','References, const references, structs, pairs, vector traversal and simple recursion']
       ]
     },
     {
@@ -81,7 +81,7 @@
         ['probability','Independence versus mutually exclusive events; multiplication rule'],
         ['graphs','Connected components, cycle detection and bipartite basics'],
         ['dp','One-dimensional DP: count ways and minimum/maximum cost'],
-        ['coding','Implement BFS/DFS and a simple one-dimensional DP from a blank file']
+        ['coding','Build adjacency lists; use queues/stacks and implement BFS/DFS with visited arrays']
       ],
       assessment:'Diagnostic 1: a 60-minute reasoning/mathematics paper followed by a 90-minute programming/problem-solving paper. Treat it as a baseline and classify mistakes by topic.'
     },
@@ -94,7 +94,7 @@
         ['probability','Conditional probability with partitions and multi-step experiments'],
         ['graphs','Bipartite graphs, two-colouring and odd-cycle reasoning'],
         ['dp','One-dimensional optimization: stairs, selection and simple coin-change variants'],
-        ['coding','Greedy choices as hypotheses; test with counterexamples before proving']
+        ['coding','Sorting with std::sort, frequency counting and introductory map/set use']
       ]
     },
     {
@@ -106,7 +106,7 @@
         ['probability','Law of total probability and Bayes theorem'],
         ['graphs','Directed acyclic graphs and topological sorting'],
         ['dp','0/1 knapsack: state meaning, transition, initialization and iteration direction'],
-        ['coding','Sorting with custom comparators; safe integer and bounds handling']
+        ['coding','Prefix sums, binary search, custom comparators and safe integer bounds']
       ]
     },
     {
@@ -118,7 +118,7 @@
         ['probability','Random variables, expectation, indicators and linearity of expectation'],
         ['graphs','Shortest paths: BFS for unweighted graphs and Dijkstra for non-negative weights'],
         ['dp','Grid DP, path counting and subset-sum formulation'],
-        ['coding','Priority queues, stale entries in Dijkstra and DP table reconstruction basics']
+        ['coding','Priority queues/heaps, graph implementation details and DP table reconstruction']
       ]
     },
     {
@@ -130,7 +130,7 @@
         ['probability','Conditional probability, independence and expectation problems'],
         ['graphs','BFS, DFS, bipartite checks, topological sorting and shortest paths'],
         ['dp','One-dimensional, grid and knapsack DP under stated constraints'],
-        ['coding','Implement standard templates from memory and explain their complexity']
+        ['coding','Consolidate core C++/STL patterns; write, test and explain complete solutions independently']
       ],
       assessment:'Diagnostic 2: repeat the two-part 2.5-hour format. Compare topic-wise accuracy and time use with Diagnostic 1; do not compare raw scores unless the papers are comparable.'
     },
@@ -708,19 +708,19 @@
   // LearnCpp assignments are explicit per roadmap week. Chapter/section numbers
   // follow the current LearnCpp table of contents; CP-specific STL gaps are linked separately.
   var LEARNCPP_WEEKLY = [
-    {sections:['1.1–1.5: Program structure, variables, initialization and cin/cout','2.1–2.6: Functions, parameters, return values and local scope','4.4–4.6, 4.9–4.12: Integer types, fixed-width integers, bool, if and casts','8.2, 8.8, 8.10–8.11: if, while, for, break and continue','16.2, 16.8: std::vector and range-based for loops'],extra:['Practise reading input, processing test cases and printing exact output.']},
-    {sections:['5.7: std::string basics','13.7–13.10: Structs, aggregate initialization, passing and returning structs','16.2–16.4, 16.8: std::vector, passing vectors and range-based loops','18.2–18.3: Iterators and standard-library algorithms (LearnCpp marks this chapter under construction)'],extra:['For std::sort, std::pair, std::map and std::set, use the linked cppreference pages; LearnCpp does not provide a complete current tutorial for these CP library tools.']},
-    {sections:['2.1–2.6: Function decomposition and parameters','12.3–12.6: References and pass-by-reference / const reference','13.7–13.10: Structs and adjacency-list edge records','16.2, 16.8: Vector-backed adjacency lists','20.3: Recursion'],extra:['For std::stack and std::queue, use the linked cppreference container-adaptor references.']},
-    {sections:['16.2–16.4, 16.8: Vector construction, passing vectors and traversal','20.3: Recursion and call-stack behaviour','9.1–9.3: Testing and common semantic errors'],extra:['Implement visited arrays, queues and adjacency lists with std::vector; use cppreference for std::queue.']},
-    {sections:['8.8, 8.10–8.11: Loop control for greedy scans','13.7–13.10: Structs for intervals and tasks','16.2, 16.8: Vectors and traversal','18.2–18.3: Iterators and standard-library algorithms (under construction)'],extra:['Use cppreference std::sort documentation for the exact sorting API and complexity; prove the greedy choice separately.']},
-    {sections:['4.4–4.6: Signed integers, fixed-width types and size_t','10.1–10.8: Type conversions, narrowing, aliases and auto','11.1–11.5: Function overloading and default arguments','20.6–20.7: Lambda expressions and captures'],extra:['Use a comparator with std::sort; consult cppreference for std::sort and comparator requirements. Check integer bounds before arithmetic.']},
-    {sections:['13.7–13.10: Structs and edge records','16.2–16.4: Vectors and passing large containers','11.6–11.9: Function templates (only the basics needed to read STL interfaces)'],extra:['LearnCpp does not teach std::priority_queue in its main current chapters. Read the linked cppreference priority_queue page and practise min-heap/max-heap comparators.']},
-    {sections:['11.6–11.9: Function templates and template arguments','12.5–12.6: Pass by reference and const reference','20.6–20.7: Lambdas and captures','3.1–3.5: Syntax/semantic errors and debugging strategy'],extra:['Re-implement vector traversal, sorting, binary search and common container operations without copying a template.']},
-    {sections:['13.7–13.10: Structs, member access and passing structs','12.5–12.6: References for DSU operations','16.2, 16.8, 16.10: Vector, traversal, resizing and capacity','4.4–4.6: Integer types and index types'],extra:['Use cppreference std::sort for coordinate compression; DSU itself is an algorithm to implement, not an STL container.']},
-    {sections:['20.3: Recursion','13.7–13.10: Structs for weighted edges and tree data','16.2, 16.8: Vector adjacency lists and traversal','12.5–12.6: References and const references'],extra:['Use cppreference std::sort for Kruskal edge ordering; implement parent/depth arrays and traversal yourself.']},
-    {sections:['4.4–4.6: Integer ranges and fixed-width types','9.1–9.3: Testing, code coverage and semantic errors','3.2–3.5: Debugging process and tactics'],extra:['For each solution, compare the brute-force and optimised implementations and verify the stated complexity.']},
+    {sections:['1.1–1.5: Program structure, variables, initialization and cin/cout','4.1–4.6: Basic arithmetic, integer types and fixed-width integers','8.2, 8.8, 8.10–8.11: if statements, while/for loops, break and continue'],extra:['Start with short programs: read input, calculate a result, use a condition and repeat with a loop. Do not use STL containers beyond what is introduced in the next week.']},
+    {sections:['2.1–2.6: Functions, parameters, return values and local scope','5.7: std::string basics','16.2, 16.8: std::vector, indexing and range-based traversal'],extra:['Practise simple arrays/vectors, string traversal, nested loops and splitting a solution into small functions. Introduce linear time by counting how many elements a loop visits.']},
+    {sections:['12.3–12.6: References, pass-by-reference and const references','13.7–13.10: Structs, aggregate initialization, passing and returning structs','16.2–16.4, 16.8: Vector construction, passing vectors and traversal','20.3: Recursion and call-stack basics'],extra:['Use std::pair as a small record (cppreference); practise tracing a short recursive function. Avoid graph algorithms and advanced STL at this stage.']},
+    {sections:['16.2–16.8: Vectors, adjacency-list storage and traversal','20.3: Recursion and call-stack behaviour','9.1–9.3: Testing and common semantic errors'],extra:['Learn std::queue and std::stack from cppreference, then use them to implement BFS/DFS with a visited array. Focus on translating pseudocode into code.']},
+    {sections:['18.2–18.3: Iterators and standard-library algorithms (LearnCpp marks this chapter under construction)','20.6–20.7: Lambda expressions and captures'],extra:['Learn std::sort, std::map and std::set from cppreference. Practise sorting, frequency counting and simple lookup; do not jump to custom comparators until the basic form is clear.']},
+    {sections:['18.2–18.3: Standard-library algorithms and iterator use','10.1–10.8: Type conversions, narrowing, aliases and auto','4.4–4.6: Integer ranges, fixed-width types and size_t'],extra:['Implement prefix sums and binary search, then use a simple custom comparator with std::sort. Check overflow and index bounds.']},
+    {sections:['11.6–11.9: Function templates and template arguments (only what is needed to read STL interfaces)','20.6–20.7: Lambdas and captures','16.2–16.4: Vector construction and passing containers'],extra:['Learn std::priority_queue from cppreference and understand min-heap/max-heap usage. Apply it only alongside the shortest-path topic introduced this week.']},
+    {sections:['2.1–2.6: Function decomposition','3.1–3.5: Syntax/semantic errors and debugging strategy','9.1–9.3: Testing and common semantic errors'],extra:['Consolidate the language and STL already introduced. Rebuild short templates from memory; do not add unfamiliar library features.']},
+    {sections:['13.7–13.10: Structs and member access','12.5–12.6: References for DSU operations','16.2, 16.8, 16.10: Vector traversal, resizing and capacity','4.4–4.6: Integer types and index types'],extra:['Implement DSU using parent/size vectors and functions. Coordinate compression is optional and only follows a clear sorting prerequisite.']},
+    {sections:['20.3: Recursion','13.7–13.10: Structs for weighted edges and tree data','16.2, 16.8: Vector adjacency lists and traversal','12.5–12.6: References and const references'],extra:['Use the existing traversal and sorting skills to implement tree traversals and Kruskal; do not introduce new syntax during the algorithm.']},
+    {sections:['4.4–4.6: Integer ranges and fixed-width types','9.1–9.3: Testing, code coverage and semantic errors','3.2–3.5: Debugging process and tactics'],extra:['Compare brute-force and optimized implementations; justify the complexity before choosing the optimized version.']},
     {sections:['3.1–3.10: Syntax/semantic errors, debugging strategy, breakpoints, watches and call stack','9.1–9.3: Testing, code coverage and common semantic errors'],extra:['Classify each failed problem as wrong idea, missed observation, complexity, boundary or implementation error.']},
-    {sections:['3.2–3.5: Debugging process and tactics','9.1–9.6: Testing, semantic errors, assertions and error detection','4.4–4.6: Integer types and size_t'],extra:['Turn each recurring bug into a minimal test case; re-solve the original problem without looking at the accepted code.']},
+    {sections:['3.2–3.5: Debugging process and tactics','9.1–9.6: Testing, semantic errors, assertions and error detection','4.4–4.6: Integer types and size_t'],extra:['Turn each recurring bug into a minimal test case; re-solve the original problem without looking at accepted code.']},
     {sections:['8.2, 8.8, 8.10–8.11: Conditions, loops and loop control','16.2, 16.8: Vectors and range-based loops','2.1–2.6: Functions and decomposition','3.2–3.5, 9.1–9.3: Debugging and testing'],extra:['No new language topic this week: practise selecting the correct existing tool under time pressure.']},
     {sections:['8.2, 8.8, 8.10–8.11: Control flow under timed conditions','16.2, 16.8: Vector construction and traversal','2.1–2.6: Function decomposition','3.2–3.5, 9.1–9.3: Debugging and test discipline'],extra:['Prepare and reuse your own short, tested C++ starter template; do not add unfamiliar features during the simulation.']},
     {sections:['4.4–4.6: Integer types and bounds','8.8, 8.10–8.11: Loop control','16.2, 16.8: Vector and traversal','3.2–3.5, 9.1–9.3: Light debugging and testing review'],extra:['Do not start a new chapter. Review only the syntax and STL operations used in your final practice problems.']}
@@ -807,7 +807,9 @@
       items.push('Re-solve 3 previously missed questions without notes; write a one-paragraph justification for each');
     }
     if (weekIndex >= 12) items.push('Complete a 45–60 minute unseen mixed set and log every error');
-    var section = guide.sections[sectionIndex];
+    var section = subjectId === 'coding'
+      ? learnCppWeek(weekIndex).sections.join('; ')
+      : guide.sections[sectionIndex];
     if (!section) throw new Error('Missing reference section for subject: ' + subjectId);
     return { guide:guide, section:section, items:items };
   }
