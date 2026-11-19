@@ -10,15 +10,24 @@
   const PERSONAL_REPLACEMENT_RATING_MIN = 800;
   const PERSONAL_REPLACEMENT_RATING_MAX = 1000;
   const $ = id => document.getElementById(id);
-  const state = { problems: [], problemsetResult: null, solved: new Set(), wrong: new Map(), saved: new Set(), mistakeTags: {}, page: 0, pageSize: 40, loaded: false, loading: false };
-  // The linked handle is consulted once to create a durable local snapshot.
-  // Later catalogue refreshes reuse this snapshot and never query that handle again.
+  const state = { problems: [], problemsetResult: null, solved: new Set(), wrong: new Map(), saved: new Set(), mistakeTags: {}, page: 0, pageSize: 40, loaded: false, loading: false, badgeHandle: '', badgeNote: '', shelfMissing: [] };
+  // Two separate jobs, kept apart on purpose:
+  //   SHELF  - which problems are listed. Anything solved by either FIXED handle in
+  //            SHELF_HANDLES is swapped out. Each handle is fetched once, then reused.
+  //   BADGES - the Solved / Wrong badges. They follow the handle linked on the page and
+  //            are re-fetched every time "Sync with Codeforces" is pressed.
+  const SHELF_HANDLES = ['unwonted_contriver', 'lord_limitless'];
+  const SHELF_SNAPSHOT_KEY = 'limitless.competition.codeforces-shelf-snapshot.v1';
   const REPLACEMENT_SNAPSHOT_KEY = 'limitless.competition.codeforces-replacement-snapshot.v1';
+  function sameHandle(a, b) { return String(a || '').trim().toLowerCase() === String(b || '').trim().toLowerCase(); }
+  // Badge snapshot: the linked handle's submissions, saved with the handle's name so that
+  // it is only reused for that same handle. Sync ignores it and fetches fresh data.
   function readReplacementSnapshot() {
     try {
       const saved = JSON.parse(localStorage.getItem(REPLACEMENT_SNAPSHOT_KEY) || 'null');
       if (!saved || saved.version !== 1 || !Array.isArray(saved.solvedKeys)) return null;
       return {
+        handle: typeof saved.handle === 'string' ? saved.handle : '',
         solved: new Set(saved.solvedKeys.filter(key => typeof key === 'string')),
         wrong: new Map(Array.isArray(saved.wrongEntries)
           ? saved.wrongEntries.filter(entry => Array.isArray(entry) && typeof entry[0] === 'string' && Number.isFinite(entry[1]))
@@ -26,15 +35,44 @@
       };
     } catch (_) { return null; }
   }
-  function persistReplacementSnapshot(solved, wrong) {
+  function persistReplacementSnapshot(solved, wrong, handle) {
     try {
       localStorage.setItem(REPLACEMENT_SNAPSHOT_KEY, JSON.stringify({
         version: 1,
+        handle: handle,
         capturedAt: new Date().toISOString(),
         solvedKeys: [...solved],
         wrongEntries: [...wrong]
       }));
     } catch (_) {}
+  }
+  // Shelf snapshot: one saved set of solved problem keys per fixed handle.
+  function readShelfSnapshot() {
+    const out = {};
+    try {
+      const saved = JSON.parse(localStorage.getItem(SHELF_SNAPSHOT_KEY) || 'null');
+      if (saved && saved.version === 1 && saved.handles && typeof saved.handles === 'object') {
+        SHELF_HANDLES.forEach(handle => {
+          const keys = saved.handles[handle];
+          if (Array.isArray(keys)) out[handle] = new Set(keys.filter(key => typeof key === 'string'));
+        });
+      }
+    } catch (_) {}
+    return out;
+  }
+  function persistShelfSnapshot(byHandle) {
+    try {
+      const handles = {};
+      Object.keys(byHandle).forEach(handle => { handles[handle] = [...byHandle[handle]]; });
+      localStorage.setItem(SHELF_SNAPSHOT_KEY, JSON.stringify({ version: 1, capturedAt: new Date().toISOString(), handles }));
+    } catch (_) {}
+  }
+  function linkedHandle() {
+    let handle = $('linked-handle') ? $('linked-handle').textContent.trim() : '';
+    if (!handle || handle === '—') {
+      try { const linked = JSON.parse(localStorage.getItem('limitless.competition.linked-accounts.v1') || '{}'); handle = (linked.codeforcesHandle || '').trim(); } catch (_) {}
+    }
+    return handle === '—' ? '' : handle;
   }
   const CATEGORIES = {
     'Implementation & Basics':['implementation','brute force','bitmasks','strings'],
@@ -82,8 +120,9 @@
     );
     return data.result;
   }
-  function curateProblemset(result, solvedKeys) {
-    const solved = solvedKeys instanceof Set ? solvedKeys : new Set(solvedKeys || []);
+  // `excludedKeys` = problems that must not be on the shelf (solved by the shelf handles).
+  function curateProblemset(result, excludedKeys) {
+    const excluded = excludedKeys instanceof Set ? excludedKeys : new Set(excludedKeys || []);
     const problems = result.problems || [], stats = result.problemStatistics || [];
     const buckets = new Map();
     problems.forEach((problem, index) => {
@@ -100,53 +139,61 @@
       curated.push(...selectBalanced(buckets.get(rating), MAX_PER_RATING));
     });
 
-    // Only replace entries already solved by this account in the 800–1000 band.
-    // The replacement must preserve both the exact rating and the complete tag set.
-    const replacementGroups = new Map();
+    // Swap out 800–1000 entries that are in `excluded`. Each replacement keeps the exact
+    // rating, so every rating still holds the same number of problems. Tags only have to
+    // match in aggregate: every pick is the unsolved same-rating problem that moves the
+    // band's overall tag counts closest to what they were before any swapping.
+    // Nothing here throws. If a rating runs out of unsolved problems, the leftover
+    // solved entries are dropped and reported through droppedCount.
+    const popular = (a, b) =>
+      (b.catalogueSolvedCount || 0) - (a.catalogueSolvedCount || 0) ||
+      (a.name || '').localeCompare(b.name || '');
+    const pools = new Map();
+    function poolFor(rating) {
+      if (!pools.has(rating)) {
+        pools.set(rating, (buckets.get(rating) || []).slice().sort(popular)
+          .map(row => ({row, key: problemKey(row), tags: [...new Set(row.tags || [])]})));
+      }
+      return pools.get(rating);
+    }
+    const target = new Map(), current = new Map();
+    const bump = (counts, tags, by) => new Set(tags || []).forEach(tag => counts.set(tag, (counts.get(tag) || 0) + by));
+    const slots = [];
     curated.forEach((problem, index) => {
       if (problem.rating < PERSONAL_REPLACEMENT_RATING_MIN ||
-          problem.rating > PERSONAL_REPLACEMENT_RATING_MAX ||
-          !solved.has(problemKey(problem))) return;
-      const signature = tagsSignature(problem.tags);
-      const groupKey = problem.rating + "|" + signature;
-      if (!replacementGroups.has(groupKey)) replacementGroups.set(groupKey, []);
-      replacementGroups.get(groupKey).push({problem, index});
+          problem.rating > PERSONAL_REPLACEMENT_RATING_MAX) return;
+      bump(target, problem.tags, 1);
+      if (excluded.has(problemKey(problem))) slots.push(index);
+      else bump(current, problem.tags, 1);
     });
 
-    const selectedKeys = new Set(curated.map(problemKey));
+    const taken = new Set(curated.map(problemKey));
+    const removed = new Set();
     let replacementCount = 0;
-    for (const targets of replacementGroups.values()) {
-      const original = targets[0].problem;
-      const signature = tagsSignature(original.tags);
-      const alternatives = (buckets.get(original.rating) || [])
-        .filter(problem => tagsSignature(problem.tags) === signature &&
-          !solved.has(problemKey(problem)) && !selectedKeys.has(problemKey(problem)))
-        .sort((a,b) =>
-          (b.catalogueSolvedCount || 0) - (a.catalogueSolvedCount || 0) ||
-          (a.name || '').localeCompare(b.name || ''));
-
-      if (alternatives.length < targets.length) {
-        const tags = (original.tags || []).slice().sort().join(', ');
-        throw new Error(
-          'Unable to replace solved 800–1000 problems with an unsolved alternative of the same rating and exact same tags. ' +
-          'Rating ' + original.rating + ', tags [' + tags + '] needs ' +
-          (targets.length - alternatives.length) + ' more matching alternative(s).'
-        );
-      }
-
-      targets.sort((a,b) => a.index-b.index).forEach((target, index) => {
-        const replacement = alternatives[index];
-        curated[target.index] = replacement;
-        selectedKeys.add(problemKey(replacement));
-        replacementCount += 1;
+    slots.forEach(index => {
+      let best = null, bestScore = -Infinity;
+      poolFor(curated[index].rating).forEach(candidate => {
+        if (excluded.has(candidate.key) || taken.has(candidate.key)) return;
+        // +1 for each tag still below its target count, -1 for each tag already at or above it.
+        let score = 0;
+        candidate.tags.forEach(tag => { score += (current.get(tag) || 0) < (target.get(tag) || 0) ? 1 : -1; });
+        // The pool is sorted most-solved first, so ties keep the more popular problem.
+        if (score > bestScore) { bestScore = score; best = candidate; }
       });
-    }
+      if (!best) { removed.add(index); return; }
+      taken.add(best.key);
+      curated[index] = best.row;
+      bump(current, best.row.tags, 1);
+      replacementCount += 1;
+    });
 
-    curated.sort((a,b) => a.rating-b.rating ||
+    const shelf = curated.filter((problem, index) => !removed.has(index));
+    shelf.sort((a,b) => a.rating-b.rating ||
       (b.catalogueSolvedCount||0)-(a.catalogueSolvedCount||0) ||
       (a.name||'').localeCompare(b.name||''));
-    Object.defineProperty(curated, 'replacementCount', {value:replacementCount, enumerable:false});
-    return curated;
+    Object.defineProperty(shelf, 'replacementCount', {value:replacementCount, enumerable:false});
+    Object.defineProperty(shelf, 'droppedCount', {value:removed.size, enumerable:false});
+    return shelf;
   }
   function problemKey(problem) {
     return String(problem.contestId || 'gym') + '-' + String(problem.index || problem.name || '');
@@ -194,129 +241,157 @@
     }
     return rows.filter(row=>picked.has(row)).sort(popular);
   }
-  function catalogueStatus(solvedLoaded) {
+  function catalogueStatus() {
     const replaced = state.problems.replacementCount || 0;
-    const base = 'Curated ' + state.problems.length.toLocaleString() +
-      ' problems · ' + replaced.toLocaleString() +
-      ' solved 800–1000 problems replaced one-for-one with unsolved alternatives of the same rating and exact tags';
-    return solvedLoaded
-      ? base + ' · ' + state.solved.size.toLocaleString() + ' problems captured in your one-time Codeforces snapshot; this handle will not be queried again.'
-      : 'Curated ' + state.problems.length.toLocaleString() +
-        ' problems · one-time Codeforces snapshot not available; no account-specific replacements were applied.';
+    const dropped = state.problems.droppedCount || 0;
+    const parts = ['Curated ' + state.problems.length.toLocaleString() + ' problems'];
+    if (state.shelfMissing.length < SHELF_HANDLES.length) {
+      parts.push(replaced.toLocaleString() + ' solved 800–1000 problems swapped for unsolved ones of the same rating, keeping the overall tag mix about the same');
+      if (dropped) parts.push(dropped.toLocaleString() + ' removed because no unsolved problem of that rating was left');
+    }
+    if (state.shelfMissing.length) {
+      parts.push('could not read ' + state.shelfMissing.join(', ') + (state.shelfMissing.length === SHELF_HANDLES.length ? '; no swaps were applied' : '; swaps used the other handle only') + ' (press Sync to retry)');
+    }
+    if (state.badgeNote) parts.push(state.badgeNote);
+    return parts.join(' · ') + '.';
   }
-  async function loadProblemset() {
+  // Pull one handle's accepted / failed problem keys out of a user.status payload.
+  function parseSubmissions(payload) {
+    const solved = new Set(), wrong = new Map();
+    ((payload && payload.result) || []).forEach(s => {
+      if (!s.problem || !s.verdict || s.verdict === 'TESTING') return;
+      const key = (s.problem.contestId || 'gym') + '-' + (s.problem.index || '');
+      if (s.verdict === 'OK') solved.add(key);
+      else wrong.set(key, (wrong.get(key) || 0) + 1);
+    });
+    return { solved, wrong };
+  }
+  async function fetchHandle(handle, timeoutMs) {
+    const client = await import('../competition/codeforces-api.mjs');
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs || 40000);
+    try {
+      const payload = await client.requestCodeforcesApi(
+        'https://codeforces.com/api/user.status?handle=' + encodeURIComponent(handle) + '&from=1&count=10000',
+        { signal: controller.signal }
+      );
+      return parseSubmissions(payload);
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+  // SHELF: solved keys of the two fixed handles. Each is fetched once and then reused
+  // from the saved snapshot, so the list does not reshuffle on every Sync.
+  async function loadShelfExclusions() {
+    const saved = readShelfSnapshot();
+    const byHandle = Object.assign({}, saved);
+    const missing = [];
+    const todo = SHELF_HANDLES.filter(handle => !byHandle[handle]);
+    await Promise.all(todo.map(async handle => {
+      try { byHandle[handle] = (await fetchHandle(handle)).solved; }
+      catch (_) { missing.push(handle); }
+    }));
+    if (todo.length > missing.length) persistShelfSnapshot(byHandle);
+    const excluded = new Set();
+    SHELF_HANDLES.forEach(handle => { if (byHandle[handle]) byHandle[handle].forEach(key => excluded.add(key)); });
+    return { excluded, missing };
+  }
+  // BADGES: the handle linked on the page. `fresh` (the Sync button) always re-fetches.
+  async function loadBadges(fresh) {
+    const handle = linkedHandle();
+    state.badgeHandle = handle;
+    if (!handle) {
+      state.solved = new Set();
+      state.wrong = new Map();
+      state.badgeNote = 'no handle is linked, so Solved badges are unavailable';
+      return false;
+    }
+    const snapshot = readReplacementSnapshot();
+    const snapshotMatches = !!snapshot && sameHandle(snapshot.handle, handle);
+    if (!fresh && snapshotMatches) {
+      state.solved = snapshot.solved;
+      state.wrong = snapshot.wrong;
+      state.badgeNote = 'Solved badges follow ' + handle + ' (last synced; press Sync to refresh)';
+      return true;
+    }
+    try {
+      const fetched = await fetchHandle(handle);
+      state.solved = fetched.solved;
+      state.wrong = fetched.wrong;
+      persistReplacementSnapshot(fetched.solved, fetched.wrong, handle);
+      state.badgeNote = 'Solved badges follow ' + handle + ' · ' + fetched.solved.size.toLocaleString() + ' solved · ' + fetched.wrong.size.toLocaleString() + ' attempted';
+      return true;
+    } catch (error) {
+      if (snapshotMatches) {
+        state.solved = snapshot.solved;
+        state.wrong = snapshot.wrong;
+        state.badgeNote = 'could not refresh ' + handle + ' (' + (error.message || 'request failed') + '); showing the last synced badges';
+        return true;
+      }
+      state.solved = new Set();
+      state.wrong = new Map();
+      state.badgeNote = 'solved badges unavailable: ' + (error.message || 'request failed');
+      return false;
+    }
+  }
+  async function loadProblemset(fresh) {
     if (state.loading) return;
     state.loading = true;
     $('cf-sync-codeforces').disabled = true;
 
-    // Fetch the public catalogue independently of the account's submission
-    // history. A large user.status response must never hold the whole explorer
-    // in its initial "Waiting for catalogue" state.
+    // Fetch the public catalogue independently of any account's submission history,
+    // so a slow user.status response never holds the explorer on "Waiting for catalogue".
     const catalogueController = new AbortController();
     const catalogueTimeout = setTimeout(() => catalogueController.abort(), 25000);
-    let solvedPromise;
 
     try {
       status('Loading the official Codeforces problem catalogue…');
       state.solved = new Set();
       state.wrong = new Map();
+      state.shelfMissing = [];
+      state.badgeNote = '';
 
-      solvedPromise = loadSolved({ timeoutMs: 12000 });
+      const shelfPromise = loadShelfExclusions();
+      const badgePromise = loadBadges(fresh === true);
       const result = await api('problemset.problems', {}, { signal: catalogueController.signal });
       if (!result || !Array.isArray(result.problems)) {
         throw new Error('Codeforces returned an invalid problem catalogue.');
       }
 
       state.problemsetResult = result;
-      // Build the public baseline from an immutable empty solved set. The account
-      // request runs concurrently and may finish first; its result belongs only in
-      // the optional personalisation pass below, never in initial catalogue loading.
+      // Public baseline first, so the list is usable straight away.
       state.problems = curateProblemset(result, new Set());
       state.loaded = true;
       state.page = 0;
       populateFilters();
-      status('Catalogue loaded · syncing your solved status…');
+      status('Catalogue loaded · syncing…');
       render();
 
-      // Personalisation is a second pass. The catalogue is already usable if
-      // this request is slow, rate-limited, or unavailable.
-      const solvedLoaded = await solvedPromise;
-      if (solvedLoaded) {
-        try {
-          state.problems = curateProblemset(result, state.solved);
-          state.page = 0;
-          populateFilters();
-          status(catalogueStatus(true));
-          render();
-        } catch (error) {
-          status('Catalogue loaded, but account-specific replacements could not be applied: ' + error.message);
-        }
-      } else {
-        status(catalogueStatus(false));
+      // Second pass: apply the shelf swaps and the linked handle's badges.
+      const [shelf] = await Promise.all([shelfPromise, badgePromise]);
+      state.shelfMissing = shelf.missing;
+      try {
+        state.problems = curateProblemset(result, shelf.excluded);
+      } catch (error) {
+        status('Catalogue loaded, but swapping solved problems failed: ' + error.message);
+        render();
+        return;
       }
+      state.page = 0;
+      populateFilters();
+      status(catalogueStatus());
+      render();
     } catch (error) {
       const message = error.name === 'AbortError'
         ? 'The Codeforces problem catalogue request timed out after 25 seconds.'
         : (error.message || 'Unable to load the Codeforces problem catalogue.');
-      status(message + ' Use “Refresh catalogue” to retry.');
+      status(message + ' Use “Sync with Codeforces” to retry.');
       $('cf-result-count').textContent = 'Catalogue unavailable';
       $('cf-problem-list').innerHTML = '<p class="cf-empty">' + esc(message) + ' The explorer will remain available for another attempt.</p>';
     } finally {
       clearTimeout(catalogueTimeout);
       state.loading = false;
       $('cf-sync-codeforces').disabled = false;
-    }
-  }
-  async function loadSolved(options = {}) {
-    const snapshot = readReplacementSnapshot();
-    if (snapshot) {
-      state.solved = snapshot.solved;
-      state.wrong = snapshot.wrong;
-      status('Using your saved one-time Codeforces snapshot · the linked handle will not be queried again.');
-      return true;
-    }
-    let handle = $('linked-handle') ? $('linked-handle').textContent.trim() : '';
-    if (!handle || handle === '—') {
-      try { const linked = JSON.parse(localStorage.getItem('limitless.competition.linked-accounts.v1') || '{}'); handle = (linked.codeforcesHandle || '').trim(); } catch (_) {}
-    }
-    if (!handle) {
-      state.solved = new Set();
-      state.wrong = new Map();
-      status('Catalogue loaded. The one-time Codeforces snapshot is not available; no account-specific replacements were applied.');
-      return false;
-    }
-    try {
-      const client = await import('../competition/codeforces-api.mjs');
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), options.timeoutMs || 12000);
-      let payload;
-      try {
-        payload = await client.requestCodeforcesApi(
-          'https://codeforces.com/api/user.status?handle=' + encodeURIComponent(handle) + '&from=1&count=10000',
-          { signal: controller.signal }
-        );
-      } finally {
-        clearTimeout(timeoutId);
-      }
-      const solved = new Set(), wrong = new Map();
-      payload.result.forEach(s => {
-        if (!s.problem || !s.verdict || s.verdict === 'TESTING') return;
-        const key=(s.problem.contestId || 'gym') + '-' + (s.problem.index || '');
-        if (s.verdict === 'OK') solved.add(key);
-        else wrong.set(key,(wrong.get(key)||0)+1);
-      });
-      state.solved=solved;
-      state.wrong=wrong;
-      // Freeze this account snapshot after the first successful lookup.
-      persistReplacementSnapshot(solved, wrong);
-      const attempted=wrong.size, solvedCount=solved.size;
-      status('Captured one-time Codeforces snapshot · '+solvedCount.toLocaleString()+' solved · '+attempted.toLocaleString()+' attempted. Future refreshes will not query this handle.');
-      return true;
-    } catch (error) {
-      state.solved = new Set();
-      state.wrong = new Map();
-      status('Problem catalogue loaded; solved status unavailable: ' + error.message);
-      return false;
     }
   }
   function populateFilters() {
@@ -404,9 +479,8 @@
     $('cf-prev-page').addEventListener('click', () => { state.page--; render(); });
     $('cf-next-page').addEventListener('click', () => { state.page++; render(); });
     $('cf-sync-codeforces').addEventListener('click', () => {
-      // A single explicit sync refreshes both the official catalogue and the
-      // linked account's accepted/failed submission status.
-      loadProblemset();
+      // An explicit sync always re-fetches the linked handle's submissions.
+      loadProblemset(true);
     });
     $('cf-clear-filters').addEventListener('click', () => {
       $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200'; $('cf-include-unrated').checked = false; $('cf-search').value = '';

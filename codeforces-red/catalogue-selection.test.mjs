@@ -2,13 +2,12 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("./codeforces-problems.js", import.meta.url), "utf8");
-assert.ok(source.includes("const REPLACEMENT_SNAPSHOT_KEY = 'limitless.competition.codeforces-replacement-snapshot.v1';"),
-  "the first successful account lookup must be persisted as a one-time replacement snapshot");
-assert.ok(source.includes("const snapshot = readReplacementSnapshot();") &&
-  source.includes("if (snapshot) {"),
-  "subsequent refreshes must reuse the saved snapshot before reading the linked handle");
-assert.ok(source.includes("persistReplacementSnapshot(solved, wrong);"),
-  "a successful initial handle lookup must freeze solved and attempted problem keys");
+assert.ok(source.includes("const SHELF_HANDLES = ['unwonted_contriver', 'lord_limitless'];"),
+  "the shelf must exclude problems solved by both fixed handles");
+assert.ok(source.includes("loadProblemset(true);"),
+  "the Sync button must force a fresh fetch of the linked handle");
+assert.ok(source.includes("persistReplacementSnapshot(fetched.solved, fetched.wrong, handle);"),
+  "badge data is saved together with the handle it belongs to");
 
 assert.match(source, /state\.problems = curateProblemset\(result, new Set\(\)\);/,
   "initial catalogue rendering must not depend on the timing of the account submission request");
@@ -82,25 +81,29 @@ assert.ok(curated.some(problem => problem.rating === 1000), "unsolved 1000-rated
 assert.equal(curated.filter(problem => problem.rating === 1100).length, 250,
   "other ratings are not used as replacement pools");
 
-// If an exact rating/tag group has insufficient unsolved alternatives, fail loudly.
-const insufficientRows = [];
-const insufficientStats = [];
-for (let index = 0; index < 252; index += 1) {
-  insufficientRows.push({
-    contestId: 8000 + index,
-    index: "A",
-    name: "Insufficient pool " + index,
-    rating: 800,
-    tags: ["math"]
-  });
-  insufficientStats.push({solvedCount: index < 250 ? 10000 - index : 0});
+// Tag mix: solved problems carry tags A; the only unsolved ones carry tags B.
+// Exact-tag matching is impossible, but the swap must still happen without throwing.
+const mixRows = [], mixStats = [];
+for (let i = 0; i < 252; i += 1) {
+  mixRows.push({contestId: 7000 + i, index: "A", name: "Mix " + i, rating: 800,
+    tags: i < 250 ? ["math"] : ["implementation"]});
+  mixStats.push({solvedCount: i < 250 ? 10000 - i : 5});
 }
-const allSelectedSolved = new Set(insufficientRows.slice(0, 250)
-  .map(problem => problem.contestId + "-" + problem.index));
-assert.throws(
-  () => curateProblemset({problems: insufficientRows, problemStatistics: insufficientStats}, allSelectedSolved),
-  /same rating and exact same tags/,
-  "the selector reports an impossible exact-match replacement instead of changing rating or tags"
-);
+const mixSolved = new Set(mixRows.slice(0, 2).map(p => p.contestId + "-A"));
+const mixed = curateProblemset({problems: mixRows, problemStatistics: mixStats}, mixSolved);
+assert.equal(mixed.length, 250, "swaps keep the rating count when alternatives exist");
+assert.equal(mixed.replacementCount, 2, "both solved entries are swapped despite different tags");
+assert.ok(mixed.every(p => !mixSolved.has(p.contestId + "-A")), "no excluded problem remains");
 
-console.log("Codeforces handle-aware catalogue: all assertions passed (2 exact rating/tag replacements; all seven rating buckets preserved).");
+// Not enough alternatives: never throw, drop what cannot be replaced and report it.
+const shortRows = [], shortStats = [];
+for (let index = 0; index < 252; index += 1) {
+  shortRows.push({contestId: 8000 + index, index: "A", name: "Short " + index, rating: 800, tags: ["math"]});
+  shortStats.push({solvedCount: index < 250 ? 10000 - index : 0});
+}
+const allSolved = new Set(shortRows.map(p => p.contestId + "-A"));
+const shortCurated = curateProblemset({problems: shortRows, problemStatistics: shortStats}, allSolved);
+assert.equal(shortCurated.length, 0, "with no unsolved problems left nothing is shown, and nothing throws");
+assert.equal(shortCurated.droppedCount, 250, "dropped entries are reported");
+
+console.log("Codeforces handle-aware catalogue: all assertions passed.");
