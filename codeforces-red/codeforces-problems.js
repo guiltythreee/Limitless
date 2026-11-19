@@ -64,7 +64,7 @@
   function mistakeTagControls(key) {
     const selected = new Set(mistakeTagsFor(key));
     const labels = MISTAKE_TYPES.map(([id, label]) => '<label class="cf-mistake-option"><input type="checkbox" data-mistake-key="' + esc(key) + '" data-mistake="' + id + '"' + (selected.has(id) ? ' checked' : '') + '><span>' + label + '</span></label>').join('');
-    return '<details class="cf-mistake-editor"' + (selected.size ? ' open' : '') + '><summary>' + (selected.size ? 'My mistake tags (' + selected.size + ')' : 'Mark mistake tags') + '</summary><div class="cf-mistake-options">' + labels + '</div></details>';
+    return '<details class="cf-mistake-editor"><summary>' + (selected.size ? '⚑ Tags · ' + selected.size : '⚑ Tag') + '</summary><div class="cf-mistake-options">' + labels + '</div></details>';
   }
   function categoriesFor(tags) {
     const lower = (tags || []).map(x => x.toLowerCase());
@@ -370,7 +370,7 @@
       const progressLabel=solved?'Solved':wrongCount?'Wrong submissions ('+wrongCount+')':'Unsolved';
       const progressClass=solved?'solved':wrongCount?'wrong':'unsolved';
       const wrongBadge=solved&&wrongCount?'<span class="cf-chip wrong">'+wrongCount+' failed before solve</span>':'';
-      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + progressClass + '">' + progressLabel + '</span>' + wrongBadge + tagsDisclosure + '</div><div class="cf-mistake-row">' + mistakeTagControls(key) + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button></div></article>';
+      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + progressClass + '">' + progressLabel + '</span>' + wrongBadge + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button>' + mistakeTagControls(key) + '</div></article>';
     }).join('') || '<p class="cf-empty">No problems match these filters. Try widening the rating range or removing a tag.</p>';
     $('cf-page-label').textContent = 'Page ' + (state.page + 1) + ' of ' + pages;
     $('cf-prev-page').disabled = state.page === 0;
