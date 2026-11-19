@@ -21,6 +21,29 @@ export const DIFFICULTY_MULTIPLIER = Object.freeze({
   advanced: 1.5,
 });
 
+/**
+ * Rating-scaled practice (Codeforces). Codeforces defines a problem's rating on
+ * an Elo-style scale: a problem rated equal to your rating is solved about half
+ * the time, and every 400 points multiplies the odds by ten. Effort for such a
+ * problem roughly doubles per 400 points, so base EXP doubles per 400 points.
+ * Anchors from published fast-solve targets: ~5-7 min at 800, ~15-25 min at 1100.
+ * Above ~1100 this is an extrapolation; verify during beta testing.
+ *   EXP = round(10 * 2^((rating - 800) / 400)), clamped to [10, 160]
+ */
+export const RATED_PROBLEM_POLICY = Object.freeze({
+  baseRating: 800,
+  baseExp: 10,
+  doublingPoints: 400,
+  maxExp: 160,
+});
+
+export function ratedProblemBaseExp(rating) {
+  const policy = RATED_PROBLEM_POLICY;
+  if (typeof rating !== "number" || !Number.isFinite(rating)) return policy.baseExp;
+  const raw = policy.baseExp * 2 ** ((rating - policy.baseRating) / policy.doublingPoints);
+  return Math.min(policy.maxExp, Math.max(policy.baseExp, Math.round(raw)));
+}
+
 /** Provisional repeat policy: three full-value completions per item per local day. */
 export const REPEAT_POLICY = Object.freeze({
   fullAwardsPerItemPerDay: 3,
@@ -110,7 +133,7 @@ export const REWARD_SOURCE_REGISTRY = Object.freeze([
   },
 ]);
 
-const ACTIVITY_CLASSES = new Set([...Object.keys(ACTIVITY_BASE_EXP), "bespoke-project"]);
+const ACTIVITY_CLASSES = new Set([...Object.keys(ACTIVITY_BASE_EXP), "bespoke-project", "rated-problem"]);
 const DIFFICULTY_TIERS = new Set(Object.keys(DIFFICULTY_MULTIPLIER));
 
 const isRecord = (value) =>
@@ -202,8 +225,14 @@ export function calculateReward(input, priorRecords = []) {
       ? input.assignedBaseExp
       : null;
   const isProject = activityClass === "bespoke-project";
-  const baseExp = isProject ? (assignedProjectBase ?? 0) : (ACTIVITY_BASE_EXP[activityClass] ?? 0);
-  const multiplier = DIFFICULTY_MULTIPLIER[difficulty] ?? 1;
+  const isRated = activityClass === "rated-problem";
+  const baseExp = isProject
+    ? (assignedProjectBase ?? 0)
+    : isRated
+      ? ratedProblemBaseExp(input?.problemRating)
+      : (ACTIVITY_BASE_EXP[activityClass] ?? 0);
+  // A rated problem already carries its difficulty in the base; no second multiplier.
+  const multiplier = isRated ? 1 : (DIFFICULTY_MULTIPLIER[difficulty] ?? 1);
   const prior = sanitiseRewardRecords(priorRecords);
   const duplicate = eventId !== "" && prior.some((r) => r.eventId === eventId);
   const day = ts > 0 ? localDayKey(ts) : "";
