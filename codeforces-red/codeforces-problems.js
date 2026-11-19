@@ -12,11 +12,12 @@
   const $ = id => document.getElementById(id);
   const state = { problems: [], problemsetResult: null, solved: new Set(), wrong: new Map(), saved: new Set(), mistakeTags: {}, page: 0, pageSize: 40, loaded: false, loading: false, badgeHandle: '', badgeNote: '', shelfMissing: [] };
   // Two separate jobs, kept apart on purpose:
-  //   SHELF  - which problems are listed. Anything solved by either FIXED handle in
-  //            SHELF_HANDLES is swapped out. Each handle is fetched once, then reused.
+  //   SHELF  - which problems are listed. Anything solved by a FIXED handle in
+  //            SHELF_HANDLES (lord_limitless) is swapped out. Problems solved by
+  //            unwonted_contriver stay listed and just show the Solved badge. Each handle is fetched once, then reused.
   //   BADGES - the Solved / Wrong badges. They follow the handle linked on the page and
   //            are re-fetched every time "Sync with Codeforces" is pressed.
-  const SHELF_HANDLES = ['unwonted_contriver', 'lord_limitless'];
+  const SHELF_HANDLES = ['lord_limitless'];
   const SHELF_SNAPSHOT_KEY = 'limitless.competition.codeforces-shelf-snapshot.v1';
   const REPLACEMENT_SNAPSHOT_KEY = 'limitless.competition.codeforces-replacement-snapshot.v1';
   function sameHandle(a, b) { return String(a || '').trim().toLowerCase() === String(b || '').trim().toLowerCase(); }

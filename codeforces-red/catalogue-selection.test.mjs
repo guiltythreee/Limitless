@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("./codeforces-problems.js", import.meta.url), "utf8");
-assert.ok(source.includes("const SHELF_HANDLES = ['unwonted_contriver', 'lord_limitless'];"),
-  "the shelf must exclude problems solved by both fixed handles");
+assert.ok(source.includes("const SHELF_HANDLES = ['lord_limitless'];"),
+  "only lord_limitless removes problems from the shelf");
 assert.ok(source.includes("loadProblemset(true);"),
   "the Sync button must force a fresh fetch of the linked handle");
 assert.ok(source.includes("persistReplacementSnapshot(fetched.solved, fetched.wrong, handle);"),
