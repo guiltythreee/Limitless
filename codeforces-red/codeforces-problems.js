@@ -64,7 +64,7 @@
   function mistakeTagControls(key) {
     const selected = new Set(mistakeTagsFor(key));
     const labels = MISTAKE_TYPES.map(([id, label]) => '<label class="cf-mistake-option"><input type="checkbox" data-mistake-key="' + esc(key) + '" data-mistake="' + id + '"' + (selected.has(id) ? ' checked' : '') + '><span>' + label + '</span></label>').join('');
-    return '<details class="cf-mistake-editor"><summary>' + (selected.size ? 'My mistake tags (' + selected.size + ')' : 'Mark mistake tags') + '</summary><div class="cf-mistake-options">' + labels + '</div></details>';
+    return '<details class="cf-mistake-editor"' + (selected.size ? ' open' : '') + '><summary>' + (selected.size ? 'My mistake tags (' + selected.size + ')' : 'Mark mistake tags') + '</summary><div class="cf-mistake-options">' + labels + '</div></details>';
   }
   function categoriesFor(tags) {
     const lower = (tags || []).map(x => x.toLowerCase());
