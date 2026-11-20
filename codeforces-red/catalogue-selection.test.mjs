@@ -11,6 +11,10 @@ assert.ok(source.includes("loadProblemset(true);"),
 assert.ok(source.includes("persistReplacementSnapshot(fetched.solved, fetched.wrong, handle);"),
   "badge data is saved together with the handle it belongs to");
 
+assert.ok(source.includes("limitless:cloud-sync-hydrated") && source.includes("readSaved(); readMistakeTags(); readNotes();"),
+  "in-memory notes, stars and tags must be re-read when Supabase hydrates localStorage");
+assert.ok(source.includes("const NOTE_PREFIX = 'limitless.competition.codeforces-note.v1.';"),
+  "each note is its own localStorage record so the cloud adapter backs it up as its own row");
 assert.match(source, /state\.problems = curateProblemset\(result, new Set\(\)\);/,
   "initial catalogue rendering must not depend on the timing of the account submission request");
 function slice(from, to) {

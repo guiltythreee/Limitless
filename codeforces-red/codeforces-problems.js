@@ -4,7 +4,10 @@
   const STORAGE = 'limitless.competition.codeforces-problemset.v2';
   const MISTAKE_STORAGE = 'limitless.competition.codeforces-mistake-tags.v1';
   const MISTAKE_TYPES = [['conceptual','Conceptual error'],['observation','Observation error'],['mathematical','Mathematical error'],['implementation','Implementation error'],['syntax-gap','Syntax gap']];
-  const NOTE_STORAGE = 'limitless.competition.codeforces-notes.v1';
+  // One localStorage record per problem, so the cloud adapter backs each note up as its own
+  // row and two devices editing different notes can never overwrite each other.
+  const NOTE_PREFIX = 'limitless.competition.codeforces-note.v1.';
+  const NOTE_LEGACY_KEY = 'limitless.competition.codeforces-notes.v1';
   const NOTE_MAX = 4000;
   const MAX_PER_RATING = 250;
   const MIN_PER_TOPIC = 6;
@@ -100,12 +103,35 @@
   }
   function persistMistakeTags() { localStorage.setItem(MISTAKE_STORAGE, JSON.stringify(state.mistakeTags)); }
   function readNotes() {
+    // One-time move from the earlier single-record format to one record per problem.
     try {
-      const value = JSON.parse(localStorage.getItem(NOTE_STORAGE) || '{}');
-      state.notes = value && typeof value === 'object' && !Array.isArray(value) ? value : {};
-    } catch (_) { state.notes = {}; }
+      const legacy = JSON.parse(localStorage.getItem(NOTE_LEGACY_KEY) || 'null');
+      if (legacy && typeof legacy === 'object' && !Array.isArray(legacy)) {
+        Object.keys(legacy).forEach(key => {
+          if (typeof legacy[key] === 'string' && legacy[key].trim() && localStorage.getItem(NOTE_PREFIX + key) === null) {
+            localStorage.setItem(NOTE_PREFIX + key, legacy[key]);
+          }
+        });
+      }
+      if (localStorage.getItem(NOTE_LEGACY_KEY) !== null) localStorage.removeItem(NOTE_LEGACY_KEY);
+    } catch (_) {}
+    const notes = {};
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const name = localStorage.key(i);
+        if (!name || !name.startsWith(NOTE_PREFIX)) continue;
+        const value = localStorage.getItem(name);
+        if (typeof value === 'string' && value.trim()) notes[name.slice(NOTE_PREFIX.length)] = value;
+      }
+    } catch (_) {}
+    state.notes = notes;
   }
-  function persistNotes() { try { localStorage.setItem(NOTE_STORAGE, JSON.stringify(state.notes)); } catch (_) {} }
+  function saveNote(key, text) {
+    try {
+      if (text.trim()) { state.notes[key] = text; localStorage.setItem(NOTE_PREFIX + key, text); }
+      else { delete state.notes[key]; localStorage.removeItem(NOTE_PREFIX + key); }
+    } catch (_) {}
+  }
   function noteFor(key) { return typeof state.notes[key] === 'string' ? state.notes[key] : ''; }
   function noteLabel(key) { return noteFor(key).trim() ? '✎ Note ●' : '✎ Note'; }
   function noteControls(key) {
@@ -479,8 +505,7 @@
     }));
     $('cf-problem-list').querySelectorAll('[data-note-key]').forEach(box => box.addEventListener('input', () => {
       const key = box.dataset.noteKey, text = box.value.slice(0, NOTE_MAX);
-      if (text.trim()) state.notes[key] = text; else delete state.notes[key];
-      persistNotes();
+      saveNote(key, text);
       // Update the label in place: a full render() here would steal focus mid-typing.
       const summary = box.closest('details').querySelector('summary');
       if (summary) summary.textContent = noteLabel(key);
@@ -520,6 +545,15 @@
   }
   function init() {
     readSaved(); readMistakeTags(); readNotes(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
+    // Supabase hydrates localStorage a moment after the page starts (and again after sign-in
+    // or when the tab returns to the foreground). Re-read everything we keep in memory, so a
+    // later write never saves a stale copy over the account's cloud data.
+    window.addEventListener('limitless:cloud-sync-hydrated', () => {
+      readSaved(); readMistakeTags(); readNotes();
+      const active = document.activeElement;
+      if (active && active.classList && active.classList.contains('cf-note-text')) return; // don't steal focus mid-typing
+      render();
+    });
     bindFilters(); loadProblemset(true); // every page load syncs fresh data
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
