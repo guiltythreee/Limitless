@@ -4,13 +4,15 @@
   const STORAGE = 'limitless.competition.codeforces-problemset.v2';
   const MISTAKE_STORAGE = 'limitless.competition.codeforces-mistake-tags.v1';
   const MISTAKE_TYPES = [['conceptual','Conceptual error'],['observation','Observation error'],['mathematical','Mathematical error'],['implementation','Implementation error'],['syntax-gap','Syntax gap']];
+  const NOTE_STORAGE = 'limitless.competition.codeforces-notes.v1';
+  const NOTE_MAX = 4000;
   const MAX_PER_RATING = 250;
   const MIN_PER_TOPIC = 6;
   const TOPIC_BALANCE = 0.6;
   const PERSONAL_REPLACEMENT_RATING_MIN = 800;
   const PERSONAL_REPLACEMENT_RATING_MAX = 1000;
   const $ = id => document.getElementById(id);
-  const state = { problems: [], problemsetResult: null, solved: new Set(), wrong: new Map(), saved: new Set(), mistakeTags: {}, page: 0, pageSize: 40, loaded: false, loading: false, badgeHandle: '', badgeNote: '', shelfMissing: [] };
+  const state = { problems: [], problemsetResult: null, solved: new Set(), wrong: new Map(), saved: new Set(), mistakeTags: {}, page: 0, pageSize: 40, loaded: false, loading: false, badgeHandle: '', badgeNote: '', shelfMissing: [], notes: {}, openNotes: new Set() };
   // Two separate jobs, kept apart on purpose:
   //   SHELF  - which problems are listed. Anything solved by a FIXED handle in
   //            SHELF_HANDLES (lord_limitless) is swapped out. Problems solved by
@@ -97,6 +99,21 @@
     catch (_) { state.mistakeTags = {}; }
   }
   function persistMistakeTags() { localStorage.setItem(MISTAKE_STORAGE, JSON.stringify(state.mistakeTags)); }
+  function readNotes() {
+    try {
+      const value = JSON.parse(localStorage.getItem(NOTE_STORAGE) || '{}');
+      state.notes = value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+    } catch (_) { state.notes = {}; }
+  }
+  function persistNotes() { try { localStorage.setItem(NOTE_STORAGE, JSON.stringify(state.notes)); } catch (_) {} }
+  function noteFor(key) { return typeof state.notes[key] === 'string' ? state.notes[key] : ''; }
+  function noteLabel(key) { return noteFor(key).trim() ? '✎ Note ●' : '✎ Note'; }
+  function noteControls(key) {
+    return '<details class="cf-note-editor" data-note-details="' + esc(key) + '"' + (state.openNotes.has(key) ? ' open' : '') +
+      '><summary>' + noteLabel(key) + '</summary><div class="cf-note-box"><textarea class="cf-note-text" data-note-key="' + esc(key) +
+      '" maxlength="' + NOTE_MAX + '" rows="5" placeholder="Write anything about this problem…" aria-label="Note for this problem">' +
+      esc(noteFor(key)) + '</textarea><small>Saved automatically in this browser.</small></div></details>';
+  }
   function mistakeTagsFor(key) {
     const values = state.mistakeTags[key];
     return Array.isArray(values) ? values.filter(value => MISTAKE_TYPES.some(([id]) => id === value)) : [];
@@ -420,6 +437,7 @@
       if (statusFilter === 'unsolved' && (state.solved.has(key) || state.wrong.has(key))) return false;
       if (statusFilter === 'wrong' && !state.wrong.has(key)) return false;
       if (statusFilter === 'saved' && !state.saved.has(key)) return false;
+      if (statusFilter === 'noted' && !noteFor(key).trim()) return false;
       if (mistakeFilter && !mistakeTagsFor(key).includes(mistakeFilter)) return false;
       return true;
     });
@@ -447,7 +465,7 @@
       const progressLabel=solved?'Solved':wrongCount?'Wrong submissions ('+wrongCount+')':'Unsolved';
       const progressClass=solved?'solved':wrongCount?'wrong':'unsolved';
       const wrongBadge=solved&&wrongCount?'<span class="cf-chip wrong">'+wrongCount+' failed before solve</span>':'';
-      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + progressClass + '">' + progressLabel + '</span>' + wrongBadge + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button>' + mistakeTagControls(key) + '</div></article>';
+      return '<article class="cf-problem-card cf-problem-row"><div class="cf-problem-main"><a class="cf-problem-title" href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(p.name) + ' ↗</a><div class="cf-problem-meta"><span class="cf-chip rating">' + ratingLabel + '</span><span class="cf-chip">' + esc(p.contestId || 'Gym') + ' · ' + esc(p.index || '') + '</span><span class="cf-chip ' + progressClass + '">' + progressLabel + '</span>' + wrongBadge + tagsDisclosure + '</div></div><div class="cf-problem-right"><button class="cf-save-problem" type="button" data-save="' + esc(key) + '" aria-pressed="' + saved + '">' + (saved ? '★ Saved' : '☆ Save') + '</button>' + mistakeTagControls(key) + noteControls(key) + '</div></article>';
     }).join('') || '<p class="cf-empty">No problems match these filters. Try widening the rating range or removing a tag.</p>';
     $('cf-page-label').textContent = 'Page ' + (state.page + 1) + ' of ' + pages;
     $('cf-prev-page').disabled = state.page === 0;
@@ -458,6 +476,17 @@
       if (input.checked) selected.add(type); else selected.delete(type);
       if (selected.size) state.mistakeTags[key] = [...selected]; else delete state.mistakeTags[key];
       persistMistakeTags(); render();
+    }));
+    $('cf-problem-list').querySelectorAll('[data-note-key]').forEach(box => box.addEventListener('input', () => {
+      const key = box.dataset.noteKey, text = box.value.slice(0, NOTE_MAX);
+      if (text.trim()) state.notes[key] = text; else delete state.notes[key];
+      persistNotes();
+      // Update the label in place: a full render() here would steal focus mid-typing.
+      const summary = box.closest('details').querySelector('summary');
+      if (summary) summary.textContent = noteLabel(key);
+    }));
+    $('cf-problem-list').querySelectorAll('[data-note-details]').forEach(details => details.addEventListener('toggle', () => {
+      if (details.open) state.openNotes.add(details.dataset.noteDetails); else state.openNotes.delete(details.dataset.noteDetails);
     }));
     $('cf-problem-list').querySelectorAll('[data-save]').forEach(button => button.addEventListener('click', () => {
       const key = button.dataset.save;
@@ -490,7 +519,7 @@
     });
   }
   function init() {
-    readSaved(); readMistakeTags(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
+    readSaved(); readMistakeTags(); readNotes(); $('cf-rating-preset').value = '800-1200'; $('cf-rating-min').value = '800'; $('cf-rating-max').value = '1200';
     bindFilters(); loadProblemset(true); // every page load syncs fresh data
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
