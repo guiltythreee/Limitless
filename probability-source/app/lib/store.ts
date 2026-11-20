@@ -377,6 +377,7 @@ function rewardAssessment(t: TestRecord, prior: RewardRecord[]) {
     itemId,
     ts: t.ts,
     activityClass: "assessment",
+    questionCount: t.total,
     difficulty,
     completionEvidence: completed ? "fully-answered-assessment" : "incomplete-assessment",
     completed,

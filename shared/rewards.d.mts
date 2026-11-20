@@ -40,6 +40,7 @@ export type RewardInput = {
   completed: boolean;
   quality?: number;
   problemRating?: number;
+  questionCount?: number;
   passed?: boolean;
   checkpointId?: string | null;
   assignedBaseExp?: number;

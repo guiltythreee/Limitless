@@ -44,6 +44,24 @@ export function ratedProblemBaseExp(rating) {
   return Math.min(policy.maxExp, Math.max(policy.baseExp, Math.round(raw)));
 }
 
+/**
+ * Assessments scale with the number of questions in the scored pool. The same
+ * questions answered one at a time as micro-practice pay 5 EXP each, so a
+ * completed assessment of n questions pays at least n x 5 base EXP and can never
+ * be worth less than casual practice on the same material. Clamped to [25, 100]:
+ * 25 is the previous flat value (small sets are unchanged), and 100 is the
+ * major-completion ceiling so a huge archive test cannot outweigh a course.
+ */
+export const ASSESSMENT_POLICY = Object.freeze({ perQuestionExp: 5, minBase: 25, maxBase: 100 });
+
+export function assessmentBaseExp(questionCount) {
+  const policy = ASSESSMENT_POLICY;
+  if (typeof questionCount !== "number" || !Number.isFinite(questionCount) || questionCount <= 0) {
+    return ACTIVITY_BASE_EXP.assessment; // legacy callers that do not report a size
+  }
+  return Math.min(policy.maxBase, Math.max(policy.minBase, Math.round(questionCount) * policy.perQuestionExp));
+}
+
 /** Provisional repeat policy: three full-value completions per item per local day. */
 export const REPEAT_POLICY = Object.freeze({
   fullAwardsPerItemPerDay: 3,
@@ -230,7 +248,9 @@ export function calculateReward(input, priorRecords = []) {
     ? (assignedProjectBase ?? 0)
     : isRated
       ? ratedProblemBaseExp(input?.problemRating)
-      : (ACTIVITY_BASE_EXP[activityClass] ?? 0);
+      : activityClass === "assessment"
+        ? assessmentBaseExp(input?.questionCount)
+        : (ACTIVITY_BASE_EXP[activityClass] ?? 0);
   // A rated problem already carries its difficulty in the base; no second multiplier.
   const multiplier = isRated ? 1 : (DIFFICULTY_MULTIPLIER[difficulty] ?? 1);
   const prior = sanitiseRewardRecords(priorRecords);

@@ -74,6 +74,7 @@ export function assessmentActivity(moduleId: LsrModuleId, input: AssessmentInput
     itemId: "assessment:" + moduleId,
     ts: Number.isFinite(input.ts) && input.ts > 0 ? Math.round(input.ts) : Date.now(),
     activityClass: "assessment",
+    questionCount: total,
     difficulty: total >= 25 ? "advanced" : "intermediate",
     completionEvidence: "completed-metallurgy-assessment",
     completed: true,
