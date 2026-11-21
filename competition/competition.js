@@ -506,7 +506,8 @@
     ],
     coding:[
       {label:'LearnCpp',url:'https://www.learncpp.com/'},
-      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book.pdf'}
+      {label:'Competitive Programmer’s Handbook',url:'https://cses.fi/book.pdf'},
+      {label:'IICPC QuantFest 2025 prelims editorial (use as a timed mock)',url:'https://codeforces.com/blog/entry/145776'}
     ]
   };
 
@@ -747,7 +748,7 @@
       ['Dice Combinations','Minimizing Coins','Coin Combinations I'],
       ['Coin Combinations II','Removing Digits','Grid Paths'],
       ['Book Shop','Array Description','Counting Towers'],
-      ['Edit Distance','Rectangle Cutting','Money Sums'],
+      ['Edit Distance','Rectangle Cutting','Money Sums','Dice Probability'],
       ['Removal Game','Two Sets II','Projects'],
       ['Elevator Rides','Counting Tilings','Increasing Subsequence']
     ],
@@ -755,8 +756,8 @@
       ['Weird Algorithm','Missing Number','Repetitions'],
       ['Increasing Array','Permutations','Number Spiral'],
       ['Distinct Numbers','Apartments','Ferris Wheel'],
-      ['Concert Tickets','Restaurant Customers','Movie Festival'],
-      ['Sum of Two Values','Maximum Subarray Sum','Stick Lengths'],
+      ['Concert Tickets','Restaurant Customers','Movie Festival','Exponentiation','Binomial Coefficients','Distributing Apples'],
+      ['Sum of Two Values','Maximum Subarray Sum','Stick Lengths','Christmas Party','Bracket Sequences I','Inversion Probability'],
       ['Playlist','Towers','Traffic Lights']
     ]
   };
@@ -767,6 +768,9 @@
     'Concert Tickets':1091,'Restaurant Customers':1619,'Movie Festival':1629,
     'Sum of Two Values':1640,'Maximum Subarray Sum':1643,'Stick Lengths':1074,
     'Playlist':1141,'Towers':1073,'Traffic Lights':1163,
+    'Exponentiation':1095,'Binomial Coefficients':1079,'Distributing Apples':1716,
+    'Christmas Party':1717,'Bracket Sequences I':2064,'Inversion Probability':1728,
+    'Dice Probability':1725,
     'Building Roads':1666,'Message Route':1667,'Building Teams':1668,
     'Counting Rooms':1192,'Labyrinth':1193,'Round Trip':1669,
     'Course Schedule':1679,'Course Schedule II':1757,'Longest Flight Route':1680,
