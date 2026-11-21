@@ -85,9 +85,53 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
     return { ...record, created: true };
   }
 
+  /**
+   * One-time participation award per official Codeforces contest, proven by a
+   * submission whose author.participantType is CONTESTANT. Solved problems are
+   * already paid per accepted submission, so this is only a small timed-
+   * conditions bonus (the legacy assessment base of 25), not a second solve reward.
+   */
+  function awardCodeforcesContestParticipation(submission, handle) {
+    if (!isRecord(submission) || !isRecord(submission.author) ||
+        submission.author.participantType !== "CONTESTANT" ||
+        !Number.isSafeInteger(submission.contestId) || submission.contestId <= 0 ||
+        submission.contestId >= 100000 || // 100000+ are Gym contests, not official rounds
+        !Number.isFinite(submission.creationTimeSeconds) || submission.creationTimeSeconds <= 0 ||
+        !isString(handle)) return null;
+
+    const account = handle.trim().toLowerCase();
+    const eventId = "codeforces-contest:" + account + ":" + submission.contestId;
+    const state = loadState();
+    const existing = state.records.find((record) => record.eventId === eventId);
+    if (existing) return { ...existing, created: false };
+
+    const activity = {
+      eventId,
+      moduleId: COMPETITION_REWARD_MODULE_ID,
+      itemId: "codeforces-contest:" + submission.contestId,
+      ts: Math.round(submission.creationTimeSeconds * 1000),
+      activityClass: "assessment",
+      difficulty: "foundational",
+      completionEvidence: "verified-codeforces-contest-participation",
+      completed: true,
+      quality: 0,
+    };
+    const records = buildRewardRecords(activity, state.records);
+    try {
+      storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({
+        ...state.payload,
+        rewardLedger: [...state.records, ...records],
+      }));
+    } catch {
+      return null;
+    }
+    dispatchRewardUpdate();
+    return { ...records[0], created: true };
+  }
+
   function getRecords() {
     return loadState().records;
   }
 
-  return { awardCodeforcesSubmission, getRecords };
+  return { awardCodeforcesSubmission, awardCodeforcesContestParticipation, getRecords };
 }

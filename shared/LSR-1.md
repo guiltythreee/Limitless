@@ -119,3 +119,10 @@ and the Codeforces curve above ~1100.
 ### Keeping copies in sync
 `tools/typing-next-source/src/domain/rewards/shared-rewards.mjs` is a vendored copy of `shared/rewards.mjs`, guarded by
 a parity test. Metallurgy and Probability bundle the engine at build time, so they need a rebuild to pick up changes.
+
+### Codeforces contest participation
+One-time 25 EXP per official contest (the legacy assessment base), proven by a synced submission whose
+`author.participantType` is `CONTESTANT` and whose contest id is below 100000 (Gym contests excluded). Solved
+problems are still paid per accepted submission, so this is only a small timed-conditions bonus. A contest already
+observed at baseline is never rewarded, practice and virtual submissions never earn it, and the per-contest event id
+makes it idempotent. Sync state keeps `seenContestIds` for this.
