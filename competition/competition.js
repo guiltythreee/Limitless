@@ -3,6 +3,7 @@
 
   var learningIntelligencePromise = import('./learning-intelligence.mjs').catch(function () { return null; });
   var practiceRecommendationsPromise = import('./practice-recommendations.mjs').catch(function () { return null; });
+  var readinessPromise = import('./readiness-baseline.mjs').catch(function () { return null; });
   var STORAGE_KEY = 'limitless.competition.regional-qualification.v1';
   var DEFAULTS = {
     startDate: '2026-11-02',
@@ -314,6 +315,7 @@
     renderSubjects();
     renderDailyPlan();
     renderSafety();
+    renderBaseline();
     renderMockHistory();
     renderProblemHistory();
     renderLearningSystem();
@@ -591,6 +593,24 @@
     var day = DAILY_PLAN[weekdayIndex] || { id:'sun', day:'Sunday', subjects:[] };
     return { weekIndex:weekIndex, weekdayIndex:weekdayIndex, day:day, week:WEEKS[weekIndex] };
   }
+  // Checkbox keys for a task-day. Shared by the planner and the readiness baseline
+  // so both always count the same ticks.
+  function dailyPlanPrefix(dayNumber, coords) {
+    return dayNumber > 112 ? 'w16-extra-day' + dayNumber + '-' : 'w' + (coords.weekIndex + 1) + '-exec2-' + coords.day.id + '-';
+  }
+  function dailyTaskProgress() {
+    var total = 0, done = 0, daysComplete = 0, furthestDay = 0;
+    for (var d = 1; d <= 120; d++) {
+      var coords = dailyPlanCoordinates(d);
+      var tasks = dailyPlanTasks(coords.week, coords.day);
+      var prefix = dailyPlanPrefix(d, coords), dayDone = 0;
+      for (var i = 0; i < tasks.length; i++) { if (state.dayChecks[prefix + i]) dayDone++; }
+      total += tasks.length; done += dayDone;
+      if (tasks.length && dayDone === tasks.length) daysComplete++;
+      if (dayDone > 0) furthestDay = d;
+    }
+    return { total:total, done:done, daysComplete:daysComplete, furthestDay:furthestDay };
+  }
   function dailyPlanTasks(week, day) {
     if (day.id !== 'sun') return dailyTasksForWeek(week, day);
     return [
@@ -606,7 +626,7 @@
     state.selectedDay = selected;
     var coords = dailyPlanCoordinates(selected), week = coords.week, day = coords.day;
     var tasks = dailyPlanTasks(week, day);
-    var prefix = selected > 112 ? 'w16-extra-day' + selected + '-' : 'w' + (coords.weekIndex + 1) + '-exec2-' + day.id + '-';
+    var prefix = dailyPlanPrefix(selected, coords);
     var done = tasks.filter(function (_, index) { return !!state.dayChecks[prefix + index]; }).length;
     var focus = day.subjects.length ? day.subjects.map(function (id) {
       var topic = week.topics.find(function (entry) { return entry[0] === id; });
@@ -1363,6 +1383,92 @@
       ' This projection assumes the mock cohort is representative; it is not a guaranteed selection result.</span>';
   }
 
+  // Readiness baseline: coverage from ticked tasks and topic mastery, placed against
+  // previous-year QuantFest and ICPC India numbers (data lives in readiness-baseline.mjs).
+  function renderBaseline() {
+    var host = $('baseline-panel');
+    if (!host) return Promise.resolve();
+    return readinessPromise.then(function (api) {
+      if (!api) { host.innerHTML = '<p class="empty-state">The baseline module could not be loaded.</p>'; return; }
+      var progress = dailyTaskProgress();
+      var statuses = WEEKS.map(function (week, wi) { return week.topics.map(function (_, ti) { return statusOf(topicKey(wi, ti)); }); });
+      var subjectIds = WEEKS.map(function (week) { return week.topics.map(function (topic) { return topic[0]; }); });
+      var summary = api.summarizeProgress(statuses, subjectIds);
+      var pct = progress.total ? Math.round(progress.done / progress.total * 100) : 0;
+      var reached = summary.reachedWeek;
+      var stage = reached ? 'Week ' + reached + ' · ' + WEEKS[reached - 1].phase : 'Not past Week 1 yet';
+      var furthest = progress.furthestDay
+        ? 'Day ' + progress.furthestDay + ' (Week ' + (dailyPlanCoordinates(progress.furthestDay).weekIndex + 1) + ')'
+        : 'No task ticked yet';
+      function card(label, value, sub) {
+        return '<div class="baseline-card"><span>' + esc(label) + '</span><strong>' + esc(value) + '</strong><small>' + esc(sub) + '</small></div>';
+      }
+      var cards = card('Daily tasks done', progress.done + ' / ' + progress.total, pct + '% of the 120-day plan') +
+        card('Days fully completed', progress.daysComplete + ' / 120', 'Every task on the day ticked') +
+        card('Furthest day touched', furthest, 'Highest day with any task ticked') +
+        card('Stage reached', stage, 'Needs ' + api.READY_TOPICS_PER_WEEK + ' of 6 topics practiced or mastered in every week up to it') +
+        card('Topics', summary.counts.mastered + ' mastered', summary.counts.practiced + ' practiced · ' + summary.counts.learning + ' learning · of ' + summary.totalTopics);
+      var names = { coding:'C++ / Implementation' };
+      SUBJECTS.forEach(function (subject) { names[subject.id] = subject.name; });
+      var rows = ['logic','combinatorics','probability','graphs','dp','coding'].map(function (id) {
+        var s = summary.bySubject[id] || { total:0, ready:0, mastered:0 };
+        var width = s.total ? Math.round(s.ready / s.total * 100) : 0;
+        return '<div class="baseline-row"><span>' + esc(names[id]) + '</span><div class="baseline-bar"><i style="width:' + width + '%"></i></div>' +
+          '<small>' + s.ready + ' / ' + s.total + ' practiced or mastered · ' + s.mastered + ' mastered</small></div>';
+      }).join('');
+
+      var icpc = api.ICPC_INDIA_2026;
+      var icpcRows = icpc.bands.map(function (band) {
+        var top = band.to ? 'top ' + (band.to / icpc.teams * 100).toFixed(1) + '%' : 'rest of the field';
+        return '<tr><td>' + band.solved + ' of ' + icpc.problems + '</td><td>' + band.from + (band.to ? '–' + band.to : ' and below') + '</td><td>' + top + '</td></tr>';
+      }).join('');
+      function links(sources) {
+        return sources.map(function (source) {
+          return '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">' + esc(source.label) + ' ↗</a>';
+        }).join(' · ');
+      }
+      var quantRows = api.QUANTFEST_HISTORY.map(function (edition) {
+        return '<li><strong>QuantFest ' + edition.edition + ':</strong> ' + esc(edition.summary) + '<br><small>' + links(edition.sources) + '</small></li>';
+      }).join('');
+      var benchmarks = '<div class="baseline-bench"><div><h3>ICPC India 2026 prelim: problems solved vs rank</h3>' +
+        '<table class="baseline-table"><thead><tr><th>Solved</th><th>Ranks</th><th>Within</th></tr></thead><tbody>' + icpcRows + '</tbody></table>' +
+        '<p class="baseline-note">' + icpc.teams + ' teams listed. ' + esc(icpc.note) + ' <a href="' + esc(icpc.url) + '" target="_blank" rel="noopener noreferrer">Standings ↗</a></p></div>' +
+        '<div><h3>QuantFest: how many got through</h3><ul class="baseline-list">' + quantRows + '</ul>' +
+        '<p class="baseline-note">"10,000+" is a lower bound, so the real cut-lines are slightly tighter than 6% and 0.75%.</p></div></div>';
+
+      var lines = [];
+      var fullMocks = state.mocks.filter(function (mock) {
+        return mock.type === 'full-format' && Number(mock.oneMax) > 0 && Number(mock.twoMax) > 0;
+      }).sort(function (a, b) { return b.date.localeCompare(a.date); });
+      var latest = fullMocks[0] || null;
+      if (latest) {
+        var scorePct = (Number(latest.oneScore) + Number(latest.twoScore)) / (Number(latest.oneMax) + Number(latest.twoMax)) * 100;
+        var equivalent = api.equivalentSolved(scorePct);
+        var band = api.icpcIndiaBand(equivalent);
+        lines.push('<b>ICPC India:</b> your latest full mock scored ' + scorePct.toFixed(1) + '%, about ' + equivalent + ' of ' + icpc.problems + ' problems. ' +
+          (equivalent === 0 ? 'That is below the lowest 2026 band.' :
+            'In 2026 that many solves landed at ranks ' + band.from + (band.to ? '–' + band.to : ' and below') + ' of ' + icpc.teams +
+            (band.to ? ' (within the top ' + band.topPercent.toFixed(1) + '%).' : '.')));
+      }
+      var ranked = latestRankedFullMock();
+      var quant = ranked ? api.quantfestStage(ranked.rank, ranked.cohort) : null;
+      if (quant) {
+        lines.push('<b>QuantFest:</b> mock rank ' + ranked.rank + ' of ' + ranked.cohort + ' = top ' + quant.percent.toFixed(2) + '%. ' +
+          (quant.stage === 'finals-level' ? 'That is at the finals line (about top ' + quant.finalsLinePercent + '%).' :
+           quant.stage === 'inside-prelim-line' ? 'That is inside last year’s prelim line (top ' + quant.prelimLinePercent + '%) but not yet at the finals line (about top ' + quant.finalsLinePercent + '%).' :
+           'That is outside last year’s prelim line (top ' + quant.prelimLinePercent + '%).'));
+      }
+      if (!lines.length) {
+        lines.push('Ticked tasks show coverage, not rank. Record a full 2.5-hour mock with scores for both tests to place yourself on the ICPC India bands, and add a rank and cohort size to compare with the QuantFest line.');
+      } else {
+        lines.push('Mock-based estimates assume your mock is comparable to the real field. ICPC is a team contest and these mocks are solo, so treat the ICPC band as a rough guide.');
+      }
+      var position = '<div class="safety-result"><strong>Where this puts you</strong><span>' + lines.join('<br>') + '</span></div>';
+
+      host.innerHTML = '<div class="baseline-grid">' + cards + '</div><div class="baseline-rows">' + rows + '</div>' + benchmarks + position;
+    });
+  }
+
   var problemHistoryRenderToken = 0;
   function renderProblemHistory() {
     var token = ++problemHistoryRenderToken;
@@ -1493,6 +1599,9 @@
     bindInput('benchmark-source','benchmarkSource');
     ['start-date','target-date'].forEach(function (id) { $(id).addEventListener('change', renderOverview); });
     ['qualification-cutoff','qualification-pool-size','rank-buffer','qualification-track','benchmark-source'].forEach(function (id) { $(id).addEventListener('change', renderSafety); });
+    // Ticks change outside saveAndRender, so refresh the baseline whenever Settings is opened.
+    var settingsCard = $('settings');
+    if (settingsCard) settingsCard.addEventListener('toggle', renderBaseline);
 
     renderOverview();
     renderSubjects();
@@ -1516,6 +1625,7 @@
     });
     renderWeeks();
     renderSafety();
+    renderBaseline();
     renderProblemHistory();
     ['problem-search','problem-filter-subject','problem-filter-outcome','problem-filter-band'].forEach(function(id){
       $(id).addEventListener(id==='problem-search'?'input':'change',renderProblemHistory);
