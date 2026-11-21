@@ -139,8 +139,8 @@
       objective:'Use recurrence-based counting and probability models, while adding disjoint-set structures and subsequence DP.',
       topics:[
         ['logic','Constructive arguments: build an object and prove it satisfies the conditions'],
-        ['combinatorics','Recurrence relations for counting; solve and verify small cases'],
-        ['probability','Bernoulli and binomial models; recognise when trials are not independent'],
+        ['combinatorics','Recurrence relations for counting (Catalan numbers and derangements as worked examples); solve and verify small cases'],
+        ['probability','Bernoulli, binomial and geometric models; first-step analysis; recognise when trials are not independent'],
         ['graphs','Disjoint Set Union: find, union, path compression and component queries'],
         ['dp','Longest increasing subsequence: quadratic DP before faster optimization'],
         ['coding','DSU implementation and coordinate/sequence handling']
@@ -155,7 +155,7 @@
         ['probability','Linearity of expectation in multi-stage processes; indicator variables'],
         ['graphs','Trees, tree properties, minimum spanning trees and Kruskal'],
         ['dp','DP on DAGs and introductory tree DP on small states'],
-        ['coding','Tree traversal, parent/depth arrays and MST implementation']
+        ['coding','Tree traversal, parent/depth arrays and MST implementation; modular arithmetic (fast power, modular inverse, nCr mod p)']
       ]
     },
     {
@@ -165,8 +165,8 @@
         ['logic','Constraint puzzles, case splitting, truth/lie deductions and impossibility proofs'],
         ['combinatorics','Inclusion-exclusion applications, recurrence counting and binomial identities'],
         ['probability','Variance basics, total expectation and conditional reasoning'],
-        ['graphs','Choose between BFS, Dijkstra, DSU, topological order and MST from constraints'],
-        ['dp','Subsequence/string DP such as LCS; interval or bitmask DP only as stretch topics'],
+        ['graphs','Choose between BFS, 0-1 BFS, Dijkstra, Floyd–Warshall (small graphs), DSU, topological order and MST from constraints'],
+        ['dp','Subsequence/string DP such as LCS; probability and expected-value DP; counting DP modulo 998244353; interval or bitmask DP only as stretch topics'],
         ['coding','Derive complexity before implementation; compare brute force with optimized solutions']
       ]
     },
@@ -176,7 +176,7 @@
       topics:[
         ['logic','Unseen proof and deduction problems; state the key invariant or contradiction'],
         ['combinatorics','Unseen counting problems requiring two principles together'],
-        ['probability','Problems combining conditional probability, counting and expectation'],
+        ['probability','Problems combining conditional probability, counting and expectation; solve some on paper only'],
         ['graphs','Unseen graph problems requiring algorithm selection'],
         ['dp','Unseen recurrence/state-design problems; justify each transition'],
         ['coding','Full post-mortem: wrong idea, missed observation, complexity or implementation error']
@@ -213,12 +213,12 @@
       topics:[
         ['logic','Timed reasoning set; reserve time to verify every deduction'],
         ['combinatorics','Timed counting set; check overcounting and missing cases'],
-        ['probability','Timed probability set; define events and conditional sample spaces explicitly'],
+        ['probability','Timed pen-and-paper probability set (no code, no calculator); define events and conditional sample spaces explicitly'],
         ['graphs','Timed graph set; select algorithms from constraints and prove applicability'],
         ['dp','Timed DP set; write state, transition and complexity before implementation'],
         ['coding','Full simulation: Test 1 for 60 minutes, break/setup as applicable, Test 2 for 90 minutes']
       ],
-      assessment:'Simulation 4: exact 60 + 90 minute format. Review time spent, attempted problems, accuracy and rank only against a comparable mock cohort.'
+      assessment:'Simulation 4: exact 60 + 90 minute format. Review time spent, attempted problems, accuracy and rank only against a comparable mock cohort. Also run one separate handwritten probability paper: the regionals include a pen-and-paper probability test alongside the coding assessment.'
     },
     {
       title:'Final consolidation and readiness decision', phase:'Competition readiness',
