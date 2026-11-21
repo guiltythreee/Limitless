@@ -86,3 +86,36 @@ The calibration is a stated scenario, **not measured personal study telemetry**.
 ## Deliberately deferred
 
 Cloud sync, a spendable shop/currency, daily quests/streak EXP, and a global profile-cosmetic renderer on every module remain out of scope. Lifetime EXP cannot be spent. A module's local skill/rank progression remains separate from the global reward policy.
+
+## EXP maths (calibrated 2026-11-21)
+
+One award: `total = round(base × difficulty + qualityBonus) + passBonus`.
+
+- Difficulty multiplier: foundational ×1.00, intermediate ×1.25, advanced ×1.50.
+- Quality bonus: 0 below 80% quality, rising to 20% of base at 100%.
+- Pass bonus: flat +15, once per checkpoint.
+- Repeat cap: the first 3 completions of the same item per local day pay; the 4th and later pay 0.
+- Level cost: level L to L+1 costs `100 + 25(L − 1)`; total to reach level N is `100(N−1) + 25(N−1)(N−2)/2`.
+
+### Rated problems (Codeforces)
+`base = clamp(round(10 × 2^((rating − 800) / 400)), 10, 160)`, no difficulty multiplier, no quality bonus.
+Basis: Codeforces ratings are Elo-scaled (a problem at your own rating is solved about half the time; 400 points is
+10x in odds), and published fast-solve targets are roughly 5-7 min at 800 and 15-25 min at 1100. Above ~1100 the
+curve is an extrapolation and must be checked in beta testing.
+Examples: 800 → 10, 1000 → 14, 1200 → 20, 1400 → 28, 1600 → 40, 1800 → 57, 2000 → 80, 2400+ → 160.
+
+### Assessments
+`base = clamp(5 × questionCount, 25, 100)`. An assessment must never pay less than the same questions answered as
+micro-practice (5 EXP each). Callers that do not report `questionCount` keep the legacy base of 25.
+
+### Not rewarded on purpose
+Regional Qualification mock scores, topic mastery, checkboxes and the problem log are typed in by the user and are not
+verified, so they earn no EXP under the verified-evidence rule.
+
+### Still to calibrate in beta
+Bookkeys page threshold (150 characters is under a minute of typing), Math Trainer sprint size, a per-module daily cap,
+and the Codeforces curve above ~1100.
+
+### Keeping copies in sync
+`tools/typing-next-source/src/domain/rewards/shared-rewards.mjs` is a vendored copy of `shared/rewards.mjs`, guarded by
+a parity test. Metallurgy and Probability bundle the engine at build time, so they need a rebuild to pick up changes.
