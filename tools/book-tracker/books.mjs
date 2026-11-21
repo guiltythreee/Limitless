@@ -28,6 +28,16 @@ export function expandProblems(text) {
         continue;
       }
     }
+    // Chapter-numbered problems: 1.1-1.20 means 1.1, 1.2 ... 1.20
+    const dotted = /^(\d+)\.(\d+)-(\d+)\.(\d+)$/.exec(token);
+    if (dotted && dotted[1] === dotted[3]) {
+      const from = Number(dotted[2]);
+      const to = Number(dotted[4]);
+      if (from <= to && to - from < MAX_RANGE) {
+        for (let n = from; n <= to; n++) out.push(`${dotted[1]}.${n}`);
+        continue;
+      }
+    }
     out.push(token);
   }
   return out;

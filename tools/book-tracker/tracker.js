@@ -3,6 +3,8 @@ import {
   parseOutline, itemKey, summarize, nextUp, setMany, sectionKeys,
   emptyState, addBook, updateOutline, removeBook, sanitizeState
 } from './books.mjs';
+import { readPdfPages } from './pdf-read.mjs';
+import { detectBook, outlineText } from './detect.mjs';
 
 const STORAGE_KEY = 'limitless.bookTracker.v1';
 
@@ -70,7 +72,7 @@ function render() {
           h('input', { type: 'file', accept: 'application/json', hidden: true, onchange: importData })))),
     state.books.length ? tabs() : '',
     message ? h('p', { class: 'bt-message' }, message) : '',
-    mode === 'add' ? outlineForm(null) : '',
+    mode === 'add' ? addForm() : '',
     mode === 'edit' && currentId ? outlineForm(currentId) : '',
     mode === 'book' && currentId ? bookView() : ''
   );
@@ -86,19 +88,63 @@ function tabs() {
   }));
 }
 
-function outlineForm(editId) {
-  const existing = editId ? state.books.find(b => b.id === editId) : null;
-  const area = h('textarea', { class: 'bt-outline', rows: 18, spellcheck: false });
-  area.value = existing ? existing.outline : EXAMPLE;
+function addForm() {
+  const status = h('p', { class: 'bt-hint' },
+    'Choose your book as a PDF. It is read on this device and never uploaded anywhere.');
+  const area = h('textarea', { class: 'bt-outline', rows: 18, spellcheck: false, placeholder: EXAMPLE, hidden: true });
+  const addBtn = h('button', { hidden: true, onclick: () => submitOutline(null, area.value) }, 'Add book');
+  const showText = () => { area.hidden = false; addBtn.hidden = false; };
+
+  const onFile = async event => {
+    const file = event.target.files[0];
+    if (!file) return;
+    message = '';
+    status.textContent = 'Opening the PDF…';
+    try {
+      const pdfjs = await import('./vendor/pdf.min.mjs');
+      pdfjs.GlobalWorkerOptions.workerSrc = new URL('./vendor/pdf.worker.min.mjs', import.meta.url).href;
+      const { title, pages } = await readPdfPages(await file.arrayBuffer(), pdfjs,
+        (n, total) => { status.textContent = `Reading page ${n} of ${total}…`; });
+      const name = title || file.name.replace(/\.pdf$/i, '').replace(/[_-]+/g, ' ').trim() || 'Untitled book';
+      const { book, stats } = detectBook(pages, name);
+      if (!stats.problems) {
+        status.textContent = 'I could not find chapters with problems in this PDF. It may be scanned pages (pictures, not text) or use a layout I do not recognise. You can type the outline instead.';
+        showText();
+        return;
+      }
+      area.value = outlineText(book);
+      showText();
+      status.textContent = `Found ${stats.chapters} chapters, ${stats.sections} sections and ${stats.problems} problems. Check the list below, fix anything that is wrong, then add the book.`;
+    } catch {
+      status.textContent = 'That file could not be read as a PDF.';
+    }
+  };
+
   return h('section', { class: 'bt-form' },
-    h('h2', {}, existing ? 'Edit outline' : 'Add a book'),
+    h('h2', {}, 'Add a book'),
+    status,
+    h('div', { class: 'bt-actions' },
+      h('label', { class: 'bt-button' }, 'Choose PDF',
+        h('input', { type: 'file', accept: 'application/pdf,.pdf', hidden: true, onchange: onFile })),
+      h('button', { onclick: showText }, 'Type an outline instead'),
+      state.books.length ? h('button', { onclick: () => { mode = 'book'; message = ''; render(); } }, 'Cancel') : ''),
+    area,
+    h('div', { class: 'bt-actions' }, addBtn));
+}
+
+function outlineForm(editId) {
+  const existing = state.books.find(b => b.id === editId);
+  const area = h('textarea', { class: 'bt-outline', rows: 18, spellcheck: false });
+  area.value = existing ? existing.outline : '';
+  return h('section', { class: 'bt-form' },
+    h('h2', {}, 'Edit outline'),
     h('p', { class: 'bt-hint' },
-      'Copy the contents page of the book. # book title, ## chapter, ### section, then the problem numbers underneath (1-20, 25, 3a). Your ticks are kept if you edit this later.'),
+      '# book title, ## chapter, ### section, then the problem numbers underneath (1-20, 25, 3a). Your ticks are kept when you change this.'),
     area,
     h('div', { class: 'bt-actions' },
-      h('button', { onclick: () => submitOutline(editId, area.value) }, existing ? 'Save changes' : 'Add book'),
-      h('button', { onclick: () => { mode = state.books.length ? 'book' : 'add'; message = ''; render(); } }, 'Cancel'),
-      existing ? h('button', { class: 'bt-danger', onclick: () => deleteBook(editId) }, 'Delete book') : ''));
+      h('button', { onclick: () => submitOutline(editId, area.value) }, 'Save changes'),
+      h('button', { onclick: () => { mode = 'book'; message = ''; render(); } }, 'Cancel'),
+      h('button', { class: 'bt-danger', onclick: () => deleteBook(editId) }, 'Delete book')));
 }
 
 function submitOutline(editId, text) {
