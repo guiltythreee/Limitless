@@ -3,11 +3,7 @@
  * Historical submissions are excluded by the sync adapter before this module
  * is called. The ledger is separate from Competition's existing progress data.
  */
-import {
-  buildRewardRecords,
-  dispatchRewardUpdate,
-  sanitiseRewardRecords,
-} from "../shared/rewards.mjs";
+import { createLedgerAdapter } from "../shared/ledger-adapter.mjs";
 
 export const COMPETITION_REWARD_STORAGE_KEY = "limitless-competitive-programming-lsr1-v1";
 export const COMPETITION_REWARD_MODULE_ID = "competitive-programming";
@@ -25,19 +21,10 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
   if (!storage || typeof storage.getItem !== "function" || typeof storage.setItem !== "function") {
     throw new TypeError("Competition rewards require getItem/setItem storage");
   }
-  const now = typeof options.now === "function" ? options.now : () => Date.now();
-
-  function loadState() {
-    try {
-      const raw = storage.getItem(COMPETITION_REWARD_STORAGE_KEY);
-      if (!raw) return { payload: {}, records: [] };
-      const payload = JSON.parse(raw);
-      if (!isRecord(payload)) return { payload: {}, records: [] };
-      return { payload, records: sanitiseRewardRecords(payload.rewardLedger) };
-    } catch {
-      return { payload: {}, records: [] };
-    }
-  }
+  const ledger = createLedgerAdapter(storage, {
+    moduleId: COMPETITION_REWARD_MODULE_ID,
+    storageKey: COMPETITION_REWARD_STORAGE_KEY,
+  });
 
   function awardCodeforcesSubmission(submission, handle) {
     if (!isRecord(submission) || submission.verdict !== "OK" ||
@@ -50,9 +37,6 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
 
     const account = handle.trim().toLowerCase();
     const eventId = "codeforces:" + account + ":" + submission.id;
-    const state = loadState();
-    const existing = state.records.find((record) => record.eventId === eventId);
-    if (existing) return { ...existing, created: false };
 
     const rating = Number.isFinite(submission.problem.rating) ? submission.problem.rating : 0;
     const activity = {
@@ -69,20 +53,8 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       quality: 0,
     };
     if (!Number.isFinite(activity.ts) || activity.ts <= 0) return null;
-    const records = buildRewardRecords(activity, state.records);
-    const record = records[0];
-    try {
-      storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({
-        ...state.payload,
-        rewardLedger: [...state.records, ...records],
-      }));
-    } catch {
-      return null;
-    }
-    dispatchRewardUpdate();
-    // Report creation separately from the persisted reward record. This lets
-    // sync retries distinguish an idempotent lookup from a new award.
-    return { ...record, created: true };
+    // `created` separates a new award from an idempotent lookup for sync retries.
+    return ledger.award(activity);
   }
 
   /**
@@ -101,9 +73,6 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
 
     const account = handle.trim().toLowerCase();
     const eventId = "codeforces-contest:" + account + ":" + submission.contestId;
-    const state = loadState();
-    const existing = state.records.find((record) => record.eventId === eventId);
-    if (existing) return { ...existing, created: false };
 
     const activity = {
       eventId,
@@ -116,22 +85,12 @@ export function createCompetitionRewardAdapter(storage, options = {}) {
       completed: true,
       quality: 0,
     };
-    const records = buildRewardRecords(activity, state.records);
-    try {
-      storage.setItem(COMPETITION_REWARD_STORAGE_KEY, JSON.stringify({
-        ...state.payload,
-        rewardLedger: [...state.records, ...records],
-      }));
-    } catch {
-      return null;
-    }
-    dispatchRewardUpdate();
-    return { ...records[0], created: true };
+    return ledger.award(activity);
   }
 
-  function getRecords() {
-    return loadState().records;
-  }
-
-  return { awardCodeforcesSubmission, awardCodeforcesContestParticipation, getRecords };
+  return {
+    awardCodeforcesSubmission,
+    awardCodeforcesContestParticipation,
+    getRecords: ledger.getRecords,
+  };
 }

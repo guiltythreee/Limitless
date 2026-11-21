@@ -126,3 +126,24 @@ One-time 25 EXP per official contest (the legacy assessment base), proven by a s
 problems are still paid per accepted submission, so this is only a small timed-conditions bonus. A contest already
 observed at baseline is never rewarded, practice and virtual submissions never earn it, and the per-contest event id
 makes it idempotent. Sync state keeps `seenContestIds` for this.
+
+## Adding a discipline or section (extension guide)
+
+Nothing in the engine needs editing for a new discipline. Three small steps:
+
+1. **Register the source** in `REWARD_SOURCE_REGISTRY` (`shared/rewards.mjs`): `moduleId`, a display `label`, a unique
+   `storageKey`, and `shape: "rewardLedger"`. This is what makes the global EXP total, history and dashboards see it.
+2. **Map its events to activities.** Create the adapter with `createLedgerAdapter(storage, { moduleId, storageKey })`
+   (`shared/ledger-adapter.mjs`) and call `award({ eventId, itemId, ts, activityClass, difficulty, completionEvidence,
+   completed, quality })` for each verified event. Idempotency, the daily repeat cap, persistence and the update
+   notification are handled for you. Only award what the system can verify; typed-in or self-checked entries must not earn EXP.
+3. **Pick an activity class.** Reuse an existing one (`micro-practice`, `standard-task`, `assessment`, `unit-milestone`,
+   `major-completion`, `rated-problem`, `bespoke-project`). If the discipline needs a new scaling rule, add **one entry**
+   to `ACTIVITY_CLASS_DEFS` (`baseExp`, optional `resolveBase(input)`, `difficultyMultiplier`, `validate`).
+
+Then run `node shared/registry.contract.test.mjs`. It iterates both registries, so the new source or class is checked
+for unique ids and storage keys, positive integer EXP at every difficulty, idempotency and the repeat cap, without
+writing new tests. Add a module-specific test only for the module's own event mapping.
+
+After any change to `shared/rewards.mjs`, copy it to `tools/typing-next-source/src/domain/rewards/shared-rewards.mjs`
+(parity test) and rebuild Metallurgy and Probability, which bundle the engine at build time.

@@ -66,3 +66,13 @@ export function levelForExp(value: number): { level: number; currentLevelStart: 
 export function summariseRewards(records: readonly RewardRecord[]): { totalExp: number; awardCount: number; recordCount: number; level: ReturnType<typeof levelForExp>; unlockedRewards: RewardUnlock[]; nextReward: RewardUnlock | null; byModule: { moduleId: string; exp: number; awards: number }[]; recentAwards: RewardRecord[] };
 export function readGlobalRewardSummary(storage: { getItem(key: string): string | null }): ReturnType<typeof summariseRewards> & { sources: { moduleId: string; label: string; exp: number; awards: number }[]; registeredModules: { moduleId: string; label: string }[] };
 export function dispatchRewardUpdate(): void;
+
+export interface ActivityClassDef {
+  readonly baseExp: number;
+  readonly resolveBase?: (input: RewardInput) => number;
+  readonly difficultyMultiplier?: boolean;
+  readonly validate?: (input: RewardInput) => boolean;
+}
+export const ACTIVITY_CLASS_DEFS: Readonly<Record<string, ActivityClassDef>>;
+export function ratedProblemBaseExp(rating: number | undefined): number;
+export function assessmentBaseExp(questionCount: number | undefined): number;
