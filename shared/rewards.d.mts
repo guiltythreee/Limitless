@@ -24,6 +24,7 @@ export type RewardRecord = {
   repeatOrdinal: number;
   baseExp: number;
   difficultyMultiplier: number;
+  correctnessWeight?: number;
   qualityBonus: number;
   passBonus: number;
   totalExp: number;
@@ -41,6 +42,7 @@ export type RewardInput = {
   quality?: number;
   problemRating?: number;
   questionCount?: number;
+  correctness?: number;
   passed?: boolean;
   checkpointId?: string | null;
   assignedBaseExp?: number;
@@ -73,6 +75,7 @@ export interface ActivityClassDef {
   readonly difficultyMultiplier?: boolean;
   readonly validate?: (input: RewardInput) => boolean;
   readonly dailyBudget?: boolean;
+  readonly correctnessFloor?: number;
 }
 export const ACTIVITY_CLASS_DEFS: Readonly<Record<string, ActivityClassDef>>;
 export function ratedProblemBaseExp(rating: number | undefined): number;

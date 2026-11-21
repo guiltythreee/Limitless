@@ -406,6 +406,7 @@ export function recordAttemptsBatch(inputs: AttemptInput[], rewardActivity = tru
         completionEvidence: "submitted-answer",
         completed: attempt.picked.length > 0,
         quality: attempt.score,
+        correctness: attempt.score,
       }, [...state.rewardLedger, ...rewards]);
       rewards.push(...next);
     }

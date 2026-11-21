@@ -69,6 +69,7 @@ export function assessmentBaseExp(questionCount) {
  *   resolveBase(input)   optional: compute base from input fields (e.g. rating, size)
  *   difficultyMultiplier false when the base already carries difficulty
  *   validate(input)      optional: false marks the activity invalid (no EXP)
+ *   correctnessFloor     opt-in: scale base by floor + (1 - floor) x input.correctness
  *   dailyBudget          false for one-time awards that must not count toward
  *                        the daily practice budget (milestones, projects)
  * No other engine code needs to change. The contract test in
@@ -79,8 +80,17 @@ const projectBase = (input) => {
   return isFiniteNumber(value) && Number.isInteger(value) && value >= 20 && value <= 100 ? value : 0;
 };
 
+/**
+ * A scored answer that is wrong still earns partial practice credit (retrieval
+ * attempts followed by feedback help learning), but guessing must not pay the
+ * same as knowing. Callers that report `correctness` (0 to 1, partial credit
+ * allowed) get base x (floor + (1 - floor) x correctness): wrong = half,
+ * right = full. Callers that do not report it are unchanged.
+ */
+export const CORRECTNESS_FLOOR = 0.5;
+
 export const ACTIVITY_CLASS_DEFS = Object.freeze({
-  "micro-practice": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["micro-practice"] }),
+  "micro-practice": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["micro-practice"], correctnessFloor: CORRECTNESS_FLOOR }),
   "standard-task": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["standard-task"] }),
   "focused-practice": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["focused-practice"] }),
   assessment: Object.freeze({ baseExp: ACTIVITY_BASE_EXP.assessment, resolveBase: (input) => assessmentBaseExp(input?.questionCount) }),
@@ -261,6 +271,7 @@ export function sanitiseRewardRecord(value) {
     repeatOrdinal: Math.max(0, Math.round(isFiniteNumber(value.repeatOrdinal) ? value.repeatOrdinal : 0)),
     baseExp: Math.round(value.baseExp),
     difficultyMultiplier: value.difficultyMultiplier,
+    correctnessWeight: isFiniteNumber(value.correctnessWeight) ? clamp(value.correctnessWeight, 0, 1) : 1,
     qualityBonus: exp(value.qualityBonus),
     passBonus: exp(value.passBonus),
     totalExp: exp(value.totalExp),
@@ -301,6 +312,9 @@ export function calculateReward(input, priorRecords = []) {
   const baseExp = classDef ? (classDef.resolveBase ? classDef.resolveBase(input) : classDef.baseExp) : 0;
   // Some classes (rated problems) already carry difficulty in the base; no second multiplier.
   const multiplier = classDef?.difficultyMultiplier === false ? 1 : (DIFFICULTY_MULTIPLIER[difficulty] ?? 1);
+  const correctnessWeight = classDef?.correctnessFloor !== undefined && isFiniteNumber(input?.correctness)
+    ? classDef.correctnessFloor + (1 - classDef.correctnessFloor) * clamp(input.correctness, 0, 1)
+    : 1;
   const prior = sanitiseRewardRecords(priorRecords);
   const duplicate = eventId !== "" && prior.some((r) => r.eventId === eventId);
   const day = ts > 0 ? localDayKey(ts) : "";
@@ -342,7 +356,7 @@ export function calculateReward(input, priorRecords = []) {
     reason = "awarded";
     countsTowardRepeatCap = true;
     qualityBonus = Math.round(baseExp * QUALITY_BONUS_CAP * clamp((quality - QUALITY_BONUS_THRESHOLD) / (1 - QUALITY_BONUS_THRESHOLD), 0, 1));
-    const rawExp = Math.round(baseExp * multiplier + qualityBonus);
+    const rawExp = Math.round(baseExp * multiplier * correctnessWeight + qualityBonus);
     let practiceExp = rawExp;
     if (classDef?.dailyBudget !== false && day && !DAILY_PRACTICE_POLICY.exemptModules.includes(moduleId)) {
       const usedToday = prior
@@ -350,7 +364,7 @@ export function calculateReward(input, priorRecords = []) {
           ACTIVITY_CLASS_DEFS[r.activityClass]?.dailyBudget !== false)
         // Count full-value effort (before any reduction), not EXP already paid,
         // so reduced awards still use up the budget at their true weight.
-        .reduce((sum, r) => sum + Math.max(0, Math.round(r.baseExp * r.difficultyMultiplier + r.qualityBonus)), 0);
+        .reduce((sum, r) => sum + Math.max(0, Math.round(r.baseExp * r.difficultyMultiplier * (r.correctnessWeight ?? 1) + r.qualityBonus)), 0);
       practiceExp = applyDailyPracticeBudget(rawExp, usedToday);
       if (practiceExp < rawExp) reason = "daily-budget-reduced";
     }
@@ -373,6 +387,7 @@ export function calculateReward(input, priorRecords = []) {
     repeatOrdinal,
     baseExp: Math.max(0, baseExp),
     difficultyMultiplier: multiplier,
+    correctnessWeight,
     qualityBonus,
     passBonus,
     totalExp,

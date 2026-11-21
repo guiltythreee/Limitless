@@ -168,3 +168,19 @@ first-pass pass bonus. Constants live in `DAILY_PRACTICE_POLICY`; 200 and 400 EX
 minute from the Codeforces curve and are provisional until beta. The research limit is per person, but each module's
 ledger cannot see the others, so the budget is applied per module. Bookkeys is temporarily listed in
 `exemptModules` until its pace is calibrated.
+
+## Correctness weighting (micro-practice)
+
+A scored answer that is wrong still earns partial credit, because attempting retrieval and then seeing the answer helps
+learning, but guessing must not pay the same as knowing. Callers that report `correctness` (0 to 1, partial credit
+allowed) get `base x (0.5 + 0.5 x correctness) x difficulty`: wrong pays half, right pays in full, partial sits between.
+The quality bonus is unchanged and still rewards high scores. The weight is stored on the record as `correctnessWeight`
+(older records load as 1) so the daily budget counts the true effort. Metallurgy sends right or wrong; Probability sends
+its partial-credit score. Callers that do not report correctness, such as Bookkeys, are unchanged. The 0.5 floor is
+provisional until beta.
+
+| Tier | Right | Partial (50%) | Wrong |
+|---|---|---|---|
+| Foundational / easy | 6 | 4 | 3 |
+| Intermediate / medium | 7 | 5 | 3 |
+| Advanced / hard | 9 | 6 | 4 |

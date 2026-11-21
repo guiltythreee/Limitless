@@ -15,6 +15,7 @@ const labels = {
   "unit-milestone": "Unit milestone",
   "major-completion": "Major completion",
   "bespoke-project": "Personal learning goal",
+  "rated-problem": "Rated problem",
 };
 
 function makeRow(title, detail, exp) {

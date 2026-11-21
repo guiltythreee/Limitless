@@ -49,6 +49,7 @@ export function questionActivity(
     completionEvidence: "submitted-metallurgy-answer",
     completed: true,
     quality: correct ? 1 : 0,
+    correctness: correct ? 1 : 0,
   };
 }
 
