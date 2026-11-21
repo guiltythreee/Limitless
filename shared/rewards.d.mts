@@ -72,7 +72,10 @@ export interface ActivityClassDef {
   readonly resolveBase?: (input: RewardInput) => number;
   readonly difficultyMultiplier?: boolean;
   readonly validate?: (input: RewardInput) => boolean;
+  readonly dailyBudget?: boolean;
 }
 export const ACTIVITY_CLASS_DEFS: Readonly<Record<string, ActivityClassDef>>;
 export function ratedProblemBaseExp(rating: number | undefined): number;
 export function assessmentBaseExp(questionCount: number | undefined): number;
+export const DAILY_PRACTICE_POLICY: Readonly<{ fullRateExp: number; reducedRateExp: number; reducedMultiplier: number; exemptModules: readonly string[] }>;
+export function applyDailyPracticeBudget(rawExp: number, usedToday: number): number;

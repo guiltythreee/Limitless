@@ -69,6 +69,8 @@ export function assessmentBaseExp(questionCount) {
  *   resolveBase(input)   optional: compute base from input fields (e.g. rating, size)
  *   difficultyMultiplier false when the base already carries difficulty
  *   validate(input)      optional: false marks the activity invalid (no EXP)
+ *   dailyBudget          false for one-time awards that must not count toward
+ *                        the daily practice budget (milestones, projects)
  * No other engine code needs to change. The contract test in
  * shared/registry.contract.test.mjs automatically exercises every entry.
  */
@@ -82,9 +84,9 @@ export const ACTIVITY_CLASS_DEFS = Object.freeze({
   "standard-task": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["standard-task"] }),
   "focused-practice": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["focused-practice"] }),
   assessment: Object.freeze({ baseExp: ACTIVITY_BASE_EXP.assessment, resolveBase: (input) => assessmentBaseExp(input?.questionCount) }),
-  "unit-milestone": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["unit-milestone"] }),
-  "major-completion": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["major-completion"] }),
-  "bespoke-project": Object.freeze({ baseExp: 0, resolveBase: projectBase, validate: (input) => projectBase(input) > 0 }),
+  "unit-milestone": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["unit-milestone"], dailyBudget: false }),
+  "major-completion": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["major-completion"], dailyBudget: false }),
+  "bespoke-project": Object.freeze({ baseExp: 0, resolveBase: projectBase, dailyBudget: false, validate: (input) => projectBase(input) > 0 }),
   "rated-problem": Object.freeze({
     baseExp: RATED_PROBLEM_POLICY.baseExp,
     resolveBase: (input) => ratedProblemBaseExp(input?.problemRating),
@@ -97,6 +99,36 @@ export const REPEAT_POLICY = Object.freeze({
   fullAwardsPerItemPerDay: 3,
   laterRepeatExp: 0,
 });
+
+/**
+ * Daily deliberate-practice budget, per module per local day. Ericsson, Krampe &
+ * Tesch-Romer (1993) reviewed studies finding essentially no benefit from
+ * effortful practice beyond about 4 hours a day and reduced benefit beyond about
+ * 2 hours, so EXP follows the same shape: full value, then a quarter, then none.
+ * EXP-per-hour is anchored to the Codeforces curve (about 1.4 EXP per minute at
+ * a rating of 800), which puts ~2 h near 170-200 EXP and ~4 h near 340-400 EXP.
+ * Provisional: calibrate in beta. The limit in the research is per person, but a
+ * module's ledger cannot see other modules, so it is applied per module here.
+ * Only repeatable practice counts; one-time milestones and pass bonuses do not.
+ */
+export const DAILY_PRACTICE_POLICY = Object.freeze({
+  fullRateExp: 200,
+  reducedRateExp: 400,
+  reducedMultiplier: 0.25,
+  // Modules not yet calibrated for the budget. Remove an id once its pace is measured.
+  exemptModules: Object.freeze(["bookkeys"]),
+});
+
+/** Portion of a new award that survives the daily budget, given EXP already earned today. */
+export function applyDailyPracticeBudget(rawExp, usedToday) {
+  const policy = DAILY_PRACTICE_POLICY;
+  const used = Math.max(0, isFiniteNumber(usedToday) ? usedToday : 0);
+  const raw = Math.max(0, isFiniteNumber(rawExp) ? rawExp : 0);
+  const fullPart = Math.min(raw, Math.max(0, policy.fullRateExp - used));
+  const reducedRoom = Math.max(0, policy.reducedRateExp - Math.max(used, policy.fullRateExp));
+  const reducedPart = Math.min(raw - fullPart, reducedRoom);
+  return Math.round(fullPart + reducedPart * policy.reducedMultiplier);
+}
 
 /** Provisional pass and quality thresholds; calibrate from measured study sessions. */
 export const CHECKPOINT_PASS_THRESHOLD = 0.7;
@@ -310,7 +342,19 @@ export function calculateReward(input, priorRecords = []) {
     reason = "awarded";
     countsTowardRepeatCap = true;
     qualityBonus = Math.round(baseExp * QUALITY_BONUS_CAP * clamp((quality - QUALITY_BONUS_THRESHOLD) / (1 - QUALITY_BONUS_THRESHOLD), 0, 1));
-    totalExp = Math.round(baseExp * multiplier + qualityBonus) + passBonus;
+    const rawExp = Math.round(baseExp * multiplier + qualityBonus);
+    let practiceExp = rawExp;
+    if (classDef?.dailyBudget !== false && day && !DAILY_PRACTICE_POLICY.exemptModules.includes(moduleId)) {
+      const usedToday = prior
+        .filter((r) => r.moduleId === moduleId && r.eligible && localDayKey(r.ts) === day &&
+          ACTIVITY_CLASS_DEFS[r.activityClass]?.dailyBudget !== false)
+        // Count full-value effort (before any reduction), not EXP already paid,
+        // so reduced awards still use up the budget at their true weight.
+        .reduce((sum, r) => sum + Math.max(0, Math.round(r.baseExp * r.difficultyMultiplier + r.qualityBonus)), 0);
+      practiceExp = applyDailyPracticeBudget(rawExp, usedToday);
+      if (practiceExp < rawExp) reason = "daily-budget-reduced";
+    }
+    totalExp = practiceExp + passBonus;
   }
 
   return sanitiseRewardRecord({

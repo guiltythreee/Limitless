@@ -147,3 +147,24 @@ writing new tests. Add a module-specific test only for the module's own event ma
 
 After any change to `shared/rewards.mjs`, copy it to `tools/typing-next-source/src/domain/rewards/shared-rewards.mjs`
 (parity test) and rebuild Metallurgy and Probability, which bundle the engine at build time.
+
+## Daily practice budget (per module, per local day)
+
+Without a daily limit, clicking through a question bank could mint levels: Probability alone has 480 questions
+(229 easy, 156 medium, 95 hard), and one pass pays about 2,800 EXP even with every answer wrong, which is roughly
+level 14. The budget follows the shape of the deliberate-practice research (Ericsson, Krampe & Tesch-Romer, 1993): a
+review of studies found essentially no benefit beyond about 4 hours a day and reduced benefit beyond about 2.
+
+| Practice EXP earned today (full-value, before reduction) | Paid at |
+|---|---|
+| first 200 | 100% |
+| 200 to 400 | 25% |
+| beyond 400 | 0% |
+
+So a module can pay at most 200 + 50 = 250 EXP of repeatable practice per day. The budget counts the full-value effort
+of each award (so reduced awards still use it up) and applies to micro-practice, standard tasks, focused practice,
+assessments and rated problems. It does not apply to one-time unit milestones, major completions, projects or the
+first-pass pass bonus. Constants live in `DAILY_PRACTICE_POLICY`; 200 and 400 EXP are anchored to about 1.4 EXP per
+minute from the Codeforces curve and are provisional until beta. The research limit is per person, but each module's
+ledger cannot see the others, so the budget is applied per module. Bookkeys is temporarily listed in
+`exemptModules` until its pace is calibrated.
