@@ -62,6 +62,36 @@ export function assessmentBaseExp(questionCount) {
   return Math.min(policy.maxBase, Math.max(policy.minBase, Math.round(questionCount) * policy.perQuestionExp));
 }
 
+/**
+ * ACTIVITY CLASS REGISTRY - the single place that decides how a class turns
+ * evidence into base EXP. To support a new kind of work, add one entry here:
+ *   baseExp              fixed base EXP (also the fallback for resolveBase)
+ *   resolveBase(input)   optional: compute base from input fields (e.g. rating, size)
+ *   difficultyMultiplier false when the base already carries difficulty
+ *   validate(input)      optional: false marks the activity invalid (no EXP)
+ * No other engine code needs to change. The contract test in
+ * shared/registry.contract.test.mjs automatically exercises every entry.
+ */
+const projectBase = (input) => {
+  const value = input?.assignedBaseExp;
+  return isFiniteNumber(value) && Number.isInteger(value) && value >= 20 && value <= 100 ? value : 0;
+};
+
+export const ACTIVITY_CLASS_DEFS = Object.freeze({
+  "micro-practice": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["micro-practice"] }),
+  "standard-task": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["standard-task"] }),
+  "focused-practice": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["focused-practice"] }),
+  assessment: Object.freeze({ baseExp: ACTIVITY_BASE_EXP.assessment, resolveBase: (input) => assessmentBaseExp(input?.questionCount) }),
+  "unit-milestone": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["unit-milestone"] }),
+  "major-completion": Object.freeze({ baseExp: ACTIVITY_BASE_EXP["major-completion"] }),
+  "bespoke-project": Object.freeze({ baseExp: 0, resolveBase: projectBase, validate: (input) => projectBase(input) > 0 }),
+  "rated-problem": Object.freeze({
+    baseExp: RATED_PROBLEM_POLICY.baseExp,
+    resolveBase: (input) => ratedProblemBaseExp(input?.problemRating),
+    difficultyMultiplier: false,
+  }),
+});
+
 /** Provisional repeat policy: three full-value completions per item per local day. */
 export const REPEAT_POLICY = Object.freeze({
   fullAwardsPerItemPerDay: 3,
@@ -151,7 +181,7 @@ export const REWARD_SOURCE_REGISTRY = Object.freeze([
   },
 ]);
 
-const ACTIVITY_CLASSES = new Set([...Object.keys(ACTIVITY_BASE_EXP), "bespoke-project", "rated-problem"]);
+const ACTIVITY_CLASSES = new Set(Object.keys(ACTIVITY_CLASS_DEFS));
 const DIFFICULTY_TIERS = new Set(Object.keys(DIFFICULTY_MULTIPLIER));
 
 const isRecord = (value) =>
@@ -235,24 +265,10 @@ export function calculateReward(input, priorRecords = []) {
   const checkpointId = isString(input?.checkpointId) ? input.checkpointId : null;
   const quality = isFiniteNumber(input?.quality) ? clamp(input.quality, 0, 1) : 0;
 
-  const assignedProjectBase =
-    isFiniteNumber(input?.assignedBaseExp) &&
-    Number.isInteger(input.assignedBaseExp) &&
-    input.assignedBaseExp >= 20 &&
-    input.assignedBaseExp <= 100
-      ? input.assignedBaseExp
-      : null;
-  const isProject = activityClass === "bespoke-project";
-  const isRated = activityClass === "rated-problem";
-  const baseExp = isProject
-    ? (assignedProjectBase ?? 0)
-    : isRated
-      ? ratedProblemBaseExp(input?.problemRating)
-      : activityClass === "assessment"
-        ? assessmentBaseExp(input?.questionCount)
-        : (ACTIVITY_BASE_EXP[activityClass] ?? 0);
-  // A rated problem already carries its difficulty in the base; no second multiplier.
-  const multiplier = isRated ? 1 : (DIFFICULTY_MULTIPLIER[difficulty] ?? 1);
+  const classDef = ACTIVITY_CLASS_DEFS[activityClass];
+  const baseExp = classDef ? (classDef.resolveBase ? classDef.resolveBase(input) : classDef.baseExp) : 0;
+  // Some classes (rated problems) already carry difficulty in the base; no second multiplier.
+  const multiplier = classDef?.difficultyMultiplier === false ? 1 : (DIFFICULTY_MULTIPLIER[difficulty] ?? 1);
   const prior = sanitiseRewardRecords(priorRecords);
   const duplicate = eventId !== "" && prior.some((r) => r.eventId === eventId);
   const day = ts > 0 ? localDayKey(ts) : "";
@@ -260,9 +276,7 @@ export function calculateReward(input, priorRecords = []) {
     ? prior.filter((r) => r.moduleId === moduleId && r.itemId === itemId && localDayKey(r.ts) === day && r.countsTowardRepeatCap).length
     : 0;
   const repeatOrdinal = repeatCount + 1;
-  const validActivityClass = isProject
-    ? assignedProjectBase !== null
-    : ACTIVITY_CLASSES.has(activityClass);
+  const validActivityClass = Boolean(classDef) && (classDef.validate ? classDef.validate(input) : true);
   const basicValid =
     isString(moduleId) && isString(eventId) && isString(itemId) && ts > 0 &&
     isString(activityClass) && validActivityClass &&
@@ -305,7 +319,7 @@ export function calculateReward(input, priorRecords = []) {
     moduleId: moduleId || "unknown",
     itemId: itemId || "unknown",
     ts,
-    activityClass: ACTIVITY_CLASSES.has(activityClass) || isProject ? activityClass : "micro-practice",
+    activityClass: ACTIVITY_CLASSES.has(activityClass) ? activityClass : "micro-practice",
     difficulty: DIFFICULTY_TIERS.has(difficulty) ? difficulty : "foundational",
     completionEvidence: evidence,
     completed,
