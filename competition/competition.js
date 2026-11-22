@@ -3,6 +3,7 @@
 
   var learningIntelligencePromise = import('./learning-intelligence.mjs').catch(function () { return null; });
   var practiceRecommendationsPromise = import('./practice-recommendations.mjs').catch(function () { return null; });
+  var readinessPromise = import('./readiness-baseline.mjs').catch(function () { return null; });
   var STORAGE_KEY = 'limitless.competition.regional-qualification.v1';
   var DEFAULTS = {
     startDate: '2026-11-02',
@@ -16,6 +17,7 @@
     selectedDay: 1,
     dayChecks: {},
     mocks: [],
+    baselineWeights: { subjects:{}, components:{} },
     problemLog: [],
     weekChecks: {},
     resourceChecks: {},
@@ -256,6 +258,20 @@
   var $ = function (id) { return document.getElementById(id); };
 
   function cloneDefaults() { return JSON.parse(JSON.stringify(DEFAULTS)); }
+  // Keep only finite, non-negative numbers (capped) so a corrupt save cannot break the score.
+  function cleanBaselineWeights(raw) {
+    var out = { subjects:{}, components:{} };
+    if (!raw || typeof raw !== 'object') return out;
+    ['subjects', 'components'].forEach(function (group) {
+      var source = raw[group];
+      if (!source || typeof source !== 'object') return;
+      Object.keys(source).forEach(function (key) {
+        var value = Number(source[key]);
+        if (Number.isFinite(value) && value >= 0) out[group][key] = Math.min(1000, value);
+      });
+    });
+    return out;
+  }
   function load() {
     try {
       var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
@@ -265,6 +281,7 @@
       if (!Number.isInteger(merged.selectedDay) || merged.selectedDay < 1 || merged.selectedDay > 120) merged.selectedDay = 1;
       if (!merged.dayChecks || typeof merged.dayChecks !== 'object') merged.dayChecks = {};
       if (!Array.isArray(merged.mocks)) merged.mocks = [];
+      merged.baselineWeights = cleanBaselineWeights(merged.baselineWeights);
       if (!Array.isArray(merged.problemLog)) merged.problemLog = [];
       if (!Array.isArray(merged.revisionAttempts)) merged.revisionAttempts = [];
       if (!merged.weekChecks || typeof merged.weekChecks !== 'object') merged.weekChecks = {};
@@ -314,6 +331,7 @@
     renderSubjects();
     renderDailyPlan();
     renderSafety();
+    renderBaseline();
     renderMockHistory();
     renderProblemHistory();
     renderLearningSystem();
@@ -591,6 +609,28 @@
     var day = DAILY_PLAN[weekdayIndex] || { id:'sun', day:'Sunday', subjects:[] };
     return { weekIndex:weekIndex, weekdayIndex:weekdayIndex, day:day, week:WEEKS[weekIndex] };
   }
+  // Checkbox keys for a task-day. Shared by the planner and the readiness baseline
+  // so both always count the same ticks.
+  function dailyPlanPrefix(dayNumber, coords) {
+    return dayNumber > 112 ? 'w16-extra-day' + dayNumber + '-' : 'w' + (coords.weekIndex + 1) + '-exec2-' + coords.day.id + '-';
+  }
+  function dailyTaskProgress() {
+    var total = 0, done = 0, daysComplete = 0, furthestDay = 0, items = [];
+    for (var d = 1; d <= 120; d++) {
+      var coords = dailyPlanCoordinates(d);
+      var tasks = dailyPlanTasks(coords.week, coords.day);
+      var prefix = dailyPlanPrefix(d, coords), dayDone = 0;
+      for (var i = 0; i < tasks.length; i++) {
+        var ticked = !!state.dayChecks[prefix + i];
+        if (ticked) dayDone++;
+        items.push({ text:tasks[i], done:ticked });
+      }
+      total += tasks.length; done += dayDone;
+      if (tasks.length && dayDone === tasks.length) daysComplete++;
+      if (dayDone > 0) furthestDay = d;
+    }
+    return { total:total, done:done, daysComplete:daysComplete, furthestDay:furthestDay, items:items };
+  }
   function dailyPlanTasks(week, day) {
     if (day.id !== 'sun') return dailyTasksForWeek(week, day);
     return [
@@ -606,7 +646,7 @@
     state.selectedDay = selected;
     var coords = dailyPlanCoordinates(selected), week = coords.week, day = coords.day;
     var tasks = dailyPlanTasks(week, day);
-    var prefix = selected > 112 ? 'w16-extra-day' + selected + '-' : 'w' + (coords.weekIndex + 1) + '-exec2-' + day.id + '-';
+    var prefix = dailyPlanPrefix(selected, coords);
     var done = tasks.filter(function (_, index) { return !!state.dayChecks[prefix + index]; }).length;
     var focus = day.subjects.length ? day.subjects.map(function (id) {
       var topic = week.topics.find(function (entry) { return entry[0] === id; });
@@ -1363,6 +1403,150 @@
       ' This projection assumes the mock cohort is representative; it is not a guaranteed selection result.</span>';
   }
 
+  // Readiness baseline: coverage from ticked tasks and topic mastery, placed against
+  // previous-year QuantFest and ICPC India numbers (data lives in readiness-baseline.mjs).
+  function renderBaseline() {
+    var host = $('baseline-panel');
+    if (!host) return Promise.resolve();
+    return readinessPromise.then(function (api) {
+      if (!api) { host.innerHTML = '<p class="empty-state">The baseline module could not be loaded.</p>'; return; }
+      var progress = dailyTaskProgress();
+      var statuses = WEEKS.map(function (week, wi) { return week.topics.map(function (_, ti) { return statusOf(topicKey(wi, ti)); }); });
+      var subjectIds = WEEKS.map(function (week) { return week.topics.map(function (topic) { return topic[0]; }); });
+      var summary = api.summarizeProgress(statuses, subjectIds);
+      var pct = progress.total ? Math.round(progress.done / progress.total * 100) : 0;
+
+      // Weighted model: minutes, mastery credit and recent mocks, combined with editable weights.
+      var coverage = api.coverageByMinutes(progress.items);
+      var mastery = api.masteryFractions(statuses, subjectIds);
+      var mockPerf = api.mockPerformance(state.mocks);
+      var weights = state.baselineWeights || { subjects:{}, components:{} };
+      var index = api.computeIndex({
+        coverage:coverage, mastery:mastery, mockPercent:mockPerf ? mockPerf.percent : null,
+        subjectWeights:weights.subjects, componentWeights:weights.components
+      });
+      var subjectNames = { coding:'C++ / Implementation' };
+      SUBJECTS.forEach(function (subject) { subjectNames[subject.id] = subject.name; });
+      var hours = function (minutes) { return (minutes / 60).toFixed(1) + ' h'; };
+      var points = function (value) { return value === null ? '—' : value.toFixed(1); };
+      function scoreCard(label, value, sub, extra) {
+        return '<div class="baseline-card baseline-score ' + (extra || '') + '"><span>' + esc(label) + '</span><strong>' + esc(value) + '</strong><small>' + esc(sub) + '</small></div>';
+      }
+      var cw = index.componentWeights;
+      var pctOf = function (share) { return Math.round(share * 100) + '%'; };
+      var scores = '<div class="baseline-grid baseline-scores">' +
+        scoreCard('Preparation index', points(index.preparation) + ' / 100',
+          'Coverage ' + points(index.coverage) + ' · Mastery ' + points(index.mastery) + ' (what you have done, not how well you perform)') +
+        scoreCard('Mock performance', mockPerf ? mockPerf.percent.toFixed(1) + '%' : 'No full mock yet',
+          mockPerf ? 'Recency-weighted over your last ' + mockPerf.count + ' full mock' + (mockPerf.count === 1 ? '' : 's') : 'Record a full 2.5-hour mock to unlock this') +
+        scoreCard('Readiness index', index.readiness === null ? 'Needs a full mock' : points(index.readiness) + ' / 100',
+          index.readiness === null ? 'Without a mock this would only measure effort' :
+            pctOf(cw.coverage) + ' × ' + points(index.coverage) + ' + ' + pctOf(cw.mastery) + ' × ' + points(index.mastery) + ' + ' + pctOf(cw.mock) + ' × ' + points(index.mock),
+          'is-primary') +
+        '</div>';
+      var gapRows = index.gaps.filter(function (gap) { return gap.points > 0.05; }).slice(0, 3).map(function (gap, i) {
+        return '<li><strong>' + esc(subjectNames[gap.id]) + '</strong> · weight ' + pctOf(gap.weight) + ' · ' + 'score ' + Math.round(gap.score * 100) + '%' +
+          ' · up to <b>' + gap.points.toFixed(1) + '</b> index points' + (i === 0 ? ' · biggest gap' : '') + '</li>';
+      }).join('');
+      var gaps = '<div class="baseline-gaps"><h3>Where the next hour pays off most</h3>' +
+        (gapRows ? '<ol>' + gapRows + '</ol>' : '<p class="baseline-note">Every weighted subject is complete.</p>') +
+        '<p class="baseline-note">Study time ticked: ' + hours(coverage.total.done) + ' of ' + hours(coverage.total.planned) +
+        ' planned. Each task counts for its planned minutes, so a 90-minute task counts more than a 10-minute one.' +
+        (coverage.assumedMinuteTasks ? ' ' + coverage.assumedMinuteTasks + ' task(s) have no stated time and are counted as ' + api.FALLBACK_MINUTES + ' min.' : '') + '</p></div>';
+      function weightInput(group, id, label, fallback) {
+        var raw = weights[group][id];
+        var value = raw === undefined ? fallback : raw;
+        var share = group === 'subjects' ? index.subjectWeights[id] : index.componentWeights[id];
+        return '<label class="baseline-weight"><span>' + esc(label) + '</span>' +
+          '<input type="number" min="0" max="1000" step="1" inputmode="numeric" data-weight-group="' + group + '" data-weight-id="' + id + '" value="' + esc(String(value)) + '">' +
+          '<small>' + pctOf(share) + '</small></label>';
+      }
+      var weightEditor = '<details class="baseline-weights"><summary>Adjust the weights</summary>' +
+        '<p class="baseline-note">The defaults are my starting assumption. QuantFest and ICPC India do not publish a topic split, so change them to match what you see in real papers. Numbers are relative, and they are scaled to add up to 100% automatically.</p>' +
+        '<h4>Subjects (how much each one matters)</h4><div class="baseline-weight-grid">' +
+        api.SUBJECT_IDS.map(function (id) { return weightInput('subjects', id, subjectNames[id], api.DEFAULT_SUBJECT_WEIGHTS[id]); }).join('') +
+        '</div><h4>Evidence (how much each kind of proof counts)</h4><div class="baseline-weight-grid">' +
+        weightInput('components', 'coverage', 'Tasks done', api.DEFAULT_COMPONENT_WEIGHTS.coverage) +
+        weightInput('components', 'mastery', 'Topic mastery', api.DEFAULT_COMPONENT_WEIGHTS.mastery) +
+        weightInput('components', 'mock', 'Mock performance', api.DEFAULT_COMPONENT_WEIGHTS.mock) +
+        '</div><p class="baseline-note">Review, upsolving and mock-day tasks carry ' + pctOf(api.MIXED_SHARE) + ' of the task score. Mastery credit: mastered 100%, practiced 70%, learning 30%.</p>' +
+        '<button type="button" class="baseline-reset" data-weight-reset>Reset to defaults</button></details>';
+      var reached = summary.reachedWeek;
+      var stage = reached ? 'Week ' + reached + ' · ' + WEEKS[reached - 1].phase : 'Not past Week 1 yet';
+      var furthest = progress.furthestDay
+        ? 'Day ' + progress.furthestDay + ' (Week ' + (dailyPlanCoordinates(progress.furthestDay).weekIndex + 1) + ')'
+        : 'No task ticked yet';
+      function card(label, value, sub) {
+        return '<div class="baseline-card"><span>' + esc(label) + '</span><strong>' + esc(value) + '</strong><small>' + esc(sub) + '</small></div>';
+      }
+      var cards = card('Daily tasks done', progress.done + ' / ' + progress.total, pct + '% of the 120-day plan') +
+        card('Days fully completed', progress.daysComplete + ' / 120', 'Every task on the day ticked') +
+        card('Furthest day touched', furthest, 'Highest day with any task ticked') +
+        card('Stage reached', stage, 'Needs ' + api.READY_TOPICS_PER_WEEK + ' of 6 topics practiced or mastered in every week up to it') +
+        card('Topics', summary.counts.mastered + ' mastered', summary.counts.practiced + ' practiced · ' + summary.counts.learning + ' learning · of ' + summary.totalTopics);
+      var names = { coding:'C++ / Implementation' };
+      SUBJECTS.forEach(function (subject) { names[subject.id] = subject.name; });
+      var rows = ['logic','combinatorics','probability','graphs','dp','coding'].map(function (id) {
+        var s = summary.bySubject[id] || { total:0, ready:0, mastered:0 };
+        var width = s.total ? Math.round(s.ready / s.total * 100) : 0;
+        return '<div class="baseline-row"><span>' + esc(names[id]) + '</span><div class="baseline-bar"><i style="width:' + width + '%"></i></div>' +
+          '<small>' + s.ready + ' / ' + s.total + ' practiced or mastered · ' + s.mastered + ' mastered</small></div>';
+      }).join('');
+
+      var icpc = api.ICPC_INDIA_2026;
+      var icpcRows = icpc.bands.map(function (band) {
+        var top = band.to ? 'top ' + (band.to / icpc.teams * 100).toFixed(1) + '%' : 'rest of the field';
+        return '<tr><td>' + band.solved + ' of ' + icpc.problems + '</td><td>' + band.from + (band.to ? '–' + band.to : ' and below') + '</td><td>' + top + '</td></tr>';
+      }).join('');
+      function links(sources) {
+        return sources.map(function (source) {
+          return '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">' + esc(source.label) + ' ↗</a>';
+        }).join(' · ');
+      }
+      var quantRows = api.QUANTFEST_HISTORY.map(function (edition) {
+        return '<li><strong>QuantFest ' + edition.edition + ':</strong> ' + esc(edition.summary) + '<br><small>' + links(edition.sources) + '</small></li>';
+      }).join('');
+      var benchmarks = '<div class="baseline-bench"><div><h3>ICPC India 2026 prelim: problems solved vs rank</h3>' +
+        '<table class="baseline-table"><thead><tr><th>Solved</th><th>Ranks</th><th>Within</th></tr></thead><tbody>' + icpcRows + '</tbody></table>' +
+        '<p class="baseline-note">' + icpc.teams + ' teams listed. ' + esc(icpc.note) + ' <a href="' + esc(icpc.url) + '" target="_blank" rel="noopener noreferrer">Standings ↗</a></p></div>' +
+        '<div><h3>QuantFest: how many got through</h3><ul class="baseline-list">' + quantRows + '</ul>' +
+        '<p class="baseline-note">"10,000+" is a lower bound, so the real cut-lines are slightly tighter than 6% and 0.75%.</p></div></div>';
+
+      var lines = [];
+      var fullMocks = state.mocks.filter(function (mock) {
+        return mock.type === 'full-format' && Number(mock.oneMax) > 0 && Number(mock.twoMax) > 0;
+      }).sort(function (a, b) { return b.date.localeCompare(a.date); });
+      var latest = fullMocks[0] || null;
+      if (latest) {
+        var scorePct = (Number(latest.oneScore) + Number(latest.twoScore)) / (Number(latest.oneMax) + Number(latest.twoMax)) * 100;
+        var equivalent = api.equivalentSolved(scorePct);
+        var band = api.icpcIndiaBand(equivalent);
+        lines.push('<b>ICPC India:</b> your latest full mock scored ' + scorePct.toFixed(1) + '%, about ' + equivalent + ' of ' + icpc.problems + ' problems. ' +
+          (equivalent === 0 ? 'That is below the lowest 2026 band.' :
+            'In 2026 that many solves landed at ranks ' + band.from + (band.to ? '–' + band.to : ' and below') + ' of ' + icpc.teams +
+            (band.to ? ' (within the top ' + band.topPercent.toFixed(1) + '%).' : '.')));
+      }
+      var ranked = latestRankedFullMock();
+      var quant = ranked ? api.quantfestStage(ranked.rank, ranked.cohort) : null;
+      if (quant) {
+        lines.push('<b>QuantFest:</b> mock rank ' + ranked.rank + ' of ' + ranked.cohort + ' = top ' + quant.percent.toFixed(2) + '%. ' +
+          (quant.stage === 'finals-level' ? 'That is at the finals line (about top ' + quant.finalsLinePercent + '%).' :
+           quant.stage === 'inside-prelim-line' ? 'That is inside last year’s prelim line (top ' + quant.prelimLinePercent + '%) but not yet at the finals line (about top ' + quant.finalsLinePercent + '%).' :
+           'That is outside last year’s prelim line (top ' + quant.prelimLinePercent + '%).'));
+      }
+      if (!lines.length) {
+        lines.push('Ticked tasks show coverage, not rank. Record a full 2.5-hour mock with scores for both tests to place yourself on the ICPC India bands, and add a rank and cohort size to compare with the QuantFest line.');
+      } else {
+        lines.push('Mock-based estimates assume your mock is comparable to the real field. ICPC is a team contest and these mocks are solo, so treat the ICPC band as a rough guide.');
+      }
+      var position = '<div class="safety-result"><strong>Where this puts you</strong><span>' + lines.join('<br>') + '</span></div>';
+
+      var editorWasOpen = !!host.querySelector('.baseline-weights[open]');
+      host.innerHTML = scores + gaps + weightEditor + '<h3 class="baseline-subhead">Progress detail</h3><div class="baseline-grid">' + cards + '</div><div class="baseline-rows">' + rows + '</div>' + benchmarks + position;
+      if (editorWasOpen) host.querySelector('.baseline-weights').open = true;
+    });
+  }
+
   var problemHistoryRenderToken = 0;
   function renderProblemHistory() {
     var token = ++problemHistoryRenderToken;
@@ -1493,6 +1677,32 @@
     bindInput('benchmark-source','benchmarkSource');
     ['start-date','target-date'].forEach(function (id) { $(id).addEventListener('change', renderOverview); });
     ['qualification-cutoff','qualification-pool-size','rank-buffer','qualification-track','benchmark-source'].forEach(function (id) { $(id).addEventListener('change', renderSafety); });
+    // Ticks change outside saveAndRender, so refresh the baseline whenever Settings is opened.
+    var settingsCard = $('settings');
+    if (settingsCard) settingsCard.addEventListener('toggle', renderBaseline);
+    // Weight editor: one delegated listener, because the panel is re-rendered on every change.
+    var baselineHost = $('baseline-panel');
+    if (baselineHost) {
+      baselineHost.addEventListener('change', function (event) {
+        var input = event.target.closest ? event.target.closest('[data-weight-group]') : null;
+        if (!input) return;
+        var group = input.getAttribute('data-weight-group'), id = input.getAttribute('data-weight-id');
+        if (['subjects', 'components'].indexOf(group) === -1) return;
+        var next = cleanBaselineWeights(state.baselineWeights);
+        var text = String(input.value).trim(), value = Number(text);
+        if (text === '') delete next[group][id];
+        else if (Number.isFinite(value) && value >= 0) next[group][id] = Math.min(1000, value);
+        state.baselineWeights = next;
+        persist();
+        renderBaseline();
+      });
+      baselineHost.addEventListener('click', function (event) {
+        if (!event.target.closest || !event.target.closest('[data-weight-reset]')) return;
+        state.baselineWeights = { subjects:{}, components:{} };
+        persist();
+        renderBaseline();
+      });
+    }
 
     renderOverview();
     renderSubjects();
@@ -1516,6 +1726,7 @@
     });
     renderWeeks();
     renderSafety();
+    renderBaseline();
     renderProblemHistory();
     ['problem-search','problem-filter-subject','problem-filter-outcome','problem-filter-band'].forEach(function(id){
       $(id).addEventListener(id==='problem-search'?'input':'change',renderProblemHistory);
