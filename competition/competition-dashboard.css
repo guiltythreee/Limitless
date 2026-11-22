@@ -1117,3 +1117,90 @@ html[data-theme="light"] .week-compartment-body .roadmap-topic{background:color-
 
 /* Persistent completion controls for weekly learning resources */
 .resource-completion{display:inline-flex;align-items:center;gap:7px;width:fit-content;color:var(--comp-muted);font:11px Arial,sans-serif;cursor:pointer}.resource-completion input{width:15px;height:15px;accent-color:#55b7ff;cursor:pointer}.weekly-resource-book{gap:.45rem}
+
+
+/* ---- Subject roadmaps: sidebar group and screen ------------------------------------------ */
+/* Six extra sidebar links no longer fit a short window, so the sidebar scrolls. */
+.competition-sidebar { overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; }
+.competition-side-group { display:flex; flex-direction:column; gap:3px; flex:0 0 auto; }
+.competition-side-toggle { width:100%; margin:0; border:0; background:transparent; text-align:left; cursor:pointer; }
+.competition-side-group.has-active .competition-side-toggle { color:#f2f8ff; }
+.side-chevron { margin-left:auto; color:#8bcaff; font-size:15px; font-weight:400; transition:transform .2s; }
+.competition-side-group.is-collapsed .side-chevron { transform:rotate(-90deg); }
+.competition-side-sublist { display:flex; flex-direction:column; gap:2px; margin:0 0 4px 21px; padding-left:9px; border-left:1px solid var(--comp-border); }
+.competition-side-group.is-collapsed .competition-side-sublist { display:none; }
+.competition-side-sublink { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; border-radius:8px; color:#b9cde2; font:12px Arial,sans-serif; transition:background .2s,color .2s; }
+.competition-side-sublink small { color:#7f9cbc; font:10px Arial,sans-serif; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.competition-side-sublink:hover,.competition-side-sublink.active { color:#f2f8ff; background:linear-gradient(100deg,rgba(45,130,213,.3),rgba(165,138,255,.09)); }
+.competition-side-sublink.active { box-shadow:inset 2px 0 #68b8ff; }
+.competition-side-sublink.active small { color:#9fd0ff; }
+
+.subject-hero { display:grid; grid-template-columns:repeat(2,minmax(120px,190px)) minmax(0,1fr); align-items:center; gap:14px 26px; margin:16px 0 14px; padding:16px 18px; border:1px solid var(--comp-border); border-radius:14px; background:var(--comp-panel); }
+.subject-hero-stat { display:flex; flex-direction:column; gap:3px; }
+.subject-hero-stat strong { color:var(--comp-ink); font:700 22px Arial,sans-serif; font-variant-numeric:tabular-nums; }
+.subject-hero-stat span { color:var(--comp-muted); font:10px Arial,sans-serif; letter-spacing:.5px; }
+.subject-hero-bar { height:8px; overflow:hidden; border-radius:8px; background:rgba(105,145,184,.16); }
+.subject-hero-bar span { display:block; height:100%; border-radius:8px; background:linear-gradient(90deg,#42d6c0,#55aaff); transition:width .25s; }
+
+.subject-week-list { display:grid; gap:8px; }
+.subject-week { --week-accent:#55aaff; overflow:hidden; border:1px solid var(--comp-border); border-left:3px solid var(--week-accent); border-radius:14px; background:linear-gradient(145deg,rgba(12,28,48,.96),rgba(8,20,36,.97)); }
+.subject-week-core { --week-accent:#a58aff; }
+.subject-week-integration { --week-accent:#42d6c0; }
+.subject-week-competition { --week-accent:#ffbd62; }
+.subject-week-summary { display:grid; grid-template-columns:76px minmax(0,1fr) auto 18px; align-items:center; gap:13px; padding:14px 17px; cursor:pointer; list-style:none; background:linear-gradient(90deg,color-mix(in srgb,var(--week-accent) 8%,transparent),transparent 65%); }
+.subject-week-summary::-webkit-details-marker { display:none; }
+.subject-week .week-number { color:var(--week-accent); font:700 10px Arial,sans-serif; letter-spacing:1px; }
+.subject-week-heading { display:flex; flex-direction:column; gap:4px; min-width:0; }
+.subject-week-heading strong { color:var(--comp-ink); font:700 13px/1.4 Arial,sans-serif; }
+.subject-week-heading small { color:var(--comp-muted); font:10px Arial,sans-serif; }
+.subject-week-count { padding:4px 9px; border:1px solid color-mix(in srgb,var(--week-accent) 32%,transparent); border-radius:20px; background:color-mix(in srgb,var(--week-accent) 10%,transparent); color:var(--week-accent); font:700 10px Arial,sans-serif; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.subject-week-chevron { color:var(--comp-muted); transition:transform .2s; }
+.subject-week[open] .subject-week-chevron { transform:rotate(180deg); }
+.subject-week-body { display:grid; gap:12px; padding:14px 17px 17px; border-top:1px solid var(--comp-border); }
+.subject-mastery-row { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; }
+.subject-mastery-row label { display:flex; align-items:center; gap:9px; margin-left:auto; color:var(--comp-muted); font:10px Arial,sans-serif; }
+.subject-mastery-row .mastery-select { width:auto; min-width:140px; }
+
+/* The assignment and task markup is shared with the Daily plan; global form styles would
+   stretch its checkboxes, so give them the same explicit layout here. */
+#subject-roadmap-panel .topic-assignment { display:grid; grid-template-columns:minmax(0,1fr); gap:9px; margin:0; padding:12px; border:1px solid var(--comp-border); border-radius:9px; background:var(--comp-panel); box-sizing:border-box; }
+#subject-roadmap-panel .assignment-heading { min-width:0; margin:0; color:var(--comp-ink); font:600 12px/1.4 Arial,sans-serif; }
+#subject-roadmap-panel .assignment-source { display:flex; flex-wrap:wrap; align-items:center; gap:6px 9px; min-width:0; margin:0 0 2px; font:12px/1.6 Arial,sans-serif; }
+#subject-roadmap-panel .assignment-source a,#subject-roadmap-panel .reference-task a { color:var(--comp-accent); text-decoration:underline; text-underline-offset:2px; overflow-wrap:anywhere; }
+#subject-roadmap-panel .reference-task,#subject-roadmap-panel .daily-task { display:grid; grid-template-columns:16px minmax(0,1fr); align-items:start; gap:9px; width:100%; min-width:0; margin:0; color:var(--comp-muted); font:12px/1.6 Arial,sans-serif; white-space:normal; box-sizing:border-box; cursor:pointer; }
+#subject-roadmap-panel .reference-task input[type="checkbox"],#subject-roadmap-panel .daily-task input[type="checkbox"] { display:block; position:static; width:15px !important; height:15px; min-width:15px !important; max-width:15px; margin:3px 0 0 !important; padding:0; accent-color:var(--comp-accent); }
+#subject-roadmap-panel .reference-task > span,#subject-roadmap-panel .daily-task > span { display:block; min-width:0; overflow-wrap:anywhere; }
+#subject-roadmap-panel .reference-task b,#subject-roadmap-panel .daily-task b { color:var(--comp-ink); }
+#subject-roadmap-panel .reference-task input:checked + span,#subject-roadmap-panel .daily-task input:checked + span { opacity:.62; }
+.subject-daily-block { display:grid; gap:9px; padding:12px; border:1px solid var(--comp-border); border-radius:9px; background:var(--comp-panel); }
+.subject-daily-block .roadmap-empty { margin:0; }
+.subject-footnote { margin:14px 2px 0; color:var(--comp-muted); font:11px/1.6 Arial,sans-serif; }
+.subject-week-summary:focus-visible { outline-offset:-2px; }
+
+/* Light theme */
+html[data-theme="light"] .competition-side-sublink { color:#385572; }
+html[data-theme="light"] .competition-side-sublink small { color:#6a86a3; }
+html[data-theme="light"] .competition-side-sublink:hover,html[data-theme="light"] .competition-side-sublink.active { color:#1c4e79; background:linear-gradient(100deg,rgba(85,170,255,.16),rgba(165,138,255,.1)); }
+html[data-theme="light"] .competition-side-sublink.active { box-shadow:inset 2px 0 #398fd1; }
+html[data-theme="light"] .competition-side-sublink.active small { color:#347fbd; }
+html[data-theme="light"] .competition-side-group.has-active .competition-side-toggle { color:#1c4e79; }
+html[data-theme="light"] .side-chevron { color:#347fbd; }
+html[data-theme="light"] .subject-week { background:linear-gradient(145deg,#fff,#f0f6fc); border-color:#d1dfeb; border-left-color:var(--week-accent); }
+html[data-theme="light"] .subject-week[open] { border-color:#8bbde7; border-left-color:var(--week-accent); }
+html[data-theme="light"] .subject-week-summary { background:linear-gradient(90deg,color-mix(in srgb,var(--week-accent) 8%,white),transparent 65%); }
+
+/* Narrow screens: the sidebar becomes a horizontal strip, so the group flattens into it. */
+@media(max-width:720px) {
+  .competition-side-group,.competition-side-group.is-collapsed .competition-side-sublist,.competition-side-sublist { display:contents; }
+  .competition-side-toggle { display:none; }
+  .competition-side-sublink { flex:0 0 auto; padding:9px 10px; font-size:10px; white-space:nowrap; }
+  .competition-side-sublink small { display:none; }
+  .subject-hero { grid-template-columns:1fr 1fr; }
+  .subject-hero-bar { grid-column:1/-1; }
+  .subject-week-summary { grid-template-columns:minmax(0,1fr) auto 16px; gap:9px; padding:12px 13px; }
+  .subject-week-summary .week-number { grid-column:1/-1; }
+  .subject-week-body { padding:12px 12px 14px; }
+  .subject-mastery-row label { margin-left:0; width:100%; justify-content:space-between; }
+  #subject-roadmap-panel .reference-task,#subject-roadmap-panel .daily-task { font-size:11px; }
+}
+@media(prefers-reduced-motion:reduce) { .side-chevron,.subject-week-chevron,.subject-hero-bar span { transition:none; } }
