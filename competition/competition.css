@@ -577,7 +577,7 @@ html[data-theme="light"] .baseline-panel { box-shadow:0 8px 25px rgba(92,67,27,.
 .baseline-weights { margin-top:16px; border:1px solid var(--comp-border); padding:12px 14px; }
 .baseline-weights summary { cursor:pointer; color:var(--comp-accent); font:13px Arial,sans-serif; }
 .baseline-weights h4 { margin:14px 0 8px; color:var(--comp-muted); font:11px Arial,sans-serif; letter-spacing:.8px; text-transform:uppercase; }
-.baseline-weight-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; }
+.baseline-weight-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px 22px; }
 .baseline-weight { display:grid; grid-template-columns:1fr 64px 40px; align-items:center; gap:8px; color:var(--comp-ink); font:12px Arial,sans-serif; }
 .baseline-weight input { width:64px !important; padding:5px 6px; border:1px solid var(--comp-border); background:transparent; color:var(--comp-ink); font:12px Arial,sans-serif; }
 .baseline-weight small { color:var(--comp-muted); font-size:11px; }
