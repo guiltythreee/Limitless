@@ -17,6 +17,7 @@
     selectedDay: 1,
     dayChecks: {},
     mocks: [],
+    baselineWeights: { subjects:{}, components:{} },
     problemLog: [],
     weekChecks: {},
     resourceChecks: {},
@@ -257,6 +258,20 @@
   var $ = function (id) { return document.getElementById(id); };
 
   function cloneDefaults() { return JSON.parse(JSON.stringify(DEFAULTS)); }
+  // Keep only finite, non-negative numbers (capped) so a corrupt save cannot break the score.
+  function cleanBaselineWeights(raw) {
+    var out = { subjects:{}, components:{} };
+    if (!raw || typeof raw !== 'object') return out;
+    ['subjects', 'components'].forEach(function (group) {
+      var source = raw[group];
+      if (!source || typeof source !== 'object') return;
+      Object.keys(source).forEach(function (key) {
+        var value = Number(source[key]);
+        if (Number.isFinite(value) && value >= 0) out[group][key] = Math.min(1000, value);
+      });
+    });
+    return out;
+  }
   function load() {
     try {
       var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
@@ -266,6 +281,7 @@
       if (!Number.isInteger(merged.selectedDay) || merged.selectedDay < 1 || merged.selectedDay > 120) merged.selectedDay = 1;
       if (!merged.dayChecks || typeof merged.dayChecks !== 'object') merged.dayChecks = {};
       if (!Array.isArray(merged.mocks)) merged.mocks = [];
+      merged.baselineWeights = cleanBaselineWeights(merged.baselineWeights);
       if (!Array.isArray(merged.problemLog)) merged.problemLog = [];
       if (!Array.isArray(merged.revisionAttempts)) merged.revisionAttempts = [];
       if (!merged.weekChecks || typeof merged.weekChecks !== 'object') merged.weekChecks = {};
@@ -599,17 +615,21 @@
     return dayNumber > 112 ? 'w16-extra-day' + dayNumber + '-' : 'w' + (coords.weekIndex + 1) + '-exec2-' + coords.day.id + '-';
   }
   function dailyTaskProgress() {
-    var total = 0, done = 0, daysComplete = 0, furthestDay = 0;
+    var total = 0, done = 0, daysComplete = 0, furthestDay = 0, items = [];
     for (var d = 1; d <= 120; d++) {
       var coords = dailyPlanCoordinates(d);
       var tasks = dailyPlanTasks(coords.week, coords.day);
       var prefix = dailyPlanPrefix(d, coords), dayDone = 0;
-      for (var i = 0; i < tasks.length; i++) { if (state.dayChecks[prefix + i]) dayDone++; }
+      for (var i = 0; i < tasks.length; i++) {
+        var ticked = !!state.dayChecks[prefix + i];
+        if (ticked) dayDone++;
+        items.push({ text:tasks[i], done:ticked });
+      }
       total += tasks.length; done += dayDone;
       if (tasks.length && dayDone === tasks.length) daysComplete++;
       if (dayDone > 0) furthestDay = d;
     }
-    return { total:total, done:done, daysComplete:daysComplete, furthestDay:furthestDay };
+    return { total:total, done:done, daysComplete:daysComplete, furthestDay:furthestDay, items:items };
   }
   function dailyPlanTasks(week, day) {
     if (day.id !== 'sun') return dailyTasksForWeek(week, day);
@@ -1395,6 +1415,62 @@
       var subjectIds = WEEKS.map(function (week) { return week.topics.map(function (topic) { return topic[0]; }); });
       var summary = api.summarizeProgress(statuses, subjectIds);
       var pct = progress.total ? Math.round(progress.done / progress.total * 100) : 0;
+
+      // Weighted model: minutes, mastery credit and recent mocks, combined with editable weights.
+      var coverage = api.coverageByMinutes(progress.items);
+      var mastery = api.masteryFractions(statuses, subjectIds);
+      var mockPerf = api.mockPerformance(state.mocks);
+      var weights = state.baselineWeights || { subjects:{}, components:{} };
+      var index = api.computeIndex({
+        coverage:coverage, mastery:mastery, mockPercent:mockPerf ? mockPerf.percent : null,
+        subjectWeights:weights.subjects, componentWeights:weights.components
+      });
+      var subjectNames = { coding:'C++ / Implementation' };
+      SUBJECTS.forEach(function (subject) { subjectNames[subject.id] = subject.name; });
+      var hours = function (minutes) { return (minutes / 60).toFixed(1) + ' h'; };
+      var points = function (value) { return value === null ? '—' : value.toFixed(1); };
+      function scoreCard(label, value, sub, extra) {
+        return '<div class="baseline-card baseline-score ' + (extra || '') + '"><span>' + esc(label) + '</span><strong>' + esc(value) + '</strong><small>' + esc(sub) + '</small></div>';
+      }
+      var cw = index.componentWeights;
+      var pctOf = function (share) { return Math.round(share * 100) + '%'; };
+      var scores = '<div class="baseline-grid baseline-scores">' +
+        scoreCard('Preparation index', points(index.preparation) + ' / 100',
+          'Coverage ' + points(index.coverage) + ' · Mastery ' + points(index.mastery) + ' (what you have done, not how well you perform)') +
+        scoreCard('Mock performance', mockPerf ? mockPerf.percent.toFixed(1) + '%' : 'No full mock yet',
+          mockPerf ? 'Recency-weighted over your last ' + mockPerf.count + ' full mock' + (mockPerf.count === 1 ? '' : 's') : 'Record a full 2.5-hour mock to unlock this') +
+        scoreCard('Readiness index', index.readiness === null ? 'Needs a full mock' : points(index.readiness) + ' / 100',
+          index.readiness === null ? 'Without a mock this would only measure effort' :
+            pctOf(cw.coverage) + ' × ' + points(index.coverage) + ' + ' + pctOf(cw.mastery) + ' × ' + points(index.mastery) + ' + ' + pctOf(cw.mock) + ' × ' + points(index.mock),
+          'is-primary') +
+        '</div>';
+      var gapRows = index.gaps.filter(function (gap) { return gap.points > 0.05; }).slice(0, 3).map(function (gap, i) {
+        return '<li><strong>' + esc(subjectNames[gap.id]) + '</strong> · weight ' + pctOf(gap.weight) + ' · ' + 'score ' + Math.round(gap.score * 100) + '%' +
+          ' · up to <b>' + gap.points.toFixed(1) + '</b> index points' + (i === 0 ? ' · biggest gap' : '') + '</li>';
+      }).join('');
+      var gaps = '<div class="baseline-gaps"><h3>Where the next hour pays off most</h3>' +
+        (gapRows ? '<ol>' + gapRows + '</ol>' : '<p class="baseline-note">Every weighted subject is complete.</p>') +
+        '<p class="baseline-note">Study time ticked: ' + hours(coverage.total.done) + ' of ' + hours(coverage.total.planned) +
+        ' planned. Each task counts for its planned minutes, so a 90-minute task counts more than a 10-minute one.' +
+        (coverage.assumedMinuteTasks ? ' ' + coverage.assumedMinuteTasks + ' task(s) have no stated time and are counted as ' + api.FALLBACK_MINUTES + ' min.' : '') + '</p></div>';
+      function weightInput(group, id, label, fallback) {
+        var raw = weights[group][id];
+        var value = raw === undefined ? fallback : raw;
+        var share = group === 'subjects' ? index.subjectWeights[id] : index.componentWeights[id];
+        return '<label class="baseline-weight"><span>' + esc(label) + '</span>' +
+          '<input type="number" min="0" max="1000" step="1" inputmode="numeric" data-weight-group="' + group + '" data-weight-id="' + id + '" value="' + esc(String(value)) + '">' +
+          '<small>' + pctOf(share) + '</small></label>';
+      }
+      var weightEditor = '<details class="baseline-weights"><summary>Adjust the weights</summary>' +
+        '<p class="baseline-note">The defaults are my starting assumption. QuantFest and ICPC India do not publish a topic split, so change them to match what you see in real papers. Numbers are relative, and they are scaled to add up to 100% automatically.</p>' +
+        '<h4>Subjects (how much each one matters)</h4><div class="baseline-weight-grid">' +
+        api.SUBJECT_IDS.map(function (id) { return weightInput('subjects', id, subjectNames[id], api.DEFAULT_SUBJECT_WEIGHTS[id]); }).join('') +
+        '</div><h4>Evidence (how much each kind of proof counts)</h4><div class="baseline-weight-grid">' +
+        weightInput('components', 'coverage', 'Tasks done', api.DEFAULT_COMPONENT_WEIGHTS.coverage) +
+        weightInput('components', 'mastery', 'Topic mastery', api.DEFAULT_COMPONENT_WEIGHTS.mastery) +
+        weightInput('components', 'mock', 'Mock performance', api.DEFAULT_COMPONENT_WEIGHTS.mock) +
+        '</div><p class="baseline-note">Review, upsolving and mock-day tasks carry ' + pctOf(api.MIXED_SHARE) + ' of the task score. Mastery credit: mastered 100%, practiced 70%, learning 30%.</p>' +
+        '<button type="button" class="baseline-reset" data-weight-reset>Reset to defaults</button></details>';
       var reached = summary.reachedWeek;
       var stage = reached ? 'Week ' + reached + ' · ' + WEEKS[reached - 1].phase : 'Not past Week 1 yet';
       var furthest = progress.furthestDay
@@ -1465,7 +1541,9 @@
       }
       var position = '<div class="safety-result"><strong>Where this puts you</strong><span>' + lines.join('<br>') + '</span></div>';
 
-      host.innerHTML = '<div class="baseline-grid">' + cards + '</div><div class="baseline-rows">' + rows + '</div>' + benchmarks + position;
+      var editorWasOpen = !!host.querySelector('.baseline-weights[open]');
+      host.innerHTML = scores + gaps + weightEditor + '<h3 class="baseline-subhead">Progress detail</h3><div class="baseline-grid">' + cards + '</div><div class="baseline-rows">' + rows + '</div>' + benchmarks + position;
+      if (editorWasOpen) host.querySelector('.baseline-weights').open = true;
     });
   }
 
@@ -1602,6 +1680,29 @@
     // Ticks change outside saveAndRender, so refresh the baseline whenever Settings is opened.
     var settingsCard = $('settings');
     if (settingsCard) settingsCard.addEventListener('toggle', renderBaseline);
+    // Weight editor: one delegated listener, because the panel is re-rendered on every change.
+    var baselineHost = $('baseline-panel');
+    if (baselineHost) {
+      baselineHost.addEventListener('change', function (event) {
+        var input = event.target.closest ? event.target.closest('[data-weight-group]') : null;
+        if (!input) return;
+        var group = input.getAttribute('data-weight-group'), id = input.getAttribute('data-weight-id');
+        if (['subjects', 'components'].indexOf(group) === -1) return;
+        var next = cleanBaselineWeights(state.baselineWeights);
+        var text = String(input.value).trim(), value = Number(text);
+        if (text === '') delete next[group][id];
+        else if (Number.isFinite(value) && value >= 0) next[group][id] = Math.min(1000, value);
+        state.baselineWeights = next;
+        persist();
+        renderBaseline();
+      });
+      baselineHost.addEventListener('click', function (event) {
+        if (!event.target.closest || !event.target.closest('[data-weight-reset]')) return;
+        state.baselineWeights = { subjects:{}, components:{} };
+        persist();
+        renderBaseline();
+      });
+    }
 
     renderOverview();
     renderSubjects();

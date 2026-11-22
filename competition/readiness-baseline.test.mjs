@@ -148,4 +148,14 @@ var heavyProb = computeIndex({ coverage: cov, mastery: mastery, mockPercent: nul
   subjectWeights: { probability: 99, logic: 1, combinatorics: 0, graphs: 0, dp: 0, coding: 0 }, componentWeights: {} });
 assert.ok(heavyLogic.preparation > heavyProb.preparation, 'logic is stronger than probability here, so weighting logic raises the score');
 
+// Wiring checks: weights are stored, sanitised on load, editable and resettable.
+import { readFile } from 'node:fs/promises';
+var uiJs = await readFile(new URL('./competition.js', import.meta.url), 'utf8');
+var uiHtml = await readFile(new URL('./index.html', import.meta.url), 'utf8');
+assert.match(uiJs, /baselineWeights: \{ subjects:\{\}, components:\{\} \}/, 'weights need a default so older saves still load');
+assert.match(uiJs, /merged\.baselineWeights = cleanBaselineWeights\(merged\.baselineWeights\)/, 'weights must be sanitised on load');
+assert.match(uiJs, /data-weight-reset/, 'weights must be resettable');
+assert.match(uiJs, /Math\.min\(1000, value\)/, 'weights must be capped');
+assert.match(uiHtml, /id="baseline-panel"/);
+
 console.log('Readiness baseline: all assertions passed.');
