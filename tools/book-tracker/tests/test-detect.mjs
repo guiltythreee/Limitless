@@ -86,4 +86,21 @@ assert.equal(stats.problems, 2);
 ({ stats } = detectBook([page(...body(10))], 'Prose'));
 assert.deepEqual(stats, { chapters: 0, sections: 0, problems: 0 });
 
+// ---- "Problems for Section 1.1" + Class / Homework sub-lists + "Problem 1.2." labels (MCS style) ----
+const mcs = [
+  { height: H, lines: [{ text: '1 What is a Proof?', x: 72, y: H - 100, size: 24 }, ...page('Some text.', 'More text.').lines] },
+  page('Problems for Section 1.1', 'Class Problems', 'Problem 1.1.', 'Prove the theorem.', '(a) first part', '(b) second part', 'Problem 1.2.', 'Another one.'),
+  page('Problems for Section 1.5', 'Homework Problems', 'Problem 1.3.', 'Show it.'),
+  page('Problems for Section 1.7', 'Practice Problems', 'Problem 1.4.', 'Prove by cases.', 'Class Problems', 'Problem 1.5.', 'Hint: 1. try small cases', '2. then generalise', 'Homework Problems', 'Problem 1.6.', 'Last.'),
+  { height: H, lines: [{ text: '2 The Well Ordering Principle', x: 72, y: H - 100, size: 24 }] },
+  page('Problems for Section 2.2', 'Class Problems', 'Problem 2.1.', 'Prove it.', 'Problem 2.2.', 'Again.', 'Problem 2.2.', 'A repeated reference to the same problem.')
+];
+({ book, stats } = detectBook(mcs, 'MCS'));
+assert.deepEqual(book.chapters.map(c => c.sections.flatMap(s => s.problems)),
+  [['1.1', '1.2', '1.3', '1.4', '1.5', '1.6'], ['2.1', '2.2']],
+  'every labelled problem is found once; list items inside a problem and repeats are ignored');
+assert.equal(book.chapters[0].sections.length, 5, 'one section per sub-list');
+assert.ok(book.chapters[0].sections[0].title.startsWith('Problems for Section 1.1'), book.chapters[0].sections[0].title);
+assert.equal(stats.problems, 8);
+
 console.log('detect: all tests passed');

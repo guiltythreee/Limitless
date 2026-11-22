@@ -13,13 +13,20 @@ const NUMBERED_HEADING_RE = /^(\d{1,2})\s+([A-Z][^.]{2,70})$/;
 const SECTION_RE = new RegExp(
   '^(?:\\d+(?:\\.\\d+)*\\s+)?' +
   '(?:(?:theoretical|review|additional|supplementary|supplemental|self[- ]test|practice|chapter|end[- ]of[- ]chapter|' +
-  'conceptual|numerical|computational|programming|challenge|mixed|applied|concept check|warm[- ]up)\\s+)*' +
+  'conceptual|numerical|computational|programming|challenge|mixed|applied|concept check|warm[- ]up|' +
+  'class|homework|exam|quiz|test|in[- ]class|take[- ]home)\\s+)*' +
   '(?:problems?|exercises?|questions?)' +
   '(?:\\s+(?:and|&)\\s+(?:problems?|exercises?|questions?))?' +
   '(?:\\s+\\d+(?:\\.\\d+)*)?\\s*:?$', 'i');
 
+// "Problems for Section 1.1": a heading that groups sub-lists (Class Problems, Homework Problems ...)
+const PARENT_RE = /^(?:problems?|exercises?|questions?)\s+for\s+(?:section|chapter)\s+\d+(?:\.\d+)*\s*:?$/i;
+
+// "Problem 1.10." or "Exercise 3." at the start of a line (the label itself, not a mention inside a sentence)
+const LABEL_RE = /^(?:problem|exercise|question)\s+(\d{1,3})(?:\.(\d{1,3}))?(?:\.(?=\s|$)|$)/i;
+
 // Where problems stop: answers, references, the next kind of material.
-const STOP_RE = /^(?:answers?|solutions?|hints?)\b.{0,60}$|^(?:references|bibliography|index|glossary|summary|key terms|further reading|appendix\b.{0,50})$/i;
+const STOP_RE = /^(?:answers?|solutions?|hints?)\b.{0,60}$|^(?:\d+(?:\.\d+)*\.?\s+)?(?:references|bibliography|index|glossary|summary|key terms|further reading)$|^appendix\b.{0,50}$/i;
 
 const PLAIN_PROBLEM_RE = /^\(?(\d{1,3})\s*[.)]\s*(?=\S)/;
 const DOTTED_PROBLEM_RE = /^(\d{1,2})\.(\d{1,3})(?![\d.])\s+(?=\S)/;
@@ -46,6 +53,8 @@ export function detectBook(pages, fallbackTitle = 'Untitled book') {
   let section = null;
   let lastN = 0;          // last problem number seen in the current section
   let prevEnd = 0;        // last problem number of the previous section in this chapter
+  let parent = '';        // current "Problems for Section X" heading, if the book uses them
+  let style = '';         // how this chapter labels problems: 'named' (Problem 1.2.), 'dotted' (1.2 text) or 'plain' (2.)
 
   const openChapter = (no, title) => {
     chapter = { title, sections: [] };
@@ -54,6 +63,14 @@ export function detectBook(pages, fallbackTitle = 'Untitled book') {
     section = null;
     lastN = 0;
     prevEnd = 0;
+    parent = '';
+    style = '';
+  };
+
+  const startSection = title => {
+    section = { title, problems: [] };
+    chapter.sections.push(section);
+    lastN = 0;
   };
 
   const closeSection = () => {
@@ -106,35 +123,57 @@ export function detectBook(pages, fallbackTitle = 'Untitled book') {
       if (text.length <= 70 && STOP_RE.test(text) && !margin) { closeSection(); continue; }
 
       // ---- section headings ----
+      if (text.length <= 60 && PARENT_RE.test(text) && !margin) {
+        closeSection();
+        parent = text.replace(/:$/, '').trim();
+        continue;
+      }
       if (text.length <= 60 && SECTION_RE.test(text) && !margin) {
         closeSection();
         if (!chapter) openChapter(0, 'All problems');   // book without recognisable chapter headings
-        section = { title: text.replace(/:$/, '').trim(), problems: [] };
-        chapter.sections.push(section);
-        lastN = 0;
+        const title = text.replace(/:$/, '').trim();
+        startSection(parent ? `${parent} — ${title}` : title);
         continue;
       }
 
       // ---- problem numbers ----
-      if (!section || margin) continue;
+      if (margin || !chapter) continue;
+      if (!section && !parent) continue;
       let n = 0;
       let label = '';
+      let kind = '';
+      const named = LABEL_RE.exec(text);
       const dotted = DOTTED_PROBLEM_RE.exec(text);
-      if (dotted && (chapterNo === 0 || Number(dotted[1]) === chapterNo)) {
+      if (named) {
+        // "Problem 1.10." -> the chapter part must match the current chapter
+        if (named[2] !== undefined && chapterNo !== 0 && Number(named[1]) !== chapterNo) continue;
+        n = Number(named[2] !== undefined ? named[2] : named[1]);
+        label = named[2] !== undefined ? `${named[1]}.${named[2]}` : String(n);
+        kind = 'named';
+      } else if (dotted && (chapterNo === 0 || Number(dotted[1]) === chapterNo)) {
         n = Number(dotted[2]);
         label = `${dotted[1]}.${dotted[2]}`;
+        kind = 'dotted';
       } else {
+        if (!section) continue;                      // plain "1." items need a real section heading
         const plain = PLAIN_PROBLEM_RE.exec(text);
         if (!plain) continue;
         n = Number(plain[1]);
         label = String(n);
+        kind = 'plain';
       }
+      // A numbered list inside a problem's own text must not be mistaken for the problems.
+      if (style && kind !== style) continue;
       const prefix = label.includes('.') ? label.split('.')[0] + '.' : '';
-      const startsHere = lastN === 0 && (n === 1 || n === prevEnd + 1);
+      // Numbering may restart at 1 in each section, or carry on from the previous section.
+      const startsHere = lastN === 0 && (n === 1 || (prevEnd > 0 && n > prevEnd && n <= prevEnd + 3));
       const continues = lastN > 0 && n > lastN && n <= lastN + 3;
       if (!startsHere && !continues) continue;
+      if (!section) startSection(parent);            // problems directly under "Problems for Section X"
+      style = kind;
       // Fill small gaps: a number that the page layout hid is still in the book.
-      for (let k = lastN > 0 ? lastN + 1 : n; k < n; k++) section.problems.push(prefix + k);
+      const from = lastN > 0 ? lastN + 1 : (n === 1 ? 1 : prevEnd + 1);
+      for (let k = from; k < n; k++) section.problems.push(prefix + k);
       section.problems.push(label);
       lastN = n;
     }
