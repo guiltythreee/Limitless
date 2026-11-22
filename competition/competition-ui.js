@@ -50,8 +50,10 @@
     subjectLinks.forEach(function (link) {
       var active = name === 'subject' && link.getAttribute('data-subject-link') === subjectId;
       link.classList.toggle('active', active);
-      if (active) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
+      if (active) {
+        link.setAttribute('aria-current', 'page');
+        if (link.scrollIntoView) link.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      } else link.removeAttribute('aria-current');
     });
     if (subjectGroup) subjectGroup.classList.toggle('has-active', name === 'subject');
     if (updateHash) {
@@ -89,7 +91,6 @@
     event.preventDefault();
     activate('subject', true, card.getAttribute('data-subject-roadmap'));
   });
-  activate(initial, false);
 
   var overviewGrid = document.querySelector('.overview-grid');
   var hero = document.querySelector('.competition-heading');
@@ -191,4 +192,8 @@
     var historyObserver = new MutationObserver(refreshActivity);
     historyObserver.observe(problemHistory, { childList: true, subtree: true });
   }
+
+  // Last, so every screen (including the Recent activity block built above) already
+  // exists and a direct link such as #subject-graphs hides the screens it should.
+  activate(initial, false);
 })();

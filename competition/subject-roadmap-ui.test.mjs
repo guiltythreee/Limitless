@@ -64,3 +64,12 @@ assert.deepEqual(tag("Mixed practice: solve one unseen problem (about 50 min).")
 assert.deepEqual(tag("Review every failed attempt; record the cause (about 40 min)."), [], "review belongs to no single subject");
 
 console.log("Subject roadmap sidebar, routing and shared task completion: all assertions passed.");
+
+// Deep links: the first activation must run after the Recent activity block joins `screens`,
+// otherwise that block stays visible on top of whichever screen a URL opens.
+const lastActivate = ui.lastIndexOf("activate(initial, false)");
+const activityJoins = ui.indexOf("screens.push(activity)");
+assert.ok(lastActivate > activityJoins && activityJoins > 0,
+  "run activate(initial, false) after screens.push(activity) so deep links hide the overview-only blocks");
+assert.equal((ui.match(/activate\(initial, false\)/g) || []).length, 1, "activate the initial screen exactly once");
+console.log("Deep-link ordering: ok.");
