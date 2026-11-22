@@ -732,7 +732,6 @@ test("chapter editor can jump to a chapter and re-detect EPUB headings", async (
     buffer: epub,
   });
 
-  await page.getByRole("button", { name: "Show chapters" }).click();
   await expect(page.locator(".bk-chapter-list")).toContainText("Chapter Two");
   await page.getByRole("button", { name: "Go to Chapter Two" }).click();
   await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
@@ -1362,6 +1361,7 @@ test("home shelf owns vertical scrolling and visual panels stay anchored across 
     mimeType: "application/epub+zip",
     buffer: epub,
   });
+  await page.getByRole("button", { name: /Library/ }).click();
   const homeLayout = await page.evaluate(() => ({
     bodyOverflowY: getComputedStyle(document.body).overflowY,
     shellHeight: document.querySelector(".bk-shell")?.getBoundingClientRect().height ?? 0,
@@ -1402,6 +1402,7 @@ test("short library view keeps full book cards reachable by document scrolling",
     mimeType: "application/epub+zip",
     buffer: epub,
   });
+  await page.getByRole("button", { name: /Library/ }).click();
 
   const layout = await page.evaluate(() => ({
     bodyOverflowY: getComputedStyle(document.body).overflowY,
