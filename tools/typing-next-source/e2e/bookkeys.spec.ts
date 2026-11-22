@@ -732,7 +732,6 @@ test("chapter editor can jump to a chapter and re-detect EPUB headings", async (
     buffer: epub,
   });
 
-  await page.getByRole("button", { name: "Edit" }).click();
   await expect(page.locator(".bk-chapter-list")).toContainText("Chapter Two");
   await page.getByRole("button", { name: "Go to Chapter Two" }).click();
   await expect(page.locator(".bk-counter")).toHaveText("Section 2 / 2");
@@ -1353,11 +1352,16 @@ test("home shelf owns vertical scrolling and visual panels stay anchored across 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/tools/typing-next-preview/");
   const shell = page.locator(".bk-shell");
-  const shelf = page.locator(".bk-book-grid");
   const demo = page.locator(".bk-home-demo");
   await expect(shell).toHaveAttribute("data-home", "true");
   await expect(demo).toBeVisible();
-
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "shelf-scroll-fixture.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  await page.getByRole("button", { name: /Library/ }).click();
   const homeLayout = await page.evaluate(() => ({
     bodyOverflowY: getComputedStyle(document.body).overflowY,
     shellHeight: document.querySelector(".bk-shell")?.getBoundingClientRect().height ?? 0,
@@ -1387,4 +1391,57 @@ test("home shelf owns vertical scrolling and visual panels stay anchored across 
   const content = dialog.locator(".bk-settings-content");
   await expect(content).toHaveCSS("overflow-y", "auto");
   await expect(panel).toHaveCSS("overflow", "hidden");
+});
+
+test("short library view keeps full book cards reachable by document scrolling", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 367 });
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub();
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "short-library-layout.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+  await page.getByRole("button", { name: /Library/ }).click();
+
+  const layout = await page.evaluate(() => ({
+    bodyOverflowY: getComputedStyle(document.body).overflowY,
+    documentHeight: document.documentElement.scrollHeight,
+    viewportHeight: window.innerHeight,
+    gridOverflowY: getComputedStyle(document.querySelector<HTMLElement>(".bk-book-grid")!).overflowY,
+  }));
+  expect(layout.bodyOverflowY).not.toBe("hidden");
+  expect(layout.documentHeight).toBeGreaterThan(layout.viewportHeight);
+  expect(layout.gridOverflowY).toBe("visible");
+
+  const firstCard = page.locator(".bk-book-card").first();
+  await expect(firstCard).toHaveCSS("min-height", "148px");
+  await firstCard.scrollIntoViewIfNeeded();
+  await expect(firstCard).toBeInViewport();
+});
+
+test("reader controls remain reachable below the reading surface on short viewports", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 520 });
+  await page.goto("/tools/typing-next-preview/");
+  const epub = await makeFixtureEpub(true);
+  await page.locator("#bk-library-files").setInputFiles({
+    name: "short-reader-layout.epub",
+    mimeType: "application/epub+zip",
+    buffer: epub,
+  });
+
+  await expect(page.locator(".bk-reader")).toBeVisible();
+  await expect(page.locator("#bk-typing")).toBeAttached();
+  const layout = await page.locator(".bk-reader").evaluate((element) => ({
+    overflowY: getComputedStyle(element).overflowY,
+    bottom: element.getBoundingClientRect().bottom,
+    documentHeight: document.documentElement.scrollHeight,
+    viewportHeight: window.innerHeight,
+  }));
+  expect(layout.overflowY).toBe("visible");
+  expect(layout.documentHeight).toBeGreaterThan(layout.viewportHeight);
+
+  const readerBottom = page.locator(".bk-reader-bottom");
+  await readerBottom.scrollIntoViewIfNeeded();
+  await expect(readerBottom).toBeInViewport();
 });
