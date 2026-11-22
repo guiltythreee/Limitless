@@ -1606,46 +1606,37 @@ body:has(.bk-shell[data-home="true"]) { overflow: hidden; }
   .bk-shell[data-home="true"] .bk-book-grid { padding-right: 3px; }
 }
 
-/* 2026-11-22: do not compress or clip the library and reader when the
-   available viewport is shorter than the combined content. Keep the
-   document scrollable; the book text itself remains an independent reader. */
-body:has(.bk-shell[data-home="true"]),
-body:has(.bk-shell[data-home="false"]) {
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-.bk-shell[data-home="true"] {
-  height: auto;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow: visible;
-}
-.bk-shell[data-home="true"] > .bk-library {
-  flex: 0 0 auto;
-  min-height: auto;
-  overflow: visible;
-}
-.bk-shell[data-home="true"] .bk-home-in {
-  height: auto;
-  min-height: 0;
-  overflow: visible;
-}
-.bk-shell[data-home="true"] .bk-book-grid {
-  flex: 0 0 auto;
-  min-height: 148px;
-  max-height: none;
-  overflow: visible;
-}
-.bk-shell[data-home="false"] {
-  height: auto;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow: visible;
-}
-.bk-shell[data-home="false"] .bk-reader {
-  flex: 0 0 auto;
-  min-height: auto;
-  overflow: visible;
+
+/* Short viewports cannot fit the fixed home chrome and shelf simultaneously.
+   Switch to document flow only at short heights; retain the established
+   stationary chrome + independently scrolling shelf at normal heights. */
+@media (max-height: 700px) {
+  body:has(.bk-shell[data-home="true"]) {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .bk-shell[data-home="true"] {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  .bk-shell[data-home="true"] > .bk-library {
+    flex: 0 0 auto;
+    min-height: auto;
+    overflow: visible;
+  }
+  .bk-shell[data-home="true"] .bk-home-in {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  .bk-shell[data-home="true"] .bk-book-grid {
+    flex: 0 0 auto;
+    min-height: 148px;
+    max-height: none;
+    overflow: visible;
+  }
 }
 .bk-shell[data-home="false"] .bk-chapter-list {
   max-height: min(260px, 34vh);
@@ -1658,10 +1649,6 @@ body:has(.bk-shell[data-home="false"]) {
   overflow: auto;
 }
 @media (max-width: 640px) {
-  .bk-shell[data-home="false"] .bk-chapter-list {
-    max-height: 30vh;
-  }
-  .bk-shell[data-home="false"] .bk-source-text {
-    max-height: 48vh;
-  }
+  .bk-shell[data-home="false"] .bk-chapter-list { max-height: 30vh; }
+  .bk-shell[data-home="false"] .bk-source-text { max-height: 48vh; }
 }
