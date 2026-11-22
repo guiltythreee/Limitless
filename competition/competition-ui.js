@@ -185,9 +185,10 @@
     var logButton = document.querySelector('#problem-review .section-heading-row .action-button');
     if (logButton) logButton.click();
   });
-  var history = document.getElementById('problem-history');
-  if (history) {
+  // Not named "history": that would shadow window.history and break history.replaceState in activate().
+  var problemHistory = document.getElementById('problem-history');
+  if (problemHistory) {
     var historyObserver = new MutationObserver(refreshActivity);
-    historyObserver.observe(history, { childList: true, subtree: true });
+    historyObserver.observe(problemHistory, { childList: true, subtree: true });
   }
 })();
