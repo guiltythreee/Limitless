@@ -1530,6 +1530,25 @@ html[data-deco="garden"] .bk-home-demo-heading {
   border-radius: 10px;
   background: color-mix(in srgb, var(--panel) 88%, transparent);
 }
+/* Reader pages use document flow: the viewport must not clip the
+   reader panel or the controls beneath its independently scrollable text. */
+body:has(.bk-shell[data-home="false"]) {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.bk-shell[data-home="false"] {
+  height: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: visible;
+}
+.bk-shell[data-home="false"] .bk-reader {
+  flex: 0 0 auto;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+}
 .bk-shell[data-home="false"] .bk-chapter-list {
   border-color: color-mix(in srgb, #d8b978 26%, var(--line));
   border-radius: 0 0 10px 10px;
