@@ -1302,7 +1302,7 @@
         var key = topicKey(wi,ti);
         var subjectName = topic[0] === 'coding' ? 'C++ / Implementation' : SUBJECTS.find(function (s) { return s.id === topic[0]; }).name;
         return '<div class="roadmap-topic"><details class="topic-study-detail" data-topic-study="' + key + '" ' + (openTopicStudies[key] ? 'open' : '') + '><summary class="topic-study-summary"><span class="topic-study-heading"><strong>' + esc(topic[1]) + '</strong><small>' + subjectName + '</small></span><span class="topic-study-chevron" aria-hidden="true">⌄</span></summary><div class="roadmap-topic-copy">'+prerequisiteStatus(wi,ti,topic)+'<span class="topic-resources">' + topicResourceLinks(topic[0], wi) + '</span>' + renderTopicAssignments(topic, wi, ti) + '</div></details>' +
-          '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select></div>';
+          '<select class="mastery-select" aria-label="Mastery status for ' + esc(topic[1]) + '" data-mastery="' + key + '">' + statusOptions(key) + '</select>' + topicLinkNote(topic[0], wi + 1) + '</div>';
       }).join('') || '<p class="roadmap-empty">No topic checkpoint is assigned to this subject in this week.</p>';
       var weekStatuses = selectedTopics.map(function (item) { return statusOf(topicKey(wi,item.index)); });
       var mastered = weekStatuses.filter(function (x) { return x === 'mastered'; }).length;
@@ -1333,6 +1333,7 @@
     $('week-list').querySelectorAll('[data-mastery]').forEach(function (select) {
       select.addEventListener('change', function () {
         state.mastery[select.dataset.mastery] = select.value;
+        syncTopicLinks();
         saveAndRender();
         renderWeeks();
       });
@@ -1343,6 +1344,40 @@
       (input.dataset.resourceReadingKeys || '').split(',').filter(Boolean).forEach(function(taskKey){state.dayChecks[taskKey]=input.checked;});
       persist();refreshTaskViews();
     });});
+  }
+
+  // ---- Shared topic progress with the CP Learning Centre -------------------------------
+  // Topics both trackers cover (BFS/DFS, DSU, DP, ...) share one mastery level; see shared/topic-link.js.
+  // This page only ever writes its own state.mastery plus the small shared ledger.
+  var TopicLink = window.LimitlessTopicLink || null;
+  function regionalKeyForLink(link) {
+    var week = WEEKS[link.week - 1];
+    if (!week) return null;
+    var ti = week.topics.findIndex(function (entry) { return entry[0] === link.subject; });
+    return ti === -1 ? null : topicKey(link.week - 1, ti);
+  }
+  var regionalLinkAdapter = {
+    get: function (link) { var key = regionalKeyForLink(link); return key ? statusOf(key) : null; },
+    set: function (link, level) { var key = regionalKeyForLink(link); if (key) state.mastery[key] = level; }
+  };
+  // Record this page's mastery edits and adopt the other page's. Saves only if it changed something.
+  function syncTopicLinks() {
+    if (!TopicLink) return false;
+    var result = TopicLink.reconcile('reg', regionalLinkAdapter, TopicLink.browserStore(), Date.now());
+    if (result.applied.length) persist();
+    return result.applied.length > 0;
+  }
+  // Another tab, or the cloud, changed stored progress: re-read it before merging, so that this
+  // page's older in-memory copy can never overwrite it.
+  function onExternalTopicChange() {
+    state = load();
+    syncTopicLinks();
+    saveAndRender();
+    renderWeeks();
+  }
+  function topicLinkNote(subjectId, weekNumber) {
+    var link = TopicLink && TopicLink.linkForTopic(subjectId, weekNumber);
+    return link ? '<small class="topic-link-note" title="Changing this level here also changes it in the CP Learning Centre">⇄ Shared with CP Learning Centre</small>' : '';
   }
 
   // ---- Shared task completion ------------------------------------------------
@@ -1469,7 +1504,7 @@
         '<span class="subject-week-count">' + done + ' / ' + keys.length + '</span><span class="subject-week-chevron" aria-hidden="true">⌄</span></summary>' +
         '<div class="subject-week-body">' +
         '<div class="subject-mastery-row">' + prerequisiteStatus(entry.wi, entry.ti, entry.topic) +
-        '<label>Topic mastery<select class="mastery-select" aria-label="Mastery status for ' + esc(entry.topic[1]) + '" data-subject-mastery="' + masteryKey + '">' + options + '</select></label></div>' +
+        '<label>Topic mastery<select class="mastery-select" aria-label="Mastery status for ' + esc(entry.topic[1]) + '" data-subject-mastery="' + masteryKey + '">' + options + '</select></label></div>' + topicLinkNote(subject.id, entry.wi + 1) +
         renderTopicAssignments(entry.topic, entry.wi, entry.ti) +
         '<div class="subject-daily-block"><div class="assignment-heading">Daily-plan tasks for ' + esc(subject.name) + '</div>' + daily + '</div>' +
         '</div></details>';
@@ -1789,6 +1824,8 @@
   }
 
   function init() {
+    syncTopicLinks();
+    if (TopicLink) TopicLink.watchExternalChanges([STORAGE_KEY, TopicLink.LEDGER_KEY], onExternalTopicChange);
     $('start-date').value = state.startDate;
     $('target-date').value = state.targetDate;
     $('qualification-cutoff').value = state.qualificationCutoff;
@@ -1871,6 +1908,7 @@
         var select = event.target.closest ? event.target.closest('[data-subject-mastery]') : null;
         if (!select) return;
         state.mastery[select.getAttribute('data-subject-mastery')] = select.value;
+        syncTopicLinks();
         saveAndRender();
         renderWeeks();
       });

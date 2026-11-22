@@ -1205,3 +1205,8 @@ html[data-theme="light"] .subject-week-summary { background:linear-gradient(90de
   #subject-roadmap-panel .reference-task,#subject-roadmap-panel .daily-task { font-size:11px; }
 }
 @media(prefers-reduced-motion:reduce) { .side-chevron,.subject-week-chevron,.subject-hero-bar span { transition:none; } }
+
+/* Note beside a topic level that is shared with the CP Learning Centre */
+.competition-page .topic-link-note { display:block; margin:5px 0 0; color:var(--comp-muted); font:11px Arial,sans-serif; letter-spacing:.2px; }
+.competition-page .roadmap-topic .topic-link-note { text-align:right; }
+html[data-theme="light"] .competition-page .topic-link-note { color:#4f6c86; }

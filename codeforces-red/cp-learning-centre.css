@@ -89,3 +89,5 @@ html[data-theme="light"] .lc-toolbar input,html[data-theme="light"] .lc-toolbar 
 @media(max-width:900px){.lc-visual-dashboard{grid-template-columns:1fr 1fr}.lc-practice-card{transform:none;grid-column:1/-1;grid-row:1;min-height:410px}.lc-courses-card,.lc-reference-card{min-height:410px}}
 @media(max-width:620px){.lc-visual-dashboard{grid-template-columns:1fr;gap:13px;padding:8px 0}.lc-visual-card,.lc-practice-card{grid-column:auto;grid-row:auto;min-height:390px;padding:20px}.lc-card-title{min-height:100px}.lc-skill-row{grid-template-columns:20px minmax(75px,1fr) minmax(50px,1fr) 31px}}
 html[data-theme="light"] .lc-visual-card{background:linear-gradient(155deg,rgba(15,40,65,.98),rgba(8,25,43,.99));color:#edf6ff}
+.lc-link-note{margin:5px 0 0;color:#7fc4ff;font-size:11px;letter-spacing:.2px}
+html[data-theme="light"] .lc-link-note{color:#2d6da3}

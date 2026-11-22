@@ -62,6 +62,30 @@
   function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');state={checks:x.checks&&typeof x.checks==='object'?x.checks:{}};}catch(_){state={checks:{}};}}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){}}
+  // Topics shared with the Regionals tracker keep one level (see shared/topic-link.js). This page only
+  // writes its own checks plus the small shared ledger.
+  const TL=window.LimitlessTopicLink||null;
+  const levelNames={'not-started':'Not started','learning':'Learning','practiced':'Practiced','mastered':'Mastered'};
+  const cpLinkAdapter={
+    get:link=>TL.cpLevel(state.checks,link.cp),
+    set:(link,level)=>{
+      const next=TL.cpChecksFor({concept:!!state.checks[link.cp+':concept'],cpp:!!state.checks[link.cp+':cpp'],practice:!!state.checks[link.cp+':practice']},level);
+      state.checks[link.cp+':concept']=next.concept;state.checks[link.cp+':cpp']=next.cpp;state.checks[link.cp+':practice']=next.practice;
+    }
+  };
+  function syncLinks(){
+    if(!TL)return false;
+    const result=TL.reconcile('cp',cpLinkAdapter,TL.browserStore(),Date.now());
+    if(result.applied.length)save();
+    return result.applied.length>0;
+  }
+  // Another tab, or the cloud, changed stored progress: re-read it before merging.
+  function onExternalChange(){load();syncLinks();render();}
+  function linkNote(id){
+    const link=TL&&TL.linkFor(id);
+    if(!link)return '';
+    return '<p class="lc-link-note" title="Ticks here and the Topic mastery level in Regionals are the same progress">⇄ Shared with Regionals · '+esc(link.label)+' · '+levelNames[TL.cpLevel(state.checks,id)]+'</p>';
+  }
   function link(url,label){return '<a href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(label)+' ↗</a>';}
   const COURSE_STAGES=['Foundations','Specialist','Core algorithms','Advanced reasoning','Mastery'];
   function renderVisualDashboard(){
@@ -110,16 +134,18 @@
       const checkHtml=checks.map((t,i)=>'<label class="lc-check"><input type="checkbox" data-lc-check="'+m.id+':'+t+'" '+(state.checks[m.id+':'+t]?'checked':'')+'><span>'+labels[i]+'</span></label>').join('');
       const concept=track==='cpp'?'':('<div class="lc-track-block"><b>01 · Competitive programming concept</b><p>'+esc(m.concept)+'</p><div class="lc-links">'+link(TOPIC_QUIZZES[m.id]||(/dsu|hash|array|vector|bfs|shortest|tree|segment|fenwick|scc|flow/.test(m.id)?GFG_DS_QUIZ:GFG_ALGO_QUIZ),'GeeksforGeeks topic MCQs')+link('https://www.geeksforgeeks.org/explore','GeeksforGeeks practice problems')+link('https://codeforces.com/problemset?tags='+encodeURIComponent(m.cf==='*'?'implementation':m.cf),'Codeforces tagged problems')+'</div></div>');
       const cpp=track==='concepts'?'':('<div class="lc-track-block"><b>02 · C++ required for implementation</b><p>'+esc(m.cpp)+'</p><div class="lc-links">'+link('https://www.learncpp.com/?s='+encodeURIComponent(m.learn),'LearnCpp: '+m.learn)+link(/map|set|stack|queue|vector|deque|priority|container|lower_bound|unordered/.test(m.cpp)?GFG_CPP_STL_QUIZ:GFG_CPP_FUND_QUIZ,'C++ language / STL MCQs')+'</div></div>');
-      return '<article class="lc-module"><div class="lc-module-head"><div><span class="lc-stage">'+esc(m.stage)+'</span><h3>'+esc(m.title)+'</h3><p class="lc-tags">'+esc(m.tags)+'</p></div><span class="lc-module-progress">'+checks.filter(t=>state.checks[m.id+':'+t]).length+'/3</span></div><div class="lc-module-body">'+concept+cpp+'</div><div class="lc-checks">'+checkHtml+'</div></article>';
+      return '<article class="lc-module"><div class="lc-module-head"><div><span class="lc-stage">'+esc(m.stage)+'</span><h3>'+esc(m.title)+'</h3><p class="lc-tags">'+esc(m.tags)+'</p>'+linkNote(m.id)+'</div><span class="lc-module-progress">'+checks.filter(t=>state.checks[m.id+':'+t]).length+'/3</span></div><div class="lc-module-body">'+concept+cpp+'</div><div class="lc-checks">'+checkHtml+'</div></article>';
     }).join('')||'<p class="lc-empty">No modules match this filter. Clear the search or choose another stage.</p>';
-    $('lc-list').querySelectorAll('[data-lc-check]').forEach(input=>input.addEventListener('change',()=>{state.checks[input.dataset.lcCheck]=input.checked;save();render();}));
+    $('lc-list').querySelectorAll('[data-lc-check]').forEach(input=>input.addEventListener('change',()=>{state.checks[input.dataset.lcCheck]=input.checked;save();syncLinks();render();}));
   }
   function bind(){
     load();
+    syncLinks();
+    if(TL)TL.watchExternalChanges([KEY,TL.LEDGER_KEY],onExternalChange);
     $('lc-track').addEventListener('change',e=>{track=e.target.value;render();});
     $('lc-stage').addEventListener('change',e=>{stage=e.target.value;render();});
     $('lc-search').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();render();});
-    $('lc-reset').addEventListener('click',()=>{if(!confirm('Reset all Learning Centre completion checkboxes?'))return;state={checks:{}};save();render();});
+    $('lc-reset').addEventListener('click',()=>{if(!confirm('Reset all Learning Centre completion checkboxes? Topics shared with the Regionals tracker will also go back to Not started there.'))return;state={checks:{}};save();syncLinks();render();});
     render();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if($('lc-list'))bind();});else if($('lc-list'))bind();
