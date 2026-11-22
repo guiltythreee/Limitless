@@ -36,6 +36,17 @@
     <a class="competition-side-link active" href="#dashboard" data-screen-link="overview"><span>▦</span> Overview</a>
     <a class="competition-side-link" href="#daily-plan" data-screen-link="daily"><span>◷</span> Daily plan</a>
     <a class="competition-side-link" href="#roadmap" data-screen-link="roadmap"><span>⌁</span> Weekly roadmap</a>
+    <div class="competition-side-group" id="side-subject-group">
+      <button class="competition-side-link competition-side-toggle" type="button" id="side-subject-toggle" aria-expanded="true" aria-controls="side-subject-list"><span>◈</span> Subject roadmaps <b class="side-chevron" aria-hidden="true">⌄</b></button>
+      <div class="competition-side-sublist" id="side-subject-list" role="group" aria-label="Subject roadmaps">
+        <a class="competition-side-sublink" href="#subject-logic" data-subject-link="logic">Logical Reasoning<small data-subject-progress="logic"></small></a>
+        <a class="competition-side-sublink" href="#subject-combinatorics" data-subject-link="combinatorics">Combinatorics<small data-subject-progress="combinatorics"></small></a>
+        <a class="competition-side-sublink" href="#subject-probability" data-subject-link="probability">Probability<small data-subject-progress="probability"></small></a>
+        <a class="competition-side-sublink" href="#subject-graphs" data-subject-link="graphs">Graph Theory<small data-subject-progress="graphs"></small></a>
+        <a class="competition-side-sublink" href="#subject-dp" data-subject-link="dp">Dynamic Programming<small data-subject-progress="dp"></small></a>
+        <a class="competition-side-sublink" href="#subject-coding" data-subject-link="coding">C++ / Implementation<small data-subject-progress="coding"></small></a>
+      </div>
+    </div>
     <a class="competition-side-link" href="#codeforces-problems" data-screen-link="problems"><span>⌕</span> Problems</a>
     <a class="competition-side-link" href="#mock-tests" data-screen-link="mocks"><span>♜</span> Mock tests</a>
     <a class="competition-side-link" href="#resources" data-screen-link="resources"><span>▤</span> Resources</a>
@@ -178,6 +189,9 @@
       <div id="week-list" class="week-list"></div>
     </section>
 
+    <section class="section-block subject-roadmap-section" id="subject-roadmap" data-screen="subject" data-subject="logic">
+      <div id="subject-roadmap-panel" class="subject-roadmap-panel" aria-live="polite"></div>
+    </section>
 
     <section class="section-block account-link-section" id="linked-accounts" data-screen="resources">
       <div class="section-heading-row">

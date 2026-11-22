@@ -32,6 +32,10 @@
     { id:'graphs', name:'Graph Theory', note:'Representation, traversal, connectivity, paths, trees and graph algorithms' },
     { id:'dp', name:'Dynamic Programming', note:'State design, recurrence construction, transitions and optimization' }
   ];
+  // The sidebar roadmaps cover the five core subjects plus C++, which the plan also schedules every week.
+  var ROADMAP_SUBJECTS = SUBJECTS.concat([
+    { id:'coding', name:'C++ / Implementation', note:'C++ fluency for contests: input and output, the standard library, complexity and clean implementation' }
+  ]);
 
   // The order is deliberate: foundations first, then core techniques, integration,
   // and finally timed competition practice. Advanced topics are stretch material,
@@ -330,6 +334,7 @@
     renderOverview();
     renderSubjects();
     renderDailyPlan();
+    renderSubjectRoadmap();
     renderSafety();
     renderBaseline();
     renderMockHistory();
@@ -488,7 +493,7 @@
         var width = total ? counts[item.key] / total * 100 : 0;
         return '<span class="subject-state-bar" title="' + item.label + ': ' + counts[item.key] + '" style="width:' + width.toFixed(2) + '%;background:' + item.color + '"></span>';
       }).join('');
-      return '<a class="subject-card subject-card-link subject-card-' + accents[subject.id] + '" href="#roadmap" data-subject-roadmap="' + subject.id + '" aria-label="Open ' + esc(subject.name) + ' roadmap">' +
+      return '<a class="subject-card subject-card-link subject-card-' + accents[subject.id] + '" href="#subject-' + subject.id + '" data-subject-roadmap="' + subject.id + '" aria-label="Open ' + esc(subject.name) + ' roadmap">' +
         '<div class="subject-card-top"><span class="subject-symbol" aria-hidden="true">' + symbols[subject.id] + '</span><span class="subject-card-index">' + String(SUBJECTS.indexOf(subject)+1).padStart(2,'0') + ' / 05</span></div>' +
         '<h3>' + esc(subject.name) + '</h3><p>' + esc(subject.note) + '</p>' +
         '<div class="subject-analytics-row">' + masteryDonut(counts,total,pct,subject.name) + '<div class="subject-analytics-copy"><strong>' + counts.mastered + ' <small>/ ' + total + ' mastered</small></strong><span>' + counts.practiced + ' practiced · ' + counts.learning + ' learning</span><span>' + counts['not-started'] + ' not started</span></div></div>' +
@@ -695,14 +700,7 @@
     host.querySelector('[data-day-next]').addEventListener('click', function () {
       if (state.selectedDay < 120) { state.selectedDay += 1; persist(); renderDailyPlan(); }
     });
-    host.querySelectorAll('[data-day-task]').forEach(function (input) {
-      input.addEventListener('change', function () {
-        state.dayChecks[input.dataset.dayTask] = input.checked;
-        persist();
-        renderDailyPlan();
-        renderWeeks();
-      });
-    });
+    // Task checkboxes are handled once, for the whole page: see onTaskToggle.
   }
 
   // Chapter-level assignments: the weekly topic is tied to a named source chapter
@@ -1343,16 +1341,146 @@
     $('week-list').querySelectorAll('[data-resource-check]').forEach(function(input){input.addEventListener('change',function(){
       state.resourceChecks[input.dataset.resourceCheck]=input.checked;
       (input.dataset.resourceReadingKeys || '').split(',').filter(Boolean).forEach(function(taskKey){state.dayChecks[taskKey]=input.checked;});
-      persist();renderDailyPlan();renderWeeks();
+      persist();refreshTaskViews();
     });});
-    $('week-list').querySelectorAll('[data-day-task]').forEach(function (input) {
-      input.addEventListener('change', function () {
-        state.dayChecks[input.dataset.dayTask] = input.checked;
-        persist();
-        renderDailyPlan();
-        renderWeeks();
+  }
+
+  // ---- Shared task completion ------------------------------------------------
+  // Every task checkbox (Daily plan, Weekly roadmap, Subject roadmaps) carries
+  // data-day-task and reads and writes the same store, state.dayChecks. After any
+  // tick, every view that shows tasks is redrawn, so a task done in one place is
+  // done in all of them.
+  function refreshTaskViews() {
+    renderDailyPlan();
+    renderWeeks();
+    renderSubjectRoadmap();
+  }
+  function onTaskToggle(input) {
+    var host = input.closest ? input.closest('#daily-plan-panel, #week-list, #subject-roadmap-panel') : null;
+    var position = host ? Array.prototype.indexOf.call(host.querySelectorAll('[data-day-task]'), input) : -1;
+    state.dayChecks[input.dataset.dayTask] = input.checked;
+    persist();
+    refreshTaskViews();
+    // The checkbox that was clicked has just been redrawn; give keyboard focus back to its twin.
+    if (host && position >= 0) {
+      var redrawn = document.getElementById(host.id);
+      var again = redrawn ? redrawn.querySelectorAll('[data-day-task]')[position] : null;
+      if (again && again.focus) again.focus({ preventScroll: true });
+    }
+  }
+
+  // ---- Subject roadmaps -------------------------------------------------------
+  // A subject roadmap is the 16-week path for one subject: that week's reading and
+  // problem assignments, plus the daily-plan tasks that belong to the subject.
+  // Daily-plan tasks name their subject at the start of the sentence ("Graph theory: ...").
+  // A task can belong to two subjects; mixed practice and review belong to none.
+  var DAILY_TASK_SUBJECT_LEADS = [
+    [/^probability\b/i, 'probability'], [/^logical reasoning\b/i, 'logic'], [/^combinatorics\b/i, 'combinatorics'],
+    [/^graph theory\b/i, 'graphs'], [/^dynamic programming\b/i, 'dp'], [/^c\+\+/i, 'coding']
+  ];
+  function dailyTaskSubjectIds(text) {
+    var ids = [];
+    DAILY_TASK_SUBJECT_LEADS.forEach(function (pair) { if (pair[0].test(text)) ids.push(pair[1]); });
+    if (/CSES graph/i.test(text) && ids.indexOf('graphs') === -1) ids.push('graphs');
+    if (/counting problem/i.test(text) && ids.indexOf('combinatorics') === -1) ids.push('combinatorics');
+    return ids;
+  }
+  var subjectTaskIndexCache = null;
+  // { subjectId: [ one entry per week: { wi, ti, topic, assignmentKeys, daily } ] }.
+  // Built once: the keys depend only on the plan, never on what has been ticked.
+  function subjectTaskIndex() {
+    if (subjectTaskIndexCache) return subjectTaskIndexCache;
+    var index = {};
+    ROADMAP_SUBJECTS.forEach(function (subject) {
+      index[subject.id] = WEEKS.map(function (week, wi) {
+        var ti = week.topics.findIndex(function (entry) { return entry[0] === subject.id; });
+        var keys = [];
+        if (ti !== -1) {
+          // Read the keys from the exact markup the roadmap draws, so these counts cannot drift from the checkboxes.
+          var html = renderTopicAssignments(week.topics[ti], wi, ti), found, pattern = /data-day-task="([^"]+)"/g;
+          while ((found = pattern.exec(html))) keys.push(found[1]);
+        }
+        return { wi: wi, ti: ti, topic: ti === -1 ? null : week.topics[ti], assignmentKeys: keys, daily: [] };
       });
     });
+    for (var d = 1; d <= 120; d++) {
+      var coords = dailyPlanCoordinates(d), prefix = dailyPlanPrefix(d, coords);
+      dailyPlanTasks(coords.week, coords.day).forEach(function (text, i) {
+        dailyTaskSubjectIds(text).forEach(function (id) {
+          if (index[id]) index[id][coords.weekIndex].daily.push({ key: prefix + i, day: d, dayName: coords.day.day, text: text });
+        });
+      });
+    }
+    subjectTaskIndexCache = index;
+    return index;
+  }
+  function weekTaskKeys(entry) {
+    return entry.assignmentKeys.concat(entry.daily.map(function (task) { return task.key; }));
+  }
+  function countTicked(keys) {
+    return keys.filter(function (key) { return !!state.dayChecks[key]; }).length;
+  }
+  function subjectProgress(subjectId) {
+    var total = 0, done = 0;
+    subjectTaskIndex()[subjectId].forEach(function (entry) {
+      var keys = weekTaskKeys(entry);
+      total += keys.length;
+      done += countTicked(keys);
+    });
+    return { done: done, total: total };
+  }
+  function updateSubjectBadges() {
+    document.querySelectorAll('[data-subject-progress]').forEach(function (badge) {
+      var progress = subjectProgress(badge.getAttribute('data-subject-progress'));
+      badge.textContent = progress.done + '/' + progress.total;
+      badge.title = progress.done + ' of ' + progress.total + ' tasks complete';
+    });
+  }
+  function activeRoadmapSubject() {
+    var section = $('subject-roadmap'), id = section ? section.getAttribute('data-subject') : '';
+    return ROADMAP_SUBJECTS.some(function (subject) { return subject.id === id; }) ? id : 'logic';
+  }
+  var openSubjectWeeks = {};
+  function renderSubjectRoadmap() {
+    updateSubjectBadges();
+    var host = $('subject-roadmap-panel');
+    if (!host) return;
+    var subject = ROADMAP_SUBJECTS.find(function (item) { return item.id === activeRoadmapSubject(); });
+    var weeks = subjectTaskIndex()[subject.id];
+    var progress = subjectProgress(subject.id);
+    var pct = progress.total ? Math.round(progress.done / progress.total * 100) : 0;
+    var mastered = weeks.filter(function (entry) { return entry.ti !== -1 && statusOf(topicKey(entry.wi, entry.ti)) === 'mastered'; }).length;
+    var current = currentWeekIndex();
+    var phaseClass = { 'Foundations':'foundations', 'Core concepts':'core', 'Integrated problem-solving':'integration', 'Competition readiness':'competition' };
+    var weekHtml = weeks.map(function (entry) {
+      if (entry.ti === -1) return '';
+      var week = WEEKS[entry.wi], openKey = subject.id + ':' + entry.wi, masteryKey = topicKey(entry.wi, entry.ti);
+      var keys = weekTaskKeys(entry), done = countTicked(keys);
+      var isOpen = Object.prototype.hasOwnProperty.call(openSubjectWeeks, openKey) ? openSubjectWeeks[openKey] : entry.wi === current;
+      var options = MASTERY.map(function (option) {
+        return '<option value="' + option.value + '" ' + (statusOf(masteryKey) === option.value ? 'selected' : '') + '>' + option.label + '</option>';
+      }).join('');
+      var daily = entry.daily.length ? entry.daily.map(function (task) {
+        return '<label class="daily-task"><input type="checkbox" data-day-task="' + task.key + '" ' + (state.dayChecks[task.key] ? 'checked' : '') + '><span><b>Day ' + task.day + ' · ' + esc(task.dayName.slice(0, 3)) + '</b> ' + esc(task.text) + '</span></label>';
+      }).join('') : '<p class="roadmap-empty">No daily-plan tasks are tied to this subject this week.</p>';
+      return '<details class="subject-week subject-week-' + (phaseClass[week.phase] || 'foundations') + '" data-subject-week="' + openKey + '" ' + (isOpen ? 'open' : '') + '>' +
+        '<summary class="subject-week-summary"><span class="week-number">WEEK ' + String(entry.wi + 1).padStart(2, '0') + '</span>' +
+        '<span class="subject-week-heading"><strong>' + esc(entry.topic[1]) + '</strong><small>' + esc(week.title) + ' · ' + esc(week.phase) + '</small></span>' +
+        '<span class="subject-week-count">' + done + ' / ' + keys.length + '</span><span class="subject-week-chevron" aria-hidden="true">⌄</span></summary>' +
+        '<div class="subject-week-body">' +
+        '<div class="subject-mastery-row">' + prerequisiteStatus(entry.wi, entry.ti, entry.topic) +
+        '<label>Topic mastery<select class="mastery-select" aria-label="Mastery status for ' + esc(entry.topic[1]) + '" data-subject-mastery="' + masteryKey + '">' + options + '</select></label></div>' +
+        renderTopicAssignments(entry.topic, entry.wi, entry.ti) +
+        '<div class="subject-daily-block"><div class="assignment-heading">Daily-plan tasks for ' + esc(subject.name) + '</div>' + daily + '</div>' +
+        '</div></details>';
+    }).join('');
+    host.innerHTML =
+      '<div class="section-heading-row"><div><div class="card-label">SUBJECT ROADMAP · 16 WEEKS</div><h2>' + esc(subject.name) + '</h2></div><p>' + esc(subject.note) + '. Each tick here is the same tick in the Daily plan and the Weekly roadmap.</p></div>' +
+      '<div class="subject-hero"><div class="subject-hero-stat"><strong>' + progress.done + ' / ' + progress.total + '</strong><span>tasks complete</span></div>' +
+      '<div class="subject-hero-stat"><strong>' + mastered + ' / ' + weeks.length + '</strong><span>topics mastered</span></div>' +
+      '<div class="subject-hero-bar" role="img" aria-label="' + pct + '% of ' + esc(subject.name) + ' tasks complete"><span style="width:' + pct + '%"></span></div></div>' +
+      '<div class="subject-week-list">' + weekHtml + '</div>' +
+      '<p class="subject-footnote">Mixed practice, weekly contests and review tasks are not tied to one subject, so they stay in the Daily plan.</p>';
   }
 
   function latestRankedFullMock() {
@@ -1725,6 +1853,28 @@
       renderWeeks();
     });
     renderWeeks();
+    renderSubjectRoadmap();
+    // One listener for every task checkbox on the page (see onTaskToggle).
+    document.addEventListener('change', function (event) {
+      var input = event.target.closest ? event.target.closest('[data-day-task]') : null;
+      if (input) onTaskToggle(input);
+    });
+    // Subject roadmap: draw the subject the sidebar picked, remember which weeks are open, save mastery changes.
+    document.addEventListener('competition:subject-change', renderSubjectRoadmap);
+    var subjectHost = $('subject-roadmap-panel');
+    if (subjectHost) {
+      subjectHost.addEventListener('toggle', function (event) {
+        var details = event.target;
+        if (details && details.hasAttribute && details.hasAttribute('data-subject-week')) openSubjectWeeks[details.getAttribute('data-subject-week')] = details.open;
+      }, true);
+      subjectHost.addEventListener('change', function (event) {
+        var select = event.target.closest ? event.target.closest('[data-subject-mastery]') : null;
+        if (!select) return;
+        state.mastery[select.getAttribute('data-subject-mastery')] = select.value;
+        saveAndRender();
+        renderWeeks();
+      });
+    }
     renderSafety();
     renderBaseline();
     renderProblemHistory();

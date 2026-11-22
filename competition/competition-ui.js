@@ -2,14 +2,32 @@
   'use strict';
   var links = Array.prototype.slice.call(document.querySelectorAll('[data-screen-link]'));
   var screens = Array.prototype.slice.call(document.querySelectorAll('[data-screen]'));
-  var initial = location.hash === '#daily-plan' ? 'daily' :
+  // Subject roadmaps: one screen ("subject") shared by six sidebar links. The chosen
+  // subject lives in the URL (#subject-graphs) and in the section's data-subject
+  // attribute, which competition.js reads when it draws the roadmap.
+  var SUBJECT_IDS = ['logic', 'combinatorics', 'probability', 'graphs', 'dp', 'coding'];
+  var subjectLinks = Array.prototype.slice.call(document.querySelectorAll('[data-subject-link]'));
+  var subjectScreen = document.getElementById('subject-roadmap');
+  var subjectGroup = document.getElementById('side-subject-group');
+  var subjectToggle = document.getElementById('side-subject-toggle');
+  function subjectFromHash() {
+    var match = /^#subject-([a-z]+)$/.exec(location.hash);
+    return match && SUBJECT_IDS.indexOf(match[1]) !== -1 ? match[1] : null;
+  }
+  function setSubjectGroupOpen(open) {
+    if (!subjectGroup || !subjectToggle) return;
+    subjectToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    subjectGroup.classList.toggle('is-collapsed', !open);
+  }
+  var initial = subjectFromHash() ? 'subject' :
+    location.hash === '#daily-plan' ? 'daily' :
     location.hash === '#roadmap' ? 'roadmap' :
     (location.hash === '#codeforces-problems' || location.hash === '#problem-review') ? 'problems' :
     location.hash === '#mock-tests' ? 'mocks' :
     (location.hash === '#resources' || location.hash === '#linked-accounts') ? 'resources' :
     location.hash === '#settings' ? 'settings' : 'overview';
 
-  function activate(name, updateHash) {
+  function activate(name, updateHash, subjectId) {
     var settings = document.getElementById('settings');
     if (settings) settings.open = name === 'settings';
     screens.forEach(function (node) {
@@ -21,9 +39,28 @@
       if (active) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
+    if (name === 'subject') {
+      var chosen = SUBJECT_IDS.indexOf(subjectId) !== -1 ? subjectId : (subjectFromHash() || 'logic');
+      if (subjectScreen) subjectScreen.setAttribute('data-subject', chosen);
+      subjectId = chosen;
+      setSubjectGroupOpen(true);
+      // competition.js listens for this and draws the chosen subject's roadmap.
+      document.dispatchEvent(new CustomEvent('competition:subject-change', { detail: { subject: chosen } }));
+    }
+    subjectLinks.forEach(function (link) {
+      var active = name === 'subject' && link.getAttribute('data-subject-link') === subjectId;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+    if (subjectGroup) subjectGroup.classList.toggle('has-active', name === 'subject');
     if (updateHash) {
-      var target = links.find(function (link) { return link.getAttribute('data-screen-link') === name; });
-      if (target) history.replaceState(null, '', target.getAttribute('href'));
+      if (name === 'subject') {
+        history.replaceState(null, '', '#subject-' + subjectId);
+      } else {
+        var target = links.find(function (link) { return link.getAttribute('data-screen-link') === name; });
+        if (target) history.replaceState(null, '', target.getAttribute('href'));
+      }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -33,16 +70,24 @@
       activate(link.getAttribute('data-screen-link'), true);
     });
   });
-  document.querySelectorAll('[data-subject-roadmap]').forEach(function (link) {
+  subjectLinks.forEach(function (link) {
     link.addEventListener('click', function (event) {
       event.preventDefault();
-      var filter = document.getElementById('roadmap-subject-filter');
-      if (filter) {
-        filter.value = link.getAttribute('data-subject-roadmap');
-        filter.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-      activate('roadmap', true);
+      activate('subject', true, link.getAttribute('data-subject-link'));
     });
+  });
+  if (subjectToggle) {
+    subjectToggle.addEventListener('click', function () {
+      setSubjectGroupOpen(subjectToggle.getAttribute('aria-expanded') !== 'true');
+    });
+  }
+  // The overview subject cards are redrawn after every save, so listen on the
+  // document rather than on the cards themselves.
+  document.addEventListener('click', function (event) {
+    var card = event.target.closest ? event.target.closest('[data-subject-roadmap]') : null;
+    if (!card) return;
+    event.preventDefault();
+    activate('subject', true, card.getAttribute('data-subject-roadmap'));
   });
   activate(initial, false);
 
