@@ -28,3 +28,6 @@ jobs:
       - run: node tools/lectern/tests/test-detect.mjs
       - run: node tools/lectern/tests/test-lectern-rename.mjs
       - run: node tools/lectern/tests/test-annotations.mjs
+      - run: npm ci
+        working-directory: tools/lectern/tests
+      - run: node tools/lectern/tests/test-store.mjs

@@ -1,0 +1,8 @@
+{
+  "name": "lectern-tests",
+  "private": true,
+  "type": "module",
+  "description": "Test-only dependencies for Lectern. Nothing here ships to the website.",
+  "scripts": { "test": "node test-store.mjs" },
+  "devDependencies": { "fake-indexeddb": "^6.0.0" }
+}
