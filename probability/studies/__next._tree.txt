@@ -1,5 +1,5 @@
-:HL["/probability/_next/static/chunks/2a8zyu1b-xji0.css","style"]
+:HL["/probability/_next/static/chunks/18nnl_5_z0gwj.css","style"]
 :HL["/probability/_next/static/chunks/1sefgt4ptwxa7.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"studies","h":96,"c":"$Q2"}]]
-0:{"b":"Vkvgux9b-VLsvpDZVsE4B","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"fNfx3-AKPLF1U-g317thd","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
