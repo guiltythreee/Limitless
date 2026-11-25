@@ -1,11 +1,22 @@
-# Probability Book 02 — Introduction to Probability
+# Probability Book 02 — Markdown source
 
-Source-derived Markdown transcription of the supplied second-edition textbook and all 13 supplied detailed-solution PDFs.
+**Introduction to Probability, Second Edition**  
+Joseph K. Blitzstein and Jessica Hwang
 
-- `book.json`: chapter catalogue and file mapping
-- `chapters/`: textbook chapter transcriptions
-- `solutions/`: matching detailed-solution transcriptions
+This folder is the source location for Book 02 in the Limitless Probability archive.
 
-## Rendering notes
+- `book.json` defines the 13-chapter catalogue, printed starting pages, and the paths to chapter and solution Markdown.
+- `chapters/` contains the chapter transcriptions.
+- `solutions/` contains the matching detailed exercise solutions.
 
-The source PDFs were extracted with layout-preserving text extraction. Equations and symbols remain as extracted text inside fenced blocks so that spacing and line breaks are not silently reinterpreted by Markdown. This is intentionally a fidelity-first first pass, not a claim that every equation has already been converted into semantic LaTeX. A later notation pass can convert verified equations to KaTeX-compatible `$...$` and `$$...$$` without guessing at ambiguous symbols.
+## Source archive
+
+The source bundle is committed at:
+
+`probability-source/book-02-markdown-source.zip`
+
+The repository's Probability build workflow unpacks the archive into this folder before building the static site. The archive root contains `book2-markdown/`; the workflow validates all 13 chapter files and all 13 matching solution files before copying the content into the public reader path.
+
+The supplied PDF text layer was extracted into Markdown with page-preserving text blocks. Mathematical glyphs are retained as extracted; this is not yet a semantic LaTeX transcription. Check ambiguous characters and equations against the source PDFs before treating them as verified.
+
+PDFs are intentionally not included in the deployed reader. The reader loads the Markdown sources and preserves Book 01 and Probability course progress.
