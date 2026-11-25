@@ -1,6 +1,6 @@
-/* Book Tracker logic tests.
+/* Lectern logic tests.
    Run from the repository root:
-     node tools/book-tracker/tests/test-book-tracker.mjs
+     node tools/lectern/tests/test-book-tracker.mjs
 */
 import assert from 'node:assert/strict';
 import {

@@ -73,9 +73,9 @@ const TOOLS = [
     desc: "Something new is being forged here.", href: "", status: "soon" },
   
   // ---- Miscellaneous ----
-  { group: "misc", symbol: "☰", name: "Book Tracker",
-    desc: "List every chapter, section and problem of the books you study, tick off what you have solved, and see what is left.",
-    href: "tools/book-tracker/", status: "beta" },
+  { group: "misc", symbol: "☰", name: "Lectern",
+    desc: "Read your books, mark them and take notes on them, and keep track of every chapter, section and problem you have solved.",
+    href: "tools/lectern/", status: "beta" },
   { group: "misc", symbol: "◇", name: "Windows Application",
     desc: "A desktop companion is in development. A download will appear here when it is ready.",
     href: "", status: "dev" },

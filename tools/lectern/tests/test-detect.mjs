@@ -1,6 +1,6 @@
 /* Chapter / section / problem detection tests (no PDF needed: pages are built by hand).
    Run from the repository root:
-     node tools/book-tracker/tests/test-detect.mjs
+     node tools/lectern/tests/test-detect.mjs
 */
 import assert from 'node:assert/strict';
 import { detectBook, outlineText } from '../detect.mjs';

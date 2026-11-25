@@ -1,4 +1,4 @@
-// Book Tracker page. All logic lives in books.mjs; this file only draws and saves.
+// Lectern page. All logic lives in books.mjs; this file only draws and saves.
 import {
   parseOutline, itemKey, summarize, nextUp, setMany, sectionKeys,
   emptyState, addBook, updateOutline, removeBook, sanitizeState
@@ -64,7 +64,7 @@ function render() {
   const app = document.getElementById('app');
   app.replaceChildren(
     h('header', { class: 'bt-head' },
-      h('h1', {}, 'Book Tracker'),
+      h('h1', {}, 'Lectern'),
       h('div', { class: 'bt-actions' },
         h('button', { onclick: () => { mode = 'add'; message = ''; render(); } }, '+ Add book'),
         h('button', { onclick: exportData }, 'Export'),
@@ -228,7 +228,7 @@ function mark(keys, value) {
 function exportData() {
   const link = h('a', {
     href: URL.createObjectURL(new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' })),
-    download: 'book-tracker-backup.json'
+    download: 'lectern-backup.json'
   });
   link.click();
   URL.revokeObjectURL(link.href);
@@ -246,7 +246,7 @@ async function importData(event) {
     message = '';
     save();
   } catch {
-    message = 'That file is not a Book Tracker backup.';
+    message = 'That file is not a Lectern backup.';
   }
   render();
 }

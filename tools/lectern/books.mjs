@@ -1,4 +1,4 @@
-// Book Tracker logic. No DOM and no storage here, so it runs in Node and the browser.
+// Lectern logic. No DOM and no storage here, so it runs in Node and the browser.
 //
 // A book is described by a plain-text outline that mirrors the book:
 //
