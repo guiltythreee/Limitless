@@ -31,3 +31,5 @@ jobs:
       - run: npm ci
         working-directory: tools/lectern/tests
       - run: node tools/lectern/tests/test-store.mjs
+      - run: node tools/lectern/tests/test-viewer-math.mjs
+      - run: node tools/lectern/tests/test-pdf-read.mjs

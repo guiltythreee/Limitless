@@ -50,3 +50,20 @@
 @media (max-width: 560px) {
   .bt-chapter > summary .bt-bar { display: none; }
 }
+
+/* ---- reading view ---- */
+.lc-reader { display: flex; flex-direction: column; height: calc(100vh - 11rem); min-height: 22rem; margin-top: 1rem;
+  border: 1px solid rgba(232, 203, 139, .25); background: rgba(12, 10, 16, .6); }
+.lc-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; padding: .5rem .75rem;
+  border-bottom: 1px solid rgba(232, 203, 139, .2); }
+.lc-toolbar .lc-total, .lc-zoom-label { opacity: .8; font-variant-numeric: tabular-nums; min-width: 3rem; text-align: center; }
+.lc-page-input { width: 4.2rem; font: inherit; color: var(--text); background: rgba(10, 8, 17, .7);
+  border: 1px solid rgba(232, 203, 139, .35); padding: .25rem .4rem; border-radius: 4px; }
+#app .lc-btn { padding: .25rem .7rem; min-width: 2.2rem; }
+.lc-scroll { position: relative; flex: 1; overflow: auto; padding: 1rem 0 3rem; background: #1b1a22; outline: none; }
+.lc-page { position: relative; margin: 0 auto 1rem; background: #fff; box-shadow: 0 2px 14px rgba(0, 0, 0, .55); }
+.lc-canvas { position: absolute; inset: 0; display: block; }
+.lc-page .textLayer { position: absolute; inset: 0; }
+.lc-overlay { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.bt-head h1.lc-reader-title { font-size: 1.5rem; line-height: 1.2; margin: 0; text-shadow: none; }
+.lc-reader { height: calc(100vh - 7rem); }

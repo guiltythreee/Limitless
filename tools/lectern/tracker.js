@@ -4,6 +4,8 @@ import {
   emptyState, addBook, updateOutline, removeBook, sanitizeState
 } from './books.mjs';
 import { readPdfPages } from './pdf-read.mjs';
+import { openStore } from './store.mjs';
+import { openViewer } from './viewer.js';
 import { detectBook, outlineText } from './detect.mjs';
 
 const STORAGE_KEY = 'limitless.bookTracker.v1';
@@ -24,9 +26,28 @@ const EXAMPLE = `# Introduction to Probability - Ross
 
 let state = load();
 let currentId = state.books[0] ? state.books[0].id : null;
-let mode = state.books.length ? 'book' : 'add';   // 'book' | 'add' | 'edit'
+let mode = state.books.length ? 'book' : 'add';   // 'book' | 'add' | 'edit' | 'read'
 let hideDone = false;
 let message = '';
+let pendingPdf = null;      // the PDF chosen in the add form, stored once the book is added
+let viewer = null;          // the open reading view, if any
+
+// Book files live in the browser's own storage. If it is blocked, problem tracking still works.
+let store = null;
+let storeProblem = '';
+openStore()
+  .then(s => { store = s; })
+  .catch(() => { storeProblem = 'Reading needs browser storage, which is blocked here.'; })
+  .then(() => { if (mode === 'book') render(); });
+
+let pdfjsPromise = null;
+function loadPdfjs() {
+  pdfjsPromise ||= import('./vendor/pdf.min.mjs').then(pdfjs => {
+    pdfjs.GlobalWorkerOptions.workerSrc = new URL('./vendor/pdf.worker.min.mjs', import.meta.url).href;
+    return pdfjs;
+  });
+  return pdfjsPromise;
+}
 
 function load() {
   try { return sanitizeState(JSON.parse(localStorage.getItem(STORAGE_KEY))); }
@@ -61,6 +82,7 @@ function bar(done, total) {
 const count = (done, total) => `${done} / ${total}`;
 
 function render() {
+  if (mode === 'read') return;   // the reading view draws itself
   const app = document.getElementById('app');
   app.replaceChildren(
     h('header', { class: 'bt-head' },
@@ -101,10 +123,20 @@ function addForm() {
     message = '';
     status.textContent = 'Opening the PDF…';
     try {
-      const pdfjs = await import('./vendor/pdf.min.mjs');
-      pdfjs.GlobalWorkerOptions.workerSrc = new URL('./vendor/pdf.worker.min.mjs', import.meta.url).href;
-      const { title, pages } = await readPdfPages(await file.arrayBuffer(), pdfjs,
+      const pdfjs = await loadPdfjs();
+      const data = await file.arrayBuffer();
+      const { title, fingerprint, pages } = await readPdfPages(data, pdfjs,
         (n, total) => { status.textContent = `Reading page ${n} of ${total}…`; });
+      // The same PDF again: open the book it already belongs to instead of making a duplicate.
+      const known = store ? await store.findBookByFingerprint(fingerprint) : undefined;
+      if (known && state.books.some(b => b.id === known)) {
+        currentId = known;
+        mode = 'book';
+        message = 'This PDF is already in Lectern, so I opened that book.';
+        render();
+        return;
+      }
+      pendingPdf = { fingerprint, name: file.name, data };
       const name = title || file.name.replace(/\.pdf$/i, '').replace(/[_-]+/g, ' ').trim() || 'Untitled book';
       const { book, stats } = detectBook(pages, name);
       if (!stats.problems) {
@@ -147,7 +179,7 @@ function outlineForm(editId) {
       h('button', { class: 'bt-danger', onclick: () => deleteBook(editId) }, 'Delete book')));
 }
 
-function submitOutline(editId, text) {
+async function submitOutline(editId, text) {
   const result = editId ? updateOutline(state, editId, text) : addBook(state, text);
   if (result.errors.length) { message = result.errors.join(' '); render(); return; }
   state = result.state;
@@ -155,11 +187,21 @@ function submitOutline(editId, text) {
   mode = 'book';
   message = '';
   save();
+  if (!editId && pendingPdf) {
+    try {
+      if (!store) throw new Error('no storage');
+      await store.putFile(result.id, pendingPdf);
+    } catch {
+      message = 'The book was added, but its PDF could not be kept on this device, so it cannot be read here.';
+    }
+  }
+  pendingPdf = null;
   render();
 }
 
-function deleteBook(id) {
+async function deleteBook(id) {
   if (!confirm('Delete this book and all its progress?')) return;
+  try { await store?.deleteBook(id); } catch { /* the book is removed from the list either way */ }
   state = removeBook(state, id);
   currentId = state.books[0] ? state.books[0].id : null;
   mode = state.books.length ? 'book' : 'add';
@@ -187,6 +229,7 @@ function bookView() {
           type: 'checkbox', checked: hideDone,
           onchange: e => { hideDone = e.target.checked; render(); }
         }), ' Hide done problems'),
+        h('button', { onclick: openReader }, 'Read'),
         h('button', { onclick: () => { mode = 'edit'; message = ''; render(); } }, 'Edit outline'))),
     book.chapters.map((chapter, ci) => chapterView(chapter, stats.chapters[ci], done)));
 }
@@ -223,6 +266,62 @@ function mark(keys, value) {
   state = { ...state, done: { ...state.done, [currentId]: setMany(state.done[currentId] || {}, keys, value) } };
   save();
   render();
+}
+
+// ---- reading ----
+
+function problemsOf(bookId) {
+  const entry = state.books.find(b => b.id === bookId);
+  if (!entry) return [];
+  const { book } = parseOutline(entry.outline);
+  return book.chapters.flatMap(chapter => chapter.sections.flatMap(section =>
+    section.problems.map(label => ({
+      key: itemKey(chapter.title, section.title, label),
+      label: `${chapter.title} › ${section.title} › ${label}`
+    }))));
+}
+
+async function openReader() {
+  if (!store) { message = storeProblem || 'Reading needs browser storage, which is blocked here.'; render(); return; }
+  let stored;
+  try { stored = await store.getFile(currentId); } catch { stored = null; }
+  if (stored) { showReader(); return; }
+  // A book added from a typed outline has no PDF yet: ask for it once.
+  const input = h('input', { type: 'file', accept: 'application/pdf,.pdf', hidden: true });
+  input.addEventListener('change', async () => {
+    const file = input.files[0];
+    if (!file) return;
+    try {
+      const data = await file.arrayBuffer();
+      const { fingerprint } = await readPdfPages(data, await loadPdfjs());
+      await store.putFile(currentId, { fingerprint, name: file.name, data });
+      showReader();
+    } catch {
+      message = 'That file could not be read as a PDF.';
+      render();
+    }
+  });
+  input.click();
+}
+
+async function showReader() {
+  const entry = state.books.find(b => b.id === currentId);
+  mode = 'read';
+  message = '';
+  const host = h('div', {});
+  const back = () => { viewer?.destroy(); viewer = null; mode = 'book'; render(); };
+  document.getElementById('app').replaceChildren(
+    h('header', { class: 'bt-head' },
+      h('h1', { class: 'lc-reader-title' }, entry ? (parseOutline(entry.outline).book.title || 'Lectern') : 'Lectern'),
+      h('div', { class: 'bt-actions' }, h('button', { onclick: back }, '← Back to problems'))),
+    host);
+  try {
+    viewer = await openViewer(host, { bookId: currentId, store, pdfjs: await loadPdfjs(), getProblems: () => problemsOf(currentId) });
+  } catch (error) {
+    mode = 'book';
+    message = error.code === 'cannot-open' ? 'This PDF cannot be opened.' : (error.message || 'This PDF cannot be opened.');
+    render();
+  }
 }
 
 function exportData() {

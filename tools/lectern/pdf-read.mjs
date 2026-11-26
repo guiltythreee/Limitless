@@ -33,9 +33,21 @@ export function linesFromItems(items, pageWidth) {
     .sort((a, b) => b.y - a.y || a.x - b.x);
 }
 
+// A short value that identifies a file by its bytes (used when the PDF carries no id of its own).
+function fallbackFingerprint(bytes) {
+  let a = 0x811c9dc5;
+  let b = 0x9e3779b9;
+  for (const byte of bytes) {
+    a = Math.imul(a ^ byte, 0x01000193) >>> 0;
+    b = Math.imul(b ^ byte, 0x01000193) >>> 0;
+  }
+  return a.toString(16).padStart(8, '0') + b.toString(16).padStart(8, '0');
+}
+
 export async function readPdfPages(data, pdfjs, onProgress = () => {}) {
   const doc = await pdfjs.getDocument({
-    data: new Uint8Array(data),
+    // pdf.js may take over the buffer it is given, so it gets its own copy and the caller's stays usable.
+    data: new Uint8Array(data).slice(),
     isEvalSupported: false,
     useWorkerFetch: false,
     disableAutoFetch: true,
@@ -57,7 +69,8 @@ export async function readPdfPages(data, pdfjs, onProgress = () => {}) {
     }
     let title = '';
     try { title = clean((await doc.getMetadata())?.info?.Title || ''); } catch { /* optional */ }
-    return { title, pages };
+    const fingerprint = doc.fingerprints?.find(Boolean) || fallbackFingerprint(new Uint8Array(data));
+    return { title, fingerprint, pages };
   } finally {
     try { await doc.destroy(); } catch { /* best effort */ }
   }
