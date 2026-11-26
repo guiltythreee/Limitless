@@ -550,13 +550,13 @@
     if(subjectId==='logic'){
       if(/induction/.test(title)){note('03','Chapter 3: Induction');lecture(2,'induction','Induction');lecture(3,'strong-induction','Strong Induction');ps(2);}
       else if(/invariant/.test(title)){note('03','Chapter 3: Induction');lecture(3,'strong-induction','Strong Induction and Invariants');ps(2);}
-      else if(/pigeonhole|counting|double counting/.test(title)){note('11','Chapter 11: Cardinality Rules');lecture(16,'counting-rules-i','Counting Rules I');lecture(17,'counting-rules-ii','Counting Rules II');ps(8);}
+      else if(/pigeonhole|counting|double counting/.test(title)){note('11','Chapter 11: Cardinality Rules');lecture(16,'counting-rules-i','Counting Rules I');lecture(17,'counting-rules-ii','Counting Rules II');ps(9);}
       else if(/partial order|relation/.test(title)){note('07','Chapter 7: Relations and Partial Orders');lecture(11,'relations-partial-orders-and-scheduling','Relations, Partial Orders and Scheduling');ps(6);}
       else if(/graph/.test(title)){note('05','Chapter 5: Graph Theory');lecture(6,'graph-theory-and-coloring','Graph Theory and Coloring');ps(3);}
       else if(!/unseen|mixed|final review|timed/.test(title) && /statement|truth|connective|implication|quantifier|proof|counterexample|parity|contradiction|deduction/.test(title)){note('01','Chapter 1: Propositions');note('02','Chapter 2: Patterns of Proof');lecture(1,'introduction-and-proofs','Introduction and Proofs');ps(1);}
     }else if(subjectId==='combinatorics'){
-      if(/recurrence/.test(title)){note('10','Chapter 10: Recurrences');lecture(14,'divide-and-conquer-recurrences','Divide and Conquer Recurrences');lecture(15,'linear-recurrences','Linear Recurrences');ps(7);}
-      else{note('11','Chapter 11: Cardinality Rules');lecture(16,'counting-rules-i','Counting Rules I');lecture(17,'counting-rules-ii','Counting Rules II');ps(8);}
+      if(/recurrence/.test(title)){note('10','Chapter 10: Recurrences');lecture(14,'divide-and-conquer-recurrences','Divide and Conquer Recurrences');lecture(15,'linear-recurrences','Linear Recurrences');ps(8);}
+      else{note('11','Chapter 11: Cardinality Rules');lecture(16,'counting-rules-i','Counting Rules I');lecture(17,'counting-rules-ii','Counting Rules II');ps(9);}
     }else if(subjectId==='graphs' && !/shortest|dijkstra|mixed|unseen|timed|final review/.test(title)){
       if(/minimum spanning|kruskal|tree/.test(title)){note('05','Chapter 5: Graph Theory');lecture(8,'graph-theory-ii-minimum-spanning-trees','Graph Theory II: Minimum Spanning Trees');ps(4);}
       else if(/directed|dag|topological/.test(title)){note('06','Chapter 6: Directed Graphs');lecture(10,'graph-theory-iii','Graph Theory III: Directed Acyclic Graphs');ps(6);}
@@ -717,7 +717,7 @@
     },
     combinatorics: {
       book:'Kenneth Rosen, Discrete Mathematics and Its Applications (8th ed.)',
-      sections:['Ch. 6: §6.1–6.5 Basic counting, permutations and combinations','Ch. 8: §8.1–8.5 Recurrence relations and advanced counting'],
+      sections:['Ch. 6: §6.1–6.5 Basic counting, pigeonhole, permutations and combinations, binomial coefficients, generalized permutations and combinations','Ch. 8: §8.1–8.2 Recurrence relations and §8.5–8.6 Inclusion–exclusion and its applications'],
       link:'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/readings/',
       practice:['MIT 6.042J: complete the counting / pigeonhole / recurrence problem set matching this week','For every count, state whether order matters and explain why there is no overcounting']
     },
@@ -749,10 +749,10 @@
   // LearnCpp assignments are explicit per roadmap week. Chapter/section numbers
   // follow the current LearnCpp table of contents; CP-specific STL gaps are linked separately.
   var LEARNCPP_WEEKLY = [
-    {sections:['1.1–1.5: Program structure, variables, initialization and cin/cout','4.1–4.6: Basic arithmetic, integer types and fixed-width integers','8.2, 8.8, 8.10–8.11: if statements, while/for loops, break and continue'],extra:['Start with short programs: read input, calculate a result, use a condition and repeat with a loop. Do not use STL containers beyond what is introduced in the next week.']},
-    {sections:['2.1–2.6: Functions, parameters, return values and local scope','5.7: std::string basics','16.2, 16.8: std::vector, indexing and range-based traversal'],extra:['Practise simple arrays/vectors, string traversal, nested loops and splitting a solution into small functions. Introduce linear time by counting how many elements a loop visits.']},
-    {sections:['12.3–12.6: References, pass-by-reference and const references','13.7–13.10: Structs, aggregate initialization, passing and returning structs','16.2–16.4, 16.8: Vector construction, passing vectors and traversal','20.3: Recursion and call-stack basics'],extra:['Use std::pair as a small record (cppreference); practise tracing a short recursive function. Avoid graph algorithms and advanced STL at this stage.']},
-    {sections:['16.2–16.8: Vectors, adjacency-list storage and traversal','20.3: Recursion and call-stack behaviour','9.1–9.3: Testing and common semantic errors'],extra:['Learn std::queue and std::stack from cppreference, then use them to implement BFS/DFS with a visited array. Focus on translating pseudocode into code.']},
+    {cph:'Ch. 1: §1.1 Programming languages, §1.2 Input and output, §1.3 Working with numbers',sections:['1.1–1.5: Program structure, variables, initialization and cin/cout','4.4–4.6: Integer types (signed and unsigned) and fixed-width integers','6.1–6.3: Operator precedence, arithmetic operators, remainder','6.7–6.8: Relational and logical operators (the tests inside conditions)','8.2, 8.8, 8.10–8.11: if statements, while/for loops, break and continue'],extra:['Start with short programs: read input, calculate a result, use a condition and repeat with a loop. Do not use STL containers beyond what is introduced in the next week.']},
+    {sections:['2.1–2.6: Functions, parameters, return values and local scope','5.7: std::string basics','16.2–16.3, 16.8: std::vector, indexing and range-based traversal'],extra:['Practise simple arrays/vectors, string traversal, nested loops and splitting a solution into small functions. Introduce linear time by counting how many elements a loop visits.']},
+    {sections:['12.3–12.6: References, pass-by-reference and const references','13.7–13.10: Structs, aggregate initialization, passing and returning structs','16.2–16.4, 16.8: Vector construction, passing vectors and traversal','20.2–20.3: The call stack and recursion basics'],extra:['Use std::pair as a small record (cppreference); practise tracing a short recursive function. Avoid graph algorithms and advanced STL at this stage.']},
+    {sections:['16.2–16.8: Vectors, adjacency-list storage and traversal','20.2–20.3: The call stack and recursion','9.1–9.3: Testing and common semantic errors'],extra:['Learn std::queue and std::stack from cppreference, then use them to implement BFS/DFS with a visited array. Focus on translating pseudocode into code.']},
     {sections:['18.2–18.3: Iterators and standard-library algorithms (LearnCpp marks this chapter under construction)','20.6–20.7: Lambda expressions and captures'],extra:['Learn std::sort, std::map and std::set from cppreference. Practise sorting, frequency counting and simple lookup; do not jump to custom comparators until the basic form is clear.']},
     {sections:['18.2–18.3: Standard-library algorithms and iterator use','10.1–10.8: Type conversions, narrowing, aliases and auto','4.4–4.6: Integer ranges, fixed-width types and size_t'],extra:['Implement prefix sums and binary search, then use a simple custom comparator with std::sort. Check overflow and index bounds.']},
     {sections:['11.6–11.9: Function templates and template arguments (only what is needed to read STL interfaces)','20.6–20.7: Lambdas and captures','16.2–16.4: Vector construction and passing containers'],extra:['Learn std::priority_queue from cppreference and understand min-heap/max-heap usage. Apply it only alongside the shortest-path topic introduced this week.']},
@@ -767,6 +767,29 @@
     {sections:['4.4–4.6: Integer types and bounds','8.8, 8.10–8.11: Loop control','16.2, 16.8: Vector and traversal','3.2–3.5, 9.1–9.3: Light debugging and testing review'],extra:['Do not start a new chapter. Review only the syntax and STL operations used in your final practice problems.']}
   ];
   function learnCppWeek(weekIndex){return LEARNCPP_WEEKLY[Math.min(weekIndex,LEARNCPP_WEEKLY.length-1)];}
+  // The CPH and LearnCpp both number their sections 1.1, 1.2, ... so every reading line
+  // names the source before its numbers (CPH section numbers are kept separate).
+  function learnCppReading(weekIndex){
+    var week=learnCppWeek(weekIndex);
+    return (week.cph?'CPH '+week.cph+' · ':'')+'LearnCpp lessons '+week.sections.join('; ');
+  }
+  // Rosen section for each single-concept counting topic (8th ed. Ch. 6 and Ch. 8). Mixed, review and
+  // timed topics have no single section, so they fall back to the chapter-level list below.
+  var COMBINATORICS_SECTIONS = [
+    [/^addition and multiplication/, 'Ch. 6: §6.1 The basics of counting — sum rule, product rule, subtraction rule and division rule'],
+    [/^permutations and combinations/, 'Ch. 6: §6.3 Permutations and combinations'],
+    [/^binomial coefficients/, 'Ch. 6: §6.4 Binomial coefficients and identities'],
+    [/^pigeonhole/, 'Ch. 6: §6.2 The pigeonhole principle'],
+    [/^arrangements with restrictions/, 'Ch. 6: §6.1 Subtraction rule (complementary counting) and §6.5 Generalized permutations and combinations (repeated objects)'],
+    [/^stars and bars/, 'Ch. 6: §6.5 Generalized permutations and combinations — combinations with repetition (stars and bars)'],
+    [/^inclusion-exclusion for two and three sets/, 'Ch. 6: §6.1 Subtraction rule (two sets) and Ch. 8: §8.5 Inclusion–exclusion (two and three sets)'],
+    [/^recurrence relations for counting/, 'Ch. 8: §8.1–8.2 Recurrence relations and §8.6 Applications of inclusion–exclusion (derangements)'],
+    [/^bijections and double counting/, 'Ch. 6: §6.1 The basics of counting (Rosen has no separate bijection section; use the MIT Chapter 11 reading)']
+  ];
+  function combinatoricsSection(title){
+    for(var i=0;i<COMBINATORICS_SECTIONS.length;i++) if(COMBINATORICS_SECTIONS[i][0].test(title)) return COMBINATORICS_SECTIONS[i][1];
+    return null;
+  }
   var LEARNCPP_STL_LINKS = {
     sort:'https://en.cppreference.com/w/cpp/algorithm/sort',
     map:'https://en.cppreference.com/w/cpp/container/map',
@@ -852,8 +875,8 @@
     }
     if (weekIndex >= 12) items.push('Complete a 45–60 minute unseen mixed set and log every error');
     var section = subjectId === 'coding'
-      ? learnCppWeek(weekIndex).sections.join('; ')
-      : guide.sections[sectionIndex];
+      ? learnCppReading(weekIndex)
+      : (subjectId === 'combinatorics' && combinatoricsSection(title)) || guide.sections[sectionIndex];
     if (!section) throw new Error('Missing reference section for subject: ' + subjectId);
     return { guide:guide, section:section, items:items };
   }
