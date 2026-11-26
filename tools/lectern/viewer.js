@@ -4,6 +4,8 @@
 // Only pages near the screen are drawn, and pages that scroll far away are cleared again,
 // so a 500-page book does not fill the device's memory.
 import { fitScale, clampZoom, pageAtScroll } from './viewer-math.mjs';
+import { COLORS } from './annotations.mjs';
+import { mountOverlay, highlightSelection, swatch } from './overlay.js';
 
 const ZOOM_STEP = 1.25;
 const PAGE_PADDING = 24;     // space left and right of a page, in px
@@ -63,12 +65,31 @@ export async function openViewer(host, { bookId, store, pdfjs }) {
   pageInput.setAttribute('aria-label', 'Page number');
   const zoomLabel = el('span', 'lc-zoom-label', '100%');
 
+  const hint = el('span', 'lc-hint');
+  hint.hidden = true;
+  let hintTimer = 0;
+  const showHint = text => {
+    hint.textContent = text;
+    hint.hidden = false;
+    clearTimeout(hintTimer);
+    hintTimer = setTimeout(() => { hint.hidden = true; }, 3500);
+  };
+
+  const markerButton = button('Marker', 'Click, then click the page to drop a marker', () => setTool(tool === 'marker' ? null : 'marker'));
+  markerButton.dataset.tool = 'marker';
+  markerButton.setAttribute('aria-pressed', 'false');
+
+  const swatches = el('span', 'lc-swatches');
+  for (const name of COLORS) swatches.append(swatch(name, () => onHighlight(name)));
+
   const toolbar = el('div', 'lc-toolbar',
     pageInput, el('span', 'lc-total', `/ ${total}`),
     button('−', 'Zoom out', () => setZoom(zoom / ZOOM_STEP)),
     zoomLabel,
     button('+', 'Zoom in', () => setZoom(zoom * ZOOM_STEP)),
-    button('Fit', 'Fit to width', () => setZoom(1)));
+    button('Fit', 'Fit to width', () => setZoom(1)),
+    el('span', 'lc-sep'),
+    swatches, markerButton, hint);
 
   const scroller = el('div', 'lc-scroll');
   scroller.tabIndex = 0;
@@ -81,6 +102,48 @@ export async function openViewer(host, { bookId, store, pdfjs }) {
     scroller.append(page);
   }
   host.replaceChildren(el('div', 'lc-reader', toolbar, scroller));
+
+  // ---- highlights and markers ----
+  let annotations = [];
+  try { annotations = await store.listAnnotations(bookId); } catch { /* reading still works without notes */ }
+  let tool = null;
+  const overlays = [];
+
+  const redraw = page => overlays[page - 1]?.render();
+  const api = {
+    list: () => annotations,
+    tool: () => tool,
+    finishTool: () => setTool(null),
+    async put(annotation) {
+      try {
+        await store.putAnnotation(annotation);
+      } catch {
+        showHint('Could not save this on the device.');
+        return;
+      }
+      annotations = [...annotations.filter(a => a.id !== annotation.id), annotation];
+      redraw(annotation.page);
+    },
+    async remove(id) {
+      const gone = annotations.find(a => a.id === id);
+      try { await store.deleteAnnotation(id); } catch { showHint('Could not remove this from the device.'); return; }
+      annotations = annotations.filter(a => a.id !== id);
+      if (gone) redraw(gone.page);
+    }
+  };
+
+  function setTool(next) {
+    tool = next;
+    markerButton.setAttribute('aria-pressed', String(tool === 'marker'));
+    scroller.classList.toggle('is-marking', tool === 'marker');
+  }
+
+  async function onHighlight(color) {
+    const made = await highlightSelection({ pageEls, bookId, color, api });
+    if (!made) showHint('Select some text first, then pick a colour.');
+  }
+
+  pageEls.forEach((pageEl, i) => overlays.push(mountOverlay(pageEl, { page: i + 1, bookId, api })));
 
   // ---- layout and drawing ----
   const availableWidth = () => Math.max(120, scroller.clientWidth - PAGE_PADDING * 2);
@@ -214,6 +277,7 @@ export async function openViewer(host, { bookId, store, pdfjs }) {
       observer.disconnect();
       resizeObserver.disconnect();
       clearTimeout(resizeTimer);
+      clearTimeout(hintTimer);
       if (frame) cancelAnimationFrame(frame);
       tokens.fill(Infinity);
       try { doc.destroy(); } catch { /* best effort */ }
